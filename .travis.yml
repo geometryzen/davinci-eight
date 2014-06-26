@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - 0.10
+script: "lineman spec-ci"
+notifications:
+  email:
+    - david.geo.holmes@gmail.com

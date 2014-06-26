@@ -1,0 +1,55 @@
+{
+  "name": "davinci-eight",
+  "version": "0.0.1",
+  "description": "TypeScript 3D library using Geometric Algebra",
+  "author":
+  {
+    "name": "David Holmes",
+    "email": "david.geo.holmes@gmail.com"
+  },
+  "main": "./dist/davinci-eight.min.js",
+  "repository":
+  {
+    "type": "git",
+    "url": "git://github.com/geometryzen/davinci-eight.git"
+  },
+  "bugs":
+  {
+    "url": "https://github.com/geometryzen/davinci-eight/issues"
+  },
+  "licenses":
+  [
+    {
+      "type": "MIT",
+      "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
+    }
+  ],
+  "dependencies":
+  {
+    "gl-matrix": "~2.2.1"
+  },
+  "devDependencies":
+  {
+    "r.js": "~2.1.14",
+    "requirejs": "~2.1.14",
+    "almond": "~0.2.9",
+    "stats.js": "latest"
+    },
+  "ignore":
+  [
+    ".settings",
+    "app",
+    "config",
+    "dist/js",
+    "node_modules",
+    "spec",
+    "tasks",
+    ".bowerrc",
+    ".gitignore",
+    "Gruntfile.js",
+    "Jakefile.js",
+    "README.md",
+    "bower.json",
+    "package.json"
+  ]
+}

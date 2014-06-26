@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <script src="./../vendor/requirejs/require.js" data-main="main"></script>
+        <script>
+          require.config({
+            baseUrl: ".",
+            paths: {
+                "src/eight": "../src/eight",
+                "eight": "../src/eight"
+            },
+            waitSeconds: 15
+          });
+          require( ['require','exports'], function(require, exports) {
+                //This function will be called when all the dependencies
+                //listed above are loaded. Note that this function could
+                //be called before the page is loaded.
+                //This callback is optional.
+            }
+          );
+        </script>
+    </body>
+</html>
