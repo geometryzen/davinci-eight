@@ -12,7 +12,7 @@ define(["require", "exports"], function(require, exports) {
     }
 
     var workbench3D = function (canvas, renderer, camera, win) {
-        win = win || window;
+        if (typeof win === "undefined") { win = window; }
         var doc = win.document;
 
         function onWindowResize(event) {

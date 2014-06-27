@@ -1,12 +1,31 @@
 declare var eight: {
     'VERSION': string;
     perspectiveCamera: (fov?: number, aspect?: number, near?: number, far?: number) => {
-        position: Euclidean3;
-        attitude: Euclidean3;
+        position: {
+            x: number;
+            y: number;
+            z: number;
+        };
+        attitude: {
+            w: number;
+            x: number;
+            y: number;
+            z: number;
+            xy: number;
+            yz: number;
+            zx: number;
+            xyz: number;
+            sub(other: any): any;
+            mul(other: any): any;
+            div(other: any): any;
+            cross(other: any): any;
+            norm(): any;
+        };
+        projectionMatrix: any;
         aspect: number;
         updateProjectionMatrix: () => void;
     };
-    euclidean3: (spec?: {
+    euclidean3: (self?: {
         w?: number;
         x?: number;
         y?: number;
@@ -15,10 +34,66 @@ declare var eight: {
         yz?: number;
         zx?: number;
         xyz?: number;
-    }) => Euclidean3;
-    scalarE3: (w: number) => Euclidean3;
-    vectorE3: (x: number, y: number, z: number) => Euclidean3;
-    bivectorE3: (xy: number, yz: number, zx: number) => Euclidean3;
+    }) => {
+        w: number;
+        x: number;
+        y: number;
+        z: number;
+        xy: number;
+        yz: number;
+        zx: number;
+        xyz: number;
+        sub(other: any): any;
+        mul(other: any): any;
+        div(other: any): any;
+        cross(other: any): any;
+        norm(): any;
+    };
+    scalarE3: (w: number) => {
+        w: number;
+        x: number;
+        y: number;
+        z: number;
+        xy: number;
+        yz: number;
+        zx: number;
+        xyz: number;
+        sub(other: any): any;
+        mul(other: any): any;
+        div(other: any): any;
+        cross(other: any): any;
+        norm(): any;
+    };
+    vectorE3: (x: number, y: number, z: number) => {
+        w: number;
+        x: number;
+        y: number;
+        z: number;
+        xy: number;
+        yz: number;
+        zx: number;
+        xyz: number;
+        sub(other: any): any;
+        mul(other: any): any;
+        div(other: any): any;
+        cross(other: any): any;
+        norm(): any;
+    };
+    bivectorE3: (xy: number, yz: number, zx: number) => {
+        w: number;
+        x: number;
+        y: number;
+        z: number;
+        xy: number;
+        yz: number;
+        zx: number;
+        xyz: number;
+        sub(other: any): any;
+        mul(other: any): any;
+        div(other: any): any;
+        cross(other: any): any;
+        norm(): any;
+    };
     scene: () => {
         children: {
             onContextGain: (gl: WebGLRenderingContext) => void;
@@ -35,8 +110,26 @@ declare var eight: {
         }) => void;
     };
     object3D: () => {
-        position: Euclidean3;
-        attitude: Euclidean3;
+        position: {
+            x: number;
+            y: number;
+            z: number;
+        };
+        attitude: {
+            w: number;
+            x: number;
+            y: number;
+            z: number;
+            xy: number;
+            yz: number;
+            zx: number;
+            xyz: number;
+            sub(other: any): any;
+            mul(other: any): any;
+            div(other: any): any;
+            cross(other: any): any;
+            norm(): any;
+        };
         onContextGain: (gl: any) => void;
         onContextLoss: () => void;
         tearDown: () => void;
@@ -49,7 +142,9 @@ declare var eight: {
         onContextGain: (context: WebGLRenderingContext) => void;
         onContextLoss: () => void;
         clearColor: (r: number, g: number, b: number, a: number) => void;
-        render: (scene: any, camera: any) => void;
+        render: (scene: any, camera: {
+            projectionMatrix: any;
+        }) => void;
         viewport: (x: any, y: any, width: any, height: any) => void;
         setSize: (width: any, height: any, updateStyle: any) => void;
     };
@@ -57,7 +152,10 @@ declare var eight: {
         start: () => void;
         stop: () => void;
     };
-    workbench3D: (canvas: HTMLCanvasElement, renderer: any, camera: any, win: any) => {
+    workbench3D: (canvas: HTMLCanvasElement, renderer: any, camera: {
+        aspect: number;
+        updateProjectionMatrix: () => void;
+    }, win?: Window) => {
         setUp: () => void;
         tearDown: () => void;
     };
@@ -66,8 +164,26 @@ declare var eight: {
         stop: () => void;
     };
     mesh: (geometry?: any, material?: any) => {
-        position: Euclidean3;
-        attitude: Euclidean3;
+        position: {
+            x: number;
+            y: number;
+            z: number;
+        };
+        attitude: {
+            w: number;
+            x: number;
+            y: number;
+            z: number;
+            xy: number;
+            yz: number;
+            zx: number;
+            xyz: number;
+            sub(other: any): any;
+            mul(other: any): any;
+            div(other: any): any;
+            cross(other: any): any;
+            norm(): any;
+        };
         projectionMatrix: any;
         onContextGain: (context: any) => void;
         onContextLoss: () => void;

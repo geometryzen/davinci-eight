@@ -1,7 +1,7 @@
 import core = require('eight/core');
 
 var webGLRenderer = function(parameters?) {
-    console.log('eight.js', core.VERSION);
+    console.log('davinci-eight', core.VERSION);
 
     parameters = parameters || {};
 
@@ -59,7 +59,7 @@ var webGLRenderer = function(parameters?) {
                 gl.clearColor(r, g, b, a);
             }
         },
-        render: function(scene, camera) {
+        render: function(scene, camera: {projectionMatrix: any}) {
             if (gl) {
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

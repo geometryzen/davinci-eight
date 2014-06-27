@@ -1,6 +1,6 @@
 import euclidean3 = require('eight/math/e3ga/euclidean3');
 
-var scalarE3 = function(w: number): Euclidean3 {
+var scalarE3 = function(w: number) {
     return euclidean3({ 'w': w });
 };
 

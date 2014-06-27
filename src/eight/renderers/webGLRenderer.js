@@ -1,6 +1,6 @@
 define(["require", "exports", 'eight/core'], function(require, exports, core) {
     var webGLRenderer = function (parameters) {
-        console.log('eight.js', core.VERSION);
+        console.log('davinci-eight', core.VERSION);
 
         parameters = parameters || {};
 

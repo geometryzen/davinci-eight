@@ -1,7 +1,7 @@
 import geometry = require('eight/core/geometry');
 import vectorE3 = require('eight/math/e3ga/vectorE3');
 
-var vertexList: Euclidean3[] =
+var vertexList: any[] =
     [
         // front face
         vectorE3(-0.5, -0.5, +0.5),

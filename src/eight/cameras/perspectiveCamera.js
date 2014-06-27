@@ -10,14 +10,17 @@ define(["require", "exports", 'eight/cameras/camera'], function(require, exports
             get position() {
                 return base.position;
             },
-            set position(position) {
-                base.position = position;
+            set position(value) {
+                base.position = value;
             },
             get attitude() {
                 return base.attitude;
             },
-            set attitude(attitude) {
-                base.attitude = attitude;
+            set attitude(value) {
+                base.attitude = value;
+            },
+            get projectionMatrix() {
+                return base.projectionMatrix;
             },
             get aspect() {
                 return aspect;
@@ -25,10 +28,9 @@ define(["require", "exports", 'eight/cameras/camera'], function(require, exports
             set aspect(value) {
                 aspect = value;
             },
-            updateProjectionMatrix: updateProjectionMatrix
-        };
-
-        var updateProjectionMatrix = function () {
+            updateProjectionMatrix: function () {
+                mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+            }
         };
 
         return that;

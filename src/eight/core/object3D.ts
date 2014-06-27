@@ -9,11 +9,11 @@
 import euclidean3 = require('eight/math/e3ga/euclidean3');
 
 var object3D = function() {
-    
+
     var that =
         {
-            position: euclidean3(),
-            attitude: euclidean3({w:1}),
+            position: { x: 0, y: 0, z: 0 },
+            attitude: euclidean3({ w: 1 }),
             onContextGain: function(gl) {
                 console.error("Missing onContextGain function");
             },

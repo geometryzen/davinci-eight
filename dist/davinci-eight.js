@@ -462,8 +462,104 @@ define('eight/core/material',["require", "exports"], function(require, exports) 
 });
 
 define('eight/math/e3ga/euclidean3',["require", "exports"], function(require, exports) {
-    var euclidean3 = function (spec) {
-        return null;
+    function e3(w, x, y, z, xy, yz, zx, xyz) {
+        return euclidean3({ w: w, x: x, y: y, z: z, xy: xy, yz: yz, zx: zx, xyz: xyz });
+    }
+    var euclidean3 = function (self) {
+        if (typeof self === "undefined") { self = { w: 0, x: 0, y: 0, z: 0, xy: 0, yz: 0, zx: 0, xyz: 0 }; }
+        if (typeof self.w === "undefined")
+            self.w = 0;
+        if (typeof self.x === "undefined")
+            self.x = 0;
+        if (typeof self.y === "undefined")
+            self.y = 0;
+        if (typeof self.z === "undefined")
+            self.z = 0;
+        if (typeof self.xy === "undefined")
+            self.xy = 0;
+        if (typeof self.yz === "undefined")
+            self.yz = 0;
+        if (typeof self.zx === "undefined")
+            self.zx = 0;
+        if (typeof self.xyz === "undefined")
+            self.xyz = 0;
+        var that = {
+            get w() {
+                return self.w;
+            },
+            get x() {
+                return self.x;
+            },
+            get y() {
+                return self.y;
+            },
+            get z() {
+                return self.z;
+            },
+            get xy() {
+                return self.xy;
+            },
+            get yz() {
+                return self.yz;
+            },
+            get zx() {
+                return self.zx;
+            },
+            get xyz() {
+                return self.xyz;
+            },
+            sub: function (other) {
+                var w = self.w - other.w;
+                var x = self.x - other.x;
+                var y = self.y - other.y;
+                var z = self.z - other.z;
+                var xy = self.xy - other.xy;
+                var yz = self.yz - other.yz;
+                var zx = self.zx - other.zx;
+                var xyz = self.xyz - other.xyz;
+                return e3(w, x, y, z, xy, yz, zx, xyz);
+            },
+            mul: function (other) {
+                var w = self.w * other.w;
+                var x = self.x * other.w;
+                var y = self.y * other.w;
+                var z = self.z * other.w;
+                var xy = self.xy * other.w;
+                var yz = self.yz * other.w;
+                var zx = self.zx * other.w;
+                var xyz = self.xyz * other.w;
+                return e3(w, x, y, z, xy, yz, zx, xyz);
+            },
+            div: function (other) {
+                var w = 0;
+                var x = self.x / other.w;
+                var y = self.y / other.w;
+                var z = self.z / other.w;
+                var xy = 0;
+                var yz = 0;
+                var zx = 0;
+                var xyz = 0;
+                return e3(w, x, y, z, xy, yz, zx, xyz);
+            },
+            cross: function (other) {
+                var w = 0;
+                var x = self.y * other.z - self.z * other.y;
+                var y = self.z * other.x - self.x * other.z;
+                var z = self.x * other.y - self.y * other.x;
+                var xy = 0;
+                var yz = 0;
+                var zx = 0;
+                var xyz = 0;
+                return e3(w, x, y, z, xy, yz, zx, xyz);
+            },
+            norm: function () {
+                var x = self.x;
+                var y = self.y;
+                var z = self.z;
+                return e3(Math.sqrt(x * x + y * y + z * z), 0, 0, 0, 0, 0, 0, 0);
+            }
+        };
+        return that;
     };
 
     
@@ -490,7 +586,7 @@ define('eight/math/e3ga/vectorE3',["require", "exports", 'eight/math/e3ga/euclid
 
 define('eight/math/e3ga/bivectorE3',["require", "exports", 'eight/math/e3ga/euclidean3'], function(require, exports, euclidean3) {
     var bivectorE3 = function (xy, yz, zx) {
-        return euclidean3({ xy: xy, yz: yz, zx: zx });
+        return euclidean3({ 'xy': xy, 'yz': yz, 'zx': zx });
     };
 
     
@@ -500,7 +596,7 @@ define('eight/math/e3ga/bivectorE3',["require", "exports", 'eight/math/e3ga/eucl
 define('eight/core/object3D',["require", "exports", 'eight/math/e3ga/euclidean3'], function(require, exports, euclidean3) {
     var object3D = function () {
         var that = {
-            position: euclidean3(),
+            position: { x: 0, y: 0, z: 0 },
             attitude: euclidean3({ w: 1 }),
             onContextGain: function (gl) {
                 console.error("Missing onContextGain function");
@@ -528,7 +624,23 @@ define('eight/core/object3D',["require", "exports", 'eight/math/e3ga/euclidean3'
 
 define('eight/cameras/camera',["require", "exports", 'eight/core/object3D'], function(require, exports, object3D) {
     var camera = function () {
-        var that = object3D();
+        var base = object3D();
+
+        var that = {
+            get position() {
+                return base.position;
+            },
+            set position(value) {
+                base.position = value;
+            },
+            get attitude() {
+                return base.attitude;
+            },
+            set attitude(value) {
+                base.attitude = value;
+            },
+            projectionMatrix: mat4.create()
+        };
 
         return that;
     };
@@ -549,14 +661,17 @@ define('eight/cameras/perspectiveCamera',["require", "exports", 'eight/cameras/c
             get position() {
                 return base.position;
             },
-            set position(position) {
-                base.position = position;
+            set position(value) {
+                base.position = value;
             },
             get attitude() {
                 return base.attitude;
             },
-            set attitude(attitude) {
-                base.attitude = attitude;
+            set attitude(value) {
+                base.attitude = value;
+            },
+            get projectionMatrix() {
+                return base.projectionMatrix;
             },
             get aspect() {
                 return aspect;
@@ -564,10 +679,9 @@ define('eight/cameras/perspectiveCamera',["require", "exports", 'eight/cameras/c
             set aspect(value) {
                 aspect = value;
             },
-            updateProjectionMatrix: updateProjectionMatrix
-        };
-
-        var updateProjectionMatrix = function () {
+            updateProjectionMatrix: function () {
+                mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+            }
         };
 
         return that;
@@ -616,7 +730,7 @@ define('eight/scenes/scene',["require", "exports", 'eight/core/object3D'], funct
 
 define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], function(require, exports, core) {
     var webGLRenderer = function (parameters) {
-        console.log('eight.js', core.VERSION);
+        console.log('davinci-eight', core.VERSION);
 
         parameters = parameters || {};
 
@@ -948,7 +1062,7 @@ define('eight/utils/workbench3D',["require", "exports"], function(require, expor
     }
 
     var workbench3D = function (canvas, renderer, camera, win) {
-        win = win || window;
+        if (typeof win === "undefined") { win = window; }
         var doc = win.document;
 
         function onWindowResize(event) {

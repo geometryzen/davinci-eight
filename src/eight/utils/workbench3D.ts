@@ -18,8 +18,7 @@ function removeElementsByTagName(doc: Document, tagname: string) {
     }
 }
 
-var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera, win) {
-    win = win || window;
+var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; updateProjectionMatrix: () => void }, win = window) {
     var doc = win.document;
 
     function onWindowResize(event) {

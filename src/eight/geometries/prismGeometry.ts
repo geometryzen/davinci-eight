@@ -10,7 +10,7 @@ import vectorE3 = require('eight/math/e3ga/vectorE3');
 //  9 A
 // 6 7 8 
 // There are 12 vertices in total.
-var vertexList =
+var vertexList: any[] =
     [
         // front face
         vectorE3(-1.0, 0.0, +0.5),

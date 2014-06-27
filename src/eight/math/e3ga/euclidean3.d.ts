@@ -1,5 +1,4 @@
-/// <reference path="Euclidean3.d.ts" />
-declare var euclidean3: (spec?: {
+declare var euclidean3: (self?: {
     w?: number;
     x?: number;
     y?: number;
@@ -8,5 +7,19 @@ declare var euclidean3: (spec?: {
     yz?: number;
     zx?: number;
     xyz?: number;
-}) => Euclidean3;
+}) => {
+    w: number;
+    x: number;
+    y: number;
+    z: number;
+    xy: number;
+    yz: number;
+    zx: number;
+    xyz: number;
+    sub(other: any): any;
+    mul(other: any): any;
+    div(other: any): any;
+    cross(other: any): any;
+    norm(): any;
+};
 export = euclidean3;
