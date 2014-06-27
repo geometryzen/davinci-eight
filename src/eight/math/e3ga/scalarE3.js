@@ -1,8 +1,7 @@
-define(["require", "exports", 'eight/math/e3ga/euclidean3'], function(require, exports, euclidean3) {
+define(["require", "exports", 'eight/math/e3ga/Euclidean3'], function(require, exports, Euclidean3) {
     var scalarE3 = function (w) {
-        return euclidean3({ 'w': w });
+        return new Euclidean3(w, 0, 0, 0, 0, 0, 0, 0);
     };
-
     
     return scalarE3;
 });

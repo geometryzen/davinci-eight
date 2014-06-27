@@ -6,7 +6,12 @@ define(["require", "exports", 'eight/cameras/camera', 'gl-matrix'], function(req
         if (typeof far === "undefined") { far = 2000; }
         var base = camera();
 
+        function updateProjectionMatrix() {
+            glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+        }
+
         var that = {
+            // Delegate to the base camera.
             get position() {
                 return base.position;
             },
@@ -19,17 +24,16 @@ define(["require", "exports", 'eight/cameras/camera', 'gl-matrix'], function(req
             set attitude(value) {
                 base.attitude = value;
             },
-            get projectionMatrix() {
-                return base.projectionMatrix;
-            },
+            // Extensions
             get aspect() {
                 return aspect;
             },
             set aspect(value) {
                 aspect = value;
+                updateProjectionMatrix();
             },
-            updateProjectionMatrix: function () {
-                glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+            get projectionMatrix() {
+                return base.projectionMatrix;
             }
         };
 

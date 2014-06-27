@@ -6,14 +6,16 @@
 // This seems to work better in the generated *.d.ts files.
 // When we try to use an interface, the reference comments or imports are incorrect.
 //
-import euclidean3 = require('eight/math/e3ga/euclidean3');
+import scalarE3 = require('eight/math/e3ga/scalarE3');
+import vectorE3 = require('eight/math/e3ga/vectorE3');
+import Euclidean3 = require('eight/math/e3ga/Euclidean3');
 
 var object3D = function() {
 
     var that =
         {
-            position: { x: 0, y: 0, z: 0 },
-            attitude: euclidean3({ w: 1 }),
+            position: vectorE3(0, 0, 0),
+            attitude: scalarE3(1),
             onContextGain: function(gl) {
                 console.error("Missing onContextGain function");
             },

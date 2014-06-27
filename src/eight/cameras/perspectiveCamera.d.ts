@@ -1,26 +1,8 @@
+import Euclidean3 = require('eight/math/e3ga/Euclidean3');
 declare var perspectiveCamera: (fov?: number, aspect?: number, near?: number, far?: number) => {
-    position: {
-        x: number;
-        y: number;
-        z: number;
-    };
-    attitude: {
-        w: number;
-        x: number;
-        y: number;
-        z: number;
-        xy: number;
-        yz: number;
-        zx: number;
-        xyz: number;
-        sub(other: any): any;
-        mul(other: any): any;
-        div(other: any): any;
-        cross(other: any): any;
-        norm(): any;
-    };
-    projectionMatrix: number[];
+    position: Euclidean3;
+    attitude: Euclidean3;
     aspect: number;
-    updateProjectionMatrix: () => void;
+    projectionMatrix: number[];
 };
 export = perspectiveCamera;

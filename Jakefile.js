@@ -5,7 +5,7 @@ var path = require("path");
 
 // We are using the reference feature to create the ordered closure of source files.
 var compilerSources = [
-    "src/eight.ts"
+     "src/eight.ts"
 ];
 
 function ES5(xs) {

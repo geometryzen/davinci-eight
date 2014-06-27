@@ -4,6 +4,7 @@ import object3D = require('eight/core/object3D');
 import vs_source = require('eight/shaders/shader-vs');
 import fs_source = require('eight/shaders/shader-fs');
 import glMatrix = require('gl-matrix');
+import Euclidean3 = require('eight/math/e3ga/Euclidean3');
 
 var mesh = function(geometry?, material?) {
     var gl: WebGLRenderingContext = null;
@@ -24,9 +25,9 @@ var mesh = function(geometry?, material?) {
     var base = object3D();
 
     var that = {
-        get position() {return base.position },
+        get position(): Euclidean3 {return base.position },
         set position(position) { base.position = position },
-        get attitude() {return base.attitude },
+        get attitude(): Euclidean3 {return base.attitude },
         set attitude(attitude) { base.attitude = attitude },
         projectionMatrix: glMatrix.mat4.create(),
         onContextGain: function(context) {

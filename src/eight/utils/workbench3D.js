@@ -1,6 +1,14 @@
 define(["require", "exports"], function(require, exports) {
+    /**
+    * @const
+    * @type {string}
+    */
     var EVENT_NAME_RESIZE = 'resize';
 
+    /**
+    * @const
+    * @type {string}
+    */
     var TAG_NAME_CANVAS = 'canvas';
 
     function removeElementsByTagName(doc, tagname) {
@@ -15,18 +23,22 @@ define(["require", "exports"], function(require, exports) {
         if (typeof win === "undefined") { win = window; }
         var doc = win.document;
 
-        function onWindowResize(event) {
+        function syncToWindow() {
             var width = win.innerWidth;
             var height = win.innerHeight;
             renderer.setSize(width, height);
             camera.aspect = width / height;
-            camera.updateProjectionMatrix();
         }
+
+        var onWindowResize = function (event) {
+            syncToWindow();
+        };
 
         var that = {
             setUp: function () {
                 doc.body.insertBefore(canvas, doc.body.firstChild);
                 win.addEventListener(EVENT_NAME_RESIZE, onWindowResize, false);
+                syncToWindow();
             },
             tearDown: function () {
                 win.removeEventListener(EVENT_NAME_RESIZE, onWindowResize, false);

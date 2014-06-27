@@ -1,26 +1,36 @@
 var glwin = window.open("", "", "width=800, height=600");
 
+var popUpEnabled = false;
+
+if (glwin) {
+    popUpEnabled = true;
+}
+else {
+    console.log("Pop-ups are currently blocked. You'll get more FPS in a Pop-up!");
+    glwin = window;
+}
+
 glwin.document.body.style.backgroundColor = "202020";
 glwin.document.body.style.overflow = "hidden";
 glwin.document.title = "Visualizing Geometric Algebra with WebGL";
 
 var scene = EIGHT.scene();
 
-var camera = EIGHT.perspectiveCamera(45, 1.0, 0.1, 100);
+var camera = EIGHT.perspective(45, 1.0, 0.1, 100);
 
-var renderer = EIGHT.webGLRenderer();
+var renderer = EIGHT.renderer();
 
-var box = EIGHT.mesh(EIGHT.boxGeometry());
+var box = EIGHT.mesh(EIGHT.box());
 scene.add(box);
 box.position = EIGHT.vectorE3(-1.0, -0.5, -5.0);
-var prism = EIGHT.mesh(EIGHT.prismGeometry());
+var prism = EIGHT.mesh(EIGHT.prism());
 scene.add(prism);
 prism.position = EIGHT.vectorE3(0.0, 0.0, -5.0);
 
-var workbench3D = EIGHT.workbench3D(renderer.canvas, renderer, camera, glwin);
+var workbench = EIGHT.workbench(renderer.canvas, renderer, camera, glwin);
 
 function setUp() {
-    workbench3D.setUp();
+    workbench.setUp();
     monitor.start();
 }
 
@@ -52,17 +62,19 @@ function terminate(t) {
 
 function tearDown(e) {
     monitor.stop();
-    glwin.close();
+    if (popUpEnabled) {
+        glwin.close();
+    }
     if (e) {
         console.log("Error during animation: " + e);
     } else {
         console.log("Goodbye!");
-        workbench3D.tearDown();
+        workbench.tearDown();
         scene.tearDown();
     }
 }
 
-var runner = EIGHT.windowAnimationRunner(tick, terminate, setUp, tearDown, glwin);
+var runner = EIGHT.animationRunner(tick, terminate, setUp, tearDown, glwin);
 
 function onContextLoss() {
     runner.stop();
@@ -77,6 +89,6 @@ function onContextGain(gl) {
     runner.start();
 }
 
-var monitor = EIGHT.webGLContextMonitor(renderer.canvas, onContextLoss, onContextGain);
+var monitor = EIGHT.contextMonitor(renderer.canvas, onContextLoss, onContextGain);
 
 onContextGain(renderer.context);

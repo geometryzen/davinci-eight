@@ -1,73 +1,79 @@
-import EIGHT = require('src/eight');
+import e8 = require('src/eight');
 
-console.log("Hello");
-console.log(EIGHT.VERSION);
+// Strategic alias names to reduce clutter.
+var scalar = e8.scalarE3;
+var vector = e8.vectorE3;
+var cos = Math.cos;
+var sin = Math.sin;
 
-var glwin = open("","","width=800, height=600");
+// Assume pop-ups are not enabled until proven otherwise.
+var popUpEnabled = false;
+
+var glwin = window.open("", "", "width=800, height=600");
+
+if (glwin) {
+    popUpEnabled = true;
+}
+else {
+    glwin = window;
+    console.log("Pop-ups are currently blocked. You'll get more FPS in a Pop-up!");
+}
 
 glwin.document.body.style.backgroundColor = "202020";
 glwin.document.body.style.overflow = "hidden";
-glwin.document.title = "Visualizing Geometric Algebra with WebGL";
+glwin.document.title = "Visualizing Geometric Algebra with davinci-eight and WebGL";
 
-var scene = EIGHT.scene();
-console.log("scene created!");
-var camera = EIGHT.perspectiveCamera(45, 1.0, 0.1, 100);
+var scene = e8.scene();
 
-var renderer = EIGHT.webGLRenderer();
+var camera = e8.perspective(45, 1.0, 0.1, 100);
 
-var box = EIGHT.mesh(EIGHT.boxGeometry());
+var renderer = e8.renderer();
+
+var box = e8.mesh(e8.box());
 scene.add(box);
-box.position = EIGHT.vectorE3(-1.0,-0.5,-5.0);
-var prism = EIGHT.mesh(EIGHT.prismGeometry());
+box.position = vector(-1.0, -0.5, -5.0);
+var prism = e8.mesh(e8.prism());
 scene.add(prism);
-prism.position = EIGHT.vectorE3(0.0,0.0,-5.0);
+prism.position = vector(0.0, 0.0, -5.0);
 
-var workbench3D = EIGHT.workbench3D(renderer.canvas, renderer, camera, glwin);
+var workbench = e8.workbench(renderer.canvas, renderer, camera, glwin);
 
 function setUp() {
-  workbench3D.setUp();
-  monitor.start();
+    workbench.setUp();
+    monitor.start();
 }
 
-var B = EIGHT.bivectorE3(0,0,1);
+var B = e8.bivectorE3(0, 0, 1);
 var angle = 0;
 
-//var stats = new Stats();
-//stats.setMode(0);
-//stats.domElement.style.position = 'absolute';
-//stats.domElement.style.left = '0px';
-//stats.domElement.style.top = '0px';
-//glwin.document.body.appendChild(stats.domElement);
-
 function tick(t: number) {
-//  stats.begin();
-  var c = EIGHT.scalarE3(Math.cos(angle/2));
-  var s = EIGHT.scalarE3(Math.sin(angle/2));
-  var R = c.sub(B.mul(s));
-  box.attitude = R;
-  prism.attitude = R;
+    var c = scalar(cos(angle / 2));
+    var s = scalar(sin(angle / 2));
+    var R = c.sub(B.mul(s));
+    box.attitude = prism.attitude = R;
 
-  renderer.render(scene, camera);
-  angle += 0.01;
-//  stats.end();
+    renderer.render(scene, camera);
+    angle += 0.01;
 }
 
-function terminate(t: number) {return false;}
+function terminate(t: number) { return false; }
 
 function tearDown(e) {
-  monitor.stop();
-  glwin.close();
-  if (e) {
-    console.log("Error during animation: " + e);
-  }
-  else {
-    console.log("Goodbye!");
-    workbench3D.tearDown();
-    scene.tearDown();
-  }
+    monitor.stop();
+    if (popUpEnabled) {
+        glwin.close();
+    }
+    if (e) {
+        console.log("Error during animation: " + e);
+    }
+    else {
+        console.log("Goodbye!");
+        workbench.tearDown();
+        scene.tearDown();
+    }
 }
 
-var runner = EIGHT.windowAnimationRunner(tick, terminate, setUp, tearDown, glwin);
+var runner = e8.animationRunner(tick, terminate, setUp, tearDown, glwin);
 
 function onContextLoss() {
     runner.stop();
@@ -78,10 +84,10 @@ function onContextLoss() {
 function onContextGain(gl: WebGLRenderingContext) {
     scene.onContextGain(gl);
     renderer.onContextGain(gl);
-    renderer.context.clearColor(32/256,32/256,32/256,1)
+    renderer.context.clearColor(32 / 256, 32 / 256, 32 / 256, 1)
     runner.start();
 }
 
-var monitor = EIGHT.webGLContextMonitor(renderer.canvas, onContextLoss, onContextGain);
-console.log('OK...');
+var monitor = e8.contextMonitor(renderer.canvas, onContextLoss, onContextGain);
+
 onContextGain(renderer.context);

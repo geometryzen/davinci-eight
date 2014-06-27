@@ -1,8 +1,8 @@
-define(["require", "exports", 'eight/math/e3ga/euclidean3'], function(require, exports, euclidean3) {
+define(["require", "exports", 'eight/math/e3ga/scalarE3', 'eight/math/e3ga/vectorE3'], function(require, exports, scalarE3, vectorE3) {
     var object3D = function () {
         var that = {
-            position: { x: 0, y: 0, z: 0 },
-            attitude: euclidean3({ w: 1 }),
+            position: vectorE3(0, 0, 0),
+            attitude: scalarE3(1),
             onContextGain: function (gl) {
                 console.error("Missing onContextGain function");
             },

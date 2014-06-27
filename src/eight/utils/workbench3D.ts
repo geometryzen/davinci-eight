@@ -18,22 +18,24 @@ function removeElementsByTagName(doc: Document, tagname: string) {
     }
 }
 
-var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; updateProjectionMatrix: () => void }, win = window) {
+var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; }, win: Window = window) {
     var doc = win.document;
 
-    function onWindowResize(event) {
+    function syncToWindow() {
         var width = win.innerWidth;
         var height = win.innerHeight;
         renderer.setSize(width, height);
         camera.aspect = width / height;
-        camera.updateProjectionMatrix();
     }
+
+    var onWindowResize = function(event) { syncToWindow(); };
 
     var that =
         {
             setUp: function() {
                 doc.body.insertBefore(canvas, doc.body.firstChild);
                 win.addEventListener(EVENT_NAME_RESIZE, onWindowResize, false);
+                syncToWindow();
             },
             tearDown: function() {
                 win.removeEventListener(EVENT_NAME_RESIZE, onWindowResize, false);

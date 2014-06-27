@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title></title>
+        <title>DaVinci Eight (AMD)</title>
     </head>
     <body>
         <script src="./../vendor/requirejs/require.js" data-main="main"></script>
@@ -15,10 +15,7 @@
             waitSeconds: 15
           });
           require( ['require','exports'], function(require, exports) {
-                //This function will be called when all the dependencies
-                //listed above are loaded. Note that this function could
-                //be called before the page is loaded.
-                //This callback is optional.
+              console.log("Hello! Everything has been loaded. Press Esc to terminate.");
             }
           );
         </script>

@@ -1,7 +1,9 @@
 import core = require('eight/core');
 import geometry = require('eight/core/geometry');
 import material = require('eight/core/material');
-import euclidean3 = require('eight/math/e3ga/euclidean3');
+
+import Euclidean3 = require('eight/math/e3ga/Euclidean3');
+
 import scalarE3 = require('eight/math/e3ga/scalarE3');
 import vectorE3 = require('eight/math/e3ga/vectorE3');
 import bivectorE3 = require('eight/math/e3ga/bivectorE3');
@@ -22,21 +24,21 @@ import meshNormalMaterial = require('eight/materials/meshNormalMaterial');
 
 var eight = {
     'VERSION': core.VERSION,
-    perspectiveCamera: perspectiveCamera,
-    euclidean3: euclidean3,
+    perspective: perspectiveCamera,
+    Euclidean3: Euclidean3,
     scalarE3: scalarE3,
     vectorE3: vectorE3,
     bivectorE3: bivectorE3,
     scene: scene,
     object3D: object3D,
-    webGLRenderer: webGLRenderer,
-    webGLContextMonitor: webGLContextMonitor,
-    workbench3D: workbench3D,
-    windowAnimationRunner: windowAnimationRunner,
+    renderer: webGLRenderer,
+    contextMonitor: webGLContextMonitor,
+    workbench: workbench3D,
+    animationRunner: windowAnimationRunner,
     mesh: mesh,
     geometry: geometry,
-    boxGeometry: boxGeometry,
-    prismGeometry: prismGeometry,
+    box: boxGeometry,
+    prism: prismGeometry,
     material: material,
     meshBasicMaterial: meshBasicMaterial,
     meshNormalMaterial: meshNormalMaterial
