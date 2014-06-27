@@ -19,7 +19,7 @@ declare var perspectiveCamera: (fov?: number, aspect?: number, near?: number, fa
         cross(other: any): any;
         norm(): any;
     };
-    projectionMatrix: any;
+    projectionMatrix: number[];
     aspect: number;
     updateProjectionMatrix: () => void;
 };

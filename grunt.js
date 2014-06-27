@@ -6,7 +6,10 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          mainConfigFile: "build.js"
+          mainConfigFile: "build.js",
+          paths: {
+              'gl-matrix': './../vendor/gl-matrix/dist/gl-matrix'
+          }
         }
       }
     },

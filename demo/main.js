@@ -2,7 +2,7 @@ define(["require", "exports", 'src/eight'], function(require, exports, EIGHT) {
     console.log("Hello");
     console.log(EIGHT.VERSION);
 
-    var glwin = window.open("", "", "width=800, height=600");
+    var glwin = open("", "", "width=800, height=600");
 
     glwin.document.body.style.backgroundColor = "202020";
     glwin.document.body.style.overflow = "hidden";

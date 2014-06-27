@@ -19,6 +19,6 @@ declare var camera: () => {
         cross(other: any): any;
         norm(): any;
     };
-    projectionMatrix: any;
+    projectionMatrix: number[];
 };
 export = camera;

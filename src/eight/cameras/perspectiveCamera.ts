@@ -5,12 +5,7 @@
 // It's not clear how we could do direct aggregation and remain type-safe when not using constructor functions.
 //
 import camera = require('eight/cameras/camera');
-
-interface Matrix4 {
-    perspective(matrix: Matrix4, fov: number, aspect: number, near: number, far: number);
-}
-
-declare var mat4: Matrix4;
+import glMatrix = require('gl-matrix');
 
 var perspectiveCamera = function(fov: number = 50, aspect: number = 1, near: number = 0.1, far: number = 2000) {
 
@@ -30,7 +25,7 @@ var perspectiveCamera = function(fov: number = 50, aspect: number = 1, near: num
         set aspect(value: number) { aspect = value },
 
         updateProjectionMatrix: function() {
-            mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+            glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
         }
     };
 

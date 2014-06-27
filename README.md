@@ -7,15 +7,30 @@ It's less about WebGL at the moment although it does solve the context lost prob
 
 ## Getting Started
 
+### Non-AMD execution
+
 Open the following file in your browser (Chrome of Firefox).
 ```
 demo/index.html
 ```
 Make sure that Pop-ups are not blocked for the page.
 
-This will run the non-AMD version of the code in the window EIGHT property.
+This will run the non-AMD version of the code.
 
-The AMD version of the code is still a work-in-progress.
+### AMD execution
+
+To compile the main.ts to main.js:
+```
+tsc --module "amd" --target ES5
+```
+
+Open the following file in your browser (Chrome of Firefox).
+```
+demo/amd.html
+```
+Make sure that Pop-ups are not blocked for the page.
+
+This will run the AMD version of the code.
 
 ## Contributing
 

@@ -1,4 +1,4 @@
-define(["require", "exports", 'eight/cameras/camera'], function(require, exports, camera) {
+define(["require", "exports", 'eight/cameras/camera', 'gl-matrix'], function(require, exports, camera, glMatrix) {
     var perspectiveCamera = function (fov, aspect, near, far) {
         if (typeof fov === "undefined") { fov = 50; }
         if (typeof aspect === "undefined") { aspect = 1; }
@@ -29,7 +29,7 @@ define(["require", "exports", 'eight/cameras/camera'], function(require, exports
                 aspect = value;
             },
             updateProjectionMatrix: function () {
-                mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+                glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
             }
         };
 

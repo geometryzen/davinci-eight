@@ -19,7 +19,7 @@ declare var mesh: (geometry?: any, material?: any) => {
         cross(other: any): any;
         norm(): any;
     };
-    projectionMatrix: any;
+    projectionMatrix: number[];
     onContextGain: (context: any) => void;
     onContextLoss: () => void;
     tearDown: () => void;

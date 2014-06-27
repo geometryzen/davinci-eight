@@ -21,7 +21,7 @@ declare var eight: {
             cross(other: any): any;
             norm(): any;
         };
-        projectionMatrix: any;
+        projectionMatrix: number[];
         aspect: number;
         updateProjectionMatrix: () => void;
     };
@@ -184,7 +184,7 @@ declare var eight: {
             cross(other: any): any;
             norm(): any;
         };
-        projectionMatrix: any;
+        projectionMatrix: number[];
         onContextGain: (context: any) => void;
         onContextLoss: () => void;
         tearDown: () => void;

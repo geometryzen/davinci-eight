@@ -1,4 +1,4 @@
-define(["require", "exports", 'eight/core/object3D'], function(require, exports, object3D) {
+define(["require", "exports", 'eight/core/object3D', 'gl-matrix'], function(require, exports, object3D, glMatrix) {
     var camera = function () {
         var base = object3D();
 
@@ -15,7 +15,7 @@ define(["require", "exports", 'eight/core/object3D'], function(require, exports,
             set attitude(value) {
                 base.attitude = value;
             },
-            projectionMatrix: mat4.create()
+            projectionMatrix: glMatrix.mat4.create()
         };
 
         return that;
