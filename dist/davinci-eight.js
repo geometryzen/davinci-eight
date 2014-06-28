@@ -426,7 +426,7 @@ define("../vendor/almond/almond", function(){});
 
 define('eight/core',["require", "exports"], function(require, exports) {
     var eight = {
-        VERSION: '0.9.2'
+        VERSION: '0.9.3'
     };
 
     

@@ -1,9 +1,9 @@
 //
-// davinci-eight-manual.d.ts
+// davinci-eight.d.ts
 //
 // This file was created manually in order to support the davinci-eight library.
 //
-declare module EIGHT
+declare module eight
 {
   interface Scene
   {
@@ -101,7 +101,7 @@ declare module EIGHT
   function contextMonitor(canvas: HTMLCanvasElement, contextLoss: {(): void;}, contextGain: {(context: WebGLRenderingContext): void;}): WebGLContextMonitor;
 }
 
-declare module 'EIGHT'
+declare module 'eight'
 {
-  export = EIGHT;
+  export = eight;
 }
