@@ -1,3 +1,0 @@
-describe("davinci-eight", function(){
-
-});

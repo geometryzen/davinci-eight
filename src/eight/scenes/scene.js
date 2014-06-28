@@ -2,7 +2,6 @@ define(["require", "exports", 'eight/core/object3D'], function(require, exports,
     var scene = function () {
         var kids = [];
 
-        // TODO: What do we want out of the base object3D?
         var base = object3D();
 
         var that = {

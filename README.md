@@ -43,7 +43,7 @@ Clone the davinci-eight repo.
 git clone git://github.com/geometryzen/davinci-eight.git
 ```
 
-Enter the repo directory.
+Change to the repo directory.
 ```
 cd davinci-eight
 ```
@@ -62,7 +62,7 @@ to install the software dependencies (For this you need to have [Bower](http://b
 
 Run
 ```
-jake --jakefile Jakefile.js
+jake
 ```
 to compile the source using the TypeScript compiler (For this you need to have [TypeScript](http://www.typescriptlang.org) installed).
 

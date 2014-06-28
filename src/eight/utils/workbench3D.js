@@ -1,14 +1,6 @@
 define(["require", "exports"], function(require, exports) {
-    /**
-    * @const
-    * @type {string}
-    */
     var EVENT_NAME_RESIZE = 'resize';
 
-    /**
-    * @const
-    * @type {string}
-    */
     var TAG_NAME_CANVAS = 'canvas';
 
     function removeElementsByTagName(doc, tagname) {

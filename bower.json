@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "TypeScript 3D library using Geometric Algebra",
   "author":
   {
@@ -34,7 +34,7 @@
     "requirejs": "~2.1.14",
     "almond": "~0.2.9",
     "stats.js": "latest"
-    },
+  },
   "ignore":
   [
     ".settings",

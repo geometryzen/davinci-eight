@@ -15,25 +15,16 @@ module.exports = function(grunt) {
     },
     // minify the optimized library file
     min: {
-      "dist/davinc-eight.min.js": "dist/davinci-eight.js"
-    },
-    // kick off jasmine, showing results at the cli
-    jasmine: {
-      all: ['test/runner.html']
-    },
-    // run jasmine tests any time watched files change
-    watch: {
-      files: ['src/**/*','test/spec/**/*'],
-      tasks: ['jasmine']
+      "dist/davinci-eight.min.js": "dist/davinci-eight.js"
     }
   });
 
   // Load external tasks
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-jasmine-task');
+  // grunt.loadNpmTasks('grunt-jasmine-task');
 
   // Make task shortcuts
-  grunt.registerTask('default', 'jasmine requirejs min');
-  grunt.registerTask('test', 'jasmine');
+  grunt.registerTask('default', 'requirejs min');
+  // grunt.registerTask('test', 'jasmine');
 
 };

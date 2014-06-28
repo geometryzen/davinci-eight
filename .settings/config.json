@@ -7,7 +7,7 @@
     },
     "builds": [
         {
-            "name": "Eight",
+            "name": "eight",
             "main": "",
             "output": "dist/davinci-eight.js"
         }

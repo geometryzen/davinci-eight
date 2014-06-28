@@ -1,9 +1,6 @@
-// This file contains the build logic for davinci-eight.
-
 var fs = require("fs");
 var path = require("path");
 
-// We are using the reference feature to create the ordered closure of source files.
 var compilerSources = [
      "src/eight.ts"
 ];
@@ -22,7 +19,7 @@ function removeComments(xs) {
 
 var args = removeComments(AMD(ES5(compilerSources)));
 
-// The --out option does not apply when doing module code generation.
+// The --out option does not apply when doing external module code generation.
 // If we want concatenation then we must use something like almond.
 // The outFile parameter below is not currently used.
 desc("Builds the full libraries");

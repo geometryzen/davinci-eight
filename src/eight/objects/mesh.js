@@ -93,20 +93,11 @@ define(["require", "exports", 'eight/core/geometry', 'eight/materials/meshBasicM
                 gl.deleteProgram(_program);
             },
             updateMatrix: function () {
-                // The following performs the rotation first followed by the translation.
                 var v = glMatrix.vec3.fromValues(that.position.x, that.position.y, that.position.z);
                 var q = glMatrix.quat.fromValues(-that.attitude.yz, -that.attitude.zx, -that.attitude.xy, that.attitude.w);
 
-                /*
-                mat4.identity(mvMatrix);
-                mat4.translate(mvMatrix, mvMatrix, v);
-                var quatMat = mat4.create();
-                mat4.fromQuat(quatMat, q);
-                mat4.multiply(mvMatrix, mvMatrix, quatMat);
-                */
                 glMatrix.mat4.fromRotationTranslation(_mvMatrix, q, v);
 
-                // TODO: Should we be computing this inside the shader?
                 glMatrix.mat3.normalFromMat4(_normalMatrix, _mvMatrix);
             },
             draw: function (projectionMatrix) {

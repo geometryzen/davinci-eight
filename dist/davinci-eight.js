@@ -426,7 +426,7 @@ define("../vendor/almond/almond", function(){});
 
 define('eight/core',["require", "exports"], function(require, exports) {
     var eight = {
-        VERSION: '0.0.1'
+        VERSION: '0.9.0'
     };
 
     
@@ -6254,6 +6254,6 @@ define('eight',["require", "exports", 'eight/core', 'eight/core/geometry', 'eigh
       define(function () { return library; });
     }(globalDefine));
   } else {
-    global['EIGHT'] = library;
+    global['eight'] = library;
   }
 }(this));
