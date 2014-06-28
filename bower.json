@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "TypeScript 3D library using Geometric Algebra",
   "author":
   {
@@ -38,18 +38,21 @@
   "ignore":
   [
     ".settings",
-    "app",
-    "config",
-    "dist/js",
     "node_modules",
-    "spec",
-    "tasks",
+    "src",
+    "test",
+    "typings",
+    "vendor",
     ".bowerrc",
     ".gitignore",
-    "Gruntfile.js",
+    ".npmignore",
+    ".travis.yml",
     "Jakefile.js",
     "README.md",
     "bower.json",
-    "package.json"
+    "build.js",
+    "grunt.js",
+    "package.json",
+    "tsd.json"
   ]
 }
