@@ -1,5 +1,5 @@
-import e8 = require('src/eight');
-//var e8 = eight;
+//import e8 = require('src/eight');
+var e8 = eight;
 
 // Strategic alias names to reduce clutter.
 var scalar = e8.scalarE3;
