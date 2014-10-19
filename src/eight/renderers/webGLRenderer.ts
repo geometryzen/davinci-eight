@@ -45,7 +45,7 @@ var webGLRenderer = function(parameters?) {
     }
 
     var that = {
-        get canvas() {return canvas },
+        get canvas() { return canvas; },
         get context(): WebGLRenderingContext {return gl },
         onContextGain: function(context: WebGLRenderingContext) {
             gl = context;
@@ -59,7 +59,7 @@ var webGLRenderer = function(parameters?) {
                 gl.clearColor(r, g, b, a);
             }
         },
-        render: function(scene, camera: {projectionMatrix: any}) {
+        render: function(scene, camera: { projectionMatrix: any }) {
             if (gl) {
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

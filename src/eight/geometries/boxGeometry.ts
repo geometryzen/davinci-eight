@@ -1,7 +1,8 @@
 import geometry = require('eight/core/geometry');
 import vectorE3 = require('eight/math/e3ga/vectorE3');
+import Euclidean3 = require('eight/math/e3ga/Euclidean3');
 
-var vertexList: any[] =
+var vertexList: Euclidean3[] =
     [
         // front face
         vectorE3(-0.5, -0.5, +0.5),
@@ -16,7 +17,7 @@ var vertexList: any[] =
         vectorE3(-0.5, +0.5, -0.5)
     ];
 
-var triangles =
+var triangles: number[][] =
     [
         // front
         [0, 1, 2],
@@ -42,7 +43,7 @@ var boxGeometry = function(spec?) {
 
     var base = geometry(spec);
     
-    var api = {
+    var api: {vertices: number[]; normals: number[]; colors: number[]} = {
         triangles: triangles,
         vertices: [],
         normals: [],
@@ -53,12 +54,12 @@ var boxGeometry = function(spec?) {
         var triangle = triangles[t];
 
         // Normals will be the same for each vertex of a triangle.
-        var v0 = vertexList[triangle[0]];
-        var v1 = vertexList[triangle[1]];
-        var v2 = vertexList[triangle[2]];
+        var v0: Euclidean3 = vertexList[triangle[0]];
+        var v1: Euclidean3 = vertexList[triangle[1]];
+        var v2: Euclidean3 = vertexList[triangle[2]];
 
-        var perp = v1.sub(v0).cross(v2.sub(v0));
-        var normal = perp.div(perp.norm());
+        var perp: Euclidean3 = v1.sub(v0).cross(v2.sub(v0));
+        var normal: Euclidean3 = perp.div(perp.norm());
 
         for (var j = 0; j < 3; j++) {
             api.vertices.push(vertexList[triangle[j]].x);

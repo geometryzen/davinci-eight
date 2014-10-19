@@ -13,6 +13,9 @@ var scene = function() {
                 kids[i].onContextGain(gl);
             }
         },
+        /**
+         * Does this work?
+         */
         onContextLoss: function(): void {
             for (var i = 0, length = kids.length; i < length; i++) {
                 kids[i].onContextLoss();

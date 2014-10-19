@@ -433,6 +433,9 @@ define('eight/core',["require", "exports"], function(require, exports) {
     return eight;
 });
 
+// The compiler needs the reference comment to find the eightAPI module.
+/// <reference path="./things.d" />
+// We're using an interface so it vanishes in the generated JavaScript.
 define('eight/core/geometry',["require", "exports"], function(require, exports) {
     var geometry = function (spec) {
         var that = {
@@ -451,6 +454,7 @@ define('eight/core/geometry',["require", "exports"], function(require, exports) 
 });
 
 define('eight/core/material',["require", "exports"], function(require, exports) {
+    /// <reference path="./Material.d" />
     var material = function (spec) {
         var api = {};
 
@@ -461,6 +465,9 @@ define('eight/core/material',["require", "exports"], function(require, exports) 
     return material;
 });
 
+//
+// Euclidean3.ts
+//
 define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, exports) {
     var compute = function (f, a, b, coord, pack) {
         var a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, x0, x1, x2, x3, x4, x5, x6, x7;
@@ -1000,6 +1007,9 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
     }
 
     var Euclidean3 = (function () {
+        /**
+        * Constructs a Euclidean3 from its components.
+        */
         function Euclidean3(w, x, y, z, xy, yz, zx, xyz) {
             this.w = w || 0;
             this.x = x || 0;
@@ -1223,6 +1233,12 @@ define('eight/math/e3ga/scalarE3',["require", "exports", 'eight/math/e3ga/Euclid
 });
 
 define('eight/math/e3ga/vectorE3',["require", "exports", 'eight/math/e3ga/Euclidean3'], function(require, exports, Euclidean3) {
+    /**
+    * Constructs and returns a Euclidean 3D vector from its cartesian components.
+    * @param x The x component of the vector.
+    * @param y The y component of the vector.
+    * @param z The z component of the vector.
+    */
     var vectorE3 = function (x, y, z) {
         return new Euclidean3(0, x, y, z, 0, 0, 0, 0);
     };
@@ -5521,6 +5537,7 @@ define('eight/cameras/camera',["require", "exports", 'eight/core/object3D', 'gl-
         var base = object3D();
 
         var that = {
+            // Delegate to the base camera.
             get position() {
                 return base.position;
             },
@@ -5556,6 +5573,7 @@ define('eight/cameras/perspectiveCamera',["require", "exports", 'eight/cameras/c
         }
 
         var that = {
+            // Delegate to the base camera.
             get position() {
                 return base.position;
             },
@@ -5568,6 +5586,7 @@ define('eight/cameras/perspectiveCamera',["require", "exports", 'eight/cameras/c
             set attitude(value) {
                 base.attitude = value;
             },
+            // Extensions
             get aspect() {
                 return aspect;
             },
@@ -5591,6 +5610,7 @@ define('eight/scenes/scene',["require", "exports", 'eight/core/object3D'], funct
     var scene = function () {
         var kids = [];
 
+        // TODO: What do we want out of the base object3D?
         var base = object3D();
 
         var that = {
@@ -5602,6 +5622,9 @@ define('eight/scenes/scene',["require", "exports", 'eight/core/object3D'], funct
                     kids[i].onContextGain(gl);
                 }
             },
+            /**
+            * Does this work?
+            */
             onContextLoss: function () {
                 for (var i = 0, length = kids.length; i < length; i++) {
                     kids[i].onContextLoss();
@@ -5702,8 +5725,8 @@ define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], fun
                 }
             },
             setSize: function (width, height, updateStyle) {
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = width; // * devicePixelRatio;
+                canvas.height = height; // * devicePixelRatio;
 
                 if (updateStyle !== false) {
                     canvas.style.width = width + 'px';
@@ -5868,11 +5891,20 @@ define('eight/objects/mesh',["require", "exports", 'eight/core/geometry', 'eight
                 gl.deleteProgram(_program);
             },
             updateMatrix: function () {
+                // The following performs the rotation first followed by the translation.
                 var v = glMatrix.vec3.fromValues(that.position.x, that.position.y, that.position.z);
                 var q = glMatrix.quat.fromValues(-that.attitude.yz, -that.attitude.zx, -that.attitude.xy, that.attitude.w);
 
+                /*
+                mat4.identity(mvMatrix);
+                mat4.translate(mvMatrix, mvMatrix, v);
+                var quatMat = mat4.create();
+                mat4.fromQuat(quatMat, q);
+                mat4.multiply(mvMatrix, mvMatrix, quatMat);
+                */
                 glMatrix.mat4.fromRotationTranslation(_mvMatrix, q, v);
 
+                // TODO: Should we be computing this inside the shader?
                 glMatrix.mat3.normalFromMat4(_normalMatrix, _mvMatrix);
             },
             draw: function (projectionMatrix) {
@@ -5945,8 +5977,16 @@ define('eight/utils/webGLContextMonitor',["require", "exports"], function(requir
 });
 
 define('eight/utils/workbench3D',["require", "exports"], function(require, exports) {
+    /**
+    * @const
+    * @type {string}
+    */
     var EVENT_NAME_RESIZE = 'resize';
 
+    /**
+    * @const
+    * @type {string}
+    */
     var TAG_NAME_CANVAS = 'canvas';
 
     function removeElementsByTagName(doc, tagname) {
@@ -5957,6 +5997,10 @@ define('eight/utils/workbench3D',["require", "exports"], function(require, expor
         }
     }
 
+    /**
+    * Creates and returns a workbench3D thing.
+    * @param canvas An HTML canvas element to be inserted.
+    */
     var workbench3D = function (canvas, renderer, camera, win) {
         if (typeof win === "undefined") { win = window; }
         var doc = win.document;
@@ -6103,6 +6147,7 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
         for (var t = 0; t < triangles.length; t++) {
             var triangle = triangles[t];
 
+            // Normals will be the same for each vertex of a triangle.
             var v0 = vertexList[triangle[0]];
             var v1 = vertexList[triangle[1]];
             var v2 = vertexList[triangle[2]];
@@ -6132,6 +6177,15 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
 });
 
 define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geometry', 'eight/math/e3ga/vectorE3'], function(require, exports, geometry, vectorE3) {
+    // The numbering of the front face, seen from the front is
+    //   5
+    //  3 4
+    // 0 1 2
+    // The numbering of the back face, seen from the front is
+    //   B
+    //  9 A
+    // 6 7 8
+    // There are 12 vertices in total.
     var vertexList = [
         vectorE3(-1.0, 0.0, +0.5),
         vectorE3(0.0, 0.0, +0.5),
@@ -6147,6 +6201,9 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         vectorE3(0.0, 2.0, -0.5)
     ];
 
+    // I'm not sure why the left and right side have 4 faces, but the botton only 2.
+    // Symmetry would suggest making them the same.
+    // There are 18 faces in total.
     var triangles = [
         [0, 1, 3],
         [1, 4, 3],
@@ -6168,11 +6225,14 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         [0, 8, 2]
     ];
 
+    /**
+    * Constructs and returns a Prism geometry object.
+    */
     var prismGeometry = function (spec) {
         var base = geometry(spec);
 
         var api = {
-            triangles: triangles,
+            //      triangles: triangles,
             vertices: [],
             normals: [],
             colors: []
@@ -6181,6 +6241,7 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         for (var t = 0; t < triangles.length; t++) {
             var triangle = triangles[t];
 
+            // Normals will be the same for each vertex of a triangle.
             var v0 = vertexList[triangle[0]];
             var v1 = vertexList[triangle[1]];
             var v2 = vertexList[triangle[2]];
@@ -6236,6 +6297,9 @@ define('eight',["require", "exports", 'eight/core', 'eight/core/geometry', 'eigh
         animationRunner: windowAnimationRunner,
         mesh: mesh,
         geometry: geometry,
+        /**
+        * Constructs and returns a box geometry.
+        */
         box: boxGeometry,
         prism: prismGeometry,
         material: material,

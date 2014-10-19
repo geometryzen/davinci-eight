@@ -69,20 +69,18 @@ declare var eight: {
         onContextLoss: () => void;
         tearDown: () => void;
         updateMatrix: () => void;
-        draw: (projectionMatrix: any) => void;
+        draw: (projectionMatrix: number[]) => void;
     };
     geometry: (spec?: any) => x.Geometry;
     box: (spec?: any) => {
-        triangles: number[][];
-        vertices: any[];
-        normals: any[];
-        colors: any[];
+        vertices: number[];
+        normals: number[];
+        colors: number[];
     };
     prism: (spec?: any) => {
-        triangles: number[][];
-        vertices: any[];
-        normals: any[];
-        colors: any[];
+        vertices: number[];
+        normals: number[];
+        colors: number[];
     };
     material: (spec?: any) => Material;
     meshBasicMaterial: (spec: any) => Material;

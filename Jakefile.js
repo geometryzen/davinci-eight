@@ -17,7 +17,11 @@ function removeComments(xs) {
     return ['--removeComments'].concat(xs);
 }
 
-var args = removeComments(AMD(ES5(compilerSources)));
+function withComments(xs) {
+    return xs;
+}
+
+var args = withComments(AMD(ES5(compilerSources)));
 
 // The --out option does not apply when doing external module code generation.
 // If we want concatenation then we must use something like almond.

@@ -500,6 +500,9 @@ class Euclidean3 {
     public yz: number;
     public zx: number;
     public xyz: number;
+    /**
+     * Constructs a Euclidean3 from its components.
+     */
     constructor(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number) {
         this.w = w || 0;
         this.x = x || 0;

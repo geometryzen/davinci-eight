@@ -1,6 +1,14 @@
 define(["require", "exports"], function(require, exports) {
+    /**
+    * @const
+    * @type {string}
+    */
     var EVENT_NAME_RESIZE = 'resize';
 
+    /**
+    * @const
+    * @type {string}
+    */
     var TAG_NAME_CANVAS = 'canvas';
 
     function removeElementsByTagName(doc, tagname) {
@@ -11,6 +19,10 @@ define(["require", "exports"], function(require, exports) {
         }
     }
 
+    /**
+    * Creates and returns a workbench3D thing.
+    * @param canvas An HTML canvas element to be inserted.
+    */
     var workbench3D = function (canvas, renderer, camera, win) {
         if (typeof win === "undefined") { win = window; }
         var doc = win.document;

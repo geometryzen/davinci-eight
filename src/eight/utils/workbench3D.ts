@@ -18,6 +18,10 @@ function removeElementsByTagName(doc: Document, tagname: string) {
     }
 }
 
+/**
+ * Creates and returns a workbench3D thing.
+ * @param canvas An HTML canvas element to be inserted. 
+ */
 var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; }, win: Window = window) {
     var doc = win.document;
 

@@ -76,8 +76,8 @@ define(["require", "exports", 'eight/core'], function(require, exports, core) {
                 }
             },
             setSize: function (width, height, updateStyle) {
-                canvas.width = width;
-                canvas.height = height;
+                canvas.width = width; // * devicePixelRatio;
+                canvas.height = height; // * devicePixelRatio;
 
                 if (updateStyle !== false) {
                     canvas.style.width = width + 'px';

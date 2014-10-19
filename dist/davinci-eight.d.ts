@@ -87,10 +87,16 @@ declare module eight
     setUp(): void;
     tearDown(): void;
   }
+  /**
+   * Constructs and returns a Scene.
+   */
   function scene(): Scene;
   function perspective(fov: number, aspect: number, near: number, far: number): Projection;
   function renderer(): WebGLRenderer;
   function mesh(geometry: Geometry): Mesh;
+  /**
+   * Constructs and returns a box geometry.
+   */
   function box(): Geometry;
   function prism(): Geometry;
   function scalarE3(w: number): Euclidean3;

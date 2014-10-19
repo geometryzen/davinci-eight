@@ -7,6 +7,9 @@ declare class Euclidean3 {
     public yz: number;
     public zx: number;
     public xyz: number;
+    /**
+    * Constructs a Euclidean3 from its components.
+    */
     constructor(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number);
     static fromCartesian(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number): Euclidean3;
     static fromObject(self?: {

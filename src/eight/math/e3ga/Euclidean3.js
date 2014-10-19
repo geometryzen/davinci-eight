@@ -1,3 +1,6 @@
+//
+// Euclidean3.ts
+//
 define(["require", "exports"], function(require, exports) {
     var compute = function (f, a, b, coord, pack) {
         var a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, x0, x1, x2, x3, x4, x5, x6, x7;
@@ -537,6 +540,9 @@ define(["require", "exports"], function(require, exports) {
     }
 
     var Euclidean3 = (function () {
+        /**
+        * Constructs a Euclidean3 from its components.
+        */
         function Euclidean3(w, x, y, z, xy, yz, zx, xyz) {
             this.w = w || 0;
             this.x = x || 0;

@@ -7,6 +7,6 @@ declare var mesh: (geometry?: any, material?: any) => {
     onContextLoss: () => void;
     tearDown: () => void;
     updateMatrix: () => void;
-    draw: (projectionMatrix: any) => void;
+    draw: (projectionMatrix: number[]) => void;
 };
 export = mesh;

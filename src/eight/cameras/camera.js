@@ -3,6 +3,7 @@ define(["require", "exports", 'eight/core/object3D', 'gl-matrix'], function(requ
         var base = object3D();
 
         var that = {
+            // Delegate to the base camera.
             get position() {
                 return base.position;
             },

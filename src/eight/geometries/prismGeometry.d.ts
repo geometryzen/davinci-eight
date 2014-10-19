@@ -1,7 +1,9 @@
+/**
+* Constructs and returns a Prism geometry object.
+*/
 declare var prismGeometry: (spec?: any) => {
-    triangles: number[][];
-    vertices: any[];
-    normals: any[];
-    colors: any[];
+    vertices: number[];
+    normals: number[];
+    colors: number[];
 };
 export = prismGeometry;

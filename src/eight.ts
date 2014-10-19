@@ -37,6 +37,9 @@ var eight = {
     animationRunner: windowAnimationRunner,
     mesh: mesh,
     geometry: geometry,
+    /**
+     * Constructs and returns a box geometry.
+     */
     box: boxGeometry,
     prism: prismGeometry,
     material: material,

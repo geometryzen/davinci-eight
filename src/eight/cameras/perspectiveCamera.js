@@ -11,6 +11,7 @@ define(["require", "exports", 'eight/cameras/camera', 'gl-matrix'], function(req
         }
 
         var that = {
+            // Delegate to the base camera.
             get position() {
                 return base.position;
             },
@@ -23,6 +24,7 @@ define(["require", "exports", 'eight/cameras/camera', 'gl-matrix'], function(req
             set attitude(value) {
                 base.attitude = value;
             },
+            // Extensions
             get aspect() {
                 return aspect;
             },

@@ -14,6 +14,9 @@ define(["require", "exports", 'eight/core', 'eight/core/geometry', 'eight/core/m
         animationRunner: windowAnimationRunner,
         mesh: mesh,
         geometry: geometry,
+        /**
+        * Constructs and returns a box geometry.
+        */
         box: boxGeometry,
         prism: prismGeometry,
         material: material,

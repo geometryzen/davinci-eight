@@ -107,7 +107,7 @@ var mesh = function(geometry?, material?) {
             // TODO: Should we be computing this inside the shader?
             glMatrix.mat3.normalFromMat4(_normalMatrix, _mvMatrix);
         },
-        draw: function(projectionMatrix) {
+        draw: function(projectionMatrix: number[]) {
             if (gl) {
                 gl.useProgram(_program);
 
