@@ -1,6 +1,7 @@
 import geometry = require('eight/core/geometry');
 import vectorE3 = require('eight/math/e3ga/vectorE3');
 import Euclidean3 = require('eight/math/e3ga/Euclidean3');
+import eight = require('eightAPI');
 
 var vertexList: Euclidean3[] =
     [
@@ -39,15 +40,16 @@ var triangles: number[][] =
         [0, 4, 5]
     ];
 
-var boxGeometry = function(spec?) {
+var boxGeometry = function(spec?): eight.Geometry {
 
     var base = geometry(spec);
     
-    var api: {vertices: number[]; normals: number[]; colors: number[]} = {
-        triangles: triangles,
+    var api = {
+        primitives: triangles,
         vertices: [],
         normals: [],
-        colors: []
+        colors: [],
+        primitiveMode: base.primitiveMode
     };
 
     for (var t = 0; t < triangles.length; t++) {

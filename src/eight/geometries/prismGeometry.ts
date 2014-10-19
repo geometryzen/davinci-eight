@@ -1,6 +1,7 @@
 import geometry = require('eight/core/geometry');
 import vectorE3 = require('eight/math/e3ga/vectorE3');
 import Euclidean3 = require('eight/math/e3ga/Euclidean3');
+import eight = require('eightAPI');
 
 // The numbering of the front face, seen from the front is
 //   5
@@ -66,15 +67,16 @@ var triangles =
 /**
  * Constructs and returns a Prism geometry object.
  */
-var prismGeometry = function(spec?) {
+var prismGeometry = function(spec?): eight.Geometry {
 
     var base = geometry(spec);
     
-    var api: {vertices: number[]; normals: number[]; colors: number[]} = {
-        triangles: triangles,
+    var api = {
+        primitives: triangles,
         vertices: [],
         normals: [],
-        colors: []
+        colors: [],
+        primitiveMode: base.primitiveMode
     };
 
 

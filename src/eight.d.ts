@@ -61,7 +61,7 @@ declare var eight: {
         start: () => void;
         stop: () => void;
     };
-    mesh: (geometry?: any, material?: any) => {
+    mesh: (geometry?: x.Geometry, material?: any) => {
         position: Euclidean3;
         attitude: Euclidean3;
         projectionMatrix: number[];
@@ -72,16 +72,8 @@ declare var eight: {
         draw: (projectionMatrix: number[]) => void;
     };
     geometry: (spec?: any) => x.Geometry;
-    box: (spec?: any) => {
-        vertices: number[];
-        normals: number[];
-        colors: number[];
-    };
-    prism: (spec?: any) => {
-        vertices: number[];
-        normals: number[];
-        colors: number[];
-    };
+    box: (spec?: any) => x.Geometry;
+    prism: (spec?: any) => x.Geometry;
     material: (spec?: any) => Material;
     meshBasicMaterial: (spec: any) => Material;
     meshNormalMaterial: (spec: any) => Material;

@@ -1,3 +1,3 @@
 /// <reference path="things.d.ts" />
-declare var geometry: (spec?: any) => things.Geometry;
+declare var geometry: (spec?: any) => eight.Geometry;
 export = geometry;

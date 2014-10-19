@@ -1,6 +1,2 @@
-declare var boxGeometry: (spec?: any) => {
-    vertices: number[];
-    normals: number[];
-    colors: number[];
-};
+declare var boxGeometry: (spec?: any) => eight.Geometry;
 export = boxGeometry;

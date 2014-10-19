@@ -54,10 +54,11 @@ define(["require", "exports", 'eight/core/geometry', 'eight/math/e3ga/vectorE3']
         var base = geometry(spec);
 
         var api = {
-            triangles: triangles,
+            primitives: triangles,
             vertices: [],
             normals: [],
-            colors: []
+            colors: [],
+            primitiveMode: base.primitiveMode
         };
 
         for (var t = 0; t < triangles.length; t++) {

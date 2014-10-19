@@ -439,9 +439,11 @@ define('eight/core',["require", "exports"], function(require, exports) {
 define('eight/core/geometry',["require", "exports"], function(require, exports) {
     var geometry = function (spec) {
         var that = {
+            primitives: [],
             vertices: [],
             vertexIndices: [],
             colors: [],
+            normals: [],
             primitiveMode: function (gl) {
                 return gl.TRIANGLES;
             }
@@ -5933,7 +5935,7 @@ define('eight/objects/mesh',["require", "exports", 'eight/core/geometry', 'eight
                     gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
                     gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
 
-                    gl.drawArrays(gl.TRIANGLES, 0, geometry.triangles.length * 3);
+                    gl.drawArrays(geometry.primitiveMode(gl), 0, geometry.primitives.length * 3);
                 }
             }
         };
@@ -6138,10 +6140,11 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
         var base = geometry(spec);
 
         var api = {
-            triangles: triangles,
+            primitives: triangles,
             vertices: [],
             normals: [],
-            colors: []
+            colors: [],
+            primitiveMode: base.primitiveMode
         };
 
         for (var t = 0; t < triangles.length; t++) {
@@ -6232,10 +6235,11 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         var base = geometry(spec);
 
         var api = {
-            triangles: triangles,
+            primitives: triangles,
             vertices: [],
             normals: [],
-            colors: []
+            colors: [],
+            primitiveMode: base.primitiveMode
         };
 
         for (var t = 0; t < triangles.length; t++) {

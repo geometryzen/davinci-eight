@@ -2,16 +2,18 @@
 /// <reference path="./things.d" />
 // We're using an interface so it vanishes in the generated JavaScript.
 
-import things = require('eightAPI');
+import eight = require('eightAPI');
 
-var geometry = function(spec?): things.Geometry {
+var geometry = function(spec?): eight.Geometry {
 
     var that =
         {
+            primitives: [],
             vertices: [],
             vertexIndices: [],
             colors: [],
-            primitiveMode: function(gl) {
+            normals: [],
+            primitiveMode: function(gl: WebGLRenderingContext) {
                 return gl.TRIANGLES;
             }
         };

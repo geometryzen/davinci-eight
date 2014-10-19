@@ -9,7 +9,11 @@
 // For that reason, we give it a meaningful name, x.
 declare module x {
     interface Geometry {
+        primitives: number[][];
         vertices: number[];
+        normals: number[];
+        colors: number[];
+        primitiveMode: (gl: WebGLRenderingContext) => number;
     }
 }
 

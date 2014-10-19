@@ -135,7 +135,7 @@ define(["require", "exports", 'eight/core/geometry', 'eight/materials/meshBasicM
                     gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
                     gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
 
-                    gl.drawArrays(gl.TRIANGLES, 0, geometry.triangles.length * 3);
+                    gl.drawArrays(geometry.primitiveMode(gl), 0, geometry.primitives.length * 3);
                 }
             }
         };

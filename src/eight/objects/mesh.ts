@@ -5,8 +5,9 @@ import vs_source = require('eight/shaders/shader-vs');
 import fs_source = require('eight/shaders/shader-fs');
 import glMatrix = require('gl-matrix');
 import Euclidean3 = require('eight/math/e3ga/Euclidean3');
+import eight = require('eightAPI');
 
-var mesh = function(geometry?, material?) {
+var mesh = function(geometry?: eight.Geometry, material?) {
     var gl: WebGLRenderingContext = null;
     var _vs: WebGLShader = null;
     var _fs: WebGLShader = null;
@@ -133,7 +134,7 @@ var mesh = function(geometry?, material?) {
                 gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
                 gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
 
-                gl.drawArrays(gl.TRIANGLES, 0, geometry.triangles.length * 3);
+                gl.drawArrays(geometry.primitiveMode(gl), 0, geometry.primitives.length * 3);
             }
         }
     };
