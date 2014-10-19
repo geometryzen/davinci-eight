@@ -6232,7 +6232,7 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         var base = geometry(spec);
 
         var api = {
-            //      triangles: triangles,
+            triangles: triangles,
             vertices: [],
             normals: [],
             colors: []

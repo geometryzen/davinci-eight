@@ -71,7 +71,7 @@ var prismGeometry = function(spec?) {
     var base = geometry(spec);
     
     var api: {vertices: number[]; normals: number[]; colors: number[]} = {
-//      triangles: triangles,
+        triangles: triangles,
         vertices: [],
         normals: [],
         colors: []

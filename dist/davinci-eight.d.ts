@@ -98,8 +98,20 @@ declare module eight
    * Constructs and returns a box geometry.
    */
   function box(): Geometry;
+  /**
+   * Constructs and returns a prism geometry.
+   */
   function prism(): Geometry;
+  /**
+   * Returns a Euclidean 3-dimensional number representing a scalar.
+   */
   function scalarE3(w: number): Euclidean3;
+  /**
+   * Returns a vector from its cartesian components.
+   * @param x The component of the vector in the x-axis direction.
+   * @param y The component of the vector in the y-axis direction.
+   * @param z The component of the vector in the z-axis direction.
+   */
   function vectorE3(x: number, y: number, z: number): Euclidean3;
   function bivectorE3(xy: number, yz: number, zx: number): Euclidean3;
   function workbench(canvas: HTMLCanvasElement, renderer: WebGLRenderer, camera: Projection, window: Window): Workbench3D;
