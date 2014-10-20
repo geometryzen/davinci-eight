@@ -1,5 +1,5 @@
 var eight = {
-    VERSION: '0.9.3'
+    VERSION: '0.9.7'
 };
 
 export = eight;

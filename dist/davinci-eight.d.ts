@@ -7,6 +7,9 @@ declare module eight
 {
   interface Scene
   {
+    /**
+     * Adda a mesh to the root node of the scene.
+     */
     add(mesh: Mesh): void;
     tearDown(): void;
     onContextLoss(): void;
@@ -35,38 +38,98 @@ declare module eight
       }): Euclidean3;
       public coordinates(): number[];
       public coordinate(index: number): number;
+      /**
+       * Returns the sum of the target and the argument.
+       */
       public add(rhs: Euclidean3): Euclidean3;
+      /**
+       * Returns the difference of the target and the argument.
+       */ 
       public sub(rhs: Euclidean3): Euclidean3;
+      /**
+       * Returns the product of the target and the argument.
+       */
       public mul(rhs: any): Euclidean3;
+      /**
+       * Returns the quotient of the target and the argument.
+       */
       public div(rhs: any): Euclidean3;
+      /**
+       * Returns the outer product of the the target and the argument. 
+       */
       public wedge(rhs: Euclidean3): Euclidean3;
+      /**
+       * Returns the left contraction of the target and the argument.
+       */
       public lshift(rhs: Euclidean3): Euclidean3;
+      /**
+       * Returns the right contraction of the target and the argument.
+       */
       public rshift(rhs: Euclidean3): Euclidean3;
+      /**
+       * Returns the part of the target with the specified grade.
+       */
       public grade(index: number): Euclidean3;
+      /**
+       * Return the dot product of the target with the argument.
+       */
       public dot(vector: Euclidean3): number;
+      /**
+       * Returns the cross product of the target with the argument. 
+       */
       public cross(vector: Euclidean3): Euclidean3;
+      /**
+       * Returns the number of components in the Euclidean3.
+       */
       public length(): number;
+      /**
+       * Returns the norm of the Euclidean3. For a vector, this would be the magnitude.
+       */
       public norm(): Euclidean3;
+      /**
+       * Returns the quadrance of the Euclidean3. The norm is the square root of the quadrance.
+       */
       public quad(): Euclidean3;
       public sqrt(): Euclidean3;
       public toString(): string;
       public toStringIJK(): string;
       public toStringLATEX(): string;
   }
+  /**
+   * A transformation from the 3D world to the 2D canvas.
+   */
   interface Projection
   {
   }
+  /**
+   * A simplex of triangular regions
+   */
   interface Geometry
   {
   }
+  /**
+   * The combination of a geometry and a material.
+   */
   interface Mesh
   {
+    /**
+     * The attitude of the mesh expressed as a rotor.
+     */
     attitude: Euclidean3;
+    /**
+     * The position of the mesh relative to the origin. 
+     */
     position: Euclidean3;
   }
   interface WebGLContextMonitor
   {
+    /**
+     * Starts the monitoring of the WebGL context.
+     */
     start(): void;
+    /**
+     * Stops the monitoring of the WebGL context.
+     */
     stop(): void;
   }
   interface WebGLRenderer
@@ -91,8 +154,17 @@ declare module eight
    * Constructs and returns a Scene.
    */
   function scene(): Scene;
+  /**
+   * Constructs and returns a Linear Perspective projection camera.
+   */
   function perspective(fov: number, aspect: number, near: number, far: number): Projection;
+  /**
+   * Constructs and returns a WebGL renderer.
+   */
   function renderer(): WebGLRenderer;
+  /**
+   * Constructs a mesh from the specified geometry and material.
+   */
   function mesh(geometry: Geometry): Mesh;
   /**
    * Constructs and returns a box geometry.
@@ -113,9 +185,24 @@ declare module eight
    * @param z The component of the vector in the z-axis direction.
    */
   function vectorE3(x: number, y: number, z: number): Euclidean3;
+  /**
+   * Returns a bivector from its cartesian components.
+   * @param xy The bivector component in the xy-plane.
+   * @param yz The bivector component in the yz-plane.
+   * @param zx The bivector component in the zx-plane.
+   */
   function bivectorE3(xy: number, yz: number, zx: number): Euclidean3;
+  /**
+   * Constructs and returns a new Workbench3D.
+   */
   function workbench(canvas: HTMLCanvasElement, renderer: WebGLRenderer, camera: Projection, window: Window): Workbench3D;
+  /**
+   * Constructs and returns a WindowAnimationRnner.
+   */
   function animationRunner(tick: {(time: number): void;}, terminate: {(time: number): boolean;}, setUp: {(): void;}, tearDown: {(e: Error): void;}, window: Window): WindowAnimationRunner;
+  /**
+   * Constructs and returns a WebGLContextMonitor.
+   */
   function contextMonitor(canvas: HTMLCanvasElement, contextLoss: {(): void;}, contextGain: {(context: WebGLRenderingContext): void;}): WebGLContextMonitor;
 }
 
