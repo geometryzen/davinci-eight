@@ -1,5 +1,6 @@
 /node_modules
 /vendor
-/dist/eight
+/src/davinci-blade
+/src/davinci-blade.d.ts
 
 .DS_Store

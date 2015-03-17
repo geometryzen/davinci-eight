@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '0.9.9'
+        VERSION: '0.9.10'
     };
     return eight;
 });

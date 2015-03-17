@@ -42,9 +42,15 @@ module.exports = function(grunt) {
     copy: {
       main: {
         expand: true,
-        cwd: 'amd/',
-        src: ['**'],
+        cwd: 'src/modules/',
+        src: ['davinci-eight.d.ts'],
         dest: 'dist/'
+      },
+      blade: {
+        expand: true,
+        cwd: 'vendor/davinci-blade/src',
+        src: ['davinci-blade.ts', 'davinci-blade/**/*.ts'],
+        dest: 'src/'
       }
     },
     connect: {
@@ -186,5 +192,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
-  grunt.registerTask('default', ['clean', 'buildAMD', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('default', ['clean', 'copy:blade', 'buildAMD', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
 };

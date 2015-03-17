@@ -3,7 +3,7 @@
 requirejs.config({
   // all modules loaded are relative to this path
   // e.g. require(["abc/core"]) would grab /src/abc/core.js
-  baseUrl: "./dist",
+  baseUrl: "./amd",
 
   // specify custom module name paths
   paths: {
