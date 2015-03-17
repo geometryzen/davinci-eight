@@ -1,4 +1,4 @@
-import e8 = require('src/eight');
+import e8 = require('davinci-eight');
 
 // Strategic alias names to reduce clutter.
 var scalar = e8.scalarE3;

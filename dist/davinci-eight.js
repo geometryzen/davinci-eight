@@ -1,7 +1,7 @@
 (function(global, define) {
   var globalDefine = global.define;
 /**
- * @license almond 0.2.9 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
+ * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/almond for details
  */
@@ -46,12 +46,6 @@ var requirejs, require, define;
             //otherwise, assume it is a top-level require that will
             //be relative to baseUrl in the end.
             if (baseName) {
-                //Convert baseName to array, and lop off the last part,
-                //so that . matches that "directory" and not name of the baseName's
-                //module. For instance, baseName of "one/two/three", maps to
-                //"one/two/three.js", but we want the directory, "one/two" for
-                //this normalization.
-                baseParts = baseParts.slice(0, baseParts.length - 1);
                 name = name.split('/');
                 lastIndex = name.length - 1;
 
@@ -60,7 +54,11 @@ var requirejs, require, define;
                     name[lastIndex] = name[lastIndex].replace(jsSuffixRegExp, '');
                 }
 
-                name = baseParts.concat(name);
+                //Lop off the last part of baseParts, so that . matches the
+                //"directory" and not name of the baseName's module. For instance,
+                //baseName of "one/two/three", maps to "one/two/three.js", but we
+                //want the directory, "one/two" for this normalization.
+                name = baseParts.slice(0, baseParts.length - 1).concat(name);
 
                 //start trimDots
                 for (i = 0; i < name.length; i += 1) {
@@ -152,7 +150,15 @@ var requirejs, require, define;
             //A version of a require function that passes a moduleName
             //value for items that may need to
             //look up paths relative to the moduleName
-            return req.apply(undef, aps.call(arguments, 0).concat([relName, forceSync]));
+            var args = aps.call(arguments, 0);
+
+            //If first arg is not require('string'), and there is only
+            //one arg, it is the array form without a callback. Insert
+            //a null so that the following concat is correct.
+            if (typeof args[0] !== 'string' && args.length === 1) {
+                args.push(null);
+            }
+            return req.apply(undef, args.concat([relName, forceSync]));
         };
     }
 
@@ -402,6 +408,9 @@ var requirejs, require, define;
     requirejs._defined = defined;
 
     define = function (name, deps, callback) {
+        if (typeof name !== 'string') {
+            throw new Error('See almond README: incorrect module build, no module name');
+        }
 
         //This module may not have dependencies
         if (!deps.splice) {
@@ -424,19 +433,17 @@ var requirejs, require, define;
 
 define("../vendor/almond/almond", function(){});
 
-define('eight/core',["require", "exports"], function(require, exports) {
+define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '0.9.7'
+        VERSION: '0.9.9'
     };
-
-    
     return eight;
 });
 
 // The compiler needs the reference comment to find the eightAPI module.
-/// <reference path="./things.d" />
+/// <reference path="./things.d.ts" />
 // We're using an interface so it vanishes in the generated JavaScript.
-define('eight/core/geometry',["require", "exports"], function(require, exports) {
+define('davinci-eight/core/geometry',["require", "exports"], function (require, exports) {
     var geometry = function (spec) {
         var that = {
             primitives: [],
@@ -448,32 +455,23 @@ define('eight/core/geometry',["require", "exports"], function(require, exports) 
                 return gl.TRIANGLES;
             }
         };
-
         return that;
     };
-    
     return geometry;
 });
 
-define('eight/core/material',["require", "exports"], function(require, exports) {
-    /// <reference path="./Material.d" />
+define('davinci-eight/core/material',["require", "exports"], function (require, exports) {
+    /// <reference path="./Material.d.ts" />
     var material = function (spec) {
         var api = {};
-
         return api;
     };
-
-    
     return material;
 });
 
-//
-// Euclidean3.ts
-//
-define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, exports) {
+define('davinci-blade/Euclidean3',["require", "exports"], function (require, exports) {
     var compute = function (f, a, b, coord, pack) {
         var a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, x0, x1, x2, x3, x4, x5, x6, x7;
-
         a0 = coord(a, 0);
         a1 = coord(a, 1);
         a2 = coord(a, 2);
@@ -500,7 +498,6 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
         return pack(x0, x1, x2, x3, x4, x5, x6, x7);
     };
-
     function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -522,51 +519,51 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         var x = 0.0;
         switch (~(~index)) {
             case 0:
-                 {
+                {
                     x = +(a0 + b0);
                 }
                 break;
             case 1:
-                 {
+                {
                     x = +(a1 + b1);
                 }
                 break;
             case 2:
-                 {
+                {
                     x = +(a2 + b2);
                 }
                 break;
             case 3:
-                 {
+                {
                     x = +(a3 + b3);
                 }
                 break;
             case 4:
-                 {
+                {
                     x = +(a4 + b4);
                 }
                 break;
             case 5:
-                 {
+                {
                     x = +(a5 + b5);
                 }
                 break;
             case 6:
-                 {
+                {
                     x = +(a6 + b6);
                 }
                 break;
             case 7:
-                 {
+                {
                     x = +(a7 + b7);
                 }
                 break;
             default: {
+                throw new Error("index must be in the range [0..7]");
             }
         }
         return +x;
     }
-
     function subE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -588,51 +585,54 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         var x = 0.0;
         switch (~(~index)) {
             case 0:
-                 {
+                {
                     x = +(a0 - b0);
                 }
                 break;
             case 1:
-                 {
+                {
                     x = +(a1 - b1);
                 }
                 break;
             case 2:
-                 {
+                {
                     x = +(a2 - b2);
                 }
                 break;
             case 3:
-                 {
+                {
                     x = +(a3 - b3);
                 }
                 break;
             case 4:
-                 {
+                {
                     x = +(a4 - b4);
                 }
                 break;
             case 5:
-                 {
+                {
                     x = +(a5 - b5);
                 }
                 break;
             case 6:
-                 {
+                {
                     x = +(a6 - b6);
                 }
                 break;
             case 7:
-                 {
+                {
                     x = +(a7 - b7);
                 }
                 break;
             default: {
+                throw new Error("index must be in the range [0..7]");
             }
         }
         return +x;
     }
-
+    /**
+     *
+     */
     function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -654,51 +654,51 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         var x = 0.0;
         switch (~(~index)) {
             case 0:
-                 {
+                {
                     x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
                 }
                 break;
             case 1:
-                 {
+                {
                     x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
                 }
                 break;
             case 2:
-                 {
+                {
                     x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
                 }
                 break;
             case 3:
-                 {
+                {
                     x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
                 }
                 break;
             case 4:
-                 {
+                {
                     x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
                 }
                 break;
             case 5:
-                 {
+                {
                     x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
                 }
                 break;
             case 6:
-                 {
+                {
                     x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
                 }
                 break;
             case 7:
-                 {
+                {
                     x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
                 }
                 break;
             default: {
+                throw new Error("index must be in the range [0..7]");
             }
         }
         return +x;
     }
-
     function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -720,51 +720,51 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         var x = 0.0;
         switch (~(~index)) {
             case 0:
-                 {
+                {
                     x = +(a0 * b0);
                 }
                 break;
             case 1:
-                 {
+                {
                     x = +(a0 * b1 + a1 * b0);
                 }
                 break;
             case 2:
-                 {
+                {
                     x = +(a0 * b2 + a2 * b0);
                 }
                 break;
             case 3:
-                 {
+                {
                     x = +(a0 * b3 + a3 * b0);
                 }
                 break;
             case 4:
-                 {
+                {
                     x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
                 }
                 break;
             case 5:
-                 {
+                {
                     x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
                 }
                 break;
             case 6:
-                 {
+                {
                     x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
                 }
                 break;
             case 7:
-                 {
+                {
                     x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
                 }
                 break;
             default: {
+                throw new Error("index must be in the range [0..7]");
             }
         }
         return +x;
     }
-
     function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -786,51 +786,51 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         var x = 0.0;
         switch (~(~index)) {
             case 0:
-                 {
+                {
                     x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
                 }
                 break;
             case 1:
-                 {
+                {
                     x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
                 }
                 break;
             case 2:
-                 {
+                {
                     x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
                 }
                 break;
             case 3:
-                 {
+                {
                     x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
                 }
                 break;
             case 4:
-                 {
+                {
                     x = +(a0 * b4 + a3 * b7);
                 }
                 break;
             case 5:
-                 {
+                {
                     x = +(a0 * b5 + a1 * b7);
                 }
                 break;
             case 6:
-                 {
+                {
                     x = +(a0 * b6 + a2 * b7);
                 }
                 break;
             case 7:
-                 {
+                {
                     x = +(a0 * b7);
                 }
                 break;
             default: {
+                throw new Error("index must be in the range [0..7]");
             }
         }
         return +x;
     }
-
     function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
         a0 = +a0;
         a1 = +a1;
@@ -852,54 +852,53 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         var x = 0.0;
         switch (~(~index)) {
             case 0:
-                 {
+                {
                     x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
                 }
                 break;
             case 1:
-                 {
+                {
                     x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
                 }
                 break;
             case 2:
-                 {
+                {
                     x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
                 }
                 break;
             case 3:
-                 {
+                {
                     x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
                 }
                 break;
             case 4:
-                 {
+                {
                     x = +(+a4 * b0 + a7 * b3);
                 }
                 break;
             case 5:
-                 {
+                {
                     x = +(+a5 * b0 + a7 * b1);
                 }
                 break;
             case 6:
-                 {
+                {
                     x = +(+a6 * b0 + a7 * b2);
                 }
                 break;
             case 7:
-                 {
+                {
                     x = +(+a7 * b0);
                 }
                 break;
             default: {
+                throw new Error("index must be in the range [0..7]");
             }
         }
         return +x;
     }
-
     var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, dst) {
         var c000, c001, c010, c011, c100, c101, c110, c111, i000, i001, i010, i011, i100, i101, i110, i111, k000, m000, m001, m010, m011, m100, m101, m110, m111, r000, r001, r010, r011, r100, r101, r110, r111, s000, s001, s010, s011, s100, s101, s110, s111, w, x, x000, x001, x010, x011, x100, x101, x110, x111, xy, xyz, y, yz, z, zx;
-
         r000 = +b000;
         r001 = +b001;
         r010 = +b010;
@@ -966,11 +965,11 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             dst.yz = yz;
             dst.zx = zx;
             return dst.xyz = xyz;
-        } else {
+        }
+        else {
             return new Euclidean3(w, x, y, z, xy, yz, zx, xyz);
         }
     };
-
     function stringFromCoordinates(coordinates, labels) {
         var i, _i, _ref;
         var str;
@@ -982,13 +981,15 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
                     if (sb.length > 0) {
                         sb.push("+");
                     }
-                } else {
+                }
+                else {
                     sb.push("-");
                 }
                 n = Math.abs(coord);
                 if (n === 1) {
                     sb.push(label);
-                } else {
+                }
+                else {
                     sb.push(n.toString());
                     if (label !== "1") {
                         sb.push("*");
@@ -1002,16 +1003,27 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         }
         if (sb.length > 0) {
             str = sb.join("");
-        } else {
+        }
+        else {
             str = "0";
         }
         return str;
     }
-
     var Euclidean3 = (function () {
         /**
-        * Constructs a Euclidean3 from its components.
-        */
+         * The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.
+         *
+         * @class Euclidean3
+         * @constructor
+         * @param {number} w The scalar part of the multivector.
+         * @param {number} x The vector component of the multivector in the x-direction.
+         * @param {number} y The vector component of the multivector in the y-direction.
+         * @param {number} z The vector component of the multivector in the z-direction.
+         * @param {number} xy The bivector component of the multivector in the xy-plane.
+         * @param {number} yz The bivector component of the multivector in the yz-plane.
+         * @param {number} zx The bivector component of the multivector in the zx-plane.
+         * @param {number} xyz The pseudoscalar part of the multivector.
+         */
         function Euclidean3(w, x, y, z, xy, yz, zx, xyz) {
             this.w = w || 0;
             this.x = x || 0;
@@ -1025,32 +1037,9 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
         Euclidean3.fromCartesian = function (w, x, y, z, xy, yz, zx, xyz) {
             return new Euclidean3(w, x, y, z, xy, yz, zx, xyz);
         };
-
-        Euclidean3.fromObject = function (self) {
-            if (typeof self === "undefined") { self = { w: 0, x: 0, y: 0, z: 0, xy: 0, yz: 0, zx: 0, xyz: 0 }; }
-            if (typeof self.w === "undefined")
-                self.w = 0;
-            if (typeof self.x === "undefined")
-                self.x = 0;
-            if (typeof self.y === "undefined")
-                self.y = 0;
-            if (typeof self.z === "undefined")
-                self.z = 0;
-            if (typeof self.xy === "undefined")
-                self.xy = 0;
-            if (typeof self.yz === "undefined")
-                self.yz = 0;
-            if (typeof self.zx === "undefined")
-                self.zx = 0;
-            if (typeof self.xyz === "undefined")
-                self.xyz = 0;
-            return new Euclidean3(self.w, self.x, self.y, self.z, self.xy, self.yz, self.zx, self.xyz);
-        };
-
         Euclidean3.prototype.coordinates = function () {
             return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
         };
-
         Euclidean3.prototype.coordinate = function (index) {
             switch (index) {
                 case 0:
@@ -1073,10 +1062,8 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
                     throw new Error("index must be in the range [0..7]");
             }
         };
-
         Euclidean3.prototype.add = function (rhs) {
             var coord, pack;
-
             coord = function (x, n) {
                 return x[n];
             };
@@ -1085,10 +1072,8 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             };
             return compute(addE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
         };
-
         Euclidean3.prototype.sub = function (rhs) {
             var coord, pack;
-
             coord = function (x, n) {
                 return x[n];
             };
@@ -1097,13 +1082,12 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             };
             return compute(subE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
         };
-
         Euclidean3.prototype.mul = function (rhs) {
             var coord, pack;
-
             if (typeof rhs === 'number') {
-                return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs);
-            } else {
+                return this.scalarMultiply(rhs);
+            }
+            else {
                 coord = function (x, n) {
                     return x[n];
                 };
@@ -1113,18 +1097,19 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
                 return compute(mulE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
             }
         };
-
+        Euclidean3.prototype.scalarMultiply = function (rhs) {
+            return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs);
+        };
         Euclidean3.prototype.div = function (rhs) {
             if (typeof rhs === 'number') {
                 return new Euclidean3(this.w / rhs, this.x / rhs, this.y / rhs, this.z / rhs, this.xy / rhs, this.yz / rhs, this.zx / rhs, this.xyz / rhs);
-            } else {
+            }
+            else {
                 return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, void 0);
             }
         };
-
         Euclidean3.prototype.wedge = function (rhs) {
             var coord, pack;
-
             coord = function (x, n) {
                 return x[n];
             };
@@ -1133,10 +1118,8 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             };
             return compute(extE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
         };
-
         Euclidean3.prototype.lshift = function (rhs) {
             var coord, pack;
-
             coord = function (x, n) {
                 return x[n];
             };
@@ -1145,10 +1128,8 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             };
             return compute(lcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
         };
-
         Euclidean3.prototype.rshift = function (rhs) {
             var coord, pack;
-
             coord = function (x, n) {
                 return x[n];
             };
@@ -1157,7 +1138,6 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             };
             return compute(rcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
         };
-
         Euclidean3.prototype.grade = function (index) {
             switch (index) {
                 case 0:
@@ -1172,14 +1152,11 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
                     return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, 0);
             }
         };
-
         Euclidean3.prototype.dot = function (vector) {
             return this.x * vector.x + this.y * vector.y + this.z * vector.z;
         };
-
         Euclidean3.prototype.cross = function (vector) {
             var x, x1, x2, y, y1, y2, z, z1, z2;
-
             x1 = this.x;
             y1 = this.y;
             z1 = this.z;
@@ -1191,72 +1168,60 @@ define('eight/math/e3ga/Euclidean3',["require", "exports"], function(require, ex
             z = x1 * y2 - y1 * x2;
             return new Euclidean3(0, x, y, z, 0, 0, 0, 0);
         };
-
         Euclidean3.prototype.length = function () {
             return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
         };
-
         Euclidean3.prototype.norm = function () {
             return new Euclidean3(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz), 0, 0, 0, 0, 0, 0, 0);
         };
-
         Euclidean3.prototype.quad = function () {
             return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0);
         };
-
         Euclidean3.prototype.sqrt = function () {
             return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0);
         };
-
         Euclidean3.prototype.toString = function () {
             return stringFromCoordinates([this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
         };
-
         Euclidean3.prototype.toStringIJK = function () {
             return stringFromCoordinates([this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], ["1", "i", "j", "k", "ij", "jk", "ki", "I"]);
         };
-
         Euclidean3.prototype.toStringLATEX = function () {
             return stringFromCoordinates([this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
         };
         return Euclidean3;
     })();
-
-    
     return Euclidean3;
 });
 
-define('eight/math/e3ga/scalarE3',["require", "exports", 'eight/math/e3ga/Euclidean3'], function(require, exports, Euclidean3) {
+define('davinci-eight/math/e3ga/scalarE3',["require", "exports", 'davinci-blade/Euclidean3'], function (require, exports, Euclidean3) {
     var scalarE3 = function (w) {
         return new Euclidean3(w, 0, 0, 0, 0, 0, 0, 0);
     };
-    
     return scalarE3;
 });
 
-define('eight/math/e3ga/vectorE3',["require", "exports", 'eight/math/e3ga/Euclidean3'], function(require, exports, Euclidean3) {
+define('davinci-eight/math/e3ga/vectorE3',["require", "exports", 'davinci-blade/Euclidean3'], function (require, exports, Euclidean3) {
     /**
-    * Constructs and returns a Euclidean 3D vector from its cartesian components.
-    * @param x The x component of the vector.
-    * @param y The y component of the vector.
-    * @param z The z component of the vector.
-    */
+     * Constructs and returns a Euclidean 3D vector from its cartesian components.
+     * @param x The x component of the vector.
+     * @param y The y component of the vector.
+     * @param z The z component of the vector.
+     */
     var vectorE3 = function (x, y, z) {
         return new Euclidean3(0, x, y, z, 0, 0, 0, 0);
     };
-    
     return vectorE3;
 });
 
-define('eight/math/e3ga/bivectorE3',["require", "exports", 'eight/math/e3ga/Euclidean3'], function(require, exports, Euclidean3) {
+define('davinci-eight/math/e3ga/bivectorE3',["require", "exports", 'davinci-blade/Euclidean3'], function (require, exports, Euclidean3) {
     var bivectorE3 = function (xy, yz, zx) {
         return new Euclidean3(0, 0, 0, 0, xy, yz, zx, 0);
     };
-    
     return bivectorE3;
 });
 
-define('eight/core/object3D',["require", "exports", 'eight/math/e3ga/scalarE3', 'eight/math/e3ga/vectorE3'], function(require, exports, scalarE3, vectorE3) {
+define('davinci-eight/core/object3D',["require", "exports", 'davinci-eight/math/e3ga/scalarE3', 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, scalarE3, vectorE3) {
     var object3D = function () {
         var that = {
             position: vectorE3(0, 0, 0),
@@ -1277,11 +1242,8 @@ define('eight/core/object3D',["require", "exports", 'eight/math/e3ga/scalarE3', 
                 console.error("Missing draw function");
             }
         };
-
         return that;
     };
-
-    
     return object3D;
 });
 
@@ -5534,10 +5496,12 @@ if(typeof(exports) !== 'undefined') {
   })(shim.exports);
 })(this);
 
-define('eight/cameras/camera',["require", "exports", 'eight/core/object3D', 'gl-matrix'], function(require, exports, object3D, glMatrix) {
+define('davinci-eight/cameras/camera',["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix'], function (require, exports, object3D, glMatrix) {
+    /**
+     * @class camera
+     */
     var camera = function () {
         var base = object3D();
-
         var that = {
             // Delegate to the base camera.
             get position() {
@@ -5554,26 +5518,21 @@ define('eight/cameras/camera',["require", "exports", 'eight/core/object3D', 'gl-
             },
             projectionMatrix: glMatrix.mat4.create()
         };
-
         return that;
     };
-
-    
     return camera;
 });
 
-define('eight/cameras/perspectiveCamera',["require", "exports", 'eight/cameras/camera', 'gl-matrix'], function(require, exports, camera, glMatrix) {
+define('davinci-eight/cameras/perspectiveCamera',["require", "exports", 'davinci-eight/cameras/camera', 'gl-matrix'], function (require, exports, camera, glMatrix) {
     var perspectiveCamera = function (fov, aspect, near, far) {
-        if (typeof fov === "undefined") { fov = 50; }
-        if (typeof aspect === "undefined") { aspect = 1; }
-        if (typeof near === "undefined") { near = 0.1; }
-        if (typeof far === "undefined") { far = 2000; }
+        if (fov === void 0) { fov = 50; }
+        if (aspect === void 0) { aspect = 1; }
+        if (near === void 0) { near = 0.1; }
+        if (far === void 0) { far = 2000; }
         var base = camera();
-
         function updateProjectionMatrix() {
             glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
         }
-
         var that = {
             // Delegate to the base camera.
             get position() {
@@ -5600,21 +5559,16 @@ define('eight/cameras/perspectiveCamera',["require", "exports", 'eight/cameras/c
                 return base.projectionMatrix;
             }
         };
-
         return that;
     };
-
-    
     return perspectiveCamera;
 });
 
-define('eight/scenes/scene',["require", "exports", 'eight/core/object3D'], function(require, exports, object3D) {
+define('davinci-eight/scenes/scene',["require", "exports", 'davinci-eight/core/object3D'], function (require, exports, object3D) {
     var scene = function () {
         var kids = [];
-
         // TODO: What do we want out of the base object3D?
         var base = object3D();
-
         var that = {
             get children() {
                 return kids;
@@ -5625,8 +5579,8 @@ define('eight/scenes/scene',["require", "exports", 'eight/core/object3D'], funct
                 }
             },
             /**
-            * Does this work?
-            */
+             * Does this work?
+             */
             onContextLoss: function () {
                 for (var i = 0, length = kids.length; i < length; i++) {
                     kids[i].onContextLoss();
@@ -5641,20 +5595,15 @@ define('eight/scenes/scene',["require", "exports", 'eight/core/object3D'], funct
                 kids.push(child);
             }
         };
-
         return that;
     };
-
-    
     return scene;
 });
 
-define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], function(require, exports, core) {
+define('davinci-eight/renderers/webGLRenderer',["require", "exports", 'davinci-eight/core'], function (require, exports, core) {
     var webGLRenderer = function (parameters) {
         console.log('davinci-eight', core.VERSION);
-
         parameters = parameters || {};
-
         var canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement('canvas');
         var alpha = parameters.alpha !== undefined ? parameters.alpha : false;
         var depth = parameters.depth !== undefined ? parameters.depth : true;
@@ -5662,17 +5611,14 @@ define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], fun
         var antialias = parameters.antialias !== undefined ? parameters.antialias : false;
         var premultipliedAlpha = parameters.premultipliedAlpha !== undefined ? parameters.premultipliedAlpha : true;
         var preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
-
         var gl;
-
         var setViewport = function (x, y, width, height) {
             if (gl) {
                 gl.viewport(x, y, width, height);
             }
         };
-
         function initGL() {
-            try  {
+            try {
                 var attributes = {
                     'alpha': alpha,
                     'depth': depth,
@@ -5681,17 +5627,15 @@ define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], fun
                     'premultipliedAlpha': premultipliedAlpha,
                     'preserveDrawingBuffer': preserveDrawingBuffer
                 };
-
                 gl = canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes);
-
                 if (gl === null) {
                     throw 'Error creating WebGL context.';
                 }
-            } catch (e) {
+            }
+            catch (e) {
                 console.error(e);
             }
         }
-
         var that = {
             get canvas() {
                 return canvas;
@@ -5714,7 +5658,6 @@ define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], fun
             render: function (scene, camera) {
                 if (gl) {
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
                     var children = scene.children;
                     for (var i = 0, length = children.length; i < length; i++) {
                         children[i].draw(camera.projectionMatrix);
@@ -5729,37 +5672,28 @@ define('eight/renderers/webGLRenderer',["require", "exports", 'eight/core'], fun
             setSize: function (width, height, updateStyle) {
                 canvas.width = width; // * devicePixelRatio;
                 canvas.height = height; // * devicePixelRatio;
-
                 if (updateStyle !== false) {
                     canvas.style.width = width + 'px';
                     canvas.style.height = height + 'px';
                 }
-
                 setViewport(0, 0, width, height);
             }
         };
-
         initGL();
-
         return that;
     };
-
-    
     return webGLRenderer;
 });
 
-define('eight/materials/meshBasicMaterial',["require", "exports", 'eight/core/material'], function(require, exports, material) {
+define('davinci-eight/materials/meshBasicMaterial',["require", "exports", 'davinci-eight/core/material'], function (require, exports, material) {
     var meshBasicMaterial = function (spec) {
         var api = material(spec);
-
         return api;
     };
-
-    
     return meshBasicMaterial;
 });
 
-define('eight/shaders/shader-vs',["require", "exports"], function(require, exports) {
+define('davinci-eight/shaders/shader-vs',["require", "exports"], function (require, exports) {
     var source = [
         "attribute vec3 aVertexPosition;",
         "attribute vec3 aVertexColor;",
@@ -5781,11 +5715,10 @@ define('eight/shaders/shader-vs',["require", "exports"], function(require, expor
         "vLight = ambientLight + (diffuseLightAmount * diffuseLightColor);",
         "}"
     ].join('\n');
-    
     return source;
 });
 
-define('eight/shaders/shader-fs',["require", "exports"], function(require, exports) {
+define('davinci-eight/shaders/shader-fs',["require", "exports"], function (require, exports) {
     var source = [
         "varying highp vec4 vColor;",
         "varying highp vec3 vLight;",
@@ -5794,11 +5727,10 @@ define('eight/shaders/shader-fs',["require", "exports"], function(require, expor
         "gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);",
         "}"
     ].join('\n');
-    
     return source;
 });
 
-define('eight/objects/mesh',["require", "exports", 'eight/core/geometry', 'eight/materials/meshBasicMaterial', 'eight/core/object3D', 'eight/shaders/shader-vs', 'eight/shaders/shader-fs', 'gl-matrix'], function(require, exports, geometryConstructor, meshBasicMaterial, object3D, vs_source, fs_source, glMatrix) {
+define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/geometry', 'davinci-eight/materials/meshBasicMaterial', 'davinci-eight/core/object3D', 'davinci-eight/shaders/shader-vs', 'davinci-eight/shaders/shader-fs', 'gl-matrix'], function (require, exports, geometryConstructor, meshBasicMaterial, object3D, vs_source, fs_source, glMatrix) {
     var mesh = function (geometry, material) {
         var gl = null;
         var _vs = null;
@@ -5814,9 +5746,7 @@ define('eight/objects/mesh',["require", "exports", 'eight/core/geometry', 'eight
         var _normalMatrix = glMatrix.mat3.create();
         geometry = geometry || geometryConstructor();
         material = material || meshBasicMaterial({ 'color': Math.random() * 0xffffff });
-
         var base = object3D();
-
         var that = {
             get position() {
                 return base.position;
@@ -5832,47 +5762,39 @@ define('eight/objects/mesh',["require", "exports", 'eight/core/geometry', 'eight
             },
             projectionMatrix: glMatrix.mat4.create(),
             onContextGain: function (context) {
+                var infoLog;
                 gl = context;
-
                 _vs = gl.createShader(gl.VERTEX_SHADER);
                 gl.shaderSource(_vs, vs_source);
                 gl.compileShader(_vs);
                 if (!gl.getShaderParameter(_vs, gl.COMPILE_STATUS) && !gl.isContextLost()) {
-                    var infoLog = gl.getShaderInfoLog(_vs);
-                    alert("Error compiling vertex shader:\n" + infoLog);
+                    infoLog = gl.getShaderInfoLog(_vs);
+                    window.alert("Error compiling vertex shader:\n" + infoLog);
                 }
-
                 _fs = gl.createShader(gl.FRAGMENT_SHADER);
                 gl.shaderSource(_fs, fs_source);
                 gl.compileShader(_fs);
                 if (!gl.getShaderParameter(_fs, gl.COMPILE_STATUS) && !gl.isContextLost()) {
-                    var infoLog = gl.getShaderInfoLog(_fs);
-                    alert("Error compiling fragment shader:\n" + infoLog);
+                    infoLog = gl.getShaderInfoLog(_fs);
+                    window.alert("Error compiling fragment shader:\n" + infoLog);
                 }
-
                 _program = gl.createProgram();
-
                 gl.attachShader(_program, _vs);
                 gl.attachShader(_program, _fs);
                 gl.linkProgram(_program);
-
                 if (!gl.getProgramParameter(_program, gl.LINK_STATUS) && !gl.isContextLost()) {
-                    var infoLog = gl.getProgramInfoLog(_program);
-                    alert("Error linking program:\n" + infoLog);
+                    infoLog = gl.getProgramInfoLog(_program);
+                    window.alert("Error linking program:\n" + infoLog);
                 }
-
                 _vbo = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, _vbo);
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry.vertices), gl.STATIC_DRAW);
-
                 _vbn = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, _vbn);
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry.normals), gl.STATIC_DRAW);
-
                 _vbc = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
                 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry.colors), gl.STATIC_DRAW);
-
                 _mvMatrixUniform = gl.getUniformLocation(_program, "uMVMatrix");
                 _normalMatrixUniform = gl.getUniformLocation(_program, "uNormalMatrix");
                 _pMatrixUniform = gl.getUniformLocation(_program, "uPMatrix");
@@ -5896,70 +5818,56 @@ define('eight/objects/mesh',["require", "exports", 'eight/core/geometry', 'eight
                 // The following performs the rotation first followed by the translation.
                 var v = glMatrix.vec3.fromValues(that.position.x, that.position.y, that.position.z);
                 var q = glMatrix.quat.fromValues(-that.attitude.yz, -that.attitude.zx, -that.attitude.xy, that.attitude.w);
-
                 /*
-                mat4.identity(mvMatrix);
-                mat4.translate(mvMatrix, mvMatrix, v);
-                var quatMat = mat4.create();
-                mat4.fromQuat(quatMat, q);
-                mat4.multiply(mvMatrix, mvMatrix, quatMat);
+                      mat4.identity(mvMatrix);
+                      mat4.translate(mvMatrix, mvMatrix, v);
+                      var quatMat = mat4.create();
+                      mat4.fromQuat(quatMat, q);
+                      mat4.multiply(mvMatrix, mvMatrix, quatMat);
                 */
                 glMatrix.mat4.fromRotationTranslation(_mvMatrix, q, v);
-
                 // TODO: Should we be computing this inside the shader?
                 glMatrix.mat3.normalFromMat4(_normalMatrix, _mvMatrix);
             },
             draw: function (projectionMatrix) {
                 if (gl) {
                     gl.useProgram(_program);
-
                     that.updateMatrix();
-
                     gl.uniformMatrix4fv(_mvMatrixUniform, false, _mvMatrix);
                     gl.uniformMatrix3fv(_normalMatrixUniform, false, _normalMatrix);
                     gl.uniformMatrix4fv(_pMatrixUniform, false, projectionMatrix);
-
                     var vertexPositionAttribute = gl.getAttribLocation(_program, "aVertexPosition");
                     gl.enableVertexAttribArray(vertexPositionAttribute);
-
                     gl.bindBuffer(gl.ARRAY_BUFFER, _vbo);
                     gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
-
                     var vertexNormalAttribute = gl.getAttribLocation(_program, "aVertexNormal");
                     gl.enableVertexAttribArray(vertexNormalAttribute);
                     gl.bindBuffer(gl.ARRAY_BUFFER, _vbn);
                     gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
-
                     var vertexColorAttribute = gl.getAttribLocation(_program, "aVertexColor");
                     gl.enableVertexAttribArray(vertexColorAttribute);
                     gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
                     gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
-
                     gl.drawArrays(geometry.primitiveMode(gl), 0, geometry.primitives.length * 3);
                 }
             }
         };
-
         return that;
     };
-
-    
     return mesh;
 });
 
-define('eight/utils/webGLContextMonitor',["require", "exports"], function(require, exports) {
+define('davinci-eight/utils/webGLContextMonitor',["require", "exports"], function (require, exports) {
     var webGLContextMonitor = function (canvas, contextLoss, contextGain) {
         var webGLContextLost = function (event) {
             event.preventDefault();
             contextLoss();
         };
-
         var webGLContextRestored = function (event) {
             event.preventDefault();
             var gl = canvas.getContext('webgl');
             contextGain(gl);
         };
-
         var that = {
             start: function () {
                 canvas.addEventListener('webglcontextlost', webGLContextLost, false);
@@ -5970,27 +5878,22 @@ define('eight/utils/webGLContextMonitor',["require", "exports"], function(requir
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
             }
         };
-
         return that;
     };
-
-    
     return webGLContextMonitor;
 });
 
-define('eight/utils/workbench3D',["require", "exports"], function(require, exports) {
+define('davinci-eight/utils/workbench3D',["require", "exports"], function (require, exports) {
     /**
-    * @const
-    * @type {string}
-    */
+     * @const
+     * @type {string}
+     */
     var EVENT_NAME_RESIZE = 'resize';
-
     /**
-    * @const
-    * @type {string}
-    */
+     * @const
+     * @type {string}
+     */
     var TAG_NAME_CANVAS = 'canvas';
-
     function removeElementsByTagName(doc, tagname) {
         var elements = doc.getElementsByTagName(tagname);
         for (var i = elements.length - 1; i >= 0; i--) {
@@ -5998,26 +5901,22 @@ define('eight/utils/workbench3D',["require", "exports"], function(require, expor
             e.parentNode.removeChild(e);
         }
     }
-
     /**
-    * Creates and returns a workbench3D thing.
-    * @param canvas An HTML canvas element to be inserted.
-    */
+     * Creates and returns a workbench3D thing.
+     * @param canvas An HTML canvas element to be inserted.
+     */
     var workbench3D = function (canvas, renderer, camera, win) {
-        if (typeof win === "undefined") { win = window; }
+        if (win === void 0) { win = window; }
         var doc = win.document;
-
         function syncToWindow() {
             var width = win.innerWidth;
             var height = win.innerHeight;
             renderer.setSize(width, height);
             camera.aspect = width / height;
         }
-
         var onWindowResize = function (event) {
             syncToWindow();
         };
-
         var that = {
             setUp: function () {
                 doc.body.insertBefore(canvas, doc.body.firstChild);
@@ -6029,15 +5928,12 @@ define('eight/utils/workbench3D',["require", "exports"], function(require, expor
                 removeElementsByTagName(doc, TAG_NAME_CANVAS);
             }
         };
-
         return that;
     };
-
-    
     return workbench3D;
 });
 
-define('eight/utils/windowAnimationRunner',["require", "exports"], function(require, exports) {
+define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], function (require, exports) {
     var windowAnimationRunner = function (tick, terminate, setUp, tearDown, win) {
         win = win || window;
         var escKeyPressed = false;
@@ -6048,49 +5944,50 @@ define('eight/utils/windowAnimationRunner',["require", "exports"], function(requ
         var MILLIS_PER_SECOND = 1000;
         var requestID = null;
         var exception = null;
-
         var animate = function (timestamp) {
             if (startTime) {
                 elapsed = timestamp - startTime;
-            } else {
+            }
+            else {
                 startTime = timestamp;
                 elapsed = 0;
             }
-
             if (escKeyPressed || terminate(elapsed / MILLIS_PER_SECOND)) {
                 escKeyPressed = false;
-
                 win.cancelAnimationFrame(requestID);
                 win.document.removeEventListener('keydown', onDocumentKeyDown, false);
-                try  {
+                try {
                     tearDown(exception);
-                } catch (e) {
+                }
+                catch (e) {
                     console.log(e);
                 }
-            } else {
+            }
+            else {
                 requestID = win.requestAnimationFrame(animate);
-                try  {
+                try {
                     tick(elapsed / MILLIS_PER_SECOND);
-                } catch (e) {
+                }
+                catch (e) {
                     exception = e;
                     escKeyPressed = true;
                 }
             }
         };
-
         var onDocumentKeyDown = function (event) {
-            if (event.keyCode == 27) {
+            if (event.keyCode === 27) {
                 escKeyPressed = true;
                 event.preventDefault();
-            } else if (event.keyCode == 19) {
+            }
+            else if (event.keyCode === 19) {
                 pauseKeyPressed = true;
                 event.preventDefault();
-            } else if (event.keyCode == 13) {
+            }
+            else if (event.keyCode === 13) {
                 enterKeyPressed = true;
                 event.preventDefault();
             }
         };
-
         var that = {
             start: function () {
                 setUp();
@@ -6101,15 +5998,12 @@ define('eight/utils/windowAnimationRunner',["require", "exports"], function(requ
                 escKeyPressed = true;
             }
         };
-
         return that;
     };
-
-    
     return windowAnimationRunner;
 });
 
-define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometry', 'eight/math/e3ga/vectorE3'], function(require, exports, geometry, vectorE3) {
+define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-eight/core/geometry', 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, geometry, vectorE3) {
     var vertexList = [
         vectorE3(-0.5, -0.5, +0.5),
         vectorE3(+0.5, -0.5, +0.5),
@@ -6120,7 +6014,6 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
         vectorE3(+0.5, +0.5, -0.5),
         vectorE3(-0.5, +0.5, -0.5)
     ];
-
     var triangles = [
         [0, 1, 2],
         [0, 2, 3],
@@ -6135,10 +6028,8 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
         [0, 5, 1],
         [0, 4, 5]
     ];
-
     var boxGeometry = function (spec) {
         var base = geometry(spec);
-
         var api = {
             primitives: triangles,
             vertices: [],
@@ -6146,27 +6037,21 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
             colors: [],
             primitiveMode: base.primitiveMode
         };
-
         for (var t = 0; t < triangles.length; t++) {
             var triangle = triangles[t];
-
             // Normals will be the same for each vertex of a triangle.
             var v0 = vertexList[triangle[0]];
             var v1 = vertexList[triangle[1]];
             var v2 = vertexList[triangle[2]];
-
             var perp = v1.sub(v0).cross(v2.sub(v0));
             var normal = perp.div(perp.norm());
-
             for (var j = 0; j < 3; j++) {
                 api.vertices.push(vertexList[triangle[j]].x);
                 api.vertices.push(vertexList[triangle[j]].y);
                 api.vertices.push(vertexList[triangle[j]].z);
-
                 api.normals.push(normal.x);
                 api.normals.push(normal.y);
                 api.normals.push(normal.z);
-
                 api.colors.push(0.0);
                 api.colors.push(0.0);
                 api.colors.push(1.0);
@@ -6174,20 +6059,18 @@ define('eight/geometries/boxGeometry',["require", "exports", 'eight/core/geometr
         }
         return api;
     };
-
-    
     return boxGeometry;
 });
 
-define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geometry', 'eight/math/e3ga/vectorE3'], function(require, exports, geometry, vectorE3) {
+define('davinci-eight/geometries/prismGeometry',["require", "exports", 'davinci-eight/core/geometry', 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, geometry, vectorE3) {
     // The numbering of the front face, seen from the front is
     //   5
     //  3 4
-    // 0 1 2
+    // 0 1 2 
     // The numbering of the back face, seen from the front is
     //   B
     //  9 A
-    // 6 7 8
+    // 6 7 8 
     // There are 12 vertices in total.
     var vertexList = [
         vectorE3(-1.0, 0.0, +0.5),
@@ -6203,7 +6086,6 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         vectorE3(0.5, 1.0, -0.5),
         vectorE3(0.0, 2.0, -0.5)
     ];
-
     // I'm not sure why the left and right side have 4 faces, but the botton only 2.
     // Symmetry would suggest making them the same.
     // There are 18 faces in total.
@@ -6227,13 +6109,11 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         [0, 6, 8],
         [0, 8, 2]
     ];
-
     /**
-    * Constructs and returns a Prism geometry object.
-    */
+     * Constructs and returns a Prism geometry object.
+     */
     var prismGeometry = function (spec) {
         var base = geometry(spec);
-
         var api = {
             primitives: triangles,
             vertices: [],
@@ -6241,27 +6121,21 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
             colors: [],
             primitiveMode: base.primitiveMode
         };
-
         for (var t = 0; t < triangles.length; t++) {
             var triangle = triangles[t];
-
             // Normals will be the same for each vertex of a triangle.
             var v0 = vertexList[triangle[0]];
             var v1 = vertexList[triangle[1]];
             var v2 = vertexList[triangle[2]];
-
             var perp = v1.sub(v0).cross(v2.sub(v0));
             var normal = perp.div(perp.norm());
-
             for (var j = 0; j < 3; j++) {
                 api.vertices.push(vertexList[triangle[j]].x);
                 api.vertices.push(vertexList[triangle[j]].y);
                 api.vertices.push(vertexList[triangle[j]].z);
-
                 api.normals.push(normal.x);
                 api.normals.push(normal.y);
                 api.normals.push(normal.z);
-
                 api.colors.push(1.0);
                 api.colors.push(0.0);
                 api.colors.push(0.0);
@@ -6269,23 +6143,18 @@ define('eight/geometries/prismGeometry',["require", "exports", 'eight/core/geome
         }
         return api;
     };
-
-    
     return prismGeometry;
 });
 
-define('eight/materials/meshNormalMaterial',["require", "exports", 'eight/core/material'], function(require, exports, material) {
+define('davinci-eight/materials/meshNormalMaterial',["require", "exports", 'davinci-eight/core/material'], function (require, exports, material) {
     var meshNormalMaterial = function (spec) {
         var api = material(spec);
-
         return api;
     };
-
-    
     return meshNormalMaterial;
 });
 
-define('eight',["require", "exports", 'eight/core', 'eight/core/geometry', 'eight/core/material', 'eight/math/e3ga/Euclidean3', 'eight/math/e3ga/scalarE3', 'eight/math/e3ga/vectorE3', 'eight/math/e3ga/bivectorE3', 'eight/core/object3D', 'eight/cameras/perspectiveCamera', 'eight/scenes/scene', 'eight/renderers/webGLRenderer', 'eight/objects/mesh', 'eight/utils/webGLContextMonitor', 'eight/utils/workbench3D', 'eight/utils/windowAnimationRunner', 'eight/geometries/boxGeometry', 'eight/geometries/prismGeometry', 'eight/materials/meshBasicMaterial', 'eight/materials/meshNormalMaterial'], function(require, exports, core, geometry, material, Euclidean3, scalarE3, vectorE3, bivectorE3, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, prismGeometry, meshBasicMaterial, meshNormalMaterial) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/geometry', 'davinci-eight/core/material', 'davinci-blade/Euclidean3', 'davinci-eight/math/e3ga/scalarE3', 'davinci-eight/math/e3ga/vectorE3', 'davinci-eight/math/e3ga/bivectorE3', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/boxGeometry', 'davinci-eight/geometries/prismGeometry', 'davinci-eight/materials/meshBasicMaterial', 'davinci-eight/materials/meshNormalMaterial'], function (require, exports, core, geometry, material, Euclidean3, scalarE3, vectorE3, bivectorE3, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, prismGeometry, meshBasicMaterial, meshNormalMaterial) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -6302,19 +6171,18 @@ define('eight',["require", "exports", 'eight/core', 'eight/core/geometry', 'eigh
         mesh: mesh,
         geometry: geometry,
         /**
-        * Constructs and returns a box geometry.
-        */
+         * Constructs and returns a box geometry.
+         */
         box: boxGeometry,
         prism: prismGeometry,
         material: material,
         meshBasicMaterial: meshBasicMaterial,
         meshNormalMaterial: meshNormalMaterial
     };
-    
     return eight;
 });
 
-  var library = require('eight');
+  var library = require('davinci-eight');
   if(typeof module !== 'undefined' && module.exports) {
     module.exports = library;
   } else if(globalDefine) {

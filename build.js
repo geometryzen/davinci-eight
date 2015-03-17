@@ -3,7 +3,7 @@
 requirejs.config({
   // all modules loaded are relative to this path
   // e.g. require(["abc/core"]) would grab /src/abc/core.js
-  baseUrl: "./src",
+  baseUrl: "./dist",
 
   // specify custom module name paths
   paths: {
@@ -19,7 +19,7 @@ requirejs.config({
 
   // files to include along with almond.  only eight is defined, as
   // it pulls in the rest of the dependencies automatically.
-  include: ["eight"],
+  include: ["davinci-eight"],
 
   // code to wrap around the start / end of the resulting build file
   // the global variable used to expose the API is defined here
@@ -28,7 +28,7 @@ requirejs.config({
               // check for amd loader on global namespace
            "  var globalDefine = global.define;\n",
 
-    end:   "  var library = require('eight');\n"+
+    end:   "  var library = require('davinci-eight');\n"+
            "  if(typeof module !== 'undefined' && module.exports) {\n"+
                 // export library for node
            "    module.exports = library;\n"+

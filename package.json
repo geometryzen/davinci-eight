@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "0.9.7",
+  "version": "0.9.9",
   "description": "TypeScript 3D library using Geometric Algebra",
   "author":
   {
@@ -23,15 +23,31 @@
       "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
     }
   ],
-  "dependencies":
-  {
+  "scripts": {
+    "test": "grunt; grunt test"
+  },
+  "dependencies": {
   },
   "devDependencies": {
-    "grunt": "~0.3.17",
-    "grunt-contrib-requirejs": "~0.3.2",
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "grunt-complexity": "0.3.0",
+    "grunt-contrib-clean": "0.6.0",
+    "grunt-contrib-connect": "0.9.0",
+    "grunt-contrib-copy": "0.8.0",
+    "grunt-contrib-jasmine": "0.8.2",
+    "grunt-contrib-jshint": "0.11.0",
+    "grunt-contrib-requirejs": "0.4.4",
+    "grunt-contrib-uglify": "0.8.0",
+    "grunt-contrib-yuidoc": "0.7.0",
+    "grunt-exec": "0.4.6",
     "grunt-jasmine-task": "*",
+    "grunt-template-jasmine-requirejs": "0.2.2",
+    "grunt-typescript": "0.6.1",
+    "q": "1.2.0",
     "requirejs": "~2.1.0",
-    "servedir": "*"
+    "servedir": "*",
+    "typescript": "^1.4.1"
   },
   "keywords": []
 }

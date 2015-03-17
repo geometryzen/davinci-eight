@@ -1,4 +1,4 @@
-define(["require", "exports", 'src/eight'], function(require, exports, e8) {
+define(["require", "exports", 'davinci-eight'], function(require, exports, e8) {
     // Strategic alias names to reduce clutter.
     var scalar = e8.scalarE3;
     var vector = e8.vectorE3;

@@ -1,0 +1,234 @@
+{
+    "project": {
+        "name": "davinci-eight",
+        "description": "TypeScript 3D library using Geometric Algebra",
+        "version": "0.9.9",
+        "url": "",
+        "logo": "../assets/logo.png"
+    },
+    "files": {
+        "amd/davinci-blade/Euclidean3.js": {
+            "name": "amd/davinci-blade/Euclidean3.js",
+            "modules": {},
+            "classes": {
+                "Euclidean3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/cameras/camera.js": {
+            "name": "amd/davinci-eight/cameras/camera.js",
+            "modules": {},
+            "classes": {
+                "camera": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/geometries/prismGeometry.js": {
+            "name": "amd/davinci-eight/geometries/prismGeometry.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/math/e3ga/vectorE3.js": {
+            "name": "amd/davinci-eight/math/e3ga/vectorE3.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/scenes/scene.js": {
+            "name": "amd/davinci-eight/scenes/scene.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/utils/workbench3D.js": {
+            "name": "amd/davinci-eight/utils/workbench3D.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight.js": {
+            "name": "amd/davinci-eight.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Euclidean3": {
+            "name": "Euclidean3",
+            "shortname": "Euclidean3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "amd/davinci-blade/Euclidean3.js",
+            "line": 542,
+            "description": "The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "w",
+                    "description": "The scalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The vector component of the multivector in the x-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The vector component of the multivector in the y-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "The vector component of the multivector in the z-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xy",
+                    "description": "The bivector component of the multivector in the xy-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "yz",
+                    "description": "The bivector component of the multivector in the yz-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "zx",
+                    "description": "The bivector component of the multivector in the zx-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xyz",
+                    "description": "The pseudoscalar part of the multivector.",
+                    "type": "Number"
+                }
+            ]
+        },
+        "camera": {
+            "name": "camera",
+            "shortname": "camera",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "amd/davinci-eight/cameras/camera.js",
+            "line": 2
+        }
+    },
+    "classitems": [
+        {
+            "file": "amd/davinci-blade/Euclidean3.js",
+            "line": 162,
+            "class": "Euclidean3"
+        },
+        {
+            "file": "amd/davinci-eight/geometries/prismGeometry.js",
+            "line": 48,
+            "description": "Constructs and returns a Prism geometry object.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/math/e3ga/vectorE3.js",
+            "line": 2,
+            "description": "Constructs and returns a Euclidean 3D vector from its cartesian components.",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The x component of the vector."
+                },
+                {
+                    "name": "y",
+                    "description": "The y component of the vector."
+                },
+                {
+                    "name": "z",
+                    "description": "The z component of the vector."
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/scenes/scene.js",
+            "line": 15,
+            "description": "Does this work?",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/utils/workbench3D.js",
+            "line": 2,
+            "itemtype": "property",
+            "name": "",
+            "final": "",
+            "type": "{string}",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/utils/workbench3D.js",
+            "line": 7,
+            "itemtype": "property",
+            "name": "",
+            "final": "",
+            "type": "{string}",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/utils/workbench3D.js",
+            "line": 19,
+            "description": "Creates and returns a workbench3D thing.",
+            "params": [
+                {
+                    "name": "canvas",
+                    "description": "An HTML canvas element to be inserted."
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight.js",
+            "line": 17,
+            "description": "Constructs and returns a box geometry.",
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-blade/Euclidean3.js:162"
+        },
+        {
+            "message": "Missing item type\nConstructs and returns a Prism geometry object.",
+            "line": " amd/davinci-eight/geometries/prismGeometry.js:48"
+        },
+        {
+            "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
+            "line": " amd/davinci-eight/math/e3ga/vectorE3.js:2"
+        },
+        {
+            "message": "Missing item type\nDoes this work?",
+            "line": " amd/davinci-eight/scenes/scene.js:15"
+        },
+        {
+            "message": "Missing item type\nCreates and returns a workbench3D thing.",
+            "line": " amd/davinci-eight/utils/workbench3D.js:19"
+        },
+        {
+            "message": "Missing item type\nConstructs and returns a box geometry.",
+            "line": " amd/davinci-eight.js:17"
+        }
+    ]
+}
