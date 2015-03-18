@@ -1,6 +1,8 @@
 //
 // gl-matrix.d.ts
 //
+// This (external) module of declarations was manually constructed in order to use the gl-matrix lirary.
+//
 
 declare module x {
 }

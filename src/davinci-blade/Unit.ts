@@ -2,6 +2,127 @@ import Field = require('davinci-blade/Field');
 import Dimensions = require('davinci-blade/Dimensions');
 import Rational = require('davinci-blade/Rational');
 
+var dumbString = function(scale: number, dimensions: Dimensions, labels: string[]) {
+    var operatorStr: string;
+    var scaleString: string;
+    var unitsString: string;
+    var stringify = function(rational: Rational, label: string): string {
+        if (rational.numer === 0) {
+            return null;
+        } else if (rational.denom === 1) {
+            if (rational.numer === 1) {
+                return "" + label;
+            } else {
+                return "" + label + " ** " + rational.numer;
+            }
+        }
+        return "" + label + " ** " + rational;
+    };
+
+    operatorStr = scale === 1 || dimensions.isZero() ? "" : " ";
+    scaleString = scale === 1 ? "" : "" + scale;
+    unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function(x) {
+        return typeof x === 'string';
+    }).join(" ");
+    return "" + scaleString + operatorStr + unitsString;
+};
+
+var unitString = function(scale: number, dimensions: Dimensions, labels: string[]): string {
+    var patterns =
+    [
+      [-1,1,-3,1, 2,1, 2,1, 0,1, 0,1, 0,1],
+      [-1,1,-2,1, 1,1, 2,1, 0,1, 0,1, 0,1],
+      [-1,1,-2,1, 2,1, 2,1, 0,1, 0,1, 0,1],
+      [-1,1, 3,1,-2,1, 0,1, 0,1, 0,1, 0,1],
+      [ 0,1, 0,1,-1,1, 0,1, 0,1, 0,1, 0,1],
+      [ 0,1, 0,1,-1,1, 1,1, 0,1, 0,1, 0,1],
+      [ 0,1, 1,1,-2,1, 0,1, 0,1, 0,1, 0,1],
+      [ 0,1, 1,1,-1,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 1,1,-1,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1,-1,1,-2,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1,-1,1,-1,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 0,1,-3,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 0,1,-2,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 0,1,-1,1,-1,1, 0,1, 0,1, 0,1],
+      [ 1,1, 1,1,-3,1, 0,1,-1,1, 0,1, 0,1],
+      [ 1,1, 1,1,-2,1,-1,1, 0,1, 0,1, 0,1],
+      [ 1,1, 1,1,-2,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 1,1, 0,1,-2,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1,-2,1, 0,1,-1,1, 0,1, 0,1],
+      [ 0,1, 2,1,-2,1, 0,1,-1,1, 0,1, 0,1],
+      [ 1,1, 2,1,-2,1, 0,1,-1,1,-1,1, 0,1],
+      [ 1,1, 2,1,-2,1, 0,1, 0,1,-1,1, 0,1],
+      [ 1,1, 2,1,-2,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1,-1,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1,-3,1, 0,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1,-2,1,-1,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1,-1,1,-2,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1, 0,1,-2,1, 0,1, 0,1, 0,1],
+      [ 1,1, 2,1,-1,1,-1,1, 0,1, 0,1, 0,1]
+    ];
+    var decodes =
+    [
+      ["F/m"],
+      ["S"],
+      ["F"],
+      ["N·m ** 2/kg ** 2"],
+      ["Hz"],
+      ["A"],
+      ["m/s ** 2"],
+      ["m/s"],
+      ["kg·m/s"],
+      ["Pa"],
+      ["Pa·s"],
+      ["W/m ** 2"],
+      ["N/m"],
+      ["T"],
+      ["W/(m·K)"],
+      ["V/m"],
+      ["N"],
+      ["H/m"],
+      ["J/K"],
+      ["J/(kg·K)"],
+      ["J/(mol·K)"],
+      ["J/mol"],
+      ["J"],
+      ["J·s"],
+      ["W"],
+      ["V"],
+      ["Ω"],
+      ["H"],
+      ["Wb"]
+    ];
+    var M           = dimensions.M;
+    var L           = dimensions.L;
+    var T           = dimensions.T;
+    var Q           = dimensions.Q;
+    var temperature = dimensions.temperature;
+    var amount      = dimensions.amount;
+    var intensity   = dimensions.intensity;
+    for (var i = 0, len = patterns.length; i < len; i++)
+    {
+        var pattern = patterns[i];
+        if (M.numer           === pattern[0]  && M.denom           === pattern[1]  &&
+            L.numer           === pattern[2]  && L.denom           === pattern[3]  &&
+            T.numer           === pattern[4]  && T.denom           === pattern[5]  &&
+            Q.numer           === pattern[6]  && Q.denom           === pattern[7]  &&
+            temperature.numer === pattern[8]  && temperature.denom === pattern[9]  &&
+            amount.numer      === pattern[10] && amount.denom      === pattern[11] &&
+            intensity.numer   === pattern[12] && intensity.denom   === pattern[13])
+        {
+            if (scale !== 1)
+            {
+               return scale + " * " + decodes[i][0];
+            }
+            else
+            {
+              return decodes[i][0];
+            }
+        }
+    }
+    return dumbString(scale, dimensions, labels);
+};
+
 class Unit implements Field<Unit> {
     /**
      * The Unit class represents the units for a measure.
@@ -81,28 +202,7 @@ class Unit implements Field<Unit> {
     }
 
     toString(): string {
-        var operatorStr: string;
-        var scaleString: string;
-        var unitsString: string;
-        var stringify = function(rational: Rational, label: string): string {
-            if (rational.numer === 0) {
-                return null;
-            } else if (rational.denom === 1) {
-                if (rational.numer === 1) {
-                    return "" + label;
-                } else {
-                    return "" + label + " ** " + rational.numer;
-                }
-            }
-            return "" + label + " ** " + rational;
-        };
-
-        operatorStr = this.scale === 1 || this.dimensions.isZero() ? "" : " ";
-        scaleString = this.scale === 1 ? "" : "" + this.scale;
-        unitsString = [stringify(this.dimensions.M, this.labels[0]), stringify(this.dimensions.L, this.labels[1]), stringify(this.dimensions.T, this.labels[2]), stringify(this.dimensions.Q, this.labels[3]), stringify(this.dimensions.temperature, this.labels[4]), stringify(this.dimensions.amount, this.labels[5]), stringify(this.dimensions.intensity, this.labels[6])].filter(function(x) {
-            return typeof x === 'string';
-        }).join(" ");
-        return "" + scaleString + operatorStr + unitsString;
+        return unitString(this.scale, this.dimensions, this.labels);
     }
 }
 export = Unit;

@@ -2,6 +2,8 @@
 // davinci-eight.d.ts
 //
 // This file was created manually in order to support the davinci-eight library.
+// These declarations are appropriate when using the library through the global
+// variable, 'eight'.
 //
 declare module eight
 {
