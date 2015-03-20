@@ -573,6 +573,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
         return compute(addE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
     }
 
+    __add__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.add(other);
+        }
+        else if (typeof other === 'number') {
+            return this.add(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __radd__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.add(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).add(this);
+        }
+        else {
+            return;
+        }
+    }
+
     sub(rhs: Euclidean3): Euclidean3 {
         var coord, pack;
 
@@ -583,6 +607,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
             return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz);
         };
         return compute(subE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
+    }
+
+    __sub__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.sub(other);
+        }
+        else if (typeof other === 'number') {
+            return this.sub(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rsub__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.sub(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).sub(this);
+        }
+        else {
+            return;
+        }
     }
 
     mul(rhs: any): Euclidean3 {
@@ -601,6 +649,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
         }
     }
 
+    __mul__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.mul(other);
+        }
+        else if (typeof other === 'number') {
+            return this.mul(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rmul__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.mul(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).mul(this);
+        }
+        else {
+            return;
+        }
+    }
+
     scalarMultiply(rhs: number): Euclidean3 {
         return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs);
     }
@@ -610,6 +682,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
             return new Euclidean3(this.w / rhs, this.x / rhs, this.y / rhs, this.z / rhs, this.xy / rhs, this.yz / rhs, this.zx / rhs, this.xyz / rhs);
         } else {
             return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, void 0);
+        }
+    }
+
+    __div__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.div(other);
+        }
+        else if (typeof other === 'number') {
+            return this.div(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rdiv__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.div(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).div(this);
+        }
+        else {
+            return;
         }
     }
 
@@ -625,6 +721,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
         return compute(extE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
     }
 
+    __wedge__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.wedge(other);
+        }
+        else if (typeof other === 'number') {
+            return this.wedge(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rwedge__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.wedge(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).wedge(this);
+        }
+        else {
+            return;
+        }
+    }
+
     lshift(rhs: Euclidean3): Euclidean3 {
         var coord, pack;
 
@@ -637,6 +757,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
         return compute(lcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
     }
 
+    __lshift__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.lshift(other);
+        }
+        else if (typeof other === 'number') {
+            return this.lshift(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rlshift__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.lshift(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).lshift(this);
+        }
+        else {
+            return;
+        }
+    }
+
     rshift(rhs: Euclidean3): Euclidean3 {
         var coord, pack;
 
@@ -647,6 +791,30 @@ class Euclidean3 implements Geometric<Euclidean3> {
             return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz);
         };
         return compute(rcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
+    }
+
+    __rshift__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.rshift(other);
+        }
+        else if (typeof other === 'number') {
+            return this.rshift(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rrshift__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.rshift(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).rshift(this);
+        }
+        else {
+            return;
+        }
     }
 
     grade(index: number): Euclidean3 {
