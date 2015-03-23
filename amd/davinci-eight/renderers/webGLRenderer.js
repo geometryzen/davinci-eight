@@ -77,7 +77,7 @@ define(["require", "exports", 'davinci-eight/core'], function (require, exports,
                 setViewport(0, 0, width, height);
             }
         };
-        // initGL();
+        initGL();
         return that;
     };
     return webGLRenderer;

@@ -88,7 +88,7 @@ var webGLRenderer = function(parameters?) {
         }
     };
 
-    // initGL();
+    initGL();
 
     return that;
 };
