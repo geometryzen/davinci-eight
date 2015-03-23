@@ -74,7 +74,8 @@ var webGLRenderer = function(parameters?) {
                 gl.viewport(x, y, width, height);
             }
         },
-        setSize: function(width, height, updateStyle) {
+        setSize: function(width, height, updateStyle)
+        {
             canvas.width = width;// * devicePixelRatio;
             canvas.height = height;// * devicePixelRatio;
 
@@ -87,7 +88,7 @@ var webGLRenderer = function(parameters?) {
         }
     };
 
-    initGL();
+    // initGL();
 
     return that;
 };

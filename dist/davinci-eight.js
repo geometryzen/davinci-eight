@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '0.9.13'
+        VERSION: '0.9.14'
     };
     return eight;
 });
@@ -6304,7 +6304,7 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports", 'davinci-e
                 setViewport(0, 0, width, height);
             }
         };
-        initGL();
+        // initGL();
         return that;
     };
     return webGLRenderer;

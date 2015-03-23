@@ -200,7 +200,7 @@ declare module eight
    */
   function workbench(canvas: HTMLCanvasElement, renderer: WebGLRenderer, camera: Projection, window: Window): Workbench3D;
   /**
-   * Constructs and returns a WindowAnimationRnner.
+   * Constructs and returns a WindowAnimationRunner.
    */
   function animationRunner(tick: {(time: number): void;}, terminate: {(time: number): boolean;}, setUp: {(): void;}, tearDown: {(e: Error): void;}, window: Window): WindowAnimationRunner;
   /**
