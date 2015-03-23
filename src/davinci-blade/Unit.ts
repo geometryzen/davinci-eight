@@ -1,4 +1,3 @@
-import Field = require('davinci-blade/Field');
 import Dimensions = require('davinci-blade/Dimensions');
 import Rational = require('davinci-blade/Rational');
 
@@ -123,7 +122,32 @@ var unitString = function(scale: number, dimensions: Dimensions, labels: string[
     return dumbString(scale, dimensions, labels);
 };
 
-class Unit implements Field<Unit> {
+function add(lhs: Unit, rhs: Unit): Unit
+{
+  return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+}
+
+function sub(lhs: Unit, rhs: Unit): Unit
+{
+  return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+}
+
+function mul(lhs: Unit, rhs: Unit): Unit
+{
+  return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+}
+
+function scalarMultiply(alpha: number, unit: Unit): Unit
+{
+  return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
+}
+
+function div(lhs: Unit, rhs: Unit): Unit
+{
+  return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+}
+
+class Unit {
     /**
      * The Unit class represents the units for a measure.
      *
@@ -153,55 +177,193 @@ class Unit implements Field<Unit> {
         }
     }
 
-    add(rhs: Unit): Unit {
-        if (rhs instanceof Unit) {
-            return new Unit(this.scale + rhs.scale, this.dimensions.compatible(rhs.dimensions), this.labels);
-        } else {
+    add(rhs: Unit): Unit
+    {
+        if (rhs instanceof Unit)
+        {
+            return add(this, rhs);
+        }
+        else
+        {
             throw new Error("Illegal Argument for Unit.add: " + rhs);
         }
     }
 
-    sub(rhs: Unit): Unit {
-        if (rhs instanceof Unit) {
-            return new Unit(this.scale - rhs.scale, this.dimensions.compatible(rhs.dimensions), this.labels);
-        } else {
-            throw new Error("Illegal Argument for Unit.sub: " + rhs);
-        }
+    __add__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return add(this, other);
+      }
+      else
+      {
+        return;
+      }
     }
 
-    mul(rhs: any): Unit {
-        if (typeof rhs === 'number') {
-            return new Unit(this.scale * rhs, this.dimensions, this.labels);
-        } else if (rhs instanceof Unit) {
-            return new Unit(this.scale * rhs.scale, this.dimensions.mul(rhs.dimensions), this.labels);
-        } else {
-            throw new Error("Illegal Argument for mul: " + rhs);
-        }
+    __radd__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return add(other, this);
+      }
+      else
+      {
+        return;
+      }
     }
 
-    div(rhs: any): Unit {
-        if (typeof rhs === 'number') {
-            return new Unit(this.scale / rhs, this.dimensions, this.labels);
-        } else if (rhs instanceof Unit) {
-            return new Unit(this.scale / rhs.scale, this.dimensions.div(rhs.dimensions), this.labels);
-        } else {
-            throw new Error("Illegal Argument for div: " + rhs);
-        }
+    sub(rhs: Unit): Unit
+    {
+      if (rhs instanceof Unit)
+      {
+        return sub(this, rhs);
+      }
+      else
+      {
+          throw new Error("Illegal Argument for Unit.sub: " + rhs);
+      }
     }
 
-    pow(rhs: number): Unit {
-        if (typeof rhs === 'number') {
-            return new Unit(Math.pow(this.scale, rhs), this.dimensions.pow(rhs), this.labels);
-        } else {
-            throw new Error("Illegal Argument for div: " + rhs);
-        }
+    __sub__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return sub(this, other);
+      }
+      else
+      {
+        return;
+      }
     }
 
-    inverse(): Unit {
+    __rsub__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return sub(other, this);
+      }
+      else
+      {
+        return;
+      }
+    }
+
+    mul(rhs: any): Unit
+    {
+      if (typeof rhs === 'number')
+      {
+        return scalarMultiply(rhs, this);
+      }
+      else if (rhs instanceof Unit)
+      {
+        return mul(this, rhs);
+      }
+      else
+      {
+        throw new Error("Illegal Argument for mul: " + rhs);
+      }
+    }
+
+    __mul__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return mul(this, other);
+      }
+      else if (typeof other === 'number')
+      {
+        return scalarMultiply(other, this);
+      }
+      else
+      {
+        return;
+      }
+    }
+
+    __rmul__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return mul(other, this);
+      }
+      else if (typeof other === 'number')
+      {
+        return scalarMultiply(other, this);
+      }
+      else
+      {
+        return;
+      }
+    }
+
+    div(rhs: any): Unit
+    {
+      if (typeof rhs === 'number')
+      {
+        return new Unit(this.scale / rhs, this.dimensions, this.labels);
+      }
+      else if (rhs instanceof Unit)
+      {
+        return div(this, rhs);
+      }
+      else
+      {
+        throw new Error("Illegal Argument for div: " + rhs);
+      }
+    }
+
+    __div__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return div(this, other);
+      }
+      else if (typeof other === 'number')
+      {
+        return new Unit(this.scale / other, this.dimensions, this.labels);
+      }
+      else
+      {
+        return;
+      }
+    }
+
+    __rdiv__(other)
+    {
+      if (other instanceof Unit)
+      {
+        return div(other, this);
+      }
+      else if (typeof other === 'number')
+      {
+        return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+      }
+      else
+      {
+        return;
+      }
+    }
+
+    pow(rhs: number): Unit
+    {
+      if (typeof rhs === 'number')
+      {
+          return new Unit(Math.pow(this.scale, rhs), this.dimensions.pow(rhs), this.labels);
+      }
+      else
+      {
+          throw new Error("Illegal Argument for div: " + rhs);
+      }
+    }
+
+    inverse(): Unit
+    {
         return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
     }
 
-    toString(): string {
+    toString(): string
+    {
         return unitString(this.scale, this.dimensions, this.labels);
     }
 }

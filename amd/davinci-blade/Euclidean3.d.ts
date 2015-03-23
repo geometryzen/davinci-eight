@@ -1,5 +1,4 @@
-import Geometric = require('davinci-blade/Geometric');
-declare class Euclidean3 implements Geometric<Euclidean3> {
+declare class Euclidean3 {
     w: number;
     x: number;
     y: number;
@@ -33,8 +32,8 @@ declare class Euclidean3 implements Geometric<Euclidean3> {
     __sub__(other: any): Euclidean3;
     __rsub__(other: any): Euclidean3;
     mul(rhs: any): Euclidean3;
-    __mul__(other: any): Euclidean3;
-    __rmul__(other: any): Euclidean3;
+    __mul__(other: any): any;
+    __rmul__(other: any): any;
     scalarMultiply(rhs: number): Euclidean3;
     div(rhs: any): Euclidean3;
     __div__(other: any): Euclidean3;
@@ -48,6 +47,8 @@ declare class Euclidean3 implements Geometric<Euclidean3> {
     rshift(rhs: Euclidean3): Euclidean3;
     __rshift__(other: any): Euclidean3;
     __rrshift__(other: any): Euclidean3;
+    __pos__(): Euclidean3;
+    __neg__(): Euclidean3;
     grade(index: number): Euclidean3;
     dot(vector: Euclidean3): number;
     cross(vector: Euclidean3): Euclidean3;

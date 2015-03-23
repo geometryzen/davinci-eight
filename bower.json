@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "0.9.12",
+  "version": "0.9.13",
   "description": "TypeScript 3D library using Geometric Algebra",
   "author":
   {
@@ -26,7 +26,7 @@
   ],
   "dependencies":
   {
-    "davinci-blade": "~0.9.10",
+    "davinci-blade": "~0.9.24",
     "gl-matrix": "~2.2.1"
   },
   "devDependencies":

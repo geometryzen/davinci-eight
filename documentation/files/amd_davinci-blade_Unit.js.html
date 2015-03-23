@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>amd/davinci-blade/Unit.js - davinci-eight</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.9.13</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/Dimensions.html">Dimensions</a></li>
+                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
+                                <li><a href="../classes/Measure.html">Measure</a></li>
+                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/Unit.html">Unit</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: amd/davinci-blade/Unit.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
+    var dumbString = function (scale, dimensions, labels) {
+        var operatorStr;
+        var scaleString;
+        var unitsString;
+        var stringify = function (rational, label) {
+            if (rational.numer === 0) {
+                return null;
+            }
+            else if (rational.denom === 1) {
+                if (rational.numer === 1) {
+                    return &quot;&quot; + label;
+                }
+                else {
+                    return &quot;&quot; + label + &quot; ** &quot; + rational.numer;
+                }
+            }
+            return &quot;&quot; + label + &quot; ** &quot; + rational;
+        };
+        operatorStr = scale === 1 || dimensions.isZero() ? &quot;&quot; : &quot; &quot;;
+        scaleString = scale === 1 ? &quot;&quot; : &quot;&quot; + scale;
+        unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
+            return typeof x === &#x27;string&#x27;;
+        }).join(&quot; &quot;);
+        return &quot;&quot; + scaleString + operatorStr + unitsString;
+    };
+    var unitString = function (scale, dimensions, labels) {
+        var patterns = [
+            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
+        ];
+        var decodes = [
+            [&quot;F/m&quot;],
+            [&quot;S&quot;],
+            [&quot;F&quot;],
+            [&quot;N·m ** 2/kg ** 2&quot;],
+            [&quot;Hz&quot;],
+            [&quot;A&quot;],
+            [&quot;m/s ** 2&quot;],
+            [&quot;m/s&quot;],
+            [&quot;kg·m/s&quot;],
+            [&quot;Pa&quot;],
+            [&quot;Pa·s&quot;],
+            [&quot;W/m ** 2&quot;],
+            [&quot;N/m&quot;],
+            [&quot;T&quot;],
+            [&quot;W/(m·K)&quot;],
+            [&quot;V/m&quot;],
+            [&quot;N&quot;],
+            [&quot;H/m&quot;],
+            [&quot;J/K&quot;],
+            [&quot;J/(kg·K)&quot;],
+            [&quot;J/(mol·K)&quot;],
+            [&quot;J/mol&quot;],
+            [&quot;J&quot;],
+            [&quot;J·s&quot;],
+            [&quot;W&quot;],
+            [&quot;V&quot;],
+            [&quot;Ω&quot;],
+            [&quot;H&quot;],
+            [&quot;Wb&quot;]
+        ];
+        var M = dimensions.M;
+        var L = dimensions.L;
+        var T = dimensions.T;
+        var Q = dimensions.Q;
+        var temperature = dimensions.temperature;
+        var amount = dimensions.amount;
+        var intensity = dimensions.intensity;
+        for (var i = 0, len = patterns.length; i &lt; len; i++) {
+            var pattern = patterns[i];
+            if (M.numer === pattern[0] &amp;&amp; M.denom === pattern[1] &amp;&amp; L.numer === pattern[2] &amp;&amp; L.denom === pattern[3] &amp;&amp; T.numer === pattern[4] &amp;&amp; T.denom === pattern[5] &amp;&amp; Q.numer === pattern[6] &amp;&amp; Q.denom === pattern[7] &amp;&amp; temperature.numer === pattern[8] &amp;&amp; temperature.denom === pattern[9] &amp;&amp; amount.numer === pattern[10] &amp;&amp; amount.denom === pattern[11] &amp;&amp; intensity.numer === pattern[12] &amp;&amp; intensity.denom === pattern[13]) {
+                if (scale !== 1) {
+                    return scale + &quot; * &quot; + decodes[i][0];
+                }
+                else {
+                    return decodes[i][0];
+                }
+            }
+        }
+        return dumbString(scale, dimensions, labels);
+    };
+    function add(lhs, rhs) {
+        return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    }
+    function sub(lhs, rhs) {
+        return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    }
+    function mul(lhs, rhs) {
+        return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+    }
+    function scalarMultiply(alpha, unit) {
+        return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
+    }
+    function div(lhs, rhs) {
+        return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+    }
+    var Unit = (function () {
+        /**
+         * The Unit class represents the units for a measure.
+         *
+         * @class Unit
+         * @constructor
+         * @param {number} scale
+         * @param {Dimensions} dimensions
+         * @param {string[]} labels The label strings to use for each dimension.
+         */
+        function Unit(scale, dimensions, labels) {
+            this.scale = scale;
+            this.dimensions = dimensions;
+            this.labels = labels;
+            if (labels.length !== 7) {
+                throw new Error(&quot;Expecting 7 elements in the labels array.&quot;);
+            }
+            this.scale = scale;
+            this.dimensions = dimensions;
+            this.labels = labels;
+        }
+        Unit.prototype.compatible = function (rhs) {
+            var dimensions;
+            if (rhs instanceof Unit) {
+                dimensions = this.dimensions.compatible(rhs.dimensions);
+                return this;
+            }
+            else {
+                throw new Error(&quot;Illegal Argument for Unit.compatible: &quot; + rhs);
+            }
+        };
+        Unit.prototype.add = function (rhs) {
+            if (rhs instanceof Unit) {
+                return add(this, rhs);
+            }
+            else {
+                throw new Error(&quot;Illegal Argument for Unit.add: &quot; + rhs);
+            }
+        };
+        Unit.prototype.__add__ = function (other) {
+            if (other instanceof Unit) {
+                return add(this, other);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__radd__ = function (other) {
+            if (other instanceof Unit) {
+                return add(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.sub = function (rhs) {
+            if (rhs instanceof Unit) {
+                return sub(this, rhs);
+            }
+            else {
+                throw new Error(&quot;Illegal Argument for Unit.sub: &quot; + rhs);
+            }
+        };
+        Unit.prototype.__sub__ = function (other) {
+            if (other instanceof Unit) {
+                return sub(this, other);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rsub__ = function (other) {
+            if (other instanceof Unit) {
+                return sub(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.mul = function (rhs) {
+            if (typeof rhs === &#x27;number&#x27;) {
+                return scalarMultiply(rhs, this);
+            }
+            else if (rhs instanceof Unit) {
+                return mul(this, rhs);
+            }
+            else {
+                throw new Error(&quot;Illegal Argument for mul: &quot; + rhs);
+            }
+        };
+        Unit.prototype.__mul__ = function (other) {
+            if (other instanceof Unit) {
+                return mul(this, other);
+            }
+            else if (typeof other === &#x27;number&#x27;) {
+                return scalarMultiply(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rmul__ = function (other) {
+            if (other instanceof Unit) {
+                return mul(other, this);
+            }
+            else if (typeof other === &#x27;number&#x27;) {
+                return scalarMultiply(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.div = function (rhs) {
+            if (typeof rhs === &#x27;number&#x27;) {
+                return new Unit(this.scale / rhs, this.dimensions, this.labels);
+            }
+            else if (rhs instanceof Unit) {
+                return div(this, rhs);
+            }
+            else {
+                throw new Error(&quot;Illegal Argument for div: &quot; + rhs);
+            }
+        };
+        Unit.prototype.__div__ = function (other) {
+            if (other instanceof Unit) {
+                return div(this, other);
+            }
+            else if (typeof other === &#x27;number&#x27;) {
+                return new Unit(this.scale / other, this.dimensions, this.labels);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rdiv__ = function (other) {
+            if (other instanceof Unit) {
+                return div(other, this);
+            }
+            else if (typeof other === &#x27;number&#x27;) {
+                return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.pow = function (rhs) {
+            if (typeof rhs === &#x27;number&#x27;) {
+                return new Unit(Math.pow(this.scale, rhs), this.dimensions.pow(rhs), this.labels);
+            }
+            else {
+                throw new Error(&quot;Illegal Argument for div: &quot; + rhs);
+            }
+        };
+        Unit.prototype.inverse = function () {
+            return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+        };
+        Unit.prototype.toString = function () {
+            return unitString(this.scale, this.dimensions, this.labels);
+        };
+        return Unit;
+    })();
+    return Unit;
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", 'davinci-blade/Measure', 'davinci-blade/Unit'], function (require, exports, Measure, Unit) {
     var compute = function (f, a, b, coord, pack) {
         var a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, x0, x1, x2, x3, x4, x5, x6, x7;
         a0 = coord(a, 0);
@@ -677,6 +677,13 @@ define(["require", "exports"], function (require, exports) {
             else if (typeof other === 'number') {
                 return this.mul(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0));
             }
+            else if (other instanceof Measure) {
+                var m = other;
+                return new Measure(this.mul(m.quantity), m.uom);
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this, other);
+            }
             else {
                 return;
             }
@@ -687,6 +694,13 @@ define(["require", "exports"], function (require, exports) {
             }
             else if (typeof other === 'number') {
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0).mul(this);
+            }
+            else if (other instanceof Measure) {
+                var m = other;
+                return new Measure(m.quantity.mul(this), m.uom);
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this, other);
             }
             else {
                 return;
@@ -820,6 +834,12 @@ define(["require", "exports"], function (require, exports) {
             else {
                 return;
             }
+        };
+        Euclidean3.prototype.__pos__ = function () {
+            return this;
+        };
+        Euclidean3.prototype.__neg__ = function () {
+            return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz);
         };
         Euclidean3.prototype.grade = function (index) {
             switch (index) {

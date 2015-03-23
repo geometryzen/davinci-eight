@@ -1,4 +1,4 @@
-import GeometricQuantity = require('davinci-blade/GeometricQuantity');
+import Unit = require('davinci-blade/Unit');
 
 function add00(a00: number, a01: number, a10: number, a11: number, b00: number, b01: number, b10: number, b11: number): number {
     a00 = +a00;
@@ -322,7 +322,7 @@ var divide = function(a00, a01, a10, a11, b00, b01, b10, b11, m) {
     }
 };
 
-class Euclidean2 implements GeometricQuantity<Euclidean2> {
+class Euclidean2 {
     public w: number;
     public x: number;
     public y: number;

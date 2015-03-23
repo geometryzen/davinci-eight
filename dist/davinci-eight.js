@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '0.9.12'
+        VERSION: '0.9.13'
     };
     return eight;
 });
@@ -469,7 +469,458 @@ define('davinci-eight/core/material',["require", "exports"], function (require, 
     return material;
 });
 
-define('davinci-blade/Euclidean3',["require", "exports"], function (require, exports) {
+define('davinci-blade/Unit',["require", "exports"], function (require, exports) {
+    var dumbString = function (scale, dimensions, labels) {
+        var operatorStr;
+        var scaleString;
+        var unitsString;
+        var stringify = function (rational, label) {
+            if (rational.numer === 0) {
+                return null;
+            }
+            else if (rational.denom === 1) {
+                if (rational.numer === 1) {
+                    return "" + label;
+                }
+                else {
+                    return "" + label + " ** " + rational.numer;
+                }
+            }
+            return "" + label + " ** " + rational;
+        };
+        operatorStr = scale === 1 || dimensions.isZero() ? "" : " ";
+        scaleString = scale === 1 ? "" : "" + scale;
+        unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
+            return typeof x === 'string';
+        }).join(" ");
+        return "" + scaleString + operatorStr + unitsString;
+    };
+    var unitString = function (scale, dimensions, labels) {
+        var patterns = [
+            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
+            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
+        ];
+        var decodes = [
+            ["F/m"],
+            ["S"],
+            ["F"],
+            ["N·m ** 2/kg ** 2"],
+            ["Hz"],
+            ["A"],
+            ["m/s ** 2"],
+            ["m/s"],
+            ["kg·m/s"],
+            ["Pa"],
+            ["Pa·s"],
+            ["W/m ** 2"],
+            ["N/m"],
+            ["T"],
+            ["W/(m·K)"],
+            ["V/m"],
+            ["N"],
+            ["H/m"],
+            ["J/K"],
+            ["J/(kg·K)"],
+            ["J/(mol·K)"],
+            ["J/mol"],
+            ["J"],
+            ["J·s"],
+            ["W"],
+            ["V"],
+            ["Ω"],
+            ["H"],
+            ["Wb"]
+        ];
+        var M = dimensions.M;
+        var L = dimensions.L;
+        var T = dimensions.T;
+        var Q = dimensions.Q;
+        var temperature = dimensions.temperature;
+        var amount = dimensions.amount;
+        var intensity = dimensions.intensity;
+        for (var i = 0, len = patterns.length; i < len; i++) {
+            var pattern = patterns[i];
+            if (M.numer === pattern[0] && M.denom === pattern[1] && L.numer === pattern[2] && L.denom === pattern[3] && T.numer === pattern[4] && T.denom === pattern[5] && Q.numer === pattern[6] && Q.denom === pattern[7] && temperature.numer === pattern[8] && temperature.denom === pattern[9] && amount.numer === pattern[10] && amount.denom === pattern[11] && intensity.numer === pattern[12] && intensity.denom === pattern[13]) {
+                if (scale !== 1) {
+                    return scale + " * " + decodes[i][0];
+                }
+                else {
+                    return decodes[i][0];
+                }
+            }
+        }
+        return dumbString(scale, dimensions, labels);
+    };
+    function add(lhs, rhs) {
+        return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    }
+    function sub(lhs, rhs) {
+        return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
+    }
+    function mul(lhs, rhs) {
+        return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
+    }
+    function scalarMultiply(alpha, unit) {
+        return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
+    }
+    function div(lhs, rhs) {
+        return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
+    }
+    var Unit = (function () {
+        /**
+         * The Unit class represents the units for a measure.
+         *
+         * @class Unit
+         * @constructor
+         * @param {number} scale
+         * @param {Dimensions} dimensions
+         * @param {string[]} labels The label strings to use for each dimension.
+         */
+        function Unit(scale, dimensions, labels) {
+            this.scale = scale;
+            this.dimensions = dimensions;
+            this.labels = labels;
+            if (labels.length !== 7) {
+                throw new Error("Expecting 7 elements in the labels array.");
+            }
+            this.scale = scale;
+            this.dimensions = dimensions;
+            this.labels = labels;
+        }
+        Unit.prototype.compatible = function (rhs) {
+            var dimensions;
+            if (rhs instanceof Unit) {
+                dimensions = this.dimensions.compatible(rhs.dimensions);
+                return this;
+            }
+            else {
+                throw new Error("Illegal Argument for Unit.compatible: " + rhs);
+            }
+        };
+        Unit.prototype.add = function (rhs) {
+            if (rhs instanceof Unit) {
+                return add(this, rhs);
+            }
+            else {
+                throw new Error("Illegal Argument for Unit.add: " + rhs);
+            }
+        };
+        Unit.prototype.__add__ = function (other) {
+            if (other instanceof Unit) {
+                return add(this, other);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__radd__ = function (other) {
+            if (other instanceof Unit) {
+                return add(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.sub = function (rhs) {
+            if (rhs instanceof Unit) {
+                return sub(this, rhs);
+            }
+            else {
+                throw new Error("Illegal Argument for Unit.sub: " + rhs);
+            }
+        };
+        Unit.prototype.__sub__ = function (other) {
+            if (other instanceof Unit) {
+                return sub(this, other);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rsub__ = function (other) {
+            if (other instanceof Unit) {
+                return sub(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.mul = function (rhs) {
+            if (typeof rhs === 'number') {
+                return scalarMultiply(rhs, this);
+            }
+            else if (rhs instanceof Unit) {
+                return mul(this, rhs);
+            }
+            else {
+                throw new Error("Illegal Argument for mul: " + rhs);
+            }
+        };
+        Unit.prototype.__mul__ = function (other) {
+            if (other instanceof Unit) {
+                return mul(this, other);
+            }
+            else if (typeof other === 'number') {
+                return scalarMultiply(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rmul__ = function (other) {
+            if (other instanceof Unit) {
+                return mul(other, this);
+            }
+            else if (typeof other === 'number') {
+                return scalarMultiply(other, this);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.div = function (rhs) {
+            if (typeof rhs === 'number') {
+                return new Unit(this.scale / rhs, this.dimensions, this.labels);
+            }
+            else if (rhs instanceof Unit) {
+                return div(this, rhs);
+            }
+            else {
+                throw new Error("Illegal Argument for div: " + rhs);
+            }
+        };
+        Unit.prototype.__div__ = function (other) {
+            if (other instanceof Unit) {
+                return div(this, other);
+            }
+            else if (typeof other === 'number') {
+                return new Unit(this.scale / other, this.dimensions, this.labels);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.__rdiv__ = function (other) {
+            if (other instanceof Unit) {
+                return div(other, this);
+            }
+            else if (typeof other === 'number') {
+                return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
+            }
+            else {
+                return;
+            }
+        };
+        Unit.prototype.pow = function (rhs) {
+            if (typeof rhs === 'number') {
+                return new Unit(Math.pow(this.scale, rhs), this.dimensions.pow(rhs), this.labels);
+            }
+            else {
+                throw new Error("Illegal Argument for div: " + rhs);
+            }
+        };
+        Unit.prototype.inverse = function () {
+            return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
+        };
+        Unit.prototype.toString = function () {
+            return unitString(this.scale, this.dimensions, this.labels);
+        };
+        return Unit;
+    })();
+    return Unit;
+});
+
+define('davinci-blade/Measure',["require", "exports", 'davinci-blade/Unit'], function (require, exports, Unit) {
+    function mul(lhs, rhs) {
+        return new Measure(lhs.quantity.mul(rhs.quantity), lhs.uom.mul(rhs.uom));
+    }
+    var Measure = (function () {
+        /**
+         * A Measure is a composite consisting of a quantity and a unit of measure.
+         *
+         * @class Measure
+         * @constructor
+         * @param {QuantityOfMeasure<T>} quantity The <em>quantity</em> part of the measure.
+         * @param {Unit} uom The unit-of-measure part of the measure.
+         */
+        function Measure(quantity, uom) {
+            if (uom.scale === 1) {
+                this._quantity = quantity;
+                this._uom = uom;
+            }
+            else {
+                this._quantity = quantity.scalarMultiply(uom.scale);
+                this._uom = new Unit(1, uom.dimensions, uom.labels);
+            }
+        }
+        Object.defineProperty(Measure.prototype, "quantity", {
+            /**
+            * The quantity part of the measure.
+            *
+            * @property quantity
+            * @type {GeometricQuantity<T>}
+            */
+            get: function () {
+                return this._quantity;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Measure.prototype, "uom", {
+            /**
+            * The unit part of the measure.
+            *
+            * @property uom
+            * @type {Unit}
+            */
+            get: function () {
+                return this._uom;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Measure.prototype.add = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.add(rhs.quantity), this.uom.compatible(rhs.uom));
+            }
+            else {
+                throw new Error("Measure.add(rhs): rhs must be a Measure.");
+            }
+        };
+        Measure.prototype.sub = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.sub(rhs.quantity), this.uom.compatible(rhs.uom));
+            }
+            else {
+                throw new Error("Measure.sub(rhs): rhs must be a Measure.");
+            }
+        };
+        Measure.prototype.mul = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.mul(rhs.quantity), this.uom.mul(rhs.uom));
+            }
+            else if (rhs instanceof Unit) {
+                return new Measure(this.quantity, this.uom.mul(rhs));
+            }
+            else if (typeof rhs === 'number') {
+                var other = rhs;
+                return this.scalarMultiply(other);
+            }
+            else {
+                throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number]");
+            }
+        };
+        Measure.prototype.__mul__ = function (other) {
+            if (other instanceof Measure) {
+                return mul(this, other);
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this.quantity, this.uom.mul(other));
+            }
+            else if (typeof other === 'number') {
+                return this.scalarMultiply(other);
+            }
+            else {
+                return;
+            }
+        };
+        Measure.prototype.__rmul__ = function (other) {
+            if (other instanceof Measure) {
+                return mul(other, this);
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this.quantity, this.uom.mul(other));
+            }
+            else if (typeof other === 'number') {
+                return this.scalarMultiply(other);
+            }
+            else {
+                return;
+            }
+        };
+        Measure.prototype.scalarMultiply = function (rhs) {
+            return new Measure(this.quantity.mul(rhs), this.uom);
+        };
+        Measure.prototype.div = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.div(rhs.quantity), this.uom.div(rhs.uom));
+            }
+            else if (rhs instanceof Unit) {
+                return new Measure(this.quantity, this.uom.div(rhs));
+            }
+            else if (typeof rhs === 'number') {
+                return new Measure(this.quantity.div(rhs), this.uom);
+            }
+            else {
+                throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number]");
+            }
+        };
+        Measure.prototype.wedge = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.wedge(rhs.quantity), this.uom.mul(rhs.uom));
+            }
+            else {
+                throw new Error("Measure.wedge(rhs): rhs must be a Measure");
+            }
+        };
+        Measure.prototype.lshift = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.lshift(rhs.quantity), this.uom.mul(rhs.uom));
+            }
+            else {
+                throw new Error("Measure.lshift(rhs): rhs must be a Measure");
+            }
+        };
+        Measure.prototype.rshift = function (rhs) {
+            if (rhs instanceof Measure) {
+                return new Measure(this.quantity.rshift(rhs.quantity), this.uom.mul(rhs.uom));
+            }
+            else {
+                throw new Error("Measure.rshift(rhs): rhs must be a Measure");
+            }
+        };
+        Measure.prototype.norm = function () {
+            return null;
+        };
+        Measure.prototype.quad = function () {
+            return null;
+        };
+        Measure.prototype.toString = function () {
+            return "" + this.quantity + " " + this.uom;
+        };
+        return Measure;
+    })();
+    return Measure;
+});
+
+define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure', 'davinci-blade/Unit'], function (require, exports, Measure, Unit) {
     var compute = function (f, a, b, coord, pack) {
         var a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, x0, x1, x2, x3, x4, x5, x6, x7;
         a0 = coord(a, 0);
@@ -1148,6 +1599,13 @@ define('davinci-blade/Euclidean3',["require", "exports"], function (require, exp
             else if (typeof other === 'number') {
                 return this.mul(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0));
             }
+            else if (other instanceof Measure) {
+                var m = other;
+                return new Measure(this.mul(m.quantity), m.uom);
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this, other);
+            }
             else {
                 return;
             }
@@ -1158,6 +1616,13 @@ define('davinci-blade/Euclidean3',["require", "exports"], function (require, exp
             }
             else if (typeof other === 'number') {
                 return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0).mul(this);
+            }
+            else if (other instanceof Measure) {
+                var m = other;
+                return new Measure(m.quantity.mul(this), m.uom);
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this, other);
             }
             else {
                 return;
@@ -1291,6 +1756,12 @@ define('davinci-blade/Euclidean3',["require", "exports"], function (require, exp
             else {
                 return;
             }
+        };
+        Euclidean3.prototype.__pos__ = function () {
+            return this;
+        };
+        Euclidean3.prototype.__neg__ = function () {
+            return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz);
         };
         Euclidean3.prototype.grade = function (index) {
             switch (index) {

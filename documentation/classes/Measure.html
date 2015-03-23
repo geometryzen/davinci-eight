@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Euclidean3 - davinci-eight</title>
+    <title>Measure - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -80,12 +80,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Euclidean3 Class</h1>
+<h1>Measure Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/amd_davinci-blade_Euclidean3.js.html#l542"><code>amd&#x2F;davinci-blade&#x2F;Euclidean3.js:542</code></a>
+            Defined in: <a href="../files/amd_davinci-blade_Measure.js.html#l6"><code>amd&#x2F;davinci-blade&#x2F;Measure.js:6</code></a>
         </div>
 
 
@@ -93,40 +93,22 @@
 
 
 <div class="box intro">
-    <p>The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.</p>
+    <p>A Measure is a composite consisting of a quantity and a unit of measure.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Euclidean3" class="method item">
-            <h3 class="name"><code>Euclidean3</code></h3>
+        <div id="method_Measure" class="method item">
+            <h3 class="name"><code>Measure</code></h3>
         
                 <div class="args">
                     <span class="paren">(</span><ul class="args-list inline commas">
                         <li class="arg">
-                                <code>w</code>
+                                <code>quantity</code>
                         </li>
                         <li class="arg">
-                                <code>x</code>
-                        </li>
-                        <li class="arg">
-                                <code>y</code>
-                        </li>
-                        <li class="arg">
-                                <code>z</code>
-                        </li>
-                        <li class="arg">
-                                <code>xy</code>
-                        </li>
-                        <li class="arg">
-                                <code>yz</code>
-                        </li>
-                        <li class="arg">
-                                <code>zx</code>
-                        </li>
-                        <li class="arg">
-                                <code>xyz</code>
+                                <code>uom</code>
                         </li>
                     </ul><span class="paren">)</span>
                 </div>
@@ -141,7 +123,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/amd_davinci-blade_Euclidean3.js.html#l542"><code>amd&#x2F;davinci-blade&#x2F;Euclidean3.js:542</code></a>
+                <a href="../files/amd_davinci-blade_Measure.js.html#l6"><code>amd&#x2F;davinci-blade&#x2F;Measure.js:6</code></a>
                 </p>
         
         
@@ -157,89 +139,23 @@
         
                     <ul class="params-list">
                         <li class="param">
-                                <code class="param-name">w</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">quantity</code>
+                                <span class="type">QuantityOfMeasure<T></span>
         
         
                             <div class="param-description">
-                                <p>The scalar part of the multivector.</p>
+                                <p>The <em>quantity</em> part of the measure.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">x</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">uom</code>
+                                <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
         
         
                             <div class="param-description">
-                                <p>The vector component of the multivector in the x-direction.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">y</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The vector component of the multivector in the y-direction.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">z</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The vector component of the multivector in the z-direction.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">xy</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The bivector component of the multivector in the xy-plane.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">yz</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The bivector component of the multivector in the yz-plane.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">zx</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The bivector component of the multivector in the zx-plane.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">xyz</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The pseudoscalar part of the multivector.</p>
+                                <p>The unit-of-measure part of the measure.</p>
         
                             </div>
         
@@ -256,6 +172,7 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -263,11 +180,79 @@
             <h2 class="off-left">Item Index</h2>
 
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_quantity">quantity</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_uom">uom</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_quantity" class="property item">
+                        <h3 class="name"><code>quantity</code></h3>
+                        <span class="type">GeometricQuantity<T></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/amd_davinci-blade_Measure.js.html#l25"><code>amd&#x2F;davinci-blade&#x2F;Measure.js:25</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The quantity part of the measure.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_uom" class="property item">
+                        <h3 class="name"><code>uom</code></h3>
+                        <span class="type"><a href="../classes/Unit.html" class="crosslink">Unit</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/amd_davinci-blade_Measure.js.html#l38"><code>amd&#x2F;davinci-blade&#x2F;Measure.js:38</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The unit part of the measure.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

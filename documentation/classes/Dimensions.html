@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Euclidean3 - davinci-eight</title>
+    <title>Dimensions - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -80,12 +80,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Euclidean3 Class</h1>
+<h1>Dimensions Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/amd_davinci-blade_Euclidean3.js.html#l542"><code>amd&#x2F;davinci-blade&#x2F;Euclidean3.js:542</code></a>
+            Defined in: <a href="../files/amd_davinci-blade_Dimensions.js.html#l3"><code>amd&#x2F;davinci-blade&#x2F;Dimensions.js:3</code></a>
         </div>
 
 
@@ -93,40 +93,37 @@
 
 
 <div class="box intro">
-    <p>The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.</p>
+    <p>The Dimensions class captures the physical dimensions associated with a unit of measure.</p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_Euclidean3" class="method item">
-            <h3 class="name"><code>Euclidean3</code></h3>
+        <div id="method_Dimensions" class="method item">
+            <h3 class="name"><code>Dimensions</code></h3>
         
                 <div class="args">
                     <span class="paren">(</span><ul class="args-list inline commas">
                         <li class="arg">
-                                <code>w</code>
+                                <code>mass</code>
                         </li>
                         <li class="arg">
-                                <code>x</code>
+                                <code>length</code>
                         </li>
                         <li class="arg">
-                                <code>y</code>
+                                <code>time</code>
                         </li>
                         <li class="arg">
-                                <code>z</code>
+                                <code>charge</code>
                         </li>
                         <li class="arg">
-                                <code>xy</code>
+                                <code>temperature</code>
                         </li>
                         <li class="arg">
-                                <code>yz</code>
+                                <code>amount</code>
                         </li>
                         <li class="arg">
-                                <code>zx</code>
-                        </li>
-                        <li class="arg">
-                                <code>xyz</code>
+                                <code>intensity</code>
                         </li>
                     </ul><span class="paren">)</span>
                 </div>
@@ -141,7 +138,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/amd_davinci-blade_Euclidean3.js.html#l542"><code>amd&#x2F;davinci-blade&#x2F;Euclidean3.js:542</code></a>
+                <a href="../files/amd_davinci-blade_Dimensions.js.html#l3"><code>amd&#x2F;davinci-blade&#x2F;Dimensions.js:3</code></a>
                 </p>
         
         
@@ -157,89 +154,78 @@
         
                     <ul class="params-list">
                         <li class="param">
-                                <code class="param-name">w</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">mass</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The scalar part of the multivector.</p>
+                                <p>The mass component of the dimensions object.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">x</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">length</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The vector component of the multivector in the x-direction.</p>
+                                <p>The length component of the dimensions object.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">y</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">time</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The vector component of the multivector in the y-direction.</p>
+                                <p>The time component of the dimensions object.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">z</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">charge</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The vector component of the multivector in the z-direction.</p>
+                                <p>The charge component of the dimensions object.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">xy</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">temperature</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The bivector component of the multivector in the xy-plane.</p>
+                                <p>The temperature component of the dimensions object.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">yz</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">amount</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The bivector component of the multivector in the yz-plane.</p>
+                                <p>The amount component of the dimensions object.</p>
         
                             </div>
         
                         </li>
                         <li class="param">
-                                <code class="param-name">zx</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">intensity</code>
+                                <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
         
         
                             <div class="param-description">
-                                <p>The bivector component of the multivector in the zx-plane.</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">xyz</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The pseudoscalar part of the multivector.</p>
+                                <p>The intensity component of the dimensions object.</p>
         
                             </div>
         
@@ -256,18 +242,116 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_isZero">isZero</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_M">M</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
+<div id="method_isZero" class="method item">
+    <h3 class="name"><code>isZero</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Boolean</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/amd_davinci-blade_Dimensions.js.html#l153"><code>amd&#x2F;davinci-blade&#x2F;Dimensions.js:153</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Determines whether all the components of the Dimensions instance are zero.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Boolean</span>:
+                    <p><code>true</code> if all the components are zero, otherwise <code>false</code>.</p>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_M" class="property item">
+                        <h3 class="name"><code>M</code></h3>
+                        <span class="type"><a href="../classes/Rational.html" class="crosslink">Rational</a></span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/amd_davinci-blade_Dimensions.js.html#l118"><code>amd&#x2F;davinci-blade&#x2F;Dimensions.js:118</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The <em>mass</em> component of this dimensions instance.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>
