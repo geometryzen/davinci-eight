@@ -1,3 +1,3 @@
-import eight = require('eightAPI');
-declare var boxGeometry: (spec?: any) => eight.Geometry;
+import Geometry = require('davinci-eight/core/Geometry');
+declare var boxGeometry: (spec?: any) => Geometry;
 export = boxGeometry;

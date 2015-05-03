@@ -28,6 +28,8 @@ declare class Unit {
     __rdiv__(other: any): Unit;
     pow(rhs: number): Unit;
     inverse(): Unit;
+    norm(): Unit;
+    quad(): Unit;
     toString(): string;
 }
 export = Unit;

@@ -278,6 +278,12 @@ define(["require", "exports"], function (require, exports) {
         Unit.prototype.inverse = function () {
             return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
         };
+        Unit.prototype.norm = function () {
+            return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
+        };
+        Unit.prototype.quad = function () {
+            return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
+        };
         Unit.prototype.toString = function () {
             return unitString(this.scale, this.dimensions, this.labels);
         };

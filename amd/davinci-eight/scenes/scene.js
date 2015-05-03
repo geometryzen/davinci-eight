@@ -12,9 +12,6 @@ define(["require", "exports", 'davinci-eight/core/object3D'], function (require,
                     kids[i].onContextGain(gl);
                 }
             },
-            /**
-             * Does this work?
-             */
             onContextLoss: function () {
                 for (var i = 0, length = kids.length; i < length; i++) {
                     kids[i].onContextLoss();

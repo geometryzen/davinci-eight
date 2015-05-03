@@ -1,7 +1,7 @@
 //
 // gl-matrix.d.ts
 //
-// This (external) module of declarations was manually constructed in order to use the gl-matrix lirary.
+// This (external) module of declarations was manually constructed in order to use the gl-matrix library.
 //
 
 declare module x {

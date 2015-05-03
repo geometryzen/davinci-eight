@@ -1,5 +1,6 @@
 import core = require('davinci-eight/core');
 import geometry = require('davinci-eight/core/geometry');
+import Geometry = require('davinci-eight/core/Geometry');
 import material = require('davinci-eight/core/material');
 
 import Euclidean3 = require('davinci-blade/Euclidean3');

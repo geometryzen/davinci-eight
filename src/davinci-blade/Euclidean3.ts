@@ -1,3 +1,4 @@
+import GeometricQuantity = require('davinci-blade/GeometricQuantity');
 import Measure = require('davinci-blade/Measure');
 import Unit = require('davinci-blade/Unit');
 
@@ -200,6 +201,65 @@ function mulE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: n
             break;
         case 7: {
             x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+        }
+            break;
+        default: {
+            throw new Error("index must be in the range [0..7]");
+        }
+    }
+    return +x;
+}
+
+function scpE3(a0: number, a1: number, a2: number, a3: number, a4: number, a5: number, a6: number, a7: number, b0: number, b1: number, b2: number, b3: number, b4: number, b5: number, b6: number, b7: number, index: number): number {
+    a0 = +a0;
+    a1 = +a1;
+    a2 = +a2;
+    a3 = +a3;
+    a4 = +a4;
+    a5 = +a5;
+    a6 = +a6;
+    a7 = +a7;
+    b0 = +b0;
+    b1 = +b1;
+    b2 = +b2;
+    b3 = +b3;
+    b4 = +b4;
+    b5 = +b5;
+    b6 = +b6;
+    b7 = +b7;
+    index = index | 0;
+    var x = 0.0;
+    switch (~(~index)) {
+        case 0: {
+            x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+        }
+            break;
+        case 1: {
+            x = 0;
+        }
+            break;
+        case 2: {
+            x = 0;
+        }
+            break;
+        case 3: {
+            x = 0;
+        }
+            break;
+        case 4: {
+            x = 0;
+        }
+            break;
+        case 5: {
+            x = 0;
+        }
+            break;
+        case 6: {
+            x = 0;
+        }
+            break;
+        case 7: {
+            x = 0;
         }
             break;
         default: {
@@ -497,19 +557,45 @@ function stringFromCoordinates(coordinates: number[], labels: string[]): string 
     return str;
 }
 
-class Euclidean3 {
+/**
+ * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
+ * @class Euclidean3
+ */
+class Euclidean3 implements GeometricQuantity<Euclidean3> {
+    /**
+     * The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.
+     */
     public w: number;
+    /**
+     * The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.
+     */
     public x: number;
+    /**
+     * The `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.
+     */
     public y: number;
+    /**
+     * The `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.
+     */
     public z: number;
+    /**
+     * The `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.
+     */
     public xy: number;
+    /**
+     * The `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.
+     */
     public yz: number;
+    /**
+     * The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.
+     */
     public zx: number;
+    /**
+     * The `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.
+     */
     public xyz: number;
     /**
-     * The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.
-     *
-     * @class Euclidean3
+     * Constructs a Euclidean3 from its coordinates.
      * @constructor
      * @param {number} w The scalar part of the multivector.
      * @param {number} x The vector component of the multivector in the x-direction.
@@ -743,6 +829,18 @@ class Euclidean3 {
         }
     }
 
+    splat(rhs: Euclidean3): Euclidean3 {
+        var coord, pack;
+
+        coord = function(x, n) {
+            return x[n];
+        };
+        pack = function(w, x, y, z, xy, yz, zx, xyz) {
+            return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz);
+        };
+        return compute(scpE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
+    }
+
     wedge(rhs: Euclidean3): Euclidean3 {
         var coord, pack;
 
@@ -753,6 +851,30 @@ class Euclidean3 {
             return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz);
         };
         return compute(extE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
+    }
+
+    __vbar__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return this.splat(other);
+        }
+        else if (typeof other === 'number') {
+            return this.splat(new Euclidean3(other,0,0,0,0,0,0,0));
+        }
+        else {
+            return;
+        }
+    }
+
+    __rvbar__(other: any): Euclidean3 {
+        if (other instanceof Euclidean3) {
+            return other.splat(this);
+        }
+        else if (typeof other === 'number') {
+            return new Euclidean3(other,0,0,0,0,0,0,0).splat(this);
+        }
+        else {
+            return;
+        }
     }
 
     __wedge__(other: any): Euclidean3 {
@@ -859,6 +981,13 @@ class Euclidean3 {
         return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz);
     }
 
+    /**
+     * ~ (tilde) produces reversion.
+     */
+    __tilde__(): Euclidean3 {
+        return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz);
+    }
+
     grade(index: number): Euclidean3 {
         switch (index) {
             case 0:
@@ -897,17 +1026,17 @@ class Euclidean3 {
         return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
     }
 
-    norm() {
-        return new Euclidean3(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz), 0, 0, 0, 0, 0, 0, 0);
-    }
+    /**
+     * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
+     */
+    norm(): Euclidean3 {return new Euclidean3(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz), 0,0,0,0,0,0,0);}
 
-    quad() {
-        return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0);
-    }
+    /**
+     * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
+     */
+    quad(): Euclidean3 {return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0,0,0,0,0,0,0);}
 
-    sqrt() {
-        return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0);
-    }
+    sqrt() {return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0);}
 
     toString() {
         return stringFromCoordinates([this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);

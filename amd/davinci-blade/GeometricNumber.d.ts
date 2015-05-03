@@ -7,5 +7,7 @@ interface GeometricNumber {
     wedge(other: any): any;
     lshift(other: any): any;
     rshift(other: any): any;
+    norm(): GeometricNumber;
+    quad(): GeometricNumber;
 }
 export = GeometricNumber;

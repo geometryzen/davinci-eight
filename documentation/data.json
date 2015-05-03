@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "0.9.15",
+        "version": "1.0.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -70,13 +70,6 @@
         },
         "amd/davinci-eight/math/e3ga/vectorE3.js": {
             "name": "amd/davinci-eight/math/e3ga/vectorE3.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "amd/davinci-eight/scenes/scene.js": {
-            "name": "amd/davinci-eight/scenes/scene.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -158,51 +151,8 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 542,
-            "description": "The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "w",
-                    "description": "The scalar part of the multivector.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The vector component of the multivector in the x-direction.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The vector component of the multivector in the y-direction.",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "The vector component of the multivector in the z-direction.",
-                    "type": "Number"
-                },
-                {
-                    "name": "xy",
-                    "description": "The bivector component of the multivector in the xy-plane.",
-                    "type": "Number"
-                },
-                {
-                    "name": "yz",
-                    "description": "The bivector component of the multivector in the yz-plane.",
-                    "type": "Number"
-                },
-                {
-                    "name": "zx",
-                    "description": "The bivector component of the multivector in the zx-plane.",
-                    "type": "Number"
-                },
-                {
-                    "name": "xyz",
-                    "description": "The pseudoscalar part of the multivector.",
-                    "type": "Number"
-                }
-            ]
+            "line": 607,
+            "description": "The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric."
         },
         "Measure": {
             "name": "Measure",
@@ -213,7 +163,7 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "amd/davinci-blade/Measure.js",
-            "line": 6,
+            "line": 9,
             "description": "A Measure is a composite consisting of a quantity and a unit of measure.",
             "is_constructor": 1,
             "params": [
@@ -325,8 +275,75 @@
             "class": "Euclidean3"
         },
         {
+            "file": "amd/davinci-blade/Euclidean3.js",
+            "line": 612,
+            "description": "Constructs a Euclidean3 from its coordinates.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "w",
+                    "description": "The scalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The vector component of the multivector in the x-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The vector component of the multivector in the y-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "The vector component of the multivector in the z-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xy",
+                    "description": "The bivector component of the multivector in the xy-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "yz",
+                    "description": "The bivector component of the multivector in the yz-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "zx",
+                    "description": "The bivector component of the multivector in the zx-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xyz",
+                    "description": "The pseudoscalar part of the multivector.",
+                    "type": "Number"
+                }
+            ],
+            "class": "Euclidean3"
+        },
+        {
+            "file": "amd/davinci-blade/Euclidean3.js",
+            "line": 944,
+            "description": "~ (tilde) produces reversion.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "amd/davinci-blade/Euclidean3.js",
+            "line": 983,
+            "description": "Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "amd/davinci-blade/Euclidean3.js",
+            "line": 989,
+            "description": "Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
+            "class": "Euclidean3"
+        },
+        {
             "file": "amd/davinci-blade/Measure.js",
-            "line": 25,
+            "line": 28,
             "description": "The quantity part of the measure.",
             "itemtype": "property",
             "name": "quantity",
@@ -335,7 +352,7 @@
         },
         {
             "file": "amd/davinci-blade/Measure.js",
-            "line": 38,
+            "line": 41,
             "description": "The unit part of the measure.",
             "itemtype": "property",
             "name": "uom",
@@ -425,12 +442,6 @@
             "class": ""
         },
         {
-            "file": "amd/davinci-eight/scenes/scene.js",
-            "line": 15,
-            "description": "Does this work?",
-            "class": ""
-        },
-        {
             "file": "amd/davinci-eight/utils/workbench3D.js",
             "line": 2,
             "itemtype": "property",
@@ -473,16 +484,28 @@
             "line": " amd/davinci-blade/Euclidean3.js:162"
         },
         {
+            "message": "Missing item type\nConstructs a Euclidean3 from its coordinates.",
+            "line": " amd/davinci-blade/Euclidean3.js:612"
+        },
+        {
+            "message": "Missing item type\n~ (tilde) produces reversion.",
+            "line": " amd/davinci-blade/Euclidean3.js:944"
+        },
+        {
+            "message": "Missing item type\nComputes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
+            "line": " amd/davinci-blade/Euclidean3.js:983"
+        },
+        {
+            "message": "Missing item type\nComputes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
+            "line": " amd/davinci-blade/Euclidean3.js:989"
+        },
+        {
             "message": "Missing item type\nConstructs and returns a Prism geometry object.",
             "line": " amd/davinci-eight/geometries/prismGeometry.js:48"
         },
         {
             "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
             "line": " amd/davinci-eight/math/e3ga/vectorE3.js:2"
-        },
-        {
-            "message": "Missing item type\nDoes this work?",
-            "line": " amd/davinci-eight/scenes/scene.js:15"
         },
         {
             "message": "Missing item type\nCreates and returns a workbench3D thing.",

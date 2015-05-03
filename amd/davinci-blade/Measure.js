@@ -2,6 +2,9 @@ define(["require", "exports", 'davinci-blade/Unit'], function (require, exports,
     function mul(lhs, rhs) {
         return new Measure(lhs.quantity.mul(rhs.quantity), lhs.uom.mul(rhs.uom));
     }
+    function div(lhs, rhs) {
+        return new Measure(lhs.quantity.div(rhs.quantity), lhs.uom.div(rhs.uom));
+    }
     var Measure = (function () {
         /**
          * A Measure is a composite consisting of a quantity and a unit of measure.
@@ -75,12 +78,12 @@ define(["require", "exports", 'davinci-blade/Unit'], function (require, exports,
                 return this.scalarMultiply(other);
             }
             else {
-                throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number]");
+                throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number].");
             }
         };
         Measure.prototype.__mul__ = function (other) {
             if (other instanceof Measure) {
-                return mul(this, other);
+                return new Measure(this.quantity.mul(other.quantity), this.uom.mul(other.uom));
             }
             else if (other instanceof Unit) {
                 return new Measure(this.quantity, this.uom.mul(other));
@@ -120,7 +123,29 @@ define(["require", "exports", 'davinci-blade/Unit'], function (require, exports,
                 return new Measure(this.quantity.div(rhs), this.uom);
             }
             else {
-                throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number]");
+                throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number].");
+            }
+        };
+        Measure.prototype.__div__ = function (other) {
+            if (other instanceof Measure) {
+                return new Measure(this.quantity.div(other.quantity), this.uom.div(other.uom));
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this.quantity, this.uom.div(other));
+            }
+            else if (typeof other === 'number') {
+                return new Measure(this.quantity.div(other), this.uom);
+            }
+            else {
+                return;
+            }
+        };
+        Measure.prototype.__rdiv__ = function (other) {
+            if (other instanceof Measure) {
+                return div(other, this);
+            }
+            else {
+                return;
             }
         };
         Measure.prototype.wedge = function (rhs) {
@@ -128,15 +153,18 @@ define(["require", "exports", 'davinci-blade/Unit'], function (require, exports,
                 return new Measure(this.quantity.wedge(rhs.quantity), this.uom.mul(rhs.uom));
             }
             else {
-                throw new Error("Measure.wedge(rhs): rhs must be a Measure");
+                throw new Error("Measure.wedge(rhs): rhs must be a Measure.");
             }
+        };
+        Measure.prototype.foo = function () {
+            return;
         };
         Measure.prototype.lshift = function (rhs) {
             if (rhs instanceof Measure) {
                 return new Measure(this.quantity.lshift(rhs.quantity), this.uom.mul(rhs.uom));
             }
             else {
-                throw new Error("Measure.lshift(rhs): rhs must be a Measure");
+                throw new Error("Measure.lshift(rhs): rhs must be a Measure.");
             }
         };
         Measure.prototype.rshift = function (rhs) {
@@ -144,14 +172,14 @@ define(["require", "exports", 'davinci-blade/Unit'], function (require, exports,
                 return new Measure(this.quantity.rshift(rhs.quantity), this.uom.mul(rhs.uom));
             }
             else {
-                throw new Error("Measure.rshift(rhs): rhs must be a Measure");
+                throw new Error("Measure.rshift(rhs): rhs must be a Measure.");
             }
         };
         Measure.prototype.norm = function () {
-            return null;
+            return new Measure(this.quantity.norm(), this.uom.norm());
         };
         Measure.prototype.quad = function () {
-            return null;
+            return new Measure(this.quantity.quad(), this.uom.quad());
         };
         Measure.prototype.toString = function () {
             return "" + this.quantity + " " + this.uom;

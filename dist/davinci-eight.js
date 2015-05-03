@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '0.9.15'
+        VERSION: '1.0.0'
     };
     return eight;
 });
@@ -460,8 +460,8 @@ define('davinci-eight/core/geometry',["require", "exports"], function (require, 
     return geometry;
 });
 
+/// <reference path="./Material.d.ts" />
 define('davinci-eight/core/material',["require", "exports"], function (require, exports) {
-    /// <reference path="./Material.d.ts" />
     var material = function (spec) {
         var api = {};
         return api;
@@ -749,6 +749,12 @@ define('davinci-blade/Unit',["require", "exports"], function (require, exports) 
         Unit.prototype.inverse = function () {
             return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
         };
+        Unit.prototype.norm = function () {
+            return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
+        };
+        Unit.prototype.quad = function () {
+            return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
+        };
         Unit.prototype.toString = function () {
             return unitString(this.scale, this.dimensions, this.labels);
         };
@@ -760,6 +766,9 @@ define('davinci-blade/Unit',["require", "exports"], function (require, exports) 
 define('davinci-blade/Measure',["require", "exports", 'davinci-blade/Unit'], function (require, exports, Unit) {
     function mul(lhs, rhs) {
         return new Measure(lhs.quantity.mul(rhs.quantity), lhs.uom.mul(rhs.uom));
+    }
+    function div(lhs, rhs) {
+        return new Measure(lhs.quantity.div(rhs.quantity), lhs.uom.div(rhs.uom));
     }
     var Measure = (function () {
         /**
@@ -834,12 +843,12 @@ define('davinci-blade/Measure',["require", "exports", 'davinci-blade/Unit'], fun
                 return this.scalarMultiply(other);
             }
             else {
-                throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number]");
+                throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number].");
             }
         };
         Measure.prototype.__mul__ = function (other) {
             if (other instanceof Measure) {
-                return mul(this, other);
+                return new Measure(this.quantity.mul(other.quantity), this.uom.mul(other.uom));
             }
             else if (other instanceof Unit) {
                 return new Measure(this.quantity, this.uom.mul(other));
@@ -879,7 +888,29 @@ define('davinci-blade/Measure',["require", "exports", 'davinci-blade/Unit'], fun
                 return new Measure(this.quantity.div(rhs), this.uom);
             }
             else {
-                throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number]");
+                throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number].");
+            }
+        };
+        Measure.prototype.__div__ = function (other) {
+            if (other instanceof Measure) {
+                return new Measure(this.quantity.div(other.quantity), this.uom.div(other.uom));
+            }
+            else if (other instanceof Unit) {
+                return new Measure(this.quantity, this.uom.div(other));
+            }
+            else if (typeof other === 'number') {
+                return new Measure(this.quantity.div(other), this.uom);
+            }
+            else {
+                return;
+            }
+        };
+        Measure.prototype.__rdiv__ = function (other) {
+            if (other instanceof Measure) {
+                return div(other, this);
+            }
+            else {
+                return;
             }
         };
         Measure.prototype.wedge = function (rhs) {
@@ -887,15 +918,18 @@ define('davinci-blade/Measure',["require", "exports", 'davinci-blade/Unit'], fun
                 return new Measure(this.quantity.wedge(rhs.quantity), this.uom.mul(rhs.uom));
             }
             else {
-                throw new Error("Measure.wedge(rhs): rhs must be a Measure");
+                throw new Error("Measure.wedge(rhs): rhs must be a Measure.");
             }
+        };
+        Measure.prototype.foo = function () {
+            return;
         };
         Measure.prototype.lshift = function (rhs) {
             if (rhs instanceof Measure) {
                 return new Measure(this.quantity.lshift(rhs.quantity), this.uom.mul(rhs.uom));
             }
             else {
-                throw new Error("Measure.lshift(rhs): rhs must be a Measure");
+                throw new Error("Measure.lshift(rhs): rhs must be a Measure.");
             }
         };
         Measure.prototype.rshift = function (rhs) {
@@ -903,14 +937,14 @@ define('davinci-blade/Measure',["require", "exports", 'davinci-blade/Unit'], fun
                 return new Measure(this.quantity.rshift(rhs.quantity), this.uom.mul(rhs.uom));
             }
             else {
-                throw new Error("Measure.rshift(rhs): rhs must be a Measure");
+                throw new Error("Measure.rshift(rhs): rhs must be a Measure.");
             }
         };
         Measure.prototype.norm = function () {
-            return null;
+            return new Measure(this.quantity.norm(), this.uom.norm());
         };
         Measure.prototype.quad = function () {
-            return null;
+            return new Measure(this.quantity.quad(), this.uom.quad());
         };
         Measure.prototype.toString = function () {
             return "" + this.quantity + " " + this.uom;
@@ -1142,6 +1176,72 @@ define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure'
             case 7:
                 {
                     x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
+                }
+                break;
+            default: {
+                throw new Error("index must be in the range [0..7]");
+            }
+        }
+        return +x;
+    }
+    function scpE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
+        a0 = +a0;
+        a1 = +a1;
+        a2 = +a2;
+        a3 = +a3;
+        a4 = +a4;
+        a5 = +a5;
+        a6 = +a6;
+        a7 = +a7;
+        b0 = +b0;
+        b1 = +b1;
+        b2 = +b2;
+        b3 = +b3;
+        b4 = +b4;
+        b5 = +b5;
+        b6 = +b6;
+        b7 = +b7;
+        index = index | 0;
+        var x = 0.0;
+        switch (~(~index)) {
+            case 0:
+                {
+                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
+                }
+                break;
+            case 1:
+                {
+                    x = 0;
+                }
+                break;
+            case 2:
+                {
+                    x = 0;
+                }
+                break;
+            case 3:
+                {
+                    x = 0;
+                }
+                break;
+            case 4:
+                {
+                    x = 0;
+                }
+                break;
+            case 5:
+                {
+                    x = 0;
+                }
+                break;
+            case 6:
+                {
+                    x = 0;
+                }
+                break;
+            case 7:
+                {
+                    x = 0;
                 }
                 break;
             default: {
@@ -1460,11 +1560,13 @@ define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure'
         }
         return str;
     }
+    /**
+     * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
+     * @class Euclidean3
+     */
     var Euclidean3 = (function () {
         /**
-         * The Euclidean3 class represents a multivector for a 3-dimensional linear space with a Euclidean metric.
-         *
-         * @class Euclidean3
+         * Constructs a Euclidean3 from its coordinates.
          * @constructor
          * @param {number} w The scalar part of the multivector.
          * @param {number} x The vector component of the multivector in the x-direction.
@@ -1661,6 +1763,16 @@ define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure'
                 return;
             }
         };
+        Euclidean3.prototype.splat = function (rhs) {
+            var coord, pack;
+            coord = function (x, n) {
+                return x[n];
+            };
+            pack = function (w, x, y, z, xy, yz, zx, xyz) {
+                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz);
+            };
+            return compute(scpE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
+        };
         Euclidean3.prototype.wedge = function (rhs) {
             var coord, pack;
             coord = function (x, n) {
@@ -1670,6 +1782,28 @@ define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure'
                 return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz);
             };
             return compute(extE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack);
+        };
+        Euclidean3.prototype.__vbar__ = function (other) {
+            if (other instanceof Euclidean3) {
+                return this.splat(other);
+            }
+            else if (typeof other === 'number') {
+                return this.splat(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0));
+            }
+            else {
+                return;
+            }
+        };
+        Euclidean3.prototype.__rvbar__ = function (other) {
+            if (other instanceof Euclidean3) {
+                return other.splat(this);
+            }
+            else if (typeof other === 'number') {
+                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0).splat(this);
+            }
+            else {
+                return;
+            }
         };
         Euclidean3.prototype.__wedge__ = function (other) {
             if (other instanceof Euclidean3) {
@@ -1763,6 +1897,12 @@ define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure'
         Euclidean3.prototype.__neg__ = function () {
             return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz);
         };
+        /**
+         * ~ (tilde) produces reversion.
+         */
+        Euclidean3.prototype.__tilde__ = function () {
+            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz);
+        };
         Euclidean3.prototype.grade = function (index) {
             switch (index) {
                 case 0:
@@ -1796,9 +1936,15 @@ define('davinci-blade/Euclidean3',["require", "exports", 'davinci-blade/Measure'
         Euclidean3.prototype.length = function () {
             return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
         };
+        /**
+         * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
+         */
         Euclidean3.prototype.norm = function () {
             return new Euclidean3(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz), 0, 0, 0, 0, 0, 0, 0);
         };
+        /**
+         * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
+         */
         Euclidean3.prototype.quad = function () {
             return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0);
         };
@@ -6203,9 +6349,6 @@ define('davinci-eight/scenes/scene',["require", "exports", 'davinci-eight/core/o
                     kids[i].onContextGain(gl);
                 }
             },
-            /**
-             * Does this work?
-             */
             onContextLoss: function () {
                 for (var i = 0, length = kids.length; i < length; i++) {
                     kids[i].onContextLoss();

@@ -1,9 +1,15 @@
 import Unit = require('davinci-blade/Unit');
 import GeometricNumber = require('davinci-blade/GeometricNumber');
+import GeometricQuantity = require('davinci-blade/GeometricQuantity');
 
 function mul<T extends GeometricNumber>(lhs: Measure<T>, rhs: Measure<T>): Measure<T>
 {
     return new Measure<T>(lhs.quantity.mul(rhs.quantity), lhs.uom.mul(rhs.uom));
+}
+
+function div<T extends GeometricNumber>(lhs: Measure<T>, rhs: Measure<T>): Measure<T>
+{
+    return new Measure<T>(lhs.quantity.div(rhs.quantity), lhs.uom.div(rhs.uom));
 }
 
 class Measure<T extends GeometricNumber> {
@@ -73,16 +79,24 @@ class Measure<T extends GeometricNumber> {
         }
     }
 
-    mul(rhs: Measure<T>): Measure<T> {
-        if (rhs instanceof Measure) {
+    mul(rhs: Measure<T>): Measure<T>
+    {
+        if (rhs instanceof Measure)
+        {
             return new Measure<T>(this.quantity.mul(rhs.quantity), this.uom.mul(rhs.uom));
-        } else if (rhs instanceof Unit) {
+        }
+        else if (rhs instanceof Unit)
+        {
             return new Measure<T>(this.quantity, this.uom.mul(rhs));
-        } else if (typeof rhs === 'number') {
+        }
+        else if (typeof rhs === 'number')
+        {
             var other: any = rhs;
             return this.scalarMultiply(other);
-        } else {
-            throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number]");
+        }
+        else
+        {
+            throw new Error("Measure.mul(rhs): rhs must be a [Measure, Unit, number].");
         }
     }
 
@@ -90,7 +104,7 @@ class Measure<T extends GeometricNumber> {
     {
         if (other instanceof Measure)
         {
-            return mul(this, other);
+            return new Measure<T>(this.quantity.mul(other.quantity), this.uom.mul(other.uom));
         }
         else if (other instanceof Unit)
         {
@@ -126,35 +140,85 @@ class Measure<T extends GeometricNumber> {
         }
     }
 
-    scalarMultiply(rhs: number): Measure<T> {
+    scalarMultiply(rhs: number): Measure<T>
+    {
         return new Measure<T>(this.quantity.mul(rhs), this.uom);
     }
 
-    div(rhs: Measure<T>): Measure<T> {
-        if (rhs instanceof Measure) {
+    div(rhs: Measure<T>): Measure<T>
+    {
+        if (rhs instanceof Measure)
+        {
             return new Measure<T>(this.quantity.div(rhs.quantity), this.uom.div(rhs.uom));
-        } else if (rhs instanceof Unit) {
+        }
+        else if (rhs instanceof Unit)
+        {
             return new Measure<T>(this.quantity, this.uom.div(rhs));
-        } else if (typeof rhs === 'number') {
+        }
+        else if (typeof rhs === 'number')
+        {
             return new Measure<T>(this.quantity.div(rhs), this.uom);
-        } else {
-            throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number]");
+        }
+        else
+        {
+            throw new Error("Measure.div(rhs): rhs must be a [Measure, Unit, number].");
         }
     }
 
-    wedge(rhs: Measure<T>): Measure<T> {
-        if (rhs instanceof Measure) {
-            return new Measure<T>(this.quantity.wedge(rhs.quantity), this.uom.mul(rhs.uom));
-        } else {
-            throw new Error("Measure.wedge(rhs): rhs must be a Measure");
+    __div__(other: any): any
+    {
+        if (other instanceof Measure)
+        {
+            return new Measure<T>(this.quantity.div(other.quantity), this.uom.div(other.uom));
         }
+        else if (other instanceof Unit)
+        {
+            return new Measure<T>(this.quantity, this.uom.div(other));
+        }
+        else if (typeof other === 'number')
+        {
+            return new Measure<T>(this.quantity.div(other), this.uom);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    __rdiv__(other: any): any
+    {
+        if (other instanceof Measure)
+        {
+            return div(other, this);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    wedge(rhs: Measure<T>): Measure<T>
+    {
+        if (rhs instanceof Measure)
+        {
+            return new Measure<T>(this.quantity.wedge(rhs.quantity), this.uom.mul(rhs.uom));
+        }
+        else
+        {
+            throw new Error("Measure.wedge(rhs): rhs must be a Measure.");
+        }
+    }
+
+    foo()
+    {
+        return;
     }
 
     lshift(rhs: Measure<T>): Measure<T> {
         if (rhs instanceof Measure) {
             return new Measure<T>(this.quantity.lshift(rhs.quantity), this.uom.mul(rhs.uom));
         } else {
-            throw new Error("Measure.lshift(rhs): rhs must be a Measure");
+            throw new Error("Measure.lshift(rhs): rhs must be a Measure.");
         }
     }
 
@@ -162,16 +226,16 @@ class Measure<T extends GeometricNumber> {
         if (rhs instanceof Measure) {
             return new Measure<T>(this.quantity.rshift(rhs.quantity), this.uom.mul(rhs.uom));
         } else {
-            throw new Error("Measure.rshift(rhs): rhs must be a Measure");
+            throw new Error("Measure.rshift(rhs): rhs must be a Measure.");
         }
     }
 
     norm(): Measure<T> {
-        return null;
+      return new Measure<T>(<T>this.quantity.norm(), this.uom.norm());
     }
 
     quad(): Measure<T> {
-        return null;
+      return new Measure<T>(<T>this.quantity.quad(), this.uom.quad());
     }
 
     toString(): string {

@@ -1,3 +1,4 @@
+import Geometry = require('davinci-eight/core/Geometry');
 import geometry = require('davinci-eight/core/geometry');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Euclidean3 = require('davinci-blade/Euclidean3');
@@ -40,7 +41,7 @@ var triangles: number[][] =
         [0, 4, 5]
     ];
 
-var boxGeometry = function(spec?): eight.Geometry {
+var boxGeometry = function(spec?): Geometry {
 
     var base = geometry(spec);
     

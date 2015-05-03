@@ -33,7 +33,10 @@ declare class Measure<T extends GeometricNumber> {
     __rmul__(other: any): any;
     scalarMultiply(rhs: number): Measure<T>;
     div(rhs: Measure<T>): Measure<T>;
+    __div__(other: any): any;
+    __rdiv__(other: any): any;
     wedge(rhs: Measure<T>): Measure<T>;
+    foo(): void;
     lshift(rhs: Measure<T>): Measure<T>;
     rshift(rhs: Measure<T>): Measure<T>;
     norm(): Measure<T>;

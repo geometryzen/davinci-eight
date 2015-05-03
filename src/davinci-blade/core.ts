@@ -1,6 +1,9 @@
 var blade =
 {
-    VERSION: '0.9.24'
+    /**
+     * The version of the blade library.
+     */
+    VERSION: '1.0.1'
 };
 
 export = blade;

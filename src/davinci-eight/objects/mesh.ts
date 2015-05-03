@@ -1,3 +1,4 @@
+/// <reference path="./Mesh.d.ts" />
 import geometryConstructor = require('davinci-eight/core/geometry');
 import meshBasicMaterial = require('davinci-eight/materials/meshBasicMaterial');
 import object3D = require('davinci-eight/core/object3D');
@@ -7,7 +8,7 @@ import glMatrix = require('gl-matrix');
 import Euclidean3 = require('davinci-blade/Euclidean3');
 import eight = require('eightAPI');
 
-var mesh = function(geometry?: eight.Geometry, material?) {
+var mesh = function(geometry?: eight.Geometry, material?): Mesh {
     var gl: WebGLRenderingContext = null;
     var _vs: WebGLShader = null;
     var _fs: WebGLShader = null;
@@ -31,7 +32,7 @@ var mesh = function(geometry?: eight.Geometry, material?) {
         get attitude(): Euclidean3 {return base.attitude },
         set attitude(attitude) { base.attitude = attitude },
         projectionMatrix: glMatrix.mat4.create(),
-        onContextGain: function(context) {
+        onContextGain: function(context: WebGLRenderingContext) {
             var infoLog: string;
             gl = context;
 

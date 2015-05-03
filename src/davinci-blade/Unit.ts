@@ -362,6 +362,14 @@ class Unit {
         return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
     }
 
+    norm(): Unit {
+        return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
+    }
+
+    quad(): Unit {
+        return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
+    }
+
     toString(): string
     {
         return unitString(this.scale, this.dimensions, this.labels);

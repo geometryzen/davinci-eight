@@ -1,3 +1,4 @@
+import Geometry = require('davinci-eight/core/Geometry');
 import Euclidean3 = require('davinci-blade/Euclidean3');
 declare var eight: {
     'VERSION': string;
@@ -11,21 +12,7 @@ declare var eight: {
     scalarE3: (w: number) => Euclidean3;
     vectorE3: (x: number, y: number, z: number) => Euclidean3;
     bivectorE3: (xy: number, yz: number, zx: number) => Euclidean3;
-    scene: () => {
-        children: {
-            onContextGain: (gl: WebGLRenderingContext) => void;
-            onContextLoss: () => void;
-            tearDown: () => void;
-        }[];
-        onContextGain: (gl: WebGLRenderingContext) => void;
-        onContextLoss: () => void;
-        tearDown: () => void;
-        add: (child: {
-            onContextGain: (gl: WebGLRenderingContext) => void;
-            onContextLoss: () => void;
-            tearDown: () => void;
-        }) => void;
-    };
+    scene: () => Scene;
     object3D: () => {
         position: Euclidean3;
         attitude: Euclidean3;
@@ -61,18 +48,9 @@ declare var eight: {
         start: () => void;
         stop: () => void;
     };
-    mesh: (geometry?: x.Geometry, material?: any) => {
-        position: Euclidean3;
-        attitude: Euclidean3;
-        projectionMatrix: number[];
-        onContextGain: (context: any) => void;
-        onContextLoss: () => void;
-        tearDown: () => void;
-        updateMatrix: () => void;
-        draw: (projectionMatrix: number[]) => void;
-    };
+    mesh: (geometry?: x.Geometry, material?: any) => Mesh;
     geometry: (spec?: any) => x.Geometry;
-    box: (spec?: any) => x.Geometry;
+    box: (spec?: any) => Geometry;
     prism: (spec?: any) => x.Geometry;
     material: (spec?: any) => Material;
     meshBasicMaterial: (spec: any) => Material;
