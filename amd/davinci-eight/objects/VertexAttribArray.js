@@ -4,7 +4,6 @@ define(["require", "exports"], function (require, exports) {
         return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
     function existsLocation(location) {
-        // We could assert here that the location is a number and not undefined.
         return location >= 0;
     }
     // TODO: Maybe this should be called simply AttributeArray?

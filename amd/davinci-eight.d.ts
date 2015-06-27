@@ -2,6 +2,7 @@
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
+import RawShaderMaterial = require('davinci-eight/materials/RawShaderMaterial');
 import VertexAttribArray = require('davinci-eight/objects/VertexAttribArray');
 declare var eight: {
     'VERSION': string;
@@ -34,13 +35,14 @@ declare var eight: {
     LatticeGeometry: typeof LatticeGeometry;
     RGBGeometry: typeof RGBGeometry;
     prism: (spec?: any) => Geometry;
-    customMaterial: (attributes: {
-        name: string;
-        size: number;
-    }[], vertexShader: string, fragmentShader: string) => Material;
     material: (spec?: any) => Material;
     meshBasicMaterial: (spec: any) => Material;
     meshNormalMaterial: (spec: any) => Material;
     VertexAttribArray: typeof VertexAttribArray;
+    rawShaderMaterial: (attributes: {
+        name: string;
+        size: number;
+    }[], vertexShader: string, fragmentShader: string) => Material;
+    RawShaderMaterial: typeof RawShaderMaterial;
 };
 export = eight;

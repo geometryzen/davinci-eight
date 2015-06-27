@@ -4,7 +4,6 @@ function computeUsage(geometry: Geometry, context: WebGLRenderingContext): numbe
 }
 
 function existsLocation(location: number): boolean {
-  // We could assert here that the location is a number and not undefined.
   return location >= 0;
 }
 

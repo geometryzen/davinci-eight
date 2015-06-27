@@ -179,7 +179,28 @@ declare module eight
   {
     program: WebGLProgram;
     programId: string;
-    update(time: number): void;
+    update(context: WebGLRenderingContext, time: number, geometry: Geometry): void;
+  }
+  class RawShaderMaterial implements Material {
+    attributes: string[];
+    program: WebGLProgram;
+    programId: string;
+    private contextGainId;
+    private vertexAttributes;
+    private vertexShader;
+    private fragmentShader;
+    constructor(attributes: {
+        name: string;
+        size: number;
+    }[], vertexShader: string, fragmentShader: string);
+    enableVertexAttributes(context: WebGLRenderingContext): void;
+    disableVertexAttributes(context: WebGLRenderingContext): void;
+    bindVertexAttributes(context: WebGLRenderingContext): void;
+    update(context: WebGLRenderingContext, time: number, geometry: Geometry): void;
+    contextFree(context: WebGLRenderingContext): void;
+    contextGain(context: WebGLRenderingContext, contextId: string): void;
+    contextLoss(): void;
+    hasContext(): boolean;
   }
   class VertexAttribArray {
     constructor(name: string, size: number);
@@ -263,9 +284,9 @@ declare module eight
    */
   function renderer(parameters?: RendererParameters): Renderer;
   /**
-   * Constructs a mesh from the specified geometry and material.
+   * Constructs a Material from the specified shader codes.
    */
-  function customMaterial(attributes: {name: string, size: number}[], vertexShader: string, fragmentShader: string): Material;
+  function rawShaderMaterial(attributes: {name: string, size: number}[], vertexShader: string, fragmentShader: string): Material;
   /**
    * Constructs a mesh from the specified geometry and material.
    */

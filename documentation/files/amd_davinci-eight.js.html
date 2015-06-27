@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.0</em>
+            <em>API Docs for: 2.0.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -80,7 +80,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/materials/material&#x27;, &#x27;davinci-eight/materials/customMaterial&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/scenes/scene&#x27;, &#x27;davinci-eight/renderers/webGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/boxGeometry&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/geometries/prismGeometry&#x27;, &#x27;davinci-eight/materials/meshBasicMaterial&#x27;, &#x27;davinci-eight/materials/meshNormalMaterial&#x27;, &#x27;davinci-eight/objects/VertexAttribArray&#x27;], function (require, exports, core, material, customMaterial, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/materials/material&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/scenes/scene&#x27;, &#x27;davinci-eight/renderers/webGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/boxGeometry&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/geometries/prismGeometry&#x27;, &#x27;davinci-eight/materials/rawShaderMaterial&#x27;, &#x27;davinci-eight/materials/RawShaderMaterial&#x27;, &#x27;davinci-eight/materials/meshBasicMaterial&#x27;, &#x27;davinci-eight/materials/meshNormalMaterial&#x27;, &#x27;davinci-eight/objects/VertexAttribArray&#x27;], function (require, exports, core, material, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, rawShaderMaterial, RawShaderMaterial, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
     var eight = {
         &#x27;VERSION&#x27;: core.VERSION,
         perspective: perspectiveCamera,
@@ -99,11 +99,14 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;
         LatticeGeometry: LatticeGeometry,
         RGBGeometry: RGBGeometry,
         prism: prismGeometry,
-        customMaterial: customMaterial,
         material: material,
         meshBasicMaterial: meshBasicMaterial,
         meshNormalMaterial: meshNormalMaterial,
-        VertexAttribArray: VertexAttribArray
+        VertexAttribArray: VertexAttribArray,
+        get rawShaderMaterial() {
+            return rawShaderMaterial;
+        },
+        RawShaderMaterial: RawShaderMaterial
     };
     return eight;
 });

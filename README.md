@@ -72,6 +72,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 
 ## Release History
 * 1.0.0: 2015-05-02 Initial release.
+* 2.0.0: 2015-06-27 Manage WebGL complexity.
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

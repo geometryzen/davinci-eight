@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -23,8 +23,15 @@
             "fors": {},
             "namespaces": {}
         },
-        "amd/davinci-eight/materials/customMaterial.js": {
-            "name": "amd/davinci-eight/materials/customMaterial.js",
+        "amd/davinci-eight/materials/RawShaderMaterial.js": {
+            "name": "amd/davinci-eight/materials/RawShaderMaterial.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/materials/rawShaderMaterial.js": {
+            "name": "amd/davinci-eight/materials/rawShaderMaterial.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -74,7 +81,13 @@
             "class": ""
         },
         {
-            "file": "amd/davinci-eight/materials/customMaterial.js",
+            "file": "amd/davinci-eight/materials/RawShaderMaterial.js",
+            "line": 63,
+            "description": "Creates a WebGLProgram with compiled and linked shaders.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/rawShaderMaterial.js",
             "line": 67,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": ""
@@ -143,7 +156,11 @@
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " amd/davinci-eight/materials/customMaterial.js:67"
+            "line": " amd/davinci-eight/materials/RawShaderMaterial.js:63"
+        },
+        {
+            "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
+            "line": " amd/davinci-eight/materials/rawShaderMaterial.js:67"
         },
         {
             "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
