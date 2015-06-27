@@ -7,51 +7,6 @@
         "logo": "../assets/logo.png"
     },
     "files": {
-        "amd/davinci-blade/Dimensions.js": {
-            "name": "amd/davinci-blade/Dimensions.js",
-            "modules": {},
-            "classes": {
-                "Dimensions": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "amd/davinci-blade/Euclidean3.js": {
-            "name": "amd/davinci-blade/Euclidean3.js",
-            "modules": {},
-            "classes": {
-                "Euclidean3": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "amd/davinci-blade/Measure.js": {
-            "name": "amd/davinci-blade/Measure.js",
-            "modules": {},
-            "classes": {
-                "Measure": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "amd/davinci-blade/Rational.js": {
-            "name": "amd/davinci-blade/Rational.js",
-            "modules": {},
-            "classes": {
-                "Rational": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "amd/davinci-blade/Unit.js": {
-            "name": "amd/davinci-blade/Unit.js",
-            "modules": {},
-            "classes": {
-                "Unit": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "amd/davinci-eight/cameras/camera.js": {
             "name": "amd/davinci-eight/cameras/camera.js",
             "modules": {},
@@ -63,6 +18,13 @@
         },
         "amd/davinci-eight/geometries/prismGeometry.js": {
             "name": "amd/davinci-eight/geometries/prismGeometry.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/materials/customMaterial.js": {
+            "name": "amd/davinci-eight/materials/customMaterial.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -92,149 +54,6 @@
     },
     "modules": {},
     "classes": {
-        "Dimensions": {
-            "name": "Dimensions",
-            "shortname": "Dimensions",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "amd/davinci-blade/Dimensions.js",
-            "line": 3,
-            "description": "The Dimensions class captures the physical dimensions associated with a unit of measure.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "mass",
-                    "description": "The mass component of the dimensions object.",
-                    "type": "Rational"
-                },
-                {
-                    "name": "length",
-                    "description": "The length component of the dimensions object.",
-                    "type": "Rational"
-                },
-                {
-                    "name": "time",
-                    "description": "The time component of the dimensions object.",
-                    "type": "Rational"
-                },
-                {
-                    "name": "charge",
-                    "description": "The charge component of the dimensions object.",
-                    "type": "Rational"
-                },
-                {
-                    "name": "temperature",
-                    "description": "The temperature component of the dimensions object.",
-                    "type": "Rational"
-                },
-                {
-                    "name": "amount",
-                    "description": "The amount component of the dimensions object.",
-                    "type": "Rational"
-                },
-                {
-                    "name": "intensity",
-                    "description": "The intensity component of the dimensions object.",
-                    "type": "Rational"
-                }
-            ]
-        },
-        "Euclidean3": {
-            "name": "Euclidean3",
-            "shortname": "Euclidean3",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 607,
-            "description": "The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric."
-        },
-        "Measure": {
-            "name": "Measure",
-            "shortname": "Measure",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "amd/davinci-blade/Measure.js",
-            "line": 9,
-            "description": "A Measure is a composite consisting of a quantity and a unit of measure.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "quantity",
-                    "description": "The <em>quantity</em> part of the measure.",
-                    "type": "QuantityOfMeasure<T>"
-                },
-                {
-                    "name": "uom",
-                    "description": "The unit-of-measure part of the measure.",
-                    "type": "Unit"
-                }
-            ]
-        },
-        "Rational": {
-            "name": "Rational",
-            "shortname": "Rational",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "amd/davinci-blade/Rational.js",
-            "line": 3,
-            "description": "The Rational class represents a rational number.",
-            "extends": "Field",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "n",
-                    "description": "The numerator.",
-                    "type": "Number"
-                },
-                {
-                    "name": "d",
-                    "description": "The denominator.",
-                    "type": "Number"
-                }
-            ]
-        },
-        "Unit": {
-            "name": "Unit",
-            "shortname": "Unit",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "amd/davinci-blade/Unit.js",
-            "line": 126,
-            "description": "The Unit class represents the units for a measure.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "scale",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "dimensions",
-                    "description": "",
-                    "type": "Dimensions"
-                },
-                {
-                    "name": "labels",
-                    "description": "The label strings to use for each dimension.",
-                    "type": "String[]"
-                }
-            ]
-        },
         "camera": {
             "name": "camera",
             "shortname": "camera",
@@ -249,176 +68,15 @@
     },
     "classitems": [
         {
-            "file": "amd/davinci-blade/Dimensions.js",
-            "line": 118,
-            "description": "The <em>mass</em> component of this dimensions instance.",
-            "itemtype": "property",
-            "name": "M",
-            "type": "{Rational}",
-            "class": "Dimensions"
-        },
-        {
-            "file": "amd/davinci-blade/Dimensions.js",
-            "line": 153,
-            "description": "Determines whether all the components of the Dimensions instance are zero.",
-            "itemtype": "method",
-            "name": "isZero",
-            "return": {
-                "description": "<code>true</code> if all the components are zero, otherwise <code>false</code>.",
-                "type": "Boolean"
-            },
-            "class": "Dimensions"
-        },
-        {
-            "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 162,
-            "class": "Euclidean3"
-        },
-        {
-            "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 612,
-            "description": "Constructs a Euclidean3 from its coordinates.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "w",
-                    "description": "The scalar part of the multivector.",
-                    "type": "Number"
-                },
-                {
-                    "name": "x",
-                    "description": "The vector component of the multivector in the x-direction.",
-                    "type": "Number"
-                },
-                {
-                    "name": "y",
-                    "description": "The vector component of the multivector in the y-direction.",
-                    "type": "Number"
-                },
-                {
-                    "name": "z",
-                    "description": "The vector component of the multivector in the z-direction.",
-                    "type": "Number"
-                },
-                {
-                    "name": "xy",
-                    "description": "The bivector component of the multivector in the xy-plane.",
-                    "type": "Number"
-                },
-                {
-                    "name": "yz",
-                    "description": "The bivector component of the multivector in the yz-plane.",
-                    "type": "Number"
-                },
-                {
-                    "name": "zx",
-                    "description": "The bivector component of the multivector in the zx-plane.",
-                    "type": "Number"
-                },
-                {
-                    "name": "xyz",
-                    "description": "The pseudoscalar part of the multivector.",
-                    "type": "Number"
-                }
-            ],
-            "class": "Euclidean3"
-        },
-        {
-            "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 944,
-            "description": "~ (tilde) produces reversion.",
-            "class": "Euclidean3"
-        },
-        {
-            "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 983,
-            "description": "Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
-            "class": "Euclidean3"
-        },
-        {
-            "file": "amd/davinci-blade/Euclidean3.js",
-            "line": 989,
-            "description": "Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
-            "class": "Euclidean3"
-        },
-        {
-            "file": "amd/davinci-blade/Measure.js",
-            "line": 28,
-            "description": "The quantity part of the measure.",
-            "itemtype": "property",
-            "name": "quantity",
-            "type": "{GeometricQuantity<T>}",
-            "class": "Measure"
-        },
-        {
-            "file": "amd/davinci-blade/Measure.js",
-            "line": 41,
-            "description": "The unit part of the measure.",
-            "itemtype": "property",
-            "name": "uom",
-            "type": "{Unit}",
-            "class": "Measure"
-        },
-        {
-            "file": "amd/davinci-blade/Rational.js",
-            "line": 55,
-            "description": "The numerator part of the rational number.",
-            "itemtype": "property",
-            "name": "numer",
-            "type": "{number}",
-            "class": "Rational"
-        },
-        {
-            "file": "amd/davinci-blade/Rational.js",
-            "line": 68,
-            "description": "The denominator part of the rational number.",
-            "itemtype": "property",
-            "name": "denom",
-            "type": "{number}",
-            "class": "Rational"
-        },
-        {
-            "file": "amd/davinci-blade/Rational.js",
-            "line": 80,
-            "description": "Returns the sum of this rational number and the argument.",
-            "itemtype": "method",
-            "name": "add",
-            "params": [
-                {
-                    "name": "rhs",
-                    "description": "The number used on the right hand side of the addition operator.",
-                    "type": "Number|Rational"
-                }
-            ],
-            "return": {
-                "description": "The sum of this rational number and the specified argument.",
-                "type": "Rational"
-            },
-            "class": "Rational"
-        },
-        {
-            "file": "amd/davinci-blade/Rational.js",
-            "line": 95,
-            "description": "Returns the difference of this rational number and the argument.",
-            "itemtype": "method",
-            "name": "sub",
-            "params": [
-                {
-                    "name": "rhs",
-                    "description": "The number used on the right hand side of the subtraction operator.",
-                    "type": "Number|Rational"
-                }
-            ],
-            "return": {
-                "description": "The difference of this rational number and the specified argument.",
-                "type": "Rational"
-            },
-            "class": "Rational"
-        },
-        {
             "file": "amd/davinci-eight/geometries/prismGeometry.js",
-            "line": 48,
+            "line": 55,
             "description": "Constructs and returns a Prism geometry object.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/customMaterial.js",
+            "line": 67,
+            "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": ""
         },
         {
@@ -473,35 +131,19 @@
         },
         {
             "file": "amd/davinci-eight.js",
-            "line": 17,
+            "line": 13,
             "description": "Constructs and returns a box geometry.",
             "class": ""
         }
     ],
     "warnings": [
         {
-            "message": "Missing item type",
-            "line": " amd/davinci-blade/Euclidean3.js:162"
-        },
-        {
-            "message": "Missing item type\nConstructs a Euclidean3 from its coordinates.",
-            "line": " amd/davinci-blade/Euclidean3.js:612"
-        },
-        {
-            "message": "Missing item type\n~ (tilde) produces reversion.",
-            "line": " amd/davinci-blade/Euclidean3.js:944"
-        },
-        {
-            "message": "Missing item type\nComputes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
-            "line": " amd/davinci-blade/Euclidean3.js:983"
-        },
-        {
-            "message": "Missing item type\nComputes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
-            "line": " amd/davinci-blade/Euclidean3.js:989"
-        },
-        {
             "message": "Missing item type\nConstructs and returns a Prism geometry object.",
-            "line": " amd/davinci-eight/geometries/prismGeometry.js:48"
+            "line": " amd/davinci-eight/geometries/prismGeometry.js:55"
+        },
+        {
+            "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
+            "line": " amd/davinci-eight/materials/customMaterial.js:67"
         },
         {
             "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
@@ -513,7 +155,7 @@
         },
         {
             "message": "Missing item type\nConstructs and returns a box geometry.",
-            "line": " amd/davinci-eight.js:17"
+            "line": " amd/davinci-eight.js:13"
         }
     ]
 }

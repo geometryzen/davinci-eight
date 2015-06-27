@@ -1,84 +1,164 @@
-import Geometry = require('davinci-eight/core/Geometry');
-import geometry = require('davinci-eight/core/geometry');
+//
+// boxGeometry.ts
+//
+/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import Euclidean3 = require('davinci-blade/Euclidean3');
-import eight = require('eightAPI');
+import PrimitiveMode = require('davinci-eight/core/PrimitiveMode');
 
-var vertexList: Euclidean3[] =
-    [
-        // front face
-        vectorE3(-0.5, -0.5, +0.5),
-        vectorE3(+0.5, -0.5, +0.5),
-        vectorE3(+0.5, +0.5, +0.5),
-        vectorE3(-0.5, +0.5, +0.5),
+var vertexList: blade.Euclidean3[] =
+[
+  // front (+z) face (labelled 0, 1, 2, 3 from lower left counterclockwise from front)
+  vectorE3(-0.5, -0.5, +0.5),
+  vectorE3(+0.5, -0.5, +0.5),
+  vectorE3(+0.5, +0.5, +0.5),
+  vectorE3(-0.5, +0.5, +0.5),
 
-        // rear face
-        vectorE3(-0.5, -0.5, -0.5),
-        vectorE3(+0.5, -0.5, -0.5),
-        vectorE3(+0.5, +0.5, -0.5),
-        vectorE3(-0.5, +0.5, -0.5)
-    ];
+  // rear (-z) face (labelled 4, 5, 6, 7 from lower left counterclockwise from front)
+  vectorE3(-0.5, -0.5, -0.5),
+  vectorE3(+0.5, -0.5, -0.5),
+  vectorE3(+0.5, +0.5, -0.5),
+  vectorE3(-0.5, +0.5, -0.5)
+];
 
 var triangles: number[][] =
-    [
-        // front
-        [0, 1, 2],
-        [0, 2, 3],
-        // rear
-        [4, 7, 5],
-        [5, 7, 6],
-        // left
-        [0, 7, 4],
-        [0, 3, 7],
-        // right
-        [1, 5, 2],
-        [2, 5, 6],
-        // top
-        [2, 7, 3],
-        [2, 6, 7],
-        // bottom
-        [0, 5, 1],
-        [0, 4, 5]
-    ];
+[
+  // front
+  [0, 1, 2],
+  [0, 2, 3],
+  // rear
+  [4, 7, 5],
+  [5, 7, 6],
+  // left
+  [0, 7, 4],
+  [0, 3, 7],
+  // right
+  [1, 5, 2],
+  [2, 5, 6],
+  // top
+  [2, 7, 3],
+  [2, 6, 7],
+  // bottom
+  [0, 5, 1],
+  [0, 4, 5]
+];
 
 var boxGeometry = function(spec?): Geometry {
 
-    var base = geometry(spec);
-    
-    var api = {
-        primitives: triangles,
-        vertices: [],
-        normals: [],
-        colors: [],
-        primitiveMode: base.primitiveMode
-    };
+  var elements: number[] = [];
 
-    for (var t = 0; t < triangles.length; t++) {
-        var triangle = triangles[t];
+  var aVertexPositionArray: Float32Array;
+  var aVertexColorArray: Float32Array;
+  var aVertexNormalArray: Float32Array;
 
-        // Normals will be the same for each vertex of a triangle.
-        var v0: Euclidean3 = vertexList[triangle[0]];
-        var v1: Euclidean3 = vertexList[triangle[1]];
-        var v2: Euclidean3 = vertexList[triangle[2]];
-
-        var perp: Euclidean3 = v1.sub(v0).cross(v2.sub(v0));
-        var normal: Euclidean3 = perp.div(perp.norm());
-
-        for (var j = 0; j < 3; j++) {
-            api.vertices.push(vertexList[triangle[j]].x);
-            api.vertices.push(vertexList[triangle[j]].y);
-            api.vertices.push(vertexList[triangle[j]].z);
-
-            api.normals.push(normal.x);
-            api.normals.push(normal.y);
-            api.normals.push(normal.z);
-
-            api.colors.push(0.0);
-            api.colors.push(0.0);
-            api.colors.push(1.0);
+  var publicAPI = {
+    draw(context: WebGLRenderingContext) {
+      context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
+    },
+    dynamic(): boolean {return false;},
+    getAttributes(): {name: string, size: number}[] {
+      return [
+        {name: 'aVertexPosition',size: 3},
+        {name: 'aVertexColor',size: 3},
+        {name: 'aVertexNormal',size: 3}
+      ];
+    },
+    getElements(): Uint16Array {
+      // We don't support element arrays (yet).
+      return;
+    },
+    getVertexAttribArrayData(name: string) {
+      switch(name) {
+        case 'aVertexPosition': {
+          return aVertexPositionArray;
         }
+        case 'aVertexColor': {
+          return aVertexColorArray;
+        }
+        case 'aVertexNormal': {
+          return aVertexNormalArray;
+        }
+        default: {
+          return;
+        }
+      }
+    },
+    update(time: number, names: string[]): void {
+      let requirePosition: boolean = names.indexOf('aVertexPosition') >= 0;
+      let requireColor: boolean = names.indexOf('aVertexColor') >= 0;
+      let requireNormal: boolean = names.indexOf('aVertexNormal') >= 0;
+
+      // Insist that things won't work without aVertexPosition.
+      // We just degrade gracefully if the other attribute arrays are not required.
+      if (!requirePosition) {
+        throw new Error("Box geometry is expecting to provide aVertexPosition");
+      }
+  
+      let vertices: number[] = [];
+      let colors: number[] = [];
+      let normals: number[] = [];
+
+      triangles.forEach(function(triangle: number[], index: number) {
+
+        elements.push(triangle[0]);
+        elements.push(triangle[1]);
+        elements.push(triangle[2]);
+
+        if (requirePosition) {
+          for (var j = 0; j < 3; j++) {
+            vertices.push(vertexList[triangle[j]].x);
+            vertices.push(vertexList[triangle[j]].y);
+            vertices.push(vertexList[triangle[j]].z);
+          }
+        }
+
+        if (requireColor) {
+          colors.push(0.0);
+          colors.push(0.0);
+          colors.push(1.0);
+
+          colors.push(0.0);
+          colors.push(0.0);
+          colors.push(1.0);
+
+          colors.push(0.0);
+          colors.push(0.0);
+          colors.push(1.0);
+        }
+
+        if (requireNormal) {
+          let v0: blade.Euclidean3 = vertexList[triangle[0]];
+          let v1: blade.Euclidean3 = vertexList[triangle[1]];
+          let v2: blade.Euclidean3 = vertexList[triangle[2]];
+
+          let perp: blade.Euclidean3 = v1.sub(v0).cross(v2.sub(v0));
+          let normal: blade.Euclidean3 = perp.div(perp.norm());
+
+          normals.push(normal.x);
+          normals.push(normal.y);
+          normals.push(normal.z);
+
+          normals.push(normal.x);
+          normals.push(normal.y);
+          normals.push(normal.z);
+
+          normals.push(normal.x);
+          normals.push(normal.y);
+          normals.push(normal.z);
+        }
+      });
+      if (requirePosition) {
+        aVertexPositionArray = new Float32Array(vertices);
+      }
+      if (requireColor) {
+        aVertexColorArray = new Float32Array(colors);
+      }
+      if (requireNormal) {
+        aVertexNormalArray = new Float32Array(normals);
+      }
     }
-    return api;
+  };
+  return publicAPI;
 };
 
 export = boxGeometry;

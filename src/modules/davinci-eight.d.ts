@@ -7,15 +7,38 @@
 //
 declare module eight
 {
-  interface Scene
-  {
+  interface Drawable {
+    drawGroupName: string;
+  }
+  interface RenderingContextUser {
     /**
-     * Adda a mesh to the root node of the scene.
+     * Notify that Scene is no longer required and request to free, dispose or delete any WebGL resources acquired and owned by the Scene.
+     * The Scene will broadcast this to all Drawable(s) it knows about through add().
      */
-    add(mesh: Mesh): void;
-    tearDown(): void;
-    onContextLoss(): void;
-    onContextGain(context: WebGLRenderingContext): void;
+    contextFree(context: WebGLRenderingContext): void;
+    /**
+     * Notification of a new WebGLRenderingContext.
+     * @param context The WebGLRenderingContext.
+     * @param contextId A unique identifier used to distinguish the context.
+     */
+    contextGain(context: WebGLRenderingContext, contextGainId: string): void;
+    /**
+     * Notification that any WebGL resources cached are invalid because the WebGLContext has been lost.
+     * This is a cue to rest to the initial state without attempting to dispose or free held resources.
+     */
+    contextLoss(): void;
+    /**
+     * Determines whether this context user has a valid WebGLRenderingContext.
+     */
+    hasContext(): boolean;
+  }
+  interface Scene extends RenderingContextUser
+  {
+    drawGroups: {[drawGroupName:string]: Drawable[]},
+    /**
+     * Add a drawable to the root node of the scene.
+     */
+    add(drawable: Drawable): void;
   }
   class Euclidean3 {
       public w: number;
@@ -98,22 +121,76 @@ declare module eight
       public toStringLATEX(): string;
   }
   /**
-   * A transformation from the 3D world to the 2D canvas.
+   * A transformation from the 3D world to the view cube.
    */
-  interface Projection
+  interface Camera
   {
+    projectionMatrix: Float32Array;
   }
   /**
    * A simplex of triangular regions
    */
   interface Geometry
   {
+    draw(context: WebGLRenderingContext): void;
+    dynamic(): boolean;
+    getAttributes(): {name: string, size: number}[];
+    getElements(): Uint16Array;
+    getVertexAttribArrayData(name: string): Float32Array;
+    update(time: number, names: string[]): void;
+  }
+  class CurveGeometry implements Geometry {
+    constructor(
+      n: number,
+      generator: (i: number, time: number) => {x: number; y: number; z: number});
+    draw(context: WebGLRenderingContext): void;
+    dynamic(): boolean;
+    getAttributes(): {name: string, size: number}[];
+    getElements(): Uint16Array;
+    getVertexAttribArrayData(name: string): Float32Array;
+    update(time: number, names: string[]): void;
+  }
+  class LatticeGeometry implements Geometry {
+    constructor(
+      I: number,
+      J: number,
+      K: number,
+      generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
+    draw(context: WebGLRenderingContext): void;
+    dynamic(): boolean;
+    getAttributes(): {name: string, size: number}[];
+    getElements(): Uint16Array;
+    getVertexAttribArrayData(name: string): Float32Array;
+    update(time: number, names: string[]): void;
+  }
+  class RGBGeometry implements Geometry {
+    constructor();
+    draw(context: WebGLRenderingContext): void;
+    dynamic(): boolean;
+    getAttributes(): {name: string, size: number}[];
+    getElements(): Uint16Array;
+    getVertexAttribArrayData(name: string): Float32Array;
+    update(time: number, names: string[]): void;
+  }
+  /**
+   * A vertex shader and a fragment shader.
+   */
+  interface Material extends RenderingContextUser
+  {
+    program: WebGLProgram;
+    programId: string;
+    update(time: number): void;
+  }
+  class VertexAttribArray {
+    constructor(name: string, size: number);
   }
   /**
    * The combination of a geometry and a material.
    */
-  interface Mesh
+  interface Mesh<G extends Geometry, M extends Material> extends Drawable
   {
+    geometry: G;
+    material: M;
     /**
      * The attitude of the mesh expressed as a rotor.
      */
@@ -123,29 +200,45 @@ declare module eight
      */
     position: Euclidean3;
   }
-  interface WebGLContextMonitor
+  interface RenderingContextMonitor
   {
     /**
      * Starts the monitoring of the WebGL context.
      */
-    start(): void;
+    start(context: WebGLRenderingContext): void;
     /**
      * Stops the monitoring of the WebGL context.
      */
     stop(): void;
   }
-  interface WebGLRenderer
+  interface Renderer
   {
     canvas: HTMLCanvasElement;
     context: WebGLRenderingContext;
-    onContextLoss(): void;
-    onContextGain(context: WebGLRenderingContext): void;
-    render(scene: Scene, camera: Projection): void;
+    contextFree(): void;
+    contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
+    contextLoss(): void;
+    render(scene: Scene, camera: Camera): void;
+    setSize(width: number, height: number): void;
+  }
+  interface RendererParameters {
+    alpha?: boolean;
+    antialias?: boolean;
+    canvas?: HTMLCanvasElement;
+    depth?: boolean;
+    premultipliedAlpha?: boolean;
+    preserveDrawingBuffer?: boolean;
+    stencil?: boolean;
   }
   interface WindowAnimationRunner
   {
     start(): void;
     stop(): void;
+    reset(): void;
+    lap(): void;
+    time(): number;
+    isRunning: boolean;
+    isPaused: boolean;
   }
   interface Workbench3D
   {
@@ -159,16 +252,24 @@ declare module eight
   /**
    * Constructs and returns a Linear Perspective projection camera.
    */
-  function perspective(fov: number, aspect: number, near: number, far: number): Projection;
+  function perspective(
+    /**
+     * The field of view angle in the y-direction, measured in radians.
+     */
+    fov: number, aspect: number, near: number, far: number): Camera;
   /**
    * Constructs and returns a WebGL renderer.
    * @param parameters Optional parameters for modifying the WebGL context.
    */
-  function renderer(parameters?: any): WebGLRenderer;
+  function renderer(parameters?: RendererParameters): Renderer;
   /**
    * Constructs a mesh from the specified geometry and material.
    */
-  function mesh(geometry: Geometry): Mesh;
+  function customMaterial(attributes: {name: string, size: number}[], vertexShader: string, fragmentShader: string): Material;
+  /**
+   * Constructs a mesh from the specified geometry and material.
+   */
+  function mesh<G extends Geometry, M extends Material>(geometry: G, material: M): Mesh<G, M>;
   /**
    * Constructs and returns a box geometry.
    */
@@ -198,15 +299,20 @@ declare module eight
   /**
    * Constructs and returns a new Workbench3D.
    */
-  function workbench(canvas: HTMLCanvasElement, renderer: WebGLRenderer, camera: Projection, window: Window): Workbench3D;
+  function workbench(canvas: HTMLCanvasElement, renderer: Renderer, camera: Camera, window: Window): Workbench3D;
   /**
    * Constructs and returns a WindowAnimationRunner.
    */
   function animationRunner(tick: {(time: number): void;}, terminate: {(time: number): boolean;}, setUp: {(): void;}, tearDown: {(e: Error): void;}, window: Window): WindowAnimationRunner;
   /**
-   * Constructs and returns a WebGLContextMonitor.
+   * Constructs and returns a RenderingContextMonitor.
    */
-  function contextMonitor(canvas: HTMLCanvasElement, contextLoss: {(): void;}, contextGain: {(context: WebGLRenderingContext): void;}): WebGLContextMonitor;
+  function contextMonitor(
+    canvas: HTMLCanvasElement,
+    contextFree: {(): void;},
+    contextGain: {(context: WebGLRenderingContext, contextGainId: string): void;},
+    contextLoss: {(): void;}
+    ): RenderingContextMonitor;
 
   /**
    * The version string of the eight module.

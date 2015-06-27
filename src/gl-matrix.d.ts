@@ -22,7 +22,11 @@ interface Matrix3Service {
 
 interface Matrix4Service {
     create(): number[];
+    fromQuat(matrix: number[], q: number[]): void;
+    identity(matrix: number[]): void;
+    mul(m1: number[], m2: number[], m3: number[]): void;
     perspective(matrix: number[], fov: number, aspect: number, near: number, far: number): void;
+    translate(m1: number[], m2: number[], displacement: number[]): void;
     fromRotationTranslation(matrix: number[], q: Quaternion, v: Vector3): void;
 }
 

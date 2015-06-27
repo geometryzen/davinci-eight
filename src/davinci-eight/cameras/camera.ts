@@ -1,6 +1,8 @@
+/// <reference path="../../../vendor/davinci-blade/amd/davinci-blade.d.ts" />
+/// <reference path="../../../src/gl-matrix.d.ts" />
+/// <amd-dependency path="gl-matrix" name="glMatrix"/>
 import object3D = require('davinci-eight/core/object3D');
-import glMatrix = require('gl-matrix');
-import Euclidean3 = require('davinci-blade/Euclidean3');
+declare var glMatrix: glMatrix;
 
 /**
  * @class camera
@@ -8,14 +10,15 @@ import Euclidean3 = require('davinci-blade/Euclidean3');
 var camera = function() {
 
     var base = object3D();
+    var projectionMatrix = glMatrix.mat4.create();
 
     var that = {
         // Delegate to the base camera.
-        get position(): Euclidean3 { return base.position; },
+        get position(): blade.Euclidean3 { return base.position; },
         set position(value) { base.position = value },
-        get attitude(): Euclidean3 { return base.attitude; },
+        get attitude(): blade.Euclidean3 { return base.attitude; },
         set attitude(value) { base.attitude = value },
-        projectionMatrix: glMatrix.mat4.create()
+        get projectionMatrix() {return projectionMatrix}
     };
 
     return that;

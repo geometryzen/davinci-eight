@@ -1,147 +1,122 @@
 /// <reference path="./Mesh.d.ts" />
-import geometryConstructor = require('davinci-eight/core/geometry');
+/// <reference path="../cameras/Camera.d.ts" />
+/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../materials/Material.d.ts" />
+/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import meshBasicMaterial = require('davinci-eight/materials/meshBasicMaterial');
 import object3D = require('davinci-eight/core/object3D');
 import vs_source = require('davinci-eight/shaders/shader-vs');
 import fs_source = require('davinci-eight/shaders/shader-fs');
 import glMatrix = require('gl-matrix');
-import Euclidean3 = require('davinci-blade/Euclidean3');
-import eight = require('eightAPI');
+import ElementArray = require('davinci-eight/objects/ElementArray');
 
-var mesh = function(geometry?: eight.Geometry, material?): Mesh {
-    var gl: WebGLRenderingContext = null;
-    var _vs: WebGLShader = null;
-    var _fs: WebGLShader = null;
-    var _program: WebGLProgram = null;
-    var _vbo: WebGLBuffer = null;
-    var _vbn: WebGLBuffer = null;
-    var _vbc: WebGLBuffer = null;
-    var _mvMatrixUniform: WebGLUniformLocation = null;
-    var _normalMatrixUniform: WebGLUniformLocation = null;
-    var _pMatrixUniform: WebGLUniformLocation = null;
-    var _mvMatrix = glMatrix.mat4.create();
-    var _normalMatrix = glMatrix.mat3.create();
-    geometry = geometry || geometryConstructor();
-    material = material || meshBasicMaterial({ 'color': Math.random() * 0xffffff });
+class UniformMatrix4fv {
+  private location: WebGLUniformLocation;
+  private name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    this.location = context.getUniformLocation(program, this.name);
+  }
+  foo(context: WebGLRenderingContext, transpose: boolean, matrix) {
+    context.uniformMatrix4fv(this.location, transpose, matrix);
+  }
+}
+
+var mesh = function<G extends Geometry, M extends Material>(geometry: G, material: M): Mesh<G, M> {
 
     var base = object3D();
+    var contextGainId: string;
+    var elements = new ElementArray();
 
-    var that = {
-        get position(): Euclidean3 {return base.position },
+    var MVMatrix: UniformMatrix4fv = new UniformMatrix4fv('uMVMatrix');
+    var uNormalMatrix: WebGLUniformLocation;
+    var PMatrix: UniformMatrix4fv = new UniformMatrix4fv('uPMatrix');
+    // It might be nice to decouple from glMatrix, since that is the direction?
+    var matrix = glMatrix.mat4.create();
+    var normalMatrix = glMatrix.mat3.create();
+
+    function updateGeometry(context: WebGLRenderingContext, time: number) {
+      // Make sure to update the geometry first so that the material gets the correct data.
+      geometry.update(time, material.attributes);
+      material.update(context, time, geometry);
+      elements.bufferData(context, geometry);
+    }
+
+    var publicAPI = {
+        get geometry(): G {
+          return geometry;
+        },
+        get material(): M {
+          return material;
+        },
+        contextFree(context: WebGLRenderingContext) {
+          material.contextFree(context);
+          elements.contextFree(context);
+        },
+        contextGain(context: WebGLRenderingContext, contextId: string) {
+          if (contextGainId !== contextId) {
+            contextGainId = contextId;
+            material.contextGain(context, contextId);
+            elements.contextGain(context);
+            if (!geometry.dynamic()) {
+              updateGeometry(context, 0);
+            }
+
+            // TODO; We won't need material.program when these are encapsulated.
+            MVMatrix.contextGain(context, material.program);
+            // This could come back as null, meaning there is no such Uniform in the shader.
+            uNormalMatrix = context.getUniformLocation(material.program, 'uNormalMatrix');
+            PMatrix.contextGain(context, material.program);
+          }
+        },
+        contextLoss() {
+          material.contextLoss();
+          elements.contextLoss();
+        },
+        hasContext(): boolean {
+          return material.hasContext();
+        },
+        get drawGroupName(): string {return material.programId;},
+        useProgram(context: WebGLRenderingContext) {
+          context.useProgram(material.program);
+        },
+        draw(context: WebGLRenderingContext, time: number, camera: Camera) {
+          var position = base.position;
+          var attitude = base.attitude;
+          if (material.hasContext()) {
+            if (geometry.dynamic()) {
+              updateGeometry(context, time);
+            }
+            glMatrix.mat4.identity(matrix);
+            glMatrix.mat4.translate(matrix, matrix, [position.x, position.y, position.z]);
+            var rotationMatrix = glMatrix.mat4.create();
+            glMatrix.mat4.fromQuat(rotationMatrix, [attitude.yz, attitude.zx, attitude.xy, attitude.w]);
+            glMatrix.mat4.mul(matrix, matrix, rotationMatrix);
+            rotationMatrix = null;
+
+            PMatrix.foo(context, false, camera.projectionMatrix);
+            MVMatrix.foo(context, false, matrix);
+            if (uNormalMatrix) {
+              glMatrix.mat3.normalFromMat4(normalMatrix, matrix);
+              context.uniformMatrix3fv(uNormalMatrix, false, normalMatrix);
+            }
+
+            material.enableVertexAttributes(context);
+            material.bindVertexAttributes(context);
+            geometry.draw(context);
+            elements.bind(context);
+            material.disableVertexAttributes(context);
+          }
+        },
+        get position(): blade.Euclidean3 {return base.position },
         set position(position) { base.position = position },
-        get attitude(): Euclidean3 {return base.attitude },
-        set attitude(attitude) { base.attitude = attitude },
-        projectionMatrix: glMatrix.mat4.create(),
-        onContextGain: function(context: WebGLRenderingContext) {
-            var infoLog: string;
-            gl = context;
-
-            _vs = gl.createShader(gl.VERTEX_SHADER);
-            gl.shaderSource(_vs, vs_source);
-            gl.compileShader(_vs);
-            if (!gl.getShaderParameter(_vs, gl.COMPILE_STATUS) && !gl.isContextLost()) {
-                infoLog = gl.getShaderInfoLog(_vs);
-                window.alert("Error compiling vertex shader:\n" + infoLog);
-            }
-
-            _fs = gl.createShader(gl.FRAGMENT_SHADER);
-            gl.shaderSource(_fs, fs_source);
-            gl.compileShader(_fs);
-            if (!gl.getShaderParameter(_fs, gl.COMPILE_STATUS) && !gl.isContextLost()) {
-                infoLog = gl.getShaderInfoLog(_fs);
-                window.alert("Error compiling fragment shader:\n" + infoLog);
-            }
-
-            _program = gl.createProgram();
-
-            gl.attachShader(_program, _vs);
-            gl.attachShader(_program, _fs);
-            gl.linkProgram(_program);
-
-            if (!gl.getProgramParameter(_program, gl.LINK_STATUS) && !gl.isContextLost()) {
-                infoLog = gl.getProgramInfoLog(_program);
-                window.alert("Error linking program:\n" + infoLog);
-            }
-
-            _vbo = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, _vbo);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry.vertices), gl.STATIC_DRAW);
-
-            _vbn = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, _vbn);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry.normals), gl.STATIC_DRAW);
-
-            _vbc = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(geometry.colors), gl.STATIC_DRAW);
-
-            _mvMatrixUniform = gl.getUniformLocation(_program, "uMVMatrix");
-            _normalMatrixUniform = gl.getUniformLocation(_program, "uNormalMatrix");
-            _pMatrixUniform = gl.getUniformLocation(_program, "uPMatrix");
-        },
-        onContextLoss: function() {
-            _vs = null;
-            _fs = null;
-            _program = null;
-            _vbc = null;
-            _vbo = null;
-            _vbn = null;
-            _mvMatrixUniform = null;
-            _pMatrixUniform = null;
-        },
-        tearDown: function() {
-            gl.deleteShader(_vs);
-            gl.deleteShader(_fs);
-            gl.deleteProgram(_program);
-        },
-        updateMatrix: function() {
-            // The following performs the rotation first followed by the translation.
-            var v = glMatrix.vec3.fromValues(that.position.x, that.position.y, that.position.z);
-            var q = glMatrix.quat.fromValues(-that.attitude.yz, -that.attitude.zx, -that.attitude.xy, that.attitude.w);
-            /*
-                  mat4.identity(mvMatrix);
-                  mat4.translate(mvMatrix, mvMatrix, v);
-                  var quatMat = mat4.create();
-                  mat4.fromQuat(quatMat, q);
-                  mat4.multiply(mvMatrix, mvMatrix, quatMat);
-            */
-            glMatrix.mat4.fromRotationTranslation(_mvMatrix, q, v);
-
-            // TODO: Should we be computing this inside the shader?
-            glMatrix.mat3.normalFromMat4(_normalMatrix, _mvMatrix);
-        },
-        draw: function(projectionMatrix: number[]) {
-            if (gl) {
-                gl.useProgram(_program);
-
-                that.updateMatrix();
-
-                gl.uniformMatrix4fv(_mvMatrixUniform, false, _mvMatrix);
-                gl.uniformMatrix3fv(_normalMatrixUniform, false, _normalMatrix);
-                gl.uniformMatrix4fv(_pMatrixUniform, false, projectionMatrix);
-
-                var vertexPositionAttribute = gl.getAttribLocation(_program, "aVertexPosition");
-                gl.enableVertexAttribArray(vertexPositionAttribute);
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, _vbo);
-                gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
-
-                var vertexNormalAttribute = gl.getAttribLocation(_program, "aVertexNormal");
-                gl.enableVertexAttribArray(vertexNormalAttribute);
-                gl.bindBuffer(gl.ARRAY_BUFFER, _vbn);
-                gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0);
-
-                var vertexColorAttribute = gl.getAttribLocation(_program, "aVertexColor");
-                gl.enableVertexAttribArray(vertexColorAttribute);
-                gl.bindBuffer(gl.ARRAY_BUFFER, _vbc);
-                gl.vertexAttribPointer(vertexColorAttribute, 3, gl.FLOAT, false, 0, 0);
-
-                gl.drawArrays(geometry.primitiveMode(gl), 0, geometry.primitives.length * 3);
-            }
-        }
+        get attitude(): blade.Euclidean3 {return base.attitude },
+        set attitude(attitude) { base.attitude = attitude }
     };
 
-    return that;
+    return publicAPI;
 };
 
 export = mesh;

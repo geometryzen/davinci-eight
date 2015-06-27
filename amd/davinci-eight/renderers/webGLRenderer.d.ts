@@ -1,13 +1,7 @@
-declare var webGLRenderer: (parameters?: any) => {
-    canvas: HTMLCanvasElement;
-    context: WebGLRenderingContext;
-    onContextGain: (context: WebGLRenderingContext) => void;
-    onContextLoss: () => void;
-    clearColor: (r: number, g: number, b: number, a: number) => void;
-    render: (scene: any, camera: {
-        projectionMatrix: any;
-    }) => void;
-    viewport: (x: any, y: any, width: any, height: any) => void;
-    setSize: (width: any, height: any, updateStyle: any) => void;
-};
-export = webGLRenderer;
+/// <reference path="../../../src/davinci-eight/core/DrawContext.d.ts" />
+/// <reference path="../../../src/davinci-eight/cameras/Camera.d.ts" />
+/// <reference path="../../../src/davinci-eight/scenes/Scene.d.ts" />
+/// <reference path="../../../src/davinci-eight/renderers/Renderer.d.ts" />
+/// <reference path="../../../src/davinci-eight/renderers/RendererParameters.d.ts" />
+declare var renderer: (parameters?: RendererParameters) => Renderer;
+export = renderer;

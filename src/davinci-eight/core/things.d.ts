@@ -15,6 +15,8 @@ declare module x {
         colors: number[];
         primitiveMode: (gl: WebGLRenderingContext) => number;
     }
+    interface Material {
+    }
 }
 
 // This is not a TypeScript internal module.

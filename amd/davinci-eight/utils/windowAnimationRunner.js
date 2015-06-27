@@ -25,7 +25,7 @@ define(["require", "exports"], function (require, exports) {
                     tearDown(exception);
                 }
                 catch (e) {
-                    console.log(e);
+                    console.log("Exception thrown by tearDown method. " + e);
                 }
             }
             else {
@@ -34,6 +34,7 @@ define(["require", "exports"], function (require, exports) {
                     tick(elapsed / MILLIS_PER_SECOND);
                 }
                 catch (e) {
+                    console.log("Exception thrown by tick method. " + e);
                     exception = e;
                     escKeyPressed = true;
                 }

@@ -39,11 +39,6 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/camera.html">camera</a></li>
-                                <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/Measure.html">Measure</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
-                                <li><a href="../classes/Unit.html">Unit</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -84,14 +79,11 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/core/geometry&#x27;, &#x27;davinci-eight/core/material&#x27;, &#x27;davinci-blade/Euclidean3&#x27;, &#x27;davinci-eight/math/e3ga/scalarE3&#x27;, &#x27;davinci-eight/math/e3ga/vectorE3&#x27;, &#x27;davinci-eight/math/e3ga/bivectorE3&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/scenes/scene&#x27;, &#x27;davinci-eight/renderers/webGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/boxGeometry&#x27;, &#x27;davinci-eight/geometries/prismGeometry&#x27;, &#x27;davinci-eight/materials/meshBasicMaterial&#x27;, &#x27;davinci-eight/materials/meshNormalMaterial&#x27;], function (require, exports, core, geometry, material, Euclidean3, scalarE3, vectorE3, bivectorE3, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, prismGeometry, meshBasicMaterial, meshNormalMaterial) {
+/// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/materials/material&#x27;, &#x27;davinci-eight/materials/customMaterial&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/scenes/scene&#x27;, &#x27;davinci-eight/renderers/webGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/boxGeometry&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/geometries/prismGeometry&#x27;, &#x27;davinci-eight/materials/meshBasicMaterial&#x27;, &#x27;davinci-eight/materials/meshNormalMaterial&#x27;, &#x27;davinci-eight/objects/VertexAttribArray&#x27;], function (require, exports, core, material, customMaterial, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
     var eight = {
         &#x27;VERSION&#x27;: core.VERSION,
         perspective: perspectiveCamera,
-        Euclidean3: Euclidean3,
-        scalarE3: scalarE3,
-        vectorE3: vectorE3,
-        bivectorE3: bivectorE3,
         scene: scene,
         object3D: object3D,
         renderer: webGLRenderer,
@@ -99,15 +91,19 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;
         workbench: workbench3D,
         animationRunner: windowAnimationRunner,
         mesh: mesh,
-        geometry: geometry,
         /**
          * Constructs and returns a box geometry.
          */
         box: boxGeometry,
+        CurveGeometry: CurveGeometry,
+        LatticeGeometry: LatticeGeometry,
+        RGBGeometry: RGBGeometry,
         prism: prismGeometry,
+        customMaterial: customMaterial,
         material: material,
         meshBasicMaterial: meshBasicMaterial,
-        meshNormalMaterial: meshNormalMaterial
+        meshNormalMaterial: meshNormalMaterial,
+        VertexAttribArray: VertexAttribArray
     };
     return eight;
 });

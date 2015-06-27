@@ -1,39 +1,16 @@
-//
-// object3D.ts
-//
-// This is an example of a functional constructor (Douglas Crockford).
-// We make no attempt to use an interface to get named typing.
-// This seems to work better in the generated *.d.ts files.
-// When we try to use an interface, the reference comments or imports are incorrect.
-//
+/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+/// <reference path="Object3D.d.ts" />
 import scalarE3 = require('davinci-eight/math/e3ga/scalarE3');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import Euclidean3 = require('davinci-blade/Euclidean3');
 
-var object3D = function() {
+var object3D = function(): Object3D {
 
-    var that =
-        {
-            position: vectorE3(0, 0, 0),
-            attitude: scalarE3(1),
-            onContextGain: function(gl) {
-                console.error("Missing onContextGain function");
-            },
-            onContextLoss: function() {
-                console.error("Missing onContextLoss function");
-            },
-            tearDown: function() {
-                console.error("Missing tearDown function");
-            },
-            updateMatrix: function() {
-                console.error("Missing updateMatrix function");
-            },
-            draw: function(projectionMatrix) {
-                console.error("Missing draw function");
-            }
-        };
+  var publicAPI: Object3D = {
+    position: vectorE3(0, 0, 0),
+    attitude: scalarE3(1),
+  };
 
-    return that;
+  return publicAPI;
 };
 
 export = object3D;

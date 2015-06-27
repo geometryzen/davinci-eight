@@ -26,15 +26,15 @@
   ],
   "dependencies":
   {
-    "davinci-blade": "~1.0.1",
-    "gl-matrix": "~2.2.1"
+    "davinci-blade": "~1.7.1",
+    "gl-matrix": "~2.3.1"
   },
   "devDependencies":
   {
-    "jasmine": "~2.3.0",
+    "jasmine": "~2.3.4",
     "almond": "~0.3.1",
-    "r.js": "~2.1.16",
-    "requirejs": "~2.1.17",
+    "r.js": "~2.1.18",
+    "requirejs": "~2.1.18",
     "jscover": "http://github.com/tntim96/JSCover.git",
     "stats.js": "latest"
   },

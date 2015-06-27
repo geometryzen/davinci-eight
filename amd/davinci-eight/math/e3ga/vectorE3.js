@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-blade/Euclidean3'], function (require, exports, Euclidean3) {
+define(["require", "exports", "davinci-blade/Euclidean3"], function (require, exports, Euclidean3) {
     /**
      * Constructs and returns a Euclidean 3D vector from its cartesian components.
      * @param x The x component of the vector.

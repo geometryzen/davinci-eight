@@ -1,7 +1,8 @@
-import Euclidean3 = require('davinci-blade/Euclidean3');
+/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+/// <reference path="../../../src/gl-matrix.d.ts" />
 declare var perspectiveCamera: (fov?: number, aspect?: number, near?: number, far?: number) => {
-    position: Euclidean3;
-    attitude: Euclidean3;
+    position: blade.Euclidean3;
+    attitude: blade.Euclidean3;
     aspect: number;
     projectionMatrix: number[];
 };

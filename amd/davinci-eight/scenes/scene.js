@@ -1,29 +1,43 @@
 define(["require", "exports", 'davinci-eight/core/object3D'], function (require, exports, object3D) {
     var scene = function () {
-        var kids = [];
+        var drawables = [];
+        var drawGroups = {};
         // TODO: What do we want out of the base object3D?
         var base = object3D();
+        var gl;
+        var contextId;
         var that = {
-            get children() {
-                return kids;
-            },
-            onContextGain: function (gl) {
-                for (var i = 0, length = kids.length; i < length; i++) {
-                    kids[i].onContextGain(gl);
+            get drawGroups() { return drawGroups; },
+            get children() { return drawables; },
+            contextFree: function (context) {
+                for (var i = 0, length = drawables.length; i < length; i++) {
+                    drawables[i].contextFree(context);
                 }
             },
-            onContextLoss: function () {
-                for (var i = 0, length = kids.length; i < length; i++) {
-                    kids[i].onContextLoss();
-                }
+            contextGain: function (context, contextId) {
+                gl = context;
+                contextId = contextId;
+                drawables.forEach(function (drawable) {
+                    drawable.contextGain(context, contextId);
+                    var groupName = drawable.drawGroupName;
+                    if (!drawGroups[groupName]) {
+                        drawGroups[groupName] = [];
+                    }
+                    drawGroups[groupName].push(drawable);
+                });
             },
-            tearDown: function () {
-                for (var i = 0, length = kids.length; i < length; i++) {
-                    kids[i].tearDown();
-                }
+            contextLoss: function () {
+                drawables.forEach(function (drawable) {
+                    drawable.contextLoss();
+                });
+                gl = void 0;
+                contextId = void 0;
+            },
+            hasContext: function () {
+                return !!gl;
             },
             add: function (child) {
-                kids.push(child);
+                drawables.push(child);
             }
         };
         return that;

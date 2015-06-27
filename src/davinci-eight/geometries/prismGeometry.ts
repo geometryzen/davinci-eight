@@ -1,7 +1,10 @@
-import geometry = require('davinci-eight/core/geometry');
+//
+// prismGeometry.ts
+//
+/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import Euclidean3 = require('davinci-blade/Euclidean3');
-import eight = require('eightAPI');
+import PrimitiveMode = require('davinci-eight/core/PrimitiveMode');
 
 // The numbering of the front face, seen from the front is
 //   5
@@ -12,7 +15,7 @@ import eight = require('eightAPI');
 //  9 A
 // 6 7 8 
 // There are 12 vertices in total.
-var vertexList: Euclidean3[] =
+var vertexList: blade.Euclidean3[] =
     [
         // front face
         vectorE3(-1.0, 0.0, +0.5),
@@ -67,45 +70,69 @@ var triangles =
 /**
  * Constructs and returns a Prism geometry object.
  */
-var prismGeometry = function(spec?): eight.Geometry {
+var prismGeometry = function(spec?): Geometry {
 
-    var base = geometry(spec);
-    
-    var api = {
-        primitives: triangles,
-        vertices: [],
-        normals: [],
-        colors: [],
-        primitiveMode: base.primitiveMode
-    };
+  var elements: number[] = [];
+  var vertices: number[] = [];
+  var normals: number[] = [];
+  var colors: number[] = [];
 
+  triangles.forEach(function(triangle: number[], index: number) {
 
-    for (var t = 0; t < triangles.length; t++) {
-        var triangle = triangles[t];
+    elements.push(triangle[0]);
+    elements.push(triangle[1]);
+    elements.push(triangle[2]);
 
-        // Normals will be the same for each vertex of a triangle.
-        var v0 = vertexList[triangle[0]];
-        var v1 = vertexList[triangle[1]];
-        var v2 = vertexList[triangle[2]];
+    // Normals will be the same for each vertex of a triangle.
+    var v0: blade.Euclidean3 = vertexList[triangle[0]];
+    var v1: blade.Euclidean3 = vertexList[triangle[1]];
+    var v2: blade.Euclidean3 = vertexList[triangle[2]];
 
-        var perp = v1.sub(v0).cross(v2.sub(v0));
-        var normal = perp.div(perp.norm());
+    var perp: blade.Euclidean3 = v1.sub(v0).cross(v2.sub(v0));
+    var normal: blade.Euclidean3 = perp.div(perp.norm());
 
-        for (var j = 0; j < 3; j++) {
-            api.vertices.push(vertexList[triangle[j]].x);
-            api.vertices.push(vertexList[triangle[j]].y);
-            api.vertices.push(vertexList[triangle[j]].z);
+    for (var j = 0; j < 3; j++) {
+        vertices.push(vertexList[triangle[j]].x);
+        vertices.push(vertexList[triangle[j]].y);
+        vertices.push(vertexList[triangle[j]].z);
 
-            api.normals.push(normal.x);
-            api.normals.push(normal.y);
-            api.normals.push(normal.z);
+        normals.push(normal.x);
+        normals.push(normal.y);
+        normals.push(normal.z);
 
-            api.colors.push(1.0);
-            api.colors.push(0.0);
-            api.colors.push(0.0);
-        }
+        colors.push(1.0);
+        colors.push(0.0);
+        colors.push(0.0);
     }
-    return api;
+  });
+
+  var publicAPI: Geometry = {
+    draw(context: WebGLRenderingContext) {
+      context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
+    },
+    dynamic(): boolean {return false;},
+    getAttributes(): {name: string, size: number}[] {
+      return [];
+    },
+    getElements(): Uint16Array {
+      // We don't support element arrays.
+      return null;
+    },
+    getVertexAttribArrayData(name: string) {
+      switch(name) {
+        case 'aVertexPosition': {
+          return new Float32Array(vertices);
+        }
+        default: {
+          return;
+        }
+      }
+    },
+    update(time: number): void {
+
+    }
+  };
+  return publicAPI;
 };
 
 export = prismGeometry;

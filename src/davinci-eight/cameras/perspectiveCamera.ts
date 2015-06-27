@@ -1,11 +1,13 @@
 //
 // perspectiveCamera.ts
 //
+/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+/// <reference path="../../../src/gl-matrix.d.ts" />
+/// <amd-dependency path="gl-matrix" name="glMatrix"/>
 import camera = require('davinci-eight/cameras/camera');
-import glMatrix = require('gl-matrix');
-import Euclidean3 = require('davinci-blade/Euclidean3');
+declare var glMatrix: glMatrix;
 
-var perspectiveCamera = function(fov: number = 50, aspect: number = 1, near: number = 0.1, far: number = 2000) {
+var perspectiveCamera = function(fov: number = 75 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000) {
 
     var base = camera();
 
@@ -13,11 +15,13 @@ var perspectiveCamera = function(fov: number = 50, aspect: number = 1, near: num
         glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
     }
 
-    var that = {
+    updateProjectionMatrix();
+
+    var publicAPI = {
         // Delegate to the base camera.
-        get position(): Euclidean3 { return base.position; },
+        get position(): blade.Euclidean3 { return base.position; },
         set position(value) { base.position = value; },
-        get attitude(): Euclidean3 { return base.attitude; },
+        get attitude(): blade.Euclidean3 { return base.attitude; },
         set attitude(value) { base.attitude = value; },
 
         // Extensions
@@ -30,7 +34,7 @@ var perspectiveCamera = function(fov: number = 50, aspect: number = 1, near: num
         get projectionMatrix() { return base.projectionMatrix; }
     };
 
-    return that;
+    return publicAPI;
 };
 
 export =  perspectiveCamera;

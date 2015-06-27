@@ -1,3 +1,5 @@
+/// <reference path="../src/davinci-eight/scenes/Scene.d.ts" />
+/// <reference path="../src/davinci-eight/renderers/Renderer.d.ts" />
 import e8 = require('davinci-eight');
 
 // Strategic alias names to reduce clutter.
@@ -23,11 +25,11 @@ glwin.document.body.style.backgroundColor = "202020";
 glwin.document.body.style.overflow = "hidden";
 glwin.document.title = "Visualizing Geometric Algebra with davinci-eight and WebGL";
 
-var scene = e8.scene();
+var scene: Scene = e8.scene();
 
 var camera = e8.perspective(45, 1.0, 0.1, 100);
 
-var renderer = e8.renderer();
+var renderer: Renderer = e8.renderer();
 
 var box = e8.mesh(e8.box());
 scene.add(box);
@@ -69,25 +71,31 @@ function tearDown(e) {
     else {
         console.log("Goodbye!");
         workbench.tearDown();
-        scene.tearDown();
+        scene.contextFree();
+        // This will not do anything in future.
+        renderer.contextFree();
     }
 }
 
 var runner = e8.animationRunner(tick, terminate, setUp, tearDown, glwin);
 
-function onContextLoss() {
-    runner.stop();
-    renderer.onContextLoss();
-    scene.onContextLoss();
+function contextFree() {
 }
 
-function onContextGain(gl: WebGLRenderingContext) {
-    scene.onContextGain(gl);
-    renderer.onContextGain(gl);
+function contextGain(gl: WebGLRenderingContext, contextGainId: string) {
+    scene.contextGain(gl, contextGainId);
+    // TODO: Renderer should not be dependent on the context?
+    renderer.contextGain(gl, contextGainId);
     renderer.context.clearColor(32 / 256, 32 / 256, 32 / 256, 1)
     runner.start();
 }
 
-var monitor = e8.contextMonitor(renderer.canvas, onContextLoss, onContextGain);
+function contextLoss() {
+    runner.stop();
+    renderer.contextLoss();
+    scene.contextLoss();
+}
 
-onContextGain(renderer.context);
+var monitor = e8.contextMonitor(renderer.canvas, contextLoss, contextGain);
+
+contextGain(renderer.context, "TODO");

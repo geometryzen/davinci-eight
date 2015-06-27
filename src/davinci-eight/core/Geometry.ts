@@ -1,6 +1,0 @@
-interface Geometry
-{
-    
-}
-
-export = Geometry

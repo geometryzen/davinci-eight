@@ -29,9 +29,7 @@ define(["require", "exports"], function (require, exports) {
             renderer.setSize(width, height);
             camera.aspect = width / height;
         }
-        var onWindowResize = function (event) {
-            syncToWindow();
-        };
+        var onWindowResize = function (event) { syncToWindow(); };
         var that = {
             setUp: function () {
                 doc.body.insertBefore(canvas, doc.body.firstChild);

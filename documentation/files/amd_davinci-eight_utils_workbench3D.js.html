@@ -39,11 +39,6 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/camera.html">camera</a></li>
-                                <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/Measure.html">Measure</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
-                                <li><a href="../classes/Unit.html">Unit</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -115,9 +110,7 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
             renderer.setSize(width, height);
             camera.aspect = width / height;
         }
-        var onWindowResize = function (event) {
-            syncToWindow();
-        };
+        var onWindowResize = function (event) { syncToWindow(); };
         var that = {
             setUp: function () {
                 doc.body.insertBefore(canvas, doc.body.firstChild);

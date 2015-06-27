@@ -1,9 +1,7 @@
-import material = require('davinci-eight/core/material');
+import material = require('davinci-eight/materials/material');
 
 var meshNormalMaterial = function(spec) {
-    var api = material(spec);
-
-    return api;
+    var publicAPI = material(spec);
+    return publicAPI;
 };
-
 export = meshNormalMaterial;

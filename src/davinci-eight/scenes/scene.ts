@@ -1,43 +1,61 @@
 /// <reference path="./Scene.d.ts" />
+/// <reference path="../core/Drawable.d.ts" />
 import object3D = require('davinci-eight/core/object3D');
 
 var scene = function(): Scene
 {
-    var kids: WebGLRenderingContextDependent[] = [];
+    var drawables: Drawable[] = [];
+    var drawGroups: {[drawGroupName:string]: Drawable[]} = {};
 
     // TODO: What do we want out of the base object3D?
     var base = object3D();
+    var gl: WebGLRenderingContext;
+    var contextId: string;
 
     var that: Scene =
     {
-        get children() { return kids; },
+        get drawGroups(): {[drawGroupName:string]: Drawable[]} {return drawGroups},
+        get children(): Drawable[] { return drawables; },
 
-        onContextGain: function(gl: WebGLRenderingContext): void
+        contextFree(context: WebGLRenderingContext): void
         {
-            for (var i = 0, length = kids.length; i < length; i++)
-            {
-                kids[i].onContextGain(gl);
-            }
+          for (var i = 0, length = drawables.length; i < length; i++)
+          {
+            drawables[i].contextFree(context);
+          }
         },
 
-        onContextLoss: function(): void
+        contextGain(context: WebGLRenderingContext, contextId: string): void
         {
-            for (var i = 0, length = kids.length; i < length; i++) {
-                kids[i].onContextLoss();
+          gl = context;
+          contextId = contextId;
+          drawables.forEach(function(drawable) {
+            drawable.contextGain(context, contextId);
+            var groupName = drawable.drawGroupName;
+            if (!drawGroups[groupName]) {
+              drawGroups[groupName] = [];
             }
+            drawGroups[groupName].push(drawable);
+          });
         },
 
-        tearDown: function(): void
+        contextLoss(): void
         {
-            for (var i = 0, length = kids.length; i < length; i++)
-            {
-                kids[i].tearDown();
-            }
+          drawables.forEach(function(drawable) {
+            drawable.contextLoss();
+          });
+          gl = void 0;
+          contextId = void 0;
         },
 
-        add: function(child: WebGLRenderingContextDependent)
+        hasContext(): boolean
         {
-            kids.push(child);
+          return !!gl;
+        },
+
+        add: function(child: Drawable)
+        {
+            drawables.push(child);
         }
     }
 

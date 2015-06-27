@@ -27,7 +27,8 @@ module.exports = function(grunt) {
         options: {
           mainConfigFile: "build.js",
           paths: {
-              'gl-matrix': './../vendor/gl-matrix/dist/gl-matrix'
+              'davinci-blade': './../vendor/davinci-blade/amd/davinci-blade',
+              'gl-matrix': './../vendor/gl-matrix/dist/gl-matrix-min'
           }
         }
       }
@@ -45,13 +46,13 @@ module.exports = function(grunt) {
         cwd: 'src/modules/',
         src: ['davinci-eight.d.ts'],
         dest: 'dist/'
-      },
-      blade: {
-        expand: true,
-        cwd: 'vendor/davinci-blade/src',
-        src: ['davinci-blade.ts', 'davinci-blade/**/*.ts'],
-        dest: 'src/'
-      }
+      }//,
+      //blade: {
+      //  expand: true,
+      //  cwd: 'vendor/davinci-blade/src',
+      //  src: ['davinci-blade.ts', 'davinci-blade/**/*.ts'],
+      //  dest: 'src/'
+      //}
     },
     connect: {
         test: {
@@ -192,5 +193,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
-  grunt.registerTask('default', ['clean', 'copy:blade', 'buildAMD', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('default', ['clean', 'buildAMD', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
 };

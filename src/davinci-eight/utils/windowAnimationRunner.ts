@@ -1,4 +1,4 @@
-var windowAnimationRunner = function(tick: (t: number) => void, terminate: (t: number) => void, setUp: () => void, tearDown: (ex: any) => void, win?: Window) {
+var windowAnimationRunner = function(tick: (time: number) => void, terminate: (time: number) => void, setUp: () => void, tearDown: (ex: any) => void, win?: Window) {
     win = win || window;
     var escKeyPressed = false;
     var pauseKeyPressed = false;
@@ -9,7 +9,7 @@ var windowAnimationRunner = function(tick: (t: number) => void, terminate: (t: n
     var requestID: number = null;
     var exception: any = null;
 
-    var animate: FrameRequestCallback = function(timestamp) {
+    var animate: FrameRequestCallback = function(timestamp: number) {
         if (startTime) {
             elapsed = timestamp - startTime;
         }
@@ -24,20 +24,21 @@ var windowAnimationRunner = function(tick: (t: number) => void, terminate: (t: n
             win.cancelAnimationFrame(requestID);
             win.document.removeEventListener('keydown', onDocumentKeyDown, false);
             try {
-                tearDown(exception);
+              tearDown(exception);
             }
             catch (e) {
-                console.log(e);
+              console.log("Exception thrown by tearDown method. " + e);
             }
         }
         else {
             requestID = win.requestAnimationFrame(animate);
             try {
-                tick(elapsed / MILLIS_PER_SECOND);
+              tick(elapsed / MILLIS_PER_SECOND);
             }
             catch (e) {
-                exception = e;
-                escKeyPressed = true;
+              console.log("Exception thrown by tick method. " + e);
+              exception = e;
+              escKeyPressed = true;
             }
         }
     };
