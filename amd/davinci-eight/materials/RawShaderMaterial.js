@@ -1,10 +1,19 @@
-define(["require", "exports", '../objects/VertexAttribArray'], function (require, exports, VertexAttribArray) {
+define(["require", "exports", '../objects/VertexAttribArray', '../glsl/parser', '../glsl/tokenizeString'], function (require, exports, VertexAttribArray, parser, tokenizeString) {
     var RawShaderMaterial = (function () {
         function RawShaderMaterial(attributes, vertexShader, fragmentShader) {
             this.attributes = [];
             this.vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
             this.vertexShader = vertexShader;
             this.fragmentShader = fragmentShader;
+            var tokens = tokenizeString(vertexShader);
+            console.log("///////////////////");
+            //    console.log(tokens);
+            var reader = parser();
+            for (var i = 0; i < tokens.length; i++) {
+                reader(tokens[i]);
+            }
+            var x = reader(null);
+            console.log(x);
             this.attributes = this.vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
         }
         RawShaderMaterial.prototype.enableVertexAttributes = function (context) {
