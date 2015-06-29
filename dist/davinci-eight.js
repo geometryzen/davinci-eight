@@ -3570,22 +3570,675 @@ define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../ob
     return material;
 });
 
+define('davinci-eight/glsl/literals',["require", "exports"], function (require, exports) {
+    var literals = [
+        // current
+        'precision',
+        'highp',
+        'mediump',
+        'lowp',
+        'attribute',
+        'const',
+        'uniform',
+        'varying',
+        'break',
+        'continue',
+        'do',
+        'for',
+        'while',
+        'if',
+        'else',
+        'in',
+        'out',
+        'inout',
+        'float',
+        'int',
+        'void',
+        'bool',
+        'true',
+        'false',
+        'discard',
+        'return',
+        'mat2',
+        'mat3',
+        'mat4',
+        'vec2',
+        'vec3',
+        'vec4',
+        'ivec2',
+        'ivec3',
+        'ivec4',
+        'bvec2',
+        'bvec3',
+        'bvec4',
+        'sampler1D',
+        'sampler2D',
+        'sampler3D',
+        'samplerCube',
+        'sampler1DShadow',
+        'sampler2DShadow',
+        'struct',
+        'asm',
+        'class',
+        'union',
+        'enum',
+        'typedef',
+        'template',
+        'this',
+        'packed',
+        'goto',
+        'switch',
+        'default',
+        'inline',
+        'noinline',
+        'volatile',
+        'public',
+        'static',
+        'extern',
+        'external',
+        'interface',
+        'long',
+        'short',
+        'double',
+        'half',
+        'fixed',
+        'unsigned',
+        'input',
+        'output',
+        'hvec2',
+        'hvec3',
+        'hvec4',
+        'dvec2',
+        'dvec3',
+        'dvec4',
+        'fvec2',
+        'fvec3',
+        'fvec4',
+        'sampler2DRect',
+        'sampler3DRect',
+        'sampler2DRectShadow',
+        'sizeof',
+        'cast',
+        'namespace',
+        'using'
+    ];
+    return literals;
+});
+
+define('davinci-eight/glsl/operators',["require", "exports"], function (require, exports) {
+    var operators = [
+        '<<=',
+        '>>=',
+        '++',
+        '--',
+        '<<',
+        '>>',
+        '<=',
+        '>=',
+        '==',
+        '!=',
+        '&&',
+        '||',
+        '+=',
+        '-=',
+        '*=',
+        '/=',
+        '%=',
+        '&=',
+        '^^',
+        '^=',
+        '|=',
+        '(',
+        ')',
+        '[',
+        ']',
+        '.',
+        '!',
+        '~',
+        '*',
+        '/',
+        '%',
+        '+',
+        '-',
+        '<',
+        '>',
+        '&',
+        '^',
+        '|',
+        '?',
+        ':',
+        '=',
+        ',',
+        ';',
+        '{',
+        '}'
+    ];
+    return operators;
+});
+
+define('davinci-eight/glsl/builtins',["require", "exports"], function (require, exports) {
+    var builtins = [
+        'gl_Position',
+        'gl_PointSize',
+        'gl_ClipVertex',
+        'gl_FragCoord',
+        'gl_FrontFacing',
+        'gl_FragColor',
+        'gl_FragData',
+        'gl_FragDepth',
+        'gl_Color',
+        'gl_SecondaryColor',
+        'gl_Normal',
+        'gl_Vertex',
+        'gl_MultiTexCoord0',
+        'gl_MultiTexCoord1',
+        'gl_MultiTexCoord2',
+        'gl_MultiTexCoord3',
+        'gl_MultiTexCoord4',
+        'gl_MultiTexCoord5',
+        'gl_MultiTexCoord6',
+        'gl_MultiTexCoord7',
+        'gl_FogCoord',
+        'gl_MaxLights',
+        'gl_MaxClipPlanes',
+        'gl_MaxTextureUnits',
+        'gl_MaxTextureCoords',
+        'gl_MaxVertexAttribs',
+        'gl_MaxVertexUniformComponents',
+        'gl_MaxVaryingFloats',
+        'gl_MaxVertexTextureImageUnits',
+        'gl_MaxCombinedTextureImageUnits',
+        'gl_MaxTextureImageUnits',
+        'gl_MaxFragmentUniformComponents',
+        'gl_MaxDrawBuffers',
+        'gl_ModelViewMatrix',
+        'gl_ProjectionMatrix',
+        'gl_ModelViewProjectionMatrix',
+        'gl_TextureMatrix',
+        'gl_NormalMatrix',
+        'gl_ModelViewMatrixInverse',
+        'gl_ProjectionMatrixInverse',
+        'gl_ModelViewProjectionMatrixInverse',
+        'gl_TextureMatrixInverse',
+        'gl_ModelViewMatrixTranspose',
+        'gl_ProjectionMatrixTranspose',
+        'gl_ModelViewProjectionMatrixTranspose',
+        'gl_TextureMatrixTranspose',
+        'gl_ModelViewMatrixInverseTranspose',
+        'gl_ProjectionMatrixInverseTranspose',
+        'gl_ModelViewProjectionMatrixInverseTranspose',
+        'gl_TextureMatrixInverseTranspose',
+        'gl_NormalScale',
+        'gl_DepthRangeParameters',
+        'gl_DepthRange',
+        'gl_ClipPlane',
+        'gl_PointParameters',
+        'gl_Point',
+        'gl_MaterialParameters',
+        'gl_FrontMaterial',
+        'gl_BackMaterial',
+        'gl_LightSourceParameters',
+        'gl_LightSource',
+        'gl_LightModelParameters',
+        'gl_LightModel',
+        'gl_LightModelProducts',
+        'gl_FrontLightModelProduct',
+        'gl_BackLightModelProduct',
+        'gl_LightProducts',
+        'gl_FrontLightProduct',
+        'gl_BackLightProduct',
+        'gl_FogParameters',
+        'gl_Fog',
+        'gl_TextureEnvColor',
+        'gl_EyePlaneS',
+        'gl_EyePlaneT',
+        'gl_EyePlaneR',
+        'gl_EyePlaneQ',
+        'gl_ObjectPlaneS',
+        'gl_ObjectPlaneT',
+        'gl_ObjectPlaneR',
+        'gl_ObjectPlaneQ',
+        'gl_FrontColor',
+        'gl_BackColor',
+        'gl_FrontSecondaryColor',
+        'gl_BackSecondaryColor',
+        'gl_TexCoord',
+        'gl_FogFragCoord',
+        'gl_Color',
+        'gl_SecondaryColor',
+        'gl_TexCoord',
+        'gl_FogFragCoord',
+        'gl_PointCoord',
+        'radians',
+        'degrees',
+        'sin',
+        'cos',
+        'tan',
+        'asin',
+        'acos',
+        'atan',
+        'pow',
+        'exp',
+        'log',
+        'exp2',
+        'log2',
+        'sqrt',
+        'inversesqrt',
+        'abs',
+        'sign',
+        'floor',
+        'ceil',
+        'fract',
+        'mod',
+        'min',
+        'max',
+        'clamp',
+        'mix',
+        'step',
+        'smoothstep',
+        'length',
+        'distance',
+        'dot',
+        'cross',
+        'normalize',
+        'faceforward',
+        'reflect',
+        'refract',
+        'matrixCompMult',
+        'lessThan',
+        'lessThanEqual',
+        'greaterThan',
+        'greaterThanEqual',
+        'equal',
+        'notEqual',
+        'any',
+        'all',
+        'not',
+        'texture2D',
+        'texture2DProj',
+        'texture2DLod',
+        'texture2DProjLod',
+        'textureCube',
+        'textureCubeLod',
+        'dFdx',
+        'dFdy'
+    ];
+    return builtins;
+});
+
+define('davinci-eight/glsl/tokenize',["require", "exports", './literals', './operators', './builtins'], function (require, exports, literals, operators, builtins) {
+    var NORMAL = 999; // <-- never emitted
+    var TOKEN = 9999; // <-- never emitted
+    // These things are called mode(s) and correspond to the following map.
+    var BLOCK_COMMENT = 0;
+    var LINE_COMMENT = 1;
+    var PREPROCESSOR = 2;
+    var OPERATOR = 3;
+    var INTEGER = 4;
+    var FLOAT = 5;
+    var IDENT = 6;
+    var BUILTIN = 7;
+    var KEYWORD = 8;
+    var WHITESPACE = 9;
+    var EOF = 10;
+    var HEX = 11;
+    var map = [
+        'block-comment',
+        'line-comment',
+        'preprocessor',
+        'operator',
+        'integer',
+        'float',
+        'ident',
+        'builtin',
+        'keyword',
+        'whitespace',
+        'eof',
+        'integer'
+    ];
+    function tokenize() {
+        function token(data) {
+            if (data.length) {
+                tokens.push({
+                    type: map[mode],
+                    data: data,
+                    position: start,
+                    line: line,
+                    column: col
+                });
+            }
+        }
+        function write(chunk) {
+            i = 0;
+            input += chunk;
+            len = input.length;
+            var last;
+            while (c = input[i], i < len) {
+                last = i;
+                switch (mode) {
+                    case BLOCK_COMMENT:
+                        i = block_comment();
+                        break;
+                    case LINE_COMMENT:
+                        i = line_comment();
+                        break;
+                    case PREPROCESSOR:
+                        i = preprocessor();
+                        break;
+                    case OPERATOR:
+                        i = operator();
+                        break;
+                    case INTEGER:
+                        i = integer();
+                        break;
+                    case HEX:
+                        i = hex();
+                        break;
+                    case FLOAT:
+                        i = decimal();
+                        break;
+                    case TOKEN:
+                        i = readtoken();
+                        break;
+                    case WHITESPACE:
+                        i = whitespace();
+                        break;
+                    case NORMAL:
+                        i = normal();
+                        break;
+                }
+                if (last !== i) {
+                    switch (input[last]) {
+                        case '\n':
+                            col = 0;
+                            ++line;
+                            break;
+                        default:
+                            ++col;
+                            break;
+                    }
+                }
+            }
+            total += i;
+            input = input.slice(i);
+            return tokens;
+        }
+        function end(chunk) {
+            if (content.length) {
+                token(content.join(''));
+            }
+            mode = EOF;
+            token('(eof)');
+            return tokens;
+        }
+        function normal() {
+            content = content.length ? [] : content;
+            if (last === '/' && c === '*') {
+                start = total + i - 1;
+                mode = BLOCK_COMMENT;
+                last = c;
+                return i + 1;
+            }
+            if (last === '/' && c === '/') {
+                start = total + i - 1;
+                mode = LINE_COMMENT;
+                last = c;
+                return i + 1;
+            }
+            if (c === '#') {
+                mode = PREPROCESSOR;
+                start = total + i;
+                return i;
+            }
+            if (/\s/.test(c)) {
+                mode = WHITESPACE;
+                start = total + i;
+                return i;
+            }
+            isnum = /\d/.test(c);
+            isoperator = /[^\w_]/.test(c);
+            start = total + i;
+            mode = isnum ? INTEGER : isoperator ? OPERATOR : TOKEN;
+            return i;
+        }
+        function whitespace() {
+            if (/[^\s]/g.test(c)) {
+                token(content.join(''));
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function preprocessor() {
+            if (c === '\n' && last !== '\\') {
+                token(content.join(''));
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function line_comment() {
+            return preprocessor();
+        }
+        function block_comment() {
+            if (c === '/' && last === '*') {
+                content.push(c);
+                token(content.join(''));
+                mode = NORMAL;
+                return i + 1;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function operator() {
+            if (last === '.' && /\d/.test(c)) {
+                mode = FLOAT;
+                return i;
+            }
+            if (last === '/' && c === '*') {
+                mode = BLOCK_COMMENT;
+                return i;
+            }
+            if (last === '/' && c === '/') {
+                mode = LINE_COMMENT;
+                return i;
+            }
+            if (c === '.' && content.length) {
+                while (determine_operator(content)) {
+                }
+                mode = FLOAT;
+                return i;
+            }
+            if (c === ';' || c === ')' || c === '(') {
+                if (content.length) {
+                    while (determine_operator(content)) {
+                    }
+                }
+                token(c);
+                mode = NORMAL;
+                return i + 1;
+            }
+            var is_composite_operator = content.length === 2 && c !== '=';
+            if (/[\w_\d\s]/.test(c) || is_composite_operator) {
+                while (determine_operator(content)) {
+                }
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function determine_operator(buf) {
+            var j = 0, idx, res;
+            do {
+                idx = operators.indexOf(buf.slice(0, buf.length + j).join(''));
+                res = operators[idx];
+                if (idx === -1) {
+                    if (j-- + buf.length > 0) {
+                        continue;
+                    }
+                    res = buf.slice(0, 1).join('');
+                }
+                token(res);
+                start += res.length;
+                content = content.slice(res.length);
+                return content.length;
+            } while (1);
+        }
+        function hex() {
+            if (/[^a-fA-F0-9]/.test(c)) {
+                token(content.join(''));
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function integer() {
+            if (c === '.') {
+                content.push(c);
+                mode = FLOAT;
+                last = c;
+                return i + 1;
+            }
+            if (/[eE]/.test(c)) {
+                content.push(c);
+                mode = FLOAT;
+                last = c;
+                return i + 1;
+            }
+            if (c === 'x' && content.length === 1 && content[0] === '0') {
+                mode = HEX;
+                content.push(c);
+                last = c;
+                return i + 1;
+            }
+            if (/[^\d]/.test(c)) {
+                token(content.join(''));
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function decimal() {
+            if (c === 'f') {
+                content.push(c);
+                last = c;
+                i += 1;
+            }
+            if (/[eE]/.test(c)) {
+                content.push(c);
+                last = c;
+                return i + 1;
+            }
+            if (/[^\d]/.test(c)) {
+                token(content.join(''));
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        function readtoken() {
+            if (/[^\d\w_]/.test(c)) {
+                var contentstr = content.join('');
+                if (literals.indexOf(contentstr) > -1) {
+                    mode = KEYWORD;
+                }
+                else if (builtins.indexOf(contentstr) > -1) {
+                    mode = BUILTIN;
+                }
+                else {
+                    mode = IDENT;
+                }
+                token(content.join(''));
+                mode = NORMAL;
+                return i;
+            }
+            content.push(c);
+            last = c;
+            return i + 1;
+        }
+        var i = 0;
+        var total = 0;
+        var mode = NORMAL;
+        var c;
+        var last;
+        var content = [];
+        var tokens = [];
+        var token_idx = 0;
+        var token_offs = 0;
+        var line = 1;
+        var col = 0;
+        var start = 0;
+        var isnum = false;
+        var isoperator = false;
+        var input = '';
+        var len;
+        return function (data) {
+            tokens = [];
+            if (data !== null) {
+                return write(data);
+            }
+            return end();
+        };
+    }
+    return tokenize;
+});
+
+define('davinci-eight/glsl/tokenizeString',["require", "exports", './tokenize'], function (require, exports, tokenize) {
+    function tokenizeString(str) {
+        var generator = tokenize();
+        var tokens = [];
+        tokens = tokens.concat(generator(str));
+        tokens = tokens.concat(generator(null));
+        return tokens;
+    }
+    return tokenizeString;
+});
+
+//
+// See javascript.crockford.com/tdop/tdop.html
+//
+/// <reference path='./Symbol.d.ts'/>
+/// <reference path='./Token.d.ts'/>
 define('davinci-eight/glsl/expr',["require", "exports"], function (require, exports) {
     var state;
+    /**
+     * The current token.
+     */
     var token;
     var tokens;
     var idx;
     function fail(message) {
         return function () { return state.unexpected(message); };
     }
+    /**
+     * The prototype for all other symbols. Its method will usually be overridden.
+     */
     var original_symbol = {
-        nud: function () { return this.children && this.children.length ? this : fail('unexpected')(); },
+        nud: function () {
+            return this.children && this.children.length ? this : fail('unexpected')();
+        },
         led: fail('missing operator')
     };
     var symbol_table = {};
-    function itself() {
+    var itself = function () {
         return this;
-    }
+    };
+    /**
+     * A function that makes symbols and looks them up in a cache.
+     */
     function symbol(id, binding_power) {
         var sym = symbol_table[id];
         binding_power = binding_power || 0;
@@ -3756,8 +4409,13 @@ define('davinci-eight/glsl/expr',["require", "exports"], function (require, expo
         }
         result.parent.children = [result];
     }
+    /**
+     * The heart of top-down precedence parsing.
+     * @param rbp Right Binding Power.
+     */
     function expression(rbp) {
-        var left, t = token;
+        var left;
+        var t = token;
         advance();
         left = t.nud();
         while (rbp < token.lbp) {
@@ -3767,8 +4425,14 @@ define('davinci-eight/glsl/expr',["require", "exports"], function (require, expo
         }
         return left;
     }
+    /**
+     * Make a new token from the next simple object in the array and assign to the token variable
+     */
     function advance(id) {
-        var next, value, type, output;
+        var next;
+        var value;
+        var type;
+        var output;
         if (id && token.data !== id) {
             return state.unexpected('expected `' + id + '`, got `' + token.data + '`');
         }
@@ -3810,12 +4474,15 @@ define('davinci-eight/glsl/expr',["require", "exports"], function (require, expo
                 output.children = [];
             }
         }
+        // FIXME: This should be assigning to token?
         output = Object.create(output);
         output.token = next;
         output.type = type;
         if (!output.data) {
             output.data = value;
         }
+        // I don't think the assignment is required.
+        // It also may be effing up the type safety.
         return token = output;
     }
     return expr;
@@ -3879,9 +4546,19 @@ define('davinci-eight/glsl/parser',["require", "exports", './expr', './Scope'], 
     var DOWHILELOOP = 21;
     var PLACEHOLDER = 22;
     var QUANTIFIER = 23;
-    var DECL_ALLOW_ASSIGN = 0x1, DECL_ALLOW_COMMA = 0x2, DECL_REQUIRE_NAME = 0x4, DECL_ALLOW_INVARIANT = 0x8, DECL_ALLOW_STORAGE = 0x10, DECL_NO_INOUT = 0x20, DECL_ALLOW_STRUCT = 0x40, DECL_STATEMENT = 0xFF, DECL_FUNCTION = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_COMMA | DECL_NO_INOUT | DECL_ALLOW_INVARIANT | DECL_REQUIRE_NAME), DECL_STRUCT = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_INVARIANT | DECL_ALLOW_STORAGE | DECL_ALLOW_STRUCT);
+    var DECL_ALLOW_ASSIGN = 0x1;
+    var DECL_ALLOW_COMMA = 0x2;
+    var DECL_REQUIRE_NAME = 0x4;
+    var DECL_ALLOW_INVARIANT = 0x8;
+    var DECL_ALLOW_STORAGE = 0x10;
+    var DECL_NO_INOUT = 0x20;
+    var DECL_ALLOW_STRUCT = 0x40;
+    var DECL_STATEMENT = 0xFF;
+    var DECL_FUNCTION = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_COMMA | DECL_NO_INOUT | DECL_ALLOW_INVARIANT | DECL_REQUIRE_NAME);
+    var DECL_STRUCT = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_INVARIANT | DECL_ALLOW_STORAGE | DECL_ALLOW_STRUCT);
     var QUALIFIERS = ['const', 'attribute', 'uniform', 'varying'];
-    var NO_ASSIGN_ALLOWED = false, NO_COMMA_ALLOWED = false;
+    var NO_ASSIGN_ALLOWED = false;
+    var NO_COMMA_ALLOWED = false;
     // map of tokens to stmt types
     var token_map = {
         'block-comment': COMMENT,
@@ -4686,644 +5363,29 @@ define('davinci-eight/glsl/parser',["require", "exports", './expr', './Scope'], 
     return parser;
 });
 
-define('davinci-eight/glsl/literals',["require", "exports"], function (require, exports) {
-    var literals = [
-        // current
-        'precision',
-        'highp',
-        'mediump',
-        'lowp',
-        'attribute',
-        'const',
-        'uniform',
-        'varying',
-        'break',
-        'continue',
-        'do',
-        'for',
-        'while',
-        'if',
-        'else',
-        'in',
-        'out',
-        'inout',
-        'float',
-        'int',
-        'void',
-        'bool',
-        'true',
-        'false',
-        'discard',
-        'return',
-        'mat2',
-        'mat3',
-        'mat4',
-        'vec2',
-        'vec3',
-        'vec4',
-        'ivec2',
-        'ivec3',
-        'ivec4',
-        'bvec2',
-        'bvec3',
-        'bvec4',
-        'sampler1D',
-        'sampler2D',
-        'sampler3D',
-        'samplerCube',
-        'sampler1DShadow',
-        'sampler2DShadow',
-        'struct',
-        'asm',
-        'class',
-        'union',
-        'enum',
-        'typedef',
-        'template',
-        'this',
-        'packed',
-        'goto',
-        'switch',
-        'default',
-        'inline',
-        'noinline',
-        'volatile',
-        'public',
-        'static',
-        'extern',
-        'external',
-        'interface',
-        'long',
-        'short',
-        'double',
-        'half',
-        'fixed',
-        'unsigned',
-        'input',
-        'output',
-        'hvec2',
-        'hvec3',
-        'hvec4',
-        'dvec2',
-        'dvec3',
-        'dvec4',
-        'fvec2',
-        'fvec3',
-        'fvec4',
-        'sampler2DRect',
-        'sampler3DRect',
-        'sampler2DRectShadow',
-        'sizeof',
-        'cast',
-        'namespace',
-        'using'
-    ];
-    return literals;
-});
-
-define('davinci-eight/glsl/operators',["require", "exports"], function (require, exports) {
-    var operators = [
-        '<<=',
-        '>>=',
-        '++',
-        '--',
-        '<<',
-        '>>',
-        '<=',
-        '>=',
-        '==',
-        '!=',
-        '&&',
-        '||',
-        '+=',
-        '-=',
-        '*=',
-        '/=',
-        '%=',
-        '&=',
-        '^^',
-        '^=',
-        '|=',
-        '(',
-        ')',
-        '[',
-        ']',
-        '.',
-        '!',
-        '~',
-        '*',
-        '/',
-        '%',
-        '+',
-        '-',
-        '<',
-        '>',
-        '&',
-        '^',
-        '|',
-        '?',
-        ':',
-        '=',
-        ',',
-        ';',
-        '{',
-        '}'
-    ];
-    return operators;
-});
-
-define('davinci-eight/glsl/builtins',["require", "exports"], function (require, exports) {
-    var builtins = [
-        'gl_Position',
-        'gl_PointSize',
-        'gl_ClipVertex',
-        'gl_FragCoord',
-        'gl_FrontFacing',
-        'gl_FragColor',
-        'gl_FragData',
-        'gl_FragDepth',
-        'gl_Color',
-        'gl_SecondaryColor',
-        'gl_Normal',
-        'gl_Vertex',
-        'gl_MultiTexCoord0',
-        'gl_MultiTexCoord1',
-        'gl_MultiTexCoord2',
-        'gl_MultiTexCoord3',
-        'gl_MultiTexCoord4',
-        'gl_MultiTexCoord5',
-        'gl_MultiTexCoord6',
-        'gl_MultiTexCoord7',
-        'gl_FogCoord',
-        'gl_MaxLights',
-        'gl_MaxClipPlanes',
-        'gl_MaxTextureUnits',
-        'gl_MaxTextureCoords',
-        'gl_MaxVertexAttribs',
-        'gl_MaxVertexUniformComponents',
-        'gl_MaxVaryingFloats',
-        'gl_MaxVertexTextureImageUnits',
-        'gl_MaxCombinedTextureImageUnits',
-        'gl_MaxTextureImageUnits',
-        'gl_MaxFragmentUniformComponents',
-        'gl_MaxDrawBuffers',
-        'gl_ModelViewMatrix',
-        'gl_ProjectionMatrix',
-        'gl_ModelViewProjectionMatrix',
-        'gl_TextureMatrix',
-        'gl_NormalMatrix',
-        'gl_ModelViewMatrixInverse',
-        'gl_ProjectionMatrixInverse',
-        'gl_ModelViewProjectionMatrixInverse',
-        'gl_TextureMatrixInverse',
-        'gl_ModelViewMatrixTranspose',
-        'gl_ProjectionMatrixTranspose',
-        'gl_ModelViewProjectionMatrixTranspose',
-        'gl_TextureMatrixTranspose',
-        'gl_ModelViewMatrixInverseTranspose',
-        'gl_ProjectionMatrixInverseTranspose',
-        'gl_ModelViewProjectionMatrixInverseTranspose',
-        'gl_TextureMatrixInverseTranspose',
-        'gl_NormalScale',
-        'gl_DepthRangeParameters',
-        'gl_DepthRange',
-        'gl_ClipPlane',
-        'gl_PointParameters',
-        'gl_Point',
-        'gl_MaterialParameters',
-        'gl_FrontMaterial',
-        'gl_BackMaterial',
-        'gl_LightSourceParameters',
-        'gl_LightSource',
-        'gl_LightModelParameters',
-        'gl_LightModel',
-        'gl_LightModelProducts',
-        'gl_FrontLightModelProduct',
-        'gl_BackLightModelProduct',
-        'gl_LightProducts',
-        'gl_FrontLightProduct',
-        'gl_BackLightProduct',
-        'gl_FogParameters',
-        'gl_Fog',
-        'gl_TextureEnvColor',
-        'gl_EyePlaneS',
-        'gl_EyePlaneT',
-        'gl_EyePlaneR',
-        'gl_EyePlaneQ',
-        'gl_ObjectPlaneS',
-        'gl_ObjectPlaneT',
-        'gl_ObjectPlaneR',
-        'gl_ObjectPlaneQ',
-        'gl_FrontColor',
-        'gl_BackColor',
-        'gl_FrontSecondaryColor',
-        'gl_BackSecondaryColor',
-        'gl_TexCoord',
-        'gl_FogFragCoord',
-        'gl_Color',
-        'gl_SecondaryColor',
-        'gl_TexCoord',
-        'gl_FogFragCoord',
-        'gl_PointCoord',
-        'radians',
-        'degrees',
-        'sin',
-        'cos',
-        'tan',
-        'asin',
-        'acos',
-        'atan',
-        'pow',
-        'exp',
-        'log',
-        'exp2',
-        'log2',
-        'sqrt',
-        'inversesqrt',
-        'abs',
-        'sign',
-        'floor',
-        'ceil',
-        'fract',
-        'mod',
-        'min',
-        'max',
-        'clamp',
-        'mix',
-        'step',
-        'smoothstep',
-        'length',
-        'distance',
-        'dot',
-        'cross',
-        'normalize',
-        'faceforward',
-        'reflect',
-        'refract',
-        'matrixCompMult',
-        'lessThan',
-        'lessThanEqual',
-        'greaterThan',
-        'greaterThanEqual',
-        'equal',
-        'notEqual',
-        'any',
-        'all',
-        'not',
-        'texture2D',
-        'texture2DProj',
-        'texture2DLod',
-        'texture2DProjLod',
-        'textureCube',
-        'textureCubeLod',
-        'dFdx',
-        'dFdy'
-    ];
-    return builtins;
-});
-
-define('davinci-eight/glsl/tokenize',["require", "exports", './literals', './operators', './builtins'], function (require, exports, literals, operators, builtins) {
-    var NORMAL = 999; // <-- never emitted
-    var TOKEN = 9999; // <-- never emitted
-    // These things are called mode(s) and correspond to the following map.
-    var BLOCK_COMMENT = 0;
-    var LINE_COMMENT = 1;
-    var PREPROCESSOR = 2;
-    var OPERATOR = 3;
-    var INTEGER = 4;
-    var FLOAT = 5;
-    var IDENT = 6;
-    var BUILTIN = 7;
-    var KEYWORD = 8;
-    var WHITESPACE = 9;
-    var EOF = 10;
-    var HEX = 11;
-    var map = [
-        'block-comment',
-        'line-comment',
-        'preprocessor',
-        'operator',
-        'integer',
-        'float',
-        'ident',
-        'builtin',
-        'keyword',
-        'whitespace',
-        'eof',
-        'integer'
-    ];
-    function tokenize() {
-        function token(data) {
-            if (data.length) {
-                tokens.push({
-                    type: map[mode],
-                    data: data,
-                    position: start,
-                    line: line,
-                    column: col
-                });
-            }
+define('davinci-eight/glsl/parse',["require", "exports", '../glsl/tokenizeString', '../glsl/parser'], function (require, exports, tokenizeString, parser) {
+    function parse(code) {
+        var tokens = tokenizeString(code);
+        var reader = parser();
+        for (var i = 0; i < tokens.length; i++) {
+            reader(tokens[i]);
         }
-        function write(chunk) {
-            i = 0;
-            input += chunk;
-            len = input.length;
-            var last;
-            while (c = input[i], i < len) {
-                last = i;
-                switch (mode) {
-                    case BLOCK_COMMENT:
-                        i = block_comment();
-                        break;
-                    case LINE_COMMENT:
-                        i = line_comment();
-                        break;
-                    case PREPROCESSOR:
-                        i = preprocessor();
-                        break;
-                    case OPERATOR:
-                        i = operator();
-                        break;
-                    case INTEGER:
-                        i = integer();
-                        break;
-                    case HEX:
-                        i = hex();
-                        break;
-                    case FLOAT:
-                        i = decimal();
-                        break;
-                    case TOKEN:
-                        i = readtoken();
-                        break;
-                    case WHITESPACE:
-                        i = whitespace();
-                        break;
-                    case NORMAL:
-                        i = normal();
-                        break;
-                }
-                if (last !== i) {
-                    switch (input[last]) {
-                        case '\n':
-                            col = 0;
-                            ++line;
-                            break;
-                        default:
-                            ++col;
-                            break;
-                    }
-                }
-            }
-            total += i;
-            input = input.slice(i);
-            return tokens;
-        }
-        function end(chunk) {
-            if (content.length) {
-                token(content.join(''));
-            }
-            mode = EOF;
-            token('(eof)');
-            return tokens;
-        }
-        function normal() {
-            content = content.length ? [] : content;
-            if (last === '/' && c === '*') {
-                start = total + i - 1;
-                mode = BLOCK_COMMENT;
-                last = c;
-                return i + 1;
-            }
-            if (last === '/' && c === '/') {
-                start = total + i - 1;
-                mode = LINE_COMMENT;
-                last = c;
-                return i + 1;
-            }
-            if (c === '#') {
-                mode = PREPROCESSOR;
-                start = total + i;
-                return i;
-            }
-            if (/\s/.test(c)) {
-                mode = WHITESPACE;
-                start = total + i;
-                return i;
-            }
-            isnum = /\d/.test(c);
-            isoperator = /[^\w_]/.test(c);
-            start = total + i;
-            mode = isnum ? INTEGER : isoperator ? OPERATOR : TOKEN;
-            return i;
-        }
-        function whitespace() {
-            if (/[^\s]/g.test(c)) {
-                token(content.join(''));
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function preprocessor() {
-            if (c === '\n' && last !== '\\') {
-                token(content.join(''));
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function line_comment() {
-            return preprocessor();
-        }
-        function block_comment() {
-            if (c === '/' && last === '*') {
-                content.push(c);
-                token(content.join(''));
-                mode = NORMAL;
-                return i + 1;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function operator() {
-            if (last === '.' && /\d/.test(c)) {
-                mode = FLOAT;
-                return i;
-            }
-            if (last === '/' && c === '*') {
-                mode = BLOCK_COMMENT;
-                return i;
-            }
-            if (last === '/' && c === '/') {
-                mode = LINE_COMMENT;
-                return i;
-            }
-            if (c === '.' && content.length) {
-                while (determine_operator(content)) {
-                }
-                mode = FLOAT;
-                return i;
-            }
-            if (c === ';' || c === ')' || c === '(') {
-                if (content.length) {
-                    while (determine_operator(content)) {
-                    }
-                }
-                token(c);
-                mode = NORMAL;
-                return i + 1;
-            }
-            var is_composite_operator = content.length === 2 && c !== '=';
-            if (/[\w_\d\s]/.test(c) || is_composite_operator) {
-                while (determine_operator(content)) {
-                }
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function determine_operator(buf) {
-            var j = 0, idx, res;
-            do {
-                idx = operators.indexOf(buf.slice(0, buf.length + j).join(''));
-                res = operators[idx];
-                if (idx === -1) {
-                    if (j-- + buf.length > 0) {
-                        continue;
-                    }
-                    res = buf.slice(0, 1).join('');
-                }
-                token(res);
-                start += res.length;
-                content = content.slice(res.length);
-                return content.length;
-            } while (1);
-        }
-        function hex() {
-            if (/[^a-fA-F0-9]/.test(c)) {
-                token(content.join(''));
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function integer() {
-            if (c === '.') {
-                content.push(c);
-                mode = FLOAT;
-                last = c;
-                return i + 1;
-            }
-            if (/[eE]/.test(c)) {
-                content.push(c);
-                mode = FLOAT;
-                last = c;
-                return i + 1;
-            }
-            if (c === 'x' && content.length === 1 && content[0] === '0') {
-                mode = HEX;
-                content.push(c);
-                last = c;
-                return i + 1;
-            }
-            if (/[^\d]/.test(c)) {
-                token(content.join(''));
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function decimal() {
-            if (c === 'f') {
-                content.push(c);
-                last = c;
-                i += 1;
-            }
-            if (/[eE]/.test(c)) {
-                content.push(c);
-                last = c;
-                return i + 1;
-            }
-            if (/[^\d]/.test(c)) {
-                token(content.join(''));
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        function readtoken() {
-            if (/[^\d\w_]/.test(c)) {
-                var contentstr = content.join('');
-                if (literals.indexOf(contentstr) > -1) {
-                    mode = KEYWORD;
-                }
-                else if (builtins.indexOf(contentstr) > -1) {
-                    mode = BUILTIN;
-                }
-                else {
-                    mode = IDENT;
-                }
-                token(content.join(''));
-                mode = NORMAL;
-                return i;
-            }
-            content.push(c);
-            last = c;
-            return i + 1;
-        }
-        var i = 0, total = 0, mode = NORMAL, c, last, content = [], tokens = [], token_idx = 0, token_offs = 0, line = 1, col = 0, start = 0, isnum = false, isoperator = false, input = '', len;
-        return function (data) {
-            tokens = [];
-            if (data !== null) {
-                return write(data);
-            }
-            return end();
-        };
+        var x = reader(null);
+        console.log(x);
+        return x;
     }
-    return tokenize;
+    return parse;
 });
 
-define('davinci-eight/glsl/tokenizeString',["require", "exports", './tokenize'], function (require, exports, tokenize) {
-    function tokenizeString(str) {
-        var generator = tokenize();
-        var tokens = [];
-        tokens = tokens.concat(generator(str));
-        tokens = tokens.concat(generator(null));
-        return tokens;
-    }
-    return tokenizeString;
-});
-
-define('davinci-eight/materials/RawShaderMaterial',["require", "exports", '../objects/VertexAttribArray', '../glsl/parser', '../glsl/tokenizeString'], function (require, exports, VertexAttribArray, parser, tokenizeString) {
+define('davinci-eight/materials/RawShaderMaterial',["require", "exports", '../objects/VertexAttribArray', '../glsl/parse'], function (require, exports, VertexAttribArray, parse) {
     var RawShaderMaterial = (function () {
         function RawShaderMaterial(attributes, vertexShader, fragmentShader) {
             this.attributes = [];
             this.vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
             this.vertexShader = vertexShader;
             this.fragmentShader = fragmentShader;
-            var tokens = tokenizeString(vertexShader);
-            console.log("///////////////////");
-            //    console.log(tokens);
-            var reader = parser();
-            for (var i = 0; i < tokens.length; i++) {
-                reader(tokens[i]);
-            }
-            var x = reader(null);
-            console.log(x);
+            var vertTree = parse(vertexShader);
+            var fragTree = parse(fragmentShader);
             this.attributes = this.vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
         }
         RawShaderMaterial.prototype.enableVertexAttributes = function (context) {

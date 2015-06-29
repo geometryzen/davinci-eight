@@ -1,3 +1,4 @@
+/// <reference path='./Node.d.ts'/>
 import full_parse_expr = require('./expr');
 import Scope = require('./Scope');
 
@@ -26,36 +27,36 @@ let KEYWORD_OR_IDENT = 16;
 let RETURN = 17;
 let BREAK = 18;
 let CONTINUE = 19;
-let DISCARD = 20
-let DOWHILELOOP = 21
-let PLACEHOLDER = 22
-let QUANTIFIER = 23
+let DISCARD = 20;
+let DOWHILELOOP = 21;
+let PLACEHOLDER = 22;
+let QUANTIFIER = 23;
 
-var DECL_ALLOW_ASSIGN = 0x1
-  , DECL_ALLOW_COMMA = 0x2
-  , DECL_REQUIRE_NAME = 0x4
-  , DECL_ALLOW_INVARIANT = 0x8
-  , DECL_ALLOW_STORAGE = 0x10
-  , DECL_NO_INOUT = 0x20
-  , DECL_ALLOW_STRUCT = 0x40
-  , DECL_STATEMENT = 0xFF
-  , DECL_FUNCTION = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_COMMA | DECL_NO_INOUT | DECL_ALLOW_INVARIANT | DECL_REQUIRE_NAME)
-  , DECL_STRUCT = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_INVARIANT | DECL_ALLOW_STORAGE | DECL_ALLOW_STRUCT)
+let DECL_ALLOW_ASSIGN = 0x1;
+let DECL_ALLOW_COMMA = 0x2;
+let DECL_REQUIRE_NAME = 0x4;
+let DECL_ALLOW_INVARIANT = 0x8;
+let DECL_ALLOW_STORAGE = 0x10;
+let DECL_NO_INOUT = 0x20;
+let DECL_ALLOW_STRUCT = 0x40;
+let DECL_STATEMENT = 0xFF;
+let DECL_FUNCTION = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_COMMA | DECL_NO_INOUT | DECL_ALLOW_INVARIANT | DECL_REQUIRE_NAME);
+let DECL_STRUCT = DECL_STATEMENT & ~(DECL_ALLOW_ASSIGN | DECL_ALLOW_INVARIANT | DECL_ALLOW_STORAGE | DECL_ALLOW_STRUCT);
 
-var QUALIFIERS = ['const', 'attribute', 'uniform', 'varying']
+let QUALIFIERS = ['const', 'attribute', 'uniform', 'varying']
 
-var NO_ASSIGN_ALLOWED = false
-  , NO_COMMA_ALLOWED = false
+let NO_ASSIGN_ALLOWED = false;
+let NO_COMMA_ALLOWED = false;
 
 // map of tokens to stmt types
-var token_map = {
+let token_map = {
     'block-comment': COMMENT
   , 'line-comment': COMMENT
   , 'preprocessor': PREPROCESSOR
 }
 
 // map of stmt types to human
-var stmt_type = [
+let stmt_type = [
     'ident'
   , 'stmt'
   , 'stmtlist'
@@ -82,9 +83,9 @@ var stmt_type = [
   , 'quantifier'
 ]
 
-function parser() {
+function parser(): (data: Token) => GLSL.Node[] {
 
-  function reader(data: {type:string}) {
+  function reader(data: Token) {
     if (data === null) {
       return end(), program
     }
@@ -94,7 +95,7 @@ function parser() {
     return nodes
   }
 
-  function write(input: {type: string}) {
+  function write(input: Token) {
     if(input.type === 'whitespace' || input.type === 'line-comment' || input.type === 'block-comment') {
 
       whitespace.push(input)
@@ -963,13 +964,13 @@ function parser() {
   var ended = false;
   var depth = 0;
   var state: any = [];  // FIXME
-  var nodes = [];
+  var nodes: GLSL.Node[] = [];
   var tokens = [];
-  var whitespace = [];
+  var whitespace: Token[] = [];
   var errored = false;
   var program;
-  var token;
-  var node;
+  var token: Token;
+  var node: GLSL.Node;
 
   // setup state
   state.shift = special_shift

@@ -1,32 +1,42 @@
+//
+// See javascript.crockford.com/tdop/tdop.html
+//
+/// <reference path='./Symbol.d.ts'/>
+/// <reference path='./Token.d.ts'/>
+
 var state;
-var token;
-var tokens;
-var idx;
+/**
+ * The current token.
+ */
+var token: Token;
+var tokens: Token[];
+var idx: number;
 
 function fail(message) {
   return function() { return state.unexpected(message) }
 }
 
-var original_symbol = {
-    nud: function() { return this.children && this.children.length ? this : fail('unexpected')() }
-  , led: fail('missing operator')
+/**
+ * The prototype for all other symbols. Its method will usually be overridden.
+ */
+let original_symbol = {
+  nud: function() {
+    return this.children && this.children.length ? this : fail('unexpected')()
+  },
+  led: fail('missing operator')
 }
 
-interface Symbol {
-  id: string;
-  lbp: number;
-  led: (left) => any;
-  nud: () => any;
-}
+let symbol_table: {[id:string]:Symbol} = {};
 
-var symbol_table: {[id:string]:Symbol} = {};
-
-function itself() {
+let itself: NullDenotation = function() {
   return this
 }
 
-function symbol(id: string, binding_power?) {
-  var sym = symbol_table[id]
+/**
+ * A function that makes symbols and looks them up in a cache.
+ */
+function symbol(id: string, binding_power?: number) {
+  var sym: Symbol = symbol_table[id];
   binding_power = binding_power || 0
   if(sym) {
     if(binding_power > sym.lbp) {
@@ -42,8 +52,8 @@ function symbol(id: string, binding_power?) {
   return sym
 }
 
-function infix(id: string, bp: number, led?) {
-  var sym = symbol(id, bp)
+function infix(id: string, bp: number, led?: LeftDenotation): void {
+  var sym: Symbol = symbol(id, bp)
   sym.led = led || function(left) {
     this.children = [left, expression(bp)]
     this.type = 'binary'
@@ -51,7 +61,7 @@ function infix(id: string, bp: number, led?) {
   }
 }
 
-function infixr(id: string, bp: number, led?) {
+function infixr(id: string, bp: number, led?: LeftDenotation): Symbol {
   var sym = symbol(id, bp)
   sym.led = led || function(left) {
     this.children = [left, expression(bp - 1)]
@@ -61,7 +71,7 @@ function infixr(id: string, bp: number, led?) {
   return sym
 }
 
-function prefix(id: string, nud?) {
+function prefix(id: string, nud?: NullDenotation): Symbol {
   var sym = symbol(id)
   sym.nud = nud || function() {
     this.children = [expression(70)]
@@ -71,7 +81,7 @@ function prefix(id: string, nud?) {
   return sym
 }
 
-function suffix(id) {
+function suffix(id: string): void {
   var sym = symbol(id, 150)
   sym.led = function(left) {
     this.children = [left]
@@ -80,7 +90,7 @@ function suffix(id) {
   }
 }
 
-function assignment(id) {
+function assignment(id: string): Symbol {
   return infixr(id, 10, function(left) {
     this.children = [left, expression(9)]
     this.assignment = true
@@ -120,7 +130,7 @@ infix('-', 50)
 infix('*', 60)
 infix('/', 60)
 infix('%', 60)
-infix('?', 20, function(left) {
+infix('?', 20, function(left: Symbol) {
   this.children = [left, expression(0), (advance(':'), expression(0))]
   this.type = 'ternary'
   return this
@@ -183,7 +193,7 @@ assignment('^=')
 assignment('>>=')
 assignment('<<=')
 
-function expr(incoming_state, incoming_tokens?) {
+function expr(incoming_state, incoming_tokens?: Token[]): void {
 
   function emit(node) {
     state.unshift(node, false)
@@ -214,8 +224,14 @@ function expr(incoming_state, incoming_tokens?) {
   result.parent.children = [result]
 }
 
-function expression(rbp) {
-  var left, t = token
+/**
+ * The heart of top-down precedence parsing.
+ * @param rbp Right Binding Power.
+ */
+function expression(rbp: number): Symbol {
+  var left: Symbol;
+  var t: Token = token
+
   advance()
 
   left = t.nud()
@@ -227,11 +243,14 @@ function expression(rbp) {
   return left
 }
 
-function advance(id?) {
-  var next
-    , value
-    , type
-    , output
+/**
+ * Make a new token from the next simple object in the array and assign to the token variable
+ */
+function advance(id?): Symbol {
+  var next;
+  var value;
+  var type;
+  var output: Symbol;
 
   if(id && token.data !== id) {
     return state.unexpected('expected `'+ id + '`, got `'+token.data+'`')
@@ -249,19 +268,24 @@ function advance(id?) {
   if(type === 'ident') {
     output = state.scope.find(value) || state.create_node()
     type = output.type
-  } else if(type === 'builtin') {
+  }
+  else if(type === 'builtin') {
     output = symbol_table['(builtin)']
-  } else if(type === 'keyword') {
+  }
+  else if(type === 'keyword') {
     output = symbol_table['(keyword)']
-  } else if(type === 'operator') {
+  }
+  else if(type === 'operator') {
     output = symbol_table[value]
     if(!output) {
       return state.unexpected('unknown operator `'+value+'`')
     }
-  } else if(type === 'float' || type === 'integer') {
+  }
+  else if(type === 'float' || type === 'integer') {
     type = 'literal'
     output = symbol_table['(literal)']
-  } else {
+  }
+  else {
     return state.unexpected('unexpected token.')
   }
 
@@ -270,6 +294,7 @@ function advance(id?) {
     if(!output.children) { output.children = [] }
   }
 
+  // FIXME: This should be assigning to token?
   output = Object.create(output)
   output.token = next
   output.type = type
@@ -277,6 +302,8 @@ function advance(id?) {
     output.data = value
   }
 
+  // I don't think the assignment is required.
+  // It also may be effing up the type safety.
   return token = output
 }
 

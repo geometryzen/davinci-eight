@@ -1,19 +1,35 @@
+//
+// See javascript.crockford.com/tdop/tdop.html
+//
+/// <reference path='./Symbol.d.ts'/>
+/// <reference path='./Token.d.ts'/>
 define(["require", "exports"], function (require, exports) {
     var state;
+    /**
+     * The current token.
+     */
     var token;
     var tokens;
     var idx;
     function fail(message) {
         return function () { return state.unexpected(message); };
     }
+    /**
+     * The prototype for all other symbols. Its method will usually be overridden.
+     */
     var original_symbol = {
-        nud: function () { return this.children && this.children.length ? this : fail('unexpected')(); },
+        nud: function () {
+            return this.children && this.children.length ? this : fail('unexpected')();
+        },
         led: fail('missing operator')
     };
     var symbol_table = {};
-    function itself() {
+    var itself = function () {
         return this;
-    }
+    };
+    /**
+     * A function that makes symbols and looks them up in a cache.
+     */
     function symbol(id, binding_power) {
         var sym = symbol_table[id];
         binding_power = binding_power || 0;
@@ -184,8 +200,13 @@ define(["require", "exports"], function (require, exports) {
         }
         result.parent.children = [result];
     }
+    /**
+     * The heart of top-down precedence parsing.
+     * @param rbp Right Binding Power.
+     */
     function expression(rbp) {
-        var left, t = token;
+        var left;
+        var t = token;
         advance();
         left = t.nud();
         while (rbp < token.lbp) {
@@ -195,8 +216,14 @@ define(["require", "exports"], function (require, exports) {
         }
         return left;
     }
+    /**
+     * Make a new token from the next simple object in the array and assign to the token variable
+     */
     function advance(id) {
-        var next, value, type, output;
+        var next;
+        var value;
+        var type;
+        var output;
         if (id && token.data !== id) {
             return state.unexpected('expected `' + id + '`, got `' + token.data + '`');
         }
@@ -238,12 +265,15 @@ define(["require", "exports"], function (require, exports) {
                 output.children = [];
             }
         }
+        // FIXME: This should be assigning to token?
         output = Object.create(output);
         output.token = next;
         output.type = type;
         if (!output.data) {
             output.data = value;
         }
+        // I don't think the assignment is required.
+        // It also may be effing up the type safety.
         return token = output;
     }
     return expr;

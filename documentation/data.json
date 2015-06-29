@@ -23,6 +23,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "amd/davinci-eight/glsl/expr.js": {
+            "name": "amd/davinci-eight/glsl/expr.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "amd/davinci-eight/materials/RawShaderMaterial.js": {
             "name": "amd/davinci-eight/materials/RawShaderMaterial.js",
             "modules": {},
@@ -81,8 +88,44 @@
             "class": ""
         },
         {
+            "file": "amd/davinci-eight/glsl/expr.js",
+            "line": 8,
+            "description": "The current token.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/glsl/expr.js",
+            "line": 17,
+            "description": "The prototype for all other symbols. Its method will usually be overridden.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/glsl/expr.js",
+            "line": 30,
+            "description": "A function that makes symbols and looks them up in a cache.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/glsl/expr.js",
+            "line": 203,
+            "description": "The heart of top-down precedence parsing.",
+            "params": [
+                {
+                    "name": "rbp",
+                    "description": "Right Binding Power."
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/glsl/expr.js",
+            "line": 219,
+            "description": "Make a new token from the next simple object in the array and assign to the token variable",
+            "class": ""
+        },
+        {
             "file": "amd/davinci-eight/materials/RawShaderMaterial.js",
-            "line": 72,
+            "line": 65,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": ""
         },
@@ -155,8 +198,28 @@
             "line": " amd/davinci-eight/geometries/prismGeometry.js:55"
         },
         {
+            "message": "Missing item type\nThe current token.",
+            "line": " amd/davinci-eight/glsl/expr.js:8"
+        },
+        {
+            "message": "Missing item type\nThe prototype for all other symbols. Its method will usually be overridden.",
+            "line": " amd/davinci-eight/glsl/expr.js:17"
+        },
+        {
+            "message": "Missing item type\nA function that makes symbols and looks them up in a cache.",
+            "line": " amd/davinci-eight/glsl/expr.js:30"
+        },
+        {
+            "message": "Missing item type\nThe heart of top-down precedence parsing.",
+            "line": " amd/davinci-eight/glsl/expr.js:203"
+        },
+        {
+            "message": "Missing item type\nMake a new token from the next simple object in the array and assign to the token variable",
+            "line": " amd/davinci-eight/glsl/expr.js:219"
+        },
+        {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " amd/davinci-eight/materials/RawShaderMaterial.js:72"
+            "line": " amd/davinci-eight/materials/RawShaderMaterial.js:65"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",

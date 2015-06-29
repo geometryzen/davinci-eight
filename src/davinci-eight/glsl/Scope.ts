@@ -1,6 +1,6 @@
 class Scope {
   private state;
-  private scopes;
+  private scopes: Scope[];
   private current;
   constructor(state) {
     this.state = state
@@ -19,7 +19,7 @@ class Scope {
   define(str) {
     this.current[str] = this.state[0]
   }
-  find(name, fail) {
+  find(name: string, fail) {
     for(var i = this.scopes.length - 1; i > -1; --i) {
       if(this.scopes[i].hasOwnProperty(name)) {
         return this.scopes[i][name]

@@ -301,7 +301,22 @@ define(["require", "exports", './literals', './operators', './builtins'], functi
             last = c;
             return i + 1;
         }
-        var i = 0, total = 0, mode = NORMAL, c, last, content = [], tokens = [], token_idx = 0, token_offs = 0, line = 1, col = 0, start = 0, isnum = false, isoperator = false, input = '', len;
+        var i = 0;
+        var total = 0;
+        var mode = NORMAL;
+        var c;
+        var last;
+        var content = [];
+        var tokens = [];
+        var token_idx = 0;
+        var token_offs = 0;
+        var line = 1;
+        var col = 0;
+        var start = 0;
+        var isnum = false;
+        var isoperator = false;
+        var input = '';
+        var len;
         return function (data) {
             tokens = [];
             if (data !== null) {

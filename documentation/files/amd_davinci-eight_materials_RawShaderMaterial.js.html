@@ -79,22 +79,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;../objects/VertexAttribArray&#x27;, &#x27;../glsl/parser&#x27;, &#x27;../glsl/tokenizeString&#x27;], function (require, exports, VertexAttribArray, parser, tokenizeString) {
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;../objects/VertexAttribArray&#x27;, &#x27;../glsl/parse&#x27;], function (require, exports, VertexAttribArray, parse) {
     var RawShaderMaterial = (function () {
         function RawShaderMaterial(attributes, vertexShader, fragmentShader) {
             this.attributes = [];
             this.vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
             this.vertexShader = vertexShader;
             this.fragmentShader = fragmentShader;
-            var tokens = tokenizeString(vertexShader);
-            console.log(&quot;///////////////////&quot;);
-            //    console.log(tokens);
-            var reader = parser();
-            for (var i = 0; i &lt; tokens.length; i++) {
-                reader(tokens[i]);
-            }
-            var x = reader(null);
-            console.log(x);
+            var vertTree = parse(vertexShader);
+            var fragTree = parse(fragmentShader);
             this.attributes = this.vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
         }
         RawShaderMaterial.prototype.enableVertexAttributes = function (context) {

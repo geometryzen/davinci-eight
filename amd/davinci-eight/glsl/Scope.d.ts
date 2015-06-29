@@ -6,6 +6,6 @@ declare class Scope {
     enter(s: any): void;
     exit(): void;
     define(str: any): void;
-    find(name: any, fail: any): any;
+    find(name: string, fail: any): any;
 }
 export = Scope;

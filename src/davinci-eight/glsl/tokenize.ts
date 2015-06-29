@@ -1,24 +1,25 @@
+/// <reference path='./Token.d.ts'/>
 import literals = require('./literals');
 import operators = require('./operators');
 import builtins = require('./builtins');
 
 let NORMAL = 999;          // <-- never emitted
-var TOKEN = 9999;          // <-- never emitted
+let TOKEN = 9999;          // <-- never emitted
 // These things are called mode(s) and correspond to the following map.
-var BLOCK_COMMENT = 0;
-var LINE_COMMENT = 1;
-var PREPROCESSOR = 2;
-var OPERATOR = 3;
-var INTEGER = 4;
-var FLOAT = 5;
-var IDENT = 6;
-var BUILTIN = 7;
-var KEYWORD = 8;
-var WHITESPACE = 9;
-var EOF = 10;
-var HEX = 11;
+let BLOCK_COMMENT = 0;
+let LINE_COMMENT = 1;
+let PREPROCESSOR = 2;
+let OPERATOR = 3;
+let INTEGER = 4;
+let FLOAT = 5;
+let IDENT = 6;
+let BUILTIN = 7;
+let KEYWORD = 8;
+let WHITESPACE = 9;
+let EOF = 10;
+let HEX = 11;
 
-var map: string[] = [
+let map: string[] = [
     'block-comment'
   , 'line-comment'
   , 'preprocessor'
@@ -35,7 +36,7 @@ var map: string[] = [
 
 function tokenize() {
 
-  function token(data: string) {
+  function token(data: string): void {
     if (data.length) {
       tokens.push({
         type: map[mode]
@@ -329,22 +330,22 @@ function tokenize() {
     return i + 1
   }
 
-  var i = 0
-    , total = 0
-    , mode = NORMAL
-    , c
-    , last
-    , content = []
-    , tokens = []
-    , token_idx = 0
-    , token_offs = 0
-    , line = 1
-    , col = 0
-    , start = 0
-    , isnum = false
-    , isoperator = false
-    , input = ''
-    , len
+  var i = 0;
+  var total = 0;
+  var mode = NORMAL;
+  var c;
+  var last;
+  var content = [];
+  var tokens: Token[] = [];
+  var token_idx = 0;
+  var token_offs = 0;
+  var line = 1;
+  var col = 0;
+  var start = 0;
+  var isnum = false;
+  var isoperator = false;
+  var input = '';
+  var len;
 
   return function(data: string) {
     tokens = []
