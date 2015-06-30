@@ -7,8 +7,7 @@ function parse(code) {
     for (var i = 0; i < tokens.length; i++) {
         reader(tokens[i]);
     }
-    var x = reader(null);
-    console.log(x);
-    return x;
+    var ast = reader(null);
+    return ast;
 }
 module.exports = parse;

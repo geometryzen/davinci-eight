@@ -5383,9 +5383,8 @@ define('davinci-eight/glsl/parse',["require", "exports", '../glsl/tokenizeString
         for (var i = 0; i < tokens.length; i++) {
             reader(tokens[i]);
         }
-        var x = reader(null);
-        console.log(x);
-        return x;
+        var ast = reader(null);
+        return ast;
     }
     return parse;
 });

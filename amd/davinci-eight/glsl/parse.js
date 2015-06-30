@@ -5,9 +5,8 @@ define(["require", "exports", '../glsl/tokenizeString', '../glsl/parser'], funct
         for (var i = 0; i < tokens.length; i++) {
             reader(tokens[i]);
         }
-        var x = reader(null);
-        console.log(x);
-        return x;
+        var ast = reader(null);
+        return ast;
     }
     return parse;
 });
