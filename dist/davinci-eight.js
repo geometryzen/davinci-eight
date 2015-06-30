@@ -5389,15 +5389,276 @@ define('davinci-eight/glsl/parse',["require", "exports", '../glsl/tokenizeString
     return parse;
 });
 
-define('davinci-eight/materials/RawShaderMaterial',["require", "exports", '../objects/VertexAttribArray', '../glsl/parse'], function (require, exports, VertexAttribArray, parse) {
+define('davinci-eight/glsl/DefaultNodeEventHandler',["require", "exports"], function (require, exports) {
+    /// <reference path='NodeEventHandler.d.ts'/>
+    var DefaultNodeEventHandler = (function () {
+        function DefaultNodeEventHandler() {
+        }
+        DefaultNodeEventHandler.prototype.beginStatementList = function () {
+        };
+        DefaultNodeEventHandler.prototype.endStatementList = function () {
+        };
+        DefaultNodeEventHandler.prototype.beginStatement = function () {
+        };
+        DefaultNodeEventHandler.prototype.endStatement = function () {
+        };
+        DefaultNodeEventHandler.prototype.beginDeclaration = function () {
+        };
+        DefaultNodeEventHandler.prototype.endDeclaration = function () {
+        };
+        DefaultNodeEventHandler.prototype.declaration = function (kind, modifiers, type, names) {
+        };
+        DefaultNodeEventHandler.prototype.beginDeclarationList = function () {
+        };
+        DefaultNodeEventHandler.prototype.endDeclarationList = function () {
+        };
+        DefaultNodeEventHandler.prototype.beginFunction = function () {
+        };
+        DefaultNodeEventHandler.prototype.endFunction = function () {
+        };
+        DefaultNodeEventHandler.prototype.beginFunctionArgs = function () {
+        };
+        DefaultNodeEventHandler.prototype.endFunctionArgs = function () {
+        };
+        DefaultNodeEventHandler.prototype.beginExpression = function () {
+        };
+        DefaultNodeEventHandler.prototype.endExpression = function () {
+        };
+        DefaultNodeEventHandler.prototype.beginAssign = function () {
+        };
+        DefaultNodeEventHandler.prototype.endAssign = function () {
+        };
+        DefaultNodeEventHandler.prototype.identifier = function (name) {
+        };
+        DefaultNodeEventHandler.prototype.keyword = function (word) {
+        };
+        DefaultNodeEventHandler.prototype.builtin = function (name) {
+        };
+        return DefaultNodeEventHandler;
+    })();
+    return DefaultNodeEventHandler;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/glsl/NodeWalker',["require", "exports", './DefaultNodeEventHandler'], function (require, exports, DefaultNodeEventHandler) {
+    var DeclarationBuilder = (function (_super) {
+        __extends(DeclarationBuilder, _super);
+        function DeclarationBuilder(next) {
+            _super.call(this);
+            this.modifiers = [];
+            this.names = [];
+            this.next = next;
+        }
+        DeclarationBuilder.prototype.beginDeclaration = function () {
+            this.kind = void 0;
+            this.type = void 0;
+            this.modifiers = [];
+            this.names = [];
+        };
+        DeclarationBuilder.prototype.endDeclaration = function () {
+            if (this.kind) {
+                this.next.declaration(this.kind, this.modifiers, this.type, this.names);
+            }
+            else {
+            }
+        };
+        DeclarationBuilder.prototype.identifier = function (name) {
+            this.names.push(name);
+        };
+        DeclarationBuilder.prototype.keyword = function (word) {
+            switch (word) {
+                case 'attribute':
+                case 'uniform':
+                case 'varying':
+                    {
+                        this.kind = word;
+                    }
+                    break;
+                case 'float':
+                case 'mat3':
+                case 'mat4':
+                case 'vec3':
+                case 'vec4':
+                case 'void':
+                    {
+                        this.type = word;
+                    }
+                    break;
+                case 'highp':
+                    {
+                        this.modifiers.push(word);
+                    }
+                    break;
+                default: {
+                    throw new Error("keyword: " + word);
+                }
+            }
+        };
+        return DeclarationBuilder;
+    })(DefaultNodeEventHandler);
+    var NodeWalker = (function () {
+        function NodeWalker() {
+        }
+        NodeWalker.prototype.walk = function (node, handler) {
+            var walker = this;
+            switch (node.type) {
+                case 'ident':
+                    {
+                        handler.identifier(node.token.data);
+                    }
+                    break;
+                case 'stmt':
+                    {
+                        handler.beginStatement();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endStatement();
+                    }
+                    break;
+                case 'stmtlist':
+                    {
+                        handler.beginStatementList();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endStatementList();
+                    }
+                    break;
+                case 'function':
+                    {
+                        handler.beginFunction();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endFunction();
+                    }
+                    break;
+                case 'functionargs':
+                    {
+                        handler.beginFunctionArgs();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endFunctionArgs();
+                    }
+                    break;
+                case 'decl':
+                    {
+                        var builder = new DeclarationBuilder(handler);
+                        builder.beginDeclaration();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, builder);
+                        });
+                        builder.endDeclaration();
+                    }
+                    break;
+                case 'decllist':
+                    {
+                        handler.beginDeclarationList();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endDeclarationList();
+                    }
+                    break;
+                case 'expr':
+                    {
+                        handler.beginExpression();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endExpression();
+                    }
+                    break;
+                case 'keyword':
+                    {
+                        handler.keyword(node.token.data);
+                    }
+                    break;
+                case 'placeholder':
+                    {
+                    }
+                    break;
+                case 'assign':
+                    {
+                        handler.beginAssign();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endAssign();
+                    }
+                    break;
+                case 'builtin':
+                    {
+                        handler.builtin(node.token.data);
+                    }
+                    break;
+                case 'binary':
+                    {
+                    }
+                    break;
+                case 'call':
+                    {
+                    }
+                    break;
+                default: {
+                    throw new Error("type: " + node.type);
+                }
+            }
+        };
+        return NodeWalker;
+    })();
+    return NodeWalker;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/glsl/ProgramArgs',["require", "exports", './DefaultNodeEventHandler'], function (require, exports, DefaultNodeEventHandler) {
+    var ProgramArgs = (function (_super) {
+        __extends(ProgramArgs, _super);
+        function ProgramArgs() {
+            _super.call(this);
+        }
+        ProgramArgs.prototype.declaration = function (kind, modifiers, type, names) {
+            console.log("" + kind + " " + modifiers.join(" ") + " " + type + " " + names.join(", "));
+        };
+        return ProgramArgs;
+    })(DefaultNodeEventHandler);
+    return ProgramArgs;
+});
+
+define('davinci-eight/materials/RawShaderMaterial',["require", "exports", '../objects/VertexAttribArray', '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs'], function (require, exports, VertexAttribArray, parse, NodeWalker, ProgramArgs) {
     var RawShaderMaterial = (function () {
         function RawShaderMaterial(attributes, vertexShader, fragmentShader) {
             this.attributes = [];
             this.vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
             this.vertexShader = vertexShader;
             this.fragmentShader = fragmentShader;
-            var vertTree = parse(vertexShader);
-            var fragTree = parse(fragmentShader);
+            try {
+                var program = parse(vertexShader);
+                var walker = new NodeWalker();
+                var args = new ProgramArgs();
+                walker.walk(program, args);
+            }
+            catch (e) {
+                console.log(e);
+            }
+            try {
+                var fragTree = parse(fragmentShader);
+            }
+            catch (e) {
+                console.log(e);
+            }
             this.attributes = this.vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
         }
         RawShaderMaterial.prototype.enableVertexAttributes = function (context) {

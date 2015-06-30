@@ -2,6 +2,10 @@
 /// <reference path="../geometries/Geometry.d.ts" />
 import VertexAttribArray = require('../objects/VertexAttribArray');
 import parse = require('../glsl/parse');
+import NodeWalker = require('../glsl/NodeWalker');
+import ProgramArgs = require('../glsl/ProgramArgs');
+import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
+import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 
 class RawShaderMaterial implements Material {
   public attributes: string[] = [];
@@ -15,8 +19,21 @@ class RawShaderMaterial implements Material {
     this.vertexAttributes = attributes.map(function(attribute) {return new VertexAttribArray(attribute.name, attribute.size)});
     this.vertexShader = vertexShader;
     this.fragmentShader = fragmentShader;
-    let vertTree = parse(vertexShader);
-    let fragTree = parse(fragmentShader);
+    try {
+      let program = parse(vertexShader);
+      let walker = new NodeWalker();
+      let args = new ProgramArgs();
+      walker.walk(program, args);
+    }
+    catch(e) {
+      console.log(e);
+    }
+    try {
+      let fragTree = parse(fragmentShader);
+    }
+    catch(e) {
+      console.log(e);
+    }
     this.attributes = this.vertexAttributes.map(function(vertexAttribute) {return vertexAttribute.name});
   }
   enableVertexAttributes(context: WebGLRenderingContext): void {

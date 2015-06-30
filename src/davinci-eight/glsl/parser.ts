@@ -83,7 +83,7 @@ let stmt_type = [
   , 'quantifier'
 ]
 
-function parser(): (data: Token) => GLSL.Node[] {
+function parser(): (data: Token) => GLSL.Node {
 
   function reader(data: Token) {
     if (data === null) {

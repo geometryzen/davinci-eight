@@ -2,7 +2,7 @@
 import tokenizeString = require('../glsl/tokenizeString');
 import parser = require('../glsl/parser');
 
-function parse(code: string): GLSL.Node[] {
+function parse(code: string): GLSL.Node {
   var tokens: Token[] = tokenizeString(code);
   var reader = parser();
   for (var i = 0; i < tokens.length;i++) {

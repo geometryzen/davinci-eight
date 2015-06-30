@@ -141,7 +141,7 @@
         },
         {
             "file": "amd/davinci-eight/materials/RawShaderMaterial.js",
-            "line": 65,
+            "line": 78,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": ""
         },
@@ -239,7 +239,7 @@
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " amd/davinci-eight/materials/RawShaderMaterial.js:65"
+            "line": " amd/davinci-eight/materials/RawShaderMaterial.js:78"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",

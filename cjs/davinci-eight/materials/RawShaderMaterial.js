@@ -2,14 +2,29 @@
 /// <reference path="../geometries/Geometry.d.ts" />
 var VertexAttribArray = require('../objects/VertexAttribArray');
 var parse = require('../glsl/parse');
+var NodeWalker = require('../glsl/NodeWalker');
+var ProgramArgs = require('../glsl/ProgramArgs');
 var RawShaderMaterial = (function () {
     function RawShaderMaterial(attributes, vertexShader, fragmentShader) {
         this.attributes = [];
         this.vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
         this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
-        var vertTree = parse(vertexShader);
-        var fragTree = parse(fragmentShader);
+        try {
+            var program = parse(vertexShader);
+            var walker = new NodeWalker();
+            var args = new ProgramArgs();
+            walker.walk(program, args);
+        }
+        catch (e) {
+            console.log(e);
+        }
+        try {
+            var fragTree = parse(fragmentShader);
+        }
+        catch (e) {
+            console.log(e);
+        }
         this.attributes = this.vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
     }
     RawShaderMaterial.prototype.enableVertexAttributes = function (context) {
