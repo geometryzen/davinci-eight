@@ -7,9 +7,12 @@ function existsLocation(location) {
 }
 // TODO: Maybe this should be called simply AttributeArray?
 var VertexAttribArray = (function () {
-    function VertexAttribArray(name, size) {
+    function VertexAttribArray(name, size, normalized, stride, offset) {
         this.name = name;
         this.size = size;
+        this.normalized = normalized;
+        this.stride = stride;
+        this.offset = offset;
     }
     VertexAttribArray.prototype.contextFree = function (context) {
         if (this.buffer) {
@@ -32,7 +35,10 @@ var VertexAttribArray = (function () {
         if (existsLocation(this.location)) {
             // TODO: We could assert that we have a buffer.
             context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-            context.vertexAttribPointer(this.location, this.size, context.FLOAT, false, 0, 0);
+            // 6.14 Fixed point support.
+            // The WebGL API does not support the GL_FIXED data type.
+            // Consequently, we hard-code the FLOAT constant.
+            context.vertexAttribPointer(this.location, this.size, context.FLOAT, this.normalized, this.stride, this.offset);
         }
     };
     VertexAttribArray.prototype.bufferData = function (context, geometry) {
@@ -43,6 +49,7 @@ var VertexAttribArray = (function () {
                 context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));
             }
             else {
+                // We expect this to be detected by the mesh long before we get here.
                 throw new Error("Geometry implementation does not support the attribute " + this.name);
             }
         }

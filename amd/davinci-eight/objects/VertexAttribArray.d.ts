@@ -1,10 +1,16 @@
 /// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
 declare class VertexAttribArray {
     name: string;
+    /**
+     * The numbe of components for the attribute. Must be 1,2,3 , or 4.
+     */
     private size;
+    private normalized;
+    private stride;
+    private offset;
     private location;
     private buffer;
-    constructor(name: string, size: number);
+    constructor(name: string, size: number, normalized: boolean, stride: number, offset: number);
     contextFree(context: WebGLRenderingContext): void;
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     contextLoss(): void;

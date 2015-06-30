@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.0.0</em>
+            <em>API Docs for: 2.1.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,69 +79,59 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;../objects/VertexAttribArray&#x27;], function (require, exports, VertexAttribArray) {
-    var material = function (attributes, vertexShader, fragmentShader) {
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;../glsl/parse&#x27;, &#x27;../glsl/NodeWalker&#x27;, &#x27;../glsl/ProgramArgs&#x27;], function (require, exports, parse, NodeWalker, ProgramArgs) {
+    var material = function (vertexShader, fragmentShader) {
         var program;
         var programId;
         var contextGainId;
-        var vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
-        function contextLoss() {
-            program = void 0;
-            programId = void 0;
+        var attributes = [];
+        try {
+            var program_1 = parse(vertexShader);
+            var walker = new NodeWalker();
+            var args = new ProgramArgs();
+            walker.walk(program_1, args);
+            // TODO: Material should retain/expose all information about shaders, not just name.
+            // However, hide the introspection technology API.
+            attributes = args.attributes.map(function (attribute) { return attribute.name; });
+        }
+        catch (e) {
+            console.log(e);
+        }
+        try {
+            var fragTree = parse(fragmentShader);
+        }
+        catch (e) {
+            console.log(e);
         }
         var publicAPI = {
             get attributes() {
-                return vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
+                return attributes;
             },
             contextFree: function (context) {
                 if (program) {
                     context.deleteProgram(program);
-                    contextLoss();
+                    program = void 0;
+                    programId = void 0;
+                    contextGainId = void 0;
                 }
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextFree(context);
-                });
             },
             contextGain: function (context, contextId) {
                 if (contextGainId !== contextId) {
                     program = makeProgram(context, vertexShader, fragmentShader);
                     programId = uuid4().generate();
                     contextGainId = contextId;
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.contextGain(context, program);
-                    });
                 }
             },
             contextLoss: function () {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextLoss();
-                });
+                program = void 0;
+                programId = void 0;
+                contextGainId = void 0;
             },
             hasContext: function () {
                 return !!program;
             },
-            enableVertexAttributes: function (context) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.enable(context);
-                });
-            },
-            disableVertexAttributes: function (context) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.disable(context);
-                });
-            },
-            bindVertexAttributes: function (context) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.bind(context);
-                });
-            },
             get program() { return program; },
-            get programId() { return programId; },
-            update: function (context, time, geometry) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.bufferData(context, geometry);
-                });
-            }
+            get programId() { return programId; }
         };
         return publicAPI;
     };

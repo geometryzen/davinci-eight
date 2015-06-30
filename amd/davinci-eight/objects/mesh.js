@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davinci-eight/objects/ElementArray'], function (require, exports, object3D, glMatrix, ElementArray) {
+define(["require", "exports", './VertexAttribArray', 'davinci-eight/core/object3D', 'gl-matrix', 'davinci-eight/objects/ElementArray'], function (require, exports, VertexAttribArray, object3D, glMatrix, ElementArray) {
     var UniformMatrix4fv = (function () {
         function UniformMatrix4fv(name) {
             this.name = name;
@@ -12,9 +12,25 @@ define(["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davin
         return UniformMatrix4fv;
     })();
     var mesh = function (geometry, material) {
+        function vertexAttrib(name) {
+            var attributes = geometry.getAttributes();
+            var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
+            if (candidates.length === 1) {
+                var candidate = candidates[0];
+                var size = candidate.size;
+                var normalized = candidate.normalized;
+                var stride = candidate.stride;
+                var offset = candidate.offset;
+                return new VertexAttribArray(name, size, normalized, stride, offset);
+            }
+            else {
+                throw new Error("The geometry does not support the attribute " + name);
+            }
+        }
         var base = object3D();
         var contextGainId;
         var elements = new ElementArray();
+        var vertexAttributes = material.attributes.map(vertexAttrib);
         var MVMatrix = new UniformMatrix4fv('uMVMatrix');
         var uNormalMatrix;
         var PMatrix = new UniformMatrix4fv('uPMatrix');
@@ -24,7 +40,9 @@ define(["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davin
         function updateGeometry(context, time) {
             // Make sure to update the geometry first so that the material gets the correct data.
             geometry.update(time, material.attributes);
-            material.update(context, time, geometry);
+            vertexAttributes.forEach(function (vertexAttribute) {
+                vertexAttribute.bufferData(context, geometry);
+            });
             elements.bufferData(context, geometry);
         }
         var publicAPI = {
@@ -36,12 +54,18 @@ define(["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davin
             },
             contextFree: function (context) {
                 material.contextFree(context);
+                vertexAttributes.forEach(function (vertexAttribute) {
+                    vertexAttribute.contextFree(context);
+                });
                 elements.contextFree(context);
             },
             contextGain: function (context, contextId) {
                 if (contextGainId !== contextId) {
                     contextGainId = contextId;
                     material.contextGain(context, contextId);
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.contextGain(context, material.program);
+                    });
                     elements.contextGain(context);
                     if (!geometry.dynamic()) {
                         updateGeometry(context, 0);
@@ -55,6 +79,9 @@ define(["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davin
             },
             contextLoss: function () {
                 material.contextLoss();
+                vertexAttributes.forEach(function (vertexAttribute) {
+                    vertexAttribute.contextLoss();
+                });
                 elements.contextLoss();
             },
             hasContext: function () {
@@ -83,11 +110,17 @@ define(["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davin
                         glMatrix.mat3.normalFromMat4(normalMatrix, matrix);
                         context.uniformMatrix3fv(uNormalMatrix, false, normalMatrix);
                     }
-                    material.enableVertexAttributes(context);
-                    material.bindVertexAttributes(context);
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.enable(context);
+                    });
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.bind(context);
+                    });
                     geometry.draw(context);
                     elements.bind(context);
-                    material.disableVertexAttributes(context);
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.disable(context);
+                    });
                 }
             },
             get position() { return base.position; },

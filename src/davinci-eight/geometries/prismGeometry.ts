@@ -111,7 +111,7 @@ var prismGeometry = function(spec?): Geometry {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getAttributes(): {name: string, size: number}[] {
+    getAttributes() {
       return [];
     },
     getElements(): Uint16Array {

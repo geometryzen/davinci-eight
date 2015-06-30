@@ -3,6 +3,7 @@
 /// <reference path="../geometries/Geometry.d.ts" />
 /// <reference path="../materials/Material.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import VertexAttribArray = require('./VertexAttribArray');
 import meshBasicMaterial = require('davinci-eight/materials/meshBasicMaterial');
 import object3D = require('davinci-eight/core/object3D');
 import vs_source = require('davinci-eight/shaders/shader-vs');
@@ -25,10 +26,26 @@ class UniformMatrix4fv {
 }
 
 var mesh = function<G extends Geometry, M extends Material>(geometry: G, material: M): Mesh<G, M> {
+  function vertexAttrib(name: string): VertexAttribArray {
+    let attributes = geometry.getAttributes();
+    let candidates = attributes.filter(function(attribute) {return attribute.name === name;});
+    if (candidates.length === 1) {
+      let candidate = candidates[0];
+      let size = candidate.size;
+      let normalized = candidate.normalized;
+      let stride = candidate.stride;
+      let offset = candidate.offset;
+      return new VertexAttribArray(name, size, normalized, stride, offset);
+    }
+    else {
+      throw new Error("The geometry does not support the attribute " + name);
+    }
+  }
 
     var base = object3D();
     var contextGainId: string;
     var elements = new ElementArray();
+    var vertexAttributes: VertexAttribArray[] = material.attributes.map(vertexAttrib);
 
     var MVMatrix: UniformMatrix4fv = new UniformMatrix4fv('uMVMatrix');
     var uNormalMatrix: WebGLUniformLocation;
@@ -40,7 +57,9 @@ var mesh = function<G extends Geometry, M extends Material>(geometry: G, materia
     function updateGeometry(context: WebGLRenderingContext, time: number) {
       // Make sure to update the geometry first so that the material gets the correct data.
       geometry.update(time, material.attributes);
-      material.update(context, time, geometry);
+      vertexAttributes.forEach(function(vertexAttribute) {
+        vertexAttribute.bufferData(context, geometry);
+      });
       elements.bufferData(context, geometry);
     }
 
@@ -53,12 +72,18 @@ var mesh = function<G extends Geometry, M extends Material>(geometry: G, materia
         },
         contextFree(context: WebGLRenderingContext) {
           material.contextFree(context);
+          vertexAttributes.forEach(function(vertexAttribute) {
+            vertexAttribute.contextFree(context);
+          });
           elements.contextFree(context);
         },
         contextGain(context: WebGLRenderingContext, contextId: string) {
           if (contextGainId !== contextId) {
             contextGainId = contextId;
             material.contextGain(context, contextId);
+            vertexAttributes.forEach(function(vertexAttribute) {
+              vertexAttribute.contextGain(context, material.program);
+            });
             elements.contextGain(context);
             if (!geometry.dynamic()) {
               updateGeometry(context, 0);
@@ -73,6 +98,9 @@ var mesh = function<G extends Geometry, M extends Material>(geometry: G, materia
         },
         contextLoss() {
           material.contextLoss();
+          vertexAttributes.forEach(function(vertexAttribute) {
+            vertexAttribute.contextLoss();
+          });
           elements.contextLoss();
         },
         hasContext(): boolean {
@@ -103,11 +131,20 @@ var mesh = function<G extends Geometry, M extends Material>(geometry: G, materia
               context.uniformMatrix3fv(uNormalMatrix, false, normalMatrix);
             }
 
-            material.enableVertexAttributes(context);
-            material.bindVertexAttributes(context);
+            vertexAttributes.forEach(function(vertexAttribute) {
+              vertexAttribute.enable(context);
+            });
+
+            vertexAttributes.forEach(function(vertexAttribute) {
+              vertexAttribute.bind(context);
+            });
+
             geometry.draw(context);
             elements.bind(context);
-            material.disableVertexAttributes(context);
+
+            vertexAttributes.forEach(function(vertexAttribute) {
+              vertexAttribute.disable(context);
+            });
           }
         },
         get position(): blade.Euclidean3 {return base.position },

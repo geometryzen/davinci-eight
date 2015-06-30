@@ -18,7 +18,6 @@ import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import prismGeometry = require('davinci-eight/geometries/prismGeometry');
 import rawShaderMaterial = require('davinci-eight/materials/rawShaderMaterial');
-import RawShaderMaterial = require('davinci-eight/materials/RawShaderMaterial');
 import meshBasicMaterial = require('davinci-eight/materials/meshBasicMaterial');
 import meshNormalMaterial = require('davinci-eight/materials/meshNormalMaterial');
 import VertexAttribArray = require('davinci-eight/objects/VertexAttribArray');
@@ -47,7 +46,6 @@ var eight = {
     VertexAttribArray: VertexAttribArray,
     get rawShaderMaterial() {
       return rawShaderMaterial;
-    },
-    RawShaderMaterial: RawShaderMaterial
+    }
 };
 export = eight;

@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '2.0.0'
+        VERSION: '2.1.0'
     };
     return eight;
 });
@@ -2592,6 +2592,78 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports"], function 
     return renderer;
 });
 
+define('davinci-eight/objects/VertexAttribArray',["require", "exports"], function (require, exports) {
+    /// <reference path="../geometries/Geometry.d.ts" />
+    function computeUsage(geometry, context) {
+        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+    }
+    function existsLocation(location) {
+        return location >= 0;
+    }
+    // TODO: Maybe this should be called simply AttributeArray?
+    var VertexAttribArray = (function () {
+        function VertexAttribArray(name, size, normalized, stride, offset) {
+            this.name = name;
+            this.size = size;
+            this.normalized = normalized;
+            this.stride = stride;
+            this.offset = offset;
+        }
+        VertexAttribArray.prototype.contextFree = function (context) {
+            if (this.buffer) {
+                context.deleteBuffer(this.buffer);
+                this.contextLoss();
+            }
+        };
+        VertexAttribArray.prototype.contextGain = function (context, program) {
+            this.location = context.getAttribLocation(program, this.name);
+            if (existsLocation(this.location)) {
+                this.buffer = context.createBuffer();
+            }
+        };
+        VertexAttribArray.prototype.contextLoss = function () {
+            this.location = void 0;
+            this.buffer = void 0;
+        };
+        // Not really bind so much as describing
+        VertexAttribArray.prototype.bind = function (context) {
+            if (existsLocation(this.location)) {
+                // TODO: We could assert that we have a buffer.
+                context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
+                // 6.14 Fixed point support.
+                // The WebGL API does not support the GL_FIXED data type.
+                // Consequently, we hard-code the FLOAT constant.
+                context.vertexAttribPointer(this.location, this.size, context.FLOAT, this.normalized, this.stride, this.offset);
+            }
+        };
+        VertexAttribArray.prototype.bufferData = function (context, geometry) {
+            if (existsLocation(this.location)) {
+                var data = geometry.getVertexAttribArrayData(this.name);
+                if (data) {
+                    context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
+                    context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));
+                }
+                else {
+                    // We expect this to be detected by the mesh long before we get here.
+                    throw new Error("Geometry implementation does not support the attribute " + this.name);
+                }
+            }
+        };
+        VertexAttribArray.prototype.enable = function (context) {
+            if (existsLocation(this.location)) {
+                context.enableVertexAttribArray(this.location);
+            }
+        };
+        VertexAttribArray.prototype.disable = function (context) {
+            if (existsLocation(this.location)) {
+                context.disableVertexAttribArray(this.location);
+            }
+        };
+        return VertexAttribArray;
+    })();
+    return VertexAttribArray;
+});
+
 define('davinci-eight/objects/ElementArray',["require", "exports"], function (require, exports) {
     function computeUsage(geometry, context) {
         return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
@@ -2629,7 +2701,7 @@ define('davinci-eight/objects/ElementArray',["require", "exports"], function (re
     return ElementArray;
 });
 
-define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/object3D', 'gl-matrix', 'davinci-eight/objects/ElementArray'], function (require, exports, object3D, glMatrix, ElementArray) {
+define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray', 'davinci-eight/core/object3D', 'gl-matrix', 'davinci-eight/objects/ElementArray'], function (require, exports, VertexAttribArray, object3D, glMatrix, ElementArray) {
     var UniformMatrix4fv = (function () {
         function UniformMatrix4fv(name) {
             this.name = name;
@@ -2643,9 +2715,25 @@ define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/o
         return UniformMatrix4fv;
     })();
     var mesh = function (geometry, material) {
+        function vertexAttrib(name) {
+            var attributes = geometry.getAttributes();
+            var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
+            if (candidates.length === 1) {
+                var candidate = candidates[0];
+                var size = candidate.size;
+                var normalized = candidate.normalized;
+                var stride = candidate.stride;
+                var offset = candidate.offset;
+                return new VertexAttribArray(name, size, normalized, stride, offset);
+            }
+            else {
+                throw new Error("The geometry does not support the attribute " + name);
+            }
+        }
         var base = object3D();
         var contextGainId;
         var elements = new ElementArray();
+        var vertexAttributes = material.attributes.map(vertexAttrib);
         var MVMatrix = new UniformMatrix4fv('uMVMatrix');
         var uNormalMatrix;
         var PMatrix = new UniformMatrix4fv('uPMatrix');
@@ -2655,7 +2743,9 @@ define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/o
         function updateGeometry(context, time) {
             // Make sure to update the geometry first so that the material gets the correct data.
             geometry.update(time, material.attributes);
-            material.update(context, time, geometry);
+            vertexAttributes.forEach(function (vertexAttribute) {
+                vertexAttribute.bufferData(context, geometry);
+            });
             elements.bufferData(context, geometry);
         }
         var publicAPI = {
@@ -2667,12 +2757,18 @@ define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/o
             },
             contextFree: function (context) {
                 material.contextFree(context);
+                vertexAttributes.forEach(function (vertexAttribute) {
+                    vertexAttribute.contextFree(context);
+                });
                 elements.contextFree(context);
             },
             contextGain: function (context, contextId) {
                 if (contextGainId !== contextId) {
                     contextGainId = contextId;
                     material.contextGain(context, contextId);
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.contextGain(context, material.program);
+                    });
                     elements.contextGain(context);
                     if (!geometry.dynamic()) {
                         updateGeometry(context, 0);
@@ -2686,6 +2782,9 @@ define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/o
             },
             contextLoss: function () {
                 material.contextLoss();
+                vertexAttributes.forEach(function (vertexAttribute) {
+                    vertexAttribute.contextLoss();
+                });
                 elements.contextLoss();
             },
             hasContext: function () {
@@ -2714,11 +2813,17 @@ define('davinci-eight/objects/mesh',["require", "exports", 'davinci-eight/core/o
                         glMatrix.mat3.normalFromMat4(normalMatrix, matrix);
                         context.uniformMatrix3fv(uNormalMatrix, false, normalMatrix);
                     }
-                    material.enableVertexAttributes(context);
-                    material.bindVertexAttributes(context);
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.enable(context);
+                    });
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.bind(context);
+                    });
                     geometry.draw(context);
                     elements.bind(context);
-                    material.disableVertexAttributes(context);
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        vertexAttribute.disable(context);
+                    });
                 }
             },
             get position() { return base.position; },
@@ -2924,9 +3029,9 @@ define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-ei
             dynamic: function () { return false; },
             getAttributes: function () {
                 return [
-                    { name: 'aVertexPosition', size: 3 },
-                    { name: 'aVertexColor', size: 3 },
-                    { name: 'aVertexNormal', size: 3 }
+                    { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
                 ];
             },
             getElements: function () {
@@ -3040,8 +3145,8 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function
         };
         CurveGeometry.prototype.getAttributes = function () {
             return [
-                { name: 'aVertexPosition', size: 3 },
-                { name: 'aVertexColor', size: 3 }
+                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         CurveGeometry.prototype.getElements = function () {
@@ -3107,8 +3212,8 @@ define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], functi
         };
         LatticeGeometry.prototype.getAttributes = function () {
             return [
-                { name: 'aVertexPosition', size: 3 },
-                { name: 'aVertexColor', size: 3 }
+                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         LatticeGeometry.prototype.getElements = function () {
@@ -3173,8 +3278,8 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
         };
         RGBGeometry.prototype.getAttributes = function () {
             return [
-                { name: 'aVertexPosition', size: 3 },
-                { name: 'aVertexColor', size: 3 }
+                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         RGBGeometry.prototype.getElements = function () {
@@ -3338,236 +3443,6 @@ define('davinci-eight/geometries/prismGeometry',["require", "exports", 'davinci-
         return publicAPI;
     };
     return prismGeometry;
-});
-
-define('davinci-eight/objects/VertexAttribArray',["require", "exports"], function (require, exports) {
-    /// <reference path="../geometries/Geometry.d.ts" />
-    function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
-    function existsLocation(location) {
-        return location >= 0;
-    }
-    // TODO: Maybe this should be called simply AttributeArray?
-    var VertexAttribArray = (function () {
-        function VertexAttribArray(name, size) {
-            this.name = name;
-            this.size = size;
-        }
-        VertexAttribArray.prototype.contextFree = function (context) {
-            if (this.buffer) {
-                context.deleteBuffer(this.buffer);
-                this.contextLoss();
-            }
-        };
-        VertexAttribArray.prototype.contextGain = function (context, program) {
-            this.location = context.getAttribLocation(program, this.name);
-            if (existsLocation(this.location)) {
-                this.buffer = context.createBuffer();
-            }
-        };
-        VertexAttribArray.prototype.contextLoss = function () {
-            this.location = void 0;
-            this.buffer = void 0;
-        };
-        // Not really bind so much as describing
-        VertexAttribArray.prototype.bind = function (context) {
-            if (existsLocation(this.location)) {
-                // TODO: We could assert that we have a buffer.
-                context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-                context.vertexAttribPointer(this.location, this.size, context.FLOAT, false, 0, 0);
-            }
-        };
-        VertexAttribArray.prototype.bufferData = function (context, geometry) {
-            if (existsLocation(this.location)) {
-                var data = geometry.getVertexAttribArrayData(this.name);
-                if (data) {
-                    context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-                    context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));
-                }
-                else {
-                    throw new Error("Geometry implementation does not support the attribute " + this.name);
-                }
-            }
-        };
-        VertexAttribArray.prototype.enable = function (context) {
-            if (existsLocation(this.location)) {
-                context.enableVertexAttribArray(this.location);
-            }
-        };
-        VertexAttribArray.prototype.disable = function (context) {
-            if (existsLocation(this.location)) {
-                context.disableVertexAttribArray(this.location);
-            }
-        };
-        return VertexAttribArray;
-    })();
-    return VertexAttribArray;
-});
-
-define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../objects/VertexAttribArray'], function (require, exports, VertexAttribArray) {
-    var material = function (attributes, vertexShader, fragmentShader) {
-        var program;
-        var programId;
-        var contextGainId;
-        var vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
-        function contextLoss() {
-            program = void 0;
-            programId = void 0;
-        }
-        var publicAPI = {
-            get attributes() {
-                return vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
-            },
-            contextFree: function (context) {
-                if (program) {
-                    context.deleteProgram(program);
-                    contextLoss();
-                }
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextFree(context);
-                });
-            },
-            contextGain: function (context, contextId) {
-                if (contextGainId !== contextId) {
-                    program = makeProgram(context, vertexShader, fragmentShader);
-                    programId = uuid4().generate();
-                    contextGainId = contextId;
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.contextGain(context, program);
-                    });
-                }
-            },
-            contextLoss: function () {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextLoss();
-                });
-            },
-            hasContext: function () {
-                return !!program;
-            },
-            enableVertexAttributes: function (context) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.enable(context);
-                });
-            },
-            disableVertexAttributes: function (context) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.disable(context);
-                });
-            },
-            bindVertexAttributes: function (context) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.bind(context);
-                });
-            },
-            get program() { return program; },
-            get programId() { return programId; },
-            update: function (context, time, geometry) {
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.bufferData(context, geometry);
-                });
-            }
-        };
-        return publicAPI;
-    };
-    /**
-     * Creates a WebGLProgram with compiled and linked shaders.
-     */
-    function makeProgram(gl, vertexShader, fragmentShader) {
-        // TODO: Proper cleanup if we throw an error at any point.
-        var vs = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(vs, vertexShader);
-        gl.compileShader(vs);
-        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
-            throw new Error(gl.getShaderInfoLog(vs));
-        }
-        var fs = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(fs, fragmentShader);
-        gl.compileShader(fs);
-        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-            throw new Error(gl.getShaderInfoLog(fs));
-        }
-        var program = gl.createProgram();
-        gl.attachShader(program, vs);
-        gl.attachShader(program, fs);
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            throw new Error(gl.getProgramInfoLog(program));
-        }
-        return program;
-    }
-    function uuid4() {
-        var maxFromBits = function (bits) {
-            return Math.pow(2, bits);
-        };
-        var limitUI04 = maxFromBits(4);
-        var limitUI06 = maxFromBits(6);
-        var limitUI08 = maxFromBits(8);
-        var limitUI12 = maxFromBits(12);
-        var limitUI14 = maxFromBits(14);
-        var limitUI16 = maxFromBits(16);
-        var limitUI32 = maxFromBits(32);
-        var limitUI40 = maxFromBits(40);
-        var limitUI48 = maxFromBits(48);
-        var getRandomInt = function (min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
-        var randomUI06 = function () {
-            return getRandomInt(0, limitUI06 - 1);
-        };
-        var randomUI08 = function () {
-            return getRandomInt(0, limitUI08 - 1);
-        };
-        var randomUI12 = function () {
-            return getRandomInt(0, limitUI12 - 1);
-        };
-        var randomUI16 = function () {
-            return getRandomInt(0, limitUI16 - 1);
-        };
-        var randomUI32 = function () {
-            return getRandomInt(0, limitUI32 - 1);
-        };
-        var randomUI48 = function () {
-            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
-        };
-        var paddedString = function (str, length, z) {
-            str = String(str);
-            z = (!z) ? '0' : z;
-            var i = length - str.length;
-            for (; i > 0; i >>>= 1, z += z) {
-                if (i & 1) {
-                    str = z + str;
-                }
-            }
-            return str;
-        };
-        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
-            var hex = paddedString(timeLow.toString(16), 8) +
-                '-' +
-                paddedString(timeMid.toString(16), 4) +
-                '-' +
-                paddedString(timeHiAndVersion.toString(16), 4) +
-                '-' +
-                paddedString(clockSeqHiAndReserved.toString(16), 2) +
-                paddedString(clockSeqLow.toString(16), 2) +
-                '-' +
-                paddedString(node.toString(16), 12);
-            return hex;
-        };
-        return {
-            generate: function () {
-                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
-            },
-            // addition by Ka-Jan to test for validity
-            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
-            validate: function (uuid) {
-                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-                return testPattern.test(uuid);
-            }
-        };
-    }
-    return material;
 });
 
 define('davinci-eight/glsl/literals',["require", "exports"], function (require, exports) {
@@ -5617,103 +5492,110 @@ define('davinci-eight/glsl/NodeWalker',["require", "exports", './DefaultNodeEven
     return NodeWalker;
 });
 
+define('davinci-eight/glsl/Declaration',["require", "exports"], function (require, exports) {
+    var Declaration = (function () {
+        function Declaration(kind, modifiers, type, name) {
+            this.kind = kind;
+            this.modifiers = modifiers;
+            this.type = type;
+            this.name = name;
+        }
+        return Declaration;
+    })();
+    return Declaration;
+});
+
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/glsl/ProgramArgs',["require", "exports", './DefaultNodeEventHandler'], function (require, exports, DefaultNodeEventHandler) {
+define('davinci-eight/glsl/ProgramArgs',["require", "exports", './DefaultNodeEventHandler', './Declaration'], function (require, exports, DefaultNodeEventHandler, Declaration) {
     var ProgramArgs = (function (_super) {
         __extends(ProgramArgs, _super);
         function ProgramArgs() {
             _super.call(this);
+            this.attributes = [];
+            this.uniforms = [];
+            this.varyings = [];
         }
         ProgramArgs.prototype.declaration = function (kind, modifiers, type, names) {
-            console.log("" + kind + " " + modifiers.join(" ") + " " + type + " " + names.join(", "));
+            var targets = {};
+            targets['attribute'] = this.attributes;
+            targets['uniform'] = this.uniforms;
+            targets['varying'] = this.varyings;
+            var target = targets[kind];
+            if (target) {
+                names.forEach(function (name) {
+                    target.push(new Declaration(kind, modifiers, type, name));
+                });
+            }
+            else {
+                throw new Error("Unexpected declaration kind: " + kind);
+            }
         };
         return ProgramArgs;
     })(DefaultNodeEventHandler);
     return ProgramArgs;
 });
 
-define('davinci-eight/materials/RawShaderMaterial',["require", "exports", '../objects/VertexAttribArray', '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs'], function (require, exports, VertexAttribArray, parse, NodeWalker, ProgramArgs) {
-    var RawShaderMaterial = (function () {
-        function RawShaderMaterial(attributes, vertexShader, fragmentShader) {
-            this.attributes = [];
-            this.vertexAttributes = attributes.map(function (attribute) { return new VertexAttribArray(attribute.name, attribute.size); });
-            this.vertexShader = vertexShader;
-            this.fragmentShader = fragmentShader;
-            try {
-                var program = parse(vertexShader);
-                var walker = new NodeWalker();
-                var args = new ProgramArgs();
-                walker.walk(program, args);
-            }
-            catch (e) {
-                console.log(e);
-            }
-            try {
-                var fragTree = parse(fragmentShader);
-            }
-            catch (e) {
-                console.log(e);
-            }
-            this.attributes = this.vertexAttributes.map(function (vertexAttribute) { return vertexAttribute.name; });
+define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs'], function (require, exports, parse, NodeWalker, ProgramArgs) {
+    var material = function (vertexShader, fragmentShader) {
+        var program;
+        var programId;
+        var contextGainId;
+        var attributes = [];
+        try {
+            var program_1 = parse(vertexShader);
+            var walker = new NodeWalker();
+            var args = new ProgramArgs();
+            walker.walk(program_1, args);
+            // TODO: Material should retain/expose all information about shaders, not just name.
+            // However, hide the introspection technology API.
+            attributes = args.attributes.map(function (attribute) { return attribute.name; });
         }
-        RawShaderMaterial.prototype.enableVertexAttributes = function (context) {
-            this.vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.enable(context);
-            });
+        catch (e) {
+            console.log(e);
+        }
+        try {
+            var fragTree = parse(fragmentShader);
+        }
+        catch (e) {
+            console.log(e);
+        }
+        var publicAPI = {
+            get attributes() {
+                return attributes;
+            },
+            contextFree: function (context) {
+                if (program) {
+                    context.deleteProgram(program);
+                    program = void 0;
+                    programId = void 0;
+                    contextGainId = void 0;
+                }
+            },
+            contextGain: function (context, contextId) {
+                if (contextGainId !== contextId) {
+                    program = makeProgram(context, vertexShader, fragmentShader);
+                    programId = uuid4().generate();
+                    contextGainId = contextId;
+                }
+            },
+            contextLoss: function () {
+                program = void 0;
+                programId = void 0;
+                contextGainId = void 0;
+            },
+            hasContext: function () {
+                return !!program;
+            },
+            get program() { return program; },
+            get programId() { return programId; }
         };
-        RawShaderMaterial.prototype.disableVertexAttributes = function (context) {
-            this.vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.disable(context);
-            });
-        };
-        RawShaderMaterial.prototype.bindVertexAttributes = function (context) {
-            this.vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.bind(context);
-            });
-        };
-        RawShaderMaterial.prototype.update = function (context, time, geometry) {
-            this.vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.bufferData(context, geometry);
-            });
-        };
-        RawShaderMaterial.prototype.contextFree = function (context) {
-            if (this.program) {
-                context.deleteProgram(this.program);
-                this.contextLoss();
-            }
-            this.vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.contextFree(context);
-            });
-        };
-        RawShaderMaterial.prototype.contextGain = function (context, contextId) {
-            if (this.contextGainId !== contextId) {
-                this.program = makeProgram(context, this.vertexShader, this.fragmentShader);
-                this.programId = uuid4().generate();
-                this.contextGainId = contextId;
-                var program = this.program;
-                this.vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextGain(context, program);
-                });
-            }
-        };
-        RawShaderMaterial.prototype.contextLoss = function () {
-            this.vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.contextLoss();
-            });
-            this.program = void 0;
-            this.programId = void 0;
-            this.contextGainId = void 0;
-        };
-        RawShaderMaterial.prototype.hasContext = function () {
-            return !!this.program;
-        };
-        return RawShaderMaterial;
-    })();
+        return publicAPI;
+    };
     /**
      * Creates a WebGLProgram with compiled and linked shaders.
      */
@@ -5810,7 +5692,7 @@ define('davinci-eight/materials/RawShaderMaterial',["require", "exports", '../ob
             }
         };
     }
-    return RawShaderMaterial;
+    return material;
 });
 
 define('davinci-eight/materials/meshBasicMaterial',["require", "exports", 'davinci-eight/materials/material'], function (require, exports, material) {
@@ -5830,7 +5712,7 @@ define('davinci-eight/materials/meshNormalMaterial',["require", "exports", 'davi
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/materials/material', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/boxGeometry', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prismGeometry', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/materials/RawShaderMaterial', 'davinci-eight/materials/meshBasicMaterial', 'davinci-eight/materials/meshNormalMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, material, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, rawShaderMaterial, RawShaderMaterial, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/materials/material', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/boxGeometry', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prismGeometry', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/materials/meshBasicMaterial', 'davinci-eight/materials/meshNormalMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, material, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, rawShaderMaterial, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -5855,8 +5737,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         VertexAttribArray: VertexAttribArray,
         get rawShaderMaterial() {
             return rawShaderMaterial;
-        },
-        RawShaderMaterial: RawShaderMaterial
+        }
     };
     return eight;
 });

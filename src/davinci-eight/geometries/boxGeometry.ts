@@ -56,11 +56,11 @@ var boxGeometry = function(spec?): Geometry {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getAttributes(): {name: string, size: number}[] {
+    getAttributes() {
       return [
-        {name: 'aVertexPosition',size: 3},
-        {name: 'aVertexColor',size: 3},
-        {name: 'aVertexNormal',size: 3}
+        {name: 'aVertexPosition',size: 3, normalized: false, stride: 0, offset: 0},
+        {name: 'aVertexColor',size: 3, normalized: false, stride: 0, offset: 0},
+        {name: 'aVertexNormal',size: 3, normalized: false, stride: 0, offset: 0}
       ];
     },
     getElements(): Uint16Array {

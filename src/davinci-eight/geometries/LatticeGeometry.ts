@@ -33,8 +33,8 @@ class LatticeGeometry implements Geometry {
   }
   getAttributes() {
     return [
-      {name: 'aVertexPosition', size: 3},
-      {name: 'aVertexColor', size: 3}
+      {name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0},
+      {name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0}
     ];
   }
   getElements(): Uint16Array {

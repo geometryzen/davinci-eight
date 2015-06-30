@@ -1,75 +1,67 @@
 /// <reference path="./Material.d.ts" />
 /// <reference path="../geometries/Geometry.d.ts" />
-import VertexAttribArray = require('../objects/VertexAttribArray');
+import parse = require('../glsl/parse');
+import NodeWalker = require('../glsl/NodeWalker');
+import ProgramArgs = require('../glsl/ProgramArgs');
+import Declaration = require('../glsl/Declaration');
+import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
+import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 
-var material = function(attributes: {name: string, size: number}[], vertexShader: string, fragmentShader: string): Material {
-
+var material = function(vertexShader: string, fragmentShader: string): Material {
 
   var program: WebGLProgram;
   var programId: string;
   var contextGainId: string;
-
-  let vertexAttributes: VertexAttribArray[] = attributes.map(function(attribute) {return new VertexAttribArray(attribute.name, attribute.size)});
-
-  function contextLoss() {
-    program = void 0;
-    programId = void 0;
+  var attributes: string[] = [];
+  try {
+    let program = parse(vertexShader);
+    let walker = new NodeWalker();
+    let args = new ProgramArgs();
+    walker.walk(program, args);
+    // TODO: Material should retain/expose all information about shaders, not just name.
+    // However, hide the introspection technology API.
+    attributes = args.attributes.map(function(attribute) {return attribute.name});
+  }
+  catch(e) {
+    console.log(e);
+  }
+  try {
+    let fragTree = parse(fragmentShader);
+  }
+  catch(e) {
+    console.log(e);
   }
 
   var publicAPI: Material =
   {
     get attributes(): string[] {
-      return vertexAttributes.map(function(vertexAttribute) {return vertexAttribute.name});
+      return attributes;
     },
     contextFree: function(context: WebGLRenderingContext): void {
       if (program) {
         context.deleteProgram(program);
-        contextLoss();
+        program = void 0;
+        programId = void 0;
+        contextGainId = void 0;
       }
-      vertexAttributes.forEach(function(vertexAttribute) {
-        vertexAttribute.contextFree(context);
-      });
     },
     contextGain: function(context: WebGLRenderingContext, contextId: string): void {
       if (contextGainId !== contextId) {
         program = makeProgram(context, vertexShader, fragmentShader);
         programId = uuid4().generate();
         contextGainId = contextId;
-        vertexAttributes.forEach(function(vertexAttribute) {
-          vertexAttribute.contextGain(context, program);
-        });
       }
     },
     contextLoss() {
-      vertexAttributes.forEach(function(vertexAttribute) {
-        vertexAttribute.contextLoss();
-      });
+      program = void 0;
+      programId = void 0;
+      contextGainId = void 0;
     },
     hasContext: function(): boolean {
       return !!program;
     },
-    enableVertexAttributes(context: WebGLRenderingContext) {
-      vertexAttributes.forEach(function(vertexAttribute) {
-        vertexAttribute.enable(context);
-      });
-    },
-    disableVertexAttributes(context: WebGLRenderingContext) {
-      vertexAttributes.forEach(function(vertexAttribute) {
-        vertexAttribute.disable(context);
-      });
-    },
-    bindVertexAttributes(context: WebGLRenderingContext) {
-      vertexAttributes.forEach(function(vertexAttribute) {
-        vertexAttribute.bind(context);
-      });
-    },
     get program() { return program; },
-    get programId() {return programId;},
-    update(context: WebGLRenderingContext, time: number, geometry: Geometry): void {
-      vertexAttributes.forEach(function(vertexAttribute) {
-        vertexAttribute.bufferData(context, geometry);
-      });
-    }
+    get programId() {return programId;}
   };
 
   return publicAPI;

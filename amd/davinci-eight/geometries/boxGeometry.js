@@ -43,9 +43,9 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
             dynamic: function () { return false; },
             getAttributes: function () {
                 return [
-                    { name: 'aVertexPosition', size: 3 },
-                    { name: 'aVertexColor', size: 3 },
-                    { name: 'aVertexNormal', size: 3 }
+                    { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
                 ];
             },
             getElements: function () {

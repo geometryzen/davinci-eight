@@ -15,6 +15,9 @@ declare class CurveGeometry implements Geometry {
     getAttributes(): {
         name: string;
         size: number;
+        normalized: boolean;
+        stride: number;
+        offset: number;
     }[];
     getElements(): Uint16Array;
     getVertexAttribArrayData(name: string): Float32Array;
