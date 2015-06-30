@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 
     // Task configuration.
     clean: {
-      src: ['dist', 'amd']
+      src: ['dist', 'amd', 'cjs']
     },
 
     exec: {
@@ -65,12 +65,16 @@ module.exports = function(grunt) {
         taskName: {
             src: 'amd/**/*.js',
             options: {
-                specs: 'test/web/*_test.js',
+                specs: 'test/amd/*_test.js',
                 host: 'http://127.0.0.1:8080/',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
                     requireConfig: {
-                      baseUrl: 'amd/'
+                      baseUrl: 'amd/',
+                      paths: {
+                        'gl-matrix': '../vendor/gl-matrix/dist/gl-matrix-min',
+                        'davinci-blade': '../vendor/davinci-blade/amd/davinci-blade'
+                      }
                     }
                 }
             }
@@ -187,6 +191,15 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('buildCJS', "Build", function(){
+    var done = this.async();
+    tsc(['--declaration'].concat(outDir('cjs', argsCJS)).join(" ")).then(function(){
+      done(true);
+    }).catch(function(){
+      done(false);
+    });
+  });
+
   grunt.registerTask('test', ['connect:test', 'jasmine']);
 
   grunt.registerTask('docs', ['yuidoc']);
@@ -194,5 +207,5 @@ module.exports = function(grunt) {
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
   // Temporarily turn off jshint while fixing glsl parser. Maybe move to separate module?
-  grunt.registerTask('default', ['clean', 'buildAMD'/*, 'jshint'*/, 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('default', ['clean', 'buildAMD', 'buildCJS'/*, 'jshint'*/, 'docs', 'copy', 'requirejs', 'uglify']);
 };

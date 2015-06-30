@@ -89,26 +89,36 @@
         },
         {
             "file": "amd/davinci-eight/glsl/expr.js",
-            "line": 8,
+            "line": 10,
             "description": "The current token.",
             "class": ""
         },
         {
             "file": "amd/davinci-eight/glsl/expr.js",
-            "line": 17,
+            "line": 19,
             "description": "The prototype for all other symbols. Its method will usually be overridden.",
             "class": ""
         },
         {
             "file": "amd/davinci-eight/glsl/expr.js",
-            "line": 30,
+            "line": 32,
             "description": "A function that makes symbols and looks them up in a cache.",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "Identifier"
+                },
+                {
+                    "name": "bp",
+                    "description": "Binding Power. Optional. Defaults to zero."
+                }
+            ],
             "class": ""
         },
         {
             "file": "amd/davinci-eight/glsl/expr.js",
-            "line": 203,
-            "description": "The heart of top-down precedence parsing.",
+            "line": 213,
+            "description": "The heart of top-down precedence parsing (Pratt).",
             "params": [
                 {
                     "name": "rbp",
@@ -119,8 +129,14 @@
         },
         {
             "file": "amd/davinci-eight/glsl/expr.js",
-            "line": 219,
+            "line": 229,
             "description": "Make a new token from the next simple object in the array and assign to the token variable",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/glsl/expr.js",
+            "line": 236,
+            "description": "Symbol obtained from the symbol lookup table.",
             "class": ""
         },
         {
@@ -199,23 +215,27 @@
         },
         {
             "message": "Missing item type\nThe current token.",
-            "line": " amd/davinci-eight/glsl/expr.js:8"
+            "line": " amd/davinci-eight/glsl/expr.js:10"
         },
         {
             "message": "Missing item type\nThe prototype for all other symbols. Its method will usually be overridden.",
-            "line": " amd/davinci-eight/glsl/expr.js:17"
+            "line": " amd/davinci-eight/glsl/expr.js:19"
         },
         {
             "message": "Missing item type\nA function that makes symbols and looks them up in a cache.",
-            "line": " amd/davinci-eight/glsl/expr.js:30"
+            "line": " amd/davinci-eight/glsl/expr.js:32"
         },
         {
-            "message": "Missing item type\nThe heart of top-down precedence parsing.",
-            "line": " amd/davinci-eight/glsl/expr.js:203"
+            "message": "Missing item type\nThe heart of top-down precedence parsing (Pratt).",
+            "line": " amd/davinci-eight/glsl/expr.js:213"
         },
         {
             "message": "Missing item type\nMake a new token from the next simple object in the array and assign to the token variable",
-            "line": " amd/davinci-eight/glsl/expr.js:219"
+            "line": " amd/davinci-eight/glsl/expr.js:229"
+        },
+        {
+            "message": "Missing item type\nSymbol obtained from the symbol lookup table.",
+            "line": " amd/davinci-eight/glsl/expr.js:236"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",

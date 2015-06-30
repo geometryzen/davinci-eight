@@ -1,6 +1,8 @@
 //
 // See javascript.crockford.com/tdop/tdop.html
 //
+// We assume that the source text has been transformed into an array of tokens.
+//
 /// <reference path='./Symbol.d.ts'/>
 /// <reference path='./Token.d.ts'/>
 
@@ -34,19 +36,21 @@ let itself: NullDenotation = function() {
 
 /**
  * A function that makes symbols and looks them up in a cache.
+ * @param id Identifier
+ * @param bp Binding Power. Optional. Defaults to zero.
  */
-function symbol(id: string, binding_power?: number) {
+function symbol(id: string, bp?: number) {
   var sym: Symbol = symbol_table[id];
-  binding_power = binding_power || 0
+  bp = bp || 0
   if(sym) {
-    if(binding_power > sym.lbp) {
-      sym.lbp = binding_power
+    if(bp > sym.lbp) {
+      sym.lbp = bp
     }
   }
   else {
     sym = Object.create(original_symbol)
     sym.id = id 
-    sym.lbp = binding_power
+    sym.lbp = bp
     symbol_table[id] = sym
   }
   return sym
@@ -99,11 +103,12 @@ function assignment(id: string): Symbol {
   })
 }
 
+// parentheses included to avoid collisions with user-defined tokens.
 symbol('(ident)').nud = itself
 symbol('(keyword)').nud = itself
 symbol('(builtin)').nud = itself
 symbol('(literal)').nud = itself
-symbol('(end)')
+symbol('(end)');  // Indicates the end of the token stream.
 
 symbol(':')
 symbol(';')
@@ -131,7 +136,12 @@ infix('*', 60)
 infix('/', 60)
 infix('%', 60)
 infix('?', 20, function(left: Symbol) {
-  this.children = [left, expression(0), (advance(':'), expression(0))]
+  this.children = [left, expression(0), (advance(':'), expression(0))]; // original.
+  //this.children = [];
+  //this.children.push(left);
+  //this.children.push(expression(0));
+  //advance(':');
+  //this.children.push(expression(0));
   this.type = 'ternary'
   return this
 })
@@ -225,16 +235,16 @@ function expr(incoming_state, incoming_tokens?: Token[]): void {
 }
 
 /**
- * The heart of top-down precedence parsing.
+ * The heart of top-down precedence parsing (Pratt).
  * @param rbp Right Binding Power.
  */
 function expression(rbp: number): Symbol {
   var left: Symbol;
-  var t: Token = token
+  var t: Token = token;
 
-  advance()
+  advance();
 
-  left = t.nud()
+  left = t.nud();
   while(rbp < token.lbp) {
     t = token
     advance()
@@ -246,10 +256,13 @@ function expression(rbp: number): Symbol {
 /**
  * Make a new token from the next simple object in the array and assign to the token variable
  */
-function advance(id?): Symbol {
-  var next;
-  var value;
-  var type;
+function advance(id?): Token {
+  var next: Token;
+  var value: string;
+  var type: string;
+  /**
+   * Symbol obtained from the symbol lookup table.
+   */
   var output: Symbol;
 
   if(id && token.data !== id) {

@@ -792,7 +792,7 @@ define(["require", "exports", './expr', './Scope'], function (require, exports, 
         state.unshift = special_unshift;
         state.fake = special_fake;
         state.unexpected = unexpected;
-        state.scope = new Scope(state);
+        state.scope = new Scope(state); // FIXME The only place where we create a Scope?
         state.create_node = function () {
             var n = mknode(IDENT, token); // FIXME
             n.parent = reader['program']; // FIXME

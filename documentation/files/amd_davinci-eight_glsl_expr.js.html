@@ -82,6 +82,8 @@
 //
 // See javascript.crockford.com/tdop/tdop.html
 //
+// We assume that the source text has been transformed into an array of tokens.
+//
 /// &lt;reference path=&#x27;./Symbol.d.ts&#x27;/&gt;
 /// &lt;reference path=&#x27;./Token.d.ts&#x27;/&gt;
 define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
@@ -110,19 +112,21 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
     };
     /**
      * A function that makes symbols and looks them up in a cache.
+     * @param id Identifier
+     * @param bp Binding Power. Optional. Defaults to zero.
      */
-    function symbol(id, binding_power) {
+    function symbol(id, bp) {
         var sym = symbol_table[id];
-        binding_power = binding_power || 0;
+        bp = bp || 0;
         if (sym) {
-            if (binding_power &gt; sym.lbp) {
-                sym.lbp = binding_power;
+            if (bp &gt; sym.lbp) {
+                sym.lbp = bp;
             }
         }
         else {
             sym = Object.create(original_symbol);
             sym.id = id;
-            sym.lbp = binding_power;
+            sym.lbp = bp;
             symbol_table[id] = sym;
         }
         return sym;
@@ -169,11 +173,12 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
             return this;
         });
     }
+    // parentheses included to avoid collisions with user-defined tokens.
     symbol(&#x27;(ident)&#x27;).nud = itself;
     symbol(&#x27;(keyword)&#x27;).nud = itself;
     symbol(&#x27;(builtin)&#x27;).nud = itself;
     symbol(&#x27;(literal)&#x27;).nud = itself;
-    symbol(&#x27;(end)&#x27;);
+    symbol(&#x27;(end)&#x27;); // Indicates the end of the token stream.
     symbol(&#x27;:&#x27;);
     symbol(&#x27;;&#x27;);
     symbol(&#x27;,&#x27;);
@@ -199,7 +204,12 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
     infix(&#x27;/&#x27;, 60);
     infix(&#x27;%&#x27;, 60);
     infix(&#x27;?&#x27;, 20, function (left) {
-        this.children = [left, expression(0), (advance(&#x27;:&#x27;), expression(0))];
+        this.children = [left, expression(0), (advance(&#x27;:&#x27;), expression(0))]; // original.
+        //this.children = [];
+        //this.children.push(left);
+        //this.children.push(expression(0));
+        //advance(&#x27;:&#x27;);
+        //this.children.push(expression(0));
         this.type = &#x27;ternary&#x27;;
         return this;
     });
@@ -282,7 +292,7 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
         result.parent.children = [result];
     }
     /**
-     * The heart of top-down precedence parsing.
+     * The heart of top-down precedence parsing (Pratt).
      * @param rbp Right Binding Power.
      */
     function expression(rbp) {
@@ -304,6 +314,9 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
         var next;
         var value;
         var type;
+        /**
+         * Symbol obtained from the symbol lookup table.
+         */
         var output;
         if (id &amp;&amp; token.data !== id) {
             return state.unexpected(&#x27;expected &#x60;&#x27; + id + &#x27;&#x60;, got &#x60;&#x27; + token.data + &#x27;&#x60;&#x27;);
