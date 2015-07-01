@@ -16,8 +16,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "amd/davinci-eight/geometries/prismGeometry.js": {
-            "name": "amd/davinci-eight/geometries/prismGeometry.js",
+        "amd/davinci-eight/geometries/prism.js": {
+            "name": "amd/davinci-eight/geometries/prism.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -39,6 +39,20 @@
         },
         "amd/davinci-eight/math/e3ga/vectorE3.js": {
             "name": "amd/davinci-eight/math/e3ga/vectorE3.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/objects/ElementArray.js": {
+            "name": "amd/davinci-eight/objects/ElementArray.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/objects/mesh.js": {
+            "name": "amd/davinci-eight/objects/mesh.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -75,7 +89,7 @@
     },
     "classitems": [
         {
-            "file": "amd/davinci-eight/geometries/prismGeometry.js",
+            "file": "amd/davinci-eight/geometries/prism.js",
             "line": 55,
             "description": "Constructs and returns a Prism geometry object.",
             "class": ""
@@ -134,7 +148,7 @@
         },
         {
             "file": "amd/davinci-eight/materials/rawShaderMaterial.js",
-            "line": 57,
+            "line": 65,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": ""
         },
@@ -156,6 +170,17 @@
                     "description": "The z component of the vector."
                 }
             ],
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/objects/ElementArray.js",
+            "line": 6,
+            "description": "Manages the (optional) WebGLBuffer used to support gl.drawElements().",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/objects/mesh.js",
+            "line": 16,
             "class": ""
         },
         {
@@ -198,7 +223,7 @@
     "warnings": [
         {
             "message": "Missing item type\nConstructs and returns a Prism geometry object.",
-            "line": " amd/davinci-eight/geometries/prismGeometry.js:55"
+            "line": " amd/davinci-eight/geometries/prism.js:55"
         },
         {
             "message": "Missing item type\nThe current token.",
@@ -226,11 +251,19 @@
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " amd/davinci-eight/materials/rawShaderMaterial.js:57"
+            "line": " amd/davinci-eight/materials/rawShaderMaterial.js:65"
         },
         {
             "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
             "line": " amd/davinci-eight/math/e3ga/vectorE3.js:2"
+        },
+        {
+            "message": "Missing item type\nManages the (optional) WebGLBuffer used to support gl.drawElements().",
+            "line": " amd/davinci-eight/objects/ElementArray.js:6"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/objects/mesh.js:16"
         },
         {
             "message": "Missing item type\nCreates and returns a workbench3D thing.",

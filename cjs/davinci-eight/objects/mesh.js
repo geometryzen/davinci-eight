@@ -7,6 +7,7 @@ var VertexAttribArray = require('./VertexAttribArray');
 var object3D = require('davinci-eight/core/object3D');
 var glMatrix = require('gl-matrix');
 var ElementArray = require('davinci-eight/objects/ElementArray');
+// A work in progress?
 var UniformMatrix4fv = (function () {
     function UniformMatrix4fv(name) {
         this.name = name;
@@ -20,8 +21,12 @@ var UniformMatrix4fv = (function () {
     return UniformMatrix4fv;
 })();
 var mesh = function (geometry, material) {
-    function vertexAttrib(name) {
+    /**
+     *
+     */
+    function vertexAttrib(declaration) {
         var attributes = geometry.getAttributes();
+        var name = declaration.name;
         var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
         if (candidates.length === 1) {
             var candidate = candidates[0];
@@ -37,7 +42,7 @@ var mesh = function (geometry, material) {
     }
     var base = object3D();
     var contextGainId;
-    var elements = new ElementArray();
+    var elements = new ElementArray(geometry);
     var vertexAttributes = material.attributes.map(vertexAttrib);
     var MVMatrix = new UniformMatrix4fv('uMVMatrix');
     var uNormalMatrix;

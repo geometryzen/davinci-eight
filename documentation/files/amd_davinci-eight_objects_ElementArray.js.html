@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight.js - davinci-eight</title>
+    <title>amd/davinci-eight/objects/ElementArray.js - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,36 +75,52 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight.js</h1>
+<h1 class="file-heading">File: amd/davinci-eight/objects/ElementArray.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/scenes/scene&#x27;, &#x27;davinci-eight/renderers/webGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/box&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/geometries/prism&#x27;, &#x27;davinci-eight/materials/rawShaderMaterial&#x27;, &#x27;davinci-eight/objects/VertexAttribArray&#x27;], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, CurveGeometry, LatticeGeometry, RGBGeometry, prism, rawShaderMaterial, VertexAttribArray) {
-    var eight = {
-        &#x27;VERSION&#x27;: core.VERSION,
-        perspective: perspectiveCamera,
-        scene: scene,
-        object3D: object3D,
-        renderer: webGLRenderer,
-        contextMonitor: webGLContextMonitor,
-        workbench: workbench3D,
-        animationRunner: windowAnimationRunner,
-        mesh: mesh,
-        /**
-         * Constructs and returns a box geometry.
-         */
-        box: box,
-        CurveGeometry: CurveGeometry,
-        LatticeGeometry: LatticeGeometry,
-        RGBGeometry: RGBGeometry,
-        prism: prism,
-        VertexAttribArray: VertexAttribArray,
-        get rawShaderMaterial() {
-            return rawShaderMaterial;
+define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
+    /// &lt;reference path=&quot;../geometries/Geometry.d.ts&quot; /&gt;
+    function computeUsage(geometry, context) {
+        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+    }
+    /**
+     * Manages the (optional) WebGLBuffer used to support gl.drawElements().
+     */
+    var ElementArray = (function () {
+        function ElementArray(geometry) {
+            this.geometry = geometry;
         }
-    };
-    return eight;
+        ElementArray.prototype.contextFree = function (context) {
+            if (this.buffer) {
+                context.deleteBuffer(this.buffer);
+                this.buffer = void 0;
+            }
+        };
+        ElementArray.prototype.contextGain = function (context) {
+            if (this.geometry.hasElements()) {
+                this.buffer = context.createBuffer();
+            }
+        };
+        ElementArray.prototype.contextLoss = function () {
+            this.buffer = void 0;
+        };
+        ElementArray.prototype.bufferData = function (context, geometry) {
+            if (this.buffer) {
+                var elements = geometry.getElements();
+                context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, this.buffer);
+                var usage = computeUsage(geometry, context);
+                context.bufferData(context.ELEMENT_ARRAY_BUFFER, elements, usage);
+            }
+        };
+        ElementArray.prototype.bind = function (context) {
+            if (this.buffer) {
+                context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, this.buffer);
+            }
+        };
+        return ElementArray;
+    })();
+    return ElementArray;
 });
 
     </pre>

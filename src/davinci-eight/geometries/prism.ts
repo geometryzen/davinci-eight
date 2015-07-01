@@ -1,5 +1,5 @@
 //
-// prismGeometry.ts
+// prism.ts
 //
 /// <reference path="../geometries/Geometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
@@ -70,7 +70,7 @@ var triangles =
 /**
  * Constructs and returns a Prism geometry object.
  */
-var prismGeometry = function(spec?): Geometry {
+var prism = function(spec?): Geometry {
 
   var elements: number[] = [];
   var vertices: number[] = [];
@@ -114,6 +114,9 @@ var prismGeometry = function(spec?): Geometry {
     getAttributes() {
       return [];
     },
+    hasElements(): boolean {
+      return false;
+    },
     getElements(): Uint16Array {
       // We don't support element arrays.
       return null;
@@ -128,11 +131,11 @@ var prismGeometry = function(spec?): Geometry {
         }
       }
     },
-    update(time: number): void {
+    update(time: number, attributes: {name:string}[]): void {
 
     }
   };
   return publicAPI;
 };
 
-export = prismGeometry;
+export = prism;

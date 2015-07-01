@@ -13,8 +13,11 @@ declare class RGBGeometry implements Geometry {
         stride: number;
         offset: number;
     }[];
+    hasElements(): boolean;
     getElements(): Uint16Array;
     getVertexAttribArrayData(name: string): Float32Array;
-    update(time: number): void;
+    update(time: number, attributes: {
+        name: string;
+    }[]): void;
 }
 export = RGBGeometry;

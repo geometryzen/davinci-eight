@@ -34,9 +34,6 @@ declare var eight: {
     LatticeGeometry: typeof LatticeGeometry;
     RGBGeometry: typeof RGBGeometry;
     prism: (spec?: any) => Geometry;
-    material: (spec?: any) => Material;
-    meshBasicMaterial: (spec: any) => Material;
-    meshNormalMaterial: (spec: any) => Material;
     VertexAttribArray: typeof VertexAttribArray;
     rawShaderMaterial: (vertexShader: string, fragmentShader: string) => Material;
 };

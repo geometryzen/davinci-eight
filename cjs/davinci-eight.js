@@ -1,6 +1,5 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 var core = require('davinci-eight/core');
-var material = require('davinci-eight/materials/material');
 var object3D = require('davinci-eight/core/object3D');
 var perspectiveCamera = require('davinci-eight/cameras/perspectiveCamera');
 var scene = require('davinci-eight/scenes/scene');
@@ -9,14 +8,12 @@ var mesh = require('davinci-eight/objects/mesh');
 var webGLContextMonitor = require('davinci-eight/utils/webGLContextMonitor');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
-var boxGeometry = require('davinci-eight/geometries/boxGeometry');
+var box = require('davinci-eight/geometries/box');
 var CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 var LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
 var RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
-var prismGeometry = require('davinci-eight/geometries/prismGeometry');
+var prism = require('davinci-eight/geometries/prism');
 var rawShaderMaterial = require('davinci-eight/materials/rawShaderMaterial');
-var meshBasicMaterial = require('davinci-eight/materials/meshBasicMaterial');
-var meshNormalMaterial = require('davinci-eight/materials/meshNormalMaterial');
 var VertexAttribArray = require('davinci-eight/objects/VertexAttribArray');
 var eight = {
     'VERSION': core.VERSION,
@@ -31,14 +28,11 @@ var eight = {
     /**
      * Constructs and returns a box geometry.
      */
-    box: boxGeometry,
+    box: box,
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
     RGBGeometry: RGBGeometry,
-    prism: prismGeometry,
-    material: material,
-    meshBasicMaterial: meshBasicMaterial,
-    meshNormalMaterial: meshNormalMaterial,
+    prism: prism,
     VertexAttribArray: VertexAttribArray,
     get rawShaderMaterial() {
         return rawShaderMaterial;

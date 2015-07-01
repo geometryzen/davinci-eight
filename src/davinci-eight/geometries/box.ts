@@ -1,5 +1,5 @@
 //
-// boxGeometry.ts
+// box.ts
 //
 /// <reference path="../geometries/Geometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
@@ -43,7 +43,7 @@ var triangles: number[][] =
   [0, 4, 5]
 ];
 
-var boxGeometry = function(spec?): Geometry {
+var box = function(spec?): Geometry {
 
   var elements: number[] = [];
 
@@ -51,7 +51,7 @@ var boxGeometry = function(spec?): Geometry {
   var aVertexColorArray: Float32Array;
   var aVertexNormalArray: Float32Array;
 
-  var publicAPI = {
+  var publicAPI: Geometry = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
@@ -62,6 +62,9 @@ var boxGeometry = function(spec?): Geometry {
         {name: 'aVertexColor',size: 3, normalized: false, stride: 0, offset: 0},
         {name: 'aVertexNormal',size: 3, normalized: false, stride: 0, offset: 0}
       ];
+    },
+    hasElements(): boolean {
+      return false;
     },
     getElements(): Uint16Array {
       // We don't support element arrays (yet).
@@ -83,7 +86,8 @@ var boxGeometry = function(spec?): Geometry {
         }
       }
     },
-    update(time: number, names: string[]): void {
+    update(time: number, attributes: {name: string}[]): void {
+      let names: string[] = attributes.map(function(attribute){return attribute.name});
       let requirePosition: boolean = names.indexOf('aVertexPosition') >= 0;
       let requireColor: boolean = names.indexOf('aVertexColor') >= 0;
       let requireNormal: boolean = names.indexOf('aVertexNormal') >= 0;
@@ -161,4 +165,4 @@ var boxGeometry = function(spec?): Geometry {
   return publicAPI;
 };
 
-export = boxGeometry;
+export = box;

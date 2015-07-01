@@ -4,13 +4,13 @@
 /// <reference path="../materials/Material.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import VertexAttribArray = require('./VertexAttribArray');
-import meshBasicMaterial = require('davinci-eight/materials/meshBasicMaterial');
 import object3D = require('davinci-eight/core/object3D');
 import vs_source = require('davinci-eight/shaders/shader-vs');
 import fs_source = require('davinci-eight/shaders/shader-fs');
 import glMatrix = require('gl-matrix');
 import ElementArray = require('davinci-eight/objects/ElementArray');
 
+// A work in progress?
 class UniformMatrix4fv {
   private location: WebGLUniformLocation;
   private name: string;
@@ -26,8 +26,12 @@ class UniformMatrix4fv {
 }
 
 var mesh = function<G extends Geometry, M extends Material>(geometry: G, material: M): Mesh<G, M> {
-  function vertexAttrib(name: string): VertexAttribArray {
+  /**
+   *
+   */
+  function vertexAttrib(declaration: { name: string }): VertexAttribArray {
     let attributes = geometry.getAttributes();
+    let name = declaration.name;
     let candidates = attributes.filter(function(attribute) {return attribute.name === name;});
     if (candidates.length === 1) {
       let candidate = candidates[0];
@@ -44,7 +48,7 @@ var mesh = function<G extends Geometry, M extends Material>(geometry: G, materia
 
     var base = object3D();
     var contextGainId: string;
-    var elements = new ElementArray();
+    var elements = new ElementArray(geometry);
     var vertexAttributes: VertexAttribArray[] = material.attributes.map(vertexAttrib);
 
     var MVMatrix: UniformMatrix4fv = new UniformMatrix4fv('uMVMatrix');

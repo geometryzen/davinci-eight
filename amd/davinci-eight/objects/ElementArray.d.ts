@@ -1,6 +1,11 @@
+/// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
+/**
+ * Manages the (optional) WebGLBuffer used to support gl.drawElements().
+ */
 declare class ElementArray {
     private buffer;
-    constructor();
+    private geometry;
+    constructor(geometry: Geometry);
     contextFree(context: WebGLRenderingContext): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;

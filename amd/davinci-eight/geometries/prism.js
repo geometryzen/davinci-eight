@@ -55,7 +55,7 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
     /**
      * Constructs and returns a Prism geometry object.
      */
-    var prismGeometry = function (spec) {
+    var prism = function (spec) {
         var elements = [];
         var vertices = [];
         var normals = [];
@@ -90,6 +90,9 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
             getAttributes: function () {
                 return [];
             },
+            hasElements: function () {
+                return false;
+            },
             getElements: function () {
                 // We don't support element arrays.
                 return null;
@@ -104,10 +107,10 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
                     }
                 }
             },
-            update: function (time) {
+            update: function (time, attributes) {
             }
         };
         return publicAPI;
     };
-    return prismGeometry;
+    return prism;
 });

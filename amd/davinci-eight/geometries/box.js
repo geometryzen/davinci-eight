@@ -31,7 +31,7 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
         [0, 5, 1],
         [0, 4, 5]
     ];
-    var boxGeometry = function (spec) {
+    var box = function (spec) {
         var elements = [];
         var aVertexPositionArray;
         var aVertexColorArray;
@@ -47,6 +47,9 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
                     { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
                     { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
                 ];
+            },
+            hasElements: function () {
+                return false;
             },
             getElements: function () {
                 // We don't support element arrays (yet).
@@ -68,7 +71,8 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
                     }
                 }
             },
-            update: function (time, names) {
+            update: function (time, attributes) {
+                var names = attributes.map(function (attribute) { return attribute.name; });
                 var requirePosition = names.indexOf('aVertexPosition') >= 0;
                 var requireColor = names.indexOf('aVertexColor') >= 0;
                 var requireNormal = names.indexOf('aVertexNormal') >= 0;
@@ -132,5 +136,5 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
         };
         return publicAPI;
     };
-    return boxGeometry;
+    return box;
 });

@@ -25,6 +25,9 @@ var CurveGeometry = (function () {
             { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
         ];
     };
+    CurveGeometry.prototype.hasElements = function () {
+        return true;
+    };
     CurveGeometry.prototype.getElements = function () {
         return this.elements;
     };

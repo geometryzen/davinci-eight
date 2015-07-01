@@ -5,7 +5,9 @@
  * The Material must be able to provide introspection information that describes the program.
  */
 interface Material extends RenderingContextUser {
-  attributes: string[];
+  attributes: {modifiers: string[], type: string, name: string}[];
+  uniforms: {modifiers: string[], type: string, name: string}[];
+  varyings: {modifiers: string[], type: string, name: string}[];
   program: WebGLProgram;
   programId: string;
 }

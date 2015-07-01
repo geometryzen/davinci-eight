@@ -32,6 +32,9 @@ class CurveGeometry implements Geometry {
       {name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0}
     ];
   }
+  hasElements(): boolean {
+    return true;
+  }
   getElements(): Uint16Array {
     return this.elements;
   }

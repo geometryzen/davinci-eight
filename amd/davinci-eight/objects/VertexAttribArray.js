@@ -51,7 +51,7 @@ define(["require", "exports"], function (require, exports) {
                 }
                 else {
                     // We expect this to be detected by the mesh long before we get here.
-                    throw new Error("Geometry implementation does not support the attribute " + this.name);
+                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
                 }
             }
         };

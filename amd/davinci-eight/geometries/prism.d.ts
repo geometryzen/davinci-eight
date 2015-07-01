@@ -3,5 +3,5 @@
 /**
  * Constructs and returns a Prism geometry object.
  */
-declare var prismGeometry: (spec?: any) => Geometry;
-export = prismGeometry;
+declare var prism: (spec?: any) => Geometry;
+export = prism;

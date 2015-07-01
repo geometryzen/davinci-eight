@@ -128,16 +128,37 @@ declare module eight
     projectionMatrix: Float32Array;
   }
   /**
-   * A simplex of triangular regions
+   * A Geometry is the generator of calls to drawArrays or drawElements.
+   * The Mesh-Geometry-Material separation of concerns implements a Drawable.
    */
   interface Geometry
   {
     draw(context: WebGLRenderingContext): void;
+    /**
+     * Determines whether this Geometry changes. If so, update may be called repeatedly.
+     */
     dynamic(): boolean;
-    getAttributes(): {name: string, size: number}[];
+    /**
+     * Declares the vertex shader attributes the geometry can supply and information required for binding.
+     */
+    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    /**
+     * Determines whether this Geometry uses WebGL's drawElements() for rendering.
+     */
+    hasElements(): boolean;
+    /**
+     * Returns the elements used in an index buffer implementation.
+     * An implementation of Geometry is not required to support index buffers and may return undefined.
+     */
     getElements(): Uint16Array;
+    /**
+     * Returns the data when drawing using arrays. 
+     */
     getVertexAttribArrayData(name: string): Float32Array;
-    update(time: number, names: string[]): void;
+    /**
+     * Notifies the geometry that it should update its array buffers.
+     */
+    update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   class CurveGeometry implements Geometry {
     constructor(
@@ -145,7 +166,8 @@ declare module eight
       generator: (i: number, time: number) => {x: number; y: number; z: number});
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getAttributes(): {name: string, size: number}[];
+    hasElements(): boolean;
+    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
     getElements(): Uint16Array;
     getVertexAttribArrayData(name: string): Float32Array;
     update(time: number, names: string[]): void;
@@ -158,7 +180,8 @@ declare module eight
       generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getAttributes(): {name: string, size: number}[];
+    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    hasElements(): boolean;
     getElements(): Uint16Array;
     getVertexAttribArrayData(name: string): Float32Array;
     update(time: number, names: string[]): void;
@@ -167,19 +190,22 @@ declare module eight
     constructor();
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getAttributes(): {name: string, size: number}[];
+    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    hasElements(): boolean;
     getElements(): Uint16Array;
     getVertexAttribArrayData(name: string): Float32Array;
     update(time: number, names: string[]): void;
   }
   /**
-   * A vertex shader and a fragment shader.
+   * A vertex shader and a fragment shader combined into a program.
    */
   interface Material extends RenderingContextUser
   {
+    attributes: {modifiers: string[], type: string, name: string}[];
+    uniforms: {modifiers: string[], type: string, name: string}[];
+    varyings: {modifiers: string[], type: string, name: string}[];
     program: WebGLProgram;
     programId: string;
-    update(context: WebGLRenderingContext, time: number, geometry: Geometry): void;
   }
   /**
    * The combination of a geometry and a material.

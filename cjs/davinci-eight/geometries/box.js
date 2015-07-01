@@ -1,5 +1,5 @@
 //
-// boxGeometry.ts
+// box.ts
 //
 /// <reference path="../geometries/Geometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
@@ -36,7 +36,7 @@ var triangles = [
     [0, 5, 1],
     [0, 4, 5]
 ];
-var boxGeometry = function (spec) {
+var box = function (spec) {
     var elements = [];
     var aVertexPositionArray;
     var aVertexColorArray;
@@ -52,6 +52,9 @@ var boxGeometry = function (spec) {
                 { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
                 { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
+        },
+        hasElements: function () {
+            return false;
         },
         getElements: function () {
             // We don't support element arrays (yet).
@@ -73,7 +76,8 @@ var boxGeometry = function (spec) {
                 }
             }
         },
-        update: function (time, names) {
+        update: function (time, attributes) {
+            var names = attributes.map(function (attribute) { return attribute.name; });
             var requirePosition = names.indexOf('aVertexPosition') >= 0;
             var requireColor = names.indexOf('aVertexColor') >= 0;
             var requireNormal = names.indexOf('aVertexNormal') >= 0;
@@ -137,4 +141,4 @@ var boxGeometry = function (spec) {
     };
     return publicAPI;
 };
-module.exports = boxGeometry;
+module.exports = box;

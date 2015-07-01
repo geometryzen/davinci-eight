@@ -1,5 +1,5 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define(["require", "exports", 'davinci-eight/core', 'davinci-eight/materials/material', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/boxGeometry', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prismGeometry', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/materials/meshBasicMaterial', 'davinci-eight/materials/meshNormalMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, material, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, rawShaderMaterial, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
+define(["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prism', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, CurveGeometry, LatticeGeometry, RGBGeometry, prism, rawShaderMaterial, VertexAttribArray) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -13,14 +13,11 @@ define(["require", "exports", 'davinci-eight/core', 'davinci-eight/materials/mat
         /**
          * Constructs and returns a box geometry.
          */
-        box: boxGeometry,
+        box: box,
         CurveGeometry: CurveGeometry,
         LatticeGeometry: LatticeGeometry,
         RGBGeometry: RGBGeometry,
-        prism: prismGeometry,
-        material: material,
-        meshBasicMaterial: meshBasicMaterial,
-        meshNormalMaterial: meshNormalMaterial,
+        prism: prism,
         VertexAttribArray: VertexAttribArray,
         get rawShaderMaterial() {
             return rawShaderMaterial;

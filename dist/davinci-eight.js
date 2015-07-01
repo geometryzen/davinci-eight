@@ -440,41 +440,6 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     return eight;
 });
 
-/// <reference path="./Material.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
-define('davinci-eight/materials/material',["require", "exports"], function (require, exports) {
-    var material = function (spec) {
-        var program;
-        var publicAPI = {
-            get attributes() {
-                return [];
-            },
-            contextFree: function () {
-            },
-            contextGain: function () {
-            },
-            contextLoss: function () {
-            },
-            hasContext: function () {
-                return !!program;
-            },
-            enableVertexAttributes: function (context) {
-            },
-            disableVertexAttributes: function (context) {
-            },
-            bindVertexAttributes: function (context) {
-            },
-            get program() { return program; },
-            get programId() { return Math.random().toString(); },
-            update: function (context, time, geometry) {
-                // Nothing to do right now.
-            }
-        };
-        return publicAPI;
-    };
-    return material;
-});
-
 define('davinci-blade/NotImplementedError',["require", "exports"], function (require, exports) {
     function NotImplementedError(message) {
         this.name = 'NotImplementedError';
@@ -2645,7 +2610,7 @@ define('davinci-eight/objects/VertexAttribArray',["require", "exports"], functio
                 }
                 else {
                     // We expect this to be detected by the mesh long before we get here.
-                    throw new Error("Geometry implementation does not support the attribute " + this.name);
+                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
                 }
             }
         };
@@ -2665,11 +2630,16 @@ define('davinci-eight/objects/VertexAttribArray',["require", "exports"], functio
 });
 
 define('davinci-eight/objects/ElementArray',["require", "exports"], function (require, exports) {
+    /// <reference path="../geometries/Geometry.d.ts" />
     function computeUsage(geometry, context) {
         return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
+    /**
+     * Manages the (optional) WebGLBuffer used to support gl.drawElements().
+     */
     var ElementArray = (function () {
-        function ElementArray() {
+        function ElementArray(geometry) {
+            this.geometry = geometry;
         }
         ElementArray.prototype.contextFree = function (context) {
             if (this.buffer) {
@@ -2678,14 +2648,16 @@ define('davinci-eight/objects/ElementArray',["require", "exports"], function (re
             }
         };
         ElementArray.prototype.contextGain = function (context) {
-            this.buffer = context.createBuffer();
+            if (this.geometry.hasElements()) {
+                this.buffer = context.createBuffer();
+            }
         };
         ElementArray.prototype.contextLoss = function () {
             this.buffer = void 0;
         };
         ElementArray.prototype.bufferData = function (context, geometry) {
-            var elements = geometry.getElements();
-            if (elements) {
+            if (this.buffer) {
+                var elements = geometry.getElements();
                 context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, this.buffer);
                 var usage = computeUsage(geometry, context);
                 context.bufferData(context.ELEMENT_ARRAY_BUFFER, elements, usage);
@@ -2702,6 +2674,7 @@ define('davinci-eight/objects/ElementArray',["require", "exports"], function (re
 });
 
 define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray', 'davinci-eight/core/object3D', 'gl-matrix', 'davinci-eight/objects/ElementArray'], function (require, exports, VertexAttribArray, object3D, glMatrix, ElementArray) {
+    // A work in progress?
     var UniformMatrix4fv = (function () {
         function UniformMatrix4fv(name) {
             this.name = name;
@@ -2715,8 +2688,12 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
         return UniformMatrix4fv;
     })();
     var mesh = function (geometry, material) {
-        function vertexAttrib(name) {
+        /**
+         *
+         */
+        function vertexAttrib(declaration) {
             var attributes = geometry.getAttributes();
+            var name = declaration.name;
             var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
             if (candidates.length === 1) {
                 var candidate = candidates[0];
@@ -2732,7 +2709,7 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
         }
         var base = object3D();
         var contextGainId;
-        var elements = new ElementArray();
+        var elements = new ElementArray(geometry);
         var vertexAttributes = material.attributes.map(vertexAttrib);
         var MVMatrix = new UniformMatrix4fv('uMVMatrix');
         var uNormalMatrix;
@@ -2984,7 +2961,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
     return windowAnimationRunner;
 });
 
-define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, vectorE3) {
+define('davinci-eight/geometries/box',["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, vectorE3) {
     var vertexList = [
         // front (+z) face (labelled 0, 1, 2, 3 from lower left counterclockwise from front)
         vectorE3(-0.5, -0.5, +0.5),
@@ -3017,7 +2994,7 @@ define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-ei
         [0, 5, 1],
         [0, 4, 5]
     ];
-    var boxGeometry = function (spec) {
+    var box = function (spec) {
         var elements = [];
         var aVertexPositionArray;
         var aVertexColorArray;
@@ -3033,6 +3010,9 @@ define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-ei
                     { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
                     { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
                 ];
+            },
+            hasElements: function () {
+                return false;
             },
             getElements: function () {
                 // We don't support element arrays (yet).
@@ -3054,7 +3034,8 @@ define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-ei
                     }
                 }
             },
-            update: function (time, names) {
+            update: function (time, attributes) {
+                var names = attributes.map(function (attribute) { return attribute.name; });
                 var requirePosition = names.indexOf('aVertexPosition') >= 0;
                 var requireColor = names.indexOf('aVertexColor') >= 0;
                 var requireNormal = names.indexOf('aVertexNormal') >= 0;
@@ -3118,7 +3099,7 @@ define('davinci-eight/geometries/boxGeometry',["require", "exports", 'davinci-ei
         };
         return publicAPI;
     };
-    return boxGeometry;
+    return box;
 });
 
 /// <reference path="../geometries/Geometry.d.ts" />
@@ -3148,6 +3129,9 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function
                 { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
                 { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
+        };
+        CurveGeometry.prototype.hasElements = function () {
+            return true;
         };
         CurveGeometry.prototype.getElements = function () {
             return this.elements;
@@ -3216,6 +3200,9 @@ define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], functi
                 { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
+        LatticeGeometry.prototype.hasElements = function () {
+            return true;
+        };
         LatticeGeometry.prototype.getElements = function () {
             return this.elements;
         };
@@ -3282,6 +3269,9 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
                 { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
+        RGBGeometry.prototype.hasElements = function () {
+            return true;
+        };
         RGBGeometry.prototype.getElements = function () {
             return this.elements;
         };
@@ -3298,7 +3288,7 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
                 }
             }
         };
-        RGBGeometry.prototype.update = function (time) {
+        RGBGeometry.prototype.update = function (time, attributes) {
             var vs = [
                 0, 0, 1,
                 0, 0, 0,
@@ -3331,7 +3321,7 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
     return RGBGeometry;
 });
 
-define('davinci-eight/geometries/prismGeometry',["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, vectorE3) {
+define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, vectorE3) {
     // The numbering of the front face, seen from the front is
     //   5
     //  3 4
@@ -3388,7 +3378,7 @@ define('davinci-eight/geometries/prismGeometry',["require", "exports", 'davinci-
     /**
      * Constructs and returns a Prism geometry object.
      */
-    var prismGeometry = function (spec) {
+    var prism = function (spec) {
         var elements = [];
         var vertices = [];
         var normals = [];
@@ -3423,6 +3413,9 @@ define('davinci-eight/geometries/prismGeometry',["require", "exports", 'davinci-
             getAttributes: function () {
                 return [];
             },
+            hasElements: function () {
+                return false;
+            },
             getElements: function () {
                 // We don't support element arrays.
                 return null;
@@ -3437,12 +3430,12 @@ define('davinci-eight/geometries/prismGeometry',["require", "exports", 'davinci-
                     }
                 }
             },
-            update: function (time) {
+            update: function (time, attributes) {
             }
         };
         return publicAPI;
     };
-    return prismGeometry;
+    return prism;
 });
 
 define('davinci-eight/glsl/literals',["require", "exports"], function (require, exports) {
@@ -5540,88 +5533,7 @@ define('davinci-eight/glsl/ProgramArgs',["require", "exports", './DefaultNodeEve
     return ProgramArgs;
 });
 
-define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs'], function (require, exports, parse, NodeWalker, ProgramArgs) {
-    var material = function (vertexShader, fragmentShader) {
-        var program;
-        var programId;
-        var contextGainId;
-        var attributes = [];
-        try {
-            var program_1 = parse(vertexShader);
-            var walker = new NodeWalker();
-            var args = new ProgramArgs();
-            walker.walk(program_1, args);
-            // TODO: Material should retain/expose all information about shaders, not just name.
-            // However, hide the introspection technology API.
-            attributes = args.attributes.map(function (attribute) { return attribute.name; });
-        }
-        catch (e) {
-            console.log(e);
-        }
-        try {
-            var fragTree = parse(fragmentShader);
-        }
-        catch (e) {
-            console.log(e);
-        }
-        var publicAPI = {
-            get attributes() {
-                return attributes;
-            },
-            contextFree: function (context) {
-                if (program) {
-                    context.deleteProgram(program);
-                    program = void 0;
-                    programId = void 0;
-                    contextGainId = void 0;
-                }
-            },
-            contextGain: function (context, contextId) {
-                if (contextGainId !== contextId) {
-                    program = makeProgram(context, vertexShader, fragmentShader);
-                    programId = uuid4().generate();
-                    contextGainId = contextId;
-                }
-            },
-            contextLoss: function () {
-                program = void 0;
-                programId = void 0;
-                contextGainId = void 0;
-            },
-            hasContext: function () {
-                return !!program;
-            },
-            get program() { return program; },
-            get programId() { return programId; }
-        };
-        return publicAPI;
-    };
-    /**
-     * Creates a WebGLProgram with compiled and linked shaders.
-     */
-    function makeProgram(gl, vertexShader, fragmentShader) {
-        // TODO: Proper cleanup if we throw an error at any point.
-        var vs = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(vs, vertexShader);
-        gl.compileShader(vs);
-        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
-            throw new Error(gl.getShaderInfoLog(vs));
-        }
-        var fs = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(fs, fragmentShader);
-        gl.compileShader(fs);
-        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-            throw new Error(gl.getShaderInfoLog(fs));
-        }
-        var program = gl.createProgram();
-        gl.attachShader(program, vs);
-        gl.attachShader(program, fs);
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            throw new Error(gl.getProgramInfoLog(program));
-        }
-        return program;
-    }
+define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
     function uuid4() {
         var maxFromBits = function (bits) {
             return Math.pow(2, bits);
@@ -5692,27 +5604,104 @@ define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../gl
             }
         };
     }
+    return uuid4;
+});
+
+define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4) {
+    var material = function (vertexShader, fragmentShader) {
+        var program;
+        var programId;
+        var contextGainId;
+        var attributes = [];
+        var uniforms = [];
+        var varyings = [];
+        try {
+            var program_1 = parse(vertexShader);
+            var walker = new NodeWalker();
+            var args = new ProgramArgs();
+            walker.walk(program_1, args);
+            attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
+            uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
+            varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+        }
+        catch (e) {
+            console.log(e);
+        }
+        try {
+            var fragTree = parse(fragmentShader);
+        }
+        catch (e) {
+            console.log(e);
+        }
+        var publicAPI = {
+            get attributes() {
+                return attributes;
+            },
+            get uniforms() {
+                return uniforms;
+            },
+            get varyings() {
+                return varyings;
+            },
+            contextFree: function (context) {
+                if (program) {
+                    context.deleteProgram(program);
+                    program = void 0;
+                    programId = void 0;
+                    contextGainId = void 0;
+                }
+            },
+            contextGain: function (context, contextId) {
+                if (contextGainId !== contextId) {
+                    program = makeProgram(context, vertexShader, fragmentShader);
+                    programId = uuid4().generate();
+                    contextGainId = contextId;
+                }
+            },
+            contextLoss: function () {
+                program = void 0;
+                programId = void 0;
+                contextGainId = void 0;
+            },
+            hasContext: function () {
+                return !!program;
+            },
+            get program() { return program; },
+            get programId() { return programId; }
+        };
+        return publicAPI;
+    };
+    /**
+     * Creates a WebGLProgram with compiled and linked shaders.
+     */
+    function makeProgram(gl, vertexShader, fragmentShader) {
+        // TODO: Proper cleanup if we throw an error at any point.
+        var vs = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vs, vertexShader);
+        gl.compileShader(vs);
+        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
+            throw new Error(gl.getShaderInfoLog(vs));
+        }
+        var fs = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fs, fragmentShader);
+        gl.compileShader(fs);
+        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+            throw new Error(gl.getShaderInfoLog(fs));
+        }
+        var program = gl.createProgram();
+        gl.attachShader(program, vs);
+        gl.attachShader(program, fs);
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            throw new Error(gl.getProgramInfoLog(program));
+        }
+        return program;
+    }
     return material;
 });
 
-define('davinci-eight/materials/meshBasicMaterial',["require", "exports", 'davinci-eight/materials/material'], function (require, exports, material) {
-    var meshBasicMaterial = function (spec) {
-        var publicAPI = material(spec);
-        return publicAPI;
-    };
-    return meshBasicMaterial;
-});
-
-define('davinci-eight/materials/meshNormalMaterial',["require", "exports", 'davinci-eight/materials/material'], function (require, exports, material) {
-    var meshNormalMaterial = function (spec) {
-        var publicAPI = material(spec);
-        return publicAPI;
-    };
-    return meshNormalMaterial;
-});
-
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/materials/material', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/boxGeometry', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prismGeometry', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/materials/meshBasicMaterial', 'davinci-eight/materials/meshNormalMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, material, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, boxGeometry, CurveGeometry, LatticeGeometry, RGBGeometry, prismGeometry, rawShaderMaterial, meshBasicMaterial, meshNormalMaterial, VertexAttribArray) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prism', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, CurveGeometry, LatticeGeometry, RGBGeometry, prism, rawShaderMaterial, VertexAttribArray) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -5726,14 +5715,11 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         /**
          * Constructs and returns a box geometry.
          */
-        box: boxGeometry,
+        box: box,
         CurveGeometry: CurveGeometry,
         LatticeGeometry: LatticeGeometry,
         RGBGeometry: RGBGeometry,
-        prism: prismGeometry,
-        material: material,
-        meshBasicMaterial: meshBasicMaterial,
-        meshNormalMaterial: meshNormalMaterial,
+        prism: prism,
         VertexAttribArray: VertexAttribArray,
         get rawShaderMaterial() {
             return rawShaderMaterial;

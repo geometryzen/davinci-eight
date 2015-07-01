@@ -14,6 +14,9 @@ var RGBGeometry = (function () {
             { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
         ];
     };
+    RGBGeometry.prototype.hasElements = function () {
+        return true;
+    };
     RGBGeometry.prototype.getElements = function () {
         return this.elements;
     };
@@ -30,7 +33,7 @@ var RGBGeometry = (function () {
             }
         }
     };
-    RGBGeometry.prototype.update = function (time) {
+    RGBGeometry.prototype.update = function (time, attributes) {
         var vs = [
             0, 0, 1,
             0, 0, 0,

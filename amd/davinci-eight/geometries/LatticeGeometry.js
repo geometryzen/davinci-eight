@@ -28,6 +28,9 @@ define(["require", "exports"], function (require, exports) {
                 { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
+        LatticeGeometry.prototype.hasElements = function () {
+            return true;
+        };
         LatticeGeometry.prototype.getElements = function () {
             return this.elements;
         };

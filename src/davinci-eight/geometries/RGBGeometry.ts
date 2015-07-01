@@ -19,6 +19,9 @@ class RGBGeometry implements Geometry {
       {name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0}
     ];
   }
+  hasElements() {
+    return true;
+  }
   getElements() {
     return this.elements;
   }
@@ -35,7 +38,7 @@ class RGBGeometry implements Geometry {
       }
     }
   }
-  update(time: number): void {
+  update(time: number, attributes: {name: string}[]): void {
     var vs: number[] = [
       0,0,1,
       0,0,0,
