@@ -30,11 +30,13 @@ declare var eight: {
     };
     mesh: <G extends Geometry, M extends Material>(geometry: G, material: M) => Mesh<G, M>;
     box: (spec?: any) => Geometry;
+    ellipsoid: (spec?: any) => EllipsoidGeometry;
+    prism: (spec?: any) => Geometry;
     CurveGeometry: typeof CurveGeometry;
     LatticeGeometry: typeof LatticeGeometry;
     RGBGeometry: typeof RGBGeometry;
-    prism: (spec?: any) => Geometry;
     VertexAttribArray: typeof VertexAttribArray;
+    pointsMaterial: () => Material;
     rawShaderMaterial: (vertexShader: string, fragmentShader: string) => Material;
 };
 export = eight;

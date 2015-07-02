@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.1.0",
+        "version": "2.2.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -25,6 +25,13 @@
         },
         "amd/davinci-eight/glsl/expr.js": {
             "name": "amd/davinci-eight/glsl/expr.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/materials/pointsMaterial.js": {
+            "name": "amd/davinci-eight/materials/pointsMaterial.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -147,6 +154,21 @@
             "class": ""
         },
         {
+            "file": "amd/davinci-eight/materials/pointsMaterial.js",
+            "line": 2,
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/pointsMaterial.js",
+            "line": 20,
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/pointsMaterial.js",
+            "line": 30,
+            "class": ""
+        },
+        {
             "file": "amd/davinci-eight/materials/rawShaderMaterial.js",
             "line": 65,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
@@ -248,6 +270,18 @@
         {
             "message": "Missing item type\nSymbol obtained from the symbol lookup table.",
             "line": " amd/davinci-eight/glsl/expr.js:236"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/materials/pointsMaterial.js:2"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/materials/pointsMaterial.js:20"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/materials/pointsMaterial.js:30"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",

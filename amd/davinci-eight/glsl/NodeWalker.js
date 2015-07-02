@@ -66,45 +66,26 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
         NodeWalker.prototype.walk = function (node, handler) {
             var walker = this;
             switch (node.type) {
-                case 'ident':
+                case 'assign':
                     {
-                        handler.identifier(node.token.data);
-                    }
-                    break;
-                case 'stmt':
-                    {
-                        handler.beginStatement();
+                        handler.beginAssign();
                         node.children.forEach(function (child) {
                             walker.walk(child, handler);
                         });
-                        handler.endStatement();
+                        handler.endAssign();
                     }
                     break;
-                case 'stmtlist':
+                case 'builtin':
                     {
-                        handler.beginStatementList();
-                        node.children.forEach(function (child) {
-                            walker.walk(child, handler);
-                        });
-                        handler.endStatementList();
+                        handler.builtin(node.token.data);
                     }
                     break;
-                case 'function':
+                case 'binary':
                     {
-                        handler.beginFunction();
-                        node.children.forEach(function (child) {
-                            walker.walk(child, handler);
-                        });
-                        handler.endFunction();
                     }
                     break;
-                case 'functionargs':
+                case 'call':
                     {
-                        handler.beginFunctionArgs();
-                        node.children.forEach(function (child) {
-                            walker.walk(child, handler);
-                        });
-                        handler.endFunctionArgs();
                     }
                     break;
                 case 'decl':
@@ -135,35 +116,58 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                         handler.endExpression();
                     }
                     break;
+                case 'function':
+                    {
+                        handler.beginFunction();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endFunction();
+                    }
+                    break;
+                case 'functionargs':
+                    {
+                        handler.beginFunctionArgs();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endFunctionArgs();
+                    }
+                    break;
+                case 'ident':
+                    {
+                        handler.identifier(node.token.data);
+                    }
+                    break;
                 case 'keyword':
                     {
                         handler.keyword(node.token.data);
+                    }
+                    break;
+                case 'literal':
+                    {
                     }
                     break;
                 case 'placeholder':
                     {
                     }
                     break;
-                case 'assign':
+                case 'stmt':
                     {
-                        handler.beginAssign();
+                        handler.beginStatement();
                         node.children.forEach(function (child) {
                             walker.walk(child, handler);
                         });
-                        handler.endAssign();
+                        handler.endStatement();
                     }
                     break;
-                case 'builtin':
+                case 'stmtlist':
                     {
-                        handler.builtin(node.token.data);
-                    }
-                    break;
-                case 'binary':
-                    {
-                    }
-                    break;
-                case 'call':
-                    {
+                        handler.beginStatementList();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endStatementList();
                     }
                     break;
                 default: {

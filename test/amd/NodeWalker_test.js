@@ -4,7 +4,7 @@ define([
   'davinci-eight/glsl/DefaultNodeEventHandler',
   'davinci-eight/glsl/parse'
 ],
-function(NodeWalker, DebugNodeEventHandler, DefaulNodeEventHandler, parse)
+function(NodeWalker, DebugNodeEventHandler, DefaultNodeEventHandler, parse)
 {
   var vertexShader = [
   "attribute vec3 aVertexPosition, aVertexThing;",
@@ -25,7 +25,7 @@ function(NodeWalker, DebugNodeEventHandler, DefaulNodeEventHandler, parse)
   describe("vertex Shader", function() {
     it("constructor", function() {
         var walker = new NodeWalker();
-        var handler = new DebugNodeEventHandler();
+        var handler = new DefaultNodeEventHandler();
         var program = parse(vertexShader);
         walker.walk(program, handler);
         expect(1).toBe(1);

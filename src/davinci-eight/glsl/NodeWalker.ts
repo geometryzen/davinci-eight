@@ -63,40 +63,24 @@ class NodeWalker {
   walk(node: GLSL.Node, handler: GLSL.NodeEventHandler) {
     var walker = this;
     switch(node.type) {
-      case 'ident': {
-        handler.identifier(node.token.data);
-      }
-      break;
-      case 'stmt': {
-        handler.beginStatement();
+      case 'assign': {
+        handler.beginAssign();
         node.children.forEach(function(child) {
           walker.walk(child, handler);
         });
-        handler.endStatement();
+        handler.endAssign();
       }
       break;
-      case 'stmtlist': {
-        handler.beginStatementList();
-        node.children.forEach(function(child) {
-          walker.walk(child, handler);
-        });
-        handler.endStatementList();
+      case 'builtin': {
+        handler.builtin(node.token.data);
       }
       break;
-      case 'function': {
-        handler.beginFunction();
-        node.children.forEach(function(child) {
-          walker.walk(child, handler);
-        });
-        handler.endFunction();
+      case 'binary': {
+        // TODO
       }
       break;
-      case 'functionargs': {
-        handler.beginFunctionArgs();
-        node.children.forEach(function(child) {
-          walker.walk(child, handler);
-        });
-        handler.endFunctionArgs();
+      case 'call': {
+        // TODO
       }
       break;
       case 'decl': {
@@ -124,31 +108,51 @@ class NodeWalker {
         handler.endExpression();
       }
       break;
+      case 'function': {
+        handler.beginFunction();
+        node.children.forEach(function(child) {
+          walker.walk(child, handler);
+        });
+        handler.endFunction();
+      }
+      break;
+      case 'functionargs': {
+        handler.beginFunctionArgs();
+        node.children.forEach(function(child) {
+          walker.walk(child, handler);
+        });
+        handler.endFunctionArgs();
+      }
+      break;
+      case 'ident': {
+        handler.identifier(node.token.data);
+      }
+      break;
       case 'keyword': {
         handler.keyword(node.token.data);
+      }
+      break;
+      case 'literal': {
+        // TODO
       }
       break;
       case 'placeholder': {
       }
       break;
-      case 'assign': {
-        handler.beginAssign();
+      case 'stmt': {
+        handler.beginStatement();
         node.children.forEach(function(child) {
           walker.walk(child, handler);
         });
-        handler.endAssign();
+        handler.endStatement();
       }
       break;
-      case 'builtin': {
-        handler.builtin(node.token.data);
-      }
-      break;
-      case 'binary': {
-        // TODO
-      }
-      break;
-      case 'call': {
-        // TODO
+      case 'stmtlist': {
+        handler.beginStatementList();
+        node.children.forEach(function(child) {
+          walker.walk(child, handler);
+        });
+        handler.endStatementList();
       }
       break;
       default: {

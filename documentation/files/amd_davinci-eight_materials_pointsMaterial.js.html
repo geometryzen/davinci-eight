@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight/objects/ElementArray.js - davinci-eight</title>
+    <title>amd/davinci-eight/materials/pointsMaterial.js - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,52 +75,77 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight/objects/ElementArray.js</h1>
+<h1 class="file-heading">File: amd/davinci-eight/materials/pointsMaterial.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
-    /// &lt;reference path=&quot;../geometries/Geometry.d.ts&quot; /&gt;
-    function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;./rawShaderMaterial&#x27;], function (require, exports, material) {
     /**
-     * Manages the (optional) WebGLBuffer used to support gl.drawElements().
+     *
      */
-    var ElementArray = (function () {
-        function ElementArray(geometry) {
-            this.geometry = geometry;
-        }
-        ElementArray.prototype.contextFree = function (context) {
-            if (this.buffer) {
-                context.deleteBuffer(this.buffer);
-                this.buffer = void 0;
+    var vertexShader = [
+        &quot;attribute vec3 aVertexPosition;&quot;,
+        &quot;attribute vec3 aVertexColor;&quot;,
+        &quot;&quot;,
+        &quot;uniform mat4 uMVMatrix;&quot;,
+        &quot;uniform mat4 uPMatrix;&quot;,
+        &quot;&quot;,
+        &quot;varying highp vec4 vColor;&quot;,
+        &quot;void main(void)&quot;,
+        &quot;{&quot;,
+        &quot;gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);&quot;,
+        &quot;vColor = vec4(aVertexColor, 1.0);&quot;,
+        &quot;gl_PointSize = 6.0;&quot;,
+        &quot;}&quot;
+    ].join(&quot;\n&quot;);
+    /**
+     *
+     */
+    var fragmentShader = [
+        &quot;varying highp vec4 vColor;&quot;,
+        &quot;void main(void)&quot;,
+        &quot;{&quot;,
+        &quot;gl_FragColor = vColor;&quot;,
+        &quot;}&quot;
+    ].join(&quot;\n&quot;);
+    /**
+     *
+     */
+    var pointsMaterial = function () {
+        // The inner object compiles the shaders and introspects them.
+        var inner = material(vertexShader, fragmentShader);
+        var publicAPI = {
+            get attributes() {
+                return inner.attributes;
+            },
+            get uniforms() {
+                return inner.uniforms;
+            },
+            get varyings() {
+                return inner.varyings;
+            },
+            get program() {
+                return inner.program;
+            },
+            get programId() {
+                return inner.programId;
+            },
+            contextFree: function (context) {
+                return inner.contextFree(context);
+            },
+            contextGain: function (context, contextGainId) {
+                return inner.contextGain(context, contextGainId);
+            },
+            contextLoss: function () {
+                return inner.contextLoss();
+            },
+            hasContext: function () {
+                return inner.hasContext();
             }
         };
-        ElementArray.prototype.contextGain = function (context) {
-            if (this.geometry.hasElements()) {
-                this.buffer = context.createBuffer();
-            }
-        };
-        ElementArray.prototype.contextLoss = function () {
-            this.buffer = void 0;
-        };
-        ElementArray.prototype.bufferData = function (context, geometry) {
-            if (this.buffer) {
-                var elements = geometry.getElements();
-                context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, this.buffer);
-                var usage = computeUsage(geometry, context);
-                context.bufferData(context.ELEMENT_ARRAY_BUFFER, elements, usage);
-            }
-        };
-        ElementArray.prototype.bind = function (context) {
-            if (this.buffer) {
-                context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, this.buffer);
-            }
-        };
-        return ElementArray;
-    })();
-    return ElementArray;
+        return publicAPI;
+    };
+    return pointsMaterial;
 });
 
     </pre>

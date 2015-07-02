@@ -12,10 +12,12 @@ import webGLContextMonitor = require('davinci-eight/utils/webGLContextMonitor');
 import workbench3D = require('davinci-eight/utils/workbench3D');
 import windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
 import box = require('davinci-eight/geometries/box');
+import ellipsoid = require('davinci-eight/geometries/ellipsoid');
+import prism = require('davinci-eight/geometries/prism');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
-import prism = require('davinci-eight/geometries/prism');
+import pointsMaterial = require('davinci-eight/materials/pointsMaterial');
 import rawShaderMaterial = require('davinci-eight/materials/rawShaderMaterial');
 import VertexAttribArray = require('davinci-eight/objects/VertexAttribArray');
 
@@ -33,11 +35,15 @@ var eight = {
      * Constructs and returns a box geometry.
      */
     box: box,
+    get ellipsoid() {return ellipsoid;},
+    prism: prism,
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
     RGBGeometry: RGBGeometry,
-    prism: prism,
     VertexAttribArray: VertexAttribArray,
+    get pointsMaterial() {
+      return pointsMaterial;
+    },
     get rawShaderMaterial() {
       return rawShaderMaterial;
     }

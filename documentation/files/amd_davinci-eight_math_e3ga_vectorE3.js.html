@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.1.0</em>
+            <em>API Docs for: 2.2.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -91,6 +91,11 @@ define([&quot;require&quot;, &quot;exports&quot;, &quot;davinci-blade/Euclidean3
     };
     return vectorE3;
 });
+// Remarks
+// 1. The amd-dependency causes the correct AMD dependency array and variable name.
+// 2. The declare var just keeps the TypeScript compiler happy beacuse this code does not know about Euclidean3.
+// 3. The &#x27;any&#x27; is required because specifying blade.Euclidean3 does not seem to describe the constructor.
+// With the aforementioned, we get a clean compile. 
 
     </pre>
 </div>

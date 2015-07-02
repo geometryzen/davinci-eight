@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '2.1.0'
+        VERSION: '2.2.0'
     };
     return eight;
 });
@@ -2297,7 +2297,12 @@ define('davinci-eight/math/e3ga/vectorE3',["require", "exports", "davinci-blade/
     };
     return vectorE3;
 });
-
+// Remarks
+// 1. The amd-dependency causes the correct AMD dependency array and variable name.
+// 2. The declare var just keeps the TypeScript compiler happy beacuse this code does not know about Euclidean3.
+// 3. The 'any' is required because specifying blade.Euclidean3 does not seem to describe the constructor.
+// With the aforementioned, we get a clean compile. 
+;
 define('davinci-eight/core/object3D',["require", "exports", 'davinci-eight/math/e3ga/scalarE3', 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, scalarE3, vectorE3) {
     var object3D = function () {
         var publicAPI = {
@@ -3102,6 +3107,381 @@ define('davinci-eight/geometries/box',["require", "exports", 'davinci-eight/math
     return box;
 });
 
+define('davinci-eight/geometries/ellipsoid',["require", "exports", "davinci-blade/Euclidean3"], function (require, exports, Euclidean3) {
+    //
+    // Computing the geometry of an ellipsoid (essentially a deformed sphere) is rather
+    // intricate owing to the fact that the spherical coordinate parameters, theta and phi,
+    // have different characteristics.
+    //
+    // The smallest number of segments corresponds to two tetrahedrons.
+    // This is actually the worst case which occurs when theta includes the poles
+    // and phi closes.
+    var THETA_SEGMENTS_MINIMUM = 2;
+    var PHI_SEGMENTS_MINIMUM = 3;
+    // For more realism, use more segments. The complexity of computation goes as the square.
+    var REALISM = 7;
+    var THETA_SEGMENTS_DEFAULT = THETA_SEGMENTS_MINIMUM * REALISM;
+    var PHI_SEGMENTS_DEFAULT = PHI_SEGMENTS_MINIMUM * REALISM;
+    function cacheTrig(segments, start, length, cosCache, sinCache) {
+        for (var index = 0; index <= segments; index++) {
+            var angle = start + index * length / segments;
+            cosCache.push(Math.cos(angle));
+            sinCache.push(Math.sin(angle));
+        }
+    }
+    function computeVertex(a, b, c, cosTheta, sinTheta, cosPhi, sinPhi) {
+        // Optimize for the north and south pole by simplifying the calculation.
+        // This has no other effect than for performance.
+        var optimize = false;
+        var northPole = optimize && (cosTheta === +1);
+        var southPole = optimize && (cosTheta === -1);
+        if (northPole) {
+            return b;
+        }
+        else if (southPole) {
+            return b.scalarMultiply(-1);
+        }
+        else {
+            var A = a.scalarMultiply(cosPhi).scalarMultiply(sinTheta);
+            var B = b.scalarMultiply(cosTheta);
+            var C = c.scalarMultiply(sinPhi).scalarMultiply(sinTheta);
+            return A.add(B).add(C);
+        }
+    }
+    var ellipsoid = function (spec) {
+        var a = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
+        var b = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
+        var c = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
+        var thetaSegments = THETA_SEGMENTS_DEFAULT;
+        var thetaStart = 0;
+        var thetaLength = Math.PI;
+        var phiSegments = PHI_SEGMENTS_DEFAULT;
+        var phiStart = 0;
+        var phiLength = 2 * Math.PI;
+        var elements = [];
+        var triangles = [];
+        var aVertexPositionArray;
+        var aVertexColorArray;
+        var aVertexNormalArray;
+        var publicAPI = {
+            get a() {
+                return a;
+            },
+            set a(value) {
+                a = value;
+            },
+            get b() {
+                return b;
+            },
+            set b(value) {
+                b = value;
+            },
+            get c() {
+                return c;
+            },
+            set c(value) {
+                c = value;
+            },
+            get thetaSegments() {
+                return thetaSegments;
+            },
+            set thetaSegments(value) {
+                thetaSegments = Math.max(THETA_SEGMENTS_MINIMUM, Math.floor(value) || THETA_SEGMENTS_DEFAULT);
+            },
+            get thetaStart() {
+                return thetaStart;
+            },
+            set thetaStart(value) {
+                thetaStart = value;
+            },
+            get thetaLength() {
+                return thetaLength;
+            },
+            set thetaLength(value) {
+                thetaLength = Math.max(0, Math.min(value, Math.PI));
+            },
+            get phiSegments() {
+                return phiSegments;
+            },
+            set phiSegments(value) {
+                phiSegments = Math.max(PHI_SEGMENTS_MINIMUM, Math.floor(value) || PHI_SEGMENTS_DEFAULT);
+            },
+            get phiStart() {
+                return phiStart;
+            },
+            set phiStart(value) {
+                phiStart = value;
+            },
+            get phiLength() {
+                return phiLength;
+            },
+            set phiLength(value) {
+                phiLength = Math.max(0, Math.min(value, 2 * Math.PI));
+            },
+            draw: function (context) {
+                context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
+            },
+            dynamic: function () { return false; },
+            getAttributes: function () {
+                return [
+                    { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
+                ];
+            },
+            hasElements: function () {
+                return false;
+            },
+            getElements: function () {
+                // We don't support element arrays (yet).
+                return;
+            },
+            getVertexAttribArrayData: function (name) {
+                switch (name) {
+                    case 'aVertexPosition': {
+                        return aVertexPositionArray;
+                    }
+                    case 'aVertexColor': {
+                        return aVertexColorArray;
+                    }
+                    case 'aVertexNormal': {
+                        return aVertexNormalArray;
+                    }
+                    default: {
+                        return;
+                    }
+                }
+            },
+            update: function (time, attributes) {
+                // This function depends on how the vertexList is computed.
+                function vertexIndex(thetaIndex, phiIndex) {
+                    return thetaIndex * (phiSegments + 1) + phiIndex;
+                }
+                function computeVertexList(cosThetaCache, sinThetaCache, cosPhiCache, sinPhiCache) {
+                    var vertexList = [];
+                    var cosTheta;
+                    var sinTheta;
+                    var cosPhi;
+                    var sinPhi;
+                    for (var thetaIndex = 0; thetaIndex <= thetaSegments; thetaIndex++) {
+                        cosTheta = cosThetaCache[thetaIndex];
+                        sinTheta = sinThetaCache[thetaIndex];
+                        // We compute more phi points because phi may not return back to the start.
+                        for (var phiIndex = 0; phiIndex <= phiSegments; phiIndex++) {
+                            cosPhi = cosPhiCache[phiIndex];
+                            sinPhi = sinPhiCache[phiIndex];
+                            vertexList.push(computeVertex(a, b, c, cosTheta, sinTheta, cosPhi, sinPhi));
+                        }
+                    }
+                    return vertexList;
+                }
+                function computeTriangles() {
+                    var faces = [];
+                    for (var thetaIndex = 0; thetaIndex < thetaSegments; thetaIndex++) {
+                        for (var phiIndex = 0; phiIndex < phiSegments; phiIndex++) {
+                            var index1 = vertexIndex(thetaIndex, phiIndex);
+                            var index2 = vertexIndex(thetaIndex, phiIndex + 1);
+                            var index3 = vertexIndex(thetaIndex + 1, phiIndex + 1);
+                            var index4 = vertexIndex(thetaIndex + 1, phiIndex);
+                            faces.push([index1, index2, index3]);
+                            faces.push([index1, index3, index4]);
+                        }
+                    }
+                    return faces;
+                }
+                var names = attributes.map(function (attribute) { return attribute.name; });
+                var requirePosition = names.indexOf('aVertexPosition') >= 0;
+                var requireColor = names.indexOf('aVertexColor') >= 0;
+                var requireNormal = names.indexOf('aVertexNormal') >= 0;
+                // Insist that things won't work without aVertexPosition.
+                // We just degrade gracefully if the other attribute arrays are not required.
+                if (!requirePosition) {
+                    throw new Error("Box geometry is expecting to provide aVertexPosition");
+                }
+                var vertices = [];
+                var colors = [];
+                var normals = [];
+                // Cache values of cosine and sine of theta and phi.
+                var cosThetaCache = [];
+                var sinThetaCache = [];
+                cacheTrig(thetaSegments, thetaStart, thetaLength, cosThetaCache, sinThetaCache);
+                var cosPhiCache = [];
+                var sinPhiCache = [];
+                cacheTrig(phiSegments, phiStart, phiLength, cosPhiCache, sinPhiCache);
+                var vertexList = computeVertexList(cosThetaCache, sinThetaCache, cosPhiCache, sinPhiCache);
+                triangles = computeTriangles();
+                triangles.forEach(function (triangle, index) {
+                    elements.push(triangle[0]);
+                    elements.push(triangle[1]);
+                    elements.push(triangle[2]);
+                    if (requirePosition) {
+                        for (var j = 0; j < 3; j++) {
+                            vertices.push(vertexList[triangle[j]].x);
+                            vertices.push(vertexList[triangle[j]].y);
+                            vertices.push(vertexList[triangle[j]].z);
+                        }
+                    }
+                    if (requireColor) {
+                        colors.push(0.0);
+                        colors.push(0.0);
+                        colors.push(1.0);
+                        colors.push(0.0);
+                        colors.push(0.0);
+                        colors.push(1.0);
+                        colors.push(0.0);
+                        colors.push(0.0);
+                        colors.push(1.0);
+                    }
+                    if (requireNormal) {
+                        var v0 = vertexList[triangle[0]];
+                        var v1 = vertexList[triangle[1]];
+                        var v2 = vertexList[triangle[2]];
+                        var perp = v1.sub(v0).cross(v2.sub(v0));
+                        var normal = perp.div(perp.norm());
+                        normals.push(normal.x);
+                        normals.push(normal.y);
+                        normals.push(normal.z);
+                        normals.push(normal.x);
+                        normals.push(normal.y);
+                        normals.push(normal.z);
+                        normals.push(normal.x);
+                        normals.push(normal.y);
+                        normals.push(normal.z);
+                    }
+                });
+                if (requirePosition) {
+                    aVertexPositionArray = new Float32Array(vertices);
+                }
+                if (requireColor) {
+                    aVertexColorArray = new Float32Array(colors);
+                }
+                if (requireNormal) {
+                    aVertexNormalArray = new Float32Array(normals);
+                }
+            }
+        };
+        return publicAPI;
+    };
+    return ellipsoid;
+});
+
+define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, vectorE3) {
+    // The numbering of the front face, seen from the front is
+    //   5
+    //  3 4
+    // 0 1 2 
+    // The numbering of the back face, seen from the front is
+    //   B
+    //  9 A
+    // 6 7 8 
+    // There are 12 vertices in total.
+    var vertexList = [
+        // front face
+        vectorE3(-1.0, 0.0, +0.5),
+        vectorE3(0.0, 0.0, +0.5),
+        vectorE3(1.0, 0.0, +0.5),
+        vectorE3(-0.5, 1.0, +0.5),
+        vectorE3(0.5, 1.0, +0.5),
+        vectorE3(0.0, 2.0, +0.5),
+        // rear face
+        vectorE3(-1.0, 0.0, -0.5),
+        vectorE3(0.0, 0.0, -0.5),
+        vectorE3(1.0, 0.0, -0.5),
+        vectorE3(-0.5, 1.0, -0.5),
+        vectorE3(0.5, 1.0, -0.5),
+        vectorE3(0.0, 2.0, -0.5)
+    ];
+    // I'm not sure why the left and right side have 4 faces, but the botton only 2.
+    // Symmetry would suggest making them the same.
+    // There are 18 faces in total.
+    var triangles = [
+        //front face
+        [0, 1, 3],
+        [1, 4, 3],
+        [1, 2, 4],
+        [3, 4, 5],
+        //rear face
+        [6, 9, 7],
+        [7, 9, 10],
+        [7, 10, 8],
+        [9, 11, 10],
+        //left side
+        [0, 3, 6],
+        [3, 9, 6],
+        [3, 5, 9],
+        [5, 11, 9],
+        //right side
+        [2, 8, 4],
+        [4, 8, 10],
+        [4, 10, 5],
+        [5, 10, 11],
+        //bottom faces
+        [0, 6, 8],
+        [0, 8, 2]
+    ];
+    /**
+     * Constructs and returns a Prism geometry object.
+     */
+    var prism = function (spec) {
+        var elements = [];
+        var vertices = [];
+        var normals = [];
+        var colors = [];
+        triangles.forEach(function (triangle, index) {
+            elements.push(triangle[0]);
+            elements.push(triangle[1]);
+            elements.push(triangle[2]);
+            // Normals will be the same for each vertex of a triangle.
+            var v0 = vertexList[triangle[0]];
+            var v1 = vertexList[triangle[1]];
+            var v2 = vertexList[triangle[2]];
+            var perp = v1.sub(v0).cross(v2.sub(v0));
+            var normal = perp.div(perp.norm());
+            for (var j = 0; j < 3; j++) {
+                vertices.push(vertexList[triangle[j]].x);
+                vertices.push(vertexList[triangle[j]].y);
+                vertices.push(vertexList[triangle[j]].z);
+                normals.push(normal.x);
+                normals.push(normal.y);
+                normals.push(normal.z);
+                colors.push(1.0);
+                colors.push(0.0);
+                colors.push(0.0);
+            }
+        });
+        var publicAPI = {
+            draw: function (context) {
+                context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
+            },
+            dynamic: function () { return false; },
+            getAttributes: function () {
+                return [];
+            },
+            hasElements: function () {
+                return false;
+            },
+            getElements: function () {
+                // We don't support element arrays.
+                return null;
+            },
+            getVertexAttribArrayData: function (name) {
+                switch (name) {
+                    case 'aVertexPosition': {
+                        return new Float32Array(vertices);
+                    }
+                    default: {
+                        return;
+                    }
+                }
+            },
+            update: function (time, attributes) {
+            }
+        };
+        return publicAPI;
+    };
+    return prism;
+});
+
 /// <reference path="../geometries/Geometry.d.ts" />
 define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function (require, exports) {
     function makeArray(length) {
@@ -3319,123 +3699,6 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
         return RGBGeometry;
     })();
     return RGBGeometry;
-});
-
-define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (require, exports, vectorE3) {
-    // The numbering of the front face, seen from the front is
-    //   5
-    //  3 4
-    // 0 1 2 
-    // The numbering of the back face, seen from the front is
-    //   B
-    //  9 A
-    // 6 7 8 
-    // There are 12 vertices in total.
-    var vertexList = [
-        // front face
-        vectorE3(-1.0, 0.0, +0.5),
-        vectorE3(0.0, 0.0, +0.5),
-        vectorE3(1.0, 0.0, +0.5),
-        vectorE3(-0.5, 1.0, +0.5),
-        vectorE3(0.5, 1.0, +0.5),
-        vectorE3(0.0, 2.0, +0.5),
-        // rear face
-        vectorE3(-1.0, 0.0, -0.5),
-        vectorE3(0.0, 0.0, -0.5),
-        vectorE3(1.0, 0.0, -0.5),
-        vectorE3(-0.5, 1.0, -0.5),
-        vectorE3(0.5, 1.0, -0.5),
-        vectorE3(0.0, 2.0, -0.5)
-    ];
-    // I'm not sure why the left and right side have 4 faces, but the botton only 2.
-    // Symmetry would suggest making them the same.
-    // There are 18 faces in total.
-    var triangles = [
-        //front face
-        [0, 1, 3],
-        [1, 4, 3],
-        [1, 2, 4],
-        [3, 4, 5],
-        //rear face
-        [6, 9, 7],
-        [7, 9, 10],
-        [7, 10, 8],
-        [9, 11, 10],
-        //left side
-        [0, 3, 6],
-        [3, 9, 6],
-        [3, 5, 9],
-        [5, 11, 9],
-        //right side
-        [2, 8, 4],
-        [4, 8, 10],
-        [4, 10, 5],
-        [5, 10, 11],
-        //bottom faces
-        [0, 6, 8],
-        [0, 8, 2]
-    ];
-    /**
-     * Constructs and returns a Prism geometry object.
-     */
-    var prism = function (spec) {
-        var elements = [];
-        var vertices = [];
-        var normals = [];
-        var colors = [];
-        triangles.forEach(function (triangle, index) {
-            elements.push(triangle[0]);
-            elements.push(triangle[1]);
-            elements.push(triangle[2]);
-            // Normals will be the same for each vertex of a triangle.
-            var v0 = vertexList[triangle[0]];
-            var v1 = vertexList[triangle[1]];
-            var v2 = vertexList[triangle[2]];
-            var perp = v1.sub(v0).cross(v2.sub(v0));
-            var normal = perp.div(perp.norm());
-            for (var j = 0; j < 3; j++) {
-                vertices.push(vertexList[triangle[j]].x);
-                vertices.push(vertexList[triangle[j]].y);
-                vertices.push(vertexList[triangle[j]].z);
-                normals.push(normal.x);
-                normals.push(normal.y);
-                normals.push(normal.z);
-                colors.push(1.0);
-                colors.push(0.0);
-                colors.push(0.0);
-            }
-        });
-        var publicAPI = {
-            draw: function (context) {
-                context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
-            },
-            dynamic: function () { return false; },
-            getAttributes: function () {
-                return [];
-            },
-            hasElements: function () {
-                return false;
-            },
-            getElements: function () {
-                // We don't support element arrays.
-                return null;
-            },
-            getVertexAttribArrayData: function (name) {
-                switch (name) {
-                    case 'aVertexPosition': {
-                        return new Float32Array(vertices);
-                    }
-                    default: {
-                        return;
-                    }
-                }
-            },
-            update: function (time, attributes) {
-            }
-        };
-        return publicAPI;
-    };
-    return prism;
 });
 
 define('davinci-eight/glsl/literals',["require", "exports"], function (require, exports) {
@@ -5375,45 +5638,26 @@ define('davinci-eight/glsl/NodeWalker',["require", "exports", './DefaultNodeEven
         NodeWalker.prototype.walk = function (node, handler) {
             var walker = this;
             switch (node.type) {
-                case 'ident':
+                case 'assign':
                     {
-                        handler.identifier(node.token.data);
-                    }
-                    break;
-                case 'stmt':
-                    {
-                        handler.beginStatement();
+                        handler.beginAssign();
                         node.children.forEach(function (child) {
                             walker.walk(child, handler);
                         });
-                        handler.endStatement();
+                        handler.endAssign();
                     }
                     break;
-                case 'stmtlist':
+                case 'builtin':
                     {
-                        handler.beginStatementList();
-                        node.children.forEach(function (child) {
-                            walker.walk(child, handler);
-                        });
-                        handler.endStatementList();
+                        handler.builtin(node.token.data);
                     }
                     break;
-                case 'function':
+                case 'binary':
                     {
-                        handler.beginFunction();
-                        node.children.forEach(function (child) {
-                            walker.walk(child, handler);
-                        });
-                        handler.endFunction();
                     }
                     break;
-                case 'functionargs':
+                case 'call':
                     {
-                        handler.beginFunctionArgs();
-                        node.children.forEach(function (child) {
-                            walker.walk(child, handler);
-                        });
-                        handler.endFunctionArgs();
                     }
                     break;
                 case 'decl':
@@ -5444,35 +5688,58 @@ define('davinci-eight/glsl/NodeWalker',["require", "exports", './DefaultNodeEven
                         handler.endExpression();
                     }
                     break;
+                case 'function':
+                    {
+                        handler.beginFunction();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endFunction();
+                    }
+                    break;
+                case 'functionargs':
+                    {
+                        handler.beginFunctionArgs();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endFunctionArgs();
+                    }
+                    break;
+                case 'ident':
+                    {
+                        handler.identifier(node.token.data);
+                    }
+                    break;
                 case 'keyword':
                     {
                         handler.keyword(node.token.data);
+                    }
+                    break;
+                case 'literal':
+                    {
                     }
                     break;
                 case 'placeholder':
                     {
                     }
                     break;
-                case 'assign':
+                case 'stmt':
                     {
-                        handler.beginAssign();
+                        handler.beginStatement();
                         node.children.forEach(function (child) {
                             walker.walk(child, handler);
                         });
-                        handler.endAssign();
+                        handler.endStatement();
                     }
                     break;
-                case 'builtin':
+                case 'stmtlist':
                     {
-                        handler.builtin(node.token.data);
-                    }
-                    break;
-                case 'binary':
-                    {
-                    }
-                    break;
-                case 'call':
-                    {
+                        handler.beginStatementList();
+                        node.children.forEach(function (child) {
+                            walker.walk(child, handler);
+                        });
+                        handler.endStatementList();
                     }
                     break;
                 default: {
@@ -5700,8 +5967,77 @@ define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../gl
     return material;
 });
 
+define('davinci-eight/materials/pointsMaterial',["require", "exports", './rawShaderMaterial'], function (require, exports, material) {
+    /**
+     *
+     */
+    var vertexShader = [
+        "attribute vec3 aVertexPosition;",
+        "attribute vec3 aVertexColor;",
+        "",
+        "uniform mat4 uMVMatrix;",
+        "uniform mat4 uPMatrix;",
+        "",
+        "varying highp vec4 vColor;",
+        "void main(void)",
+        "{",
+        "gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);",
+        "vColor = vec4(aVertexColor, 1.0);",
+        "gl_PointSize = 6.0;",
+        "}"
+    ].join("\n");
+    /**
+     *
+     */
+    var fragmentShader = [
+        "varying highp vec4 vColor;",
+        "void main(void)",
+        "{",
+        "gl_FragColor = vColor;",
+        "}"
+    ].join("\n");
+    /**
+     *
+     */
+    var pointsMaterial = function () {
+        // The inner object compiles the shaders and introspects them.
+        var inner = material(vertexShader, fragmentShader);
+        var publicAPI = {
+            get attributes() {
+                return inner.attributes;
+            },
+            get uniforms() {
+                return inner.uniforms;
+            },
+            get varyings() {
+                return inner.varyings;
+            },
+            get program() {
+                return inner.program;
+            },
+            get programId() {
+                return inner.programId;
+            },
+            contextFree: function (context) {
+                return inner.contextFree(context);
+            },
+            contextGain: function (context, contextGainId) {
+                return inner.contextGain(context, contextGainId);
+            },
+            contextLoss: function () {
+                return inner.contextLoss();
+            },
+            hasContext: function () {
+                return inner.hasContext();
+            }
+        };
+        return publicAPI;
+    };
+    return pointsMaterial;
+});
+
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/geometries/prism', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, CurveGeometry, LatticeGeometry, RGBGeometry, prism, rawShaderMaterial, VertexAttribArray) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, ellipsoid, prism, CurveGeometry, LatticeGeometry, RGBGeometry, pointsMaterial, rawShaderMaterial, VertexAttribArray) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -5716,11 +6052,15 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
          * Constructs and returns a box geometry.
          */
         box: box,
+        get ellipsoid() { return ellipsoid; },
+        prism: prism,
         CurveGeometry: CurveGeometry,
         LatticeGeometry: LatticeGeometry,
         RGBGeometry: RGBGeometry,
-        prism: prism,
         VertexAttribArray: VertexAttribArray,
+        get pointsMaterial() {
+            return pointsMaterial;
+        },
         get rawShaderMaterial() {
             return rawShaderMaterial;
         }
