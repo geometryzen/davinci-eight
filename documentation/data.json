@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.2.0",
+        "version": "2.3.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -53,6 +53,13 @@
         },
         "amd/davinci-eight/objects/ElementArray.js": {
             "name": "amd/davinci-eight/objects/ElementArray.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/objects/ShaderUniformVariable.js": {
+            "name": "amd/davinci-eight/objects/ShaderUniformVariable.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -201,8 +208,21 @@
             "class": ""
         },
         {
+            "file": "amd/davinci-eight/objects/ShaderUniformVariable.js",
+            "line": 2,
+            "description": "Utility class for manageing a shader uniform variable.",
+            "class": ""
+        },
+        {
             "file": "amd/davinci-eight/objects/mesh.js",
-            "line": 16,
+            "line": 3,
+            "description": "Constructs a VertexAttribArray from a declaration.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/objects/mesh.js",
+            "line": 22,
+            "description": "Constructs a ShaderUniformVariable from a declaration.",
             "class": ""
         },
         {
@@ -230,7 +250,7 @@
             "params": [
                 {
                     "name": "canvas",
-                    "description": "An HTML canvas element to be inserted."
+                    "description": "An HTML canvas element to be inserted.\nTODO: We should remove the camera as being too opinionated, replace with a callback providing"
                 }
             ],
             "class": ""
@@ -296,8 +316,16 @@
             "line": " amd/davinci-eight/objects/ElementArray.js:6"
         },
         {
-            "message": "Missing item type",
-            "line": " amd/davinci-eight/objects/mesh.js:16"
+            "message": "Missing item type\nUtility class for manageing a shader uniform variable.",
+            "line": " amd/davinci-eight/objects/ShaderUniformVariable.js:2"
+        },
+        {
+            "message": "Missing item type\nConstructs a VertexAttribArray from a declaration.",
+            "line": " amd/davinci-eight/objects/mesh.js:3"
+        },
+        {
+            "message": "Missing item type\nConstructs a ShaderUniformVariable from a declaration.",
+            "line": " amd/davinci-eight/objects/mesh.js:22"
         },
         {
             "message": "Missing item type\nCreates and returns a workbench3D thing.",

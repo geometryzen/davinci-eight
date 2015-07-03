@@ -19,6 +19,7 @@ define(["require", "exports"], function (require, exports) {
     /**
      * Creates and returns a workbench3D thing.
      * @param canvas An HTML canvas element to be inserted.
+     * TODO: We should remove the camera as being too opinionated, replace with a callback providing
      */
     var workbench3D = function (canvas, renderer, camera, win) {
         if (win === void 0) { win = window; }

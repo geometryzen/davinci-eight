@@ -9,6 +9,8 @@ declare module eight
 {
   interface Drawable {
     drawGroupName: string;
+    useProgram(context: WebGLRenderingContext);
+    draw(context: WebGLRenderingContext, time: number);
   }
   interface RenderingContextUser {
     /**
@@ -241,7 +243,7 @@ declare module eight
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
     contextLoss(): void;
-    render(scene: Scene, camera: Camera): void;
+    render(scene: Scene): void;
     setSize(width: number, height: number): void;
   }
   interface RendererParameters {
@@ -295,8 +297,12 @@ declare module eight
   function rawShaderMaterial(vertexShader: string, fragmentShader: string): Material;
   /**
    * Constructs a mesh from the specified geometry and material.
+   * The uniformCallback must be supplied if the vertex shader has uniform variables.
+   * @param geometry
+   * @param material
+   * @param uniformCallback
    */
-  function mesh<G extends Geometry, M extends Material>(geometry: G, material: M): Mesh<G, M>;
+  function mesh<G extends Geometry, M extends Material>(geometry: G, material: M, uniformCallback?: (name: string) => {transpose: boolean, value: any}): Mesh<G, M>;
   /**
    * Constructs and returns a box geometry.
    */

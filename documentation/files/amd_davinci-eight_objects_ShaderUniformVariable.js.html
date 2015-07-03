@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight.js - davinci-eight</title>
+    <title>amd/davinci-eight/objects/ShaderUniformVariable.js - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,40 +75,55 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight.js</h1>
+<h1 class="file-heading">File: amd/davinci-eight/objects/ShaderUniformVariable.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/scenes/scene&#x27;, &#x27;davinci-eight/renderers/webGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/box&#x27;, &#x27;davinci-eight/geometries/ellipsoid&#x27;, &#x27;davinci-eight/geometries/prism&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/materials/pointsMaterial&#x27;, &#x27;davinci-eight/materials/rawShaderMaterial&#x27;, &#x27;davinci-eight/objects/VertexAttribArray&#x27;], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, ellipsoid, prism, CurveGeometry, LatticeGeometry, RGBGeometry, pointsMaterial, rawShaderMaterial, VertexAttribArray) {
-    var eight = {
-        &#x27;VERSION&#x27;: core.VERSION,
-        perspective: perspectiveCamera,
-        scene: scene,
-        object3D: object3D,
-        renderer: webGLRenderer,
-        contextMonitor: webGLContextMonitor,
-        workbench: workbench3D,
-        animationRunner: windowAnimationRunner,
-        mesh: mesh,
-        /**
-         * Constructs and returns a box geometry.
-         */
-        box: box,
-        get ellipsoid() { return ellipsoid; },
-        prism: prism,
-        CurveGeometry: CurveGeometry,
-        LatticeGeometry: LatticeGeometry,
-        RGBGeometry: RGBGeometry,
-        VertexAttribArray: VertexAttribArray,
-        get pointsMaterial() {
-            return pointsMaterial;
-        },
-        get rawShaderMaterial() {
-            return rawShaderMaterial;
+define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
+    /**
+     * Utility class for manageing a shader uniform variable.
+     */
+    var ShaderUniformVariable = (function () {
+        function ShaderUniformVariable(name, type) {
+            this.name = name;
+            this.type = type;
+            switch (type) {
+                case &#x27;mat3&#x27;:
+                case &#x27;mat4&#x27;:
+                    {
+                    }
+                    break;
+                default: {
+                    throw new Error(&quot;Illegal argument type: &quot; + type);
+                }
+            }
         }
-    };
-    return eight;
+        ShaderUniformVariable.prototype.contextGain = function (context, program) {
+            this.location = context.getUniformLocation(program, this.name);
+        };
+        ShaderUniformVariable.prototype.matrix = function (context, transpose, matrix) {
+            switch (this.type) {
+                case &#x27;mat3&#x27;:
+                    {
+                        context.uniformMatrix3fv(this.location, transpose, matrix);
+                    }
+                    break;
+                case &#x27;mat4&#x27;:
+                    {
+                        context.uniformMatrix4fv(this.location, transpose, matrix);
+                    }
+                    break;
+                default: {
+                    throw new Error(&quot;Illegal argument type: &quot; + this.type);
+                }
+            }
+        };
+        ShaderUniformVariable.prototype.toString = function () {
+            return [this.type, this.name].join(&#x27; &#x27;);
+        };
+        return ShaderUniformVariable;
+    })();
+    return ShaderUniformVariable;
 });
 
     </pre>

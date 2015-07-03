@@ -28,7 +28,10 @@ declare var eight: {
         start: () => void;
         stop: () => void;
     };
-    mesh: <G extends Geometry, M extends Material>(geometry: G, material: M) => Mesh<G, M>;
+    mesh: <G extends Geometry, M extends Material>(geometry: G, material: M, callback?: (name: string) => {
+        transpose: boolean;
+        value: any;
+    }) => Mesh<G, M>;
     box: (spec?: any) => Geometry;
     ellipsoid: (spec?: any) => EllipsoidGeometry;
     prism: (spec?: any) => Geometry;

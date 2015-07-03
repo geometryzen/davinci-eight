@@ -1,6 +1,6 @@
 define(["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '2.2.0'
+        VERSION: '2.3.0'
     };
     return eight;
 });

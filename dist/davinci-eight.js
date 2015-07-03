@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '2.2.0'
+        VERSION: '2.3.0'
     };
     return eight;
 });
@@ -2512,7 +2512,7 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports"], function 
                     context.clearColor(r, g, b, a);
                 }
             },
-            render: function (scene, camera) {
+            render: function (scene) {
                 drawContext.frameBegin();
                 context.clearColor(0.8, 0.8, 0.8, 1.0);
                 context.enable(context.DEPTH_TEST);
@@ -2528,7 +2528,7 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports"], function 
                         drawable.useProgram(context);
                         programLoaded = true;
                     }
-                    drawable.draw(context, time, camera);
+                    drawable.draw(context, time);
                 };
                 for (var drawGroupName in scene.drawGroups) {
                     programLoaded = false;
@@ -2678,23 +2678,57 @@ define('davinci-eight/objects/ElementArray',["require", "exports"], function (re
     return ElementArray;
 });
 
-define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray', 'davinci-eight/core/object3D', 'gl-matrix', 'davinci-eight/objects/ElementArray'], function (require, exports, VertexAttribArray, object3D, glMatrix, ElementArray) {
-    // A work in progress?
-    var UniformMatrix4fv = (function () {
-        function UniformMatrix4fv(name) {
+define('davinci-eight/objects/ShaderUniformVariable',["require", "exports"], function (require, exports) {
+    /**
+     * Utility class for manageing a shader uniform variable.
+     */
+    var ShaderUniformVariable = (function () {
+        function ShaderUniformVariable(name, type) {
             this.name = name;
+            this.type = type;
+            switch (type) {
+                case 'mat3':
+                case 'mat4':
+                    {
+                    }
+                    break;
+                default: {
+                    throw new Error("Illegal argument type: " + type);
+                }
+            }
         }
-        UniformMatrix4fv.prototype.contextGain = function (context, program) {
+        ShaderUniformVariable.prototype.contextGain = function (context, program) {
             this.location = context.getUniformLocation(program, this.name);
         };
-        UniformMatrix4fv.prototype.foo = function (context, transpose, matrix) {
-            context.uniformMatrix4fv(this.location, transpose, matrix);
+        ShaderUniformVariable.prototype.matrix = function (context, transpose, matrix) {
+            switch (this.type) {
+                case 'mat3':
+                    {
+                        context.uniformMatrix3fv(this.location, transpose, matrix);
+                    }
+                    break;
+                case 'mat4':
+                    {
+                        context.uniformMatrix4fv(this.location, transpose, matrix);
+                    }
+                    break;
+                default: {
+                    throw new Error("Illegal argument type: " + this.type);
+                }
+            }
         };
-        return UniformMatrix4fv;
+        ShaderUniformVariable.prototype.toString = function () {
+            return [this.type, this.name].join(' ');
+        };
+        return ShaderUniformVariable;
     })();
-    var mesh = function (geometry, material) {
+    return ShaderUniformVariable;
+});
+
+define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray', 'davinci-eight/core/object3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable'], function (require, exports, VertexAttribArray, object3D, ElementArray, ShaderUniformVariable) {
+    var mesh = function (geometry, material, callback) {
         /**
-         *
+         * Constructs a VertexAttribArray from a declaration.
          */
         function vertexAttrib(declaration) {
             var attributes = geometry.getAttributes();
@@ -2712,16 +2746,30 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
                 throw new Error("The geometry does not support the attribute " + name);
             }
         }
+        /**
+         * Constructs a ShaderUniformVariable from a declaration.
+         */
+        function shaderUniformFromDecl(declaration) {
+            var modifiers = declaration.modifiers;
+            var type = declaration.type;
+            var name = declaration.name;
+            return new ShaderUniformVariable(name, type);
+        }
         var base = object3D();
         var contextGainId;
         var elements = new ElementArray(geometry);
         var vertexAttributes = material.attributes.map(vertexAttrib);
-        var MVMatrix = new UniformMatrix4fv('uMVMatrix');
-        var uNormalMatrix;
-        var PMatrix = new UniformMatrix4fv('uPMatrix');
-        // It might be nice to decouple from glMatrix, since that is the direction?
-        var matrix = glMatrix.mat4.create();
-        var normalMatrix = glMatrix.mat3.create();
+        var uniformVariables = material.uniforms.map(shaderUniformFromDecl);
+        if (uniformVariables.length > 0) {
+            if (typeof callback === 'undefined') {
+                throw new Error('callback argument must be supplied for shader uniform variables.');
+            }
+            else {
+                if (typeof callback !== 'function') {
+                    throw new Error('callback must be a function.');
+                }
+            }
+        }
         function updateGeometry(context, time) {
             // Make sure to update the geometry first so that the material gets the correct data.
             geometry.update(time, material.attributes);
@@ -2748,6 +2796,7 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
                 if (contextGainId !== contextId) {
                     contextGainId = contextId;
                     material.contextGain(context, contextId);
+                    // Cache the attribute variable locations.
                     vertexAttributes.forEach(function (vertexAttribute) {
                         vertexAttribute.contextGain(context, material.program);
                     });
@@ -2755,11 +2804,10 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
                     if (!geometry.dynamic()) {
                         updateGeometry(context, 0);
                     }
-                    // TODO; We won't need material.program when these are encapsulated.
-                    MVMatrix.contextGain(context, material.program);
-                    // This could come back as null, meaning there is no such Uniform in the shader.
-                    uNormalMatrix = context.getUniformLocation(material.program, 'uNormalMatrix');
-                    PMatrix.contextGain(context, material.program);
+                    // Cache the uniform variable locations.
+                    uniformVariables.forEach(function (uniformVariable) {
+                        uniformVariable.contextGain(context, material.program);
+                    });
                 }
             },
             contextLoss: function () {
@@ -2776,25 +2824,27 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
             useProgram: function (context) {
                 context.useProgram(material.program);
             },
-            draw: function (context, time, camera) {
-                var position = base.position;
-                var attitude = base.attitude;
+            draw: function (context, time) {
                 if (material.hasContext()) {
                     if (geometry.dynamic()) {
                         updateGeometry(context, time);
                     }
-                    glMatrix.mat4.identity(matrix);
-                    glMatrix.mat4.translate(matrix, matrix, [position.x, position.y, position.z]);
-                    var rotationMatrix = glMatrix.mat4.create();
-                    glMatrix.mat4.fromQuat(rotationMatrix, [attitude.yz, attitude.zx, attitude.xy, attitude.w]);
-                    glMatrix.mat4.mul(matrix, matrix, rotationMatrix);
-                    rotationMatrix = null;
-                    PMatrix.foo(context, false, camera.projectionMatrix);
-                    MVMatrix.foo(context, false, matrix);
-                    if (uNormalMatrix) {
-                        glMatrix.mat3.normalFromMat4(normalMatrix, matrix);
-                        context.uniformMatrix3fv(uNormalMatrix, false, normalMatrix);
-                    }
+                    // Update the uniform location values.
+                    uniformVariables.forEach(function (uniformVariable) {
+                        if (typeof callback === 'function') {
+                            var data = callback(uniformVariable.name);
+                            if (data) {
+                                uniformVariable.matrix(context, data.transpose, data.value);
+                            }
+                            else {
+                                throw new Error("Expecting data from mesh callback for uniform " + uniformVariable.name);
+                            }
+                        }
+                        else {
+                            // Backstop in case it's not being checked in construction
+                            throw new Error("callback not supplied or not a function.");
+                        }
+                    });
                     vertexAttributes.forEach(function (vertexAttribute) {
                         vertexAttribute.enable(context);
                     });
@@ -2868,6 +2918,7 @@ define('davinci-eight/utils/workbench3D',["require", "exports"], function (requi
     /**
      * Creates and returns a workbench3D thing.
      * @param canvas An HTML canvas element to be inserted.
+     * TODO: We should remove the camera as being too opinionated, replace with a callback providing
      */
     var workbench3D = function (canvas, renderer, camera, win) {
         if (win === void 0) { win = window; }

@@ -20,7 +20,8 @@ function removeElementsByTagName(doc: Document, tagname: string) {
 
 /**
  * Creates and returns a workbench3D thing.
- * @param canvas An HTML canvas element to be inserted. 
+ * @param canvas An HTML canvas element to be inserted.
+ * TODO: We should remove the camera as being too opinionated, replace with a callback providing 
  */
 var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; }, win: Window = window) {
     var doc = win.document;

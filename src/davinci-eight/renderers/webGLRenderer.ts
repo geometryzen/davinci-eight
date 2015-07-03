@@ -86,7 +86,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
           context.clearColor(r, g, b, a);
         }
       },
-      render(scene: Scene, camera: Camera) {
+      render(scene: Scene) {
         drawContext.frameBegin();
         context.clearColor(0.8, 0.8, 0.8, 1.0);
         context.enable(context.DEPTH_TEST);
@@ -103,7 +103,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
             drawable.useProgram(context);
             programLoaded = true;
           }
-          drawable.draw(context, time, camera);
+          drawable.draw(context, time);
         };
         for (var drawGroupName in scene.drawGroups) {
           programLoaded = false;

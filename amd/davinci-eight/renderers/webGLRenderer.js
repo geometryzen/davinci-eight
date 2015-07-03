@@ -70,7 +70,7 @@ define(["require", "exports"], function (require, exports) {
                     context.clearColor(r, g, b, a);
                 }
             },
-            render: function (scene, camera) {
+            render: function (scene) {
                 drawContext.frameBegin();
                 context.clearColor(0.8, 0.8, 0.8, 1.0);
                 context.enable(context.DEPTH_TEST);
@@ -86,7 +86,7 @@ define(["require", "exports"], function (require, exports) {
                         drawable.useProgram(context);
                         programLoaded = true;
                     }
-                    drawable.draw(context, time, camera);
+                    drawable.draw(context, time);
                 };
                 for (var drawGroupName in scene.drawGroups) {
                     programLoaded = false;
