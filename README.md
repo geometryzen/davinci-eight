@@ -76,6 +76,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.1.0: 2015-06-30 Shader introspection.
 * 2.2.0: 2015-07-02 Ellipsoid.
 * 2.3.0: 2015-07-02 uniform variables.
+* 2.4.0: 2015-07-03 Cuboid.
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

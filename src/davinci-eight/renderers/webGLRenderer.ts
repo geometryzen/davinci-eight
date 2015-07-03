@@ -122,6 +122,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
         setViewport(0, 0, width, height);
       }
     };
+
     var attributes =
     {
       'alpha': alpha,

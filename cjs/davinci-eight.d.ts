@@ -33,6 +33,18 @@ declare var eight: {
         value: any;
     }) => Mesh<G, M>;
     box: (spec?: any) => Geometry;
+    cuboid: (spec?: {
+        position?: {
+            name?: string;
+        };
+        color?: {
+            name?: string;
+            value?: number[];
+        };
+        normal?: {
+            name?: string;
+        };
+    }) => CuboidGeometry;
     ellipsoid: (spec?: any) => EllipsoidGeometry;
     prism: (spec?: any) => Geometry;
     CurveGeometry: typeof CurveGeometry;

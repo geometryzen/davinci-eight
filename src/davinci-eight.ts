@@ -12,6 +12,7 @@ import webGLContextMonitor = require('davinci-eight/utils/webGLContextMonitor');
 import workbench3D = require('davinci-eight/utils/workbench3D');
 import windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
 import box = require('davinci-eight/geometries/box');
+import cuboid = require('davinci-eight/geometries/cuboid');
 import ellipsoid = require('davinci-eight/geometries/ellipsoid');
 import prism = require('davinci-eight/geometries/prism');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
@@ -34,8 +35,9 @@ var eight = {
     /**
      * Constructs and returns a box geometry.
      */
-    box: box,
-    get ellipsoid() {return ellipsoid;},
+    get box() { return box; },
+    get cuboid() { return cuboid; },
+    get ellipsoid() { return ellipsoid; },
     prism: prism,
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
