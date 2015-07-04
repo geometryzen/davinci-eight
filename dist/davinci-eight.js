@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var eight = {
-        VERSION: '2.4.0'
+        VERSION: '2.5.0'
     };
     return eight;
 });
@@ -2608,7 +2608,7 @@ define('davinci-eight/objects/VertexAttribArray',["require", "exports"], functio
         };
         VertexAttribArray.prototype.bufferData = function (context, geometry) {
             if (existsLocation(this.location)) {
-                var data = geometry.getVertexAttribArrayData(this.name);
+                var data = geometry.getVertexAttributeData(this.name);
                 if (data) {
                     context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
                     context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));
@@ -2731,7 +2731,7 @@ define('davinci-eight/objects/mesh',["require", "exports", './VertexAttribArray'
          * Constructs a VertexAttribArray from a declaration.
          */
         function vertexAttrib(declaration) {
-            var attributes = geometry.getAttributes();
+            var attributes = geometry.getVertexAttributeMetaInfos();
             var name = declaration.name;
             var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
             if (candidates.length === 1) {
@@ -3060,11 +3060,11 @@ define('davinci-eight/geometries/box',["require", "exports", 'davinci-eight/math
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getAttributes: function () {
+            getVertexAttributeMetaInfos: function () {
                 return [
-                    { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                    { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
-                    { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
+                    { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { property: 'normal', name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
                 ];
             },
             hasElements: function () {
@@ -3074,7 +3074,7 @@ define('davinci-eight/geometries/box',["require", "exports", 'davinci-eight/math
                 // We don't support element arrays (yet).
                 return;
             },
-            getVertexAttribArrayData: function (name) {
+            getVertexAttributeData: function (name) {
                 switch (name) {
                     case 'aVertexPosition': {
                         return aVertexPositionArray;
@@ -3199,6 +3199,7 @@ define('davinci-eight/geometries/cuboid',["require", "exports", "davinci-blade/E
         var a = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
         var b = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
         var c = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
+        var grayScale = false;
         var vertexAttributeColor = getOverride('color', 'value', DEFAULT_VERTEX_ATTRIBUTE_COLOR_VALUE, 'object');
         var elements = [];
         var aVertexPositionArray;
@@ -3229,16 +3230,24 @@ define('davinci-eight/geometries/cuboid',["require", "exports", "davinci-blade/E
             set color(value) {
                 vertexAttributeColor = value;
             },
+            get grayScale() {
+                return grayScale;
+            },
+            set grayScale(value) {
+                grayScale = value;
+            },
             draw: function (context) {
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getAttributes: function () {
-                return [
-                    { name: VERTEX_ATTRIBUTE_POSITION, size: 3, normalized: false, stride: 0, offset: 0 },
-                    { name: VERTEX_ATTRIBUTE_COLOR, size: 3, normalized: false, stride: 0, offset: 0 },
-                    { name: VERTEX_ATTRIBUTE_NORMAL, size: 3, normalized: false, stride: 0, offset: 0 }
-                ];
+            getVertexAttributeMetaInfos: function () {
+                var vamis = [];
+                vamis.push({ property: 'position', name: VERTEX_ATTRIBUTE_POSITION, size: 3, normalized: false, stride: 0, offset: 0 });
+                if (!grayScale) {
+                    vamis.push({ property: 'color', name: VERTEX_ATTRIBUTE_COLOR, size: 3, normalized: false, stride: 0, offset: 0 });
+                }
+                vamis.push({ property: 'normal', name: VERTEX_ATTRIBUTE_NORMAL, size: 3, normalized: false, stride: 0, offset: 0 });
+                return vamis;
             },
             hasElements: function () {
                 return false;
@@ -3247,13 +3256,18 @@ define('davinci-eight/geometries/cuboid',["require", "exports", "davinci-blade/E
                 // We don't support element arrays (yet).
                 return;
             },
-            getVertexAttribArrayData: function (name) {
+            getVertexAttributeData: function (name) {
                 switch (name) {
                     case VERTEX_ATTRIBUTE_POSITION: {
                         return aVertexPositionArray;
                     }
                     case VERTEX_ATTRIBUTE_COLOR: {
-                        return aVertexColorArray;
+                        if (!grayScale) {
+                            return aVertexColorArray;
+                        }
+                        else {
+                            throw new Error('color requested when not available');
+                        }
                     }
                     case VERTEX_ATTRIBUTE_NORMAL: {
                         return aVertexNormalArray;
@@ -3462,11 +3476,11 @@ define('davinci-eight/geometries/ellipsoid',["require", "exports", "davinci-blad
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getAttributes: function () {
+            getVertexAttributeMetaInfos: function () {
                 return [
-                    { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                    { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
-                    { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
+                    { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
+                    { property: 'normal', name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
                 ];
             },
             hasElements: function () {
@@ -3476,7 +3490,7 @@ define('davinci-eight/geometries/ellipsoid',["require", "exports", "davinci-blad
                 // We don't support element arrays (yet).
                 return;
             },
-            getVertexAttribArrayData: function (name) {
+            getVertexAttributeData: function (name) {
                 switch (name) {
                     case 'aVertexPosition': {
                         return aVertexPositionArray;
@@ -3694,7 +3708,7 @@ define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/ma
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getAttributes: function () {
+            getVertexAttributeMetaInfos: function () {
                 return [];
             },
             hasElements: function () {
@@ -3704,7 +3718,7 @@ define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/ma
                 // We don't support element arrays.
                 return null;
             },
-            getVertexAttribArrayData: function (name) {
+            getVertexAttributeData: function (name) {
                 switch (name) {
                     case 'aVertexPosition': {
                         return new Float32Array(vertices);
@@ -3744,10 +3758,10 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function
         CurveGeometry.prototype.dynamic = function () {
             return true;
         };
-        CurveGeometry.prototype.getAttributes = function () {
+        CurveGeometry.prototype.getVertexAttributeMetaInfos = function () {
             return [
-                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
+                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         CurveGeometry.prototype.hasElements = function () {
@@ -3756,7 +3770,7 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function
         CurveGeometry.prototype.getElements = function () {
             return this.elements;
         };
-        CurveGeometry.prototype.getVertexAttribArrayData = function (name) {
+        CurveGeometry.prototype.getVertexAttributeData = function (name) {
             switch (name) {
                 case 'aVertexPosition': {
                     return this.vertices;
@@ -3814,10 +3828,10 @@ define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], functi
         LatticeGeometry.prototype.dynamic = function () {
             return true;
         };
-        LatticeGeometry.prototype.getAttributes = function () {
+        LatticeGeometry.prototype.getVertexAttributeMetaInfos = function () {
             return [
-                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
+                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         LatticeGeometry.prototype.hasElements = function () {
@@ -3826,7 +3840,7 @@ define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], functi
         LatticeGeometry.prototype.getElements = function () {
             return this.elements;
         };
-        LatticeGeometry.prototype.getVertexAttribArrayData = function (name) {
+        LatticeGeometry.prototype.getVertexAttributeData = function (name) {
             switch (name) {
                 case 'aVertexPosition': {
                     return this.vertices;
@@ -3883,10 +3897,10 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
         RGBGeometry.prototype.dynamic = function () {
             return false;
         };
-        RGBGeometry.prototype.getAttributes = function () {
+        RGBGeometry.prototype.getVertexAttributeMetaInfos = function () {
             return [
-                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
+                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         RGBGeometry.prototype.hasElements = function () {
@@ -3895,7 +3909,7 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
         RGBGeometry.prototype.getElements = function () {
             return this.elements;
         };
-        RGBGeometry.prototype.getVertexAttribArrayData = function (name) {
+        RGBGeometry.prototype.getVertexAttributeData = function (name) {
             switch (name) {
                 case 'aVertexPosition': {
                     return this.vertices;
@@ -6114,33 +6128,47 @@ define('davinci-eight/utils/uuid4',["require", "exports"], function (require, ex
     return uuid4;
 });
 
-define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4) {
-    var material = function (vertexShader, fragmentShader) {
+define('davinci-eight/materials/shaderMaterial',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4) {
+    var shaderMaterial = function () {
+        var vertexShader;
+        var fragmentShader;
         var program;
         var programId;
         var contextGainId;
         var attributes = [];
         var uniforms = [];
         var varyings = [];
-        try {
-            var program_1 = parse(vertexShader);
-            var walker = new NodeWalker();
-            var args = new ProgramArgs();
-            walker.walk(program_1, args);
-            attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
-            uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
-            varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
-        }
-        catch (e) {
-            console.log(e);
-        }
-        try {
-            var fragTree = parse(fragmentShader);
-        }
-        catch (e) {
-            console.log(e);
-        }
         var publicAPI = {
+            get vertexShader() {
+                return vertexShader;
+            },
+            set vertexShader(value) {
+                try {
+                    var program_1 = parse(value);
+                    vertexShader = value;
+                    var walker = new NodeWalker();
+                    var args = new ProgramArgs();
+                    walker.walk(program_1, args);
+                    attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
+                    uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
+                    varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            },
+            get fragmentShader() {
+                return fragmentShader;
+            },
+            set fragmentShader(value) {
+                try {
+                    var fragTree = parse(value);
+                    fragmentShader = value;
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            },
             get attributes() {
                 return attributes;
             },
@@ -6204,10 +6232,10 @@ define('davinci-eight/materials/rawShaderMaterial',["require", "exports", '../gl
         }
         return program;
     }
-    return material;
+    return shaderMaterial;
 });
 
-define('davinci-eight/materials/pointsMaterial',["require", "exports", './rawShaderMaterial'], function (require, exports, material) {
+define('davinci-eight/materials/pointsMaterial',["require", "exports", './shaderMaterial'], function (require, exports, material) {
     /**
      *
      */
@@ -6241,7 +6269,9 @@ define('davinci-eight/materials/pointsMaterial',["require", "exports", './rawSha
      */
     var pointsMaterial = function () {
         // The inner object compiles the shaders and introspects them.
-        var inner = material(vertexShader, fragmentShader);
+        var inner = material();
+        inner.vertexShader = vertexShader;
+        inner.fragmentShader = fragmentShader;
         var publicAPI = {
             get attributes() {
                 return inner.attributes;
@@ -6276,8 +6306,140 @@ define('davinci-eight/materials/pointsMaterial',["require", "exports", './rawSha
     return pointsMaterial;
 });
 
+define('davinci-eight/materials/smartMaterial',["require", "exports", './shaderMaterial'], function (require, exports, material) {
+    /**
+     *
+     */
+    var vertexShader = function (names) {
+        var lines = [];
+        if (names['position']) {
+            lines.push("attribute vec3 " + names['position'] + ";");
+        }
+        if (names['color']) {
+            lines.push("attribute vec3 " + names['color'] + ";");
+        }
+        if (names['normal']) {
+            lines.push("attribute vec3 " + names['normal'] + ";");
+        }
+        lines.push("");
+        lines.push("uniform mat4 uProjectionMatrix;");
+        lines.push("uniform mat4 uModelViewMatrix;");
+        if (names['normal']) {
+            lines.push("uniform mat3 uNormalMatrix;");
+        }
+        lines.push("");
+        if (names['color']) {
+            lines.push("varying highp vec4 vColor;");
+        }
+        if (names['normal']) {
+            lines.push("varying highp vec3 vLight;");
+        }
+        lines.push("");
+        lines.push("void main(void)");
+        lines.push("{");
+        lines.push("gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(" + names['position'] + ", 1.0);");
+        if (names['color']) {
+            lines.push("vColor = vec4(" + names['color'] + ", 1.0);");
+        }
+        lines.push("");
+        if (names['normal']) {
+            lines.push("vec3 ambientLight = vec3(0.3, 0.3, 0.3);");
+            lines.push("vec3 diffuseLightColor = vec3(0.8, 0.8, 0.8);");
+            lines.push("vec3 L = normalize(vec3(8.0, 10.0, 5.0));");
+            lines.push("vec3 N = normalize(uNormalMatrix * " + names['normal'] + ");");
+            lines.push("float diffuseLightAmount = max(dot(N, L), 0.0);");
+            lines.push("vLight = ambientLight + (diffuseLightAmount * diffuseLightColor);");
+        }
+        lines.push("");
+        lines.push("gl_PointSize = 6.0;");
+        lines.push("}");
+        var code = lines.join("\n");
+        // console.log(code);
+        return code;
+    };
+    /**
+     *
+     */
+    var fragmentShader = function (names) {
+        var lines = [];
+        if (names['color']) {
+            lines.push("varying highp vec4 vColor;");
+        }
+        if (names['normal']) {
+            lines.push("varying highp vec3 vLight;");
+        }
+        lines.push("");
+        lines.push("void main(void)");
+        lines.push("{");
+        if (names['color']) {
+            if (names['normal']) {
+                lines.push("gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+            }
+            else {
+                lines.push("gl_FragColor = vColor;");
+            }
+        }
+        else {
+            if (names['normal']) {
+                lines.push("gl_FragColor = vec4(vLight, 1.0);");
+            }
+            else {
+                lines.push("gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
+            }
+        }
+        lines.push("}");
+        var code = lines.join("\n");
+        //console.log(code);
+        return code;
+    };
+    /**
+     *
+     */
+    var smartMaterial = function (geometry) {
+        var inner = material();
+        var attributes = geometry.getVertexAttributeMetaInfos();
+        var names = {};
+        attributes.forEach(function (attribute) {
+            names[attribute.property] = attribute.name;
+        });
+        inner.vertexShader = vertexShader(names);
+        inner.fragmentShader = fragmentShader(names);
+        var publicAPI = {
+            get attributes() {
+                return inner.attributes;
+            },
+            get uniforms() {
+                return inner.uniforms;
+            },
+            get varyings() {
+                return inner.varyings;
+            },
+            get program() {
+                return inner.program;
+            },
+            get programId() {
+                return inner.programId;
+            },
+            contextFree: function (context) {
+                return inner.contextFree(context);
+            },
+            contextGain: function (context, contextGainId) {
+                return inner.contextGain(context, contextGainId);
+            },
+            contextLoss: function () {
+                return inner.contextLoss();
+            },
+            hasContext: function () {
+                return inner.hasContext();
+            }
+        };
+        return publicAPI;
+    };
+    return smartMaterial;
+});
+
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/rawShaderMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, RGBGeometry, pointsMaterial, rawShaderMaterial, VertexAttribArray) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, VertexAttribArray) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -6302,8 +6464,11 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get pointsMaterial() {
             return pointsMaterial;
         },
-        get rawShaderMaterial() {
-            return rawShaderMaterial;
+        get shaderMaterial() {
+            return shaderMaterial;
+        },
+        get smartMaterial() {
+            return smartMaterial;
         }
     };
     return eight;

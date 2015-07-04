@@ -1,5 +1,5 @@
 /// <reference path="./Material.d.ts" />
-import material = require('./rawShaderMaterial');
+import material = require('./shaderMaterial');
 /**
  * 
  */
@@ -33,7 +33,10 @@ let fragmentShader = [
  */
 var pointsMaterial = function() {
   // The inner object compiles the shaders and introspects them.
-  let inner = material(vertexShader, fragmentShader);
+  let inner = material();
+
+  inner.vertexShader = vertexShader;
+  inner.fragmentShader = fragmentShader;
 
   let publicAPI: Material = {
     get attributes() {

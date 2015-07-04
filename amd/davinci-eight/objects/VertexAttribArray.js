@@ -44,7 +44,7 @@ define(["require", "exports"], function (require, exports) {
         };
         VertexAttribArray.prototype.bufferData = function (context, geometry) {
             if (existsLocation(this.location)) {
-                var data = geometry.getVertexAttribArrayData(this.name);
+                var data = geometry.getVertexAttributeData(this.name);
                 if (data) {
                     context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
                     context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));

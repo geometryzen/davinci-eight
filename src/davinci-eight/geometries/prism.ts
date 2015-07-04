@@ -111,7 +111,7 @@ var prism = function(spec?): Geometry {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getAttributes() {
+    getVertexAttributeMetaInfos() {
       return [];
     },
     hasElements(): boolean {
@@ -121,7 +121,7 @@ var prism = function(spec?): Geometry {
       // We don't support element arrays.
       return null;
     },
-    getVertexAttribArrayData(name: string) {
+    getVertexAttributeData(name: string) {
       switch(name) {
         case 'aVertexPosition': {
           return new Float32Array(vertices);

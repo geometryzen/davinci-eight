@@ -143,7 +143,7 @@ declare module eight
     /**
      * Declares the vertex shader attributes the geometry can supply and information required for binding.
      */
-    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
     /**
      * Determines whether this Geometry uses WebGL's drawElements() for rendering.
      */
@@ -156,7 +156,7 @@ declare module eight
     /**
      * Returns the data when drawing using arrays. 
      */
-    getVertexAttribArrayData(name: string): Float32Array;
+    getVertexAttributeData(name: string): Float32Array;
     /**
      * Notifies the geometry that it should update its array buffers.
      */
@@ -169,9 +169,9 @@ declare module eight
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
     hasElements(): boolean;
-    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
     getElements(): Uint16Array;
-    getVertexAttribArrayData(name: string): Float32Array;
+    getVertexAttributeData(name: string): Float32Array;
     update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   class LatticeGeometry implements Geometry {
@@ -182,20 +182,20 @@ declare module eight
       generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
     hasElements(): boolean;
     getElements(): Uint16Array;
-    getVertexAttribArrayData(name: string): Float32Array;
+    getVertexAttributeData(name: string): Float32Array;
     update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   class RGBGeometry implements Geometry {
     constructor();
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
     hasElements(): boolean;
     getElements(): Uint16Array;
-    getVertexAttribArrayData(name: string): Float32Array;
+    getVertexAttributeData(name: string): Float32Array;
     update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   /**
@@ -208,6 +208,12 @@ declare module eight
     varyings: {modifiers: string[], type: string, name: string}[];
     program: WebGLProgram;
     programId: string;
+  }
+  interface ShaderMaterial extends Material {
+    vertexShader: string;
+    fragmentShader: string;
+  }
+  interface SmartMaterial extends Material {
   }
   /**
    * The combination of a geometry and a material.
@@ -292,9 +298,13 @@ declare module eight
    */
   function pointsMaterial(): Material;
   /**
-   * Constructs a Material from the specified shader codes.
+   * Constructs a ShaderMaterial from the specified shader codes.
    */
-  function rawShaderMaterial(vertexShader: string, fragmentShader: string): Material;
+  function shaderMaterial(): ShaderMaterial;
+  /**
+   * Constructs a Material by introspecting a Geometry.
+   */
+  function smartMaterial(geometry: Geometry): SmartMaterial;
   /**
    * Constructs a mesh from the specified geometry and material.
    * The uniformCallback must be supplied if the vertex shader has uniform variables.
@@ -327,6 +337,10 @@ declare module eight
      * The color of the cuboid.
      */
     color: number[];
+    /**
+     * The cuboid should be rendered using a gray scale.
+     */
+    grayScale: boolean;
   }
   /**
    * Constructs and returns a cuboid geometry.

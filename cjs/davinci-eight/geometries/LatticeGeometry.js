@@ -21,10 +21,10 @@ var LatticeGeometry = (function () {
     LatticeGeometry.prototype.dynamic = function () {
         return true;
     };
-    LatticeGeometry.prototype.getAttributes = function () {
+    LatticeGeometry.prototype.getVertexAttributeMetaInfos = function () {
         return [
-            { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-            { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
+            { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+            { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
         ];
     };
     LatticeGeometry.prototype.hasElements = function () {
@@ -33,7 +33,7 @@ var LatticeGeometry = (function () {
     LatticeGeometry.prototype.getElements = function () {
         return this.elements;
     };
-    LatticeGeometry.prototype.getVertexAttribArrayData = function (name) {
+    LatticeGeometry.prototype.getVertexAttributeData = function (name) {
         switch (name) {
             case 'aVertexPosition': {
                 return this.vertices;

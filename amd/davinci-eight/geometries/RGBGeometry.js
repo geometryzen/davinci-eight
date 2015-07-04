@@ -9,10 +9,10 @@ define(["require", "exports"], function (require, exports) {
         RGBGeometry.prototype.dynamic = function () {
             return false;
         };
-        RGBGeometry.prototype.getAttributes = function () {
+        RGBGeometry.prototype.getVertexAttributeMetaInfos = function () {
             return [
-                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
+                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         RGBGeometry.prototype.hasElements = function () {
@@ -21,7 +21,7 @@ define(["require", "exports"], function (require, exports) {
         RGBGeometry.prototype.getElements = function () {
             return this.elements;
         };
-        RGBGeometry.prototype.getVertexAttribArrayData = function (name) {
+        RGBGeometry.prototype.getVertexAttributeData = function (name) {
             switch (name) {
                 case 'aVertexPosition': {
                     return this.vertices;

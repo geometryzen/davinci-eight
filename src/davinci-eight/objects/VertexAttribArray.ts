@@ -55,7 +55,7 @@ class VertexAttribArray {
   }
   bufferData(context: WebGLRenderingContext, geometry: Geometry) {
     if (existsLocation(this.location)) {
-      let data = geometry.getVertexAttribArrayData(this.name);
+      let data: Float32Array = geometry.getVertexAttributeData(this.name);
       if (data) {
         context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
         context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));

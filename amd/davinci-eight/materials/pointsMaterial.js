@@ -1,4 +1,4 @@
-define(["require", "exports", './rawShaderMaterial'], function (require, exports, material) {
+define(["require", "exports", './shaderMaterial'], function (require, exports, material) {
     /**
      *
      */
@@ -32,7 +32,9 @@ define(["require", "exports", './rawShaderMaterial'], function (require, exports
      */
     var pointsMaterial = function () {
         // The inner object compiles the shaders and introspects them.
-        var inner = material(vertexShader, fragmentShader);
+        var inner = material();
+        inner.vertexShader = vertexShader;
+        inner.fragmentShader = fragmentShader;
         var publicAPI = {
             get attributes() {
                 return inner.attributes;

@@ -12,7 +12,7 @@ var mesh = function (geometry, material, callback) {
      * Constructs a VertexAttribArray from a declaration.
      */
     function vertexAttrib(declaration) {
-        var attributes = geometry.getAttributes();
+        var attributes = geometry.getVertexAttributeMetaInfos();
         var name = declaration.name;
         var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
         if (candidates.length === 1) {

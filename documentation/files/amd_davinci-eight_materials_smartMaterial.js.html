@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight/materials/pointsMaterial.js - davinci-eight</title>
+    <title>amd/davinci-eight/materials/smartMaterial.js - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,7 +75,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight/materials/pointsMaterial.js</h1>
+<h1 class="file-heading">File: amd/davinci-eight/materials/smartMaterial.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -83,39 +83,100 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;./shaderMaterial&#x27;],
     /**
      *
      */
-    var vertexShader = [
-        &quot;attribute vec3 aVertexPosition;&quot;,
-        &quot;attribute vec3 aVertexColor;&quot;,
-        &quot;&quot;,
-        &quot;uniform mat4 uMVMatrix;&quot;,
-        &quot;uniform mat4 uPMatrix;&quot;,
-        &quot;&quot;,
-        &quot;varying highp vec4 vColor;&quot;,
-        &quot;void main(void)&quot;,
-        &quot;{&quot;,
-        &quot;gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);&quot;,
-        &quot;vColor = vec4(aVertexColor, 1.0);&quot;,
-        &quot;gl_PointSize = 6.0;&quot;,
-        &quot;}&quot;
-    ].join(&quot;\n&quot;);
+    var vertexShader = function (names) {
+        var lines = [];
+        if (names[&#x27;position&#x27;]) {
+            lines.push(&quot;attribute vec3 &quot; + names[&#x27;position&#x27;] + &quot;;&quot;);
+        }
+        if (names[&#x27;color&#x27;]) {
+            lines.push(&quot;attribute vec3 &quot; + names[&#x27;color&#x27;] + &quot;;&quot;);
+        }
+        if (names[&#x27;normal&#x27;]) {
+            lines.push(&quot;attribute vec3 &quot; + names[&#x27;normal&#x27;] + &quot;;&quot;);
+        }
+        lines.push(&quot;&quot;);
+        lines.push(&quot;uniform mat4 uProjectionMatrix;&quot;);
+        lines.push(&quot;uniform mat4 uModelViewMatrix;&quot;);
+        if (names[&#x27;normal&#x27;]) {
+            lines.push(&quot;uniform mat3 uNormalMatrix;&quot;);
+        }
+        lines.push(&quot;&quot;);
+        if (names[&#x27;color&#x27;]) {
+            lines.push(&quot;varying highp vec4 vColor;&quot;);
+        }
+        if (names[&#x27;normal&#x27;]) {
+            lines.push(&quot;varying highp vec3 vLight;&quot;);
+        }
+        lines.push(&quot;&quot;);
+        lines.push(&quot;void main(void)&quot;);
+        lines.push(&quot;{&quot;);
+        lines.push(&quot;gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(&quot; + names[&#x27;position&#x27;] + &quot;, 1.0);&quot;);
+        if (names[&#x27;color&#x27;]) {
+            lines.push(&quot;vColor = vec4(&quot; + names[&#x27;color&#x27;] + &quot;, 1.0);&quot;);
+        }
+        lines.push(&quot;&quot;);
+        if (names[&#x27;normal&#x27;]) {
+            lines.push(&quot;vec3 ambientLight = vec3(0.3, 0.3, 0.3);&quot;);
+            lines.push(&quot;vec3 diffuseLightColor = vec3(0.8, 0.8, 0.8);&quot;);
+            lines.push(&quot;vec3 L = normalize(vec3(8.0, 10.0, 5.0));&quot;);
+            lines.push(&quot;vec3 N = normalize(uNormalMatrix * &quot; + names[&#x27;normal&#x27;] + &quot;);&quot;);
+            lines.push(&quot;float diffuseLightAmount = max(dot(N, L), 0.0);&quot;);
+            lines.push(&quot;vLight = ambientLight + (diffuseLightAmount * diffuseLightColor);&quot;);
+        }
+        lines.push(&quot;&quot;);
+        lines.push(&quot;gl_PointSize = 6.0;&quot;);
+        lines.push(&quot;}&quot;);
+        var code = lines.join(&quot;\n&quot;);
+        // console.log(code);
+        return code;
+    };
     /**
      *
      */
-    var fragmentShader = [
-        &quot;varying highp vec4 vColor;&quot;,
-        &quot;void main(void)&quot;,
-        &quot;{&quot;,
-        &quot;gl_FragColor = vColor;&quot;,
-        &quot;}&quot;
-    ].join(&quot;\n&quot;);
+    var fragmentShader = function (names) {
+        var lines = [];
+        if (names[&#x27;color&#x27;]) {
+            lines.push(&quot;varying highp vec4 vColor;&quot;);
+        }
+        if (names[&#x27;normal&#x27;]) {
+            lines.push(&quot;varying highp vec3 vLight;&quot;);
+        }
+        lines.push(&quot;&quot;);
+        lines.push(&quot;void main(void)&quot;);
+        lines.push(&quot;{&quot;);
+        if (names[&#x27;color&#x27;]) {
+            if (names[&#x27;normal&#x27;]) {
+                lines.push(&quot;gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
+            }
+            else {
+                lines.push(&quot;gl_FragColor = vColor;&quot;);
+            }
+        }
+        else {
+            if (names[&#x27;normal&#x27;]) {
+                lines.push(&quot;gl_FragColor = vec4(vLight, 1.0);&quot;);
+            }
+            else {
+                lines.push(&quot;gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
+            }
+        }
+        lines.push(&quot;}&quot;);
+        var code = lines.join(&quot;\n&quot;);
+        //console.log(code);
+        return code;
+    };
     /**
      *
      */
-    var pointsMaterial = function () {
-        // The inner object compiles the shaders and introspects them.
+    var smartMaterial = function (geometry) {
         var inner = material();
-        inner.vertexShader = vertexShader;
-        inner.fragmentShader = fragmentShader;
+        var attributes = geometry.getVertexAttributeMetaInfos();
+        var names = {};
+        attributes.forEach(function (attribute) {
+            names[attribute.property] = attribute.name;
+        });
+        inner.vertexShader = vertexShader(names);
+        inner.fragmentShader = fragmentShader(names);
         var publicAPI = {
             get attributes() {
                 return inner.attributes;
@@ -147,7 +208,7 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;./shaderMaterial&#x27;],
         };
         return publicAPI;
     };
-    return pointsMaterial;
+    return smartMaterial;
 });
 
     </pre>

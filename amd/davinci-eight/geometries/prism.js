@@ -87,7 +87,7 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getAttributes: function () {
+            getVertexAttributeMetaInfos: function () {
                 return [];
             },
             hasElements: function () {
@@ -97,7 +97,7 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
                 // We don't support element arrays.
                 return null;
             },
-            getVertexAttribArrayData: function (name) {
+            getVertexAttributeData: function (name) {
                 switch (name) {
                     case 'aVertexPosition': {
                         return new Float32Array(vertices);

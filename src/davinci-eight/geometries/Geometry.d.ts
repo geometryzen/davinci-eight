@@ -1,9 +1,9 @@
 interface Geometry {
   draw(context: WebGLRenderingContext): void;
   dynamic(): boolean;
-  getAttributes(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
   hasElements(): boolean;
   getElements(): Uint16Array;
-  getVertexAttribArrayData(name: string): Float32Array;
+  getVertexAttributeData(name: string): Float32Array;
+  getVertexAttributeMetaInfos(): {property: string, name: string, size: number, normalized: boolean, stride: number, offset: number}[];
   update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
 }

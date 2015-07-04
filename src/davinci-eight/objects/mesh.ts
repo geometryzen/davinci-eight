@@ -19,7 +19,7 @@ var mesh = function<G extends Geometry, M extends Material>(
    * Constructs a VertexAttribArray from a declaration.
    */
   function vertexAttrib(declaration: { name: string }): VertexAttribArray {
-    let attributes = geometry.getAttributes();
+    let attributes = geometry.getVertexAttributeMetaInfos();
     let name = declaration.name;
     let candidates = attributes.filter(function(attribute) {return attribute.name === name;});
     if (candidates.length === 1) {

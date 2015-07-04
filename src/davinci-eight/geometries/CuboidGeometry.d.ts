@@ -5,4 +5,5 @@ interface CuboidGeometry extends Geometry {
   b: blade.Euclidean3;
   c: blade.Euclidean3;
   color: number[];
+  grayScale: boolean;
 }

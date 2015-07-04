@@ -52,6 +52,7 @@ declare var eight: {
     RGBGeometry: typeof RGBGeometry;
     VertexAttribArray: typeof VertexAttribArray;
     pointsMaterial: () => Material;
-    rawShaderMaterial: (vertexShader: string, fragmentShader: string) => Material;
+    shaderMaterial: () => ShaderMaterial;
+    smartMaterial: (geometry: Geometry) => SmartMaterial;
 };
 export = eight;

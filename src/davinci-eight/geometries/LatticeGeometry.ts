@@ -31,10 +31,10 @@ class LatticeGeometry implements Geometry {
   dynamic(): boolean {
     return true;
   }
-  getAttributes() {
+  getVertexAttributeMetaInfos() {
     return [
-      {name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0},
-      {name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0}
+      {property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0},
+      {property: 'color',    name: 'aVertexColor',    size: 3, normalized: false, stride: 0, offset: 0}
     ];
   }
   hasElements(): boolean {
@@ -43,7 +43,7 @@ class LatticeGeometry implements Geometry {
   getElements(): Uint16Array {
     return this.elements;
   }
-  getVertexAttribArrayData(name: string): Float32Array {
+  getVertexAttributeData(name: string): Float32Array {
     switch(name) {
       case 'aVertexPosition': {
         return this.vertices;

@@ -1,35 +1,49 @@
-/// <reference path="./Material.d.ts" />
+/// <reference path="./ShaderMaterial.d.ts" />
 /// <reference path="../geometries/Geometry.d.ts" />
 var parse = require('../glsl/parse');
 var NodeWalker = require('../glsl/NodeWalker');
 var ProgramArgs = require('../glsl/ProgramArgs');
 var uuid4 = require('../utils/uuid4');
-var material = function (vertexShader, fragmentShader) {
+var shaderMaterial = function () {
+    var vertexShader;
+    var fragmentShader;
     var program;
     var programId;
     var contextGainId;
     var attributes = [];
     var uniforms = [];
     var varyings = [];
-    try {
-        var program_1 = parse(vertexShader);
-        var walker = new NodeWalker();
-        var args = new ProgramArgs();
-        walker.walk(program_1, args);
-        attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
-        uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
-        varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
-    }
-    catch (e) {
-        console.log(e);
-    }
-    try {
-        var fragTree = parse(fragmentShader);
-    }
-    catch (e) {
-        console.log(e);
-    }
     var publicAPI = {
+        get vertexShader() {
+            return vertexShader;
+        },
+        set vertexShader(value) {
+            try {
+                var program_1 = parse(value);
+                vertexShader = value;
+                var walker = new NodeWalker();
+                var args = new ProgramArgs();
+                walker.walk(program_1, args);
+                attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
+                uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
+                varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+            }
+            catch (e) {
+                console.log(e);
+            }
+        },
+        get fragmentShader() {
+            return fragmentShader;
+        },
+        set fragmentShader(value) {
+            try {
+                var fragTree = parse(value);
+                fragmentShader = value;
+            }
+            catch (e) {
+                console.log(e);
+            }
+        },
         get attributes() {
             return attributes;
         },
@@ -93,4 +107,4 @@ function makeProgram(gl, vertexShader, fragmentShader) {
     }
     return program;
 }
-module.exports = material;
+module.exports = shaderMaterial;

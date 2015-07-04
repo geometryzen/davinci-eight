@@ -56,11 +56,11 @@ var box = function(spec?): Geometry {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getAttributes() {
+    getVertexAttributeMetaInfos() {
       return [
-        {name: 'aVertexPosition',size: 3, normalized: false, stride: 0, offset: 0},
-        {name: 'aVertexColor',size: 3, normalized: false, stride: 0, offset: 0},
-        {name: 'aVertexNormal',size: 3, normalized: false, stride: 0, offset: 0}
+        {property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0},
+        {property: 'color',    name: 'aVertexColor',    size: 3, normalized: false, stride: 0, offset: 0},
+        {property: 'normal',   name: 'aVertexNormal',   size: 3, normalized: false, stride: 0, offset: 0}
       ];
     },
     hasElements(): boolean {
@@ -70,7 +70,7 @@ var box = function(spec?): Geometry {
       // We don't support element arrays (yet).
       return;
     },
-    getVertexAttribArrayData(name: string) {
+    getVertexAttributeData(name: string) {
       switch(name) {
         case 'aVertexPosition': {
           return aVertexPositionArray;

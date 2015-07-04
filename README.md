@@ -77,6 +77,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.2.0: 2015-07-02 Ellipsoid.
 * 2.3.0: 2015-07-02 uniform variables.
 * 2.4.0: 2015-07-03 Cuboid.
+* 2.5.0: 2015-07-03 SmartMaterial.
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

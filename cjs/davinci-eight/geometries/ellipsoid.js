@@ -112,11 +112,11 @@ var ellipsoid = function (spec) {
             context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
         },
         dynamic: function () { return false; },
-        getAttributes: function () {
+        getVertexAttributeMetaInfos: function () {
             return [
-                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
+                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'normal', name: 'aVertexNormal', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         },
         hasElements: function () {
@@ -126,7 +126,7 @@ var ellipsoid = function (spec) {
             // We don't support element arrays (yet).
             return;
         },
-        getVertexAttribArrayData: function (name) {
+        getVertexAttributeData: function (name) {
             switch (name) {
                 case 'aVertexPosition': {
                     return aVertexPositionArray;

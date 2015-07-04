@@ -20,10 +20,10 @@ define(["require", "exports"], function (require, exports) {
         CurveGeometry.prototype.dynamic = function () {
             return true;
         };
-        CurveGeometry.prototype.getAttributes = function () {
+        CurveGeometry.prototype.getVertexAttributeMetaInfos = function () {
             return [
-                { name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
+                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
+                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
             ];
         };
         CurveGeometry.prototype.hasElements = function () {
@@ -32,7 +32,7 @@ define(["require", "exports"], function (require, exports) {
         CurveGeometry.prototype.getElements = function () {
             return this.elements;
         };
-        CurveGeometry.prototype.getVertexAttribArrayData = function (name) {
+        CurveGeometry.prototype.getVertexAttributeData = function (name) {
             switch (name) {
                 case 'aVertexPosition': {
                     return this.vertices;

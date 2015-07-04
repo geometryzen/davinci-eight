@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.4.0</em>
+            <em>API Docs for: 2.5.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -85,7 +85,7 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;./VertexAttribArray&#x27
          * Constructs a VertexAttribArray from a declaration.
          */
         function vertexAttrib(declaration) {
-            var attributes = geometry.getAttributes();
+            var attributes = geometry.getVertexAttributeMetaInfos();
             var name = declaration.name;
             var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
             if (candidates.length === 1) {

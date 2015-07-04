@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.4.0",
+        "version": "2.5.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -37,8 +37,15 @@
             "fors": {},
             "namespaces": {}
         },
-        "amd/davinci-eight/materials/rawShaderMaterial.js": {
-            "name": "amd/davinci-eight/materials/rawShaderMaterial.js",
+        "amd/davinci-eight/materials/shaderMaterial.js": {
+            "name": "amd/davinci-eight/materials/shaderMaterial.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/materials/smartMaterial.js": {
+            "name": "amd/davinci-eight/materials/smartMaterial.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -176,9 +183,24 @@
             "class": ""
         },
         {
-            "file": "amd/davinci-eight/materials/rawShaderMaterial.js",
-            "line": 65,
+            "file": "amd/davinci-eight/materials/shaderMaterial.js",
+            "line": 79,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/smartMaterial.js",
+            "line": 2,
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/smartMaterial.js",
+            "line": 52,
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/materials/smartMaterial.js",
+            "line": 87,
             "class": ""
         },
         {
@@ -305,7 +327,19 @@
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " amd/davinci-eight/materials/rawShaderMaterial.js:65"
+            "line": " amd/davinci-eight/materials/shaderMaterial.js:79"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/materials/smartMaterial.js:2"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/materials/smartMaterial.js:52"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/materials/smartMaterial.js:87"
         },
         {
             "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
