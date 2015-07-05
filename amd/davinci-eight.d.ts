@@ -1,8 +1,14 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import Camera = require('davinci-eight/cameras/Camera');
+import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
+import Mesh = require('davinci-eight/objects/Mesh');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
-import VertexAttribArray = require('davinci-eight/objects/VertexAttribArray');
+import ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVariable');
+import Matrix3 = require('davinci-eight/math/Matrix3');
+import Matrix4 = require('davinci-eight/math/Matrix4');
+import MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
 declare var eight: {
     'VERSION': string;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => {
@@ -11,6 +17,8 @@ declare var eight: {
         aspect: number;
         projectionMatrix: number[];
     };
+    Camera: typeof Camera;
+    PerspectiveCamera: typeof PerspectiveCamera;
     scene: () => Scene;
     object3D: () => Object3D;
     renderer: (parameters?: RendererParameters) => Renderer;
@@ -28,10 +36,8 @@ declare var eight: {
         start: () => void;
         stop: () => void;
     };
-    mesh: <G extends Geometry, M extends Material>(geometry: G, material: M, callback?: (name: string) => {
-        transpose: boolean;
-        value: any;
-    }) => Mesh<G, M>;
+    mesh: <G extends Geometry, M extends Material>(geometry: G, material: M, meshUniforms: UniformProvider) => FactoredDrawable<G, M>;
+    Mesh: typeof Mesh;
     box: (spec?: any) => Geometry;
     cuboid: (spec?: {
         position?: {
@@ -50,9 +56,12 @@ declare var eight: {
     CurveGeometry: typeof CurveGeometry;
     LatticeGeometry: typeof LatticeGeometry;
     RGBGeometry: typeof RGBGeometry;
-    VertexAttribArray: typeof VertexAttribArray;
+    ShaderAttributeVariable: typeof ShaderAttributeVariable;
     pointsMaterial: () => Material;
     shaderMaterial: () => ShaderMaterial;
-    smartMaterial: (geometry: Geometry) => SmartMaterial;
+    smartMaterial: (attributes: AttributeMetaInfos, uniforms: UniformMetaInfo) => SmartMaterial;
+    MeshBasicMaterial: typeof MeshBasicMaterial;
+    Matrix3: typeof Matrix3;
+    Matrix4: typeof Matrix4;
 };
 export = eight;

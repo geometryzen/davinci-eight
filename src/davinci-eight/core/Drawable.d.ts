@@ -2,5 +2,5 @@
 interface Drawable extends RenderingContextUser {
   drawGroupName: string;
   useProgram(context: WebGLRenderingContext);
-  draw(context: WebGLRenderingContext, time: number);
+  draw(context: WebGLRenderingContext, time: number, uniformProvider: UniformProvider);
 }

@@ -1,3 +1,4 @@
+/// <reference path="../../../src/davinci-eight/geometries/AttributeMetaInfos.d.ts" />
 /// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
 declare class CurveGeometry implements Geometry {
     private elements;
@@ -12,14 +13,7 @@ declare class CurveGeometry implements Geometry {
     });
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getVertexAttributeMetaInfos(): {
-        property: string;
-        name: string;
-        size: number;
-        normalized: boolean;
-        stride: number;
-        offset: number;
-    }[];
+    getAttributeMetaInfos(): AttributeMetaInfos;
     hasElements(): boolean;
     getElements(): Uint16Array;
     getVertexAttributeData(name: string): Float32Array;

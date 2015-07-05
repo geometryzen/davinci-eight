@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.5.0</em>
+            <em>API Docs for: 2.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,8 +168,12 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/math/e3ga/
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getVertexAttributeMetaInfos: function () {
-                return [];
+            getAttributeMetaInfos: function () {
+                return {
+                    position: { name: &#x27;aVertexPosition&#x27;, type: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 },
+                    color: { name: &#x27;aVertexColor&#x27;, type: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 },
+                    normal: { name: &#x27;aVertexNormal&#x27;, type: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 }
+                };
             },
             hasElements: function () {
                 return false;

@@ -111,8 +111,12 @@ var prism = function(spec?): Geometry {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getVertexAttributeMetaInfos() {
-      return [];
+    getAttributeMetaInfos(): AttributeMetaInfos {
+      return {
+        position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        normal:   { name: 'aVertexNormal',   type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+      };
     },
     hasElements(): boolean {
       return false;

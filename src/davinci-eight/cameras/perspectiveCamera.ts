@@ -12,7 +12,7 @@ var perspectiveCamera = function(fov: number = 75 * Math.PI / 180, aspect: numbe
     var base = camera();
 
     function updateProjectionMatrix() {
-        glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
+      glMatrix.mat4.perspective(base.projectionMatrix, fov, aspect, near, far);
     }
 
     updateProjectionMatrix();

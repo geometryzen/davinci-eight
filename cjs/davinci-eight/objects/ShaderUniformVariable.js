@@ -1,5 +1,5 @@
 /**
- * Utility class for manageing a shader uniform variable.
+ * Utility class for managing a shader uniform variable.
  */
 var ShaderUniformVariable = (function () {
     function ShaderUniformVariable(name, type) {

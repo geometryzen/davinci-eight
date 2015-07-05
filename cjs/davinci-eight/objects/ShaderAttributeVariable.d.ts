@@ -1,5 +1,8 @@
 /// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
-declare class VertexAttribArray {
+/**
+ * Utility class for managing a shader attribute variable.
+ */
+declare class ShaderAttributeVariable {
     name: string;
     /**
      * The numbe of components for the attribute. Must be 1,2,3 , or 4.
@@ -19,4 +22,4 @@ declare class VertexAttribArray {
     enable(context: WebGLRenderingContext): void;
     disable(context: WebGLRenderingContext): void;
 }
-export = VertexAttribArray;
+export = ShaderAttributeVariable;

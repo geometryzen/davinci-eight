@@ -183,7 +183,6 @@ define(["require", "exports", './expr', './Scope'], function (require, exports, 
                 for (var i = 0, len = this.length - 1; i < len; ++i) {
                     pad += ' |';
                 }
-                console.log(pad, '\\' + _node.type, _node.token.data);
             }
             if (add_child && node !== _node) {
                 node.children.push(_node);
@@ -198,7 +197,6 @@ define(["require", "exports", './expr', './Scope'], function (require, exports, 
                 for (var i = 0, len = this.length; i < len; ++i) {
                     pad += ' |';
                 }
-                console.log(pad, '/' + _node.type);
             }
             if (check.length) {
                 if (typeof check[0] === 'function') {

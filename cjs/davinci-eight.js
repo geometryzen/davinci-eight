@@ -1,10 +1,13 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 var core = require('davinci-eight/core');
 var object3D = require('davinci-eight/core/object3D');
+var Camera = require('davinci-eight/cameras/Camera');
 var perspectiveCamera = require('davinci-eight/cameras/perspectiveCamera');
+var PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
 var scene = require('davinci-eight/scenes/scene');
 var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 var mesh = require('davinci-eight/objects/mesh');
+var Mesh = require('davinci-eight/objects/Mesh');
 var webGLContextMonitor = require('davinci-eight/utils/webGLContextMonitor');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
@@ -18,17 +21,23 @@ var RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 var pointsMaterial = require('davinci-eight/materials/pointsMaterial');
 var shaderMaterial = require('davinci-eight/materials/shaderMaterial');
 var smartMaterial = require('davinci-eight/materials/smartMaterial');
-var VertexAttribArray = require('davinci-eight/objects/VertexAttribArray');
+var ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVariable');
+var Matrix3 = require('davinci-eight/math/Matrix3');
+var Matrix4 = require('davinci-eight/math/Matrix4');
+var MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
 var eight = {
     'VERSION': core.VERSION,
     perspective: perspectiveCamera,
+    get Camera() { return Camera; },
+    get PerspectiveCamera() { return PerspectiveCamera; },
     scene: scene,
     object3D: object3D,
     renderer: webGLRenderer,
     contextMonitor: webGLContextMonitor,
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
-    mesh: mesh,
+    get mesh() { return mesh; },
+    get Mesh() { return Mesh; },
     /**
      * Constructs and returns a box geometry.
      */
@@ -39,7 +48,7 @@ var eight = {
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
     RGBGeometry: RGBGeometry,
-    VertexAttribArray: VertexAttribArray,
+    ShaderAttributeVariable: ShaderAttributeVariable,
     get pointsMaterial() {
         return pointsMaterial;
     },
@@ -48,6 +57,11 @@ var eight = {
     },
     get smartMaterial() {
         return smartMaterial;
-    }
+    },
+    get MeshBasicMaterial() {
+        return MeshBasicMaterial;
+    },
+    get Matrix3() { return Matrix3; },
+    get Matrix4() { return Matrix4; }
 };
 module.exports = eight;

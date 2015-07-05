@@ -80,14 +80,32 @@ define(["require", "exports", "davinci-blade/Euclidean3"], function (require, ex
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getVertexAttributeMetaInfos: function () {
-                var vamis = [];
-                vamis.push({ property: 'position', name: VERTEX_ATTRIBUTE_POSITION, size: 3, normalized: false, stride: 0, offset: 0 });
+            getAttributeMetaInfos: function () {
+                var attribues = {};
+                attribues['position'] = {
+                    name: VERTEX_ATTRIBUTE_POSITION,
+                    type: 'vec3',
+                    size: 3,
+                    normalized: false,
+                    stride: 0,
+                    offset: 0 };
                 if (!grayScale) {
-                    vamis.push({ property: 'color', name: VERTEX_ATTRIBUTE_COLOR, size: 3, normalized: false, stride: 0, offset: 0 });
+                    attribues['color'] = {
+                        name: VERTEX_ATTRIBUTE_COLOR,
+                        type: 'vec3',
+                        size: 3,
+                        normalized: false,
+                        stride: 0,
+                        offset: 0 };
                 }
-                vamis.push({ property: 'normal', name: VERTEX_ATTRIBUTE_NORMAL, size: 3, normalized: false, stride: 0, offset: 0 });
-                return vamis;
+                attribues['normal'] = {
+                    name: VERTEX_ATTRIBUTE_NORMAL,
+                    type: 'vec3',
+                    size: 3,
+                    normalized: false,
+                    stride: 0,
+                    offset: 0 };
+                return attribues;
             },
             hasElements: function () {
                 return false;

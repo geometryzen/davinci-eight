@@ -6,14 +6,7 @@ declare class RGBGeometry implements Geometry {
     constructor();
     draw(context: WebGLRenderingContext): void;
     dynamic(): boolean;
-    getVertexAttributeMetaInfos(): {
-        property: string;
-        name: string;
-        size: number;
-        normalized: boolean;
-        stride: number;
-        offset: number;
-    }[];
+    getAttributeMetaInfos(): AttributeMetaInfos;
     hasElements(): boolean;
     getElements(): Uint16Array;
     getVertexAttributeData(name: string): Float32Array;

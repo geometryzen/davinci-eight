@@ -9,11 +9,11 @@ define(["require", "exports"], function (require, exports) {
         RGBGeometry.prototype.dynamic = function () {
             return false;
         };
-        RGBGeometry.prototype.getVertexAttributeMetaInfos = function () {
-            return [
-                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
-            ];
+        RGBGeometry.prototype.getAttributeMetaInfos = function () {
+            return {
+                position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+                color: { name: 'aVertexColor', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+            };
         };
         RGBGeometry.prototype.hasElements = function () {
             return true;

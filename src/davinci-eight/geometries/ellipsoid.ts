@@ -138,12 +138,12 @@ var ellipsoid = function(spec?): EllipsoidGeometry {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getVertexAttributeMetaInfos() {
-      return [
-        {property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0},
-        {property: 'color',    name: 'aVertexColor',    size: 3, normalized: false, stride: 0, offset: 0},
-        {property: 'normal',   name: 'aVertexNormal',   size: 3, normalized: false, stride: 0, offset: 0}
-      ];
+    getAttributeMetaInfos(): AttributeMetaInfos {
+      return {
+        position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        normal:   { name: 'aVertexNormal',   type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+      };
     },
     hasElements(): boolean {
       return false;
@@ -187,8 +187,6 @@ var ellipsoid = function(spec?): EllipsoidGeometry {
             cosPhi = cosPhiCache[phiIndex];
             sinPhi = sinPhiCache[phiIndex];
             vertexList.push(computeVertex(a, b, c, cosTheta, sinTheta, cosPhi, sinPhi));
-            // We could assert the the computed index matches?
-            // console.log("vertexIndex: " + vertexIndex(thetaIndex, phiIndex));
           }
         }
         return vertexList;

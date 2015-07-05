@@ -12,6 +12,7 @@ interface Matrix3Service {
      * Creates a new identity mat3
      */
     create(): number[];
+    identity(matrix: number[]): void;
     /**
      * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
      * @param {Matrix3x3} out Matrix3x3 receiving operation result.

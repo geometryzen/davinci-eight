@@ -7,7 +7,7 @@
 //
 declare module eight
 {
-  interface Drawable {
+  class Drawable {
     drawGroupName: string;
     useProgram(context: WebGLRenderingContext);
     draw(context: WebGLRenderingContext, time: number);
@@ -122,16 +122,52 @@ declare module eight
       public toStringIJK(): string;
       public toStringLATEX(): string;
   }
+  class Matrix3 {
+    public elements: number[];
+    constructor() {
+    }
+    identity(): void;
+    normalFromMatrix4(matrix: Matrix4): void;
+  }
+  class Matrix4 {
+    public elements: number[];
+    constructor() {
+    }
+    identity(): void;
+    mul(matrix: Matrix): void;
+    translate(position: { x: number, y: number, z: number }): void;
+    rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
+  }
+  /**
+   *
+   */
+  interface UniformMetaInfo {
+    [property: string]: {
+      name: string;
+      type: string;
+    }
+  }
+  interface UniformProvider {
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+  }
   /**
    * A transformation from the 3D world to the view cube.
    */
-  interface Camera
-  {
-    projectionMatrix: Float32Array;
+  class Camera implements UniformProvider {
+    public projectionMatrix: Matrix4;
+    constructor() {
+    }
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    static getUniformMetaInfo(): UniformMetaInfo;
+  }
+  class PerspectiveCamera extends Camera implements UniformProvider {
+    constructor(fov: number, aspect: number, near: number, far: number) {
+    }
   }
   /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
-   * The Mesh-Geometry-Material separation of concerns implements a Drawable.
    */
   interface Geometry
   {
@@ -143,7 +179,7 @@ declare module eight
     /**
      * Declares the vertex shader attributes the geometry can supply and information required for binding.
      */
-    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    getAttributeMetaInfos(): {property: string, name: string, type: string, size: number, normalized: boolean, stride: number, offset: number}[];
     /**
      * Determines whether this Geometry uses WebGL's drawElements() for rendering.
      */
@@ -166,13 +202,6 @@ declare module eight
     constructor(
       n: number,
       generator: (i: number, time: number) => {x: number; y: number; z: number});
-    draw(context: WebGLRenderingContext): void;
-    dynamic(): boolean;
-    hasElements(): boolean;
-    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
-    getElements(): Uint16Array;
-    getVertexAttributeData(name: string): Float32Array;
-    update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   class LatticeGeometry implements Geometry {
     constructor(
@@ -180,23 +209,9 @@ declare module eight
       J: number,
       K: number,
       generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
-    draw(context: WebGLRenderingContext): void;
-    dynamic(): boolean;
-    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
-    hasElements(): boolean;
-    getElements(): Uint16Array;
-    getVertexAttributeData(name: string): Float32Array;
-    update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   class RGBGeometry implements Geometry {
     constructor();
-    draw(context: WebGLRenderingContext): void;
-    dynamic(): boolean;
-    getVertexAttributeMetaInfos(): {name: string, size: number, normalized: boolean, stride: number, offset: number}[];
-    hasElements(): boolean;
-    getElements(): Uint16Array;
-    getVertexAttributeData(name: string): Float32Array;
-    update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
   /**
    * A vertex shader and a fragment shader combined into a program.
@@ -218,7 +233,7 @@ declare module eight
   /**
    * The combination of a geometry and a material.
    */
-  interface Mesh<G extends Geometry, M extends Material> extends Drawable
+  class FactoredDrawable<G extends Geometry, M extends Material> extends Drawable
   {
     geometry: G;
     material: M;
@@ -249,7 +264,7 @@ declare module eight
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
     contextLoss(): void;
-    render(scene: Scene): void;
+    render(scene: Scene, ambientUniforms: UniformProvider): void;
     setSize(width: number, height: number): void;
   }
   interface RendererParameters {
@@ -304,7 +319,7 @@ declare module eight
   /**
    * Constructs a Material by introspecting a Geometry.
    */
-  function smartMaterial(geometry: Geometry): SmartMaterial;
+  function smartMaterial(geometry: Geometry, uniforms: UniformMetaInfo): SmartMaterial;
   /**
    * Constructs a mesh from the specified geometry and material.
    * The uniformCallback must be supplied if the vertex shader has uniform variables.
@@ -312,7 +327,15 @@ declare module eight
    * @param material
    * @param uniformCallback
    */
-  function mesh<G extends Geometry, M extends Material>(geometry: G, material: M, uniformCallback?: (name: string) => {transpose: boolean, value: any}): Mesh<G, M>;
+  function mesh<G extends Geometry, M extends Material>(geometry: G, material: M, meshUniforms?: UniformProvider): FactoredDrawable<G, M>;
+  class Mesh<G extends Geometry, M extends Material> extends FactoredDrawable<G,M> {
+    constructor(geometry: G, material: M) {
+    }
+    static getUniformMetaInfo(): UniformMetaInfo;
+  }
+  class MeshBasicMaterial implements Material {
+    
+  }
   /**
    * Constructs and returns a box geometry.
    */

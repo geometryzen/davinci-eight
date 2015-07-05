@@ -1,3 +1,4 @@
+/// <reference path="../geometries/AttributeMetaInfos.d.ts" />
 /// <reference path="../geometries/Geometry.d.ts" />
 function makeArray(length) {
     var xs = [];
@@ -19,11 +20,11 @@ var CurveGeometry = (function () {
     CurveGeometry.prototype.dynamic = function () {
         return true;
     };
-    CurveGeometry.prototype.getVertexAttributeMetaInfos = function () {
-        return [
-            { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-            { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
-        ];
+    CurveGeometry.prototype.getAttributeMetaInfos = function () {
+        return {
+            position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+            color: { name: 'aVertexColor', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+        };
     };
     CurveGeometry.prototype.hasElements = function () {
         return true;

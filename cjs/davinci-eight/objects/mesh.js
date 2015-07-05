@@ -1,30 +1,41 @@
-/// <reference path="./Mesh.d.ts" />
-/// <reference path="../cameras/Camera.d.ts" />
+/// <reference path="./FactoredDrawable.d.ts" />
 /// <reference path="../geometries/Geometry.d.ts" />
 /// <reference path="../materials/Material.d.ts" />
+/// <reference path="../renderers/UniformProvider.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-var VertexAttribArray = require('./VertexAttribArray');
+var ShaderAttributeVariable = require('./ShaderAttributeVariable');
 var object3D = require('davinci-eight/core/object3D');
 var ElementArray = require('davinci-eight/objects/ElementArray');
 var ShaderUniformVariable = require('davinci-eight/objects/ShaderUniformVariable');
-var mesh = function (geometry, material, callback) {
+var ChainedUniformProvider = require('./ChainedUniformProvider');
+var mesh = function (geometry, material, meshUniforms) {
     /**
-     * Constructs a VertexAttribArray from a declaration.
+     * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
+     */
+    function findAttributeByVariableName(name, attributes) {
+        for (var key in attributes) {
+            var attribute = attributes[key];
+            if (attribute.name === name) {
+                return attribute;
+            }
+        }
+    }
+    /**
+     * Constructs a ShaderAttributeVariable from a declaration.
      */
     function vertexAttrib(declaration) {
-        var attributes = geometry.getVertexAttributeMetaInfos();
         var name = declaration.name;
-        var candidates = attributes.filter(function (attribute) { return attribute.name === name; });
-        if (candidates.length === 1) {
-            var candidate = candidates[0];
-            var size = candidate.size;
-            var normalized = candidate.normalized;
-            var stride = candidate.stride;
-            var offset = candidate.offset;
-            return new VertexAttribArray(name, size, normalized, stride, offset);
+        var attribute = findAttributeByVariableName(name, geometry.getAttributeMetaInfos());
+        if (attribute) {
+            var size = attribute.size;
+            var normalized = attribute.normalized;
+            var stride = attribute.stride;
+            var offset = attribute.offset;
+            // TODO: Maybe type should be passed along?
+            return new ShaderAttributeVariable(name, size, normalized, stride, offset);
         }
         else {
-            throw new Error("The geometry does not support the attribute " + name);
+            throw new Error("The geometry does not support the attribute variable named " + name);
         }
     }
     /**
@@ -42,12 +53,12 @@ var mesh = function (geometry, material, callback) {
     var vertexAttributes = material.attributes.map(vertexAttrib);
     var uniformVariables = material.uniforms.map(shaderUniformFromDecl);
     if (uniformVariables.length > 0) {
-        if (typeof callback === 'undefined') {
-            throw new Error('callback argument must be supplied for shader uniform variables.');
+        if (typeof meshUniforms === 'undefined') {
+            throw new Error('meshUniforms argument must be supplied for shader uniform variables.');
         }
         else {
-            if (typeof callback !== 'function') {
-                throw new Error('callback must be a function.');
+            if (typeof meshUniforms !== 'object') {
+                throw new Error('meshUniforms must be an object.');
             }
         }
     }
@@ -105,25 +116,46 @@ var mesh = function (geometry, material, callback) {
         useProgram: function (context) {
             context.useProgram(material.program);
         },
-        draw: function (context, time) {
+        draw: function (context, time, ambientUniforms) {
             if (material.hasContext()) {
                 if (geometry.dynamic()) {
                     updateGeometry(context, time);
                 }
                 // Update the uniform location values.
                 uniformVariables.forEach(function (uniformVariable) {
-                    if (typeof callback === 'function') {
-                        var data = callback(uniformVariable.name);
-                        if (data) {
-                            uniformVariable.matrix(context, data.transpose, data.value);
-                        }
-                        else {
-                            throw new Error("Expecting data from mesh callback for uniform " + uniformVariable.name);
+                    if (meshUniforms) {
+                        var chainedProvider = new ChainedUniformProvider(meshUniforms, ambientUniforms);
+                        switch (uniformVariable.type) {
+                            case 'mat3':
+                                {
+                                    var m3data = chainedProvider.getUniformMatrix3(uniformVariable.name);
+                                    if (m3data) {
+                                        uniformVariable.matrix(context, m3data.transpose, m3data.matrix3);
+                                    }
+                                    else {
+                                        throw new Error("Expecting data from mesh callback for uniform " + uniformVariable.name);
+                                    }
+                                }
+                                break;
+                            case 'mat4':
+                                {
+                                    var m4data = chainedProvider.getUniformMatrix4(uniformVariable.name);
+                                    if (m4data) {
+                                        uniformVariable.matrix(context, m4data.transpose, m4data.matrix4);
+                                    }
+                                    else {
+                                        throw new Error("Expecting data from mesh callback for uniform " + uniformVariable.name);
+                                    }
+                                }
+                                break;
+                            default: {
+                                throw new Error("uniform type => " + uniformVariable.type);
+                            }
                         }
                     }
                     else {
                         // Backstop in case it's not being checked in construction
-                        throw new Error("callback not supplied or not a function.");
+                        throw new Error("callback not supplied");
                     }
                 });
                 vertexAttributes.forEach(function (vertexAttribute) {

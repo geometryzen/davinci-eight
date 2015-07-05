@@ -1,3 +1,4 @@
+/// <reference path="../geometries/AttributeMetaInfos.d.ts" />
 /// <reference path="../geometries/Geometry.d.ts" />
 define(["require", "exports"], function (require, exports) {
     function makeArray(length) {
@@ -22,11 +23,11 @@ define(["require", "exports"], function (require, exports) {
         LatticeGeometry.prototype.dynamic = function () {
             return true;
         };
-        LatticeGeometry.prototype.getVertexAttributeMetaInfos = function () {
-            return [
-                { property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0 },
-                { property: 'color', name: 'aVertexColor', size: 3, normalized: false, stride: 0, offset: 0 }
-            ];
+        LatticeGeometry.prototype.getAttributeMetaInfos = function () {
+            return {
+                position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+                color: { name: 'aVertexColor', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+            };
         };
         LatticeGeometry.prototype.hasElements = function () {
             return true;

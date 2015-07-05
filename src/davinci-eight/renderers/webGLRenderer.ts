@@ -1,8 +1,8 @@
 /// <reference path="../core/DrawContext.d.ts" />
-/// <reference path="../cameras/Camera.d.ts" />
 /// <reference path="../scenes/Scene.d.ts" />
 /// <reference path="Renderer.d.ts" />
 /// <reference path="RendererParameters.d.ts" />
+/// <reference path="UniformProvider.d.ts" />
 import core = require('davinci-eight/core');
 
 class FrameworkDrawContext implements DrawContext {
@@ -86,7 +86,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
           context.clearColor(r, g, b, a);
         }
       },
-      render(scene: Scene) {
+      render(scene: Scene, ambientUniforms: UniformProvider) {
         drawContext.frameBegin();
         context.clearColor(0.8, 0.8, 0.8, 1.0);
         context.enable(context.DEPTH_TEST);
@@ -103,7 +103,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
             drawable.useProgram(context);
             programLoaded = true;
           }
-          drawable.draw(context, time);
+          drawable.draw(context, time, ambientUniforms);
         };
         for (var drawGroupName in scene.drawGroups) {
           programLoaded = false;

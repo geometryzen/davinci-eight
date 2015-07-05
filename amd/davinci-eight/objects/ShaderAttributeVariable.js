@@ -6,33 +6,35 @@ define(["require", "exports"], function (require, exports) {
     function existsLocation(location) {
         return location >= 0;
     }
-    // TODO: Maybe this should be called simply AttributeArray?
-    var VertexAttribArray = (function () {
-        function VertexAttribArray(name, size, normalized, stride, offset) {
+    /**
+     * Utility class for managing a shader attribute variable.
+     */
+    var ShaderAttributeVariable = (function () {
+        function ShaderAttributeVariable(name, size, normalized, stride, offset) {
             this.name = name;
             this.size = size;
             this.normalized = normalized;
             this.stride = stride;
             this.offset = offset;
         }
-        VertexAttribArray.prototype.contextFree = function (context) {
+        ShaderAttributeVariable.prototype.contextFree = function (context) {
             if (this.buffer) {
                 context.deleteBuffer(this.buffer);
                 this.contextLoss();
             }
         };
-        VertexAttribArray.prototype.contextGain = function (context, program) {
+        ShaderAttributeVariable.prototype.contextGain = function (context, program) {
             this.location = context.getAttribLocation(program, this.name);
             if (existsLocation(this.location)) {
                 this.buffer = context.createBuffer();
             }
         };
-        VertexAttribArray.prototype.contextLoss = function () {
+        ShaderAttributeVariable.prototype.contextLoss = function () {
             this.location = void 0;
             this.buffer = void 0;
         };
         // Not really bind so much as describing
-        VertexAttribArray.prototype.bind = function (context) {
+        ShaderAttributeVariable.prototype.bind = function (context) {
             if (existsLocation(this.location)) {
                 // TODO: We could assert that we have a buffer.
                 context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
@@ -42,7 +44,7 @@ define(["require", "exports"], function (require, exports) {
                 context.vertexAttribPointer(this.location, this.size, context.FLOAT, this.normalized, this.stride, this.offset);
             }
         };
-        VertexAttribArray.prototype.bufferData = function (context, geometry) {
+        ShaderAttributeVariable.prototype.bufferData = function (context, geometry) {
             if (existsLocation(this.location)) {
                 var data = geometry.getVertexAttributeData(this.name);
                 if (data) {
@@ -55,17 +57,17 @@ define(["require", "exports"], function (require, exports) {
                 }
             }
         };
-        VertexAttribArray.prototype.enable = function (context) {
+        ShaderAttributeVariable.prototype.enable = function (context) {
             if (existsLocation(this.location)) {
                 context.enableVertexAttribArray(this.location);
             }
         };
-        VertexAttribArray.prototype.disable = function (context) {
+        ShaderAttributeVariable.prototype.disable = function (context) {
             if (existsLocation(this.location)) {
                 context.disableVertexAttribArray(this.location);
             }
         };
-        return VertexAttribArray;
+        return ShaderAttributeVariable;
     })();
-    return VertexAttribArray;
+    return ShaderAttributeVariable;
 });

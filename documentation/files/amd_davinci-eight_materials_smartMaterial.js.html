@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.5.0</em>
+            <em>API Docs for: 2.6.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -83,100 +83,116 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;./shaderMaterial&#x27;],
     /**
      *
      */
-    var vertexShader = function (names) {
+    var vertexShader = function (attributes, uniforms) {
         var lines = [];
-        if (names[&#x27;position&#x27;]) {
-            lines.push(&quot;attribute vec3 &quot; + names[&#x27;position&#x27;] + &quot;;&quot;);
+        if (attributes[&#x27;position&#x27;]) {
+            lines.push(&quot;attribute &quot; + attributes[&#x27;position&#x27;].type + &quot; &quot; + attributes[&#x27;position&#x27;].name + &quot;;&quot;);
         }
-        if (names[&#x27;color&#x27;]) {
-            lines.push(&quot;attribute vec3 &quot; + names[&#x27;color&#x27;] + &quot;;&quot;);
+        if (attributes[&#x27;color&#x27;]) {
+            lines.push(&quot;attribute &quot; + attributes[&#x27;color&#x27;].type + &quot; &quot; + attributes[&#x27;color&#x27;].name + &quot;;&quot;);
         }
-        if (names[&#x27;normal&#x27;]) {
-            lines.push(&quot;attribute vec3 &quot; + names[&#x27;normal&#x27;] + &quot;;&quot;);
+        if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
+            lines.push(&quot;attribute &quot; + attributes[&#x27;normal&#x27;].type + &quot; &quot; + attributes[&#x27;normal&#x27;].name + &quot;;&quot;);
         }
-        lines.push(&quot;&quot;);
-        lines.push(&quot;uniform mat4 uProjectionMatrix;&quot;);
-        lines.push(&quot;uniform mat4 uModelViewMatrix;&quot;);
-        if (names[&#x27;normal&#x27;]) {
-            lines.push(&quot;uniform mat3 uNormalMatrix;&quot;);
+        if (uniforms[&#x27;projectionMatrix&#x27;]) {
+            lines.push(&quot;uniform &quot; + uniforms[&#x27;projectionMatrix&#x27;].type + &quot; &quot; + uniforms[&#x27;projectionMatrix&#x27;].name + &quot;;&quot;);
         }
-        lines.push(&quot;&quot;);
-        if (names[&#x27;color&#x27;]) {
+        if (uniforms[&#x27;modelViewMatrix&#x27;]) {
+            lines.push(&quot;uniform &quot; + uniforms[&#x27;modelViewMatrix&#x27;].type + &quot; &quot; + uniforms[&#x27;modelViewMatrix&#x27;].name + &quot;;&quot;);
+        }
+        if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
+            lines.push(&quot;uniform &quot; + uniforms[&#x27;normalMatrix&#x27;].type + &quot; &quot; + uniforms[&#x27;normalMatrix&#x27;].name + &quot;;&quot;);
+        }
+        if (attributes[&#x27;color&#x27;]) {
             lines.push(&quot;varying highp vec4 vColor;&quot;);
         }
-        if (names[&#x27;normal&#x27;]) {
+        if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
             lines.push(&quot;varying highp vec3 vLight;&quot;);
         }
-        lines.push(&quot;&quot;);
         lines.push(&quot;void main(void)&quot;);
         lines.push(&quot;{&quot;);
-        lines.push(&quot;gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(&quot; + names[&#x27;position&#x27;] + &quot;, 1.0);&quot;);
-        if (names[&#x27;color&#x27;]) {
-            lines.push(&quot;vColor = vec4(&quot; + names[&#x27;color&#x27;] + &quot;, 1.0);&quot;);
-        }
-        lines.push(&quot;&quot;);
-        if (names[&#x27;normal&#x27;]) {
-            lines.push(&quot;vec3 ambientLight = vec3(0.3, 0.3, 0.3);&quot;);
-            lines.push(&quot;vec3 diffuseLightColor = vec3(0.8, 0.8, 0.8);&quot;);
-            lines.push(&quot;vec3 L = normalize(vec3(8.0, 10.0, 5.0));&quot;);
-            lines.push(&quot;vec3 N = normalize(uNormalMatrix * &quot; + names[&#x27;normal&#x27;] + &quot;);&quot;);
-            lines.push(&quot;float diffuseLightAmount = max(dot(N, L), 0.0);&quot;);
-            lines.push(&quot;vLight = ambientLight + (diffuseLightAmount * diffuseLightColor);&quot;);
-        }
-        lines.push(&quot;&quot;);
-        lines.push(&quot;gl_PointSize = 6.0;&quot;);
-        lines.push(&quot;}&quot;);
-        var code = lines.join(&quot;\n&quot;);
-        // console.log(code);
-        return code;
-    };
-    /**
-     *
-     */
-    var fragmentShader = function (names) {
-        var lines = [];
-        if (names[&#x27;color&#x27;]) {
-            lines.push(&quot;varying highp vec4 vColor;&quot;);
-        }
-        if (names[&#x27;normal&#x27;]) {
-            lines.push(&quot;varying highp vec3 vLight;&quot;);
-        }
-        lines.push(&quot;&quot;);
-        lines.push(&quot;void main(void)&quot;);
-        lines.push(&quot;{&quot;);
-        if (names[&#x27;color&#x27;]) {
-            if (names[&#x27;normal&#x27;]) {
-                lines.push(&quot;gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
+        if (uniforms[&#x27;projectionMatrix&#x27;]) {
+            if (uniforms[&#x27;modelViewMatrix&#x27;]) {
+                lines.push(&quot;  gl_Position = &quot; + uniforms[&#x27;projectionMatrix&#x27;].name + &quot; * &quot; + uniforms[&#x27;modelViewMatrix&#x27;].name + &quot; * vec4(&quot; + attributes[&#x27;position&#x27;].name + &quot;, 1.0);&quot;);
             }
             else {
-                lines.push(&quot;gl_FragColor = vColor;&quot;);
+                lines.push(&quot;  gl_Position = &quot; + uniforms[&#x27;projectionMatrix&#x27;].name + &quot; * vec4(&quot; + attributes[&#x27;position&#x27;].name + &quot;, 1.0);&quot;);
             }
         }
         else {
-            if (names[&#x27;normal&#x27;]) {
-                lines.push(&quot;gl_FragColor = vec4(vLight, 1.0);&quot;);
+            if (uniforms[&#x27;modelViewMatrix&#x27;]) {
+                lines.push(&quot;  gl_Position = &quot; + uniforms[&#x27;modelViewMatrix&#x27;].name + &quot; * vec4(&quot; + attributes[&#x27;position&#x27;].name + &quot;, 1.0);&quot;);
             }
             else {
-                lines.push(&quot;gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
+                lines.push(&quot;  gl_Position = vec4(&quot; + attributes[&#x27;position&#x27;].name + &quot;, 1.0);&quot;);
             }
         }
+        if (attributes[&#x27;color&#x27;]) {
+            lines.push(&quot;  vColor = vec4(&quot; + attributes[&#x27;color&#x27;].name + &quot;, 1.0);&quot;);
+        }
+        if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
+            lines.push(&quot;  vec3 ambientLight = vec3(0.3, 0.3, 0.3);&quot;);
+            lines.push(&quot;  vec3 diffuseLightColor = vec3(0.8, 0.8, 0.8);&quot;);
+            lines.push(&quot;  vec3 L = normalize(vec3(8.0, 10.0, 5.0));&quot;);
+            lines.push(&quot;  vec3 N = normalize(&quot; + uniforms[&#x27;normalMatrix&#x27;].name + &quot; * &quot; + attributes[&#x27;normal&#x27;].name + &quot;);&quot;);
+            lines.push(&quot;  float diffuseLightAmount = max(dot(N, L), 0.0);&quot;);
+            lines.push(&quot;  vLight = ambientLight + (diffuseLightAmount * diffuseLightColor);&quot;);
+        }
+        lines.push(&quot;  gl_PointSize = 6.0;&quot;);
         lines.push(&quot;}&quot;);
         var code = lines.join(&quot;\n&quot;);
-        //console.log(code);
         return code;
     };
     /**
      *
      */
-    var smartMaterial = function (geometry) {
+    var fragmentShader = function (attributes, uniforms) {
+        var lines = [];
+        if (attributes[&#x27;color&#x27;]) {
+            lines.push(&quot;varying highp vec4 vColor;&quot;);
+        }
+        if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
+            lines.push(&quot;varying highp vec3 vLight;&quot;);
+        }
+        lines.push(&quot;void main(void)&quot;);
+        lines.push(&quot;{&quot;);
+        if (attributes[&#x27;color&#x27;]) {
+            if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
+                lines.push(&quot;  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
+            }
+            else {
+                lines.push(&quot;  gl_FragColor = vColor;&quot;);
+            }
+        }
+        else {
+            if (uniforms[&#x27;normalMatrix&#x27;] &amp;&amp; attributes[&#x27;normal&#x27;]) {
+                lines.push(&quot;  gl_FragColor = vec4(vLight, 1.0);&quot;);
+            }
+            else {
+                lines.push(&quot;  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
+            }
+        }
+        lines.push(&quot;}&quot;);
+        var code = lines.join(&quot;\n&quot;);
+        return code;
+    };
+    /**
+     *
+     */
+    var smartMaterial = function (attributes, uniforms) {
+        if (attributes) {
+        }
+        else {
+            throw new Error(&quot;The attributes parameter is required for smartMaterial.&quot;);
+        }
+        if (uniforms) {
+        }
+        else {
+            throw new Error(&quot;The uniforms parameter is required for smartMaterial.&quot;);
+        }
         var inner = material();
-        var attributes = geometry.getVertexAttributeMetaInfos();
-        var names = {};
-        attributes.forEach(function (attribute) {
-            names[attribute.property] = attribute.name;
-        });
-        inner.vertexShader = vertexShader(names);
-        inner.fragmentShader = fragmentShader(names);
+        inner.vertexShader = vertexShader(attributes, uniforms);
+        inner.fragmentShader = fragmentShader(attributes, uniforms);
         var publicAPI = {
             get attributes() {
                 return inner.attributes;

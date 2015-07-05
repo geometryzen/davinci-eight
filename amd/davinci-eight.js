@@ -1,15 +1,18 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define(["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/VertexAttribArray'], function (require, exports, core, object3D, perspectiveCamera, scene, webGLRenderer, mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, VertexAttribArray) {
+define(["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, scene, webGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
+        get Camera() { return Camera; },
+        get PerspectiveCamera() { return PerspectiveCamera; },
         scene: scene,
         object3D: object3D,
         renderer: webGLRenderer,
         contextMonitor: webGLContextMonitor,
         workbench: workbench3D,
         animationRunner: windowAnimationRunner,
-        mesh: mesh,
+        get mesh() { return mesh; },
+        get Mesh() { return Mesh; },
         /**
          * Constructs and returns a box geometry.
          */
@@ -20,7 +23,7 @@ define(["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D
         CurveGeometry: CurveGeometry,
         LatticeGeometry: LatticeGeometry,
         RGBGeometry: RGBGeometry,
-        VertexAttribArray: VertexAttribArray,
+        ShaderAttributeVariable: ShaderAttributeVariable,
         get pointsMaterial() {
             return pointsMaterial;
         },
@@ -29,7 +32,12 @@ define(["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D
         },
         get smartMaterial() {
             return smartMaterial;
-        }
+        },
+        get MeshBasicMaterial() {
+            return MeshBasicMaterial;
+        },
+        get Matrix3() { return Matrix3; },
+        get Matrix4() { return Matrix4; }
     };
     return eight;
 });

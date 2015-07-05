@@ -87,8 +87,12 @@ define(["require", "exports", 'davinci-eight/math/e3ga/vectorE3'], function (req
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
             dynamic: function () { return false; },
-            getVertexAttributeMetaInfos: function () {
-                return [];
+            getAttributeMetaInfos: function () {
+                return {
+                    position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+                    color: { name: 'aVertexColor', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+                    normal: { name: 'aVertexNormal', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+                };
             },
             hasElements: function () {
                 return false;

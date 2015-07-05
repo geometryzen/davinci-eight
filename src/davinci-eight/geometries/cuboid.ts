@@ -2,6 +2,7 @@
 // cuboid.ts
 //
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
+/// <reference path="../geometries/AttributeMetaInfos.d.ts" />
 /// <reference path="../geometries/CuboidGeometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
@@ -111,14 +112,32 @@ var cuboid = function(
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
     dynamic(): boolean {return false;},
-    getVertexAttributeMetaInfos() {
-      var vamis = [];
-      vamis.push({property: 'position', name: VERTEX_ATTRIBUTE_POSITION, size: 3, normalized: false, stride: 0, offset: 0});
+    getAttributeMetaInfos(): AttributeMetaInfos {
+      var attribues: AttributeMetaInfos = {};
+      attribues['position'] = {
+        name: VERTEX_ATTRIBUTE_POSITION,
+        type: 'vec3',
+        size: 3,
+        normalized: false,
+        stride: 0,
+        offset: 0};
       if (!grayScale) {
-        vamis.push({property: 'color',    name: VERTEX_ATTRIBUTE_COLOR,    size: 3, normalized: false, stride: 0, offset: 0});
+      attribues['color'] = {
+        name: VERTEX_ATTRIBUTE_COLOR,
+        type: 'vec3',
+        size: 3,
+        normalized: false,
+        stride: 0,
+        offset: 0};
       }
-      vamis.push({property: 'normal',   name: VERTEX_ATTRIBUTE_NORMAL,   size: 3, normalized: false, stride: 0, offset: 0});
-      return vamis;
+      attribues['normal'] = {
+        name: VERTEX_ATTRIBUTE_NORMAL,
+        type: 'vec3',
+        size: 3,
+        normalized: false,
+        stride: 0,
+        offset: 0};
+      return attribues;
     },
     hasElements(): boolean {
       return false;

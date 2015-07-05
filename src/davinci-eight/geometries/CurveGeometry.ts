@@ -1,3 +1,4 @@
+/// <reference path="../geometries/AttributeMetaInfos.d.ts" />
 /// <reference path="../geometries/Geometry.d.ts" />
 
 function makeArray(length: number) {
@@ -26,11 +27,11 @@ class CurveGeometry implements Geometry {
   dynamic(): boolean {
     return true;
   }
-  getVertexAttributeMetaInfos() {
-    return [
-      {property: 'position', name: 'aVertexPosition', size: 3, normalized: false, stride: 0, offset: 0},
-      {property: 'color',    name: 'aVertexColor',    size: 3, normalized: false, stride: 0, offset: 0}
-    ];
+  getAttributeMetaInfos(): AttributeMetaInfos {
+    return {
+      position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+      color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+    };
   }
   hasElements(): boolean {
     return true;

@@ -1,10 +1,10 @@
 /**
- * Utility class for manageing a shader uniform variable.
+ * Utility class for managing a shader uniform variable.
  */
 class ShaderUniformVariable {
   public name: string;
+  public type: string;
   private location: WebGLUniformLocation;
-  private type: string;
   constructor(name: string, type: string) {
     this.name = name;
     this.type = type;

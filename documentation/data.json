@@ -2,11 +2,18 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.5.0",
+        "version": "2.6.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
     "files": {
+        "amd/davinci-eight/cameras/PerspectiveCamera.js": {
+            "name": "amd/davinci-eight/cameras/PerspectiveCamera.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "amd/davinci-eight/cameras/camera.js": {
             "name": "amd/davinci-eight/cameras/camera.js",
             "modules": {},
@@ -65,6 +72,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "amd/davinci-eight/objects/ShaderAttributeVariable.js": {
+            "name": "amd/davinci-eight/objects/ShaderAttributeVariable.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "amd/davinci-eight/objects/ShaderUniformVariable.js": {
             "name": "amd/davinci-eight/objects/ShaderUniformVariable.js",
             "modules": {},
@@ -109,6 +123,11 @@
         }
     },
     "classitems": [
+        {
+            "file": "amd/davinci-eight/cameras/PerspectiveCamera.js",
+            "line": 8,
+            "class": "camera"
+        },
         {
             "file": "amd/davinci-eight/geometries/prism.js",
             "line": 55,
@@ -195,12 +214,12 @@
         },
         {
             "file": "amd/davinci-eight/materials/smartMaterial.js",
-            "line": 52,
+            "line": 65,
             "class": ""
         },
         {
             "file": "amd/davinci-eight/materials/smartMaterial.js",
-            "line": 87,
+            "line": 98,
             "class": ""
         },
         {
@@ -230,20 +249,32 @@
             "class": ""
         },
         {
+            "file": "amd/davinci-eight/objects/ShaderAttributeVariable.js",
+            "line": 9,
+            "description": "Utility class for managing a shader attribute variable.",
+            "class": ""
+        },
+        {
             "file": "amd/davinci-eight/objects/ShaderUniformVariable.js",
             "line": 2,
-            "description": "Utility class for manageing a shader uniform variable.",
+            "description": "Utility class for managing a shader uniform variable.",
             "class": ""
         },
         {
             "file": "amd/davinci-eight/objects/mesh.js",
             "line": 3,
-            "description": "Constructs a VertexAttribArray from a declaration.",
+            "description": "Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)",
             "class": ""
         },
         {
             "file": "amd/davinci-eight/objects/mesh.js",
-            "line": 22,
+            "line": 14,
+            "description": "Constructs a ShaderAttributeVariable from a declaration.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/objects/mesh.js",
+            "line": 32,
             "description": "Constructs a ShaderUniformVariable from a declaration.",
             "class": ""
         },
@@ -279,12 +310,16 @@
         },
         {
             "file": "amd/davinci-eight.js",
-            "line": 13,
+            "line": 16,
             "description": "Constructs and returns a box geometry.",
             "class": ""
         }
     ],
     "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/cameras/PerspectiveCamera.js:8"
+        },
         {
             "message": "Missing item type\nConstructs and returns a Prism geometry object.",
             "line": " amd/davinci-eight/geometries/prism.js:55"
@@ -335,11 +370,11 @@
         },
         {
             "message": "Missing item type",
-            "line": " amd/davinci-eight/materials/smartMaterial.js:52"
+            "line": " amd/davinci-eight/materials/smartMaterial.js:65"
         },
         {
             "message": "Missing item type",
-            "line": " amd/davinci-eight/materials/smartMaterial.js:87"
+            "line": " amd/davinci-eight/materials/smartMaterial.js:98"
         },
         {
             "message": "Missing item type\nConstructs and returns a Euclidean 3D vector from its cartesian components.",
@@ -350,16 +385,24 @@
             "line": " amd/davinci-eight/objects/ElementArray.js:6"
         },
         {
-            "message": "Missing item type\nUtility class for manageing a shader uniform variable.",
+            "message": "Missing item type\nUtility class for managing a shader attribute variable.",
+            "line": " amd/davinci-eight/objects/ShaderAttributeVariable.js:9"
+        },
+        {
+            "message": "Missing item type\nUtility class for managing a shader uniform variable.",
             "line": " amd/davinci-eight/objects/ShaderUniformVariable.js:2"
         },
         {
-            "message": "Missing item type\nConstructs a VertexAttribArray from a declaration.",
+            "message": "Missing item type\nFind an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)",
             "line": " amd/davinci-eight/objects/mesh.js:3"
         },
         {
+            "message": "Missing item type\nConstructs a ShaderAttributeVariable from a declaration.",
+            "line": " amd/davinci-eight/objects/mesh.js:14"
+        },
+        {
             "message": "Missing item type\nConstructs a ShaderUniformVariable from a declaration.",
-            "line": " amd/davinci-eight/objects/mesh.js:22"
+            "line": " amd/davinci-eight/objects/mesh.js:32"
         },
         {
             "message": "Missing item type\nCreates and returns a workbench3D thing.",
@@ -367,7 +410,7 @@
         },
         {
             "message": "Missing item type\nConstructs and returns a box geometry.",
-            "line": " amd/davinci-eight.js:13"
+            "line": " amd/davinci-eight.js:16"
         }
     ]
 }

@@ -7,8 +7,10 @@ function existsLocation(location: number): boolean {
   return location >= 0;
 }
 
-// TODO: Maybe this should be called simply AttributeArray?
-class VertexAttribArray {
+/**
+ * Utility class for managing a shader attribute variable.
+ */
+class ShaderAttributeVariable {
   public name: string;
   /**
    * The numbe of components for the attribute. Must be 1,2,3 , or 4.
@@ -78,4 +80,4 @@ class VertexAttribArray {
   }
 }
 
-export = VertexAttribArray;
+export = ShaderAttributeVariable;
