@@ -277,7 +277,7 @@ class Vector3 {
   /**
    * The combination of a geometry and a material.
    */
-  class FactoredDrawable<G extends VertexAttributeProvider, M extends Material> extends Drawable
+  class FactoredDrawable<G, M extends Material> extends Drawable
   {
     geometry: G;
     material: M;
@@ -381,7 +381,7 @@ class Vector3 {
    * @param uniformCallback
    */
   function mesh<G extends VertexAttributeProvider, M extends Material>(geometry: G, material: M, meshUniforms?: VertexUniformProvider): FactoredDrawable<G, M>;
-  class Mesh<G extends VertexAttributeProvider, M extends Material> extends FactoredDrawable<G,M> {
+  class Mesh<G extends Geometry, M extends Material> extends FactoredDrawable<G,M> {
     constructor(geometry: G, material: M);
     setRotationFromQuaternion(q: Quaternion): void;
     static getUniformMetaInfo(): UniformMetaInfo;
