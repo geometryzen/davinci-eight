@@ -1,4 +1,4 @@
-var eight = {
-    VERSION: '2.6.0'
+var core = {
+    VERSION: '2.7.0'
 };
-module.exports = eight;
+module.exports = core;

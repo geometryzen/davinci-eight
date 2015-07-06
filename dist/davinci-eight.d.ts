@@ -3,9 +3,9 @@
 //
 // This file was created manually in order to support the davinci-eight library.
 // These declarations are appropriate when using the library through the global
-// variable, 'eight'.
+// variable, 'EIGHT'.
 //
-declare module eight
+declare module EIGHT
 {
   class Drawable {
     drawGroupName: string;
@@ -468,12 +468,12 @@ declare module eight
     ): RenderingContextMonitor;
 
   /**
-   * The version string of the eight module.
+   * The version string of the davinci-eight module.
    */
   var VERSION: string;
 }
 
-declare module 'eight'
+declare module 'EIGHT'
 {
-  export = eight;
+  export = EIGHT;
 }

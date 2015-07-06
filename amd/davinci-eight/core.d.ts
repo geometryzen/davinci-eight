@@ -1,4 +1,4 @@
-declare var eight: {
+declare var core: {
     VERSION: string;
 };
-export = eight;
+export = core;

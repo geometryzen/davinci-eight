@@ -434,10 +434,10 @@ var requirejs, require, define;
 define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
-    var eight = {
-        VERSION: '2.6.0'
+    var core = {
+        VERSION: '2.7.0'
     };
-    return eight;
+    return core;
 });
 
 define('davinci-blade/NotImplementedError',["require", "exports"], function (require, exports) {
