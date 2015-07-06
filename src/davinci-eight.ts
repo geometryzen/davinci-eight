@@ -7,7 +7,8 @@ import camera = require('davinci-eight/cameras/camera');
 import Camera = require('davinci-eight/cameras/Camera');
 import perspectiveCamera = require('davinci-eight/cameras/perspectiveCamera');
 import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
-import scene = require('davinci-eight/scenes/scene');
+import world = require('davinci-eight/worlds/world');
+import Scene = require('davinci-eight/worlds/Scene');
 import renderer = require('davinci-eight/renderers/renderer');
 import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import mesh = require('davinci-eight/objects/mesh');
@@ -30,21 +31,19 @@ import ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeV
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
+import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
+import Quaternion = require('davinci-eight/math/Quaternion');
 
 var eight = {
     'VERSION': core.VERSION,
     perspective: perspectiveCamera,
-    get Camera() { return Camera; },
-    get PerspectiveCamera() { return PerspectiveCamera; },
-    get WebGLRenderer() { return WebGLRenderer; },
-    scene: scene,
+    get world() { return world; },
     object3D: object3D,
     renderer: renderer,
     contextMonitor: webGLContextMonitor,
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
     get mesh() { return mesh; },
-    get Mesh() { return Mesh; },
     /**
      * Constructs and returns a box geometry.
      */
@@ -54,7 +53,6 @@ var eight = {
     prism: prism,
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
-    get BoxGeometry() { return BoxGeometry; },
     RGBGeometry: RGBGeometry,
     ShaderAttributeVariable: ShaderAttributeVariable,
     get pointsMaterial() {
@@ -66,10 +64,16 @@ var eight = {
     get smartMaterial() {
       return smartMaterial;
     },
-    get MeshBasicMaterial() {
-      return MeshBasicMaterial;
-    },
+    get Scene() { return Scene; },
+    get Camera() { return Camera; },
+    get PerspectiveCamera() { return PerspectiveCamera; },
+    get WebGLRenderer() { return WebGLRenderer; },
+    get BoxGeometry() { return BoxGeometry; },
+    get Mesh() { return Mesh; },
+    get MeshBasicMaterial() { return MeshBasicMaterial; },
+    get MeshNormalMaterial() { return MeshNormalMaterial; },
     get Matrix3() { return Matrix3; },
-    get Matrix4() { return Matrix4; }
+    get Matrix4() { return Matrix4; },
+    get Quaternion() { return Quaternion; }
 };
 export = eight;

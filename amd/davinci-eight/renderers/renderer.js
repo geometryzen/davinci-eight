@@ -70,14 +70,14 @@ define(["require", "exports"], function (require, exports) {
                     context.clearColor(r, g, b, a);
                 }
             },
-            render: function (scene, ambientUniforms) {
+            render: function (world, ambientUniforms) {
                 drawContext.frameBegin();
                 context.clearColor(0.8, 0.8, 0.8, 1.0);
                 context.enable(context.DEPTH_TEST);
                 context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
                 var drawGroups = {};
-                if (!scene.hasContext()) {
-                    scene.contextGain(context, contextGainId);
+                if (!world.hasContext()) {
+                    world.contextGain(context, contextGainId);
                 }
                 var programLoaded;
                 var time = drawContext.time();
@@ -88,9 +88,9 @@ define(["require", "exports"], function (require, exports) {
                     }
                     drawable.draw(context, time, ambientUniforms);
                 };
-                for (var drawGroupName in scene.drawGroups) {
+                for (var drawGroupName in world.drawGroups) {
                     programLoaded = false;
-                    scene.drawGroups[drawGroupName].forEach(drawHandler);
+                    world.drawGroups[drawGroupName].forEach(drawHandler);
                 }
             },
             setViewport: setViewport,

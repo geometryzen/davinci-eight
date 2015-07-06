@@ -1,11 +1,13 @@
 declare class WebGLRenderer implements Renderer {
     private renderer;
     constructor();
-    render(scene: Scene, ambientUniforms: UniformProvider): void;
+    render(world: World, ambientUniforms: UniformProvider): void;
     contextFree(context: WebGLRenderingContext): void;
     contextGain(context: WebGLRenderingContext, contextId: string): void;
     contextLoss(): void;
     hasContext(): boolean;
+    clearColor(r: number, g: number, b: number, a: number): void;
+    setClearColor(color: number, alpha?: number): void;
     setSize(width: number, height: number): void;
     domElement: HTMLCanvasElement;
 }

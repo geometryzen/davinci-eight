@@ -1,8 +1,8 @@
 /// <reference path="../core/DrawContext.d.ts" />
-/// <reference path="../scenes/Scene.d.ts" />
-/// <reference path="Renderer.d.ts" />
-/// <reference path="RendererParameters.d.ts" />
-/// <reference path="UniformProvider.d.ts" />
+/// <reference path="../worlds/World.d.ts" />
+/// <reference path="../renderers/Renderer.d.ts" />
+/// <reference path="../renderers/RendererParameters.d.ts" />
+/// <reference path="../renderers/UniformProvider.d.ts" />
 import core = require('davinci-eight/core');
 
 class FrameworkDrawContext implements DrawContext {
@@ -86,15 +86,15 @@ var renderer = function(parameters?: RendererParameters): Renderer {
           context.clearColor(r, g, b, a);
         }
       },
-      render(scene: Scene, ambientUniforms: UniformProvider) {
+      render(world: World, ambientUniforms: UniformProvider) {
         drawContext.frameBegin();
         context.clearColor(0.8, 0.8, 0.8, 1.0);
         context.enable(context.DEPTH_TEST);
         context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
 
         var drawGroups: {[programId:string]: Drawable[]} = {};
-        if (!scene.hasContext()) {
-          scene.contextGain(context, contextGainId);
+        if (!world.hasContext()) {
+          world.contextGain(context, contextGainId);
         }
         var programLoaded;
         var time = drawContext.time();
@@ -105,9 +105,9 @@ var renderer = function(parameters?: RendererParameters): Renderer {
           }
           drawable.draw(context, time, ambientUniforms);
         };
-        for (var drawGroupName in scene.drawGroups) {
+        for (var drawGroupName in world.drawGroups) {
           programLoaded = false;
-          scene.drawGroups[drawGroupName].forEach(drawHandler);
+          world.drawGroups[drawGroupName].forEach(drawHandler);
         }
       },
       setViewport: setViewport,

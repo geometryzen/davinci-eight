@@ -6,6 +6,7 @@
 /// <reference path="../../../src/davinci-eight/geometries/AttributeMetaInfos.d.ts" />
 /// <reference path="../../../src/davinci-eight/geometries/CuboidGeometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import Quaternion = require('../math/Quaternion');
 declare class Mesh<G extends Geometry, M extends Material> implements FactoredDrawable<G, M> {
     private innerMesh;
     private meshUniformProvider;
@@ -14,6 +15,7 @@ declare class Mesh<G extends Geometry, M extends Material> implements FactoredDr
     material: M;
     attitude: blade.Euclidean3;
     position: blade.Euclidean3;
+    setRotationFromQuaternion(q: Quaternion): void;
     drawGroupName: string;
     useProgram(context: WebGLRenderingContext): void;
     draw(context: WebGLRenderingContext, time: number, uniformProvider: UniformProvider): any;

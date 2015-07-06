@@ -12,6 +12,8 @@ import Camera = require('../cameras/Camera');
 import mesh = require('./mesh');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
+import Quaternion = require('../math/Quaternion');
+
 declare var Euclidean3: any;
 
 function modelViewMatrix(position, attitude): Matrix4 {
@@ -83,6 +85,12 @@ class Mesh<G extends Geometry, M extends Material> implements FactoredDrawable<G
   }
   set position(value: blade.Euclidean3) {
     this.innerMesh.position = value;
+  }
+  setRotationFromQuaternion(q: Quaternion): void {
+    this.innerMesh.attitude.yz = q.x;
+    this.innerMesh.attitude.zx = q.y;
+    this.innerMesh.attitude.xy = q.z;
+    this.innerMesh.attitude.w = q.w;
   }
   get drawGroupName() {
     return this.innerMesh.drawGroupName;

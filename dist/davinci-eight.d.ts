@@ -14,8 +14,7 @@ declare module EIGHT
   }
   class RenderingContextUser {
     /**
-     * Notify that Scene is no longer required and request to free, dispose or delete any WebGL resources acquired and owned by the Scene.
-     * The Scene will broadcast this to all Drawable(s) it knows about through add().
+     * Notify the target that it is no longer required, and request to free, dispose, or delete any WebGL resources acquired and owned by the target.
      */
     contextFree(context: WebGLRenderingContext): void;
     /**
@@ -34,11 +33,11 @@ declare module EIGHT
      */
     hasContext(): boolean;
   }
-  interface Scene extends RenderingContextUser
+  class World extends RenderingContextUser
   {
     drawGroups: {[drawGroupName:string]: Drawable[]},
     /**
-     * Add a drawable to the root node of the scene.
+     * Add a drawable to the root node of the world.
      */
     add(drawable: Drawable): void;
   }
@@ -136,6 +135,13 @@ declare module EIGHT
     translate(position: { x: number, y: number, z: number }): void;
     rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
   }
+  class Quaternion {
+    public x: number;
+    public y: number;
+    public z: number;
+    public w: number;
+    constructor(x: number, y: number, z: number, w: number);
+  }
   /**
    *
    */
@@ -152,7 +158,7 @@ declare module EIGHT
   /**
    * A transformation from the 3D world to the view cube.
    */
-  class Camera implements UniformProvider {
+  class Camera extends Drawable implements UniformProvider {
     public projectionMatrix: Matrix4;
     constructor();
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
@@ -263,11 +269,12 @@ declare module EIGHT
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
     contextLoss(): void;
-    render(scene: Scene, ambientUniforms: UniformProvider): void;
+    render(world: World, ambientUniforms: UniformProvider): void;
+    clearColor(red: number, green: number, blue: number, alpha: number): void;
     setSize(width: number, height: number): void;
   }
   class WebGLRenderer extends Renderer {
-
+    setClearColor(color: number, alpha?: number): void;
   }
   interface RendererParameters {
     alpha?: boolean;
@@ -294,9 +301,14 @@ declare module EIGHT
     tearDown(): void;
   }
   /**
-   * Constructs and returns a Scene.
+   * Constructs and returns a World.
    */
-  function scene(): Scene;
+  function world(): World;
+  /**
+   *
+   */
+  class Scene extends World {
+  }
   /**
    * Constructs and returns a Linear Perspective projection camera.
    */
@@ -332,10 +344,12 @@ declare module EIGHT
   function mesh<G extends Geometry, M extends Material>(geometry: G, material: M, meshUniforms?: UniformProvider): FactoredDrawable<G, M>;
   class Mesh<G extends Geometry, M extends Material> extends FactoredDrawable<G,M> {
     constructor(geometry: G, material: M);
+    setRotationFromQuaternion(q: Quaternion): void;
     static getUniformMetaInfo(): UniformMetaInfo;
   }
   class MeshBasicMaterial extends Material {
-    
+  }
+  class MeshNormalMaterial extends Material {
   }
   /**
    * Constructs and returns a box geometry.

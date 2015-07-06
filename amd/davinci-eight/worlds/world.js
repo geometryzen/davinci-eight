@@ -1,12 +1,12 @@
 define(["require", "exports", 'davinci-eight/core/object3D'], function (require, exports, object3D) {
-    var scene = function () {
+    var world = function () {
         var drawables = [];
         var drawGroups = {};
         // TODO: What do we want out of the base object3D?
         var base = object3D();
         var gl;
         var contextId;
-        var that = {
+        var publicAPI = {
             get drawGroups() { return drawGroups; },
             get children() { return drawables; },
             contextFree: function (context) {
@@ -40,7 +40,7 @@ define(["require", "exports", 'davinci-eight/core/object3D'], function (require,
                 drawables.push(child);
             }
         };
-        return that;
+        return publicAPI;
     };
-    return scene;
+    return world;
 });

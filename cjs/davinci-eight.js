@@ -4,7 +4,8 @@ var object3D = require('davinci-eight/core/object3D');
 var Camera = require('davinci-eight/cameras/Camera');
 var perspectiveCamera = require('davinci-eight/cameras/perspectiveCamera');
 var PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
-var scene = require('davinci-eight/scenes/scene');
+var world = require('davinci-eight/worlds/world');
+var Scene = require('davinci-eight/worlds/Scene');
 var renderer = require('davinci-eight/renderers/renderer');
 var WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 var mesh = require('davinci-eight/objects/mesh');
@@ -27,20 +28,18 @@ var ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVari
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
+var MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
+var Quaternion = require('davinci-eight/math/Quaternion');
 var eight = {
     'VERSION': core.VERSION,
     perspective: perspectiveCamera,
-    get Camera() { return Camera; },
-    get PerspectiveCamera() { return PerspectiveCamera; },
-    get WebGLRenderer() { return WebGLRenderer; },
-    scene: scene,
+    get world() { return world; },
     object3D: object3D,
     renderer: renderer,
     contextMonitor: webGLContextMonitor,
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
     get mesh() { return mesh; },
-    get Mesh() { return Mesh; },
     /**
      * Constructs and returns a box geometry.
      */
@@ -50,7 +49,6 @@ var eight = {
     prism: prism,
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
-    get BoxGeometry() { return BoxGeometry; },
     RGBGeometry: RGBGeometry,
     ShaderAttributeVariable: ShaderAttributeVariable,
     get pointsMaterial() {
@@ -62,10 +60,16 @@ var eight = {
     get smartMaterial() {
         return smartMaterial;
     },
-    get MeshBasicMaterial() {
-        return MeshBasicMaterial;
-    },
+    get Scene() { return Scene; },
+    get Camera() { return Camera; },
+    get PerspectiveCamera() { return PerspectiveCamera; },
+    get WebGLRenderer() { return WebGLRenderer; },
+    get BoxGeometry() { return BoxGeometry; },
+    get Mesh() { return Mesh; },
+    get MeshBasicMaterial() { return MeshBasicMaterial; },
+    get MeshNormalMaterial() { return MeshNormalMaterial; },
     get Matrix3() { return Matrix3; },
-    get Matrix4() { return Matrix4; }
+    get Matrix4() { return Matrix4; },
+    get Quaternion() { return Quaternion; }
 };
 module.exports = eight;

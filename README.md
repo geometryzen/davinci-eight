@@ -71,17 +71,18 @@ to compile the source using the TypeScript compiler (For this you need to have [
 Make your changes to the TypeScript files in the _src_ directory. Do not edit the files in the _dist_ directory, these files will be generated.
 
 ## Release History
-* 1.0.0: 2015-05-02 Initial release.
-* 2.0.0: 2015-06-27 Manage WebGL complexity.
-* 2.1.0: 2015-06-30 Shader introspection.
-* 2.2.0: 2015-07-02 Ellipsoid.
-* 2.3.0: 2015-07-02 uniform variables.
-* 2.4.0: 2015-07-03 Cuboid.
-* 2.5.0: 2015-07-03 SmartMaterial.
-* 2.6.0: 2015-07-05 Mesh, MeshBasicMaterial.
-* 2.7.0: 2015-07-05 EIGHT namespace.
-* 2.8.0: 2015-07-05 BoxGeometry
-* 2.9.0: 2015-07-05 WebGLRenderer
+* 1.0.0:  2015-05-02 Initial release.
+* 2.0.0:  2015-06-27 Manage WebGL complexity.
+* 2.1.0:  2015-06-30 Shader introspection.
+* 2.2.0:  2015-07-02 Ellipsoid.
+* 2.3.0:  2015-07-02 uniform variables.
+* 2.4.0:  2015-07-03 Cuboid.
+* 2.5.0:  2015-07-03 SmartMaterial.
+* 2.6.0:  2015-07-05 Mesh, MeshBasicMaterial.
+* 2.7.0:  2015-07-05 EIGHT namespace.
+* 2.8.0:  2015-07-05 BoxGeometry
+* 2.9.0:  2015-07-05 WebGLRenderer
+* 2.10.0: 2015-07-05 Quaternion
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

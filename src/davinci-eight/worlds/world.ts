@@ -1,8 +1,8 @@
-/// <reference path="./Scene.d.ts" />
+/// <reference path="../worlds/World.d.ts" />
 /// <reference path="../core/Drawable.d.ts" />
 import object3D = require('davinci-eight/core/object3D');
 
-var scene = function(): Scene
+var world = function(): World
 {
     var drawables: Drawable[] = [];
     var drawGroups: {[drawGroupName:string]: Drawable[]} = {};
@@ -12,7 +12,7 @@ var scene = function(): Scene
     var gl: WebGLRenderingContext;
     var contextId: string;
 
-    var that: Scene =
+    var publicAPI: World =
     {
         get drawGroups(): {[drawGroupName:string]: Drawable[]} {return drawGroups},
         get children(): Drawable[] { return drawables; },
@@ -59,7 +59,7 @@ var scene = function(): Scene
         }
     }
 
-    return that;
+    return publicAPI;
 };
 
-export = scene;
+export = world;

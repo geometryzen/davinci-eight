@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.9.0'
+        VERSION: '2.10.0'
     };
     return core;
 });
@@ -2372,9 +2372,13 @@ define('davinci-eight/math/Matrix4',["require", "exports", "gl-matrix"], functio
 define('davinci-eight/cameras/Camera',["require", "exports", '../math/Matrix4'], function (require, exports, Matrix4) {
     var UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
+    // Camera implements Drawable purely so that we can add it to the Scene.
+    // However, since we don't actually draw it, it's not an issue.
+    // Maybe one day there will be multiple cameras and we might make them visible?
     var Camera = (function () {
         function Camera(spec) {
             this.projectionMatrix = new Matrix4();
+            this.fakeHasContext = false;
         }
         Camera.prototype.getUniformMatrix3 = function (name) {
             return null;
@@ -2389,6 +2393,32 @@ define('davinci-eight/cameras/Camera',["require", "exports", '../math/Matrix4'],
                     return null;
                 }
             }
+        };
+        Object.defineProperty(Camera.prototype, "drawGroupName", {
+            get: function () {
+                // Anything will do here as long as nothing else uses the same group name; the Camera won't be drawn.
+                return "Camera";
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Camera.prototype.useProgram = function (context) {
+            // Thanks, but I'm not going to be drawn so I don't need a program.
+        };
+        Camera.prototype.draw = function (context, time, uniformProvider) {
+            // Do nothing.
+        };
+        Camera.prototype.contextFree = function (context) {
+            this.fakeHasContext = false;
+        };
+        Camera.prototype.contextGain = function (context, contextId) {
+            this.fakeHasContext = true;
+        };
+        Camera.prototype.contextLoss = function () {
+            this.fakeHasContext = false;
+        };
+        Camera.prototype.hasContext = function () {
+            return this.fakeHasContext;
         };
         Camera.getUniformMetaInfo = function () {
             return { projectionMatrix: { name: UNIFORM_PROJECTION_MATRIX_NAME, type: UNIFORM_PROJECTION_MATRIX_TYPE } };
@@ -2473,15 +2503,15 @@ define('davinci-eight/cameras/PerspectiveCamera',["require", "exports", './Camer
     return PerspectiveCamera;
 });
 
-define('davinci-eight/scenes/scene',["require", "exports", 'davinci-eight/core/object3D'], function (require, exports, object3D) {
-    var scene = function () {
+define('davinci-eight/worlds/world',["require", "exports", 'davinci-eight/core/object3D'], function (require, exports, object3D) {
+    var world = function () {
         var drawables = [];
         var drawGroups = {};
         // TODO: What do we want out of the base object3D?
         var base = object3D();
         var gl;
         var contextId;
-        var that = {
+        var publicAPI = {
             get drawGroups() { return drawGroups; },
             get children() { return drawables; },
             contextFree: function (context) {
@@ -2515,9 +2545,41 @@ define('davinci-eight/scenes/scene',["require", "exports", 'davinci-eight/core/o
                 drawables.push(child);
             }
         };
-        return that;
+        return publicAPI;
     };
-    return scene;
+    return world;
+});
+
+define('davinci-eight/worlds/Scene',["require", "exports", '../worlds/world'], function (require, exports, world) {
+    var Scene = (function () {
+        function Scene() {
+            this.world = world();
+        }
+        Scene.prototype.add = function (drawable) {
+            return this.world.add(drawable);
+        };
+        Object.defineProperty(Scene.prototype, "drawGroups", {
+            get: function () {
+                return this.world.drawGroups;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Scene.prototype.contextFree = function (context) {
+            return this.world.contextFree(context);
+        };
+        Scene.prototype.contextGain = function (context, contextId) {
+            return this.world.contextGain(context, contextId);
+        };
+        Scene.prototype.contextLoss = function () {
+            return this.world.contextLoss();
+        };
+        Scene.prototype.hasContext = function () {
+            return this.world.hasContext();
+        };
+        return Scene;
+    })();
+    return Scene;
 });
 
 define('davinci-eight/renderers/renderer',["require", "exports"], function (require, exports) {
@@ -2592,14 +2654,14 @@ define('davinci-eight/renderers/renderer',["require", "exports"], function (requ
                     context.clearColor(r, g, b, a);
                 }
             },
-            render: function (scene, ambientUniforms) {
+            render: function (world, ambientUniforms) {
                 drawContext.frameBegin();
                 context.clearColor(0.8, 0.8, 0.8, 1.0);
                 context.enable(context.DEPTH_TEST);
                 context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
                 var drawGroups = {};
-                if (!scene.hasContext()) {
-                    scene.contextGain(context, contextGainId);
+                if (!world.hasContext()) {
+                    world.contextGain(context, contextGainId);
                 }
                 var programLoaded;
                 var time = drawContext.time();
@@ -2610,9 +2672,9 @@ define('davinci-eight/renderers/renderer',["require", "exports"], function (requ
                     }
                     drawable.draw(context, time, ambientUniforms);
                 };
-                for (var drawGroupName in scene.drawGroups) {
+                for (var drawGroupName in world.drawGroups) {
                     programLoaded = false;
-                    scene.drawGroups[drawGroupName].forEach(drawHandler);
+                    world.drawGroups[drawGroupName].forEach(drawHandler);
                 }
             },
             setViewport: setViewport,
@@ -2647,8 +2709,8 @@ define('davinci-eight/renderers/WebGLRenderer',["require", "exports", '../render
         function WebGLRenderer() {
             this.renderer = renderer();
         }
-        WebGLRenderer.prototype.render = function (scene, ambientUniforms) {
-            return this.renderer.render(scene, ambientUniforms);
+        WebGLRenderer.prototype.render = function (world, ambientUniforms) {
+            return this.renderer.render(world, ambientUniforms);
         };
         WebGLRenderer.prototype.contextFree = function (context) {
             return this.renderer.contextFree(context);
@@ -2661,6 +2723,14 @@ define('davinci-eight/renderers/WebGLRenderer',["require", "exports", '../render
         };
         WebGLRenderer.prototype.hasContext = function () {
             return this.renderer.hasContext();
+        };
+        WebGLRenderer.prototype.clearColor = function (r, g, b, a) {
+            this.renderer.clearColor(r, g, b, a);
+        };
+        WebGLRenderer.prototype.setClearColor = function (color, alpha) {
+            alpha = (typeof alpha === 'number') ? alpha : 1.0;
+            // TODO:
+            this.renderer.clearColor(1.0, 1.0, 1.0, alpha);
         };
         WebGLRenderer.prototype.setSize = function (width, height) {
             return this.renderer.setSize(width, height);
@@ -3147,6 +3217,12 @@ define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclid
             enumerable: true,
             configurable: true
         });
+        Mesh.prototype.setRotationFromQuaternion = function (q) {
+            this.innerMesh.attitude.yz = q.x;
+            this.innerMesh.attitude.zx = q.y;
+            this.innerMesh.attitude.xy = q.z;
+            this.innerMesh.attitude.w = q.w;
+        };
         Object.defineProperty(Mesh.prototype, "drawGroupName", {
             get: function () {
                 return this.innerMesh.drawGroupName;
@@ -6896,22 +6972,100 @@ define('davinci-eight/materials/MeshBasicMaterial',["require", "exports", '../ca
     return MeshBasicMaterial;
 });
 
+define('davinci-eight/materials/MeshNormalMaterial',["require", "exports", '../cameras/Camera', '../objects/Mesh', '../materials/smartMaterial'], function (require, exports, Camera, Mesh, smartMaterial) {
+    // Can we defer the creation of smartMaterial until the geometry is known?
+    // Maybe the mesh tells the material ablout the geometry?
+    var attributes = {
+        position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        color: { name: 'aVertexColor', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        normal: { name: 'aVertexNormal', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+    };
+    var MeshNormalMaterial = (function () {
+        function MeshNormalMaterial() {
+            var uniforms = Camera.getUniformMetaInfo();
+            var descriptors = Mesh.getUniformMetaInfo();
+            for (var name in descriptors) {
+                uniforms[name] = descriptors[name];
+            }
+            this.material = smartMaterial(attributes, uniforms);
+        }
+        MeshNormalMaterial.prototype.contextFree = function (context) {
+            return this.material.contextFree(context);
+        };
+        MeshNormalMaterial.prototype.contextGain = function (context, contextGainId) {
+            return this.material.contextGain(context, contextGainId);
+        };
+        MeshNormalMaterial.prototype.contextLoss = function () {
+            return this.material.contextLoss();
+        };
+        MeshNormalMaterial.prototype.hasContext = function () {
+            return this.material.hasContext();
+        };
+        Object.defineProperty(MeshNormalMaterial.prototype, "attributes", {
+            get: function () {
+                return this.material.attributes;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MeshNormalMaterial.prototype, "uniforms", {
+            get: function () {
+                return this.material.uniforms;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MeshNormalMaterial.prototype, "varyings", {
+            get: function () {
+                return this.material.varyings;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MeshNormalMaterial.prototype, "program", {
+            get: function () {
+                return this.material.program;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(MeshNormalMaterial.prototype, "programId", {
+            get: function () {
+                return this.material.programId;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return MeshNormalMaterial;
+    })();
+    return MeshNormalMaterial;
+});
+
+define('davinci-eight/math/Quaternion',["require", "exports"], function (require, exports) {
+    var Quaternion = (function () {
+        function Quaternion(x, y, z, w) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
+        return Quaternion;
+    })();
+    return Quaternion;
+});
+
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
-        get Camera() { return Camera; },
-        get PerspectiveCamera() { return PerspectiveCamera; },
-        get WebGLRenderer() { return WebGLRenderer; },
-        scene: scene,
+        get world() { return world; },
         object3D: object3D,
         renderer: renderer,
         contextMonitor: webGLContextMonitor,
         workbench: workbench3D,
         animationRunner: windowAnimationRunner,
         get mesh() { return mesh; },
-        get Mesh() { return Mesh; },
         /**
          * Constructs and returns a box geometry.
          */
@@ -6921,7 +7075,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         prism: prism,
         CurveGeometry: CurveGeometry,
         LatticeGeometry: LatticeGeometry,
-        get BoxGeometry() { return BoxGeometry; },
         RGBGeometry: RGBGeometry,
         ShaderAttributeVariable: ShaderAttributeVariable,
         get pointsMaterial() {
@@ -6933,11 +7086,17 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get smartMaterial() {
             return smartMaterial;
         },
-        get MeshBasicMaterial() {
-            return MeshBasicMaterial;
-        },
+        get Scene() { return Scene; },
+        get Camera() { return Camera; },
+        get PerspectiveCamera() { return PerspectiveCamera; },
+        get WebGLRenderer() { return WebGLRenderer; },
+        get BoxGeometry() { return BoxGeometry; },
+        get Mesh() { return Mesh; },
+        get MeshBasicMaterial() { return MeshBasicMaterial; },
+        get MeshNormalMaterial() { return MeshNormalMaterial; },
         get Matrix3() { return Matrix3; },
-        get Matrix4() { return Matrix4; }
+        get Matrix4() { return Matrix4; },
+        get Quaternion() { return Quaternion; }
     };
     return eight;
 });

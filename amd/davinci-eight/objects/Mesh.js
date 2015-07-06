@@ -83,6 +83,12 @@ define(["require", "exports", "davinci-blade/Euclidean3", './mesh', '../math/Mat
             enumerable: true,
             configurable: true
         });
+        Mesh.prototype.setRotationFromQuaternion = function (q) {
+            this.innerMesh.attitude.yz = q.x;
+            this.innerMesh.attitude.zx = q.y;
+            this.innerMesh.attitude.xy = q.z;
+            this.innerMesh.attitude.w = q.w;
+        };
         Object.defineProperty(Mesh.prototype, "drawGroupName", {
             get: function () {
                 return this.innerMesh.drawGroupName;

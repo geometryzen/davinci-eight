@@ -1,4 +1,5 @@
 /// <reference path="./RenderingContextUser.d.ts" />
+/// <reference path="../renderers/UniformProvider.d.ts" />
 interface Drawable extends RenderingContextUser {
   drawGroupName: string;
   useProgram(context: WebGLRenderingContext);

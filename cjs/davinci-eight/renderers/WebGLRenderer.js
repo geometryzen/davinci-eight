@@ -1,11 +1,12 @@
 /// <reference path='../renderers/Renderer'/>
+/// <reference path='../worlds/World'/>
 var renderer = require('../renderers/renderer');
 var WebGLRenderer = (function () {
     function WebGLRenderer() {
         this.renderer = renderer();
     }
-    WebGLRenderer.prototype.render = function (scene, ambientUniforms) {
-        return this.renderer.render(scene, ambientUniforms);
+    WebGLRenderer.prototype.render = function (world, ambientUniforms) {
+        return this.renderer.render(world, ambientUniforms);
     };
     WebGLRenderer.prototype.contextFree = function (context) {
         return this.renderer.contextFree(context);
@@ -18,6 +19,14 @@ var WebGLRenderer = (function () {
     };
     WebGLRenderer.prototype.hasContext = function () {
         return this.renderer.hasContext();
+    };
+    WebGLRenderer.prototype.clearColor = function (r, g, b, a) {
+        this.renderer.clearColor(r, g, b, a);
+    };
+    WebGLRenderer.prototype.setClearColor = function (color, alpha) {
+        alpha = (typeof alpha === 'number') ? alpha : 1.0;
+        // TODO:
+        this.renderer.clearColor(1.0, 1.0, 1.0, alpha);
     };
     WebGLRenderer.prototype.setSize = function (width, height) {
         return this.renderer.setSize(width, height);

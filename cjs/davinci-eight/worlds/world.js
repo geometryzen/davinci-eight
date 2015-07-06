@@ -1,14 +1,14 @@
-/// <reference path="./Scene.d.ts" />
+/// <reference path="../worlds/World.d.ts" />
 /// <reference path="../core/Drawable.d.ts" />
 var object3D = require('davinci-eight/core/object3D');
-var scene = function () {
+var world = function () {
     var drawables = [];
     var drawGroups = {};
     // TODO: What do we want out of the base object3D?
     var base = object3D();
     var gl;
     var contextId;
-    var that = {
+    var publicAPI = {
         get drawGroups() { return drawGroups; },
         get children() { return drawables; },
         contextFree: function (context) {
@@ -42,6 +42,6 @@ var scene = function () {
             drawables.push(child);
         }
     };
-    return that;
+    return publicAPI;
 };
-module.exports = scene;
+module.exports = world;

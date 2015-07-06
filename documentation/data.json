@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.9.0",
+        "version": "2.10.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -310,7 +310,7 @@
         },
         {
             "file": "amd/davinci-eight.js",
-            "line": 17,
+            "line": 13,
             "description": "Constructs and returns a box geometry.",
             "class": ""
         }
@@ -410,7 +410,7 @@
         },
         {
             "message": "Missing item type\nConstructs and returns a box geometry.",
-            "line": " amd/davinci-eight.js:17"
+            "line": " amd/davinci-eight.js:13"
         }
     ]
 }
