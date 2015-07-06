@@ -1,7 +1,7 @@
 //
 // prism.ts
 //
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 
@@ -69,7 +69,7 @@ var triangles =
 /**
  * Constructs and returns a Prism geometry object.
  */
-var prism = function(spec?): Geometry {
+var prism = function(spec?): VertexAttributeProvider {
 
   var elements: number[] = [];
   var vertices: number[] = [];
@@ -105,7 +105,7 @@ var prism = function(spec?): Geometry {
     }
   });
 
-  var publicAPI: Geometry = {
+  var publicAPI: VertexAttributeProvider = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },

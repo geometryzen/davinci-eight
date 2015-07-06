@@ -1,4 +1,4 @@
-/// <reference path='../renderers/UniformProvider.d.ts'/>
+/// <reference path='../renderers/VertexUniformProvider.d.ts'/>
 /// <reference path='../materials/UniformMetaInfo.d.ts'/>
 /// <reference path='../core/Drawable.d.ts'/>
 var Matrix4 = require('../math/Matrix4');

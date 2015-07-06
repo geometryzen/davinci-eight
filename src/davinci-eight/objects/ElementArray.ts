@@ -1,5 +1,5 @@
-/// <reference path="../geometries/Geometry.d.ts" />
-function computeUsage(geometry: Geometry, context: WebGLRenderingContext): number {
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
+function computeUsage(geometry: VertexAttributeProvider, context: WebGLRenderingContext): number {
   return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
 }
 
@@ -8,8 +8,8 @@ function computeUsage(geometry: Geometry, context: WebGLRenderingContext): numbe
  */
 class ElementArray {
   private buffer: WebGLBuffer;
-  private geometry: Geometry;
-  constructor(geometry: Geometry) {
+  private geometry: VertexAttributeProvider;
+  constructor(geometry: VertexAttributeProvider) {
     this.geometry = geometry;
   }
   contextFree(context: WebGLRenderingContext) {
@@ -26,7 +26,7 @@ class ElementArray {
   contextLoss() {
     this.buffer = void 0;
   }
-  bufferData(context: WebGLRenderingContext, geometry: Geometry) {
+  bufferData(context: WebGLRenderingContext, geometry: VertexAttributeProvider) {
     if (this.buffer) {
       var elements = geometry.getElements();
       context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, this.buffer);

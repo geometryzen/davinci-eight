@@ -1,13 +1,12 @@
-/// <reference path="./FactoredDrawable.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 /// <reference path="../materials/Material.d.ts" />
-/// <reference path="../renderers/UniformProvider.d.ts" />
+/// <reference path="../renderers/VertexUniformProvider.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 var ShaderAttributeVariable = require('./ShaderAttributeVariable');
 var object3D = require('davinci-eight/core/object3D');
 var ElementArray = require('davinci-eight/objects/ElementArray');
 var ShaderUniformVariable = require('davinci-eight/objects/ShaderUniformVariable');
-var ChainedUniformProvider = require('./ChainedUniformProvider');
+var ChainedVertexUniformProvider = require('./ChainedVertexUniformProvider');
 var mesh = function (geometry, material, meshUniforms) {
     /**
      * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
@@ -124,7 +123,7 @@ var mesh = function (geometry, material, meshUniforms) {
                 // Update the uniform location values.
                 uniformVariables.forEach(function (uniformVariable) {
                     if (meshUniforms) {
-                        var chainedProvider = new ChainedUniformProvider(meshUniforms, ambientUniforms);
+                        var chainedProvider = new ChainedVertexUniformProvider(meshUniforms, ambientUniforms);
                         switch (uniformVariable.type) {
                             case 'mat3':
                                 {

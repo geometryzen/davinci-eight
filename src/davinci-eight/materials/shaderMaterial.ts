@@ -1,5 +1,5 @@
 /// <reference path="./ShaderMaterial.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 import parse = require('../glsl/parse');
 import NodeWalker = require('../glsl/NodeWalker');
 import ProgramArgs = require('../glsl/ProgramArgs');

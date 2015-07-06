@@ -7,7 +7,7 @@ class WebGLRenderer implements Renderer {
   constructor() {
     this.renderer = renderer();
   }
-  render(world: World, ambientUniforms: UniformProvider) {
+  render(world: World, ambientUniforms: VertexUniformProvider) {
     return this.renderer.render(world, ambientUniforms);
   }
   contextFree(context: WebGLRenderingContext) {

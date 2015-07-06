@@ -1,5 +1,5 @@
-/// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
-declare class RGBGeometry implements Geometry {
+/// <reference path="../../../src/davinci-eight/geometries/VertexAttributeProvider.d.ts" />
+declare class RGBGeometry implements VertexAttributeProvider {
     private elements;
     private vertices;
     private vertexColors;

@@ -2748,7 +2748,7 @@ define('davinci-eight/renderers/WebGLRenderer',["require", "exports", '../render
 });
 
 define('davinci-eight/objects/ShaderAttributeVariable',["require", "exports"], function (require, exports) {
-    /// <reference path="../geometries/Geometry.d.ts" />
+    /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
     function computeUsage(geometry, context) {
         return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
@@ -2822,7 +2822,7 @@ define('davinci-eight/objects/ShaderAttributeVariable',["require", "exports"], f
 });
 
 define('davinci-eight/objects/ElementArray',["require", "exports"], function (require, exports) {
-    /// <reference path="../geometries/Geometry.d.ts" />
+    /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
     function computeUsage(geometry, context) {
         return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
@@ -2912,14 +2912,14 @@ define('davinci-eight/objects/ShaderUniformVariable',["require", "exports"], fun
     return ShaderUniformVariable;
 });
 
-define('davinci-eight/objects/ChainedUniformProvider',["require", "exports"], function (require, exports) {
-    /// <reference path='../renderers/UniformProvider.d.ts'/>
-    var ChainedUniformProvider = (function () {
-        function ChainedUniformProvider(provider, fallback) {
+define('davinci-eight/objects/ChainedVertexUniformProvider',["require", "exports"], function (require, exports) {
+    /// <reference path='../renderers/VertexUniformProvider.d.ts'/>
+    var ChainedVertexUniformProvider = (function () {
+        function ChainedVertexUniformProvider(provider, fallback) {
             this.provider = provider;
             this.fallback = fallback;
         }
-        ChainedUniformProvider.prototype.getUniformMatrix3 = function (name) {
+        ChainedVertexUniformProvider.prototype.getUniformMatrix3 = function (name) {
             var m3 = this.provider.getUniformMatrix3(name);
             if (m3) {
                 return m3;
@@ -2928,7 +2928,7 @@ define('davinci-eight/objects/ChainedUniformProvider',["require", "exports"], fu
                 return this.fallback.getUniformMatrix3(name);
             }
         };
-        ChainedUniformProvider.prototype.getUniformMatrix4 = function (name) {
+        ChainedVertexUniformProvider.prototype.getUniformMatrix4 = function (name) {
             var m4 = this.provider.getUniformMatrix4(name);
             if (m4) {
                 return m4;
@@ -2937,12 +2937,12 @@ define('davinci-eight/objects/ChainedUniformProvider',["require", "exports"], fu
                 return this.fallback.getUniformMatrix4(name);
             }
         };
-        return ChainedUniformProvider;
+        return ChainedVertexUniformProvider;
     })();
-    return ChainedUniformProvider;
+    return ChainedVertexUniformProvider;
 });
 
-define('davinci-eight/objects/mesh',["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/object3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable', './ChainedUniformProvider'], function (require, exports, ShaderAttributeVariable, object3D, ElementArray, ShaderUniformVariable, ChainedUniformProvider) {
+define('davinci-eight/objects/mesh',["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/object3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable', './ChainedVertexUniformProvider'], function (require, exports, ShaderAttributeVariable, object3D, ElementArray, ShaderUniformVariable, ChainedVertexUniformProvider) {
     var mesh = function (geometry, material, meshUniforms) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
@@ -3059,7 +3059,7 @@ define('davinci-eight/objects/mesh',["require", "exports", './ShaderAttributeVar
                     // Update the uniform location values.
                     uniformVariables.forEach(function (uniformVariable) {
                         if (meshUniforms) {
-                            var chainedProvider = new ChainedUniformProvider(meshUniforms, ambientUniforms);
+                            var chainedProvider = new ChainedVertexUniformProvider(meshUniforms, ambientUniforms);
                             switch (uniformVariable.type) {
                                 case 'mat3':
                                     {
@@ -3132,7 +3132,35 @@ define('davinci-eight/math/Matrix3',["require", "exports", "gl-matrix"], functio
     return Matrix3;
 });
 
-define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclidean3", './mesh', '../math/Matrix3', '../math/Matrix4'], function (require, exports, Euclidean3, mesh, Matrix3, Matrix4) {
+define('davinci-eight/geometries/GeometryVertexAttributeProvider',["require", "exports"], function (require, exports) {
+    var GeometryVertexAttributeProvider = (function () {
+        function GeometryVertexAttributeProvider(geometry) {
+        }
+        GeometryVertexAttributeProvider.prototype.draw = function (context) {
+        };
+        GeometryVertexAttributeProvider.prototype.dynamic = function () {
+            return true;
+        };
+        GeometryVertexAttributeProvider.prototype.hasElements = function () {
+            return false;
+        };
+        GeometryVertexAttributeProvider.prototype.getElements = function () {
+            return null;
+        };
+        GeometryVertexAttributeProvider.prototype.getVertexAttributeData = function (name) {
+            return null;
+        };
+        GeometryVertexAttributeProvider.prototype.getAttributeMetaInfos = function () {
+            return null;
+        };
+        GeometryVertexAttributeProvider.prototype.update = function (time, attributes) {
+        };
+        return GeometryVertexAttributeProvider;
+    })();
+    return GeometryVertexAttributeProvider;
+});
+
+define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclidean3", './mesh', '../math/Matrix3', '../math/Matrix4', '../geometries/GeometryVertexAttributeProvider'], function (require, exports, Euclidean3, mesh, Matrix3, Matrix4, GeometryVertexAttributeProvider) {
     function modelViewMatrix(position, attitude) {
         var matrix = new Matrix4();
         matrix.identity();
@@ -3142,10 +3170,10 @@ define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclid
         matrix.mul(rotation);
         return matrix;
     }
-    var MeshUniformProvider = (function () {
-        function MeshUniformProvider() {
+    var MeshVertexUniformProvider = (function () {
+        function MeshVertexUniformProvider() {
         }
-        MeshUniformProvider.prototype.getUniformMatrix3 = function (name) {
+        MeshVertexUniformProvider.prototype.getUniformMatrix3 = function (name) {
             switch (name) {
                 case 'uN':
                     {
@@ -3163,7 +3191,7 @@ define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclid
                 }
             }
         };
-        MeshUniformProvider.prototype.getUniformMatrix4 = function (name) {
+        MeshVertexUniformProvider.prototype.getUniformMatrix4 = function (name) {
             switch (name) {
                 case 'uMV':
                     {
@@ -3176,20 +3204,15 @@ define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclid
                 }
             }
         };
-        return MeshUniformProvider;
+        return MeshVertexUniformProvider;
     })();
     var Mesh = (function () {
         function Mesh(geometry, material) {
-            this.meshUniformProvider = new MeshUniformProvider();
-            this.innerMesh = mesh(geometry, material, this.meshUniformProvider);
+            this.meshVertexUniformProvider = new MeshVertexUniformProvider();
+            this.geometry = geometry;
+            var mvap = new GeometryVertexAttributeProvider(geometry);
+            this.innerMesh = mesh(mvap, material, this.meshVertexUniformProvider);
         }
-        Object.defineProperty(Mesh.prototype, "geometry", {
-            get: function () {
-                return this.innerMesh.geometry;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(Mesh.prototype, "material", {
             get: function () {
                 return this.innerMesh.material;
@@ -3234,8 +3257,8 @@ define('davinci-eight/objects/Mesh',["require", "exports", "davinci-blade/Euclid
             this.innerMesh.useProgram(context);
         };
         Mesh.prototype.draw = function (context, time, uniformProvider) {
-            this.meshUniformProvider.position = this.innerMesh.position;
-            this.meshUniformProvider.attitude = this.innerMesh.attitude;
+            this.meshVertexUniformProvider.position = this.innerMesh.position;
+            this.meshVertexUniformProvider.attitude = this.innerMesh.attitude;
             return this.innerMesh.draw(context, time, uniformProvider);
         };
         Mesh.prototype.contextFree = function (context) {
@@ -4152,7 +4175,7 @@ define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/ma
 });
 
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function (require, exports) {
     function makeArray(length) {
         var xs = [];
@@ -4221,7 +4244,7 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function
 });
 
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], function (require, exports) {
     function makeArray(length) {
         var xs = [];
@@ -4303,6 +4326,33 @@ define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], functi
     return LatticeGeometry;
 });
 
+define('davinci-eight/core/Face3',["require", "exports"], function (require, exports) {
+    var Face3 = (function () {
+        function Face3(a, b, c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+        return Face3;
+    })();
+    return Face3;
+});
+
+define('davinci-eight/geometries/Geometry',["require", "exports"], function (require, exports) {
+    var Geometry = (function () {
+        function Geometry() {
+            this.vertices = [];
+            this.verticesNeedUpdate = true;
+            this.faces = [];
+            this.elementsNeedUpdate = true;
+        }
+        Geometry.prototype.computeBoundingSphere = function () {
+        };
+        return Geometry;
+    })();
+    return Geometry;
+});
+
 define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../geometries/cuboid'], function (require, exports, cuboid) {
     var BoxGeometry = (function () {
         function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments) {
@@ -4337,7 +4387,7 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../geometr
     return BoxGeometry;
 });
 
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (require, exports) {
     var RGBGeometry = (function () {
         function RGBGeometry() {
@@ -7054,8 +7104,20 @@ define('davinci-eight/math/Quaternion',["require", "exports"], function (require
     return Quaternion;
 });
 
+define('davinci-eight/math/Vector3',["require", "exports"], function (require, exports) {
+    var Vector3 = (function () {
+        function Vector3(x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+        return Vector3;
+    })();
+    return Vector3;
+});
+
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector3) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -7090,13 +7152,17 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get Camera() { return Camera; },
         get PerspectiveCamera() { return PerspectiveCamera; },
         get WebGLRenderer() { return WebGLRenderer; },
+        get Face3() { return Face3; },
+        get Geometry() { return Geometry; },
+        get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
         get BoxGeometry() { return BoxGeometry; },
         get Mesh() { return Mesh; },
         get MeshBasicMaterial() { return MeshBasicMaterial; },
         get MeshNormalMaterial() { return MeshNormalMaterial; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
-        get Quaternion() { return Quaternion; }
+        get Quaternion() { return Quaternion; },
+        get Vector3() { return Vector3; }
     };
     return eight;
 });

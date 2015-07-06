@@ -2,7 +2,7 @@
 /// <reference path="../worlds/World.d.ts" />
 /// <reference path="../renderers/Renderer.d.ts" />
 /// <reference path="../renderers/RendererParameters.d.ts" />
-/// <reference path="../renderers/UniformProvider.d.ts" />
+/// <reference path="../renderers/VertexUniformProvider.d.ts" />
 import core = require('davinci-eight/core');
 
 class FrameworkDrawContext implements DrawContext {
@@ -86,7 +86,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
           context.clearColor(r, g, b, a);
         }
       },
-      render(world: World, ambientUniforms: UniformProvider) {
+      render(world: World, ambientUniforms: VertexUniformProvider) {
         drawContext.frameBegin();
         context.clearColor(0.8, 0.8, 0.8, 1.0);
         context.enable(context.DEPTH_TEST);

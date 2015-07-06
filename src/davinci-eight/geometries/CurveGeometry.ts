@@ -1,5 +1,5 @@
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 
 function makeArray(length: number) {
   var xs: number[] = [];
@@ -11,7 +11,7 @@ function makeArray(length: number) {
   return xs;
 }
 
-class CurveGeometry implements Geometry {
+class CurveGeometry implements VertexAttributeProvider {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;

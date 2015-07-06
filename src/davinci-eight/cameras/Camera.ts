@@ -1,4 +1,4 @@
-/// <reference path='../renderers/UniformProvider.d.ts'/>
+/// <reference path='../renderers/VertexUniformProvider.d.ts'/>
 /// <reference path='../materials/UniformMetaInfo.d.ts'/>
 /// <reference path='../core/Drawable.d.ts'/>
 import Matrix4 = require('../math/Matrix4');
@@ -10,7 +10,7 @@ let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
 // Camera implements Drawable purely so that we can add it to the Scene.
 // However, since we don't actually draw it, it's not an issue.
 // Maybe one day there will be multiple cameras and we might make them visible?
-class Camera implements UniformProvider, Drawable {
+class Camera implements VertexUniformProvider, Drawable {
   public projectionMatrix: Matrix4 = new Matrix4();
   private fakeHasContext = false;
   constructor(spec?) {
@@ -36,7 +36,7 @@ class Camera implements UniformProvider, Drawable {
   useProgram(context: WebGLRenderingContext) {
     // Thanks, but I'm not going to be drawn so I don't need a program.
   }
-  draw(context: WebGLRenderingContext, time: number, uniformProvider: UniformProvider) {
+  draw(context: WebGLRenderingContext, time: number, uniformProvider: VertexUniformProvider) {
     // Do nothing.
   }
   contextFree(context: WebGLRenderingContext) {

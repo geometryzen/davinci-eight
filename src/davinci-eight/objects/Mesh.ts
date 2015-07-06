@@ -1,11 +1,9 @@
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
-/// <reference path='./FactoredDrawable.d.ts'/>
-/// <reference path='../geometries/Geometry.d.ts'/>
+/// <reference path='../geometries/VertexAttributeProvider.d.ts'/>
 /// <reference path='../materials/Material.d.ts'/>
 /// <reference path='../materials/UniformMetaInfo.d.ts'/>
-/// <reference path='../renderers/UniformProvider.d.ts'/>
+/// <reference path='../renderers/VertexUniformProvider.d.ts'/>
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/CuboidGeometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Camera = require('../cameras/Camera');
@@ -13,6 +11,9 @@ import mesh = require('./mesh');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Quaternion = require('../math/Quaternion');
+import FactoredDrawable = require('../objects/FactoredDrawable');
+import Geometry = require('../geometries/Geometry');
+import GeometryVertexAttributeProvider = require('../geometries/GeometryVertexAttributeProvider');
 
 declare var Euclidean3: any;
 
@@ -26,7 +27,7 @@ function modelViewMatrix(position, attitude): Matrix4 {
   return matrix;
 }
 
-class MeshUniformProvider implements UniformProvider {
+class MeshVertexUniformProvider implements VertexUniformProvider {
   public position: {x:number;y:number;z:number};
   public attitude: {yz: number; zx: number; xy: number; w: number};
   constructor() {
@@ -63,13 +64,13 @@ class MeshUniformProvider implements UniformProvider {
 }
 
 class Mesh<G extends Geometry, M extends Material> implements FactoredDrawable<G, M> {
-  private innerMesh: FactoredDrawable<G, M>;
-  private meshUniformProvider: MeshUniformProvider = new MeshUniformProvider();
+  public geometry: G;
+  private innerMesh: FactoredDrawable<GeometryVertexAttributeProvider<G>, M>;
+  private meshVertexUniformProvider: MeshVertexUniformProvider = new MeshVertexUniformProvider();
   constructor(geometry: G, material: M) {
-    this.innerMesh = mesh(geometry, material, this.meshUniformProvider);
-  }
-  get geometry() {
-    return this.innerMesh.geometry;
+    this.geometry = geometry;
+    let mvap: GeometryVertexAttributeProvider<G> = new GeometryVertexAttributeProvider(geometry);
+    this.innerMesh = mesh(mvap, material, this.meshVertexUniformProvider);
   }
   get material() {
     return this.innerMesh.material;
@@ -98,9 +99,9 @@ class Mesh<G extends Geometry, M extends Material> implements FactoredDrawable<G
   useProgram(context: WebGLRenderingContext) {
     this.innerMesh.useProgram(context);
   }
-  draw(context: WebGLRenderingContext, time: number, uniformProvider: UniformProvider) {
-    this.meshUniformProvider.position = this.innerMesh.position;
-    this.meshUniformProvider.attitude = this.innerMesh.attitude;
+  draw(context: WebGLRenderingContext, time: number, uniformProvider: VertexUniformProvider) {
+    this.meshVertexUniformProvider.position = this.innerMesh.position;
+    this.meshVertexUniformProvider.attitude = this.innerMesh.attitude;
     return this.innerMesh.draw(context, time, uniformProvider);
   }
   contextFree(context: WebGLRenderingContext) {

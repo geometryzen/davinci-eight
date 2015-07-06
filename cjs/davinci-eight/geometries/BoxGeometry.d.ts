@@ -1,4 +1,5 @@
-declare class BoxGeometry implements Geometry {
+/// <reference path="../../../src/davinci-eight/geometries/VertexAttributeProvider.d.ts" />
+declare class BoxGeometry implements VertexAttributeProvider {
     private cuboid;
     constructor(width: number, height: number, depth: number, widthSegments?: number, heightSegments?: number, depthSegments?: number);
     draw(context: WebGLRenderingContext): void;

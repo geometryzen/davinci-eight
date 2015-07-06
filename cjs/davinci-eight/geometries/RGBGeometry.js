@@ -1,4 +1,4 @@
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 var RGBGeometry = (function () {
     function RGBGeometry() {
     }

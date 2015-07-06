@@ -1,5 +1,5 @@
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 
 function makeArray(length: number) {
   var xs: number[] = [];
@@ -11,7 +11,7 @@ function makeArray(length: number) {
   return xs;
 }
 
-class LatticeGeometry implements Geometry {
+class LatticeGeometry implements VertexAttributeProvider {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;

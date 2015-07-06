@@ -6,6 +6,9 @@ import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import Mesh = require('davinci-eight/objects/Mesh');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
+import Face3 = require('davinci-eight/core/Face3');
+import Geometry = require('davinci-eight/geometries/Geometry');
+import GeometryVertexAttributeProvider = require('davinci-eight/geometries/GeometryVertexAttributeProvider');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVariable');
@@ -14,6 +17,8 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
 import Quaternion = require('davinci-eight/math/Quaternion');
+import Vector3 = require('davinci-eight/math/Vector3');
+import FactoredDrawable = require('davinci-eight/objects/FactoredDrawable');
 declare var eight: {
     'VERSION': string;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => {
@@ -39,8 +44,8 @@ declare var eight: {
         start: () => void;
         stop: () => void;
     };
-    mesh: <G extends Geometry, M extends Material>(geometry: G, material: M, meshUniforms: UniformProvider) => FactoredDrawable<G, M>;
-    box: (spec?: any) => Geometry;
+    mesh: <G extends VertexAttributeProvider, M extends Material>(geometry: G, material: M, meshUniforms: VertexUniformProvider) => FactoredDrawable<G, M>;
+    box: (spec?: any) => VertexAttributeProvider;
     cuboid: (spec?: {
         position?: {
             name?: string;
@@ -54,7 +59,7 @@ declare var eight: {
         };
     }) => CuboidGeometry;
     ellipsoid: (spec?: any) => EllipsoidGeometry;
-    prism: (spec?: any) => Geometry;
+    prism: (spec?: any) => VertexAttributeProvider;
     CurveGeometry: typeof CurveGeometry;
     LatticeGeometry: typeof LatticeGeometry;
     RGBGeometry: typeof RGBGeometry;
@@ -66,6 +71,9 @@ declare var eight: {
     Camera: typeof Camera;
     PerspectiveCamera: typeof PerspectiveCamera;
     WebGLRenderer: typeof WebGLRenderer;
+    Face3: typeof Face3;
+    Geometry: typeof Geometry;
+    GeometryVertexAttributeProvider: typeof GeometryVertexAttributeProvider;
     BoxGeometry: typeof BoxGeometry;
     Mesh: typeof Mesh;
     MeshBasicMaterial: typeof MeshBasicMaterial;
@@ -73,5 +81,6 @@ declare var eight: {
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     Quaternion: typeof Quaternion;
+    Vector3: typeof Vector3;
 };
 export = eight;

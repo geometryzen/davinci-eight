@@ -1,6 +1,6 @@
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 
-class RGBGeometry implements Geometry {
+class RGBGeometry implements VertexAttributeProvider {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;

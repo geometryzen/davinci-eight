@@ -1,5 +1,5 @@
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 define(["require", "exports"], function (require, exports) {
     function makeArray(length) {
         var xs = [];

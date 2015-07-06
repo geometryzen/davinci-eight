@@ -1,6 +1,7 @@
 var mesh = require('./mesh');
 var Matrix3 = require('../math/Matrix3');
 var Matrix4 = require('../math/Matrix4');
+var GeometryVertexAttributeProvider = require('../geometries/GeometryVertexAttributeProvider');
 function modelViewMatrix(position, attitude) {
     var matrix = new Matrix4();
     matrix.identity();
@@ -10,10 +11,10 @@ function modelViewMatrix(position, attitude) {
     matrix.mul(rotation);
     return matrix;
 }
-var MeshUniformProvider = (function () {
-    function MeshUniformProvider() {
+var MeshVertexUniformProvider = (function () {
+    function MeshVertexUniformProvider() {
     }
-    MeshUniformProvider.prototype.getUniformMatrix3 = function (name) {
+    MeshVertexUniformProvider.prototype.getUniformMatrix3 = function (name) {
         switch (name) {
             case 'uN':
                 {
@@ -31,7 +32,7 @@ var MeshUniformProvider = (function () {
             }
         }
     };
-    MeshUniformProvider.prototype.getUniformMatrix4 = function (name) {
+    MeshVertexUniformProvider.prototype.getUniformMatrix4 = function (name) {
         switch (name) {
             case 'uMV':
                 {
@@ -44,20 +45,15 @@ var MeshUniformProvider = (function () {
             }
         }
     };
-    return MeshUniformProvider;
+    return MeshVertexUniformProvider;
 })();
 var Mesh = (function () {
     function Mesh(geometry, material) {
-        this.meshUniformProvider = new MeshUniformProvider();
-        this.innerMesh = mesh(geometry, material, this.meshUniformProvider);
+        this.meshVertexUniformProvider = new MeshVertexUniformProvider();
+        this.geometry = geometry;
+        var mvap = new GeometryVertexAttributeProvider(geometry);
+        this.innerMesh = mesh(mvap, material, this.meshVertexUniformProvider);
     }
-    Object.defineProperty(Mesh.prototype, "geometry", {
-        get: function () {
-            return this.innerMesh.geometry;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Mesh.prototype, "material", {
         get: function () {
             return this.innerMesh.material;
@@ -102,8 +98,8 @@ var Mesh = (function () {
         this.innerMesh.useProgram(context);
     };
     Mesh.prototype.draw = function (context, time, uniformProvider) {
-        this.meshUniformProvider.position = this.innerMesh.position;
-        this.meshUniformProvider.attitude = this.innerMesh.attitude;
+        this.meshVertexUniformProvider.position = this.innerMesh.position;
+        this.meshVertexUniformProvider.attitude = this.innerMesh.attitude;
         return this.innerMesh.draw(context, time, uniformProvider);
     };
     Mesh.prototype.contextFree = function (context) {

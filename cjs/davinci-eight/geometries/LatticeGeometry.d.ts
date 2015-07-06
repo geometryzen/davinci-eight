@@ -1,6 +1,6 @@
 /// <reference path="../../../src/davinci-eight/geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
-declare class LatticeGeometry implements Geometry {
+/// <reference path="../../../src/davinci-eight/geometries/VertexAttributeProvider.d.ts" />
+declare class LatticeGeometry implements VertexAttributeProvider {
     private elements;
     private vertices;
     private vertexColors;

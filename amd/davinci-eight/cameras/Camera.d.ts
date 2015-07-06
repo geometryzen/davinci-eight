@@ -1,8 +1,8 @@
-/// <reference path="../../../src/davinci-eight/renderers/UniformProvider.d.ts" />
+/// <reference path="../../../src/davinci-eight/renderers/VertexUniformProvider.d.ts" />
 /// <reference path="../../../src/davinci-eight/materials/UniformMetaInfo.d.ts" />
 /// <reference path="../../../src/davinci-eight/core/Drawable.d.ts" />
 import Matrix4 = require('../math/Matrix4');
-declare class Camera implements UniformProvider, Drawable {
+declare class Camera implements VertexUniformProvider, Drawable {
     projectionMatrix: Matrix4;
     private fakeHasContext;
     constructor(spec?: any);
@@ -13,7 +13,7 @@ declare class Camera implements UniformProvider, Drawable {
     };
     drawGroupName: string;
     useProgram(context: WebGLRenderingContext): void;
-    draw(context: WebGLRenderingContext, time: number, uniformProvider: UniformProvider): void;
+    draw(context: WebGLRenderingContext, time: number, uniformProvider: VertexUniformProvider): void;
     contextFree(context: WebGLRenderingContext): void;
     contextGain(context: WebGLRenderingContext, contextId: string): void;
     contextLoss(): void;

@@ -1,7 +1,7 @@
 //
 // prism.ts
 //
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 var vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 // The numbering of the front face, seen from the front is

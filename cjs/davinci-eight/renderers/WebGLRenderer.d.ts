@@ -1,7 +1,7 @@
 declare class WebGLRenderer implements Renderer {
     private renderer;
     constructor();
-    render(world: World, ambientUniforms: UniformProvider): void;
+    render(world: World, ambientUniforms: VertexUniformProvider): void;
     contextFree(context: WebGLRenderingContext): void;
     contextGain(context: WebGLRenderingContext, contextId: string): void;
     contextLoss(): void;

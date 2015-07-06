@@ -1,5 +1,6 @@
+/// <reference path='../geometries/VertexAttributeProvider.d.ts'/>
 import cuboid = require('../geometries/cuboid');
-class BoxGeometry implements Geometry {
+class BoxGeometry implements VertexAttributeProvider {
   private cuboid: CuboidGeometry;
   constructor(
     width: number,

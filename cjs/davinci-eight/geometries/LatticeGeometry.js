@@ -1,5 +1,5 @@
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 function makeArray(length) {
     var xs = [];
     for (var i = 0; i < length; i++) {

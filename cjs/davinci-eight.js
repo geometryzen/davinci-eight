@@ -19,6 +19,9 @@ var ellipsoid = require('davinci-eight/geometries/ellipsoid');
 var prism = require('davinci-eight/geometries/prism');
 var CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 var LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
+var Face3 = require('davinci-eight/core/Face3');
+var Geometry = require('davinci-eight/geometries/Geometry');
+var GeometryVertexAttributeProvider = require('davinci-eight/geometries/GeometryVertexAttributeProvider');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 var RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 var pointsMaterial = require('davinci-eight/materials/pointsMaterial');
@@ -30,6 +33,7 @@ var Matrix4 = require('davinci-eight/math/Matrix4');
 var MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
 var MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
 var Quaternion = require('davinci-eight/math/Quaternion');
+var Vector3 = require('davinci-eight/math/Vector3');
 var eight = {
     'VERSION': core.VERSION,
     perspective: perspectiveCamera,
@@ -64,12 +68,16 @@ var eight = {
     get Camera() { return Camera; },
     get PerspectiveCamera() { return PerspectiveCamera; },
     get WebGLRenderer() { return WebGLRenderer; },
+    get Face3() { return Face3; },
+    get Geometry() { return Geometry; },
+    get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
     get BoxGeometry() { return BoxGeometry; },
     get Mesh() { return Mesh; },
     get MeshBasicMaterial() { return MeshBasicMaterial; },
     get MeshNormalMaterial() { return MeshNormalMaterial; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
-    get Quaternion() { return Quaternion; }
+    get Quaternion() { return Quaternion; },
+    get Vector3() { return Vector3; }
 };
 module.exports = eight;

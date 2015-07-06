@@ -80,7 +80,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 /// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
-define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/Camera&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/cameras/PerspectiveCamera&#x27;, &#x27;davinci-eight/worlds/world&#x27;, &#x27;davinci-eight/worlds/Scene&#x27;, &#x27;davinci-eight/renderers/renderer&#x27;, &#x27;davinci-eight/renderers/WebGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/objects/Mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/box&#x27;, &#x27;davinci-eight/geometries/cuboid&#x27;, &#x27;davinci-eight/geometries/ellipsoid&#x27;, &#x27;davinci-eight/geometries/prism&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/geometries/BoxGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/materials/pointsMaterial&#x27;, &#x27;davinci-eight/materials/shaderMaterial&#x27;, &#x27;davinci-eight/materials/smartMaterial&#x27;, &#x27;davinci-eight/objects/ShaderAttributeVariable&#x27;, &#x27;davinci-eight/math/Matrix3&#x27;, &#x27;davinci-eight/math/Matrix4&#x27;, &#x27;davinci-eight/materials/MeshBasicMaterial&#x27;, &#x27;davinci-eight/materials/MeshNormalMaterial&#x27;, &#x27;davinci-eight/math/Quaternion&#x27;], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion) {
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;, &#x27;davinci-eight/core/object3D&#x27;, &#x27;davinci-eight/cameras/Camera&#x27;, &#x27;davinci-eight/cameras/perspectiveCamera&#x27;, &#x27;davinci-eight/cameras/PerspectiveCamera&#x27;, &#x27;davinci-eight/worlds/world&#x27;, &#x27;davinci-eight/worlds/Scene&#x27;, &#x27;davinci-eight/renderers/renderer&#x27;, &#x27;davinci-eight/renderers/WebGLRenderer&#x27;, &#x27;davinci-eight/objects/mesh&#x27;, &#x27;davinci-eight/objects/Mesh&#x27;, &#x27;davinci-eight/utils/webGLContextMonitor&#x27;, &#x27;davinci-eight/utils/workbench3D&#x27;, &#x27;davinci-eight/utils/windowAnimationRunner&#x27;, &#x27;davinci-eight/geometries/box&#x27;, &#x27;davinci-eight/geometries/cuboid&#x27;, &#x27;davinci-eight/geometries/ellipsoid&#x27;, &#x27;davinci-eight/geometries/prism&#x27;, &#x27;davinci-eight/geometries/CurveGeometry&#x27;, &#x27;davinci-eight/geometries/LatticeGeometry&#x27;, &#x27;davinci-eight/core/Face3&#x27;, &#x27;davinci-eight/geometries/Geometry&#x27;, &#x27;davinci-eight/geometries/GeometryVertexAttributeProvider&#x27;, &#x27;davinci-eight/geometries/BoxGeometry&#x27;, &#x27;davinci-eight/geometries/RGBGeometry&#x27;, &#x27;davinci-eight/materials/pointsMaterial&#x27;, &#x27;davinci-eight/materials/shaderMaterial&#x27;, &#x27;davinci-eight/materials/smartMaterial&#x27;, &#x27;davinci-eight/objects/ShaderAttributeVariable&#x27;, &#x27;davinci-eight/math/Matrix3&#x27;, &#x27;davinci-eight/math/Matrix4&#x27;, &#x27;davinci-eight/materials/MeshBasicMaterial&#x27;, &#x27;davinci-eight/materials/MeshNormalMaterial&#x27;, &#x27;davinci-eight/math/Quaternion&#x27;, &#x27;davinci-eight/math/Vector3&#x27;], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector3) {
     var eight = {
         &#x27;VERSION&#x27;: core.VERSION,
         perspective: perspectiveCamera,
@@ -115,13 +115,17 @@ define([&quot;require&quot;, &quot;exports&quot;, &#x27;davinci-eight/core&#x27;
         get Camera() { return Camera; },
         get PerspectiveCamera() { return PerspectiveCamera; },
         get WebGLRenderer() { return WebGLRenderer; },
+        get Face3() { return Face3; },
+        get Geometry() { return Geometry; },
+        get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
         get BoxGeometry() { return BoxGeometry; },
         get Mesh() { return Mesh; },
         get MeshBasicMaterial() { return MeshBasicMaterial; },
         get MeshNormalMaterial() { return MeshNormalMaterial; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
-        get Quaternion() { return Quaternion; }
+        get Quaternion() { return Quaternion; },
+        get Vector3() { return Vector3; }
     };
     return eight;
 });

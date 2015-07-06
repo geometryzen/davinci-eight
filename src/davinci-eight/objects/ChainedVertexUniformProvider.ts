@@ -1,8 +1,8 @@
-/// <reference path='../renderers/UniformProvider.d.ts'/>
-class ChainedUniformProvider implements UniformProvider {
-  private provider: UniformProvider;
-  private fallback: UniformProvider;
-  constructor(provider: UniformProvider, fallback: UniformProvider) {
+/// <reference path='../renderers/VertexUniformProvider.d.ts'/>
+class ChainedVertexUniformProvider implements VertexUniformProvider {
+  private provider: VertexUniformProvider;
+  private fallback: VertexUniformProvider;
+  constructor(provider: VertexUniformProvider, fallback: VertexUniformProvider) {
     this.provider = provider;
     this.fallback = fallback;
   }
@@ -26,4 +26,4 @@ class ChainedUniformProvider implements UniformProvider {
   }
 }
 
-export = ChainedUniformProvider;
+export = ChainedVertexUniformProvider;

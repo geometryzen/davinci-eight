@@ -1,7 +1,6 @@
-/// <reference path="./FactoredDrawable.d.ts" />
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 /// <reference path="../materials/Material.d.ts" />
-/// <reference path="../renderers/UniformProvider.d.ts" />
+/// <reference path="../renderers/VertexUniformProvider.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import ShaderAttributeVariable = require('./ShaderAttributeVariable');
 import object3D = require('davinci-eight/core/object3D');
@@ -10,12 +9,13 @@ import fs_source = require('davinci-eight/shaders/shader-fs');
 import glMatrix = require('gl-matrix');
 import ElementArray = require('davinci-eight/objects/ElementArray');
 import ShaderUniformVariable = require('davinci-eight/objects/ShaderUniformVariable');
-import ChainedUniformProvider = require('./ChainedUniformProvider');
+import ChainedVertexUniformProvider = require('./ChainedVertexUniformProvider');
+import FactoredDrawable = require('../objects/FactoredDrawable');
 
-var mesh = function<G extends Geometry, M extends Material>(
+var mesh = function<G extends VertexAttributeProvider, M extends Material>(
   geometry: G,
   material: M,
-  meshUniforms: UniformProvider): FactoredDrawable<G, M> {
+  meshUniforms: VertexUniformProvider): FactoredDrawable<G, M> {
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
@@ -131,7 +131,7 @@ var mesh = function<G extends Geometry, M extends Material>(
     useProgram(context: WebGLRenderingContext) {
       context.useProgram(material.program);
     },
-    draw(context: WebGLRenderingContext, time: number, ambientUniforms: UniformProvider) {
+    draw(context: WebGLRenderingContext, time: number, ambientUniforms: VertexUniformProvider) {
       if (material.hasContext()) {
         if (geometry.dynamic()) {
           updateGeometry(context, time);
@@ -139,7 +139,7 @@ var mesh = function<G extends Geometry, M extends Material>(
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
           if (meshUniforms) {
-            var chainedProvider = new ChainedUniformProvider(meshUniforms, ambientUniforms);
+            var chainedProvider = new ChainedVertexUniformProvider(meshUniforms, ambientUniforms);
             switch(uniformVariable.type) {
               case 'mat3': {
                 var m3data = chainedProvider.getUniformMatrix3(uniformVariable.name);

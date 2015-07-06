@@ -1,6 +1,6 @@
 /// <reference path="../../../src/davinci-eight/geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
-declare class CurveGeometry implements Geometry {
+/// <reference path="../../../src/davinci-eight/geometries/VertexAttributeProvider.d.ts" />
+declare class CurveGeometry implements VertexAttributeProvider {
     private elements;
     private vertices;
     private vertexColors;

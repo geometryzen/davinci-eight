@@ -1,5 +1,5 @@
 /// <reference path='./AttributeMetaInfos.d.ts'/>
-interface Geometry {
+interface VertexAttributeProvider {
   draw(context: WebGLRenderingContext): void;
   dynamic(): boolean;
   hasElements(): boolean;

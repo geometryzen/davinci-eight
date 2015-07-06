@@ -1,4 +1,4 @@
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 function computeUsage(geometry, context) {
     return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
 }

@@ -1,4 +1,4 @@
-define(["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/object3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable', './ChainedUniformProvider'], function (require, exports, ShaderAttributeVariable, object3D, ElementArray, ShaderUniformVariable, ChainedUniformProvider) {
+define(["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/object3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable', './ChainedVertexUniformProvider'], function (require, exports, ShaderAttributeVariable, object3D, ElementArray, ShaderUniformVariable, ChainedVertexUniformProvider) {
     var mesh = function (geometry, material, meshUniforms) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
@@ -115,7 +115,7 @@ define(["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/o
                     // Update the uniform location values.
                     uniformVariables.forEach(function (uniformVariable) {
                         if (meshUniforms) {
-                            var chainedProvider = new ChainedUniformProvider(meshUniforms, ambientUniforms);
+                            var chainedProvider = new ChainedVertexUniformProvider(meshUniforms, ambientUniforms);
                             switch (uniformVariable.type) {
                                 case 'mat3':
                                     {

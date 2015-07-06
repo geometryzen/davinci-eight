@@ -1,4 +1,4 @@
-/// <reference path="../../../src/davinci-eight/geometries/Geometry.d.ts" />
+/// <reference path="../../../src/davinci-eight/geometries/VertexAttributeProvider.d.ts" />
 /**
  * Utility class for managing a shader attribute variable.
  */
@@ -18,7 +18,7 @@ declare class ShaderAttributeVariable {
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     contextLoss(): void;
     bind(context: WebGLRenderingContext): void;
-    bufferData(context: WebGLRenderingContext, geometry: Geometry): void;
+    bufferData(context: WebGLRenderingContext, geometry: VertexAttributeProvider): void;
     enable(context: WebGLRenderingContext): void;
     disable(context: WebGLRenderingContext): void;
 }

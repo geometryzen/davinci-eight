@@ -1,5 +1,5 @@
-/// <reference path="../geometries/Geometry.d.ts" />
-function computeUsage(geometry: Geometry, context: WebGLRenderingContext): number {
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
+function computeUsage(geometry: VertexAttributeProvider, context: WebGLRenderingContext): number {
   return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
 }
 
@@ -55,7 +55,7 @@ class ShaderAttributeVariable {
       context.vertexAttribPointer(this.location, this.size, context.FLOAT, this.normalized, this.stride, this.offset);
     }
   }
-  bufferData(context: WebGLRenderingContext, geometry: Geometry) {
+  bufferData(context: WebGLRenderingContext, geometry: VertexAttributeProvider) {
     if (existsLocation(this.location)) {
       let data: Float32Array = geometry.getVertexAttributeData(this.name);
       if (data) {

@@ -142,7 +142,12 @@ declare module EIGHT
     public w: number;
     constructor(x: number, y: number, z: number, w: number);
   }
-  /**
+class Vector3 {
+  public x: number;
+  public y: number;
+  public z: number;
+  constructor(x: number, y: number, z: number);
+}  /**
    *
    */
   interface UniformMetaInfo {
@@ -151,27 +156,27 @@ declare module EIGHT
       type: string;
     }
   }
-  interface UniformProvider {
+  interface VertexUniformProvider {
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
   }
   /**
    * A transformation from the 3D world to the view cube.
    */
-  class Camera extends Drawable implements UniformProvider {
+  class Camera extends Drawable implements VertexUniformProvider {
     public projectionMatrix: Matrix4;
     constructor();
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
     static getUniformMetaInfo(): UniformMetaInfo;
   }
-  class PerspectiveCamera extends Camera implements UniformProvider {
+  class PerspectiveCamera extends Camera implements VertexUniformProvider {
     constructor(fov: number, aspect: number, near: number, far: number);
   }
   /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
    */
-  class Geometry
+  class VertexAttributeProvider
   {
     draw(context: WebGLRenderingContext): void;
     /**
@@ -200,22 +205,56 @@ declare module EIGHT
      */
     update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
-  class CurveGeometry extends Geometry {
+  class Face3 {
+    constructor(a: number, b: number, c: number);
+  }
+  /**
+   * Base class for geometries.
+   * A geometry holds all data necessary to describe a 3D model.
+   */
+  class Geometry {
+    /**
+     * Set to true if the faces array has been updated.
+     */
+    public elementsNeedUpdate: boolean;
+    /**
+     * Array of vertices.
+     * The array of vertices holds every position of points in the model.
+     * To signal an update in this array, Geometry.verticesNeedUpdate needs to be set to true.
+     */
+    public vertices: Vector3[];
+    /**
+     * Set to true if the vertices array has been updated.
+     */
+    public verticesNeedUpdate: boolean;
+    /**
+     * Array of triangles.
+     * The array of faces describe how each vertex in the model is connected with each other.
+     * To signal an update in this array, Geometry.elementsNeedUpdate needs to be set to true.
+     */
+    public faces: Face3[];
+    /**
+     * The constructor takes no arguments.
+     */
+    constructor();
+    computeBoundingSphere(): void;
+  }
+  class CurveGeometry extends VertexAttributeProvider {
     constructor(
       n: number,
       generator: (i: number, time: number) => {x: number; y: number; z: number});
   }
-  class LatticeGeometry extends Geometry {
+  class LatticeGeometry extends VertexAttributeProvider {
     constructor(
       I: number,
       J: number,
       K: number,
       generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
   }
-  class BoxGeometry extends Geometry {
+  class BoxGeometry extends VertexAttributeProvider {
     constructor(width: number, height: number, depth: number);
   }
-  class RGBGeometry extends Geometry {
+  class RGBGeometry extends VertexAttributeProvider {
     constructor();
   }
   /**
@@ -238,7 +277,7 @@ declare module EIGHT
   /**
    * The combination of a geometry and a material.
    */
-  class FactoredDrawable<G extends Geometry, M extends Material> extends Drawable
+  class FactoredDrawable<G extends VertexAttributeProvider, M extends Material> extends Drawable
   {
     geometry: G;
     material: M;
@@ -269,7 +308,7 @@ declare module EIGHT
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
     contextLoss(): void;
-    render(world: World, ambientUniforms: UniformProvider): void;
+    render(world: World, ambientUniforms: VertexUniformProvider): void;
     clearColor(red: number, green: number, blue: number, alpha: number): void;
     setSize(width: number, height: number): void;
   }
@@ -333,7 +372,7 @@ declare module EIGHT
   /**
    * Constructs a Material by introspecting a Geometry.
    */
-  function smartMaterial(geometry: Geometry, uniforms: UniformMetaInfo): SmartMaterial;
+  function smartMaterial(geometry: VertexAttributeProvider, uniforms: UniformMetaInfo): SmartMaterial;
   /**
    * Constructs a mesh from the specified geometry and material.
    * The uniformCallback must be supplied if the vertex shader has uniform variables.
@@ -341,8 +380,8 @@ declare module EIGHT
    * @param material
    * @param uniformCallback
    */
-  function mesh<G extends Geometry, M extends Material>(geometry: G, material: M, meshUniforms?: UniformProvider): FactoredDrawable<G, M>;
-  class Mesh<G extends Geometry, M extends Material> extends FactoredDrawable<G,M> {
+  function mesh<G extends VertexAttributeProvider, M extends Material>(geometry: G, material: M, meshUniforms?: VertexUniformProvider): FactoredDrawable<G, M>;
+  class Mesh<G extends VertexAttributeProvider, M extends Material> extends FactoredDrawable<G,M> {
     constructor(geometry: G, material: M);
     setRotationFromQuaternion(q: Quaternion): void;
     static getUniformMetaInfo(): UniformMetaInfo;
@@ -354,11 +393,11 @@ declare module EIGHT
   /**
    * Constructs and returns a box geometry.
    */
-  function box(): Geometry;
+  function box(): VertexAttributeProvider;
   /**
    *
    */
-  interface CuboidGeometry extends Geometry {
+  interface CuboidGeometry extends VertexAttributeProvider {
     /**
      * The axis corresponding to e1.
      */
@@ -400,7 +439,7 @@ declare module EIGHT
    * a * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),
    * where phi and theta are the conventional spherical coordinates.
    */
-  interface EllipsoidGeometry extends Geometry {
+  interface EllipsoidGeometry extends VertexAttributeProvider {
     /**
      * The axis corresponding to (theta, phi) = (PI/2,0).
      */
@@ -445,7 +484,7 @@ declare module EIGHT
   /**
    * Constructs and returns a prism geometry.
    */
-  function prism(): Geometry;
+  function prism(): VertexAttributeProvider;
   /**
    * Returns a Euclidean 3-dimensional number representing a scalar.
    */

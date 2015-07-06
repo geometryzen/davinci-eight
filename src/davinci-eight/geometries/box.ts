@@ -1,7 +1,7 @@
 //
 // box.ts
 //
-/// <reference path="../geometries/Geometry.d.ts" />
+/// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 
@@ -42,7 +42,7 @@ var triangles: number[][] =
   [0, 4, 5]
 ];
 
-var box = function(spec?): Geometry {
+var box = function(spec?): VertexAttributeProvider {
 
   var elements: number[] = [];
 
@@ -50,7 +50,7 @@ var box = function(spec?): Geometry {
   var aVertexColorArray: Float32Array;
   var aVertexNormalArray: Float32Array;
 
-  var publicAPI: Geometry = {
+  var publicAPI: VertexAttributeProvider = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },

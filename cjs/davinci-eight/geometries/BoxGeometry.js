@@ -1,3 +1,4 @@
+/// <reference path='../geometries/VertexAttributeProvider.d.ts'/>
 var cuboid = require('../geometries/cuboid');
 var BoxGeometry = (function () {
     function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments) {
