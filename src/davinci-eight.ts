@@ -20,6 +20,7 @@ import ellipsoid = require('davinci-eight/geometries/ellipsoid');
 import prism = require('davinci-eight/geometries/prism');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
+import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import pointsMaterial = require('davinci-eight/materials/pointsMaterial');
 import shaderMaterial = require('davinci-eight/materials/shaderMaterial');
@@ -51,6 +52,7 @@ var eight = {
     prism: prism,
     CurveGeometry: CurveGeometry,
     LatticeGeometry: LatticeGeometry,
+    get BoxGeometry() { return BoxGeometry; },
     RGBGeometry: RGBGeometry,
     ShaderAttributeVariable: ShaderAttributeVariable,
     get pointsMaterial() {

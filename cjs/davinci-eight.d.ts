@@ -4,6 +4,7 @@ import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
 import Mesh = require('davinci-eight/objects/Mesh');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
+import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVariable');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -55,6 +56,7 @@ declare var eight: {
     prism: (spec?: any) => Geometry;
     CurveGeometry: typeof CurveGeometry;
     LatticeGeometry: typeof LatticeGeometry;
+    BoxGeometry: typeof BoxGeometry;
     RGBGeometry: typeof RGBGeometry;
     ShaderAttributeVariable: typeof ShaderAttributeVariable;
     pointsMaterial: () => Material;

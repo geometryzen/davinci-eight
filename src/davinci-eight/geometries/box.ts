@@ -4,7 +4,6 @@
 /// <reference path="../geometries/Geometry.d.ts" />
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import PrimitiveMode = require('davinci-eight/core/PrimitiveMode');
 
 var vertexList: blade.Euclidean3[] =
 [

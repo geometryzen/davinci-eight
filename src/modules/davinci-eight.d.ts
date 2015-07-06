@@ -12,7 +12,7 @@ declare module EIGHT
     useProgram(context: WebGLRenderingContext);
     draw(context: WebGLRenderingContext, time: number);
   }
-  interface RenderingContextUser {
+  class RenderingContextUser {
     /**
      * Notify that Scene is no longer required and request to free, dispose or delete any WebGL resources acquired and owned by the Scene.
      * The Scene will broadcast this to all Drawable(s) it knows about through add().
@@ -124,17 +124,15 @@ declare module EIGHT
   }
   class Matrix3 {
     public elements: number[];
-    constructor() {
-    }
+    constructor();
     identity(): void;
     normalFromMatrix4(matrix: Matrix4): void;
   }
   class Matrix4 {
     public elements: number[];
-    constructor() {
-    }
+    constructor();
     identity(): void;
-    mul(matrix: Matrix): void;
+    mul(matrix: Matrix4): void;
     translate(position: { x: number, y: number, z: number }): void;
     rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
   }
@@ -156,20 +154,18 @@ declare module EIGHT
    */
   class Camera implements UniformProvider {
     public projectionMatrix: Matrix4;
-    constructor() {
-    }
+    constructor();
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
     static getUniformMetaInfo(): UniformMetaInfo;
   }
   class PerspectiveCamera extends Camera implements UniformProvider {
-    constructor(fov: number, aspect: number, near: number, far: number) {
-    }
+    constructor(fov: number, aspect: number, near: number, far: number);
   }
   /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
    */
-  interface Geometry
+  class Geometry
   {
     draw(context: WebGLRenderingContext): void;
     /**
@@ -198,25 +194,28 @@ declare module EIGHT
      */
     update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
   }
-  class CurveGeometry implements Geometry {
+  class CurveGeometry extends Geometry {
     constructor(
       n: number,
       generator: (i: number, time: number) => {x: number; y: number; z: number});
   }
-  class LatticeGeometry implements Geometry {
+  class LatticeGeometry extends Geometry {
     constructor(
       I: number,
       J: number,
       K: number,
       generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
   }
-  class RGBGeometry implements Geometry {
+  class BoxGeometry extends Geometry {
+    constructor(width: number, height: number, depth: number);
+  }
+  class RGBGeometry extends Geometry {
     constructor();
   }
   /**
    * A vertex shader and a fragment shader combined into a program.
    */
-  interface Material extends RenderingContextUser
+  class Material extends RenderingContextUser
   {
     attributes: {modifiers: string[], type: string, name: string}[];
     uniforms: {modifiers: string[], type: string, name: string}[];
@@ -329,11 +328,10 @@ declare module EIGHT
    */
   function mesh<G extends Geometry, M extends Material>(geometry: G, material: M, meshUniforms?: UniformProvider): FactoredDrawable<G, M>;
   class Mesh<G extends Geometry, M extends Material> extends FactoredDrawable<G,M> {
-    constructor(geometry: G, material: M) {
-    }
+    constructor(geometry: G, material: M);
     static getUniformMetaInfo(): UniformMetaInfo;
   }
-  class MeshBasicMaterial implements Material {
+  class MeshBasicMaterial extends Material {
     
   }
   /**
