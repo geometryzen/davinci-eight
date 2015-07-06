@@ -8,7 +8,8 @@ import Camera = require('davinci-eight/cameras/Camera');
 import perspectiveCamera = require('davinci-eight/cameras/perspectiveCamera');
 import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
 import scene = require('davinci-eight/scenes/scene');
-import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
+import renderer = require('davinci-eight/renderers/renderer');
+import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import mesh = require('davinci-eight/objects/mesh');
 import Mesh = require('davinci-eight/objects/Mesh');
 import webGLContextMonitor = require('davinci-eight/utils/webGLContextMonitor');
@@ -35,9 +36,10 @@ var eight = {
     perspective: perspectiveCamera,
     get Camera() { return Camera; },
     get PerspectiveCamera() { return PerspectiveCamera; },
+    get WebGLRenderer() { return WebGLRenderer; },
     scene: scene,
     object3D: object3D,
-    renderer: webGLRenderer,
+    renderer: renderer,
     contextMonitor: webGLContextMonitor,
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,

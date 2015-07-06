@@ -6,9 +6,9 @@ interface RenderingContextUser {
   /**
    * Called to inform the dependent of a new WebGLRenderingContext.
    * @param gl
-   * @param contextGainId
+   * @param contextId
    */
-  contextGain(context: WebGLRenderingContext, contextGainId: string): void
+  contextGain(context: WebGLRenderingContext, contextId: string): void
   /**
    * Called to inform the dependent of a loss of WebGLRenderingContext.
    * The dependent must assume that any cached context is invalid.

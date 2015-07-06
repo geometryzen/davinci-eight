@@ -1,6 +1,7 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import Camera = require('davinci-eight/cameras/Camera');
 import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
+import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import Mesh = require('davinci-eight/objects/Mesh');
 import CurveGeometry = require('davinci-eight/geometries/CurveGeometry');
 import LatticeGeometry = require('davinci-eight/geometries/LatticeGeometry');
@@ -20,6 +21,7 @@ declare var eight: {
     };
     Camera: typeof Camera;
     PerspectiveCamera: typeof PerspectiveCamera;
+    WebGLRenderer: typeof WebGLRenderer;
     scene: () => Scene;
     object3D: () => Object3D;
     renderer: (parameters?: RendererParameters) => Renderer;

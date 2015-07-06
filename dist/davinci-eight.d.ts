@@ -256,15 +256,18 @@ declare module EIGHT
      */
     stop(): void;
   }
-  interface Renderer
+  class Renderer
   {
-    canvas: HTMLCanvasElement;
+    domElement: HTMLCanvasElement;
     context: WebGLRenderingContext;
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
     contextLoss(): void;
     render(scene: Scene, ambientUniforms: UniformProvider): void;
     setSize(width: number, height: number): void;
+  }
+  class WebGLRenderer extends Renderer {
+
   }
   interface RendererParameters {
     alpha?: boolean;

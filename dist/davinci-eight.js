@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.8.0'
+        VERSION: '2.9.0'
     };
     return core;
 });
@@ -2520,7 +2520,7 @@ define('davinci-eight/scenes/scene',["require", "exports", 'davinci-eight/core/o
     return scene;
 });
 
-define('davinci-eight/renderers/webGLRenderer',["require", "exports"], function (require, exports) {
+define('davinci-eight/renderers/renderer',["require", "exports"], function (require, exports) {
     var FrameworkDrawContext = (function () {
         function FrameworkDrawContext() {
             this.startTime = Date.now();
@@ -2572,7 +2572,7 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports"], function 
             }
         }
         var publicAPI = {
-            get canvas() { return canvas; },
+            get domElement() { return canvas; },
             get context() { return context; },
             contextFree: function () {
                 context = void 0;
@@ -2640,6 +2640,41 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports"], function 
         return publicAPI;
     };
     return renderer;
+});
+
+define('davinci-eight/renderers/WebGLRenderer',["require", "exports", '../renderers/renderer'], function (require, exports, renderer) {
+    var WebGLRenderer = (function () {
+        function WebGLRenderer() {
+            this.renderer = renderer();
+        }
+        WebGLRenderer.prototype.render = function (scene, ambientUniforms) {
+            return this.renderer.render(scene, ambientUniforms);
+        };
+        WebGLRenderer.prototype.contextFree = function (context) {
+            return this.renderer.contextFree(context);
+        };
+        WebGLRenderer.prototype.contextGain = function (context, contextId) {
+            return this.renderer.contextGain(context, contextId);
+        };
+        WebGLRenderer.prototype.contextLoss = function () {
+            return this.renderer.contextLoss();
+        };
+        WebGLRenderer.prototype.hasContext = function () {
+            return this.renderer.hasContext();
+        };
+        WebGLRenderer.prototype.setSize = function (width, height) {
+            return this.renderer.setSize(width, height);
+        };
+        Object.defineProperty(WebGLRenderer.prototype, "domElement", {
+            get: function () {
+                return this.renderer.domElement;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return WebGLRenderer;
+    })();
+    return WebGLRenderer;
 });
 
 define('davinci-eight/objects/ShaderAttributeVariable',["require", "exports"], function (require, exports) {
@@ -6862,15 +6897,16 @@ define('davinci-eight/materials/MeshBasicMaterial',["require", "exports", '../ca
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, scene, webGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/scenes/scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, BoxGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
         get Camera() { return Camera; },
         get PerspectiveCamera() { return PerspectiveCamera; },
+        get WebGLRenderer() { return WebGLRenderer; },
         scene: scene,
         object3D: object3D,
-        renderer: webGLRenderer,
+        renderer: renderer,
         contextMonitor: webGLContextMonitor,
         workbench: workbench3D,
         animationRunner: windowAnimationRunner,

@@ -49,7 +49,7 @@ var renderer = function (parameters) {
         }
     }
     var publicAPI = {
-        get canvas() { return canvas; },
+        get domElement() { return canvas; },
         get context() { return context; },
         contextFree: function () {
             context = void 0;

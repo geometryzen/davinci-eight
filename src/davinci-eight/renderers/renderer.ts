@@ -66,7 +66,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
     }
 
     var publicAPI: Renderer = {
-      get canvas() { return canvas; },
+      get domElement() { return canvas; },
       get context(): WebGLRenderingContext { return context;},
       contextFree: function() {
         context = void 0;
