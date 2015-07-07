@@ -477,6 +477,9 @@ class Vector3 {
      */
     phiLength: number;
   }
+  class ArrowGeometry extends Geometry {
+    constructor();
+  }
   /**
    * Constructs and returns an ellipsoid geometry.
    */
