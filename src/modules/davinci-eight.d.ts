@@ -480,6 +480,9 @@ class Vector3 {
   class ArrowGeometry extends Geometry {
     constructor();
   }
+  class VortexGeometry extends Geometry {
+    constructor();
+  }
   /**
    * Constructs and returns an ellipsoid geometry.
    */

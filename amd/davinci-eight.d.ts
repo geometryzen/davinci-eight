@@ -12,6 +12,7 @@ import GeometryVertexAttributeProvider = require('davinci-eight/geometries/Geome
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
+import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVariable');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -80,6 +81,7 @@ declare var eight: {
     BoxGeometry: typeof BoxGeometry;
     RevolutionGeometry: typeof RevolutionGeometry;
     ArrowGeometry: typeof ArrowGeometry;
+    VortexGeometry: typeof VortexGeometry;
     Mesh: typeof Mesh;
     MeshBasicMaterial: typeof MeshBasicMaterial;
     MeshNormalMaterial: typeof MeshNormalMaterial;

@@ -28,6 +28,7 @@ import GeometryVertexAttributeProvider = require('davinci-eight/geometries/Geome
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
+import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import pointsMaterial = require('davinci-eight/materials/pointsMaterial');
 import shaderMaterial = require('davinci-eight/materials/shaderMaterial');
@@ -82,6 +83,7 @@ var eight = {
     get BoxGeometry() { return BoxGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
     get ArrowGeometry() { return ArrowGeometry; },
+    get VortexGeometry() { return VortexGeometry; },
     get Mesh() { return Mesh; },
     get MeshBasicMaterial() { return MeshBasicMaterial; },
     get MeshNormalMaterial() { return MeshNormalMaterial; },

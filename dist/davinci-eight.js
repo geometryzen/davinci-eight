@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.12.0'
+        VERSION: '2.13.0'
     };
     return core;
 });
@@ -4653,9 +4653,210 @@ define('davinci-eight/math/Quaternion',["require", "exports"], function (require
 define('davinci-eight/math/Vector2',["require", "exports"], function (require, exports) {
     var Vector2 = (function () {
         function Vector2(x, y) {
+            this.x = x || 0;
+            this.y = y || 0;
+        }
+        Vector2.prototype.set = function (x, y) {
             this.x = x;
             this.y = y;
-        }
+            return this;
+        };
+        Vector2.prototype.setX = function (x) {
+            this.x = x;
+            return this;
+        };
+        Vector2.prototype.setY = function (y) {
+            this.y = y;
+            return this;
+        };
+        Vector2.prototype.setComponent = function (index, value) {
+            switch (index) {
+                case 0:
+                    this.x = value;
+                    break;
+                case 1:
+                    this.y = value;
+                    break;
+                default: throw new Error('index is out of range: ' + index);
+            }
+        };
+        Vector2.prototype.getComponent = function (index) {
+            switch (index) {
+                case 0: return this.x;
+                case 1: return this.y;
+                default: throw new Error('index is out of range: ' + index);
+            }
+        };
+        Vector2.prototype.copy = function (v) {
+            this.x = v.x;
+            this.y = v.y;
+            return this;
+        };
+        Vector2.prototype.add = function (v) {
+            this.x += v.x;
+            this.y += v.y;
+            return this;
+        };
+        Vector2.prototype.addScalar = function (s) {
+            this.x += s;
+            this.y += s;
+            return this;
+        };
+        Vector2.prototype.addVectors = function (a, b) {
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            return this;
+        };
+        Vector2.prototype.sub = function (v) {
+            this.x -= v.x;
+            this.y -= v.y;
+            return this;
+        };
+        Vector2.prototype.subScalar = function (s) {
+            this.x -= s;
+            this.y -= s;
+            return this;
+        };
+        Vector2.prototype.subVectors = function (a, b) {
+            this.x = a.x - b.x;
+            this.y = a.y - b.y;
+            return this;
+        };
+        Vector2.prototype.multiply = function (v) {
+            this.x *= v.x;
+            this.y *= v.y;
+            return this;
+        };
+        Vector2.prototype.multiplyScalar = function (s) {
+            this.x *= s;
+            this.y *= s;
+            return this;
+        };
+        Vector2.prototype.divide = function (v) {
+            this.x /= v.x;
+            this.y /= v.y;
+            return this;
+        };
+        Vector2.prototype.divideScalar = function (scalar) {
+            if (scalar !== 0) {
+                var invScalar = 1 / scalar;
+                this.x *= invScalar;
+                this.y *= invScalar;
+            }
+            else {
+                this.x = 0;
+                this.y = 0;
+            }
+            return this;
+        };
+        Vector2.prototype.min = function (v) {
+            if (this.x > v.x) {
+                this.x = v.x;
+            }
+            if (this.y > v.y) {
+                this.y = v.y;
+            }
+            return this;
+        };
+        Vector2.prototype.max = function (v) {
+            if (this.x < v.x) {
+                this.x = v.x;
+            }
+            if (this.y < v.y) {
+                this.y = v.y;
+            }
+            return this;
+        };
+        Vector2.prototype.floor = function () {
+            this.x = Math.floor(this.x);
+            this.y = Math.floor(this.y);
+            return this;
+        };
+        Vector2.prototype.ceil = function () {
+            this.x = Math.ceil(this.x);
+            this.y = Math.ceil(this.y);
+            return this;
+        };
+        Vector2.prototype.round = function () {
+            this.x = Math.round(this.x);
+            this.y = Math.round(this.y);
+            return this;
+        };
+        Vector2.prototype.roundToZero = function () {
+            this.x = (this.x < 0) ? Math.ceil(this.x) : Math.floor(this.x);
+            this.y = (this.y < 0) ? Math.ceil(this.y) : Math.floor(this.y);
+            return this;
+        };
+        Vector2.prototype.negate = function () {
+            this.x = -this.x;
+            this.y = -this.y;
+            return this;
+        };
+        Vector2.prototype.dot = function (v) {
+            return this.x * v.x + this.y * v.y;
+        };
+        Vector2.prototype.lengthSq = function () {
+            return this.x * this.x + this.y * this.y;
+        };
+        Vector2.prototype.length = function () {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        };
+        Vector2.prototype.normalize = function () {
+            return this.divideScalar(this.length());
+        };
+        Vector2.prototype.distanceTo = function (v) {
+            return Math.sqrt(this.distanceToSquared(v));
+        };
+        Vector2.prototype.distanceToSquared = function (v) {
+            var dx = this.x - v.x, dy = this.y - v.y;
+            return dx * dx + dy * dy;
+        };
+        Vector2.prototype.setLength = function (l) {
+            var oldLength = this.length();
+            if (oldLength !== 0 && l !== oldLength) {
+                this.multiplyScalar(l / oldLength);
+            }
+            return this;
+        };
+        Vector2.prototype.lerp = function (v, alpha) {
+            this.x += (v.x - this.x) * alpha;
+            this.y += (v.y - this.y) * alpha;
+            return this;
+        };
+        Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
+            this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
+            return this;
+        };
+        Vector2.prototype.equals = function (v) {
+            return ((v.x === this.x) && (v.y === this.y));
+        };
+        Vector2.prototype.fromArray = function (array, offset) {
+            if (offset === undefined)
+                offset = 0;
+            this.x = array[offset];
+            this.y = array[offset + 1];
+            return this;
+        };
+        Vector2.prototype.toArray = function (array, offset) {
+            if (array === undefined)
+                array = [];
+            if (offset === undefined)
+                offset = 0;
+            array[offset] = this.x;
+            array[offset + 1] = this.y;
+            return array;
+        };
+        Vector2.prototype.fromAttribute = function (attribute, index, offset) {
+            if (offset === undefined)
+                offset = 0;
+            index = index * attribute.itemSize + offset;
+            this.x = attribute.array[index];
+            this.y = attribute.array[index + 1];
+            return this;
+        };
+        Vector2.prototype.clone = function () {
+            return new Vector2(this.x, this.y);
+        };
         return Vector2;
     })();
     return Vector2;
@@ -4817,6 +5018,104 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../math/
         return ArrowGeometry;
     })(RevolutionGeometry);
     return ArrowGeometry;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
+    var VortexGeometry = (function (_super) {
+        __extends(VortexGeometry, _super);
+        function VortexGeometry(radius, radiusCone, radiusShaft, lengthCone, lengthShaft, arrowSegments, radialSegments) {
+            _super.call(this);
+            var scope = this;
+            var n = 9;
+            radius = radius || 1;
+            radiusCone = radiusCone || 0.08;
+            radiusShaft = radiusShaft || 0.01;
+            lengthCone = lengthCone || 0.2;
+            lengthShaft = lengthShaft || 0.8;
+            arrowSegments = arrowSegments || 8;
+            var circleSegments = arrowSegments * n;
+            radialSegments = radialSegments || 12;
+            var twoPI = Math.PI * 2;
+            var R = radius;
+            var center = new Vector3();
+            var uvs = [];
+            var normals = [];
+            var alpha = lengthShaft / (lengthCone + lengthShaft);
+            var factor = twoPI / arrowSegments;
+            var theta = alpha / (n - 2);
+            function computeAngle(circleSegments, i) {
+                var m = i % n;
+                if (m === n - 1) {
+                    return computeAngle(circleSegments, i - 1);
+                }
+                else {
+                    var a = (i - m) / n;
+                    return factor * (a + m * theta);
+                }
+            }
+            function computeRadius(i) {
+                var m = i % n;
+                if (m === n - 1) {
+                    return radiusCone;
+                }
+                else {
+                    return radiusShaft;
+                }
+            }
+            for (var j = 0; j <= radialSegments; j++) {
+                // v is the angle inside the vortex tube.
+                var v = twoPI * j / radialSegments;
+                var cosV = Math.cos(v);
+                var sinV = Math.sin(v);
+                for (var i = 0; i <= circleSegments; i++) {
+                    // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
+                    var u = computeAngle(circleSegments, i);
+                    var cosU = Math.cos(u);
+                    var sinU = Math.sin(u);
+                    center.x = R * cosU;
+                    center.y = R * sinU;
+                    var vertex = new Vector3();
+                    var r = computeRadius(i);
+                    vertex.x = (R + r * cosV) * cosU;
+                    vertex.y = (R + r * cosV) * sinU;
+                    vertex.z = r * sinV;
+                    this['vertices'].push(vertex);
+                    uvs.push(new Vector2(i / circleSegments, j / radialSegments));
+                    normals.push(vertex.clone().sub(center).normalize());
+                }
+            }
+            for (var j = 1; j <= radialSegments; j++) {
+                for (var i = 1; i <= circleSegments; i++) {
+                    var a = (circleSegments + 1) * j + i - 1;
+                    var b = (circleSegments + 1) * (j - 1) + i - 1;
+                    var c = (circleSegments + 1) * (j - 1) + i;
+                    var d = (circleSegments + 1) * j + i;
+                    var face = new Face3(a, b, d, [normals[a], normals[b], normals[d]]);
+                    face.normal.add(normals[a]);
+                    face.normal.add(normals[b]);
+                    face.normal.add(normals[d]);
+                    face.normal.normalize();
+                    this.faces.push(face);
+                    this.faceVertexUvs[0].push([uvs[a].clone(), uvs[b].clone(), uvs[d].clone()]);
+                    face = new Face3(b, c, d, [normals[b], normals[c], normals[d]]);
+                    face.normal.add(normals[b]);
+                    face.normal.add(normals[c]);
+                    face.normal.add(normals[d]);
+                    face.normal.normalize();
+                    this.faces.push(face);
+                    this.faceVertexUvs[0].push([uvs[b].clone(), uvs[c].clone(), uvs[d].clone()]);
+                }
+            }
+        }
+        return VortexGeometry;
+    })(Geometry);
+    return VortexGeometry;
 });
 
 /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
@@ -7524,7 +7823,7 @@ define('davinci-eight/materials/MeshNormalMaterial',["require", "exports", '../c
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, RevolutionGeometry, ArrowGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, RevolutionGeometry, ArrowGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -7565,6 +7864,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get BoxGeometry() { return BoxGeometry; },
         get RevolutionGeometry() { return RevolutionGeometry; },
         get ArrowGeometry() { return ArrowGeometry; },
+        get VortexGeometry() { return VortexGeometry; },
         get Mesh() { return Mesh; },
         get MeshBasicMaterial() { return MeshBasicMaterial; },
         get MeshNormalMaterial() { return MeshNormalMaterial; },
