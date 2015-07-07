@@ -83,6 +83,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.8.0:  2015-07-05 BoxGeometry
 * 2.9.0:  2015-07-05 WebGLRenderer
 * 2.10.0: 2015-07-05 Quaternion
+* 2.11.0: 2015-07-06 Geometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

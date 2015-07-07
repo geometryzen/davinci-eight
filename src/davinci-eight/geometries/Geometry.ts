@@ -6,6 +6,7 @@ class Geometry {
   public verticesNeedUpdate = true;
   public faces: Face3[] = [];
   public elementsNeedUpdate = true;
+  public dynamic = true;
   constructor() {
 
   }

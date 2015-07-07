@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.10.0",
+        "version": "2.11.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -20,6 +20,13 @@
             "classes": {
                 "camera": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js": {
+            "name": "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -127,6 +134,12 @@
             "file": "amd/davinci-eight/cameras/PerspectiveCamera.js",
             "line": 8,
             "class": "camera"
+        },
+        {
+            "file": "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js",
+            "line": 2,
+            "description": "This class acts as an adapter from a Geometry to a VertexAttributeProvider.",
+            "class": ""
         },
         {
             "file": "amd/davinci-eight/geometries/prism.js",
@@ -319,6 +332,10 @@
         {
             "message": "Missing item type",
             "line": " amd/davinci-eight/cameras/PerspectiveCamera.js:8"
+        },
+        {
+            "message": "Missing item type\nThis class acts as an adapter from a Geometry to a VertexAttributeProvider.",
+            "line": " amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js:2"
         },
         {
             "message": "Missing item type\nConstructs and returns a Prism geometry object.",

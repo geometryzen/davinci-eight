@@ -5,6 +5,7 @@ define(["require", "exports"], function (require, exports) {
             this.verticesNeedUpdate = true;
             this.faces = [];
             this.elementsNeedUpdate = true;
+            this.dynamic = true;
         }
         Geometry.prototype.computeBoundingSphere = function () {
         };

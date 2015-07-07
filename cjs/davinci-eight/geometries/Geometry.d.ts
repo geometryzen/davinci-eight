@@ -5,6 +5,7 @@ declare class Geometry {
     verticesNeedUpdate: boolean;
     faces: Face3[];
     elementsNeedUpdate: boolean;
+    dynamic: boolean;
     constructor();
     computeBoundingSphere(): void;
 }

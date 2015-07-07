@@ -4,6 +4,7 @@ var Geometry = (function () {
         this.verticesNeedUpdate = true;
         this.faces = [];
         this.elementsNeedUpdate = true;
+        this.dynamic = true;
     }
     Geometry.prototype.computeBoundingSphere = function () {
     };
