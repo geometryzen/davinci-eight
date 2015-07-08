@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "TypeScript 3D library using Geometric Algebra",
-        "version": "2.15.0",
+        "version": "2.16.0",
         "url": "",
         "logo": "../assets/logo.png"
     },

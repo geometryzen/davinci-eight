@@ -506,6 +506,16 @@ class Vector3 {
   class OctahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
   }
+  class SphereGeometry extends Geometry {
+    constructor(
+      radius?: number,
+      widthSegments?: number,
+      heightSegments?: number,
+      phiStart?: number,
+      phiLength?: number,
+      thetaStart?: number,
+      thetaLength?: number);
+  }
   class TetrahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
   }

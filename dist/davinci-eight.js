@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.15.0'
+        VERSION: '2.16.0'
     };
     return core;
 });
@@ -5477,6 +5477,85 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Sphere, Vector2, Vector3) {
+    var SphereGeometry = (function (_super) {
+        __extends(SphereGeometry, _super);
+        function SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength) {
+            _super.call(this);
+            radius = radius || 1;
+            widthSegments = Math.max(3, Math.floor(widthSegments) || 16);
+            heightSegments = Math.max(2, Math.floor(heightSegments) || 12);
+            phiStart = phiStart !== undefined ? phiStart : 0;
+            phiLength = phiLength !== undefined ? phiLength : Math.PI * 2;
+            thetaStart = thetaStart !== undefined ? thetaStart : 0;
+            thetaLength = thetaLength !== undefined ? thetaLength : Math.PI;
+            var x;
+            var y;
+            var vertices = [];
+            var uvs = [];
+            for (y = 0; y <= heightSegments; y++) {
+                var verticesRow = [];
+                var uvsRow = [];
+                for (x = 0; x <= widthSegments; x++) {
+                    var u = x / widthSegments;
+                    var v = y / heightSegments;
+                    var vertex = new Vector3();
+                    vertex.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+                    vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
+                    vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+                    this.vertices.push(vertex);
+                    verticesRow.push(this.vertices.length - 1);
+                    uvsRow.push(new Vector2(u, 1 - v));
+                }
+                vertices.push(verticesRow);
+                uvs.push(uvsRow);
+            }
+            for (y = 0; y < heightSegments; y++) {
+                for (x = 0; x < widthSegments; x++) {
+                    var v1 = vertices[y][x + 1];
+                    var v2 = vertices[y][x];
+                    var v3 = vertices[y + 1][x];
+                    var v4 = vertices[y + 1][x + 1];
+                    var n1 = this.vertices[v1].clone().normalize();
+                    var n2 = this.vertices[v2].clone().normalize();
+                    var n3 = this.vertices[v3].clone().normalize();
+                    var n4 = this.vertices[v4].clone().normalize();
+                    var uv1 = uvs[y][x + 1].clone();
+                    var uv2 = uvs[y][x].clone();
+                    var uv3 = uvs[y + 1][x].clone();
+                    var uv4 = uvs[y + 1][x + 1].clone();
+                    if (Math.abs(this.vertices[v1].y) === radius) {
+                        uv1.x = (uv1.x + uv2.x) / 2;
+                        this.faces.push(new Face3(v1, v3, v4, [n1, n3, n4]));
+                        this.faceVertexUvs[0].push([uv1, uv3, uv4]);
+                    }
+                    else if (Math.abs(this.vertices[v3].y) === radius) {
+                        uv3.x = (uv3.x + uv4.x) / 2;
+                        this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
+                        this.faceVertexUvs[0].push([uv1, uv2, uv3]);
+                    }
+                    else {
+                        this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
+                        this.faceVertexUvs[0].push([uv1, uv2, uv4]);
+                        this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
+                        this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
+                    }
+                }
+            }
+            this.computeFaceNormals();
+            this.boundingSphere = new Sphere(new Vector3(), radius);
+        }
+        return SphereGeometry;
+    })(Geometry);
+    return SphereGeometry;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
     var vertices = [
         1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1
@@ -8297,7 +8376,7 @@ define('davinci-eight/materials/MeshNormalMaterial',["require", "exports", '../c
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, ArrowGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, OctahedronGeometry, PolyhedronGeometry, RevolutionGeometry, TetrahedronGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, ArrowGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, OctahedronGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -8342,6 +8421,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get OctahedronGeometry() { return OctahedronGeometry; },
         get PolyhedronGeometry() { return PolyhedronGeometry; },
         get RevolutionGeometry() { return RevolutionGeometry; },
+        get SphereGeometry() { return SphereGeometry; },
         get TetrahedronGeometry() { return TetrahedronGeometry; },
         get ArrowGeometry() { return ArrowGeometry; },
         get VortexGeometry() { return VortexGeometry; },

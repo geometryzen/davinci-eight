@@ -17,6 +17,7 @@ import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeomet
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
+import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
@@ -91,6 +92,7 @@ declare var eight: {
     OctahedronGeometry: typeof OctahedronGeometry;
     PolyhedronGeometry: typeof PolyhedronGeometry;
     RevolutionGeometry: typeof RevolutionGeometry;
+    SphereGeometry: typeof SphereGeometry;
     TetrahedronGeometry: typeof TetrahedronGeometry;
     ArrowGeometry: typeof ArrowGeometry;
     VortexGeometry: typeof VortexGeometry;

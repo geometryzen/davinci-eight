@@ -30,6 +30,7 @@ var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry'
 var OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
 var PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 var RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
+var SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 var TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 var RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
@@ -88,6 +89,7 @@ var eight = {
     get OctahedronGeometry() { return OctahedronGeometry; },
     get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
+    get SphereGeometry() { return SphereGeometry; },
     get TetrahedronGeometry() { return TetrahedronGeometry; },
     get ArrowGeometry() { return ArrowGeometry; },
     get VortexGeometry() { return VortexGeometry; },
