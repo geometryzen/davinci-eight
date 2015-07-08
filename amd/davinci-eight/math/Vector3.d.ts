@@ -14,7 +14,10 @@ declare class Vector3 {
     cross(v: Vector3): Vector3;
     divideScalar(scalar: number): Vector3;
     length(): number;
+    lerp(v: Vector3, alpha: number): Vector3;
     normalize(): Vector3;
+    multiply(v: Vector3): Vector3;
+    multiplyScalar(scalar: number): Vector3;
     sub(v: Vector3): Vector3;
     subVectors(a: Vector3, b: Vector3): Vector3;
     clone(): Vector3;

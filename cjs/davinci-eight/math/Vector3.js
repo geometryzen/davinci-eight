@@ -64,8 +64,26 @@ var Vector3 = (function () {
         var z = this.z;
         return Math.sqrt(x * x + y * y + z * z);
     };
+    Vector3.prototype.lerp = function (v, alpha) {
+        this.x += (v.x - this.x) * alpha;
+        this.y += (v.y - this.y) * alpha;
+        this.z += (v.z - this.z) * alpha;
+        return this;
+    };
     Vector3.prototype.normalize = function () {
         return this.divideScalar(this.length());
+    };
+    Vector3.prototype.multiply = function (v) {
+        this.x *= v.x;
+        this.y *= v.y;
+        this.z *= v.z;
+        return this;
+    };
+    Vector3.prototype.multiplyScalar = function (scalar) {
+        this.x *= scalar;
+        this.y *= scalar;
+        this.z *= scalar;
+        return this;
     };
     Vector3.prototype.sub = function (v) {
         this.x -= v.x;

@@ -86,6 +86,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.11.0: 2015-07-06 Geometry
 * 2.12.0: 2015-07-07 ArrowGeometry
 * 2.13.0: 2015-07-07 VortexGeometry
+* 2.14.0: 2015-07-07 PolyhedronGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

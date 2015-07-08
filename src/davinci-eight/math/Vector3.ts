@@ -75,8 +75,27 @@ class Vector3 {
     let z = this.z;
     return Math.sqrt(x * x + y * y + z * z);
   }
+  lerp(v: Vector3, alpha: number): Vector3 {
+    this.x += ( v.x - this.x ) * alpha;
+    this.y += ( v.y - this.y ) * alpha;
+    this.z += ( v.z - this.z ) * alpha;
+    return this;
+
+  }
   normalize(): Vector3 {
     return this.divideScalar(this.length());
+  }
+  multiply(v: Vector3): Vector3 {
+    this.x *= v.x;
+    this.y *= v.y;
+    this.z *= v.z;
+    return this;
+  }
+  multiplyScalar(scalar: number): Vector3 {
+    this.x *= scalar;
+    this.y *= scalar;
+    this.z *= scalar;
+    return this;
   }
   sub(v: Vector3): Vector3 {
     this.x -= v.x;

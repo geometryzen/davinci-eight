@@ -26,8 +26,13 @@ import Face3 = require('davinci-eight/core/Face3');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryVertexAttributeProvider = require('davinci-eight/geometries/GeometryVertexAttributeProvider');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
-import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
+import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
+import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
+import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
+import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
+import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import pointsMaterial = require('davinci-eight/materials/pointsMaterial');
@@ -81,7 +86,12 @@ var eight = {
     get Geometry() { return Geometry; },
     get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
     get BoxGeometry() { return BoxGeometry; },
+    get DodecahedronGeometry() { return DodecahedronGeometry; },
+    get IcosahedronGeometry() { return IcosahedronGeometry; },
+    get OctahedronGeometry() { return OctahedronGeometry; },
+    get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
+    get TetrahedronGeometry() { return TetrahedronGeometry; },
     get ArrowGeometry() { return ArrowGeometry; },
     get VortexGeometry() { return VortexGeometry; },
     get Mesh() { return Mesh; },

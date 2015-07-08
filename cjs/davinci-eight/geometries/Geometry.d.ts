@@ -15,5 +15,6 @@ declare class Geometry {
     computeBoundingSphere(): void;
     computeFaceNormals(): void;
     computeVertexNormals(areaWeighted?: boolean): void;
+    mergeVertices(): number;
 }
 export = Geometry;

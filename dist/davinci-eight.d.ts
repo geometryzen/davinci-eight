@@ -483,6 +483,21 @@ class Vector3 {
   class VortexGeometry extends Geometry {
     constructor();
   }
+  class PolyhedronGeometry extends Geometry {
+    constructor(vertices: number[], indices: number[], radius?:  number, detail?: number);
+  }
+  class DodecahedronGeometry extends PolyhedronGeometry {
+    constructor(radius?: number, detail?: number);
+  }
+  class IcosahedronGeometry extends PolyhedronGeometry {
+    constructor(radius?: number, detail?: number);
+  }
+  class OctahedronGeometry extends PolyhedronGeometry {
+    constructor(radius?: number, detail?: number);
+  }
+  class TetrahedronGeometry extends PolyhedronGeometry {
+    constructor(radius?: number, detail?: number);
+  }
   /**
    * Constructs and returns an ellipsoid geometry.
    */
