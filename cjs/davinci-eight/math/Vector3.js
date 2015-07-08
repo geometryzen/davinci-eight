@@ -85,6 +85,24 @@ var Vector3 = (function () {
         this.z *= scalar;
         return this;
     };
+    Vector3.prototype.set = function (x, y, z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
+    };
+    Vector3.prototype.setX = function (x) {
+        this.x = x;
+        return this;
+    };
+    Vector3.prototype.setY = function (y) {
+        this.y = y;
+        return this;
+    };
+    Vector3.prototype.setZ = function (z) {
+        this.z = z;
+        return this;
+    };
     Vector3.prototype.sub = function (v) {
         this.x -= v.x;
         this.y -= v.y;

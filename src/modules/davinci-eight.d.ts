@@ -254,6 +254,17 @@ class Vector3 {
   class BoxGeometry extends VertexAttributeProvider {
     constructor(width: number, height: number, depth: number);
   }
+  class CylinderGeometry extends Geometry {
+    constructor(
+      radiusTop?: number,
+      radiusBottom?: number,
+      height?: number,
+      radialSegments?: number,
+      heightSegments?: number,
+      openEnded?: boolean,
+      thetaStart?: number,
+      thetaLength?: number):
+  }
   class RGBGeometry extends VertexAttributeProvider {
     constructor();
   }

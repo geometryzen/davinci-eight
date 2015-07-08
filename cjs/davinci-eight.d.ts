@@ -11,6 +11,7 @@ import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryVertexAttributeProvider = require('davinci-eight/geometries/GeometryVertexAttributeProvider');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
+import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
@@ -84,6 +85,7 @@ declare var eight: {
     Geometry: typeof Geometry;
     GeometryVertexAttributeProvider: typeof GeometryVertexAttributeProvider;
     BoxGeometry: typeof BoxGeometry;
+    CylinderGeometry: typeof CylinderGeometry;
     DodecahedronGeometry: typeof DodecahedronGeometry;
     IcosahedronGeometry: typeof IcosahedronGeometry;
     OctahedronGeometry: typeof OctahedronGeometry;

@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.14.0'
+        VERSION: '2.15.0'
     };
     return core;
 });
@@ -4484,6 +4484,24 @@ define('davinci-eight/math/Vector3',["require", "exports"], function (require, e
             this.z *= scalar;
             return this;
         };
+        Vector3.prototype.set = function (x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            return this;
+        };
+        Vector3.prototype.setX = function (x) {
+            this.x = x;
+            return this;
+        };
+        Vector3.prototype.setY = function (y) {
+            this.y = y;
+            return this;
+        };
+        Vector3.prototype.setZ = function (z) {
+            this.z = z;
+            return this;
+        };
         Vector3.prototype.sub = function (v) {
             this.x -= v.x;
             this.y -= v.y;
@@ -5093,6 +5111,122 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../math/
         return ArrowGeometry;
     })(RevolutionGeometry);
     return ArrowGeometry;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
+    var CylinderGeometry = (function (_super) {
+        __extends(CylinderGeometry, _super);
+        function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
+            _super.call(this);
+            radiusTop = radiusTop !== undefined ? radiusTop : 1;
+            radiusBottom = radiusBottom !== undefined ? radiusBottom : 1;
+            height = height !== undefined ? height : 1;
+            radialSegments = radialSegments || 16;
+            heightSegments = heightSegments || 1;
+            openEnded = openEnded !== undefined ? openEnded : false;
+            thetaStart = thetaStart !== undefined ? thetaStart : 0;
+            thetaLength = thetaLength !== undefined ? thetaLength : 2 * Math.PI;
+            var heightHalf = height / 2;
+            var x;
+            var y;
+            var vertices = [];
+            var uvs = [];
+            for (y = 0; y <= heightSegments; y++) {
+                var verticesRow = [];
+                var uvsRow = [];
+                var v = y / heightSegments;
+                var radius = v * (radiusBottom - radiusTop) + radiusTop;
+                for (x = 0; x <= radialSegments; x++) {
+                    var u = x / radialSegments;
+                    var vertex = new Vector3();
+                    vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
+                    vertex.y = -v * height + heightHalf;
+                    vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
+                    this.vertices.push(vertex);
+                    verticesRow.push(this.vertices.length - 1);
+                    uvsRow.push(new Vector2(u, 1 - v));
+                }
+                vertices.push(verticesRow);
+                uvs.push(uvsRow);
+            }
+            var tanTheta = (radiusBottom - radiusTop) / height;
+            var na;
+            var nb;
+            for (x = 0; x < radialSegments; x++) {
+                if (radiusTop !== 0) {
+                    na = this.vertices[vertices[0][x]].clone();
+                    nb = this.vertices[vertices[0][x + 1]].clone();
+                }
+                else {
+                    na = this.vertices[vertices[1][x]].clone();
+                    nb = this.vertices[vertices[1][x + 1]].clone();
+                }
+                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
+                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
+                for (y = 0; y < heightSegments; y++) {
+                    var v1 = vertices[y][x];
+                    var v2 = vertices[y + 1][x];
+                    var v3 = vertices[y + 1][x + 1];
+                    var v4 = vertices[y][x + 1];
+                    var n1 = na.clone();
+                    var n2 = na.clone();
+                    var n3 = nb.clone();
+                    var n4 = nb.clone();
+                    var uv1 = uvs[y][x].clone();
+                    var uv2 = uvs[y + 1][x].clone();
+                    var uv3 = uvs[y + 1][x + 1].clone();
+                    var uv4 = uvs[y][x + 1].clone();
+                    this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
+                    this.faceVertexUvs[0].push([uv1, uv2, uv4]);
+                    this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
+                    this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
+                }
+            }
+            // top cap
+            if (openEnded === false && radiusTop > 0) {
+                this.vertices.push(new Vector3(0, heightHalf, 0));
+                for (x = 0; x < radialSegments; x++) {
+                    var v1 = vertices[0][x];
+                    var v2 = vertices[0][x + 1];
+                    var v3 = this.vertices.length - 1;
+                    var n1 = new Vector3(0, 1, 0);
+                    var n2 = new Vector3(0, 1, 0);
+                    var n3 = new Vector3(0, 1, 0);
+                    var uv1 = uvs[0][x].clone();
+                    var uv2 = uvs[0][x + 1].clone();
+                    var uv3 = new Vector2(uv2.x, 0);
+                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
+                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
+                }
+            }
+            // bottom cap
+            if (openEnded === false && radiusBottom > 0) {
+                this.vertices.push(new Vector3(0, -heightHalf, 0));
+                for (x = 0; x < radialSegments; x++) {
+                    var v1 = vertices[heightSegments][x + 1];
+                    var v2 = vertices[heightSegments][x];
+                    var v3 = this.vertices.length - 1;
+                    var n1 = new Vector3(0, -1, 0);
+                    var n2 = new Vector3(0, -1, 0);
+                    var n3 = new Vector3(0, -1, 0);
+                    var uv1 = uvs[heightSegments][x + 1].clone();
+                    var uv2 = uvs[heightSegments][x].clone();
+                    var uv3 = new Vector2(uv2.x, 1);
+                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
+                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
+                }
+            }
+            this.computeFaceNormals();
+        }
+        return CylinderGeometry;
+    })(Geometry);
+    return CylinderGeometry;
 });
 
 var __extends = this.__extends || function (d, b) {
@@ -8163,7 +8297,7 @@ define('davinci-eight/materials/MeshNormalMaterial',["require", "exports", '../c
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, ArrowGeometry, DodecahedronGeometry, IcosahedronGeometry, OctahedronGeometry, PolyhedronGeometry, RevolutionGeometry, TetrahedronGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, ArrowGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, OctahedronGeometry, PolyhedronGeometry, RevolutionGeometry, TetrahedronGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -8202,6 +8336,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get Geometry() { return Geometry; },
         get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
         get BoxGeometry() { return BoxGeometry; },
+        get CylinderGeometry() { return CylinderGeometry; },
         get DodecahedronGeometry() { return DodecahedronGeometry; },
         get IcosahedronGeometry() { return IcosahedronGeometry; },
         get OctahedronGeometry() { return OctahedronGeometry; },

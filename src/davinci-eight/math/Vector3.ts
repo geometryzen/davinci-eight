@@ -97,6 +97,24 @@ class Vector3 {
     this.z *= scalar;
     return this;
   }
+  set(x: number, y: number, z: number): Vector3 {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    return this;
+  }
+  setX(x: number): Vector3 {
+    this.x = x;
+    return this;
+  }
+  setY(y: number): Vector3 {
+    this.y = y;
+    return this;
+  }
+  setZ(z: number): Vector3 {
+    this.z = z;
+    return this;
+  }
   sub(v: Vector3): Vector3 {
     this.x -= v.x;
     this.y -= v.y;

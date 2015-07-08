@@ -18,6 +18,10 @@ declare class Vector3 {
     normalize(): Vector3;
     multiply(v: Vector3): Vector3;
     multiplyScalar(scalar: number): Vector3;
+    set(x: number, y: number, z: number): Vector3;
+    setX(x: number): Vector3;
+    setY(y: number): Vector3;
+    setZ(z: number): Vector3;
     sub(v: Vector3): Vector3;
     subVectors(a: Vector3, b: Vector3): Vector3;
     clone(): Vector3;
