@@ -2779,7 +2779,7 @@ define('davinci-eight/renderers/WebGLRenderer',["require", "exports", '../render
 define('davinci-eight/objects/ShaderAttributeVariable',["require", "exports"], function (require, exports) {
     /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
     function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+        return geometry.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
     function existsLocation(location) {
         return location >= 0;
@@ -2853,7 +2853,7 @@ define('davinci-eight/objects/ShaderAttributeVariable',["require", "exports"], f
 define('davinci-eight/objects/ElementArray',["require", "exports"], function (require, exports) {
     /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
     function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+        return geometry.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
     /**
      * Manages the (optional) WebGLBuffer used to support gl.drawElements().
@@ -3057,7 +3057,9 @@ define('davinci-eight/objects/mesh',["require", "exports", './ShaderAttributeVar
                         vertexAttribute.contextGain(context, material.program);
                     });
                     elements.contextGain(context);
-                    if (!geometry.dynamic()) {
+                    // TODO: This should really be consulting a needsUpdate method.
+                    // We can also put the updates inside the vertexAttribute loop.
+                    if (!geometry.dynamics()) {
                         updateGeometry(context, 0);
                     }
                     // Cache the uniform variable locations.
@@ -3082,7 +3084,8 @@ define('davinci-eight/objects/mesh',["require", "exports", './ShaderAttributeVar
             },
             draw: function (context, time, ambientUniforms) {
                 if (material.hasContext()) {
-                    if (geometry.dynamic()) {
+                    // TODO: This should be a needs update.
+                    if (geometry.dynamics()) {
                         updateGeometry(context, time);
                     }
                     // Update the uniform location values.
@@ -3172,7 +3175,7 @@ define('davinci-eight/geometries/GeometryVertexAttributeProvider',["require", "e
         GeometryVertexAttributeProvider.prototype.draw = function (context) {
             context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
         };
-        GeometryVertexAttributeProvider.prototype.dynamic = function () {
+        GeometryVertexAttributeProvider.prototype.dynamics = function () {
             // TODO: EIGHT.VertexAttributeProvider.dynamic should also be a property.
             return false; //this.geometry.dynamic;
         };
@@ -3574,7 +3577,7 @@ define('davinci-eight/geometries/box',["require", "exports", 'davinci-eight/math
             draw: function (context) {
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
-            dynamic: function () { return false; },
+            dynamics: function () { return false; },
             getAttributeMetaInfos: function () {
                 return {
                     position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
@@ -3754,7 +3757,7 @@ define('davinci-eight/geometries/cuboid',["require", "exports", "davinci-blade/E
             draw: function (context) {
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
-            dynamic: function () { return false; },
+            dynamics: function () { return false; },
             getAttributeMetaInfos: function () {
                 var attribues = {};
                 attribues['position'] = {
@@ -4008,7 +4011,7 @@ define('davinci-eight/geometries/ellipsoid',["require", "exports", "davinci-blad
             draw: function (context) {
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
-            dynamic: function () { return false; },
+            dynamics: function () { return false; },
             getAttributeMetaInfos: function () {
                 return {
                     position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
@@ -4240,7 +4243,7 @@ define('davinci-eight/geometries/prism',["require", "exports", 'davinci-eight/ma
             draw: function (context) {
                 context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
             },
-            dynamic: function () { return false; },
+            dynamics: function () { return false; },
             getAttributeMetaInfos: function () {
                 return {
                     position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
@@ -4293,7 +4296,7 @@ define('davinci-eight/geometries/CurveGeometry',["require", "exports"], function
         CurveGeometry.prototype.draw = function (context) {
             context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
         };
-        CurveGeometry.prototype.dynamic = function () {
+        CurveGeometry.prototype.dynamics = function () {
             return true;
         };
         CurveGeometry.prototype.getAttributeMetaInfos = function () {
@@ -4364,7 +4367,7 @@ define('davinci-eight/geometries/LatticeGeometry',["require", "exports"], functi
         LatticeGeometry.prototype.draw = function (context) {
             context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
         };
-        LatticeGeometry.prototype.dynamic = function () {
+        LatticeGeometry.prototype.dynamics = function () {
             return true;
         };
         LatticeGeometry.prototype.getAttributeMetaInfos = function () {
@@ -4600,6 +4603,9 @@ define('davinci-eight/math/Sphere',["require", "exports", '../math/Vector3'], fu
 });
 
 define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Sphere', '../math/Vector3'], function (require, exports, Sphere, Vector3) {
+    /**
+     * @class Geometry
+     */
     var Geometry = (function () {
         function Geometry() {
             this.vertices = [];
@@ -4756,8 +4762,8 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../geometr
         BoxGeometry.prototype.draw = function (context) {
             return this.cuboid.draw(context);
         };
-        BoxGeometry.prototype.dynamic = function () {
-            return this.cuboid.dynamic();
+        BoxGeometry.prototype.dynamics = function () {
+            return this.cuboid.dynamics();
         };
         BoxGeometry.prototype.hasElements = function () {
             return this.cuboid.hasElements();
@@ -6080,7 +6086,7 @@ define('davinci-eight/geometries/RGBGeometry',["require", "exports"], function (
         RGBGeometry.prototype.draw = function (context) {
             context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
         };
-        RGBGeometry.prototype.dynamic = function () {
+        RGBGeometry.prototype.dynamics = function () {
             return false;
         };
         RGBGeometry.prototype.getAttributeMetaInfos = function () {

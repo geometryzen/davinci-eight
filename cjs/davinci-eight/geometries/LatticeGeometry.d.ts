@@ -15,7 +15,7 @@ declare class LatticeGeometry implements VertexAttributeProvider {
         z: number;
     });
     draw(context: WebGLRenderingContext): void;
-    dynamic(): boolean;
+    dynamics(): boolean;
     getAttributeMetaInfos(): AttributeMetaInfos;
     hasElements(): boolean;
     getElements(): Uint16Array;

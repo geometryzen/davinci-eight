@@ -2,6 +2,9 @@ import Face3 = require('../core/Face3');
 import Sphere = require('../math/Sphere');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
+/**
+ * @class Geometry
+ */
 declare class Geometry {
     vertices: Vector3[];
     faces: Face3[];

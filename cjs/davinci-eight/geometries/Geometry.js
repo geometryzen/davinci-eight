@@ -1,5 +1,8 @@
 var Sphere = require('../math/Sphere');
 var Vector3 = require('../math/Vector3');
+/**
+ * @class Geometry
+ */
 var Geometry = (function () {
     function Geometry() {
         this.vertices = [];

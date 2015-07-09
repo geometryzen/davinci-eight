@@ -18,7 +18,7 @@ class GeometryVertexAttributeProvider<G extends Geometry> implements VertexAttri
   draw(context: WebGLRenderingContext): void {
     context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
   }
-  dynamic(): boolean {
+  dynamics(): boolean {
     // TODO: EIGHT.VertexAttributeProvider.dynamic should also be a property.
       return false;//this.geometry.dynamic;
   }

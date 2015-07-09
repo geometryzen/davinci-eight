@@ -45,7 +45,7 @@ var box = function (spec) {
         draw: function (context) {
             context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
         },
-        dynamic: function () { return false; },
+        dynamics: function () { return false; },
         getAttributeMetaInfos: function () {
             return {
                 position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },

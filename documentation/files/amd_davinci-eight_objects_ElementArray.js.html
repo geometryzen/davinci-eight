@@ -39,6 +39,7 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -82,7 +83,7 @@
 define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
     /// &lt;reference path=&quot;../geometries/VertexAttributeProvider.d.ts&quot; /&gt;
     function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+        return geometry.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
     }
     /**
      * Manages the (optional) WebGLBuffer used to support gl.drawElements().

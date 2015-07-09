@@ -92,7 +92,9 @@ var mesh = function (geometry, material, meshUniforms) {
                     vertexAttribute.contextGain(context, material.program);
                 });
                 elements.contextGain(context);
-                if (!geometry.dynamic()) {
+                // TODO: This should really be consulting a needsUpdate method.
+                // We can also put the updates inside the vertexAttribute loop.
+                if (!geometry.dynamics()) {
                     updateGeometry(context, 0);
                 }
                 // Cache the uniform variable locations.
@@ -117,7 +119,8 @@ var mesh = function (geometry, material, meshUniforms) {
         },
         draw: function (context, time, ambientUniforms) {
             if (material.hasContext()) {
-                if (geometry.dynamic()) {
+                // TODO: This should be a needs update.
+                if (geometry.dynamics()) {
                     updateGeometry(context, time);
                 }
                 // Update the uniform location values.

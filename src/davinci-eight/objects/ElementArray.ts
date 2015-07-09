@@ -1,6 +1,6 @@
 /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 function computeUsage(geometry: VertexAttributeProvider, context: WebGLRenderingContext): number {
-  return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+  return geometry.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
 }
 
 /**

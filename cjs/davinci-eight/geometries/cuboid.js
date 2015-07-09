@@ -78,7 +78,7 @@ var cuboid = function (spec) {
         draw: function (context) {
             context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
         },
-        dynamic: function () { return false; },
+        dynamics: function () { return false; },
         getAttributeMetaInfos: function () {
             var attribues = {};
             attribues['position'] = {

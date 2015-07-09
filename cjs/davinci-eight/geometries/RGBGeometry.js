@@ -5,7 +5,7 @@ var RGBGeometry = (function () {
     RGBGeometry.prototype.draw = function (context) {
         context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
     };
-    RGBGeometry.prototype.dynamic = function () {
+    RGBGeometry.prototype.dynamics = function () {
         return false;
     };
     RGBGeometry.prototype.getAttributeMetaInfos = function () {

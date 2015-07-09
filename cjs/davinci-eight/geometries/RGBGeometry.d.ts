@@ -5,7 +5,7 @@ declare class RGBGeometry implements VertexAttributeProvider {
     private vertexColors;
     constructor();
     draw(context: WebGLRenderingContext): void;
-    dynamic(): boolean;
+    dynamics(): boolean;
     getAttributeMetaInfos(): AttributeMetaInfos;
     hasElements(): boolean;
     getElements(): Uint16Array;

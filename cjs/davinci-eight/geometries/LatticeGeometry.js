@@ -19,7 +19,7 @@ var LatticeGeometry = (function () {
     LatticeGeometry.prototype.draw = function (context) {
         context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
     };
-    LatticeGeometry.prototype.dynamic = function () {
+    LatticeGeometry.prototype.dynamics = function () {
         return true;
     };
     LatticeGeometry.prototype.getAttributeMetaInfos = function () {

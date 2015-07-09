@@ -111,7 +111,7 @@ var cuboid = function(
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
-    dynamic(): boolean {return false;},
+    dynamics(): boolean {return false;},
     getAttributeMetaInfos(): AttributeMetaInfos {
       var attribues: AttributeMetaInfos = {};
       attribues['position'] = {

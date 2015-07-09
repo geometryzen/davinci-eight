@@ -17,8 +17,8 @@ class BoxGeometry implements VertexAttributeProvider {
   draw(context: WebGLRenderingContext) {
     return this.cuboid.draw(context);
   }
-  dynamic() {
-    return this.cuboid.dynamic();
+  dynamics() {
+    return this.cuboid.dynamics();
   }
   hasElements() {
     return this.cuboid.hasElements();

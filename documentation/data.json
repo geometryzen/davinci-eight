@@ -30,6 +30,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "amd/davinci-eight/geometries/Geometry.js": {
+            "name": "amd/davinci-eight/geometries/Geometry.js",
+            "modules": {},
+            "classes": {
+                "Geometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js": {
             "name": "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js",
             "modules": {},
@@ -155,6 +164,17 @@
             "extension_for": [],
             "file": "amd/davinci-eight/cameras/camera.js",
             "line": 2
+        },
+        "Geometry": {
+            "name": "Geometry",
+            "shortname": "Geometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "amd/davinci-eight/geometries/Geometry.js",
+            "line": 2
         }
     },
     "classitems": [
@@ -167,31 +187,31 @@
             "file": "amd/davinci-eight/curves/Curve.js",
             "line": 2,
             "author": "zz85 / http://www.lab4games.net/zz85/blog\nExtensible curve object\n\nSome common of Curve methods\n.getPoint(t), getTangent(t)\n.getPointAt(u), getTagentAt(u)\n.getPoints(), .getSpacedPoints()\n.getLength()\n.updateArcLengths()\n\nThis following classes subclasses Curve:\n\nLineCurve\nQuadraticBezierCurve\nCubicBezierCurve\nSplineCurve\nArcCurve\nEllipseCurve\nClosedSplineCurve",
-            "class": ""
+            "class": "Geometry"
         },
         {
             "file": "amd/davinci-eight/curves/Curve.js",
             "line": 27,
             "description": "Virtual base class method to overwrite and implement in subclasses\nt belongs to [0, 1]",
-            "class": ""
+            "class": "Geometry"
         },
         {
             "file": "amd/davinci-eight/curves/Curve.js",
             "line": 34,
             "description": "Get point at relative position in curve according to arc length",
-            "class": ""
+            "class": "Geometry"
         },
         {
             "file": "amd/davinci-eight/curves/Curve.js",
             "line": 96,
             "description": "Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance",
-            "class": ""
+            "class": "Geometry"
         },
         {
             "file": "amd/davinci-eight/curves/Curve.js",
             "line": 142,
             "description": "Returns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
-            "class": ""
+            "class": "Geometry"
         },
         {
             "file": "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js",

@@ -9,8 +9,8 @@ define(["require", "exports", '../geometries/cuboid'], function (require, export
         BoxGeometry.prototype.draw = function (context) {
             return this.cuboid.draw(context);
         };
-        BoxGeometry.prototype.dynamic = function () {
-            return this.cuboid.dynamic();
+        BoxGeometry.prototype.dynamics = function () {
+            return this.cuboid.dynamics();
         };
         BoxGeometry.prototype.hasElements = function () {
             return this.cuboid.hasElements();

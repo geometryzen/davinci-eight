@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight/objects/ShaderUniformVariable.js - davinci-eight</title>
+    <title>Geometry - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -76,58 +76,42 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight/objects/ShaderUniformVariable.js</h1>
+<h1>Geometry Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
-    /**
-     * Utility class for managing a shader uniform variable.
-     */
-    var ShaderUniformVariable = (function () {
-        function ShaderUniformVariable(name, type) {
-            this.name = name;
-            this.type = type;
-            switch (type) {
-                case &#x27;mat3&#x27;:
-                case &#x27;mat4&#x27;:
-                    {
-                    }
-                    break;
-                default: {
-                    throw new Error(&quot;Illegal argument type: &quot; + type);
-                }
-            }
-        }
-        ShaderUniformVariable.prototype.contextGain = function (context, program) {
-            this.location = context.getUniformLocation(program, this.name);
-        };
-        ShaderUniformVariable.prototype.matrix = function (context, transpose, matrix) {
-            switch (this.type) {
-                case &#x27;mat3&#x27;:
-                    {
-                        context.uniformMatrix3fv(this.location, transpose, matrix);
-                    }
-                    break;
-                case &#x27;mat4&#x27;:
-                    {
-                        context.uniformMatrix4fv(this.location, transpose, matrix);
-                    }
-                    break;
-                default: {
-                    throw new Error(&quot;Illegal argument type: &quot; + this.type);
-                }
-            }
-        };
-        ShaderUniformVariable.prototype.toString = function () {
-            return [this.type, this.name].join(&#x27; &#x27;);
-        };
-        return ShaderUniformVariable;
-    })();
-    return ShaderUniformVariable;
-});
 
-    </pre>
+        <div class="foundat">
+            Defined in: <a href="../files/amd_davinci-eight_geometries_Geometry.js.html#l2"><code>amd&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.js:2</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="box intro">
+    
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

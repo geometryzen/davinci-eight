@@ -107,7 +107,9 @@ var mesh = function<G extends VertexAttributeProvider, M extends Material>(
 
         elements.contextGain(context);
 
-        if (!geometry.dynamic()) {
+        // TODO: This should really be consulting a needsUpdate method.
+        // We can also put the updates inside the vertexAttribute loop.
+        if (!geometry.dynamics()) {
           updateGeometry(context, 0);
         }
 
@@ -133,7 +135,8 @@ var mesh = function<G extends VertexAttributeProvider, M extends Material>(
     },
     draw(context: WebGLRenderingContext, time: number, ambientUniforms: VertexUniformProvider) {
       if (material.hasContext()) {
-        if (geometry.dynamic()) {
+        // TODO: This should be a needs update.
+        if (geometry.dynamics()) {
           updateGeometry(context, time);
         }
         // Update the uniform location values.

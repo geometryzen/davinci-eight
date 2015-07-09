@@ -32,7 +32,7 @@ WARNING. This library is under active development; the API is subject to changes
 
 ## API documentation
 
-[Under development](__https://github.com/geometryzen/davinci-eight/blob/master/documentation/index.html__)
+[Under development](http://htmlpreview.github.com/?https://github.com/geometryzen/davinci-eight/blob/master/documentation/index.html)
 
 ## Getting Started
 

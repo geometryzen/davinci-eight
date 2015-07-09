@@ -109,7 +109,7 @@ var prism = function(spec?): VertexAttributeProvider {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
-    dynamic(): boolean {return false;},
+    dynamics(): boolean {return false;},
     getAttributeMetaInfos(): AttributeMetaInfos {
       return {
         position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },

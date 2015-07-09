@@ -9,7 +9,7 @@ declare class GeometryVertexAttributeProvider<G extends Geometry> implements Ver
     private aVertexNormalArray;
     constructor(geometry: G);
     draw(context: WebGLRenderingContext): void;
-    dynamic(): boolean;
+    dynamics(): boolean;
     hasElements(): boolean;
     getElements(): Uint16Array;
     getVertexAttributeData(name: string): Float32Array;

@@ -9,7 +9,7 @@ define(["require", "exports"], function (require, exports) {
         GeometryVertexAttributeProvider.prototype.draw = function (context) {
             context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
         };
-        GeometryVertexAttributeProvider.prototype.dynamic = function () {
+        GeometryVertexAttributeProvider.prototype.dynamics = function () {
             // TODO: EIGHT.VertexAttributeProvider.dynamic should also be a property.
             return false; //this.geometry.dynamic;
         };

@@ -24,7 +24,7 @@ class CurveGeometry implements VertexAttributeProvider {
   draw(context: WebGLRenderingContext) {
     context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
   }
-  dynamic(): boolean {
+  dynamics(): boolean {
     return true;
   }
   getAttributeMetaInfos(): AttributeMetaInfos {

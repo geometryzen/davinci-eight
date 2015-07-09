@@ -17,7 +17,7 @@ var CurveGeometry = (function () {
     CurveGeometry.prototype.draw = function (context) {
         context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
     };
-    CurveGeometry.prototype.dynamic = function () {
+    CurveGeometry.prototype.dynamics = function () {
         return true;
     };
     CurveGeometry.prototype.getAttributeMetaInfos = function () {

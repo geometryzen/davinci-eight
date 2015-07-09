@@ -10,7 +10,7 @@ class RGBGeometry implements VertexAttributeProvider {
   draw(context: WebGLRenderingContext) {
     context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
   }
-  dynamic(): boolean {
+  dynamics(): boolean {
     return false;
   }
   getAttributeMetaInfos(): AttributeMetaInfos {

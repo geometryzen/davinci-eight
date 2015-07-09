@@ -39,6 +39,7 @@
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -90,7 +91,7 @@ define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
         GeometryVertexAttributeProvider.prototype.draw = function (context) {
             context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
         };
-        GeometryVertexAttributeProvider.prototype.dynamic = function () {
+        GeometryVertexAttributeProvider.prototype.dynamics = function () {
             // TODO: EIGHT.VertexAttributeProvider.dynamic should also be a property.
             return false; //this.geometry.dynamic;
         };

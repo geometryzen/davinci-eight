@@ -3,7 +3,10 @@ import Sphere = require('../math/Sphere');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class Geometry {
+/**
+ * @class Geometry
+ */
+ class Geometry {
   public vertices: Vector3[] = [];
   public faces: Face3[] = [];
   public faceVertexUvs: Vector2[][][] = [[]];
