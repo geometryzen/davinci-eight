@@ -30,7 +30,10 @@ import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
+import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
+import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
+import ParametricGeometry = require('davinci-eight/geometries/ParametricGeometry');
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
@@ -93,7 +96,10 @@ var eight = {
     get CylinderGeometry() { return CylinderGeometry; },
     get DodecahedronGeometry() { return DodecahedronGeometry; },
     get IcosahedronGeometry() { return IcosahedronGeometry; },
+    get KleinBottleGeometry() { return KleinBottleGeometry; },
+    get MobiusStripGeometry() { return MobiusStripGeometry; },
     get OctahedronGeometry() { return OctahedronGeometry; },
+    get ParametricGeometry() { return ParametricGeometry; },
     get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
     get SphereGeometry() { return SphereGeometry; },

@@ -1,8 +1,8 @@
 {
     "project": {
         "name": "davinci-eight",
-        "description": "WebGL library using Geometric Algebra",
-        "version": "2.17.0",
+        "description": "WebGL library for mathematical physics using Geometric Algebra",
+        "version": "2.18.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -32,6 +32,27 @@
         },
         "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js": {
             "name": "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/geometries/KleinBottleGeometry.js": {
+            "name": "amd/davinci-eight/geometries/KleinBottleGeometry.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/geometries/MobiusStripGeometry.js": {
+            "name": "amd/davinci-eight/geometries/MobiusStripGeometry.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "amd/davinci-eight/geometries/ParametricGeometry.js": {
+            "name": "amd/davinci-eight/geometries/ParametricGeometry.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -176,6 +197,36 @@
             "file": "amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js",
             "line": 2,
             "description": "This class acts as an adapter from a Geometry to a VertexAttributeProvider.",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/geometries/KleinBottleGeometry.js",
+            "line": 28,
+            "description": "By connecting the edge of a Mobius Strip we get a Klein Bottle.\nhttp://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/geometries/MobiusStripGeometry.js",
+            "line": 12,
+            "description": "radius",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/geometries/MobiusStripGeometry.js",
+            "line": 16,
+            "description": "half-width",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/geometries/MobiusStripGeometry.js",
+            "line": 27,
+            "description": "http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html",
+            "class": ""
+        },
+        {
+            "file": "amd/davinci-eight/geometries/ParametricGeometry.js",
+            "line": 8,
+            "author": "zz85 / https://github.com/zz85\nParametric Surfaces Geometry\nbased on the brilliant article by @prideout http://prideout.net/blog/?p=44\n\nnew ParametricGeometry( parametricFunction, uSegments, vSegments );",
             "class": ""
         },
         {
@@ -393,6 +444,26 @@
         {
             "message": "Missing item type\nThis class acts as an adapter from a Geometry to a VertexAttributeProvider.",
             "line": " amd/davinci-eight/geometries/GeometryVertexAttributeProvider.js:2"
+        },
+        {
+            "message": "Missing item type\nBy connecting the edge of a Mobius Strip we get a Klein Bottle.\nhttp://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html",
+            "line": " amd/davinci-eight/geometries/KleinBottleGeometry.js:28"
+        },
+        {
+            "message": "Missing item type\nradius",
+            "line": " amd/davinci-eight/geometries/MobiusStripGeometry.js:12"
+        },
+        {
+            "message": "Missing item type\nhalf-width",
+            "line": " amd/davinci-eight/geometries/MobiusStripGeometry.js:16"
+        },
+        {
+            "message": "Missing item type\nhttp://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html",
+            "line": " amd/davinci-eight/geometries/MobiusStripGeometry.js:27"
+        },
+        {
+            "message": "Missing item type",
+            "line": " amd/davinci-eight/geometries/ParametricGeometry.js:8"
         },
         {
             "message": "Missing item type\nConstructs and returns a Prism geometry object.",

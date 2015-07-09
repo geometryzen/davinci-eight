@@ -504,8 +504,17 @@ class Vector3 {
   class IcosahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
   }
+  class KleinBottleGeometry extends ParametricGeometry {
+    constructor(uSegments: number, vSegments: number);
+  }
+  class MobiusStripGeometry extends ParametricGeometry {
+    constructor(uSegments: number, vSegments: number);
+  }
   class OctahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
+  }
+  class ParametricGeometry extends Geometry {
+    constructor(parametricFunction: (u: number, v: number) => Vector3, uSegments: number, vSegments: number);
   }
   class SphereGeometry extends Geometry {
     constructor(

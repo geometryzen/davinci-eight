@@ -1,9 +1,38 @@
-# davinci-eight
+# davinci-eight a.k.a EIGHT
 
-DaVinci Eight compiles to a JavaScript library for WebGL.
+DaVinci EIGHT is a WebGL library for mathematical physics using Geometric Algebra
 
-It is an experiment in combining TypeScript, the functional constructor pattern (Douglas Crockford), requirejs, and almond.
-It's less about WebGL at the moment although it does solve the context lost problem and cleans up after itself.
+EIGHT is designed and developed according to the following principles:
+
+1. Designed foremost to enable custom shader development.
+2. Manage shader complexity rather than trying to hide it.
+3. Be un-opinionated. Make no assumptions in the core code other than those intrinsic to WebGL.
+4. Assist with management of WebGL state and invariants.
+5. Assist with GLSL boilerplate.
+6. Assist with shader program integrity using e.g. introspection.
+7. Provide reusable geometry abstractions on top of the core for productivity.
+8. Provide smart shader program builders for productivity.
+9. Facilitate use for research programming, education and demonstration.
+10. Explicit is better than implicit.
+11. It must go up to eleven.
+
+Used here: [__http://www.mathdoodle.io__](http://mathdoodle.io)
+
+## Why EIGHT?
+
+8 = 2 * 2 * 2, which is the number of dimensions in a geometric space over a vector space of 3 dimensions.
+
+Geometric Algebra is what you get when you define an associative multiplicative product for vectors.
+
+More simply, 3D geometry is simpler when it is done using Geometric Algebra!
+
+WARNING. This library is under active development; the API is subject to changes that are likely to break semantic versioning.
+
+[![Build Status](https://travis-ci.org/geometryzen/davinci-eight.png)](https://travis-ci.org/geometryzen/davinci-eight)
+
+## API documentation
+
+[Under development](__https://github.com/geometryzen/davinci-eight/blob/master/documentation/index.html__)
 
 ## Getting Started
 
@@ -90,8 +119,9 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.15.0: 2015-07-08 CylinderGeometry
 * 2.16.0: 2015-07-08 SphereGeometry
 * 2.17.0: 2015-07-08 TubeGeometry
+* 2.18.0: 2015-07-08 ParametricGeometry
 
 ## License
-Copyright (c) 2014-2015 David Holmes  
+Copyright (c) 2014-2015 David Holmes
 Licensed under the MIT license.
 

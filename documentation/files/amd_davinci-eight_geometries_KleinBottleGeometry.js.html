@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight/objects/ShaderAttributeVariable.js - davinci-eight</title>
+    <title>amd/davinci-eight/geometries/KleinBottleGeometry.js - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,82 +75,49 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight/objects/ShaderAttributeVariable.js</h1>
+<h1 class="file-heading">File: amd/davinci-eight/geometries/KleinBottleGeometry.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
-    /// &lt;reference path=&quot;../geometries/VertexAttributeProvider.d.ts&quot; /&gt;
-    function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
-    function existsLocation(location) {
-        return location &gt;= 0;
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;../geometries/ParametricGeometry&#x27;, &#x27;../math/Vector3&#x27;], function (require, exports, ParametricGeometry, Vector3) {
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var pi = Math.PI;
+    function klein(u, v) {
+        var x;
+        var y;
+        var z;
+        u = u * 2 * pi;
+        v = v * 2 * pi;
+        if (u &lt; pi) {
+            x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(u) * cos(v);
+            z = -8 * sin(u) - 2 * (1 - cos(u) / 2) * sin(u) * cos(v);
+        }
+        else {
+            x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(v + pi);
+            z = -8 * sin(u);
+        }
+        y = -2 * (1 - cos(u) / 2) * sin(v);
+        return new Vector3(x, y, z);
     }
     /**
-     * Utility class for managing a shader attribute variable.
+     * By connecting the edge of a Mobius Strip we get a Klein Bottle.
+     * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
      */
-    var ShaderAttributeVariable = (function () {
-        function ShaderAttributeVariable(name, size, normalized, stride, offset) {
-            this.name = name;
-            this.size = size;
-            this.normalized = normalized;
-            this.stride = stride;
-            this.offset = offset;
+    var KleinBottleGeometry = (function (_super) {
+        __extends(KleinBottleGeometry, _super);
+        function KleinBottleGeometry(uSegments, vSegments) {
+            _super.call(this, klein, uSegments, vSegments);
         }
-        ShaderAttributeVariable.prototype.contextFree = function (context) {
-            if (this.buffer) {
-                context.deleteBuffer(this.buffer);
-                this.contextLoss();
-            }
-        };
-        ShaderAttributeVariable.prototype.contextGain = function (context, program) {
-            this.location = context.getAttribLocation(program, this.name);
-            if (existsLocation(this.location)) {
-                this.buffer = context.createBuffer();
-            }
-        };
-        ShaderAttributeVariable.prototype.contextLoss = function () {
-            this.location = void 0;
-            this.buffer = void 0;
-        };
-        // Not really bind so much as describing
-        ShaderAttributeVariable.prototype.bind = function (context) {
-            if (existsLocation(this.location)) {
-                // TODO: We could assert that we have a buffer.
-                context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-                // 6.14 Fixed point support.
-                // The WebGL API does not support the GL_FIXED data type.
-                // Consequently, we hard-code the FLOAT constant.
-                context.vertexAttribPointer(this.location, this.size, context.FLOAT, this.normalized, this.stride, this.offset);
-            }
-        };
-        ShaderAttributeVariable.prototype.bufferData = function (context, geometry) {
-            if (existsLocation(this.location)) {
-                var data = geometry.getVertexAttributeData(this.name);
-                if (data) {
-                    context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-                    context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));
-                }
-                else {
-                    // We expect this to be detected by the mesh long before we get here.
-                    throw new Error(&quot;Geometry implementation claims to support but does not provide data for attribute &quot; + this.name);
-                }
-            }
-        };
-        ShaderAttributeVariable.prototype.enable = function (context) {
-            if (existsLocation(this.location)) {
-                context.enableVertexAttribArray(this.location);
-            }
-        };
-        ShaderAttributeVariable.prototype.disable = function (context) {
-            if (existsLocation(this.location)) {
-                context.disableVertexAttribArray(this.location);
-            }
-        };
-        return ShaderAttributeVariable;
-    })();
-    return ShaderAttributeVariable;
+        return KleinBottleGeometry;
+    })(ParametricGeometry);
+    return KleinBottleGeometry;
 });
 
     </pre>

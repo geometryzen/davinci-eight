@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>amd/davinci-eight/objects/ShaderAttributeVariable.js - davinci-eight</title>
+    <title>amd/davinci-eight/geometries/ParametricGeometry.js - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,82 +75,72 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: amd/davinci-eight/objects/ShaderAttributeVariable.js</h1>
+<h1 class="file-heading">File: amd/davinci-eight/geometries/ParametricGeometry.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-define([&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
-    /// &lt;reference path=&quot;../geometries/VertexAttributeProvider.d.ts&quot; /&gt;
-    function computeUsage(geometry, context) {
-        return geometry.dynamic() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
-    function existsLocation(location) {
-        return location &gt;= 0;
-    }
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define([&quot;require&quot;, &quot;exports&quot;, &#x27;../core/Face3&#x27;, &#x27;../geometries/Geometry&#x27;, &#x27;../math/Vector2&#x27;], function (require, exports, Face3, Geometry, Vector2) {
     /**
-     * Utility class for managing a shader attribute variable.
+     * @author zz85 / https://github.com/zz85
+     * Parametric Surfaces Geometry
+     * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
+     *
+     * new ParametricGeometry( parametricFunction, uSegments, vSegments );
      */
-    var ShaderAttributeVariable = (function () {
-        function ShaderAttributeVariable(name, size, normalized, stride, offset) {
-            this.name = name;
-            this.size = size;
-            this.normalized = normalized;
-            this.stride = stride;
-            this.offset = offset;
+    var ParametricGeometry = (function (_super) {
+        __extends(ParametricGeometry, _super);
+        function ParametricGeometry(parametricFunction, uSegments, vSegments) {
+            _super.call(this);
+            var verts = this.vertices;
+            var faces = this.faces;
+            var uvs = this.faceVertexUvs[0];
+            var i;
+            var j;
+            var p;
+            var u;
+            var v;
+            var sliceCount = uSegments + 1;
+            for (i = 0; i &lt;= vSegments; i++) {
+                v = i / vSegments;
+                for (j = 0; j &lt;= uSegments; j++) {
+                    u = j / uSegments;
+                    p = parametricFunction(u, v);
+                    verts.push(p);
+                }
+            }
+            var a, b, c, d;
+            var uva;
+            var uvb;
+            var uvc;
+            var uvd;
+            for (i = 0; i &lt; vSegments; i++) {
+                for (j = 0; j &lt; uSegments; j++) {
+                    a = i * sliceCount + j;
+                    b = i * sliceCount + j + 1;
+                    c = (i + 1) * sliceCount + j + 1;
+                    d = (i + 1) * sliceCount + j;
+                    uva = new Vector2(j / uSegments, i / vSegments);
+                    uvb = new Vector2((j + 1) / uSegments, i / vSegments);
+                    uvc = new Vector2((j + 1) / uSegments, (i + 1) / vSegments);
+                    uvd = new Vector2(j / uSegments, (i + 1) / vSegments);
+                    faces.push(new Face3(a, b, d));
+                    uvs.push([uva, uvb, uvd]);
+                    faces.push(new Face3(b, c, d));
+                    uvs.push([uvb.clone(), uvc, uvd.clone()]);
+                }
+            }
+            this.computeFaceNormals();
+            this.computeVertexNormals();
         }
-        ShaderAttributeVariable.prototype.contextFree = function (context) {
-            if (this.buffer) {
-                context.deleteBuffer(this.buffer);
-                this.contextLoss();
-            }
-        };
-        ShaderAttributeVariable.prototype.contextGain = function (context, program) {
-            this.location = context.getAttribLocation(program, this.name);
-            if (existsLocation(this.location)) {
-                this.buffer = context.createBuffer();
-            }
-        };
-        ShaderAttributeVariable.prototype.contextLoss = function () {
-            this.location = void 0;
-            this.buffer = void 0;
-        };
-        // Not really bind so much as describing
-        ShaderAttributeVariable.prototype.bind = function (context) {
-            if (existsLocation(this.location)) {
-                // TODO: We could assert that we have a buffer.
-                context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-                // 6.14 Fixed point support.
-                // The WebGL API does not support the GL_FIXED data type.
-                // Consequently, we hard-code the FLOAT constant.
-                context.vertexAttribPointer(this.location, this.size, context.FLOAT, this.normalized, this.stride, this.offset);
-            }
-        };
-        ShaderAttributeVariable.prototype.bufferData = function (context, geometry) {
-            if (existsLocation(this.location)) {
-                var data = geometry.getVertexAttributeData(this.name);
-                if (data) {
-                    context.bindBuffer(context.ARRAY_BUFFER, this.buffer);
-                    context.bufferData(context.ARRAY_BUFFER, data, computeUsage(geometry, context));
-                }
-                else {
-                    // We expect this to be detected by the mesh long before we get here.
-                    throw new Error(&quot;Geometry implementation claims to support but does not provide data for attribute &quot; + this.name);
-                }
-            }
-        };
-        ShaderAttributeVariable.prototype.enable = function (context) {
-            if (existsLocation(this.location)) {
-                context.enableVertexAttribArray(this.location);
-            }
-        };
-        ShaderAttributeVariable.prototype.disable = function (context) {
-            if (existsLocation(this.location)) {
-                context.disableVertexAttribArray(this.location);
-            }
-        };
-        return ShaderAttributeVariable;
-    })();
-    return ShaderAttributeVariable;
+        return ParametricGeometry;
+    })(Geometry);
+    return ParametricGeometry;
 });
 
     </pre>

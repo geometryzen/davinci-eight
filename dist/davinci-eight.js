@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.17.0'
+        VERSION: '2.18.0'
     };
     return core;
 });
@@ -5503,6 +5503,150 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+define('davinci-eight/geometries/ParametricGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2'], function (require, exports, Face3, Geometry, Vector2) {
+    /**
+     * @author zz85 / https://github.com/zz85
+     * Parametric Surfaces Geometry
+     * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
+     *
+     * new ParametricGeometry( parametricFunction, uSegments, vSegments );
+     */
+    var ParametricGeometry = (function (_super) {
+        __extends(ParametricGeometry, _super);
+        function ParametricGeometry(parametricFunction, uSegments, vSegments) {
+            _super.call(this);
+            var verts = this.vertices;
+            var faces = this.faces;
+            var uvs = this.faceVertexUvs[0];
+            var i;
+            var j;
+            var p;
+            var u;
+            var v;
+            var sliceCount = uSegments + 1;
+            for (i = 0; i <= vSegments; i++) {
+                v = i / vSegments;
+                for (j = 0; j <= uSegments; j++) {
+                    u = j / uSegments;
+                    p = parametricFunction(u, v);
+                    verts.push(p);
+                }
+            }
+            var a, b, c, d;
+            var uva;
+            var uvb;
+            var uvc;
+            var uvd;
+            for (i = 0; i < vSegments; i++) {
+                for (j = 0; j < uSegments; j++) {
+                    a = i * sliceCount + j;
+                    b = i * sliceCount + j + 1;
+                    c = (i + 1) * sliceCount + j + 1;
+                    d = (i + 1) * sliceCount + j;
+                    uva = new Vector2(j / uSegments, i / vSegments);
+                    uvb = new Vector2((j + 1) / uSegments, i / vSegments);
+                    uvc = new Vector2((j + 1) / uSegments, (i + 1) / vSegments);
+                    uvd = new Vector2(j / uSegments, (i + 1) / vSegments);
+                    faces.push(new Face3(a, b, d));
+                    uvs.push([uva, uvb, uvd]);
+                    faces.push(new Face3(b, c, d));
+                    uvs.push([uvb.clone(), uvc, uvd.clone()]);
+                }
+            }
+            this.computeFaceNormals();
+            this.computeVertexNormals();
+        }
+        return ParametricGeometry;
+    })(Geometry);
+    return ParametricGeometry;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '../geometries/ParametricGeometry', '../math/Vector3'], function (require, exports, ParametricGeometry, Vector3) {
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var pi = Math.PI;
+    function klein(u, v) {
+        var x;
+        var y;
+        var z;
+        u = u * 2 * pi;
+        v = v * 2 * pi;
+        if (u < pi) {
+            x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(u) * cos(v);
+            z = -8 * sin(u) - 2 * (1 - cos(u) / 2) * sin(u) * cos(v);
+        }
+        else {
+            x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(v + pi);
+            z = -8 * sin(u);
+        }
+        y = -2 * (1 - cos(u) / 2) * sin(v);
+        return new Vector3(x, y, z);
+    }
+    /**
+     * By connecting the edge of a Mobius Strip we get a Klein Bottle.
+     * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
+     */
+    var KleinBottleGeometry = (function (_super) {
+        __extends(KleinBottleGeometry, _super);
+        function KleinBottleGeometry(uSegments, vSegments) {
+            _super.call(this, klein, uSegments, vSegments);
+        }
+        return KleinBottleGeometry;
+    })(ParametricGeometry);
+    return KleinBottleGeometry;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '../geometries/ParametricGeometry', '../math/Vector3'], function (require, exports, ParametricGeometry, Vector3) {
+    var cos = Math.cos;
+    var sin = Math.sin;
+    var pi = Math.PI;
+    function mobius(u, v) {
+        /**
+         * radius
+         */
+        var R = 1;
+        /**
+         * half-width
+         */
+        var w = 0.05;
+        var s = (2 * u - 1) * w; // [-w, w]
+        var t = 2 * pi * v; // [0, 2pi]
+        var x = (R + s * cos(t / 2)) * cos(t);
+        var y = (R + s * cos(t / 2)) * sin(t);
+        var z = s * sin(t / 2);
+        return new Vector3(x, y, z);
+    }
+    /**
+     * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html
+     */
+    var MobiusStripGeometry = (function (_super) {
+        __extends(MobiusStripGeometry, _super);
+        function MobiusStripGeometry(uSegments, vSegments) {
+            _super.call(this, mobius, uSegments, vSegments);
+        }
+        return MobiusStripGeometry;
+    })(ParametricGeometry);
+    return MobiusStripGeometry;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 define('davinci-eight/geometries/OctahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
     var vertices = [
         1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1
@@ -8804,7 +8948,7 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/curves/Curve'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, ArrowGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, OctahedronGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3, Curve) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/Camera', 'davinci-eight/cameras/perspectiveCamera', 'davinci-eight/cameras/PerspectiveCamera', 'davinci-eight/worlds/world', 'davinci-eight/worlds/Scene', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/mesh', 'davinci-eight/objects/Mesh', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/geometries/box', 'davinci-eight/geometries/cuboid', 'davinci-eight/geometries/ellipsoid', 'davinci-eight/geometries/prism', 'davinci-eight/geometries/CurveGeometry', 'davinci-eight/geometries/LatticeGeometry', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryVertexAttributeProvider', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/geometries/RGBGeometry', 'davinci-eight/materials/pointsMaterial', 'davinci-eight/materials/shaderMaterial', 'davinci-eight/materials/smartMaterial', 'davinci-eight/objects/ShaderAttributeVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/materials/MeshBasicMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/curves/Curve'], function (require, exports, core, object3D, Camera, perspectiveCamera, PerspectiveCamera, world, Scene, renderer, WebGLRenderer, mesh, Mesh, webGLContextMonitor, workbench3D, windowAnimationRunner, box, cuboid, ellipsoid, prism, CurveGeometry, LatticeGeometry, Face3, Geometry, GeometryVertexAttributeProvider, BoxGeometry, ArrowGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, RGBGeometry, pointsMaterial, shaderMaterial, smartMaterial, ShaderAttributeVariable, Matrix3, Matrix4, MeshBasicMaterial, MeshNormalMaterial, Quaternion, Vector2, Vector3, Curve) {
     var eight = {
         'VERSION': core.VERSION,
         perspective: perspectiveCamera,
@@ -8846,7 +8990,10 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get CylinderGeometry() { return CylinderGeometry; },
         get DodecahedronGeometry() { return DodecahedronGeometry; },
         get IcosahedronGeometry() { return IcosahedronGeometry; },
+        get KleinBottleGeometry() { return KleinBottleGeometry; },
+        get MobiusStripGeometry() { return MobiusStripGeometry; },
         get OctahedronGeometry() { return OctahedronGeometry; },
+        get ParametricGeometry() { return ParametricGeometry; },
         get PolyhedronGeometry() { return PolyhedronGeometry; },
         get RevolutionGeometry() { return RevolutionGeometry; },
         get SphereGeometry() { return SphereGeometry; },
