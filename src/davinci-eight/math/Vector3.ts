@@ -1,3 +1,8 @@
+// Be careful not to create circularity.
+// Only use Matrix4 in type positions.
+// Otherwise, create standalone functions.
+import Matrix4 = require('../math/Matrix4');
+
 class Vector3 {
   public x: number;
   public y: number;
@@ -11,6 +16,20 @@ class Vector3 {
     this.x += v.x;
     this.y += v.y;
     this.z += v.z;
+    return this;
+  }
+  applyMatrix4(m: Matrix4) {
+
+    // input: THREE.Matrix4 affine matrix
+
+    var x = this.x, y = this.y, z = this.z;
+
+    var e = m.elements;
+
+    this.x = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ]  * z + e[ 12 ];
+    this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ]  * z + e[ 13 ];
+    this.z = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ];
+
     return this;
   }
   applyQuaternion(q: {x: number, y: number, z: number, w: number}): Vector3 {
@@ -45,15 +64,26 @@ class Vector3 {
     return this;
   }
   cross(v: Vector3): Vector3 {
-    let x = this.x;
-    let y = this.y;
-    let z = this.z;
+    return this.crossVectors(this, v);
+  }
+  crossVectors(a: Vector3, b: Vector3): Vector3 {
+    var ax = a.x, ay = a.y, az = a.z;
+    var bx = b.x, by = b.y, bz = b.z;
 
-    this.x = y * v.z - z * v.y;
-    this.y = z * v.x - x * v.z;
-    this.z = x * v.y - y * v.x;
+    this.x = ay * bz - az * by;
+    this.y = az * bx - ax * bz;
+    this.z = ax * by - ay * bx;
 
     return this;
+  }
+  distance(v: Vector3): number {
+    return Math.sqrt(this.quadrance(v));
+  }
+  quadrance(v: Vector3): number {
+    var dx = this.x - v.x;
+    var dy = this.y - v.y;
+    var dz = this.z - v.z;
+    return dx * dx + dy * dy + dz * dz;
   }
   divideScalar(scalar: number): Vector3 {
     if (scalar !== 0) {
@@ -68,6 +98,9 @@ class Vector3 {
       this.z = 0;
     }
     return this;
+  }
+  dot(v: Vector3): number {
+    return this.x * v.x + this.y * v.y + this.z * v.z;
   }
   length(): number {
     let x = this.x;
@@ -116,10 +149,7 @@ class Vector3 {
     return this;
   }
   sub(v: Vector3): Vector3 {
-    this.x -= v.x;
-    this.y -= v.y;
-    this.z -= v.z;
-    return this;
+    return this.subVectors(this, v);
   }
   subVectors(a: Vector3, b: Vector3): Vector3 {
     this.x = a.x - b.x;

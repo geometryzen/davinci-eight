@@ -89,6 +89,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.14.0: 2015-07-07 PolyhedronGeometry
 * 2.15.0: 2015-07-08 CylinderGeometry
 * 2.16.0: 2015-07-08 SphereGeometry
+* 2.17.0: 2015-07-08 TubeGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes  

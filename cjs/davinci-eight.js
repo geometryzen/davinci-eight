@@ -32,6 +32,7 @@ var PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 var RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 var SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 var TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
+var TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 var RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 var pointsMaterial = require('davinci-eight/materials/pointsMaterial');
@@ -45,6 +46,7 @@ var MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
 var Quaternion = require('davinci-eight/math/Quaternion');
 var Vector2 = require('davinci-eight/math/Vector2');
 var Vector3 = require('davinci-eight/math/Vector3');
+var Curve = require('davinci-eight/curves/Curve');
 var eight = {
     'VERSION': core.VERSION,
     perspective: perspectiveCamera,
@@ -91,6 +93,7 @@ var eight = {
     get RevolutionGeometry() { return RevolutionGeometry; },
     get SphereGeometry() { return SphereGeometry; },
     get TetrahedronGeometry() { return TetrahedronGeometry; },
+    get TubeGeometry() { return TubeGeometry; },
     get ArrowGeometry() { return ArrowGeometry; },
     get VortexGeometry() { return VortexGeometry; },
     get Mesh() { return Mesh; },
@@ -100,6 +103,7 @@ var eight = {
     get Matrix4() { return Matrix4; },
     get Quaternion() { return Quaternion; },
     get Vector2() { return Vector2; },
-    get Vector3() { return Vector3; }
+    get Vector3() { return Vector3; },
+    get Curve() { return Curve; }
 };
 module.exports = eight;

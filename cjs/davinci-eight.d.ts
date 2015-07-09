@@ -19,6 +19,7 @@ import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
+import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import RGBGeometry = require('davinci-eight/geometries/RGBGeometry');
 import ShaderAttributeVariable = require('davinci-eight/objects/ShaderAttributeVariable');
@@ -30,6 +31,7 @@ import Quaternion = require('davinci-eight/math/Quaternion');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
 import FactoredDrawable = require('davinci-eight/objects/FactoredDrawable');
+import Curve = require('davinci-eight/curves/Curve');
 declare var eight: {
     'VERSION': string;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => {
@@ -94,6 +96,7 @@ declare var eight: {
     RevolutionGeometry: typeof RevolutionGeometry;
     SphereGeometry: typeof SphereGeometry;
     TetrahedronGeometry: typeof TetrahedronGeometry;
+    TubeGeometry: typeof TubeGeometry;
     ArrowGeometry: typeof ArrowGeometry;
     VortexGeometry: typeof VortexGeometry;
     Mesh: typeof Mesh;
@@ -104,5 +107,6 @@ declare var eight: {
     Quaternion: typeof Quaternion;
     Vector2: typeof Vector2;
     Vector3: typeof Vector3;
+    Curve: typeof Curve;
 };
 export = eight;

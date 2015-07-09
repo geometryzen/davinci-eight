@@ -1,7 +1,7 @@
 {
   "name": "davinci-eight",
-  "version": "2.16.0",
-  "description": "TypeScript 3D library using Geometric Algebra",
+  "version": "2.17.0",
+  "description": "WebGL library using Geometric Algebra",
   "author":
   {
     "name": "David Holmes",

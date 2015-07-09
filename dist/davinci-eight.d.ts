@@ -147,6 +147,7 @@ class Vector3 {
   public y: number;
   public z: number;
   constructor(x: number, y: number, z: number);
+  multiplyScalar(s: number): Vector3;
 }  /**
    *
    */
@@ -519,6 +520,15 @@ class Vector3 {
   class TetrahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
   }
+  class TubeGeometry extends Geometry {
+    constructor(
+      path: Curve,
+      segments?: number,
+      radius?: number,
+      radialSegments?: number,
+      closed?: boolean,
+      taper?: (u: number)=>number);
+  }
   /**
    * Constructs and returns an ellipsoid geometry.
    */
@@ -527,6 +537,8 @@ class Vector3 {
    * Constructs and returns a prism geometry.
    */
   function prism(): VertexAttributeProvider;
+  class Curve() {
+  }
   /**
    * Returns a Euclidean 3-dimensional number representing a scalar.
    */

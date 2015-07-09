@@ -11,6 +11,15 @@ define(["require", "exports"], function (require, exports) {
             this.z += v.z;
             return this;
         };
+        Vector3.prototype.applyMatrix4 = function (m) {
+            // input: THREE.Matrix4 affine matrix
+            var x = this.x, y = this.y, z = this.z;
+            var e = m.elements;
+            this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
+            this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
+            this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
+            return this;
+        };
         Vector3.prototype.applyQuaternion = function (q) {
             var x = this.x;
             var y = this.y;
@@ -37,13 +46,24 @@ define(["require", "exports"], function (require, exports) {
             return this;
         };
         Vector3.prototype.cross = function (v) {
-            var x = this.x;
-            var y = this.y;
-            var z = this.z;
-            this.x = y * v.z - z * v.y;
-            this.y = z * v.x - x * v.z;
-            this.z = x * v.y - y * v.x;
+            return this.crossVectors(this, v);
+        };
+        Vector3.prototype.crossVectors = function (a, b) {
+            var ax = a.x, ay = a.y, az = a.z;
+            var bx = b.x, by = b.y, bz = b.z;
+            this.x = ay * bz - az * by;
+            this.y = az * bx - ax * bz;
+            this.z = ax * by - ay * bx;
             return this;
+        };
+        Vector3.prototype.distance = function (v) {
+            return Math.sqrt(this.quadrance(v));
+        };
+        Vector3.prototype.quadrance = function (v) {
+            var dx = this.x - v.x;
+            var dy = this.y - v.y;
+            var dz = this.z - v.z;
+            return dx * dx + dy * dy + dz * dz;
         };
         Vector3.prototype.divideScalar = function (scalar) {
             if (scalar !== 0) {
@@ -58,6 +78,9 @@ define(["require", "exports"], function (require, exports) {
                 this.z = 0;
             }
             return this;
+        };
+        Vector3.prototype.dot = function (v) {
+            return this.x * v.x + this.y * v.y + this.z * v.z;
         };
         Vector3.prototype.length = function () {
             var x = this.x;
@@ -105,10 +128,7 @@ define(["require", "exports"], function (require, exports) {
             return this;
         };
         Vector3.prototype.sub = function (v) {
-            this.x -= v.x;
-            this.y -= v.y;
-            this.z -= v.z;
-            return this;
+            return this.subVectors(this, v);
         };
         Vector3.prototype.subVectors = function (a, b) {
             this.x = a.x - b.x;
