@@ -28,8 +28,16 @@ function klein(u: number, v: number): Vector3 {
 /**
  * By connecting the edge of a Mobius Strip we get a Klein Bottle.
  * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
+ * @class KleinBottleGeometry
+ * @extends ParametricGeometry
  */
 class KleinBottleGeometry extends ParametricGeometry {
+  /**
+   * @class KleinBottleGeometry
+   * @constructor
+   * @param uSegments {number}
+   * @param vSegments {number}
+   */
   constructor(uSegments: number, vSegments: number) {
     super(klein, uSegments, vSegments);
   }

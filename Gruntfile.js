@@ -11,7 +11,7 @@ module.exports = function(grunt) {
 
     // Task configuration.
     clean: {
-      src: ['dist', 'amd', 'cjs']
+      src: ['dist', 'amd', 'cjs', 'documentation']
     },
 
     exec: {
@@ -99,8 +99,12 @@ module.exports = function(grunt) {
             url: '<%= pkg.homepage %>',
             logo: '../assets/logo.png',
             options: {
-                paths: 'amd',
-                outdir: 'documentation'
+                quiet: true,
+                writeJSON: true,
+                extension: '.ts',
+                paths: ['src'],
+                outdir: 'documentation',
+                syntaxtype: 'js'
             }
         }
     },

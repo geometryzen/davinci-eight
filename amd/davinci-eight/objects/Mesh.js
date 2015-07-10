@@ -1,4 +1,4 @@
-define(["require", "exports", "davinci-blade/Euclidean3", './mesh', '../math/Matrix3', '../math/Matrix4', '../geometries/GeometryVertexAttributeProvider'], function (require, exports, Euclidean3, mesh, Matrix3, Matrix4, GeometryVertexAttributeProvider) {
+define(["require", "exports", './mesh', '../math/Matrix3', '../math/Matrix4', '../geometries/GeometryVertexAttributeProvider'], function (require, exports, mesh, Matrix3, Matrix4, GeometryVertexAttributeProvider) {
     function modelViewMatrix(position, attitude) {
         var matrix = new Matrix4();
         matrix.identity();
@@ -62,8 +62,8 @@ define(["require", "exports", "davinci-blade/Euclidean3", './mesh', '../math/Mat
             get: function () {
                 return this.innerMesh.attitude;
             },
-            set: function (value) {
-                this.innerMesh.attitude = value;
+            set: function (spinor) {
+                this.innerMesh.attitude = spinor;
             },
             enumerable: true,
             configurable: true
@@ -72,18 +72,12 @@ define(["require", "exports", "davinci-blade/Euclidean3", './mesh', '../math/Mat
             get: function () {
                 return this.innerMesh.position;
             },
-            set: function (value) {
-                this.innerMesh.position = value;
+            set: function (position) {
+                this.innerMesh.position = position;
             },
             enumerable: true,
             configurable: true
         });
-        Mesh.prototype.setRotationFromQuaternion = function (q) {
-            this.innerMesh.attitude.yz = q.x;
-            this.innerMesh.attitude.zx = q.y;
-            this.innerMesh.attitude.xy = q.z;
-            this.innerMesh.attitude.w = q.w;
-        };
         Object.defineProperty(Mesh.prototype, "drawGroupName", {
             get: function () {
                 return this.innerMesh.drawGroupName;

@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/core/object3D'], function (require, exports, object3D) {
+define(["require", "exports", 'davinci-eight/core/functionalConstructorObject3D'], function (require, exports, object3D) {
     var world = function () {
         var drawables = [];
         var drawGroups = {};

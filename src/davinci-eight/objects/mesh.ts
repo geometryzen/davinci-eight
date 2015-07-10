@@ -1,9 +1,8 @@
 /// <reference path="../geometries/VertexAttributeProvider.d.ts" />
 /// <reference path="../materials/Material.d.ts" />
 /// <reference path="../renderers/VertexUniformProvider.d.ts" />
-/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import ShaderAttributeVariable = require('./ShaderAttributeVariable');
-import object3D = require('davinci-eight/core/object3D');
+import object3D = require('davinci-eight/core/functionalConstructorObject3D');
 import vs_source = require('davinci-eight/shaders/shader-vs');
 import fs_source = require('davinci-eight/shaders/shader-fs');
 import glMatrix = require('gl-matrix');
@@ -11,6 +10,8 @@ import ElementArray = require('davinci-eight/objects/ElementArray');
 import ShaderUniformVariable = require('davinci-eight/objects/ShaderUniformVariable');
 import ChainedVertexUniformProvider = require('./ChainedVertexUniformProvider');
 import FactoredDrawable = require('../objects/FactoredDrawable');
+import Vector3 = require('../math/Vector3');
+import Spinor3 = require('../math/Spinor3');
 
 var mesh = function<G extends VertexAttributeProvider, M extends Material>(
   geometry: G,
@@ -191,10 +192,10 @@ var mesh = function<G extends VertexAttributeProvider, M extends Material>(
         });
       }
     },
-    get position(): blade.Euclidean3 {return base.position },
-    set position(position) { base.position = position },
-    get attitude(): blade.Euclidean3 {return base.attitude },
-    set attitude(attitude) { base.attitude = attitude }
+    get position(): Vector3 {return base.position },
+    set position(position: Vector3) { base.position = position },
+    get attitude(): Spinor3 {return base.attitude },
+    set attitude(attitude: Spinor3) { base.attitude = attitude }
   };
 
   return publicAPI;

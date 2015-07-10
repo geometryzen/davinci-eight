@@ -1,12 +1,18 @@
 import Face3 = require('../core/Face3');
 import Geometry = require('../geometries/Geometry');
-import Quaternion = require('../math/Quaternion');
+import Spinor3 = require('../math/Spinor3');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
 class RevolutionGeometry extends Geometry
 {
-  constructor(points, generator, segments, phiStart, phiLength, attitude)
+  constructor(
+    points: Vector3[],
+    generator: Spinor3,
+    segments: number,
+    phiStart: number,
+    phiLength: number,
+    attitude: Spinor3)
   {
     super();
 
@@ -35,7 +41,8 @@ class RevolutionGeometry extends Geometry
 
       var cosHA = Math.cos( halfAngle );
       var sinHA = Math.sin( halfAngle );
-      var rotor = new Quaternion(generator.x * sinHA, generator.y * sinHA, generator.z * sinHA, cosHA);
+      // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
+      var rotor = new Spinor3({yz: generator.yz * sinHA, zx: generator.zx * sinHA, xy: generator.xy * sinHA, w: cosHA });
 
       for (j = 0, jl = points.length; j < jl; j++) {
 
@@ -44,11 +51,11 @@ class RevolutionGeometry extends Geometry
         var vertex = new Vector3(pt.x, pt.y, pt.z);
 
         // The generator tells us how to rotate the points.
-        vertex.applyQuaternion(rotor);
+        vertex.applySpinor(rotor);
 
         // The attitude tells us where we want the symmetry axis to be.
         if (attitude) {
-          vertex.applyQuaternion(attitude);
+          vertex.applySpinor(attitude);
         }
 
         this.vertices.push( vertex );

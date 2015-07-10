@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/davinci-eight.ts - davinci-eight</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 2.18.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
+                                <li><a href="../classes/Object3D.html">Object3D</a></li>
+                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/VertexAttributeProvider.html">VertexAttributeProvider</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/davinci-eight.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
+
+import core = require(&#x27;davinci-eight/core&#x27;);
+
+import object3D = require(&#x27;davinci-eight/core/functionalConstructorObject3D&#x27;);
+import Object3D = require(&#x27;davinci-eight/core/Object3D&#x27;);
+import camera = require(&#x27;davinci-eight/cameras/camera&#x27;);
+import Camera = require(&#x27;davinci-eight/cameras/Camera&#x27;);
+import perspectiveCamera = require(&#x27;davinci-eight/cameras/perspectiveCamera&#x27;);
+import PerspectiveCamera = require(&#x27;davinci-eight/cameras/PerspectiveCamera&#x27;);
+import world = require(&#x27;davinci-eight/worlds/world&#x27;);
+import Scene = require(&#x27;davinci-eight/worlds/Scene&#x27;);
+import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
+import WebGLRenderer = require(&#x27;davinci-eight/renderers/WebGLRenderer&#x27;);
+import mesh = require(&#x27;davinci-eight/objects/mesh&#x27;);
+import Mesh = require(&#x27;davinci-eight/objects/Mesh&#x27;);
+import webGLContextMonitor = require(&#x27;davinci-eight/utils/webGLContextMonitor&#x27;);
+import workbench3D = require(&#x27;davinci-eight/utils/workbench3D&#x27;);
+import windowAnimationRunner = require(&#x27;davinci-eight/utils/windowAnimationRunner&#x27;);
+import box = require(&#x27;davinci-eight/geometries/box&#x27;);
+import cuboid = require(&#x27;davinci-eight/geometries/cuboid&#x27;);
+import ellipsoid = require(&#x27;davinci-eight/geometries/ellipsoid&#x27;);
+import prism = require(&#x27;davinci-eight/geometries/prism&#x27;);
+import CurveGeometry = require(&#x27;davinci-eight/geometries/CurveGeometry&#x27;);
+import LatticeGeometry = require(&#x27;davinci-eight/geometries/LatticeGeometry&#x27;);
+import Face3 = require(&#x27;davinci-eight/core/Face3&#x27;);
+import Geometry = require(&#x27;davinci-eight/geometries/Geometry&#x27;);
+import GeometryVertexAttributeProvider = require(&#x27;davinci-eight/geometries/GeometryVertexAttributeProvider&#x27;);
+import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
+import ArrowGeometry = require(&#x27;davinci-eight/geometries/ArrowGeometry&#x27;);
+import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
+import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
+import IcosahedronGeometry = require(&#x27;davinci-eight/geometries/IcosahedronGeometry&#x27;);
+import KleinBottleGeometry = require(&#x27;davinci-eight/geometries/KleinBottleGeometry&#x27;);
+import MobiusStripGeometry = require(&#x27;davinci-eight/geometries/MobiusStripGeometry&#x27;);
+import OctahedronGeometry = require(&#x27;davinci-eight/geometries/OctahedronGeometry&#x27;);
+import ParametricGeometry = require(&#x27;davinci-eight/geometries/ParametricGeometry&#x27;);
+import PolyhedronGeometry = require(&#x27;davinci-eight/geometries/PolyhedronGeometry&#x27;);
+import RevolutionGeometry = require(&#x27;davinci-eight/geometries/RevolutionGeometry&#x27;);
+import SphereGeometry = require(&#x27;davinci-eight/geometries/SphereGeometry&#x27;);
+import TetrahedronGeometry = require(&#x27;davinci-eight/geometries/TetrahedronGeometry&#x27;);
+import TubeGeometry = require(&#x27;davinci-eight/geometries/TubeGeometry&#x27;);
+import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x27;);
+import RGBGeometry = require(&#x27;davinci-eight/geometries/RGBGeometry&#x27;);
+import pointsMaterial = require(&#x27;davinci-eight/materials/pointsMaterial&#x27;);
+import shaderMaterial = require(&#x27;davinci-eight/materials/shaderMaterial&#x27;);
+import smartMaterial = require(&#x27;davinci-eight/materials/smartMaterial&#x27;);
+import ShaderAttributeVariable = require(&#x27;davinci-eight/objects/ShaderAttributeVariable&#x27;);
+import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
+import Matrix4 = require(&#x27;davinci-eight/math/Matrix4&#x27;);
+import MeshBasicMaterial = require(&#x27;davinci-eight/materials/MeshBasicMaterial&#x27;);
+import MeshNormalMaterial = require(&#x27;davinci-eight/materials/MeshNormalMaterial&#x27;);
+import Spinor3 = require(&#x27;davinci-eight/math/Spinor3&#x27;);
+import Vector2 = require(&#x27;davinci-eight/math/Vector2&#x27;);
+import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
+import FactoredDrawable = require(&#x27;davinci-eight/objects/FactoredDrawable&#x27;);
+import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
+
+/**
+ * @module EIGHT
+ */
+var eight = {
+    /**
+     * The semantic version of the library.
+     * @property VERSION
+     * @type String
+     */
+    &#x27;VERSION&#x27;: core.VERSION,
+    perspective: perspectiveCamera,
+    get world() { return world; },
+    object3D: object3D,
+    renderer: renderer,
+    contextMonitor: webGLContextMonitor,
+    workbench: workbench3D,
+    animationRunner: windowAnimationRunner,
+    get mesh() { return mesh; },
+    /**
+     * Constructs and returns a box geometry.
+     */
+    get box() { return box; },
+    get cuboid() { return cuboid; },
+    get ellipsoid() { return ellipsoid; },
+    prism: prism,
+    CurveGeometry: CurveGeometry,
+    LatticeGeometry: LatticeGeometry,
+    RGBGeometry: RGBGeometry,
+    ShaderAttributeVariable: ShaderAttributeVariable,
+    get pointsMaterial() {
+      return pointsMaterial;
+    },
+    get shaderMaterial() {
+      return shaderMaterial;
+    },
+    get smartMaterial() {
+      return smartMaterial;
+    },
+    get Scene() { return Scene; },
+    get Camera() { return Camera; },
+    get PerspectiveCamera() { return PerspectiveCamera; },
+    get WebGLRenderer() { return WebGLRenderer; },
+    get Face3() { return Face3; },
+    get Geometry() { return Geometry; },
+    get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
+    get BoxGeometry() { return BoxGeometry; },
+    get CylinderGeometry() { return CylinderGeometry; },
+    get DodecahedronGeometry() { return DodecahedronGeometry; },
+    get IcosahedronGeometry() { return IcosahedronGeometry; },
+    get KleinBottleGeometry() { return KleinBottleGeometry; },
+    get MobiusStripGeometry() { return MobiusStripGeometry; },
+    get OctahedronGeometry() { return OctahedronGeometry; },
+    get Object3D() { return Object3D; },
+    get ParametricGeometry() { return ParametricGeometry; },
+    get PolyhedronGeometry() { return PolyhedronGeometry; },
+    get RevolutionGeometry() { return RevolutionGeometry; },
+    get SphereGeometry() { return SphereGeometry; },
+    get TetrahedronGeometry() { return TetrahedronGeometry; },
+    get TubeGeometry() { return TubeGeometry; },
+    get ArrowGeometry() { return ArrowGeometry; },
+    get VortexGeometry() { return VortexGeometry; },
+    get Mesh() { return Mesh; },
+    get MeshBasicMaterial() { return MeshBasicMaterial; },
+    get MeshNormalMaterial() { return MeshNormalMaterial; },
+    get Matrix3() { return Matrix3; },
+    get Matrix4() { return Matrix4; },
+    get Spinor3() { return Spinor3; },
+    get Vector2() { return Vector2; },
+    get Vector3() { return Vector3; },
+    get Curve() { return Curve; }
+};
+export = eight;
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

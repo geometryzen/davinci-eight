@@ -1,16 +1,14 @@
-/// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path='../geometries/VertexAttributeProvider.d.ts'/>
 /// <reference path='../materials/Material.d.ts'/>
 /// <reference path='../materials/UniformMetaInfo.d.ts'/>
 /// <reference path='../renderers/VertexUniformProvider.d.ts'/>
 /// <reference path="../geometries/AttributeMetaInfos.d.ts" />
-/// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Camera = require('../cameras/Camera');
 import mesh = require('./mesh');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import Quaternion = require('../math/Quaternion');
+import Spinor3 = require('../math/Spinor3');
+import Vector3 = require('../math/Vector3');
 import FactoredDrawable = require('../objects/FactoredDrawable');
 import Geometry = require('../geometries/Geometry');
 import GeometryVertexAttributeProvider = require('../geometries/GeometryVertexAttributeProvider');
@@ -28,7 +26,7 @@ function modelViewMatrix(position, attitude): Matrix4 {
 }
 
 class MeshVertexUniformProvider implements VertexUniformProvider {
-  public position: {x:number;y:number;z:number};
+  public position: {x: number; y: number; z: number};
   public attitude: {yz: number; zx: number; xy: number; w: number};
   constructor() {
   }
@@ -75,23 +73,17 @@ class Mesh<G extends Geometry, M extends Material> implements FactoredDrawable<G
   get material() {
     return this.innerMesh.material;
   }
-  get attitude() {
+  get attitude(): Spinor3 {
     return this.innerMesh.attitude;
   }
-  set attitude(value: blade.Euclidean3) {
-    this.innerMesh.attitude = value;
+  set attitude(spinor: Spinor3) {
+    this.innerMesh.attitude = spinor;
   }
-  get position() {
+  get position(): Vector3 {
     return this.innerMesh.position;
   }
-  set position(value: blade.Euclidean3) {
-    this.innerMesh.position = value;
-  }
-  setRotationFromQuaternion(q: Quaternion): void {
-    this.innerMesh.attitude.yz = q.x;
-    this.innerMesh.attitude.zx = q.y;
-    this.innerMesh.attitude.xy = q.z;
-    this.innerMesh.attitude.w = q.w;
+  set position(position: Vector3) {
+    this.innerMesh.position = position;
   }
   get drawGroupName() {
     return this.innerMesh.drawGroupName;

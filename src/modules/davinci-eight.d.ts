@@ -41,86 +41,6 @@ declare module EIGHT
      */
     add(drawable: Drawable): void;
   }
-  class Euclidean3 {
-      public w: number;
-      public x: number;
-      public y: number;
-      public z: number;
-      public xy: number;
-      public yz: number;
-      public zx: number;
-      public xyz: number;
-      constructor(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number);
-      static fromCartesian(w: number, x: number, y: number, z: number, xy: number, yz: number, zx: number, xyz: number): Euclidean3;
-      static fromObject(self?: {
-          w?: number;
-          x?: number;
-          y?: number;
-          z?: number;
-          xy?: number;
-          yz?: number;
-          zx?: number;
-          xyz?: number;
-      }): Euclidean3;
-      public coordinates(): number[];
-      public coordinate(index: number): number;
-      /**
-       * Returns the sum of the target and the argument.
-       */
-      public add(rhs: Euclidean3): Euclidean3;
-      /**
-       * Returns the difference of the target and the argument.
-       */ 
-      public sub(rhs: Euclidean3): Euclidean3;
-      /**
-       * Returns the product of the target and the argument.
-       */
-      public mul(rhs: any): Euclidean3;
-      /**
-       * Returns the quotient of the target and the argument.
-       */
-      public div(rhs: any): Euclidean3;
-      /**
-       * Returns the outer product of the the target and the argument. 
-       */
-      public wedge(rhs: Euclidean3): Euclidean3;
-      /**
-       * Returns the left contraction of the target and the argument.
-       */
-      public lshift(rhs: Euclidean3): Euclidean3;
-      /**
-       * Returns the right contraction of the target and the argument.
-       */
-      public rshift(rhs: Euclidean3): Euclidean3;
-      /**
-       * Returns the part of the target with the specified grade.
-       */
-      public grade(index: number): Euclidean3;
-      /**
-       * Return the dot product of the target with the argument.
-       */
-      public dot(vector: Euclidean3): number;
-      /**
-       * Returns the cross product of the target with the argument. 
-       */
-      public cross(vector: Euclidean3): Euclidean3;
-      /**
-       * Returns the number of components in the Euclidean3.
-       */
-      public length(): number;
-      /**
-       * Returns the norm of the Euclidean3. For a vector, this would be the magnitude.
-       */
-      public norm(): Euclidean3;
-      /**
-       * Returns the quadrance of the Euclidean3. The norm is the square root of the quadrance.
-       */
-      public quad(): Euclidean3;
-      public sqrt(): Euclidean3;
-      public toString(): string;
-      public toStringIJK(): string;
-      public toStringLATEX(): string;
-  }
   class Matrix3 {
     public elements: number[];
     constructor();
@@ -135,20 +55,21 @@ declare module EIGHT
     translate(position: { x: number, y: number, z: number }): void;
     rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
   }
-  class Quaternion {
+  class Spinor3 {
+    public yz: number;
+    public zx: number;
+    public xy: number;
+    public w: number;
+    constructor(spinor: { yz: number, zx: number, xy: number, w: number });
+  }
+  class Vector3 {
     public x: number;
     public y: number;
     public z: number;
-    public w: number;
-    constructor(x: number, y: number, z: number, w: number);
+    constructor(x: number, y: number, z: number);
+    multiplyScalar(s: number): Vector3;
   }
-class Vector3 {
-  public x: number;
-  public y: number;
-  public z: number;
-  constructor(x: number, y: number, z: number);
-  multiplyScalar(s: number): Vector3;
-}  /**
+  /**
    *
    */
   interface UniformMetaInfo {
@@ -294,13 +215,13 @@ class Vector3 {
     geometry: G;
     material: M;
     /**
-     * The attitude of the mesh expressed as a rotor.
+     * The attitude of the mesh expressed as a spinor.
      */
-    attitude: Euclidean3;
+    attitude: Spinor3;
     /**
      * The position of the mesh relative to the origin. 
      */
-    position: Euclidean3;
+    position: Vector3;
   }
   interface RenderingContextMonitor
   {
@@ -395,7 +316,6 @@ class Vector3 {
   function mesh<G extends VertexAttributeProvider, M extends Material>(geometry: G, material: M, meshUniforms?: VertexUniformProvider): FactoredDrawable<G, M>;
   class Mesh<G extends Geometry, M extends Material> extends FactoredDrawable<G,M> {
     constructor(geometry: G, material: M);
-    setRotationFromQuaternion(q: Quaternion): void;
     static getUniformMetaInfo(): UniformMetaInfo;
   }
   class MeshBasicMaterial extends Material {
@@ -413,15 +333,15 @@ class Vector3 {
     /**
      * The axis corresponding to e1.
      */
-    a: blade.Euclidean3;
+    a: Vector3;
     /**
      * The axis corresponding to e2.
      */
-    b: blade.Euclidean3;
+    b: Vector3;
     /**
      * The axis corresponding to e3.
      */
-    c: blade.Euclidean3;
+    c: Vector3;
     /**
      * The color of the cuboid.
      */
@@ -455,15 +375,15 @@ class Vector3 {
     /**
      * The axis corresponding to (theta, phi) = (PI/2,0).
      */
-    a: blade.Euclidean3;
+    a: Vector3;
     /**
      * The axis corresponding to theta = 0.
      */
-    b: blade.Euclidean3;
+    b: Vector3;
     /**
      * The axis corresponding to (theta, phi) = (PI/2,PI/2).
      */
-    c: blade.Euclidean3;
+    c: Vector3;
     /**
      * The number of segments in the theta parameter.
      */
@@ -548,24 +468,6 @@ class Vector3 {
   function prism(): VertexAttributeProvider;
   class Curve() {
   }
-  /**
-   * Returns a Euclidean 3-dimensional number representing a scalar.
-   */
-  function scalarE3(w: number): Euclidean3;
-  /**
-   * Returns a vector from its cartesian components.
-   * @param x The component of the vector in the x-axis direction.
-   * @param y The component of the vector in the y-axis direction.
-   * @param z The component of the vector in the z-axis direction.
-   */
-  function vectorE3(x: number, y: number, z: number): Euclidean3;
-  /**
-   * Returns a bivector from its cartesian components.
-   * @param xy The bivector component in the xy-plane.
-   * @param yz The bivector component in the yz-plane.
-   * @param zx The bivector component in the zx-plane.
-   */
-  function bivectorE3(xy: number, yz: number, zx: number): Euclidean3;
   /**
    * Constructs and returns a new Workbench3D.
    */

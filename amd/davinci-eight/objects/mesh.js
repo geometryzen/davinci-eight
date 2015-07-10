@@ -1,4 +1,4 @@
-define(["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/object3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable', './ChainedVertexUniformProvider'], function (require, exports, ShaderAttributeVariable, object3D, ElementArray, ShaderUniformVariable, ChainedVertexUniformProvider) {
+define(["require", "exports", './ShaderAttributeVariable', 'davinci-eight/core/functionalConstructorObject3D', 'davinci-eight/objects/ElementArray', 'davinci-eight/objects/ShaderUniformVariable', './ChainedVertexUniformProvider'], function (require, exports, ShaderAttributeVariable, object3D, ElementArray, ShaderUniformVariable, ChainedVertexUniformProvider) {
     var mesh = function (geometry, material, meshUniforms) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)

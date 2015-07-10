@@ -1,12 +1,24 @@
 /// <reference path='../renderers/Renderer'/>
 /// <reference path='../worlds/World'/>
 import renderer = require('../renderers/renderer');
-  
+/**
+ * @class WebGLRenderer
+ * @implements Renderer
+ */
 class WebGLRenderer implements Renderer {
   private renderer: Renderer;
+  /**
+   * @class WebGLRenderer
+   * @constructor
+   */
   constructor() {
     this.renderer = renderer();
   }
+  /**
+   * @method render
+   * @param world {World}
+   * @param ambientUniforms {VertexUniformProvider}
+   */
   render(world: World, ambientUniforms: VertexUniformProvider) {
     return this.renderer.render(world, ambientUniforms);
   }

@@ -2,7 +2,8 @@
 
 import core = require('davinci-eight/core');
 
-import object3D = require('davinci-eight/core/object3D');
+import object3D = require('davinci-eight/core/functionalConstructorObject3D');
+import Object3D = require('davinci-eight/core/Object3D');
 import camera = require('davinci-eight/cameras/camera');
 import Camera = require('davinci-eight/cameras/Camera');
 import perspectiveCamera = require('davinci-eight/cameras/perspectiveCamera');
@@ -49,13 +50,21 @@ import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
-import Quaternion = require('davinci-eight/math/Quaternion');
+import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
 import FactoredDrawable = require('davinci-eight/objects/FactoredDrawable');
 import Curve = require('davinci-eight/curves/Curve');
 
+/**
+ * @module EIGHT
+ */
 var eight = {
+    /**
+     * The semantic version of the library.
+     * @property VERSION
+     * @type String
+     */
     'VERSION': core.VERSION,
     perspective: perspectiveCamera,
     get world() { return world; },
@@ -99,6 +108,7 @@ var eight = {
     get KleinBottleGeometry() { return KleinBottleGeometry; },
     get MobiusStripGeometry() { return MobiusStripGeometry; },
     get OctahedronGeometry() { return OctahedronGeometry; },
+    get Object3D() { return Object3D; },
     get ParametricGeometry() { return ParametricGeometry; },
     get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
@@ -112,7 +122,7 @@ var eight = {
     get MeshNormalMaterial() { return MeshNormalMaterial; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
-    get Quaternion() { return Quaternion; },
+    get Spinor3() { return Spinor3; },
     get Vector2() { return Vector2; },
     get Vector3() { return Vector3; },
     get Curve() { return Curve; }

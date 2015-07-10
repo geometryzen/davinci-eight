@@ -1,4 +1,4 @@
-define(["require", "exports", "gl-matrix", 'davinci-eight/core/object3D'], function (require, exports, glMatrix, object3D) {
+define(["require", "exports", "gl-matrix", 'davinci-eight/core/functionalConstructorObject3D'], function (require, exports, glMatrix, object3D) {
     /**
      * @class camera
      */

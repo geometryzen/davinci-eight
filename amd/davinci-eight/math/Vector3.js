@@ -1,10 +1,26 @@
 define(["require", "exports"], function (require, exports) {
+    /**
+     * @class Vector3
+     */
     var Vector3 = (function () {
+        /**
+         * @class Vector3
+         * @constructor
+         * @param x {Number} The x cartesian coordinate
+         * @param y {Number} The y cartesian coordinate
+         * @param z {Number} The z cartesian coordinate
+         */
         function Vector3(x, y, z) {
             this.x = x || 0;
             this.y = y || 0;
             this.z = z || 0;
         }
+        /**
+         * Performs in-place addition of vectors.
+         *
+         * @method add
+         * @param v {Vector3} The vector to add to this vector.
+         */
         Vector3.prototype.add = function (v) {
             this.x += v.x;
             this.y += v.y;
@@ -28,6 +44,25 @@ define(["require", "exports"], function (require, exports) {
             var qy = q.y;
             var qz = q.z;
             var qw = q.w;
+            // calculate quat * vector
+            var ix = qw * x + qy * z - qz * y;
+            var iy = qw * y + qz * x - qx * z;
+            var iz = qw * z + qx * y - qy * x;
+            var iw = -qx * x - qy * y - qz * z;
+            // calculate (quat * vector) * inverse quat
+            this.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+            this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+            this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+            return this;
+        };
+        Vector3.prototype.applySpinor = function (spinor) {
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var qx = spinor.yz;
+            var qy = spinor.zx;
+            var qz = spinor.xy;
+            var qw = spinor.w;
             // calculate quat * vector
             var ix = qw * x + qy * z - qz * y;
             var iy = qw * y + qz * x - qx * z;

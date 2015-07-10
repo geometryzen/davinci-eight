@@ -2,16 +2,37 @@
 // Only use Matrix4 in type positions.
 // Otherwise, create standalone functions.
 import Matrix4 = require('../math/Matrix4');
+import Spinor3 = require('../math/Spinor3');
 
+/**
+ * @class Vector3
+ */
 class Vector3 {
+  /**
+   * @property x
+   * @type Number
+   */
   public x: number;
   public y: number;
   public z: number;
+  /**
+   * @class Vector3
+   * @constructor
+   * @param x {Number} The x cartesian coordinate
+   * @param y {Number} The y cartesian coordinate
+   * @param z {Number} The z cartesian coordinate
+   */
   constructor(x?: number, y?: number, z?: number) {
     this.x = x || 0;
     this.y = y || 0;
     this.z = z || 0;
   }
+  /**
+   * Performs in-place addition of vectors.
+   *
+   * @method add
+   * @param v {Vector3} The vector to add to this vector.
+   */
   add(v: Vector3): Vector3 {
     this.x += v.x;
     this.y += v.y;
@@ -41,6 +62,31 @@ class Vector3 {
     let qy = q.y;
     let qz = q.z;
     let qw = q.w;
+
+    // calculate quat * vector
+
+    let ix =  qw * x + qy * z - qz * y;
+    let iy =  qw * y + qz * x - qx * z;
+    let iz =  qw * z + qx * y - qy * x;
+    let iw = - qx * x - qy * y - qz * z;
+
+    // calculate (quat * vector) * inverse quat
+
+    this.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
+    this.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
+    this.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+
+    return this;
+  }
+  applySpinor(spinor: Spinor3): Vector3 {
+    let x = this.x;
+    let y = this.y;
+    let z = this.z;
+
+    let qx = spinor.yz;
+    let qy = spinor.zx;
+    let qz = spinor.xy;
+    let qw = spinor.w;
 
     // calculate quat * vector
 

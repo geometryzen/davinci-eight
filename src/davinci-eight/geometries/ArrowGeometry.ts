@@ -1,11 +1,11 @@
-import Quaternion = require('../math/Quaternion');
 import RevolutionGeometry = require('../geometries/RevolutionGeometry');
+import Spinor3 = require('../math/Spinor3');
 import Vector3 = require('../math/Vector3');
 
 class ArrowGeometry extends RevolutionGeometry {
-  constructor(scale: number, attitude: Quaternion, segments: number, length: number, radiusShaft: number, radiusCone: number, lengthCone: number, axis: { x: number; y: number; z: number }) {
+  constructor(scale: number, attitude: Spinor3, segments: number, length: number, radiusShaft: number, radiusCone: number, lengthCone: number, axis: { x: number; y: number; z: number }) {
     scale        = scale || 1;
-    attitude     = attitude || new Quaternion(0, 0, 0, 1);
+    attitude     = attitude || new Spinor3();
     length       = (length || 1) * scale;
     radiusShaft  = (radiusShaft || 0.01) * scale;
     radiusCone   = (radiusCone  || 0.08) * scale;
@@ -13,7 +13,7 @@ class ArrowGeometry extends RevolutionGeometry {
     axis         = axis || new Vector3(0, 0, 1);
     var lengthShaft = length - lengthCone;
     var halfLength = length / 2;
-    var permutation = function(direction) {
+    var permutation = function(direction: {x: number, y: number, z: number}) {
       if (direction.x) {
         return 2;
       }
@@ -24,7 +24,7 @@ class ArrowGeometry extends RevolutionGeometry {
         return 0;
       }
     };
-    var orientation = function(direction) {
+    var orientation = function(direction: {x: number, y: number, z: number}) {
       if (direction.x > 0) {
         return +1;
       }
@@ -47,7 +47,7 @@ class ArrowGeometry extends RevolutionGeometry {
         return 0;
       }
     }
-    var computeArrow = function (direction) {
+    var computeArrow = function (direction: {x: number, y: number, z: number}) {
       var cycle = permutation(direction);
       var sign  = orientation(direction);
       var i = (cycle + 0) % 3;
@@ -62,7 +62,7 @@ class ArrowGeometry extends RevolutionGeometry {
         [0,           0, (-halfLength) * sign]
       ];
       var points = data.map(function(point) {return new Vector3(point[i], point[j], point[k])});
-      var generator = new Quaternion(direction.x, direction.y, direction.z, 0);
+      var generator = new Spinor3({yz: direction.x, zx: direction.y, xy: direction.z, w:0});
       return {"points": points, "generator": generator};
     };
     var arrow = computeArrow(axis);

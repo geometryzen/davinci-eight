@@ -4,12 +4,12 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Quaternion', '../geometries/RevolutionGeometry', '../math/Vector3'], function (require, exports, Quaternion, RevolutionGeometry, Vector3) {
+define(["require", "exports", '../geometries/RevolutionGeometry', '../math/Spinor3', '../math/Vector3'], function (require, exports, RevolutionGeometry, Spinor3, Vector3) {
     var ArrowGeometry = (function (_super) {
         __extends(ArrowGeometry, _super);
         function ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis) {
             scale = scale || 1;
-            attitude = attitude || new Quaternion(0, 0, 0, 1);
+            attitude = attitude || new Spinor3();
             length = (length || 1) * scale;
             radiusShaft = (radiusShaft || 0.01) * scale;
             radiusCone = (radiusCone || 0.08) * scale;
@@ -66,7 +66,7 @@ define(["require", "exports", '../math/Quaternion', '../geometries/RevolutionGeo
                     [0, 0, (-halfLength) * sign]
                 ];
                 var points = data.map(function (point) { return new Vector3(point[i], point[j], point[k]); });
-                var generator = new Quaternion(direction.x, direction.y, direction.z, 0);
+                var generator = new Spinor3({ yz: direction.x, zx: direction.y, xy: direction.z, w: 0 });
                 return { "points": points, "generator": generator };
             };
             var arrow = computeArrow(axis);

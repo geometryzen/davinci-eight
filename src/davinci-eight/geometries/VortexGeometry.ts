@@ -1,12 +1,19 @@
 import Face3 = require('../core/Face3');
 import Geometry = require('../geometries/Geometry');
-import Quaternion = require('../math/Quaternion');
+import Spinor3 = require('../math/Spinor3');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
 class VortexGeometry extends Geometry
 {
-  constructor(radius: number, radiusCone: number, radiusShaft: number, lengthCone: number, lengthShaft: number, arrowSegments?: number, radialSegments?: number) {
+  constructor(
+    radius: number,
+    radiusCone: number,
+    radiusShaft: number,
+    lengthCone: number,
+    lengthShaft: number,
+    arrowSegments?: number,
+    radialSegments?: number) {
     super();
     var scope = this;
     var n = 9;

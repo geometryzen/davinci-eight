@@ -1,6 +1,6 @@
 /// <reference path="../worlds/World.d.ts" />
 /// <reference path="../core/Drawable.d.ts" />
-import object3D = require('davinci-eight/core/object3D');
+import object3D = require('davinci-eight/core/functionalConstructorObject3D');
 
 var world = function(): World
 {

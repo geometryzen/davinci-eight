@@ -1,7 +1,8 @@
-/// <reference path="../../../vendor/davinci-blade/amd/davinci-blade.d.ts" />
 /// <reference path="../../../src/gl-matrix.d.ts" />
 /// <amd-dependency path="gl-matrix" name="glMatrix"/>
-import object3D = require('davinci-eight/core/object3D');
+import object3D = require('davinci-eight/core/functionalConstructorObject3D');
+import Vector3 = require('../math/Vector3');
+import Spinor3 = require('../math/Spinor3');
 declare var glMatrix: glMatrix;
 
 /**
@@ -14,9 +15,9 @@ var camera = function() {
 
     var that = {
         // Delegate to the base camera.
-        get position(): blade.Euclidean3 { return base.position; },
+        get position(): Vector3 { return base.position; },
         set position(value) { base.position = value },
-        get attitude(): blade.Euclidean3 { return base.attitude; },
+        get attitude(): Spinor3 { return base.attitude; },
         set attitude(value) { base.attitude = value },
         get projectionMatrix() {return projectionMatrix}
     };

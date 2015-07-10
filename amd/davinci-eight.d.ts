@@ -1,4 +1,5 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import Object3D = require('davinci-eight/core/Object3D');
 import Camera = require('davinci-eight/cameras/Camera');
 import PerspectiveCamera = require('davinci-eight/cameras/PerspectiveCamera');
 import Scene = require('davinci-eight/worlds/Scene');
@@ -30,16 +31,19 @@ import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import MeshBasicMaterial = require('davinci-eight/materials/MeshBasicMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
-import Quaternion = require('davinci-eight/math/Quaternion');
+import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
 import FactoredDrawable = require('davinci-eight/objects/FactoredDrawable');
 import Curve = require('davinci-eight/curves/Curve');
+/**
+ * @module EIGHT
+ */
 declare var eight: {
     'VERSION': string;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => {
-        position: blade.Euclidean3;
-        attitude: blade.Euclidean3;
+        position: Vector3;
+        attitude: Spinor3;
         aspect: number;
         projectionMatrix: number[];
     };
@@ -97,6 +101,7 @@ declare var eight: {
     KleinBottleGeometry: typeof KleinBottleGeometry;
     MobiusStripGeometry: typeof MobiusStripGeometry;
     OctahedronGeometry: typeof OctahedronGeometry;
+    Object3D: typeof Object3D;
     ParametricGeometry: typeof ParametricGeometry;
     PolyhedronGeometry: typeof PolyhedronGeometry;
     RevolutionGeometry: typeof RevolutionGeometry;
@@ -110,7 +115,7 @@ declare var eight: {
     MeshNormalMaterial: typeof MeshNormalMaterial;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
-    Quaternion: typeof Quaternion;
+    Spinor3: typeof Spinor3;
     Vector2: typeof Vector2;
     Vector3: typeof Vector3;
     Curve: typeof Curve;
