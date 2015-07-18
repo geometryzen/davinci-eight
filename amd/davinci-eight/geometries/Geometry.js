@@ -111,7 +111,7 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             }
             ;
             // if faces are completely degenerate after merging vertices, we
-            // have to remove them from the geometry.
+            // have to remove them.
             var faceIndicesToRemove = [];
             for (i = 0, il = this.faces.length; i < il; i++) {
                 face = this.faces[i];

@@ -1,5 +1,4 @@
 define(["require", "exports"], function (require, exports) {
-    /// <reference path='../renderers/VertexUniformProvider.d.ts'/>
     var ChainedVertexUniformProvider = (function () {
         function ChainedVertexUniformProvider(provider, fallback) {
             this.provider = provider;
@@ -22,6 +21,27 @@ define(["require", "exports"], function (require, exports) {
             else {
                 return this.fallback.getUniformMatrix4(name);
             }
+        };
+        ChainedVertexUniformProvider.prototype.getUniformVector3 = function (name) {
+            var v3 = this.provider.getUniformVector3(name);
+            if (v3) {
+                return v3;
+            }
+            else {
+                return this.fallback.getUniformVector3(name);
+            }
+        };
+        ChainedVertexUniformProvider.prototype.getUniformMetaInfos = function () {
+            var uniforms = {};
+            var ones = this.provider.getUniformMetaInfos();
+            for (name in ones) {
+                uniforms[name] = ones[name];
+            }
+            var twos = this.fallback.getUniformMetaInfos();
+            for (name in twos) {
+                uniforms[name] = twos[name];
+            }
+            return uniforms;
         };
         return ChainedVertexUniformProvider;
     })();

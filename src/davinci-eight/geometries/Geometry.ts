@@ -156,7 +156,7 @@ import Vector3 = require('../math/Vector3');
 
 
     // if faces are completely degenerate after merging vertices, we
-    // have to remove them from the geometry.
+    // have to remove them.
     var faceIndicesToRemove: number[] = [];
 
     for ( i = 0, il = this.faces.length; i < il; i ++ ) {

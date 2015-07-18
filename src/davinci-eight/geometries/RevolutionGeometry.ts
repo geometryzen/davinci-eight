@@ -46,9 +46,7 @@ class RevolutionGeometry extends Geometry
 
       for (j = 0, jl = points.length; j < jl; j++) {
 
-        var pt = points[ j ];
-
-        var vertex = new Vector3(pt.x, pt.y, pt.z);
+        var vertex = points[j].clone();
 
         // The generator tells us how to rotate the points.
         vertex.applySpinor(rotor);

@@ -24,7 +24,7 @@ class PolyhedronGeometry extends Geometry {
 
     for ( var i = 0, l = vertices.length; i < l; i += 3 ) {
 
-      prepare( new Vector3( vertices[ i ], vertices[ i + 1 ], vertices[ i + 2 ] ) );
+      prepare(new Vector3({ x: vertices[i], y: vertices[i + 1], z: vertices[i + 2] } ) );
 
     }
 

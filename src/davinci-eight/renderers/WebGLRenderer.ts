@@ -1,6 +1,7 @@
-/// <reference path='../renderers/Renderer'/>
-/// <reference path='../worlds/World'/>
 import renderer = require('../renderers/renderer');
+import Renderer = require('../renderers/Renderer');
+import World = require('../worlds/World');
+import VertexUniformProvider = require('../core/VertexUniformProvider');
 /**
  * @class WebGLRenderer
  * @implements Renderer
@@ -19,11 +20,11 @@ class WebGLRenderer implements Renderer {
    * @param world {World}
    * @param ambientUniforms {VertexUniformProvider}
    */
-  render(world: World, ambientUniforms: VertexUniformProvider) {
-    return this.renderer.render(world, ambientUniforms);
+  render(world: World, views: VertexUniformProvider[]) {
+    return this.renderer.render(world, views);
   }
-  contextFree(context: WebGLRenderingContext) {
-    return this.renderer.contextFree(context);
+  contextFree() {
+    return this.renderer.contextFree();
   }
   contextGain(context: WebGLRenderingContext, contextId: string) {
     return this.renderer.contextGain(context, contextId);

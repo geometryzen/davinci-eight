@@ -9,28 +9,34 @@ define(["require", "exports", '../geometries/ParametricGeometry', '../math/Vecto
     var sin = Math.sin;
     var pi = Math.PI;
     function klein(u, v) {
-        var x;
-        var y;
-        var z;
+        var point = new Vector3();
         u = u * 2 * pi;
         v = v * 2 * pi;
         if (u < pi) {
-            x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(u) * cos(v);
-            z = -8 * sin(u) - 2 * (1 - cos(u) / 2) * sin(u) * cos(v);
+            point.x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(u) * cos(v);
+            point.z = -8 * sin(u) - 2 * (1 - cos(u) / 2) * sin(u) * cos(v);
         }
         else {
-            x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(v + pi);
-            z = -8 * sin(u);
+            point.x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(v + pi);
+            point.z = -8 * sin(u);
         }
-        y = -2 * (1 - cos(u) / 2) * sin(v);
-        return new Vector3(x, y, z);
+        point.y = -2 * (1 - cos(u) / 2) * sin(v);
+        return point;
     }
     /**
      * By connecting the edge of a Mobius Strip we get a Klein Bottle.
      * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
+     * @class KleinBottleGeometry
+     * @extends ParametricGeometry
      */
     var KleinBottleGeometry = (function (_super) {
         __extends(KleinBottleGeometry, _super);
+        /**
+         * @class KleinBottleGeometry
+         * @constructor
+         * @param uSegments {number}
+         * @param vSegments {number}
+         */
         function KleinBottleGeometry(uSegments, vSegments) {
             _super.call(this, klein, uSegments, vSegments);
         }

@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Spinor3, Vector2, Vector3) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, Face3, Geometry, Spinor3, Vector2) {
     var RevolutionGeometry = (function (_super) {
         __extends(RevolutionGeometry, _super);
         function RevolutionGeometry(points, generator, segments, phiStart, phiLength, attitude) {
@@ -30,8 +30,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
                 var rotor = new Spinor3({ yz: generator.yz * sinHA, zx: generator.zx * sinHA, xy: generator.xy * sinHA, w: cosHA });
                 for (j = 0, jl = points.length; j < jl; j++) {
-                    var pt = points[j];
-                    var vertex = new Vector3(pt.x, pt.y, pt.z);
+                    var vertex = points[j].clone();
                     // The generator tells us how to rotate the points.
                     vertex.applySpinor(rotor);
                     // The attitude tells us where we want the symmetry axis to be.

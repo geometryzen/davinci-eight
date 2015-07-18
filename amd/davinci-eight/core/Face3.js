@@ -4,7 +4,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.a = a;
             this.b = b;
             this.c = c;
-            this.normal = normal instanceof Vector3 ? normal : new Vector3(0, 0, 0);
+            this.normal = normal instanceof Vector3 ? normal : new Vector3();
             this.vertexNormals = normal instanceof Array ? normal : [];
         }
         return Face3;

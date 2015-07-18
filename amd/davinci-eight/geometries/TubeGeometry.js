@@ -48,7 +48,7 @@ define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/G
             this.normals = normals;
             this.binormals = binormals;
             function vert(x, y, z) {
-                return scope.vertices.push(new Vector3(x, y, z)) - 1;
+                return scope.vertices.push(new Vector3({ x: x, y: y, z: z })) - 1;
             }
             // consruct the grid
             for (i = 0; i < numpoints; i++) {
@@ -70,7 +70,6 @@ define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/G
                     grid[i][j] = vert(pos2.x, pos2.y, pos2.z);
                 }
             }
-            // construct the mesh
             for (i = 0; i < segments; i++) {
                 for (j = 0; j < radialSegments; j++) {
                     ip = (closed) ? (i + 1) % segments : i + 1;

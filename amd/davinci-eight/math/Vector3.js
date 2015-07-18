@@ -6,14 +6,12 @@ define(["require", "exports"], function (require, exports) {
         /**
          * @class Vector3
          * @constructor
-         * @param x {Number} The x cartesian coordinate
-         * @param y {Number} The y cartesian coordinate
-         * @param z {Number} The z cartesian coordinate
+         * @param vector [{x,y,z}]
          */
-        function Vector3(x, y, z) {
-            this.x = x || 0;
-            this.y = y || 0;
-            this.z = z || 0;
+        function Vector3(vector) {
+            this.x = vector ? vector.x : 0;
+            this.y = vector ? vector.y : 0;
+            this.z = vector ? vector.z : 0;
         }
         /**
          * Performs in-place addition of vectors.
@@ -73,6 +71,9 @@ define(["require", "exports"], function (require, exports) {
             this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
             this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
             return this;
+        };
+        Vector3.prototype.clone = function () {
+            return new Vector3({ x: this.x, y: this.y, z: this.z });
         };
         Vector3.prototype.copy = function (v) {
             this.x = v.x;
@@ -171,9 +172,16 @@ define(["require", "exports"], function (require, exports) {
             this.z = a.z - b.z;
             return this;
         };
-        Vector3.prototype.clone = function () {
-            return new Vector3(this.x, this.y, this.z);
+        /**
+         * @method toString
+         * @return {string} A non-normative string representation of the target.
+         */
+        Vector3.prototype.toString = function () {
+            return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
         };
+        Vector3.e1 = new Vector3({ x: 1, y: 0, z: 0 });
+        Vector3.e2 = new Vector3({ x: 0, y: 1, z: 0 });
+        Vector3.e3 = new Vector3({ x: 0, y: 0, z: 1 });
         return Vector3;
     })();
     return Vector3;

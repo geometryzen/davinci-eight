@@ -8,27 +8,27 @@ declare module x {
 }
 
 interface Matrix3Service {
-    /**
-     * Creates a new identity mat3
-     */
-    create(): number[];
-    identity(matrix: number[]): void;
-    /**
-     * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
-     * @param {Matrix3x3} out Matrix3x3 receiving operation result.
-     * @param {Matrix4} a Matrix4x4 to derive the normal matrix from
-     */
-    normalFromMat4(out: number[], a: number[]);
+  /**
+   * Creates a new identity mat3
+   */
+  create(): number[];
+  identity(matrix: number[]): void;
+  /**
+   * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
+   * @param {Matrix3x3} out Matrix3x3 receiving operation result.
+   * @param {Matrix4} a Matrix4x4 to derive the normal matrix from
+   */
+  normalFromMat4(out: number[], a: number[]);
 }
 
 interface Matrix4Service {
-    create(): number[];
-    fromQuat(matrix: number[], q: number[]): void;
-    identity(matrix: number[]): void;
-    mul(m1: number[], m2: number[], m3: number[]): void;
-    perspective(matrix: number[], fov: number, aspect: number, near: number, far: number): void;
-    translate(m1: number[], m2: number[], displacement: number[]): void;
-    fromRotationTranslation(matrix: number[], q: Quaternion, v: Vector3): void;
+  create(): number[];
+  fromQuat(matrix: number[], q: number[]): void;
+  identity(matrix: number[]): void;
+  mul(m1: number[], m2: number[], m3: number[]): void;
+  perspective(matrix: number[], fov: number, aspect: number, near: number, far: number): void;
+  translate(m1: number[], m2: number[], displacement: number[]): void;
+  fromRotationTranslation(matrix: number[], q: Quaternion, v: Vector3): void;
 }
 
 interface Vector3 {
@@ -36,7 +36,7 @@ interface Vector3 {
 }
 
 interface Vector3Service {
-      fromValues(x: number, y: number, z: number): Vector3;
+  fromValues(x: number, y: number, z: number): Vector3;
 }
 
 interface Quaternion {
@@ -44,15 +44,15 @@ interface Quaternion {
 }
 
 interface QuaternionService {
-      fromValues(x: number, y: number, z: number, w:number): Quaternion;
+  fromValues(x: number, y: number, z: number, w:number): Quaternion;
 }
 
 interface glMatrix {
-    create(): number;
-    mat3: Matrix3Service;
-    mat4: Matrix4Service;
-    vec3: Vector3Service;
-    quat: QuaternionService;
+  create(): number;
+  mat3: Matrix3Service;
+  mat4: Matrix4Service;
+  vec3: Vector3Service;
+  quat: QuaternionService;
 }
 
 declare var x: glMatrix;

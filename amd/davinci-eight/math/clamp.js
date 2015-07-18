@@ -1,6 +1,6 @@
 define(["require", "exports"], function (require, exports) {
-    function clamp(x, a, b) {
-        return (x < a) ? a : ((x > b) ? b : x);
+    function clamp(x, min, max) {
+        return (x < min) ? min : ((x > max) ? max : x);
     }
     return clamp;
 });

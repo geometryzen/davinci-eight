@@ -1,13 +1,26 @@
 define(["require", "exports", '../renderers/renderer'], function (require, exports, renderer) {
+    /**
+     * @class WebGLRenderer
+     * @implements Renderer
+     */
     var WebGLRenderer = (function () {
+        /**
+         * @class WebGLRenderer
+         * @constructor
+         */
         function WebGLRenderer() {
             this.renderer = renderer();
         }
-        WebGLRenderer.prototype.render = function (world, ambientUniforms) {
-            return this.renderer.render(world, ambientUniforms);
+        /**
+         * @method render
+         * @param world {World}
+         * @param ambientUniforms {VertexUniformProvider}
+         */
+        WebGLRenderer.prototype.render = function (world, views) {
+            return this.renderer.render(world, views);
         };
-        WebGLRenderer.prototype.contextFree = function (context) {
-            return this.renderer.contextFree(context);
+        WebGLRenderer.prototype.contextFree = function () {
+            return this.renderer.contextFree();
         };
         WebGLRenderer.prototype.contextGain = function (context, contextId) {
             return this.renderer.contextGain(context, contextId);

@@ -1,14 +1,11 @@
-/// <reference path="../worlds/World.d.ts" />
-/// <reference path="../core/Drawable.d.ts" />
-import object3D = require('davinci-eight/core/functionalConstructorObject3D');
+import World = require('../worlds/World');
+import Drawable = require('../core/Drawable');
 
 var world = function(): World
 {
     var drawables: Drawable[] = [];
     var drawGroups: {[drawGroupName:string]: Drawable[]} = {};
 
-    // TODO: What do we want out of the base object3D?
-    var base = object3D();
     var gl: WebGLRenderingContext;
     var contextId: string;
 
@@ -17,11 +14,11 @@ var world = function(): World
         get drawGroups(): {[drawGroupName:string]: Drawable[]} {return drawGroups},
         get children(): Drawable[] { return drawables; },
 
-        contextFree(context: WebGLRenderingContext): void
+        contextFree(): void
         {
           for (var i = 0, length = drawables.length; i < length; i++)
           {
-            drawables[i].contextFree(context);
+            drawables[i].contextFree();
           }
         },
 
@@ -55,7 +52,7 @@ var world = function(): World
 
         add: function(child: Drawable)
         {
-            drawables.push(child);
+          drawables.push(child);
         }
     }
 

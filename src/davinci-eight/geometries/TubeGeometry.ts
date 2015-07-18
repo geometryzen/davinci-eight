@@ -73,7 +73,7 @@ class TubeGeometry extends Geometry {
     this.binormals = binormals;
 
     function vert(x: number, y: number, z: number) {
-      return scope.vertices.push(new Vector3(x, y, z)) - 1;
+      return scope.vertices.push(new Vector3({ x: x, y: y, z: z })) - 1;
     }
 
     // consruct the grid
@@ -108,9 +108,6 @@ class TubeGeometry extends Geometry {
 
       }
     }
-
-
-    // construct the mesh
 
     for ( i = 0; i < segments; i ++ ) {
 

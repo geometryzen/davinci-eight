@@ -1,9 +1,11 @@
-/// <reference path="../core/DrawContext.d.ts" />
-/// <reference path="../worlds/World.d.ts" />
-/// <reference path="../renderers/Renderer.d.ts" />
-/// <reference path="../renderers/RendererParameters.d.ts" />
-/// <reference path="../renderers/VertexUniformProvider.d.ts" />
 import core = require('davinci-eight/core');
+import Color = require('../core/Color');
+import Drawable = require('../core/Drawable');
+import DrawContext = require('../core/DrawContext');
+import Renderer = require('../renderers/Renderer');
+import RendererParameters = require('../renderers/RendererParameters');
+import World = require('../worlds/World');
+import VertexUniformProvider = require('../core/VertexUniformProvider');
 
 class FrameworkDrawContext implements DrawContext {
   private startTime: number;
@@ -58,10 +60,27 @@ var renderer = function(parameters?: RendererParameters): Renderer {
     var devicePixelRatio = 1;
     var autoClearColor: boolean = true;
     var autoClearDepth: boolean = true;
+    var clearColor: Color = new Color(1.0, 1.0, 1.0, 1.0);
 
     function setViewport(x: number, y: number, width: number, height: number): void {
       if (context) {
         context.viewport(x * devicePixelRatio, y * devicePixelRatio, width * devicePixelRatio, height * devicePixelRatio);
+      }
+    }
+
+    function clear() {
+      var mask: number = 0;
+      if (context)
+      {
+        if (autoClearColor)
+        {
+          mask |= context.COLOR_BUFFER_BIT;
+        }
+        if (autoClearDepth)
+        {
+          mask |= context.DEPTH_BUFFER_BIT;
+        }
+        context.clear(mask);
       }
     }
 
@@ -73,24 +92,25 @@ var renderer = function(parameters?: RendererParameters): Renderer {
       },
       contextGain: function(contextArg: WebGLRenderingContext, contextGainId: string) {
         context = contextArg;
-        context.clearColor(32 / 256, 32 / 256, 32 / 256, 1.0);
-        context.enable(context.DEPTH_TEST);
       },
       contextLoss: function() {
+        context = void 0;
       },
       hasContext: function() {
         return !!context;
       },
-      clearColor: function(r: number, g: number, b: number, a: number) {
-        if (context) {
-          context.clearColor(r, g, b, a);
-        }
+      clearColor: function(red: number, green: number, blue: number, alpha: number)
+      {
+        clearColor.red = red;
+        clearColor.green = green;
+        clearColor.blue = blue;
+        clearColor.alpha = alpha;
       },
-      render(world: World, ambientUniforms: VertexUniformProvider) {
+      render(world: World, views: VertexUniformProvider[]) {
         drawContext.frameBegin();
-        context.clearColor(0.8, 0.8, 0.8, 1.0);
+        context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
         context.enable(context.DEPTH_TEST);
-        context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
+        clear();
 
         var drawGroups: {[programId:string]: Drawable[]} = {};
         if (!world.hasContext()) {
@@ -100,10 +120,12 @@ var renderer = function(parameters?: RendererParameters): Renderer {
         var time = drawContext.time();
         var drawHandler = function(drawable: Drawable, index: number) {
           if (!programLoaded) {
-            drawable.useProgram(context);
+            drawable.useProgram();
             programLoaded = true;
           }
-          drawable.draw(context, time, ambientUniforms);
+          views.forEach(function(view) {
+            drawable.draw(view);
+          });
         };
         for (var drawGroupName in world.drawGroups) {
           programLoaded = false;

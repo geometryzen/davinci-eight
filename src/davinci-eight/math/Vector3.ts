@@ -1,6 +1,7 @@
 // Be careful not to create circularity.
 // Only use Matrix4 in type positions.
 // Otherwise, create standalone functions.
+import Cartesian3 = require('../math/Cartesian3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
 
@@ -15,17 +16,18 @@ class Vector3 {
   public x: number;
   public y: number;
   public z: number;
+  public static e1 = new Vector3({x: 1, y: 0, z: 0});
+  public static e2 = new Vector3({x: 0, y: 1, z: 0});
+  public static e3 = new Vector3({x: 0, y: 0, z: 1});
   /**
    * @class Vector3
    * @constructor
-   * @param x {Number} The x cartesian coordinate
-   * @param y {Number} The y cartesian coordinate
-   * @param z {Number} The z cartesian coordinate
+   * @param vector [{x,y,z}]
    */
-  constructor(x?: number, y?: number, z?: number) {
-    this.x = x || 0;
-    this.y = y || 0;
-    this.z = z || 0;
+  constructor(vector?: Cartesian3) {
+    this.x = vector ? vector.x : 0;
+    this.y = vector ? vector.y : 0;
+    this.z = vector ? vector.z : 0;
   }
   /**
    * Performs in-place addition of vectors.
@@ -33,7 +35,7 @@ class Vector3 {
    * @method add
    * @param v {Vector3} The vector to add to this vector.
    */
-  add(v: Vector3): Vector3 {
+  add(v: Cartesian3): Vector3 {
     this.x += v.x;
     this.y += v.y;
     this.z += v.z;
@@ -103,6 +105,9 @@ class Vector3 {
 
     return this;
   }
+  clone(): Vector3 {
+    return new Vector3({ x: this.x, y: this.y, z: this.z });
+  }
   copy(v: Vector3): Vector3 {
     this.x = v.x;
     this.y = v.y;
@@ -112,7 +117,7 @@ class Vector3 {
   cross(v: Vector3): Vector3 {
     return this.crossVectors(this, v);
   }
-  crossVectors(a: Vector3, b: Vector3): Vector3 {
+  crossVectors(a: Cartesian3, b: Cartesian3): Vector3 {
     var ax = a.x, ay = a.y, az = a.z;
     var bx = b.x, by = b.y, bz = b.z;
 
@@ -122,10 +127,10 @@ class Vector3 {
 
     return this;
   }
-  distance(v: Vector3): number {
+  distance(v: Cartesian3): number {
     return Math.sqrt(this.quadrance(v));
   }
-  quadrance(v: Vector3): number {
+  quadrance(v: Cartesian3): number {
     var dx = this.x - v.x;
     var dy = this.y - v.y;
     var dz = this.z - v.z;
@@ -145,7 +150,7 @@ class Vector3 {
     }
     return this;
   }
-  dot(v: Vector3): number {
+  dot(v: Cartesian3): number {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
   length(): number {
@@ -154,7 +159,7 @@ class Vector3 {
     let z = this.z;
     return Math.sqrt(x * x + y * y + z * z);
   }
-  lerp(v: Vector3, alpha: number): Vector3 {
+  lerp(v: Cartesian3, alpha: number): Vector3 {
     this.x += ( v.x - this.x ) * alpha;
     this.y += ( v.y - this.y ) * alpha;
     this.z += ( v.z - this.z ) * alpha;
@@ -164,7 +169,7 @@ class Vector3 {
   normalize(): Vector3 {
     return this.divideScalar(this.length());
   }
-  multiply(v: Vector3): Vector3 {
+  multiply(v: Cartesian3): Vector3 {
     this.x *= v.x;
     this.y *= v.y;
     this.z *= v.z;
@@ -194,17 +199,22 @@ class Vector3 {
     this.z = z;
     return this;
   }
-  sub(v: Vector3): Vector3 {
+  sub(v: Cartesian3): Vector3 {
     return this.subVectors(this, v);
   }
-  subVectors(a: Vector3, b: Vector3): Vector3 {
+  subVectors(a: Cartesian3, b: Cartesian3): Vector3 {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
     this.z = a.z - b.z;
     return this;
   }
-  clone() {
-    return new Vector3(this.x, this.y, this.z);
+  /**
+   * @method toString
+   * @return {string} A non-normative string representation of the target.
+   */
+  toString(): string
+  {
+    return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
   }
 }
 

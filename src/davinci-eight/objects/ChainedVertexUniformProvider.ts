@@ -1,4 +1,7 @@
-/// <reference path='../renderers/VertexUniformProvider.d.ts'/>
+import UniformMetaInfos = require('../core/UniformMetaInfos');
+import Vector3 = require('../math/Vector3');
+import VertexUniformProvider = require('../core/VertexUniformProvider');
+
 class ChainedVertexUniformProvider implements VertexUniformProvider {
   private provider: VertexUniformProvider;
   private fallback: VertexUniformProvider;
@@ -23,6 +26,27 @@ class ChainedVertexUniformProvider implements VertexUniformProvider {
     else {
       return this.fallback.getUniformMatrix4(name);
     }
+  }
+  getUniformVector3(name: string): Vector3 {
+    var v3: Vector3 = this.provider.getUniformVector3(name);
+    if (v3) {
+      return v3;
+    }
+    else {
+      return this.fallback.getUniformVector3(name);
+    }
+  }
+  getUniformMetaInfos(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = {};
+    var ones = this.provider.getUniformMetaInfos();
+    for (name in ones) {
+      uniforms[name] = ones[name];
+    }
+    var twos = this.fallback.getUniformMetaInfos();
+    for (name in twos) {
+      uniforms[name] = twos[name];
+    }
+    return uniforms;
   }
 }
 

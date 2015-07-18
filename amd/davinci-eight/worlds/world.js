@@ -1,17 +1,15 @@
-define(["require", "exports", 'davinci-eight/core/functionalConstructorObject3D'], function (require, exports, object3D) {
+define(["require", "exports"], function (require, exports) {
     var world = function () {
         var drawables = [];
         var drawGroups = {};
-        // TODO: What do we want out of the base object3D?
-        var base = object3D();
         var gl;
         var contextId;
         var publicAPI = {
             get drawGroups() { return drawGroups; },
             get children() { return drawables; },
-            contextFree: function (context) {
+            contextFree: function () {
                 for (var i = 0, length = drawables.length; i < length; i++) {
-                    drawables[i].contextFree(context);
+                    drawables[i].contextFree();
                 }
             },
             contextGain: function (context, contextId) {

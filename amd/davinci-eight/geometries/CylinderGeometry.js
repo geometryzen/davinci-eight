@@ -75,14 +75,14 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             }
             // top cap
             if (openEnded === false && radiusTop > 0) {
-                this.vertices.push(new Vector3(0, heightHalf, 0));
+                this.vertices.push(Vector3.e2.clone().multiplyScalar(heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[0][x];
                     var v2 = vertices[0][x + 1];
                     var v3 = this.vertices.length - 1;
-                    var n1 = new Vector3(0, 1, 0);
-                    var n2 = new Vector3(0, 1, 0);
-                    var n3 = new Vector3(0, 1, 0);
+                    var n1 = Vector3.e2;
+                    var n2 = Vector3.e2;
+                    var n3 = Vector3.e2;
                     var uv1 = uvs[0][x].clone();
                     var uv2 = uvs[0][x + 1].clone();
                     var uv3 = new Vector2(uv2.x, 0);
@@ -92,14 +92,14 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             }
             // bottom cap
             if (openEnded === false && radiusBottom > 0) {
-                this.vertices.push(new Vector3(0, -heightHalf, 0));
+                this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[heightSegments][x + 1];
                     var v2 = vertices[heightSegments][x];
                     var v3 = this.vertices.length - 1;
-                    var n1 = new Vector3(0, -1, 0);
-                    var n2 = new Vector3(0, -1, 0);
-                    var n3 = new Vector3(0, -1, 0);
+                    var n1 = Vector3.e2.clone().multiplyScalar(-1);
+                    var n2 = Vector3.e2.clone().multiplyScalar(-1);
+                    var n3 = Vector3.e2.clone().multiplyScalar(-1);
                     var uv1 = uvs[heightSegments][x + 1].clone();
                     var uv2 = uvs[heightSegments][x].clone();
                     var uv3 = new Vector2(uv2.x, 1);

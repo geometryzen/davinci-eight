@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.18.0</em>
+            <em>API Docs for: 2.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,15 +38,54 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
+                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
+                                <li><a href="../classes/BoxVertexAttributeProvider.html">BoxVertexAttributeProvider</a></li>
+                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/CuboidVertexAttributeProvider.html">CuboidVertexAttributeProvider</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/EllipsoidGeometry.html">EllipsoidGeometry</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
-                                <li><a href="../classes/Object3D.html">Object3D</a></li>
-                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
-                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/Matrix4
+                
+                The correspondence between the elements property index and the matrix entries is...
+                
+                 0  4  8 12
+                 1  5  9 13
+                 2  6 10 14
+                 3  7 11 15.html">Matrix4
+                
+                The correspondence between the elements property index and the matrix entries is...
+                
+                 0  4  8 12
+                 1  5  9 13
+                 2  6 10 14
+                 3  7 11 15</a></li>
+                                <li><a href="../classes/Model.html">Model</a></li>
+                                <li><a href="../classes/Node3D.html">Node3D</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
+                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/VertexAttributeProvider.html">VertexAttributeProvider</a></li>
+                                <li><a href="../classes/VertexUniformProvider.html">VertexUniformProvider</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
@@ -90,7 +129,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Vector3.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:18</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Vector3.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:22</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -110,13 +149,7 @@
                 <div class="args">
                     <span class="paren">(</span><ul class="args-list inline commas">
                         <li class="arg">
-                                <code>x</code>
-                        </li>
-                        <li class="arg">
-                                <code>y</code>
-                        </li>
-                        <li class="arg">
-                                <code>z</code>
+                                <code>vector</code>
                         </li>
                     </ul><span class="paren">)</span>
                 </div>
@@ -131,7 +164,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/src_davinci-eight_math_Vector3.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:18</code></a>
+                <a href="../files/src_davinci-eight_math_Vector3.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:22</code></a>
                 </p>
         
         
@@ -147,34 +180,12 @@
         
                     <ul class="params-list">
                         <li class="param">
-                                <code class="param-name">x</code>
-                                <span class="type">Number</span>
+                                <code class="param-name">vector</code>
+                                <span class="type">X,y,z</span>
         
         
                             <div class="param-description">
-                                <p>The x cartesian coordinate</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">y</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The y cartesian coordinate</p>
-        
-                            </div>
-        
-                        </li>
-                        <li class="param">
-                                <code class="param-name">z</code>
-                                <span class="type">Number</span>
-        
-        
-                            <div class="param-description">
-                                <p>The z cartesian coordinate</p>
+                                <p>[]</p>
         
                             </div>
         
@@ -205,6 +216,10 @@
                     <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_add">add</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
 
                             </li>
                     </ul>
@@ -248,7 +263,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:30</code></a>
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:32</code></a>
         </p>
 
 
@@ -281,6 +296,48 @@
 
 
 </div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">String</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_math_Vector3.ts.html#l211"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:211</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">String</span>:
+                    <p>A non-normative string representation of the target.</p>
+
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -297,7 +354,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_math_Vector3.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:11</code></a>
+                            <a href="../files/src_davinci-eight_math_Vector3.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Vector3.ts:12</code></a>
                             </p>
                     
                     

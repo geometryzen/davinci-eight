@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.18.0</em>
+            <em>API Docs for: 2.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,15 +38,54 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
+                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
+                                <li><a href="../classes/BoxVertexAttributeProvider.html">BoxVertexAttributeProvider</a></li>
+                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/CuboidVertexAttributeProvider.html">CuboidVertexAttributeProvider</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/EllipsoidGeometry.html">EllipsoidGeometry</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
-                                <li><a href="../classes/Object3D.html">Object3D</a></li>
-                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
-                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/Matrix4
+                
+                The correspondence between the elements property index and the matrix entries is...
+                
+                 0  4  8 12
+                 1  5  9 13
+                 2  6 10 14
+                 3  7 11 15.html">Matrix4
+                
+                The correspondence between the elements property index and the matrix entries is...
+                
+                 0  4  8 12
+                 1  5  9 13
+                 2  6 10 14
+                 3  7 11 15</a></li>
+                                <li><a href="../classes/Model.html">Model</a></li>
+                                <li><a href="../classes/Node3D.html">Node3D</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
+                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/VertexAttributeProvider.html">VertexAttributeProvider</a></li>
+                                <li><a href="../classes/VertexUniformProvider.html">VertexUniformProvider</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
@@ -91,34 +130,31 @@
     <pre class="code prettyprint linenums">
 /// &lt;reference path=&quot;../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
 
+import AttributeMetaInfos = require(&#x27;davinci-eight/core/AttributeMetaInfos&#x27;);
+import AmbientLight = require(&#x27;davinci-eight/uniforms/AmbientLight&#x27;);
 import core = require(&#x27;davinci-eight/core&#x27;);
-
-import object3D = require(&#x27;davinci-eight/core/functionalConstructorObject3D&#x27;);
-import Object3D = require(&#x27;davinci-eight/core/Object3D&#x27;);
-import camera = require(&#x27;davinci-eight/cameras/camera&#x27;);
-import Camera = require(&#x27;davinci-eight/cameras/Camera&#x27;);
-import perspectiveCamera = require(&#x27;davinci-eight/cameras/perspectiveCamera&#x27;);
-import PerspectiveCamera = require(&#x27;davinci-eight/cameras/PerspectiveCamera&#x27;);
+import Node3D = require(&#x27;davinci-eight/core/Node3D&#x27;);
+import object3D = require(&#x27;davinci-eight/core/object3D&#x27;);
+import view = require(&#x27;davinci-eight/cameras/view&#x27;);
+import Color = require(&#x27;davinci-eight/core/Color&#x27;);
+import ChainedVertexUniformProvider = require(&#x27;davinci-eight/objects/ChainedVertexUniformProvider&#x27;);
+import View = require(&#x27;davinci-eight/cameras/View&#x27;);
+import LinearPerspectiveCamera = require(&#x27;davinci-eight/cameras/LinearPerspectiveCamera&#x27;);
+import perspective = require(&#x27;davinci-eight/cameras/perspective&#x27;);
 import world = require(&#x27;davinci-eight/worlds/world&#x27;);
-import Scene = require(&#x27;davinci-eight/worlds/Scene&#x27;);
+import World = require(&#x27;davinci-eight/worlds/World&#x27;);
 import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
 import WebGLRenderer = require(&#x27;davinci-eight/renderers/WebGLRenderer&#x27;);
-import mesh = require(&#x27;davinci-eight/objects/mesh&#x27;);
-import Mesh = require(&#x27;davinci-eight/objects/Mesh&#x27;);
+import drawableModel = require(&#x27;davinci-eight/objects/drawableModel&#x27;);
+import VertexUniformProvider = require(&#x27;davinci-eight/core/VertexUniformProvider&#x27;);
 import webGLContextMonitor = require(&#x27;davinci-eight/utils/webGLContextMonitor&#x27;);
 import workbench3D = require(&#x27;davinci-eight/utils/workbench3D&#x27;);
 import windowAnimationRunner = require(&#x27;davinci-eight/utils/windowAnimationRunner&#x27;);
-import box = require(&#x27;davinci-eight/geometries/box&#x27;);
-import cuboid = require(&#x27;davinci-eight/geometries/cuboid&#x27;);
-import ellipsoid = require(&#x27;davinci-eight/geometries/ellipsoid&#x27;);
-import prism = require(&#x27;davinci-eight/geometries/prism&#x27;);
-import CurveGeometry = require(&#x27;davinci-eight/geometries/CurveGeometry&#x27;);
-import LatticeGeometry = require(&#x27;davinci-eight/geometries/LatticeGeometry&#x27;);
 import Face3 = require(&#x27;davinci-eight/core/Face3&#x27;);
 import Geometry = require(&#x27;davinci-eight/geometries/Geometry&#x27;);
-import GeometryVertexAttributeProvider = require(&#x27;davinci-eight/geometries/GeometryVertexAttributeProvider&#x27;);
-import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
+import GeometryAdapter = require(&#x27;davinci-eight/geometries/GeometryAdapter&#x27;);
 import ArrowGeometry = require(&#x27;davinci-eight/geometries/ArrowGeometry&#x27;);
+import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
 import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
 import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
 import IcosahedronGeometry = require(&#x27;davinci-eight/geometries/IcosahedronGeometry&#x27;);
@@ -132,20 +168,37 @@ import SphereGeometry = require(&#x27;davinci-eight/geometries/SphereGeometry&#x
 import TetrahedronGeometry = require(&#x27;davinci-eight/geometries/TetrahedronGeometry&#x27;);
 import TubeGeometry = require(&#x27;davinci-eight/geometries/TubeGeometry&#x27;);
 import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x27;);
-import RGBGeometry = require(&#x27;davinci-eight/geometries/RGBGeometry&#x27;);
-import pointsMaterial = require(&#x27;davinci-eight/materials/pointsMaterial&#x27;);
-import shaderMaterial = require(&#x27;davinci-eight/materials/shaderMaterial&#x27;);
-import smartMaterial = require(&#x27;davinci-eight/materials/smartMaterial&#x27;);
-import ShaderAttributeVariable = require(&#x27;davinci-eight/objects/ShaderAttributeVariable&#x27;);
+import pointsProgram = require(&#x27;davinci-eight/programs/pointsProgram&#x27;);
+import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
+import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
+import ShaderAttributeVariable = require(&#x27;davinci-eight/core/ShaderAttributeVariable&#x27;);
+import ShaderUniformVariable = require(&#x27;davinci-eight/core/ShaderUniformVariable&#x27;);
 import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;davinci-eight/math/Matrix4&#x27;);
-import MeshBasicMaterial = require(&#x27;davinci-eight/materials/MeshBasicMaterial&#x27;);
-import MeshNormalMaterial = require(&#x27;davinci-eight/materials/MeshNormalMaterial&#x27;);
 import Spinor3 = require(&#x27;davinci-eight/math/Spinor3&#x27;);
 import Vector2 = require(&#x27;davinci-eight/math/Vector2&#x27;);
 import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
-import FactoredDrawable = require(&#x27;davinci-eight/objects/FactoredDrawable&#x27;);
+import DrawableModel = require(&#x27;davinci-eight/objects/DrawableModel&#x27;);
 import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
+import Model = require(&#x27;davinci-eight/objects/Model&#x27;);
+import UniformMetaInfo = require(&#x27;davinci-eight/core/UniformMetaInfo&#x27;);
+import UniformMetaInfos = require(&#x27;davinci-eight/core/UniformMetaInfos&#x27;);
+import VertexAttributeProvider = require(&#x27;davinci-eight/core/VertexAttributeProvider&#x27;);
+import ShaderProgram = require(&#x27;davinci-eight/programs/ShaderProgram&#x27;);
+import Renderer = require(&#x27;davinci-eight/renderers/Renderer&#x27;);
+import RendererParameters = require(&#x27;davinci-eight/renderers/RendererParameters&#x27;);
+/*
+import BoxVertexAttributeProvider = require(&#x27;davinci-eight/mesh/BoxVertexAttributeProvider&#x27;);
+import CuboidVertexAttributeProvider = require(&#x27;davinci-eight/mesh/CuboidVertexAttributeProvider&#x27;);
+import CurveGeometry = require(&#x27;davinci-eight/mesh/CurveGeometry&#x27;);
+import EllipsoidGeometry = require(&#x27;davinci-eight/mesh/EllipsoidGeometry&#x27;);
+import LatticeVertexAttributeProvider = require(&#x27;davinci-eight/mesh/LatticeVertexAttributeProvider&#x27;);
+import box = require(&#x27;davinci-eight/mesh/box&#x27;);
+import prism = require(&#x27;davinci-eight/mesh/prism&#x27;);
+import cuboid = require(&#x27;davinci-eight/mesh/cuboid&#x27;);
+import ellipsoid = require(&#x27;davinci-eight/mesh/ellipsoid&#x27;);
+import RGBGeometry = require(&#x27;davinci-eight/mesh/RGBGeometry&#x27;);
+*/
 
 /**
  * @module EIGHT
@@ -157,41 +210,33 @@ var eight = {
      * @type String
      */
     &#x27;VERSION&#x27;: core.VERSION,
-    perspective: perspectiveCamera,
+    get view() { return view; },
+    perspective: perspective,
     get world() { return world; },
     object3D: object3D,
     renderer: renderer,
     contextMonitor: webGLContextMonitor,
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
-    get mesh() { return mesh; },
-    /**
-     * Constructs and returns a box geometry.
-     */
-    get box() { return box; },
-    get cuboid() { return cuboid; },
-    get ellipsoid() { return ellipsoid; },
-    prism: prism,
-    CurveGeometry: CurveGeometry,
-    LatticeGeometry: LatticeGeometry,
-    RGBGeometry: RGBGeometry,
-    ShaderAttributeVariable: ShaderAttributeVariable,
-    get pointsMaterial() {
-      return pointsMaterial;
+    get drawableModel() { return drawableModel; },
+    get ShaderAttributeVariable() { return ShaderAttributeVariable; },
+    get ShaderUniformVariable() { return ShaderUniformVariable; },
+    get pointsProgram() {
+      return pointsProgram;
     },
-    get shaderMaterial() {
-      return shaderMaterial;
+    get shaderProgram() {
+      return shaderProgram;
     },
-    get smartMaterial() {
-      return smartMaterial;
+    get smartProgram() {
+      return smartProgram;
     },
-    get Scene() { return Scene; },
-    get Camera() { return Camera; },
-    get PerspectiveCamera() { return PerspectiveCamera; },
+    get AmbientLight() { return AmbientLight; },
     get WebGLRenderer() { return WebGLRenderer; },
+    get Color() { return Color; },
     get Face3() { return Face3; },
     get Geometry() { return Geometry; },
-    get GeometryVertexAttributeProvider() { return GeometryVertexAttributeProvider; },
+    get GeometryAdapter() { return GeometryAdapter; },
+    get ArrowGeometry() { return ArrowGeometry; },
     get BoxGeometry() { return BoxGeometry; },
     get CylinderGeometry() { return CylinderGeometry; },
     get DodecahedronGeometry() { return DodecahedronGeometry; },
@@ -199,24 +244,31 @@ var eight = {
     get KleinBottleGeometry() { return KleinBottleGeometry; },
     get MobiusStripGeometry() { return MobiusStripGeometry; },
     get OctahedronGeometry() { return OctahedronGeometry; },
-    get Object3D() { return Object3D; },
     get ParametricGeometry() { return ParametricGeometry; },
     get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
     get SphereGeometry() { return SphereGeometry; },
     get TetrahedronGeometry() { return TetrahedronGeometry; },
     get TubeGeometry() { return TubeGeometry; },
-    get ArrowGeometry() { return ArrowGeometry; },
     get VortexGeometry() { return VortexGeometry; },
-    get Mesh() { return Mesh; },
-    get MeshBasicMaterial() { return MeshBasicMaterial; },
-    get MeshNormalMaterial() { return MeshNormalMaterial; },
+    get Model() { return Model; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
     get Spinor3() { return Spinor3; },
     get Vector2() { return Vector2; },
     get Vector3() { return Vector3; },
-    get Curve() { return Curve; }
+    get Curve() { return Curve; },
+    get ChainedVertexUniformProvider() { return ChainedVertexUniformProvider; },
+    /*
+    get box() { return box; },
+    get BoxVertexAttributeProvider() { return BoxVertexAttributeProvider; },
+    get cuboid() { return cuboid; },
+    get ellipsoid() { return ellipsoid; },
+    prism: prism,
+    CurveGeometry: CurveGeometry,
+    LatticeVertexAttributeProvider: LatticeVertexAttributeProvider,
+    RGBGeometry: RGBGeometry,
+    */
 };
 export = eight;
 

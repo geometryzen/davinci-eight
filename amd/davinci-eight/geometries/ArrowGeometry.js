@@ -14,7 +14,7 @@ define(["require", "exports", '../geometries/RevolutionGeometry', '../math/Spino
             radiusShaft = (radiusShaft || 0.01) * scale;
             radiusCone = (radiusCone || 0.08) * scale;
             lengthCone = (lengthCone || 0.20) * scale;
-            axis = axis || new Vector3(0, 0, 1);
+            axis = axis || Vector3.e3.clone();
             var lengthShaft = length - lengthCone;
             var halfLength = length / 2;
             var permutation = function (direction) {
@@ -65,7 +65,9 @@ define(["require", "exports", '../geometries/RevolutionGeometry', '../math/Spino
                     [radiusShaft, 0, (-halfLength) * sign],
                     [0, 0, (-halfLength) * sign]
                 ];
-                var points = data.map(function (point) { return new Vector3(point[i], point[j], point[k]); });
+                var points = data.map(function (point) {
+                    return new Vector3({ x: point[i], y: point[j], z: point[k] });
+                });
                 var generator = new Spinor3({ yz: direction.x, zx: direction.y, xy: direction.z, w: 0 });
                 return { "points": points, "generator": generator };
             };

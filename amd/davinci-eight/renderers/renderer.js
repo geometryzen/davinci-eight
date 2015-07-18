@@ -1,4 +1,4 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../core/Color'], function (require, exports, Color) {
     var FrameworkDrawContext = (function () {
         function FrameworkDrawContext() {
             this.startTime = Date.now();
@@ -44,9 +44,22 @@ define(["require", "exports"], function (require, exports) {
         var devicePixelRatio = 1;
         var autoClearColor = true;
         var autoClearDepth = true;
+        var clearColor = new Color(1.0, 1.0, 1.0, 1.0);
         function setViewport(x, y, width, height) {
             if (context) {
                 context.viewport(x * devicePixelRatio, y * devicePixelRatio, width * devicePixelRatio, height * devicePixelRatio);
+            }
+        }
+        function clear() {
+            var mask = 0;
+            if (context) {
+                if (autoClearColor) {
+                    mask |= context.COLOR_BUFFER_BIT;
+                }
+                if (autoClearDepth) {
+                    mask |= context.DEPTH_BUFFER_BIT;
+                }
+                context.clear(mask);
             }
         }
         var publicAPI = {
@@ -57,24 +70,24 @@ define(["require", "exports"], function (require, exports) {
             },
             contextGain: function (contextArg, contextGainId) {
                 context = contextArg;
-                context.clearColor(32 / 256, 32 / 256, 32 / 256, 1.0);
-                context.enable(context.DEPTH_TEST);
             },
             contextLoss: function () {
+                context = void 0;
             },
             hasContext: function () {
                 return !!context;
             },
-            clearColor: function (r, g, b, a) {
-                if (context) {
-                    context.clearColor(r, g, b, a);
-                }
+            clearColor: function (red, green, blue, alpha) {
+                clearColor.red = red;
+                clearColor.green = green;
+                clearColor.blue = blue;
+                clearColor.alpha = alpha;
             },
-            render: function (world, ambientUniforms) {
+            render: function (world, views) {
                 drawContext.frameBegin();
-                context.clearColor(0.8, 0.8, 0.8, 1.0);
+                context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
                 context.enable(context.DEPTH_TEST);
-                context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
+                clear();
                 var drawGroups = {};
                 if (!world.hasContext()) {
                     world.contextGain(context, contextGainId);
@@ -83,10 +96,12 @@ define(["require", "exports"], function (require, exports) {
                 var time = drawContext.time();
                 var drawHandler = function (drawable, index) {
                     if (!programLoaded) {
-                        drawable.useProgram(context);
+                        drawable.useProgram();
                         programLoaded = true;
                     }
-                    drawable.draw(context, time, ambientUniforms);
+                    views.forEach(function (view) {
+                        drawable.draw(view);
+                    });
                 };
                 for (var drawGroupName in world.drawGroups) {
                     programLoaded = false;

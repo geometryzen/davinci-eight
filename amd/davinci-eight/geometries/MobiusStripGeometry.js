@@ -9,6 +9,7 @@ define(["require", "exports", '../geometries/ParametricGeometry', '../math/Vecto
     var sin = Math.sin;
     var pi = Math.PI;
     function mobius(u, v) {
+        var point = new Vector3();
         /**
          * radius
          */
@@ -19,10 +20,10 @@ define(["require", "exports", '../geometries/ParametricGeometry', '../math/Vecto
         var w = 0.05;
         var s = (2 * u - 1) * w; // [-w, w]
         var t = 2 * pi * v; // [0, 2pi]
-        var x = (R + s * cos(t / 2)) * cos(t);
-        var y = (R + s * cos(t / 2)) * sin(t);
-        var z = s * sin(t / 2);
-        return new Vector3(x, y, z);
+        point.x = (R + s * cos(t / 2)) * cos(t);
+        point.y = (R + s * cos(t / 2)) * sin(t);
+        point.z = s * sin(t / 2);
+        return point;
     }
     /**
      * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html

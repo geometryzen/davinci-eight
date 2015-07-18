@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.18.0</em>
+            <em>API Docs for: 2.19.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,15 +38,54 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/camera.html">camera</a></li>
+                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
+                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
+                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
+                                <li><a href="../classes/BoxVertexAttributeProvider.html">BoxVertexAttributeProvider</a></li>
+                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/CuboidVertexAttributeProvider.html">CuboidVertexAttributeProvider</a></li>
+                                <li><a href="../classes/Drawable.html">Drawable</a></li>
+                                <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/EllipsoidGeometry.html">EllipsoidGeometry</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
-                                <li><a href="../classes/Object3D.html">Object3D</a></li>
-                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
-                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
+                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/Matrix4
+                
+                The correspondence between the elements property index and the matrix entries is...
+                
+                 0  4  8 12
+                 1  5  9 13
+                 2  6 10 14
+                 3  7 11 15.html">Matrix4
+                
+                The correspondence between the elements property index and the matrix entries is...
+                
+                 0  4  8 12
+                 1  5  9 13
+                 2  6 10 14
+                 3  7 11 15</a></li>
+                                <li><a href="../classes/Model.html">Model</a></li>
+                                <li><a href="../classes/Node3D.html">Node3D</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
+                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/VertexAttributeProvider.html">VertexAttributeProvider</a></li>
+                                <li><a href="../classes/VertexUniformProvider.html">VertexUniformProvider</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                             </ul>
                 
@@ -98,16 +137,14 @@
 //
 declare module EIGHT
 {
-  class Drawable {
-    drawGroupName: string;
-    useProgram(context: WebGLRenderingContext);
-    draw(context: WebGLRenderingContext, time: number);
-  }
+  /**
+   *
+   */
   class RenderingContextUser {
     /**
      * Notify the target that it is no longer required, and request to free, dispose, or delete any WebGL resources acquired and owned by the target.
      */
-    contextFree(context: WebGLRenderingContext): void;
+    contextFree(): void;
     /**
      * Notification of a new WebGLRenderingContext.
      * @param context The WebGLRenderingContext.
@@ -124,6 +161,11 @@ declare module EIGHT
      */
     hasContext(): boolean;
   }
+  class Drawable extends RenderingContextUser {
+    drawGroupName: string;
+    useProgram();
+    draw(view: VertexUniformProvider);
+  }
   class World extends RenderingContextUser
   {
     drawGroups: {[drawGroupName:string]: Drawable[]},
@@ -131,6 +173,29 @@ declare module EIGHT
      * Add a drawable to the root node of the world.
      */
     add(drawable: Drawable): void;
+  }
+  /**
+   * Manages the lifecycle of an attribute used in a vertex shader.
+   */
+  class ShaderAttributeVariable {
+    constructor(name: string, size: number, normalized?: boolean, stride?: number, offset?: number) {
+    }
+    contextFree();
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram);
+    contextLoss();
+    enable();
+    disable();
+    bind();
+    bufferData(data: VertexAttributeProvider);
+  }
+  class ShaderUniformVariable {
+    constructor(name: string, type: string);
+    contextFree();
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram);
+    contextLoss();
+    vec3(v: Vector3);
+    mat3(transpose: boolean, matrix: Float32Array);
+    mat4(transpose: boolean, matrix: Float32Array);
   }
   class Matrix3 {
     public elements: number[];
@@ -146,45 +211,98 @@ declare module EIGHT
     translate(position: { x: number, y: number, z: number }): void;
     rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
   }
-  class Spinor3 {
+  interface Spinor3Coords {
+    yz: number;
+    zx: number;
+    xy: number;
+    w: number;
+  }
+  class Spinor3 implements Spinor3Coords {
     public yz: number;
     public zx: number;
     public xy: number;
     public w: number;
-    constructor(spinor: { yz: number, zx: number, xy: number, w: number });
+    constructor(spinor?: { yz: number, zx: number, xy: number, w: number });
+    clone(): Spinor3;
+    toString(): string;
   }
-  class Vector3 {
+  interface Cartesian3 {
+    x: number;
+    y: number;
+    z: number;
+  }
+  class Vector3 implements Cartesian3 {
     public x: number;
     public y: number;
     public z: number;
-    constructor(x: number, y: number, z: number);
+    public static e1: Vector3;
+    public static e2: Vector3;
+    public static e3: Vector3;
+    constructor(vector?: { x: number, y: number, z: number });
     multiplyScalar(s: number): Vector3;
+    clone(): Vector3;
+    normalize(): Vector3;
   }
   /**
    *
    */
   interface UniformMetaInfo {
-    [property: string]: {
-      name: string;
-      type: string;
-    }
+    name: string;
+    type: string;
   }
-  interface VertexUniformProvider {
-    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+  interface UniformMetaInfos {
+    [property: string]: UniformMetaInfo
   }
   /**
-   * A transformation from the 3D world to the view cube.
+   * Provides the runtime and design time data required to use a uniform in a vertex shader.
    */
-  class Camera extends Drawable implements VertexUniformProvider {
-    public projectionMatrix: Matrix4;
-    constructor();
+  class VertexUniformProvider {
+    getUniformVector3(name: string): Vector3;
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-    static getUniformMetaInfo(): UniformMetaInfo;
+    getUniformMetaInfos(): UniformMetaInfos;
   }
-  class PerspectiveCamera extends Camera implements VertexUniformProvider {
-    constructor(fov: number, aspect: number, near: number, far: number);
+  /**
+   *
+   */
+  class AmbientLight extends VertexUniformProvider {
+    constructor(color: Color);
+  }
+  /**
+   *
+   */
+  class ChainedVertexUniformProvider extends VertexUniformProvider {
+    constructor(one: VertexUniformProvider, two: VertexUniformProvider);
+  }
+  /**
+   *
+   */
+  class View extends VertexUniformProvider {
+    eye: Cartesian3;
+    look: Cartesian3;
+    up: Cartesian3;
+  }
+  /**
+   * A transformation from the 3D world to the canonical view volume.
+   * The canonical view volume is the cube that extends from -1 to +1
+   * in all cartesian directions. 
+   */
+  class LinearPerspectiveCamera extends View {
+    fov: number;
+    aspect: number;
+    near: number;
+    far: number;
+  }
+  interface AttributeMetaInfo {
+    name: string,
+    type: string,
+    size: number,
+    normalized: boolean,
+    stride: number,
+    offset: number
+  }
+  interface AttributeMetaInfos {
+    [property: string]: AttributeMetaInfo;
   }
   /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
@@ -193,13 +311,18 @@ declare module EIGHT
   {
     draw(context: WebGLRenderingContext): void;
     /**
+     * Determines how the thing will be drawn.
+     * 0 &lt;=&gt; POINTS, 1 &lt;=&gt; LINES, 2 &lt;=&gt; TRIANGLES
+     */
+    drawMode: number;
+    /**
      * Determines whether this Geometry changes. If so, update may be called repeatedly.
      */
-    dynamic(): boolean;
+    dynamics(): boolean;
     /**
      * Declares the vertex shader attributes the geometry can supply and information required for binding.
      */
-    getAttributeMetaInfos(): {property: string, name: string, type: string, size: number, normalized: boolean, stride: number, offset: number}[];
+    getAttributeMetaInfos(): AttributeMetaInfos;
     /**
      * Determines whether this Geometry uses WebGL&#x27;s drawElements() for rendering.
      */
@@ -214,9 +337,9 @@ declare module EIGHT
      */
     getVertexAttributeData(name: string): Float32Array;
     /**
-     * Notifies the geometry that it should update its array buffers.
+     * Notifies the mesh that it should update its array buffers.
      */
-    update(time: number, attributes: {modifiers: string[], type: string, name: string}[]): void;
+    update(attributes: ShaderVariableDecl[]): void;
   }
   class Face3 {
     constructor(a: number, b: number, c: number);
@@ -252,20 +375,39 @@ declare module EIGHT
     constructor();
     computeBoundingSphere(): void;
   }
+  class Color
+  {
+    public red: number;
+    public green: number;
+    public blue: number;
+    public alpha: number;
+    constructor(red: number, green: number, blue: number, alpha?: number);
+  }
+  class GeometryAdapter extends VertexAttributeProvider
+  {
+    public color: Color;
+    constructor(geometry: Geometry, options? {drawMode?: number});
+  }
   class CurveGeometry extends VertexAttributeProvider {
     constructor(
       n: number,
       generator: (i: number, time: number) =&gt; {x: number; y: number; z: number});
   }
-  class LatticeGeometry extends VertexAttributeProvider {
+  class LatticeVertexAttributeProvider extends VertexAttributeProvider {
     constructor(
       I: number,
       J: number,
       K: number,
       generator: (i: number, j: number, k: number, time: number) =&gt; { x: number; y: number; z: number });
   }
-  class BoxGeometry extends VertexAttributeProvider {
-    constructor(width: number, height: number, depth: number);
+  class BoxGeometry extends Geometry {
+    constructor(
+      width: number,
+      height: number,
+      depth: number,
+      widthSegments?:number,
+      heightSegments?:number,
+      depthSegments?:number);
   }
   class CylinderGeometry extends Geometry {
     constructor(
@@ -284,35 +426,24 @@ declare module EIGHT
   /**
    * A vertex shader and a fragment shader combined into a program.
    */
-  class Material extends RenderingContextUser
+  class ShaderProgram extends RenderingContextUser
   {
     attributes: {modifiers: string[], type: string, name: string}[];
     uniforms: {modifiers: string[], type: string, name: string}[];
     varyings: {modifiers: string[], type: string, name: string}[];
     program: WebGLProgram;
     programId: string;
-  }
-  interface ShaderMaterial extends Material {
     vertexShader: string;
     fragmentShader: string;
   }
-  interface SmartMaterial extends Material {
-  }
   /**
-   * The combination of a geometry and a material.
+   * The combination of a geometry, model and a shaderProgram.
    */
-  class FactoredDrawable&lt;G, M extends Material&gt; extends Drawable
+  class DrawableModel&lt;G, M extends VertexUniformProvider, P extends ShaderProgram&gt; extends Drawable
   {
-    geometry: G;
-    material: M;
-    /**
-     * The attitude of the mesh expressed as a spinor.
-     */
-    attitude: Spinor3;
-    /**
-     * The position of the mesh relative to the origin. 
-     */
-    position: Vector3;
+    mesh: G;
+    model: M
+    shaderProgram: P;
   }
   interface RenderingContextMonitor
   {
@@ -332,7 +463,7 @@ declare module EIGHT
     contextFree(): void;
     contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
     contextLoss(): void;
-    render(world: World, ambientUniforms: VertexUniformProvider): void;
+    render(world: World, views: VertexUniformProvider[]): void;
     clearColor(red: number, green: number, blue: number, alpha: number): void;
     setSize(width: number, height: number): void;
   }
@@ -367,60 +498,57 @@ declare module EIGHT
    * Constructs and returns a World.
    */
   function world(): World;
+  function view(): View;
   /**
-   *
-   */
-  class Scene extends World {
-  }
-  /**
-   * Constructs and returns a Linear Perspective projection camera.
+   * Constructs and returns a LinearPerspectiveCamera.
    */
   function perspective(
     /**
      * The field of view angle in the y-direction, measured in radians.
      */
-    fov: number, aspect: number, near: number, far: number): Camera;
+    fov?: number,
+    aspect?: number,
+    near?: number,
+    far?: number): LinearPerspectiveCamera;
   /**
    * Constructs and returns a WebGL renderer.
    * @param parameters Optional parameters for modifying the WebGL context.
    */
   function renderer(parameters?: RendererParameters): Renderer;
   /**
-   * Constructs a Material from the specified shader codes.
+   * Constructs a ShaderProgram from the specified shader codes.
    */
-  function pointsMaterial(): Material;
+  function pointsProgram(): ShaderProgram;
   /**
-   * Constructs a ShaderMaterial from the specified shader codes.
+   * Constructs a ShaderProgram from the specified vertex and fragment shader codes.
    */
-  function shaderMaterial(): ShaderMaterial;
+  function shaderProgram(vertexShader: string, fragmentShader: string): ShaderProgram;
   /**
-   * Constructs a Material by introspecting a Geometry.
+   * Constructs a ShaderProgram by introspecting a Geometry.
    */
-  function smartMaterial(geometry: VertexAttributeProvider, uniforms: UniformMetaInfo): SmartMaterial;
+  function smartProgram(attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram;
   /**
-   * Constructs a mesh from the specified geometry and material.
-   * The uniformCallback must be supplied if the vertex shader has uniform variables.
+   * Constructs a Drawable from the specified attribute provider and program.
    * @param geometry
-   * @param material
-   * @param uniformCallback
+   * @param shaderProgram
    */
-  function mesh&lt;G extends VertexAttributeProvider, M extends Material&gt;(geometry: G, material: M, meshUniforms?: VertexUniformProvider): FactoredDrawable&lt;G, M&gt;;
-  class Mesh&lt;G extends Geometry, M extends Material&gt; extends FactoredDrawable&lt;G,M&gt; {
-    constructor(geometry: G, material: M);
-    static getUniformMetaInfo(): UniformMetaInfo;
-  }
-  class MeshBasicMaterial extends Material {
-  }
-  class MeshNormalMaterial extends Material {
+  function drawableModel&lt;G extends VertexAttributeProvider, M extends VertexUniformProvider, P extends ShaderProgram&gt;(geometry: G, model: M, shaderProgram: P): DrawableModel&lt;G, M, P&gt;;
+  /**
+   *
+   */
+  class Model extends VertexUniformProvider {
+    public position: Cartesian3;
+    public attitude: Spinor3Coords;
+    constructor();
   }
   /**
-   * Constructs and returns a box geometry.
+   * Constructs and returns a box mesh.
    */
   function box(): VertexAttributeProvider;
   /**
    *
    */
-  interface CuboidGeometry extends VertexAttributeProvider {
+  interface CuboidVertexAttributeProvider extends VertexAttributeProvider {
     /**
      * The axis corresponding to e1.
      */
@@ -436,14 +564,14 @@ declare module EIGHT
     /**
      * The color of the cuboid.
      */
-    color: number[];
+    color: Color;
     /**
      * The cuboid should be rendered using a gray scale.
      */
     grayScale: boolean;
   }
   /**
-   * Constructs and returns a cuboid geometry.
+   * Constructs and returns a cuboid mesh.
    */
   function cuboid(spec?: {
     position?:{
@@ -451,12 +579,12 @@ declare module EIGHT
     },
     color?:{
       name?:string,
-      value?:number[]
+      value?:Color
     }
     normal?:{
       name?:string
     }
-  }): CuboidGeometry;
+  }): CuboidVertexAttributeProvider;
   /**
    * A surface generated by the parametric equation:
    * a * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),
@@ -550,19 +678,22 @@ declare module EIGHT
       taper?: (u: number)=&gt;number);
   }
   /**
-   * Constructs and returns an ellipsoid geometry.
+   * Constructs and returns an ellipsoid mesh.
    */
   function ellipsoid(): EllipsoidGeometry;
   /**
-   * Constructs and returns a prism geometry.
+   * Constructs and returns a prism mesh.
    */
   function prism(): VertexAttributeProvider;
+  /**
+   *
+   */
   class Curve() {
   }
   /**
    * Constructs and returns a new Workbench3D.
    */
-  function workbench(canvas: HTMLCanvasElement, renderer: Renderer, camera: Camera, window: Window): Workbench3D;
+  function workbench(canvas: HTMLCanvasElement, renderer: Renderer, view: View, window: Window): Workbench3D;
   /**
    * Constructs and returns a WindowAnimationRunner.
    */
