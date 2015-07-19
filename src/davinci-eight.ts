@@ -9,7 +9,9 @@ import view = require('davinci-eight/cameras/view');
 import Color = require('davinci-eight/core/Color');
 import ChainedVertexUniformProvider = require('davinci-eight/objects/ChainedVertexUniformProvider');
 import View = require('davinci-eight/cameras/View');
+import Frustum = require('davinci-eight/cameras/Frustum');
 import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
+import frustum = require('davinci-eight/cameras/frustum');
 import perspective = require('davinci-eight/cameras/perspective');
 import world = require('davinci-eight/worlds/world');
 import World = require('davinci-eight/worlds/World');
@@ -81,7 +83,8 @@ var eight = {
      */
     'VERSION': core.VERSION,
     get view() { return view; },
-    perspective: perspective,
+    get frustum() { return frustum; },
+    get perspective() { return perspective; },
     get world() { return world; },
     object3D: object3D,
     renderer: renderer,

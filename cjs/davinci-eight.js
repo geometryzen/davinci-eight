@@ -5,6 +5,7 @@ var object3D = require('davinci-eight/core/object3D');
 var view = require('davinci-eight/cameras/view');
 var Color = require('davinci-eight/core/Color');
 var ChainedVertexUniformProvider = require('davinci-eight/objects/ChainedVertexUniformProvider');
+var frustum = require('davinci-eight/cameras/frustum');
 var perspective = require('davinci-eight/cameras/perspective');
 var world = require('davinci-eight/worlds/world');
 var renderer = require('davinci-eight/renderers/renderer');
@@ -66,7 +67,8 @@ var eight = {
      */
     'VERSION': core.VERSION,
     get view() { return view; },
-    perspective: perspective,
+    get frustum() { return frustum; },
+    get perspective() { return perspective; },
     get world() { return world; },
     object3D: object3D,
     renderer: renderer,

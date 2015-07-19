@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.19.0</em>
+            <em>API Docs for: 2.20.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -48,12 +48,14 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/EllipsoidGeometry.html">EllipsoidGeometry</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/Matrix4
                 
                 The correspondence between the elements property index and the matrix entries is...
@@ -139,7 +141,9 @@ import view = require(&#x27;davinci-eight/cameras/view&#x27;);
 import Color = require(&#x27;davinci-eight/core/Color&#x27;);
 import ChainedVertexUniformProvider = require(&#x27;davinci-eight/objects/ChainedVertexUniformProvider&#x27;);
 import View = require(&#x27;davinci-eight/cameras/View&#x27;);
+import Frustum = require(&#x27;davinci-eight/cameras/Frustum&#x27;);
 import LinearPerspectiveCamera = require(&#x27;davinci-eight/cameras/LinearPerspectiveCamera&#x27;);
+import frustum = require(&#x27;davinci-eight/cameras/frustum&#x27;);
 import perspective = require(&#x27;davinci-eight/cameras/perspective&#x27;);
 import world = require(&#x27;davinci-eight/worlds/world&#x27;);
 import World = require(&#x27;davinci-eight/worlds/World&#x27;);
@@ -211,7 +215,8 @@ var eight = {
      */
     &#x27;VERSION&#x27;: core.VERSION,
     get view() { return view; },
-    perspective: perspective,
+    get frustum() { return frustum; },
+    get perspective() { return perspective; },
     get world() { return world; },
     object3D: object3D,
     renderer: renderer,

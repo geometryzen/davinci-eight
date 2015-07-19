@@ -682,7 +682,7 @@ define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Sym
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.19.0'
+        VERSION: '2.20.0'
     };
     return core;
 });
@@ -870,10 +870,13 @@ define('davinci-eight/math/Matrix4',["require", "exports"], function (require, e
          * @param far {Number} The distance to the far field plane.
          */
         Matrix4.prototype.perspective = function (fov, aspect, near, far) {
-            var ymax = near * Math.tan(fov * 0.5);
-            var ymin = -ymax;
-            var xmin = ymin * aspect;
-            var xmax = ymax * aspect;
+            // We can leverage the frustum function, although technically the
+            // symmetry in this perspective transformation should reduce the amount
+            // of computation required.
+            var ymax = near * Math.tan(fov * 0.5); // top
+            var ymin = -ymax; // bottom
+            var xmin = ymin * aspect; // left
+            var xmax = ymax * aspect; // right
             return this.frustum(xmin, xmax, ymin, ymax, near, far);
         };
         /**
@@ -1171,6 +1174,122 @@ define('davinci-eight/objects/ChainedVertexUniformProvider',["require", "exports
         return ChainedVertexUniformProvider;
     })();
     return ChainedVertexUniformProvider;
+});
+
+define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic'], function (require, exports, view, Matrix4, Symbolic) {
+    var UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
+    var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
+    /**
+     * @class frustum
+     * @constructor
+     * @param left {number}
+     * @param right {number}
+     * @param bottom {number}
+     * @param top {number}
+     * @param near {number}
+     * @param far {number}
+     * @return {Frustum}
+     */
+    var frustum = function (left, right, bottom, top, near, far) {
+        if (left === void 0) { left = -1; }
+        if (right === void 0) { right = 1; }
+        if (bottom === void 0) { bottom = -1; }
+        if (top === void 0) { top = 1; }
+        if (near === void 0) { near = 1; }
+        if (far === void 0) { far = 1000; }
+        var base = view();
+        var projectionMatrix = new Matrix4();
+        function updateProjectionMatrix() {
+            projectionMatrix.frustum(left, right, bottom, top, near, far);
+        }
+        updateProjectionMatrix();
+        var publicAPI = {
+            // Delegate to the base camera.
+            get eye() {
+                return base.eye;
+            },
+            set eye(value) {
+                base.eye = value;
+            },
+            get look() {
+                return base.look;
+            },
+            set look(value) {
+                base.look = value;
+            },
+            get up() {
+                return base.up;
+            },
+            set up(value) {
+                base.up = value;
+            },
+            get left() {
+                return left;
+            },
+            set left(value) {
+                left = value;
+                updateProjectionMatrix();
+            },
+            get right() {
+                return right;
+            },
+            set right(value) {
+                right = value;
+                updateProjectionMatrix();
+            },
+            get bottom() {
+                return bottom;
+            },
+            set bottom(value) {
+                bottom = value;
+                updateProjectionMatrix();
+            },
+            get top() {
+                return top;
+            },
+            set top(value) {
+                top = value;
+                updateProjectionMatrix();
+            },
+            get near() {
+                return near;
+            },
+            set near(value) {
+                near = value;
+                updateProjectionMatrix();
+            },
+            get far() {
+                return far;
+            },
+            set far(value) {
+                far = value;
+                updateProjectionMatrix();
+            },
+            getUniformMatrix3: function (name) {
+                return base.getUniformMatrix3(name);
+            },
+            getUniformMatrix4: function (name) {
+                switch (name) {
+                    case UNIFORM_PROJECTION_MATRIX_NAME: {
+                        return { transpose: false, matrix4: projectionMatrix.elements };
+                    }
+                    default: {
+                        return base.getUniformMatrix4(name);
+                    }
+                }
+            },
+            getUniformVector3: function (name) {
+                return base.getUniformVector3(name);
+            },
+            getUniformMetaInfos: function () {
+                var uniforms = base.getUniformMetaInfos();
+                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, type: UNIFORM_PROJECTION_MATRIX_TYPE };
+                return uniforms;
+            }
+        };
+        return publicAPI;
+    };
+    return frustum;
 });
 
 define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic'], function (require, exports, view, Matrix4, Symbolic) {
@@ -6837,7 +6956,7 @@ define('davinci-eight/objects/Model',["require", "exports", '../math/Matrix3', '
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/objects/ChainedVertexUniformProvider', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeVariable', 'davinci-eight/core/ShaderUniformVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/curves/Curve', 'davinci-eight/objects/Model'], function (require, exports, AmbientLight, core, object3D, view, Color, ChainedVertexUniformProvider, perspective, world, renderer, WebGLRenderer, drawableModel, webGLContextMonitor, workbench3D, windowAnimationRunner, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeVariable, ShaderUniformVariable, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Curve, Model) {
+define('davinci-eight',["require", "exports", 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/objects/ChainedVertexUniformProvider', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeVariable', 'davinci-eight/core/ShaderUniformVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/curves/Curve', 'davinci-eight/objects/Model'], function (require, exports, AmbientLight, core, object3D, view, Color, ChainedVertexUniformProvider, frustum, perspective, world, renderer, WebGLRenderer, drawableModel, webGLContextMonitor, workbench3D, windowAnimationRunner, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeVariable, ShaderUniformVariable, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Curve, Model) {
     /*
     import BoxVertexAttributeProvider = require('davinci-eight/mesh/BoxVertexAttributeProvider');
     import CuboidVertexAttributeProvider = require('davinci-eight/mesh/CuboidVertexAttributeProvider');
@@ -6861,7 +6980,8 @@ define('davinci-eight',["require", "exports", 'davinci-eight/uniforms/AmbientLig
          */
         'VERSION': core.VERSION,
         get view() { return view; },
-        perspective: perspective,
+        get frustum() { return frustum; },
+        get perspective() { return perspective; },
         get world() { return world; },
         object3D: object3D,
         renderer: renderer,

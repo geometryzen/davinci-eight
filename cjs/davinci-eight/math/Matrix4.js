@@ -109,10 +109,13 @@ var Matrix4 = (function () {
      * @param far {Number} The distance to the far field plane.
      */
     Matrix4.prototype.perspective = function (fov, aspect, near, far) {
-        var ymax = near * Math.tan(fov * 0.5);
-        var ymin = -ymax;
-        var xmin = ymin * aspect;
-        var xmax = ymax * aspect;
+        // We can leverage the frustum function, although technically the
+        // symmetry in this perspective transformation should reduce the amount
+        // of computation required.
+        var ymax = near * Math.tan(fov * 0.5); // top
+        var ymin = -ymax; // bottom
+        var xmin = ymin * aspect; // left
+        var xmax = ymax * aspect; // right
         return this.frustum(xmin, xmax, ymin, ymax, near, far);
     };
     /**

@@ -126,10 +126,13 @@ class Matrix4 {
    * @param far {Number} The distance to the far field plane.
    */
   perspective(fov: number, aspect: number, near: number, far: number): Matrix4 {
-    let ymax: number = near * Math.tan(fov * 0.5);
-    let ymin: number = - ymax;
-    let xmin: number = ymin * aspect;
-    let xmax: number = ymax * aspect;
+    // We can leverage the frustum function, although technically the
+    // symmetry in this perspective transformation should reduce the amount
+    // of computation required.
+    let ymax: number = near * Math.tan(fov * 0.5);   // top
+    let ymin: number = - ymax;                       // bottom
+    let xmin: number = ymin * aspect;                // left
+    let xmax: number = ymax * aspect;                // right
     return this.frustum(xmin, xmax, ymin, ymax, near, far);
   }
   /**

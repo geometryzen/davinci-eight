@@ -80,6 +80,7 @@ declare module EIGHT
     mul(matrix: Matrix4): void;
     translate(position: { x: number, y: number, z: number }): void;
     rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
+    frustum(left: number, right: number, bottom: number, top: number, near: number, far: number);
   }
   interface Spinor3Coords {
     yz: number;
@@ -151,6 +152,14 @@ declare module EIGHT
     eye: Cartesian3;
     look: Cartesian3;
     up: Cartesian3;
+  }
+  class Frustum extends View {
+    left: number;
+    right: number;
+    bottom: number;
+    top: number;
+    near: number;
+    far: number;
   }
   /**
    * A transformation from the 3D world to the canonical view volume.
@@ -372,6 +381,13 @@ declare module EIGHT
   /**
    * Constructs and returns a LinearPerspectiveCamera.
    */
+  function frustum(
+    left?: number,
+    right?: number,
+    bottom?: number,
+    top?: number,
+    near?: number,
+    far?: number): Frustum;
   function perspective(
     /**
      * The field of view angle in the y-direction, measured in radians.

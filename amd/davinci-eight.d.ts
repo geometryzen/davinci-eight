@@ -5,6 +5,7 @@ import Node3D = require('davinci-eight/core/Node3D');
 import Color = require('davinci-eight/core/Color');
 import ChainedVertexUniformProvider = require('davinci-eight/objects/ChainedVertexUniformProvider');
 import View = require('davinci-eight/cameras/View');
+import Frustum = require('davinci-eight/cameras/Frustum');
 import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
 import World = require('davinci-eight/worlds/World');
 import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
@@ -48,6 +49,7 @@ import RendererParameters = require('davinci-eight/renderers/RendererParameters'
 declare var eight: {
     'VERSION': string;
     view: () => View;
+    frustum: (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => Frustum;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
     world: () => World;
     object3D: () => Node3D;

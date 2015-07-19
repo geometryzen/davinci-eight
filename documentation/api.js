@@ -11,6 +11,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Drawable",
         "ElementArray",
         "EllipsoidGeometry",
+        "Frustum",
         "Geometry",
         "GeometryAdapter",
         "KleinBottleGeometry",
@@ -33,6 +34,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "VertexUniformProvider",
         "View",
         "WebGLRenderer",
+        "frustum",
         "perspective",
         "view",
         null
