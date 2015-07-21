@@ -1,6 +1,6 @@
 import ShaderProgram = require('../programs/ShaderProgram');
 import DrawableModel = require('../objects/DrawableModel');
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
-import VertexUniformProvider = require('../core/VertexUniformProvider');
-declare var drawableModel: <G extends VertexAttributeProvider, M extends VertexUniformProvider, P extends ShaderProgram>(mesh: G, model: M, shaderProgram: P) => DrawableModel<G, M, P>;
+import AttributeProvider = require('../core/AttributeProvider');
+import UniformProvider = require('../core/UniformProvider');
+declare var drawableModel: <A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaderProgram: S, uniforms: U) => DrawableModel<A, S, U>;
 export = drawableModel;

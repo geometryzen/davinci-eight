@@ -1,5 +1,5 @@
 import ShaderProgram = require('../programs/ShaderProgram');
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 import parse = require('../glsl/parse');
 import NodeWalker = require('../glsl/NodeWalker');
 import ProgramArgs = require('../glsl/ProgramArgs');

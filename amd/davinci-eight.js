@@ -1,16 +1,16 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define(["require", "exports", 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/objects/ChainedVertexUniformProvider', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/WebGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/utils/webGLContextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeVariable', 'davinci-eight/core/ShaderUniformVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/curves/Curve', 'davinci-eight/objects/Model'], function (require, exports, AmbientLight, core, object3D, view, Color, ChainedVertexUniformProvider, frustum, perspective, world, renderer, WebGLRenderer, drawableModel, webGLContextMonitor, workbench3D, windowAnimationRunner, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeVariable, ShaderUniformVariable, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Curve, Model) {
+define(["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/renderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeVariable', 'davinci-eight/core/ShaderUniformVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, core, object3D, view, Color, frustum, perspective, world, renderer, drawableModel, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeVariable, ShaderUniformVariable, Matrix3, Matrix4, Spinor3, Vector2, Vector3, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, ModelMatrixUniformProvider, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
-    import BoxVertexAttributeProvider = require('davinci-eight/mesh/BoxVertexAttributeProvider');
-    import CuboidVertexAttributeProvider = require('davinci-eight/mesh/CuboidVertexAttributeProvider');
-    import CurveGeometry = require('davinci-eight/mesh/CurveGeometry');
-    import EllipsoidGeometry = require('davinci-eight/mesh/EllipsoidGeometry');
-    import LatticeVertexAttributeProvider = require('davinci-eight/mesh/LatticeVertexAttributeProvider');
+    import BoxMesh = require('davinci-eight/mesh/BoxMesh');
+    import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
+    import CurveMesh = require('davinci-eight/mesh/CurveMesh');
+    import EllipsoidMesh = require('davinci-eight/mesh/EllipsoidMesh');
+    import LatticeMesh = require('davinci-eight/mesh/LatticeMesh');
     import box = require('davinci-eight/mesh/box');
     import prism = require('davinci-eight/mesh/prism');
     import cuboid = require('davinci-eight/mesh/cuboid');
     import ellipsoid = require('davinci-eight/mesh/ellipsoid');
-    import RGBGeometry = require('davinci-eight/mesh/RGBGeometry');
+    import RGBMesh = require('davinci-eight/mesh/RGBMesh');
     */
     /**
      * @module EIGHT
@@ -22,13 +22,14 @@ define(["require", "exports", 'davinci-eight/uniforms/AmbientLight', 'davinci-ei
          * @type String
          */
         'VERSION': core.VERSION,
+        get initWebGL() { return initWebGL; },
         get view() { return view; },
         get frustum() { return frustum; },
         get perspective() { return perspective; },
         get world() { return world; },
         object3D: object3D,
         renderer: renderer,
-        contextMonitor: webGLContextMonitor,
+        get contextMonitor() { return contextMonitor; },
         workbench: workbench3D,
         animationRunner: windowAnimationRunner,
         get drawableModel() { return drawableModel; },
@@ -44,7 +45,6 @@ define(["require", "exports", 'davinci-eight/uniforms/AmbientLight', 'davinci-ei
             return smartProgram;
         },
         get AmbientLight() { return AmbientLight; },
-        get WebGLRenderer() { return WebGLRenderer; },
         get Color() { return Color; },
         get Face3() { return Face3; },
         get Geometry() { return Geometry; },
@@ -64,14 +64,15 @@ define(["require", "exports", 'davinci-eight/uniforms/AmbientLight', 'davinci-ei
         get TetrahedronGeometry() { return TetrahedronGeometry; },
         get TubeGeometry() { return TubeGeometry; },
         get VortexGeometry() { return VortexGeometry; },
-        get Model() { return Model; },
+        get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get Spinor3() { return Spinor3; },
         get Vector2() { return Vector2; },
         get Vector3() { return Vector3; },
         get Curve() { return Curve; },
-        get ChainedVertexUniformProvider() { return ChainedVertexUniformProvider; },
+        get ChainedUniformProvider() { return ChainedUniformProvider; },
+        get DefaultUniformProvider() { return DefaultUniformProvider; },
     };
     return eight;
 });

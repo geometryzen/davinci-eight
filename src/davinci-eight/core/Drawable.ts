@@ -1,5 +1,5 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-import VertexUniformProvider = require('../core/VertexUniformProvider');
+import UniformProvider = require('../core/UniformProvider');
 
 /**
  * The Drawable interface indicates that the implementation can make a call
@@ -19,9 +19,9 @@ interface Drawable extends RenderingContextUser {
   useProgram();
   /**
    * @method draw
-   * @param view {VertexUniformProvider}
+   * @param view {UniformProvider}
    */
-  draw(view: VertexUniformProvider);
+  draw(view: UniformProvider);
 }
 
 export = Drawable;

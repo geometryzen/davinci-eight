@@ -5,13 +5,10 @@ import Spinor3 = require('../math/Spinor3');
  * @class Vector3
  */
 declare class Vector3 {
-    /**
-     * @property x
-     * @type Number
-     */
-    x: number;
-    y: number;
-    z: number;
+    private $x;
+    private $y;
+    private $z;
+    modified: boolean;
     static e1: Vector3;
     static e2: Vector3;
     static e3: Vector3;
@@ -21,6 +18,21 @@ declare class Vector3 {
      * @param vector [{x,y,z}]
      */
     constructor(vector?: Cartesian3);
+    /**
+     * @property x
+     * @type Number
+     */
+    x: number;
+    /**
+     * @property y
+     * @type Number
+     */
+    y: number;
+    /**
+     * @property z
+     * @type Number
+     */
+    z: number;
     /**
      * Performs in-place addition of vectors.
      *

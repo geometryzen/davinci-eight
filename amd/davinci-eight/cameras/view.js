@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic'], function (require, exports, Vector3, Matrix4, Symbolic) {
+define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../uniforms/DefaultUniformProvider'], function (require, exports, Vector3, Matrix4, Symbolic, DefaultUniformProvider) {
     var UNIFORM_VIEW_MATRIX_NAME = 'uViewMatrix';
     var UNIFORM_VIEW_MATRIX_TYPE = 'mat4';
     var UNIFORM_AMBIENT_LIGHT_NAME = 'uAmbientLight';
@@ -12,6 +12,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
         var look = new Vector3();
         var up = Vector3.e2;
         var viewMatrix = new Matrix4();
+        var base = new DefaultUniformProvider();
         function updateViewMatrix() {
             var n = new Vector3().subVectors(eye, look);
             if (n.x === 0 && n.y === 0 && n.z === 0) {
@@ -42,48 +43,63 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
             m[11] = 0;
             m[15] = 1;
         }
-        updateViewMatrix();
+        // Force an update of the view matrix.
+        eye.modified = true;
+        look.modified = true;
+        up.modified = true;
         var publicAPI = {
             get eye() {
                 return eye;
             },
             set eye(value) {
-                eye = new Vector3(value);
-                updateViewMatrix();
+                eye.x = value.x;
+                eye.y = value.y;
+                eye.z = value.z;
             },
             get look() {
                 return look;
             },
             set look(value) {
-                look = new Vector3(value);
-                updateViewMatrix();
+                look.x = value.x;
+                look.y = value.y;
+                look.z = value.z;
             },
             get up() {
                 return up;
             },
             set up(value) {
-                up = new Vector3(value).normalize();
-                updateViewMatrix();
+                up.x = value.x;
+                up.y = value.y;
+                up.z = value.z;
+                up.normalize();
             },
             getUniformMatrix3: function (name) {
-                return null;
+                return base.getUniformMatrix3(name);
             },
             getUniformMatrix4: function (name) {
                 switch (name) {
                     case UNIFORM_VIEW_MATRIX_NAME: {
-                        //console.log("viewMatrix: " + viewMatrix.toFixed(0));
+                        if (eye.modified || look.modified || up.modified) {
+                            updateViewMatrix();
+                            eye.modified = false;
+                            look.modified = false;
+                            up.modified = false;
+                        }
                         return { transpose: false, matrix4: viewMatrix.elements };
                     }
                     default: {
-                        return null; //base.getUniformMatrix4(name);
+                        return base.getUniformMatrix4(name);
                     }
                 }
             },
             getUniformVector3: function (name) {
-                return null;
+                return base.getUniformVector3(name);
+            },
+            getUniformVector4: function (name) {
+                return base.getUniformVector4(name);
             },
             getUniformMetaInfos: function () {
-                var uniforms = {}; //base.getUniformMetaInfos();
+                var uniforms = base.getUniformMetaInfos();
                 uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE };
                 return uniforms;
             }

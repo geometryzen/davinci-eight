@@ -1,15 +1,14 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
+import AttributeProvider = require('davinci-eight/core/AttributeProvider');
 import AttributeMetaInfos = require('davinci-eight/core/AttributeMetaInfos');
-import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import Node3D = require('davinci-eight/core/Node3D');
 import Color = require('davinci-eight/core/Color');
-import ChainedVertexUniformProvider = require('davinci-eight/objects/ChainedVertexUniformProvider');
 import View = require('davinci-eight/cameras/View');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
 import World = require('davinci-eight/worlds/World');
-import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
-import VertexUniformProvider = require('davinci-eight/core/VertexUniformProvider');
+import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -37,45 +36,42 @@ import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
 import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
-import Model = require('davinci-eight/objects/Model');
-import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
-import VertexAttributeProvider = require('davinci-eight/core/VertexAttributeProvider');
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
+import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
+import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
+import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
+import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+import RenderingContextMonitor = require('davinci-eight/utils/RenderingContextMonitor');
+import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
  */
 declare var eight: {
     'VERSION': string;
+    initWebGL: (canvas: HTMLCanvasElement, attributes: any) => WebGLRenderingContext;
     view: () => View;
     frustum: (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => Frustum;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
     world: () => World;
     object3D: () => Node3D;
     renderer: (parameters?: RendererParameters) => Renderer;
-    contextMonitor: (canvas: HTMLCanvasElement, contextFree: () => void, contextGain: (gl: WebGLRenderingContext, contextGainId: string) => void, contextLoss: () => void) => {
-        start: (context: WebGLRenderingContext) => void;
-        stop: () => void;
-    };
+    contextMonitor: (canvas: HTMLCanvasElement, attributes: any) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
         setUp: () => void;
         tearDown: () => void;
     };
-    animationRunner: (tick: (time: number) => void, terminate: (time: number) => void, setUp: () => void, tearDown: (ex: any) => void, win?: Window) => {
-        start: () => void;
-        stop: () => void;
-    };
-    drawableModel: <G extends VertexAttributeProvider, M extends VertexUniformProvider, P extends ShaderProgram>(mesh: G, model: M, shaderProgram: P) => DrawableModel<G, M, P>;
+    animationRunner: (tick: (time: number) => void, terminate: (time: number) => void, setUp: () => void, tearDown: (ex: any) => void, $window?: Window) => WindowAnimationRunner;
+    drawableModel: <A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaderProgram: S, uniforms: U) => DrawableModel<A, S, U>;
     ShaderAttributeVariable: typeof ShaderAttributeVariable;
     ShaderUniformVariable: typeof ShaderUniformVariable;
     pointsProgram: () => ShaderProgram;
     shaderProgram: (vertexShader: string, fragmentShader: string) => ShaderProgram;
     smartProgram: (attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     AmbientLight: typeof AmbientLight;
-    WebGLRenderer: typeof WebGLRenderer;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;
@@ -95,13 +91,14 @@ declare var eight: {
     TetrahedronGeometry: typeof TetrahedronGeometry;
     TubeGeometry: typeof TubeGeometry;
     VortexGeometry: typeof VortexGeometry;
-    Model: typeof Model;
+    ModelMatrixUniformProvider: typeof ModelMatrixUniformProvider;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     Spinor3: typeof Spinor3;
     Vector2: typeof Vector2;
     Vector3: typeof Vector3;
     Curve: typeof Curve;
-    ChainedVertexUniformProvider: typeof ChainedVertexUniformProvider;
+    ChainedUniformProvider: typeof ChainedUniformProvider;
+    DefaultUniformProvider: typeof DefaultUniformProvider;
 };
 export = eight;

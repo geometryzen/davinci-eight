@@ -17,10 +17,7 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
         if (far === void 0) { far = 2000; }
         var base = view();
         var projectionMatrix = new Matrix4();
-        function updateProjectionMatrix() {
-            projectionMatrix.perspective(fov, aspect, near, far);
-        }
-        updateProjectionMatrix();
+        var matrixNeedsUpdate = true;
         var publicAPI = {
             // Delegate to the base camera.
             get eye() {
@@ -46,28 +43,28 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
             },
             set fov(value) {
                 fov = value;
-                updateProjectionMatrix();
+                matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
             },
             get aspect() {
                 return aspect;
             },
             set aspect(value) {
                 aspect = value;
-                updateProjectionMatrix();
+                matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
             },
             get near() {
                 return near;
             },
             set near(value) {
                 near = value;
-                updateProjectionMatrix();
+                matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
             },
             get far() {
                 return far;
             },
             set far(value) {
                 far = value;
-                updateProjectionMatrix();
+                matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
             },
             getUniformMatrix3: function (name) {
                 return base.getUniformMatrix3(name);
@@ -75,6 +72,10 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
             getUniformMatrix4: function (name) {
                 switch (name) {
                     case UNIFORM_PROJECTION_MATRIX_NAME: {
+                        if (matrixNeedsUpdate) {
+                            projectionMatrix.perspective(fov, aspect, near, far);
+                            matrixNeedsUpdate = false;
+                        }
                         return { transpose: false, matrix4: projectionMatrix.elements };
                     }
                     default: {
@@ -84,6 +85,9 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
             },
             getUniformVector3: function (name) {
                 return base.getUniformVector3(name);
+            },
+            getUniformVector4: function (name) {
+                return base.getUniformVector4(name);
             },
             getUniformMetaInfos: function () {
                 var uniforms = base.getUniformMetaInfos();

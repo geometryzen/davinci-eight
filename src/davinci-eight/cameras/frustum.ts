@@ -8,7 +8,6 @@ import view  = require('davinci-eight/cameras/view');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
-import Vector3 = require('davinci-eight/math/Vector3');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 
 let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
@@ -111,8 +110,11 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
         }
       }
     },
-    getUniformVector3(name: string): Vector3 {
+    getUniformVector3(name: string): number[] {
       return base.getUniformVector3(name);
+    },
+    getUniformVector4(name: string): number[] {
+      return base.getUniformVector4(name);
     },
     getUniformMetaInfos(): UniformMetaInfos {
       var uniforms: UniformMetaInfos = base.getUniformMetaInfos();

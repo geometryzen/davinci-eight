@@ -1,4 +1,4 @@
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 /**
  * Utility class for managing a shader attribute variable.
  * @class
@@ -31,7 +31,7 @@ declare class ShaderAttributeVariable {
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     contextLoss(): void;
     bind(): void;
-    bufferData(attributes: VertexAttributeProvider): void;
+    bufferData(attributes: AttributeProvider): void;
     enable(): void;
     disable(): void;
 }

@@ -8,10 +8,56 @@ var Vector3 = (function () {
      * @param vector [{x,y,z}]
      */
     function Vector3(vector) {
-        this.x = vector ? vector.x : 0;
-        this.y = vector ? vector.y : 0;
-        this.z = vector ? vector.z : 0;
+        this.$x = vector ? vector.x : 0;
+        this.$y = vector ? vector.y : 0;
+        this.$z = vector ? vector.z : 0;
+        this.modified = false;
     }
+    Object.defineProperty(Vector3.prototype, "x", {
+        /**
+         * @property x
+         * @type Number
+         */
+        get: function () {
+            return this.$x;
+        },
+        set: function (value) {
+            this.modified = this.modified || this.$x !== value;
+            this.$x = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Vector3.prototype, "y", {
+        /**
+         * @property y
+         * @type Number
+         */
+        get: function () {
+            return this.$y;
+        },
+        set: function (value) {
+            this.modified = this.modified || this.$y !== value;
+            this.$y = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Vector3.prototype, "z", {
+        /**
+         * @property z
+         * @type Number
+         */
+        get: function () {
+            return this.$z;
+        },
+        set: function (value) {
+            this.modified = this.modified || this.$z !== value;
+            this.$z = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Performs in-place addition of vectors.
      *

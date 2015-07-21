@@ -103,6 +103,9 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
             getUniformVector3: function (name) {
                 return base.getUniformVector3(name);
             },
+            getUniformVector4: function (name) {
+                return base.getUniformVector4(name);
+            },
             getUniformMetaInfos: function () {
                 var uniforms = base.getUniformMetaInfos();
                 uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, type: UNIFORM_PROJECTION_MATRIX_TYPE };

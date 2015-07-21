@@ -5,13 +5,12 @@ import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import ShaderAttributeVariable = require('../core/ShaderAttributeVariable');
 import ShaderUniformVariable = require('../core/ShaderUniformVariable');
 import ElementArray = require('../core/ElementArray');
-import ChainedVertexUniformProvider = require('./ChainedVertexUniformProvider');
+import ChainedUniformProvider = require('../uniforms/ChainedUniformProvider');
 import DrawableModel = require('../objects/DrawableModel');
-import Vector3 = require('../math/Vector3');
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
-import VertexUniformProvider = require('../core/VertexUniformProvider');
+import AttributeProvider = require('../core/AttributeProvider');
+import UniformProvider = require('../core/UniformProvider');
 
-var drawableModel = function<G extends VertexAttributeProvider, M extends VertexUniformProvider, P extends ShaderProgram>(mesh: G, model: M, shaderProgram: P): DrawableModel<G, M, P> {
+var drawableModel = function<A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaderProgram: S, uniforms: U): DrawableModel<A, S, U> {
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
@@ -28,7 +27,7 @@ var drawableModel = function<G extends VertexAttributeProvider, M extends Vertex
    */
   function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeVariable {
     let name = declaration.name;
-    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
+    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, attributes.getAttributeMetaInfos());
     if (attribute) {
       let size = attribute.size;
       let normalized = attribute.normalized;
@@ -52,28 +51,28 @@ var drawableModel = function<G extends VertexAttributeProvider, M extends Vertex
   }
   var context: WebGLRenderingContext;
   var contextGainId: string;
-  var elements: ElementArray = new ElementArray(mesh);
+  var elements: ElementArray = new ElementArray(attributes);
   var vertexAttributes: ShaderAttributeVariable[] = shaderProgram.attributes.map(vertexAttrib);
   var uniformVariables: ShaderUniformVariable[] = shaderProgram.uniforms.map(shaderUniformFromDecl);
 
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaderProgram gets the correct data.
-    mesh.update(shaderProgram.attributes);
+    attributes.update(shaderProgram.attributes);
     vertexAttributes.forEach(function(vertexAttribute) {
-      vertexAttribute.bufferData(mesh);
+      vertexAttribute.bufferData(attributes);
     });
-    elements.bufferData(mesh);
+    elements.bufferData(attributes);
   }
 
   var publicAPI = {
-    get mesh(): G {
-      return mesh;
+    get attributes(): A {
+      return attributes;
     },
-    get shaderProgram(): P {
+    get shaders(): S {
       return shaderProgram;
     },
-    get model(): M {
-      return model;
+    get uniforms(): U {
+      return uniforms;
     },
     contextFree() {
       shaderProgram.contextFree();
@@ -99,7 +98,7 @@ var drawableModel = function<G extends VertexAttributeProvider, M extends Vertex
 
         // TODO: This should really be consulting a needsUpdate method.
         // We can also put the updates inside the vertexAttribute loop.
-        if (!mesh.dynamics()) {
+        if (!attributes.dynamics()) {
           updateGeometry();
         }
 
@@ -125,20 +124,40 @@ var drawableModel = function<G extends VertexAttributeProvider, M extends Vertex
     useProgram() {
       context.useProgram(shaderProgram.program);
     },
-    draw(view: VertexUniformProvider) {
+    draw(view: UniformProvider) {
       if (shaderProgram.hasContext()) {
         // TODO: This should be a needs update.
-        if (mesh.dynamics()) {
+        if (attributes.dynamics()) {
           updateGeometry();
         }
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
-          var chainedProvider = new ChainedVertexUniformProvider(model, view);
+          var chainedProvider = new ChainedUniformProvider(uniforms, view);
           switch(uniformVariable.type) {
             case 'vec3': {
-              var vector: Vector3 = chainedProvider.getUniformVector3(uniformVariable.name);
-              if (vector) {
-                uniformVariable.vec3([vector.x, vector.y, vector.z]);
+              var data: number[] = chainedProvider.getUniformVector3(uniformVariable.name);
+              if (data) {
+                if (data.length === 3) {
+                  uniformVariable.vec3(data);
+                }
+                else {
+                  throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 3");
+                }
+              }
+              else {
+                throw new Error("Expecting data for uniform " + uniformVariable.name);
+              }
+            }
+            break;
+            case 'vec4': {
+              var data: number[] = chainedProvider.getUniformVector4(uniformVariable.name);
+              if (data) {
+                if (data.length === 4) {
+                  uniformVariable.vec4(data);
+                }
+                else {
+                  throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 4");
+                }
               }
               else {
                 throw new Error("Expecting data for uniform " + uniformVariable.name);
@@ -166,7 +185,7 @@ var drawableModel = function<G extends VertexAttributeProvider, M extends Vertex
             }
             break;
             default: {
-              throw new Error("uniform type => " + uniformVariable.type);
+              throw new Error("Unexpected type in drawableModel.draw: " + uniformVariable.type);
             }
           }
         }); 
@@ -181,7 +200,7 @@ var drawableModel = function<G extends VertexAttributeProvider, M extends Vertex
 
         elements.bind();
 
-        mesh.draw(context);
+        attributes.draw(context);
 
         vertexAttributes.forEach(function(vertexAttribute) {
           vertexAttribute.disable();

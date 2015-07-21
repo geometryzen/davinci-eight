@@ -1,4 +1,4 @@
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 /**
  * Manages the (optional) WebGLBuffer used to support gl.drawElements().
  * @class ElementArray
@@ -10,9 +10,9 @@ declare class ElementArray {
     /**
      * @class ElementArray
      * @constructor
-     * @param attributes {VertexAttributeProvider}
+     * @param attributes {AttributeProvider}
      */
-    constructor(attributes: VertexAttributeProvider);
+    constructor(attributes: AttributeProvider);
     /**
      * @method contextFree
      */
@@ -28,9 +28,9 @@ declare class ElementArray {
     contextLoss(): void;
     /**
      * @method bufferData
-     * @param attributes {VertexAttributeProvider}
+     * @param attributes {AttributeProvider}
      */
-    bufferData(attributes: VertexAttributeProvider): void;
+    bufferData(attributes: AttributeProvider): void;
     /**
      * @method bind
      */

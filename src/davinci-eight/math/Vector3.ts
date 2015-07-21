@@ -9,13 +9,10 @@ import Spinor3 = require('../math/Spinor3');
  * @class Vector3
  */
 class Vector3 {
-  /**
-   * @property x
-   * @type Number
-   */
-  public x: number;
-  public y: number;
-  public z: number;
+  private $x: number;
+  private $y: number;
+  private $z: number;
+  public modified: boolean;
   public static e1 = new Vector3({x: 1, y: 0, z: 0});
   public static e2 = new Vector3({x: 0, y: 1, z: 0});
   public static e3 = new Vector3({x: 0, y: 0, z: 1});
@@ -25,9 +22,43 @@ class Vector3 {
    * @param vector [{x,y,z}]
    */
   constructor(vector?: Cartesian3) {
-    this.x = vector ? vector.x : 0;
-    this.y = vector ? vector.y : 0;
-    this.z = vector ? vector.z : 0;
+    this.$x = vector ? vector.x : 0;
+    this.$y = vector ? vector.y : 0;
+    this.$z = vector ? vector.z : 0;
+    this.modified = false;
+  }
+  /**
+   * @property x
+   * @type Number
+   */
+  get x(): number {
+    return this.$x;
+  }
+  set x(value: number) {
+    this.modified = this.modified || this.$x !== value;
+    this.$x = value;
+  }
+  /**
+   * @property y
+   * @type Number
+   */
+  get y(): number {
+    return this.$y;
+  }
+  set y(value: number) {
+    this.modified = this.modified || this.$y !== value;
+    this.$y = value;
+  }
+  /**
+   * @property z
+   * @type Number
+   */
+  get z(): number {
+    return this.$z;
+  }
+  set z(value: number) {
+    this.modified = this.modified || this.$z !== value;
+    this.$z = value;
   }
   /**
    * Performs in-place addition of vectors.

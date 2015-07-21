@@ -10,6 +10,11 @@ declare module EIGHT
   /**
    *
    */
+  function initWebGL(canvas: HTMLCanvasElement, attributes: any): WebGLRenderingContext;
+
+  /**
+   *
+   */
   class RenderingContextUser {
     /**
      * Notify the target that it is no longer required, and request to free, dispose, or delete any WebGL resources acquired and owned by the target.
@@ -34,7 +39,7 @@ declare module EIGHT
   class Drawable extends RenderingContextUser {
     drawGroupName: string;
     useProgram();
-    draw(view: VertexUniformProvider);
+    draw(view: UniformProvider);
   }
   class World extends RenderingContextUser
   {
@@ -56,7 +61,7 @@ declare module EIGHT
     enable();
     disable();
     bind();
-    bufferData(data: VertexAttributeProvider);
+    bufferData(data: AttributeProvider);
   }
   class ShaderUniformVariable {
     constructor(name: string, type: string);
@@ -127,30 +132,49 @@ declare module EIGHT
   /**
    * Provides the runtime and design time data required to use a uniform in a vertex shader.
    */
-  class VertexUniformProvider {
-    getUniformVector3(name: string): Vector3;
+  class UniformProvider {
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector3(name: string): number[];
+    getUniformVector4(name: string): number[];
     getUniformMetaInfos(): UniformMetaInfos;
   }
   /**
    *
    */
-  class AmbientLight extends VertexUniformProvider {
+  class AmbientLight extends UniformProvider {
     constructor(color: Color);
   }
   /**
    *
    */
-  class ChainedVertexUniformProvider extends VertexUniformProvider {
-    constructor(one: VertexUniformProvider, two: VertexUniformProvider);
+  class ChainedUniformProvider extends UniformProvider {
+    constructor(one: UniformProvider, two: UniformProvider);
   }
   /**
    *
    */
-  class View extends VertexUniformProvider {
+  class DefaultUniformProvider extends UniformProvider {
+    constructor();
+  }
+  /**
+   * Provides the uniform for the model to view coordinates transformation.
+   */
+  class View extends UniformProvider {
+    /**
+     * The position of the view reference point, VRP.
+     */
     eye: Cartesian3;
+    /**
+     * A special point in the scene that defines the viewplane normal, VPN or n.
+     * n = eye - look, normalized to unity.
+     */
     look: Cartesian3;
+    /**
+     * A unit vector used to determine the view horizontal direction, u.
+     * u = cross(up, n), and
+     * v = cross(n, u).
+     */
     up: Cartesian3;
   }
   class Frustum extends View {
@@ -162,14 +186,26 @@ declare module EIGHT
     far: number;
   }
   /**
-   * A transformation from the 3D world to the canonical view volume.
+   * A transformation from the 3D world or view volume to the canonical view volume.
    * The canonical view volume is the cube that extends from -1 to +1
    * in all cartesian directions. 
    */
   class LinearPerspectiveCamera extends View {
+    /**
+     * field of view angle in the view volume vertical plane, measured in radians.
+     */
     fov: number;
+    /**
+     * ratio of width divided by height of the view volume.
+     */
     aspect: number;
+    /**
+     * distance to the near plane of the view volume from the view reference point.
+     */
     near: number;
+    /**
+     * distance to the far plane of the view volume from the view reference point.
+     */
     far: number;
   }
   interface AttributeMetaInfo {
@@ -186,7 +222,7 @@ declare module EIGHT
   /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
    */
-  class VertexAttributeProvider
+  class AttributeProvider
   {
     draw(context: WebGLRenderingContext): void;
     /**
@@ -262,17 +298,17 @@ declare module EIGHT
     public alpha: number;
     constructor(red: number, green: number, blue: number, alpha?: number);
   }
-  class GeometryAdapter extends VertexAttributeProvider
+  class GeometryAdapter extends AttributeProvider
   {
     public color: Color;
     constructor(geometry: Geometry, options? {drawMode?: number});
   }
-  class CurveGeometry extends VertexAttributeProvider {
+  class CurveMesh extends AttributeProvider {
     constructor(
       n: number,
       generator: (i: number, time: number) => {x: number; y: number; z: number});
   }
-  class LatticeVertexAttributeProvider extends VertexAttributeProvider {
+  class LatticeMesh extends AttributeProvider {
     constructor(
       I: number,
       J: number,
@@ -299,7 +335,7 @@ declare module EIGHT
       thetaStart?: number,
       thetaLength?: number):
   }
-  class RGBGeometry extends VertexAttributeProvider {
+  class RGBMesh extends AttributeProvider {
     constructor();
   }
   /**
@@ -318,36 +354,18 @@ declare module EIGHT
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  class DrawableModel<G, M extends VertexUniformProvider, P extends ShaderProgram> extends Drawable
+  class DrawableModel<A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider> extends Drawable
   {
-    mesh: G;
-    model: M
-    shaderProgram: P;
+    attributes: A;
+    shaders: S;
+    uniforms: U;
   }
-  interface RenderingContextMonitor
-  {
-    /**
-     * Starts the monitoring of the WebGL context.
-     */
-    start(context: WebGLRenderingContext): void;
-    /**
-     * Stops the monitoring of the WebGL context.
-     */
-    stop(): void;
-  }
-  class Renderer
+  class Renderer extends RenderingContextUser
   {
     domElement: HTMLCanvasElement;
     context: WebGLRenderingContext;
-    contextFree(): void;
-    contextGain(gl: WebGLRenderingContext, contextGainId: string): void;
-    contextLoss(): void;
-    render(world: World, views: VertexUniformProvider[]): void;
-    clearColor(red: number, green: number, blue: number, alpha: number): void;
+    render(world: World, views: UniformProvider[]): void;
     setSize(width: number, height: number): void;
-  }
-  class WebGLRenderer extends Renderer {
-    setClearColor(color: number, alpha?: number): void;
   }
   interface RendererParameters {
     alpha?: boolean;
@@ -364,7 +382,7 @@ declare module EIGHT
     stop(): void;
     reset(): void;
     lap(): void;
-    time(): number;
+    time: number;
     isRunning: boolean;
     isPaused: boolean;
   }
@@ -418,11 +436,11 @@ declare module EIGHT
    * @param geometry
    * @param shaderProgram
    */
-  function drawableModel<G extends VertexAttributeProvider, M extends VertexUniformProvider, P extends ShaderProgram>(geometry: G, model: M, shaderProgram: P): DrawableModel<G, M, P>;
+  function drawableModel<A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaders: S, uniforms: U): DrawableModel<A, S, U>;
   /**
    *
    */
-  class Model extends VertexUniformProvider {
+  class ModelMatrixUniformProvider extends UniformProvider {
     public position: Cartesian3;
     public attitude: Spinor3Coords;
     constructor();
@@ -430,11 +448,11 @@ declare module EIGHT
   /**
    * Constructs and returns a box mesh.
    */
-  function box(): VertexAttributeProvider;
+  function box(): AttributeProvider;
   /**
    *
    */
-  interface CuboidVertexAttributeProvider extends VertexAttributeProvider {
+  interface CuboidMesh extends AttributeProvider {
     /**
      * The axis corresponding to e1.
      */
@@ -470,13 +488,13 @@ declare module EIGHT
     normal?:{
       name?:string
     }
-  }): CuboidVertexAttributeProvider;
+  }): CuboidMesh;
   /**
    * A surface generated by the parametric equation:
    * a * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),
    * where phi and theta are the conventional spherical coordinates.
    */
-  interface EllipsoidGeometry extends VertexAttributeProvider {
+  interface EllipsoidMesh extends AttributeProvider {
     /**
      * The axis corresponding to (theta, phi) = (PI/2,0).
      */
@@ -566,11 +584,11 @@ declare module EIGHT
   /**
    * Constructs and returns an ellipsoid mesh.
    */
-  function ellipsoid(): EllipsoidGeometry;
+  function ellipsoid(): EllipsoidMesh;
   /**
    * Constructs and returns a prism mesh.
    */
-  function prism(): VertexAttributeProvider;
+  function prism(): AttributeProvider;
   /**
    *
    */
@@ -585,15 +603,32 @@ declare module EIGHT
    */
   function animationRunner(tick: {(time: number): void;}, terminate: {(time: number): boolean;}, setUp: {(): void;}, tearDown: {(e: Error): void;}, window: Window): WindowAnimationRunner;
   /**
+   *
+   */
+  interface RenderingContextMonitor
+  {
+    /**
+     * Starts the monitoring of the WebGL context.
+     */
+    start(context?: WebGLRenderingContext): void;
+    /**
+     * Stops the monitoring of the WebGL context.
+     */
+    stop(): void;
+    /**
+     *
+     */
+    addContextUser(user: RenderingContextUser);
+  }
+  /**
    * Constructs and returns a RenderingContextMonitor.
    */
-  function contextMonitor(
-    canvas: HTMLCanvasElement,
-    contextFree: {(): void;},
-    contextGain: {(context: WebGLRenderingContext, contextGainId: string): void;},
-    contextLoss: {(): void;}
-    ): RenderingContextMonitor;
+  function contextMonitor(canvas: HTMLCanvasElement): RenderingContextMonitor;
 
+  /**
+   *
+   */
+  function initWebGL(canvas: HTMLCanvasElement, attributes: any): WebGLRenderingContext;
   /**
    * The version string of the davinci-eight module.
    */

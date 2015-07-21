@@ -4,7 +4,7 @@
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import AttributeMetaInfos = require('../core/AttributeMetaInfos');
-import EllipsoidGeometry = require('../mesh/EllipsoidGeometry');
+import EllipsoidMesh = require('../mesh/EllipsoidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
@@ -62,7 +62,7 @@ function computeVertex(
   }
 }
 
-var ellipsoid = function(spec?): EllipsoidGeometry {
+var ellipsoid = function(spec?): EllipsoidMesh {
 
   var a: blade.Euclidean3 = new Euclidean3(0,1,0,0,0,0,0,0);
   var b: blade.Euclidean3 = new Euclidean3(0,0,1,0,0,0,0,0);
@@ -82,7 +82,7 @@ var ellipsoid = function(spec?): EllipsoidGeometry {
   var aVertexNormalArray: Float32Array;
   var drawMode: number = 2;
 
-  var publicAPI: EllipsoidGeometry = {
+  var publicAPI: EllipsoidMesh = {
     get a(): blade.Euclidean3 {
       return a;
     },

@@ -4,7 +4,7 @@
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import AttributeMetaInfos = require('../core/AttributeMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 var vertexList: blade.Euclidean3[] =
@@ -44,7 +44,7 @@ var triangles: number[][] =
   [0, 4, 5]
 ];
 
-var box = function(spec?): VertexAttributeProvider {
+var box = function(spec?): AttributeProvider {
 
   var elements: number[] = [];
 
@@ -53,7 +53,7 @@ var box = function(spec?): VertexAttributeProvider {
   var aVertexNormalArray: Float32Array;
   var drawMode: number = 2;
 
-  var publicAPI: VertexAttributeProvider = {
+  var publicAPI: AttributeProvider = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },

@@ -10,7 +10,7 @@ define(["require", "exports"], function (require, exports) {
         /**
          * @class ElementArray
          * @constructor
-         * @param attributes {VertexAttributeProvider}
+         * @param attributes {AttributeProvider}
          */
         function ElementArray(attributes) {
             this.attributes = attributes;
@@ -44,7 +44,7 @@ define(["require", "exports"], function (require, exports) {
         };
         /**
          * @method bufferData
-         * @param attributes {VertexAttributeProvider}
+         * @param attributes {AttributeProvider}
          */
         ElementArray.prototype.bufferData = function (attributes) {
             if (this.buffer) {

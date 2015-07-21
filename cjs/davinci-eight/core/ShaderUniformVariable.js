@@ -14,13 +14,14 @@ var ShaderUniformVariable = (function () {
         this.type = type;
         switch (type) {
             case 'vec3':
+            case 'vec4':
             case 'mat3':
             case 'mat4':
                 {
                 }
                 break;
             default: {
-                throw new Error("Illegal argument type in uniform constructor: " + type);
+                throw new Error("Illegal argument type in ShaderUniformVariable constructor: " + type);
             }
         }
     }
@@ -53,6 +54,13 @@ var ShaderUniformVariable = (function () {
      */
     ShaderUniformVariable.prototype.vec3 = function (data) {
         this.context.uniform3fv(this.location, data);
+    };
+    /**
+     * @method vec4
+     * @param data {number[]}
+     */
+    ShaderUniformVariable.prototype.vec4 = function (data) {
+        this.context.uniform4fv(this.location, data);
     };
     /**
      * @method mat3

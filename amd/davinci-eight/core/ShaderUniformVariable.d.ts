@@ -34,6 +34,11 @@ declare class ShaderUniformVariable {
      */
     vec3(data: number[]): void;
     /**
+     * @method vec4
+     * @param data {number[]}
+     */
+    vec4(data: number[]): void;
+    /**
      * @method mat3
      * @param transpose {boolean}
      * @param matrix {Float32Array}

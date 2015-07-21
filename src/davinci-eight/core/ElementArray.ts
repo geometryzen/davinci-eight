@@ -1,6 +1,6 @@
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 
-function computeUsage(attributes: VertexAttributeProvider, context: WebGLRenderingContext): number {
+function computeUsage(attributes: AttributeProvider, context: WebGLRenderingContext): number {
   return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
 }
 
@@ -10,14 +10,14 @@ function computeUsage(attributes: VertexAttributeProvider, context: WebGLRenderi
  */
 class ElementArray {
   private buffer: WebGLBuffer;
-  private attributes: VertexAttributeProvider;
+  private attributes: AttributeProvider;
   private context: WebGLRenderingContext;
   /**
    * @class ElementArray
    * @constructor
-   * @param attributes {VertexAttributeProvider}
+   * @param attributes {AttributeProvider}
    */
-  constructor(attributes: VertexAttributeProvider) {
+  constructor(attributes: AttributeProvider) {
     this.attributes = attributes;
   }
   /**
@@ -49,9 +49,9 @@ class ElementArray {
   }
   /**
    * @method bufferData
-   * @param attributes {VertexAttributeProvider}
+   * @param attributes {AttributeProvider}
    */
-  bufferData(attributes: VertexAttributeProvider) {
+  bufferData(attributes: AttributeProvider) {
     if (this.buffer) {
       let elements: Uint16Array = attributes.getElements();
       this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);

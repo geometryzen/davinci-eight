@@ -6,7 +6,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
         return new Color(normal.x, normal.y, normal.z, 1.0);
     }
     /**
-     * Adapter from a Geometry to a VertexAttributeProvider.
+     * Adapter from a Geometry to a AttributeProvider.
      * @class GeometryAdapter
      * @extends VertexAttributeProivider
      */
@@ -14,7 +14,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
         /**
          * @class GeometryAdapter
          * @constructor
-         * @param geometry {Geometry} The geometry that must be adapted to a VertexAttributeProvider.
+         * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
          */
         function GeometryAdapter(geometry, options) {
             this.$drawMode = DrawMode.TRIANGLES;

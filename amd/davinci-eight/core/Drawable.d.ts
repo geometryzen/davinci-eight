@@ -1,5 +1,5 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-import VertexUniformProvider = require('../core/VertexUniformProvider');
+import UniformProvider = require('../core/UniformProvider');
 /**
  * The Drawable interface indicates that the implementation can make a call
  * to either drawArrays or drawElements on the WebGLRenderingContext.
@@ -18,8 +18,8 @@ interface Drawable extends RenderingContextUser {
     useProgram(): any;
     /**
      * @method draw
-     * @param view {VertexUniformProvider}
+     * @param view {UniformProvider}
      */
-    draw(view: VertexUniformProvider): any;
+    draw(view: UniformProvider): any;
 }
 export = Drawable;

@@ -10,7 +10,7 @@ function defaultColorFunction(vertexIndex, face, vertexList, normal) {
     return new Color(normal.x, normal.y, normal.z, 1.0);
 }
 /**
- * Adapter from a Geometry to a VertexAttributeProvider.
+ * Adapter from a Geometry to a AttributeProvider.
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
@@ -18,7 +18,7 @@ var GeometryAdapter = (function () {
     /**
      * @class GeometryAdapter
      * @constructor
-     * @param geometry {Geometry} The geometry that must be adapted to a VertexAttributeProvider.
+     * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
      */
     function GeometryAdapter(geometry, options) {
         this.$drawMode = DrawMode.TRIANGLES;

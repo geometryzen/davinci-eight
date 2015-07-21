@@ -1,10 +1,9 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-import VertexUniformProvider = require('../core/VertexUniformProvider');
+import UniformProvider = require('../core/UniformProvider');
 import World = require('../worlds/World');
 interface Renderer extends RenderingContextUser {
     domElement: HTMLCanvasElement;
-    render(world: World, views: VertexUniformProvider[]): void;
-    clearColor(red: number, green: number, blue: number, alpha: number): void;
+    render(world: World, views: UniformProvider[]): void;
     setSize(width: number, height: number): void;
 }
 export = Renderer;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.20.0</em>
+            <em>API Docs for: 2.21.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,16 +41,17 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
                                 <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/BoxVertexAttributeProvider.html">BoxVertexAttributeProvider</a></li>
+                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
-                                <li><a href="../classes/CuboidVertexAttributeProvider.html">CuboidVertexAttributeProvider</a></li>
+                                <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
-                                <li><a href="../classes/EllipsoidGeometry.html">EllipsoidGeometry</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
-                                <li><a href="../classes/.html"></a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -72,6 +73,7 @@
                  2  6 10 14
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
+                                <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -80,15 +82,15 @@
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
+                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
+                                <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/VertexAttributeProvider.html">VertexAttributeProvider</a></li>
-                                <li><a href="../classes/VertexUniformProvider.html">VertexUniformProvider</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -137,13 +139,12 @@ import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 import ShaderAttributeVariable = require(&#x27;../core/ShaderAttributeVariable&#x27;);
 import ShaderUniformVariable = require(&#x27;../core/ShaderUniformVariable&#x27;);
 import ElementArray = require(&#x27;../core/ElementArray&#x27;);
-import ChainedVertexUniformProvider = require(&#x27;./ChainedVertexUniformProvider&#x27;);
+import ChainedUniformProvider = require(&#x27;../uniforms/ChainedUniformProvider&#x27;);
 import DrawableModel = require(&#x27;../objects/DrawableModel&#x27;);
-import Vector3 = require(&#x27;../math/Vector3&#x27;);
-import VertexAttributeProvider = require(&#x27;../core/VertexAttributeProvider&#x27;);
-import VertexUniformProvider = require(&#x27;../core/VertexUniformProvider&#x27;);
+import AttributeProvider = require(&#x27;../core/AttributeProvider&#x27;);
+import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 
-var drawableModel = function&lt;G extends VertexAttributeProvider, M extends VertexUniformProvider, P extends ShaderProgram&gt;(mesh: G, model: M, shaderProgram: P): DrawableModel&lt;G, M, P&gt; {
+var drawableModel = function&lt;A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider&gt;(attributes: A, shaderProgram: S, uniforms: U): DrawableModel&lt;A, S, U&gt; {
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
@@ -160,7 +161,7 @@ var drawableModel = function&lt;G extends VertexAttributeProvider, M extends Ver
    */
   function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeVariable {
     let name = declaration.name;
-    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
+    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, attributes.getAttributeMetaInfos());
     if (attribute) {
       let size = attribute.size;
       let normalized = attribute.normalized;
@@ -184,28 +185,28 @@ var drawableModel = function&lt;G extends VertexAttributeProvider, M extends Ver
   }
   var context: WebGLRenderingContext;
   var contextGainId: string;
-  var elements: ElementArray = new ElementArray(mesh);
+  var elements: ElementArray = new ElementArray(attributes);
   var vertexAttributes: ShaderAttributeVariable[] = shaderProgram.attributes.map(vertexAttrib);
   var uniformVariables: ShaderUniformVariable[] = shaderProgram.uniforms.map(shaderUniformFromDecl);
 
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaderProgram gets the correct data.
-    mesh.update(shaderProgram.attributes);
+    attributes.update(shaderProgram.attributes);
     vertexAttributes.forEach(function(vertexAttribute) {
-      vertexAttribute.bufferData(mesh);
+      vertexAttribute.bufferData(attributes);
     });
-    elements.bufferData(mesh);
+    elements.bufferData(attributes);
   }
 
   var publicAPI = {
-    get mesh(): G {
-      return mesh;
+    get attributes(): A {
+      return attributes;
     },
-    get shaderProgram(): P {
+    get shaders(): S {
       return shaderProgram;
     },
-    get model(): M {
-      return model;
+    get uniforms(): U {
+      return uniforms;
     },
     contextFree() {
       shaderProgram.contextFree();
@@ -231,7 +232,7 @@ var drawableModel = function&lt;G extends VertexAttributeProvider, M extends Ver
 
         // TODO: This should really be consulting a needsUpdate method.
         // We can also put the updates inside the vertexAttribute loop.
-        if (!mesh.dynamics()) {
+        if (!attributes.dynamics()) {
           updateGeometry();
         }
 
@@ -257,20 +258,40 @@ var drawableModel = function&lt;G extends VertexAttributeProvider, M extends Ver
     useProgram() {
       context.useProgram(shaderProgram.program);
     },
-    draw(view: VertexUniformProvider) {
+    draw(view: UniformProvider) {
       if (shaderProgram.hasContext()) {
         // TODO: This should be a needs update.
-        if (mesh.dynamics()) {
+        if (attributes.dynamics()) {
           updateGeometry();
         }
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
-          var chainedProvider = new ChainedVertexUniformProvider(model, view);
+          var chainedProvider = new ChainedUniformProvider(uniforms, view);
           switch(uniformVariable.type) {
             case &#x27;vec3&#x27;: {
-              var vector: Vector3 = chainedProvider.getUniformVector3(uniformVariable.name);
-              if (vector) {
-                uniformVariable.vec3([vector.x, vector.y, vector.z]);
+              var data: number[] = chainedProvider.getUniformVector3(uniformVariable.name);
+              if (data) {
+                if (data.length === 3) {
+                  uniformVariable.vec3(data);
+                }
+                else {
+                  throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name + &quot; to be number[] with length 3&quot;);
+                }
+              }
+              else {
+                throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name);
+              }
+            }
+            break;
+            case &#x27;vec4&#x27;: {
+              var data: number[] = chainedProvider.getUniformVector4(uniformVariable.name);
+              if (data) {
+                if (data.length === 4) {
+                  uniformVariable.vec4(data);
+                }
+                else {
+                  throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name + &quot; to be number[] with length 4&quot;);
+                }
               }
               else {
                 throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name);
@@ -298,7 +319,7 @@ var drawableModel = function&lt;G extends VertexAttributeProvider, M extends Ver
             }
             break;
             default: {
-              throw new Error(&quot;uniform type =&gt; &quot; + uniformVariable.type);
+              throw new Error(&quot;Unexpected type in drawableModel.draw: &quot; + uniformVariable.type);
             }
           }
         }); 
@@ -313,7 +334,7 @@ var drawableModel = function&lt;G extends VertexAttributeProvider, M extends Ver
 
         elements.bind();
 
-        mesh.draw(context);
+        attributes.draw(context);
 
         vertexAttributes.forEach(function(vertexAttribute) {
           vertexAttribute.disable();

@@ -1,6 +1,6 @@
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 
-function computeUsage(attributes: VertexAttributeProvider, context: WebGLRenderingContext): number {
+function computeUsage(attributes: AttributeProvider, context: WebGLRenderingContext): number {
   return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
 }
 
@@ -71,7 +71,7 @@ class ShaderAttributeVariable {
       this.context.vertexAttribPointer(this.location, this.size, this.context.FLOAT, this.normalized, this.stride, this.offset);
     }
   }
-  bufferData(attributes: VertexAttributeProvider) {
+  bufferData(attributes: AttributeProvider) {
     if (existsLocation(this.location)) {
       let data: Float32Array = attributes.getVertexAttributeData(this.name);
       if (data) {

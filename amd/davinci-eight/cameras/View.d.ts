@@ -1,9 +1,9 @@
-import VertexUniformProvider = require('../core/VertexUniformProvider');
+import UniformProvider = require('../core/UniformProvider');
 import Cartesian3 = require('../math/Cartesian3');
 /**
  * @class View
  */
-interface View extends VertexUniformProvider {
+interface View extends UniformProvider {
     /**
      * @property eye
      * @type Cartesian3

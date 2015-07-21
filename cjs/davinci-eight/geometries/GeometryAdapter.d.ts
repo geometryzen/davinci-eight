@@ -3,15 +3,15 @@ import Face3 = require('../core/Face3');
 import Geometry = require('../geometries/Geometry');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DrawMode = require('../core/DrawMode');
 /**
- * Adapter from a Geometry to a VertexAttributeProvider.
+ * Adapter from a Geometry to a AttributeProvider.
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-declare class GeometryAdapter implements VertexAttributeProvider {
+declare class GeometryAdapter implements AttributeProvider {
     geometry: Geometry;
     color: Color;
     colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[], normal: Vector3) => Color;
@@ -26,7 +26,7 @@ declare class GeometryAdapter implements VertexAttributeProvider {
     /**
      * @class GeometryAdapter
      * @constructor
-     * @param geometry {Geometry} The geometry that must be adapted to a VertexAttributeProvider.
+     * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
      */
     constructor(geometry: Geometry, options?: {
         drawMode?: DrawMode;

@@ -8,7 +8,6 @@ import view  = require('davinci-eight/cameras/view');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
-import Vector3 = require('davinci-eight/math/Vector3');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 
 let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
@@ -27,12 +26,7 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
 
   var base: View = view();
   var projectionMatrix = new Matrix4();
-
-  function updateProjectionMatrix() {
-    projectionMatrix.perspective(fov, aspect, near, far);
-  }
-
-  updateProjectionMatrix();
+  var matrixNeedsUpdate = true;
 
   var publicAPI: LinearPerspectiveCamera = {
     // Delegate to the base camera.
@@ -59,28 +53,28 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     },
     set fov(value: number) {
       fov = value;
-      updateProjectionMatrix();
+      matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
     },
     get aspect(): number {
       return aspect;
     },
     set aspect(value: number) {
       aspect = value;
-      updateProjectionMatrix();
+      matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
     },
     get near(): number {
       return near;
     },
     set near(value: number) {
       near = value;
-      updateProjectionMatrix();
+      matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
     },
     get far(): number {
       return far;
     },
     set far(value: number) {
       far = value;
-      updateProjectionMatrix();
+      matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
     },
     getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
       return base.getUniformMatrix3(name);
@@ -88,6 +82,10 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
       switch(name) {
         case UNIFORM_PROJECTION_MATRIX_NAME: {
+          if (matrixNeedsUpdate) {
+            projectionMatrix.perspective(fov, aspect, near, far);
+            matrixNeedsUpdate = false;
+          }
           return {transpose: false, matrix4: projectionMatrix.elements};
         }
         default: {
@@ -95,8 +93,11 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
         }
       }
     },
-    getUniformVector3(name: string): Vector3 {
+    getUniformVector3(name: string): number[] {
       return base.getUniformVector3(name);
+    },
+    getUniformVector4(name: string): number[] {
+      return base.getUniformVector4(name);
     },
     getUniformMetaInfos(): UniformMetaInfos {
       var uniforms: UniformMetaInfos = base.getUniformMetaInfos();

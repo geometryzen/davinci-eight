@@ -6,6 +6,7 @@ import Spinor3 = require('../math/Spinor3');
 import Matrix4 = require('../math/Matrix4');
 import View = require('../cameras/View');
 import Symbolic = require('../core/Symbolic');
+import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 
 let UNIFORM_VIEW_MATRIX_NAME = 'uViewMatrix';
 let UNIFORM_VIEW_MATRIX_TYPE = 'mat4';
@@ -23,6 +24,7 @@ var view = function(): View {
     var look: Vector3 = new Vector3();
     var up: Vector3 = Vector3.e2;
     var viewMatrix: Matrix4 = new Matrix4();
+    var base = new DefaultUniformProvider();
 
     function updateViewMatrix() {
       var n = new Vector3().subVectors(eye, look);
@@ -43,50 +45,65 @@ var view = function(): View {
       m[3] = 0;    m[7] = 0;   m[11] = 0;   m[15] = 1;
     }
 
-    updateViewMatrix();
+    // Force an update of the view matrix.
+    eye.modified = true;
+    look.modified = true;
+    up.modified = true;
 
     var publicAPI: View = {
         get eye(): Cartesian3 {
           return eye;
         },
         set eye(value: Cartesian3) {
-          eye = new Vector3(value);
-          updateViewMatrix();
+          eye.x = value.x;
+          eye.y = value.y;
+          eye.z = value.z;
         },
         get look(): Cartesian3 {
           return look;
         },
         set look(value: Cartesian3) {
-          look = new Vector3(value);
-          updateViewMatrix();
+          look.x = value.x;
+          look.y = value.y;
+          look.z = value.z;
         },
         get up(): Cartesian3 {
           return up;
         },
         set up(value: Cartesian3) {
-          up = new Vector3(value).normalize();
-          updateViewMatrix();
+          up.x = value.x;
+          up.y = value.y;
+          up.z = value.z;
+          up.normalize();
         },
         getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
-          return null;
+          return base.getUniformMatrix3(name);
         },
         getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
           switch(name) {
             case UNIFORM_VIEW_MATRIX_NAME: {
-              //console.log("viewMatrix: " + viewMatrix.toFixed(0));
+              if (eye.modified || look.modified || up.modified) {
+                updateViewMatrix();
+                eye.modified = false;
+                look.modified = false;
+                up.modified = false;
+              }
               return {transpose: false, matrix4: viewMatrix.elements};
             }
             default: {
-              return null;//base.getUniformMatrix4(name);
+              return base.getUniformMatrix4(name);
             }
           }
         },
-        getUniformVector3(name: string): Vector3 {
-          return null;
+        getUniformVector3(name: string): number[] {
+          return base.getUniformVector3(name);
+        },
+        getUniformVector4(name: string): number[] {
+          return base.getUniformVector4(name);
         },
         getUniformMetaInfos(): UniformMetaInfos
         {
-          var uniforms: UniformMetaInfos = {};//base.getUniformMetaInfos();
+          var uniforms: UniformMetaInfos = base.getUniformMetaInfos();
           uniforms[Symbolic.UNIFORM_VIEW_MATRIX]  = {name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE};
           return uniforms;
         }

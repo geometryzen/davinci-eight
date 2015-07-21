@@ -4,7 +4,7 @@
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import AttributeMetaInfos = require('../core/AttributeMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import VertexAttributeProvider = require('../core/VertexAttributeProvider');
+import AttributeProvider = require('../core/AttributeProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 // The numbering of the front face, seen from the front is
@@ -71,7 +71,7 @@ var triangles =
 /**
  * Constructs and returns a prism mesh.
  */
-var prism = function(spec?): VertexAttributeProvider {
+var prism = function(spec?): AttributeProvider {
 
   var elements: number[] = [];
   var vertices: number[] = [];
@@ -108,7 +108,7 @@ var prism = function(spec?): VertexAttributeProvider {
     }
   });
 
-  var publicAPI: VertexAttributeProvider = {
+  var publicAPI: AttributeProvider = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },

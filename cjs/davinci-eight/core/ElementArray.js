@@ -9,7 +9,7 @@ var ElementArray = (function () {
     /**
      * @class ElementArray
      * @constructor
-     * @param attributes {VertexAttributeProvider}
+     * @param attributes {AttributeProvider}
      */
     function ElementArray(attributes) {
         this.attributes = attributes;
@@ -43,7 +43,7 @@ var ElementArray = (function () {
     };
     /**
      * @method bufferData
-     * @param attributes {VertexAttributeProvider}
+     * @param attributes {AttributeProvider}
      */
     ElementArray.prototype.bufferData = function (attributes) {
         if (this.buffer) {

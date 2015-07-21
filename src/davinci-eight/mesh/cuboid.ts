@@ -4,7 +4,7 @@
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import AttributeMetaInfos = require('../core/AttributeMetaInfos');
-import CuboidVertexAttributeProvider = require('../mesh/CuboidVertexAttributeProvider');
+import CuboidMesh = require('../mesh/CuboidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
@@ -80,7 +80,7 @@ var cuboid = function(
       name?:string
     },
     drawMode?: number
-  }): CuboidVertexAttributeProvider {
+  }): CuboidMesh {
 
   function getOverride<T>(which: string, prop: string, defaultValue: T, type: string): T {
     if (options && options[which] && typeof options[which][prop] === type) {
@@ -112,7 +112,7 @@ var cuboid = function(
   var aVertexNormalArray: Float32Array;
   let drawMode: number = options.drawMode;
 
-  var publicAPI: CuboidVertexAttributeProvider = {
+  var publicAPI: CuboidMesh = {
     get a(): blade.Euclidean3 {
       return a;
     },
