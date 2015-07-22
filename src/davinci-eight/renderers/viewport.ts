@@ -2,18 +2,19 @@ import core = require('davinci-eight/core');
 import Color = require('../core/Color');
 import Drawable = require('../core/Drawable');
 import DrawContext = require('../core/DrawContext');
-import Renderer = require('../renderers/Renderer');
-import RendererParameters = require('../renderers/RendererParameters');
+import Viewport = require('../renderers/Viewport');
+import ViewportParameters = require('../renderers/ViewportParameters');
+import ViewportArgs = require('../renderers/ViewportArgs');
 import World = require('../worlds/World');
 import UniformProvider = require('../core/UniformProvider');
 //import initWebGL = require('../renderers/initWebGL');
 //import FrameworkDrawContext = require('../renderers/FrameworkDrawContext');
 
-var renderer = function(parameters?: RendererParameters): Renderer {
+let viewport = function(parameters?: ViewportParameters): Viewport {
 
     parameters = parameters || {};
 
-    var canvas: HTMLCanvasElement = parameters.canvas !== undefined ? parameters.canvas : document.createElement('canvas');
+    let canvas: HTMLCanvasElement = parameters.canvas !== undefined ? parameters.canvas : document.createElement('canvas');
     var alpha: boolean = parameters.alpha !== undefined ? parameters.alpha : false;
     var depth: boolean = parameters.depth !== undefined ? parameters.depth : true;
     var stencil: boolean = parameters.stencil !== undefined ? parameters.stencil : true;
@@ -27,6 +28,9 @@ var renderer = function(parameters?: RendererParameters): Renderer {
     var devicePixelRatio = 1;
     var autoClearColor: boolean = true;
     var autoClearDepth: boolean = true;
+    let clearColor: Color = new Color(1.0, 1.0, 1.0, 1.0);
+    // If we had an active context then we might use context.drawingBufferWidth etc.
+    let viewport: ViewportArgs = new ViewportArgs(0, 0, canvas.width, canvas.height);
 
     function setViewport(x: number, y: number, width: number, height: number): void {
       if (context) {
@@ -34,7 +38,7 @@ var renderer = function(parameters?: RendererParameters): Renderer {
       }
     }
 
-    function autoClear() {
+    function clear() {
       var mask: number = 0;
       if (context)
       {
@@ -50,14 +54,16 @@ var renderer = function(parameters?: RendererParameters): Renderer {
       }
     }
 
-    var publicAPI: Renderer = {
-      get domElement() { return canvas; },
+    var publicAPI: Viewport = {
+      get canvas() { return canvas; },
       get context(): WebGLRenderingContext { return context;},
       contextFree: function() {
         context = void 0;
       },
       contextGain: function(contextArg: WebGLRenderingContext, contextGainId: string) {
         context = contextArg;
+        context.enable(context.DEPTH_TEST);
+        context.enable(context.SCISSOR_TEST);
       },
       contextLoss: function() {
         context = void 0;
@@ -65,8 +71,20 @@ var renderer = function(parameters?: RendererParameters): Renderer {
       hasContext: function() {
         return !!context;
       },
+      clearColor(red: number, green: number, blue: number, alpha: number)
+      {
+        clearColor.red = red;
+        clearColor.green = green;
+        clearColor.blue = blue;
+        clearColor.alpha = alpha;
+        //
+      },
       render(world: World, views: UniformProvider[]) {
         if (context) {
+          context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
+          context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+          context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
+          clear();
           var drawGroups: {[programId:string]: Drawable[]} = {};
           if (!world.hasContext()) {
             world.contextGain(context, contextGainId);
@@ -88,6 +106,30 @@ var renderer = function(parameters?: RendererParameters): Renderer {
         }
       },
       setViewport: setViewport,
+      get x(): number {
+        return viewport.x;
+      },
+      set x(value: number) {
+        viewport.x = value;
+      },
+      get y(): number {
+        return viewport.y;
+      },
+      set y(value: number) {
+        viewport.y = value;
+      },
+      get width(): number {
+        return viewport.width;
+      },
+      set width(value: number) {
+        viewport.width = value;
+      },
+      get height(): number {
+        return viewport.height;
+      },
+      set height(value: number) {
+        viewport.height = value;
+      },
       setSize(width: number, height: number, updateStyle?: boolean)
       {
         canvas.width = width * devicePixelRatio;
@@ -113,4 +155,4 @@ var renderer = function(parameters?: RendererParameters): Renderer {
     return publicAPI;
 };
 
-export = renderer;
+export = viewport;

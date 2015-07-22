@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.21.0</em>
+            <em>API Docs for: 2.22.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -82,14 +82,15 @@
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -151,7 +152,7 @@ import frustum = require(&#x27;davinci-eight/cameras/frustum&#x27;);
 import perspective = require(&#x27;davinci-eight/cameras/perspective&#x27;);
 import world = require(&#x27;davinci-eight/worlds/world&#x27;);
 import World = require(&#x27;davinci-eight/worlds/World&#x27;);
-import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
+import viewport = require(&#x27;davinci-eight/renderers/viewport&#x27;);
 import drawableModel = require(&#x27;davinci-eight/objects/drawableModel&#x27;);
 import UniformProvider = require(&#x27;davinci-eight/core/UniformProvider&#x27;);
 import Face3 = require(&#x27;davinci-eight/core/Face3&#x27;);
@@ -185,13 +186,17 @@ import Matrix4 = require(&#x27;davinci-eight/math/Matrix4&#x27;);
 import Spinor3 = require(&#x27;davinci-eight/math/Spinor3&#x27;);
 import Vector2 = require(&#x27;davinci-eight/math/Vector2&#x27;);
 import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
-//
+// mesh
+import arrowMesh = require(&#x27;davinci-eight/mesh/arrowMesh&#x27;);
+import boxMesh = require(&#x27;davinci-eight/mesh/boxMesh&#x27;);
+// objects
+import box = require(&#x27;davinci-eight/objects/box&#x27;);
 import DrawableModel = require(&#x27;davinci-eight/objects/DrawableModel&#x27;);
 import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
 import ShaderProgram = require(&#x27;davinci-eight/programs/ShaderProgram&#x27;);
 // renderers
-import Renderer = require(&#x27;davinci-eight/renderers/Renderer&#x27;);
-import RendererParameters = require(&#x27;davinci-eight/renderers/RendererParameters&#x27;);
+import Viewport = require(&#x27;davinci-eight/renderers/Viewport&#x27;);
+import ViewportParameters = require(&#x27;davinci-eight/renderers/ViewportParameters&#x27;);
 import initWebGL = require(&#x27;davinci-eight/renderers/initWebGL&#x27;);
 // uniforms
 import AmbientLight               = require(&#x27;davinci-eight/uniforms/AmbientLight&#x27;);
@@ -234,7 +239,7 @@ var eight = {
   get perspective() { return perspective; },
   get world() { return world; },
   object3D: object3D,
-  renderer: renderer,
+  get viewport() { return viewport; },
   get contextMonitor() {return contextMonitor;},
   workbench: workbench3D,
   animationRunner: windowAnimationRunner,
@@ -279,6 +284,12 @@ var eight = {
   get Curve() { return Curve; },
   get ChainedUniformProvider() { return ChainedUniformProvider; },
   get DefaultUniformProvider() { return DefaultUniformProvider; },
+  // mesh
+  get arrowMesh() { return arrowMesh; },
+  get boxMesh() { return boxMesh; },
+  // objects
+  get box() { return box; },
+
   /*
   get box() { return box; },
   get BoxMesh() { return BoxMesh; },

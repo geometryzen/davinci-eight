@@ -185,6 +185,9 @@ var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: Unifor
     },
     hasContext() {
       return innerProgram.hasContext();
+    },
+    use() {
+      return innerProgram.use();
     }
   }
 

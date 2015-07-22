@@ -35,6 +35,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "UniformProvider",
         "Vector3",
         "View",
+        "Viewport",
         "WindowAnimationRunner",
         "frustum",
         "perspective",

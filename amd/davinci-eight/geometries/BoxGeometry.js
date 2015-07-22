@@ -8,6 +8,9 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
     var BoxGeometry = (function (_super) {
         __extends(BoxGeometry, _super);
         function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments) {
+            if (widthSegments === void 0) { widthSegments = 1; }
+            if (heightSegments === void 0) { heightSegments = 1; }
+            if (depthSegments === void 0) { depthSegments = 1; }
             _super.call(this);
             this.widthSegments = widthSegments || 1;
             this.heightSegments = heightSegments || 1;

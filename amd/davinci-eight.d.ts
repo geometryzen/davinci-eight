@@ -37,8 +37,8 @@ import Vector3 = require('davinci-eight/math/Vector3');
 import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
-import Renderer = require('davinci-eight/renderers/Renderer');
-import RendererParameters = require('davinci-eight/renderers/RendererParameters');
+import Viewport = require('davinci-eight/renderers/Viewport');
+import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
@@ -56,7 +56,7 @@ declare var eight: {
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
     world: () => World;
     object3D: () => Node3D;
-    renderer: (parameters?: RendererParameters) => Renderer;
+    viewport: (parameters?: ViewportParameters) => Viewport;
     contextMonitor: (canvas: HTMLCanvasElement, attributes: any) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
@@ -65,7 +65,7 @@ declare var eight: {
         tearDown: () => void;
     };
     animationRunner: (tick: (time: number) => void, terminate: (time: number) => void, setUp: () => void, tearDown: (ex: any) => void, $window?: Window) => WindowAnimationRunner;
-    drawableModel: <A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaderProgram: S, uniforms: U) => DrawableModel<A, S, U>;
+    drawableModel: <MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL) => DrawableModel<MESH, SHADERS, MODEL>;
     ShaderAttributeVariable: typeof ShaderAttributeVariable;
     ShaderUniformVariable: typeof ShaderUniformVariable;
     pointsProgram: () => ShaderProgram;
@@ -100,5 +100,12 @@ declare var eight: {
     Curve: typeof Curve;
     ChainedUniformProvider: typeof ChainedUniformProvider;
     DefaultUniformProvider: typeof DefaultUniformProvider;
+    arrowMesh: (options?: {
+        wireFrame?: boolean;
+    }) => AttributeProvider;
+    boxMesh: (options?: {
+        wireFrame?: boolean;
+    }) => AttributeProvider;
+    box: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
 };
 export = eight;

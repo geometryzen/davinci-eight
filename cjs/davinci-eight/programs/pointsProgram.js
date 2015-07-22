@@ -65,6 +65,9 @@ var pointsProgram = function () {
         },
         get fragmentShader() {
             return innerProgram.fragmentShader;
+        },
+        use: function () {
+            return innerProgram.use();
         }
     };
     return publicAPI;

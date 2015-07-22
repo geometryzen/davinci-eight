@@ -65,6 +65,9 @@ define(["require", "exports", '../programs/shaderProgram'], function (require, e
             },
             get fragmentShader() {
                 return innerProgram.fragmentShader;
+            },
+            use: function () {
+                return innerProgram.use();
             }
         };
         return publicAPI;

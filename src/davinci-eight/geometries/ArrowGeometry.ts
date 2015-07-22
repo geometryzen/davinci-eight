@@ -3,7 +3,16 @@ import Spinor3 = require('../math/Spinor3');
 import Vector3 = require('../math/Vector3');
 
 class ArrowGeometry extends RevolutionGeometry {
-  constructor(scale: number, attitude: Spinor3, segments: number, length: number, radiusShaft: number, radiusCone: number, lengthCone: number, axis: { x: number; y: number; z: number }) {
+  constructor(
+    scale: number = 1,
+    attitude: Spinor3 = new Spinor3(),
+    segments: number = 12,
+    length: number = 1,
+    radiusShaft: number = 0.01,
+    radiusCone: number = 0.08,
+    lengthCone: number = 0.20, 
+    axis: { x: number; y: number; z: number } = Vector3.e3.clone()
+  ) {
     scale        = scale || 1;
     attitude     = attitude || new Spinor3();
     length       = (length || 1) * scale;

@@ -38,8 +38,14 @@ declare module EIGHT
   }
   class Drawable extends RenderingContextUser {
     drawGroupName: string;
-    useProgram();
-    draw(view: UniformProvider);
+    /**
+     *
+     */
+    useProgram(): void;
+    /**
+     *
+     */
+    draw(ambients: UniformProvider): void;
   }
   class World extends RenderingContextUser
   {
@@ -354,20 +360,28 @@ declare module EIGHT
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  class DrawableModel<A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider> extends Drawable
+  class DrawableModel<MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Drawable
   {
-    attributes: A;
-    shaders: S;
-    uniforms: U;
+    mesh: MESH;
+    shaders: SHADERS;
+    model: MODEL;
   }
-  class Renderer extends RenderingContextUser
+  class Viewport extends RenderingContextUser
   {
-    domElement: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
     context: WebGLRenderingContext;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    /**
+     *
+     */
+    clearColor(red: number, green: number, blue: number, alpha: number): void;
     render(world: World, views: UniformProvider[]): void;
     setSize(width: number, height: number): void;
   }
-  interface RendererParameters {
+  interface ViewportParameters {
     alpha?: boolean;
     antialias?: boolean;
     canvas?: HTMLCanvasElement;
@@ -415,10 +429,10 @@ declare module EIGHT
     near?: number,
     far?: number): LinearPerspectiveCamera;
   /**
-   * Constructs and returns a WebGL renderer.
+   * Constructs and returns a Viewport.
    * @param parameters Optional parameters for modifying the WebGL context.
    */
-  function renderer(parameters?: RendererParameters): Renderer;
+  function viewport(parameters?: ViewportParameters): Viewport;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */
@@ -446,9 +460,27 @@ declare module EIGHT
     constructor();
   }
   /**
+   * Constructs and returns an arrow mesh.
+   */
+  function arrowMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
    * Constructs and returns a box mesh.
    */
-  function box(): AttributeProvider;
+  function boxMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function box(
+    ambients: UniformProvider
+  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**
    *
    */
@@ -597,7 +629,7 @@ declare module EIGHT
   /**
    * Constructs and returns a new Workbench3D.
    */
-  function workbench(canvas: HTMLCanvasElement, renderer: Renderer, view: View, window: Window): Workbench3D;
+  function workbench(canvas: HTMLCanvasElement, viewport: Viewport, view: View, window: Window): Workbench3D;
   /**
    * Constructs and returns a WindowAnimationRunner.
    */

@@ -10,7 +10,7 @@ import DrawableModel = require('../objects/DrawableModel');
 import AttributeProvider = require('../core/AttributeProvider');
 import UniformProvider = require('../core/UniformProvider');
 
-var drawableModel = function<A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaderProgram: S, uniforms: U): DrawableModel<A, S, U> {
+var drawableModel = function<MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL): DrawableModel<MESH, SHADERS, MODEL> {
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
@@ -27,7 +27,7 @@ var drawableModel = function<A extends AttributeProvider, S extends ShaderProgra
    */
   function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeVariable {
     let name = declaration.name;
-    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, attributes.getAttributeMetaInfos());
+    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
     if (attribute) {
       let size = attribute.size;
       let normalized = attribute.normalized;
@@ -37,7 +37,7 @@ var drawableModel = function<A extends AttributeProvider, S extends ShaderProgra
       return new ShaderAttributeVariable(name, size, normalized, stride, offset);
     }
     else {
-      throw new Error("The geometry does not support the attribute variable named " + name);
+      throw new Error("The mesh does not support the attribute variable named " + name);
     }
   }
   /**
@@ -51,31 +51,31 @@ var drawableModel = function<A extends AttributeProvider, S extends ShaderProgra
   }
   var context: WebGLRenderingContext;
   var contextGainId: string;
-  var elements: ElementArray = new ElementArray(attributes);
-  var vertexAttributes: ShaderAttributeVariable[] = shaderProgram.attributes.map(vertexAttrib);
-  var uniformVariables: ShaderUniformVariable[] = shaderProgram.uniforms.map(shaderUniformFromDecl);
+  var elements: ElementArray = new ElementArray(mesh);
+  var vertexAttributes: ShaderAttributeVariable[] = shaders.attributes.map(vertexAttrib);
+  var uniformVariables: ShaderUniformVariable[] = shaders.uniforms.map(shaderUniformFromDecl);
 
   function updateGeometry() {
-    // Make sure to update the mesh first so that the shaderProgram gets the correct data.
-    attributes.update(shaderProgram.attributes);
+    // Make sure to update the mesh first so that the shaders gets the correct data.
+    mesh.update(shaders.attributes);
     vertexAttributes.forEach(function(vertexAttribute) {
-      vertexAttribute.bufferData(attributes);
+      vertexAttribute.bufferData(mesh);
     });
-    elements.bufferData(attributes);
+    elements.bufferData(mesh);
   }
 
   var publicAPI = {
-    get attributes(): A {
-      return attributes;
+    get mesh(): MESH {
+      return mesh;
     },
-    get shaders(): S {
-      return shaderProgram;
+    get shaders(): SHADERS {
+      return shaders;
     },
-    get uniforms(): U {
-      return uniforms;
+    get model(): MODEL {
+      return model;
     },
     contextFree() {
-      shaderProgram.contextFree();
+      shaders.contextFree();
       vertexAttributes.forEach(function(vertexAttribute) {
         vertexAttribute.contextFree();
       });
@@ -87,29 +87,29 @@ var drawableModel = function<A extends AttributeProvider, S extends ShaderProgra
       context = contextArg;
       if (contextGainId !== contextId) {
         contextGainId = contextId;
-        shaderProgram.contextGain(context, contextId);
+        shaders.contextGain(context, contextId);
 
         // Cache the attribute variable locations.
         vertexAttributes.forEach(function(vertexAttribute) {
-          vertexAttribute.contextGain(context, shaderProgram.program);
+          vertexAttribute.contextGain(context, shaders.program);
         });
 
         elements.contextGain(context);
 
         // TODO: This should really be consulting a needsUpdate method.
         // We can also put the updates inside the vertexAttribute loop.
-        if (!attributes.dynamics()) {
+        if (!mesh.dynamics()) {
           updateGeometry();
         }
 
         // Cache the uniform variable locations.
         uniformVariables.forEach(function(uniformVariable) {
-          uniformVariable.contextGain(context, shaderProgram.program);
+          uniformVariable.contextGain(context, shaders.program);
         }); 
       }
     },
     contextLoss() {
-      shaderProgram.contextLoss();
+      shaders.contextLoss();
       vertexAttributes.forEach(function(vertexAttribute) {
         vertexAttribute.contextLoss();
       });
@@ -118,21 +118,26 @@ var drawableModel = function<A extends AttributeProvider, S extends ShaderProgra
       contextGainId = null;
     },
     hasContext(): boolean {
-      return shaderProgram.hasContext();
+      return shaders.hasContext();
     },
-    get drawGroupName(): string {return shaderProgram.programId;},
-    useProgram() {
-      context.useProgram(shaderProgram.program);
-    },
+    get drawGroupName(): string {return shaders.programId;},
+    /**
+     * @method useProgram
+     */
+    useProgram() { return shaders.use(); },
+    /**
+     * @method draw
+     * @param ambients {UniformProvider}
+     */
     draw(view: UniformProvider) {
-      if (shaderProgram.hasContext()) {
+      if (shaders.hasContext()) {
         // TODO: This should be a needs update.
-        if (attributes.dynamics()) {
+        if (mesh.dynamics()) {
           updateGeometry();
         }
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
-          var chainedProvider = new ChainedUniformProvider(uniforms, view);
+          var chainedProvider = new ChainedUniformProvider(model, view);
           switch(uniformVariable.type) {
             case 'vec3': {
               var data: number[] = chainedProvider.getUniformVector3(uniformVariable.name);
@@ -200,7 +205,7 @@ var drawableModel = function<A extends AttributeProvider, S extends ShaderProgra
 
         elements.bind();
 
-        attributes.draw(context);
+        mesh.draw(context);
 
         vertexAttributes.forEach(function(vertexAttribute) {
           vertexAttribute.disable();

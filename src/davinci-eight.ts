@@ -17,7 +17,7 @@ import frustum = require('davinci-eight/cameras/frustum');
 import perspective = require('davinci-eight/cameras/perspective');
 import world = require('davinci-eight/worlds/world');
 import World = require('davinci-eight/worlds/World');
-import renderer = require('davinci-eight/renderers/renderer');
+import viewport = require('davinci-eight/renderers/viewport');
 import drawableModel = require('davinci-eight/objects/drawableModel');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
@@ -51,13 +51,17 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
-//
+// mesh
+import arrowMesh = require('davinci-eight/mesh/arrowMesh');
+import boxMesh = require('davinci-eight/mesh/boxMesh');
+// objects
+import box = require('davinci-eight/objects/box');
 import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
 // renderers
-import Renderer = require('davinci-eight/renderers/Renderer');
-import RendererParameters = require('davinci-eight/renderers/RendererParameters');
+import Viewport = require('davinci-eight/renderers/Viewport');
+import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import initWebGL = require('davinci-eight/renderers/initWebGL');
 // uniforms
 import AmbientLight               = require('davinci-eight/uniforms/AmbientLight');
@@ -100,7 +104,7 @@ var eight = {
   get perspective() { return perspective; },
   get world() { return world; },
   object3D: object3D,
-  renderer: renderer,
+  get viewport() { return viewport; },
   get contextMonitor() {return contextMonitor;},
   workbench: workbench3D,
   animationRunner: windowAnimationRunner,
@@ -145,6 +149,12 @@ var eight = {
   get Curve() { return Curve; },
   get ChainedUniformProvider() { return ChainedUniformProvider; },
   get DefaultUniformProvider() { return DefaultUniformProvider; },
+  // mesh
+  get arrowMesh() { return arrowMesh; },
+  get boxMesh() { return boxMesh; },
+  // objects
+  get box() { return box; },
+
   /*
   get box() { return box; },
   get BoxMesh() { return BoxMesh; },

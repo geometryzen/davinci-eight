@@ -83,7 +83,12 @@ var shaderProgram = function (vertexShader, fragmentShader) {
             return !!program;
         },
         get program() { return program; },
-        get programId() { return programId; }
+        get programId() { return programId; },
+        use: function () {
+            if (context) {
+                return context.useProgram(program);
+            }
+        }
     };
     // Trigger introspection.
     publicAPI.vertexShader = vertexShader;

@@ -7,7 +7,7 @@ class BoxGeometry extends Geometry {
   public widthSegments: number;
   public heightSegments: number;
   public depthSegments: number;
-  constructor(width, height, depth, widthSegments, heightSegments, depthSegments) {
+  constructor(width: number, height: number, depth: number, widthSegments: number = 1, heightSegments: number = 1, depthSegments: number = 1) {
     super();
 
   this.widthSegments = widthSegments || 1;

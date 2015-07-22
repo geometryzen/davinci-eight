@@ -6,9 +6,13 @@ import initWebGL = require('../renderers/initWebGL');
 var contextMonitor = function(canvas: HTMLCanvasElement, attributes: any): RenderingContextMonitor {
 
   var users: RenderingContextUser[] = [];
+  var context: WebGLRenderingContext;
+  var contextId: string;
 
   var webGLContextLost = function(event: Event) {
     event.preventDefault();
+    context = void 0;
+    contextId = void 0;
     users.forEach(function(user: RenderingContextUser) {
       user.contextLoss();
     });
@@ -16,24 +20,26 @@ var contextMonitor = function(canvas: HTMLCanvasElement, attributes: any): Rende
 
   var webGLContextRestored = function(event: Event) {
     event.preventDefault();
-    let context: WebGLRenderingContext = initWebGL(canvas, attributes);
-    let contextId: string = uuid4().generate();
+    context = initWebGL(canvas, attributes);
+    contextId = uuid4().generate();
     users.forEach(function(user: RenderingContextUser) {
       user.contextGain(context, contextId);
     });
   };
 
   var publicAPI: RenderingContextMonitor = {
-    start: function(context?: WebGLRenderingContext) {
-      context = context || initWebGL(canvas, attributes);
+    start() {
+      context = initWebGL(canvas, attributes);
+      contextId = uuid4().generate();
       canvas.addEventListener('webglcontextlost', webGLContextLost, false);
       canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-      let contextId: string = uuid4().generate();
       users.forEach(function(user: RenderingContextUser) {
         user.contextGain(context, contextId);
       });
     },
-    stop: function() {
+    stop() {
+      context = void 0;
+      contextId = void 0;
       users.forEach(function(user: RenderingContextUser) {
         user.contextFree();
       });
@@ -42,6 +48,9 @@ var contextMonitor = function(canvas: HTMLCanvasElement, attributes: any): Rende
     },
     addContextUser(user: RenderingContextUser) {
       users.push(user);
+      if (context && !user.hasContext()) {
+        user.contextGain(context, contextId)
+      }
     }
   };
 

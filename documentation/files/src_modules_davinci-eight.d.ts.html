@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.21.0</em>
+            <em>API Docs for: 2.22.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -82,14 +82,15 @@
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
+                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -172,8 +173,14 @@ declare module EIGHT
   }
   class Drawable extends RenderingContextUser {
     drawGroupName: string;
-    useProgram();
-    draw(view: UniformProvider);
+    /**
+     *
+     */
+    useProgram(): void;
+    /**
+     *
+     */
+    draw(ambients: UniformProvider): void;
   }
   class World extends RenderingContextUser
   {
@@ -488,20 +495,28 @@ declare module EIGHT
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  class DrawableModel&lt;A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider&gt; extends Drawable
+  class DrawableModel&lt;MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
   {
-    attributes: A;
-    shaders: S;
-    uniforms: U;
+    mesh: MESH;
+    shaders: SHADERS;
+    model: MODEL;
   }
-  class Renderer extends RenderingContextUser
+  class Viewport extends RenderingContextUser
   {
-    domElement: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
     context: WebGLRenderingContext;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    /**
+     *
+     */
+    clearColor(red: number, green: number, blue: number, alpha: number): void;
     render(world: World, views: UniformProvider[]): void;
     setSize(width: number, height: number): void;
   }
-  interface RendererParameters {
+  interface ViewportParameters {
     alpha?: boolean;
     antialias?: boolean;
     canvas?: HTMLCanvasElement;
@@ -549,10 +564,10 @@ declare module EIGHT
     near?: number,
     far?: number): LinearPerspectiveCamera;
   /**
-   * Constructs and returns a WebGL renderer.
+   * Constructs and returns a Viewport.
    * @param parameters Optional parameters for modifying the WebGL context.
    */
-  function renderer(parameters?: RendererParameters): Renderer;
+  function viewport(parameters?: ViewportParameters): Viewport;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */
@@ -580,9 +595,27 @@ declare module EIGHT
     constructor();
   }
   /**
+   * Constructs and returns an arrow mesh.
+   */
+  function arrowMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
    * Constructs and returns a box mesh.
    */
-  function box(): AttributeProvider;
+  function boxMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function box(
+    ambients: UniformProvider
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
   /**
    *
    */
@@ -731,7 +764,7 @@ declare module EIGHT
   /**
    * Constructs and returns a new Workbench3D.
    */
-  function workbench(canvas: HTMLCanvasElement, renderer: Renderer, view: View, window: Window): Workbench3D;
+  function workbench(canvas: HTMLCanvasElement, viewport: Viewport, view: View, window: Window): Workbench3D;
   /**
    * Constructs and returns a WindowAnimationRunner.
    */

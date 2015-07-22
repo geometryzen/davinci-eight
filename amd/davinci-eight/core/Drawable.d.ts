@@ -15,11 +15,11 @@ interface Drawable extends RenderingContextUser {
     /**
      * @method useProgram
      */
-    useProgram(): any;
+    useProgram(): void;
     /**
      * @method draw
      * @param view {UniformProvider}
      */
-    draw(view: UniformProvider): any;
+    draw(view: UniformProvider): void;
 }
 export = Drawable;

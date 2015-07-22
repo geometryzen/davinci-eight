@@ -167,6 +167,9 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic'], function (
             },
             hasContext: function () {
                 return innerProgram.hasContext();
+            },
+            use: function () {
+                return innerProgram.use();
             }
         };
         return publicAPI;

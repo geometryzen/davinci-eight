@@ -42,6 +42,12 @@ interface ShaderProgram extends RenderingContextUser {
    * @type string
    */
   fragmentShader: string;
+  /**
+   * Makes the ShaderProgram the current program for WebGL.
+   * This method has no effect if the ShaderProgram does not have a WebGLRenderingContext.
+   * @method use
+   */
+  use(): void;
 }
 
 export = ShaderProgram;

@@ -10,6 +10,14 @@ var Vector3 = require('../math/Vector3');
 var ArrowGeometry = (function (_super) {
     __extends(ArrowGeometry, _super);
     function ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis) {
+        if (scale === void 0) { scale = 1; }
+        if (attitude === void 0) { attitude = new Spinor3(); }
+        if (segments === void 0) { segments = 12; }
+        if (length === void 0) { length = 1; }
+        if (radiusShaft === void 0) { radiusShaft = 0.01; }
+        if (radiusCone === void 0) { radiusCone = 0.08; }
+        if (lengthCone === void 0) { lengthCone = 0.20; }
+        if (axis === void 0) { axis = Vector3.e3.clone(); }
         scale = scale || 1;
         attitude = attitude || new Spinor3();
         length = (length || 1) * scale;

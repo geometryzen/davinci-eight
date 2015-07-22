@@ -35,10 +35,13 @@ class DefaultUniformProvider implements UniformProvider {
     return;
   }
   /**
+   * 
    * @method getUniformMetaInfos
+   * @return An empty object that derived class may modify.
    */
   getUniformMetaInfos(): UniformMetaInfos {
-    return;
+    var uniforms: UniformMetaInfos = {};
+    return uniforms;
   }
 }
 

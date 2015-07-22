@@ -1,4 +1,4 @@
-interface RendererParameters {
+interface ViewportParameters {
   alpha?: boolean;
   antialias?: boolean;
   canvas?: HTMLCanvasElement;
@@ -8,4 +8,4 @@ interface RendererParameters {
   stencil?: boolean;
 }
 
-export = RendererParameters;
+export = ViewportParameters;

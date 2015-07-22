@@ -93,7 +93,12 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
       return !!program;
     },
     get program() { return program; },
-    get programId() {return programId;}
+    get programId() {return programId;},
+    use() {
+      if (context) {
+        return context.useProgram(program);
+      }
+    }
   };
 
   // Trigger introspection.

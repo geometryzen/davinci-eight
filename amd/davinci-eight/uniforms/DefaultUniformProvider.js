@@ -34,10 +34,13 @@ define(["require", "exports"], function (require, exports) {
             return;
         };
         /**
+         *
          * @method getUniformMetaInfos
+         * @return An empty object that derived class may modify.
          */
         DefaultUniformProvider.prototype.getUniformMetaInfos = function () {
-            return;
+            var uniforms = {};
+            return uniforms;
         };
         return DefaultUniformProvider;
     })();

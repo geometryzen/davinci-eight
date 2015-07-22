@@ -6,7 +6,7 @@ var Color = require('davinci-eight/core/Color');
 var frustum = require('davinci-eight/cameras/frustum');
 var perspective = require('davinci-eight/cameras/perspective');
 var world = require('davinci-eight/worlds/world');
-var renderer = require('davinci-eight/renderers/renderer');
+var viewport = require('davinci-eight/renderers/viewport');
 var drawableModel = require('davinci-eight/objects/drawableModel');
 var Face3 = require('davinci-eight/core/Face3');
 // geometries
@@ -39,6 +39,11 @@ var Matrix4 = require('davinci-eight/math/Matrix4');
 var Spinor3 = require('davinci-eight/math/Spinor3');
 var Vector2 = require('davinci-eight/math/Vector2');
 var Vector3 = require('davinci-eight/math/Vector3');
+// mesh
+var arrowMesh = require('davinci-eight/mesh/arrowMesh');
+var boxMesh = require('davinci-eight/mesh/boxMesh');
+// objects
+var box = require('davinci-eight/objects/box');
 var Curve = require('davinci-eight/curves/Curve');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
 // uniforms
@@ -77,7 +82,7 @@ var eight = {
     get perspective() { return perspective; },
     get world() { return world; },
     object3D: object3D,
-    renderer: renderer,
+    get viewport() { return viewport; },
     get contextMonitor() { return contextMonitor; },
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
@@ -122,5 +127,10 @@ var eight = {
     get Curve() { return Curve; },
     get ChainedUniformProvider() { return ChainedUniformProvider; },
     get DefaultUniformProvider() { return DefaultUniformProvider; },
+    // mesh
+    get arrowMesh() { return arrowMesh; },
+    get boxMesh() { return boxMesh; },
+    // objects
+    get box() { return box; },
 };
 module.exports = eight;

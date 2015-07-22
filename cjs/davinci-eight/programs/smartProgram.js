@@ -168,6 +168,9 @@ var smartProgram = function (attributes, uniformsList) {
         },
         hasContext: function () {
             return innerProgram.hasContext();
+        },
+        use: function () {
+            return innerProgram.use();
         }
     };
     return publicAPI;

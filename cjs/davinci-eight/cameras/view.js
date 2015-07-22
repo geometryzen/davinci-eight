@@ -103,8 +103,13 @@ var view = function () {
         },
         getUniformMetaInfos: function () {
             var uniforms = base.getUniformMetaInfos();
-            uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE };
-            return uniforms;
+            if (typeof uniforms === 'object') {
+                uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE };
+                return uniforms;
+            }
+            else {
+                throw new Error("Unexpected typeof uniforms => " + typeof uniforms);
+            }
         }
     };
     return publicAPI;

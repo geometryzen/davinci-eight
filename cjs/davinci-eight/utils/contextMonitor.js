@@ -2,31 +2,37 @@ var uuid4 = require('../utils/uuid4');
 var initWebGL = require('../renderers/initWebGL');
 var contextMonitor = function (canvas, attributes) {
     var users = [];
+    var context;
+    var contextId;
     var webGLContextLost = function (event) {
         event.preventDefault();
+        context = void 0;
+        contextId = void 0;
         users.forEach(function (user) {
             user.contextLoss();
         });
     };
     var webGLContextRestored = function (event) {
         event.preventDefault();
-        var context = initWebGL(canvas, attributes);
-        var contextId = uuid4().generate();
+        context = initWebGL(canvas, attributes);
+        contextId = uuid4().generate();
         users.forEach(function (user) {
             user.contextGain(context, contextId);
         });
     };
     var publicAPI = {
-        start: function (context) {
-            context = context || initWebGL(canvas, attributes);
+        start: function () {
+            context = initWebGL(canvas, attributes);
+            contextId = uuid4().generate();
             canvas.addEventListener('webglcontextlost', webGLContextLost, false);
             canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-            var contextId = uuid4().generate();
             users.forEach(function (user) {
                 user.contextGain(context, contextId);
             });
         },
         stop: function () {
+            context = void 0;
+            contextId = void 0;
             users.forEach(function (user) {
                 user.contextFree();
             });
@@ -35,6 +41,9 @@ var contextMonitor = function (canvas, attributes) {
         },
         addContextUser: function (user) {
             users.push(user);
+            if (context && !user.hasContext()) {
+                user.contextGain(context, contextId);
+            }
         }
     };
     return publicAPI;

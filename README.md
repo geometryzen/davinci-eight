@@ -123,6 +123,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.19.0: 2015-07-18 Library
 * 2.20.0: 2015-07-19 Frustum
 * 2.21.0: 2015-07-20 Framework
+* 2.22.0: 2015-07-22 Viewport
 
 ## License
 Copyright (c) 2014-2015 David Holmes
