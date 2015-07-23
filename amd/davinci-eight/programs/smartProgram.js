@@ -14,10 +14,10 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic'], function (
     var vertexShader = function (attributes, uniforms) {
         var lines = [];
         for (name in attributes) {
-            lines.push(ATTRIBUTE + attributes[name].type + SPACE + attributes[name].name + SEMICOLON);
+            lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
         }
         for (name in uniforms) {
-            lines.push(UNIFORM + uniforms[name].type + SPACE + uniforms[name].name + SEMICOLON);
+            lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
         }
         if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
             lines.push("varying highp vec4 vColor;");
@@ -48,7 +48,7 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic'], function (
         glPosition.unshift("gl_Position");
         lines.push(glPosition.join(''));
         if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-            switch (attributes[Symbolic.ATTRIBUTE_COLOR].type) {
+            switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
                 case 'vec4':
                     {
                         lines.push("  vColor = " + attributes[Symbolic.ATTRIBUTE_COLOR].name + SEMICOLON);
@@ -61,7 +61,7 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic'], function (
                     break;
                 default:
                     {
-                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].type);
+                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
                     }
             }
         }

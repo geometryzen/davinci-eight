@@ -1,13 +1,22 @@
 import AttributeProvider = require('../core/AttributeProvider');
 /**
  * Utility class for managing a shader attribute variable.
- * @class
+ * While this class may be created directly by the user, it is preferable
+ * to use the ShaderAttributeVariable instances managed by the ShaderProgram because
+ * there will be improved integrity and context loss management.
+ * @class ShaderAttributeVariable.
  */
 declare class ShaderAttributeVariable {
-    name: string;
-    type: string;
     /**
-     * The numbe of components for the attribute. Must be 1,2,3 , or 4.
+     * @property name {string} The name of the variable as it appears in the GLSL program.
+     */
+    private $name;
+    /**
+     * @property glslType {string} The type of the variable as it appears in the GLSL program.
+     */
+    private $glslType;
+    /**
+     * Index of target attribute in the buffer.
      */
     private location;
     private context;
@@ -17,20 +26,23 @@ declare class ShaderAttributeVariable {
      * In particular, this class manages buffer allocation, location caching, and data binding.
      * @class ShaderAttributeVariable
      * @constructor
-     * @param name {string}
+     * @param name {string} The name of the variable as it appears in the GLSL program.
+     * @param glslType {string} The type of the variable as it appears in the GLSL program.
      */
-    constructor(name: string, type: string);
+    constructor(name: string, glslType: string);
+    name: string;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     contextLoss(): void;
     /**
      * @method dataFormat
-     * @param size {number}
+     * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
+     * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
      * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
      * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
      * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
      */
-    dataFormat(size: number, normalized?: boolean, stride?: number, offset?: number): void;
+    dataFormat(size: number, type: number, normalized?: boolean, stride?: number, offset?: number): void;
     /**
      * FIXME This should not couple to an AttributeProvider.
      * @method bufferData
@@ -38,5 +50,9 @@ declare class ShaderAttributeVariable {
     bufferData(attributes: AttributeProvider): void;
     enable(): void;
     disable(): void;
+    /**
+     * @method toString
+     */
+    toString(): string;
 }
 export = ShaderAttributeVariable;

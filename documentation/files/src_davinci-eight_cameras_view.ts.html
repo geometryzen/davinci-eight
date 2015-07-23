@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.23.0</em>
+            <em>API Docs for: 2.24.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,12 +79,12 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -243,7 +243,7 @@ var view = function(): View {
         {
           var uniforms: UniformMetaInfos = base.getUniformMetaInfos();
           if (typeof uniforms === &#x27;object&#x27;) {
-            uniforms[Symbolic.UNIFORM_VIEW_MATRIX]  = {name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE};
+            uniforms[Symbolic.UNIFORM_VIEW_MATRIX]  = {name: UNIFORM_VIEW_MATRIX_NAME, glslType: UNIFORM_VIEW_MATRIX_TYPE};
             return uniforms;
           }
           else {

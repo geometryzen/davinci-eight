@@ -14,7 +14,7 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
-  function findAttributeByVariableName(name: string, attributes: AttributeMetaInfos): AttributeMetaInfo {
+  function findAttributeMetaInfoByVariableName(name: string, attributes: AttributeMetaInfos): AttributeMetaInfo {
     for (var key in attributes) {
       let attribute = attributes[key];
       if (attribute.name === name) {
@@ -26,18 +26,10 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
    * Constructs a ShaderAttributeVariable from a declaration.
    */
   function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeVariable {
-    let name = declaration.name;
-    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
+    // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
+    let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
     if (attribute) {
-      // All this machinary will be required at runtime.
-      //let size = attribute.size;
-      //let normalized = attribute.normalized;
-      //let stride = attribute.stride;
-      //let offset = attribute.offset;
-      // By using the ShaderProgram, we get to delegate the management of attribute locations. 
-      return shaders.attributeVariable(name);
-      // TODO: Maybe type should be passed along?
-      // return new ShaderAttributeVariable(name, size, normalized, stride, offset);
+      return shaders.attributeVariable(declaration.name);
     }
     else {
       throw new Error("The mesh does not support the attribute variable named " + name);
@@ -122,7 +114,7 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
           var chainedProvider = new ChainedUniformProvider(model, view);
-          switch(uniformVariable.type) {
+          switch(uniformVariable.glslType) {
             case 'vec2': {
               var data: number[] = chainedProvider.getUniformVector2(uniformVariable.name);
               if (data) {
@@ -189,7 +181,7 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
             }
             break;
             default: {
-              throw new Error("Unexpected type in drawableModel.draw: " + uniformVariable.type);
+              throw new Error("Unexpected uniform GLSL type in drawableModel.draw: " + uniformVariable.glslType);
             }
           }
         }); 
@@ -199,13 +191,14 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
         });
 
         vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeVariable) {
-          let attribute: AttributeMetaInfo = findAttributeByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+          let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
           if (attribute) {
             let size = attribute.size;
+            let type = context.FLOAT;//attribute.dataType;
             let normalized = attribute.normalized;
             let stride = attribute.stride;
             let offset = attribute.offset;
-            vertexAttribute.dataFormat(size, normalized, stride, offset);
+            vertexAttribute.dataFormat(size, type, normalized, stride, offset);
           }
           else {
             throw new Error("The mesh does not support the attribute variable named " + vertexAttribute.name);

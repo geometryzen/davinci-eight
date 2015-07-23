@@ -26,6 +26,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Point3",
         "RenderingContextUser",
         "ShaderAttributeVariable",
+        "ShaderAttributeVariable.",
         "ShaderProgram",
         "ShaderUniformVariable",
         "ShaderVariableDecl",
@@ -39,8 +40,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "WindowAnimationRunner",
         "frustum",
         "perspective",
-        "view",
-        null
+        "view"
     ],
     "modules": [
         "EIGHT"

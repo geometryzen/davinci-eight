@@ -51,6 +51,7 @@ var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 var ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+var Uniform2fvProvider = require('davinci-eight/uniforms/Uniform2fvProvider');
 var contextMonitor = require('davinci-eight/utils/contextMonitor');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
@@ -119,6 +120,7 @@ var eight = {
     get TubeGeometry() { return TubeGeometry; },
     get VortexGeometry() { return VortexGeometry; },
     get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
+    get Uniform2fvProvider() { return Uniform2fvProvider; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
     get Spinor3() { return Spinor3; },

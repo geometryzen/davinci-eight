@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.23.0</em>
+            <em>API Docs for: 2.24.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,12 +79,12 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -139,28 +139,28 @@
  */
 class ShaderUniformVariable {
   public name: string;
-  public type: string;
+  public glslType: string;
   private context: WebGLRenderingContext;
   private location: WebGLUniformLocation;
   /**
    * @class ShaderUniformVariable
    * @constructor
-   * @param name {string} The name of the uniform variable, as it appears in the vertex shader code.
-   * @param type {string} The type of the uniform variale, as it appears in the vertex shader code.  
+   * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+   * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.  
    */
-  constructor(name: string, type: string) {
+  constructor(name: string, glslType: string) {
     this.name = name;
-    this.type = type;
-    switch(type) {
+    switch(glslType) {
       case &#x27;vec2&#x27;:
       case &#x27;vec3&#x27;:
       case &#x27;vec4&#x27;:
       case &#x27;mat3&#x27;:
       case &#x27;mat4&#x27;: {
+        this.glslType = glslType;
       }
       break;
       default: {
-        throw new Error(&quot;Illegal argument type in ShaderUniformVariable constructor: &quot; + type);
+        throw new Error(&quot;Illegal argument glslType in ShaderUniformVariable constructor: &quot; + glslType);
       }
     }
   }
@@ -242,7 +242,7 @@ class ShaderUniformVariable {
    * @method toString
    */
   toString(): string {
-    return [&quot;ShaderUniformVariable({name: &quot;, this.name, &quot;, type: &quot;, this.type + &quot;})&quot;].join(&#x27;&#x27;);
+    return [&quot;ShaderUniformVariable({name: &quot;, this.name, &quot;, glslType: &quot;, this.glslType + &quot;})&quot;].join(&#x27;&#x27;);
   }
 }
 

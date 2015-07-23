@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.23.0'
+        VERSION: '2.24.0'
     };
     return core;
 });
@@ -1118,7 +1118,7 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
             getUniformMetaInfos: function () {
                 var uniforms = base.getUniformMetaInfos();
                 if (typeof uniforms === 'object') {
-                    uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE };
+                    uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, glslType: UNIFORM_VIEW_MATRIX_TYPE };
                     return uniforms;
                 }
                 else {
@@ -1323,7 +1323,7 @@ define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cam
             },
             getUniformMetaInfos: function () {
                 var uniforms = base.getUniformMetaInfos();
-                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, type: UNIFORM_PROJECTION_MATRIX_TYPE };
+                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
                 return uniforms;
             }
         };
@@ -1428,7 +1428,7 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
             },
             getUniformMetaInfos: function () {
                 var uniforms = base.getUniformMetaInfos();
-                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, type: UNIFORM_PROJECTION_MATRIX_TYPE };
+                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
                 return uniforms;
             }
         };
@@ -1774,7 +1774,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
          */
-        function findAttributeByVariableName(name, attributes) {
+        function findAttributeMetaInfoByVariableName(name, attributes) {
             for (var key in attributes) {
                 var attribute = attributes[key];
                 if (attribute.name === name) {
@@ -1786,16 +1786,10 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
          * Constructs a ShaderAttributeVariable from a declaration.
          */
         function vertexAttrib(declaration) {
-            var name = declaration.name;
-            var attribute = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
+            // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
+            var attribute = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
             if (attribute) {
-                // All this machinary will be required at runtime.
-                //let size = attribute.size;
-                //let normalized = attribute.normalized;
-                //let stride = attribute.stride;
-                //let offset = attribute.offset;
-                // By using the ShaderProgram, we get to delegate the management of attribute locations. 
-                return shaders.attributeVariable(name);
+                return shaders.attributeVariable(declaration.name);
             }
             else {
                 throw new Error("The mesh does not support the attribute variable named " + name);
@@ -1877,7 +1871,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
                     // Update the uniform location values.
                     uniformVariables.forEach(function (uniformVariable) {
                         var chainedProvider = new ChainedUniformProvider(model, view);
-                        switch (uniformVariable.type) {
+                        switch (uniformVariable.glslType) {
                             case 'vec2':
                                 {
                                     var data = chainedProvider.getUniformVector2(uniformVariable.name);
@@ -1949,7 +1943,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
                                 }
                                 break;
                             default: {
-                                throw new Error("Unexpected type in drawableModel.draw: " + uniformVariable.type);
+                                throw new Error("Unexpected uniform GLSL type in drawableModel.draw: " + uniformVariable.glslType);
                             }
                         }
                     });
@@ -1957,13 +1951,14 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
                         vertexAttribute.enable();
                     });
                     vertexAttributes.forEach(function (vertexAttribute) {
-                        var attribute = findAttributeByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+                        var attribute = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
                         if (attribute) {
                             var size = attribute.size;
+                            var type = context.FLOAT; //attribute.dataType;
                             var normalized = attribute.normalized;
                             var stride = attribute.stride;
                             var offset = attribute.offset;
-                            vertexAttribute.dataFormat(size, normalized, stride, offset);
+                            vertexAttribute.dataFormat(size, type, normalized, stride, offset);
                         }
                         else {
                             throw new Error("The mesh does not support the attribute variable named " + vertexAttribute.name);
@@ -2301,7 +2296,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             var attribues = {};
             attribues[Symbolic.ATTRIBUTE_POSITION] = {
                 name: DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME,
-                type: 'vec3',
+                glslType: 'vec3',
                 size: 3,
                 normalized: false,
                 stride: 0,
@@ -2310,7 +2305,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             if (!this.grayScale) {
                 attribues[Symbolic.ATTRIBUTE_COLOR] = {
                     name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
-                    type: 'vec4',
+                    glslType: 'vec4',
                     size: 4,
                     normalized: false,
                     stride: 0,
@@ -2320,7 +2315,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             if (this.drawMode === DrawMode.TRIANGLES) {
                 attribues[Symbolic.ATTRIBUTE_NORMAL] = {
                     name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
-                    type: 'vec3',
+                    glslType: 'vec3',
                     size: 3,
                     normalized: false,
                     stride: 0,
@@ -6027,7 +6022,10 @@ define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], func
     }
     /**
      * Utility class for managing a shader attribute variable.
-     * @class
+     * While this class may be created directly by the user, it is preferable
+     * to use the ShaderAttributeVariable instances managed by the ShaderProgram because
+     * there will be improved integrity and context loss management.
+     * @class ShaderAttributeVariable.
      */
     var ShaderAttributeVariable = (function () {
         /**
@@ -6035,16 +6033,36 @@ define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], func
          * In particular, this class manages buffer allocation, location caching, and data binding.
          * @class ShaderAttributeVariable
          * @constructor
-         * @param name {string}
+         * @param name {string} The name of the variable as it appears in the GLSL program.
+         * @param glslType {string} The type of the variable as it appears in the GLSL program.
          */
-        function ShaderAttributeVariable(name, type) {
-            this.name = name;
-            this.type = type;
-            //    this.size = size;
-            //    this.normalized = normalized;
-            //    this.stride = stride;
-            //    this.offset = offset;
+        function ShaderAttributeVariable(name, glslType) {
+            this.$name = name;
+            switch (glslType) {
+                case 'float':
+                case 'vec2':
+                case 'vec3':
+                case 'vec4':
+                case 'mat2':
+                case 'mat3':
+                case 'mat4':
+                    {
+                        this.$glslType = glslType;
+                    }
+                    break;
+                default: {
+                    // TODO
+                    throw new Error("Argument glslType in ShaderAttributeVariable constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
+                }
+            }
         }
+        Object.defineProperty(ShaderAttributeVariable.prototype, "name", {
+            get: function () {
+                return this.$name;
+            },
+            enumerable: true,
+            configurable: true
+        });
         ShaderAttributeVariable.prototype.contextFree = function () {
             if (this.buffer) {
                 this.context.deleteBuffer(this.buffer);
@@ -6065,12 +6083,13 @@ define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], func
         };
         /**
          * @method dataFormat
-         * @param size {number}
+         * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
+         * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
          * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
          * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
          * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
          */
-        ShaderAttributeVariable.prototype.dataFormat = function (size, normalized, stride, offset) {
+        ShaderAttributeVariable.prototype.dataFormat = function (size, type, normalized, stride, offset) {
             if (normalized === void 0) { normalized = false; }
             if (stride === void 0) { stride = 0; }
             if (offset === void 0) { offset = 0; }
@@ -6080,7 +6099,7 @@ define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], func
                 // 6.14 Fixed point support.
                 // The WebGL API does not support the GL_FIXED data type.
                 // Consequently, we hard-code the FLOAT constant.
-                this.context.vertexAttribPointer(this.location, size, this.context.FLOAT, normalized, stride, offset);
+                this.context.vertexAttribPointer(this.location, size, type, normalized, stride, offset);
             }
         };
         /**
@@ -6110,6 +6129,12 @@ define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], func
                 this.context.disableVertexAttribArray(this.location);
             }
         };
+        /**
+         * @method toString
+         */
+        ShaderAttributeVariable.prototype.toString = function () {
+            return ["ShaderAttributeVariable({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
+        };
         return ShaderAttributeVariable;
     })();
     return ShaderAttributeVariable;
@@ -6124,23 +6149,23 @@ define('davinci-eight/core/ShaderUniformVariable',["require", "exports"], functi
         /**
          * @class ShaderUniformVariable
          * @constructor
-         * @param name {string} The name of the uniform variable, as it appears in the vertex shader code.
-         * @param type {string} The type of the uniform variale, as it appears in the vertex shader code.
+         * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+         * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.
          */
-        function ShaderUniformVariable(name, type) {
+        function ShaderUniformVariable(name, glslType) {
             this.name = name;
-            this.type = type;
-            switch (type) {
+            switch (glslType) {
                 case 'vec2':
                 case 'vec3':
                 case 'vec4':
                 case 'mat3':
                 case 'mat4':
                     {
+                        this.glslType = glslType;
                     }
                     break;
                 default: {
-                    throw new Error("Illegal argument type in ShaderUniformVariable constructor: " + type);
+                    throw new Error("Illegal argument glslType in ShaderUniformVariable constructor: " + glslType);
                 }
             }
         }
@@ -6222,7 +6247,7 @@ define('davinci-eight/core/ShaderUniformVariable',["require", "exports"], functi
          * @method toString
          */
         ShaderUniformVariable.prototype.toString = function () {
-            return ["ShaderUniformVariable({name: ", this.name, ", type: ", this.type + "})"].join('');
+            return ["ShaderUniformVariable({name: ", this.name, ", glslType: ", this.glslType + "})"].join('');
         };
         return ShaderUniformVariable;
     })();
@@ -6494,10 +6519,10 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
     var vertexShader = function (attributes, uniforms) {
         var lines = [];
         for (name in attributes) {
-            lines.push(ATTRIBUTE + attributes[name].type + SPACE + attributes[name].name + SEMICOLON);
+            lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
         }
         for (name in uniforms) {
-            lines.push(UNIFORM + uniforms[name].type + SPACE + uniforms[name].name + SEMICOLON);
+            lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
         }
         if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
             lines.push("varying highp vec4 vColor;");
@@ -6528,7 +6553,7 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
         glPosition.unshift("gl_Position");
         lines.push(glPosition.join(''));
         if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-            switch (attributes[Symbolic.ATTRIBUTE_COLOR].type) {
+            switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
                 case 'vec4':
                     {
                         lines.push("  vColor = " + attributes[Symbolic.ATTRIBUTE_COLOR].name + SEMICOLON);
@@ -6541,7 +6566,7 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
                     break;
                 default:
                     {
-                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].type);
+                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
                     }
             }
         }
@@ -6950,8 +6975,8 @@ define('davinci-eight/uniforms/ModelMatrixUniformProvider',["require", "exports"
         };
         ModelMatrixUniformProvider.getUniformMetaInfos = function () {
             var uniforms = {};
-            uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, type: UNIFORM_MODEL_MATRIX_TYPE };
-            uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, type: UNIFORM_NORMAL_MATRIX_TYPE };
+            uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
+            uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
             return uniforms;
         };
         return ModelMatrixUniformProvider;
@@ -7194,12 +7219,50 @@ define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Sym
         };
         AmbientLight.prototype.getUniformMetaInfos = function () {
             var uniforms = {};
-            uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] = { name: UNIFORM_AMBIENT_LIGHT_NAME, type: UNIFORM_AMBIENT_LIGHT_TYPE };
+            uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] = { name: UNIFORM_AMBIENT_LIGHT_NAME, glslType: UNIFORM_AMBIENT_LIGHT_TYPE };
             return uniforms;
         };
         return AmbientLight;
     })(DefaultUniformProvider);
     return AmbientLight;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/uniforms/Uniform2fvProvider',["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uuid4'], function (require, exports, DefaultUniformProvider, uuid4) {
+    var Uniform2fvProvider = (function (_super) {
+        __extends(Uniform2fvProvider, _super);
+        function Uniform2fvProvider(name, data, glslType, canonicalName) {
+            if (glslType === void 0) { glslType = 'vec2'; }
+            _super.call(this);
+            this.name = name;
+            this.data = data;
+            this.glslType = glslType;
+            this.canonicalName = typeof canonicalName !== 'undefined' ? canonicalName : uuid4().generate();
+        }
+        Uniform2fvProvider.prototype.getUniformVector2 = function (name) {
+            switch (name) {
+                case this.name: {
+                    return this.data();
+                }
+                default: {
+                    return _super.prototype.getUniformVector2.call(this, name);
+                }
+            }
+            return this.data();
+        };
+        Uniform2fvProvider.prototype.getUniformMetaInfos = function () {
+            var uniforms = _super.prototype.getUniformMetaInfos.call(this);
+            uniforms[this.canonicalName] = { name: this.name, glslType: this.glslType };
+            return uniforms;
+        };
+        return Uniform2fvProvider;
+    })(DefaultUniformProvider);
+    return Uniform2fvProvider;
 });
 
 define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], function (require, exports, uuid4, initWebGL) {
@@ -7441,7 +7504,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeVariable', 'davinci-eight/core/ShaderUniformVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/boxMesh', 'davinci-eight/objects/box', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeVariable, ShaderUniformVariable, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, boxMesh, box, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, ModelMatrixUniformProvider, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeVariable', 'davinci-eight/core/ShaderUniformVariable', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/boxMesh', 'davinci-eight/objects/box', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/uniforms/Uniform2fvProvider', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeVariable, ShaderUniformVariable, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, boxMesh, box, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, ModelMatrixUniformProvider, Uniform2fvProvider, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -7507,6 +7570,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get TubeGeometry() { return TubeGeometry; },
         get VortexGeometry() { return VortexGeometry; },
         get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
+        get Uniform2fvProvider() { return Uniform2fvProvider; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get Spinor3() { return Spinor3; },

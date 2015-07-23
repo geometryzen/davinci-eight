@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.23.0</em>
+            <em>API Docs for: 2.24.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,12 +79,12 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -149,7 +149,7 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
-  function findAttributeByVariableName(name: string, attributes: AttributeMetaInfos): AttributeMetaInfo {
+  function findAttributeMetaInfoByVariableName(name: string, attributes: AttributeMetaInfos): AttributeMetaInfo {
     for (var key in attributes) {
       let attribute = attributes[key];
       if (attribute.name === name) {
@@ -161,18 +161,10 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
    * Constructs a ShaderAttributeVariable from a declaration.
    */
   function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeVariable {
-    let name = declaration.name;
-    let attribute: AttributeMetaInfo = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
+    // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
+    let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
     if (attribute) {
-      // All this machinary will be required at runtime.
-      //let size = attribute.size;
-      //let normalized = attribute.normalized;
-      //let stride = attribute.stride;
-      //let offset = attribute.offset;
-      // By using the ShaderProgram, we get to delegate the management of attribute locations. 
-      return shaders.attributeVariable(name);
-      // TODO: Maybe type should be passed along?
-      // return new ShaderAttributeVariable(name, size, normalized, stride, offset);
+      return shaders.attributeVariable(declaration.name);
     }
     else {
       throw new Error(&quot;The mesh does not support the attribute variable named &quot; + name);
@@ -257,7 +249,7 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
           var chainedProvider = new ChainedUniformProvider(model, view);
-          switch(uniformVariable.type) {
+          switch(uniformVariable.glslType) {
             case &#x27;vec2&#x27;: {
               var data: number[] = chainedProvider.getUniformVector2(uniformVariable.name);
               if (data) {
@@ -324,7 +316,7 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
             }
             break;
             default: {
-              throw new Error(&quot;Unexpected type in drawableModel.draw: &quot; + uniformVariable.type);
+              throw new Error(&quot;Unexpected uniform GLSL type in drawableModel.draw: &quot; + uniformVariable.glslType);
             }
           }
         }); 
@@ -334,13 +326,14 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
         });
 
         vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeVariable) {
-          let attribute: AttributeMetaInfo = findAttributeByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+          let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
           if (attribute) {
             let size = attribute.size;
+            let type = context.FLOAT;//attribute.dataType;
             let normalized = attribute.normalized;
             let stride = attribute.stride;
             let offset = attribute.offset;
-            vertexAttribute.dataFormat(size, normalized, stride, offset);
+            vertexAttribute.dataFormat(size, type, normalized, stride, offset);
           }
           else {
             throw new Error(&quot;The mesh does not support the attribute variable named &quot; + vertexAttribute.name);

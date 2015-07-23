@@ -104,7 +104,7 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     },
     getUniformMetaInfos(): UniformMetaInfos {
       var uniforms: UniformMetaInfos = base.getUniformMetaInfos();
-      uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: UNIFORM_PROJECTION_MATRIX_NAME, type: UNIFORM_PROJECTION_MATRIX_TYPE};
+      uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE};
       return uniforms;
     }
   };

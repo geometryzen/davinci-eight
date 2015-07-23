@@ -59,18 +59,18 @@ declare module EIGHT
    * Manages the lifecycle of an attribute used in a vertex shader.
    */
   class ShaderAttributeVariable {
-    constructor(name: string, size: number, normalized?: boolean, stride?: number, offset?: number) {
+    constructor(name: string, glslType: string) {
     }
     contextFree();
     contextGain(context: WebGLRenderingContext, program: WebGLProgram);
     contextLoss();
     enable();
     disable();
-    dataFormat(size: number, normalized?: boolean, stride?: number, offset?: number);
+    dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
     bufferData(data: AttributeProvider);
   }
   class ShaderUniformVariable {
-    constructor(name: string, type: string);
+    constructor(name: string, glslType: string);
     contextFree();
     contextGain(context: WebGLRenderingContext, program: WebGLProgram);
     contextLoss();
@@ -133,7 +133,7 @@ declare module EIGHT
    */
   interface UniformMetaInfo {
     name: string;
-    type: string;
+    glslType: string;
   }
   interface UniformMetaInfos {
     [property: string]: UniformMetaInfo
@@ -144,6 +144,7 @@ declare module EIGHT
   class UniformProvider {
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector2(name: string): number[];
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMetaInfos(): UniformMetaInfos;
@@ -165,6 +166,12 @@ declare module EIGHT
    */
   class DefaultUniformProvider extends UniformProvider {
     constructor();
+  }
+  /**
+   *
+   */
+  class Uniform2fvProvider extends DefaultUniformProvider {
+    constructor(name: string, data: () => number[], glslType?: string, canonicalName?: string);
   }
   /**
    * Provides the uniform for the model to view coordinates transformation.
@@ -219,8 +226,9 @@ declare module EIGHT
   }
   interface AttributeMetaInfo {
     name: string,
-    type: string,
+    glslType: string,
     size: number,
+    type?: number,
     normalized: boolean,
     stride: number,
     offset: number

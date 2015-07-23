@@ -104,7 +104,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
             getUniformMetaInfos: function () {
                 var uniforms = base.getUniformMetaInfos();
                 if (typeof uniforms === 'object') {
-                    uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, type: UNIFORM_VIEW_MATRIX_TYPE };
+                    uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, glslType: UNIFORM_VIEW_MATRIX_TYPE };
                     return uniforms;
                 }
                 else {

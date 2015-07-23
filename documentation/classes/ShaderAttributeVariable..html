@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>davinci-eight</title>
+    <title>ShaderAttributeVariable. - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.23.0</em>
+            <em>API Docs for: 2.24.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,12 +79,12 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -129,7 +129,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1> Class</h1>
+<h1>ShaderAttributeVariable. Class</h1>
 <div class="box meta">
 
 
@@ -143,7 +143,10 @@
 
 
 <div class="box intro">
-    <p>Utility class for managing a shader attribute variable.</p>
+    <p>Utility class for managing a shader attribute variable.
+While this class may be created directly by the user, it is preferable
+to use the ShaderAttributeVariable instances managed by the ShaderProgram because
+there will be improved integrity and context loss management.</p>
 
 </div>
 
@@ -152,6 +155,7 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -159,11 +163,77 @@
             <h2 class="off-left">Item Index</h2>
 
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_glslType  The type of the variable as it appears in the GLSL program.">glslType  The type of the variable as it appears in the GLSL program.</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_name  The name of the variable as it appears in the GLSL program.">name  The name of the variable as it appears in the GLSL program.</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_glslType  The type of the variable as it appears in the GLSL program." class="property item">
+                        <h3 class="name"><code>glslType  The type of the variable as it appears in the GLSL program.</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:23</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_name  The name of the variable as it appears in the GLSL program." class="property item">
+                        <h3 class="name"><code>name  The name of the variable as it appears in the GLSL program.</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:19</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

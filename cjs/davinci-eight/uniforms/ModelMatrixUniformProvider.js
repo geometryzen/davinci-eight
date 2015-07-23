@@ -83,8 +83,8 @@ var ModelMatrixUniformProvider = (function (_super) {
     };
     ModelMatrixUniformProvider.getUniformMetaInfos = function () {
         var uniforms = {};
-        uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, type: UNIFORM_MODEL_MATRIX_TYPE };
-        uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, type: UNIFORM_NORMAL_MATRIX_TYPE };
+        uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
+        uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
         return uniforms;
     };
     return ModelMatrixUniformProvider;

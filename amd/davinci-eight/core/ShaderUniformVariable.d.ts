@@ -4,16 +4,16 @@
  */
 declare class ShaderUniformVariable {
     name: string;
-    type: string;
+    glslType: string;
     private context;
     private location;
     /**
      * @class ShaderUniformVariable
      * @constructor
-     * @param name {string} The name of the uniform variable, as it appears in the vertex shader code.
-     * @param type {string} The type of the uniform variale, as it appears in the vertex shader code.
+     * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+     * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.
      */
-    constructor(name: string, type: string);
+    constructor(name: string, glslType: string);
     /**
      * @method contextFree
      */

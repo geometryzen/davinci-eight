@@ -68,6 +68,7 @@ import AmbientLight               = require('davinci-eight/uniforms/AmbientLight
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUniformProvider');
 import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+import Uniform2fvProvider         = require('davinci-eight/uniforms/Uniform2fvProvider');
 // utils
 import RenderingContextMonitor    = require('davinci-eight/utils/RenderingContextMonitor');
 import contextMonitor             = require('davinci-eight/utils/contextMonitor');
@@ -141,6 +142,7 @@ var eight = {
   get TubeGeometry() { return TubeGeometry; },
   get VortexGeometry() { return VortexGeometry; },
   get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
+  get Uniform2fvProvider() { return Uniform2fvProvider; },
   get Matrix3() { return Matrix3; },
   get Matrix4() { return Matrix4; },
   get Spinor3() { return Spinor3; },

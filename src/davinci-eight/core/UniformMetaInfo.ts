@@ -3,7 +3,7 @@
  */
 interface UniformMetaInfo {
   name: string;
-  type: string;
+  glslType: string;
 }
 
 export = UniformMetaInfo;

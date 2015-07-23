@@ -32,7 +32,7 @@ class AmbientLight extends DefaultUniformProvider {
   }
   getUniformMetaInfos() {
     let uniforms: UniformMetaInfos = {};
-    uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]  = {name: UNIFORM_AMBIENT_LIGHT_NAME, type: UNIFORM_AMBIENT_LIGHT_TYPE};
+    uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]  = {name: UNIFORM_AMBIENT_LIGHT_NAME, glslType: UNIFORM_AMBIENT_LIGHT_TYPE};
     return uniforms;
   }
 }

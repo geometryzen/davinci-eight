@@ -96,7 +96,7 @@ var GeometryAdapter = (function () {
         var attribues = {};
         attribues[Symbolic.ATTRIBUTE_POSITION] = {
             name: DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME,
-            type: 'vec3',
+            glslType: 'vec3',
             size: 3,
             normalized: false,
             stride: 0,
@@ -105,7 +105,7 @@ var GeometryAdapter = (function () {
         if (!this.grayScale) {
             attribues[Symbolic.ATTRIBUTE_COLOR] = {
                 name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
-                type: 'vec4',
+                glslType: 'vec4',
                 size: 4,
                 normalized: false,
                 stride: 0,
@@ -115,7 +115,7 @@ var GeometryAdapter = (function () {
         if (this.drawMode === DrawMode.TRIANGLES) {
             attribues[Symbolic.ATTRIBUTE_NORMAL] = {
                 name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
-                type: 'vec3',
+                glslType: 'vec3',
                 size: 3,
                 normalized: false,
                 stride: 0,

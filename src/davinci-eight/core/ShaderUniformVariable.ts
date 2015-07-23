@@ -4,28 +4,28 @@
  */
 class ShaderUniformVariable {
   public name: string;
-  public type: string;
+  public glslType: string;
   private context: WebGLRenderingContext;
   private location: WebGLUniformLocation;
   /**
    * @class ShaderUniformVariable
    * @constructor
-   * @param name {string} The name of the uniform variable, as it appears in the vertex shader code.
-   * @param type {string} The type of the uniform variale, as it appears in the vertex shader code.  
+   * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+   * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.  
    */
-  constructor(name: string, type: string) {
+  constructor(name: string, glslType: string) {
     this.name = name;
-    this.type = type;
-    switch(type) {
+    switch(glslType) {
       case 'vec2':
       case 'vec3':
       case 'vec4':
       case 'mat3':
       case 'mat4': {
+        this.glslType = glslType;
       }
       break;
       default: {
-        throw new Error("Illegal argument type in ShaderUniformVariable constructor: " + type);
+        throw new Error("Illegal argument glslType in ShaderUniformVariable constructor: " + glslType);
       }
     }
   }
@@ -107,7 +107,7 @@ class ShaderUniformVariable {
    * @method toString
    */
   toString(): string {
-    return ["ShaderUniformVariable({name: ", this.name, ", type: ", this.type + "})"].join('');
+    return ["ShaderUniformVariable({name: ", this.name, ", glslType: ", this.glslType + "})"].join('');
   }
 }
 

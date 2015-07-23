@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.23.0</em>
+            <em>API Docs for: 2.24.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,12 +79,12 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -242,7 +242,7 @@ class GeometryAdapter implements AttributeProvider {
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
       name: DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME,
-      type: &#x27;vec3&#x27;,
+      glslType: &#x27;vec3&#x27;,
       size: 3,
       normalized: false,
       stride: 0,
@@ -252,7 +252,7 @@ class GeometryAdapter implements AttributeProvider {
     if (!this.grayScale) {
       attribues[Symbolic.ATTRIBUTE_COLOR] = {
         name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
-        type: &#x27;vec4&#x27;,
+        glslType: &#x27;vec4&#x27;,
         size: 4,
         normalized: false,
         stride: 0,
@@ -263,7 +263,7 @@ class GeometryAdapter implements AttributeProvider {
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
         name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
-        type: &#x27;vec3&#x27;,
+        glslType: &#x27;vec3&#x27;,
         size: 3,
         normalized: false,
         stride: 0,

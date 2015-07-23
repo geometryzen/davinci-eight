@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.23.0</em>
+            <em>API Docs for: 2.24.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -79,12 +79,12 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
+                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
-                                <li><a href="../classes/.html"></a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -134,7 +134,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:28</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:33</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -158,6 +158,9 @@ In particular, this class manages buffer allocation, location caching, and data 
                         <li class="arg">
                                 <code>name</code>
                         </li>
+                        <li class="arg">
+                                <code>glslType</code>
+                        </li>
                     </ul><span class="paren">)</span>
                 </div>
         
@@ -171,7 +174,7 @@ In particular, this class manages buffer allocation, location caching, and data 
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:28</code></a>
+                <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:33</code></a>
                 </p>
         
         
@@ -192,7 +195,19 @@ In particular, this class manages buffer allocation, location caching, and data 
         
         
                             <div class="param-description">
-                                 
+                                <p>The name of the variable as it appears in the GLSL program.</p>
+        
+                            </div>
+        
+                        </li>
+                        <li class="param">
+                                <code class="param-name">glslType</code>
+                                <span class="type">String</span>
+        
+        
+                            <div class="param-description">
+                                <p>The type of the variable as it appears in the GLSL program.</p>
+        
                             </div>
         
                         </li>
@@ -227,6 +242,10 @@ In particular, this class manages buffer allocation, location caching, and data 
                                 <a href="#method_dataFormat">dataFormat</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                            </li>
                     </ul>
                 </div>
 
@@ -252,7 +271,7 @@ In particular, this class manages buffer allocation, location caching, and data 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:78</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:99</code></a>
         </p>
 
 
@@ -277,6 +296,9 @@ In particular, this class manages buffer allocation, location caching, and data 
                         <code>size</code>
                 </li>
                 <li class="arg">
+                        <code>type</code>
+                </li>
+                <li class="arg">
                         <code>normalized</code>
                 </li>
                 <li class="arg">
@@ -298,7 +320,7 @@ In particular, this class manages buffer allocation, location caching, and data 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:61</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:81</code></a>
         </p>
 
 
@@ -319,7 +341,19 @@ In particular, this class manages buffer allocation, location caching, and data 
 
 
                     <div class="param-description">
-                         
+                        <p>The number of components per attribute. Must be 1,2,3, or 4.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.</p>
+
                     </div>
 
                 </li>
@@ -358,6 +392,36 @@ In particular, this class manages buffer allocation, location caching, and data 
                 </li>
             </ul>
         </div>
+
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderAttributeVariable.ts.html#l126"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeVariable.ts:126</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
 
 
 
