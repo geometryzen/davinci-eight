@@ -41,6 +41,7 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                 case 'float':
                 case 'mat3':
                 case 'mat4':
+                case 'vec2':
                 case 'vec3':
                 case 'vec4':
                 case 'void':
@@ -54,7 +55,7 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                     }
                     break;
                 default: {
-                    throw new Error("keyword: " + word);
+                    throw new Error("Unexpected keyword: " + word);
                 }
             }
         };

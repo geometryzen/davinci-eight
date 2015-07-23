@@ -9,7 +9,7 @@ class ChainedUniformProvider implements UniformProvider {
     this.fallback = fallback;
   }
   getUniformMatrix3(name: string) {
-    var m3 = this.provider.getUniformMatrix3(name);
+    let m3 = this.provider.getUniformMatrix3(name);
     if (m3) {
       return m3;
     }
@@ -18,7 +18,7 @@ class ChainedUniformProvider implements UniformProvider {
     }
   }
   getUniformMatrix4(name: string) {
-    var m4 = this.provider.getUniformMatrix4(name);
+    let m4 = this.provider.getUniformMatrix4(name);
     if (m4) {
       return m4;
     }
@@ -26,8 +26,17 @@ class ChainedUniformProvider implements UniformProvider {
       return this.fallback.getUniformMatrix4(name);
     }
   }
+  getUniformVector2(name: string): number[] {
+    let v2: number[] = this.provider.getUniformVector2(name);
+    if (v2) {
+      return v2;
+    }
+    else {
+      return this.fallback.getUniformVector3(name);
+    }
+  }
   getUniformVector3(name: string): number[] {
-    var v3: number[] = this.provider.getUniformVector3(name);
+    let v3: number[] = this.provider.getUniformVector3(name);
     if (v3) {
       return v3;
     }
@@ -36,7 +45,7 @@ class ChainedUniformProvider implements UniformProvider {
     }
   }
   getUniformVector4(name: string): number[] {
-    var v4: number[] = this.provider.getUniformVector4(name);
+    let v4: number[] = this.provider.getUniformVector4(name);
     if (v4) {
       return v4;
     }

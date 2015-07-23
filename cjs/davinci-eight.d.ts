@@ -57,7 +57,7 @@ declare var eight: {
     world: () => World;
     object3D: () => Node3D;
     viewport: (parameters?: ViewportParameters) => Viewport;
-    contextMonitor: (canvas: HTMLCanvasElement, attributes: any) => RenderingContextMonitor;
+    contextMonitor: (canvas: HTMLCanvasElement, attributes?: any) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {

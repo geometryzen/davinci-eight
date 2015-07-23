@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/ShaderAttributeVariable', '../core/ShaderUniformVariable', '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ShaderAttributeVariable, ShaderUniformVariable, ElementArray, ChainedUniformProvider) {
+define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ElementArray, ChainedUniformProvider) {
     var drawableModel = function (mesh, shaders, model) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
@@ -18,12 +18,13 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
             var name = declaration.name;
             var attribute = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
             if (attribute) {
-                var size = attribute.size;
-                var normalized = attribute.normalized;
-                var stride = attribute.stride;
-                var offset = attribute.offset;
-                // TODO: Maybe type should be passed along?
-                return new ShaderAttributeVariable(name, size, normalized, stride, offset);
+                // All this machinary will be required at runtime.
+                //let size = attribute.size;
+                //let normalized = attribute.normalized;
+                //let stride = attribute.stride;
+                //let offset = attribute.offset;
+                // By using the ShaderProgram, we get to delegate the management of attribute locations. 
+                return shaders.attributeVariable(name);
             }
             else {
                 throw new Error("The mesh does not support the attribute variable named " + name);
@@ -33,10 +34,8 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
          * Constructs a ShaderUniformVariable from a declaration.
          */
         function shaderUniformFromDecl(declaration) {
-            var modifiers = declaration.modifiers;
-            var type = declaration.type;
-            var name = declaration.name;
-            return new ShaderUniformVariable(name, type);
+            // By using the ShaderProgram, we get to delegate the management of uniform locations. 
+            return shaders.uniformVariable(declaration.name);
         }
         var context;
         var contextGainId;
@@ -63,9 +62,6 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
             },
             contextFree: function () {
                 shaders.contextFree();
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextFree();
-                });
                 elements.contextFree();
                 context = null;
                 contextGainId = null;
@@ -75,27 +71,16 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
                 if (contextGainId !== contextId) {
                     contextGainId = contextId;
                     shaders.contextGain(context, contextId);
-                    // Cache the attribute variable locations.
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.contextGain(context, shaders.program);
-                    });
-                    elements.contextGain(context);
+                    elements.contextGain(context, contextId);
                     // TODO: This should really be consulting a needsUpdate method.
                     // We can also put the updates inside the vertexAttribute loop.
                     if (!mesh.dynamics()) {
                         updateGeometry();
                     }
-                    // Cache the uniform variable locations.
-                    uniformVariables.forEach(function (uniformVariable) {
-                        uniformVariable.contextGain(context, shaders.program);
-                    });
                 }
             },
             contextLoss: function () {
                 shaders.contextLoss();
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextLoss();
-                });
                 elements.contextLoss();
                 context = null;
                 contextGainId = null;
@@ -122,12 +107,28 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
                     uniformVariables.forEach(function (uniformVariable) {
                         var chainedProvider = new ChainedUniformProvider(model, view);
                         switch (uniformVariable.type) {
+                            case 'vec2':
+                                {
+                                    var data = chainedProvider.getUniformVector2(uniformVariable.name);
+                                    if (data) {
+                                        if (data.length === 2) {
+                                            uniformVariable.uniform2fv(data);
+                                        }
+                                        else {
+                                            throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 2");
+                                        }
+                                    }
+                                    else {
+                                        throw new Error("Expecting data for uniform " + uniformVariable.name);
+                                    }
+                                }
+                                break;
                             case 'vec3':
                                 {
                                     var data = chainedProvider.getUniformVector3(uniformVariable.name);
                                     if (data) {
                                         if (data.length === 3) {
-                                            uniformVariable.vec3(data);
+                                            uniformVariable.uniform3fv(data);
                                         }
                                         else {
                                             throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 3");
@@ -143,7 +144,7 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
                                     var data = chainedProvider.getUniformVector4(uniformVariable.name);
                                     if (data) {
                                         if (data.length === 4) {
-                                            uniformVariable.vec4(data);
+                                            uniformVariable.uniform4fv(data);
                                         }
                                         else {
                                             throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 4");
@@ -158,7 +159,7 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
                                 {
                                     var m3data = chainedProvider.getUniformMatrix3(uniformVariable.name);
                                     if (m3data) {
-                                        uniformVariable.mat3(m3data.transpose, m3data.matrix3);
+                                        uniformVariable.uniformMatrix3fv(m3data.transpose, m3data.matrix3);
                                     }
                                     else {
                                         throw new Error("Expecting data for uniform " + uniformVariable.name);
@@ -169,7 +170,7 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
                                 {
                                     var m4data = chainedProvider.getUniformMatrix4(uniformVariable.name);
                                     if (m4data) {
-                                        uniformVariable.mat4(m4data.transpose, m4data.matrix4);
+                                        uniformVariable.uniformMatrix4fv(m4data.transpose, m4data.matrix4);
                                     }
                                     else {
                                         throw new Error("Expecting data for uniform " + uniformVariable.name);
@@ -185,7 +186,17 @@ define(["require", "exports", '../core/ShaderAttributeVariable', '../core/Shader
                         vertexAttribute.enable();
                     });
                     vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.bind();
+                        var attribute = findAttributeByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+                        if (attribute) {
+                            var size = attribute.size;
+                            var normalized = attribute.normalized;
+                            var stride = attribute.stride;
+                            var offset = attribute.offset;
+                            vertexAttribute.dataFormat(size, normalized, stride, offset);
+                        }
+                        else {
+                            throw new Error("The mesh does not support the attribute variable named " + vertexAttribute.name);
+                        }
                     });
                     elements.bind();
                     mesh.draw(context);

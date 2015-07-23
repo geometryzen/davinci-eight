@@ -22,6 +22,12 @@ define(["require", "exports"], function (require, exports) {
             return;
         };
         /**
+         * @method getUniformVector2
+         */
+        DefaultUniformProvider.prototype.getUniformVector2 = function (name) {
+            return;
+        };
+        /**
          * @method getUniformVector3
          */
         DefaultUniformProvider.prototype.getUniformVector3 = function (name) {

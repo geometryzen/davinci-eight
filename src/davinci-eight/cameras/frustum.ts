@@ -110,6 +110,9 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
         }
       }
     },
+    getUniformVector2(name: string): number[] {
+      return base.getUniformVector2(name);
+    },
     getUniformVector3(name: string): number[] {
       return base.getUniformVector3(name);
     },

@@ -23,6 +23,12 @@ class DefaultUniformProvider implements UniformProvider {
     return;
   }
   /**
+   * @method getUniformVector2
+   */
+  getUniformVector2(name: string): number[] {
+    return;
+  }
+  /**
    * @method getUniformVector3
    */
   getUniformVector3(name: string): number[] {

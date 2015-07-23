@@ -95,6 +95,9 @@ var view = function(): View {
             }
           }
         },
+        getUniformVector2(name: string): number[] {
+          return base.getUniformVector2(name);
+        },
         getUniformVector3(name: string): number[] {
           return base.getUniformVector3(name);
         },

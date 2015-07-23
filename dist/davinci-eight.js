@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.22.0'
+        VERSION: '2.23.0'
     };
     return core;
 });
@@ -981,6 +981,12 @@ define('davinci-eight/uniforms/DefaultUniformProvider',["require", "exports"], f
             return;
         };
         /**
+         * @method getUniformVector2
+         */
+        DefaultUniformProvider.prototype.getUniformVector2 = function (name) {
+            return;
+        };
+        /**
          * @method getUniformVector3
          */
         DefaultUniformProvider.prototype.getUniformVector3 = function (name) {
@@ -1099,6 +1105,9 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
                         return base.getUniformMatrix4(name);
                     }
                 }
+            },
+            getUniformVector2: function (name) {
+                return base.getUniformVector2(name);
             },
             getUniformVector3: function (name) {
                 return base.getUniformVector3(name);
@@ -1303,6 +1312,9 @@ define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cam
                     }
                 }
             },
+            getUniformVector2: function (name) {
+                return base.getUniformVector2(name);
+            },
             getUniformVector3: function (name) {
                 return base.getUniformVector3(name);
             },
@@ -1404,6 +1416,9 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
                         return base.getUniformMatrix4(name);
                     }
                 }
+            },
+            getUniformVector2: function (name) {
+                return base.getUniformVector2(name);
             },
             getUniformVector3: function (name) {
                 return base.getUniformVector3(name);
@@ -1617,192 +1632,6 @@ define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color'
     return viewport;
 });
 
-define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], function (require, exports) {
-    function computeUsage(attributes, context) {
-        return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
-    function existsLocation(location) {
-        return location >= 0;
-    }
-    /**
-     * Utility class for managing a shader attribute variable.
-     * @class
-     */
-    var ShaderAttributeVariable = (function () {
-        /**
-         * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
-         * In particular, this class manages buffer allocation, location caching, and data binding.
-         * @class ShaderAttributeVariable
-         * @constructor
-         * @param name {string}
-         * @param size {number}
-         * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
-         * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
-         * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
-         */
-        function ShaderAttributeVariable(name, size, normalized, stride, offset) {
-            if (offset === void 0) { offset = 0; }
-            this.name = name;
-            this.size = size;
-            this.normalized = normalized;
-            this.stride = stride;
-            this.offset = offset;
-        }
-        ShaderAttributeVariable.prototype.contextFree = function () {
-            if (this.buffer) {
-                this.context.deleteBuffer(this.buffer);
-                this.contextLoss();
-            }
-        };
-        ShaderAttributeVariable.prototype.contextGain = function (context, program) {
-            this.location = context.getAttribLocation(program, this.name);
-            this.context = context;
-            if (existsLocation(this.location)) {
-                this.buffer = context.createBuffer();
-            }
-        };
-        ShaderAttributeVariable.prototype.contextLoss = function () {
-            this.location = void 0;
-            this.buffer = void 0;
-            this.context = void 0;
-        };
-        // Not really bind so much as describing
-        ShaderAttributeVariable.prototype.bind = function () {
-            if (existsLocation(this.location)) {
-                // TODO: We could assert that we have a buffer.
-                this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-                // 6.14 Fixed point support.
-                // The WebGL API does not support the GL_FIXED data type.
-                // Consequently, we hard-code the FLOAT constant.
-                this.context.vertexAttribPointer(this.location, this.size, this.context.FLOAT, this.normalized, this.stride, this.offset);
-            }
-        };
-        ShaderAttributeVariable.prototype.bufferData = function (attributes) {
-            if (existsLocation(this.location)) {
-                var data = attributes.getVertexAttributeData(this.name);
-                if (data) {
-                    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-                    this.context.bufferData(this.context.ARRAY_BUFFER, data, computeUsage(attributes, this.context));
-                }
-                else {
-                    // We expect this to be detected long before we get here.
-                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
-                }
-            }
-        };
-        ShaderAttributeVariable.prototype.enable = function () {
-            if (existsLocation(this.location)) {
-                this.context.enableVertexAttribArray(this.location);
-            }
-        };
-        ShaderAttributeVariable.prototype.disable = function () {
-            if (existsLocation(this.location)) {
-                this.context.disableVertexAttribArray(this.location);
-            }
-        };
-        return ShaderAttributeVariable;
-    })();
-    return ShaderAttributeVariable;
-});
-
-define('davinci-eight/core/ShaderUniformVariable',["require", "exports"], function (require, exports) {
-    /**
-     * Utility class for managing a shader uniform variable.
-     * @class ShaderUniformVariable
-     */
-    var ShaderUniformVariable = (function () {
-        /**
-         * @class ShaderUniformVariable
-         * @constructor
-         * @param name {string} The name of the uniform variable, as it appears in the vertex shader code.
-         * @param type {string} The type of the uniform variale, as it appears in the vertex shader code.
-         */
-        function ShaderUniformVariable(name, type) {
-            this.name = name;
-            this.type = type;
-            switch (type) {
-                case 'vec3':
-                case 'vec4':
-                case 'mat3':
-                case 'mat4':
-                    {
-                    }
-                    break;
-                default: {
-                    throw new Error("Illegal argument type in ShaderUniformVariable constructor: " + type);
-                }
-            }
-        }
-        /**
-         * @method contextFree
-         */
-        ShaderUniformVariable.prototype.contextFree = function () {
-            this.location = null;
-            this.context = null;
-        };
-        /**
-         * @method contextGain
-         * @param context {WebGLRenderingContext}
-         * @param program {WebGLProgram}
-         */
-        ShaderUniformVariable.prototype.contextGain = function (context, program) {
-            this.location = context.getUniformLocation(program, this.name);
-            this.context = context;
-        };
-        /**
-         * @method contextLoss
-         */
-        ShaderUniformVariable.prototype.contextLoss = function () {
-            this.location = null;
-            this.context = null;
-        };
-        /**
-         * @method vec3
-         * @param data {number[]}
-         */
-        ShaderUniformVariable.prototype.vec3 = function (data) {
-            this.context.uniform3fv(this.location, data);
-        };
-        /**
-         * @method vec4
-         * @param data {number[]}
-         */
-        ShaderUniformVariable.prototype.vec4 = function (data) {
-            this.context.uniform4fv(this.location, data);
-        };
-        /**
-         * @method mat3
-         * @param transpose {boolean}
-         * @param matrix {Float32Array}
-         */
-        ShaderUniformVariable.prototype.mat3 = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix3fv(this.location, transpose, matrix);
-        };
-        /**
-         * @method mat4
-         * @param transpose {boolean}
-         * @param matrix {Float32Array}
-         */
-        ShaderUniformVariable.prototype.mat4 = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix4fv(this.location, transpose, matrix);
-        };
-        /**
-         * @method toString
-         */
-        ShaderUniformVariable.prototype.toString = function () {
-            return ["ShaderUniformVariable({name: ", this.name, ", type: ", this.type + "})"].join('');
-        };
-        return ShaderUniformVariable;
-    })();
-    return ShaderUniformVariable;
-});
-
 define('davinci-eight/core/ElementArray',["require", "exports"], function (require, exports) {
     function computeUsage(attributes, context) {
         return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
@@ -1834,7 +1663,7 @@ define('davinci-eight/core/ElementArray',["require", "exports"], function (requi
          * @method contextGain
          * @param context {WebGLRenderingContext}
          */
-        ElementArray.prototype.contextGain = function (context) {
+        ElementArray.prototype.contextGain = function (context, contextId) {
             if (this.attributes.hasElements()) {
                 this.buffer = context.createBuffer();
             }
@@ -1896,6 +1725,15 @@ define('davinci-eight/uniforms/ChainedUniformProvider',["require", "exports"], f
                 return this.fallback.getUniformMatrix4(name);
             }
         };
+        ChainedUniformProvider.prototype.getUniformVector2 = function (name) {
+            var v2 = this.provider.getUniformVector2(name);
+            if (v2) {
+                return v2;
+            }
+            else {
+                return this.fallback.getUniformVector3(name);
+            }
+        };
         ChainedUniformProvider.prototype.getUniformVector3 = function (name) {
             var v3 = this.provider.getUniformVector3(name);
             if (v3) {
@@ -1931,7 +1769,7 @@ define('davinci-eight/uniforms/ChainedUniformProvider',["require", "exports"], f
     return ChainedUniformProvider;
 });
 
-define('davinci-eight/objects/drawableModel',["require", "exports", '../core/ShaderAttributeVariable', '../core/ShaderUniformVariable', '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ShaderAttributeVariable, ShaderUniformVariable, ElementArray, ChainedUniformProvider) {
+define('davinci-eight/objects/drawableModel',["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ElementArray, ChainedUniformProvider) {
     var drawableModel = function (mesh, shaders, model) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
@@ -1951,12 +1789,13 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
             var name = declaration.name;
             var attribute = findAttributeByVariableName(name, mesh.getAttributeMetaInfos());
             if (attribute) {
-                var size = attribute.size;
-                var normalized = attribute.normalized;
-                var stride = attribute.stride;
-                var offset = attribute.offset;
-                // TODO: Maybe type should be passed along?
-                return new ShaderAttributeVariable(name, size, normalized, stride, offset);
+                // All this machinary will be required at runtime.
+                //let size = attribute.size;
+                //let normalized = attribute.normalized;
+                //let stride = attribute.stride;
+                //let offset = attribute.offset;
+                // By using the ShaderProgram, we get to delegate the management of attribute locations. 
+                return shaders.attributeVariable(name);
             }
             else {
                 throw new Error("The mesh does not support the attribute variable named " + name);
@@ -1966,10 +1805,8 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
          * Constructs a ShaderUniformVariable from a declaration.
          */
         function shaderUniformFromDecl(declaration) {
-            var modifiers = declaration.modifiers;
-            var type = declaration.type;
-            var name = declaration.name;
-            return new ShaderUniformVariable(name, type);
+            // By using the ShaderProgram, we get to delegate the management of uniform locations. 
+            return shaders.uniformVariable(declaration.name);
         }
         var context;
         var contextGainId;
@@ -1996,9 +1833,6 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
             },
             contextFree: function () {
                 shaders.contextFree();
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextFree();
-                });
                 elements.contextFree();
                 context = null;
                 contextGainId = null;
@@ -2008,27 +1842,16 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
                 if (contextGainId !== contextId) {
                     contextGainId = contextId;
                     shaders.contextGain(context, contextId);
-                    // Cache the attribute variable locations.
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.contextGain(context, shaders.program);
-                    });
-                    elements.contextGain(context);
+                    elements.contextGain(context, contextId);
                     // TODO: This should really be consulting a needsUpdate method.
                     // We can also put the updates inside the vertexAttribute loop.
                     if (!mesh.dynamics()) {
                         updateGeometry();
                     }
-                    // Cache the uniform variable locations.
-                    uniformVariables.forEach(function (uniformVariable) {
-                        uniformVariable.contextGain(context, shaders.program);
-                    });
                 }
             },
             contextLoss: function () {
                 shaders.contextLoss();
-                vertexAttributes.forEach(function (vertexAttribute) {
-                    vertexAttribute.contextLoss();
-                });
                 elements.contextLoss();
                 context = null;
                 contextGainId = null;
@@ -2055,12 +1878,28 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
                     uniformVariables.forEach(function (uniformVariable) {
                         var chainedProvider = new ChainedUniformProvider(model, view);
                         switch (uniformVariable.type) {
+                            case 'vec2':
+                                {
+                                    var data = chainedProvider.getUniformVector2(uniformVariable.name);
+                                    if (data) {
+                                        if (data.length === 2) {
+                                            uniformVariable.uniform2fv(data);
+                                        }
+                                        else {
+                                            throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 2");
+                                        }
+                                    }
+                                    else {
+                                        throw new Error("Expecting data for uniform " + uniformVariable.name);
+                                    }
+                                }
+                                break;
                             case 'vec3':
                                 {
                                     var data = chainedProvider.getUniformVector3(uniformVariable.name);
                                     if (data) {
                                         if (data.length === 3) {
-                                            uniformVariable.vec3(data);
+                                            uniformVariable.uniform3fv(data);
                                         }
                                         else {
                                             throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 3");
@@ -2076,7 +1915,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
                                     var data = chainedProvider.getUniformVector4(uniformVariable.name);
                                     if (data) {
                                         if (data.length === 4) {
-                                            uniformVariable.vec4(data);
+                                            uniformVariable.uniform4fv(data);
                                         }
                                         else {
                                             throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 4");
@@ -2091,7 +1930,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
                                 {
                                     var m3data = chainedProvider.getUniformMatrix3(uniformVariable.name);
                                     if (m3data) {
-                                        uniformVariable.mat3(m3data.transpose, m3data.matrix3);
+                                        uniformVariable.uniformMatrix3fv(m3data.transpose, m3data.matrix3);
                                     }
                                     else {
                                         throw new Error("Expecting data for uniform " + uniformVariable.name);
@@ -2102,7 +1941,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
                                 {
                                     var m4data = chainedProvider.getUniformMatrix4(uniformVariable.name);
                                     if (m4data) {
-                                        uniformVariable.mat4(m4data.transpose, m4data.matrix4);
+                                        uniformVariable.uniformMatrix4fv(m4data.transpose, m4data.matrix4);
                                     }
                                     else {
                                         throw new Error("Expecting data for uniform " + uniformVariable.name);
@@ -2118,7 +1957,17 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Sha
                         vertexAttribute.enable();
                     });
                     vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.bind();
+                        var attribute = findAttributeByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+                        if (attribute) {
+                            var size = attribute.size;
+                            var normalized = attribute.normalized;
+                            var stride = attribute.stride;
+                            var offset = attribute.offset;
+                            vertexAttribute.dataFormat(size, normalized, stride, offset);
+                        }
+                        else {
+                            throw new Error("The mesh does not support the attribute variable named " + vertexAttribute.name);
+                        }
                     });
                     elements.bind();
                     mesh.draw(context);
@@ -5907,6 +5756,7 @@ define('davinci-eight/glsl/NodeWalker',["require", "exports", './DefaultNodeEven
                 case 'float':
                 case 'mat3':
                 case 'mat4':
+                case 'vec2':
                 case 'vec3':
                 case 'vec4':
                 case 'void':
@@ -5920,7 +5770,7 @@ define('davinci-eight/glsl/NodeWalker',["require", "exports", './DefaultNodeEven
                     }
                     break;
                 default: {
-                    throw new Error("keyword: " + word);
+                    throw new Error("Unexpected keyword: " + word);
                 }
             }
         };
@@ -6168,7 +6018,218 @@ define('davinci-eight/utils/uuid4',["require", "exports"], function (require, ex
     return uuid4;
 });
 
-define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4) {
+define('davinci-eight/core/ShaderAttributeVariable',["require", "exports"], function (require, exports) {
+    function computeUsage(attributes, context) {
+        return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+    }
+    function existsLocation(location) {
+        return location >= 0;
+    }
+    /**
+     * Utility class for managing a shader attribute variable.
+     * @class
+     */
+    var ShaderAttributeVariable = (function () {
+        /**
+         * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
+         * In particular, this class manages buffer allocation, location caching, and data binding.
+         * @class ShaderAttributeVariable
+         * @constructor
+         * @param name {string}
+         */
+        function ShaderAttributeVariable(name, type) {
+            this.name = name;
+            this.type = type;
+            //    this.size = size;
+            //    this.normalized = normalized;
+            //    this.stride = stride;
+            //    this.offset = offset;
+        }
+        ShaderAttributeVariable.prototype.contextFree = function () {
+            if (this.buffer) {
+                this.context.deleteBuffer(this.buffer);
+                this.contextLoss();
+            }
+        };
+        ShaderAttributeVariable.prototype.contextGain = function (context, program) {
+            this.location = context.getAttribLocation(program, this.name);
+            this.context = context;
+            if (existsLocation(this.location)) {
+                this.buffer = context.createBuffer();
+            }
+        };
+        ShaderAttributeVariable.prototype.contextLoss = function () {
+            this.location = void 0;
+            this.buffer = void 0;
+            this.context = void 0;
+        };
+        /**
+         * @method dataFormat
+         * @param size {number}
+         * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
+         * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
+         * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
+         */
+        ShaderAttributeVariable.prototype.dataFormat = function (size, normalized, stride, offset) {
+            if (normalized === void 0) { normalized = false; }
+            if (stride === void 0) { stride = 0; }
+            if (offset === void 0) { offset = 0; }
+            if (existsLocation(this.location)) {
+                // TODO: We could assert that we have a buffer.
+                this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+                // 6.14 Fixed point support.
+                // The WebGL API does not support the GL_FIXED data type.
+                // Consequently, we hard-code the FLOAT constant.
+                this.context.vertexAttribPointer(this.location, size, this.context.FLOAT, normalized, stride, offset);
+            }
+        };
+        /**
+         * FIXME This should not couple to an AttributeProvider.
+         * @method bufferData
+         */
+        ShaderAttributeVariable.prototype.bufferData = function (attributes) {
+            if (existsLocation(this.location)) {
+                var data = attributes.getVertexAttributeData(this.name);
+                if (data) {
+                    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+                    this.context.bufferData(this.context.ARRAY_BUFFER, data, computeUsage(attributes, this.context));
+                }
+                else {
+                    // We expect this to be detected long before we get here.
+                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
+                }
+            }
+        };
+        ShaderAttributeVariable.prototype.enable = function () {
+            if (existsLocation(this.location)) {
+                this.context.enableVertexAttribArray(this.location);
+            }
+        };
+        ShaderAttributeVariable.prototype.disable = function () {
+            if (existsLocation(this.location)) {
+                this.context.disableVertexAttribArray(this.location);
+            }
+        };
+        return ShaderAttributeVariable;
+    })();
+    return ShaderAttributeVariable;
+});
+
+define('davinci-eight/core/ShaderUniformVariable',["require", "exports"], function (require, exports) {
+    /**
+     * Utility class for managing a shader uniform variable.
+     * @class ShaderUniformVariable
+     */
+    var ShaderUniformVariable = (function () {
+        /**
+         * @class ShaderUniformVariable
+         * @constructor
+         * @param name {string} The name of the uniform variable, as it appears in the vertex shader code.
+         * @param type {string} The type of the uniform variale, as it appears in the vertex shader code.
+         */
+        function ShaderUniformVariable(name, type) {
+            this.name = name;
+            this.type = type;
+            switch (type) {
+                case 'vec2':
+                case 'vec3':
+                case 'vec4':
+                case 'mat3':
+                case 'mat4':
+                    {
+                    }
+                    break;
+                default: {
+                    throw new Error("Illegal argument type in ShaderUniformVariable constructor: " + type);
+                }
+            }
+        }
+        /**
+         * @method contextFree
+         */
+        ShaderUniformVariable.prototype.contextFree = function () {
+            this.location = null;
+            this.context = null;
+        };
+        /**
+         * @method contextGain
+         * @param context {WebGLRenderingContext}
+         * @param program {WebGLProgram}
+         */
+        ShaderUniformVariable.prototype.contextGain = function (context, program) {
+            this.location = context.getUniformLocation(program, this.name);
+            this.context = context;
+        };
+        /**
+         * @method contextLoss
+         */
+        ShaderUniformVariable.prototype.contextLoss = function () {
+            this.location = null;
+            this.context = null;
+        };
+        /**
+         * @method uniform2f
+         * @param x {number} Horizontal value to assign.
+         * @param y {number} Vertical number to assign.
+         */
+        ShaderUniformVariable.prototype.uniform2f = function (x, y) {
+            this.context.uniform2f(this.location, x, y);
+        };
+        /**
+         * @method uniform2fv
+         * @param data {number[]}
+         */
+        ShaderUniformVariable.prototype.uniform2fv = function (data) {
+            this.context.uniform2fv(this.location, data);
+        };
+        /**
+         * @method uniform3fv
+         * @param data {number[]}
+         */
+        ShaderUniformVariable.prototype.uniform3fv = function (data) {
+            this.context.uniform3fv(this.location, data);
+        };
+        /**
+         * @method uniform4fv
+         * @param data {number[]}
+         */
+        ShaderUniformVariable.prototype.uniform4fv = function (data) {
+            this.context.uniform4fv(this.location, data);
+        };
+        /**
+         * @method uniformMatrix3fv
+         * @param transpose {boolean}
+         * @param matrix {Float32Array}
+         */
+        ShaderUniformVariable.prototype.uniformMatrix3fv = function (transpose, matrix) {
+            if (!(matrix instanceof Float32Array)) {
+                throw new Error("matrix must be a Float32Array.");
+            }
+            this.context.uniformMatrix3fv(this.location, transpose, matrix);
+        };
+        /**
+         * @method uniformMatrix4fv
+         * @param transpose {boolean}
+         * @param matrix {Float32Array}
+         */
+        ShaderUniformVariable.prototype.uniformMatrix4fv = function (transpose, matrix) {
+            if (!(matrix instanceof Float32Array)) {
+                throw new Error("matrix must be a Float32Array.");
+            }
+            this.context.uniformMatrix4fv(this.location, transpose, matrix);
+        };
+        /**
+         * @method toString
+         */
+        ShaderUniformVariable.prototype.toString = function () {
+            return ["ShaderUniformVariable({name: ", this.name, ", type: ", this.type + "})"].join('');
+        };
+        return ShaderUniformVariable;
+    })();
+    return ShaderUniformVariable;
+});
+
+define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttributeVariable', '../core/ShaderUniformVariable'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttributeVariable, ShaderUniformVariable) {
     var shaderProgram = function (vertexShader, fragmentShader) {
         if (typeof vertexShader !== 'string') {
             throw new Error("vertexShader argument must be a string.");
@@ -6180,9 +6241,11 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
         var programId;
         var context;
         var contextGainId;
-        var attributes = [];
-        var uniforms = [];
-        var varyings = [];
+        var attributeDecls = [];
+        var uniformDecls = [];
+        var varyingDecls = [];
+        var attributeLocations = {};
+        var uniformLocations = {};
         var publicAPI = {
             get vertexShader() {
                 return vertexShader;
@@ -6194,9 +6257,16 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     var walker = new NodeWalker();
                     var args = new ProgramArgs();
                     walker.walk(program_1, args);
-                    attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
-                    uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
-                    varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+                    attributeDecls = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
+                    uniformDecls = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
+                    varyingDecls = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+                    // TODO: delete existing...
+                    attributeDecls.forEach(function (attributeDecl) {
+                        attributeLocations[attributeDecl.name] = new ShaderAttributeVariable(attributeDecl.name, attributeDecl.type);
+                    });
+                    uniformDecls.forEach(function (uniformDecl) {
+                        uniformLocations[uniformDecl.name] = new ShaderUniformVariable(uniformDecl.name, uniformDecl.type);
+                    });
                 }
                 catch (e) {
                     console.log(e);
@@ -6215,13 +6285,13 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                 }
             },
             get attributes() {
-                return attributes;
+                return attributeDecls;
             },
             get uniforms() {
-                return uniforms;
+                return uniformDecls;
             },
             get varyings() {
-                return varyings;
+                return varyingDecls;
             },
             contextFree: function () {
                 if (program) {
@@ -6230,6 +6300,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     programId = void 0;
                     context = void 0;
                     contextGainId = void 0;
+                    attributeDecls.forEach(function (attributeDecl) {
+                        attributeLocations[attributeDecl.name].contextFree();
+                    });
+                    uniformDecls.forEach(function (uniformDecl) {
+                        uniformLocations[uniformDecl.name].contextFree();
+                    });
                 }
             },
             contextGain: function (contextArg, contextId) {
@@ -6238,6 +6314,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     program = makeWebGLProgram(context, vertexShader, fragmentShader);
                     programId = uuid4().generate();
                     contextGainId = contextId;
+                    attributeDecls.forEach(function (attributeDecl) {
+                        attributeLocations[attributeDecl.name].contextGain(contextArg, program);
+                    });
+                    uniformDecls.forEach(function (uniformDecl) {
+                        uniformLocations[uniformDecl.name].contextGain(contextArg, program);
+                    });
                 }
             },
             contextLoss: function () {
@@ -6245,6 +6327,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                 programId = void 0;
                 context = void 0;
                 contextGainId = void 0;
+                attributeDecls.forEach(function (attributeDecl) {
+                    attributeLocations[attributeDecl.name].contextLoss();
+                });
+                uniformDecls.forEach(function (uniformDecl) {
+                    uniformLocations[uniformDecl.name].contextLoss();
+                });
             },
             hasContext: function () {
                 return !!program;
@@ -6254,6 +6342,22 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
             use: function () {
                 if (context) {
                     return context.useProgram(program);
+                }
+            },
+            attributeVariable: function (name) {
+                if (attributeLocations[name]) {
+                    return attributeLocations[name];
+                }
+                else {
+                    throw new Error(name + " is not an attribute variable in the shader program.");
+                }
+            },
+            uniformVariable: function (name) {
+                if (uniformLocations[name]) {
+                    return uniformLocations[name];
+                }
+                else {
+                    throw new Error(name + " is not a uniform variable in the shader program.");
                 }
             }
         };
@@ -6361,6 +6465,12 @@ define('davinci-eight/programs/pointsProgram',["require", "exports", '../program
             },
             use: function () {
                 return innerProgram.use();
+            },
+            attributeVariable: function (name) {
+                return innerProgram.attributeVariable(name);
+            },
+            uniformVariable: function (name) {
+                return innerProgram.uniformVariable(name);
             }
         };
         return publicAPI;
@@ -6540,6 +6650,12 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             },
             use: function () {
                 return innerProgram.use();
+            },
+            attributeVariable: function (name) {
+                return innerProgram.attributeVariable(name);
+            },
+            uniformVariable: function (name) {
+                return innerProgram.uniformVariable(name);
             }
         };
         return publicAPI;
@@ -7087,7 +7203,7 @@ define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Sym
 });
 
 define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], function (require, exports, uuid4, initWebGL) {
-    var contextMonitor = function (canvas, attributes) {
+    function contextMonitor(canvas, attributes) {
         var users = [];
         var context;
         var contextId;
@@ -7131,10 +7247,14 @@ define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uui
                 if (context && !user.hasContext()) {
                     user.contextGain(context, contextId);
                 }
+            },
+            get context() {
+                return context;
             }
         };
         return publicAPI;
-    };
+    }
+    ;
     return contextMonitor;
 });
 

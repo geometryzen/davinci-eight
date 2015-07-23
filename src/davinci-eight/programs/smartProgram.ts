@@ -150,7 +150,7 @@ var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: Unifor
     }
   });
 
-  let innerProgram = shaderProgram(vertexShader(attributes, uniforms), fragmentShader(attributes, uniforms));
+  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms), fragmentShader(attributes, uniforms));
 
   let publicAPI: ShaderProgram = {
     get attributes() {
@@ -188,6 +188,12 @@ var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: Unifor
     },
     use() {
       return innerProgram.use();
+    },
+    attributeVariable(name: string) {
+      return innerProgram.attributeVariable(name);
+    },
+    uniformVariable(name: string) {
+      return innerProgram.uniformVariable(name);
     }
   }
 

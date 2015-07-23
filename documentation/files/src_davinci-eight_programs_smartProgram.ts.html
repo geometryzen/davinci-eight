@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.22.0</em>
+            <em>API Docs for: 2.23.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -285,7 +285,7 @@ var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: Unifor
     }
   });
 
-  let innerProgram = shaderProgram(vertexShader(attributes, uniforms), fragmentShader(attributes, uniforms));
+  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms), fragmentShader(attributes, uniforms));
 
   let publicAPI: ShaderProgram = {
     get attributes() {
@@ -323,6 +323,12 @@ var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: Unifor
     },
     use() {
       return innerProgram.use();
+    },
+    attributeVariable(name: string) {
+      return innerProgram.attributeVariable(name);
+    },
+    uniformVariable(name: string) {
+      return innerProgram.uniformVariable(name);
     }
   }
 

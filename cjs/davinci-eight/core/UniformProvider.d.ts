@@ -19,11 +19,15 @@ interface UniformProvider {
         matrix4: Float32Array;
     };
     /**
+     * @method getUniformVector2
+     */
+    getUniformVector2(name: string): number[];
+    /**
      * @method getUniformVector3
      */
     getUniformVector3(name: string): number[];
     /**
-     * @method getUniformVector3
+     * @method getUniformVector4
      */
     getUniformVector4(name: string): number[];
     /**

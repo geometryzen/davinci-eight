@@ -1,6 +1,6 @@
 var uuid4 = require('../utils/uuid4');
 var initWebGL = require('../renderers/initWebGL');
-var contextMonitor = function (canvas, attributes) {
+function contextMonitor(canvas, attributes) {
     var users = [];
     var context;
     var contextId;
@@ -44,8 +44,12 @@ var contextMonitor = function (canvas, attributes) {
             if (context && !user.hasContext()) {
                 user.contextGain(context, contextId);
             }
+        },
+        get context() {
+            return context;
         }
     };
     return publicAPI;
-};
+}
+;
 module.exports = contextMonitor;

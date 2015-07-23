@@ -3,13 +3,13 @@ import RenderingContextUser = require('../core/RenderingContextUser');
 import uuid4 = require('../utils/uuid4')
 import initWebGL = require('../renderers/initWebGL');
 
-var contextMonitor = function(canvas: HTMLCanvasElement, attributes: any): RenderingContextMonitor {
+function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingContextMonitor {
 
-  var users: RenderingContextUser[] = [];
+  let users: RenderingContextUser[] = [];
   var context: WebGLRenderingContext;
   var contextId: string;
 
-  var webGLContextLost = function(event: Event) {
+  let webGLContextLost = function(event: Event) {
     event.preventDefault();
     context = void 0;
     contextId = void 0;
@@ -18,7 +18,7 @@ var contextMonitor = function(canvas: HTMLCanvasElement, attributes: any): Rende
     });
   };
 
-  var webGLContextRestored = function(event: Event) {
+  let webGLContextRestored = function(event: Event) {
     event.preventDefault();
     context = initWebGL(canvas, attributes);
     contextId = uuid4().generate();
@@ -51,6 +51,9 @@ var contextMonitor = function(canvas: HTMLCanvasElement, attributes: any): Rende
       if (context && !user.hasContext()) {
         user.contextGain(context, contextId)
       }
+    },
+    get context() {
+      return context;
     }
   };
 

@@ -21,7 +21,7 @@ declare class ElementArray {
      * @method contextGain
      * @param context {WebGLRenderingContext}
      */
-    contextGain(context: WebGLRenderingContext): void;
+    contextGain(context: WebGLRenderingContext, contextId: string): void;
     /**
      * @method contextLoss
      */

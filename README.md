@@ -124,6 +124,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.20.0: 2015-07-19 Frustum
 * 2.21.0: 2015-07-20 Framework
 * 2.22.0: 2015-07-22 Viewport
+* 2.23.0: 2015-07-23 ShaderProgram variables
 
 ## License
 Copyright (c) 2014-2015 David Holmes

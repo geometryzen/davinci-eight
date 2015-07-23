@@ -93,6 +93,9 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
         }
       }
     },
+    getUniformVector2(name: string): number[] {
+      return base.getUniformVector2(name);
+    },
     getUniformVector3(name: string): number[] {
       return base.getUniformVector3(name);
     },

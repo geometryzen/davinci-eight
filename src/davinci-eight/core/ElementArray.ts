@@ -34,7 +34,7 @@ class ElementArray {
    * @method contextGain
    * @param context {WebGLRenderingContext}
    */
-  contextGain(context: WebGLRenderingContext) {
+  contextGain(context: WebGLRenderingContext, contextId : string) {
     if (this.attributes.hasElements()) {
       this.buffer = context.createBuffer();
     }

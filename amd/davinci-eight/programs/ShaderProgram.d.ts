@@ -1,5 +1,7 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
+import ShaderAttributeVariable = require('../core/ShaderAttributeVariable');
+import ShaderUniformVariable = require('../core/ShaderUniformVariable');
 /**
  * The role of a ShaderProgram is to manage the WebGLProgram consisting of a vertex shader and fragment shader.
  * The ShaderProgram must be able to provide introspection information that describes the program.
@@ -48,5 +50,21 @@ interface ShaderProgram extends RenderingContextUser {
      * @method use
      */
     use(): void;
+    /**
+     * Provides a reference to the attribute variable location object (ShaderAttributeVariable).
+     * This reference is managed by the ShaderProgram, ensuring that the location
+     * is updated through context loss and restore events.
+     * @method attributeVariable
+     * @param name {string} The name of the attribute variable.
+     */
+    attributeVariable(name: string): ShaderAttributeVariable;
+    /**
+     * Provides a reference to the uniform variable location object (ShaderUniformVariable).
+     * This reference is managed by the ShaderProgram, ensuring that the location
+     * is updated through context loss and restore events.
+     * @method uniformVariable
+     * @param name {string} The name of the uniform variable.
+     */
+    uniformVariable(name: string): ShaderUniformVariable;
 }
 export = ShaderProgram;

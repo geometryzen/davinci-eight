@@ -7,6 +7,9 @@ import Declaration = require('../glsl/Declaration');
 import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
 import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 import uuid4 = require('../utils/uuid4');
+import ShaderAttributeVariable = require('../core/ShaderAttributeVariable');
+import ShaderUniformVariable = require('../core/ShaderUniformVariable');
+import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string): ShaderProgram {
 
@@ -22,9 +25,12 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
   var context: WebGLRenderingContext;
   var contextGainId: string;
 
-  var attributes: {modifiers: string[], type: string, name: string }[] = [];
-  var uniforms:   {modifiers: string[], type: string, name: string}[] = [];
-  var varyings:   {modifiers: string[], type: string, name: string}[] = [];
+  var attributeDecls: ShaderVariableDecl[] = [];
+  var uniformDecls:   ShaderVariableDecl[] = [];
+  var varyingDecls:   ShaderVariableDecl[] = [];
+
+  var attributeLocations: { [name: string]: ShaderAttributeVariable } = {};
+  var uniformLocations: { [name: string]: ShaderUniformVariable } = {};
 
   var publicAPI: ShaderProgram = {
     get vertexShader() {
@@ -37,9 +43,16 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         let walker = new NodeWalker();
         let args = new ProgramArgs();
         walker.walk(program, args);
-        attributes = args.attributes.map(function(a) { return {modifiers: a.modifiers, type: a.type, name: a.name }; });
-        uniforms   = args.uniforms.map(function(u)   { return {modifiers: u.modifiers, type: u.type, name: u.name }; });
-        varyings   = args.varyings.map(function(v)   { return {modifiers: v.modifiers, type: v.type, name: v.name }; });
+        attributeDecls = args.attributes.map(function(a) { return {modifiers: a.modifiers, type: a.type, name: a.name }; });
+        uniformDecls   = args.uniforms.map(function(u)   { return {modifiers: u.modifiers, type: u.type, name: u.name }; });
+        varyingDecls   = args.varyings.map(function(v)   { return {modifiers: v.modifiers, type: v.type, name: v.name }; });
+        // TODO: delete existing...
+        attributeDecls.forEach(function(attributeDecl) {
+          attributeLocations[attributeDecl.name] = new ShaderAttributeVariable(attributeDecl.name, attributeDecl.type);
+        });
+        uniformDecls.forEach(function(uniformDecl) {
+          uniformLocations[uniformDecl.name] = new ShaderUniformVariable(uniformDecl.name, uniformDecl.type);
+        });
       }
       catch(e) {
         console.log(e);
@@ -58,13 +71,13 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
       }
     },
     get attributes() {
-      return attributes;
+      return attributeDecls;
     },
     get uniforms() {
-      return uniforms;
+      return uniformDecls;
     },
     get varyings() {
-      return varyings;
+      return varyingDecls;
     },
     contextFree: function(): void {
       if (program) {
@@ -73,6 +86,12 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         programId = void 0;
         context = void 0;
         contextGainId = void 0;
+        attributeDecls.forEach(function(attributeDecl) {
+          attributeLocations[attributeDecl.name].contextFree();
+        });
+        uniformDecls.forEach(function(uniformDecl) {
+          uniformLocations[uniformDecl.name].contextFree();
+        });
       }
     },
     contextGain: function(contextArg: WebGLRenderingContext, contextId: string): void {
@@ -81,6 +100,12 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         program = makeWebGLProgram(context, vertexShader, fragmentShader);
         programId = uuid4().generate();
         contextGainId = contextId;
+        attributeDecls.forEach(function(attributeDecl) {
+          attributeLocations[attributeDecl.name].contextGain(contextArg, program);
+        });
+        uniformDecls.forEach(function(uniformDecl) {
+          uniformLocations[uniformDecl.name].contextGain(contextArg, program);
+        });
       }
     },
     contextLoss() {
@@ -88,6 +113,12 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
       programId = void 0;
       context = void 0;
       contextGainId = void 0;
+      attributeDecls.forEach(function(attributeDecl) {
+        attributeLocations[attributeDecl.name].contextLoss();
+      });
+      uniformDecls.forEach(function(uniformDecl) {
+        uniformLocations[uniformDecl.name].contextLoss();
+      });
     },
     hasContext: function(): boolean {
       return !!program;
@@ -97,6 +128,22 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
     use() {
       if (context) {
         return context.useProgram(program);
+      }
+    },
+    attributeVariable(name: string) {
+      if (attributeLocations[name]) {
+        return attributeLocations[name];
+      }
+      else {
+        throw new Error(name + " is not an attribute variable in the shader program.");
+      }
+    },
+    uniformVariable(name: string) {
+      if (uniformLocations[name]) {
+        return uniformLocations[name];
+      }
+      else {
+        throw new Error(name + " is not a uniform variable in the shader program.");
       }
     }
   };

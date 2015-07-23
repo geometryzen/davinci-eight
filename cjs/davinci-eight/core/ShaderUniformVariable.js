@@ -13,6 +13,7 @@ var ShaderUniformVariable = (function () {
         this.name = name;
         this.type = type;
         switch (type) {
+            case 'vec2':
             case 'vec3':
             case 'vec4':
             case 'mat3':
@@ -49,36 +50,51 @@ var ShaderUniformVariable = (function () {
         this.context = null;
     };
     /**
-     * @method vec3
+     * @method uniform2f
+     * @param x {number} Horizontal value to assign.
+     * @param y {number} Vertical number to assign.
+     */
+    ShaderUniformVariable.prototype.uniform2f = function (x, y) {
+        this.context.uniform2f(this.location, x, y);
+    };
+    /**
+     * @method uniform2fv
      * @param data {number[]}
      */
-    ShaderUniformVariable.prototype.vec3 = function (data) {
+    ShaderUniformVariable.prototype.uniform2fv = function (data) {
+        this.context.uniform2fv(this.location, data);
+    };
+    /**
+     * @method uniform3fv
+     * @param data {number[]}
+     */
+    ShaderUniformVariable.prototype.uniform3fv = function (data) {
         this.context.uniform3fv(this.location, data);
     };
     /**
-     * @method vec4
+     * @method uniform4fv
      * @param data {number[]}
      */
-    ShaderUniformVariable.prototype.vec4 = function (data) {
+    ShaderUniformVariable.prototype.uniform4fv = function (data) {
         this.context.uniform4fv(this.location, data);
     };
     /**
-     * @method mat3
+     * @method uniformMatrix3fv
      * @param transpose {boolean}
      * @param matrix {Float32Array}
      */
-    ShaderUniformVariable.prototype.mat3 = function (transpose, matrix) {
+    ShaderUniformVariable.prototype.uniformMatrix3fv = function (transpose, matrix) {
         if (!(matrix instanceof Float32Array)) {
             throw new Error("matrix must be a Float32Array.");
         }
         this.context.uniformMatrix3fv(this.location, transpose, matrix);
     };
     /**
-     * @method mat4
+     * @method uniformMatrix4fv
      * @param transpose {boolean}
      * @param matrix {Float32Array}
      */
-    ShaderUniformVariable.prototype.mat4 = function (transpose, matrix) {
+    ShaderUniformVariable.prototype.uniformMatrix4fv = function (transpose, matrix) {
         if (!(matrix instanceof Float32Array)) {
             throw new Error("matrix must be a Float32Array.");
         }

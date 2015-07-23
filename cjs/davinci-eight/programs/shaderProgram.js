@@ -2,6 +2,8 @@ var parse = require('../glsl/parse');
 var NodeWalker = require('../glsl/NodeWalker');
 var ProgramArgs = require('../glsl/ProgramArgs');
 var uuid4 = require('../utils/uuid4');
+var ShaderAttributeVariable = require('../core/ShaderAttributeVariable');
+var ShaderUniformVariable = require('../core/ShaderUniformVariable');
 var shaderProgram = function (vertexShader, fragmentShader) {
     if (typeof vertexShader !== 'string') {
         throw new Error("vertexShader argument must be a string.");
@@ -13,9 +15,11 @@ var shaderProgram = function (vertexShader, fragmentShader) {
     var programId;
     var context;
     var contextGainId;
-    var attributes = [];
-    var uniforms = [];
-    var varyings = [];
+    var attributeDecls = [];
+    var uniformDecls = [];
+    var varyingDecls = [];
+    var attributeLocations = {};
+    var uniformLocations = {};
     var publicAPI = {
         get vertexShader() {
             return vertexShader;
@@ -27,9 +31,16 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 var walker = new NodeWalker();
                 var args = new ProgramArgs();
                 walker.walk(program_1, args);
-                attributes = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
-                uniforms = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
-                varyings = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+                attributeDecls = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
+                uniformDecls = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
+                varyingDecls = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
+                // TODO: delete existing...
+                attributeDecls.forEach(function (attributeDecl) {
+                    attributeLocations[attributeDecl.name] = new ShaderAttributeVariable(attributeDecl.name, attributeDecl.type);
+                });
+                uniformDecls.forEach(function (uniformDecl) {
+                    uniformLocations[uniformDecl.name] = new ShaderUniformVariable(uniformDecl.name, uniformDecl.type);
+                });
             }
             catch (e) {
                 console.log(e);
@@ -48,13 +59,13 @@ var shaderProgram = function (vertexShader, fragmentShader) {
             }
         },
         get attributes() {
-            return attributes;
+            return attributeDecls;
         },
         get uniforms() {
-            return uniforms;
+            return uniformDecls;
         },
         get varyings() {
-            return varyings;
+            return varyingDecls;
         },
         contextFree: function () {
             if (program) {
@@ -63,6 +74,12 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 programId = void 0;
                 context = void 0;
                 contextGainId = void 0;
+                attributeDecls.forEach(function (attributeDecl) {
+                    attributeLocations[attributeDecl.name].contextFree();
+                });
+                uniformDecls.forEach(function (uniformDecl) {
+                    uniformLocations[uniformDecl.name].contextFree();
+                });
             }
         },
         contextGain: function (contextArg, contextId) {
@@ -71,6 +88,12 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 program = makeWebGLProgram(context, vertexShader, fragmentShader);
                 programId = uuid4().generate();
                 contextGainId = contextId;
+                attributeDecls.forEach(function (attributeDecl) {
+                    attributeLocations[attributeDecl.name].contextGain(contextArg, program);
+                });
+                uniformDecls.forEach(function (uniformDecl) {
+                    uniformLocations[uniformDecl.name].contextGain(contextArg, program);
+                });
             }
         },
         contextLoss: function () {
@@ -78,6 +101,12 @@ var shaderProgram = function (vertexShader, fragmentShader) {
             programId = void 0;
             context = void 0;
             contextGainId = void 0;
+            attributeDecls.forEach(function (attributeDecl) {
+                attributeLocations[attributeDecl.name].contextLoss();
+            });
+            uniformDecls.forEach(function (uniformDecl) {
+                uniformLocations[uniformDecl.name].contextLoss();
+            });
         },
         hasContext: function () {
             return !!program;
@@ -87,6 +116,22 @@ var shaderProgram = function (vertexShader, fragmentShader) {
         use: function () {
             if (context) {
                 return context.useProgram(program);
+            }
+        },
+        attributeVariable: function (name) {
+            if (attributeLocations[name]) {
+                return attributeLocations[name];
+            }
+            else {
+                throw new Error(name + " is not an attribute variable in the shader program.");
+            }
+        },
+        uniformVariable: function (name) {
+            if (uniformLocations[name]) {
+                return uniformLocations[name];
+            }
+            else {
+                throw new Error(name + " is not a uniform variable in the shader program.");
             }
         }
     };

@@ -17,6 +17,7 @@ class ShaderUniformVariable {
     this.name = name;
     this.type = type;
     switch(type) {
+      case 'vec2':
       case 'vec3':
       case 'vec4':
       case 'mat3':
@@ -52,36 +53,51 @@ class ShaderUniformVariable {
     this.context = null;
   }
   /**
-   * @method vec3
+   * @method uniform2f
+   * @param x {number} Horizontal value to assign.
+   * @param y {number} Vertical number to assign.
+   */
+  uniform2f(x: number, y: number) {
+    this.context.uniform2f(this.location, x, y);
+  }
+  /**
+   * @method uniform2fv
    * @param data {number[]}
    */
-  vec3(data: number[]) {
+  uniform2fv(data: number[]) {
+    this.context.uniform2fv(this.location, data);
+  }
+  /**
+   * @method uniform3fv
+   * @param data {number[]}
+   */
+  uniform3fv(data: number[]) {
     this.context.uniform3fv(this.location, data);
   }
   /**
-   * @method vec4
+   * @method uniform4fv
    * @param data {number[]}
    */
-  vec4(data: number[]) {
+  uniform4fv(data: number[]) {
     this.context.uniform4fv(this.location, data);
   }
   /**
-   * @method mat3
+   * @method uniformMatrix3fv
    * @param transpose {boolean}
    * @param matrix {Float32Array}
    */
-  mat3(transpose: boolean, matrix: Float32Array) {
+  uniformMatrix3fv(transpose: boolean, matrix: Float32Array) {
     if (!(matrix instanceof Float32Array)) {
       throw new Error("matrix must be a Float32Array.");
     }
     this.context.uniformMatrix3fv(this.location, transpose, matrix);
   }
   /**
-   * @method mat4
+   * @method uniformMatrix4fv
    * @param transpose {boolean}
    * @param matrix {Float32Array}
    */
-  mat4(transpose: boolean, matrix: Float32Array) {
+  uniformMatrix4fv(transpose: boolean, matrix: Float32Array) {
     if (!(matrix instanceof Float32Array)) {
       throw new Error("matrix must be a Float32Array.");
     }

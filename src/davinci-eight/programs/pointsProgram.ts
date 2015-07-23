@@ -31,9 +31,9 @@ let fragmentShader = [
 /**
  *
  */
-var pointsProgram = function() {
+var pointsProgram = function(): ShaderProgram {
 
-  let innerProgram = shaderProgram(vertexShader, fragmentShader);
+  let innerProgram: ShaderProgram = shaderProgram(vertexShader, fragmentShader);
 
   let publicAPI: ShaderProgram = {
     get attributes() {
@@ -73,6 +73,12 @@ var pointsProgram = function() {
     },
     use() {
       return innerProgram.use();
+    },
+    attributeVariable(name: string) {
+      return innerProgram.attributeVariable(name);
+    },
+    uniformVariable(name: string) {
+      return innerProgram.uniformVariable(name);
     }
   }
 

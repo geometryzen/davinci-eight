@@ -24,6 +24,10 @@ declare class DefaultUniformProvider implements UniformProvider {
         matrix4: Float32Array;
     };
     /**
+     * @method getUniformVector2
+     */
+    getUniformVector2(name: string): number[];
+    /**
      * @method getUniformVector3
      */
     getUniformVector3(name: string): number[];

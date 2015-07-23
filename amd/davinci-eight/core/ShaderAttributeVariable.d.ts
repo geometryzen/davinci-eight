@@ -5,13 +5,10 @@ import AttributeProvider = require('../core/AttributeProvider');
  */
 declare class ShaderAttributeVariable {
     name: string;
+    type: string;
     /**
      * The numbe of components for the attribute. Must be 1,2,3 , or 4.
      */
-    private size;
-    private normalized;
-    private stride;
-    private offset;
     private location;
     private context;
     private buffer;
@@ -21,16 +18,23 @@ declare class ShaderAttributeVariable {
      * @class ShaderAttributeVariable
      * @constructor
      * @param name {string}
+     */
+    constructor(name: string, type: string);
+    contextFree(): void;
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+    contextLoss(): void;
+    /**
+     * @method dataFormat
      * @param size {number}
      * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
      * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
      * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
      */
-    constructor(name: string, size: number, normalized: boolean, stride: number, offset?: number);
-    contextFree(): void;
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
-    contextLoss(): void;
-    bind(): void;
+    dataFormat(size: number, normalized?: boolean, stride?: number, offset?: number): void;
+    /**
+     * FIXME This should not couple to an AttributeProvider.
+     * @method bufferData
+     */
     bufferData(attributes: AttributeProvider): void;
     enable(): void;
     disable(): void;

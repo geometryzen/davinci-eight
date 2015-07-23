@@ -1,9 +1,10 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
 
 interface RenderingContextMonitor {
-  start(context: WebGLRenderingContext): void;
+  start(): void;
   stop(): void;
   addContextUser(user: RenderingContextUser);
+  context: WebGLRenderingContext;
 }
 
 export = RenderingContextMonitor;

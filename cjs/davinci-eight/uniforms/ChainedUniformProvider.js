@@ -21,6 +21,15 @@ var ChainedUniformProvider = (function () {
             return this.fallback.getUniformMatrix4(name);
         }
     };
+    ChainedUniformProvider.prototype.getUniformVector2 = function (name) {
+        var v2 = this.provider.getUniformVector2(name);
+        if (v2) {
+            return v2;
+        }
+        else {
+            return this.fallback.getUniformVector3(name);
+        }
+    };
     ChainedUniformProvider.prototype.getUniformVector3 = function (name) {
         var v3 = this.provider.getUniformVector3(name);
         if (v3) {

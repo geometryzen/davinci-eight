@@ -29,27 +29,38 @@ declare class ShaderUniformVariable {
      */
     contextLoss(): void;
     /**
-     * @method vec3
+     * @method uniform2f
+     * @param x {number} Horizontal value to assign.
+     * @param y {number} Vertical number to assign.
+     */
+    uniform2f(x: number, y: number): void;
+    /**
+     * @method uniform2fv
      * @param data {number[]}
      */
-    vec3(data: number[]): void;
+    uniform2fv(data: number[]): void;
     /**
-     * @method vec4
+     * @method uniform3fv
      * @param data {number[]}
      */
-    vec4(data: number[]): void;
+    uniform3fv(data: number[]): void;
     /**
-     * @method mat3
+     * @method uniform4fv
+     * @param data {number[]}
+     */
+    uniform4fv(data: number[]): void;
+    /**
+     * @method uniformMatrix3fv
      * @param transpose {boolean}
      * @param matrix {Float32Array}
      */
-    mat3(transpose: boolean, matrix: Float32Array): void;
+    uniformMatrix3fv(transpose: boolean, matrix: Float32Array): void;
     /**
-     * @method mat4
+     * @method uniformMatrix4fv
      * @param transpose {boolean}
      * @param matrix {Float32Array}
      */
-    mat4(transpose: boolean, matrix: Float32Array): void;
+    uniformMatrix4fv(transpose: boolean, matrix: Float32Array): void;
     /**
      * @method toString
      */

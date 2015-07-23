@@ -68,6 +68,12 @@ define(["require", "exports", '../programs/shaderProgram'], function (require, e
             },
             use: function () {
                 return innerProgram.use();
+            },
+            attributeVariable: function (name) {
+                return innerProgram.attributeVariable(name);
+            },
+            uniformVariable: function (name) {
+                return innerProgram.uniformVariable(name);
             }
         };
         return publicAPI;

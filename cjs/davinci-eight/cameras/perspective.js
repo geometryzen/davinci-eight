@@ -85,6 +85,9 @@ var perspective = function (fov, aspect, near, far) {
                 }
             }
         },
+        getUniformVector2: function (name) {
+            return base.getUniformVector2(name);
+        },
         getUniformVector3: function (name) {
             return base.getUniformVector3(name);
         },

@@ -12,6 +12,7 @@ declare class ChainedUniformProvider implements UniformProvider {
         transpose: boolean;
         matrix4: Float32Array;
     };
+    getUniformVector2(name: string): number[];
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMetaInfos(): UniformMetaInfos;

@@ -28,7 +28,7 @@ var ElementArray = (function () {
      * @method contextGain
      * @param context {WebGLRenderingContext}
      */
-    ElementArray.prototype.contextGain = function (context) {
+    ElementArray.prototype.contextGain = function (context, contextId) {
         if (this.attributes.hasElements()) {
             this.buffer = context.createBuffer();
         }

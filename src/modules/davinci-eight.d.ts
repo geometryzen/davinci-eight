@@ -66,7 +66,7 @@ declare module EIGHT
     contextLoss();
     enable();
     disable();
-    bind();
+    dataFormat(size: number, normalized?: boolean, stride?: number, offset?: number);
     bufferData(data: AttributeProvider);
   }
   class ShaderUniformVariable {
@@ -74,9 +74,12 @@ declare module EIGHT
     contextFree();
     contextGain(context: WebGLRenderingContext, program: WebGLProgram);
     contextLoss();
-    vec3(v: Vector3);
-    mat3(transpose: boolean, matrix: Float32Array);
-    mat4(transpose: boolean, matrix: Float32Array);
+    uniform2f(x: number, y: number);
+    uniform2fv(data: number[]);
+    uniform3fv(data: number[]);
+    uniform4fv(data: number[]);
+    uniformMatrix3fv(transpose: boolean, matrix: Float32Array);
+    uniformMatrix4fv(transpose: boolean, matrix: Float32Array);
   }
   class Matrix3 {
     public elements: number[];
@@ -226,6 +229,23 @@ declare module EIGHT
     [property: string]: AttributeMetaInfo;
   }
   /**
+   * ShaderVariableDecl
+   */
+  interface ShaderVariableDecl {
+    /**
+     * modifiers
+     */
+    modifiers: string[];
+    /**
+     * type
+     */
+    type: string;
+    /**
+     * name
+     */
+    name: string;
+  }
+  /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
    */
   class AttributeProvider
@@ -349,13 +369,26 @@ declare module EIGHT
    */
   class ShaderProgram extends RenderingContextUser
   {
-    attributes: {modifiers: string[], type: string, name: string}[];
-    uniforms: {modifiers: string[], type: string, name: string}[];
-    varyings: {modifiers: string[], type: string, name: string}[];
+    attributes: ShaderVariableDecl[];
+    uniforms: ShaderVariableDecl[];
+    varyings: ShaderVariableDecl[];
     program: WebGLProgram;
     programId: string;
     vertexShader: string;
     fragmentShader: string;
+    /**
+     * Makes the ShaderProgram the current program for WebGL.
+     * This method has no effect if the ShaderProgram does not have a WebGLRenderingContext.
+     */
+    use(): void;
+    /**
+     *
+     */
+    attributeVariable(name: string): ShaderAttributeVariable;
+    /**
+     *
+     */
+    uniformVariable(name: string): ShaderUniformVariable;
   }
   /**
    * The combination of a geometry, model and a shaderProgram.
@@ -642,7 +675,7 @@ declare module EIGHT
     /**
      * Starts the monitoring of the WebGL context.
      */
-    start(context?: WebGLRenderingContext): void;
+    start(): void;
     /**
      * Stops the monitoring of the WebGL context.
      */
@@ -651,11 +684,15 @@ declare module EIGHT
      *
      */
     addContextUser(user: RenderingContextUser);
+    /**
+     *
+     */
+    context: WebGLRenderingContext;
   }
   /**
    * Constructs and returns a RenderingContextMonitor.
    */
-  function contextMonitor(canvas: HTMLCanvasElement): RenderingContextMonitor;
+  function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingContextMonitor;
 
   /**
    *

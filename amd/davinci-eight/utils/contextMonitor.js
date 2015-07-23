@@ -1,5 +1,5 @@
 define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], function (require, exports, uuid4, initWebGL) {
-    var contextMonitor = function (canvas, attributes) {
+    function contextMonitor(canvas, attributes) {
         var users = [];
         var context;
         var contextId;
@@ -43,9 +43,13 @@ define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], funct
                 if (context && !user.hasContext()) {
                     user.contextGain(context, contextId);
                 }
+            },
+            get context() {
+                return context;
             }
         };
         return publicAPI;
-    };
+    }
+    ;
     return contextMonitor;
 });

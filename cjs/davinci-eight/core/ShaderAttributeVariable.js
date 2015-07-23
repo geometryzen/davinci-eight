@@ -15,18 +15,14 @@ var ShaderAttributeVariable = (function () {
      * @class ShaderAttributeVariable
      * @constructor
      * @param name {string}
-     * @param size {number}
-     * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
-     * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
-     * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
      */
-    function ShaderAttributeVariable(name, size, normalized, stride, offset) {
-        if (offset === void 0) { offset = 0; }
+    function ShaderAttributeVariable(name, type) {
         this.name = name;
-        this.size = size;
-        this.normalized = normalized;
-        this.stride = stride;
-        this.offset = offset;
+        this.type = type;
+        //    this.size = size;
+        //    this.normalized = normalized;
+        //    this.stride = stride;
+        //    this.offset = offset;
     }
     ShaderAttributeVariable.prototype.contextFree = function () {
         if (this.buffer) {
@@ -46,17 +42,30 @@ var ShaderAttributeVariable = (function () {
         this.buffer = void 0;
         this.context = void 0;
     };
-    // Not really bind so much as describing
-    ShaderAttributeVariable.prototype.bind = function () {
+    /**
+     * @method dataFormat
+     * @param size {number}
+     * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
+     * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
+     * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
+     */
+    ShaderAttributeVariable.prototype.dataFormat = function (size, normalized, stride, offset) {
+        if (normalized === void 0) { normalized = false; }
+        if (stride === void 0) { stride = 0; }
+        if (offset === void 0) { offset = 0; }
         if (existsLocation(this.location)) {
             // TODO: We could assert that we have a buffer.
             this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
             // 6.14 Fixed point support.
             // The WebGL API does not support the GL_FIXED data type.
             // Consequently, we hard-code the FLOAT constant.
-            this.context.vertexAttribPointer(this.location, this.size, this.context.FLOAT, this.normalized, this.stride, this.offset);
+            this.context.vertexAttribPointer(this.location, size, this.context.FLOAT, normalized, stride, offset);
         }
     };
+    /**
+     * FIXME This should not couple to an AttributeProvider.
+     * @method bufferData
+     */
     ShaderAttributeVariable.prototype.bufferData = function (attributes) {
         if (existsLocation(this.location)) {
             var data = attributes.getVertexAttributeData(this.name);
