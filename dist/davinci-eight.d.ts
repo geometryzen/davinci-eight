@@ -515,6 +515,10 @@ declare module EIGHT
    */
   function shaderProgram(vertexShader: string, fragmentShader: string): ShaderProgram;
   /**
+   * Constructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.
+   */
+  function shaderProgramFromScripts(vsId: string, fsId: string, $document?: Document): ShaderProgram;
+  /**
    * Constructs a ShaderProgram by introspecting a Geometry.
    */
   function smartProgram(attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram;

@@ -31,6 +31,28 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
             // By using the ShaderProgram, we get to delegate the management of uniform locations. 
             return shaders.uniformVariable(declaration.name);
         }
+        function checkUniformsCompleteAndReady(provider) {
+            var metas = provider.getUniformMetaInfos();
+            shaders.uniforms.forEach(function (uniformDecl) {
+                var match = void 0;
+                for (var id in metas) {
+                    var candidate = metas[id];
+                    if (candidate.name === uniformDecl.name) {
+                        match = candidate;
+                    }
+                }
+                if (match === void 0) {
+                    throw new Error("Missing uniform " + uniformDecl.name);
+                }
+                else {
+                    if (match.glslType !== uniformDecl.type) {
+                        throw new Error("Mismatch in uniform types " + uniformDecl.name);
+                    }
+                    else {
+                    }
+                }
+            });
+        }
         var context;
         var contextGainId;
         var elements = new ElementArray(mesh);
@@ -91,15 +113,18 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
              * @method draw
              * @param ambients {UniformProvider}
              */
-            draw: function (view) {
+            draw: function (ambients) {
                 if (shaders.hasContext()) {
                     // TODO: This should be a needs update.
                     if (mesh.dynamics()) {
                         updateGeometry();
                     }
+                    var chainedProvider = new ChainedUniformProvider(model, ambients);
+                    checkUniformsCompleteAndReady(chainedProvider);
+                    // check we have them all.
+                    // check they are all initialized.
                     // Update the uniform location values.
                     uniformVariables.forEach(function (uniformVariable) {
-                        var chainedProvider = new ChainedUniformProvider(model, view);
                         switch (uniformVariable.glslType) {
                             case 'float':
                                 {

@@ -435,7 +435,7 @@ define("../vendor/almond/almond", function(){});
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.25.0'
+        VERSION: '2.26.0'
     };
     return core;
 });
@@ -1968,6 +1968,28 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
             // By using the ShaderProgram, we get to delegate the management of uniform locations. 
             return shaders.uniformVariable(declaration.name);
         }
+        function checkUniformsCompleteAndReady(provider) {
+            var metas = provider.getUniformMetaInfos();
+            shaders.uniforms.forEach(function (uniformDecl) {
+                var match = void 0;
+                for (var id in metas) {
+                    var candidate = metas[id];
+                    if (candidate.name === uniformDecl.name) {
+                        match = candidate;
+                    }
+                }
+                if (match === void 0) {
+                    throw new Error("Missing uniform " + uniformDecl.name);
+                }
+                else {
+                    if (match.glslType !== uniformDecl.type) {
+                        throw new Error("Mismatch in uniform types " + uniformDecl.name);
+                    }
+                    else {
+                    }
+                }
+            });
+        }
         var context;
         var contextGainId;
         var elements = new ElementArray(mesh);
@@ -2028,15 +2050,18 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
              * @method draw
              * @param ambients {UniformProvider}
              */
-            draw: function (view) {
+            draw: function (ambients) {
                 if (shaders.hasContext()) {
                     // TODO: This should be a needs update.
                     if (mesh.dynamics()) {
                         updateGeometry();
                     }
+                    var chainedProvider = new ChainedUniformProvider(model, ambients);
+                    checkUniformsCompleteAndReady(chainedProvider);
+                    // check we have them all.
+                    // check they are all initialized.
                     // Update the uniform location values.
                     uniformVariables.forEach(function (uniformVariable) {
-                        var chainedProvider = new ChainedUniformProvider(model, view);
                         switch (uniformVariable.glslType) {
                             case 'float':
                                 {
@@ -2171,6 +2196,256 @@ define('davinci-eight/core/Face3',["require", "exports", '../math/Vector3'], fun
         return Face3;
     })();
     return Face3;
+});
+
+define('davinci-eight/core/ShaderAttributeLocation',["require", "exports"], function (require, exports) {
+    function computeUsage(attributes, context) {
+        return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
+    }
+    function existsLocation(location) {
+        return location >= 0;
+    }
+    /**
+     * Utility class for managing a shader attribute variable.
+     * While this class may be created directly by the user, it is preferable
+     * to use the ShaderAttributeLocation instances managed by the ShaderProgram because
+     * there will be improved integrity and context loss management.
+     * @class ShaderAttributeLocation.
+     */
+    var ShaderAttributeLocation = (function () {
+        /**
+         * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
+         * In particular, this class manages buffer allocation, location caching, and data binding.
+         * @class ShaderAttributeLocation
+         * @constructor
+         * @param name {string} The name of the variable as it appears in the GLSL program.
+         * @param glslType {string} The type of the variable as it appears in the GLSL program.
+         */
+        function ShaderAttributeLocation(name, glslType) {
+            this.$name = name;
+            switch (glslType) {
+                case 'float':
+                case 'vec2':
+                case 'vec3':
+                case 'vec4':
+                case 'mat2':
+                case 'mat3':
+                case 'mat4':
+                    {
+                        this.$glslType = glslType;
+                    }
+                    break;
+                default: {
+                    // TODO
+                    throw new Error("Argument glslType in ShaderAttributeLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
+                }
+            }
+        }
+        Object.defineProperty(ShaderAttributeLocation.prototype, "name", {
+            get: function () {
+                return this.$name;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ShaderAttributeLocation.prototype.contextFree = function () {
+            if (this.buffer) {
+                this.context.deleteBuffer(this.buffer);
+                this.contextLoss();
+            }
+        };
+        ShaderAttributeLocation.prototype.contextGain = function (context, program) {
+            this.location = context.getAttribLocation(program, this.name);
+            this.context = context;
+            if (existsLocation(this.location)) {
+                this.buffer = context.createBuffer();
+            }
+        };
+        ShaderAttributeLocation.prototype.contextLoss = function () {
+            this.location = void 0;
+            this.buffer = void 0;
+            this.context = void 0;
+        };
+        /**
+         * @method dataFormat
+         * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
+         * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
+         * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
+         * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
+         * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
+         */
+        ShaderAttributeLocation.prototype.dataFormat = function (size, type, normalized, stride, offset) {
+            if (normalized === void 0) { normalized = false; }
+            if (stride === void 0) { stride = 0; }
+            if (offset === void 0) { offset = 0; }
+            if (existsLocation(this.location)) {
+                // TODO: We could assert that we have a buffer.
+                this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+                // 6.14 Fixed point support.
+                // The WebGL API does not support the GL_FIXED data type.
+                // Consequently, we hard-code the FLOAT constant.
+                this.context.vertexAttribPointer(this.location, size, type, normalized, stride, offset);
+            }
+        };
+        /**
+         * FIXME This should not couple to an AttributeProvider.
+         * @method bufferData
+         */
+        ShaderAttributeLocation.prototype.bufferData = function (attributes) {
+            if (existsLocation(this.location)) {
+                var data = attributes.getVertexAttributeData(this.name);
+                if (data) {
+                    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+                    this.context.bufferData(this.context.ARRAY_BUFFER, data, computeUsage(attributes, this.context));
+                }
+                else {
+                    // We expect this to be detected long before we get here.
+                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
+                }
+            }
+        };
+        ShaderAttributeLocation.prototype.enable = function () {
+            if (existsLocation(this.location)) {
+                this.context.enableVertexAttribArray(this.location);
+            }
+        };
+        ShaderAttributeLocation.prototype.disable = function () {
+            if (existsLocation(this.location)) {
+                this.context.disableVertexAttribArray(this.location);
+            }
+        };
+        /**
+         * @method toString
+         */
+        ShaderAttributeLocation.prototype.toString = function () {
+            return ["ShaderAttributeLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
+        };
+        return ShaderAttributeLocation;
+    })();
+    return ShaderAttributeLocation;
+});
+
+define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], function (require, exports) {
+    /**
+     * Utility class for managing a shader uniform variable.
+     * @class ShaderUniformLocation
+     */
+    var ShaderUniformLocation = (function () {
+        /**
+         * @class ShaderUniformLocation
+         * @constructor
+         * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+         * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.
+         */
+        function ShaderUniformLocation(name, glslType) {
+            this.name = name;
+            switch (glslType) {
+                case 'float':
+                case 'vec2':
+                case 'vec3':
+                case 'vec4':
+                case 'mat2':
+                case 'mat3':
+                case 'mat4':
+                    {
+                        this.glslType = glslType;
+                    }
+                    break;
+                default: {
+                    throw new Error("Illegal argument glslType in ShaderUniformLocation constructor: " + glslType);
+                }
+            }
+        }
+        /**
+         * @method contextFree
+         */
+        ShaderUniformLocation.prototype.contextFree = function () {
+            this.location = null;
+            this.context = null;
+        };
+        /**
+         * @method contextGain
+         * @param context {WebGLRenderingContext}
+         * @param program {WebGLProgram}
+         */
+        ShaderUniformLocation.prototype.contextGain = function (context, program) {
+            this.location = context.getUniformLocation(program, this.name);
+            this.context = context;
+        };
+        /**
+         * @method contextLoss
+         */
+        ShaderUniformLocation.prototype.contextLoss = function () {
+            this.location = null;
+            this.context = null;
+        };
+        /**
+         * @method uniform1f
+         * @param value {number} Value to assign.
+         */
+        ShaderUniformLocation.prototype.uniform1f = function (value) {
+            this.context.uniform1f(this.location, value);
+        };
+        /**
+         * @method uniform2f
+         * @param x {number} Horizontal value to assign.
+         * @param y {number} Vertical number to assign.
+         */
+        ShaderUniformLocation.prototype.uniform2f = function (x, y) {
+            this.context.uniform2f(this.location, x, y);
+        };
+        /**
+         * @method uniform2fv
+         * @param data {number[]}
+         */
+        ShaderUniformLocation.prototype.uniform2fv = function (data) {
+            this.context.uniform2fv(this.location, data);
+        };
+        /**
+         * @method uniform3fv
+         * @param data {number[]}
+         */
+        ShaderUniformLocation.prototype.uniform3fv = function (data) {
+            this.context.uniform3fv(this.location, data);
+        };
+        /**
+         * @method uniform4fv
+         * @param data {number[]}
+         */
+        ShaderUniformLocation.prototype.uniform4fv = function (data) {
+            this.context.uniform4fv(this.location, data);
+        };
+        /**
+         * @method uniformMatrix3fv
+         * @param transpose {boolean}
+         * @param matrix {Float32Array}
+         */
+        ShaderUniformLocation.prototype.uniformMatrix3fv = function (transpose, matrix) {
+            if (!(matrix instanceof Float32Array)) {
+                throw new Error("matrix must be a Float32Array.");
+            }
+            this.context.uniformMatrix3fv(this.location, transpose, matrix);
+        };
+        /**
+         * @method uniformMatrix4fv
+         * @param transpose {boolean}
+         * @param matrix {Float32Array}
+         */
+        ShaderUniformLocation.prototype.uniformMatrix4fv = function (transpose, matrix) {
+            if (!(matrix instanceof Float32Array)) {
+                throw new Error("matrix must be a Float32Array.");
+            }
+            this.context.uniformMatrix4fv(this.location, transpose, matrix);
+        };
+        /**
+         * @method toString
+         */
+        ShaderUniformLocation.prototype.toString = function () {
+            return ["ShaderUniformLocation({name: ", this.name, ", glslType: ", this.glslType + "})"].join('');
+        };
+        return ShaderUniformLocation;
+    })();
+    return ShaderUniformLocation;
 });
 
 define('davinci-eight/math/Sphere',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
@@ -6128,256 +6403,6 @@ define('davinci-eight/glsl/ProgramArgs',["require", "exports", './DefaultNodeEve
     return ProgramArgs;
 });
 
-define('davinci-eight/core/ShaderAttributeLocation',["require", "exports"], function (require, exports) {
-    function computeUsage(attributes, context) {
-        return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
-    function existsLocation(location) {
-        return location >= 0;
-    }
-    /**
-     * Utility class for managing a shader attribute variable.
-     * While this class may be created directly by the user, it is preferable
-     * to use the ShaderAttributeLocation instances managed by the ShaderProgram because
-     * there will be improved integrity and context loss management.
-     * @class ShaderAttributeLocation.
-     */
-    var ShaderAttributeLocation = (function () {
-        /**
-         * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
-         * In particular, this class manages buffer allocation, location caching, and data binding.
-         * @class ShaderAttributeLocation
-         * @constructor
-         * @param name {string} The name of the variable as it appears in the GLSL program.
-         * @param glslType {string} The type of the variable as it appears in the GLSL program.
-         */
-        function ShaderAttributeLocation(name, glslType) {
-            this.$name = name;
-            switch (glslType) {
-                case 'float':
-                case 'vec2':
-                case 'vec3':
-                case 'vec4':
-                case 'mat2':
-                case 'mat3':
-                case 'mat4':
-                    {
-                        this.$glslType = glslType;
-                    }
-                    break;
-                default: {
-                    // TODO
-                    throw new Error("Argument glslType in ShaderAttributeLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
-                }
-            }
-        }
-        Object.defineProperty(ShaderAttributeLocation.prototype, "name", {
-            get: function () {
-                return this.$name;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ShaderAttributeLocation.prototype.contextFree = function () {
-            if (this.buffer) {
-                this.context.deleteBuffer(this.buffer);
-                this.contextLoss();
-            }
-        };
-        ShaderAttributeLocation.prototype.contextGain = function (context, program) {
-            this.location = context.getAttribLocation(program, this.name);
-            this.context = context;
-            if (existsLocation(this.location)) {
-                this.buffer = context.createBuffer();
-            }
-        };
-        ShaderAttributeLocation.prototype.contextLoss = function () {
-            this.location = void 0;
-            this.buffer = void 0;
-            this.context = void 0;
-        };
-        /**
-         * @method dataFormat
-         * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
-         * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
-         * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
-         * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
-         * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
-         */
-        ShaderAttributeLocation.prototype.dataFormat = function (size, type, normalized, stride, offset) {
-            if (normalized === void 0) { normalized = false; }
-            if (stride === void 0) { stride = 0; }
-            if (offset === void 0) { offset = 0; }
-            if (existsLocation(this.location)) {
-                // TODO: We could assert that we have a buffer.
-                this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-                // 6.14 Fixed point support.
-                // The WebGL API does not support the GL_FIXED data type.
-                // Consequently, we hard-code the FLOAT constant.
-                this.context.vertexAttribPointer(this.location, size, type, normalized, stride, offset);
-            }
-        };
-        /**
-         * FIXME This should not couple to an AttributeProvider.
-         * @method bufferData
-         */
-        ShaderAttributeLocation.prototype.bufferData = function (attributes) {
-            if (existsLocation(this.location)) {
-                var data = attributes.getVertexAttributeData(this.name);
-                if (data) {
-                    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-                    this.context.bufferData(this.context.ARRAY_BUFFER, data, computeUsage(attributes, this.context));
-                }
-                else {
-                    // We expect this to be detected long before we get here.
-                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
-                }
-            }
-        };
-        ShaderAttributeLocation.prototype.enable = function () {
-            if (existsLocation(this.location)) {
-                this.context.enableVertexAttribArray(this.location);
-            }
-        };
-        ShaderAttributeLocation.prototype.disable = function () {
-            if (existsLocation(this.location)) {
-                this.context.disableVertexAttribArray(this.location);
-            }
-        };
-        /**
-         * @method toString
-         */
-        ShaderAttributeLocation.prototype.toString = function () {
-            return ["ShaderAttributeLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
-        };
-        return ShaderAttributeLocation;
-    })();
-    return ShaderAttributeLocation;
-});
-
-define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], function (require, exports) {
-    /**
-     * Utility class for managing a shader uniform variable.
-     * @class ShaderUniformLocation
-     */
-    var ShaderUniformLocation = (function () {
-        /**
-         * @class ShaderUniformLocation
-         * @constructor
-         * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
-         * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.
-         */
-        function ShaderUniformLocation(name, glslType) {
-            this.name = name;
-            switch (glslType) {
-                case 'float':
-                case 'vec2':
-                case 'vec3':
-                case 'vec4':
-                case 'mat2':
-                case 'mat3':
-                case 'mat4':
-                    {
-                        this.glslType = glslType;
-                    }
-                    break;
-                default: {
-                    throw new Error("Illegal argument glslType in ShaderUniformLocation constructor: " + glslType);
-                }
-            }
-        }
-        /**
-         * @method contextFree
-         */
-        ShaderUniformLocation.prototype.contextFree = function () {
-            this.location = null;
-            this.context = null;
-        };
-        /**
-         * @method contextGain
-         * @param context {WebGLRenderingContext}
-         * @param program {WebGLProgram}
-         */
-        ShaderUniformLocation.prototype.contextGain = function (context, program) {
-            this.location = context.getUniformLocation(program, this.name);
-            this.context = context;
-        };
-        /**
-         * @method contextLoss
-         */
-        ShaderUniformLocation.prototype.contextLoss = function () {
-            this.location = null;
-            this.context = null;
-        };
-        /**
-         * @method uniform1f
-         * @param value {number} Value to assign.
-         */
-        ShaderUniformLocation.prototype.uniform1f = function (value) {
-            this.context.uniform1f(this.location, value);
-        };
-        /**
-         * @method uniform2f
-         * @param x {number} Horizontal value to assign.
-         * @param y {number} Vertical number to assign.
-         */
-        ShaderUniformLocation.prototype.uniform2f = function (x, y) {
-            this.context.uniform2f(this.location, x, y);
-        };
-        /**
-         * @method uniform2fv
-         * @param data {number[]}
-         */
-        ShaderUniformLocation.prototype.uniform2fv = function (data) {
-            this.context.uniform2fv(this.location, data);
-        };
-        /**
-         * @method uniform3fv
-         * @param data {number[]}
-         */
-        ShaderUniformLocation.prototype.uniform3fv = function (data) {
-            this.context.uniform3fv(this.location, data);
-        };
-        /**
-         * @method uniform4fv
-         * @param data {number[]}
-         */
-        ShaderUniformLocation.prototype.uniform4fv = function (data) {
-            this.context.uniform4fv(this.location, data);
-        };
-        /**
-         * @method uniformMatrix3fv
-         * @param transpose {boolean}
-         * @param matrix {Float32Array}
-         */
-        ShaderUniformLocation.prototype.uniformMatrix3fv = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix3fv(this.location, transpose, matrix);
-        };
-        /**
-         * @method uniformMatrix4fv
-         * @param transpose {boolean}
-         * @param matrix {Float32Array}
-         */
-        ShaderUniformLocation.prototype.uniformMatrix4fv = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix4fv(this.location, transpose, matrix);
-        };
-        /**
-         * @method toString
-         */
-        ShaderUniformLocation.prototype.toString = function () {
-            return ["ShaderUniformLocation({name: ", this.name, ", glslType: ", this.glslType + "})"].join('');
-        };
-        return ShaderUniformLocation;
-    })();
-    return ShaderUniformLocation;
-});
-
 define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttributeLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttributeLocation, ShaderUniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader) {
         if (typeof vertexShader !== 'string') {
@@ -6832,6 +6857,23 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
         return publicAPI;
     };
     return smartProgram;
+});
+
+define('davinci-eight/programs/shaderProgramFromScripts',["require", "exports", '../programs/shaderProgram'], function (require, exports, shaderProgram) {
+    /**
+     * @method shaderProgramFromScripts
+     * @param vsId {string} The vertex shader script element identifier.
+     * @param fsId {string} The fragment shader script element identifier.
+     * @param $document {Document} The document containing the script elements.
+     */
+    function shaderProgramFromScripts(vsId, fsId, $document) {
+        if ($document === void 0) { $document = document; }
+        function $(id) {
+            return $document.getElementById(id);
+        }
+        return shaderProgram($(vsId).textContent, $(fsId).textContent);
+    }
+    return shaderProgramFromScripts;
 });
 
 /**
@@ -7881,7 +7923,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/core/ShaderAttributeLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/boxMesh', 'davinci-eight/objects/box', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, ShaderAttributeLocation, ShaderUniformLocation, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, boxMesh, box, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, ModelMatrixUniformProvider, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttributeLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/boxMesh', 'davinci-eight/objects/box', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, ShaderAttributeLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, boxMesh, box, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, ModelMatrixUniformProvider, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -7965,6 +8007,8 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core', 'davinci-eig
         get boxMesh() { return boxMesh; },
         // objects
         get box() { return box; },
+        // programs
+        get shaderProgramFromScripts() { return shaderProgramFromScripts; },
     };
     return eight;
 });

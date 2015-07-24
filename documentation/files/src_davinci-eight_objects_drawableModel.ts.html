@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.25.0</em>
+            <em>API Docs for: 2.26.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -146,8 +146,13 @@ import ChainedUniformProvider = require(&#x27;../uniforms/ChainedUniformProvider
 import DrawableModel = require(&#x27;../objects/DrawableModel&#x27;);
 import AttributeProvider = require(&#x27;../core/AttributeProvider&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
+import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
+import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 
-var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt;(mesh: MESH, shaders: SHADERS, model: MODEL): DrawableModel&lt;MESH, SHADERS, MODEL&gt; {
+var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt;(
+  mesh: MESH,
+  shaders: SHADERS,
+  model: MODEL): DrawableModel&lt;MESH, SHADERS, MODEL&gt; {
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
@@ -178,6 +183,30 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
   function shaderUniformFromDecl(declaration: ShaderVariableDecl): ShaderUniformLocation {
     // By using the ShaderProgram, we get to delegate the management of uniform locations. 
     return shaders.uniformVariable(declaration.name);
+  }
+
+  function checkUniformsCompleteAndReady(provider: UniformProvider) {
+    var metas = provider.getUniformMetaInfos();
+    shaders.uniforms.forEach(function(uniformDecl: ShaderVariableDecl) {
+      var match: UniformMetaInfo = void 0;
+      for (var id in metas) {
+        let candidate: UniformMetaInfo = metas[id];
+        if (candidate.name === uniformDecl.name) {
+          match = candidate;
+        }
+      }
+      if (match === void 0) {
+        throw new Error(&quot;Missing uniform &quot; + uniformDecl.name);
+      }
+      else {
+        if (match.glslType !== uniformDecl.type) {
+          throw new Error(&quot;Mismatch in uniform types &quot; + uniformDecl.name);
+        }
+        else {
+          // check that the uniform has been initialized.
+        }
+      }
+    });
   }
   var context: WebGLRenderingContext;
   var contextGainId: string;
@@ -242,15 +271,18 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
      * @method draw
      * @param ambients {UniformProvider}
      */
-    draw(view: UniformProvider) {
+    draw(ambients: UniformProvider) {
       if (shaders.hasContext()) {
         // TODO: This should be a needs update.
         if (mesh.dynamics()) {
           updateGeometry();
         }
+        let chainedProvider = new ChainedUniformProvider(model, ambients);
+        checkUniformsCompleteAndReady(chainedProvider);
+        // check we have them all.
+        // check they are all initialized.
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformLocation) {
-          var chainedProvider = new ChainedUniformProvider(model, view);
           switch(uniformVariable.glslType) {
             case &#x27;float&#x27;: {
               let data: number = chainedProvider.getUniformFloat(uniformVariable.name);

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.25.0",
+        "version": "2.26.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -405,6 +405,13 @@
         },
         "src/davinci-eight/programs/shaderProgram.ts": {
             "name": "src/davinci-eight/programs/shaderProgram.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/programs/shaderProgramFromScripts.ts": {
+            "name": "src/davinci-eight/programs/shaderProgramFromScripts.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2368,32 +2375,32 @@
         },
         {
             "file": "src/davinci-eight/objects/drawableModel.ts",
-            "line": 14,
+            "line": 19,
             "description": "Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)",
             "class": "ShaderProgram"
         },
         {
             "file": "src/davinci-eight/objects/drawableModel.ts",
-            "line": 25,
+            "line": 30,
             "description": "Constructs a ShaderAttributeLocation from a declaration.",
             "class": "ShaderProgram"
         },
         {
             "file": "src/davinci-eight/objects/drawableModel.ts",
-            "line": 38,
+            "line": 43,
             "description": "Constructs a ShaderUniformLocation from a declaration.",
             "class": "ShaderProgram"
         },
         {
             "file": "src/davinci-eight/objects/drawableModel.ts",
-            "line": 100,
+            "line": 129,
             "itemtype": "method",
             "name": "useProgram",
             "class": "ShaderProgram"
         },
         {
             "file": "src/davinci-eight/objects/drawableModel.ts",
-            "line": 104,
+            "line": 133,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -2518,6 +2525,30 @@
             "file": "src/davinci-eight/programs/shaderProgram.ts",
             "line": 182,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
+            "class": "Viewport"
+        },
+        {
+            "file": "src/davinci-eight/programs/shaderProgramFromScripts.ts",
+            "line": 4,
+            "itemtype": "method",
+            "name": "shaderProgramFromScripts",
+            "params": [
+                {
+                    "name": "vsId",
+                    "description": "The vertex shader script element identifier.",
+                    "type": "String"
+                },
+                {
+                    "name": "fsId",
+                    "description": "The fragment shader script element identifier.",
+                    "type": "String"
+                },
+                {
+                    "name": "$document",
+                    "description": "The document containing the script elements.",
+                    "type": "Document"
+                }
+            ],
             "class": "Viewport"
         },
         {
@@ -3238,12 +3269,18 @@
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 517,
-            "description": "Constructs a ShaderProgram by introspecting a Geometry.",
+            "description": "Constructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 521,
+            "description": "Constructs a ShaderProgram by introspecting a Geometry.",
+            "class": ""
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 525,
             "description": "Constructs a Drawable from the specified attribute provider and program.",
             "params": [
                 {
@@ -3259,176 +3296,171 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 527,
+            "line": 531,
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 535,
+            "line": 539,
             "description": "Constructs and returns an arrow mesh.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 543,
+            "line": 547,
             "description": "Constructs and returns a box mesh.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 551,
-            "class": ""
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 557,
+            "line": 555,
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 561,
-            "description": "The axis corresponding to e1.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 565,
-            "description": "The axis corresponding to e2.",
+            "description": "The axis corresponding to e1.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 569,
-            "description": "The axis corresponding to e3.",
+            "description": "The axis corresponding to e2.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 573,
-            "description": "The color of the cuboid.",
+            "description": "The axis corresponding to e3.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 577,
+            "description": "The color of the cuboid.",
+            "class": ""
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 581,
             "description": "The cuboid should be rendered using a gray scale.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 582,
+            "line": 586,
             "description": "Constructs and returns a cuboid mesh.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 597,
+            "line": 601,
             "description": "A surface generated by the parametric equation:\na * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),\nwhere phi and theta are the conventional spherical coordinates.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 603,
+            "line": 607,
             "description": "The axis corresponding to (theta, phi) = (PI/2,0).",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 607,
+            "line": 611,
             "description": "The axis corresponding to theta = 0.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 611,
+            "line": 615,
             "description": "The axis corresponding to (theta, phi) = (PI/2,PI/2).",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 615,
+            "line": 619,
             "description": "The number of segments in the theta parameter.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 619,
+            "line": 623,
             "description": "The theta starting angle in radians.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 623,
+            "line": 627,
             "description": "The theta sweep angle in radians.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 627,
+            "line": 631,
             "description": "The number of segments in the phi parameter.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 631,
+            "line": 635,
             "description": "The phi starting angle in radians.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 635,
+            "line": 639,
             "description": "The phi sweep angle in radians.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 689,
+            "line": 693,
             "description": "Constructs and returns an ellipsoid mesh.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 693,
+            "line": 697,
             "description": "Constructs and returns a prism mesh.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 697,
-            "class": ""
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 702,
-            "description": "Constructs and returns a new Workbench3D.",
+            "line": 701,
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 706,
-            "description": "Constructs and returns a WindowAnimationRunner.",
+            "description": "Constructs and returns a new Workbench3D.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 710,
+            "description": "Constructs and returns a WindowAnimationRunner.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 715,
-            "description": "Starts the monitoring of the WebGL context.",
+            "line": 714,
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 719,
-            "description": "Stops the monitoring of the WebGL context.",
+            "description": "Starts the monitoring of the WebGL context.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 723,
+            "description": "Stops the monitoring of the WebGL context.",
             "class": ""
         },
         {
@@ -3438,18 +3470,23 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 732,
+            "line": 731,
+            "class": ""
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 736,
             "description": "Constructs and returns a RenderingContextMonitor.",
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 737,
+            "line": 741,
             "class": ""
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 741,
+            "line": 745,
             "description": "The version string of the davinci-eight module.",
             "class": ""
         },
@@ -13563,7 +13600,7 @@
         },
         {
             "file": "src/davinci-eight.ts",
-            "line": 100,
+            "line": 101,
             "description": "The semantic version of the library.",
             "itemtype": "property",
             "name": "VERSION",
@@ -13729,15 +13766,15 @@
         },
         {
             "message": "Missing item type\nFind an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)",
-            "line": " src/davinci-eight/objects/drawableModel.ts:14"
+            "line": " src/davinci-eight/objects/drawableModel.ts:19"
         },
         {
             "message": "Missing item type\nConstructs a ShaderAttributeLocation from a declaration.",
-            "line": " src/davinci-eight/objects/drawableModel.ts:25"
+            "line": " src/davinci-eight/objects/drawableModel.ts:30"
         },
         {
             "message": "Missing item type\nConstructs a ShaderUniformLocation from a declaration.",
-            "line": " src/davinci-eight/objects/drawableModel.ts:38"
+            "line": " src/davinci-eight/objects/drawableModel.ts:43"
         },
         {
             "message": "Missing item type",
@@ -14024,131 +14061,131 @@
             "line": " src/modules/davinci-eight.d.ts:513"
         },
         {
-            "message": "Missing item type\nConstructs a ShaderProgram by introspecting a Geometry.",
+            "message": "Missing item type\nConstructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.",
             "line": " src/modules/davinci-eight.d.ts:517"
         },
         {
-            "message": "Missing item type\nConstructs a Drawable from the specified attribute provider and program.",
+            "message": "Missing item type\nConstructs a ShaderProgram by introspecting a Geometry.",
             "line": " src/modules/davinci-eight.d.ts:521"
         },
         {
+            "message": "Missing item type\nConstructs a Drawable from the specified attribute provider and program.",
+            "line": " src/modules/davinci-eight.d.ts:525"
+        },
+        {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:527"
+            "line": " src/modules/davinci-eight.d.ts:531"
         },
         {
             "message": "Missing item type\nConstructs and returns an arrow mesh.",
-            "line": " src/modules/davinci-eight.d.ts:535"
+            "line": " src/modules/davinci-eight.d.ts:539"
         },
         {
             "message": "Missing item type\nConstructs and returns a box mesh.",
-            "line": " src/modules/davinci-eight.d.ts:543"
+            "line": " src/modules/davinci-eight.d.ts:547"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:551"
+            "line": " src/modules/davinci-eight.d.ts:555"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:557"
-        },
-        {
-            "message": "Missing item type\nThe axis corresponding to e1.",
             "line": " src/modules/davinci-eight.d.ts:561"
         },
         {
-            "message": "Missing item type\nThe axis corresponding to e2.",
+            "message": "Missing item type\nThe axis corresponding to e1.",
             "line": " src/modules/davinci-eight.d.ts:565"
         },
         {
-            "message": "Missing item type\nThe axis corresponding to e3.",
+            "message": "Missing item type\nThe axis corresponding to e2.",
             "line": " src/modules/davinci-eight.d.ts:569"
         },
         {
-            "message": "Missing item type\nThe color of the cuboid.",
+            "message": "Missing item type\nThe axis corresponding to e3.",
             "line": " src/modules/davinci-eight.d.ts:573"
         },
         {
-            "message": "Missing item type\nThe cuboid should be rendered using a gray scale.",
+            "message": "Missing item type\nThe color of the cuboid.",
             "line": " src/modules/davinci-eight.d.ts:577"
         },
         {
+            "message": "Missing item type\nThe cuboid should be rendered using a gray scale.",
+            "line": " src/modules/davinci-eight.d.ts:581"
+        },
+        {
             "message": "Missing item type\nConstructs and returns a cuboid mesh.",
-            "line": " src/modules/davinci-eight.d.ts:582"
+            "line": " src/modules/davinci-eight.d.ts:586"
         },
         {
             "message": "Missing item type\nA surface generated by the parametric equation:\na * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),\nwhere phi and theta are the conventional spherical coordinates.",
-            "line": " src/modules/davinci-eight.d.ts:597"
+            "line": " src/modules/davinci-eight.d.ts:601"
         },
         {
             "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,0).",
-            "line": " src/modules/davinci-eight.d.ts:603"
-        },
-        {
-            "message": "Missing item type\nThe axis corresponding to theta = 0.",
             "line": " src/modules/davinci-eight.d.ts:607"
         },
         {
-            "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,PI/2).",
+            "message": "Missing item type\nThe axis corresponding to theta = 0.",
             "line": " src/modules/davinci-eight.d.ts:611"
         },
         {
-            "message": "Missing item type\nThe number of segments in the theta parameter.",
+            "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,PI/2).",
             "line": " src/modules/davinci-eight.d.ts:615"
         },
         {
-            "message": "Missing item type\nThe theta starting angle in radians.",
+            "message": "Missing item type\nThe number of segments in the theta parameter.",
             "line": " src/modules/davinci-eight.d.ts:619"
         },
         {
-            "message": "Missing item type\nThe theta sweep angle in radians.",
+            "message": "Missing item type\nThe theta starting angle in radians.",
             "line": " src/modules/davinci-eight.d.ts:623"
         },
         {
-            "message": "Missing item type\nThe number of segments in the phi parameter.",
+            "message": "Missing item type\nThe theta sweep angle in radians.",
             "line": " src/modules/davinci-eight.d.ts:627"
         },
         {
-            "message": "Missing item type\nThe phi starting angle in radians.",
+            "message": "Missing item type\nThe number of segments in the phi parameter.",
             "line": " src/modules/davinci-eight.d.ts:631"
         },
         {
-            "message": "Missing item type\nThe phi sweep angle in radians.",
+            "message": "Missing item type\nThe phi starting angle in radians.",
             "line": " src/modules/davinci-eight.d.ts:635"
         },
         {
-            "message": "Missing item type\nConstructs and returns an ellipsoid mesh.",
-            "line": " src/modules/davinci-eight.d.ts:689"
+            "message": "Missing item type\nThe phi sweep angle in radians.",
+            "line": " src/modules/davinci-eight.d.ts:639"
         },
         {
-            "message": "Missing item type\nConstructs and returns a prism mesh.",
+            "message": "Missing item type\nConstructs and returns an ellipsoid mesh.",
             "line": " src/modules/davinci-eight.d.ts:693"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nConstructs and returns a prism mesh.",
             "line": " src/modules/davinci-eight.d.ts:697"
         },
         {
-            "message": "Missing item type\nConstructs and returns a new Workbench3D.",
-            "line": " src/modules/davinci-eight.d.ts:702"
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:701"
         },
         {
-            "message": "Missing item type\nConstructs and returns a WindowAnimationRunner.",
+            "message": "Missing item type\nConstructs and returns a new Workbench3D.",
             "line": " src/modules/davinci-eight.d.ts:706"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nConstructs and returns a WindowAnimationRunner.",
             "line": " src/modules/davinci-eight.d.ts:710"
         },
         {
-            "message": "Missing item type\nStarts the monitoring of the WebGL context.",
-            "line": " src/modules/davinci-eight.d.ts:715"
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:714"
         },
         {
-            "message": "Missing item type\nStops the monitoring of the WebGL context.",
+            "message": "Missing item type\nStarts the monitoring of the WebGL context.",
             "line": " src/modules/davinci-eight.d.ts:719"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nStops the monitoring of the WebGL context.",
             "line": " src/modules/davinci-eight.d.ts:723"
         },
         {
@@ -14156,16 +14193,20 @@
             "line": " src/modules/davinci-eight.d.ts:727"
         },
         {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:731"
+        },
+        {
             "message": "Missing item type\nConstructs and returns a RenderingContextMonitor.",
-            "line": " src/modules/davinci-eight.d.ts:732"
+            "line": " src/modules/davinci-eight.d.ts:736"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:737"
+            "line": " src/modules/davinci-eight.d.ts:741"
         },
         {
             "message": "Missing item type\nThe version string of the davinci-eight module.",
-            "line": " src/modules/davinci-eight.d.ts:741"
+            "line": " src/modules/davinci-eight.d.ts:745"
         },
         {
             "message": "Missing item type\nEvaluates JavaScript code and executes it.",

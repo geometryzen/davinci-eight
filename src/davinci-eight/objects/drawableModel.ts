@@ -9,8 +9,13 @@ import ChainedUniformProvider = require('../uniforms/ChainedUniformProvider');
 import DrawableModel = require('../objects/DrawableModel');
 import AttributeProvider = require('../core/AttributeProvider');
 import UniformProvider = require('../core/UniformProvider');
+import UniformMetaInfo = require('../core/UniformMetaInfo');
+import UniformMetaInfos = require('../core/UniformMetaInfos');
 
-var drawableModel = function<MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL): DrawableModel<MESH, SHADERS, MODEL> {
+var drawableModel = function<MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(
+  mesh: MESH,
+  shaders: SHADERS,
+  model: MODEL): DrawableModel<MESH, SHADERS, MODEL> {
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
    */
@@ -41,6 +46,30 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
   function shaderUniformFromDecl(declaration: ShaderVariableDecl): ShaderUniformLocation {
     // By using the ShaderProgram, we get to delegate the management of uniform locations. 
     return shaders.uniformVariable(declaration.name);
+  }
+
+  function checkUniformsCompleteAndReady(provider: UniformProvider) {
+    var metas = provider.getUniformMetaInfos();
+    shaders.uniforms.forEach(function(uniformDecl: ShaderVariableDecl) {
+      var match: UniformMetaInfo = void 0;
+      for (var id in metas) {
+        let candidate: UniformMetaInfo = metas[id];
+        if (candidate.name === uniformDecl.name) {
+          match = candidate;
+        }
+      }
+      if (match === void 0) {
+        throw new Error("Missing uniform " + uniformDecl.name);
+      }
+      else {
+        if (match.glslType !== uniformDecl.type) {
+          throw new Error("Mismatch in uniform types " + uniformDecl.name);
+        }
+        else {
+          // check that the uniform has been initialized.
+        }
+      }
+    });
   }
   var context: WebGLRenderingContext;
   var contextGainId: string;
@@ -105,15 +134,18 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
      * @method draw
      * @param ambients {UniformProvider}
      */
-    draw(view: UniformProvider) {
+    draw(ambients: UniformProvider) {
       if (shaders.hasContext()) {
         // TODO: This should be a needs update.
         if (mesh.dynamics()) {
           updateGeometry();
         }
+        let chainedProvider = new ChainedUniformProvider(model, ambients);
+        checkUniformsCompleteAndReady(chainedProvider);
+        // check we have them all.
+        // check they are all initialized.
         // Update the uniform location values.
         uniformVariables.forEach(function(uniformVariable: ShaderUniformLocation) {
-          var chainedProvider = new ChainedUniformProvider(model, view);
           switch(uniformVariable.glslType) {
             case 'float': {
               let data: number = chainedProvider.getUniformFloat(uniformVariable.name);

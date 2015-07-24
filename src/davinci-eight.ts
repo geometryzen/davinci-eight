@@ -21,6 +21,8 @@ import viewport = require('davinci-eight/renderers/viewport');
 import drawableModel = require('davinci-eight/objects/drawableModel');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
+import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
+import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // geometries
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -43,8 +45,7 @@ import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import pointsProgram = require('davinci-eight/programs/pointsProgram');
 import shaderProgram = require('davinci-eight/programs/shaderProgram');
 import smartProgram = require('davinci-eight/programs/smartProgram');
-import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
-import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
+import shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
 // math
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
@@ -164,7 +165,8 @@ var eight = {
   get boxMesh() { return boxMesh; },
   // objects
   get box() { return box; },
-
+  // programs
+  get shaderProgramFromScripts() { return shaderProgramFromScripts; },
   /*
   get box() { return box; },
   get BoxMesh() { return BoxMesh; },

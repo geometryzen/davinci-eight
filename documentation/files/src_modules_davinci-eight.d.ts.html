@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.25.0</em>
+            <em>API Docs for: 2.26.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -651,6 +651,10 @@ declare module EIGHT
    * Constructs a ShaderProgram from the specified vertex and fragment shader codes.
    */
   function shaderProgram(vertexShader: string, fragmentShader: string): ShaderProgram;
+  /**
+   * Constructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.
+   */
+  function shaderProgramFromScripts(vsId: string, fsId: string, $document?: Document): ShaderProgram;
   /**
    * Constructs a ShaderProgram by introspecting a Geometry.
    */

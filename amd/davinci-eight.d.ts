@@ -10,6 +10,8 @@ import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiv
 import World = require('davinci-eight/worlds/World');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
+import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
+import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
@@ -27,8 +29,6 @@ import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
-import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
-import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
@@ -117,5 +117,6 @@ declare var eight: {
         wireFrame?: boolean;
     }) => AttributeProvider;
     box: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;
