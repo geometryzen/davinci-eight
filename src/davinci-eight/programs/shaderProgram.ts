@@ -7,8 +7,8 @@ import Declaration = require('../glsl/Declaration');
 import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
 import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 import uuid4 = require('../utils/uuid4');
-import ShaderAttributeVariable = require('../core/ShaderAttributeVariable');
-import ShaderUniformVariable = require('../core/ShaderUniformVariable');
+import ShaderAttributeLocation = require('../core/ShaderAttributeLocation');
+import ShaderUniformLocation = require('../core/ShaderUniformLocation');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string): ShaderProgram {
@@ -18,6 +18,63 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
   }
   if (typeof fragmentShader !== 'string') {
     throw new Error("fragmentShader argument must be a string.");
+  }
+  function analyze() {
+    // TODO: uniform with same name in both files.
+    // TODO: varying correlation.
+    function shaderVariable(d: Declaration): ShaderVariableDecl {
+      return { modifiers: d.modifiers, type: d.type, name: d.name };
+    }
+    function analyzeVertexShader() {
+      try {
+        let vsTree = parse(vertexShader);
+        let walker = new NodeWalker();
+        let args = new ProgramArgs();
+        walker.walk(vsTree, args);
+        // attributes
+        args.attributes.forEach(function(a: Declaration) {
+          let attributeDecl = shaderVariable(a);
+          attributeDecls.push(attributeDecl);
+          attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
+        });
+        // uniforms
+        args.uniforms.forEach(function(u: Declaration) {
+          let uniformDecl = shaderVariable(u);
+          uniformDecls.push(uniformDecl);
+          uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
+        });
+        // varyings
+        args.varyings.forEach(function(v: Declaration) {
+          let varyingDecl = shaderVariable(v);
+          varyingDecls.push(varyingDecl);
+        });
+      }
+      catch(e) {
+        console.log(e);
+      }
+    }
+    function analyzeFragmentShader() {
+      try {
+        let fsTree = parse(fragmentShader);
+        let walker = new NodeWalker();
+        let args = new ProgramArgs();
+        walker.walk(fsTree, args);
+        // attributes
+        // uniforms
+        args.uniforms.forEach(function(u: Declaration) {
+          let uniformDecl = shaderVariable(u);
+          uniformDecls.push(uniformDecl);
+          uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
+        });
+        // varyings
+      }
+      catch(e) {
+        console.log(e);
+      }
+    }
+
+    analyzeVertexShader();
+    analyzeFragmentShader();
   }
 
   var program: WebGLProgram;
@@ -29,46 +86,15 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
   var uniformDecls:   ShaderVariableDecl[] = [];
   var varyingDecls:   ShaderVariableDecl[] = [];
 
-  var attributeLocations: { [name: string]: ShaderAttributeVariable } = {};
-  var uniformLocations: { [name: string]: ShaderUniformVariable } = {};
+  var attributeLocations: { [name: string]: ShaderAttributeLocation } = {};
+  var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
 
   var publicAPI: ShaderProgram = {
     get vertexShader() {
       return vertexShader;
     },
-    set vertexShader(value: string) {
-      try {
-        let program = parse(value);
-        vertexShader = value;
-        let walker = new NodeWalker();
-        let args = new ProgramArgs();
-        walker.walk(program, args);
-        attributeDecls = args.attributes.map(function(a) { return {modifiers: a.modifiers, type: a.type, name: a.name }; });
-        uniformDecls   = args.uniforms.map(function(u)   { return {modifiers: u.modifiers, type: u.type, name: u.name }; });
-        varyingDecls   = args.varyings.map(function(v)   { return {modifiers: v.modifiers, type: v.type, name: v.name }; });
-        // TODO: delete existing...
-        attributeDecls.forEach(function(attributeDecl) {
-          attributeLocations[attributeDecl.name] = new ShaderAttributeVariable(attributeDecl.name, attributeDecl.type);
-        });
-        uniformDecls.forEach(function(uniformDecl) {
-          uniformLocations[uniformDecl.name] = new ShaderUniformVariable(uniformDecl.name, uniformDecl.type);
-        });
-      }
-      catch(e) {
-        console.log(e);
-      }
-    },
     get fragmentShader() {
       return fragmentShader;
-    },
-    set fragmentShader(value: string) {
-      try {
-        let fragTree = parse(value);
-        fragmentShader = value;
-      }
-      catch(e) {
-        console.log(e);
-      }
     },
     get attributes() {
       return attributeDecls;
@@ -148,9 +174,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
     }
   };
 
-  // Trigger introspection.
-  publicAPI.vertexShader = vertexShader;
-  publicAPI.fragmentShader = fragmentShader;
+  analyze();
 
   return publicAPI;
 };

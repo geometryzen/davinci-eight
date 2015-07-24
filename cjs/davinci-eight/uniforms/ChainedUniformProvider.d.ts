@@ -4,6 +4,11 @@ declare class ChainedUniformProvider implements UniformProvider {
     private provider;
     private fallback;
     constructor(provider: UniformProvider, fallback: UniformProvider);
+    getUniformFloat(name: string): number;
+    getUniformMatrix2(name: string): {
+        transpose: boolean;
+        matrix2: Float32Array;
+    };
     getUniformMatrix3(name: string): {
         transpose: boolean;
         matrix3: Float32Array;

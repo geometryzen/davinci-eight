@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.24.0</em>
+            <em>API Docs for: 2.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,15 +78,17 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
@@ -178,8 +180,8 @@ import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x
 import pointsProgram = require(&#x27;davinci-eight/programs/pointsProgram&#x27;);
 import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
-import ShaderAttributeVariable = require(&#x27;davinci-eight/core/ShaderAttributeVariable&#x27;);
-import ShaderUniformVariable = require(&#x27;davinci-eight/core/ShaderUniformVariable&#x27;);
+import ShaderAttributeLocation = require(&#x27;davinci-eight/core/ShaderAttributeLocation&#x27;);
+import ShaderUniformLocation = require(&#x27;davinci-eight/core/ShaderUniformLocation&#x27;);
 // math
 import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;davinci-eight/math/Matrix4&#x27;);
@@ -203,7 +205,11 @@ import AmbientLight               = require(&#x27;davinci-eight/uniforms/Ambient
 import ChainedUniformProvider     = require(&#x27;davinci-eight/uniforms/ChainedUniformProvider&#x27;);
 import DefaultUniformProvider     = require(&#x27;davinci-eight/uniforms/DefaultUniformProvider&#x27;);
 import ModelMatrixUniformProvider = require(&#x27;davinci-eight/uniforms/ModelMatrixUniformProvider&#x27;);
-import Uniform2fvProvider         = require(&#x27;davinci-eight/uniforms/Uniform2fvProvider&#x27;);
+import UniformFloat               = require(&#x27;davinci-eight/uniforms/UniformFloat&#x27;);
+import UniformMat4                = require(&#x27;davinci-eight/uniforms/UniformMat4&#x27;);
+import UniformVec2                = require(&#x27;davinci-eight/uniforms/UniformVec2&#x27;);
+import UniformVec3                = require(&#x27;davinci-eight/uniforms/UniformVec3&#x27;);
+import UniformVec4                = require(&#x27;davinci-eight/uniforms/UniformVec4&#x27;);
 // utils
 import RenderingContextMonitor    = require(&#x27;davinci-eight/utils/RenderingContextMonitor&#x27;);
 import contextMonitor             = require(&#x27;davinci-eight/utils/contextMonitor&#x27;);
@@ -245,8 +251,8 @@ var eight = {
   workbench: workbench3D,
   animationRunner: windowAnimationRunner,
   get drawableModel() { return drawableModel; },
-  get ShaderAttributeVariable() { return ShaderAttributeVariable; },
-  get ShaderUniformVariable() { return ShaderUniformVariable; },
+  get ShaderAttributeLocation() { return ShaderAttributeLocation; },
+  get ShaderUniformLocation() { return ShaderUniformLocation; },
   get pointsProgram() {
     return pointsProgram;
   },
@@ -277,7 +283,11 @@ var eight = {
   get TubeGeometry() { return TubeGeometry; },
   get VortexGeometry() { return VortexGeometry; },
   get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
-  get Uniform2fvProvider() { return Uniform2fvProvider; },
+  get UniformFloat() { return UniformFloat; },
+  get UniformMat4() { return UniformMat4; },
+  get UniformVec2() { return UniformVec2; },
+  get UniformVec3() { return UniformVec3; },
+  get UniformVec4() { return UniformVec4; },
   get Matrix3() { return Matrix3; },
   get Matrix4() { return Matrix4; },
   get Spinor3() { return Spinor3; },

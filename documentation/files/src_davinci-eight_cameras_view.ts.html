@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.24.0</em>
+            <em>API Docs for: 2.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,15 +78,17 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
@@ -142,27 +144,33 @@ import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import View = require(&#x27;../cameras/View&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import DefaultUniformProvider = require(&#x27;../uniforms/DefaultUniformProvider&#x27;);
+import UniformMat4 = require(&#x27;../uniforms/UniformMat4&#x27;);
 
 let UNIFORM_VIEW_MATRIX_NAME = &#x27;uViewMatrix&#x27;;
-let UNIFORM_VIEW_MATRIX_TYPE = &#x27;mat4&#x27;;
-
-let UNIFORM_AMBIENT_LIGHT_NAME = &#x27;uAmbientLight&#x27;;
-let UNIFORM_AMBIENT_LIGHT_TYPE = &#x27;vec3&#x27;;
 
 /**
  * @class view
  * @constructor
  */
-var view = function(): View {
+let view = function(): View {
 
-    var eye: Vector3 = new Vector3();
-    var look: Vector3 = new Vector3();
-    var up: Vector3 = Vector3.e2;
-    var viewMatrix: Matrix4 = new Matrix4();
-    var base = new DefaultUniformProvider();
+    let eye: Vector3 = new Vector3();
+    let look: Vector3 = new Vector3();
+    let up: Vector3 = Vector3.e2;
+    let viewMatrix: Matrix4 = new Matrix4();
+    let base = new UniformMat4(UNIFORM_VIEW_MATRIX_NAME, Symbolic.UNIFORM_VIEW_MATRIX);
+    base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
+      if (eye.modified || look.modified || up.modified) {
+        updateViewMatrix();
+        eye.modified = false;
+        look.modified = false;
+        up.modified = false;
+      }
+      return {transpose: false, matrix4: viewMatrix.elements};
+    }
 
     function updateViewMatrix() {
-      var n = new Vector3().subVectors(eye, look);
+      let n = new Vector3().subVectors(eye, look);
       if (n.x === 0 &amp;&amp; n.y === 0 &amp;&amp; n.z === 0) {
         // View direction is ambiguous.
           n.z = 1;
@@ -170,10 +178,10 @@ var view = function(): View {
       else {
         n.normalize();
       }
-      var u = new Vector3().crossVectors(up, n);
-      var v = new Vector3().crossVectors(n, u);
-      var d = new Vector3({ x: eye.dot(u), y: eye.dot(v), z: eye.dot(n) }).multiplyScalar(-1);
-      var m = viewMatrix.elements;
+      let u = new Vector3().crossVectors(up, n);
+      let v = new Vector3().crossVectors(n, u);
+      let d = new Vector3({ x: eye.dot(u), y: eye.dot(v), z: eye.dot(n) }).multiplyScalar(-1);
+      let m = viewMatrix.elements;
       m[0] = u.x;  m[4] = u.y; m[8]  = u.z; m[12] = d.x;
       m[1] = v.x;  m[5] = v.y; m[9]  = v.z; m[13] = d.y;
       m[2] = n.x;  m[6] = n.y; m[10] = n.z; m[14] = d.z;
@@ -185,7 +193,7 @@ var view = function(): View {
     look.modified = true;
     up.modified = true;
 
-    var publicAPI: View = {
+    let publicAPI: View = {
         get eye(): Cartesian3 {
           return eye;
         },
@@ -211,44 +219,29 @@ var view = function(): View {
           up.z = value.z;
           up.normalize();
         },
-        getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
+        getUniformFloat(name: string) {
+          return base.getUniformFloat(name);
+        },
+        getUniformMatrix2(name: string) {
+          return base.getUniformMatrix2(name);
+        },
+        getUniformMatrix3(name: string) {
           return base.getUniformMatrix3(name);
         },
-        getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
-          switch(name) {
-            case UNIFORM_VIEW_MATRIX_NAME: {
-              if (eye.modified || look.modified || up.modified) {
-                updateViewMatrix();
-                eye.modified = false;
-                look.modified = false;
-                up.modified = false;
-              }
-              return {transpose: false, matrix4: viewMatrix.elements};
-            }
-            default: {
-              return base.getUniformMatrix4(name);
-            }
-          }
+        getUniformMatrix4(name: string) {
+          return base.getUniformMatrix4(name);
         },
-        getUniformVector2(name: string): number[] {
+        getUniformVector2(name: string) {
           return base.getUniformVector2(name);
         },
-        getUniformVector3(name: string): number[] {
+        getUniformVector3(name: string) {
           return base.getUniformVector3(name);
         },
-        getUniformVector4(name: string): number[] {
+        getUniformVector4(name: string) {
           return base.getUniformVector4(name);
         },
-        getUniformMetaInfos(): UniformMetaInfos
-        {
-          var uniforms: UniformMetaInfos = base.getUniformMetaInfos();
-          if (typeof uniforms === &#x27;object&#x27;) {
-            uniforms[Symbolic.UNIFORM_VIEW_MATRIX]  = {name: UNIFORM_VIEW_MATRIX_NAME, glslType: UNIFORM_VIEW_MATRIX_TYPE};
-            return uniforms;
-          }
-          else {
-            throw new Error(&quot;Unexpected typeof uniforms =&gt; &quot; + typeof uniforms);
-          }
+        getUniformMetaInfos() {
+          return base.getUniformMetaInfos();
         }
     };
 

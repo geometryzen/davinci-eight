@@ -10,6 +10,18 @@ define(["require", "exports"], function (require, exports) {
         function DefaultUniformProvider() {
         }
         /**
+         * @method getUniformFloat
+         */
+        DefaultUniformProvider.prototype.getUniformFloat = function (name) {
+            return;
+        };
+        /**
+         * @method getUniformMatrix2
+         */
+        DefaultUniformProvider.prototype.getUniformMatrix2 = function (name) {
+            return;
+        };
+        /**
          * @method getUniformMatrix3
          */
         DefaultUniformProvider.prototype.getUniformMatrix3 = function (name) {

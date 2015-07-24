@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.24.0</em>
+            <em>API Docs for: 2.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,15 +78,17 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
@@ -135,40 +137,22 @@
     <pre class="code prettyprint linenums">
 import Color = require(&#x27;../core/Color&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
-import DefaultUniformProvider = require(&#x27;../uniforms/DefaultUniformProvider&#x27;);
+import UniformColor = require(&#x27;../uniforms/UniformColor&#x27;);
 
 let UNIFORM_AMBIENT_LIGHT_NAME = &#x27;uAmbientLight&#x27;;
-let UNIFORM_AMBIENT_LIGHT_TYPE = &#x27;vec3&#x27;;
 
 /**
  * Provides a uniform variable representing an ambient light.
  * @class AmbientLight
  */
-class AmbientLight extends DefaultUniformProvider {
-  public color: Color;
+class AmbientLight extends UniformColor {
   /**
    * @class AmbientLight
    * @constructor
    */
   constructor(color: Color) {
-    super();
-    this.color = color;
-  }
-  getUniformVector3(name: string): number[] {
-    switch(name) {
-      case UNIFORM_AMBIENT_LIGHT_NAME: {
-        return [this.color.red, this.color.green, this.color.blue];
-      }
-      default: {
-        return super.getUniformVector3(name);
-      }
-    }
-  }
-  getUniformMetaInfos() {
-    let uniforms: UniformMetaInfos = {};
-    uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]  = {name: UNIFORM_AMBIENT_LIGHT_NAME, glslType: UNIFORM_AMBIENT_LIGHT_TYPE};
-    return uniforms;
+    super(UNIFORM_AMBIENT_LIGHT_NAME, Symbolic.UNIFORM_AMBIENT_LIGHT);
+    this.value = color;
   }
 }
 

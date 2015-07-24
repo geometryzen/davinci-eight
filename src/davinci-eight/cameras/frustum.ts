@@ -97,6 +97,12 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
       far = value;
       updateProjectionMatrix();
     },
+    getUniformFloat(name: string): number {
+      return base.getUniformFloat(name);
+    },
+    getUniformMatrix2(name: string): {transpose: boolean; matrix2: Float32Array} {
+      return base.getUniformMatrix2(name);
+    },
     getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
       return base.getUniformMatrix3(name);
     },

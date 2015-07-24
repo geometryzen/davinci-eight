@@ -1,11 +1,8 @@
 var Vector3 = require('../math/Vector3');
 var Matrix4 = require('../math/Matrix4');
 var Symbolic = require('../core/Symbolic');
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var UniformMat4 = require('../uniforms/UniformMat4');
 var UNIFORM_VIEW_MATRIX_NAME = 'uViewMatrix';
-var UNIFORM_VIEW_MATRIX_TYPE = 'mat4';
-var UNIFORM_AMBIENT_LIGHT_NAME = 'uAmbientLight';
-var UNIFORM_AMBIENT_LIGHT_TYPE = 'vec3';
 /**
  * @class view
  * @constructor
@@ -15,7 +12,16 @@ var view = function () {
     var look = new Vector3();
     var up = Vector3.e2;
     var viewMatrix = new Matrix4();
-    var base = new DefaultUniformProvider();
+    var base = new UniformMat4(UNIFORM_VIEW_MATRIX_NAME, Symbolic.UNIFORM_VIEW_MATRIX);
+    base.callback = function () {
+        if (eye.modified || look.modified || up.modified) {
+            updateViewMatrix();
+            eye.modified = false;
+            look.modified = false;
+            up.modified = false;
+        }
+        return { transpose: false, matrix4: viewMatrix.elements };
+    };
     function updateViewMatrix() {
         var n = new Vector3().subVectors(eye, look);
         if (n.x === 0 && n.y === 0 && n.z === 0) {
@@ -76,24 +82,17 @@ var view = function () {
             up.z = value.z;
             up.normalize();
         },
+        getUniformFloat: function (name) {
+            return base.getUniformFloat(name);
+        },
+        getUniformMatrix2: function (name) {
+            return base.getUniformMatrix2(name);
+        },
         getUniformMatrix3: function (name) {
             return base.getUniformMatrix3(name);
         },
         getUniformMatrix4: function (name) {
-            switch (name) {
-                case UNIFORM_VIEW_MATRIX_NAME: {
-                    if (eye.modified || look.modified || up.modified) {
-                        updateViewMatrix();
-                        eye.modified = false;
-                        look.modified = false;
-                        up.modified = false;
-                    }
-                    return { transpose: false, matrix4: viewMatrix.elements };
-                }
-                default: {
-                    return base.getUniformMatrix4(name);
-                }
-            }
+            return base.getUniformMatrix4(name);
         },
         getUniformVector2: function (name) {
             return base.getUniformVector2(name);
@@ -105,14 +104,7 @@ var view = function () {
             return base.getUniformVector4(name);
         },
         getUniformMetaInfos: function () {
-            var uniforms = base.getUniformMetaInfos();
-            if (typeof uniforms === 'object') {
-                uniforms[Symbolic.UNIFORM_VIEW_MATRIX] = { name: UNIFORM_VIEW_MATRIX_NAME, glslType: UNIFORM_VIEW_MATRIX_TYPE };
-                return uniforms;
-            }
-            else {
-                throw new Error("Unexpected typeof uniforms => " + typeof uniforms);
-            }
+            return base.getUniformMetaInfos();
         }
     };
     return publicAPI;

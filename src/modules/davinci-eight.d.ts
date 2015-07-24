@@ -58,7 +58,7 @@ declare module EIGHT
   /**
    * Manages the lifecycle of an attribute used in a vertex shader.
    */
-  class ShaderAttributeVariable {
+  class ShaderAttributeLocation {
     constructor(name: string, glslType: string) {
     }
     contextFree();
@@ -69,7 +69,7 @@ declare module EIGHT
     dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
     bufferData(data: AttributeProvider);
   }
-  class ShaderUniformVariable {
+  class ShaderUniformLocation {
     constructor(name: string, glslType: string);
     contextFree();
     contextGain(context: WebGLRenderingContext, program: WebGLProgram);
@@ -142,6 +142,7 @@ declare module EIGHT
    * Provides the runtime and design time data required to use a uniform in a vertex shader.
    */
   class UniformProvider {
+    getUniformFloat(name: string): number;
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
     getUniformVector2(name: string): number[];
@@ -170,8 +171,39 @@ declare module EIGHT
   /**
    *
    */
-  class Uniform2fvProvider extends DefaultUniformProvider {
-    constructor(name: string, data: () => number[], glslType?: string, canonicalName?: string);
+  class UniformVariable<T> extends UniformProvider {
+    value: T;
+    callback: () => T;
+  }
+  /**
+   * Represents a uniform float.
+   */
+  class UniformFloat extends UniformVariable<number> {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform mat4.
+   */
+  class UniformMat4 extends UniformVariable<{ transpose: boolean; matrix4: Float32Array}> {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec2.
+   */
+  class UniformVec2 extends UniformVariable<number[]> {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec3.
+   */
+  class UniformVec3 extends UniformVariable<number[]> {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec4.
+   */
+  class UniformVec4 extends UniformVariable<number[]> {
+    constructor(name: string, id?: string);
   }
   /**
    * Provides the uniform for the model to view coordinates transformation.
@@ -392,11 +424,11 @@ declare module EIGHT
     /**
      *
      */
-    attributeVariable(name: string): ShaderAttributeVariable;
+    attributeVariable(name: string): ShaderAttributeLocation;
     /**
      *
      */
-    uniformVariable(name: string): ShaderUniformVariable;
+    uniformVariable(name: string): ShaderUniformLocation;
   }
   /**
    * The combination of a geometry, model and a shaderProgram.

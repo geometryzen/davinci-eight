@@ -32,12 +32,14 @@ class DeclarationBuilder extends DefaultNodeEventHandler {
   keyword(word: string) {
     switch(word) {
       case 'attribute':
+      case 'const':
       case 'uniform':
       case 'varying': {
         this.kind = word;
       }
       break;
       case 'float':
+      case 'mat2':
       case 'mat3':
       case 'mat4':
       case 'vec2':
@@ -47,7 +49,8 @@ class DeclarationBuilder extends DefaultNodeEventHandler {
         this.type = word;
       }
       break;
-      case 'highp': {
+      case 'highp':
+      case 'precision': {
         this.modifiers.push(word);
       }
       break;
@@ -138,6 +141,9 @@ class NodeWalker {
       }
       break;
       case 'placeholder': {
+      }
+      break;
+      case 'precision': {
       }
       break;
       case 'stmt': {

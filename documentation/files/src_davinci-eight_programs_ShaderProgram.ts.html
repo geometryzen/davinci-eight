@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.24.0</em>
+            <em>API Docs for: 2.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,15 +78,17 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
@@ -135,8 +137,8 @@
     <pre class="code prettyprint linenums">
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
-import ShaderAttributeVariable = require(&#x27;../core/ShaderAttributeVariable&#x27;);
-import ShaderUniformVariable = require(&#x27;../core/ShaderUniformVariable&#x27;);
+import ShaderAttributeLocation = require(&#x27;../core/ShaderAttributeLocation&#x27;);
+import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
 /**
  * The role of a ShaderProgram is to manage the WebGLProgram consisting of a vertex shader and fragment shader.
  * The ShaderProgram must be able to provide introspection information that describes the program.
@@ -186,21 +188,21 @@ interface ShaderProgram extends RenderingContextUser {
    */
   use(): void;
   /**
-   * Provides a reference to the attribute variable location object (ShaderAttributeVariable).
+   * Provides a reference to the attribute variable location object (ShaderAttributeLocation).
    * This reference is managed by the ShaderProgram, ensuring that the location
    * is updated through context loss and restore events.
    * @method attributeVariable
    * @param name {string} The name of the attribute variable.
    */
-  attributeVariable(name: string): ShaderAttributeVariable;
+  attributeVariable(name: string): ShaderAttributeLocation;
   /**
-   * Provides a reference to the uniform variable location object (ShaderUniformVariable).
+   * Provides a reference to the uniform variable location object (ShaderUniformLocation).
    * This reference is managed by the ShaderProgram, ensuring that the location
    * is updated through context loss and restore events.
    * @method uniformVariable
    * @param name {string} The name of the uniform variable.
    */
-  uniformVariable(name: string): ShaderUniformVariable;
+  uniformVariable(name: string): ShaderUniformLocation;
 }
 
 export = ShaderProgram;

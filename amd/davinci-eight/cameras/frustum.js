@@ -87,6 +87,12 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
                 far = value;
                 updateProjectionMatrix();
             },
+            getUniformFloat: function (name) {
+                return base.getUniformFloat(name);
+            },
+            getUniformMatrix2: function (name) {
+                return base.getUniformMatrix2(name);
+            },
             getUniformMatrix3: function (name) {
                 return base.getUniformMatrix3(name);
             },

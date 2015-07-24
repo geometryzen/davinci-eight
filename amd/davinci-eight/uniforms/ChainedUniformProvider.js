@@ -4,6 +4,24 @@ define(["require", "exports"], function (require, exports) {
             this.provider = provider;
             this.fallback = fallback;
         }
+        ChainedUniformProvider.prototype.getUniformFloat = function (name) {
+            var data = this.provider.getUniformFloat(name);
+            if (typeof data === 'number') {
+                return data;
+            }
+            else {
+                return this.fallback.getUniformFloat(name);
+            }
+        };
+        ChainedUniformProvider.prototype.getUniformMatrix2 = function (name) {
+            var m2 = this.provider.getUniformMatrix2(name);
+            if (m2) {
+                return m2;
+            }
+            else {
+                return this.fallback.getUniformMatrix2(name);
+            }
+        };
         ChainedUniformProvider.prototype.getUniformMatrix3 = function (name) {
             var m3 = this.provider.getUniformMatrix3(name);
             if (m3) {
@@ -28,7 +46,7 @@ define(["require", "exports"], function (require, exports) {
                 return v2;
             }
             else {
-                return this.fallback.getUniformVector3(name);
+                return this.fallback.getUniformVector2(name);
             }
         };
         ChainedUniformProvider.prototype.getUniformVector3 = function (name) {

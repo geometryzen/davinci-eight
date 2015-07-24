@@ -4,9 +4,8 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Symbolic', '../uniforms/DefaultUniformProvider'], function (require, exports, Symbolic, DefaultUniformProvider) {
+define(["require", "exports", '../core/Symbolic', '../uniforms/UniformColor'], function (require, exports, Symbolic, UniformColor) {
     var UNIFORM_AMBIENT_LIGHT_NAME = 'uAmbientLight';
-    var UNIFORM_AMBIENT_LIGHT_TYPE = 'vec3';
     /**
      * Provides a uniform variable representing an ambient light.
      * @class AmbientLight
@@ -18,25 +17,10 @@ define(["require", "exports", '../core/Symbolic', '../uniforms/DefaultUniformPro
          * @constructor
          */
         function AmbientLight(color) {
-            _super.call(this);
-            this.color = color;
+            _super.call(this, UNIFORM_AMBIENT_LIGHT_NAME, Symbolic.UNIFORM_AMBIENT_LIGHT);
+            this.value = color;
         }
-        AmbientLight.prototype.getUniformVector3 = function (name) {
-            switch (name) {
-                case UNIFORM_AMBIENT_LIGHT_NAME: {
-                    return [this.color.red, this.color.green, this.color.blue];
-                }
-                default: {
-                    return _super.prototype.getUniformVector3.call(this, name);
-                }
-            }
-        };
-        AmbientLight.prototype.getUniformMetaInfos = function () {
-            var uniforms = {};
-            uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] = { name: UNIFORM_AMBIENT_LIGHT_NAME, glslType: UNIFORM_AMBIENT_LIGHT_TYPE };
-            return uniforms;
-        };
         return AmbientLight;
-    })(DefaultUniformProvider);
+    })(UniformColor);
     return AmbientLight;
 });

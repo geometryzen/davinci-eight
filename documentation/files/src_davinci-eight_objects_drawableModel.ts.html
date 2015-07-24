@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.24.0</em>
+            <em>API Docs for: 2.25.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,15 +78,17 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable.html">ShaderAttributeVariable</a></li>
-                                <li><a href="../classes/ShaderAttributeVariable..html">ShaderAttributeVariable.</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
+                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformVariable.html">ShaderUniformVariable</a></li>
+                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
@@ -137,8 +139,8 @@ import AttributeMetaInfo = require(&#x27;../core/AttributeMetaInfo&#x27;);
 import AttributeMetaInfos = require(&#x27;../core/AttributeMetaInfos&#x27;); 
 import ShaderProgram = require(&#x27;../programs/ShaderProgram&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
-import ShaderAttributeVariable = require(&#x27;../core/ShaderAttributeVariable&#x27;);
-import ShaderUniformVariable = require(&#x27;../core/ShaderUniformVariable&#x27;);
+import ShaderAttributeLocation = require(&#x27;../core/ShaderAttributeLocation&#x27;);
+import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
 import ElementArray = require(&#x27;../core/ElementArray&#x27;);
 import ChainedUniformProvider = require(&#x27;../uniforms/ChainedUniformProvider&#x27;);
 import DrawableModel = require(&#x27;../objects/DrawableModel&#x27;);
@@ -158,9 +160,9 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
     }
   }
   /**
-   * Constructs a ShaderAttributeVariable from a declaration.
+   * Constructs a ShaderAttributeLocation from a declaration.
    */
-  function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeVariable {
+  function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeLocation {
     // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
     let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
     if (attribute) {
@@ -171,17 +173,17 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
     }
   }
   /**
-   * Constructs a ShaderUniformVariable from a declaration.
+   * Constructs a ShaderUniformLocation from a declaration.
    */
-  function shaderUniformFromDecl(declaration: ShaderVariableDecl): ShaderUniformVariable {
+  function shaderUniformFromDecl(declaration: ShaderVariableDecl): ShaderUniformLocation {
     // By using the ShaderProgram, we get to delegate the management of uniform locations. 
     return shaders.uniformVariable(declaration.name);
   }
   var context: WebGLRenderingContext;
   var contextGainId: string;
   var elements: ElementArray = new ElementArray(mesh);
-  var vertexAttributes: ShaderAttributeVariable[] = shaders.attributes.map(vertexAttrib);
-  var uniformVariables: ShaderUniformVariable[] = shaders.uniforms.map(shaderUniformFromDecl);
+  var vertexAttributes: ShaderAttributeLocation[] = shaders.attributes.map(vertexAttrib);
+  var uniformVariables: ShaderUniformLocation[] = shaders.uniforms.map(shaderUniformFromDecl);
 
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaders gets the correct data.
@@ -247,26 +249,41 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
           updateGeometry();
         }
         // Update the uniform location values.
-        uniformVariables.forEach(function(uniformVariable: ShaderUniformVariable) {
+        uniformVariables.forEach(function(uniformVariable: ShaderUniformLocation) {
           var chainedProvider = new ChainedUniformProvider(model, view);
           switch(uniformVariable.glslType) {
+            case &#x27;float&#x27;: {
+              let data: number = chainedProvider.getUniformFloat(uniformVariable.name);
+              if (typeof data !== &#x27;undefined&#x27;) {
+                if (typeof data === &#x27;number&#x27;) {
+                  uniformVariable.uniform1f(data);
+                }
+                else {
+                  throw new Error(&quot;Expecting typeof data for uniform float &quot; + uniformVariable.name + &quot; to be &#x27;number&#x27;.&quot;);
+                }
+              }
+              else {
+                throw new Error(&quot;Expecting data for uniform float &quot; + uniformVariable.name);
+              }
+            }
+            break;
             case &#x27;vec2&#x27;: {
-              var data: number[] = chainedProvider.getUniformVector2(uniformVariable.name);
+              let data: number[] = chainedProvider.getUniformVector2(uniformVariable.name);
               if (data) {
                 if (data.length === 2) {
                   uniformVariable.uniform2fv(data);
                 }
                 else {
-                  throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name + &quot; to be number[] with length 2&quot;);
+                  throw new Error(&quot;Expecting data for uniform vec2 &quot; + uniformVariable.name + &quot; to be number[] with length 2&quot;);
                 }
               }
               else {
-                throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name);
+                throw new Error(&quot;Expecting data for uniform vec2 &quot; + uniformVariable.name);
               }
             }
             break;
             case &#x27;vec3&#x27;: {
-              var data: number[] = chainedProvider.getUniformVector3(uniformVariable.name);
+              let data: number[] = chainedProvider.getUniformVector3(uniformVariable.name);
               if (data) {
                 if (data.length === 3) {
                   uniformVariable.uniform3fv(data);
@@ -281,7 +298,7 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
             }
             break;
             case &#x27;vec4&#x27;: {
-              var data: number[] = chainedProvider.getUniformVector4(uniformVariable.name);
+              let data: number[] = chainedProvider.getUniformVector4(uniformVariable.name);
               if (data) {
                 if (data.length === 4) {
                   uniformVariable.uniform4fv(data);
@@ -296,9 +313,9 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
             }
             break;
             case &#x27;mat3&#x27;: {
-              var m3data = chainedProvider.getUniformMatrix3(uniformVariable.name);
-              if (m3data) {
-                uniformVariable.uniformMatrix3fv(m3data.transpose, m3data.matrix3);
+              let data = chainedProvider.getUniformMatrix3(uniformVariable.name);
+              if (data) {
+                uniformVariable.uniformMatrix3fv(data.transpose, data.matrix3);
               }
               else {
                 throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name);
@@ -306,9 +323,9 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
             }
             break;
             case &#x27;mat4&#x27;: {
-              var m4data = chainedProvider.getUniformMatrix4(uniformVariable.name);
-              if (m4data) {
-                uniformVariable.uniformMatrix4fv(m4data.transpose, m4data.matrix4);
+              let data = chainedProvider.getUniformMatrix4(uniformVariable.name);
+              if (data) {
+                uniformVariable.uniformMatrix4fv(data.transpose, data.matrix4);
               }
               else {
                 throw new Error(&quot;Expecting data for uniform &quot; + uniformVariable.name);
@@ -325,7 +342,7 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
           vertexAttribute.enable();
         });
 
-        vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeVariable) {
+        vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeLocation) {
           let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
           if (attribute) {
             let size = attribute.size;

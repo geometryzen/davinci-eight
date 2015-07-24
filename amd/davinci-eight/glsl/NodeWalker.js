@@ -32,6 +32,7 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
         DeclarationBuilder.prototype.keyword = function (word) {
             switch (word) {
                 case 'attribute':
+                case 'const':
                 case 'uniform':
                 case 'varying':
                     {
@@ -39,6 +40,7 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                     }
                     break;
                 case 'float':
+                case 'mat2':
                 case 'mat3':
                 case 'mat4':
                 case 'vec2':
@@ -50,6 +52,7 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                     }
                     break;
                 case 'highp':
+                case 'precision':
                     {
                         this.modifiers.push(word);
                     }
@@ -150,6 +153,10 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                     }
                     break;
                 case 'placeholder':
+                    {
+                    }
+                    break;
+                case 'precision':
                     {
                     }
                     break;

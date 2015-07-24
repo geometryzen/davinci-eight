@@ -1,10 +1,65 @@
-define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttributeVariable', '../core/ShaderUniformVariable'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttributeVariable, ShaderUniformVariable) {
+define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttributeLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttributeLocation, ShaderUniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader) {
         if (typeof vertexShader !== 'string') {
             throw new Error("vertexShader argument must be a string.");
         }
         if (typeof fragmentShader !== 'string') {
             throw new Error("fragmentShader argument must be a string.");
+        }
+        function analyze() {
+            // TODO: uniform with same name in both files.
+            // TODO: varying correlation.
+            function shaderVariable(d) {
+                return { modifiers: d.modifiers, type: d.type, name: d.name };
+            }
+            function analyzeVertexShader() {
+                try {
+                    var vsTree = parse(vertexShader);
+                    var walker = new NodeWalker();
+                    var args = new ProgramArgs();
+                    walker.walk(vsTree, args);
+                    // attributes
+                    args.attributes.forEach(function (a) {
+                        var attributeDecl = shaderVariable(a);
+                        attributeDecls.push(attributeDecl);
+                        attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
+                    });
+                    // uniforms
+                    args.uniforms.forEach(function (u) {
+                        var uniformDecl = shaderVariable(u);
+                        uniformDecls.push(uniformDecl);
+                        uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
+                    });
+                    // varyings
+                    args.varyings.forEach(function (v) {
+                        var varyingDecl = shaderVariable(v);
+                        varyingDecls.push(varyingDecl);
+                    });
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+            function analyzeFragmentShader() {
+                try {
+                    var fsTree = parse(fragmentShader);
+                    var walker = new NodeWalker();
+                    var args = new ProgramArgs();
+                    walker.walk(fsTree, args);
+                    // attributes
+                    // uniforms
+                    args.uniforms.forEach(function (u) {
+                        var uniformDecl = shaderVariable(u);
+                        uniformDecls.push(uniformDecl);
+                        uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
+                    });
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+            analyzeVertexShader();
+            analyzeFragmentShader();
         }
         var program;
         var programId;
@@ -19,39 +74,8 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
             get vertexShader() {
                 return vertexShader;
             },
-            set vertexShader(value) {
-                try {
-                    var program_1 = parse(value);
-                    vertexShader = value;
-                    var walker = new NodeWalker();
-                    var args = new ProgramArgs();
-                    walker.walk(program_1, args);
-                    attributeDecls = args.attributes.map(function (a) { return { modifiers: a.modifiers, type: a.type, name: a.name }; });
-                    uniformDecls = args.uniforms.map(function (u) { return { modifiers: u.modifiers, type: u.type, name: u.name }; });
-                    varyingDecls = args.varyings.map(function (v) { return { modifiers: v.modifiers, type: v.type, name: v.name }; });
-                    // TODO: delete existing...
-                    attributeDecls.forEach(function (attributeDecl) {
-                        attributeLocations[attributeDecl.name] = new ShaderAttributeVariable(attributeDecl.name, attributeDecl.type);
-                    });
-                    uniformDecls.forEach(function (uniformDecl) {
-                        uniformLocations[uniformDecl.name] = new ShaderUniformVariable(uniformDecl.name, uniformDecl.type);
-                    });
-                }
-                catch (e) {
-                    console.log(e);
-                }
-            },
             get fragmentShader() {
                 return fragmentShader;
-            },
-            set fragmentShader(value) {
-                try {
-                    var fragTree = parse(value);
-                    fragmentShader = value;
-                }
-                catch (e) {
-                    console.log(e);
-                }
             },
             get attributes() {
                 return attributeDecls;
@@ -130,9 +154,7 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                 }
             }
         };
-        // Trigger introspection.
-        publicAPI.vertexShader = vertexShader;
-        publicAPI.fragmentShader = fragmentShader;
+        analyze();
         return publicAPI;
     };
     /**

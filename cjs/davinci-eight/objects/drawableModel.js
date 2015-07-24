@@ -13,7 +13,7 @@ var drawableModel = function (mesh, shaders, model) {
         }
     }
     /**
-     * Constructs a ShaderAttributeVariable from a declaration.
+     * Constructs a ShaderAttributeLocation from a declaration.
      */
     function vertexAttrib(declaration) {
         // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
@@ -26,7 +26,7 @@ var drawableModel = function (mesh, shaders, model) {
         }
     }
     /**
-     * Constructs a ShaderUniformVariable from a declaration.
+     * Constructs a ShaderUniformLocation from a declaration.
      */
     function shaderUniformFromDecl(declaration) {
         // By using the ShaderProgram, we get to delegate the management of uniform locations. 
@@ -102,6 +102,22 @@ var drawableModel = function (mesh, shaders, model) {
                 uniformVariables.forEach(function (uniformVariable) {
                     var chainedProvider = new ChainedUniformProvider(model, view);
                     switch (uniformVariable.glslType) {
+                        case 'float':
+                            {
+                                var data = chainedProvider.getUniformFloat(uniformVariable.name);
+                                if (typeof data !== 'undefined') {
+                                    if (typeof data === 'number') {
+                                        uniformVariable.uniform1f(data);
+                                    }
+                                    else {
+                                        throw new Error("Expecting typeof data for uniform float " + uniformVariable.name + " to be 'number'.");
+                                    }
+                                }
+                                else {
+                                    throw new Error("Expecting data for uniform float " + uniformVariable.name);
+                                }
+                            }
+                            break;
                         case 'vec2':
                             {
                                 var data = chainedProvider.getUniformVector2(uniformVariable.name);
@@ -110,11 +126,11 @@ var drawableModel = function (mesh, shaders, model) {
                                         uniformVariable.uniform2fv(data);
                                     }
                                     else {
-                                        throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 2");
+                                        throw new Error("Expecting data for uniform vec2 " + uniformVariable.name + " to be number[] with length 2");
                                     }
                                 }
                                 else {
-                                    throw new Error("Expecting data for uniform " + uniformVariable.name);
+                                    throw new Error("Expecting data for uniform vec2 " + uniformVariable.name);
                                 }
                             }
                             break;
@@ -152,9 +168,9 @@ var drawableModel = function (mesh, shaders, model) {
                             break;
                         case 'mat3':
                             {
-                                var m3data = chainedProvider.getUniformMatrix3(uniformVariable.name);
-                                if (m3data) {
-                                    uniformVariable.uniformMatrix3fv(m3data.transpose, m3data.matrix3);
+                                var data = chainedProvider.getUniformMatrix3(uniformVariable.name);
+                                if (data) {
+                                    uniformVariable.uniformMatrix3fv(data.transpose, data.matrix3);
                                 }
                                 else {
                                     throw new Error("Expecting data for uniform " + uniformVariable.name);
@@ -163,9 +179,9 @@ var drawableModel = function (mesh, shaders, model) {
                             break;
                         case 'mat4':
                             {
-                                var m4data = chainedProvider.getUniformMatrix4(uniformVariable.name);
-                                if (m4data) {
-                                    uniformVariable.uniformMatrix4fv(m4data.transpose, m4data.matrix4);
+                                var data = chainedProvider.getUniformMatrix4(uniformVariable.name);
+                                if (data) {
+                                    uniformVariable.uniformMatrix4fv(data.transpose, data.matrix4);
                                 }
                                 else {
                                     throw new Error("Expecting data for uniform " + uniformVariable.name);

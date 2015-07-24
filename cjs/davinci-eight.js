@@ -31,8 +31,8 @@ var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 var pointsProgram = require('davinci-eight/programs/pointsProgram');
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
-var ShaderAttributeVariable = require('davinci-eight/core/ShaderAttributeVariable');
-var ShaderUniformVariable = require('davinci-eight/core/ShaderUniformVariable');
+var ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
+var ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // math
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
@@ -51,7 +51,11 @@ var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 var ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
-var Uniform2fvProvider = require('davinci-eight/uniforms/Uniform2fvProvider');
+var UniformFloat = require('davinci-eight/uniforms/UniformFloat');
+var UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
+var UniformVec2 = require('davinci-eight/uniforms/UniformVec2');
+var UniformVec3 = require('davinci-eight/uniforms/UniformVec3');
+var UniformVec4 = require('davinci-eight/uniforms/UniformVec4');
 var contextMonitor = require('davinci-eight/utils/contextMonitor');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
@@ -88,8 +92,8 @@ var eight = {
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
     get drawableModel() { return drawableModel; },
-    get ShaderAttributeVariable() { return ShaderAttributeVariable; },
-    get ShaderUniformVariable() { return ShaderUniformVariable; },
+    get ShaderAttributeLocation() { return ShaderAttributeLocation; },
+    get ShaderUniformLocation() { return ShaderUniformLocation; },
     get pointsProgram() {
         return pointsProgram;
     },
@@ -120,7 +124,11 @@ var eight = {
     get TubeGeometry() { return TubeGeometry; },
     get VortexGeometry() { return VortexGeometry; },
     get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
-    get Uniform2fvProvider() { return Uniform2fvProvider; },
+    get UniformFloat() { return UniformFloat; },
+    get UniformMat4() { return UniformMat4; },
+    get UniformVec2() { return UniformVec2; },
+    get UniformVec3() { return UniformVec3; },
+    get UniformVec4() { return UniformVec4; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
     get Spinor3() { return Spinor3; },
