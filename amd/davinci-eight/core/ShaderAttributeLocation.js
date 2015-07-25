@@ -1,7 +1,4 @@
-define(["require", "exports"], function (require, exports) {
-    function computeUsage(attributes, context) {
-        return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-    }
+define(["require", "exports", '../core/convertUsage'], function (require, exports, convertUsage) {
     function existsLocation(location) {
         return location >= 0;
     }
@@ -91,19 +88,27 @@ define(["require", "exports"], function (require, exports) {
          * FIXME This should not couple to an AttributeProvider.
          * @method bufferData
          */
-        ShaderAttributeLocation.prototype.bufferData = function (attributes) {
+        ShaderAttributeLocation.prototype.bufferData = function (data, usage) {
             if (existsLocation(this.location)) {
-                var data = attributes.getVertexAttributeData(this.name);
-                if (data) {
-                    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-                    this.context.bufferData(this.context.ARRAY_BUFFER, data, computeUsage(attributes, this.context));
-                }
-                else {
-                    // We expect this to be detected long before we get here.
-                    throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
-                }
+                this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+                this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
             }
         };
+        /*
+        bufferData(attributes: AttributeProvider) {
+          if (existsLocation(this.location)) {
+            let thing = attributes.getVertexAttributeData(this.name);
+            if (thing) {
+              this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+              this.context.bufferData(this.context.ARRAY_BUFFER, thing.data, convertUsage(thing.usage, this.context));
+            }
+            else {
+              // We expect this to be detected long before we get here.
+              throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
+            }
+          }
+        }
+        */
         ShaderAttributeLocation.prototype.enable = function () {
             if (existsLocation(this.location)) {
                 this.context.enableVertexAttribArray(this.location);

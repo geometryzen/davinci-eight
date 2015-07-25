@@ -14,22 +14,24 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
         /**
          * Constructs a ShaderAttributeLocation from a declaration.
          */
-        function vertexAttrib(declaration) {
+        function shaderAttributeLocationFromDecl(declaration) {
             // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
             var attribute = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
             if (attribute) {
-                return shaders.attributeVariable(declaration.name);
+                return shaders.attributeLocation(declaration.name);
             }
             else {
-                throw new Error("The mesh does not support the attribute variable named " + name);
+                var message = "The mesh does not support attribute " + declaration.type + " " + declaration.name;
+                console.warn(message);
+                throw new Error(message);
             }
         }
         /**
          * Constructs a ShaderUniformLocation from a declaration.
          */
-        function shaderUniformFromDecl(declaration) {
+        function shaderUniformLocationFromDecl(declaration) {
             // By using the ShaderProgram, we get to delegate the management of uniform locations. 
-            return shaders.uniformVariable(declaration.name);
+            return shaders.uniformLocation(declaration.name);
         }
         function checkUniformsCompleteAndReady(provider) {
             var metas = provider.getUniformMetaInfos();
@@ -42,11 +44,15 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                     }
                 }
                 if (match === void 0) {
-                    throw new Error("Missing uniform " + uniformDecl.name);
+                    var message = "Missing uniform " + uniformDecl.type + " " + uniformDecl.name;
+                    console.warn(message);
+                    throw new Error(message);
                 }
                 else {
                     if (match.glslType !== uniformDecl.type) {
-                        throw new Error("Mismatch in uniform types " + uniformDecl.name);
+                        var message = "Mismatch in uniform types " + uniformDecl.name;
+                        console.warn(message);
+                        throw new Error(message);
                     }
                     else {
                     }
@@ -56,13 +62,20 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
         var context;
         var contextGainId;
         var elements = new ElementArray(mesh);
-        var vertexAttributes = shaders.attributes.map(vertexAttrib);
-        var uniformVariables = shaders.uniforms.map(shaderUniformFromDecl);
+        var vertexAttributes = shaders.attributes.map(shaderAttributeLocationFromDecl);
+        var uniformVariables = shaders.uniforms.map(shaderUniformLocationFromDecl);
         function updateGeometry() {
             // Make sure to update the mesh first so that the shaders gets the correct data.
             mesh.update(shaders.attributes);
             vertexAttributes.forEach(function (vertexAttribute) {
-                vertexAttribute.bufferData(mesh);
+                var thing = mesh.getVertexAttributeData(vertexAttribute.name);
+                if (thing) {
+                    vertexAttribute.bufferData(thing.data, thing.usage);
+                }
+                else {
+                    // We expect this to be detected long before we get here.
+                    throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+                }
             });
             elements.bufferData(mesh);
         }
@@ -88,9 +101,7 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                     contextGainId = contextId;
                     shaders.contextGain(context, contextId);
                     elements.contextGain(context, contextId);
-                    // TODO: This should really be consulting a needsUpdate method.
-                    // We can also put the updates inside the vertexAttribute loop.
-                    if (!mesh.dynamics()) {
+                    if (!mesh.dynamic) {
                         updateGeometry();
                     }
                 }
@@ -115,8 +126,7 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
              */
             draw: function (ambients) {
                 if (shaders.hasContext()) {
-                    // TODO: This should be a needs update.
-                    if (mesh.dynamics()) {
+                    if (mesh.dynamic) {
                         updateGeometry();
                     }
                     var chainedProvider = new ChainedUniformProvider(model, ambients);

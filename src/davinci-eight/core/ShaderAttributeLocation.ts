@@ -1,8 +1,6 @@
 import AttributeProvider = require('../core/AttributeProvider');
-
-function computeUsage(attributes: AttributeProvider, context: WebGLRenderingContext): number {
-  return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-}
+import convertUsage = require('../core/convertUsage');
+import DataUsage = require('../core/DataUsage');
 
 function existsLocation(location: number): boolean {
   return location >= 0;
@@ -100,12 +98,19 @@ class ShaderAttributeLocation {
    * FIXME This should not couple to an AttributeProvider.
    * @method bufferData
    */
+  bufferData(data: Float32Array, usage: DataUsage) {
+    if (existsLocation(this.location)) {
+      this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+      this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
+    }
+  }
+  /*
   bufferData(attributes: AttributeProvider) {
     if (existsLocation(this.location)) {
-      let data: Float32Array = attributes.getVertexAttributeData(this.name);
-      if (data) {
+      let thing = attributes.getVertexAttributeData(this.name);
+      if (thing) {
         this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-        this.context.bufferData(this.context.ARRAY_BUFFER, data, computeUsage(attributes, this.context));
+        this.context.bufferData(this.context.ARRAY_BUFFER, thing.data, convertUsage(thing.usage, this.context));
       }
       else {
         // We expect this to be detected long before we get here.
@@ -113,6 +118,7 @@ class ShaderAttributeLocation {
       }
     }
   }
+  */
   enable() {
     if (existsLocation(this.location)) {
       this.context.enableVertexAttribArray(this.location);

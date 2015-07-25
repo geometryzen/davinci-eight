@@ -1,4 +1,5 @@
 import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 /**
@@ -19,7 +20,10 @@ interface AttributeProvider {
      * @method getAttributeData
      * @return {Float32Array} The array of attribute values.
      */
-    getVertexAttributeData(name: string): Float32Array;
+    getVertexAttributeData(name: string): {
+        usage: DataUsage;
+        data: Float32Array;
+    };
     /**
      * Provides the meta information corresponsing to provided attribute values.
      * @method getAttributeMetaInfos
@@ -30,15 +34,14 @@ interface AttributeProvider {
      * @property drawMode
      * @type number
      * Determines how the thing will be rendered.
-     * 0 <=> POINTS, 1 <=> LINES, 2 <=> TRIANGLES
      */
     drawMode: DrawMode;
     /**
-     * Determines how WebGL buffers associated with attribute variables should be allocated.
-     * @method dynamics
-     * @return {Number} 0 <=> STATIC_DRAW, 1 <=> DYNAMIC_DRAW, 2 <=> STREAM_DRAW.
+     * Determines when and how often the update method is called.
+     * @property dynamic
+     * @type boolean
      */
-    dynamics(): boolean;
+    dynamic: boolean;
     /**
      * Determines whether this attribute provider uses vetex indexing.
      * @method hasElements
@@ -47,8 +50,11 @@ interface AttributeProvider {
     hasElements(): boolean;
     /**
      * @method getElements
-     * @return {Unit16Array} The array of vertex indices.
+     * @return {usage: DataUsage; data:Unit16Array} The array of vertex indices.
      */
-    getElements(): Uint16Array;
+    getElements(): {
+        usage: DataUsage;
+        data: Uint16Array;
+    };
 }
 export = AttributeProvider;

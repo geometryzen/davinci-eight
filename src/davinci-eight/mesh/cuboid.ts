@@ -168,15 +168,14 @@ var cuboid = function(
     set drawMode(value: number) {
       throw new Error("The drawMode property is readonly.");
     },
-    dynamics(): boolean
-    {
+    get dynamic(): boolean {
       return false;
     },
     getAttributeMetaInfos(): AttributeMetaInfos {
       var attribues: AttributeMetaInfos = {};
       attribues[Symbolic.ATTRIBUTE_POSITION] = {
         name: VERTEX_ATTRIBUTE_POSITION,
-        type: 'vec3',
+        glslType: 'vec3',
         size: 3,
         normalized: false,
         stride: 0,
@@ -184,7 +183,7 @@ var cuboid = function(
       if (!grayScale) {
         attribues[Symbolic.ATTRIBUTE_COLOR] = {
           name: VERTEX_ATTRIBUTE_COLOR,
-          type: 'vec3',
+          glslType: 'vec3',
           size: 3,
           normalized: false,
           stride: 0,
@@ -194,7 +193,7 @@ var cuboid = function(
       if (drawMode === 2) {
         attribues[Symbolic.ATTRIBUTE_NORMAL] = {
           name: VERTEX_ATTRIBUTE_NORMAL,
-          type: 'vec3',
+          glslType: 'vec3',
           size: 3,
           normalized: false,
           stride: 0,

@@ -39,6 +39,7 @@ class DeclarationBuilder extends DefaultNodeEventHandler {
       }
       break;
       case 'float':
+      case 'int':
       case 'mat2':
       case 'mat3':
       case 'mat4':
@@ -110,6 +111,10 @@ class NodeWalker {
           walker.walk(child, handler);
         });
         handler.endExpression();
+      }
+      break;
+      case 'forloop': {
+        // TODO
       }
       break;
       case 'function': {

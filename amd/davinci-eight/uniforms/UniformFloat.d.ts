@@ -1,12 +1,22 @@
 import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformVariable = require('../uniforms/UniformVariable');
+/**
+ * @class UniformFloat
+ */
 declare class UniformFloat extends DefaultUniformProvider implements UniformVariable<number> {
     private name;
     private $value;
     private $callback;
     private useValue;
+    private useCallback;
     private id;
+    /**
+     * @class UniformFloat
+     * @constructor
+     * @param name {string}
+     * @param name {id}
+     */
     constructor(name: string, id?: string);
     value: number;
     callback: () => number;

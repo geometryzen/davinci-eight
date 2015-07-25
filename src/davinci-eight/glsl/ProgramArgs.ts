@@ -4,6 +4,7 @@ import DefaultNodeEventHandler = require('./DefaultNodeEventHandler');
 import Declaration = require('./Declaration');
 class ProgramArgs extends DefaultNodeEventHandler {
   public attributes: Declaration[] = [];
+  public constants: Declaration[] = [];
   public uniforms: Declaration[] = [];
   public varyings: Declaration[] = [];
   constructor() {
@@ -12,6 +13,7 @@ class ProgramArgs extends DefaultNodeEventHandler {
   declaration(kind: string, modifiers: string[], type: string, names: string[]) {
     let targets: { [kind: string]: Declaration[] } = {};
     targets['attribute'] = this.attributes;
+    targets['const']     = this.constants;
     targets['uniform']   = this.uniforms;
     targets['varying']   = this.varyings;
     let target = targets[kind];

@@ -67,10 +67,10 @@ var viewport = function (parameters) {
                 context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
                 context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
                 clear();
-                var drawGroups = {};
-                if (!world.hasContext()) {
-                    world.contextGain(context, contextGainId);
-                }
+                //var drawGroups: {[programId:string]: Drawable[]} = {};
+                //if (!world.hasContext()) {
+                //  world.contextGain(context, contextGainId);
+                //}
                 var programLoaded;
                 var drawHandler = function (drawable, index) {
                     if (!programLoaded) {
@@ -85,6 +85,9 @@ var viewport = function (parameters) {
                     programLoaded = false;
                     world.drawGroups[drawGroupName].forEach(drawHandler);
                 }
+            }
+            else {
+                console.warn("viewport is unable to render because WebGLRenderingContext is missing");
             }
         },
         setViewport: setViewport,

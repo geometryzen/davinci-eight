@@ -8,6 +8,7 @@ import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
 import AttributeProvider = require('../core/AttributeProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
+import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 
 let DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
@@ -32,6 +33,7 @@ class GeometryAdapter implements AttributeProvider {
   private aVertexColorArray: Float32Array;
   private aVertexNormalArray: Float32Array;
   private $drawMode: DrawMode = DrawMode.TRIANGLES;
+  private elementsUsage: DataUsage = DataUsage.STREAM_DRAW;
   public grayScale: boolean = false;
   private lines: Line3[] = [];
   private points: Point3[] = [];
@@ -40,14 +42,16 @@ class GeometryAdapter implements AttributeProvider {
    * @constructor
    * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
    */
-  constructor(geometry: Geometry, options?: {drawMode?: DrawMode}) {
+  constructor(geometry: Geometry, options?: { drawMode?: DrawMode; elementsUsage?: DataUsage}) {
     options = options || {};
     options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
+    options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
 
     this.geometry = geometry;
     this.color = new Color(1.0, 1.0, 0.0, 1.0);
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
+    this.elementsUsage = options.elementsUsage;
   }
   get drawMode(): DrawMode {
     return this.$drawMode;
@@ -77,25 +81,26 @@ class GeometryAdapter implements AttributeProvider {
       }
     }
   }
-  dynamics(): boolean {
+  get dynamic(): boolean {
     return this.geometry.dynamic;
   }
   hasElements(): boolean {
     return true;
   }
-  getElements(): Uint16Array {
-    return this.elementArray;
+  getElements() {
+    return {usage: this.elementsUsage, data: this.elementArray};
   }
-  getVertexAttributeData(name: string): Float32Array {
+  getVertexAttributeData(name: string) {
+    // FIXME: Need to inject usage for each array type.
     switch(name) {
       case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
-        return this.aVertexPositionArray;
+        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
       }
       case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-        return this.aVertexColorArray;
+        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
       }
       case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
-        return this.aVertexNormalArray;
+        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
       }
       default: {
         return;

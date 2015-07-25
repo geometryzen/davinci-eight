@@ -40,6 +40,7 @@ var DeclarationBuilder = (function (_super) {
                 }
                 break;
             case 'float':
+            case 'int':
             case 'mat2':
             case 'mat3':
             case 'mat4':
@@ -118,6 +119,10 @@ var NodeWalker = (function () {
                         walker.walk(child, handler);
                     });
                     handler.endExpression();
+                }
+                break;
+            case 'forloop':
+                {
                 }
                 break;
             case 'function':

@@ -40,6 +40,7 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                     }
                     break;
                 case 'float':
+                case 'int':
                 case 'mat2':
                 case 'mat3':
                 case 'mat4':
@@ -118,6 +119,10 @@ define(["require", "exports", './DefaultNodeEventHandler'], function (require, e
                             walker.walk(child, handler);
                         });
                         handler.endExpression();
+                    }
+                    break;
+                case 'forloop':
+                    {
                     }
                     break;
                 case 'function':

@@ -30,7 +30,7 @@ class LatticeMesh implements AttributeProvider {
   draw(context: WebGLRenderingContext) {
     context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
   }
-  dynamics(): boolean {
+  get dynamic(): boolean {
     return true;
   }
   getAttributeMetaInfos(): AttributeMetaInfos {

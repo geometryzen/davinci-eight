@@ -1,6 +1,4 @@
-function computeUsage(attributes, context) {
-    return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-}
+var convertUsage = require('../core/convertUsage');
 /**
  * Manages the (optional) WebGLBuffer used to support gl.drawElements().
  * @class ElementArray
@@ -49,8 +47,8 @@ var ElementArray = (function () {
         if (this.buffer) {
             var elements = attributes.getElements();
             this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);
-            var usage = computeUsage(attributes, this.context);
-            this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements, usage);
+            var usage = convertUsage(elements.usage, this.context);
+            this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements.data, usage);
         }
     };
     /**

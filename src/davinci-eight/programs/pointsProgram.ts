@@ -39,6 +39,9 @@ var pointsProgram = function(): ShaderProgram {
     get attributes() {
       return innerProgram.attributes;
     },
+    get constants() {
+      return innerProgram.constants;
+    },
     get uniforms() {
       return innerProgram.uniforms;
     },
@@ -74,11 +77,11 @@ var pointsProgram = function(): ShaderProgram {
     use() {
       return innerProgram.use();
     },
-    attributeVariable(name: string) {
-      return innerProgram.attributeVariable(name);
+    attributeLocation(name: string) {
+      return innerProgram.attributeLocation(name);
     },
-    uniformVariable(name: string) {
-      return innerProgram.uniformVariable(name);
+    uniformLocation(name: string) {
+      return innerProgram.uniformLocation(name);
     }
   }
 

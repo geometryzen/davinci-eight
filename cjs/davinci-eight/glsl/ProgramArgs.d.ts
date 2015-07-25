@@ -3,6 +3,7 @@ import DefaultNodeEventHandler = require('./DefaultNodeEventHandler');
 import Declaration = require('./Declaration');
 declare class ProgramArgs extends DefaultNodeEventHandler {
     attributes: Declaration[];
+    constants: Declaration[];
     uniforms: Declaration[];
     varyings: Declaration[];
     constructor();

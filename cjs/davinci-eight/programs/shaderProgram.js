@@ -71,6 +71,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
     var context;
     var contextGainId;
     var attributeDecls = [];
+    var constantDecls = [];
     var uniformDecls = [];
     var varyingDecls = [];
     var attributeLocations = {};
@@ -84,6 +85,9 @@ var shaderProgram = function (vertexShader, fragmentShader) {
         },
         get attributes() {
             return attributeDecls;
+        },
+        get constants() {
+            return constantDecls;
         },
         get uniforms() {
             return uniformDecls;
@@ -142,7 +146,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 return context.useProgram(program);
             }
         },
-        attributeVariable: function (name) {
+        attributeLocation: function (name) {
             if (attributeLocations[name]) {
                 return attributeLocations[name];
             }
@@ -150,7 +154,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 throw new Error(name + " is not an attribute variable in the shader program.");
             }
         },
-        uniformVariable: function (name) {
+        uniformLocation: function (name) {
             if (uniformLocations[name]) {
                 return uniformLocations[name];
             }

@@ -1,4 +1,6 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import DataUsage = require('davinci-eight/core/DataUsage');
+import DrawMode = require('davinci-eight/core/DrawMode');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import AttributeProvider = require('davinci-eight/core/AttributeProvider');
 import AttributeMetaInfos = require('davinci-eight/core/AttributeMetaInfos');
@@ -43,6 +45,7 @@ import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+import MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 import UniformFloat = require('davinci-eight/uniforms/UniformFloat');
 import UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
 import UniformVec2 = require('davinci-eight/uniforms/UniformVec2');
@@ -70,7 +73,9 @@ declare var eight: {
         tearDown: () => void;
     };
     animationRunner: (tick: (time: number) => void, terminate: (time: number) => void, setUp: () => void, tearDown: (ex: any) => void, $window?: Window) => WindowAnimationRunner;
+    DataUsage: typeof DataUsage;
     drawableModel: <MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL) => DrawableModel<MESH, SHADERS, MODEL>;
+    DrawMode: typeof DrawMode;
     ShaderAttributeLocation: typeof ShaderAttributeLocation;
     ShaderUniformLocation: typeof ShaderUniformLocation;
     pointsProgram: () => ShaderProgram;
@@ -110,6 +115,8 @@ declare var eight: {
     Curve: typeof Curve;
     ChainedUniformProvider: typeof ChainedUniformProvider;
     DefaultUniformProvider: typeof DefaultUniformProvider;
+    MultiUniformProvider: typeof MultiUniformProvider;
+    uniforms: (providers: UniformProvider[]) => UniformProvider;
     arrowMesh: (options?: {
         wireFrame?: boolean;
     }) => AttributeProvider;

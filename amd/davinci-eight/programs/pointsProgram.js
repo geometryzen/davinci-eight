@@ -36,6 +36,9 @@ define(["require", "exports", '../programs/shaderProgram'], function (require, e
             get attributes() {
                 return innerProgram.attributes;
             },
+            get constants() {
+                return innerProgram.constants;
+            },
             get uniforms() {
                 return innerProgram.uniforms;
             },
@@ -69,11 +72,11 @@ define(["require", "exports", '../programs/shaderProgram'], function (require, e
             use: function () {
                 return innerProgram.use();
             },
-            attributeVariable: function (name) {
-                return innerProgram.attributeVariable(name);
+            attributeLocation: function (name) {
+                return innerProgram.attributeLocation(name);
             },
-            uniformVariable: function (name) {
-                return innerProgram.uniformVariable(name);
+            uniformLocation: function (name) {
+                return innerProgram.uniformLocation(name);
             }
         };
         return publicAPI;

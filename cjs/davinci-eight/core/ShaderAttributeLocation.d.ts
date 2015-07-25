@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import DataUsage = require('../core/DataUsage');
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
@@ -47,7 +47,7 @@ declare class ShaderAttributeLocation {
      * FIXME This should not couple to an AttributeProvider.
      * @method bufferData
      */
-    bufferData(attributes: AttributeProvider): void;
+    bufferData(data: Float32Array, usage: DataUsage): void;
     enable(): void;
     disable(): void;
     /**

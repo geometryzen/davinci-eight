@@ -8,6 +8,22 @@
 declare module EIGHT
 {
   /**
+   * @class DrawMode
+   */
+  enum DrawMode {
+    /**
+     * POINTS
+     */
+    POINTS,
+    LINES,
+    TRIANGLES
+  }
+  enum DataUsage {
+    STATIC_DRAW,
+    DYNAMIC_DRAW,
+    STREAM_DRAW
+  }
+  /**
    *
    */
   function initWebGL(canvas: HTMLCanvasElement, attributes: any): WebGLRenderingContext;
@@ -171,6 +187,16 @@ declare module EIGHT
   /**
    *
    */
+  class MultiUniformProvider extends UniformProvider {
+    constructor(providers: UniformProvider[]);
+  }
+  /**
+   *
+   */
+  function uniforms(providers: UniformProvider[]): UniformProvider;
+  /**
+   *
+   */
   class UniformVariable<T> extends UniformProvider {
     value: T;
     callback: () => T;
@@ -293,13 +319,12 @@ declare module EIGHT
     draw(context: WebGLRenderingContext): void;
     /**
      * Determines how the thing will be drawn.
-     * 0 <=> POINTS, 1 <=> LINES, 2 <=> TRIANGLES
      */
-    drawMode: number;
+    drawMode: DrawMode;
     /**
      * Determines whether this Geometry changes. If so, update may be called repeatedly.
      */
-    dynamics(): boolean;
+    dynamic: boolean;
     /**
      * Declares the vertex shader attributes the geometry can supply and information required for binding.
      */
@@ -312,11 +337,11 @@ declare module EIGHT
      * Returns the elements used in an index buffer implementation.
      * An implementation of Geometry is not required to support index buffers and may return undefined.
      */
-    getElements(): Uint16Array;
+    getElements(): {usage: DataUsage; data: Uint16Array};
     /**
      * Returns the data when drawing using arrays. 
      */
-    getVertexAttributeData(name: string): Float32Array;
+    getVertexAttributeData(name: string): {usage: DataUsage; data: Float32Array};
     /**
      * Notifies the mesh that it should update its array buffers.
      */
@@ -367,7 +392,7 @@ declare module EIGHT
   class GeometryAdapter extends AttributeProvider
   {
     public color: Color;
-    constructor(geometry: Geometry, options? {drawMode?: number});
+    constructor(geometry: Geometry, options? {drawMode?: DrawMode});
   }
   class CurveMesh extends AttributeProvider {
     constructor(
@@ -410,6 +435,7 @@ declare module EIGHT
   class ShaderProgram extends RenderingContextUser
   {
     attributes: ShaderVariableDecl[];
+    constants: ShaderVariableDecl[];
     uniforms: ShaderVariableDecl[];
     varyings: ShaderVariableDecl[];
     program: WebGLProgram;
@@ -424,11 +450,11 @@ declare module EIGHT
     /**
      *
      */
-    attributeVariable(name: string): ShaderAttributeLocation;
+    attributeLocation(name: string): ShaderAttributeLocation;
     /**
      *
      */
-    uniformVariable(name: string): ShaderUniformLocation;
+    uniformLocation(name: string): ShaderUniformLocation;
   }
   /**
    * The combination of a geometry, model and a shaderProgram.

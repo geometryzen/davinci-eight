@@ -1,4 +1,7 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+// core
+var DataUsage = require('davinci-eight/core/DataUsage');
+var DrawMode = require('davinci-eight/core/DrawMode');
 var core = require('davinci-eight/core');
 var object3D = require('davinci-eight/core/object3D');
 var view = require('davinci-eight/cameras/view');
@@ -52,6 +55,8 @@ var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 var ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+var MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
+var uniforms = require('davinci-eight/uniforms/uniforms');
 var UniformFloat = require('davinci-eight/uniforms/UniformFloat');
 var UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
 var UniformVec2 = require('davinci-eight/uniforms/UniformVec2');
@@ -92,7 +97,9 @@ var eight = {
     get contextMonitor() { return contextMonitor; },
     workbench: workbench3D,
     animationRunner: windowAnimationRunner,
+    get DataUsage() { return DataUsage; },
     get drawableModel() { return drawableModel; },
+    get DrawMode() { return DrawMode; },
     get ShaderAttributeLocation() { return ShaderAttributeLocation; },
     get ShaderUniformLocation() { return ShaderUniformLocation; },
     get pointsProgram() {
@@ -138,6 +145,8 @@ var eight = {
     get Curve() { return Curve; },
     get ChainedUniformProvider() { return ChainedUniformProvider; },
     get DefaultUniformProvider() { return DefaultUniformProvider; },
+    get MultiUniformProvider() { return MultiUniformProvider; },
+    get uniforms() { return uniforms; },
     // mesh
     get arrowMesh() { return arrowMesh; },
     get boxMesh() { return boxMesh; },

@@ -2,6 +2,7 @@ var Line3 = require('../core/Line3');
 var Point3 = require('../core/Point3');
 var Color = require('../core/Color');
 var Symbolic = require('../core/Symbolic');
+var DataUsage = require('../core/DataUsage');
 var DrawMode = require('../core/DrawMode');
 var DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
 var DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME = 'aVertexColor';
@@ -22,15 +23,18 @@ var GeometryAdapter = (function () {
      */
     function GeometryAdapter(geometry, options) {
         this.$drawMode = DrawMode.TRIANGLES;
+        this.elementsUsage = DataUsage.STREAM_DRAW;
         this.grayScale = false;
         this.lines = [];
         this.points = [];
         options = options || {};
         options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
+        options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
         this.geometry = geometry;
         this.color = new Color(1.0, 1.0, 0.0, 1.0);
         this.geometry.dynamic = false;
         this.$drawMode = options.drawMode;
+        this.elementsUsage = options.elementsUsage;
     }
     Object.defineProperty(GeometryAdapter.prototype, "drawMode", {
         get: function () {
@@ -67,25 +71,30 @@ var GeometryAdapter = (function () {
             }
         }
     };
-    GeometryAdapter.prototype.dynamics = function () {
-        return this.geometry.dynamic;
-    };
+    Object.defineProperty(GeometryAdapter.prototype, "dynamic", {
+        get: function () {
+            return this.geometry.dynamic;
+        },
+        enumerable: true,
+        configurable: true
+    });
     GeometryAdapter.prototype.hasElements = function () {
         return true;
     };
     GeometryAdapter.prototype.getElements = function () {
-        return this.elementArray;
+        return { usage: this.elementsUsage, data: this.elementArray };
     };
     GeometryAdapter.prototype.getVertexAttributeData = function (name) {
+        // FIXME: Need to inject usage for each array type.
         switch (name) {
             case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
-                return this.aVertexPositionArray;
+                return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
             }
             case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-                return this.aVertexColorArray;
+                return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
             }
             case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
-                return this.aVertexNormalArray;
+                return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
             }
             default: {
                 return;

@@ -27,8 +27,8 @@ function arrowMesh(options) {
         set drawMode(value) {
             base.drawMode = value;
         },
-        dynamics: function () {
-            return base.dynamics();
+        get dynamic() {
+            return base.dynamic;
         },
         hasElements: function () {
             return base.hasElements();

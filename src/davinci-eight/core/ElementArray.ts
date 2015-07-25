@@ -1,8 +1,6 @@
 import AttributeProvider = require('../core/AttributeProvider');
-
-function computeUsage(attributes: AttributeProvider, context: WebGLRenderingContext): number {
-  return attributes.dynamics() ? context.DYNAMIC_DRAW : context.STATIC_DRAW;
-}
+import convertUsage = require('../core/convertUsage');
+import DataUsage = require('../core/DataUsage');
 
 /**
  * Manages the (optional) WebGLBuffer used to support gl.drawElements().
@@ -53,10 +51,10 @@ class ElementArray {
    */
   bufferData(attributes: AttributeProvider) {
     if (this.buffer) {
-      let elements: Uint16Array = attributes.getElements();
+      let elements: { usage: DataUsage; data: Uint16Array } = attributes.getElements();
       this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);
-      let usage: number = computeUsage(attributes, this.context);
-      this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements, usage);
+      let usage: number = convertUsage(elements.usage, this.context);
+      this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements.data, usage);
     }
   }
   /**

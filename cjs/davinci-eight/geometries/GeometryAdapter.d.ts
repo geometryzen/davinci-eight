@@ -5,6 +5,7 @@ import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import AttributeProvider = require('../core/AttributeProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
+import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 /**
  * Adapter from a Geometry to a AttributeProvider.
@@ -20,6 +21,7 @@ declare class GeometryAdapter implements AttributeProvider {
     private aVertexColorArray;
     private aVertexNormalArray;
     private $drawMode;
+    private elementsUsage;
     grayScale: boolean;
     private lines;
     private points;
@@ -30,13 +32,20 @@ declare class GeometryAdapter implements AttributeProvider {
      */
     constructor(geometry: Geometry, options?: {
         drawMode?: DrawMode;
+        elementsUsage?: DataUsage;
     });
     drawMode: DrawMode;
     draw(context: WebGLRenderingContext): void;
-    dynamics(): boolean;
+    dynamic: boolean;
     hasElements(): boolean;
-    getElements(): Uint16Array;
-    getVertexAttributeData(name: string): Float32Array;
+    getElements(): {
+        usage: DataUsage;
+        data: Uint16Array;
+    };
+    getVertexAttributeData(name: string): {
+        usage: DataUsage;
+        data: Float32Array;
+    };
     getAttributeMetaInfos(): AttributeMetaInfos;
     update(attributes: ShaderVariableDecl[]): void;
     private computeLines();

@@ -143,14 +143,14 @@ var ellipsoid = function(spec?): EllipsoidMesh {
     get drawMode(): number {
       return drawMode;
     },
-    dynamics(): boolean {
+    get dynamic(): boolean {
       return false;
     },
     getAttributeMetaInfos(): AttributeMetaInfos {
       return {
-        position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        normal:   { name: 'aVertexNormal',   type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+        position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
     hasElements(): boolean {

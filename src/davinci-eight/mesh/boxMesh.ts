@@ -39,8 +39,8 @@ function boxMesh(
     set drawMode(value: DrawMode) {
       base.drawMode = value;
     },
-    dynamics() {
-      return base.dynamics();
+    get dynamic() {
+      return base.dynamic;
     },
     hasElements() {
       return base.hasElements();

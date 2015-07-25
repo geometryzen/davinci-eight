@@ -38,8 +38,8 @@ class BoxMesh implements AttributeProvider {
   set drawMode(value: number) {
     this.cuboid.drawMode = value;
   }
-  dynamics() {
-    return this.cuboid.dynamics();
+  get dynamic() {
+    return this.cuboid.dynamic;
   }
   hasElements() {
     return this.cuboid.hasElements();

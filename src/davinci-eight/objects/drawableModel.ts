@@ -30,22 +30,24 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
   /**
    * Constructs a ShaderAttributeLocation from a declaration.
    */
-  function vertexAttrib(declaration: ShaderVariableDecl): ShaderAttributeLocation {
+  function shaderAttributeLocationFromDecl(declaration: ShaderVariableDecl): ShaderAttributeLocation {
     // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
     let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
     if (attribute) {
-      return shaders.attributeVariable(declaration.name);
+      return shaders.attributeLocation(declaration.name);
     }
     else {
-      throw new Error("The mesh does not support the attribute variable named " + name);
+      let message = "The mesh does not support attribute " + declaration.type + " " + declaration.name;
+      console.warn(message);
+      throw new Error(message);
     }
   }
   /**
    * Constructs a ShaderUniformLocation from a declaration.
    */
-  function shaderUniformFromDecl(declaration: ShaderVariableDecl): ShaderUniformLocation {
+  function shaderUniformLocationFromDecl(declaration: ShaderVariableDecl): ShaderUniformLocation {
     // By using the ShaderProgram, we get to delegate the management of uniform locations. 
-    return shaders.uniformVariable(declaration.name);
+    return shaders.uniformLocation(declaration.name);
   }
 
   function checkUniformsCompleteAndReady(provider: UniformProvider) {
@@ -59,11 +61,15 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
         }
       }
       if (match === void 0) {
-        throw new Error("Missing uniform " + uniformDecl.name);
+        let message = "Missing uniform " + uniformDecl.type + " " + uniformDecl.name;
+        console.warn(message);
+        throw new Error(message);
       }
       else {
         if (match.glslType !== uniformDecl.type) {
-          throw new Error("Mismatch in uniform types " + uniformDecl.name);
+          let message = "Mismatch in uniform types " + uniformDecl.name;
+          console.warn(message);
+          throw new Error(message);
         }
         else {
           // check that the uniform has been initialized.
@@ -74,14 +80,21 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
   var context: WebGLRenderingContext;
   var contextGainId: string;
   var elements: ElementArray = new ElementArray(mesh);
-  var vertexAttributes: ShaderAttributeLocation[] = shaders.attributes.map(vertexAttrib);
-  var uniformVariables: ShaderUniformLocation[] = shaders.uniforms.map(shaderUniformFromDecl);
+  var vertexAttributes: ShaderAttributeLocation[] = shaders.attributes.map(shaderAttributeLocationFromDecl);
+  var uniformVariables: ShaderUniformLocation[] = shaders.uniforms.map(shaderUniformLocationFromDecl);
 
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaders gets the correct data.
     mesh.update(shaders.attributes);
-    vertexAttributes.forEach(function(vertexAttribute) {
-      vertexAttribute.bufferData(mesh);
+    vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeLocation) {
+      let thing = mesh.getVertexAttributeData(vertexAttribute.name);
+      if (thing) {
+        vertexAttribute.bufferData(thing.data, thing.usage);
+      }
+      else {
+        // We expect this to be detected long before we get here.
+        throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+      }
     });
     elements.bufferData(mesh);
   }
@@ -109,9 +122,7 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
         shaders.contextGain(context, contextId);
         elements.contextGain(context, contextId);
 
-        // TODO: This should really be consulting a needsUpdate method.
-        // We can also put the updates inside the vertexAttribute loop.
-        if (!mesh.dynamics()) {
+        if (!mesh.dynamic) {
           updateGeometry();
         }
       }
@@ -136,8 +147,7 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
      */
     draw(ambients: UniformProvider) {
       if (shaders.hasContext()) {
-        // TODO: This should be a needs update.
-        if (mesh.dynamics()) {
+        if (mesh.dynamic) {
           updateGeometry();
         }
         let chainedProvider = new ChainedUniformProvider(model, ambients);

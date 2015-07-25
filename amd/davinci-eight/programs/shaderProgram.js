@@ -66,6 +66,7 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
         var context;
         var contextGainId;
         var attributeDecls = [];
+        var constantDecls = [];
         var uniformDecls = [];
         var varyingDecls = [];
         var attributeLocations = {};
@@ -79,6 +80,9 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
             },
             get attributes() {
                 return attributeDecls;
+            },
+            get constants() {
+                return constantDecls;
             },
             get uniforms() {
                 return uniformDecls;
@@ -137,7 +141,7 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     return context.useProgram(program);
                 }
             },
-            attributeVariable: function (name) {
+            attributeLocation: function (name) {
                 if (attributeLocations[name]) {
                     return attributeLocations[name];
                 }
@@ -145,7 +149,7 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     throw new Error(name + " is not an attribute variable in the shader program.");
                 }
             },
-            uniformVariable: function (name) {
+            uniformLocation: function (name) {
                 if (uniformLocations[name]) {
                     return uniformLocations[name];
                 }

@@ -15,6 +15,11 @@ interface ShaderProgram extends RenderingContextUser {
      */
     attributes: ShaderVariableDecl[];
     /**
+     * @property constants
+     * @type ShaderVariableDecl
+     */
+    constants: ShaderVariableDecl[];
+    /**
      * @property uniforms
      * @type ShaderVariableDecl
      */
@@ -57,7 +62,7 @@ interface ShaderProgram extends RenderingContextUser {
      * @method attributeVariable
      * @param name {string} The name of the attribute variable.
      */
-    attributeVariable(name: string): ShaderAttributeLocation;
+    attributeLocation(name: string): ShaderAttributeLocation;
     /**
      * Provides a reference to the uniform variable location object (ShaderUniformLocation).
      * This reference is managed by the ShaderProgram, ensuring that the location
@@ -65,6 +70,6 @@ interface ShaderProgram extends RenderingContextUser {
      * @method uniformVariable
      * @param name {string} The name of the uniform variable.
      */
-    uniformVariable(name: string): ShaderUniformLocation;
+    uniformLocation(name: string): ShaderUniformLocation;
 }
 export = ShaderProgram;

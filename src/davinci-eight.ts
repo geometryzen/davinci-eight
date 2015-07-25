@@ -1,6 +1,8 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 
 // core
+import DataUsage = require('davinci-eight/core/DataUsage');
+import DrawMode = require('davinci-eight/core/DrawMode');
 import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import AttributeProvider = require('davinci-eight/core/AttributeProvider');
@@ -69,6 +71,8 @@ import AmbientLight               = require('davinci-eight/uniforms/AmbientLight
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUniformProvider');
 import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+import MultiUniformProvider       = require('davinci-eight/uniforms/MultiUniformProvider');
+import uniforms                   = require('davinci-eight/uniforms/uniforms');
 import UniformFloat               = require('davinci-eight/uniforms/UniformFloat');
 import UniformMat4                = require('davinci-eight/uniforms/UniformMat4');
 import UniformVec2                = require('davinci-eight/uniforms/UniformVec2');
@@ -114,7 +118,9 @@ var eight = {
   get contextMonitor() {return contextMonitor;},
   workbench: workbench3D,
   animationRunner: windowAnimationRunner,
+  get DataUsage() { return DataUsage; },
   get drawableModel() { return drawableModel; },
+  get DrawMode() { return DrawMode; },
   get ShaderAttributeLocation() { return ShaderAttributeLocation; },
   get ShaderUniformLocation() { return ShaderUniformLocation; },
   get pointsProgram() {
@@ -160,6 +166,8 @@ var eight = {
   get Curve() { return Curve; },
   get ChainedUniformProvider() { return ChainedUniformProvider; },
   get DefaultUniformProvider() { return DefaultUniformProvider; },
+  get MultiUniformProvider() { return MultiUniformProvider; },
+  get uniforms() { return uniforms; },
   // mesh
   get arrowMesh() { return arrowMesh; },
   get boxMesh() { return boxMesh; },

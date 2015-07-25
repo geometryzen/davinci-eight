@@ -139,6 +139,9 @@ var smartProgram = function (attributes, uniformsList) {
         get attributes() {
             return innerProgram.attributes;
         },
+        get constants() {
+            return innerProgram.constants;
+        },
         get uniforms() {
             return innerProgram.uniforms;
         },
@@ -172,11 +175,11 @@ var smartProgram = function (attributes, uniformsList) {
         use: function () {
             return innerProgram.use();
         },
-        attributeVariable: function (name) {
-            return innerProgram.attributeVariable(name);
+        attributeLocation: function (name) {
+            return innerProgram.attributeLocation(name);
         },
-        uniformVariable: function (name) {
-            return innerProgram.uniformVariable(name);
+        uniformLocation: function (name) {
+            return innerProgram.uniformLocation(name);
         }
     };
     return publicAPI;
