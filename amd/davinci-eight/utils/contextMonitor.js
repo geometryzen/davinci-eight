@@ -1,5 +1,6 @@
-define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], function (require, exports, uuid4, initWebGL) {
+define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL', '../checks/expectArg'], function (require, exports, uuid4, initWebGL, expectArg) {
     function contextMonitor(canvas, attributes) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var users = [];
         var context;
         var contextId;
@@ -19,7 +20,7 @@ define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], funct
                 user.contextGain(context, contextId);
             });
         };
-        var publicAPI = {
+        var self = {
             start: function () {
                 context = initWebGL(canvas, attributes);
                 contextId = uuid4().generate();
@@ -28,6 +29,7 @@ define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], funct
                 users.forEach(function (user) {
                     user.contextGain(context, contextId);
                 });
+                return self;
             },
             stop: function () {
                 context = void 0;
@@ -37,18 +39,21 @@ define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], funct
                 });
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+                return self;
             },
             addContextUser: function (user) {
+                expectArg('user', user).toBeObject();
                 users.push(user);
                 if (context && !user.hasContext()) {
                     user.contextGain(context, contextId);
                 }
+                return self;
             },
             get context() {
                 return context;
             }
         };
-        return publicAPI;
+        return self;
     }
     ;
     return contextMonitor;

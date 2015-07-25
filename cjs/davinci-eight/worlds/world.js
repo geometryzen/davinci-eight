@@ -1,3 +1,4 @@
+var expectArg = require('../checks/expectArg');
 var world = function () {
     var drawables = [];
     var drawGroups = {};
@@ -7,11 +8,15 @@ var world = function () {
         get drawGroups() { return drawGroups; },
         get children() { return drawables; },
         contextFree: function () {
-            for (var i = 0, length = drawables.length; i < length; i++) {
-                drawables[i].contextFree();
-            }
+            drawables.forEach(function (drawable) {
+                drawable.contextFree();
+            });
+            gl = void 0;
+            contextId = void 0;
         },
         contextGain: function (context, contextId) {
+            expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext");
+            expectArg('contextId', contextId).toBeString();
             gl = context;
             contextId = contextId;
             drawables.forEach(function (drawable) {

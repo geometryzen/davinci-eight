@@ -1,28 +1,44 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    function defaultSetUp() {
+    }
+    function defaultTearDown(animateException) {
+        if (animateException) {
+            var message = "Exception raised during animate function: " + animateException;
+            console.warn(message);
+        }
+    }
+    function defaultTerminate(time) {
+        // Never ending, because whenever asked we say nee.
+        return false;
+    }
     /**
      * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
-     * @param tick The `tick` function is called for each animation frame.
-     * @param terminate The `terminate` function is called to determine whether the animation should stop.
-     * @param setUp The `setUp` function is called synchronously each time the start() method is called.
-     * @param tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
-     * @param
+     * @param animate The `animate` function is called for each animation frame.
+     * @param options.setUp The `setUp` function is called synchronously each time the start() method is called.
+     * @param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
+     * @param options.terminate The `terminate` function is called to determine whether the animation should stop.
+     * @param options.window {Window} The window in which the animation will run. Defaults to the global window.
      */
-    var animationRunner = function (tick, terminate, setUp, tearDown, $window) {
+    var animation = function (animate, options) {
         // TODO: Use enum when TypeScript compiler version is appropriate.
         var STATE_INITIAL = 1;
         var STATE_RUNNING = 2;
         var STATE_PAUSED = 3;
-        $window = $window || window;
+        options = options || {};
+        var $window = expectArg('options.window', options.window || window).toNotBeNull().value;
+        var setUp = expectArg('options.setUp', options.setUp || defaultSetUp).value;
+        var tearDown = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
+        var terminate = expectArg('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
         var stopSignal = false; // 27 is Esc
         //  var pauseKeyPressed = false;  // 19
         //  var enterKeyPressed = false;  // 13
-        var startTime = undefined;
+        var startTime;
         var elapsed = 0;
         var MILLIS_PER_SECOND = 1000;
         var requestID = null;
-        var exception = undefined;
+        var animateException;
         var state = STATE_INITIAL;
-        var animate = function (timestamp) {
+        var frameRequestCallback = function (timestamp) {
             if (startTime) {
                 elapsed = elapsed + timestamp - startTime;
             }
@@ -33,7 +49,7 @@ define(["require", "exports"], function (require, exports) {
                 $window.cancelAnimationFrame(requestID);
                 if (publicAPI.isRunning) {
                     state = STATE_PAUSED;
-                    startTime = undefined;
+                    startTime = void 0;
                 }
                 else {
                     // TODO: Can we recover?
@@ -41,20 +57,20 @@ define(["require", "exports"], function (require, exports) {
                 }
                 $window.document.removeEventListener('keydown', onDocumentKeyDown, false);
                 try {
-                    tearDown(exception);
+                    tearDown(animateException);
                 }
                 catch (e) {
-                    console.log("Exception thrown from tearDown function: " + e);
+                    console.warn("Exception raised during tearDown function: " + e);
                 }
             }
             else {
-                requestID = $window.requestAnimationFrame(animate);
+                requestID = $window.requestAnimationFrame(frameRequestCallback);
                 // If an exception happens, cache it to be reported later and simulate a stopSignal.
                 try {
-                    tick(elapsed / MILLIS_PER_SECOND);
+                    animate(elapsed / MILLIS_PER_SECOND);
                 }
                 catch (e) {
-                    exception = e;
+                    animateException = e;
                     stopSignal = true;
                 }
             }
@@ -85,7 +101,7 @@ define(["require", "exports"], function (require, exports) {
                     setUp();
                     $window.document.addEventListener('keydown', onDocumentKeyDown, false);
                     state = STATE_RUNNING;
-                    requestID = $window.requestAnimationFrame(animate);
+                    requestID = $window.requestAnimationFrame(frameRequestCallback);
                 }
                 else {
                     throw new Error("The `start` method may only be called when not running.");
@@ -101,7 +117,7 @@ define(["require", "exports"], function (require, exports) {
             },
             reset: function () {
                 if (publicAPI.isPaused) {
-                    startTime = undefined;
+                    startTime = void 0;
                     elapsed = 0;
                     state = STATE_INITIAL;
                 }
@@ -128,5 +144,5 @@ define(["require", "exports"], function (require, exports) {
         };
         return publicAPI;
     };
-    return animationRunner;
+    return animation;
 });

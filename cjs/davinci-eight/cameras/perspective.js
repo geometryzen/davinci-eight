@@ -20,13 +20,17 @@ var perspective = function (fov, aspect, near, far) {
     var base = view();
     var projectionMatrix = new Matrix4();
     var matrixNeedsUpdate = true;
-    var publicAPI = {
+    var self = {
         // Delegate to the base camera.
         get eye() {
             return base.eye;
         },
         set eye(value) {
             base.eye = value;
+        },
+        setEye: function (eye) {
+            self.eye = eye;
+            return self;
         },
         get look() {
             return base.look;
@@ -53,6 +57,10 @@ var perspective = function (fov, aspect, near, far) {
         set aspect(value) {
             aspect = value;
             matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+        },
+        setAspect: function (aspect) {
+            self.aspect = aspect;
+            return self;
         },
         get near() {
             return near;
@@ -106,6 +114,6 @@ var perspective = function (fov, aspect, near, far) {
             return uniforms;
         }
     };
-    return publicAPI;
+    return self;
 };
 module.exports = perspective;

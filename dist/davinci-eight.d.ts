@@ -281,6 +281,14 @@ declare module EIGHT
      * distance to the far plane of the view volume from the view reference point.
      */
     far: number;
+    /**
+     * Convenience method for setting the aspect property allowing chainable method calls.
+     */
+    setAspect(aspect: number): LinearPerspectiveCamera;
+    /**
+     * Convenience method for setting the eye property allowing chainable method calls.
+     */
+    setEye(eye: {x: number; y: number; z:number}): LinearPerspectiveCamera;
   }
   interface AttributeMetaInfo {
     name: string,
@@ -483,7 +491,6 @@ declare module EIGHT
   interface ViewportParameters {
     alpha?: boolean;
     antialias?: boolean;
-    canvas?: HTMLCanvasElement;
     depth?: boolean;
     premultipliedAlpha?: boolean;
     preserveDrawingBuffer?: boolean;
@@ -529,9 +536,9 @@ declare module EIGHT
     far?: number): LinearPerspectiveCamera;
   /**
    * Constructs and returns a Viewport.
-   * @param parameters Optional parameters for modifying the WebGL context.
+   * @param options Optional parameters for modifying the WebGL context.
    */
-  function viewport(parameters?: ViewportParameters): Viewport;
+  function viewport(canvas: HTMLCanvasElement, options?: ViewportParameters): Viewport;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */
@@ -736,7 +743,13 @@ declare module EIGHT
   /**
    * Constructs and returns a WindowAnimationRunner.
    */
-  function animationRunner(tick: {(time: number): void;}, terminate: {(time: number): boolean;}, setUp: {(): void;}, tearDown: {(e: Error): void;}, window: Window): WindowAnimationRunner;
+  function animation(
+    animate: {(time: number): void;},
+    options?: {
+      setUp?: () => void;
+      tearDown?: { (animateException): void; };
+      terminate?: (time: number) => boolean;
+      window?: Window}): WindowAnimationRunner;
   /**
    *
    */
@@ -745,15 +758,15 @@ declare module EIGHT
     /**
      * Starts the monitoring of the WebGL context.
      */
-    start(): void;
+    start(): RenderingContextMonitor;
     /**
      * Stops the monitoring of the WebGL context.
      */
-    stop(): void;
+    stop(): RenderingContextMonitor;
     /**
      *
      */
-    addContextUser(user: RenderingContextUser);
+    addContextUser(user: RenderingContextUser): RenderingContextMonitor;
     /**
      *
      */

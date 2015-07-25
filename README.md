@@ -129,6 +129,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.25.0: 2015-07-24 UniformVariable
 * 2.26.0: 2015-07-24 uniform checking
 * 2.27.0: 2015-07-25 DataUsage
+* 2.28.0: 2015-07-25 animation
 
 ## License
 Copyright (c) 2014-2015 David Holmes

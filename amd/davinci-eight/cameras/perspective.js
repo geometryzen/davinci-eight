@@ -18,13 +18,17 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
         var base = view();
         var projectionMatrix = new Matrix4();
         var matrixNeedsUpdate = true;
-        var publicAPI = {
+        var self = {
             // Delegate to the base camera.
             get eye() {
                 return base.eye;
             },
             set eye(value) {
                 base.eye = value;
+            },
+            setEye: function (eye) {
+                self.eye = eye;
+                return self;
             },
             get look() {
                 return base.look;
@@ -51,6 +55,10 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
             set aspect(value) {
                 aspect = value;
                 matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+            },
+            setAspect: function (aspect) {
+                self.aspect = aspect;
+                return self;
             },
             get near() {
                 return near;
@@ -104,7 +112,7 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
                 return uniforms;
             }
         };
-        return publicAPI;
+        return self;
     };
     return perspective;
 });

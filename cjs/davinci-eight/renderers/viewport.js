@@ -1,10 +1,10 @@
 var Color = require('../core/Color');
 var ViewportArgs = require('../renderers/ViewportArgs');
-//import initWebGL = require('../renderers/initWebGL');
 //import FrameworkDrawContext = require('../renderers/FrameworkDrawContext');
-var viewport = function (parameters) {
+var expectArg = require('../checks/expectArg');
+var viewport = function (canvas, parameters) {
+    expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     parameters = parameters || {};
-    var canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement('canvas');
     var alpha = parameters.alpha !== undefined ? parameters.alpha : false;
     var depth = parameters.depth !== undefined ? parameters.depth : true;
     var stencil = parameters.stencil !== undefined ? parameters.stencil : true;
@@ -13,7 +13,7 @@ var viewport = function (parameters) {
     var preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
     //var drawContext = new FrameworkDrawContext();
     var context;
-    var contextGainId;
+    var contextId;
     var devicePixelRatio = 1;
     var autoClearColor = true;
     var autoClearDepth = true;
@@ -42,14 +42,17 @@ var viewport = function (parameters) {
         get context() { return context; },
         contextFree: function () {
             context = void 0;
+            contextId = void 0;
         },
-        contextGain: function (contextArg, contextGainId) {
+        contextGain: function (contextArg, contextIdArg) {
             context = contextArg;
+            contextId = contextIdArg;
             context.enable(context.DEPTH_TEST);
             context.enable(context.SCISSOR_TEST);
         },
         contextLoss: function () {
             context = void 0;
+            contextId = void 0;
         },
         hasContext: function () {
             return !!context;
@@ -62,28 +65,27 @@ var viewport = function (parameters) {
             //
         },
         render: function (world, views) {
+            expectArg('world', world).toNotBeNull();
             if (context) {
                 context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
                 context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
                 context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
                 clear();
-                //var drawGroups: {[programId:string]: Drawable[]} = {};
-                //if (!world.hasContext()) {
-                //  world.contextGain(context, contextGainId);
-                //}
+                if (!world.hasContext()) {
+                    world.contextGain(context, contextId);
+                }
                 var programLoaded;
-                var drawHandler = function (drawable, index) {
-                    if (!programLoaded) {
-                        drawable.useProgram();
-                        programLoaded = true;
-                    }
-                    views.forEach(function (view) {
-                        drawable.draw(view);
-                    });
-                };
                 for (var drawGroupName in world.drawGroups) {
                     programLoaded = false;
-                    world.drawGroups[drawGroupName].forEach(drawHandler);
+                    world.drawGroups[drawGroupName].forEach(function (drawable) {
+                        if (!programLoaded) {
+                            drawable.useProgram();
+                            programLoaded = true;
+                        }
+                        views.forEach(function (view) {
+                            drawable.draw(view);
+                        });
+                    });
                 }
             }
             else {

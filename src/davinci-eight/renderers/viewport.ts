@@ -7,14 +7,15 @@ import ViewportParameters = require('../renderers/ViewportParameters');
 import ViewportArgs = require('../renderers/ViewportArgs');
 import World = require('../worlds/World');
 import UniformProvider = require('../core/UniformProvider');
-//import initWebGL = require('../renderers/initWebGL');
 //import FrameworkDrawContext = require('../renderers/FrameworkDrawContext');
+import expectArg = require('../checks/expectArg');
 
-let viewport = function(parameters?: ViewportParameters): Viewport {
+let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameters): Viewport {
+
+    expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 
     parameters = parameters || {};
 
-    let canvas: HTMLCanvasElement = parameters.canvas !== undefined ? parameters.canvas : document.createElement('canvas');
     var alpha: boolean = parameters.alpha !== undefined ? parameters.alpha : false;
     var depth: boolean = parameters.depth !== undefined ? parameters.depth : true;
     var stencil: boolean = parameters.stencil !== undefined ? parameters.stencil : true;
@@ -24,7 +25,7 @@ let viewport = function(parameters?: ViewportParameters): Viewport {
 
     //var drawContext = new FrameworkDrawContext();
     var context: WebGLRenderingContext;
-    var contextGainId: string;
+    var contextId: string;
     var devicePixelRatio = 1;
     var autoClearColor: boolean = true;
     var autoClearDepth: boolean = true;
@@ -59,14 +60,17 @@ let viewport = function(parameters?: ViewportParameters): Viewport {
       get context(): WebGLRenderingContext { return context;},
       contextFree: function() {
         context = void 0;
+        contextId = void 0;
       },
-      contextGain: function(contextArg: WebGLRenderingContext, contextGainId: string) {
+      contextGain: function(contextArg: WebGLRenderingContext, contextIdArg: string) {
         context = contextArg;
+        contextId = contextIdArg;
         context.enable(context.DEPTH_TEST);
         context.enable(context.SCISSOR_TEST);
       },
       contextLoss: function() {
         context = void 0;
+        contextId = void 0;
       },
       hasContext: function() {
         return !!context;
@@ -80,28 +84,27 @@ let viewport = function(parameters?: ViewportParameters): Viewport {
         //
       },
       render(world: World, views: UniformProvider[]) {
+        expectArg('world', world).toNotBeNull();
         if (context) {
           context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
           context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
           context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
           clear();
-          //var drawGroups: {[programId:string]: Drawable[]} = {};
-          //if (!world.hasContext()) {
-          //  world.contextGain(context, contextGainId);
-          //}
+          if (!world.hasContext()) {
+            world.contextGain(context, contextId);
+          }
           var programLoaded;
-          var drawHandler = function(drawable: Drawable, index: number) {
-            if (!programLoaded) {
-              drawable.useProgram();
-              programLoaded = true;
-            }
-            views.forEach(function(view) {
-              drawable.draw(view);
-            });
-          };
           for (var drawGroupName in world.drawGroups) {
             programLoaded = false;
-            world.drawGroups[drawGroupName].forEach(drawHandler);
+            world.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
+              if (!programLoaded) {
+                drawable.useProgram();
+                programLoaded = true;
+              }
+              views.forEach(function(view) {
+                drawable.draw(view);
+              });
+            });
           }
         }
         else {

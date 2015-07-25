@@ -1,36 +1,60 @@
 import WindowAnimationRunner = require('../utils/WindowAnimationRunner');
+import expectArg = require('../checks/expectArg');
+
+function defaultSetUp(): void {
+}
+
+function defaultTearDown(animateException): void {
+  if (animateException) {
+    let message = "Exception raised during animate function: " + animateException;
+    console.warn(message);
+  }
+}
+
+function defaultTerminate(time: number): boolean {
+  // Never ending, because whenever asked we say nee.
+  return false;
+}
+
 /**
  * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
- * @param tick The `tick` function is called for each animation frame.
- * @param terminate The `terminate` function is called to determine whether the animation should stop.
- * @param setUp The `setUp` function is called synchronously each time the start() method is called.
- * @param tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
- * @param 
+ * @param animate The `animate` function is called for each animation frame.
+ * @param options.setUp The `setUp` function is called synchronously each time the start() method is called.
+ * @param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
+ * @param options.terminate The `terminate` function is called to determine whether the animation should stop.
+ * @param options.window {Window} The window in which the animation will run. Defaults to the global window. 
  */
-var animationRunner = function(
-  tick: (time: number) => void,
-  terminate: (time: number) => void,
-  setUp: () => void,
-  tearDown: (ex: any) => void,
-  $window?: Window): WindowAnimationRunner {
+var animation = function(
+    animate: (time: number) => void,
+    options?: {
+      setUp?: () => void;
+      tearDown?: (animateException) => void;
+      terminate?: (time: number) => boolean;
+      window?: Window }): WindowAnimationRunner {
 
     // TODO: Use enum when TypeScript compiler version is appropriate.
     var STATE_INITIAL = 1;
     var STATE_RUNNING = 2;
     var STATE_PAUSED = 3;
 
-    $window = $window || window;
+    options = options || {};
+
+    let $window: Window = expectArg('options.window', options.window || window).toNotBeNull().value;
+    let setUp: () => void = expectArg('options.setUp', options.setUp || defaultSetUp).value;
+    let tearDown: (animateException) => void = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
+    let terminate: (time: number) => boolean = expectArg('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
+
     var stopSignal = false;       // 27 is Esc
 //  var pauseKeyPressed = false;  // 19
 //  var enterKeyPressed = false;  // 13
-    var startTime: number = undefined;
+    var startTime: number;
     var elapsed: number = 0;
     var MILLIS_PER_SECOND = 1000;
     var requestID: number = null;
-    var exception: any = undefined;
+    var animateException: any;
     var state = STATE_INITIAL;
 
-    var animate: FrameRequestCallback = function(timestamp: number) {
+    let frameRequestCallback: FrameRequestCallback = function(timestamp: number) {
       if (startTime) {
         elapsed = elapsed + timestamp - startTime;
       }
@@ -43,7 +67,7 @@ var animationRunner = function(
         $window.cancelAnimationFrame(requestID);
         if (publicAPI.isRunning) {
           state = STATE_PAUSED;
-          startTime = undefined;
+          startTime = void 0;
         }
         else {
           // TODO: Can we recover?
@@ -51,20 +75,20 @@ var animationRunner = function(
         }
         $window.document.removeEventListener('keydown', onDocumentKeyDown, false);
         try {
-          tearDown(exception);
+          tearDown(animateException);
         }
         catch (e) {
-          console.log("Exception thrown from tearDown function: " + e);
+          console.warn("Exception raised during tearDown function: " + e);
         }
       }
       else {
-        requestID = $window.requestAnimationFrame(animate);
+        requestID = $window.requestAnimationFrame(frameRequestCallback);
         // If an exception happens, cache it to be reported later and simulate a stopSignal.
         try {
-          tick(elapsed / MILLIS_PER_SECOND);
+          animate(elapsed / MILLIS_PER_SECOND);
         }
         catch (e) {
-          exception = e;
+          animateException = e;
           stopSignal = true;
         }
       }
@@ -97,7 +121,7 @@ var animationRunner = function(
           setUp();
           $window.document.addEventListener('keydown', onDocumentKeyDown, false);
           state = STATE_RUNNING;
-          requestID = $window.requestAnimationFrame(animate);
+          requestID = $window.requestAnimationFrame(frameRequestCallback);
         }
         else {
           throw new Error("The `start` method may only be called when not running.");
@@ -113,7 +137,7 @@ var animationRunner = function(
       },
       reset: function() {
         if (publicAPI.isPaused) {
-          startTime = undefined;
+          startTime = void 0;
           elapsed = 0;
           state = STATE_INITIAL;
         }
@@ -143,4 +167,4 @@ var animationRunner = function(
     return publicAPI;
 };
 
-export = animationRunner;
+export = animation;

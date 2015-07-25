@@ -1,6 +1,8 @@
 var uuid4 = require('../utils/uuid4');
 var initWebGL = require('../renderers/initWebGL');
+var expectArg = require('../checks/expectArg');
 function contextMonitor(canvas, attributes) {
+    expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     var users = [];
     var context;
     var contextId;
@@ -20,7 +22,7 @@ function contextMonitor(canvas, attributes) {
             user.contextGain(context, contextId);
         });
     };
-    var publicAPI = {
+    var self = {
         start: function () {
             context = initWebGL(canvas, attributes);
             contextId = uuid4().generate();
@@ -29,6 +31,7 @@ function contextMonitor(canvas, attributes) {
             users.forEach(function (user) {
                 user.contextGain(context, contextId);
             });
+            return self;
         },
         stop: function () {
             context = void 0;
@@ -38,18 +41,21 @@ function contextMonitor(canvas, attributes) {
             });
             canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
             canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+            return self;
         },
         addContextUser: function (user) {
+            expectArg('user', user).toBeObject();
             users.push(user);
             if (context && !user.hasContext()) {
                 user.contextGain(context, contextId);
             }
+            return self;
         },
         get context() {
             return context;
         }
     };
-    return publicAPI;
+    return self;
 }
 ;
 module.exports = contextMonitor;

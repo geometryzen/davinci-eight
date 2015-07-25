@@ -2,8 +2,11 @@ import RenderingContextMonitor = require('../utils/RenderingContextMonitor');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import uuid4 = require('../utils/uuid4')
 import initWebGL = require('../renderers/initWebGL');
+import expectArg = require('../checks/expectArg');
 
 function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingContextMonitor {
+
+  expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 
   let users: RenderingContextUser[] = [];
   var context: WebGLRenderingContext;
@@ -27,7 +30,7 @@ function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingC
     });
   };
 
-  var publicAPI: RenderingContextMonitor = {
+  var self: RenderingContextMonitor = {
     start() {
       context = initWebGL(canvas, attributes);
       contextId = uuid4().generate();
@@ -36,6 +39,7 @@ function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingC
       users.forEach(function(user: RenderingContextUser) {
         user.contextGain(context, contextId);
       });
+      return self;
     },
     stop() {
       context = void 0;
@@ -45,19 +49,22 @@ function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingC
       });
       canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
       canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+      return self;
     },
     addContextUser(user: RenderingContextUser) {
+      expectArg('user', user).toBeObject();
       users.push(user);
       if (context && !user.hasContext()) {
         user.contextGain(context, contextId)
       }
+      return self;
     },
     get context() {
       return context;
     }
   };
 
-  return publicAPI;
+  return self;
 };
 
 export = contextMonitor;

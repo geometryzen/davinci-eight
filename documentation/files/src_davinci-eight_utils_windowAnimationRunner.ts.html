@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.27.0</em>
+            <em>API Docs for: 2.28.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -138,38 +138,62 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import WindowAnimationRunner = require(&#x27;../utils/WindowAnimationRunner&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
+
+function defaultSetUp(): void {
+}
+
+function defaultTearDown(animateException): void {
+  if (animateException) {
+    let message = &quot;Exception raised during animate function: &quot; + animateException;
+    console.warn(message);
+  }
+}
+
+function defaultTerminate(time: number): boolean {
+  // Never ending, because whenever asked we say nee.
+  return false;
+}
+
 /**
  * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
- * @param tick The &#x60;tick&#x60; function is called for each animation frame.
- * @param terminate The &#x60;terminate&#x60; function is called to determine whether the animation should stop.
- * @param setUp The &#x60;setUp&#x60; function is called synchronously each time the start() method is called.
- * @param tearDown The &#x60;tearDown&#x60; function is called asynchronously each time the animation is stopped.
- * @param 
+ * @param animate The &#x60;animate&#x60; function is called for each animation frame.
+ * @param options.setUp The &#x60;setUp&#x60; function is called synchronously each time the start() method is called.
+ * @param options.tearDown The &#x60;tearDown&#x60; function is called asynchronously each time the animation is stopped.
+ * @param options.terminate The &#x60;terminate&#x60; function is called to determine whether the animation should stop.
+ * @param options.window {Window} The window in which the animation will run. Defaults to the global window. 
  */
-var animationRunner = function(
-  tick: (time: number) =&gt; void,
-  terminate: (time: number) =&gt; void,
-  setUp: () =&gt; void,
-  tearDown: (ex: any) =&gt; void,
-  $window?: Window): WindowAnimationRunner {
+var animation = function(
+    animate: (time: number) =&gt; void,
+    options?: {
+      setUp?: () =&gt; void;
+      tearDown?: (animateException) =&gt; void;
+      terminate?: (time: number) =&gt; boolean;
+      window?: Window }): WindowAnimationRunner {
 
     // TODO: Use enum when TypeScript compiler version is appropriate.
     var STATE_INITIAL = 1;
     var STATE_RUNNING = 2;
     var STATE_PAUSED = 3;
 
-    $window = $window || window;
+    options = options || {};
+
+    let $window: Window = expectArg(&#x27;options.window&#x27;, options.window || window).toNotBeNull().value;
+    let setUp: () =&gt; void = expectArg(&#x27;options.setUp&#x27;, options.setUp || defaultSetUp).value;
+    let tearDown: (animateException) =&gt; void = expectArg(&#x27;options.tearDown&#x27;, options.tearDown || defaultTearDown).value;
+    let terminate: (time: number) =&gt; boolean = expectArg(&#x27;options.terminate&#x27;, options.terminate || defaultTerminate).toNotBeNull().value;
+
     var stopSignal = false;       // 27 is Esc
 //  var pauseKeyPressed = false;  // 19
 //  var enterKeyPressed = false;  // 13
-    var startTime: number = undefined;
+    var startTime: number;
     var elapsed: number = 0;
     var MILLIS_PER_SECOND = 1000;
     var requestID: number = null;
-    var exception: any = undefined;
+    var animateException: any;
     var state = STATE_INITIAL;
 
-    var animate: FrameRequestCallback = function(timestamp: number) {
+    let frameRequestCallback: FrameRequestCallback = function(timestamp: number) {
       if (startTime) {
         elapsed = elapsed + timestamp - startTime;
       }
@@ -182,7 +206,7 @@ var animationRunner = function(
         $window.cancelAnimationFrame(requestID);
         if (publicAPI.isRunning) {
           state = STATE_PAUSED;
-          startTime = undefined;
+          startTime = void 0;
         }
         else {
           // TODO: Can we recover?
@@ -190,20 +214,20 @@ var animationRunner = function(
         }
         $window.document.removeEventListener(&#x27;keydown&#x27;, onDocumentKeyDown, false);
         try {
-          tearDown(exception);
+          tearDown(animateException);
         }
         catch (e) {
-          console.log(&quot;Exception thrown from tearDown function: &quot; + e);
+          console.warn(&quot;Exception raised during tearDown function: &quot; + e);
         }
       }
       else {
-        requestID = $window.requestAnimationFrame(animate);
+        requestID = $window.requestAnimationFrame(frameRequestCallback);
         // If an exception happens, cache it to be reported later and simulate a stopSignal.
         try {
-          tick(elapsed / MILLIS_PER_SECOND);
+          animate(elapsed / MILLIS_PER_SECOND);
         }
         catch (e) {
-          exception = e;
+          animateException = e;
           stopSignal = true;
         }
       }
@@ -236,7 +260,7 @@ var animationRunner = function(
           setUp();
           $window.document.addEventListener(&#x27;keydown&#x27;, onDocumentKeyDown, false);
           state = STATE_RUNNING;
-          requestID = $window.requestAnimationFrame(animate);
+          requestID = $window.requestAnimationFrame(frameRequestCallback);
         }
         else {
           throw new Error(&quot;The &#x60;start&#x60; method may only be called when not running.&quot;);
@@ -252,7 +276,7 @@ var animationRunner = function(
       },
       reset: function() {
         if (publicAPI.isPaused) {
-          startTime = undefined;
+          startTime = void 0;
           elapsed = 0;
           state = STATE_INITIAL;
         }
@@ -282,7 +306,7 @@ var animationRunner = function(
     return publicAPI;
 };
 
-export = animationRunner;
+export = animation;
 
     </pre>
 </div>

@@ -64,7 +64,7 @@ declare var eight: {
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
     world: () => World;
     object3D: () => Node3D;
-    viewport: (parameters?: ViewportParameters) => Viewport;
+    viewport: (canvas: HTMLCanvasElement, parameters: ViewportParameters) => Viewport;
     contextMonitor: (canvas: HTMLCanvasElement, attributes?: any) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
@@ -72,7 +72,12 @@ declare var eight: {
         setUp: () => void;
         tearDown: () => void;
     };
-    animationRunner: (tick: (time: number) => void, terminate: (time: number) => void, setUp: () => void, tearDown: (ex: any) => void, $window?: Window) => WindowAnimationRunner;
+    animation: (animate: (time: number) => void, options?: {
+        setUp?: () => void;
+        tearDown?: (animateException: any) => void;
+        terminate?: (time: number) => boolean;
+        window?: Window;
+    }) => WindowAnimationRunner;
     DataUsage: typeof DataUsage;
     drawableModel: <MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL) => DrawableModel<MESH, SHADERS, MODEL>;
     DrawMode: typeof DrawMode;

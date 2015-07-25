@@ -28,13 +28,17 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
   var projectionMatrix = new Matrix4();
   var matrixNeedsUpdate = true;
 
-  var publicAPI: LinearPerspectiveCamera = {
+  var self: LinearPerspectiveCamera = {
     // Delegate to the base camera.
     get eye(): Cartesian3 {
       return base.eye;
     },
     set eye(value: Cartesian3) {
       base.eye = value;
+    },
+    setEye(eye: Cartesian3) {
+      self.eye = eye;
+      return self;
     },
     get look(): Cartesian3 {
       return base.look;
@@ -61,6 +65,10 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     set aspect(value: number) {
       aspect = value;
       matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+    },
+    setAspect(aspect: number) {
+      self.aspect = aspect;
+      return self;
     },
     get near(): number {
       return near;
@@ -115,7 +123,7 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     }
   };
 
-  return publicAPI;
+  return self;
 };
 
 export =  perspective;

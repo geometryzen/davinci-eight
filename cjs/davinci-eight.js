@@ -96,7 +96,7 @@ var eight = {
     get viewport() { return viewport; },
     get contextMonitor() { return contextMonitor; },
     workbench: workbench3D,
-    animationRunner: windowAnimationRunner,
+    animation: windowAnimationRunner,
     get DataUsage() { return DataUsage; },
     get drawableModel() { return drawableModel; },
     get DrawMode() { return DrawMode; },

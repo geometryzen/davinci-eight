@@ -1,5 +1,6 @@
 import World = require('../worlds/World');
 import Drawable = require('../core/Drawable');
+import expectArg = require('../checks/expectArg');
 
 var world = function(): World
 {
@@ -9,21 +10,19 @@ var world = function(): World
     var gl: WebGLRenderingContext;
     var contextId: string;
 
-    var publicAPI: World =
-    {
+    var publicAPI: World = {
         get drawGroups(): {[drawGroupName:string]: Drawable[]} {return drawGroups},
         get children(): Drawable[] { return drawables; },
-
-        contextFree(): void
-        {
-          for (var i = 0, length = drawables.length; i < length; i++)
-          {
-            drawables[i].contextFree();
-          }
+        contextFree(): void {
+          drawables.forEach(function(drawable) {
+            drawable.contextFree();
+          });
+          gl = void 0;
+          contextId = void 0;
         },
-
-        contextGain(context: WebGLRenderingContext, contextId: string): void
-        {
+        contextGain(context: WebGLRenderingContext, contextId: string): void {
+          expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext")
+          expectArg('contextId', contextId).toBeString();
           gl = context;
           contextId = contextId;
           drawables.forEach(function(drawable) {
@@ -35,23 +34,17 @@ var world = function(): World
             drawGroups[groupName].push(drawable);
           });
         },
-
-        contextLoss(): void
-        {
+        contextLoss(): void {
           drawables.forEach(function(drawable) {
             drawable.contextLoss();
           });
           gl = void 0;
           contextId = void 0;
         },
-
-        hasContext(): boolean
-        {
+        hasContext(): boolean {
           return !!gl;
         },
-
-        add: function(child: Drawable)
-        {
+        add: function(child: Drawable) {
           drawables.push(child);
         }
     }

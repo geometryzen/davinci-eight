@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.27.0'
+        VERSION: '2.28.0'
     };
     return core;
 });
@@ -1514,13 +1514,17 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
         var base = view();
         var projectionMatrix = new Matrix4();
         var matrixNeedsUpdate = true;
-        var publicAPI = {
+        var self = {
             // Delegate to the base camera.
             get eye() {
                 return base.eye;
             },
             set eye(value) {
                 base.eye = value;
+            },
+            setEye: function (eye) {
+                self.eye = eye;
+                return self;
             },
             get look() {
                 return base.look;
@@ -1547,6 +1551,10 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
             set aspect(value) {
                 aspect = value;
                 matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+            },
+            setAspect: function (aspect) {
+                self.aspect = aspect;
+                return self;
             },
             get near() {
                 return near;
@@ -1600,12 +1608,71 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
                 return uniforms;
             }
         };
-        return publicAPI;
+        return self;
     };
     return perspective;
 });
 
-define('davinci-eight/worlds/world',["require", "exports"], function (require, exports) {
+define('davinci-eight/checks/expectArg',["require", "exports"], function (require, exports) {
+    function expectArg(name, value) {
+        var arg = {
+            toSatisfy: function (condition, message) {
+                if (!condition) {
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toBeDefined: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue === 'undefined') {
+                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toBeObject: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'object') {
+                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be an object.";
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toBeString: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'string') {
+                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toBeUndefined: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'undefined') {
+                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toNotBeNull: function () {
+                if (value === null) {
+                    var message = "Expecting argument " + name + " to not be null.";
+                    throw new Error(message);
+                }
+                else {
+                    return arg;
+                }
+            },
+            get value() {
+                return value;
+            }
+        };
+        return arg;
+    }
+    return expectArg;
+});
+
+define('davinci-eight/worlds/world',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     var world = function () {
         var drawables = [];
         var drawGroups = {};
@@ -1615,11 +1682,15 @@ define('davinci-eight/worlds/world',["require", "exports"], function (require, e
             get drawGroups() { return drawGroups; },
             get children() { return drawables; },
             contextFree: function () {
-                for (var i = 0, length = drawables.length; i < length; i++) {
-                    drawables[i].contextFree();
-                }
+                drawables.forEach(function (drawable) {
+                    drawable.contextFree();
+                });
+                gl = void 0;
+                contextId = void 0;
             },
             contextGain: function (context, contextId) {
+                expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext");
+                expectArg('contextId', contextId).toBeString();
                 gl = context;
                 contextId = contextId;
                 drawables.forEach(function (drawable) {
@@ -1664,12 +1735,10 @@ define('davinci-eight/renderers/ViewportArgs',["require", "exports"], function (
     return ViewportArgs;
 });
 
-define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color', '../renderers/ViewportArgs'], function (require, exports, Color, ViewportArgs) {
-    //import initWebGL = require('../renderers/initWebGL');
-    //import FrameworkDrawContext = require('../renderers/FrameworkDrawContext');
-    var viewport = function (parameters) {
+define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../checks/expectArg'], function (require, exports, Color, ViewportArgs, expectArg) {
+    var viewport = function (canvas, parameters) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         parameters = parameters || {};
-        var canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement('canvas');
         var alpha = parameters.alpha !== undefined ? parameters.alpha : false;
         var depth = parameters.depth !== undefined ? parameters.depth : true;
         var stencil = parameters.stencil !== undefined ? parameters.stencil : true;
@@ -1678,7 +1747,7 @@ define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color'
         var preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
         //var drawContext = new FrameworkDrawContext();
         var context;
-        var contextGainId;
+        var contextId;
         var devicePixelRatio = 1;
         var autoClearColor = true;
         var autoClearDepth = true;
@@ -1707,14 +1776,17 @@ define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color'
             get context() { return context; },
             contextFree: function () {
                 context = void 0;
+                contextId = void 0;
             },
-            contextGain: function (contextArg, contextGainId) {
+            contextGain: function (contextArg, contextIdArg) {
                 context = contextArg;
+                contextId = contextIdArg;
                 context.enable(context.DEPTH_TEST);
                 context.enable(context.SCISSOR_TEST);
             },
             contextLoss: function () {
                 context = void 0;
+                contextId = void 0;
             },
             hasContext: function () {
                 return !!context;
@@ -1727,28 +1799,27 @@ define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color'
                 //
             },
             render: function (world, views) {
+                expectArg('world', world).toNotBeNull();
                 if (context) {
                     context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
                     context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
                     context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
                     clear();
-                    //var drawGroups: {[programId:string]: Drawable[]} = {};
-                    //if (!world.hasContext()) {
-                    //  world.contextGain(context, contextGainId);
-                    //}
+                    if (!world.hasContext()) {
+                        world.contextGain(context, contextId);
+                    }
                     var programLoaded;
-                    var drawHandler = function (drawable, index) {
-                        if (!programLoaded) {
-                            drawable.useProgram();
-                            programLoaded = true;
-                        }
-                        views.forEach(function (view) {
-                            drawable.draw(view);
-                        });
-                    };
                     for (var drawGroupName in world.drawGroups) {
                         programLoaded = false;
-                        world.drawGroups[drawGroupName].forEach(drawHandler);
+                        world.drawGroups[drawGroupName].forEach(function (drawable) {
+                            if (!programLoaded) {
+                                drawable.useProgram();
+                                programLoaded = true;
+                            }
+                            views.forEach(function (view) {
+                                drawable.draw(view);
+                            });
+                        });
                     }
                 }
                 else {
@@ -7884,8 +7955,9 @@ define('davinci-eight/uniforms/UniformVec3',["require", "exports", '../uniforms/
     return UniformVec3;
 });
 
-define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uuid4', '../renderers/initWebGL'], function (require, exports, uuid4, initWebGL) {
+define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uuid4', '../renderers/initWebGL', '../checks/expectArg'], function (require, exports, uuid4, initWebGL, expectArg) {
     function contextMonitor(canvas, attributes) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var users = [];
         var context;
         var contextId;
@@ -7905,7 +7977,7 @@ define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uui
                 user.contextGain(context, contextId);
             });
         };
-        var publicAPI = {
+        var self = {
             start: function () {
                 context = initWebGL(canvas, attributes);
                 contextId = uuid4().generate();
@@ -7914,6 +7986,7 @@ define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uui
                 users.forEach(function (user) {
                     user.contextGain(context, contextId);
                 });
+                return self;
             },
             stop: function () {
                 context = void 0;
@@ -7923,18 +7996,21 @@ define('davinci-eight/utils/contextMonitor',["require", "exports", '../utils/uui
                 });
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+                return self;
             },
             addContextUser: function (user) {
+                expectArg('user', user).toBeObject();
                 users.push(user);
                 if (context && !user.hasContext()) {
                     user.contextGain(context, contextId);
                 }
+                return self;
             },
             get context() {
                 return context;
             }
         };
-        return publicAPI;
+        return self;
     }
     ;
     return contextMonitor;
@@ -7989,31 +8065,47 @@ define('davinci-eight/utils/workbench3D',["require", "exports"], function (requi
     return workbench3D;
 });
 
-define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], function (require, exports) {
+define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    function defaultSetUp() {
+    }
+    function defaultTearDown(animateException) {
+        if (animateException) {
+            var message = "Exception raised during animate function: " + animateException;
+            console.warn(message);
+        }
+    }
+    function defaultTerminate(time) {
+        // Never ending, because whenever asked we say nee.
+        return false;
+    }
     /**
      * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
-     * @param tick The `tick` function is called for each animation frame.
-     * @param terminate The `terminate` function is called to determine whether the animation should stop.
-     * @param setUp The `setUp` function is called synchronously each time the start() method is called.
-     * @param tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
-     * @param
+     * @param animate The `animate` function is called for each animation frame.
+     * @param options.setUp The `setUp` function is called synchronously each time the start() method is called.
+     * @param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
+     * @param options.terminate The `terminate` function is called to determine whether the animation should stop.
+     * @param options.window {Window} The window in which the animation will run. Defaults to the global window.
      */
-    var animationRunner = function (tick, terminate, setUp, tearDown, $window) {
+    var animation = function (animate, options) {
         // TODO: Use enum when TypeScript compiler version is appropriate.
         var STATE_INITIAL = 1;
         var STATE_RUNNING = 2;
         var STATE_PAUSED = 3;
-        $window = $window || window;
+        options = options || {};
+        var $window = expectArg('options.window', options.window || window).toNotBeNull().value;
+        var setUp = expectArg('options.setUp', options.setUp || defaultSetUp).value;
+        var tearDown = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
+        var terminate = expectArg('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
         var stopSignal = false; // 27 is Esc
         //  var pauseKeyPressed = false;  // 19
         //  var enterKeyPressed = false;  // 13
-        var startTime = undefined;
+        var startTime;
         var elapsed = 0;
         var MILLIS_PER_SECOND = 1000;
         var requestID = null;
-        var exception = undefined;
+        var animateException;
         var state = STATE_INITIAL;
-        var animate = function (timestamp) {
+        var frameRequestCallback = function (timestamp) {
             if (startTime) {
                 elapsed = elapsed + timestamp - startTime;
             }
@@ -8024,7 +8116,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
                 $window.cancelAnimationFrame(requestID);
                 if (publicAPI.isRunning) {
                     state = STATE_PAUSED;
-                    startTime = undefined;
+                    startTime = void 0;
                 }
                 else {
                     // TODO: Can we recover?
@@ -8032,20 +8124,20 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
                 }
                 $window.document.removeEventListener('keydown', onDocumentKeyDown, false);
                 try {
-                    tearDown(exception);
+                    tearDown(animateException);
                 }
                 catch (e) {
-                    console.log("Exception thrown from tearDown function: " + e);
+                    console.warn("Exception raised during tearDown function: " + e);
                 }
             }
             else {
-                requestID = $window.requestAnimationFrame(animate);
+                requestID = $window.requestAnimationFrame(frameRequestCallback);
                 // If an exception happens, cache it to be reported later and simulate a stopSignal.
                 try {
-                    tick(elapsed / MILLIS_PER_SECOND);
+                    animate(elapsed / MILLIS_PER_SECOND);
                 }
                 catch (e) {
-                    exception = e;
+                    animateException = e;
                     stopSignal = true;
                 }
             }
@@ -8076,7 +8168,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
                     setUp();
                     $window.document.addEventListener('keydown', onDocumentKeyDown, false);
                     state = STATE_RUNNING;
-                    requestID = $window.requestAnimationFrame(animate);
+                    requestID = $window.requestAnimationFrame(frameRequestCallback);
                 }
                 else {
                     throw new Error("The `start` method may only be called when not running.");
@@ -8092,7 +8184,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
             },
             reset: function () {
                 if (publicAPI.isPaused) {
-                    startTime = undefined;
+                    startTime = void 0;
                     elapsed = 0;
                     state = STATE_INITIAL;
                 }
@@ -8119,7 +8211,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports"], funct
         };
         return publicAPI;
     };
-    return animationRunner;
+    return animation;
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
@@ -8155,7 +8247,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get viewport() { return viewport; },
         get contextMonitor() { return contextMonitor; },
         workbench: workbench3D,
-        animationRunner: windowAnimationRunner,
+        animation: windowAnimationRunner,
         get DataUsage() { return DataUsage; },
         get drawableModel() { return drawableModel; },
         get DrawMode() { return DrawMode; },
