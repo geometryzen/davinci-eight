@@ -578,6 +578,12 @@ declare module EIGHT
     }
   ): AttributeProvider;
   /**
+   *
+   */
+  function arrow(
+    ambients: UniformProvider
+  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  /**
    * Constructs and returns a box mesh.
    */
   function boxMesh(
@@ -589,6 +595,48 @@ declare module EIGHT
    *
    */
   function box(
+    ambients: UniformProvider
+  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  /**
+   * Constructs and returns a cylinder mesh.
+   */
+  function cylinderMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function cylinder(
+    ambients: UniformProvider
+  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  /**
+   * Constructs and returns an vortex mesh.
+   */
+  function sphereMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function sphere(
+    ambients: UniformProvider
+  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  /**
+   * Constructs and returns an vortex mesh.
+   */
+  function vortexMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function vortex(
     ambients: UniformProvider
   ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**

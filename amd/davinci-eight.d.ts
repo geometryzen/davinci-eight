@@ -128,7 +128,20 @@ declare var eight: {
     boxMesh: (options?: {
         wireFrame?: boolean;
     }) => AttributeProvider;
+    cylinderMesh: (options?: {
+        wireFrame?: boolean;
+    }) => AttributeProvider;
+    sphereMesh: (options?: {
+        wireFrame?: boolean;
+    }) => AttributeProvider;
+    vortexMesh: (options?: {
+        wireFrame?: boolean;
+    }) => AttributeProvider;
+    arrow: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
     box: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    sphere: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

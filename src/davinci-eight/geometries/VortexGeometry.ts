@@ -7,13 +7,13 @@ import Vector3 = require('../math/Vector3');
 class VortexGeometry extends Geometry
 {
   constructor(
-    radius: number,
-    radiusCone: number,
-    radiusShaft: number,
-    lengthCone: number,
-    lengthShaft: number,
-    arrowSegments?: number,
-    radialSegments?: number) {
+    radius: number = 1,
+    radiusCone: number = 0.08,
+    radiusShaft: number = 0.01,
+    lengthCone: number = 0.2,
+    lengthShaft: number = 0.8,
+    arrowSegments: number = 8,
+    radialSegments: number = 12) {
     super();
     var scope = this;
     var n = 9;

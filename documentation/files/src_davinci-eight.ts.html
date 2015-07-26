@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.28.0</em>
+            <em>API Docs for: 2.29.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -196,10 +196,18 @@ import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
 // mesh
 import arrowMesh = require(&#x27;davinci-eight/mesh/arrowMesh&#x27;);
 import boxMesh = require(&#x27;davinci-eight/mesh/boxMesh&#x27;);
+import cylinderMesh = require(&#x27;davinci-eight/mesh/cylinderMesh&#x27;);
+import sphereMesh = require(&#x27;davinci-eight/mesh/sphereMesh&#x27;);
+import vortexMesh = require(&#x27;davinci-eight/mesh/vortexMesh&#x27;);
 // objects
+import arrow = require(&#x27;davinci-eight/objects/arrow&#x27;);
 import box = require(&#x27;davinci-eight/objects/box&#x27;);
+import cylinder = require(&#x27;davinci-eight/objects/cylinder&#x27;);
+import sphere = require(&#x27;davinci-eight/objects/sphere&#x27;);
+import vortex = require(&#x27;davinci-eight/objects/vortex&#x27;);
 import DrawableModel = require(&#x27;davinci-eight/objects/DrawableModel&#x27;);
 import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
+// programs
 import ShaderProgram = require(&#x27;davinci-eight/programs/ShaderProgram&#x27;);
 // renderers
 import Viewport = require(&#x27;davinci-eight/renderers/Viewport&#x27;);
@@ -310,8 +318,15 @@ var eight = {
   // mesh
   get arrowMesh() { return arrowMesh; },
   get boxMesh() { return boxMesh; },
+  get cylinderMesh() { return cylinderMesh; },
+  get sphereMesh() { return sphereMesh; },
+  get vortexMesh() { return vortexMesh; },
   // objects
+  get arrow() { return arrow; },
   get box() { return box; },
+  get cylinder() { return cylinder; },
+  get sphere() { return sphere; },
+  get vortex() { return vortex; },
   // programs
   get shaderProgramFromScripts() { return shaderProgramFromScripts; },
   /*

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.28.0</em>
+            <em>API Docs for: 2.29.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -717,6 +717,12 @@ declare module EIGHT
     }
   ): AttributeProvider;
   /**
+   *
+   */
+  function arrow(
+    ambients: UniformProvider
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  /**
    * Constructs and returns a box mesh.
    */
   function boxMesh(
@@ -728,6 +734,48 @@ declare module EIGHT
    *
    */
   function box(
+    ambients: UniformProvider
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  /**
+   * Constructs and returns a cylinder mesh.
+   */
+  function cylinderMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function cylinder(
+    ambients: UniformProvider
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  /**
+   * Constructs and returns an vortex mesh.
+   */
+  function sphereMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function sphere(
+    ambients: UniformProvider
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  /**
+   * Constructs and returns an vortex mesh.
+   */
+  function vortexMesh(
+    options?: {
+      wireFrame?: boolean
+    }
+  ): AttributeProvider;
+  /**
+   *
+   */
+  function vortex(
     ambients: UniformProvider
   ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
   /**

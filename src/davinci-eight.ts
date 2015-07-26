@@ -57,10 +57,18 @@ import Vector3 = require('davinci-eight/math/Vector3');
 // mesh
 import arrowMesh = require('davinci-eight/mesh/arrowMesh');
 import boxMesh = require('davinci-eight/mesh/boxMesh');
+import cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
+import sphereMesh = require('davinci-eight/mesh/sphereMesh');
+import vortexMesh = require('davinci-eight/mesh/vortexMesh');
 // objects
+import arrow = require('davinci-eight/objects/arrow');
 import box = require('davinci-eight/objects/box');
+import cylinder = require('davinci-eight/objects/cylinder');
+import sphere = require('davinci-eight/objects/sphere');
+import vortex = require('davinci-eight/objects/vortex');
 import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
+// programs
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
 // renderers
 import Viewport = require('davinci-eight/renderers/Viewport');
@@ -171,8 +179,15 @@ var eight = {
   // mesh
   get arrowMesh() { return arrowMesh; },
   get boxMesh() { return boxMesh; },
+  get cylinderMesh() { return cylinderMesh; },
+  get sphereMesh() { return sphereMesh; },
+  get vortexMesh() { return vortexMesh; },
   // objects
+  get arrow() { return arrow; },
   get box() { return box; },
+  get cylinder() { return cylinder; },
+  get sphere() { return sphere; },
+  get vortex() { return vortex; },
   // programs
   get shaderProgramFromScripts() { return shaderProgramFromScripts; },
   /*

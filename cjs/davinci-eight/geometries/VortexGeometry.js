@@ -11,6 +11,13 @@ var Vector3 = require('../math/Vector3');
 var VortexGeometry = (function (_super) {
     __extends(VortexGeometry, _super);
     function VortexGeometry(radius, radiusCone, radiusShaft, lengthCone, lengthShaft, arrowSegments, radialSegments) {
+        if (radius === void 0) { radius = 1; }
+        if (radiusCone === void 0) { radiusCone = 0.08; }
+        if (radiusShaft === void 0) { radiusShaft = 0.01; }
+        if (lengthCone === void 0) { lengthCone = 0.2; }
+        if (lengthShaft === void 0) { lengthShaft = 0.8; }
+        if (arrowSegments === void 0) { arrowSegments = 8; }
+        if (radialSegments === void 0) { radialSegments = 12; }
         _super.call(this);
         var scope = this;
         var n = 9;
