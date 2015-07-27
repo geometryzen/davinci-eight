@@ -3,12 +3,12 @@ import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformVariable = require('../uniforms/UniformVariable');
 declare class UniformVec2 extends DefaultUniformProvider implements UniformVariable<number[]> {
     private name;
-    private $value;
+    private $data;
     private $callback;
-    private useValue;
+    private useData;
     private id;
     constructor(name: string, id?: string);
-    value: number[];
+    data: number[];
     callback: () => number[];
     getUniformVector2(name: string): number[];
     getUniformMetaInfos(): UniformMetaInfos;

@@ -97,6 +97,13 @@ declare module EIGHT
     uniformMatrix3fv(transpose: boolean, matrix: Float32Array);
     uniformMatrix4fv(transpose: boolean, matrix: Float32Array);
   }
+  /**
+   *
+   */
+  class Mutable<T> {
+    data: T;
+    callback: () => T;
+  }
   class Matrix3 {
     public elements: number[];
     constructor();
@@ -118,12 +125,14 @@ declare module EIGHT
     xy: number;
     w: number;
   }
-  class Spinor3 implements Spinor3Coords {
+  class Spinor3 extends Mutable<number[]> implements Spinor3Coords {
     public yz: number;
     public zx: number;
     public xy: number;
     public w: number;
-    constructor(spinor?: { yz: number, zx: number, xy: number, w: number });
+    public data: number[];
+    public callback: () => number[];
+    constructor(spinor?: number[]);
     clone(): Spinor3;
     toString(): string;
   }
@@ -132,16 +141,21 @@ declare module EIGHT
     y: number;
     z: number;
   }
-  class Vector3 implements Cartesian3 {
+  class Vector3 extends Mutable<number[]> implements Cartesian3 {
     public x: number;
     public y: number;
     public z: number;
+    public data: number[];
+    public callback: () => number[];
     public static e1: Vector3;
     public static e2: Vector3;
     public static e3: Vector3;
-    constructor(vector?: { x: number, y: number, z: number });
+    constructor(vector?: number[]);
     multiplyScalar(s: number): Vector3;
     clone(): Vector3;
+    copy(v: Cartesian3): Vector3;
+    cross(v: Cartesian3): Vector3;
+    crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
     normalize(): Vector3;
   }
   /**
@@ -198,8 +212,8 @@ declare module EIGHT
    *
    */
   class PointLight extends UniformProvider {
-    public color: Color;
-    public position: Cartesian3;
+    public color: UniformColor;
+    public position: UniformVector3;
     constructor();
   }
   /**
@@ -216,13 +230,25 @@ declare module EIGHT
    *
    */
   class UniformVariable<T> extends UniformProvider {
-    value: T;
+    data: T;
     callback: () => T;
   }
   /**
    * Represents a uniform vec3 for a Color.
    */
   class UniformColor extends UniformVariable<Color> {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec3 for a Vector3.
+   */
+  class UniformVector3 extends UniformVariable<Vector3> {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec4 for a Spinor3.
+   */
+  class UniformSpinor3 extends UniformVariable<Spinor3> {
     constructor(name: string, id?: string);
   }
   /**
@@ -418,7 +444,8 @@ declare module EIGHT
     public red: number;
     public green: number;
     public blue: number;
-    constructor(red: number, green: number, blue: number);
+    public data: number[];
+    constructor(data?: number[]);
   }
   class GeometryAdapter extends AttributeProvider
   {
@@ -588,8 +615,8 @@ declare module EIGHT
    *
    */
   class ModelMatrixUniformProvider extends UniformProvider {
-    public position: Cartesian3;
-    public attitude: Spinor3Coords;
+    public position: Vector3;
+    public attitude: Spinor3;
     constructor();
   }
   /**

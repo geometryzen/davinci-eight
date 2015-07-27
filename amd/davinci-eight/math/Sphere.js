@@ -1,7 +1,7 @@
 define(["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
     var Sphere = (function () {
         function Sphere(center, radius) {
-            this.center = (center !== undefined) ? center : new Vector3();
+            this.center = (center !== undefined) ? center : new Vector3([0, 0, 0]);
             this.radius = (radius !== undefined) ? radius : 0;
         }
         Sphere.prototype.setFromPoints = function (points) {

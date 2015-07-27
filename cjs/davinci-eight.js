@@ -71,6 +71,8 @@ var UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
 var UniformVec2 = require('davinci-eight/uniforms/UniformVec2');
 var UniformVec3 = require('davinci-eight/uniforms/UniformVec3');
 var UniformVec4 = require('davinci-eight/uniforms/UniformVec4');
+var UniformVector3 = require('davinci-eight/uniforms/UniformVector3');
+var UniformSpinor3 = require('davinci-eight/uniforms/UniformSpinor3');
 var contextMonitor = require('davinci-eight/utils/contextMonitor');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
@@ -148,6 +150,8 @@ var eight = {
     get UniformVec2() { return UniformVec2; },
     get UniformVec3() { return UniformVec3; },
     get UniformVec4() { return UniformVec4; },
+    get UniformVector3() { return UniformVector3; },
+    get UniformSpinor3() { return UniformSpinor3; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
     get Spinor3() { return Spinor3; },

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.31.0</em>
+            <em>API Docs for: 2.34.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -102,10 +103,12 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
+                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -152,9 +155,11 @@
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import DefaultUniformProvider = require(&#x27;../uniforms/DefaultUniformProvider&#x27;);
+import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
 import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformMetaInfos = require(&#x27;davinci-eight/core/UniformMetaInfos&#x27;);
+import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 
 let UNIFORM_MODEL_MATRIX_NAME = &#x27;uModelMatrix&#x27;;
@@ -180,22 +185,22 @@ function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4
 class ModelMatrixUniformProvider extends DefaultUniformProvider {
   /**
    * @property position
-   * @type Cartesian3
+   * @type Vector3
    */
-  public position: Cartesian3;
+  public position: Vector3;
     /**
      * @property attitude
      * @type Spinor3Coords
      */
-  public attitude: Spinor3Coords;
+  public attitude: Spinor3;
   /**
    * @class Model
    * @constructor
    */
   constructor() {
     super();
-    this.position = {x: 0, y: 0, z: 0};
-    this.attitude = {yz: 0, zx: 0, xy: 0, w: 1};
+    this.position = new Vector3();
+    this.attitude = new Spinor3();
   }
   /**
    * @method getUniformMatrix3

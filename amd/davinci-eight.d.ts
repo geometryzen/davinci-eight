@@ -53,6 +53,8 @@ import UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
 import UniformVec2 = require('davinci-eight/uniforms/UniformVec2');
 import UniformVec3 = require('davinci-eight/uniforms/UniformVec3');
 import UniformVec4 = require('davinci-eight/uniforms/UniformVec4');
+import UniformVector3 = require('davinci-eight/uniforms/UniformVector3');
+import UniformSpinor3 = require('davinci-eight/uniforms/UniformSpinor3');
 import RenderingContextMonitor = require('davinci-eight/utils/RenderingContextMonitor');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
@@ -116,6 +118,8 @@ declare var eight: {
     UniformVec2: typeof UniformVec2;
     UniformVec3: typeof UniformVec3;
     UniformVec4: typeof UniformVec4;
+    UniformVector3: typeof UniformVector3;
+    UniformSpinor3: typeof UniformSpinor3;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     Spinor3: typeof Spinor3;

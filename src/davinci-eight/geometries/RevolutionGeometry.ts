@@ -42,7 +42,7 @@ class RevolutionGeometry extends Geometry
       var cosHA = Math.cos( halfAngle );
       var sinHA = Math.sin( halfAngle );
       // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-      var rotor = new Spinor3({yz: generator.yz * sinHA, zx: generator.zx * sinHA, xy: generator.xy * sinHA, w: cosHA });
+      var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
 
       for (j = 0, jl = points.length; j < jl; j++) {
 

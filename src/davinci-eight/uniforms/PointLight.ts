@@ -1,7 +1,8 @@
 import Color = require('../core/Color');
+import Vector3 = require('../math/Vector3');
 import Symbolic = require('../core/Symbolic');
 import UniformColor = require('../uniforms/UniformColor');
-import UniformVec3 = require('../uniforms/UniformVec3');
+import UniformVector3 = require('../uniforms/UniformVector3');
 import MultiUniformProvider = require('../uniforms/MultiUniformProvider');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
@@ -16,7 +17,7 @@ let UNIFORM_POINT_LIGHT_POSITION_NAME = Symbolic.UNIFORM_POINT_LIGHT_POSITION;
  */
 class PointLight implements UniformProvider {
   private uColor: UniformColor;
-  private uPosition: UniformVec3;
+  private uPosition: UniformVector3;
   private multi: MultiUniformProvider;
   /**
    * @class PointLight
@@ -24,16 +25,16 @@ class PointLight implements UniformProvider {
    */
   constructor() {
     this.uColor = new UniformColor(UNIFORM_POINT_LIGHT_COLOR_NAME, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-    this.uPosition = new UniformVec3(UNIFORM_POINT_LIGHT_POSITION_NAME, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+    this.uPosition = new UniformVector3(UNIFORM_POINT_LIGHT_POSITION_NAME, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
     this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
-    this.uColor.value = new Color([1.0, 1.0, 1.0]);
-    this.uPosition.value = [0, 0, 0];
+    this.uColor.data = new Color([1.0, 1.0, 1.0]);
+    this.uPosition.data = new Vector3([0.0, 0.0, 0.0]);
   }
-  set color(value: Color) {
-    this.uColor.value = value;
+  get color() {
+    return this.uColor;
   }
-  set position(value: Cartesian3) {
-    this.uPosition.value = [value.x, value.y, value.z];
+  get position() {
+    return this.uPosition;
   }
   getUniformFloat(name: string) {
     return this.multi.getUniformFloat(name);

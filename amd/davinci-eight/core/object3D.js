@@ -5,7 +5,7 @@ define(["require", "exports", '../math/Vector3', '../math/Spinor3'], function (r
     var object3D = function () {
         var position = new Vector3();
         var attitude = new Spinor3();
-        var scale = new Vector3({ x: 1, y: 1, z: 1 });
+        var scale = new Vector3([1, 1, 1]);
         var parent = null;
         var children = [];
         var publicAPI = {

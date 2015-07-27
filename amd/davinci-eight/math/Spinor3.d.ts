@@ -1,23 +1,35 @@
 import Spinor3Coords = require('../math/Spinor3Coords');
+import Mutable = require('../math/Mutable');
 /**
  * @class Spinor3
  */
-declare class Spinor3 implements Spinor3Coords {
+declare class Spinor3 implements Spinor3Coords, Mutable<number[]> {
+    private $data;
+    private $callback;
+    modified: boolean;
+    constructor(data?: number[]);
+    data: number[];
+    callback: () => number[];
     /**
-     * @property xy The bivector coordinate corresponding to the xy subspace.
+     * @property yz
      * @type Number
-     * @default 0
      */
     yz: number;
+    /**
+     * @property zx
+     * @type Number
+     */
     zx: number;
+    /**
+     * @property xy
+     * @type Number
+     */
     xy: number;
+    /**
+     * @property w
+     * @type Number
+     */
     w: number;
-    constructor(spinor?: {
-        yz: number;
-        zx: number;
-        xy: number;
-        w: number;
-    });
     clone(): Spinor3;
     /**
      * @method toString

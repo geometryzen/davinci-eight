@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../core/Symbolic'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Symbolic) {
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3) {
     var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
     var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
     var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
@@ -30,8 +30,8 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          */
         function ModelMatrixUniformProvider() {
             _super.call(this);
-            this.position = { x: 0, y: 0, z: 0 };
-            this.attitude = { yz: 0, zx: 0, xy: 0, w: 1 };
+            this.position = new Vector3();
+            this.attitude = new Spinor3();
         }
         /**
          * @method getUniformMatrix3

@@ -27,16 +27,17 @@ class DirectionalLight implements UniformProvider {
     this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
     // Maybe we should just be mutating here?
-    this.uColor.value = new Color([1.0, 1.0, 1.0]);
+    this.uColor.data = new Color([1.0, 1.0, 1.0]);
   }
   get uColor() {
     return this.$uColor;
   }
-  set color(value: Color) {
-    this.uColor.value = value;
+  set color(color: Color) {
+    this.uColor.data = color;
   }
   set direction(value: Cartesian3) {
-    this.uDirection.value = [value.x, value.y, value.z];
+    // TODO: Carry through the reference?
+    this.uDirection.data = [value.x, value.y, value.z];
   }
   getUniformFloat(name: string) {
     return this.multi.getUniformFloat(name);

@@ -19,21 +19,21 @@ var UniformFloat = (function (_super) {
      */
     function UniformFloat(name, id) {
         _super.call(this);
-        this.$value = 0;
-        this.useValue = false;
+        this.$data = 0;
+        this.useData = false;
         this.useCallback = false;
         this.name = name;
         this.id = typeof id !== 'undefined' ? id : uuid4().generate();
     }
-    Object.defineProperty(UniformFloat.prototype, "value", {
-        set: function (value) {
-            this.$value = value;
-            if (typeof value !== void 0) {
-                this.useValue = true;
+    Object.defineProperty(UniformFloat.prototype, "data", {
+        set: function (data) {
+            this.$data = data;
+            if (typeof data !== void 0) {
+                this.useData = true;
                 this.useCallback = false;
             }
             else {
-                this.useValue = false;
+                this.useData = false;
             }
         },
         enumerable: true,
@@ -44,7 +44,7 @@ var UniformFloat = (function (_super) {
             this.$callback = callback;
             if (typeof callback !== void 0) {
                 this.useCallback = true;
-                this.useValue = false;
+                this.useData = false;
             }
             else {
                 this.useCallback = false;
@@ -57,14 +57,14 @@ var UniformFloat = (function (_super) {
         switch (name) {
             case this.name:
                 {
-                    if (this.useValue) {
-                        return this.$value;
+                    if (this.useData) {
+                        return this.$data;
                     }
                     else if (this.useCallback) {
                         return this.$callback();
                     }
                     else {
-                        var message = "uniform float " + this.name + " has not been assigned a value or callback.";
+                        var message = "uniform float " + this.name + " has not been assigned a data or callback.";
                         console.warn(message);
                         throw new Error(message);
                     }

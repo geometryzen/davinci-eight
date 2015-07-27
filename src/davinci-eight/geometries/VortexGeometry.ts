@@ -28,7 +28,7 @@ class VortexGeometry extends Geometry
 
     var twoPI = Math.PI * 2;
     var R = radius;
-    var center = new Vector3();
+    var center = new Vector3([0, 0, 0]);
     var uvs: Vector2[] = [];
     var normals: Vector3[] = [];
 
@@ -74,7 +74,7 @@ class VortexGeometry extends Geometry
         center.x = R * cosU;
         center.y = R * sinU;
 
-        var vertex = new Vector3();
+        var vertex = new Vector3([0, 0, 0]);
         var r = computeRadius(i);
         vertex.x = (R + r * cosV ) * cosU;
         vertex.y = (R + r * cosV ) * sinU;

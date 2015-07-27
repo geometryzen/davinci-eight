@@ -6,7 +6,7 @@ let sin = Math.sin;
 let pi = Math.PI;
 
 function mobius(u: number, v: number): Vector3 {
-  var point = new Vector3();
+  var point = new Vector3([0, 0, 0]);
   /**
    * radius
    */

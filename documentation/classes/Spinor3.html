@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.31.0</em>
+            <em>API Docs for: 2.34.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -102,10 +103,12 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
+                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -150,7 +153,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l2"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:2</code></a>
+            Defined in: <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l4"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:4</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -191,7 +194,19 @@
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_xy The bivector coordinate corresponding to the xy subspace.">xy The bivector coordinate corresponding to the xy subspace.</a>
+                                <a href="#property_w">w</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_xy">xy</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_yz">yz</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_zx">zx</a>
 
                             </li>
                     </ul>
@@ -221,7 +236,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:27</code></a>
+        <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:88</code></a>
         </p>
 
 
@@ -250,8 +265,8 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-                    <div id="property_xy The bivector coordinate corresponding to the xy subspace." class="property item">
-                        <h3 class="name"><code>xy The bivector coordinate corresponding to the xy subspace.</code></h3>
+                    <div id="property_w" class="property item">
+                        <h3 class="name"><code>w</code></h3>
                         <span class="type">Number</span>
                     
                     
@@ -261,7 +276,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:7</code></a>
+                            <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:74</code></a>
                             </p>
                     
                     
@@ -271,7 +286,78 @@
                             
                         </div>
                     
-                            <p><strong>Default:</strong> 0</p>
+                    
+                    
+                    </div>
+                    <div id="property_xy" class="property item">
+                        <h3 class="name"><code>xy</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:63</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_yz" class="property item">
+                        <h3 class="name"><code>yz</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:41</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_zx" class="property item">
+                        <h3 class="name"><code>zx</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_math_Spinor3.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Spinor3.ts:52</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
                     
                     
                     </div>

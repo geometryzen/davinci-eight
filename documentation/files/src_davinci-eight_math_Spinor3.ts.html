@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.31.0</em>
+            <em>API Docs for: 2.34.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -102,10 +103,12 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
+                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -150,37 +153,97 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
+import Mutable = require(&#x27;../math/Mutable&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 /**
  * @class Spinor3
  */
-class Spinor3 implements Spinor3Coords
+class Spinor3 implements Spinor3Coords, Mutable&lt;number[]&gt;
 {
-  /**
-   * @property xy The bivector coordinate corresponding to the xy subspace.
-   * @type Number
-   * @default 0
-   */
-  public yz: number;
-  public zx: number;
-  public xy: number;
-  public w: number;
-  constructor(spinor?: {yz: number, zx: number, xy: number, w: number})
-  {
-    this.yz = spinor ? spinor.yz : 0;
-    this.zx = spinor ? spinor.zx : 0;
-    this.xy = spinor ? spinor.xy : 0;
-    this.w  = spinor ? spinor.w  : 1;
+  private $data: number[];
+  private $callback: () =&gt; number[];
+  public modified: boolean;
+  constructor(data: number[] = [0, 0, 0, 1]) {
+    this.data = data;
+    this.modified = false;
   }
-  clone(): Spinor3
-  {
-    return new Spinor3({yz: this.yz, zx: this.zx, xy: this.xy, w: this.w});
+  get data() {
+    if (this.$data) {
+      return this.$data;
+    }
+    else if (this.$callback) {
+      var data = this.$callback();
+      expectArg(&#x27;callback()&#x27;, data).toSatisfy(data.length === 4, &quot;callback() length must be 4&quot;);
+      return this.$callback();
+    }
+    else {
+      throw new Error(&quot;Vector3 is undefined.&quot;);
+    }
+  }
+  set data(data: number[]) {
+    expectArg(&#x27;data&#x27;, data).toSatisfy(data.length === 4, &quot;data length must be 4&quot;);
+    this.$data = data;
+    this.$callback = void 0;
+  }
+  get callback() {
+    return this.$callback;
+  }
+  set callback(reactTo: () =&gt; number[]) {
+    this.$callback = reactTo;
+    this.$data = void 0;
+  }
+  /**
+   * @property yz
+   * @type Number
+   */
+  get yz(): number {
+    return this.data[0];
+  }
+  set yz(value: number) {
+    this.modified = this.modified || this.yz !== value;
+    this.data[0] = value;
+  }
+  /**
+   * @property zx
+   * @type Number
+   */
+  get zx(): number {
+    return this.data[1];
+  }
+  set zx(value: number) {
+    this.modified = this.modified || this.zx !== value;
+    this.data[1] = value;
+  }
+  /**
+   * @property xy
+   * @type Number
+   */
+  get xy(): number {
+    return this.data[2];
+  }
+  set xy(value: number) {
+    this.modified = this.modified || this.xy !== value;
+    this.data[2] = value;
+  }
+  /**
+   * @property w
+   * @type Number
+   */
+  get w(): number {
+    return this.data[3];
+  }
+  set w(value: number) {
+    this.modified = this.modified || this.w !== value;
+    this.data[3] = value;
+  }
+  clone(): Spinor3 {
+    return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
   /**
    * @method toString
    * @return {string} A non-normative string representation of the target.
    */
-  toString(): string
-  {
+  toString(): string {
     return &quot;Spinor3({yz: &quot; + this.yz + &quot;, zx: &quot; + this.zx + &quot;, xy: &quot; + this.xy + &quot;, w: &quot; + this.w + &quot;})&quot;
   }
 }

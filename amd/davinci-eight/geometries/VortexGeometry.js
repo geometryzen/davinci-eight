@@ -28,7 +28,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             radialSegments = radialSegments || 12;
             var twoPI = Math.PI * 2;
             var R = radius;
-            var center = new Vector3();
+            var center = new Vector3([0, 0, 0]);
             var uvs = [];
             var normals = [];
             var alpha = lengthShaft / (lengthCone + lengthShaft);
@@ -65,7 +65,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var sinU = Math.sin(u);
                     center.x = R * cosU;
                     center.y = R * sinU;
-                    var vertex = new Vector3();
+                    var vertex = new Vector3([0, 0, 0]);
                     var r = computeRadius(i);
                     vertex.x = (R + r * cosV) * cosU;
                     vertex.y = (R + r * cosV) * sinU;

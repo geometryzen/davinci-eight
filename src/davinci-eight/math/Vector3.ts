@@ -4,61 +4,86 @@
 import Cartesian3 = require('../math/Cartesian3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
+import expectArg = require('../checks/expectArg');
+import UniformVariable = require('../uniforms/UniformVariable');
+import Mutable = require('../math/Mutable');
 
 /**
  * @class Vector3
  */
-class Vector3 {
-  private $x: number;
-  private $y: number;
-  private $z: number;
+class Vector3 implements Cartesian3, Mutable<number[]> {
+  private $data: number[];
+  private $callback: () => number[];
   public modified: boolean;
-  public static e1 = new Vector3({x: 1, y: 0, z: 0});
-  public static e2 = new Vector3({x: 0, y: 1, z: 0});
-  public static e3 = new Vector3({x: 0, y: 0, z: 1});
+  public static e1 = new Vector3([1, 0, 0]);
+  public static e2 = new Vector3([0, 1, 0]);
+  public static e3 = new Vector3([0, 0, 1]);
   /**
    * @class Vector3
    * @constructor
-   * @param vector [{x,y,z}]
+   * @param data {number[]}
    */
-  constructor(vector?: Cartesian3) {
-    this.$x = vector ? vector.x : 0;
-    this.$y = vector ? vector.y : 0;
-    this.$z = vector ? vector.z : 0;
+  constructor(data: number[] = [0, 0, 0]) {
+    this.data = data;
     this.modified = false;
+  }
+  get data() {
+    if (this.$data) {
+      return this.$data;
+    }
+    else if (this.$callback) {
+      var data = this.$callback();
+      expectArg('callback()', data).toSatisfy(data.length === 3, "callback() length must be 3");
+      return this.$callback();
+    }
+    else {
+      throw new Error("Vector3 is undefined.");
+    }
+  }
+  set data(data: number[]) {
+    expectArg('data', data).toSatisfy(data.length === 3, "data length must be 3");
+    this.$data = data;
+    this.$callback = void 0;
+  }
+  get callback() {
+    return this.$callback;
+  }
+  set callback(reactTo: () => number[]) {
+    this.$callback = reactTo;
+    this.$data = void 0;
   }
   /**
    * @property x
    * @type Number
    */
   get x(): number {
-    return this.$x;
+    return this.data[0];
   }
   set x(value: number) {
-    this.modified = this.modified || this.$x !== value;
-    this.$x = value;
+    this.modified = this.modified || this.x !== value;
+    this.data[0] = value;
   }
   /**
    * @property y
    * @type Number
    */
   get y(): number {
-    return this.$y;
+    return this.data[1];
   }
   set y(value: number) {
-    this.modified = this.modified || this.$y !== value;
-    this.$y = value;
+    this.modified = this.modified || this.y !== value;
+    this.data[1] = value;
   }
   /**
    * @property z
    * @type Number
    */
   get z(): number {
-    return this.$z;
+    return this.data[2];
   }
   set z(value: number) {
-    this.modified = this.modified || this.$z !== value;
-    this.$z = value;
+    this.modified = this.modified || this.z !== value;
+    this.data[2] = value;
   }
   /**
    * Performs in-place addition of vectors.
@@ -137,15 +162,15 @@ class Vector3 {
     return this;
   }
   clone(): Vector3 {
-    return new Vector3({ x: this.x, y: this.y, z: this.z });
+    return new Vector3([this.x, this.y, this.z]);
   }
-  copy(v: Vector3): Vector3 {
+  copy(v: Cartesian3): Vector3 {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;
     return this;
   }
-  cross(v: Vector3): Vector3 {
+  cross(v: Cartesian3): Vector3 {
     return this.crossVectors(this, v);
   }
   crossVectors(a: Cartesian3, b: Cartesian3): Vector3 {

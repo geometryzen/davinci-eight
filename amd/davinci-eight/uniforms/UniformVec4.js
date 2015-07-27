@@ -9,16 +9,16 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         __extends(UniformVec4, _super);
         function UniformVec4(name, id) {
             _super.call(this);
-            this.$value = [0, 0, 0];
-            this.useValue = true;
+            this.$data = [0, 0, 0];
+            this.useData = true;
             this.name = name;
             this.id = typeof id !== 'undefined' ? id : uuid4().generate();
         }
-        Object.defineProperty(UniformVec4.prototype, "value", {
-            set: function (value) {
-                expectArg('value', value).toSatisfy(value.length === 4, "value length must be 4");
-                this.$value = value;
-                this.useValue = true;
+        Object.defineProperty(UniformVec4.prototype, "data", {
+            set: function (data) {
+                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
+                this.$data = data;
+                this.useData = true;
             },
             enumerable: true,
             configurable: true
@@ -26,7 +26,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         Object.defineProperty(UniformVec4.prototype, "callback", {
             set: function (callback) {
                 this.$callback = callback;
-                this.useValue = false;
+                this.useData = false;
             },
             enumerable: true,
             configurable: true
@@ -35,8 +35,8 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
             switch (name) {
                 case this.name:
                     {
-                        if (this.useValue) {
-                            return this.$value;
+                        if (this.useData) {
+                            return this.$data;
                         }
                         else {
                             return this.$callback();

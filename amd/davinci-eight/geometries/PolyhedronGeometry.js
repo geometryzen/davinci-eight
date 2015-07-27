@@ -20,7 +20,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             detail = detail || 0;
             var that = this;
             for (var i = 0, l = vertices.length; i < l; i += 3) {
-                prepare(new Vector3({ x: vertices[i], y: vertices[i + 1], z: vertices[i + 2] }));
+                prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]));
             }
             var p = this.vertices;
             var faces = [];
@@ -30,7 +30,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 var v3 = p[indices[i + 2]];
                 faces[j] = new Face3(v1['index'], v2['index'], v3['index'], undefined, [v1.clone(), v2.clone(), v3.clone()]);
             }
-            var centroid = new Vector3();
+            var centroid = new Vector3([0, 0, 0]);
             for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
                 subdivide(faces[i], detail);
             }
@@ -58,7 +58,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             // Merge vertices
             this.mergeVertices();
             this.computeFaceNormals();
-            this.boundingSphere = new Sphere(new Vector3(), radius);
+            this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
             // Project vector onto sphere's surface
             function prepare(vector) {
                 var vertex = vector.normalize().clone();

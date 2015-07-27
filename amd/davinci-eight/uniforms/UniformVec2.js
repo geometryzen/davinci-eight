@@ -9,15 +9,15 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         __extends(UniformVec2, _super);
         function UniformVec2(name, id) {
             _super.call(this);
-            this.$value = [0, 0];
-            this.useValue = true;
+            this.$data = [0, 0];
+            this.useData = true;
             this.name = name;
             this.id = typeof id !== 'undefined' ? id : uuid4().generate();
         }
-        Object.defineProperty(UniformVec2.prototype, "value", {
-            set: function (value) {
-                this.$value = value;
-                this.useValue = true;
+        Object.defineProperty(UniformVec2.prototype, "data", {
+            set: function (data) {
+                this.$data = data;
+                this.useData = true;
             },
             enumerable: true,
             configurable: true
@@ -25,7 +25,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         Object.defineProperty(UniformVec2.prototype, "callback", {
             set: function (callback) {
                 this.$callback = callback;
-                this.useValue = false;
+                this.useData = false;
             },
             enumerable: true,
             configurable: true
@@ -34,8 +34,8 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
             switch (name) {
                 case this.name:
                     {
-                        if (this.useValue) {
-                            return this.$value;
+                        if (this.useData) {
+                            return this.$data;
                         }
                         else {
                             return this.$callback();

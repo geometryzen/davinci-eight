@@ -48,7 +48,7 @@ class TubeGeometry extends Geometry {
     var cx: number;
     var cy: number;
     var pos: Vector3;
-    var pos2: Vector3 = new Vector3();
+    var pos2: Vector3 = new Vector3([0, 0, 0]);
     var i: number;
     var j: number;
     var ip: number;
@@ -73,7 +73,7 @@ class TubeGeometry extends Geometry {
     this.binormals = binormals;
 
     function vert(x: number, y: number, z: number) {
-      return scope.vertices.push(new Vector3({ x: x, y: y, z: z })) - 1;
+      return scope.vertices.push(new Vector3([x, y, z])) - 1;
     }
 
     // consruct the grid
@@ -148,12 +148,12 @@ class FrenetFrames {
   public normals: Vector3[];
   public binormals: Vector3[];
   constructor(path: Curve, segments: number, closed: boolean) {
-    var normal = new Vector3();
+    var normal = new Vector3([0, 0, 0]);
     var tangents: Vector3[] = [];
     var normals: Vector3[] = [];
     var binormals: Vector3[] = [];
 
-    var vec = new Vector3();
+    var vec = new Vector3([0, 0, 0]);
     var mat = new Matrix4();
 
     var numpoints: number = segments + 1;
@@ -210,8 +210,8 @@ class FrenetFrames {
         // select an initial normal vector perpendicular to the first tangent vector,
         // and in the direction of the smallest tangent xyz component
 
-        normals[0] = new Vector3();
-        binormals[0] = new Vector3();
+        normals[0] = new Vector3([0, 0, 0]);
+        binormals[0] = new Vector3([0, 0, 0]);
         smallest = Number.MAX_VALUE;
         tx = Math.abs(tangents[0].x);
         ty = Math.abs(tangents[0].y);

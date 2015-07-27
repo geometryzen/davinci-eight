@@ -30,7 +30,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
             }
             var u = new Vector3().crossVectors(up, n);
             var v = new Vector3().crossVectors(n, u);
-            var d = new Vector3({ x: eye.dot(u), y: eye.dot(v), z: eye.dot(n) }).multiplyScalar(-1);
+            var d = new Vector3([eye.dot(u), eye.dot(v), eye.dot(n)]).multiplyScalar(-1);
             var m = viewMatrix.elements;
             m[0] = u.x;
             m[4] = u.y;

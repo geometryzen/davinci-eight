@@ -1,13 +1,13 @@
 import Cartesian3 = require('../math/Cartesian3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
+import Mutable = require('../math/Mutable');
 /**
  * @class Vector3
  */
-declare class Vector3 {
-    private $x;
-    private $y;
-    private $z;
+declare class Vector3 implements Cartesian3, Mutable<number[]> {
+    private $data;
+    private $callback;
     modified: boolean;
     static e1: Vector3;
     static e2: Vector3;
@@ -15,9 +15,11 @@ declare class Vector3 {
     /**
      * @class Vector3
      * @constructor
-     * @param vector [{x,y,z}]
+     * @param data {number[]}
      */
-    constructor(vector?: Cartesian3);
+    constructor(data?: number[]);
+    data: number[];
+    callback: () => number[];
     /**
      * @property x
      * @type Number
@@ -49,8 +51,8 @@ declare class Vector3 {
     }): Vector3;
     applySpinor(spinor: Spinor3): Vector3;
     clone(): Vector3;
-    copy(v: Vector3): Vector3;
-    cross(v: Vector3): Vector3;
+    copy(v: Cartesian3): Vector3;
+    cross(v: Cartesian3): Vector3;
     crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
     distance(v: Cartesian3): number;
     quadrance(v: Cartesian3): number;

@@ -19,7 +19,7 @@ var DirectionalLight = (function () {
         this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
         this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
         // Maybe we should just be mutating here?
-        this.uColor.value = new Color([1.0, 1.0, 1.0]);
+        this.uColor.data = new Color([1.0, 1.0, 1.0]);
     }
     Object.defineProperty(DirectionalLight.prototype, "uColor", {
         get: function () {
@@ -29,15 +29,16 @@ var DirectionalLight = (function () {
         configurable: true
     });
     Object.defineProperty(DirectionalLight.prototype, "color", {
-        set: function (value) {
-            this.uColor.value = value;
+        set: function (color) {
+            this.uColor.data = color;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(DirectionalLight.prototype, "direction", {
         set: function (value) {
-            this.uDirection.value = [value.x, value.y, value.z];
+            // TODO: Carry through the reference?
+            this.uDirection.data = [value.x, value.y, value.z];
         },
         enumerable: true,
         configurable: true

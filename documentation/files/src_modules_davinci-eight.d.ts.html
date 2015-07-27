@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.31.0</em>
+            <em>API Docs for: 2.34.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -102,10 +103,12 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
+                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -248,6 +251,13 @@ declare module EIGHT
     uniformMatrix3fv(transpose: boolean, matrix: Float32Array);
     uniformMatrix4fv(transpose: boolean, matrix: Float32Array);
   }
+  /**
+   *
+   */
+  class Mutable&lt;T&gt; {
+    data: T;
+    callback: () =&gt; T;
+  }
   class Matrix3 {
     public elements: number[];
     constructor();
@@ -269,12 +279,14 @@ declare module EIGHT
     xy: number;
     w: number;
   }
-  class Spinor3 implements Spinor3Coords {
+  class Spinor3 extends Mutable&lt;number[]&gt; implements Spinor3Coords {
     public yz: number;
     public zx: number;
     public xy: number;
     public w: number;
-    constructor(spinor?: { yz: number, zx: number, xy: number, w: number });
+    public data: number[];
+    public callback: () =&gt; number[];
+    constructor(spinor?: number[]);
     clone(): Spinor3;
     toString(): string;
   }
@@ -283,16 +295,21 @@ declare module EIGHT
     y: number;
     z: number;
   }
-  class Vector3 implements Cartesian3 {
+  class Vector3 extends Mutable&lt;number[]&gt; implements Cartesian3 {
     public x: number;
     public y: number;
     public z: number;
+    public data: number[];
+    public callback: () =&gt; number[];
     public static e1: Vector3;
     public static e2: Vector3;
     public static e3: Vector3;
-    constructor(vector?: { x: number, y: number, z: number });
+    constructor(vector?: number[]);
     multiplyScalar(s: number): Vector3;
     clone(): Vector3;
+    copy(v: Cartesian3): Vector3;
+    cross(v: Cartesian3): Vector3;
+    crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
     normalize(): Vector3;
   }
   /**
@@ -349,8 +366,8 @@ declare module EIGHT
    *
    */
   class PointLight extends UniformProvider {
-    public color: Color;
-    public position: Cartesian3;
+    public color: UniformColor;
+    public position: UniformVector3;
     constructor();
   }
   /**
@@ -367,13 +384,25 @@ declare module EIGHT
    *
    */
   class UniformVariable&lt;T&gt; extends UniformProvider {
-    value: T;
+    data: T;
     callback: () =&gt; T;
   }
   /**
    * Represents a uniform vec3 for a Color.
    */
   class UniformColor extends UniformVariable&lt;Color&gt; {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec3 for a Vector3.
+   */
+  class UniformVector3 extends UniformVariable&lt;Vector3&gt; {
+    constructor(name: string, id?: string);
+  }
+  /**
+   * Represents a uniform vec4 for a Spinor3.
+   */
+  class UniformSpinor3 extends UniformVariable&lt;Spinor3&gt; {
     constructor(name: string, id?: string);
   }
   /**
@@ -569,7 +598,8 @@ declare module EIGHT
     public red: number;
     public green: number;
     public blue: number;
-    constructor(red: number, green: number, blue: number);
+    public data: number[];
+    constructor(data?: number[]);
   }
   class GeometryAdapter extends AttributeProvider
   {
@@ -739,8 +769,8 @@ declare module EIGHT
    *
    */
   class ModelMatrixUniformProvider extends UniformProvider {
-    public position: Cartesian3;
-    public attitude: Spinor3Coords;
+    public position: Vector3;
+    public attitude: Spinor3;
     constructor();
   }
   /**

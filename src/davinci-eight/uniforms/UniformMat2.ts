@@ -5,28 +5,28 @@ import UniformVariable = require('../uniforms/UniformVariable');
 
 class UniformMat2 extends DefaultUniformProvider implements UniformVariable<{transpose: boolean; matrix2: Float32Array}> {
   private name: string;
-  private $value: {transpose: boolean; matrix2: Float32Array};
+  private $data: {transpose: boolean; matrix2: Float32Array};
   private $callback: () => {transpose: boolean; matrix2: Float32Array};
-  private useValue: boolean = true;
+  private useData: boolean = true;
   private id: string;
   constructor(name: string, id?: string) {
     super();
     this.name = name;
     this.id = typeof id !== 'undefined' ? id: uuid4().generate();
   }
-  set value(value: {transpose: boolean; matrix2: Float32Array}) {
-    this.$value = value;
-    this.useValue = true;
+  set data(data: {transpose: boolean; matrix2: Float32Array}) {
+    this.$data = data;
+    this.useData = true;
   }
   set callback(callback: () => {transpose: boolean; matrix2: Float32Array}) {
     this.$callback = callback;
-    this.useValue = false;
+    this.useData = false;
   }
   getUniformMatrix2(name: string): {transpose: boolean; matrix2: Float32Array} {
     switch(name) {
       case this.name: {
-        if (this.useValue) {
-          return this.$value;
+        if (this.useData) {
+          return this.$data;
         }
         else {
           return this.$callback();

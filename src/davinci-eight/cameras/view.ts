@@ -43,7 +43,7 @@ let view = function(): View {
       }
       let u = new Vector3().crossVectors(up, n);
       let v = new Vector3().crossVectors(n, u);
-      let d = new Vector3({ x: eye.dot(u), y: eye.dot(v), z: eye.dot(n) }).multiplyScalar(-1);
+      let d = new Vector3([eye.dot(u), eye.dot(v), eye.dot(n)]).multiplyScalar(-1);
       let m = viewMatrix.elements;
       m[0] = u.x;  m[4] = u.y; m[8]  = u.z; m[12] = d.x;
       m[1] = v.x;  m[5] = v.y; m[9]  = v.z; m[13] = d.y;

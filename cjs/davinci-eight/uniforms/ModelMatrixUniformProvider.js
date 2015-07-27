@@ -7,7 +7,9 @@ var __extends = this.__extends || function (d, b) {
 var Matrix3 = require('../math/Matrix3');
 var Matrix4 = require('../math/Matrix4');
 var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var Spinor3 = require('../math/Spinor3');
 var Symbolic = require('../core/Symbolic');
+var Vector3 = require('../math/Vector3');
 var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
 var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
 var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
@@ -33,8 +35,8 @@ var ModelMatrixUniformProvider = (function (_super) {
      */
     function ModelMatrixUniformProvider() {
         _super.call(this);
-        this.position = { x: 0, y: 0, z: 0 };
-        this.attitude = { yz: 0, zx: 0, xy: 0, w: 1 };
+        this.position = new Vector3();
+        this.attitude = new Spinor3();
     }
     /**
      * @method getUniformMatrix3

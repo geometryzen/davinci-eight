@@ -26,7 +26,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 for (x = 0; x <= widthSegments; x++) {
                     var u = x / widthSegments;
                     var v = y / heightSegments;
-                    var vertex = new Vector3();
+                    var vertex = new Vector3([0, 0, 0]);
                     vertex.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
                     vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
                     vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
@@ -70,7 +70,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 }
             }
             this.computeFaceNormals();
-            this.boundingSphere = new Sphere(new Vector3(), radius);
+            this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
         }
         return SphereGeometry;
     })(Geometry);

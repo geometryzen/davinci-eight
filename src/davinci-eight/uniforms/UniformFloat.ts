@@ -8,9 +8,9 @@ import UniformVariable = require('../uniforms/UniformVariable');
  */
 class UniformFloat extends DefaultUniformProvider implements UniformVariable<number> {
   private name: string;
-  private $value: number = 0;
+  private $data: number = 0;
   private $callback: () => number;
-  private useValue: boolean = false;
+  private useData: boolean = false;
   private useCallback: boolean = false;
   private id: string;
   /**
@@ -24,21 +24,21 @@ class UniformFloat extends DefaultUniformProvider implements UniformVariable<num
     this.name = name;
     this.id = typeof id !== 'undefined' ? id: uuid4().generate();
   }
-  set value(value: number) {
-    this.$value = value;
-    if (typeof value !== void 0) {
-      this.useValue = true;
+  set data(data: number) {
+    this.$data = data;
+    if (typeof data !== void 0) {
+      this.useData = true;
       this.useCallback = false;
     }
     else {
-      this.useValue = false;
+      this.useData = false;
     }
   }
   set callback(callback: () => number) {
     this.$callback = callback;
     if (typeof callback !== void 0) {
       this.useCallback = true;
-      this.useValue = false;
+      this.useData = false;
     }
     else {
       this.useCallback = false;
@@ -47,14 +47,14 @@ class UniformFloat extends DefaultUniformProvider implements UniformVariable<num
   getUniformFloat(name: string): number {
     switch(name) {
       case this.name: {
-        if (this.useValue) {
-          return this.$value;
+        if (this.useData) {
+          return this.$data;
         }
         else if (this.useCallback) {
           return this.$callback();
         }
         else {
-          let message = "uniform float " + this.name + " has not been assigned a value or callback.";
+          let message = "uniform float " + this.name + " has not been assigned a data or callback.";
           console.warn(message);
           throw new Error(message);
         }

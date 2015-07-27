@@ -4,7 +4,7 @@ class Sphere {
   public center: Vector3;
   public radius: number;
   constructor(center?: Vector3, radius?: number) {
-    this.center = ( center !== undefined ) ? center : new Vector3();
+    this.center = ( center !== undefined ) ? center : new Vector3([0, 0, 0]);
     this.radius = ( radius !== undefined ) ? radius : 0;
   }
   setFromPoints(points: Vector3[]) {

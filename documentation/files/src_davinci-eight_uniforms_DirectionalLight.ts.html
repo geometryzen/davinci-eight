@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.31.0</em>
+            <em>API Docs for: 2.34.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -102,10 +103,12 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
+                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -178,16 +181,17 @@ class DirectionalLight implements UniformProvider {
     this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
     // Maybe we should just be mutating here?
-    this.uColor.value = new Color([1.0, 1.0, 1.0]);
+    this.uColor.data = new Color([1.0, 1.0, 1.0]);
   }
   get uColor() {
     return this.$uColor;
   }
-  set color(value: Color) {
-    this.uColor.value = value;
+  set color(color: Color) {
+    this.uColor.data = color;
   }
   set direction(value: Cartesian3) {
-    this.uDirection.value = [value.x, value.y, value.z];
+    // TODO: Carry through the reference?
+    this.uDirection.data = [value.x, value.y, value.z];
   }
   getUniformFloat(name: string) {
     return this.multi.getUniformFloat(name);

@@ -9,24 +9,24 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         __extends(UniformVec3, _super);
         function UniformVec3(name, id) {
             _super.call(this);
-            this.useValue = false;
+            this.useData = false;
             this.useCallback = false;
             this.name = name;
             this.id = typeof id !== 'undefined' ? id : uuid4().generate();
         }
-        Object.defineProperty(UniformVec3.prototype, "value", {
+        Object.defineProperty(UniformVec3.prototype, "data", {
             get: function () {
-                return this.$value;
+                return this.$data;
             },
-            set: function (value) {
-                this.$value = value;
-                if (typeof value !== void 0) {
-                    expectArg('value', value).toSatisfy(value.length === 3, "value.length must be 3");
-                    this.useValue = true;
+            set: function (data) {
+                this.$data = data;
+                if (typeof data !== void 0) {
+                    expectArg('data', data).toSatisfy(data.length === 3, "data.length must be 3");
+                    this.useData = true;
                     this.useCallback = false;
                 }
                 else {
-                    this.useValue = false;
+                    this.useData = false;
                     this.$callback = void 0;
                 }
             },
@@ -38,11 +38,11 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
                 this.$callback = callback;
                 if (typeof callback !== void 0) {
                     this.useCallback = true;
-                    this.useValue = false;
+                    this.useData = false;
                 }
                 else {
                     this.useCallback = false;
-                    this.$value = void 0;
+                    this.$data = void 0;
                 }
             },
             enumerable: true,
@@ -52,14 +52,14 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
             switch (name) {
                 case this.name:
                     {
-                        if (this.useValue) {
-                            return this.$value;
+                        if (this.useData) {
+                            return this.$data;
                         }
                         else if (this.useCallback) {
                             return this.$callback();
                         }
                         else {
-                            var message = "uniform vec3 " + this.name + " has not been assigned a value or callback.";
+                            var message = "uniform vec3 " + this.name + " has not been assigned a data or callback.";
                             console.warn(message);
                             throw new Error(message);
                         }

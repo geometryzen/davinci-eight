@@ -1,3 +1,4 @@
+var expectArg = require('../checks/expectArg');
 /**
  * @class Vector3
  */
@@ -5,25 +6,57 @@ var Vector3 = (function () {
     /**
      * @class Vector3
      * @constructor
-     * @param vector [{x,y,z}]
+     * @param data {number[]}
      */
-    function Vector3(vector) {
-        this.$x = vector ? vector.x : 0;
-        this.$y = vector ? vector.y : 0;
-        this.$z = vector ? vector.z : 0;
+    function Vector3(data) {
+        if (data === void 0) { data = [0, 0, 0]; }
+        this.data = data;
         this.modified = false;
     }
+    Object.defineProperty(Vector3.prototype, "data", {
+        get: function () {
+            if (this.$data) {
+                return this.$data;
+            }
+            else if (this.$callback) {
+                var data = this.$callback();
+                expectArg('callback()', data).toSatisfy(data.length === 3, "callback() length must be 3");
+                return this.$callback();
+            }
+            else {
+                throw new Error("Vector3 is undefined.");
+            }
+        },
+        set: function (data) {
+            expectArg('data', data).toSatisfy(data.length === 3, "data length must be 3");
+            this.$data = data;
+            this.$callback = void 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Vector3.prototype, "callback", {
+        get: function () {
+            return this.$callback;
+        },
+        set: function (reactTo) {
+            this.$callback = reactTo;
+            this.$data = void 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Vector3.prototype, "x", {
         /**
          * @property x
          * @type Number
          */
         get: function () {
-            return this.$x;
+            return this.data[0];
         },
         set: function (value) {
-            this.modified = this.modified || this.$x !== value;
-            this.$x = value;
+            this.modified = this.modified || this.x !== value;
+            this.data[0] = value;
         },
         enumerable: true,
         configurable: true
@@ -34,11 +67,11 @@ var Vector3 = (function () {
          * @type Number
          */
         get: function () {
-            return this.$y;
+            return this.data[1];
         },
         set: function (value) {
-            this.modified = this.modified || this.$y !== value;
-            this.$y = value;
+            this.modified = this.modified || this.y !== value;
+            this.data[1] = value;
         },
         enumerable: true,
         configurable: true
@@ -49,11 +82,11 @@ var Vector3 = (function () {
          * @type Number
          */
         get: function () {
-            return this.$z;
+            return this.data[2];
         },
         set: function (value) {
-            this.modified = this.modified || this.$z !== value;
-            this.$z = value;
+            this.modified = this.modified || this.z !== value;
+            this.data[2] = value;
         },
         enumerable: true,
         configurable: true
@@ -118,7 +151,7 @@ var Vector3 = (function () {
         return this;
     };
     Vector3.prototype.clone = function () {
-        return new Vector3({ x: this.x, y: this.y, z: this.z });
+        return new Vector3([this.x, this.y, this.z]);
     };
     Vector3.prototype.copy = function (v) {
         this.x = v.x;
@@ -224,9 +257,9 @@ var Vector3 = (function () {
     Vector3.prototype.toString = function () {
         return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
     };
-    Vector3.e1 = new Vector3({ x: 1, y: 0, z: 0 });
-    Vector3.e2 = new Vector3({ x: 0, y: 1, z: 0 });
-    Vector3.e3 = new Vector3({ x: 0, y: 0, z: 1 });
+    Vector3.e1 = new Vector3([1, 0, 0]);
+    Vector3.e2 = new Vector3([0, 1, 0]);
+    Vector3.e3 = new Vector3([0, 0, 1]);
     return Vector3;
 })();
 module.exports = Vector3;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.31.0</em>
+            <em>API Docs for: 2.34.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -86,6 +86,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -102,10 +103,12 @@
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
+                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
@@ -159,9 +162,9 @@ import UniformVariable = require(&#x27;../uniforms/UniformVariable&#x27;);
  */
 class UniformFloat extends DefaultUniformProvider implements UniformVariable&lt;number&gt; {
   private name: string;
-  private $value: number = 0;
+  private $data: number = 0;
   private $callback: () =&gt; number;
-  private useValue: boolean = false;
+  private useData: boolean = false;
   private useCallback: boolean = false;
   private id: string;
   /**
@@ -175,21 +178,21 @@ class UniformFloat extends DefaultUniformProvider implements UniformVariable&lt;
     this.name = name;
     this.id = typeof id !== &#x27;undefined&#x27; ? id: uuid4().generate();
   }
-  set value(value: number) {
-    this.$value = value;
-    if (typeof value !== void 0) {
-      this.useValue = true;
+  set data(data: number) {
+    this.$data = data;
+    if (typeof data !== void 0) {
+      this.useData = true;
       this.useCallback = false;
     }
     else {
-      this.useValue = false;
+      this.useData = false;
     }
   }
   set callback(callback: () =&gt; number) {
     this.$callback = callback;
     if (typeof callback !== void 0) {
       this.useCallback = true;
-      this.useValue = false;
+      this.useData = false;
     }
     else {
       this.useCallback = false;
@@ -198,14 +201,14 @@ class UniformFloat extends DefaultUniformProvider implements UniformVariable&lt;
   getUniformFloat(name: string): number {
     switch(name) {
       case this.name: {
-        if (this.useValue) {
-          return this.$value;
+        if (this.useData) {
+          return this.$data;
         }
         else if (this.useCallback) {
           return this.$callback();
         }
         else {
-          let message = &quot;uniform float &quot; + this.name + &quot; has not been assigned a value or callback.&quot;;
+          let message = &quot;uniform float &quot; + this.name + &quot; has not been assigned a data or callback.&quot;;
           console.warn(message);
           throw new Error(message);
         }

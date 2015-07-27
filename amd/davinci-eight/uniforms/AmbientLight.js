@@ -18,7 +18,7 @@ define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/
             // TODO: Need to have a test for valid variable names in GLSL...
             expectArg('name', name).toBeString().toSatisfy(name.length > 0, "name must have at least one character");
             this.$uColor = new UniformColor(name, Symbolic.UNIFORM_AMBIENT_LIGHT);
-            this.uColor.value = new Color([1.0, 1.0, 1.0]);
+            this.uColor.data = new Color([1.0, 1.0, 1.0]);
         }
         Object.defineProperty(AmbientLight.prototype, "uColor", {
             get: function () {
@@ -28,8 +28,8 @@ define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/
             configurable: true
         });
         Object.defineProperty(AmbientLight.prototype, "color", {
-            set: function (value) {
-                this.uColor.value = value;
+            set: function (color) {
+                this.uColor.data = color;
             },
             enumerable: true,
             configurable: true

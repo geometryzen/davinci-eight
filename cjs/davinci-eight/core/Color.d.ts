@@ -13,7 +13,7 @@ declare class Color {
      * @constructor
      * @param data {number[]}
      */
-    constructor(data: number[]);
+    constructor(data?: number[]);
     red: number;
     green: number;
     blue: number;

@@ -9,7 +9,7 @@ var object3D = function(): Node3D {
 
   var position = new Vector3();
   var attitude = new Spinor3();
-  var scale = new Vector3({x: 1, y: 1, z: 1});
+  var scale = new Vector3([1, 1, 1]);
   var parent: Node3D = null;
   var children: Node3D[] = [];
 

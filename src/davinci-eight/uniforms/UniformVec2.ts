@@ -5,28 +5,28 @@ import UniformVariable = require('../uniforms/UniformVariable');
 
 class UniformVec2 extends DefaultUniformProvider implements UniformVariable<number[]> {
   private name: string;
-  private $value: number[] = [0,0];
+  private $data: number[] = [0,0];
   private $callback: () => number[];
-  private useValue: boolean = true;
+  private useData: boolean = true;
   private id: string;
   constructor(name: string, id?: string) {
     super();
     this.name = name;
     this.id = typeof id !== 'undefined' ? id: uuid4().generate();
   }
-  set value(value: number[]) {
-    this.$value = value;
-    this.useValue = true;
+  set data(data: number[]) {
+    this.$data = data;
+    this.useData = true;
   }
   set callback(callback: () => number[]) {
     this.$callback = callback;
-    this.useValue = false;
+    this.useData = false;
   }
   getUniformVector2(name: string): number[] {
     switch(name) {
       case this.name: {
-        if (this.useValue) {
-          return this.$value;
+        if (this.useData) {
+          return this.$data;
         }
         else {
           return this.$callback();

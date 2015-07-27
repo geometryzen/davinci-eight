@@ -74,9 +74,9 @@ define(["require", "exports", '../geometries/RevolutionGeometry', '../math/Spino
                     [0, 0, (-halfLength) * sign]
                 ];
                 var points = data.map(function (point) {
-                    return new Vector3({ x: point[i], y: point[j], z: point[k] });
+                    return new Vector3([point[i], point[j], point[k]]);
                 });
-                var generator = new Spinor3({ yz: direction.x, zx: direction.y, xy: direction.z, w: 0 });
+                var generator = new Spinor3([direction.x, direction.y, direction.z, 0]);
                 return { "points": points, "generator": generator };
             };
             var arrow = computeArrow(axis);

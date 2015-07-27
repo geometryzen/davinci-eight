@@ -24,7 +24,7 @@ class PolyhedronGeometry extends Geometry {
 
     for ( var i = 0, l = vertices.length; i < l; i += 3 ) {
 
-      prepare(new Vector3({ x: vertices[i], y: vertices[i + 1], z: vertices[i + 2] } ) );
+      prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]));
 
     }
 
@@ -42,7 +42,7 @@ class PolyhedronGeometry extends Geometry {
 
     }
 
-    var centroid = new Vector3();
+    var centroid = new Vector3([0, 0, 0]);
 
     for ( var i = 0, facesLength = faces.length; i < facesLength; i ++ ) {
 
@@ -90,7 +90,7 @@ class PolyhedronGeometry extends Geometry {
 
     this.computeFaceNormals();
 
-    this.boundingSphere = new Sphere( new Vector3(), radius );
+    this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
 
 
     // Project vector onto sphere's surface

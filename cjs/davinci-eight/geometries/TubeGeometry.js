@@ -44,7 +44,7 @@ var TubeGeometry = (function (_super) {
         var cx;
         var cy;
         var pos;
-        var pos2 = new Vector3();
+        var pos2 = new Vector3([0, 0, 0]);
         var i;
         var j;
         var ip;
@@ -66,7 +66,7 @@ var TubeGeometry = (function (_super) {
         this.normals = normals;
         this.binormals = binormals;
         function vert(x, y, z) {
-            return scope.vertices.push(new Vector3({ x: x, y: y, z: z })) - 1;
+            return scope.vertices.push(new Vector3([x, y, z])) - 1;
         }
         // consruct the grid
         for (i = 0; i < numpoints; i++) {
@@ -116,11 +116,11 @@ var TubeGeometry = (function (_super) {
 // For computing of Frenet frames, exposing the tangents, normals and binormals the spline
 var FrenetFrames = (function () {
     function FrenetFrames(path, segments, closed) {
-        var normal = new Vector3();
+        var normal = new Vector3([0, 0, 0]);
         var tangents = [];
         var normals = [];
         var binormals = [];
-        var vec = new Vector3();
+        var vec = new Vector3([0, 0, 0]);
         var mat = new Matrix4();
         var numpoints = segments + 1;
         var theta;
@@ -164,8 +164,8 @@ var FrenetFrames = (function () {
         function initialNormal3() {
             // select an initial normal vector perpendicular to the first tangent vector,
             // and in the direction of the smallest tangent xyz component
-            normals[0] = new Vector3();
-            binormals[0] = new Vector3();
+            normals[0] = new Vector3([0, 0, 0]);
+            binormals[0] = new Vector3([0, 0, 0]);
             smallest = Number.MAX_VALUE;
             tx = Math.abs(tangents[0].x);
             ty = Math.abs(tangents[0].y);

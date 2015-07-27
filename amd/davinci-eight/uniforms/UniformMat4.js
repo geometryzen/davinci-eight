@@ -9,14 +9,14 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         __extends(UniformMat4, _super);
         function UniformMat4(name, id) {
             _super.call(this);
-            this.useValue = true;
+            this.useData = true;
             this.name = name;
             this.id = typeof id !== 'undefined' ? id : uuid4().generate();
         }
-        Object.defineProperty(UniformMat4.prototype, "value", {
-            set: function (value) {
-                this.$value = value;
-                this.useValue = true;
+        Object.defineProperty(UniformMat4.prototype, "data", {
+            set: function (data) {
+                this.$data = data;
+                this.useData = true;
             },
             enumerable: true,
             configurable: true
@@ -24,7 +24,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         Object.defineProperty(UniformMat4.prototype, "callback", {
             set: function (callback) {
                 this.$callback = callback;
-                this.useValue = false;
+                this.useData = false;
             },
             enumerable: true,
             configurable: true
@@ -33,8 +33,8 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
             switch (name) {
                 case this.name:
                     {
-                        if (this.useValue) {
-                            return this.$value;
+                        if (this.useData) {
+                            return this.$data;
                         }
                         else {
                             return this.$callback();

@@ -18,17 +18,17 @@ class UniformColor extends DefaultUniformProvider implements UniformVariable<Col
     super();
     this.inner = new UniformVec3(name, id);
   }
-  get value() {
-    let value = this.inner.value;
-    if (value) {
-      return new Color(value);
+  get data() {
+    let data = this.inner.data;
+    if (data) {
+      return new Color(data);
     }
     else {
       return;
     }
   }
-  set value(color: Color) {
-    this.inner.value = color.data;
+  set data(color: Color) {
+    this.inner.data = color.data;
   }
   set callback(callback: () => Color) {
     this.inner.callback = function(): number[] {

@@ -10,7 +10,7 @@ var cos = Math.cos;
 var sin = Math.sin;
 var pi = Math.PI;
 function mobius(u, v) {
-    var point = new Vector3();
+    var point = new Vector3([0, 0, 0]);
     /**
      * radius
      */

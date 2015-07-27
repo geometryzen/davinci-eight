@@ -4,10 +4,10 @@ import UniformProvider = require('../core/UniformProvider');
  */
 interface UniformVariable<T> extends UniformProvider {
   /**
-   * @property value
+   * @property data
    * @type T
    */
-  value: T;
+  data: T;
   /**
    * @property callback
    * @type () => T

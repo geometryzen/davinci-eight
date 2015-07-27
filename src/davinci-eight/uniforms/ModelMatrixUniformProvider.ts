@@ -1,9 +1,11 @@
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import Spinor3 = require('../math/Spinor3');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
+import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 
 let UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
@@ -29,22 +31,22 @@ function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4
 class ModelMatrixUniformProvider extends DefaultUniformProvider {
   /**
    * @property position
-   * @type Cartesian3
+   * @type Vector3
    */
-  public position: Cartesian3;
+  public position: Vector3;
     /**
      * @property attitude
      * @type Spinor3Coords
      */
-  public attitude: Spinor3Coords;
+  public attitude: Spinor3;
   /**
    * @class Model
    * @constructor
    */
   constructor() {
     super();
-    this.position = {x: 0, y: 0, z: 0};
-    this.attitude = {yz: 0, zx: 0, xy: 0, w: 1};
+    this.position = new Vector3();
+    this.attitude = new Spinor3();
   }
   /**
    * @method getUniformMatrix3

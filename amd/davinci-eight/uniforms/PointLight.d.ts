@@ -1,7 +1,7 @@
-import Color = require('../core/Color');
+import UniformColor = require('../uniforms/UniformColor');
+import UniformVector3 = require('../uniforms/UniformVector3');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import Cartesian3 = require('../math/Cartesian3');
 /**
  * Provides a uniform variable representing a point light.
  * @class PointLight
@@ -15,8 +15,8 @@ declare class PointLight implements UniformProvider {
      * @constructor
      */
     constructor();
-    color: Color;
-    position: Cartesian3;
+    color: UniformColor;
+    position: UniformVector3;
     getUniformFloat(name: string): number;
     getUniformMatrix2(name: string): {
         transpose: boolean;

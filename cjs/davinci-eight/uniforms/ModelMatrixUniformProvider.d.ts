@@ -1,7 +1,7 @@
 import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
-import Spinor3Coords = require('../math/Spinor3Coords');
+import Spinor3 = require('../math/Spinor3');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
-import Cartesian3 = require('../math/Cartesian3');
+import Vector3 = require('../math/Vector3');
 /**
  * @class ModelMatrixUniformProvider
  * @extends DefaultUniformProvider
@@ -9,14 +9,14 @@ import Cartesian3 = require('../math/Cartesian3');
 declare class ModelMatrixUniformProvider extends DefaultUniformProvider {
     /**
      * @property position
-     * @type Cartesian3
+     * @type Vector3
      */
-    position: Cartesian3;
+    position: Vector3;
     /**
      * @property attitude
      * @type Spinor3Coords
      */
-    attitude: Spinor3Coords;
+    attitude: Spinor3;
     /**
      * @class Model
      * @constructor

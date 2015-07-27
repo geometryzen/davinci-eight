@@ -21,18 +21,18 @@ var UniformColor = (function (_super) {
         _super.call(this);
         this.inner = new UniformVec3(name, id);
     }
-    Object.defineProperty(UniformColor.prototype, "value", {
+    Object.defineProperty(UniformColor.prototype, "data", {
         get: function () {
-            var value = this.inner.value;
-            if (value) {
-                return new Color(value);
+            var data = this.inner.data;
+            if (data) {
+                return new Color(data);
             }
             else {
                 return;
             }
         },
         set: function (color) {
-            this.inner.value = color.data;
+            this.inner.data = color.data;
         },
         enumerable: true,
         configurable: true

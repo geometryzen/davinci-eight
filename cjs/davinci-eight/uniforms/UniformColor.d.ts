@@ -13,7 +13,7 @@ declare class UniformColor extends DefaultUniformProvider implements UniformVari
      * @constructor
      */
     constructor(name: string, id?: string);
-    value: Color;
+    data: Color;
     callback: () => Color;
     getUniformVector3(name: string): number[];
     getUniformMetaInfos(): UniformMetaInfos;
