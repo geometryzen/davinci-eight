@@ -5,9 +5,6 @@ import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import expectArg = require('../checks/expectArg');
 
-/**
- * Default varaible name in GLSL follows naming conventions.
- */
 let DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_AMBIENT_LIGHT;
 
 /**
@@ -15,23 +12,28 @@ let DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_AMBIENT_LIGHT;
  * @class AmbientLight
  */
 class AmbientLight implements UniformProvider {
-  private $uColor: UniformColor;
+  private uColor: UniformColor;
   /**
    * @class AmbientLight
    * @constructor
-   * @param name {string} The name of the uniform variable. Defaults to Symbolic.UNIFORM_AMBIENT_LIGHT.
+   * @param options {{color?: Color; name?: string}}
    */
-  constructor(name: string = DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME) {
-    // TODO: Need to have a test for valid variable names in GLSL...
-    expectArg('name', name).toBeString().toSatisfy(name.length > 0, "name must have at least one character");
-    this.$uColor = new UniformColor(name, Symbolic.UNIFORM_AMBIENT_LIGHT);
-    this.uColor.data = new Color([1.0, 1.0, 1.0]);
+  constructor(options?: {color?: Color; name?: string}) {
+
+    options = options || {};
+    options.color = options.color || new Color([1.0, 1.0, 1.0]);
+    options.name = options.name || DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME;
+
+    expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
+
+    this.uColor = new UniformColor(options.name, Symbolic.UNIFORM_AMBIENT_LIGHT);
+    this.uColor.data = options.color;
   }
-  get uColor() {
-    return this.$uColor;
+  get color() {
+    return this.uColor;
   }
-  set color(color: Color) {
-    this.uColor.data = color;
+  set color(color: UniformColor) {
+    throw new Error("color is readonly");
   }
   getUniformFloat(name: string) {
     return this.uColor.getUniformFloat(name);

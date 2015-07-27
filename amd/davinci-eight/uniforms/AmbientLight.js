@@ -1,7 +1,4 @@
 define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor', '../checks/expectArg'], function (require, exports, Color, Symbolic, UniformColor, expectArg) {
-    /**
-     * Default varaible name in GLSL follows naming conventions.
-     */
     var DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_AMBIENT_LIGHT;
     /**
      * Provides a uniform variable representing an ambient light.
@@ -11,25 +8,22 @@ define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/
         /**
          * @class AmbientLight
          * @constructor
-         * @param name {string} The name of the uniform variable. Defaults to Symbolic.UNIFORM_AMBIENT_LIGHT.
+         * @param options {{color?: Color; name?: string}}
          */
-        function AmbientLight(name) {
-            if (name === void 0) { name = DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME; }
-            // TODO: Need to have a test for valid variable names in GLSL...
-            expectArg('name', name).toBeString().toSatisfy(name.length > 0, "name must have at least one character");
-            this.$uColor = new UniformColor(name, Symbolic.UNIFORM_AMBIENT_LIGHT);
-            this.uColor.data = new Color([1.0, 1.0, 1.0]);
+        function AmbientLight(options) {
+            options = options || {};
+            options.color = options.color || new Color([1.0, 1.0, 1.0]);
+            options.name = options.name || DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME;
+            expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
+            this.uColor = new UniformColor(options.name, Symbolic.UNIFORM_AMBIENT_LIGHT);
+            this.uColor.data = options.color;
         }
-        Object.defineProperty(AmbientLight.prototype, "uColor", {
-            get: function () {
-                return this.$uColor;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(AmbientLight.prototype, "color", {
+            get: function () {
+                return this.uColor;
+            },
             set: function (color) {
-                this.uColor.data = color;
+                throw new Error("color is readonly");
             },
             enumerable: true,
             configurable: true

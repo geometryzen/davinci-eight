@@ -1,6 +1,5 @@
-define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVec3', '../uniforms/MultiUniformProvider'], function (require, exports, Color, Symbolic, UniformColor, UniformVec3, MultiUniformProvider) {
-    var UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR;
-    var UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION;
+define(["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../math/Vector3'], function (require, exports, Color, MultiUniformProvider, Symbolic, UniformColor, UniformVector3, Vector3) {
+    var DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
     /**
      * Provides a uniform variable representing a directional light.
      * @class DirectionalLight
@@ -10,31 +9,27 @@ define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/
          * @class DirectionalLight
          * @constructor
          */
-        function DirectionalLight() {
-            this.$uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
-            this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
+        function DirectionalLight(options) {
+            options = options || {};
+            options.color = options.color || new Color([1.0, 1.0, 1.0]);
+            options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
+            options.name = options.name || DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME;
+            this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+            this.uDirection = new UniformVector3(options.name + 'Direction', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
             this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
-            // Maybe we should just be mutating here?
-            this.uColor.data = new Color([1.0, 1.0, 1.0]);
+            this.uColor.data = options.color;
+            this.uDirection.data = options.direction;
         }
-        Object.defineProperty(DirectionalLight.prototype, "uColor", {
-            get: function () {
-                return this.$uColor;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(DirectionalLight.prototype, "color", {
-            set: function (color) {
-                this.uColor.data = color;
+            get: function () {
+                return this.uColor;
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(DirectionalLight.prototype, "direction", {
-            set: function (value) {
-                // TODO: Carry through the reference?
-                this.uDirection.data = [value.x, value.y, value.z];
+            get: function () {
+                return this.uDirection;
             },
             enumerable: true,
             configurable: true

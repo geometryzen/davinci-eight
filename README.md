@@ -136,6 +136,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.32.0: 2015-07-27 Vector3
 * 2.33.0: 2015-07-27 UniformVector3
 * 2.34.0: 2015-07-27 Mutable
+* 2.35.0: 2015-07-27 AmbientLight
 
 ## License
 Copyright (c) 2014-2015 David Holmes

@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.34.0'
+        VERSION: '2.35.0'
     };
     return core;
 });
@@ -1151,8 +1151,10 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
         Symbolic.ATTRIBUTE_COLOR = 'color';
         Symbolic.ATTRIBUTE_NORMAL = 'normal';
         Symbolic.UNIFORM_AMBIENT_LIGHT = 'AmbientLight';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT = 'DirectionalLight';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'directionalLightColor';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'directionalLightDirection';
+        Symbolic.UNIFORM_POINT_LIGHT = 'PointLight';
         Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'pointLightColor';
         Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'pointLightPosition';
         Symbolic.UNIFORM_PROJECTION_MATRIX = 'projectionMatrix';
@@ -8041,9 +8043,6 @@ define('davinci-eight/uniforms/UniformColor',["require", "exports", '../core/Col
 });
 
 define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor', '../checks/expectArg'], function (require, exports, Color, Symbolic, UniformColor, expectArg) {
-    /**
-     * Default varaible name in GLSL follows naming conventions.
-     */
     var DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_AMBIENT_LIGHT;
     /**
      * Provides a uniform variable representing an ambient light.
@@ -8053,25 +8052,22 @@ define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Col
         /**
          * @class AmbientLight
          * @constructor
-         * @param name {string} The name of the uniform variable. Defaults to Symbolic.UNIFORM_AMBIENT_LIGHT.
+         * @param options {{color?: Color; name?: string}}
          */
-        function AmbientLight(name) {
-            if (name === void 0) { name = DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME; }
-            // TODO: Need to have a test for valid variable names in GLSL...
-            expectArg('name', name).toBeString().toSatisfy(name.length > 0, "name must have at least one character");
-            this.$uColor = new UniformColor(name, Symbolic.UNIFORM_AMBIENT_LIGHT);
-            this.uColor.data = new Color([1.0, 1.0, 1.0]);
+        function AmbientLight(options) {
+            options = options || {};
+            options.color = options.color || new Color([1.0, 1.0, 1.0]);
+            options.name = options.name || DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME;
+            expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
+            this.uColor = new UniformColor(options.name, Symbolic.UNIFORM_AMBIENT_LIGHT);
+            this.uColor.data = options.color;
         }
-        Object.defineProperty(AmbientLight.prototype, "uColor", {
-            get: function () {
-                return this.$uColor;
-            },
-            enumerable: true,
-            configurable: true
-        });
         Object.defineProperty(AmbientLight.prototype, "color", {
+            get: function () {
+                return this.uColor;
+            },
             set: function (color) {
-                this.uColor.data = color;
+                throw new Error("color is readonly");
             },
             enumerable: true,
             configurable: true
@@ -8198,76 +8194,6 @@ define('davinci-eight/uniforms/MultiUniformProvider',["require", "exports", '../
     return MultiUniformProvider;
 });
 
-define('davinci-eight/uniforms/DirectionalLight',["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVec3', '../uniforms/MultiUniformProvider'], function (require, exports, Color, Symbolic, UniformColor, UniformVec3, MultiUniformProvider) {
-    var UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR;
-    var UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION;
-    /**
-     * Provides a uniform variable representing a directional light.
-     * @class DirectionalLight
-     */
-    var DirectionalLight = (function () {
-        /**
-         * @class DirectionalLight
-         * @constructor
-         */
-        function DirectionalLight() {
-            this.$uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
-            this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
-            this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
-            // Maybe we should just be mutating here?
-            this.uColor.data = new Color([1.0, 1.0, 1.0]);
-        }
-        Object.defineProperty(DirectionalLight.prototype, "uColor", {
-            get: function () {
-                return this.$uColor;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DirectionalLight.prototype, "color", {
-            set: function (color) {
-                this.uColor.data = color;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DirectionalLight.prototype, "direction", {
-            set: function (value) {
-                // TODO: Carry through the reference?
-                this.uDirection.data = [value.x, value.y, value.z];
-            },
-            enumerable: true,
-            configurable: true
-        });
-        DirectionalLight.prototype.getUniformFloat = function (name) {
-            return this.multi.getUniformFloat(name);
-        };
-        DirectionalLight.prototype.getUniformMatrix2 = function (name) {
-            return this.multi.getUniformMatrix2(name);
-        };
-        DirectionalLight.prototype.getUniformMatrix3 = function (name) {
-            return this.multi.getUniformMatrix3(name);
-        };
-        DirectionalLight.prototype.getUniformMatrix4 = function (name) {
-            return this.multi.getUniformMatrix4(name);
-        };
-        DirectionalLight.prototype.getUniformVector2 = function (name) {
-            return this.multi.getUniformVector2(name);
-        };
-        DirectionalLight.prototype.getUniformVector3 = function (name) {
-            return this.multi.getUniformVector3(name);
-        };
-        DirectionalLight.prototype.getUniformVector4 = function (name) {
-            return this.multi.getUniformVector4(name);
-        };
-        DirectionalLight.prototype.getUniformMetaInfos = function () {
-            return this.multi.getUniformMetaInfos();
-        };
-        return DirectionalLight;
-    })();
-    return DirectionalLight;
-});
-
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -8326,9 +8252,73 @@ define('davinci-eight/uniforms/UniformVector3',["require", "exports", '../math/V
     return UniformVector3;
 });
 
+define('davinci-eight/uniforms/DirectionalLight',["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../math/Vector3'], function (require, exports, Color, MultiUniformProvider, Symbolic, UniformColor, UniformVector3, Vector3) {
+    var DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
+    /**
+     * Provides a uniform variable representing a directional light.
+     * @class DirectionalLight
+     */
+    var DirectionalLight = (function () {
+        /**
+         * @class DirectionalLight
+         * @constructor
+         */
+        function DirectionalLight(options) {
+            options = options || {};
+            options.color = options.color || new Color([1.0, 1.0, 1.0]);
+            options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
+            options.name = options.name || DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME;
+            this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+            this.uDirection = new UniformVector3(options.name + 'Direction', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
+            this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
+            this.uColor.data = options.color;
+            this.uDirection.data = options.direction;
+        }
+        Object.defineProperty(DirectionalLight.prototype, "color", {
+            get: function () {
+                return this.uColor;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DirectionalLight.prototype, "direction", {
+            get: function () {
+                return this.uDirection;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        DirectionalLight.prototype.getUniformFloat = function (name) {
+            return this.multi.getUniformFloat(name);
+        };
+        DirectionalLight.prototype.getUniformMatrix2 = function (name) {
+            return this.multi.getUniformMatrix2(name);
+        };
+        DirectionalLight.prototype.getUniformMatrix3 = function (name) {
+            return this.multi.getUniformMatrix3(name);
+        };
+        DirectionalLight.prototype.getUniformMatrix4 = function (name) {
+            return this.multi.getUniformMatrix4(name);
+        };
+        DirectionalLight.prototype.getUniformVector2 = function (name) {
+            return this.multi.getUniformVector2(name);
+        };
+        DirectionalLight.prototype.getUniformVector3 = function (name) {
+            return this.multi.getUniformVector3(name);
+        };
+        DirectionalLight.prototype.getUniformVector4 = function (name) {
+            return this.multi.getUniformVector4(name);
+        };
+        DirectionalLight.prototype.getUniformMetaInfos = function () {
+            return this.multi.getUniformMetaInfos();
+        };
+        return DirectionalLight;
+    })();
+    return DirectionalLight;
+});
+
 define('davinci-eight/uniforms/PointLight',["require", "exports", '../core/Color', '../math/Vector3', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../uniforms/MultiUniformProvider'], function (require, exports, Color, Vector3, Symbolic, UniformColor, UniformVector3, MultiUniformProvider) {
-    var UNIFORM_POINT_LIGHT_COLOR_NAME = Symbolic.UNIFORM_POINT_LIGHT_COLOR;
-    var UNIFORM_POINT_LIGHT_POSITION_NAME = Symbolic.UNIFORM_POINT_LIGHT_POSITION;
+    var DEFAULT_UNIFORM_POINT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_POINT_LIGHT;
     /**
      * Provides a uniform variable representing a point light.
      * @class PointLight
@@ -8338,12 +8328,16 @@ define('davinci-eight/uniforms/PointLight',["require", "exports", '../core/Color
          * @class PointLight
          * @constructor
          */
-        function PointLight() {
-            this.uColor = new UniformColor(UNIFORM_POINT_LIGHT_COLOR_NAME, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-            this.uPosition = new UniformVector3(UNIFORM_POINT_LIGHT_POSITION_NAME, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+        function PointLight(options) {
+            options = options || {};
+            options.color = options.color || new Color([1.0, 1.0, 1.0]);
+            options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
+            options.name = options.name || DEFAULT_UNIFORM_POINT_LIGHT_NAME;
+            this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_POINT_LIGHT_COLOR);
+            this.uPosition = new UniformVector3(options.name + 'Position', Symbolic.UNIFORM_POINT_LIGHT_POSITION);
             this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
-            this.uColor.data = new Color([1.0, 1.0, 1.0]);
-            this.uPosition.data = new Vector3([0.0, 0.0, 0.0]);
+            this.uColor.data = options.color;
+            this.uPosition.data = options.position;
         }
         Object.defineProperty(PointLight.prototype, "color", {
             get: function () {

@@ -1,43 +1,45 @@
 import Color = require('../core/Color');
+import MultiUniformProvider = require('../uniforms/MultiUniformProvider');
 import Symbolic = require('../core/Symbolic');
 import UniformColor = require('../uniforms/UniformColor');
-import UniformVec3 = require('../uniforms/UniformVec3');
-import MultiUniformProvider = require('../uniforms/MultiUniformProvider');
-import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import Cartesian3 = require('../math/Cartesian3');
+import UniformProvider = require('../core/UniformProvider');
+import UniformVector3 = require('../uniforms/UniformVector3');
+import Vector3 = require('../math/Vector3');
 
-let UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR;
-let UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION;
+let DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
 
 /**
  * Provides a uniform variable representing a directional light.
  * @class DirectionalLight
  */
 class DirectionalLight implements UniformProvider {
-  private $uColor: UniformColor;
-  private uDirection: UniformVec3;
+  private uColor: UniformColor;
+  private uDirection: UniformVector3;
   private multi: MultiUniformProvider;
   /**
    * @class DirectionalLight
    * @constructor
    */
-  constructor() {
-    this.$uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
-    this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
+  constructor(options?: {color?: Color; direction?: Vector3; name?: string}) {
+
+    options = options || {};
+    options.color = options.color || new Color([1.0, 1.0, 1.0]);
+    options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
+    options.name = options.name || DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME;
+
+    this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+    this.uDirection = new UniformVector3(options.name + 'Direction', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
-    // Maybe we should just be mutating here?
-    this.uColor.data = new Color([1.0, 1.0, 1.0]);
+
+    this.uColor.data = options.color;
+    this.uDirection.data = options.direction;
   }
-  get uColor() {
-    return this.$uColor;
+  get color() {
+    return this.uColor;
   }
-  set color(color: Color) {
-    this.uColor.data = color;
-  }
-  set direction(value: Cartesian3) {
-    // TODO: Carry through the reference?
-    this.uDirection.data = [value.x, value.y, value.z];
+  get direction() {
+    return this.uDirection;
   }
   getUniformFloat(name: string) {
     return this.multi.getUniformFloat(name);

@@ -184,8 +184,8 @@ declare module EIGHT
    *
    */
   class AmbientLight extends UniformProvider {
-    public uColor: UniformColor;
-    constructor(name?: string);
+    public color: UniformColor;
+    constructor(options?: {color?: Color; name?: string});
   }
   /**
    *
@@ -203,10 +203,9 @@ declare module EIGHT
    *
    */
   class DirectionalLight extends UniformProvider {
-    public color: Color;
-    public direction: Cartesian3;
-    public uColor: UniformColor;
-    constructor();
+    public color: UniformColor;
+    public direction: UniformVector3;
+    constructor(options?: {color?: Color; direction?: Vector3; name?: string});
   }
   /**
    *
@@ -214,7 +213,7 @@ declare module EIGHT
   class PointLight extends UniformProvider {
     public color: UniformColor;
     public position: UniformVector3;
-    constructor();
+    constructor(options?: {color?: Color; position?: Vector3; name?: string});
   }
   /**
    *

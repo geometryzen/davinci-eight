@@ -7,15 +7,17 @@ import UniformMetaInfos = require('../core/UniformMetaInfos');
  * @class AmbientLight
  */
 declare class AmbientLight implements UniformProvider {
-    private $uColor;
+    private uColor;
     /**
      * @class AmbientLight
      * @constructor
-     * @param name {string} The name of the uniform variable. Defaults to Symbolic.UNIFORM_AMBIENT_LIGHT.
+     * @param options {{color?: Color; name?: string}}
      */
-    constructor(name?: string);
-    uColor: UniformColor;
-    color: Color;
+    constructor(options?: {
+        color?: Color;
+        name?: string;
+    });
+    color: UniformColor;
     getUniformFloat(name: string): number;
     getUniformMatrix2(name: string): {
         transpose: boolean;

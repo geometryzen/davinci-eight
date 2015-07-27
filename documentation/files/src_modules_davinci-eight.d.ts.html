@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.34.0</em>
+            <em>API Docs for: 2.35.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -338,8 +338,8 @@ declare module EIGHT
    *
    */
   class AmbientLight extends UniformProvider {
-    public uColor: UniformColor;
-    constructor(name?: string);
+    public color: UniformColor;
+    constructor(options?: {color?: Color; name?: string});
   }
   /**
    *
@@ -357,10 +357,9 @@ declare module EIGHT
    *
    */
   class DirectionalLight extends UniformProvider {
-    public color: Color;
-    public direction: Cartesian3;
-    public uColor: UniformColor;
-    constructor();
+    public color: UniformColor;
+    public direction: UniformVector3;
+    constructor(options?: {color?: Color; direction?: Vector3; name?: string});
   }
   /**
    *
@@ -368,7 +367,7 @@ declare module EIGHT
   class PointLight extends UniformProvider {
     public color: UniformColor;
     public position: UniformVector3;
-    constructor();
+    constructor(options?: {color?: Color; position?: Vector3; name?: string});
   }
   /**
    *

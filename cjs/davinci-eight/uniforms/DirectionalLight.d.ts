@@ -1,24 +1,28 @@
 import Color = require('../core/Color');
 import UniformColor = require('../uniforms/UniformColor');
-import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import Cartesian3 = require('../math/Cartesian3');
+import UniformProvider = require('../core/UniformProvider');
+import UniformVector3 = require('../uniforms/UniformVector3');
+import Vector3 = require('../math/Vector3');
 /**
  * Provides a uniform variable representing a directional light.
  * @class DirectionalLight
  */
 declare class DirectionalLight implements UniformProvider {
-    private $uColor;
+    private uColor;
     private uDirection;
     private multi;
     /**
      * @class DirectionalLight
      * @constructor
      */
-    constructor();
-    uColor: UniformColor;
-    color: Color;
-    direction: Cartesian3;
+    constructor(options?: {
+        color?: Color;
+        direction?: Vector3;
+        name?: string;
+    });
+    color: UniformColor;
+    direction: UniformVector3;
     getUniformFloat(name: string): number;
     getUniformMatrix2(name: string): {
         transpose: boolean;

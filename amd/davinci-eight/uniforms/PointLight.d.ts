@@ -1,3 +1,5 @@
+import Color = require('../core/Color');
+import Vector3 = require('../math/Vector3');
 import UniformColor = require('../uniforms/UniformColor');
 import UniformVector3 = require('../uniforms/UniformVector3');
 import UniformProvider = require('../core/UniformProvider');
@@ -14,7 +16,11 @@ declare class PointLight implements UniformProvider {
      * @class PointLight
      * @constructor
      */
-    constructor();
+    constructor(options?: {
+        color?: Color;
+        position?: Vector3;
+        name?: string;
+    });
     color: UniformColor;
     position: UniformVector3;
     getUniformFloat(name: string): number;

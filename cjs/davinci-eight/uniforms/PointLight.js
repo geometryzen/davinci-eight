@@ -4,8 +4,7 @@ var Symbolic = require('../core/Symbolic');
 var UniformColor = require('../uniforms/UniformColor');
 var UniformVector3 = require('../uniforms/UniformVector3');
 var MultiUniformProvider = require('../uniforms/MultiUniformProvider');
-var UNIFORM_POINT_LIGHT_COLOR_NAME = Symbolic.UNIFORM_POINT_LIGHT_COLOR;
-var UNIFORM_POINT_LIGHT_POSITION_NAME = Symbolic.UNIFORM_POINT_LIGHT_POSITION;
+var DEFAULT_UNIFORM_POINT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_POINT_LIGHT;
 /**
  * Provides a uniform variable representing a point light.
  * @class PointLight
@@ -15,12 +14,16 @@ var PointLight = (function () {
      * @class PointLight
      * @constructor
      */
-    function PointLight() {
-        this.uColor = new UniformColor(UNIFORM_POINT_LIGHT_COLOR_NAME, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-        this.uPosition = new UniformVector3(UNIFORM_POINT_LIGHT_POSITION_NAME, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+    function PointLight(options) {
+        options = options || {};
+        options.color = options.color || new Color([1.0, 1.0, 1.0]);
+        options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
+        options.name = options.name || DEFAULT_UNIFORM_POINT_LIGHT_NAME;
+        this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_POINT_LIGHT_COLOR);
+        this.uPosition = new UniformVector3(options.name + 'Position', Symbolic.UNIFORM_POINT_LIGHT_POSITION);
         this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
-        this.uColor.data = new Color([1.0, 1.0, 1.0]);
-        this.uPosition.data = new Vector3([0.0, 0.0, 0.0]);
+        this.uColor.data = options.color;
+        this.uPosition.data = options.position;
     }
     Object.defineProperty(PointLight.prototype, "color", {
         get: function () {
