@@ -14,7 +14,7 @@ define(["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../
         var devicePixelRatio = 1;
         var autoClearColor = true;
         var autoClearDepth = true;
-        var clearColor = new Color(1.0, 1.0, 1.0);
+        var clearColor = new Color([1.0, 1.0, 1.0]);
         var clearAlpha = 1.0;
         // If we had an active context then we might use context.drawingBufferWidth etc.
         var viewport = new ViewportArgs(0, 0, canvas.width, canvas.height);

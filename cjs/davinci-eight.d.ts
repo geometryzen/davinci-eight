@@ -47,6 +47,7 @@ import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformPr
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
 import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
 import MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
+import PointLight = require('davinci-eight/uniforms/PointLight');
 import UniformFloat = require('davinci-eight/uniforms/UniformFloat');
 import UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
 import UniformVec2 = require('davinci-eight/uniforms/UniformVec2');
@@ -89,6 +90,7 @@ declare var eight: {
     smartProgram: (attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     AmbientLight: typeof AmbientLight;
     DirectionalLight: typeof DirectionalLight;
+    PointLight: typeof PointLight;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;

@@ -17,6 +17,9 @@ var UniformVec3 = (function (_super) {
         this.id = typeof id !== 'undefined' ? id : uuid4().generate();
     }
     Object.defineProperty(UniformVec3.prototype, "value", {
+        get: function () {
+            return this.$value;
+        },
         set: function (value) {
             this.$value = value;
             if (typeof value !== void 0) {
@@ -26,6 +29,7 @@ var UniformVec3 = (function (_super) {
             }
             else {
                 this.useValue = false;
+                this.$callback = void 0;
             }
         },
         enumerable: true,
@@ -40,6 +44,7 @@ var UniformVec3 = (function (_super) {
             }
             else {
                 this.useCallback = false;
+                this.$value = void 0;
             }
         },
         enumerable: true,

@@ -53,18 +53,18 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var uv4 = uvs[y + 1][x + 1].clone();
                     if (Math.abs(this.vertices[v1].y) === radius) {
                         uv1.x = (uv1.x + uv2.x) / 2;
-                        this.faces.push(new Face3(v1, v3, v4, [n1, n3, n4]));
+                        this.faces.push(new Face3(v1, v3, v4, void 0, [n1, n3, n4]));
                         this.faceVertexUvs[0].push([uv1, uv3, uv4]);
                     }
                     else if (Math.abs(this.vertices[v3].y) === radius) {
                         uv3.x = (uv3.x + uv4.x) / 2;
-                        this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
+                        this.faces.push(new Face3(v1, v2, v3, void 0, [n1, n2, n3]));
                         this.faceVertexUvs[0].push([uv1, uv2, uv3]);
                     }
                     else {
-                        this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
+                        this.faces.push(new Face3(v1, v2, v4, void 0, [n1, n2, n4]));
                         this.faceVertexUvs[0].push([uv1, uv2, uv4]);
-                        this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
+                        this.faces.push(new Face3(v2, v3, v4, void 0, [n2.clone(), n3, n4.clone()]));
                         this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
                     }
                 }

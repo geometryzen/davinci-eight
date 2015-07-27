@@ -64,6 +64,7 @@ var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvi
 var DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
 var ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
 var MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
+var PointLight = require('davinci-eight/uniforms/PointLight');
 var uniforms = require('davinci-eight/uniforms/uniforms');
 var UniformFloat = require('davinci-eight/uniforms/UniformFloat');
 var UniformMat4 = require('davinci-eight/uniforms/UniformMat4');
@@ -121,6 +122,7 @@ var eight = {
     },
     get AmbientLight() { return AmbientLight; },
     get DirectionalLight() { return DirectionalLight; },
+    get PointLight() { return PointLight; },
     get Color() { return Color; },
     get Face3() { return Face3; },
     get Geometry() { return Geometry; },

@@ -99,10 +99,10 @@ class CylinderGeometry extends Geometry {
         var uv3 = uvs[ y + 1 ][ x + 1 ].clone();
         var uv4 = uvs[ y ][ x + 1 ].clone();
 
-        this.faces.push( new Face3( v1, v2, v4, [ n1, n2, n4 ] ) );
+        this.faces.push( new Face3( v1, v2, v4, undefined, [ n1, n2, n4 ] ) );
         this.faceVertexUvs[ 0 ].push( [ uv1, uv2, uv4 ] );
 
-        this.faces.push( new Face3( v2, v3, v4, [ n2.clone(), n3, n4.clone() ] ) );
+        this.faces.push( new Face3( v2, v3, v4, undefined, [ n2.clone(), n3, n4.clone() ] ) );
         this.faceVertexUvs[ 0 ].push( [ uv2.clone(), uv3, uv4.clone() ] );
       }
     }
@@ -127,7 +127,7 @@ class CylinderGeometry extends Geometry {
         var uv2 = uvs[ 0 ][ x + 1 ].clone();
         var uv3 = new Vector2( uv2.x, 0 );
 
-        this.faces.push( new Face3( v1, v2, v3, [ n1, n2, n3 ] ) );
+        this.faces.push( new Face3( v1, v2, v3, undefined, [ n1, n2, n3 ] ) );
         this.faceVertexUvs[ 0 ].push( [ uv1, uv2, uv3 ] );
 
       }
@@ -154,7 +154,7 @@ class CylinderGeometry extends Geometry {
         var uv2 = uvs[ heightSegments ][ x ].clone();
         var uv3 = new Vector2( uv2.x, 1 );
 
-        this.faces.push( new Face3( v1, v2, v3, [ n1, n2, n3 ] ) );
+        this.faces.push( new Face3( v1, v2, v3, undefined, [ n1, n2, n3 ] ) );
         this.faceVertexUvs[ 0 ].push( [ uv1, uv2, uv3 ] );
 
       }

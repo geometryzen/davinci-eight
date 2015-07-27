@@ -1,26 +1,66 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
+var Color = require('../core/Color');
 var Symbolic = require('../core/Symbolic');
 var UniformColor = require('../uniforms/UniformColor');
-var UNIFORM_AMBIENT_LIGHT_NAME = Symbolic.UNIFORM_AMBIENT_LIGHT;
+var expectArg = require('../checks/expectArg');
+/**
+ * Default varaible name in GLSL follows naming conventions.
+ */
+var DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_AMBIENT_LIGHT;
 /**
  * Provides a uniform variable representing an ambient light.
  * @class AmbientLight
  */
-var AmbientLight = (function (_super) {
-    __extends(AmbientLight, _super);
+var AmbientLight = (function () {
     /**
      * @class AmbientLight
      * @constructor
+     * @param name {string} The name of the uniform variable. Defaults to Symbolic.UNIFORM_AMBIENT_LIGHT.
      */
-    function AmbientLight(color) {
-        _super.call(this, UNIFORM_AMBIENT_LIGHT_NAME, Symbolic.UNIFORM_AMBIENT_LIGHT);
-        this.value = color;
+    function AmbientLight(name) {
+        if (name === void 0) { name = DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME; }
+        // TODO: Need to have a test for valid variable names in GLSL...
+        expectArg('name', name).toBeString().toSatisfy(name.length > 0, "name must have at least one character");
+        this.$uColor = new UniformColor(name, Symbolic.UNIFORM_AMBIENT_LIGHT);
+        this.uColor.value = new Color([1.0, 1.0, 1.0]);
     }
+    Object.defineProperty(AmbientLight.prototype, "uColor", {
+        get: function () {
+            return this.$uColor;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AmbientLight.prototype, "color", {
+        set: function (value) {
+            this.uColor.value = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AmbientLight.prototype.getUniformFloat = function (name) {
+        return this.uColor.getUniformFloat(name);
+    };
+    AmbientLight.prototype.getUniformMatrix2 = function (name) {
+        return this.uColor.getUniformMatrix2(name);
+    };
+    AmbientLight.prototype.getUniformMatrix3 = function (name) {
+        return this.uColor.getUniformMatrix3(name);
+    };
+    AmbientLight.prototype.getUniformMatrix4 = function (name) {
+        return this.uColor.getUniformMatrix4(name);
+    };
+    AmbientLight.prototype.getUniformVector2 = function (name) {
+        return this.uColor.getUniformVector2(name);
+    };
+    AmbientLight.prototype.getUniformVector3 = function (name) {
+        return this.uColor.getUniformVector3(name);
+    };
+    AmbientLight.prototype.getUniformVector4 = function (name) {
+        return this.uColor.getUniformVector4(name);
+    };
+    AmbientLight.prototype.getUniformMetaInfos = function () {
+        return this.uColor.getUniformMetaInfos();
+    };
     return AmbientLight;
-})(UniformColor);
+})();
 module.exports = AmbientLight;

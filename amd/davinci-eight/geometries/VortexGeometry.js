@@ -81,14 +81,14 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var b = (circleSegments + 1) * (j - 1) + i - 1;
                     var c = (circleSegments + 1) * (j - 1) + i;
                     var d = (circleSegments + 1) * j + i;
-                    var face = new Face3(a, b, d, [normals[a], normals[b], normals[d]]);
+                    var face = new Face3(a, b, d, void 0, [normals[a], normals[b], normals[d]]);
                     face.normal.add(normals[a]);
                     face.normal.add(normals[b]);
                     face.normal.add(normals[d]);
                     face.normal.normalize();
                     this.faces.push(face);
                     this.faceVertexUvs[0].push([uvs[a].clone(), uvs[b].clone(), uvs[d].clone()]);
-                    face = new Face3(b, c, d, [normals[b], normals[c], normals[d]]);
+                    face = new Face3(b, c, d, void 0, [normals[b], normals[c], normals[d]]);
                     face.normal.add(normals[b]);
                     face.normal.add(normals[c]);
                     face.normal.add(normals[d]);

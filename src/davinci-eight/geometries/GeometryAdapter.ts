@@ -15,8 +15,8 @@ let DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
 let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = 'aVertexColor';
 let DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME   = 'aVertexNormal';
 
-function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[], normal: Vector3): Color {
-  return new Color(normal.x, normal.y, normal.z);
+function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
+  return new Color([1.0, 1.0, 1.0]);
 }
 
 /**
@@ -27,7 +27,7 @@ function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vect
 class GeometryAdapter implements AttributeProvider {
   public geometry: Geometry;
   public color: Color;
-  public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[], normal: Vector3) => Color;
+  public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
   private elementArray: Uint16Array;
   private aVertexPositionArray: Float32Array;
   private aVertexColorArray: Float32Array;
@@ -48,7 +48,7 @@ class GeometryAdapter implements AttributeProvider {
     options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
 
     this.geometry = geometry;
-    this.color = new Color(1.0, 1.0, 1.0);
+    this.color = new Color([1.0, 1.0, 1.0]);
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
     this.elementsUsage = options.elementsUsage;
@@ -153,7 +153,7 @@ class GeometryAdapter implements AttributeProvider {
     let vertexList = this.geometry.vertices;
     let color = this.color;
     let colorFunction = this.colorFunction;
-    let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[], normal: Vector3): Color
+    let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color
     {
       if (color)
       {
@@ -161,11 +161,11 @@ class GeometryAdapter implements AttributeProvider {
       }
       else if (colorFunction)
       {
-        return colorFunction(vertexIndex, face, vertexList, normal);
+        return colorFunction(vertexIndex, face, vertexList);
       }
       else
       {
-        return defaultColorFunction(vertexIndex, face, vertexList, normal);
+        return defaultColorFunction(vertexIndex, face, vertexList);
       }
     }
 
@@ -243,30 +243,50 @@ class GeometryAdapter implements AttributeProvider {
           vertices.push(vC.y);
           vertices.push(vC.z);
 
-          // Make copies where needed to avoid mutating the geometry.
-          let a: Vector3 = vertexList[face.a];
-          let b: Vector3 = vertexList[face.b].clone();
-          let c: Vector3 = vertexList[face.c].clone();
+          if (face.vertexNormals.length === 3) {
+              let vertexNormals = face.vertexNormals;
+              let nA = vertexNormals[0];
+              let nB = vertexNormals[1];
+              let nC = vertexNormals[2];
+              normals.push(nA.x);
+              normals.push(nA.y);
+              normals.push(nA.z);
 
-          let perp: Vector3 = b.sub(a).cross(c.sub(a));
-          // TODO: This is simply the normalize() function.
-          let normal: Vector3 = perp.divideScalar(perp.length());
+              normals.push(nB.x);
+              normals.push(nB.y);
+              normals.push(nB.z);
 
-          normals.push(normal.x);
-          normals.push(normal.y);
-          normals.push(normal.z);
+              normals.push(nC.x);
+              normals.push(nC.y);
+              normals.push(nC.z);
+          }
+          else {
+            // TODO: Why aren't we simply using the pre-calculated face normals?
+            // Make copies where needed to avoid mutating the geometry.
+            let a: Vector3 = vertexList[face.a];
+            let b: Vector3 = vertexList[face.b].clone();
+            let c: Vector3 = vertexList[face.c].clone();
 
-          normals.push(normal.x);
-          normals.push(normal.y);
-          normals.push(normal.z);
+            let perp: Vector3 = b.sub(a).cross(c.sub(a));
+            // TODO: This is simply the normalize() function.
+            let normal: Vector3 = perp.divideScalar(perp.length());
 
-          normals.push(normal.x);
-          normals.push(normal.y);
-          normals.push(normal.z);
+            normals.push(normal.x);
+            normals.push(normal.y);
+            normals.push(normal.z);
 
-          var colorA: Color = colorMaker(face.a, face, vertexList, normal);
-          var colorB: Color = colorMaker(face.b, face, vertexList, normal);
-          var colorC: Color = colorMaker(face.c, face, vertexList, normal);
+            normals.push(normal.x);
+            normals.push(normal.y);
+            normals.push(normal.z);
+
+            normals.push(normal.x);
+            normals.push(normal.y);
+            normals.push(normal.z);
+          }
+
+          var colorA: Color = colorMaker(face.a, face, vertexList);
+          var colorB: Color = colorMaker(face.b, face, vertexList);
+          var colorC: Color = colorMaker(face.c, face, vertexList);
 
           colors.push(colorA.red);
           colors.push(colorA.green);

@@ -1,24 +1,44 @@
 import clamp = require('../math/clamp');
 import expectArg = require('../checks/expectArg');
 /**
+ * A mutable type representing a color through its RGB components.
  * @class Color
+ * WARNING: In many object-oriented designs, types representing values are completely immutable.
+ * In a graphics library where data changes rapidly and garbage collection might become an issue,
+ * it is common to use reference types, such as in this design. This mutability can lead to
+ * difficult bugs because it is hard to reason about where a color may have changed. 
  */
 class Color {
-  public red: number;
-  public green: number;
-  public blue: number;
+  public data: number[];
   /**
    * @class Color
    * @constructor
-   * @param red {number}
-   * @param green {number}
-   * @param blue {number}
+   * @param data {number[]}
    */
-  constructor(red: number, green: number, blue: number) {
-//    expectArg('red', red).toBeNumber();
-    this.red = red;
-    this.green = green;
-    this.blue = blue;
+  constructor(data: number[]) {
+    expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
+    this.data = data;
+  }
+  get red(): number {
+    return this.data[0];
+  }
+  set red(value: number) {
+    this.data[0] = value;
+  }
+  get green(): number {
+    return this.data[1];
+  }
+  set green(value: number) {
+    this.data[1] = value;
+  }
+  get blue(): number {
+    return this.data[2];
+  }
+  set blue(value: number) {
+    this.data[2] = value;
+  }
+  public clone() {
+    return new Color([this.data[0], this.data[1], this.data[2]]);
   }
   public luminance(): number {
     return Color.luminance(this.red, this.green, this.blue);
@@ -49,7 +69,7 @@ class Color {
     function matchLightness(R: number, G: number, B: number): Color {
       var x = Color.luminance(R, G, B);
       var m = L - (0.5 * C);
-      return new Color(R + m, G + m, B + m);
+      return new Color([R + m, G + m, B + m]);
     }
     var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
     var X = C * (1 - Math.abs(sextant % 2 - 1));

@@ -1,4 +1,5 @@
 import Color = require('../core/Color');
+import UniformColor = require('../uniforms/UniformColor');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Cartesian3 = require('../math/Cartesian3');
@@ -7,7 +8,7 @@ import Cartesian3 = require('../math/Cartesian3');
  * @class DirectionalLight
  */
 declare class DirectionalLight implements UniformProvider {
-    private uColor;
+    private $uColor;
     private uDirection;
     private multi;
     /**
@@ -15,6 +16,7 @@ declare class DirectionalLight implements UniformProvider {
      * @constructor
      */
     constructor();
+    uColor: UniformColor;
     color: Color;
     direction: Cartesian3;
     getUniformFloat(name: string): number;

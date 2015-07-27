@@ -4,6 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+var Color = require('../core/Color');
 var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 var UniformVec3 = require('../uniforms/UniformVec3');
 /**
@@ -21,8 +22,17 @@ var UniformColor = (function (_super) {
         this.inner = new UniformVec3(name, id);
     }
     Object.defineProperty(UniformColor.prototype, "value", {
+        get: function () {
+            var value = this.inner.value;
+            if (value) {
+                return new Color(value);
+            }
+            else {
+                return;
+            }
+        },
         set: function (color) {
-            this.inner.value = [color.red, color.green, color.blue];
+            this.inner.value = color.data;
         },
         enumerable: true,
         configurable: true
@@ -31,7 +41,7 @@ var UniformColor = (function (_super) {
         set: function (callback) {
             this.inner.callback = function () {
                 var color = callback();
-                return [color.red, color.green, color.blue];
+                return color.data;
             };
         },
         enumerable: true,

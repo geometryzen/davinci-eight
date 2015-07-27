@@ -1,3 +1,4 @@
+var Color = require('../core/Color');
 var Symbolic = require('../core/Symbolic');
 var UniformColor = require('../uniforms/UniformColor');
 var UniformVec3 = require('../uniforms/UniformVec3');
@@ -14,10 +15,19 @@ var DirectionalLight = (function () {
      * @constructor
      */
     function DirectionalLight() {
-        this.uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+        this.$uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
         this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
         this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
+        // Maybe we should just be mutating here?
+        this.uColor.value = new Color([1.0, 1.0, 1.0]);
     }
+    Object.defineProperty(DirectionalLight.prototype, "uColor", {
+        get: function () {
+            return this.$uColor;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DirectionalLight.prototype, "color", {
         set: function (value) {
             this.uColor.value = value;

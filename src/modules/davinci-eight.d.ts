@@ -170,7 +170,8 @@ declare module EIGHT
    *
    */
   class AmbientLight extends UniformProvider {
-    constructor(color: Color);
+    public uColor: UniformColor;
+    constructor(name?: string);
   }
   /**
    *
@@ -190,6 +191,15 @@ declare module EIGHT
   class DirectionalLight extends UniformProvider {
     public color: Color;
     public direction: Cartesian3;
+    public uColor: UniformColor;
+    constructor();
+  }
+  /**
+   *
+   */
+  class PointLight extends UniformProvider {
+    public color: Color;
+    public position: Cartesian3;
     constructor();
   }
   /**
@@ -208,6 +218,12 @@ declare module EIGHT
   class UniformVariable<T> extends UniformProvider {
     value: T;
     callback: () => T;
+  }
+  /**
+   * Represents a uniform vec3 for a Color.
+   */
+  class UniformColor extends UniformVariable<Color> {
+    constructor(name: string, id?: string);
   }
   /**
    * Represents a uniform float.

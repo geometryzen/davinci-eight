@@ -2,8 +2,8 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
     var DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
     var DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME = 'aVertexColor';
     var DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME = 'aVertexNormal';
-    function defaultColorFunction(vertexIndex, face, vertexList, normal) {
-        return new Color(normal.x, normal.y, normal.z);
+    function defaultColorFunction(vertexIndex, face, vertexList) {
+        return new Color([1.0, 1.0, 1.0]);
     }
     /**
      * Adapter from a Geometry to a AttributeProvider.
@@ -26,7 +26,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
             options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
             this.geometry = geometry;
-            this.color = new Color(1.0, 1.0, 1.0);
+            this.color = new Color([1.0, 1.0, 1.0]);
             this.geometry.dynamic = false;
             this.$drawMode = options.drawMode;
             this.elementsUsage = options.elementsUsage;
@@ -136,15 +136,15 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             var vertexList = this.geometry.vertices;
             var color = this.color;
             var colorFunction = this.colorFunction;
-            var colorMaker = function (vertexIndex, face, vertexList, normal) {
+            var colorMaker = function (vertexIndex, face, vertexList) {
                 if (color) {
                     return color;
                 }
                 else if (colorFunction) {
-                    return colorFunction(vertexIndex, face, vertexList, normal);
+                    return colorFunction(vertexIndex, face, vertexList);
                 }
                 else {
-                    return defaultColorFunction(vertexIndex, face, vertexList, normal);
+                    return defaultColorFunction(vertexIndex, face, vertexList);
                 }
             };
             switch (this.drawMode) {
@@ -212,25 +212,43 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             vertices.push(vC.x);
                             vertices.push(vC.y);
                             vertices.push(vC.z);
-                            // Make copies where needed to avoid mutating the geometry.
-                            var a = vertexList[face.a];
-                            var b = vertexList[face.b].clone();
-                            var c = vertexList[face.c].clone();
-                            var perp = b.sub(a).cross(c.sub(a));
-                            // TODO: This is simply the normalize() function.
-                            var normal = perp.divideScalar(perp.length());
-                            normals.push(normal.x);
-                            normals.push(normal.y);
-                            normals.push(normal.z);
-                            normals.push(normal.x);
-                            normals.push(normal.y);
-                            normals.push(normal.z);
-                            normals.push(normal.x);
-                            normals.push(normal.y);
-                            normals.push(normal.z);
-                            var colorA = colorMaker(face.a, face, vertexList, normal);
-                            var colorB = colorMaker(face.b, face, vertexList, normal);
-                            var colorC = colorMaker(face.c, face, vertexList, normal);
+                            if (face.vertexNormals.length === 3) {
+                                var vertexNormals = face.vertexNormals;
+                                var nA = vertexNormals[0];
+                                var nB = vertexNormals[1];
+                                var nC = vertexNormals[2];
+                                normals.push(nA.x);
+                                normals.push(nA.y);
+                                normals.push(nA.z);
+                                normals.push(nB.x);
+                                normals.push(nB.y);
+                                normals.push(nB.z);
+                                normals.push(nC.x);
+                                normals.push(nC.y);
+                                normals.push(nC.z);
+                            }
+                            else {
+                                // TODO: Why aren't we simply using the pre-calculated face normals?
+                                // Make copies where needed to avoid mutating the geometry.
+                                var a = vertexList[face.a];
+                                var b = vertexList[face.b].clone();
+                                var c = vertexList[face.c].clone();
+                                var perp = b.sub(a).cross(c.sub(a));
+                                // TODO: This is simply the normalize() function.
+                                var normal = perp.divideScalar(perp.length());
+                                normals.push(normal.x);
+                                normals.push(normal.y);
+                                normals.push(normal.z);
+                                normals.push(normal.x);
+                                normals.push(normal.y);
+                                normals.push(normal.z);
+                                normals.push(normal.x);
+                                normals.push(normal.y);
+                                normals.push(normal.z);
+                            }
+                            var colorA = colorMaker(face.a, face, vertexList);
+                            var colorB = colorMaker(face.b, face, vertexList);
+                            var colorC = colorMaker(face.c, face, vertexList);
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);

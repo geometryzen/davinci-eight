@@ -32,7 +32,7 @@ var PolyhedronGeometry = (function (_super) {
             var v1 = p[indices[i]];
             var v2 = p[indices[i + 1]];
             var v3 = p[indices[i + 2]];
-            faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
+            faces[j] = new Face3(v1['index'], v2['index'], v3['index'], undefined, [v1.clone(), v2.clone(), v3.clone()]);
         }
         var centroid = new Vector3();
         for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
@@ -75,7 +75,7 @@ var PolyhedronGeometry = (function (_super) {
         }
         // Approximate a curved face with recursively sub-divided triangles.
         function make(v1, v2, v3) {
-            var face = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
+            var face = new Face3(v1['index'], v2['index'], v3['index'], undefined, [v1.clone(), v2.clone(), v3.clone()]);
             that.faces.push(face);
             centroid.copy(v1).add(v2).add(v3).divideScalar(3);
             var azi = azimuth(centroid);

@@ -78,9 +78,10 @@ import initWebGL = require('davinci-eight/renderers/initWebGL');
 import AmbientLight               = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUniformProvider');
-import DirectionalLight               = require('davinci-eight/uniforms/DirectionalLight');
+import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight');
 import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
 import MultiUniformProvider       = require('davinci-eight/uniforms/MultiUniformProvider');
+import PointLight                 = require('davinci-eight/uniforms/PointLight');
 import uniforms                   = require('davinci-eight/uniforms/uniforms');
 import UniformFloat               = require('davinci-eight/uniforms/UniformFloat');
 import UniformMat4                = require('davinci-eight/uniforms/UniformMat4');
@@ -143,6 +144,7 @@ var eight = {
   },
   get AmbientLight() { return AmbientLight; },
   get DirectionalLight() { return DirectionalLight; },
+  get PointLight() { return PointLight; },
   get Color() { return Color; },
   get Face3() { return Face3; },
   get Geometry() { return Geometry; },

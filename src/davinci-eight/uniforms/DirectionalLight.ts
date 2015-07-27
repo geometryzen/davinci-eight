@@ -15,7 +15,7 @@ let UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME = Symbolic.UNIFORM_DIRECTIONAL_LIGH
  * @class DirectionalLight
  */
 class DirectionalLight implements UniformProvider {
-  private uColor: UniformColor;
+  private $uColor: UniformColor;
   private uDirection: UniformVec3;
   private multi: MultiUniformProvider;
   /**
@@ -23,9 +23,14 @@ class DirectionalLight implements UniformProvider {
    * @constructor
    */
   constructor() {
-    this.uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+    this.$uColor = new UniformColor(UNIFORM_DIRECTIONAL_LIGHT_COLOR_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
     this.uDirection = new UniformVec3(UNIFORM_DIRECTIONAL_LIGHT_DIRECTION_NAME, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
+    // Maybe we should just be mutating here?
+    this.uColor.value = new Color([1.0, 1.0, 1.0]);
+  }
+  get uColor() {
+    return this.$uColor;
   }
   set color(value: Color) {
     this.uColor.value = value;

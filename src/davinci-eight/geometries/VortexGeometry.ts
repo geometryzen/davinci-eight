@@ -29,8 +29,8 @@ class VortexGeometry extends Geometry
     var twoPI = Math.PI * 2;
     var R = radius;
     var center = new Vector3();
-    var uvs = [];
-    var normals = [];
+    var uvs: Vector2[] = [];
+    var normals: Vector3[] = [];
 
     var alpha = lengthShaft / (lengthCone + lengthShaft);
     var factor = twoPI / arrowSegments;
@@ -96,7 +96,7 @@ class VortexGeometry extends Geometry
         var c = ( circleSegments + 1 ) * ( j - 1 ) + i;
         var d = ( circleSegments + 1 ) * j + i;
 
-        var face = new Face3(a, b, d, [normals[a], normals[b], normals[d]]);
+        var face = new Face3(a, b, d, void 0, [normals[a], normals[b], normals[d]]);
         face.normal.add( normals[ a ] );
         face.normal.add( normals[ b ] );
         face.normal.add( normals[ d ] );
@@ -106,7 +106,7 @@ class VortexGeometry extends Geometry
 
         this.faceVertexUvs[0].push([uvs[a].clone(), uvs[b].clone(), uvs[d].clone()]);
 
-        face = new Face3(b, c, d, [normals[b], normals[c], normals[d]]);
+        face = new Face3(b, c, d, void 0, [normals[b], normals[c], normals[d]]);
         face.normal.add( normals[ b ] );
         face.normal.add( normals[ c ] );
         face.normal.add( normals[ d ] );

@@ -16,6 +16,9 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
     this.name = name;
     this.id = typeof id !== 'undefined' ? id: uuid4().generate();
   }
+  get value() {
+    return this.$value;
+  }
   set value(value: number[]) {
     this.$value = value;
     if (typeof value !== void 0) {
@@ -25,6 +28,7 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
     }
     else {
       this.useValue = false;
+      this.$callback = void 0;
     }
   }
   set callback(callback: () => number[]) {
@@ -35,6 +39,7 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
     }
     else {
       this.useCallback = false;
+      this.$value = void 0;
     }
   }
   getUniformVector3(name: string): number[] {

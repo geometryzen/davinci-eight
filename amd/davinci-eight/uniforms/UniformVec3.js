@@ -15,6 +15,9 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
             this.id = typeof id !== 'undefined' ? id : uuid4().generate();
         }
         Object.defineProperty(UniformVec3.prototype, "value", {
+            get: function () {
+                return this.$value;
+            },
             set: function (value) {
                 this.$value = value;
                 if (typeof value !== void 0) {
@@ -24,6 +27,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
                 }
                 else {
                     this.useValue = false;
+                    this.$callback = void 0;
                 }
             },
             enumerable: true,
@@ -38,6 +42,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
                 }
                 else {
                     this.useCallback = false;
+                    this.$value = void 0;
                 }
             },
             enumerable: true,

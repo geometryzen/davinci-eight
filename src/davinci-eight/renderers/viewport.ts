@@ -29,7 +29,7 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
     var devicePixelRatio = 1;
     var autoClearColor: boolean = true;
     var autoClearDepth: boolean = true;
-    let clearColor: Color = new Color(1.0, 1.0, 1.0);
+    let clearColor: Color = new Color([1.0, 1.0, 1.0]);
     let clearAlpha: number = 1.0;
     // If we had an active context then we might use context.drawingBufferWidth etc.
     let viewport: ViewportArgs = new ViewportArgs(0, 0, canvas.width, canvas.height);

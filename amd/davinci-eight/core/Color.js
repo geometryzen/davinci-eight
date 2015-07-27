@@ -1,21 +1,55 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     /**
+     * A mutable type representing a color through its RGB components.
      * @class Color
+     * WARNING: In many object-oriented designs, types representing values are completely immutable.
+     * In a graphics library where data changes rapidly and garbage collection might become an issue,
+     * it is common to use reference types, such as in this design. This mutability can lead to
+     * difficult bugs because it is hard to reason about where a color may have changed.
      */
     var Color = (function () {
         /**
          * @class Color
          * @constructor
-         * @param red {number}
-         * @param green {number}
-         * @param blue {number}
+         * @param data {number[]}
          */
-        function Color(red, green, blue) {
-            //    expectArg('red', red).toBeNumber();
-            this.red = red;
-            this.green = green;
-            this.blue = blue;
+        function Color(data) {
+            expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
+            this.data = data;
         }
+        Object.defineProperty(Color.prototype, "red", {
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Color.prototype, "green", {
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Color.prototype, "blue", {
+            get: function () {
+                return this.data[2];
+            },
+            set: function (value) {
+                this.data[2] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Color.prototype.clone = function () {
+            return new Color([this.data[0], this.data[1], this.data[2]]);
+        };
         Color.prototype.luminance = function () {
             return Color.luminance(this.red, this.green, this.blue);
         };
@@ -45,7 +79,7 @@ define(["require", "exports"], function (require, exports) {
             function matchLightness(R, G, B) {
                 var x = Color.luminance(R, G, B);
                 var m = L - (0.5 * C);
-                return new Color(R + m, G + m, B + m);
+                return new Color([R + m, G + m, B + m]);
             }
             var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
             var X = C * (1 - Math.abs(sextant % 2 - 1));

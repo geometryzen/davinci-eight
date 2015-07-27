@@ -132,6 +132,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.28.0: 2015-07-25 animation
 * 2.29.0: 2015-07-26 objects
 * 2.30.0: 2015-07-26 DirectionalLight
+* 2.31.0: 2015-07-27 Color
 
 ## License
 Copyright (c) 2014-2015 David Holmes

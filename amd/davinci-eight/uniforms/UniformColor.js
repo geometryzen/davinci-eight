@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, DefaultUniformProvider, UniformVec3) {
+define(["require", "exports", '../core/Color', '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Color, DefaultUniformProvider, UniformVec3) {
     /**
      * Provides a uniform variable representing an ambient light.
      * @class UniformColor
@@ -20,8 +20,17 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../uniforms
             this.inner = new UniformVec3(name, id);
         }
         Object.defineProperty(UniformColor.prototype, "value", {
+            get: function () {
+                var value = this.inner.value;
+                if (value) {
+                    return new Color(value);
+                }
+                else {
+                    return;
+                }
+            },
             set: function (color) {
-                this.inner.value = [color.red, color.green, color.blue];
+                this.inner.value = color.data;
             },
             enumerable: true,
             configurable: true
@@ -30,7 +39,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../uniforms
             set: function (callback) {
                 this.inner.callback = function () {
                     var color = callback();
-                    return [color.red, color.green, color.blue];
+                    return color.data;
                 };
             },
             enumerable: true,

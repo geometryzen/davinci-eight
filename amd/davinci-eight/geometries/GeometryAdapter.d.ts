@@ -15,7 +15,7 @@ import DrawMode = require('../core/DrawMode');
 declare class GeometryAdapter implements AttributeProvider {
     geometry: Geometry;
     color: Color;
-    colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[], normal: Vector3) => Color;
+    colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
     private elementArray;
     private aVertexPositionArray;
     private aVertexColorArray;
