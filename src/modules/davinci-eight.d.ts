@@ -187,6 +187,14 @@ declare module EIGHT
   /**
    *
    */
+  class DirectionalLight extends UniformProvider {
+    public color: Color;
+    public direction: Cartesian3;
+    constructor();
+  }
+  /**
+   *
+   */
   class MultiUniformProvider extends UniformProvider {
     constructor(providers: UniformProvider[]);
   }
@@ -394,8 +402,7 @@ declare module EIGHT
     public red: number;
     public green: number;
     public blue: number;
-    public alpha: number;
-    constructor(red: number, green: number, blue: number, alpha?: number);
+    constructor(red: number, green: number, blue: number);
   }
   class GeometryAdapter extends AttributeProvider
   {

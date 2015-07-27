@@ -44,6 +44,7 @@ import ViewportParameters = require('davinci-eight/renderers/ViewportParameters'
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
+import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
 import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
 import MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 import UniformFloat = require('davinci-eight/uniforms/UniformFloat');
@@ -87,6 +88,7 @@ declare var eight: {
     shaderProgram: (vertexShader: string, fragmentShader: string) => ShaderProgram;
     smartProgram: (attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     AmbientLight: typeof AmbientLight;
+    DirectionalLight: typeof DirectionalLight;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;

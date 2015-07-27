@@ -1,20 +1,25 @@
-var clamp = require('../math/clamp');
 /**
  * @class Color
  */
 var Color = (function () {
-    function Color(red, green, blue, alpha) {
-        if (alpha === void 0) { alpha = 1; }
+    /**
+     * @class Color
+     * @constructor
+     * @param red {number}
+     * @param green {number}
+     * @param blue {number}
+     */
+    function Color(red, green, blue) {
+        //    expectArg('red', red).toBeNumber();
         this.red = red;
         this.green = green;
         this.blue = blue;
-        this.alpha = typeof alpha === 'number' ? clamp(alpha, 0, 1) : 1;
     }
     Color.prototype.luminance = function () {
         return Color.luminance(this.red, this.green, this.blue);
     };
     Color.prototype.toString = function () {
-        return "Color(" + this.red + ", " + this.green + ", " + this.blue + ", " + this.alpha + ")";
+        return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
     };
     Color.luminance = function (red, green, blue) {
         var gamma = 2.2;
@@ -39,7 +44,7 @@ var Color = (function () {
         function matchLightness(R, G, B) {
             var x = Color.luminance(R, G, B);
             var m = L - (0.5 * C);
-            return new Color(R + m, G + m, B + m, 1.0);
+            return new Color(R + m, G + m, B + m);
         }
         var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
         var X = C * (1 - Math.abs(sextant % 2 - 1));

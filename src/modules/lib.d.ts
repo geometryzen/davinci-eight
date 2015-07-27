@@ -11547,7 +11547,7 @@ interface SVGFEComponentTransferElement extends SVGElement, SVGFilterPrimitiveSt
     in1: SVGAnimatedString;
 }
 
-interface SVGFEDiffuseLightingElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
+interface SVGFEDirectionalLightingElement extends SVGElement, SVGFilterPrimitiveStandardAttributes {
     kernelUnitLengthY: SVGAnimatedNumber;
     surfaceScale: SVGAnimatedNumber;
     in1: SVGAnimatedString;

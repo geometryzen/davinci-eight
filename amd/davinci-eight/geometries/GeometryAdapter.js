@@ -3,7 +3,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
     var DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME = 'aVertexColor';
     var DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME = 'aVertexNormal';
     function defaultColorFunction(vertexIndex, face, vertexList, normal) {
-        return new Color(normal.x, normal.y, normal.z, 1.0);
+        return new Color(normal.x, normal.y, normal.z);
     }
     /**
      * Adapter from a Geometry to a AttributeProvider.
@@ -26,7 +26,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
             options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
             this.geometry = geometry;
-            this.color = new Color(1.0, 1.0, 0.0, 1.0);
+            this.color = new Color(1.0, 1.0, 1.0);
             this.geometry.dynamic = false;
             this.$drawMode = options.drawMode;
             this.elementsUsage = options.elementsUsage;
@@ -162,7 +162,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
-                            colors.push(colorA.alpha);
+                            colors.push(1.0);
                         });
                     }
                     break;
@@ -186,11 +186,11 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
-                            colors.push(colorA.alpha);
+                            colors.push(1.0);
                             colors.push(colorB.red);
                             colors.push(colorB.green);
                             colors.push(colorB.blue);
-                            colors.push(colorB.alpha);
+                            colors.push(1.0);
                         });
                     }
                     break;
@@ -234,15 +234,15 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
-                            colors.push(colorA.alpha);
+                            colors.push(1.0);
                             colors.push(colorB.red);
                             colors.push(colorB.green);
                             colors.push(colorB.blue);
-                            colors.push(colorB.alpha);
+                            colors.push(1.0);
                             colors.push(colorC.red);
                             colors.push(colorC.green);
                             colors.push(colorC.blue);
-                            colors.push(colorC.alpha);
+                            colors.push(1.0);
                         });
                     }
                     break;

@@ -2,6 +2,7 @@ import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import uuid4 = require('../utils/uuid4');
 import UniformVariable = require('../uniforms/UniformVariable');
+import expectArg = require('../checks/expectArg');
 
 class UniformVec4 extends DefaultUniformProvider implements UniformVariable<number[]> {
   private name: string;
@@ -15,6 +16,7 @@ class UniformVec4 extends DefaultUniformProvider implements UniformVariable<numb
     this.id = typeof id !== 'undefined' ? id: uuid4().generate();
   }
   set value(value: number[]) {
+    expectArg('value', value).toSatisfy(value.length === 4, "value length must be 4");
     this.$value = value;
     this.useValue = true;
   }

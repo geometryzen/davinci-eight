@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
-var UniformVec4 = require('../uniforms/UniformVec4');
+var UniformVec3 = require('../uniforms/UniformVec3');
 /**
  * Provides a uniform variable representing an ambient light.
  * @class UniformColor
@@ -18,11 +18,11 @@ var UniformColor = (function (_super) {
      */
     function UniformColor(name, id) {
         _super.call(this);
-        this.inner = new UniformVec4(name, id);
+        this.inner = new UniformVec3(name, id);
     }
     Object.defineProperty(UniformColor.prototype, "value", {
         set: function (color) {
-            this.inner.value = [color.red, color.green, color.blue, color.alpha];
+            this.inner.value = [color.red, color.green, color.blue];
         },
         enumerable: true,
         configurable: true
@@ -37,8 +37,8 @@ var UniformColor = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    UniformColor.prototype.getUniformVector4 = function (name) {
-        return this.inner.getUniformVector4(name);
+    UniformColor.prototype.getUniformVector3 = function (name) {
+        return this.inner.getUniformVector3(name);
     };
     UniformColor.prototype.getUniformMetaInfos = function () {
         return this.inner.getUniformMetaInfos();

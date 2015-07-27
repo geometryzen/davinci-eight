@@ -6,6 +6,7 @@ declare class UniformVec3 extends DefaultUniformProvider implements UniformVaria
     private $value;
     private $callback;
     private useValue;
+    private useCallback;
     private id;
     constructor(name: string, id?: string);
     value: number[];

@@ -29,7 +29,8 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
     var devicePixelRatio = 1;
     var autoClearColor: boolean = true;
     var autoClearDepth: boolean = true;
-    let clearColor: Color = new Color(1.0, 1.0, 1.0, 1.0);
+    let clearColor: Color = new Color(1.0, 1.0, 1.0);
+    let clearAlpha: number = 1.0;
     // If we had an active context then we might use context.drawingBufferWidth etc.
     let viewport: ViewportArgs = new ViewportArgs(0, 0, canvas.width, canvas.height);
 
@@ -80,7 +81,7 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
         clearColor.red = red;
         clearColor.green = green;
         clearColor.blue = blue;
-        clearColor.alpha = alpha;
+        clearAlpha = alpha;
         //
       },
       render(world: World, views: UniformProvider[]) {
@@ -88,7 +89,7 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
         if (context) {
           context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
           context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
-          context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearColor.alpha);
+          context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
           clear();
           if (!world.hasContext()) {
             world.contextGain(context, contextId);

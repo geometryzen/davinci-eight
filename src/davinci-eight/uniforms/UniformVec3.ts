@@ -2,12 +2,14 @@ import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import uuid4 = require('../utils/uuid4');
 import UniformVariable = require('../uniforms/UniformVariable');
+import expectArg = require('../checks/expectArg');
 
 class UniformVec3 extends DefaultUniformProvider implements UniformVariable<number[]> {
   private name: string;
-  private $value: number[] = [0,0,0];
+  private $value: number[];
   private $callback: () => number[];
-  private useValue: boolean = true;
+  private useValue: boolean = false;
+  private useCallback = false;
   private id: string;
   constructor(name: string, id?: string) {
     super();
@@ -16,11 +18,24 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
   }
   set value(value: number[]) {
     this.$value = value;
-    this.useValue = true;
+    if (typeof value !== void 0) {
+      expectArg('value', value).toSatisfy(value.length === 3, "value.length must be 3");
+      this.useValue = true;
+      this.useCallback = false;
+    }
+    else {
+      this.useValue = false;
+    }
   }
   set callback(callback: () => number[]) {
     this.$callback = callback;
-    this.useValue = false;
+    if (typeof callback !== void 0) {
+      this.useCallback = true;
+      this.useValue = false;
+    }
+    else {
+      this.useCallback = false;
+    }
   }
   getUniformVector3(name: string): number[] {
     switch(name) {
@@ -28,8 +43,13 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
         if (this.useValue) {
           return this.$value;
         }
-        else {
+        else if (this.useCallback) {
           return this.$callback();
+        }
+        else {
+          let message = "uniform vec3 " + this.name + " has not been assigned a value or callback.";
+          console.warn(message);
+          throw new Error(message);
         }
       }
       break;

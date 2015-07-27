@@ -9,10 +9,14 @@ var LPAREN = '(';
 var RPAREN = ')';
 var TIMES = SPACE + '*' + SPACE;
 var ASSIGN = SPACE + '=' + SPACE;
+var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
+function vLightRequired(uniforms) {
+    return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
+}
 /**
  *
  */
-var vertexShader = function (attributes, uniforms) {
+var vertexShader = function (attributes, uniforms, vLight) {
     var lines = [];
     for (name in attributes) {
         lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
@@ -23,7 +27,9 @@ var vertexShader = function (attributes, uniforms) {
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
         lines.push("varying highp vec4 vColor;");
     }
-    lines.push("varying highp vec3 vLight;");
+    if (vLight) {
+        lines.push("varying highp vec3 vLight;");
+    }
     lines.push("void main(void) {");
     var glPosition = [];
     glPosition.unshift(SEMICOLON);
@@ -66,27 +72,25 @@ var vertexShader = function (attributes, uniforms) {
                 }
         }
     }
-    if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-        lines.push("  vec3 ambientLight = " + uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT].name + SEMICOLON);
-    }
-    if (uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
-        lines.push("  vec3 diffuseLightColor = vec3(0.8, 0.8, 0.8);");
-        lines.push("  vec3 L = normalize(vec3(8.0, 10.0, 5.0));");
-        lines.push("  vec3 N = normalize(" + uniforms[Symbolic.UNIFORM_NORMAL_MATRIX].name + " * " + attributes[Symbolic.ATTRIBUTE_NORMAL].name + ");");
-        lines.push("  float diffuseLightAmount = max(dot(N, L), 0.0);");
-        if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-            lines.push("  vLight = ambientLight + diffuseLightAmount * diffuseLightColor;");
+    if (vLight) {
+        if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
+            lines.push("  vec3 L = normalize(" + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION].name + ");");
+            lines.push("  vec3 N = normalize(" + uniforms[Symbolic.UNIFORM_NORMAL_MATRIX].name + " * " + attributes[Symbolic.ATTRIBUTE_NORMAL].name + ");");
+            lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(dot(N, L), 0.0);");
+            if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
+                lines.push("  vLight = " + uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT].name + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR].name + ";");
+            }
+            else {
+                lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR].name + ";");
+            }
         }
         else {
-            lines.push("  vLight = diffuseLightAmount * diffuseLightColor;");
-        }
-    }
-    else {
-        if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-            lines.push("  vLight = ambientLight;");
-        }
-        else {
-            lines.push("  vLight = vec3(1.0, 1.0, 1.0);");
+            if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
+                lines.push("  vLight = " + uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT].name + ";");
+            }
+            else {
+                lines.push("  vLight = vec3(1.0, 1.0, 1.0);");
+            }
         }
     }
     lines.push("  gl_PointSize = 6.0;");
@@ -97,18 +101,30 @@ var vertexShader = function (attributes, uniforms) {
 /**
  *
  */
-var fragmentShader = function (attributes, uniforms) {
+var fragmentShader = function (attributes, uniforms, vLight) {
     var lines = [];
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
         lines.push("varying highp vec4 vColor;");
     }
-    lines.push("varying highp vec3 vLight;");
+    if (vLight) {
+        lines.push("varying highp vec3 vLight;");
+    }
     lines.push("void main(void) {");
-    if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-        lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+    if (vLight) {
+        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+            lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+        }
+        else {
+            lines.push("  gl_FragColor = vec4(vLight, 1.0);");
+        }
     }
     else {
-        lines.push("  gl_FragColor = vec4(vLight, 1.0);");
+        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+            lines.push("  gl_FragColor = vColor;");
+        }
+        else {
+            lines.push("  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
+        }
     }
     lines.push("}");
     var code = lines.join("\n");
@@ -134,7 +150,8 @@ var smartProgram = function (attributes, uniformsList) {
             uniforms[name] = uniformsElement[name];
         }
     });
-    var innerProgram = shaderProgram(vertexShader(attributes, uniforms), fragmentShader(attributes, uniforms));
+    var vLight = vLightRequired(uniforms);
+    var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vLight));
     var publicAPI = {
         get attributes() {
             return innerProgram.attributes;

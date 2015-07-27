@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 define(["require", "exports", '../core/Symbolic', '../uniforms/UniformColor'], function (require, exports, Symbolic, UniformColor) {
-    var UNIFORM_AMBIENT_LIGHT_NAME = 'uAmbientLight';
+    var UNIFORM_AMBIENT_LIGHT_NAME = Symbolic.UNIFORM_AMBIENT_LIGHT;
     /**
      * Provides a uniform variable representing an ambient light.
      * @class AmbientLight

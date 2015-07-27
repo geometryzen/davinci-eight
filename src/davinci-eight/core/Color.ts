@@ -1,4 +1,5 @@
 import clamp = require('../math/clamp');
+import expectArg = require('../checks/expectArg');
 /**
  * @class Color
  */
@@ -6,18 +7,24 @@ class Color {
   public red: number;
   public green: number;
   public blue: number;
-  public alpha: number;
-  constructor(red: number, green: number, blue: number, alpha: number = 1) {
+  /**
+   * @class Color
+   * @constructor
+   * @param red {number}
+   * @param green {number}
+   * @param blue {number}
+   */
+  constructor(red: number, green: number, blue: number) {
+//    expectArg('red', red).toBeNumber();
     this.red = red;
     this.green = green;
     this.blue = blue;
-    this.alpha = typeof alpha === 'number' ? clamp(alpha, 0, 1) : 1;
   }
   public luminance(): number {
     return Color.luminance(this.red, this.green, this.blue);
   }
   public toString(): string {
-    return "Color(" + this.red + ", " + this.green + ", " + this.blue + ", " + this.alpha + ")"
+    return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")"
   }
   public static luminance(red: number, green: number, blue: number): number {
     var gamma = 2.2;
@@ -42,7 +49,7 @@ class Color {
     function matchLightness(R: number, G: number, B: number): Color {
       var x = Color.luminance(R, G, B);
       var m = L - (0.5 * C);
-      return new Color(R + m, G + m, B + m, 1.0);
+      return new Color(R + m, G + m, B + m);
     }
     var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
     var X = C * (1 - Math.abs(sextant % 2 - 1));

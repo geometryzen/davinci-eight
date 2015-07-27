@@ -10,6 +10,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Color",
         "CuboidMesh",
         "DefaultUniformProvider",
+        "DirectionalLight",
         "DrawMode",
         "Drawable",
         "ElementArray",

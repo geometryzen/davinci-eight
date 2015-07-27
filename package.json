@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "2.29.0",
+  "version": "2.30.0",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author":
   {
@@ -11,9 +11,10 @@
   "repository":
   {
     "type": "git",
-    "url": "git://github.com/geometryzen/davinc-eight.git"
+    "url": "git://github.com/geometryzen/davinci-eight.git"
   },
-  "bugs": {
+  "bugs":
+  {
     "url": "https://github.com/geometryzen/davinci-eight/issues"
   },
   "licenses":
@@ -23,12 +24,15 @@
       "url": "https://github.com/geometryzen/davinci-eight/blob/master/LICENSE"
     }
   ],
-  "scripts": {
+  "scripts":
+  {
     "test": "grunt; grunt test"
   },
-  "dependencies": {
+  "dependencies":
+  {
   },
-  "devDependencies": {
+  "devDependencies":
+  {
     "grunt": "0.4.5",
     "grunt-cli": "0.1.13",
     "grunt-complexity": "0.3.0",

@@ -16,7 +16,7 @@ let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = 'aVertexColor';
 let DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME   = 'aVertexNormal';
 
 function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[], normal: Vector3): Color {
-  return new Color(normal.x, normal.y, normal.z, 1.0);
+  return new Color(normal.x, normal.y, normal.z);
 }
 
 /**
@@ -48,7 +48,7 @@ class GeometryAdapter implements AttributeProvider {
     options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
 
     this.geometry = geometry;
-    this.color = new Color(1.0, 1.0, 0.0, 1.0);
+    this.color = new Color(1.0, 1.0, 1.0);
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
     this.elementsUsage = options.elementsUsage;
@@ -186,7 +186,7 @@ class GeometryAdapter implements AttributeProvider {
           colors.push(colorA.red);
           colors.push(colorA.green);
           colors.push(colorA.blue);
-          colors.push(colorA.alpha);
+          colors.push(1.0);
         });
       }
       break;
@@ -213,12 +213,12 @@ class GeometryAdapter implements AttributeProvider {
           colors.push(colorA.red);
           colors.push(colorA.green);
           colors.push(colorA.blue);
-          colors.push(colorA.alpha);
+          colors.push(1.0);
 
           colors.push(colorB.red);
           colors.push(colorB.green);
           colors.push(colorB.blue);
-          colors.push(colorB.alpha);
+          colors.push(1.0);
         });
       }
       break;
@@ -271,17 +271,17 @@ class GeometryAdapter implements AttributeProvider {
           colors.push(colorA.red);
           colors.push(colorA.green);
           colors.push(colorA.blue);
-          colors.push(colorA.alpha);
+          colors.push(1.0);
 
           colors.push(colorB.red);
           colors.push(colorB.green);
           colors.push(colorB.blue);
-          colors.push(colorB.alpha);
+          colors.push(1.0);
 
           colors.push(colorC.red);
           colors.push(colorC.green);
           colors.push(colorC.blue);
-          colors.push(colorC.alpha);
+          colors.push(1.0);
         });
       }
       break;

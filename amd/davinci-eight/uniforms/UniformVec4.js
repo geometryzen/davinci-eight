@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uuid4'], function (require, exports, DefaultUniformProvider, uuid4) {
+define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg'], function (require, exports, DefaultUniformProvider, uuid4, expectArg) {
     var UniformVec4 = (function (_super) {
         __extends(UniformVec4, _super);
         function UniformVec4(name, id) {
@@ -16,6 +16,7 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uu
         }
         Object.defineProperty(UniformVec4.prototype, "value", {
             set: function (value) {
+                expectArg('value', value).toSatisfy(value.length === 4, "value length must be 4");
                 this.$value = value;
                 this.useValue = true;
             },
