@@ -3,5 +3,6 @@ import ShaderProgram = require('../programs/ShaderProgram');
 import ModelMatrixUniformProvider = require('../uniforms/ModelMatrixUniformProvider');
 import DrawableModel = require('../objects/DrawableModel');
 import UniformProvider = require('../core/UniformProvider');
-declare function box(ambients: UniformProvider): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+import BoxOptions = require('../mesh/BoxOptions');
+declare function box(ambients: UniformProvider, options?: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
 export = box;

@@ -15,6 +15,14 @@ define(["require", "exports"], function (require, exports) {
                 }
                 return arg;
             },
+            toBeNumber: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'number') {
+                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a number.";
+                    throw new Error(message);
+                }
+                return arg;
+            },
             toBeObject: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'object') {

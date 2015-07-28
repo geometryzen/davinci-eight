@@ -449,7 +449,7 @@ declare module EIGHT
   class GeometryAdapter extends AttributeProvider
   {
     public color: Color;
-    constructor(geometry: Geometry, options? {drawMode?: DrawMode});
+    constructor(geometry: Geometry, options?: {drawMode?: DrawMode});
   }
   class CurveMesh extends AttributeProvider {
     constructor(
@@ -481,7 +481,7 @@ declare module EIGHT
       heightSegments?: number,
       openEnded?: boolean,
       thetaStart?: number,
-      thetaLength?: number):
+      thetaLength?: number);
   }
   class RGBMesh extends AttributeProvider {
     constructor();
@@ -633,20 +633,45 @@ declare module EIGHT
     ambients: UniformProvider
   ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**
-   * Constructs and returns a box mesh.
+   *
    */
-  function boxMesh(
-    options?: {
-      width?: number,
-      wireFrame?: boolean
-    }
-  ): AttributeProvider;
+  interface BoxOptions {
+    width?: number;
+    height?: number;
+    number?: number;
+    widthSegments?: number;
+    heightSegments?: number;
+    numberSegments?: number;
+    wireFrame?: boolean;
+  }
   /**
    *
    */
-  function box(
-    ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  class BoxArgs {
+    width: number;
+    height: number;
+    number: number;
+    widthSegments: number;
+    heightSegments: number;
+    numberSegments: number;
+    wireFrame: boolean;
+    constructor();
+    setWidth(width: number): BoxArgs;
+    setHeight(height: number): BoxArgs;
+    setDepth(depth: number): BoxArgs;
+    setWidthSegments(widthSegments: number): BoxArgs;
+    setHeightSegments(heightSegments: number): BoxArgs;
+    setDepthSegments(depthSegments: number): BoxArgs;
+    setWireFrame(wireFrame: boolean): BoxArgs;
+  }
+  /**
+   * Constructs and returns a box mesh.
+   */
+  function boxMesh(options?: BoxOptions): AttributeProvider;
+  /**
+   *
+   */
+  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**
    * Constructs and returns a cylinder mesh.
    */
@@ -832,7 +857,8 @@ declare module EIGHT
   /**
    *
    */
-  class Curve() {
+  class Curve {
+    constructor();
   }
   /**
    * Constructs and returns a new Workbench3D.

@@ -8,43 +8,42 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
     var BoxGeometry = (function (_super) {
         __extends(BoxGeometry, _super);
         function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments, wireFrame) {
+            if (width === void 0) { width = 1; }
+            if (height === void 0) { height = 1; }
+            if (depth === void 0) { depth = 1; }
             if (widthSegments === void 0) { widthSegments = 1; }
             if (heightSegments === void 0) { heightSegments = 1; }
             if (depthSegments === void 0) { depthSegments = 1; }
             if (wireFrame === void 0) { wireFrame = false; }
             _super.call(this);
-            this.widthSegments = widthSegments || 1;
-            this.heightSegments = heightSegments || 1;
-            this.depthSegments = depthSegments || 1;
-            var scope = this;
             var width_half = width / 2;
             var height_half = height / 2;
             var depth_half = depth / 2;
-            buildPlane('z', 'y', -1, -1, depth, height, width_half, 0); // px
-            buildPlane('z', 'y', 1, -1, depth, height, -width_half, 1); // nx
-            buildPlane('x', 'z', 1, 1, width, depth, height_half, 2); // py
-            buildPlane('x', 'z', 1, -1, width, depth, -height_half, 3); // ny
-            buildPlane('x', 'y', 1, -1, width, height, depth_half, 4); // pz
-            buildPlane('x', 'y', -1, -1, width, height, -depth_half, 5); // nz
-            function buildPlane(u, v, udir, vdir, width, height, depth, unused) {
+            buildPlane('z', 'y', -1, -1, depth, height, +width_half, 0, this); // px
+            buildPlane('z', 'y', +1, -1, depth, height, -width_half, 1, this); // nx
+            buildPlane('x', 'z', +1, +1, width, depth, +height_half, 2, this); // py
+            buildPlane('x', 'z', +1, -1, width, depth, -height_half, 3, this); // ny
+            buildPlane('x', 'y', +1, -1, width, height, +depth_half, 4, this); // pz
+            buildPlane('x', 'y', -1, -1, width, height, -depth_half, 5, this); // nz
+            function buildPlane(u, v, udir, vdir, width, height, depth, unused, scope) {
                 var w;
                 var ix;
                 var iy;
-                var gridX = scope.widthSegments;
-                var gridY = scope.heightSegments;
-                width_half = width / 2;
-                height_half = height / 2;
+                var gridX = widthSegments;
+                var gridY = heightSegments;
+                var width_half = width / 2;
+                var height_half = height / 2;
                 var offset = scope.vertices.length;
                 if ((u === 'x' && v === 'y') || (u === 'y' && v === 'x')) {
                     w = 'z';
                 }
                 else if ((u === 'x' && v === 'z') || (u === 'z' && v === 'x')) {
                     w = 'y';
-                    gridY = scope.depthSegments;
+                    gridY = depthSegments;
                 }
                 else if ((u === 'z' && v === 'y') || (u === 'y' && v === 'z')) {
                     w = 'x';
-                    gridX = scope.depthSegments;
+                    gridX = depthSegments;
                 }
                 var gridX1 = gridX + 1, gridY1 = gridY + 1, segment_width = width / gridX, segment_height = height / gridY, normal = new Vector3();
                 normal[w] = depth > 0 ? 1 : -1;

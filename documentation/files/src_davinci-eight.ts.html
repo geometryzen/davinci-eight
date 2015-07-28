@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.36.0</em>
+            <em>API Docs for: 2.37.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -211,6 +211,8 @@ import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
 // mesh
 import arrowMesh = require(&#x27;davinci-eight/mesh/arrowMesh&#x27;);
 import boxMesh = require(&#x27;davinci-eight/mesh/boxMesh&#x27;);
+import BoxArgs = require(&#x27;davinci-eight/mesh/BoxArgs&#x27;);
+import BoxOptions = require(&#x27;davinci-eight/mesh/BoxOptions&#x27;);
 import cylinderMesh = require(&#x27;davinci-eight/mesh/cylinderMesh&#x27;);
 import sphereMesh = require(&#x27;davinci-eight/mesh/sphereMesh&#x27;);
 import vortexMesh = require(&#x27;davinci-eight/mesh/vortexMesh&#x27;);
@@ -341,6 +343,7 @@ var eight = {
   // mesh
   get arrowMesh() { return arrowMesh; },
   get boxMesh() { return boxMesh; },
+  get BoxArgs() { return BoxArgs; },
   get cylinderMesh() { return cylinderMesh; },
   get sphereMesh() { return sphereMesh; },
   get vortexMesh() { return vortexMesh; },

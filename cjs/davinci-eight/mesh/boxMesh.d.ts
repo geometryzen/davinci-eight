@@ -1,9 +1,4 @@
 import AttributeProvider = require('../core/AttributeProvider');
-declare function boxMesh(options?: {
-    width?: number;
-    height?: number;
-    depth?: number;
-    widthSegments?: number;
-    wireFrame?: boolean;
-}): AttributeProvider;
+import BoxOptions = require('../mesh/BoxOptions');
+declare function boxMesh(options?: BoxOptions): AttributeProvider;
 export = boxMesh;

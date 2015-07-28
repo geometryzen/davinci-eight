@@ -5,16 +5,10 @@ import Geometry = require('../geometries/Geometry');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import BoxGeometry = require('../geometries/BoxGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
+import BoxOptions = require('../mesh/BoxOptions');
 
-function boxGeometry(options: {
-  width: number,
-  height: number,
-  depth: number,
-  widthSegments: number,
-  heightSegments: number,
-  depthSegments: number,
-  wireFrame: boolean
-}): Geometry {
+function boxGeometry(options?: BoxOptions): Geometry {
+  options = options || {};
   return new BoxGeometry(
     options.width,
     options.height,
@@ -25,50 +19,9 @@ function boxGeometry(options: {
     options.wireFrame);
 }
 
-function checkBoxArgs(
-  options: {
-    width?: number,
-    height?: number,
-    depth?: number,
-    widthSegments?: number,
-    heightSegments?: number,
-    depthSegments?: number,
-    wireFrame?: boolean
-  }) {
+function boxMesh(options?: BoxOptions) : AttributeProvider {
 
-  options = options || {};
-
-  let width = typeof options.width === 'undefined' ? 1 : options.width;
-  let height = typeof options.height === 'undefined' ? 1 : options.height;
-  let depth = typeof options.depth === 'undefined' ? 1 : options.depth;
-  let widthSegments = typeof options.widthSegments === 'undefined' ? 1 : options.widthSegments;
-  let heightSegments = typeof options.heightSegments === 'undefined' ? 1 : options.heightSegments;
-  let depthSegments = typeof options.depthSegments === 'undefined' ? 1 : options.depthSegments;
-  let wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
-
-  return {
-    width: width,
-    height: height,
-    depth: depth,
-    widthSegments: widthSegments,
-    heightSegments: heightSegments,
-    depthSegments: depthSegments,
-    wireFrame: wireFrame
-  };
-}
-
-function boxMesh(
-  options?: {
-    width?: number,
-    height?: number,
-    depth?: number,
-    widthSegments?: number,
-    wireFrame?: boolean
-  }) : AttributeProvider {
-
-  let checkedOptions = checkBoxArgs(options);
-
-  let base = new GeometryAdapter(boxGeometry(checkedOptions), adapterOptions(checkedOptions));
+  let base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
 
   let publicAPI: AttributeProvider = {
     draw(context: WebGLRenderingContext) {

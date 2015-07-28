@@ -14,6 +14,14 @@ function expectArg<T>(name: string, value: T) {
       }
       return arg;
     },
+    toBeNumber() {
+      let typeOfValue: string = typeof value;
+      if (typeOfValue !== 'number') {
+        let message = "Expecting argument " + name + ": " + typeOfValue + " to be a number.";
+        throw new Error(message);
+      }
+      return arg;
+    },
     toBeObject() {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'object') {
