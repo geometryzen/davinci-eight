@@ -1,12 +1,30 @@
 var GeometryAdapter = require('../geometries/GeometryAdapter');
 var BoxGeometry = require('../geometries/BoxGeometry');
 var adapterOptions = require('../mesh/adapterOptions');
-var checkMeshArgs = require('../mesh/checkMeshArgs');
 function boxGeometry(options) {
-    return new BoxGeometry(1, 1, 1);
+    return new BoxGeometry(options.width, options.height, options.depth, options.widthSegments, options.heightSegments, options.depthSegments, options.wireFrame);
+}
+function checkBoxArgs(options) {
+    options = options || {};
+    var width = typeof options.width === 'undefined' ? 1 : options.width;
+    var height = typeof options.height === 'undefined' ? 1 : options.height;
+    var depth = typeof options.depth === 'undefined' ? 1 : options.depth;
+    var widthSegments = typeof options.widthSegments === 'undefined' ? 1 : options.widthSegments;
+    var heightSegments = typeof options.heightSegments === 'undefined' ? 1 : options.heightSegments;
+    var depthSegments = typeof options.depthSegments === 'undefined' ? 1 : options.depthSegments;
+    var wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
+    return {
+        width: width,
+        height: height,
+        depth: depth,
+        widthSegments: widthSegments,
+        heightSegments: heightSegments,
+        depthSegments: depthSegments,
+        wireFrame: wireFrame
+    };
 }
 function boxMesh(options) {
-    var checkedOptions = checkMeshArgs(options);
+    var checkedOptions = checkBoxArgs(options);
     var base = new GeometryAdapter(boxGeometry(checkedOptions), adapterOptions(checkedOptions));
     var publicAPI = {
         draw: function (context) {

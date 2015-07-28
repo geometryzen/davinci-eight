@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.35.0'
+        VERSION: '2.36.0'
     };
     return core;
 });
@@ -2980,7 +2980,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
             options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
             this.geometry = geometry;
-            this.color = new Color([1.0, 1.0, 1.0]);
+            //  this.color = new Color([1.0, 1.0, 1.0]);
             this.geometry.dynamic = false;
             this.$drawMode = options.drawMode;
             this.elementsUsage = options.elementsUsage;
@@ -3039,11 +3039,16 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
                 case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
                     return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
                 }
-                case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-                    return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
-                }
+                //      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
+                //        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
+                //      }
                 case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
-                    return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
+                    if (this.$drawMode === DrawMode.TRIANGLES) {
+                        return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
+                    }
+                    else {
+                        return;
+                    }
                 }
                 default: {
                     return;
@@ -3060,16 +3065,18 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
                 stride: 0,
                 offset: 0
             };
-            if (!this.grayScale) {
-                attribues[Symbolic.ATTRIBUTE_COLOR] = {
+            /*
+                if (!this.grayScale) {
+                  attribues[Symbolic.ATTRIBUTE_COLOR] = {
                     name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
                     glslType: 'vec4',
                     size: 4,
                     normalized: false,
                     stride: 0,
                     offset: 0
-                };
-            }
+                  };
+                }
+            */
             if (this.drawMode === DrawMode.TRIANGLES) {
                 attribues[Symbolic.ATTRIBUTE_NORMAL] = {
                     name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
@@ -3084,23 +3091,29 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
         };
         GeometryAdapter.prototype.update = function (attributes) {
             var vertices = [];
-            var colors = [];
+            //  let colors: number[] = [];
             var normals = [];
             var elements = [];
             var vertexList = this.geometry.vertices;
-            var color = this.color;
-            var colorFunction = this.colorFunction;
-            var colorMaker = function (vertexIndex, face, vertexList) {
-                if (color) {
-                    return color;
-                }
-                else if (colorFunction) {
-                    return colorFunction(vertexIndex, face, vertexList);
-                }
-                else {
-                    return defaultColorFunction(vertexIndex, face, vertexList);
-                }
-            };
+            /*
+            let color = this.color;
+            let colorFunction = this.colorFunction;
+            let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color
+            {
+              if (color)
+              {
+                return color;
+              }
+              else if (colorFunction)
+              {
+                return colorFunction(vertexIndex, face, vertexList);
+              }
+              else
+              {
+                return defaultColorFunction(vertexIndex, face, vertexList);
+              }
+            }
+            */
             switch (this.drawMode) {
                 case DrawMode.POINTS:
                     {
@@ -3112,11 +3125,13 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
                             vertices.push(vA.x);
                             vertices.push(vA.y);
                             vertices.push(vA.z);
-                            var colorA = color;
+                            /*
+                            var colorA: Color = color;
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
                             colors.push(1.0);
+                            */
                         });
                     }
                     break;
@@ -3135,16 +3150,19 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
                             vertices.push(vB.x);
                             vertices.push(vB.y);
                             vertices.push(vB.z);
-                            var colorA = color;
-                            var colorB = color;
+                            /*
+                            var colorA: Color = color;
+                            var colorB: Color = color;
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
                             colors.push(1.0);
+                  
                             colors.push(colorB.red);
                             colors.push(colorB.green);
                             colors.push(colorB.blue);
                             colors.push(1.0);
+                            */
                         });
                     }
                     break;
@@ -3200,21 +3218,26 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
                                 normals.push(normal.y);
                                 normals.push(normal.z);
                             }
-                            var colorA = colorMaker(face.a, face, vertexList);
-                            var colorB = colorMaker(face.b, face, vertexList);
-                            var colorC = colorMaker(face.c, face, vertexList);
+                            /*
+                            var colorA: Color = colorMaker(face.a, face, vertexList);
+                            var colorB: Color = colorMaker(face.b, face, vertexList);
+                            var colorC: Color = colorMaker(face.c, face, vertexList);
+                  
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
                             colors.push(1.0);
+                  
                             colors.push(colorB.red);
                             colors.push(colorB.green);
                             colors.push(colorB.blue);
                             colors.push(1.0);
+                  
                             colors.push(colorC.red);
                             colors.push(colorC.green);
                             colors.push(colorC.blue);
                             colors.push(1.0);
+                            */
                         });
                     }
                     break;
@@ -3223,7 +3246,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             }
             this.elementArray = new Uint16Array(elements);
             this.aVertexPositionArray = new Float32Array(vertices);
-            this.aVertexColorArray = new Float32Array(colors);
+            //  this.aVertexColorArray = new Float32Array(colors);
             this.aVertexNormalArray = new Float32Array(normals);
         };
         GeometryAdapter.prototype.computeLines = function () {
@@ -3636,10 +3659,11 @@ var __extends = this.__extends || function (d, b) {
 define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
     var BoxGeometry = (function (_super) {
         __extends(BoxGeometry, _super);
-        function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments) {
+        function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments, wireFrame) {
             if (widthSegments === void 0) { widthSegments = 1; }
             if (heightSegments === void 0) { heightSegments = 1; }
             if (depthSegments === void 0) { depthSegments = 1; }
+            if (wireFrame === void 0) { wireFrame = false; }
             _super.call(this);
             this.widthSegments = widthSegments || 1;
             this.heightSegments = heightSegments || 1;
@@ -3655,7 +3679,14 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Fa
             buildPlane('x', 'y', 1, -1, width, height, depth_half, 4); // pz
             buildPlane('x', 'y', -1, -1, width, height, -depth_half, 5); // nz
             function buildPlane(u, v, udir, vdir, width, height, depth, unused) {
-                var w, ix, iy, gridX = scope.widthSegments, gridY = scope.heightSegments, width_half = width / 2, height_half = height / 2, offset = scope.vertices.length;
+                var w;
+                var ix;
+                var iy;
+                var gridX = scope.widthSegments;
+                var gridY = scope.heightSegments;
+                width_half = width / 2;
+                height_half = height / 2;
+                var offset = scope.vertices.length;
                 if ((u === 'x' && v === 'y') || (u === 'y' && v === 'x')) {
                     w = 'z';
                 }
@@ -7407,12 +7438,31 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
     return arrowMesh;
 });
 
-define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/BoxGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, BoxGeometry, adapterOptions, checkMeshArgs) {
+define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/BoxGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, BoxGeometry, adapterOptions) {
     function boxGeometry(options) {
-        return new BoxGeometry(1, 1, 1);
+        return new BoxGeometry(options.width, options.height, options.depth, options.widthSegments, options.heightSegments, options.depthSegments, options.wireFrame);
+    }
+    function checkBoxArgs(options) {
+        options = options || {};
+        var width = typeof options.width === 'undefined' ? 1 : options.width;
+        var height = typeof options.height === 'undefined' ? 1 : options.height;
+        var depth = typeof options.depth === 'undefined' ? 1 : options.depth;
+        var widthSegments = typeof options.widthSegments === 'undefined' ? 1 : options.widthSegments;
+        var heightSegments = typeof options.heightSegments === 'undefined' ? 1 : options.heightSegments;
+        var depthSegments = typeof options.depthSegments === 'undefined' ? 1 : options.depthSegments;
+        var wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
+        return {
+            width: width,
+            height: height,
+            depth: depth,
+            widthSegments: widthSegments,
+            heightSegments: heightSegments,
+            depthSegments: depthSegments,
+            wireFrame: wireFrame
+        };
     }
     function boxMesh(options) {
-        var checkedOptions = checkMeshArgs(options);
+        var checkedOptions = checkBoxArgs(options);
         var base = new GeometryAdapter(boxGeometry(checkedOptions), adapterOptions(checkedOptions));
         var publicAPI = {
             draw: function (context) {

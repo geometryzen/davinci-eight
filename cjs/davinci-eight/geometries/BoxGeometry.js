@@ -10,10 +10,11 @@ var Vector2 = require('../math/Vector2');
 var Vector3 = require('../math/Vector3');
 var BoxGeometry = (function (_super) {
     __extends(BoxGeometry, _super);
-    function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments) {
+    function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments, wireFrame) {
         if (widthSegments === void 0) { widthSegments = 1; }
         if (heightSegments === void 0) { heightSegments = 1; }
         if (depthSegments === void 0) { depthSegments = 1; }
+        if (wireFrame === void 0) { wireFrame = false; }
         _super.call(this);
         this.widthSegments = widthSegments || 1;
         this.heightSegments = heightSegments || 1;
@@ -29,7 +30,14 @@ var BoxGeometry = (function (_super) {
         buildPlane('x', 'y', 1, -1, width, height, depth_half, 4); // pz
         buildPlane('x', 'y', -1, -1, width, height, -depth_half, 5); // nz
         function buildPlane(u, v, udir, vdir, width, height, depth, unused) {
-            var w, ix, iy, gridX = scope.widthSegments, gridY = scope.heightSegments, width_half = width / 2, height_half = height / 2, offset = scope.vertices.length;
+            var w;
+            var ix;
+            var iy;
+            var gridX = scope.widthSegments;
+            var gridY = scope.heightSegments;
+            width_half = width / 2;
+            height_half = height / 2;
+            var offset = scope.vertices.length;
             if ((u === 'x' && v === 'y') || (u === 'y' && v === 'x')) {
                 w = 'z';
             }

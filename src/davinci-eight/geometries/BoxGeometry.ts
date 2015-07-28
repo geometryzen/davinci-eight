@@ -7,7 +7,14 @@ class BoxGeometry extends Geometry {
   public widthSegments: number;
   public heightSegments: number;
   public depthSegments: number;
-  constructor(width: number, height: number, depth: number, widthSegments: number = 1, heightSegments: number = 1, depthSegments: number = 1) {
+  constructor(
+    width: number,
+    height: number,
+    depth: number,
+    widthSegments: number = 1,
+    heightSegments: number = 1,
+    depthSegments: number = 1,
+    wireFrame: boolean = false) {
     super();
 
   this.widthSegments = widthSegments || 1;
@@ -27,14 +34,17 @@ class BoxGeometry extends Geometry {
   buildPlane( 'x', 'y',   1, - 1, width, height, depth_half, 4 ); // pz
   buildPlane( 'x', 'y', - 1, - 1, width, height, - depth_half, 5 ); // nz
 
-  function buildPlane( u, v, udir, vdir, width, height, depth, unused ) {
+  function buildPlane(u: string, v: string, udir: number, vdir: number, width: number, height: number, depth: number, unused: number) {
 
-    var w, ix, iy,
-    gridX = scope.widthSegments,
-    gridY = scope.heightSegments,
-    width_half = width / 2,
-    height_half = height / 2,
-    offset = scope.vertices.length;
+    var w: string;
+    var ix: number;
+    var iy: number;
+    var gridX = scope.widthSegments;
+    var gridY = scope.heightSegments;
+    
+    width_half = width / 2;
+    height_half = height / 2;
+    var offset = scope.vertices.length;
 
     if ( ( u === 'x' && v === 'y' ) || ( u === 'y' && v === 'x' ) ) {
 

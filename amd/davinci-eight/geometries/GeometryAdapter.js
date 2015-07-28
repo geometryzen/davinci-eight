@@ -26,7 +26,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
             options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
             this.geometry = geometry;
-            this.color = new Color([1.0, 1.0, 1.0]);
+            //  this.color = new Color([1.0, 1.0, 1.0]);
             this.geometry.dynamic = false;
             this.$drawMode = options.drawMode;
             this.elementsUsage = options.elementsUsage;
@@ -85,11 +85,16 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                 case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
                     return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
                 }
-                case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-                    return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
-                }
+                //      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
+                //        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
+                //      }
                 case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
-                    return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
+                    if (this.$drawMode === DrawMode.TRIANGLES) {
+                        return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
+                    }
+                    else {
+                        return;
+                    }
                 }
                 default: {
                     return;
@@ -106,16 +111,18 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                 stride: 0,
                 offset: 0
             };
-            if (!this.grayScale) {
-                attribues[Symbolic.ATTRIBUTE_COLOR] = {
+            /*
+                if (!this.grayScale) {
+                  attribues[Symbolic.ATTRIBUTE_COLOR] = {
                     name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
                     glslType: 'vec4',
                     size: 4,
                     normalized: false,
                     stride: 0,
                     offset: 0
-                };
-            }
+                  };
+                }
+            */
             if (this.drawMode === DrawMode.TRIANGLES) {
                 attribues[Symbolic.ATTRIBUTE_NORMAL] = {
                     name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
@@ -130,23 +137,29 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
         };
         GeometryAdapter.prototype.update = function (attributes) {
             var vertices = [];
-            var colors = [];
+            //  let colors: number[] = [];
             var normals = [];
             var elements = [];
             var vertexList = this.geometry.vertices;
-            var color = this.color;
-            var colorFunction = this.colorFunction;
-            var colorMaker = function (vertexIndex, face, vertexList) {
-                if (color) {
-                    return color;
-                }
-                else if (colorFunction) {
-                    return colorFunction(vertexIndex, face, vertexList);
-                }
-                else {
-                    return defaultColorFunction(vertexIndex, face, vertexList);
-                }
-            };
+            /*
+            let color = this.color;
+            let colorFunction = this.colorFunction;
+            let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color
+            {
+              if (color)
+              {
+                return color;
+              }
+              else if (colorFunction)
+              {
+                return colorFunction(vertexIndex, face, vertexList);
+              }
+              else
+              {
+                return defaultColorFunction(vertexIndex, face, vertexList);
+              }
+            }
+            */
             switch (this.drawMode) {
                 case DrawMode.POINTS:
                     {
@@ -158,11 +171,13 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             vertices.push(vA.x);
                             vertices.push(vA.y);
                             vertices.push(vA.z);
-                            var colorA = color;
+                            /*
+                            var colorA: Color = color;
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
                             colors.push(1.0);
+                            */
                         });
                     }
                     break;
@@ -181,16 +196,19 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             vertices.push(vB.x);
                             vertices.push(vB.y);
                             vertices.push(vB.z);
-                            var colorA = color;
-                            var colorB = color;
+                            /*
+                            var colorA: Color = color;
+                            var colorB: Color = color;
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
                             colors.push(1.0);
+                  
                             colors.push(colorB.red);
                             colors.push(colorB.green);
                             colors.push(colorB.blue);
                             colors.push(1.0);
+                            */
                         });
                     }
                     break;
@@ -246,21 +264,26 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                                 normals.push(normal.y);
                                 normals.push(normal.z);
                             }
-                            var colorA = colorMaker(face.a, face, vertexList);
-                            var colorB = colorMaker(face.b, face, vertexList);
-                            var colorC = colorMaker(face.c, face, vertexList);
+                            /*
+                            var colorA: Color = colorMaker(face.a, face, vertexList);
+                            var colorB: Color = colorMaker(face.b, face, vertexList);
+                            var colorC: Color = colorMaker(face.c, face, vertexList);
+                  
                             colors.push(colorA.red);
                             colors.push(colorA.green);
                             colors.push(colorA.blue);
                             colors.push(1.0);
+                  
                             colors.push(colorB.red);
                             colors.push(colorB.green);
                             colors.push(colorB.blue);
                             colors.push(1.0);
+                  
                             colors.push(colorC.red);
                             colors.push(colorC.green);
                             colors.push(colorC.blue);
                             colors.push(1.0);
+                            */
                         });
                     }
                     break;
@@ -269,7 +292,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             }
             this.elementArray = new Uint16Array(elements);
             this.aVertexPositionArray = new Float32Array(vertices);
-            this.aVertexColorArray = new Float32Array(colors);
+            //  this.aVertexColorArray = new Float32Array(colors);
             this.aVertexNormalArray = new Float32Array(normals);
         };
         GeometryAdapter.prototype.computeLines = function () {

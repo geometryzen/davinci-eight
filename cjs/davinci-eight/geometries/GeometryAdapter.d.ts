@@ -1,8 +1,5 @@
 import AttributeMetaInfos = require('../core/AttributeMetaInfos');
-import Face3 = require('../core/Face3');
 import Geometry = require('../geometries/Geometry');
-import Vector3 = require('../math/Vector3');
-import Color = require('../core/Color');
 import AttributeProvider = require('../core/AttributeProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
@@ -14,11 +11,8 @@ import DrawMode = require('../core/DrawMode');
  */
 declare class GeometryAdapter implements AttributeProvider {
     geometry: Geometry;
-    color: Color;
-    colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
     private elementArray;
     private aVertexPositionArray;
-    private aVertexColorArray;
     private aVertexNormalArray;
     private $drawMode;
     private elementsUsage;

@@ -637,6 +637,7 @@ declare module EIGHT
    */
   function boxMesh(
     options?: {
+      width?: number,
       wireFrame?: boolean
     }
   ): AttributeProvider;

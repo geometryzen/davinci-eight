@@ -26,11 +26,11 @@ function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vect
  */
 class GeometryAdapter implements AttributeProvider {
   public geometry: Geometry;
-  public color: Color;
-  public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
+//public color: Color;
+//public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
   private elementArray: Uint16Array;
   private aVertexPositionArray: Float32Array;
-  private aVertexColorArray: Float32Array;
+//private aVertexColorArray: Float32Array;
   private aVertexNormalArray: Float32Array;
   private $drawMode: DrawMode = DrawMode.TRIANGLES;
   private elementsUsage: DataUsage = DataUsage.STREAM_DRAW;
@@ -48,7 +48,7 @@ class GeometryAdapter implements AttributeProvider {
     options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
 
     this.geometry = geometry;
-    this.color = new Color([1.0, 1.0, 1.0]);
+//  this.color = new Color([1.0, 1.0, 1.0]);
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
     this.elementsUsage = options.elementsUsage;
@@ -96,11 +96,16 @@ class GeometryAdapter implements AttributeProvider {
       case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
         return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
       }
-      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
-      }
+//      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
+//        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
+//      }
       case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
-        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
+        if (this.$drawMode === DrawMode.TRIANGLES) {
+          return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
+        }
+        else {
+          return;
+        }
       }
       default: {
         return;
@@ -119,6 +124,7 @@ class GeometryAdapter implements AttributeProvider {
       offset: 0
     };
 
+/*
     if (!this.grayScale) {
       attribues[Symbolic.ATTRIBUTE_COLOR] = {
         name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
@@ -129,7 +135,7 @@ class GeometryAdapter implements AttributeProvider {
         offset: 0
       };
     }
-
+*/
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
         name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
@@ -146,11 +152,12 @@ class GeometryAdapter implements AttributeProvider {
   update(attributes: ShaderVariableDecl[]): void
   {
     let vertices: number[] = [];
-    let colors: number[] = [];
+//  let colors: number[] = [];
     let normals: number[] = [];
     let elements: number[] = [];
 
     let vertexList = this.geometry.vertices;
+    /*
     let color = this.color;
     let colorFunction = this.colorFunction;
     let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color
@@ -168,7 +175,7 @@ class GeometryAdapter implements AttributeProvider {
         return defaultColorFunction(vertexIndex, face, vertexList);
       }
     }
-
+    */
     switch(this.drawMode) {
       case DrawMode.POINTS: {
         this.points = [];
@@ -180,13 +187,13 @@ class GeometryAdapter implements AttributeProvider {
           vertices.push(vA.x);
           vertices.push(vA.y);
           vertices.push(vA.z);
-
+          /*
           var colorA: Color = color;
-
           colors.push(colorA.red);
           colors.push(colorA.green);
           colors.push(colorA.blue);
           colors.push(1.0);
+          */
         });
       }
       break;
@@ -207,9 +214,9 @@ class GeometryAdapter implements AttributeProvider {
           vertices.push(vB.y);
           vertices.push(vB.z);
 
+          /*
           var colorA: Color = color;
           var colorB: Color = color;
-
           colors.push(colorA.red);
           colors.push(colorA.green);
           colors.push(colorA.blue);
@@ -219,6 +226,7 @@ class GeometryAdapter implements AttributeProvider {
           colors.push(colorB.green);
           colors.push(colorB.blue);
           colors.push(1.0);
+          */
         });
       }
       break;
@@ -283,7 +291,7 @@ class GeometryAdapter implements AttributeProvider {
             normals.push(normal.y);
             normals.push(normal.z);
           }
-
+          /*
           var colorA: Color = colorMaker(face.a, face, vertexList);
           var colorB: Color = colorMaker(face.b, face, vertexList);
           var colorC: Color = colorMaker(face.c, face, vertexList);
@@ -302,6 +310,7 @@ class GeometryAdapter implements AttributeProvider {
           colors.push(colorC.green);
           colors.push(colorC.blue);
           colors.push(1.0);
+          */
         });
       }
       break;
@@ -310,7 +319,7 @@ class GeometryAdapter implements AttributeProvider {
     }
     this.elementArray = new Uint16Array(elements);
     this.aVertexPositionArray = new Float32Array(vertices);
-    this.aVertexColorArray = new Float32Array(colors);
+//  this.aVertexColorArray = new Float32Array(colors);
     this.aVertexNormalArray = new Float32Array(normals);
   }
   private computeLines() {

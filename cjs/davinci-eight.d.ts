@@ -134,6 +134,10 @@ declare var eight: {
         wireFrame?: boolean;
     }) => AttributeProvider;
     boxMesh: (options?: {
+        width?: number;
+        height?: number;
+        depth?: number;
+        widthSegments?: number;
         wireFrame?: boolean;
     }) => AttributeProvider;
     cylinderMesh: (options?: {
