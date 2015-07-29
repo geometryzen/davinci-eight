@@ -45,6 +45,7 @@ var Vector2 = require('davinci-eight/math/Vector2');
 var Vector3 = require('davinci-eight/math/Vector3');
 // mesh
 var arrowMesh = require('davinci-eight/mesh/arrowMesh');
+var ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 var boxMesh = require('davinci-eight/mesh/boxMesh');
 var BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 var cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
@@ -166,6 +167,7 @@ var eight = {
     get uniforms() { return uniforms; },
     // mesh
     get arrowMesh() { return arrowMesh; },
+    get ArrowBuilder() { return ArrowBuilder; },
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
     get cylinderMesh() { return cylinderMesh; },

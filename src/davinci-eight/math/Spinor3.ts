@@ -85,6 +85,13 @@ class Spinor3 implements Spinor3Coords, Mutable<number[]>
   clone(): Spinor3 {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
+  copy(spinor: Spinor3Coords): Spinor3 {
+    this.yz = spinor.yz;
+    this.zx = spinor.zx;
+    this.xy = spinor.xy;
+    this.w  = spinor.w;
+    return this;
+  }
   /**
    * @method toString
    * @return {string} A non-normative string representation of the target.

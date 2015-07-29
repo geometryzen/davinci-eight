@@ -73,7 +73,7 @@ var VortexGeometry = (function (_super) {
                 vertex.x = (R + r * cosV) * cosU;
                 vertex.y = (R + r * cosV) * sinU;
                 vertex.z = r * sinV;
-                this['vertices'].push(vertex);
+                this.vertices.push(vertex);
                 uvs.push(new Vector2(i / circleSegments, j / radialSegments));
                 normals.push(vertex.clone().sub(center).normalize());
             }

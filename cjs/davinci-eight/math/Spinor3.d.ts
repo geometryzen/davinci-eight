@@ -31,6 +31,7 @@ declare class Spinor3 implements Spinor3Coords, Mutable<number[]> {
      */
     w: number;
     clone(): Spinor3;
+    copy(spinor: Spinor3Coords): Spinor3;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

@@ -36,6 +36,8 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
+import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
+import ArrowOptions = require('davinci-eight/mesh/ArrowOptions');
 import BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 import BoxOptions = require('davinci-eight/mesh/BoxOptions');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
@@ -134,9 +136,8 @@ declare var eight: {
     DefaultUniformProvider: typeof DefaultUniformProvider;
     MultiUniformProvider: typeof MultiUniformProvider;
     uniforms: (providers: UniformProvider[]) => UniformProvider;
-    arrowMesh: (options?: {
-        wireFrame?: boolean;
-    }) => AttributeProvider;
+    arrowMesh: (options?: ArrowOptions) => AttributeProvider;
+    ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (options?: BoxOptions) => AttributeProvider;
     BoxBuilder: typeof BoxBuilder;
     cylinderMesh: (options?: {
@@ -146,7 +147,7 @@ declare var eight: {
     vortexMesh: (options?: {
         wireFrame?: boolean;
     }) => AttributeProvider;
-    arrow: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
     box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
     cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
     sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;

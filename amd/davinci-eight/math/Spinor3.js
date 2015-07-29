@@ -104,6 +104,13 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
+        Spinor3.prototype.copy = function (spinor) {
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.w = spinor.w;
+            return this;
+        };
         /**
          * @method toString
          * @return {string} A non-normative string representation of the target.

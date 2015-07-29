@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.38.0'
+        VERSION: '2.39.0'
     };
     return core;
 });
@@ -907,6 +907,13 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'
         });
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
+        };
+        Spinor3.prototype.copy = function (spinor) {
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.w = spinor.w;
+            return this;
         };
         /**
          * @method toString
@@ -4644,7 +4651,7 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../core
                     vertex.x = (R + r * cosV) * cosU;
                     vertex.y = (R + r * cosV) * sinU;
                     vertex.z = r * sinV;
-                    this['vertices'].push(vertex);
+                    this.vertices.push(vertex);
                     uvs.push(new Vector2(i / circleSegments, j / radialSegments));
                     normals.push(vertex.clone().sub(center).normalize());
                 }
@@ -7402,24 +7409,21 @@ define('davinci-eight/mesh/adapterOptions',["require", "exports", '../core/DrawM
     return adapterOptions;
 });
 
-define('davinci-eight/mesh/checkMeshArgs',["require", "exports"], function (require, exports) {
-    function checkMeshArgs(options) {
-        options = options || {};
-        var wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
-        return {
-            wireFrame: wireFrame
-        };
-    }
-    return checkMeshArgs;
-});
-
-define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/ArrowGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, ArrowGeometry, adapterOptions, checkMeshArgs) {
+define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/ArrowGeometry', '../mesh/adapterOptions', '../math/Spinor3'], function (require, exports, GeometryAdapter, ArrowGeometry, adapterOptions, Spinor3) {
     function arrowGeometry(options) {
-        return new ArrowGeometry();
+        options = options || {};
+        var scale = 1;
+        var attitude = new Spinor3();
+        var segments = 12;
+        var length = 1;
+        var radiusShaft = 0.01;
+        var radiusCone = 0.08;
+        var lengthCone = 0.20;
+        var axis = options.axis;
+        return new ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis);
     }
     function arrowMesh(options) {
-        var checkedOptions = checkMeshArgs(options);
-        var base = new GeometryAdapter(arrowGeometry(checkedOptions), adapterOptions(checkedOptions));
+        var base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
         var publicAPI = {
             draw: function (context) {
                 return base.draw(context);
@@ -7452,6 +7456,121 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
         return publicAPI;
     }
     return arrowMesh;
+});
+
+define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
+    function isUndefined(arg) {
+        return (typeof arg === 'undefined');
+    }
+    return isUndefined;
+});
+
+define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/arrowMesh', '../math/Vector3'], function (require, exports, expectArg, isUndefined, arrowMesh, Vector3) {
+    /**
+     * @class ArrowBuilder
+     */
+    var ArrowBuilder = (function () {
+        function ArrowBuilder(options) {
+            this.$axis = Vector3.e3.clone();
+            options = options || {};
+            //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
+            //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
+            //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
+            //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
+            //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
+            //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+            this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
+        }
+        Object.defineProperty(ArrowBuilder.prototype, "axis", {
+            get: function () {
+                return this.$axis;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "height", {
+            get: function () {
+                return this.$height;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "depth", {
+            get: function () {
+                return this.$depth;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "widthSegments", {
+            get: function () {
+                return this.$widthSegments;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "heightSegments", {
+            get: function () {
+                return this.$heightSegments;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "depthSegments", {
+            get: function () {
+                return this.$depthSegments;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "wireFrame", {
+            get: function () {
+                return this.$wireFrame;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ArrowBuilder.prototype.setAxis = function (axis) {
+            expectArg('axis', axis).toBeObject();
+            this.$axis.copy(axis);
+            return this;
+        };
+        ArrowBuilder.prototype.setHeight = function (height) {
+            expectArg('height', height).toBeNumber().toSatisfy(height >= 0, "height must be greater than or equal to zero.");
+            this.$height = height;
+            return this;
+        };
+        ArrowBuilder.prototype.setDepth = function (depth) {
+            expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
+            this.$depth = depth;
+            return this;
+        };
+        ArrowBuilder.prototype.setWidthSegments = function (widthSegments) {
+            expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
+            this.$widthSegments = widthSegments;
+            return this;
+        };
+        ArrowBuilder.prototype.setHeightSegments = function (heightSegments) {
+            expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
+            this.$heightSegments = heightSegments;
+            return this;
+        };
+        ArrowBuilder.prototype.setDepthSegments = function (depthSegments) {
+            expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
+            this.$depthSegments = depthSegments;
+            return this;
+        };
+        ArrowBuilder.prototype.setWireFrame = function (wireFrame) {
+            expectArg('wireFrame', wireFrame).toBeBoolean();
+            this.$wireFrame = wireFrame;
+            return this;
+        };
+        ArrowBuilder.prototype.buildMesh = function () {
+            return arrowMesh(this);
+        };
+        return ArrowBuilder;
+    })();
+    return ArrowBuilder;
 });
 
 define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/BoxGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, BoxGeometry, adapterOptions) {
@@ -7493,13 +7612,6 @@ define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/Geomet
         return publicAPI;
     }
     return boxMesh;
-});
-
-define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
-    function isUndefined(arg) {
-        return (typeof arg === 'undefined');
-    }
-    return isUndefined;
 });
 
 define('davinci-eight/mesh/BoxBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/boxMesh'], function (require, exports, expectArg, isUndefined, boxMesh) {
@@ -7607,6 +7719,17 @@ define('davinci-eight/mesh/BoxBuilder',["require", "exports", '../checks/expectA
         return BoxBuilder;
     })();
     return BoxBuilder;
+});
+
+define('davinci-eight/mesh/checkMeshArgs',["require", "exports"], function (require, exports) {
+    function checkMeshArgs(options) {
+        options = options || {};
+        var wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
+        return {
+            wireFrame: wireFrame
+        };
+    }
+    return checkMeshArgs;
 });
 
 define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/CylinderGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, CylinderGeometry, adapterOptions, checkMeshArgs) {
@@ -7941,8 +8064,8 @@ define('davinci-eight/uniforms/ModelMatrixUniformProvider',["require", "exports"
 });
 
 define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/arrowMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, arrowMesh, smartProgram) {
-    function arrow(ambients) {
-        var mesh = arrowMesh();
+    function arrow(ambients, options) {
+        var mesh = arrowMesh(options);
         var model = new ModelMatrixUniformProvider();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
@@ -9193,7 +9316,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttributeLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, ShaderAttributeLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, boxMesh, BoxBuilder, cylinderMesh, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, ModelMatrixUniformProvider, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttributeLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, ShaderAttributeLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, ModelMatrixUniformProvider, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -9282,6 +9405,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get uniforms() { return uniforms; },
         // mesh
         get arrowMesh() { return arrowMesh; },
+        get ArrowBuilder() { return ArrowBuilder; },
         get boxMesh() { return boxMesh; },
         get BoxBuilder() { return BoxBuilder; },
         get cylinderMesh() { return cylinderMesh; },

@@ -134,6 +134,7 @@ declare module EIGHT
     public callback: () => number[];
     constructor(spinor?: number[]);
     clone(): Spinor3;
+    copy(spinor: Spinor3Coords): Spinor3;
     toString(): string;
   }
   interface Cartesian3 {
@@ -619,19 +620,31 @@ declare module EIGHT
     constructor();
   }
   /**
-   * Constructs and returns an arrow mesh.
+   *
    */
-  function arrowMesh(
-    options?: {
-      wireFrame?: boolean
-    }
-  ): AttributeProvider;
+  interface ArrowOptions {
+    axis?: Cartesian3;
+    wireFrame?: boolean;
+  }
   /**
    *
    */
-  function arrow(
-    ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  class ArrowBuilder {
+    axis: Cartesian3;
+    wireFrame: boolean;
+    constructor(options?: ArrowOptions);
+    setAxis(axis: Cartesian3): ArrowBuilder;
+    setWireFrame(wireFrame: boolean): ArrowBuilder;
+    buildMesh(): AttributeProvider;
+  }
+  /**
+   * Constructs and returns an arrow mesh.
+   */
+  function arrowMesh(options?: ArrowOptions): AttributeProvider;
+  /**
+   *
+   */
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**
    *
    */
