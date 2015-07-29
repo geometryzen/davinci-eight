@@ -5,20 +5,23 @@ import Geometry = require('../geometries/Geometry');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import SphereGeometry = require('../geometries/SphereGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
-import checkMeshArgs = require('../mesh/checkMeshArgs');
+import SphereOptions = require('../mesh/SphereOptions');
 
-function sphereGeometry(options: {wireFrame: boolean}): Geometry {
-  return new SphereGeometry();
+function sphereGeometry(options?: SphereOptions): Geometry {
+  options = options || {};
+  return new SphereGeometry(
+    options.radius,
+    options.widthSegments,
+    options.heightSegments,
+    options.phiStart,
+    options.phiLength,
+    options.thetaStart,
+    options.thetaLength);
 }
 
-function sphereMesh(
-  options?: {
-    wireFrame?: boolean
-  }) : AttributeProvider {
+function sphereMesh(options?: SphereOptions) : AttributeProvider {
 
-  let checkedOptions = checkMeshArgs(options);
-
-  let base = new GeometryAdapter(sphereGeometry(checkedOptions), adapterOptions(checkedOptions));
+  let base = new GeometryAdapter(sphereGeometry(options), adapterOptions(options));
 
   let publicAPI: AttributeProvider = {
     draw(context: WebGLRenderingContext) {

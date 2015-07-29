@@ -647,7 +647,7 @@ declare module EIGHT
   /**
    *
    */
-  class BoxArgs {
+  class BoxBuilder {
     width: number;
     height: number;
     number: number;
@@ -655,14 +655,15 @@ declare module EIGHT
     heightSegments: number;
     numberSegments: number;
     wireFrame: boolean;
-    constructor();
-    setWidth(width: number): BoxArgs;
-    setHeight(height: number): BoxArgs;
-    setDepth(depth: number): BoxArgs;
-    setWidthSegments(widthSegments: number): BoxArgs;
-    setHeightSegments(heightSegments: number): BoxArgs;
-    setDepthSegments(depthSegments: number): BoxArgs;
-    setWireFrame(wireFrame: boolean): BoxArgs;
+    constructor(options?: BoxOptions);
+    setWidth(width: number): BoxBuilder;
+    setHeight(height: number): BoxBuilder;
+    setDepth(depth: number): BoxBuilder;
+    setWidthSegments(widthSegments: number): BoxBuilder;
+    setHeightSegments(heightSegments: number): BoxBuilder;
+    setDepthSegments(depthSegments: number): BoxBuilder;
+    setWireFrame(wireFrame: boolean): BoxBuilder;
+    buildMesh(): AttributeProvider;
   }
   /**
    * Constructs and returns a box mesh.
@@ -687,19 +688,49 @@ declare module EIGHT
     ambients: UniformProvider
   ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**
-   * Constructs and returns an vortex mesh.
+   *
    */
-  function sphereMesh(
-    options?: {
-      wireFrame?: boolean
-    }
-  ): AttributeProvider;
+  interface SphereOptions {
+    radius?: number;
+    widthSegments?: number;
+    heightSegments?: number;
+    phiStart?: number;
+    phiLength?: number;
+    thetaStart?: number;
+    thetaLength?: number;
+    wireFrame?: boolean;
+  }
   /**
    *
    */
-  function sphere(
-    ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  class SphereBuilder {
+    radius: number;
+    widthSegments: number;
+    heightSegments: number;
+    phiStart: number;
+    phiLength: number;
+    thetaStart: number;
+    thetaLength: number;
+    wireFrame: boolean;
+    constructor(options?: SphereOptions);
+    setRadius(radius: number): SphereBuilder;
+    setWidthSegments(widthSegments: number): SphereBuilder;
+    setHeightSegments(heightSegments: number): SphereBuilder;
+    setPhiStart(phiStart: number): SphereBuilder;
+    setPhiLength(phiLength: number): SphereBuilder;
+    setThetaStart(phiStart: number): SphereBuilder;
+    setThetaLength(phiLength: number): SphereBuilder;
+    setWireFrame(wireFrame: boolean): SphereBuilder;
+    buildMesh(): AttributeProvider;
+  }
+  /**
+   * Constructs and returns an vortex mesh.
+   */
+  function sphereMesh(options?: SphereOptions): AttributeProvider;
+  /**
+   *
+   */
+  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
   /**
    * Constructs and returns an vortex mesh.
    */

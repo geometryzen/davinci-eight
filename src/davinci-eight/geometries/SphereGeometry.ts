@@ -6,24 +6,14 @@ import Vector3 = require('../math/Vector3');
 
 class SphereGeometry extends Geometry {
   constructor(
-    radius?: number,
-    widthSegments?: number,
-    heightSegments?: number,
-    phiStart?: number,
-    phiLength?: number,
-    thetaStart?: number,
-    thetaLength?: number) {
+    radius: number = 1,
+    widthSegments: number = 16,
+    heightSegments: number = 12,
+    phiStart: number = 0,
+    phiLength: number = 2 * Math.PI,
+    thetaStart: number = 0,
+    thetaLength: number = Math.PI) {
     super();
-    radius = radius || 1;
-
-    widthSegments = Math.max( 3, Math.floor( widthSegments ) || 16 );
-    heightSegments = Math.max( 2, Math.floor( heightSegments ) || 12 );
-
-    phiStart = phiStart !== undefined ? phiStart : 0;
-    phiLength = phiLength !== undefined ? phiLength : Math.PI * 2;
-
-    thetaStart = thetaStart !== undefined ? thetaStart : 0;
-    thetaLength = thetaLength !== undefined ? thetaLength : Math.PI;
 
     var x: number;
     var y: number;

@@ -1,5 +1,6 @@
 declare function expectArg<T>(name: string, value: T): {
     toSatisfy(condition: boolean, message: string): any;
+    toBeBoolean(): any;
     toBeDefined(): any;
     toBeNumber(): any;
     toBeObject(): any;

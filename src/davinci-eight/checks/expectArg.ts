@@ -1,7 +1,17 @@
+import isUndefined = require('../checks/isUndefined');
+
 function expectArg<T>(name: string, value: T) {
   var arg = {
     toSatisfy(condition: boolean, message: string) {
       if (!condition) {
+        throw new Error(message);
+      }
+      return arg;
+    },
+    toBeBoolean() {
+      let typeOfValue: string = typeof value;
+      if (typeOfValue !== 'boolean') {
+        let message = "Expecting argument " + name + ": " + typeOfValue + " to be a boolean.";
         throw new Error(message);
       }
       return arg;

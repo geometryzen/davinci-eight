@@ -6,6 +6,14 @@ function expectArg(name, value) {
             }
             return arg;
         },
+        toBeBoolean: function () {
+            var typeOfValue = typeof value;
+            if (typeOfValue !== 'boolean') {
+                var message = "Expecting argument " + name + ": " + typeOfValue + " to be a boolean.";
+                throw new Error(message);
+            }
+            return arg;
+        },
         toBeDefined: function () {
             var typeOfValue = typeof value;
             if (typeOfValue === 'undefined') {

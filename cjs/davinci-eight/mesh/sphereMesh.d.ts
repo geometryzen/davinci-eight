@@ -1,5 +1,4 @@
 import AttributeProvider = require('../core/AttributeProvider');
-declare function sphereMesh(options?: {
-    wireFrame?: boolean;
-}): AttributeProvider;
+import SphereOptions = require('../mesh/SphereOptions');
+declare function sphereMesh(options?: SphereOptions): AttributeProvider;
 export = sphereMesh;

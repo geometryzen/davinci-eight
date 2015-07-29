@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.37.0</em>
+            <em>API Docs for: 2.38.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
                                 <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
                                 <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
@@ -62,8 +63,8 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -801,7 +802,7 @@ declare module EIGHT
   /**
    *
    */
-  class BoxArgs {
+  class BoxBuilder {
     width: number;
     height: number;
     number: number;
@@ -809,14 +810,15 @@ declare module EIGHT
     heightSegments: number;
     numberSegments: number;
     wireFrame: boolean;
-    constructor();
-    setWidth(width: number): BoxArgs;
-    setHeight(height: number): BoxArgs;
-    setDepth(depth: number): BoxArgs;
-    setWidthSegments(widthSegments: number): BoxArgs;
-    setHeightSegments(heightSegments: number): BoxArgs;
-    setDepthSegments(depthSegments: number): BoxArgs;
-    setWireFrame(wireFrame: boolean): BoxArgs;
+    constructor(options?: BoxOptions);
+    setWidth(width: number): BoxBuilder;
+    setHeight(height: number): BoxBuilder;
+    setDepth(depth: number): BoxBuilder;
+    setWidthSegments(widthSegments: number): BoxBuilder;
+    setHeightSegments(heightSegments: number): BoxBuilder;
+    setDepthSegments(depthSegments: number): BoxBuilder;
+    setWireFrame(wireFrame: boolean): BoxBuilder;
+    buildMesh(): AttributeProvider;
   }
   /**
    * Constructs and returns a box mesh.
@@ -841,19 +843,49 @@ declare module EIGHT
     ambients: UniformProvider
   ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
   /**
-   * Constructs and returns an vortex mesh.
+   *
    */
-  function sphereMesh(
-    options?: {
-      wireFrame?: boolean
-    }
-  ): AttributeProvider;
+  interface SphereOptions {
+    radius?: number;
+    widthSegments?: number;
+    heightSegments?: number;
+    phiStart?: number;
+    phiLength?: number;
+    thetaStart?: number;
+    thetaLength?: number;
+    wireFrame?: boolean;
+  }
   /**
    *
    */
-  function sphere(
-    ambients: UniformProvider
-  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  class SphereBuilder {
+    radius: number;
+    widthSegments: number;
+    heightSegments: number;
+    phiStart: number;
+    phiLength: number;
+    thetaStart: number;
+    thetaLength: number;
+    wireFrame: boolean;
+    constructor(options?: SphereOptions);
+    setRadius(radius: number): SphereBuilder;
+    setWidthSegments(widthSegments: number): SphereBuilder;
+    setHeightSegments(heightSegments: number): SphereBuilder;
+    setPhiStart(phiStart: number): SphereBuilder;
+    setPhiLength(phiLength: number): SphereBuilder;
+    setThetaStart(phiStart: number): SphereBuilder;
+    setThetaLength(phiLength: number): SphereBuilder;
+    setWireFrame(wireFrame: boolean): SphereBuilder;
+    buildMesh(): AttributeProvider;
+  }
+  /**
+   * Constructs and returns an vortex mesh.
+   */
+  function sphereMesh(options?: SphereOptions): AttributeProvider;
+  /**
+   *
+   */
+  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
   /**
    * Constructs and returns an vortex mesh.
    */

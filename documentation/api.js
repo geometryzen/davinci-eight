@@ -5,6 +5,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "AttributeMetaInfo",
         "AttributeMetaInfos",
         "AttributeProvider",
+        "BoxBuilder",
         "BoxMesh",
         "Cartesian3",
         "Color",

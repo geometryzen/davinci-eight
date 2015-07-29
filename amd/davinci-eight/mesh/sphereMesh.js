@@ -1,10 +1,10 @@
-define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/SphereGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, SphereGeometry, adapterOptions, checkMeshArgs) {
+define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/SphereGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, SphereGeometry, adapterOptions) {
     function sphereGeometry(options) {
-        return new SphereGeometry();
+        options = options || {};
+        return new SphereGeometry(options.radius, options.widthSegments, options.heightSegments, options.phiStart, options.phiLength, options.thetaStart, options.thetaLength);
     }
     function sphereMesh(options) {
-        var checkedOptions = checkMeshArgs(options);
-        var base = new GeometryAdapter(sphereGeometry(checkedOptions), adapterOptions(checkedOptions));
+        var base = new GeometryAdapter(sphereGeometry(options), adapterOptions(options));
         var publicAPI = {
             draw: function (context) {
                 return base.draw(context);
