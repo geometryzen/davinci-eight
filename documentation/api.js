@@ -60,12 +60,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "view"
     ],
     "modules": [
-        "EIGHT"
+        "d8"
     ],
     "allModules": [
         {
-            "displayName": "EIGHT",
-            "name": "EIGHT"
+            "displayName": "d8",
+            "name": "d8"
         }
     ]
 } };

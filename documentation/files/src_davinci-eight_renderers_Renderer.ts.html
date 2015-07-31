@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.41.0</em>
+            <em>API Docs for: 2.42.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -120,7 +120,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                                <li><a href="../modules/d8.html">d8</a></li>
                             </ul>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
-import World = require(&#x27;../worlds/World&#x27;);
+import DrawList = require(&#x27;../drawLists/DrawList&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 
 /**
@@ -169,10 +169,10 @@ import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 interface Renderer extends RenderingContextUser {
   /**
    * @method render
-   * @param world {World}
+   * @param drawList {DrawList}
    * @param views {UniformProvider[]}
    */
-  render(world: World, views: UniformProvider[]): void;
+  render(drawList: DrawList, views: UniformProvider[]): void;
 }
 
 export = Renderer;

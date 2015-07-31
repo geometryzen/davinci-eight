@@ -65,20 +65,20 @@ var viewport = function (canvas, parameters) {
             clearAlpha = alpha;
             //
         },
-        render: function (world, views) {
-            expectArg('world', world).toNotBeNull();
+        render: function (drawList, views) {
+            expectArg('drawList', drawList).toNotBeNull();
             if (context) {
                 context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
                 context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
                 context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
                 clear();
-                if (!world.hasContext()) {
-                    world.contextGain(context, contextId);
+                if (!drawList.hasContext()) {
+                    drawList.contextGain(context, contextId);
                 }
                 var programLoaded;
-                for (var drawGroupName in world.drawGroups) {
+                for (var drawGroupName in drawList.drawGroups) {
                     programLoaded = false;
-                    world.drawGroups[drawGroupName].forEach(function (drawable) {
+                    drawList.drawGroups[drawGroupName].forEach(function (drawable) {
                         if (!programLoaded) {
                             drawable.useProgram();
                             programLoaded = true;

@@ -4,7 +4,17 @@ import uuid4 = require('../utils/uuid4')
 import initWebGL = require('../renderers/initWebGL');
 import expectArg = require('../checks/expectArg');
 
-function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingContextMonitor {
+function contextMonitor(
+  canvas: HTMLCanvasElement,
+  attributes?: {
+    alpha?: boolean,
+    antialias?: boolean,
+    depth?: boolean,
+    premultipliedAlpha?: boolean,
+    preserveDrawingBuffer?: boolean,
+    stencil?: boolean
+  }
+  ): RenderingContextMonitor {
 
   expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 

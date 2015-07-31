@@ -1,5 +1,5 @@
 var expectArg = require('../checks/expectArg');
-var world = function () {
+var drawList = function () {
     var drawables = [];
     var drawGroups = {};
     var gl;
@@ -38,10 +38,16 @@ var world = function () {
         hasContext: function () {
             return !!gl;
         },
-        add: function (child) {
-            drawables.push(child);
+        add: function (drawable) {
+            drawables.push(drawable);
+        },
+        remove: function (drawable) {
+            var index = drawables.indexOf(drawable);
+            if (index >= 0) {
+                drawables.splice(index, 1);
+            }
         }
     };
     return publicAPI;
 };
-module.exports = world;
+module.exports = drawList;

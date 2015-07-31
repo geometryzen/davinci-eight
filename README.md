@@ -143,6 +143,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.39.0: 2015-07-28 ArrowBuilder
 * 2.40.0: 2015-07-30 LocalModel
 * 2.41.0: 2015-07-30 Node
+* 2.42.0: 2015-07-31 DrawList
 
 ## License
 Copyright (c) 2014-2015 David Holmes

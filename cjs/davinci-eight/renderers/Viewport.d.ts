@@ -1,6 +1,6 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
 import UniformProvider = require('../core/UniformProvider');
-import World = require('../worlds/World');
+import DrawList = require('../drawLists/DrawList');
 /**
  * @class Viewport
  */
@@ -32,10 +32,10 @@ interface Viewport extends RenderingContextUser {
     height: number;
     /**
      * @method render
-     * @param world {World}
+     * @param drawList {DrawList}
      * @param views {UniformProvider[]}
      */
-    render(world: World, views: UniformProvider[]): void;
+    render(drawList: DrawList, views: UniformProvider[]): void;
     /**
      * @method clearColor
      * @param red {number}

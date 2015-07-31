@@ -2,7 +2,7 @@ import core = require('davinci-eight/core');
 import Drawable = require('../core/Drawable');
 import Renderer = require('../renderers/Renderer');
 import RendererParameters = require('../renderers/RendererParameters');
-import World = require('../worlds/World');
+import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 import expectArg = require('../checks/expectArg');
 
@@ -34,16 +34,16 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
       hasContext() {
         return !!gl;
       },
-      render(world: World, views: UniformProvider[]) {
-        expectArg('world', world).toNotBeNull();
+      render(drawList: DrawList, views: UniformProvider[]) {
+        expectArg('drawList', drawList).toNotBeNull();
         if (gl) {
-          if (!world.hasContext()) {
-            world.contextGain(gl, gid);
+          if (!drawList.hasContext()) {
+            drawList.contextGain(gl, gid);
           }
           var programLoaded;
-          for (var drawGroupName in world.drawGroups) {
+          for (var drawGroupName in drawList.drawGroups) {
             programLoaded = false;
-            world.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
+            drawList.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
               if (!programLoaded) {
                 drawable.useProgram();
                 programLoaded = true;

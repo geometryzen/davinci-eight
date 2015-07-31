@@ -17,8 +17,8 @@ import Frustum = require('davinci-eight/cameras/Frustum');
 import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
 import frustum = require('davinci-eight/cameras/frustum');
 import perspective = require('davinci-eight/cameras/perspective');
-import world = require('davinci-eight/worlds/world');
-import World = require('davinci-eight/worlds/World');
+import drawList = require('davinci-eight/drawLists/drawList');
+import DrawList = require('davinci-eight/drawLists/DrawList');
 import renderer = require('davinci-eight/renderers/renderer');
 import viewport = require('davinci-eight/renderers/viewport');
 import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
@@ -123,7 +123,7 @@ import RGBMesh = require('davinci-eight/mesh/RGBMesh');
 */
 
 /**
- * @module EIGHT
+ * @module d8
  */
 var eight = {
   /**
@@ -136,7 +136,7 @@ var eight = {
   get view() { return view; },
   get frustum() { return frustum; },
   get perspective() { return perspective; },
-  get world() { return world; },
+  get drawList() { return drawList; },
   object3D: object3D,
   get renderer() { return renderer; },
   get viewport() { return viewport; },

@@ -1,5 +1,5 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-import World = require('../worlds/World');
+import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 
 /**
@@ -9,10 +9,10 @@ import UniformProvider = require('../core/UniformProvider');
 interface WebGLRenderer extends RenderingContextUser {
   /**
    * @method render
-   * @param world {World}
+   * @param drawList {DrawList}
    * @param views {UniformProvider[]}
    */
-  render(world: World, views: UniformProvider[]): void;
+  render(drawList: DrawList, views: UniformProvider[]): void;
 }
 
 export = WebGLRenderer;

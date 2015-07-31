@@ -9,7 +9,7 @@ import Color = require('davinci-eight/core/Color');
 import View = require('davinci-eight/cameras/View');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
-import World = require('davinci-eight/worlds/World');
+import DrawList = require('davinci-eight/drawLists/DrawList');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
 import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
@@ -68,20 +68,34 @@ import UniformSpinor3 = require('davinci-eight/uniforms/UniformSpinor3');
 import RenderingContextMonitor = require('davinci-eight/utils/RenderingContextMonitor');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
- * @module EIGHT
+ * @module d8
  */
 declare var eight: {
     'VERSION': string;
-    initWebGL: (canvas: HTMLCanvasElement, attributes: any) => WebGLRenderingContext;
+    initWebGL: (canvas: HTMLCanvasElement, attributes: {
+        alpha?: boolean;
+        antialias?: boolean;
+        depth?: boolean;
+        premultipliedAlpha?: boolean;
+        preserveDrawingBuffer?: boolean;
+        stencil?: boolean;
+    }) => WebGLRenderingContext;
     view: () => View;
     frustum: (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => Frustum;
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
-    world: () => World;
+    drawList: () => DrawList;
     object3D: () => Node3D;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
     viewport: (canvas: HTMLCanvasElement, parameters: ViewportParameters) => Viewport;
     webGLRenderer: (canvas: HTMLCanvasElement) => WebGLRenderer;
-    contextMonitor: (canvas: HTMLCanvasElement, attributes?: any) => RenderingContextMonitor;
+    contextMonitor: (canvas: HTMLCanvasElement, attributes?: {
+        alpha?: boolean;
+        antialias?: boolean;
+        depth?: boolean;
+        premultipliedAlpha?: boolean;
+        preserveDrawingBuffer?: boolean;
+        stencil?: boolean;
+    }) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
@@ -154,12 +168,12 @@ declare var eight: {
     vortexMesh: (options?: {
         wireFrame?: boolean;
     }) => AttributeProvider;
-    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
-    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
-    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
-    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
+    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
+    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
+    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
+    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
     SphereBuilder: typeof SphereBuilder;
-    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
+    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

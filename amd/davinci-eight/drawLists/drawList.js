@@ -1,5 +1,5 @@
 define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    var world = function () {
+    var drawList = function () {
         var drawables = [];
         var drawGroups = {};
         var gl;
@@ -38,11 +38,17 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             hasContext: function () {
                 return !!gl;
             },
-            add: function (child) {
-                drawables.push(child);
+            add: function (drawable) {
+                drawables.push(drawable);
+            },
+            remove: function (drawable) {
+                var index = drawables.indexOf(drawable);
+                if (index >= 0) {
+                    drawables.splice(index, 1);
+                }
             }
         };
         return publicAPI;
     };
-    return world;
+    return drawList;
 });

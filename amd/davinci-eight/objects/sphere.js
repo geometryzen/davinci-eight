@@ -1,7 +1,7 @@
-define(["require", "exports", '../uniforms/LocalModel', '../objects/drawableModel', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, LocalModel, drawableModel, sphereMesh, smartProgram) {
+define(["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, sphereMesh, smartProgram) {
     function sphere(ambients, options) {
         var mesh = sphereMesh(options);
-        var model = new LocalModel();
+        var model = new Node();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }

@@ -27,11 +27,11 @@ var webGLRenderer = function (canvas) {
         hasContext: function () {
             return base.hasContext();
         },
-        render: function (world, views) {
+        render: function (drawList, views) {
             if (gl) {
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             }
-            return base.render(world, views);
+            return base.render(drawList, views);
         }
     };
     return self;

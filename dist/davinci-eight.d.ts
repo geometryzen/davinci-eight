@@ -3,9 +3,9 @@
 //
 // This file was created manually in order to support the davinci-eight library.
 // These declarations are appropriate when using the library through the global
-// variable, 'EIGHT'.
+// variable, 'd8'.
 //
-declare module EIGHT
+declare module d8
 {
   /**
    * @class DrawMode
@@ -26,7 +26,17 @@ declare module EIGHT
   /**
    *
    */
-  function initWebGL(canvas: HTMLCanvasElement, attributes: any): WebGLRenderingContext;
+  function initWebGL(
+    canvas: HTMLCanvasElement,
+    attributes?: {
+      alpha?: boolean,
+      antialias?: boolean,
+      depth?: boolean,
+      premultipliedAlpha?: boolean,
+      preserveDrawingBuffer?: boolean,
+      stencil?: boolean
+    }
+    ): WebGLRenderingContext;
 
   /**
    *
@@ -63,13 +73,17 @@ declare module EIGHT
      */
     draw(ambients: UniformProvider): void;
   }
-  class World extends RenderingContextUser
+  interface DrawList extends RenderingContextUser
   {
     drawGroups: {[drawGroupName:string]: Drawable[]},
     /**
-     * Add a drawable to the root node of the world.
+     * Add a drawable to the DrawList.
      */
     add(drawable: Drawable): void;
+    /**
+     * Removes a drawable from the DrawList.
+     */
+    remove(drawable: Drawable): void;
   }
   /**
    * Manages the lifecycle of an attribute used in a vertex shader.
@@ -291,7 +305,7 @@ declare module EIGHT
      */
     eye: Cartesian3;
     /**
-     * A special point in the scene that defines the viewplane normal, VPN or n.
+     * A special point in the world coordinates that defines the viewplane normal, VPN or n.
      * n = eye - look, normalized to unity.
      */
     look: Cartesian3;
@@ -311,7 +325,7 @@ declare module EIGHT
     far: number;
   }
   /**
-   * A transformation from the 3D world or view volume to the canonical view volume.
+   * A transformation from the 3D world coordinates or view volume to the canonical view volume.
    * The canonical view volume is the cube that extends from -1 to +1
    * in all cartesian directions. 
    */
@@ -528,7 +542,7 @@ declare module EIGHT
   }
   class Renderer extends RenderingContextUser
   {
-    render(world: World, views: UniformProvider[]): void;
+    render(drawList: DrawList, views: UniformProvider[]): void;
   }
   interface RendererParameters {
   }
@@ -544,7 +558,7 @@ declare module EIGHT
      *
      */
     clearColor(red: number, green: number, blue: number, alpha: number): void;
-    render(world: World, views: UniformProvider[]): void;
+    render(drawList: DrawList, views: UniformProvider[]): void;
     setSize(width: number, height: number): void;
   }
   interface ViewportParameters {
@@ -557,7 +571,7 @@ declare module EIGHT
   }
   interface WebGLRenderer extends RenderingContextUser
   {
-    render(world: World, views: UniformProvider[]): void;
+    render(drawList: DrawList, views: UniformProvider[]): void;
   }
   interface WindowAnimationRunner
   {
@@ -575,9 +589,9 @@ declare module EIGHT
     tearDown(): void;
   }
   /**
-   * Constructs and returns a World.
+   * Constructs and returns a DrawList.
    */
-  function world(): World;
+  function drawList(): DrawList;
   function view(): View;
   /**
    * Constructs and returns a LinearPerspectiveCamera.
@@ -719,7 +733,7 @@ declare module EIGHT
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
+  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, Node>;
   /**
    * Constructs and returns a cylinder mesh.
    */
@@ -977,19 +991,24 @@ declare module EIGHT
   /**
    * Constructs and returns a RenderingContextMonitor.
    */
-  function contextMonitor(canvas: HTMLCanvasElement, attributes?: any): RenderingContextMonitor;
-
-  /**
-   *
-   */
-  function initWebGL(canvas: HTMLCanvasElement, attributes: any): WebGLRenderingContext;
+  function contextMonitor(
+    canvas: HTMLCanvasElement,
+    attributes?: {
+      alpha?: boolean,
+      antialias?: boolean,
+      depth?: boolean,
+      premultipliedAlpha?: boolean,
+      preserveDrawingBuffer?: boolean,
+      stencil?: boolean
+    }
+    ): RenderingContextMonitor;
   /**
    * The version string of the davinci-eight module.
    */
   var VERSION: string;
 }
 
-declare module 'EIGHT'
+declare module 'd8'
 {
-  export = EIGHT;
+  export = d8;
 }

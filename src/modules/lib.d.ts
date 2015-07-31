@@ -6993,7 +6993,7 @@ interface HTMLInputElement extends HTMLElement, MSDataBindingExtensions {
       */
     selectionEnd: number;
     /**
-      * Sets or retrieves the URL of the virtual reality modeling language (VRML) world to be displayed in the window.
+      * Sets or retrieves the URL of the virtual reality modeling language (VRML) scene to be displayed in the window.
       */
     vrml: string;
     /**

@@ -8,7 +8,7 @@ var view = require('davinci-eight/cameras/view');
 var Color = require('davinci-eight/core/Color');
 var frustum = require('davinci-eight/cameras/frustum');
 var perspective = require('davinci-eight/cameras/perspective');
-var world = require('davinci-eight/worlds/world');
+var drawList = require('davinci-eight/drawLists/drawList');
 var renderer = require('davinci-eight/renderers/renderer');
 var viewport = require('davinci-eight/renderers/viewport');
 var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
@@ -95,7 +95,7 @@ import ellipsoid = require('davinci-eight/mesh/ellipsoid');
 import RGBMesh = require('davinci-eight/mesh/RGBMesh');
 */
 /**
- * @module EIGHT
+ * @module d8
  */
 var eight = {
     /**
@@ -108,7 +108,7 @@ var eight = {
     get view() { return view; },
     get frustum() { return frustum; },
     get perspective() { return perspective; },
-    get world() { return world; },
+    get drawList() { return drawList; },
     object3D: object3D,
     get renderer() { return renderer; },
     get viewport() { return viewport; },

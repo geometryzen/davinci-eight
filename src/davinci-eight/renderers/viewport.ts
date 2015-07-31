@@ -5,7 +5,7 @@ import DrawContext = require('../core/DrawContext');
 import Viewport = require('../renderers/Viewport');
 import ViewportParameters = require('../renderers/ViewportParameters');
 import ViewportArgs = require('../renderers/ViewportArgs');
-import World = require('../worlds/World');
+import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 //import FrameworkDrawContext = require('../renderers/FrameworkDrawContext');
 import expectArg = require('../checks/expectArg');
@@ -84,20 +84,20 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
         clearAlpha = alpha;
         //
       },
-      render(world: World, views: UniformProvider[]) {
-        expectArg('world', world).toNotBeNull();
+      render(drawList: DrawList, views: UniformProvider[]) {
+        expectArg('drawList', drawList).toNotBeNull();
         if (context) {
           context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
           context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
           context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
           clear();
-          if (!world.hasContext()) {
-            world.contextGain(context, contextId);
+          if (!drawList.hasContext()) {
+            drawList.contextGain(context, contextId);
           }
           var programLoaded;
-          for (var drawGroupName in world.drawGroups) {
+          for (var drawGroupName in drawList.drawGroups) {
             programLoaded = false;
-            world.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
+            drawList.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
               if (!programLoaded) {
                 drawable.useProgram();
                 programLoaded = true;

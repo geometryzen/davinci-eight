@@ -2,7 +2,7 @@ import renderer = require('../renderers/renderer');
 import Renderer = require('../renderers/Renderer');
 import WebGLRenderer = require('../renderers/WebGLRenderer');
 import RendererParameters = require('../renderers/RendererParameters');
-import World = require('../worlds/World');
+import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 import expectArg = require('../checks/expectArg');
 
@@ -36,11 +36,11 @@ let webGLRenderer = function(canvas: HTMLCanvasElement): WebGLRenderer {
       hasContext() {
         return base.hasContext();
       },
-      render(world: World, views: UniformProvider[]) {
+      render(drawList: DrawList, views: UniformProvider[]) {
         if (gl) {
           gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         }
-        return base.render(world, views);
+        return base.render(drawList, views);
       }
     };
 

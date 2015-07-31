@@ -1,5 +1,5 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-import World = require('../worlds/World');
+import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 /**
  * @class Renderer
@@ -8,9 +8,9 @@ import UniformProvider = require('../core/UniformProvider');
 interface Renderer extends RenderingContextUser {
     /**
      * @method render
-     * @param world {World}
+     * @param drawList {DrawList}
      * @param views {UniformProvider[]}
      */
-    render(world: World, views: UniformProvider[]): void;
+    render(drawList: DrawList, views: UniformProvider[]): void;
 }
 export = Renderer;

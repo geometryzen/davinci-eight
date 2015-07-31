@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.41.0</em>
+            <em>API Docs for: 2.42.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -120,7 +120,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                                <li><a href="../modules/d8.html">d8</a></li>
                             </ul>
                         </div>
                     </div>
@@ -177,8 +177,8 @@ import Frustum = require(&#x27;davinci-eight/cameras/Frustum&#x27;);
 import LinearPerspectiveCamera = require(&#x27;davinci-eight/cameras/LinearPerspectiveCamera&#x27;);
 import frustum = require(&#x27;davinci-eight/cameras/frustum&#x27;);
 import perspective = require(&#x27;davinci-eight/cameras/perspective&#x27;);
-import world = require(&#x27;davinci-eight/worlds/world&#x27;);
-import World = require(&#x27;davinci-eight/worlds/World&#x27;);
+import drawList = require(&#x27;davinci-eight/drawLists/drawList&#x27;);
+import DrawList = require(&#x27;davinci-eight/drawLists/DrawList&#x27;);
 import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
 import viewport = require(&#x27;davinci-eight/renderers/viewport&#x27;);
 import webGLRenderer = require(&#x27;davinci-eight/renderers/webGLRenderer&#x27;);
@@ -283,7 +283,7 @@ import RGBMesh = require(&#x27;davinci-eight/mesh/RGBMesh&#x27;);
 */
 
 /**
- * @module EIGHT
+ * @module d8
  */
 var eight = {
   /**
@@ -296,7 +296,7 @@ var eight = {
   get view() { return view; },
   get frustum() { return frustum; },
   get perspective() { return perspective; },
-  get world() { return world; },
+  get drawList() { return drawList; },
   object3D: object3D,
   get renderer() { return renderer; },
   get viewport() { return viewport; },

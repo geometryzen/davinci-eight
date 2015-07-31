@@ -23,16 +23,16 @@ var renderer = function (canvas, parameters) {
         hasContext: function () {
             return !!gl;
         },
-        render: function (world, views) {
-            expectArg('world', world).toNotBeNull();
+        render: function (drawList, views) {
+            expectArg('drawList', drawList).toNotBeNull();
             if (gl) {
-                if (!world.hasContext()) {
-                    world.contextGain(gl, gid);
+                if (!drawList.hasContext()) {
+                    drawList.contextGain(gl, gid);
                 }
                 var programLoaded;
-                for (var drawGroupName in world.drawGroups) {
+                for (var drawGroupName in drawList.drawGroups) {
                     programLoaded = false;
-                    world.drawGroups[drawGroupName].forEach(function (drawable) {
+                    drawList.drawGroups[drawGroupName].forEach(function (drawable) {
                         if (!programLoaded) {
                             drawable.useProgram();
                             programLoaded = true;
