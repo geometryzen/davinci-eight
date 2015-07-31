@@ -23,6 +23,15 @@ define(["require", "exports"], function (require, exports) {
                 }
                 return arg;
             },
+            toBeInClosedInterval: function (lower, upper) {
+                if (value >= lower && value <= upper) {
+                    return arg;
+                }
+                else {
+                    var message = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
+                    throw new Error(message);
+                }
+            },
             toBeNumber: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'number') {

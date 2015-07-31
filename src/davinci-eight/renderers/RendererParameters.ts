@@ -1,0 +1,4 @@
+interface RendererParameters {
+}
+
+export = RendererParameters;

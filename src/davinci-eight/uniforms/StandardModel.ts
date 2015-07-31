@@ -6,13 +6,17 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
+import Color = require('../core/Color');
 import Cartesian3 = require('../math/Cartesian3');
+import UniformColor = require('../uniforms/UniformColor');
 
 let UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
 let UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
 
 let UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
 let UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
+
+let UNIFORM_COLOR_NAME         = 'uColor';
 
 function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
   var matrix = new Matrix4();
@@ -25,10 +29,10 @@ function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4
 }
 
 /**
- * @class ModelMatrixUniformProvider
+ * @class StandardModel
  * @extends DefaultUniformProvider
  */
-class ModelMatrixUniformProvider extends DefaultUniformProvider {
+class StandardModel extends DefaultUniformProvider {
   /**
    * @property position
    * @type Vector3
@@ -40,6 +44,10 @@ class ModelMatrixUniformProvider extends DefaultUniformProvider {
      */
   public attitude: Spinor3;
   /**
+   *
+   */
+  private uColor: UniformColor;
+  /**
    * @class Model
    * @constructor
    */
@@ -47,6 +55,21 @@ class ModelMatrixUniformProvider extends DefaultUniformProvider {
     super();
     this.position = new Vector3();
     this.attitude = new Spinor3();
+    this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
+    this.uColor.data = Color.fromRGB(1, 1, 1);
+  }
+  get color(): Color {
+    return this.uColor.data;
+  }
+  set color(color: Color) {
+    this.uColor.data = color;
+  }
+  /**
+   * @method getUniformVector3
+   * @param name {string}
+   */
+  getUniformVector3(name: string) {
+    return this.uColor.getUniformVector3(name);
   }
   /**
    * @method getUniformMatrix3
@@ -81,7 +104,7 @@ class ModelMatrixUniformProvider extends DefaultUniformProvider {
       }
       break;
       default: {
-        return super.getUniformMatrix4(name);
+        return this.uColor.getUniformMatrix4(name);
       }
     }
   }
@@ -89,14 +112,11 @@ class ModelMatrixUniformProvider extends DefaultUniformProvider {
    * @method getUniformMetaInfos
    */
   getUniformMetaInfos(): UniformMetaInfos {
-    return ModelMatrixUniformProvider.getUniformMetaInfos();
-  }
-  static getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = {};
+    var uniforms: UniformMetaInfos = this.uColor.getUniformMetaInfos();
     uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: UNIFORM_MODEL_MATRIX_NAME,  glslType: UNIFORM_MODEL_MATRIX_TYPE};
     uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE};
     return uniforms;
   }
 }
 
-export = ModelMatrixUniformProvider;
+export = StandardModel;

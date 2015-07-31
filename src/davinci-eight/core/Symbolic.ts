@@ -3,6 +3,7 @@ class Symbolic {
   public static ATTRIBUTE_COLOR = 'color';
   public static ATTRIBUTE_NORMAL = 'normal';
   public static UNIFORM_AMBIENT_LIGHT = 'AmbientLight';
+  public static UNIFORM_COLOR = 'Color';
   public static UNIFORM_DIRECTIONAL_LIGHT = 'DirectionalLight';
   public static UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'directionalLightColor';
   public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'directionalLightDirection';

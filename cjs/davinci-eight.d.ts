@@ -45,13 +45,16 @@ import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
+import Renderer = require('davinci-eight/renderers/Renderer');
+import RendererParameters = require('davinci-eight/renderers/RendererParameters');
+import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import Viewport = require('davinci-eight/renderers/Viewport');
 import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
-import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+import StandardModel = require('davinci-eight/uniforms/StandardModel');
 import MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 import PointLight = require('davinci-eight/uniforms/PointLight');
 import UniformFloat = require('davinci-eight/uniforms/UniformFloat');
@@ -74,7 +77,9 @@ declare var eight: {
     perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
     world: () => World;
     object3D: () => Node3D;
+    renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
     viewport: (canvas: HTMLCanvasElement, parameters: ViewportParameters) => Viewport;
+    webGLRenderer: (canvas: HTMLCanvasElement) => WebGLRenderer;
     contextMonitor: (canvas: HTMLCanvasElement, attributes?: any) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
@@ -118,7 +123,7 @@ declare var eight: {
     TetrahedronGeometry: typeof TetrahedronGeometry;
     TubeGeometry: typeof TubeGeometry;
     VortexGeometry: typeof VortexGeometry;
-    ModelMatrixUniformProvider: typeof ModelMatrixUniformProvider;
+    StandardModel: typeof StandardModel;
     UniformFloat: typeof UniformFloat;
     UniformMat4: typeof UniformMat4;
     UniformVec2: typeof UniformVec2;
@@ -147,12 +152,12 @@ declare var eight: {
     vortexMesh: (options?: {
         wireFrame?: boolean;
     }) => AttributeProvider;
-    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
-    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
-    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
-    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
     SphereBuilder: typeof SphereBuilder;
-    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

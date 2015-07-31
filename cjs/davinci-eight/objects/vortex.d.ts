@@ -1,7 +1,7 @@
 import AttributeProvider = require('../core/AttributeProvider');
 import ShaderProgram = require('../programs/ShaderProgram');
-import ModelMatrixUniformProvider = require('../uniforms/ModelMatrixUniformProvider');
+import StandardModel = require('../uniforms/StandardModel');
 import DrawableModel = require('../objects/DrawableModel');
 import UniformProvider = require('../core/UniformProvider');
-declare function vortex(ambients: UniformProvider): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+declare function vortex(ambients: UniformProvider): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
 export = vortex;

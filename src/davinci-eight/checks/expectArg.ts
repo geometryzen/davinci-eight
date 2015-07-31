@@ -24,6 +24,15 @@ function expectArg<T>(name: string, value: T) {
       }
       return arg;
     },
+    toBeInClosedInterval(lower, upper) {
+      if (value >= lower && value <= upper) {
+        return arg;
+      }
+      else {
+        let message = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
+        throw new Error(message);
+      }
+    },
     toBeNumber() {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'number') {

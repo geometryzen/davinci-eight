@@ -1,7 +1,7 @@
-define(["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, vortexMesh, smartProgram) {
+define(["require", "exports", '../uniforms/StandardModel', '../objects/drawableModel', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, StandardModel, drawableModel, vortexMesh, smartProgram) {
     function vortex(ambients) {
         var mesh = vortexMesh();
-        var model = new ModelMatrixUniformProvider();
+        var model = new StandardModel();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }

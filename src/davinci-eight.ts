@@ -19,7 +19,9 @@ import frustum = require('davinci-eight/cameras/frustum');
 import perspective = require('davinci-eight/cameras/perspective');
 import world = require('davinci-eight/worlds/world');
 import World = require('davinci-eight/worlds/World');
+import renderer = require('davinci-eight/renderers/renderer');
 import viewport = require('davinci-eight/renderers/viewport');
+import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 import drawableModel = require('davinci-eight/objects/drawableModel');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
@@ -77,6 +79,9 @@ import Curve = require('davinci-eight/curves/Curve');
 // programs
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
 // renderers
+import Renderer = require('davinci-eight/renderers/Renderer');
+import RendererParameters = require('davinci-eight/renderers/RendererParameters');
+import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import Viewport = require('davinci-eight/renderers/Viewport');
 import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import initWebGL = require('davinci-eight/renderers/initWebGL');
@@ -85,7 +90,7 @@ import AmbientLight               = require('davinci-eight/uniforms/AmbientLight
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUniformProvider');
 import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight');
-import ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+import StandardModel = require('davinci-eight/uniforms/StandardModel');
 import MultiUniformProvider       = require('davinci-eight/uniforms/MultiUniformProvider');
 import PointLight                 = require('davinci-eight/uniforms/PointLight');
 import uniforms                   = require('davinci-eight/uniforms/uniforms');
@@ -132,7 +137,9 @@ var eight = {
   get perspective() { return perspective; },
   get world() { return world; },
   object3D: object3D,
+  get renderer() { return renderer; },
   get viewport() { return viewport; },
+  get webGLRenderer() { return webGLRenderer; },
   get contextMonitor() {return contextMonitor;},
   workbench: workbench3D,
   animation: windowAnimationRunner,
@@ -172,7 +179,7 @@ var eight = {
   get TetrahedronGeometry() { return TetrahedronGeometry; },
   get TubeGeometry() { return TubeGeometry; },
   get VortexGeometry() { return VortexGeometry; },
-  get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
+  get StandardModel() { return StandardModel; },
   get UniformFloat() { return UniformFloat; },
   get UniformMat4() { return UniformMat4; },
   get UniformVec2() { return UniformVec2; },

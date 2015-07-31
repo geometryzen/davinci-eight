@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.39.0</em>
+            <em>API Docs for: 2.40.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,8 +65,8 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -88,12 +88,12 @@
                  2  6 10 14
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
-                                <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
+                                <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
                                 <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
@@ -101,6 +101,7 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StandardModel.html">StandardModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -110,9 +111,10 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -185,11 +187,10 @@ let vertexShader = function(attributes: AttributeMetaInfos, uniforms: UniformMet
     lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
   }
   for (name in uniforms) {
+    console.log(&quot;uniform &quot; + name);
     lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
   }
-  if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-    lines.push(&quot;varying highp vec4 vColor;&quot;);
-  }
+  lines.push(&quot;varying highp vec4 vColor;&quot;);
   if (vLight) {
     lines.push(&quot;varying highp vec3 vLight;&quot;);
   }
@@ -218,6 +219,7 @@ let vertexShader = function(attributes: AttributeMetaInfos, uniforms: UniformMet
   glPosition.unshift(&quot;gl_Position&quot;);
   lines.push(glPosition.join(&#x27;&#x27;));
 
+  let vColorAssignLines: string[] = [];
   if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
     switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType)
     {
@@ -237,6 +239,27 @@ let vertexShader = function(attributes: AttributeMetaInfos, uniforms: UniformMet
       }
     }
   }
+  else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+    switch(uniforms[Symbolic.UNIFORM_COLOR].glslType)
+    {
+      case &#x27;vec4&#x27;:
+      {
+        lines.push(&quot;  vColor = &quot; + uniforms[Symbolic.UNIFORM_COLOR].name + SEMICOLON);
+      }
+      break;
+      case &#x27;vec3&#x27;:
+      {
+        lines.push(&quot;  vColor = vec4(&quot; + uniforms[Symbolic.UNIFORM_COLOR].name + &quot;, 1.0);&quot;);
+      }
+      break;
+      default:
+      {
+        throw new Error(&quot;Unexpected type for color uniform: &quot; + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+      }
+    }
+  }
+  lines.push(vColorAssignLines.join(&#x27;&#x27;));
+
   if (vLight) {
     if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] &amp;&amp; uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] &amp;&amp; attributes[Symbolic.ATTRIBUTE_NORMAL]) {
       lines.push(&quot;  vec3 L = normalize(&quot;+uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION].name + &quot;);&quot;);
@@ -267,18 +290,16 @@ let vertexShader = function(attributes: AttributeMetaInfos, uniforms: UniformMet
 /**
  *
  */
-let fragmentShader = function(attributes: AttributeMetaInfos, uniforms: UniformMetaInfos, vLight: boolean) {
+let fragmentShader = function(attributes: AttributeMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
 
   var lines: string[] = [];
-  if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-    lines.push(&quot;varying highp vec4 vColor;&quot;);
-  }
+  lines.push(&quot;varying highp vec4 vColor;&quot;);
   if (vLight) {
     lines.push(&quot;varying highp vec3 vLight;&quot;);
   }
   lines.push(&quot;void main(void) {&quot;);
   if (vLight) {
-    if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+    if (vColor) {
       lines.push(&quot;  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
     }
     else {
@@ -286,7 +307,7 @@ let fragmentShader = function(attributes: AttributeMetaInfos, uniforms: UniformM
     }
   }
   else {
-    if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+    if (vColor) {
       lines.push(&quot;  gl_FragColor = vColor;&quot;);
     }
     else {
@@ -323,9 +344,10 @@ var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: Unifor
     }
   });
 
+  let vColor = true;
   let vLight = vLightRequired(uniforms);
 
-  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vLight));
+  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
 
   let publicAPI: ShaderProgram = {
     get attributes() {

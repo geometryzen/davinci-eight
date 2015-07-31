@@ -9,7 +9,9 @@ var Color = require('davinci-eight/core/Color');
 var frustum = require('davinci-eight/cameras/frustum');
 var perspective = require('davinci-eight/cameras/perspective');
 var world = require('davinci-eight/worlds/world');
+var renderer = require('davinci-eight/renderers/renderer');
 var viewport = require('davinci-eight/renderers/viewport');
+var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 var drawableModel = require('davinci-eight/objects/drawableModel');
 var Face3 = require('davinci-eight/core/Face3');
 var ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
@@ -65,7 +67,7 @@ var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 var DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
-var ModelMatrixUniformProvider = require('davinci-eight/uniforms/ModelMatrixUniformProvider');
+var StandardModel = require('davinci-eight/uniforms/StandardModel');
 var MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 var PointLight = require('davinci-eight/uniforms/PointLight');
 var uniforms = require('davinci-eight/uniforms/uniforms');
@@ -107,7 +109,9 @@ var eight = {
     get perspective() { return perspective; },
     get world() { return world; },
     object3D: object3D,
+    get renderer() { return renderer; },
     get viewport() { return viewport; },
+    get webGLRenderer() { return webGLRenderer; },
     get contextMonitor() { return contextMonitor; },
     workbench: workbench3D,
     animation: windowAnimationRunner,
@@ -147,7 +151,7 @@ var eight = {
     get TetrahedronGeometry() { return TetrahedronGeometry; },
     get TubeGeometry() { return TubeGeometry; },
     get VortexGeometry() { return VortexGeometry; },
-    get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
+    get StandardModel() { return StandardModel; },
     get UniformFloat() { return UniformFloat; },
     get UniformMat4() { return UniformMat4; },
     get UniformVec2() { return UniformVec2; },

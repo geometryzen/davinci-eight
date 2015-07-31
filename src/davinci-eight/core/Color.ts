@@ -1,5 +1,7 @@
 import clamp = require('../math/clamp');
 import expectArg = require('../checks/expectArg');
+import ColorRGB = require('../core/ColorRGB');
+import Mutable = require('../math/Mutable');
 /**
  * A mutable type representing a color through its RGB components.
  * @class Color
@@ -8,8 +10,9 @@ import expectArg = require('../checks/expectArg');
  * it is common to use reference types, such as in this design. This mutability can lead to
  * difficult bugs because it is hard to reason about where a color may have changed. 
  */
-class Color {
+class Color implements ColorRGB, Mutable<number[]> {
   public data: number[];
+  public callback: () => number[];
   /**
    * @class Color
    * @constructor
@@ -94,6 +97,15 @@ class Color {
     else {
       return matchLightness(0.0,0.0,0.0);
     }
+  }
+  public static fromRGB(red: number, green: number, blue: number) {
+    expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
+    expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
+    expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
+    return new Color([red, green, blue]);
+  }
+  public static copy(color: ColorRGB): Color {
+    return new Color([color.red, color.green, color.blue]);
   }
 }
 

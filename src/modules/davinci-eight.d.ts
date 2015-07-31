@@ -151,6 +151,7 @@ declare module EIGHT
     public static e1: Vector3;
     public static e2: Vector3;
     public static e3: Vector3;
+    public static copy(vector: Cartesian3): Vector3;
     constructor(vector?: number[]);
     multiplyScalar(s: number): Vector3;
     clone(): Vector3;
@@ -446,6 +447,8 @@ declare module EIGHT
     public blue: number;
     public data: number[];
     constructor(data?: number[]);
+    public static fromHSL(H: number, S: number, L: number): Color;
+    public static fromRGB(red: number, green: number, blue: number): Color;
   }
   class GeometryAdapter extends AttributeProvider
   {
@@ -523,6 +526,12 @@ declare module EIGHT
     shaders: SHADERS;
     model: MODEL;
   }
+  class Renderer extends RenderingContextUser
+  {
+    render(world: World, views: UniformProvider[]): void;
+  }
+  interface RendererParameters {
+  }
   class Viewport extends RenderingContextUser
   {
     canvas: HTMLCanvasElement;
@@ -545,6 +554,10 @@ declare module EIGHT
     premultipliedAlpha?: boolean;
     preserveDrawingBuffer?: boolean;
     stencil?: boolean;
+  }
+  interface WebGLRenderer extends RenderingContextUser
+  {
+    render(world: World, views: UniformProvider[]): void;
   }
   interface WindowAnimationRunner
   {
@@ -585,10 +598,20 @@ declare module EIGHT
     near?: number,
     far?: number): LinearPerspectiveCamera;
   /**
+   * Constructs and returns a Renderer.
+   * @param options Optional parameters for modifying the WebGL context.
+   */
+  function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
+  /**
    * Constructs and returns a Viewport.
    * @param options Optional parameters for modifying the WebGL context.
    */
   function viewport(canvas: HTMLCanvasElement, options?: ViewportParameters): Viewport;
+  /**
+   * Constructs and returns a WebGLRenderer.
+   * @param options Optional parameters for modifying the WebGL context.
+   */
+  function webGLRenderer(canvas: HTMLCanvasElement): WebGLRenderer;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */
@@ -614,10 +637,11 @@ declare module EIGHT
   /**
    *
    */
-  class ModelMatrixUniformProvider extends UniformProvider {
+  class StandardModel extends UniformProvider {
     public position: Vector3;
     public attitude: Spinor3;
     constructor();
+    get color(): Color;
   }
   /**
    *
@@ -644,7 +668,7 @@ declare module EIGHT
   /**
    *
    */
-  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
   /**
    *
    */
@@ -685,7 +709,7 @@ declare module EIGHT
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
   /**
    * Constructs and returns a cylinder mesh.
    */
@@ -699,7 +723,7 @@ declare module EIGHT
    */
   function cylinder(
     ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  ): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
   /**
    *
    */
@@ -743,7 +767,7 @@ declare module EIGHT
   /**
    *
    */
-  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
   /**
    * Constructs and returns an vortex mesh.
    */
@@ -757,7 +781,7 @@ declare module EIGHT
    */
   function vortex(
     ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, ModelMatrixUniformProvider>;
+  ): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
   /**
    *
    */

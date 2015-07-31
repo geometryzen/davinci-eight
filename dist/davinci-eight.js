@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.39.0'
+        VERSION: '2.40.0'
     };
     return core;
 });
@@ -484,6 +484,15 @@ define('davinci-eight/checks/expectArg',["require", "exports"], function (requir
                     throw new Error(message);
                 }
                 return arg;
+            },
+            toBeInClosedInterval: function (lower, upper) {
+                if (value >= lower && value <= upper) {
+                    return arg;
+                }
+                else {
+                    var message = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
+                    throw new Error(message);
+                }
             },
             toBeNumber: function () {
                 var typeOfValue = typeof value;
@@ -793,6 +802,13 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
          */
         Vector3.prototype.toString = function () {
             return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
+        };
+        /**
+         * @method copy
+         * Copy constructor.
+         */
+        Vector3.copy = function (vector) {
+            return new Vector3([vector.x, vector.y, vector.z]);
         };
         Vector3.e1 = new Vector3([1, 0, 0]);
         Vector3.e2 = new Vector3([0, 1, 0]);
@@ -1174,6 +1190,7 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
         Symbolic.ATTRIBUTE_COLOR = 'color';
         Symbolic.ATTRIBUTE_NORMAL = 'normal';
         Symbolic.UNIFORM_AMBIENT_LIGHT = 'AmbientLight';
+        Symbolic.UNIFORM_COLOR = 'Color';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT = 'DirectionalLight';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'directionalLightColor';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'directionalLightDirection';
@@ -1607,6 +1624,15 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
                 return matchLightness(0.0, 0.0, 0.0);
             }
         };
+        Color.fromRGB = function (red, green, blue) {
+            expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
+            expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
+            expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
+            return new Color([red, green, blue]);
+        };
+        Color.copy = function (color) {
+            return new Color([color.red, color.green, color.blue]);
+        };
         return Color;
     })();
     return Color;
@@ -1908,6 +1934,61 @@ define('davinci-eight/worlds/world',["require", "exports", '../checks/expectArg'
     return world;
 });
 
+define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    var renderer = function (canvas, parameters) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        parameters = parameters || {};
+        //var drawContext = new FrameworkDrawContext();
+        var gl;
+        var gid;
+        var publicAPI = {
+            get canvas() { return canvas; },
+            get context() { return gl; },
+            contextFree: function () {
+                gl = void 0;
+                gid = void 0;
+            },
+            contextGain: function (context, contextIdArg) {
+                gl = context;
+                gid = contextIdArg;
+            },
+            contextLoss: function () {
+                gl = void 0;
+                gid = void 0;
+            },
+            hasContext: function () {
+                return !!gl;
+            },
+            render: function (world, views) {
+                expectArg('world', world).toNotBeNull();
+                if (gl) {
+                    if (!world.hasContext()) {
+                        world.contextGain(gl, gid);
+                    }
+                    var programLoaded;
+                    for (var drawGroupName in world.drawGroups) {
+                        programLoaded = false;
+                        world.drawGroups[drawGroupName].forEach(function (drawable) {
+                            if (!programLoaded) {
+                                drawable.useProgram();
+                                programLoaded = true;
+                            }
+                            views.forEach(function (view) {
+                                drawable.draw(view);
+                            });
+                        });
+                    }
+                }
+                else {
+                    console.warn("renderer is unable to render because WebGLRenderingContext is missing");
+                }
+            },
+        };
+        return publicAPI;
+    };
+    return renderer;
+});
+
 define('davinci-eight/renderers/ViewportArgs',["require", "exports"], function (require, exports) {
     var ViewportArgs = (function () {
         function ViewportArgs(x, y, width, height) {
@@ -2060,6 +2141,46 @@ define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color'
         return publicAPI;
     };
     return viewport;
+});
+
+define('davinci-eight/renderers/webGLRenderer',["require", "exports", '../renderers/renderer', '../checks/expectArg'], function (require, exports, renderer, expectArg) {
+    var webGLRenderer = function (canvas) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        var base = renderer(canvas);
+        var gl;
+        var self = {
+            contextFree: function () {
+                gl = void 0;
+                return base.contextFree();
+            },
+            contextGain: function (context, contextId) {
+                var attributes = context.getContextAttributes();
+                console.log(context.getParameter(context.VERSION));
+                gl = context;
+                gl.clearColor(0.3, 0.3, 0.3, 1.0);
+                gl.clearDepth(1.0);
+                gl.enable(gl.DEPTH_TEST);
+                gl.depthFunc(gl.LEQUAL);
+                gl.viewport(0, 0, canvas.width, canvas.height);
+                return base.contextGain(context, contextId);
+            },
+            contextLoss: function () {
+                gl = void 0;
+                return base.contextLoss();
+            },
+            hasContext: function () {
+                return base.hasContext();
+            },
+            render: function (world, views) {
+                if (gl) {
+                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                }
+                return base.render(world, views);
+            }
+        };
+        return self;
+    };
+    return webGLRenderer;
 });
 
 define('davinci-eight/core/convertUsage',["require", "exports", '../core/DataUsage'], function (require, exports, DataUsage) {
@@ -6820,12 +6941,14 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     args.attributes.forEach(function (a) {
                         var attributeDecl = shaderVariable(a);
                         attributeDecls.push(attributeDecl);
+                        // TODO: We should only build the locations based upon the active variables.
                         attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
                     });
                     // uniforms
                     args.uniforms.forEach(function (u) {
                         var uniformDecl = shaderVariable(u);
                         uniformDecls.push(uniformDecl);
+                        // TODO: ditto 
                         uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                     });
                     // varyings
@@ -6849,6 +6972,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     args.uniforms.forEach(function (u) {
                         var uniformDecl = shaderVariable(u);
                         uniformDecls.push(uniformDecl);
+                        // TODO: ditto
                         uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                     });
                 }
@@ -6895,6 +7019,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     programId = void 0;
                     context = void 0;
                     contextGainId = void 0;
+                    // TODO: free based on active varaibles, not all.
                     attributeDecls.forEach(function (attributeDecl) {
                         attributeLocations[attributeDecl.name].contextFree();
                     });
@@ -6915,6 +7040,17 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     uniformDecls.forEach(function (uniformDecl) {
                         uniformLocations[uniformDecl.name].contextGain(contextArg, program);
                     });
+                    // TODO: Use the information about active attributes and locations to drive the locations.
+                    var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
+                    //console.log("activeAttributes: " + activeAttributes);
+                    for (var a = 0; a < activeAttributes; a++) {
+                        var activeInfo = context.getActiveAttrib(program, a);
+                    }
+                    var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
+                    //console.log("activeUniforms: " + activeUniforms);
+                    for (var u = 0; u < activeUniforms; u++) {
+                        var activeInfo = context.getActiveUniform(program, u);
+                    }
                 }
             },
             contextLoss: function () {
@@ -6922,6 +7058,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                 programId = void 0;
                 context = void 0;
                 contextGainId = void 0;
+                // TODO: loss based on active varaibles, not all.
                 attributeDecls.forEach(function (attributeDecl) {
                     attributeLocations[attributeDecl.name].contextLoss();
                 });
@@ -7097,11 +7234,10 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
         }
         for (name in uniforms) {
+            console.log("uniform " + name);
             lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
         }
-        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-            lines.push("varying highp vec4 vColor;");
-        }
+        lines.push("varying highp vec4 vColor;");
         if (vLight) {
             lines.push("varying highp vec3 vLight;");
         }
@@ -7129,6 +7265,7 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
         glPosition.unshift(ASSIGN);
         glPosition.unshift("gl_Position");
         lines.push(glPosition.join(''));
+        var vColorAssignLines = [];
         if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
             switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
                 case 'vec4':
@@ -7147,6 +7284,25 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
                     }
             }
         }
+        else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+            switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
+                case 'vec4':
+                    {
+                        lines.push("  vColor = " + uniforms[Symbolic.UNIFORM_COLOR].name + SEMICOLON);
+                    }
+                    break;
+                case 'vec3':
+                    {
+                        lines.push("  vColor = vec4(" + uniforms[Symbolic.UNIFORM_COLOR].name + ", 1.0);");
+                    }
+                    break;
+                default:
+                    {
+                        throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+                    }
+            }
+        }
+        lines.push(vColorAssignLines.join(''));
         if (vLight) {
             if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
                 lines.push("  vec3 L = normalize(" + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION].name + ");");
@@ -7176,17 +7332,15 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
     /**
      *
      */
-    var fragmentShader = function (attributes, uniforms, vLight) {
+    var fragmentShader = function (attributes, uniforms, vColor, vLight) {
         var lines = [];
-        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-            lines.push("varying highp vec4 vColor;");
-        }
+        lines.push("varying highp vec4 vColor;");
         if (vLight) {
             lines.push("varying highp vec3 vLight;");
         }
         lines.push("void main(void) {");
         if (vLight) {
-            if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+            if (vColor) {
                 lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
             }
             else {
@@ -7194,7 +7348,7 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             }
         }
         else {
-            if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+            if (vColor) {
                 lines.push("  gl_FragColor = vColor;");
             }
             else {
@@ -7225,8 +7379,9 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
                 uniforms[name] = uniformsElement[name];
             }
         });
+        var vColor = true;
         var vLight = vLightRequired(uniforms);
-        var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vLight));
+        var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
         var publicAPI = {
             get attributes() {
                 return innerProgram.attributes;
@@ -7978,11 +8133,152 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/uniforms/ModelMatrixUniformProvider',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3) {
+define('davinci-eight/uniforms/UniformVec3',["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg'], function (require, exports, DefaultUniformProvider, uuid4, expectArg) {
+    var UniformVec3 = (function (_super) {
+        __extends(UniformVec3, _super);
+        function UniformVec3(name, id) {
+            _super.call(this);
+            this.useData = false;
+            this.useCallback = false;
+            this.name = name;
+            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
+        }
+        Object.defineProperty(UniformVec3.prototype, "data", {
+            get: function () {
+                return this.$data;
+            },
+            set: function (data) {
+                this.$data = data;
+                if (typeof data !== void 0) {
+                    expectArg('data', data).toSatisfy(data.length === 3, "data.length must be 3");
+                    this.useData = true;
+                    this.useCallback = false;
+                }
+                else {
+                    this.useData = false;
+                    this.$callback = void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(UniformVec3.prototype, "callback", {
+            set: function (callback) {
+                this.$callback = callback;
+                if (typeof callback !== void 0) {
+                    this.useCallback = true;
+                    this.useData = false;
+                }
+                else {
+                    this.useCallback = false;
+                    this.$data = void 0;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        UniformVec3.prototype.getUniformVector3 = function (name) {
+            switch (name) {
+                case this.name:
+                    {
+                        if (this.useData) {
+                            return this.$data;
+                        }
+                        else if (this.useCallback) {
+                            return this.$callback();
+                        }
+                        else {
+                            var message = "uniform vec3 " + this.name + " has not been assigned a data or callback.";
+                            console.warn(message);
+                            throw new Error(message);
+                        }
+                    }
+                    break;
+                default: {
+                    return _super.prototype.getUniformVector3.call(this, name);
+                }
+            }
+        };
+        UniformVec3.prototype.getUniformMetaInfos = function () {
+            var uniforms = _super.prototype.getUniformMetaInfos.call(this);
+            uniforms[this.id] = { name: this.name, glslType: 'vec3' };
+            return uniforms;
+        };
+        return UniformVec3;
+    })(DefaultUniformProvider);
+    return UniformVec3;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/uniforms/UniformColor',["require", "exports", '../core/Color', '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Color, DefaultUniformProvider, UniformVec3) {
+    /**
+     * Provides a uniform variable representing an ambient light.
+     * @class UniformColor
+     */
+    var UniformColor = (function (_super) {
+        __extends(UniformColor, _super);
+        /**
+         * @class UniformColor
+         * @constructor
+         */
+        function UniformColor(name, id) {
+            _super.call(this);
+            this.inner = new UniformVec3(name, id);
+        }
+        Object.defineProperty(UniformColor.prototype, "data", {
+            get: function () {
+                var data = this.inner.data;
+                if (data) {
+                    return new Color(data);
+                }
+                else {
+                    return;
+                }
+            },
+            set: function (color) {
+                this.inner.data = color.data;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(UniformColor.prototype, "callback", {
+            set: function (callback) {
+                this.inner.callback = function () {
+                    var color = callback();
+                    return color.data;
+                };
+            },
+            enumerable: true,
+            configurable: true
+        });
+        UniformColor.prototype.getUniformVector3 = function (name) {
+            return this.inner.getUniformVector3(name);
+        };
+        UniformColor.prototype.getUniformMetaInfos = function () {
+            return this.inner.getUniformMetaInfos();
+        };
+        return UniformColor;
+    })(DefaultUniformProvider);
+    return UniformColor;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/uniforms/StandardModel',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3, Color, UniformColor) {
     var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
     var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
     var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
     var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
+    var UNIFORM_COLOR_NAME = 'uColor';
     function modelViewMatrix(position, attitude) {
         var matrix = new Matrix4();
         matrix.identity();
@@ -7993,25 +8289,44 @@ define('davinci-eight/uniforms/ModelMatrixUniformProvider',["require", "exports"
         return matrix;
     }
     /**
-     * @class ModelMatrixUniformProvider
+     * @class StandardModel
      * @extends DefaultUniformProvider
      */
-    var ModelMatrixUniformProvider = (function (_super) {
-        __extends(ModelMatrixUniformProvider, _super);
+    var StandardModel = (function (_super) {
+        __extends(StandardModel, _super);
         /**
          * @class Model
          * @constructor
          */
-        function ModelMatrixUniformProvider() {
+        function StandardModel() {
             _super.call(this);
             this.position = new Vector3();
             this.attitude = new Spinor3();
+            this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
+            this.uColor.data = Color.fromRGB(1, 1, 1);
         }
+        Object.defineProperty(StandardModel.prototype, "color", {
+            get: function () {
+                return this.uColor.data;
+            },
+            set: function (color) {
+                this.uColor.data = color;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method getUniformVector3
+         * @param name {string}
+         */
+        StandardModel.prototype.getUniformVector3 = function (name) {
+            return this.uColor.getUniformVector3(name);
+        };
         /**
          * @method getUniformMatrix3
          * @param name {string}
          */
-        ModelMatrixUniformProvider.prototype.getUniformMatrix3 = function (name) {
+        StandardModel.prototype.getUniformMatrix3 = function (name) {
             switch (name) {
                 case UNIFORM_NORMAL_MATRIX_NAME:
                     {
@@ -8033,7 +8348,7 @@ define('davinci-eight/uniforms/ModelMatrixUniformProvider',["require", "exports"
          * @method getUniformMatrix4
          * @param name {string}
          */
-        ModelMatrixUniformProvider.prototype.getUniformMatrix4 = function (name) {
+        StandardModel.prototype.getUniformMatrix4 = function (name) {
             switch (name) {
                 case UNIFORM_MODEL_MATRIX_NAME:
                     {
@@ -8042,71 +8357,68 @@ define('davinci-eight/uniforms/ModelMatrixUniformProvider',["require", "exports"
                     }
                     break;
                 default: {
-                    return _super.prototype.getUniformMatrix4.call(this, name);
+                    return this.uColor.getUniformMatrix4(name);
                 }
             }
         };
         /**
          * @method getUniformMetaInfos
          */
-        ModelMatrixUniformProvider.prototype.getUniformMetaInfos = function () {
-            return ModelMatrixUniformProvider.getUniformMetaInfos();
-        };
-        ModelMatrixUniformProvider.getUniformMetaInfos = function () {
-            var uniforms = {};
+        StandardModel.prototype.getUniformMetaInfos = function () {
+            var uniforms = this.uColor.getUniformMetaInfos();
             uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
             uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
             return uniforms;
         };
-        return ModelMatrixUniformProvider;
+        return StandardModel;
     })(DefaultUniformProvider);
-    return ModelMatrixUniformProvider;
+    return StandardModel;
 });
 
-define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/arrowMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, arrowMesh, smartProgram) {
+define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/StandardModel', '../objects/drawableModel', '../mesh/arrowMesh', '../programs/smartProgram'], function (require, exports, StandardModel, drawableModel, arrowMesh, smartProgram) {
     function arrow(ambients, options) {
         var mesh = arrowMesh(options);
-        var model = new ModelMatrixUniformProvider();
+        var model = new StandardModel();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }
     return arrow;
 });
 
-define('davinci-eight/objects/box',["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/boxMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, boxMesh, smartProgram) {
+define('davinci-eight/objects/box',["require", "exports", '../uniforms/StandardModel', '../objects/drawableModel', '../mesh/boxMesh', '../programs/smartProgram'], function (require, exports, StandardModel, drawableModel, boxMesh, smartProgram) {
     function box(ambients, options) {
         var mesh = boxMesh(options);
-        var model = new ModelMatrixUniformProvider();
+        var model = new StandardModel();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }
     return box;
 });
 
-define('davinci-eight/objects/cylinder',["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/cylinderMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, cylinderMesh, smartProgram) {
+define('davinci-eight/objects/cylinder',["require", "exports", '../uniforms/StandardModel', '../objects/drawableModel', '../mesh/cylinderMesh', '../programs/smartProgram'], function (require, exports, StandardModel, drawableModel, cylinderMesh, smartProgram) {
     function cylinder(ambients) {
         var mesh = cylinderMesh();
-        var model = new ModelMatrixUniformProvider();
+        var model = new StandardModel();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }
     return cylinder;
 });
 
-define('davinci-eight/objects/sphere',["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, sphereMesh, smartProgram) {
+define('davinci-eight/objects/sphere',["require", "exports", '../uniforms/StandardModel', '../objects/drawableModel', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, StandardModel, drawableModel, sphereMesh, smartProgram) {
     function sphere(ambients, options) {
         var mesh = sphereMesh(options);
-        var model = new ModelMatrixUniformProvider();
+        var model = new StandardModel();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }
     return sphere;
 });
 
-define('davinci-eight/objects/vortex',["require", "exports", '../uniforms/ModelMatrixUniformProvider', '../objects/drawableModel', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, ModelMatrixUniformProvider, drawableModel, vortexMesh, smartProgram) {
+define('davinci-eight/objects/vortex',["require", "exports", '../uniforms/StandardModel', '../objects/drawableModel', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, StandardModel, drawableModel, vortexMesh, smartProgram) {
     function vortex(ambients) {
         var mesh = vortexMesh();
-        var model = new ModelMatrixUniformProvider();
+        var model = new StandardModel();
         var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
         return drawableModel(mesh, shaders, model);
     }
@@ -8301,146 +8613,6 @@ define('davinci-eight/renderers/initWebGL',["require", "exports"], function (req
         }
     }
     return initWebGL;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformVec3',["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg'], function (require, exports, DefaultUniformProvider, uuid4, expectArg) {
-    var UniformVec3 = (function (_super) {
-        __extends(UniformVec3, _super);
-        function UniformVec3(name, id) {
-            _super.call(this);
-            this.useData = false;
-            this.useCallback = false;
-            this.name = name;
-            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
-        }
-        Object.defineProperty(UniformVec3.prototype, "data", {
-            get: function () {
-                return this.$data;
-            },
-            set: function (data) {
-                this.$data = data;
-                if (typeof data !== void 0) {
-                    expectArg('data', data).toSatisfy(data.length === 3, "data.length must be 3");
-                    this.useData = true;
-                    this.useCallback = false;
-                }
-                else {
-                    this.useData = false;
-                    this.$callback = void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformVec3.prototype, "callback", {
-            set: function (callback) {
-                this.$callback = callback;
-                if (typeof callback !== void 0) {
-                    this.useCallback = true;
-                    this.useData = false;
-                }
-                else {
-                    this.useCallback = false;
-                    this.$data = void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformVec3.prototype.getUniformVector3 = function (name) {
-            switch (name) {
-                case this.name:
-                    {
-                        if (this.useData) {
-                            return this.$data;
-                        }
-                        else if (this.useCallback) {
-                            return this.$callback();
-                        }
-                        else {
-                            var message = "uniform vec3 " + this.name + " has not been assigned a data or callback.";
-                            console.warn(message);
-                            throw new Error(message);
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformVector3.call(this, name);
-                }
-            }
-        };
-        UniformVec3.prototype.getUniformMetaInfos = function () {
-            var uniforms = _super.prototype.getUniformMetaInfos.call(this);
-            uniforms[this.id] = { name: this.name, glslType: 'vec3' };
-            return uniforms;
-        };
-        return UniformVec3;
-    })(DefaultUniformProvider);
-    return UniformVec3;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformColor',["require", "exports", '../core/Color', '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Color, DefaultUniformProvider, UniformVec3) {
-    /**
-     * Provides a uniform variable representing an ambient light.
-     * @class UniformColor
-     */
-    var UniformColor = (function (_super) {
-        __extends(UniformColor, _super);
-        /**
-         * @class UniformColor
-         * @constructor
-         */
-        function UniformColor(name, id) {
-            _super.call(this);
-            this.inner = new UniformVec3(name, id);
-        }
-        Object.defineProperty(UniformColor.prototype, "data", {
-            get: function () {
-                var data = this.inner.data;
-                if (data) {
-                    return new Color(data);
-                }
-                else {
-                    return;
-                }
-            },
-            set: function (color) {
-                this.inner.data = color.data;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformColor.prototype, "callback", {
-            set: function (callback) {
-                this.inner.callback = function () {
-                    var color = callback();
-                    return color.data;
-                };
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformColor.prototype.getUniformVector3 = function (name) {
-            return this.inner.getUniformVector3(name);
-        };
-        UniformColor.prototype.getUniformMetaInfos = function () {
-            return this.inner.getUniformMetaInfos();
-        };
-        return UniformColor;
-    })(DefaultUniformProvider);
-    return UniformColor;
 });
 
 define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor', '../checks/expectArg'], function (require, exports, Color, Symbolic, UniformColor, expectArg) {
@@ -9316,7 +9488,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/viewport', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttributeLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/ModelMatrixUniformProvider', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, world, viewport, drawableModel, Face3, ShaderAttributeLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, ModelMatrixUniformProvider, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/worlds/world', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttributeLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/StandardModel', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, world, renderer, viewport, webGLRenderer, drawableModel, Face3, ShaderAttributeLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, StandardModel, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -9345,7 +9517,9 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get perspective() { return perspective; },
         get world() { return world; },
         object3D: object3D,
+        get renderer() { return renderer; },
         get viewport() { return viewport; },
+        get webGLRenderer() { return webGLRenderer; },
         get contextMonitor() { return contextMonitor; },
         workbench: workbench3D,
         animation: windowAnimationRunner,
@@ -9385,7 +9559,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get TetrahedronGeometry() { return TetrahedronGeometry; },
         get TubeGeometry() { return TubeGeometry; },
         get VortexGeometry() { return VortexGeometry; },
-        get ModelMatrixUniformProvider() { return ModelMatrixUniformProvider; },
+        get StandardModel() { return StandardModel; },
         get UniformFloat() { return UniformFloat; },
         get UniformMat4() { return UniformMat4; },
         get UniformVec2() { return UniformVec2; },

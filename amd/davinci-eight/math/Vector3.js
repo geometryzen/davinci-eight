@@ -257,6 +257,13 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         Vector3.prototype.toString = function () {
             return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
         };
+        /**
+         * @method copy
+         * Copy constructor.
+         */
+        Vector3.copy = function (vector) {
+            return new Vector3([vector.x, vector.y, vector.z]);
+        };
         Vector3.e1 = new Vector3([1, 0, 0]);
         Vector3.e2 = new Vector3([0, 1, 0]);
         Vector3.e3 = new Vector3([0, 0, 1]);

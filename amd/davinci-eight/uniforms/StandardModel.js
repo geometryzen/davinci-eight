@@ -4,11 +4,12 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3) {
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3, Color, UniformColor) {
     var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
     var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
     var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
     var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
+    var UNIFORM_COLOR_NAME = 'uColor';
     function modelViewMatrix(position, attitude) {
         var matrix = new Matrix4();
         matrix.identity();
@@ -19,25 +20,44 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
         return matrix;
     }
     /**
-     * @class ModelMatrixUniformProvider
+     * @class StandardModel
      * @extends DefaultUniformProvider
      */
-    var ModelMatrixUniformProvider = (function (_super) {
-        __extends(ModelMatrixUniformProvider, _super);
+    var StandardModel = (function (_super) {
+        __extends(StandardModel, _super);
         /**
          * @class Model
          * @constructor
          */
-        function ModelMatrixUniformProvider() {
+        function StandardModel() {
             _super.call(this);
             this.position = new Vector3();
             this.attitude = new Spinor3();
+            this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
+            this.uColor.data = Color.fromRGB(1, 1, 1);
         }
+        Object.defineProperty(StandardModel.prototype, "color", {
+            get: function () {
+                return this.uColor.data;
+            },
+            set: function (color) {
+                this.uColor.data = color;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method getUniformVector3
+         * @param name {string}
+         */
+        StandardModel.prototype.getUniformVector3 = function (name) {
+            return this.uColor.getUniformVector3(name);
+        };
         /**
          * @method getUniformMatrix3
          * @param name {string}
          */
-        ModelMatrixUniformProvider.prototype.getUniformMatrix3 = function (name) {
+        StandardModel.prototype.getUniformMatrix3 = function (name) {
             switch (name) {
                 case UNIFORM_NORMAL_MATRIX_NAME:
                     {
@@ -59,7 +79,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          * @method getUniformMatrix4
          * @param name {string}
          */
-        ModelMatrixUniformProvider.prototype.getUniformMatrix4 = function (name) {
+        StandardModel.prototype.getUniformMatrix4 = function (name) {
             switch (name) {
                 case UNIFORM_MODEL_MATRIX_NAME:
                     {
@@ -68,23 +88,20 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
                     }
                     break;
                 default: {
-                    return _super.prototype.getUniformMatrix4.call(this, name);
+                    return this.uColor.getUniformMatrix4(name);
                 }
             }
         };
         /**
          * @method getUniformMetaInfos
          */
-        ModelMatrixUniformProvider.prototype.getUniformMetaInfos = function () {
-            return ModelMatrixUniformProvider.getUniformMetaInfos();
-        };
-        ModelMatrixUniformProvider.getUniformMetaInfos = function () {
-            var uniforms = {};
+        StandardModel.prototype.getUniformMetaInfos = function () {
+            var uniforms = this.uColor.getUniformMetaInfos();
             uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
             uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
             return uniforms;
         };
-        return ModelMatrixUniformProvider;
+        return StandardModel;
     })(DefaultUniformProvider);
-    return ModelMatrixUniformProvider;
+    return StandardModel;
 });

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.39.0</em>
+            <em>API Docs for: 2.40.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,8 +65,8 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -88,12 +88,12 @@
                  2  6 10 14
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
-                                <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
+                                <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
                                 <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
@@ -101,6 +101,7 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StandardModel.html">StandardModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -110,9 +111,10 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -157,6 +159,8 @@
     <pre class="code prettyprint linenums">
 import clamp = require(&#x27;../math/clamp&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import ColorRGB = require(&#x27;../core/ColorRGB&#x27;);
+import Mutable = require(&#x27;../math/Mutable&#x27;);
 /**
  * A mutable type representing a color through its RGB components.
  * @class Color
@@ -165,8 +169,9 @@ import expectArg = require(&#x27;../checks/expectArg&#x27;);
  * it is common to use reference types, such as in this design. This mutability can lead to
  * difficult bugs because it is hard to reason about where a color may have changed. 
  */
-class Color {
+class Color implements ColorRGB, Mutable&lt;number[]&gt; {
   public data: number[];
+  public callback: () =&gt; number[];
   /**
    * @class Color
    * @constructor
@@ -251,6 +256,15 @@ class Color {
     else {
       return matchLightness(0.0,0.0,0.0);
     }
+  }
+  public static fromRGB(red: number, green: number, blue: number) {
+    expectArg(&#x27;red&#x27;, red).toBeNumber().toBeInClosedInterval(0, 1);
+    expectArg(&#x27;green&#x27;, green).toBeNumber().toBeInClosedInterval(0, 1);
+    expectArg(&#x27;blue&#x27;, blue).toBeNumber().toBeInClosedInterval(0, 1);
+    return new Color([red, green, blue]);
+  }
+  public static copy(color: ColorRGB): Color {
+    return new Color([color.red, color.green, color.blue]);
   }
 }
 

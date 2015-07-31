@@ -2,11 +2,12 @@ import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 import Spinor3 = require('../math/Spinor3');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
+import Color = require('../core/Color');
 /**
- * @class ModelMatrixUniformProvider
+ * @class StandardModel
  * @extends DefaultUniformProvider
  */
-declare class ModelMatrixUniformProvider extends DefaultUniformProvider {
+declare class StandardModel extends DefaultUniformProvider {
     /**
      * @property position
      * @type Vector3
@@ -18,10 +19,20 @@ declare class ModelMatrixUniformProvider extends DefaultUniformProvider {
      */
     attitude: Spinor3;
     /**
+     *
+     */
+    private uColor;
+    /**
      * @class Model
      * @constructor
      */
     constructor();
+    color: Color;
+    /**
+     * @method getUniformVector3
+     * @param name {string}
+     */
+    getUniformVector3(name: string): number[];
     /**
      * @method getUniformMatrix3
      * @param name {string}
@@ -42,6 +53,5 @@ declare class ModelMatrixUniformProvider extends DefaultUniformProvider {
      * @method getUniformMetaInfos
      */
     getUniformMetaInfos(): UniformMetaInfos;
-    static getUniformMetaInfos(): UniformMetaInfos;
 }
-export = ModelMatrixUniformProvider;
+export = StandardModel;

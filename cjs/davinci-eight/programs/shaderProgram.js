@@ -27,12 +27,14 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 args.attributes.forEach(function (a) {
                     var attributeDecl = shaderVariable(a);
                     attributeDecls.push(attributeDecl);
+                    // TODO: We should only build the locations based upon the active variables.
                     attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
                 });
                 // uniforms
                 args.uniforms.forEach(function (u) {
                     var uniformDecl = shaderVariable(u);
                     uniformDecls.push(uniformDecl);
+                    // TODO: ditto 
                     uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                 });
                 // varyings
@@ -56,6 +58,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 args.uniforms.forEach(function (u) {
                     var uniformDecl = shaderVariable(u);
                     uniformDecls.push(uniformDecl);
+                    // TODO: ditto
                     uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                 });
             }
@@ -102,6 +105,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 programId = void 0;
                 context = void 0;
                 contextGainId = void 0;
+                // TODO: free based on active varaibles, not all.
                 attributeDecls.forEach(function (attributeDecl) {
                     attributeLocations[attributeDecl.name].contextFree();
                 });
@@ -122,6 +126,17 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 uniformDecls.forEach(function (uniformDecl) {
                     uniformLocations[uniformDecl.name].contextGain(contextArg, program);
                 });
+                // TODO: Use the information about active attributes and locations to drive the locations.
+                var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
+                //console.log("activeAttributes: " + activeAttributes);
+                for (var a = 0; a < activeAttributes; a++) {
+                    var activeInfo = context.getActiveAttrib(program, a);
+                }
+                var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
+                //console.log("activeUniforms: " + activeUniforms);
+                for (var u = 0; u < activeUniforms; u++) {
+                    var activeInfo = context.getActiveUniform(program, u);
+                }
             }
         },
         contextLoss: function () {
@@ -129,6 +144,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
             programId = void 0;
             context = void 0;
             contextGainId = void 0;
+            // TODO: loss based on active varaibles, not all.
             attributeDecls.forEach(function (attributeDecl) {
                 attributeLocations[attributeDecl.name].contextLoss();
             });

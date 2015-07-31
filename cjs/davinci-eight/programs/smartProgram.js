@@ -22,11 +22,10 @@ var vertexShader = function (attributes, uniforms, vLight) {
         lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
     }
     for (name in uniforms) {
+        console.log("uniform " + name);
         lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
     }
-    if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-        lines.push("varying highp vec4 vColor;");
-    }
+    lines.push("varying highp vec4 vColor;");
     if (vLight) {
         lines.push("varying highp vec3 vLight;");
     }
@@ -54,6 +53,7 @@ var vertexShader = function (attributes, uniforms, vLight) {
     glPosition.unshift(ASSIGN);
     glPosition.unshift("gl_Position");
     lines.push(glPosition.join(''));
+    var vColorAssignLines = [];
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
         switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
             case 'vec4':
@@ -72,6 +72,25 @@ var vertexShader = function (attributes, uniforms, vLight) {
                 }
         }
     }
+    else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+        switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
+            case 'vec4':
+                {
+                    lines.push("  vColor = " + uniforms[Symbolic.UNIFORM_COLOR].name + SEMICOLON);
+                }
+                break;
+            case 'vec3':
+                {
+                    lines.push("  vColor = vec4(" + uniforms[Symbolic.UNIFORM_COLOR].name + ", 1.0);");
+                }
+                break;
+            default:
+                {
+                    throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+                }
+        }
+    }
+    lines.push(vColorAssignLines.join(''));
     if (vLight) {
         if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
             lines.push("  vec3 L = normalize(" + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION].name + ");");
@@ -101,17 +120,15 @@ var vertexShader = function (attributes, uniforms, vLight) {
 /**
  *
  */
-var fragmentShader = function (attributes, uniforms, vLight) {
+var fragmentShader = function (attributes, uniforms, vColor, vLight) {
     var lines = [];
-    if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-        lines.push("varying highp vec4 vColor;");
-    }
+    lines.push("varying highp vec4 vColor;");
     if (vLight) {
         lines.push("varying highp vec3 vLight;");
     }
     lines.push("void main(void) {");
     if (vLight) {
-        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+        if (vColor) {
             lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
         }
         else {
@@ -119,7 +136,7 @@ var fragmentShader = function (attributes, uniforms, vLight) {
         }
     }
     else {
-        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+        if (vColor) {
             lines.push("  gl_FragColor = vColor;");
         }
         else {
@@ -150,8 +167,9 @@ var smartProgram = function (attributes, uniformsList) {
             uniforms[name] = uniformsElement[name];
         }
     });
+    var vColor = true;
     var vLight = vLightRequired(uniforms);
-    var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vLight));
+    var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
     var publicAPI = {
         get attributes() {
             return innerProgram.attributes;

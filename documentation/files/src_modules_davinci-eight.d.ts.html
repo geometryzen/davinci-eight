@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.39.0</em>
+            <em>API Docs for: 2.40.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,8 +65,8 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -88,12 +88,12 @@
                  2  6 10 14
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
-                                <li><a href="../classes/ModelMatrixUniformProvider.html">ModelMatrixUniformProvider</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
+                                <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
                                 <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
@@ -101,6 +101,7 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StandardModel.html">StandardModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -110,9 +111,10 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -308,6 +310,7 @@ declare module EIGHT
     public static e1: Vector3;
     public static e2: Vector3;
     public static e3: Vector3;
+    public static copy(vector: Cartesian3): Vector3;
     constructor(vector?: number[]);
     multiplyScalar(s: number): Vector3;
     clone(): Vector3;
@@ -603,6 +606,8 @@ declare module EIGHT
     public blue: number;
     public data: number[];
     constructor(data?: number[]);
+    public static fromHSL(H: number, S: number, L: number): Color;
+    public static fromRGB(red: number, green: number, blue: number): Color;
   }
   class GeometryAdapter extends AttributeProvider
   {
@@ -680,6 +685,12 @@ declare module EIGHT
     shaders: SHADERS;
     model: MODEL;
   }
+  class Renderer extends RenderingContextUser
+  {
+    render(world: World, views: UniformProvider[]): void;
+  }
+  interface RendererParameters {
+  }
   class Viewport extends RenderingContextUser
   {
     canvas: HTMLCanvasElement;
@@ -702,6 +713,10 @@ declare module EIGHT
     premultipliedAlpha?: boolean;
     preserveDrawingBuffer?: boolean;
     stencil?: boolean;
+  }
+  interface WebGLRenderer extends RenderingContextUser
+  {
+    render(world: World, views: UniformProvider[]): void;
   }
   interface WindowAnimationRunner
   {
@@ -742,10 +757,20 @@ declare module EIGHT
     near?: number,
     far?: number): LinearPerspectiveCamera;
   /**
+   * Constructs and returns a Renderer.
+   * @param options Optional parameters for modifying the WebGL context.
+   */
+  function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
+  /**
    * Constructs and returns a Viewport.
    * @param options Optional parameters for modifying the WebGL context.
    */
   function viewport(canvas: HTMLCanvasElement, options?: ViewportParameters): Viewport;
+  /**
+   * Constructs and returns a WebGLRenderer.
+   * @param options Optional parameters for modifying the WebGL context.
+   */
+  function webGLRenderer(canvas: HTMLCanvasElement): WebGLRenderer;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */
@@ -771,10 +796,11 @@ declare module EIGHT
   /**
    *
    */
-  class ModelMatrixUniformProvider extends UniformProvider {
+  class StandardModel extends UniformProvider {
     public position: Vector3;
     public attitude: Spinor3;
     constructor();
+    get color(): Color;
   }
   /**
    *
@@ -801,7 +827,7 @@ declare module EIGHT
   /**
    *
    */
-  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, StandardModel&gt;;
   /**
    *
    */
@@ -842,7 +868,7 @@ declare module EIGHT
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, StandardModel&gt;;
   /**
    * Constructs and returns a cylinder mesh.
    */
@@ -856,7 +882,7 @@ declare module EIGHT
    */
   function cylinder(
     ambients: UniformProvider
-  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, StandardModel&gt;;
   /**
    *
    */
@@ -900,7 +926,7 @@ declare module EIGHT
   /**
    *
    */
-  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, StandardModel&gt;;
   /**
    * Constructs and returns an vortex mesh.
    */
@@ -914,7 +940,7 @@ declare module EIGHT
    */
   function vortex(
     ambients: UniformProvider
-  ): DrawableModel&lt;AttributeProvider, ShaderProgram, ModelMatrixUniformProvider&gt;;
+  ): DrawableModel&lt;AttributeProvider, ShaderProgram, StandardModel&gt;;
   /**
    *
    */

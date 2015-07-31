@@ -141,6 +141,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.37.0: 2015-07-28 BoxOptions
 * 2.38.0: 2015-07-28 SphereBuilder
 * 2.39.0: 2015-07-28 ArrowBuilder
+* 2.40.0: 2015-07-30 StandardModel
 
 ## License
 Copyright (c) 2014-2015 David Holmes

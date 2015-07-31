@@ -268,9 +268,15 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
    * @method toString
    * @return {string} A non-normative string representation of the target.
    */
-  toString(): string
-  {
+  toString(): string {
     return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
+  }
+  /**
+   * @method copy
+   * Copy constructor.
+   */
+  static copy(vector: Cartesian3): Vector3 {
+    return new Vector3([vector.x, vector.y, vector.z]);
   }
 }
 

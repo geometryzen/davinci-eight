@@ -6,6 +6,7 @@ define(["require", "exports"], function (require, exports) {
         Symbolic.ATTRIBUTE_COLOR = 'color';
         Symbolic.ATTRIBUTE_NORMAL = 'normal';
         Symbolic.UNIFORM_AMBIENT_LIGHT = 'AmbientLight';
+        Symbolic.UNIFORM_COLOR = 'Color';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT = 'DirectionalLight';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'directionalLightColor';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'directionalLightDirection';

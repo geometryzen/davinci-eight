@@ -106,6 +106,15 @@ var Color = (function () {
             return matchLightness(0.0, 0.0, 0.0);
         }
     };
+    Color.fromRGB = function (red, green, blue) {
+        expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
+        expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
+        expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
+        return new Color([red, green, blue]);
+    };
+    Color.copy = function (color) {
+        return new Color([color.red, color.green, color.blue]);
+    };
     return Color;
 })();
 module.exports = Color;

@@ -74,5 +74,10 @@ declare class Vector3 implements Cartesian3, Mutable<number[]> {
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string;
+    /**
+     * @method copy
+     * Copy constructor.
+     */
+    static copy(vector: Cartesian3): Vector3;
 }
 export = Vector3;
