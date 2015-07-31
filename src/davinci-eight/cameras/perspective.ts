@@ -25,7 +25,7 @@ let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
 var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000): LinearPerspectiveCamera {
 
   var base: View = view();
-  var projectionMatrix = new Matrix4();
+  var projectionMatrix = Matrix4.create();
   var matrixNeedsUpdate = true;
 
   var self: LinearPerspectiveCamera = {

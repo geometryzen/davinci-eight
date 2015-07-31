@@ -637,11 +637,21 @@ declare module EIGHT
   /**
    *
    */
-  class StandardModel extends UniformProvider {
+  class LocalModel extends UniformProvider {
     public position: Vector3;
     public attitude: Spinor3;
     constructor();
     get color(): Color;
+  }
+  /**
+   *
+   */
+  class Node extends UniformProvider {
+    public position: Vector3;
+    public attitude: Spinor3;
+    constructor();
+    get color(): Color;
+    setParent(parent: Node);
   }
   /**
    *
@@ -668,7 +678,7 @@ declare module EIGHT
   /**
    *
    */
-  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
   /**
    *
    */
@@ -709,7 +719,7 @@ declare module EIGHT
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
   /**
    * Constructs and returns a cylinder mesh.
    */
@@ -723,7 +733,7 @@ declare module EIGHT
    */
   function cylinder(
     ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+  ): DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
   /**
    *
    */
@@ -767,7 +777,7 @@ declare module EIGHT
   /**
    *
    */
-  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
   /**
    * Constructs and returns an vortex mesh.
    */
@@ -781,7 +791,7 @@ declare module EIGHT
    */
   function vortex(
     ambients: UniformProvider
-  ): DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+  ): DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
   /**
    *
    */

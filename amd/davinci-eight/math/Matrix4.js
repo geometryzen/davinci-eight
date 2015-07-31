@@ -15,13 +15,17 @@ define(["require", "exports"], function (require, exports) {
          * Constructs the Matrix4 initialized to the identity matrix.
          * @constructor
          */
-        function Matrix4() {
+        function Matrix4(elements) {
             /**
              * @property elements
              * @type Float32Array
              */
             this.elements = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+            this.elements = elements;
         }
+        Matrix4.create = function () {
+            return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+        };
         Matrix4.prototype.identity = function () {
             this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
             return this;

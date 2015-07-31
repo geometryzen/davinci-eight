@@ -21,7 +21,11 @@ class Matrix4 {
    * Constructs the Matrix4 initialized to the identity matrix.
    * @constructor
    */
-  constructor() {
+  constructor(elements: Float32Array) {
+    this.elements = elements;
+  }
+  public static create() {
+    return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
   }
   identity(): Matrix4 {
     this.set(

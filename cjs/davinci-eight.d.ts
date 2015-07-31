@@ -54,7 +54,8 @@ import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
-import StandardModel = require('davinci-eight/uniforms/StandardModel');
+import LocalModel = require('davinci-eight/uniforms/LocalModel');
+import Node = require('davinci-eight/uniforms/Node');
 import MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 import PointLight = require('davinci-eight/uniforms/PointLight');
 import UniformFloat = require('davinci-eight/uniforms/UniformFloat');
@@ -123,7 +124,8 @@ declare var eight: {
     TetrahedronGeometry: typeof TetrahedronGeometry;
     TubeGeometry: typeof TubeGeometry;
     VortexGeometry: typeof VortexGeometry;
-    StandardModel: typeof StandardModel;
+    LocalModel: typeof LocalModel;
+    Node: typeof Node;
     UniformFloat: typeof UniformFloat;
     UniformMat4: typeof UniformMat4;
     UniformVec2: typeof UniformVec2;
@@ -152,12 +154,12 @@ declare var eight: {
     vortexMesh: (options?: {
         wireFrame?: boolean;
     }) => AttributeProvider;
-    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
-    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
-    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
-    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
+    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
+    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
+    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
     SphereBuilder: typeof SphereBuilder;
-    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, StandardModel>;
+    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, LocalModel>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

@@ -8,7 +8,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
         var eye = new Vector3();
         var look = new Vector3();
         var up = Vector3.e2;
-        var viewMatrix = new Matrix4();
+        var viewMatrix = Matrix4.create();
         var base = new UniformMat4(UNIFORM_VIEW_MATRIX_NAME, Symbolic.UNIFORM_VIEW_MATRIX);
         base.callback = function () {
             if (eye.modified || look.modified || up.modified) {

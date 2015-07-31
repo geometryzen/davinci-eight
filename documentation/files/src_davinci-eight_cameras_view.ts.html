@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.40.0</em>
+            <em>API Docs for: 2.41.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -72,6 +72,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
+                                <li><a href="../classes/LocalModel.html">LocalModel</a></li>
                                 <li><a href="../classes/Matrix4
                 
                 The correspondence between the elements property index and the matrix entries is...
@@ -89,6 +90,7 @@
                  3  7 11 15</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
@@ -101,7 +103,6 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
-                                <li><a href="../classes/StandardModel.html">StandardModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -111,8 +112,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -179,7 +180,7 @@ let view = function(): View {
     let eye: Vector3 = new Vector3();
     let look: Vector3 = new Vector3();
     let up: Vector3 = Vector3.e2;
-    let viewMatrix: Matrix4 = new Matrix4();
+    let viewMatrix: Matrix4 = Matrix4.create();
     let base = new UniformMat4(UNIFORM_VIEW_MATRIX_NAME, Symbolic.UNIFORM_VIEW_MATRIX);
     base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
       if (eye.modified || look.modified || up.modified) {

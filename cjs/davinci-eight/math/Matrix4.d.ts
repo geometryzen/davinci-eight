@@ -21,7 +21,8 @@ declare class Matrix4 {
      * Constructs the Matrix4 initialized to the identity matrix.
      * @constructor
      */
-    constructor();
+    constructor(elements: Float32Array);
+    static create(): Matrix4;
     identity(): Matrix4;
     /**
      *

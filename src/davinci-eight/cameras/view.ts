@@ -20,7 +20,7 @@ let view = function(): View {
     let eye: Vector3 = new Vector3();
     let look: Vector3 = new Vector3();
     let up: Vector3 = Vector3.e2;
-    let viewMatrix: Matrix4 = new Matrix4();
+    let viewMatrix: Matrix4 = Matrix4.create();
     let base = new UniformMat4(UNIFORM_VIEW_MATRIX_NAME, Symbolic.UNIFORM_VIEW_MATRIX);
     base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
       if (eye.modified || look.modified || up.modified) {

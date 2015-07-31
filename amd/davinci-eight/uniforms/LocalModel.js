@@ -11,32 +11,32 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
     var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
     var UNIFORM_COLOR_NAME = 'uColor';
     function modelViewMatrix(position, attitude) {
-        var matrix = new Matrix4();
+        var matrix = Matrix4.create();
         matrix.identity();
         matrix.translate(position);
-        var rotation = new Matrix4();
+        var rotation = Matrix4.create();
         rotation.rotate(attitude);
         matrix.mul(rotation);
         return matrix;
     }
     /**
-     * @class StandardModel
+     * @class LocalModel
      * @extends DefaultUniformProvider
      */
-    var StandardModel = (function (_super) {
-        __extends(StandardModel, _super);
+    var LocalModel = (function (_super) {
+        __extends(LocalModel, _super);
         /**
          * @class Model
          * @constructor
          */
-        function StandardModel() {
+        function LocalModel() {
             _super.call(this);
             this.position = new Vector3();
             this.attitude = new Spinor3();
             this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
             this.uColor.data = Color.fromRGB(1, 1, 1);
         }
-        Object.defineProperty(StandardModel.prototype, "color", {
+        Object.defineProperty(LocalModel.prototype, "color", {
             get: function () {
                 return this.uColor.data;
             },
@@ -50,14 +50,14 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          * @method getUniformVector3
          * @param name {string}
          */
-        StandardModel.prototype.getUniformVector3 = function (name) {
+        LocalModel.prototype.getUniformVector3 = function (name) {
             return this.uColor.getUniformVector3(name);
         };
         /**
          * @method getUniformMatrix3
          * @param name {string}
          */
-        StandardModel.prototype.getUniformMatrix3 = function (name) {
+        LocalModel.prototype.getUniformMatrix3 = function (name) {
             switch (name) {
                 case UNIFORM_NORMAL_MATRIX_NAME:
                     {
@@ -79,7 +79,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          * @method getUniformMatrix4
          * @param name {string}
          */
-        StandardModel.prototype.getUniformMatrix4 = function (name) {
+        LocalModel.prototype.getUniformMatrix4 = function (name) {
             switch (name) {
                 case UNIFORM_MODEL_MATRIX_NAME:
                     {
@@ -95,13 +95,13 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
         /**
          * @method getUniformMetaInfos
          */
-        StandardModel.prototype.getUniformMetaInfos = function () {
+        LocalModel.prototype.getUniformMetaInfos = function () {
             var uniforms = this.uColor.getUniformMetaInfos();
             uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
             uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
             return uniforms;
         };
-        return StandardModel;
+        return LocalModel;
     })(DefaultUniformProvider);
-    return StandardModel;
+    return LocalModel;
 });

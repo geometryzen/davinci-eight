@@ -21,7 +21,6 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic'], function (
             lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
         }
         for (name in uniforms) {
-            console.log("uniform " + name);
             lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
         }
         lines.push("varying highp vec4 vColor;");

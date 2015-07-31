@@ -18,7 +18,7 @@ var perspective = function (fov, aspect, near, far) {
     if (near === void 0) { near = 0.1; }
     if (far === void 0) { far = 2000; }
     var base = view();
-    var projectionMatrix = new Matrix4();
+    var projectionMatrix = Matrix4.create();
     var matrixNeedsUpdate = true;
     var self = {
         // Delegate to the base camera.

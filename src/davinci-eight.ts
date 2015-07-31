@@ -90,7 +90,8 @@ import AmbientLight               = require('davinci-eight/uniforms/AmbientLight
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUniformProvider');
 import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight');
-import StandardModel = require('davinci-eight/uniforms/StandardModel');
+import LocalModel                 = require('davinci-eight/uniforms/LocalModel');
+import Node                       = require('davinci-eight/uniforms/Node');
 import MultiUniformProvider       = require('davinci-eight/uniforms/MultiUniformProvider');
 import PointLight                 = require('davinci-eight/uniforms/PointLight');
 import uniforms                   = require('davinci-eight/uniforms/uniforms');
@@ -179,7 +180,8 @@ var eight = {
   get TetrahedronGeometry() { return TetrahedronGeometry; },
   get TubeGeometry() { return TubeGeometry; },
   get VortexGeometry() { return VortexGeometry; },
-  get StandardModel() { return StandardModel; },
+  get LocalModel() { return LocalModel; },
+  get Node() { return Node; },
   get UniformFloat() { return UniformFloat; },
   get UniformMat4() { return UniformMat4; },
   get UniformVec2() { return UniformVec2; },

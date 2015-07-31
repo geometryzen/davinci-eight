@@ -18,21 +18,21 @@ let UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
 
 let UNIFORM_COLOR_NAME         = 'uColor';
 
-function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
-  var matrix = new Matrix4();
+function localMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
+  var matrix = Matrix4.create();
   matrix.identity();
   matrix.translate(position);
-  var rotation = new Matrix4();
+  var rotation = Matrix4.create();
   rotation.rotate(attitude);
   matrix.mul(rotation);
   return matrix;
 }
 
 /**
- * @class StandardModel
+ * @class Node
  * @extends DefaultUniformProvider
  */
-class StandardModel extends DefaultUniformProvider {
+class Node extends DefaultUniformProvider {
   /**
    * @property position
    * @type Vector3
@@ -47,6 +47,8 @@ class StandardModel extends DefaultUniformProvider {
    *
    */
   private uColor: UniformColor;
+  private parent: Node;
+  private children: Node[] = [];
   /**
    * @class Model
    * @constructor
@@ -57,6 +59,24 @@ class StandardModel extends DefaultUniformProvider {
     this.attitude = new Spinor3();
     this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
     this.uColor.data = Color.fromRGB(1, 1, 1);
+  }
+  setParent(parent: Node) {
+    if (this.parent) {
+      this.parent.removeChild(this);
+    }
+    if (parent) {
+      parent.addChild(this);
+    }
+    this.parent = parent;
+  }
+  addChild(child: Node) {
+    this.children.push(this);
+  }
+  removeChild(child: Node) {
+    var index = this.children.indexOf(child);
+    if (index >= 0) {
+      this.children.splice(index, 1);
+    }
   }
   get color(): Color {
     return this.uColor.data;
@@ -82,7 +102,7 @@ class StandardModel extends DefaultUniformProvider {
         // We could cache it, being careful that we don't assume the callback order.
         // We don't want to compute it in the shader beacause that would be per-vertex.
         var normalMatrix = new Matrix3();
-        var mv = modelViewMatrix(this.position, this.attitude);
+        var mv = localMatrix(this.position, this.attitude);
         normalMatrix.normalFromMatrix4(mv);
         return {transpose: false, matrix3: new Float32Array(normalMatrix.elements)};
       }
@@ -99,8 +119,17 @@ class StandardModel extends DefaultUniformProvider {
   getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
     switch(name) {
       case UNIFORM_MODEL_MATRIX_NAME: {
-        var elements = modelViewMatrix(this.position, this.attitude).elements;
-        return {transpose: false, matrix4: new Float32Array(elements)};
+        if (this.parent) {
+          var m1 = new Matrix4(this.parent.getUniformMatrix4(name).matrix4);
+          var m2 = localMatrix(this.position, this.attitude);
+          var m = Matrix4.create().multiplyMatrices(m1, m2);
+          return {transpose: false, matrix4: new Float32Array(m.elements)};
+
+        }
+        else {
+          var elements = localMatrix(this.position, this.attitude).elements;
+          return {transpose: false, matrix4: new Float32Array(elements)};
+        }
       }
       break;
       default: {
@@ -119,4 +148,4 @@ class StandardModel extends DefaultUniformProvider {
   }
 }
 
-export = StandardModel;
+export = Node;

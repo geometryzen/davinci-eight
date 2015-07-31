@@ -154,7 +154,7 @@ class FrenetFrames {
     var binormals: Vector3[] = [];
 
     var vec = new Vector3([0, 0, 0]);
-    var mat = new Matrix4();
+    var mat = Matrix4.create();
 
     var numpoints: number = segments + 1;
     var theta: number;

@@ -22,7 +22,7 @@ var frustum = function (left, right, bottom, top, near, far) {
     if (near === void 0) { near = 1; }
     if (far === void 0) { far = 1000; }
     var base = view();
-    var projectionMatrix = new Matrix4();
+    var projectionMatrix = Matrix4.create();
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left, right, bottom, top, near, far);
     }

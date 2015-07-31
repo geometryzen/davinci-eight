@@ -67,7 +67,8 @@ var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 var DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
-var StandardModel = require('davinci-eight/uniforms/StandardModel');
+var LocalModel = require('davinci-eight/uniforms/LocalModel');
+var Node = require('davinci-eight/uniforms/Node');
 var MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 var PointLight = require('davinci-eight/uniforms/PointLight');
 var uniforms = require('davinci-eight/uniforms/uniforms');
@@ -151,7 +152,8 @@ var eight = {
     get TetrahedronGeometry() { return TetrahedronGeometry; },
     get TubeGeometry() { return TubeGeometry; },
     get VortexGeometry() { return VortexGeometry; },
-    get StandardModel() { return StandardModel; },
+    get LocalModel() { return LocalModel; },
+    get Node() { return Node; },
     get UniformFloat() { return UniformFloat; },
     get UniformMat4() { return UniformMat4; },
     get UniformVec2() { return UniformVec2; },

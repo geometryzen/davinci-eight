@@ -121,7 +121,7 @@ var FrenetFrames = (function () {
         var normals = [];
         var binormals = [];
         var vec = new Vector3([0, 0, 0]);
-        var mat = new Matrix4();
+        var mat = Matrix4.create();
         var numpoints = segments + 1;
         var theta;
         var epsilon = 0.0001;

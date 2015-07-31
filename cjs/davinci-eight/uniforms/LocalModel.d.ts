@@ -4,10 +4,10 @@ import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 /**
- * @class StandardModel
+ * @class LocalModel
  * @extends DefaultUniformProvider
  */
-declare class StandardModel extends DefaultUniformProvider {
+declare class LocalModel extends DefaultUniformProvider {
     /**
      * @property position
      * @type Vector3
@@ -54,4 +54,4 @@ declare class StandardModel extends DefaultUniformProvider {
      */
     getUniformMetaInfos(): UniformMetaInfos;
 }
-export = StandardModel;
+export = LocalModel;
