@@ -1,5 +1,5 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 declare function vortexMesh(options?: {
     wireFrame?: boolean;
-}): AttributeProvider;
+}): AttribProvider;
 export = vortexMesh;

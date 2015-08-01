@@ -3,7 +3,7 @@
 //
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import EllipsoidMesh = require('../mesh/EllipsoidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
@@ -146,21 +146,21 @@ var ellipsoid = function(spec?): EllipsoidMesh {
     get dynamic(): boolean {
       return false;
     },
-    getAttributeMetaInfos(): AttributeMetaInfos {
+    getAttribMeta(): AttribMetaInfos {
       return {
         position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
         color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
         normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
-    hasElements(): boolean {
+    hasElementArray(): boolean {
       return false;
     },
-    getElements(): Uint16Array {
+    getElementArray(): Uint16Array {
       // We don't support element arrays (yet).
       return;
     },
-    getVertexAttributeData(name: string) {
+    getAttribArray(name: string) {
       switch(name) {
         case 'aVertexPosition': {
           return aVertexPositionArray;

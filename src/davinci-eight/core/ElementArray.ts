@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import convertUsage = require('../core/convertUsage');
 import DataUsage = require('../core/DataUsage');
 
@@ -8,14 +8,14 @@ import DataUsage = require('../core/DataUsage');
  */
 class ElementArray {
   private buffer: WebGLBuffer;
-  private attributes: AttributeProvider;
+  private attributes: AttribProvider;
   private context: WebGLRenderingContext;
   /**
    * @class ElementArray
    * @constructor
-   * @param attributes {AttributeProvider}
+   * @param attributes {AttribProvider}
    */
-  constructor(attributes: AttributeProvider) {
+  constructor(attributes: AttribProvider) {
     this.attributes = attributes;
   }
   /**
@@ -33,7 +33,7 @@ class ElementArray {
    * @param context {WebGLRenderingContext}
    */
   contextGain(context: WebGLRenderingContext, contextId : string) {
-    if (this.attributes.hasElements()) {
+    if (this.attributes.hasElementArray()) {
       this.buffer = context.createBuffer();
     }
     this.context = context;
@@ -47,11 +47,11 @@ class ElementArray {
   }
   /**
    * @method bufferData
-   * @param attributes {AttributeProvider}
+   * @param attributes {AttribProvider}
    */
-  bufferData(attributes: AttributeProvider) {
+  bufferData(attributes: AttribProvider) {
     if (this.buffer) {
-      let elements: { usage: DataUsage; data: Uint16Array } = attributes.getElements();
+      let elements: { usage: DataUsage; data: Uint16Array } = attributes.getElementArray();
       this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);
       let usage: number = convertUsage(elements.usage, this.context);
       this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements.data, usage);

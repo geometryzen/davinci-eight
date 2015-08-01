@@ -54,8 +54,8 @@ class AmbientLight implements UniformProvider {
   getUniformVector4(name: string) {
     return this.uColor.getUniformVector4(name);
   }
-  getUniformMetaInfos() {
-    return this.uColor.getUniformMetaInfos();
+  getUniformMeta() {
+    return this.uColor.getUniformMeta();
   }
 }
 

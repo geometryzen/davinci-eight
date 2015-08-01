@@ -5,7 +5,7 @@ var smartProgram = require('../programs/smartProgram');
 function vortex(ambients) {
     var mesh = vortexMesh();
     var model = new Node();
-    var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
+    var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
     return drawableModel(mesh, shaders, model);
 }
 module.exports = vortex;

@@ -5,20 +5,20 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
     /**
      * Utility class for managing a shader attribute variable.
      * While this class may be created directly by the user, it is preferable
-     * to use the ShaderAttributeLocation instances managed by the ShaderProgram because
+     * to use the ShaderAttribLocation instances managed by the ShaderProgram because
      * there will be improved integrity and context loss management.
-     * @class ShaderAttributeLocation.
+     * @class ShaderAttribLocation.
      */
-    var ShaderAttributeLocation = (function () {
+    var ShaderAttribLocation = (function () {
         /**
          * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
          * In particular, this class manages buffer allocation, location caching, and data binding.
-         * @class ShaderAttributeLocation
+         * @class ShaderAttribLocation
          * @constructor
          * @param name {string} The name of the variable as it appears in the GLSL program.
          * @param glslType {string} The type of the variable as it appears in the GLSL program.
          */
-        function ShaderAttributeLocation(name, glslType) {
+        function ShaderAttribLocation(name, glslType) {
             this.$name = name;
             switch (glslType) {
                 case 'float':
@@ -34,31 +34,31 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
                     break;
                 default: {
                     // TODO
-                    throw new Error("Argument glslType in ShaderAttributeLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
+                    throw new Error("Argument glslType in ShaderAttribLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
                 }
             }
         }
-        Object.defineProperty(ShaderAttributeLocation.prototype, "name", {
+        Object.defineProperty(ShaderAttribLocation.prototype, "name", {
             get: function () {
                 return this.$name;
             },
             enumerable: true,
             configurable: true
         });
-        ShaderAttributeLocation.prototype.contextFree = function () {
+        ShaderAttribLocation.prototype.contextFree = function () {
             if (this.buffer) {
                 this.context.deleteBuffer(this.buffer);
                 this.contextLoss();
             }
         };
-        ShaderAttributeLocation.prototype.contextGain = function (context, program) {
+        ShaderAttribLocation.prototype.contextGain = function (context, program) {
             this.location = context.getAttribLocation(program, this.name);
             this.context = context;
             if (existsLocation(this.location)) {
                 this.buffer = context.createBuffer();
             }
         };
-        ShaderAttributeLocation.prototype.contextLoss = function () {
+        ShaderAttribLocation.prototype.contextLoss = function () {
             this.location = void 0;
             this.buffer = void 0;
             this.context = void 0;
@@ -71,7 +71,7 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
          * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
          * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
          */
-        ShaderAttributeLocation.prototype.dataFormat = function (size, type, normalized, stride, offset) {
+        ShaderAttribLocation.prototype.dataFormat = function (size, type, normalized, stride, offset) {
             if (normalized === void 0) { normalized = false; }
             if (stride === void 0) { stride = 0; }
             if (offset === void 0) { offset = 0; }
@@ -85,19 +85,19 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
             }
         };
         /**
-         * FIXME This should not couple to an AttributeProvider.
+         * FIXME This should not couple to an AttribProvider.
          * @method bufferData
          */
-        ShaderAttributeLocation.prototype.bufferData = function (data, usage) {
+        ShaderAttribLocation.prototype.bufferData = function (data, usage) {
             if (existsLocation(this.location)) {
                 this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
                 this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
             }
         };
         /*
-        bufferData(attributes: AttributeProvider) {
+        bufferData(attributes: AttribProvider) {
           if (existsLocation(this.location)) {
-            let thing = attributes.getVertexAttributeData(this.name);
+            let thing = attributes.getAttribArray(this.name);
             if (thing) {
               this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
               this.context.bufferData(this.context.ARRAY_BUFFER, thing.data, convertUsage(thing.usage, this.context));
@@ -109,12 +109,12 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
           }
         }
         */
-        ShaderAttributeLocation.prototype.enable = function () {
+        ShaderAttribLocation.prototype.enable = function () {
             if (existsLocation(this.location)) {
                 this.context.enableVertexAttribArray(this.location);
             }
         };
-        ShaderAttributeLocation.prototype.disable = function () {
+        ShaderAttribLocation.prototype.disable = function () {
             if (existsLocation(this.location)) {
                 this.context.disableVertexAttribArray(this.location);
             }
@@ -122,10 +122,10 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
         /**
          * @method toString
          */
-        ShaderAttributeLocation.prototype.toString = function () {
-            return ["ShaderAttributeLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
+        ShaderAttribLocation.prototype.toString = function () {
+            return ["ShaderAttribLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
         };
-        return ShaderAttributeLocation;
+        return ShaderAttribLocation;
     })();
-    return ShaderAttributeLocation;
+    return ShaderAttribLocation;
 });

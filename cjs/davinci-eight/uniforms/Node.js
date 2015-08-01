@@ -115,10 +115,10 @@ var Node = (function (_super) {
         }
     };
     /**
-     * @method getUniformMetaInfos
+     * @method getUniformMeta
      */
-    Node.prototype.getUniformMetaInfos = function () {
-        var uniforms = this.uColor.getUniformMetaInfos();
+    Node.prototype.getUniformMeta = function () {
+        var uniforms = this.uColor.getUniformMeta();
         uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: this.modelMatrixName, glslType: 'mat4' };
         uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: this.normalMatrixName, glslType: 'mat3' };
         return uniforms;

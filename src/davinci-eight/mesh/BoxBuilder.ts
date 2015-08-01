@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import boxMesh = require('../mesh/boxMesh');
@@ -102,7 +102,7 @@ class BoxBuilder {
     this.$normalVarName = normalVarName;
     return this;
   }
-  buildMesh(): AttributeProvider {
+  buildMesh(): AttribProvider {
     return boxMesh(this);
   }
 }

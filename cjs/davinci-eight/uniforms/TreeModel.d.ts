@@ -34,8 +34,8 @@ declare class TreeModel extends DefaultUniformProvider {
         matrix4: Float32Array;
     };
     /**
-     * @method getUniformMetaInfos
+     * @method getUniformMeta
      */
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = TreeModel;

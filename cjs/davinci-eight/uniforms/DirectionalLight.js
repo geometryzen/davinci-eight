@@ -60,8 +60,8 @@ var DirectionalLight = (function () {
     DirectionalLight.prototype.getUniformVector4 = function (name) {
         return this.multi.getUniformVector4(name);
     };
-    DirectionalLight.prototype.getUniformMetaInfos = function () {
-        return this.multi.getUniformMetaInfos();
+    DirectionalLight.prototype.getUniformMeta = function () {
+        return this.multi.getUniformMeta();
     };
     return DirectionalLight;
 })();

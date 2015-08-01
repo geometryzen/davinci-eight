@@ -50,8 +50,8 @@ declare class LocalModel extends DefaultUniformProvider {
         matrix4: Float32Array;
     };
     /**
-     * @method getUniformMetaInfos
+     * @method getUniformMeta
      */
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = LocalModel;

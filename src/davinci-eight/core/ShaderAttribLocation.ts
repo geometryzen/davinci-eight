@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import convertUsage = require('../core/convertUsage');
 import DataUsage = require('../core/DataUsage');
 
@@ -9,11 +9,11 @@ function existsLocation(location: number): boolean {
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
- * to use the ShaderAttributeLocation instances managed by the ShaderProgram because
+ * to use the ShaderAttribLocation instances managed by the ShaderProgram because
  * there will be improved integrity and context loss management.
- * @class ShaderAttributeLocation.
+ * @class ShaderAttribLocation.
  */
-class ShaderAttributeLocation {
+class ShaderAttribLocation {
   /**
    * @property name {string} The name of the variable as it appears in the GLSL program. 
    */
@@ -31,7 +31,7 @@ class ShaderAttributeLocation {
   /**
    * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
    * In particular, this class manages buffer allocation, location caching, and data binding.
-   * @class ShaderAttributeLocation
+   * @class ShaderAttribLocation
    * @constructor
    * @param name {string} The name of the variable as it appears in the GLSL program.
    * @param glslType {string} The type of the variable as it appears in the GLSL program.
@@ -51,7 +51,7 @@ class ShaderAttributeLocation {
       break;
       default: {
         // TODO
-        throw new Error("Argument glslType in ShaderAttributeLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
+        throw new Error("Argument glslType in ShaderAttribLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
       }
     }
   }
@@ -95,7 +95,7 @@ class ShaderAttributeLocation {
     }
   }
   /**
-   * FIXME This should not couple to an AttributeProvider.
+   * FIXME This should not couple to an AttribProvider.
    * @method bufferData
    */
   bufferData(data: Float32Array, usage: DataUsage) {
@@ -105,9 +105,9 @@ class ShaderAttributeLocation {
     }
   }
   /*
-  bufferData(attributes: AttributeProvider) {
+  bufferData(attributes: AttribProvider) {
     if (existsLocation(this.location)) {
-      let thing = attributes.getVertexAttributeData(this.name);
+      let thing = attributes.getAttribArray(this.name);
       if (thing) {
         this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
         this.context.bufferData(this.context.ARRAY_BUFFER, thing.data, convertUsage(thing.usage, this.context));
@@ -133,8 +133,8 @@ class ShaderAttributeLocation {
    * @method toString
    */
   toString(): string {
-    return ["ShaderAttributeLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
+    return ["ShaderAttribLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
   }
 }
 
-export = ShaderAttributeLocation;
+export = ShaderAttribLocation;

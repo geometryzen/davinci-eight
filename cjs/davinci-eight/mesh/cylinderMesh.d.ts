@@ -1,5 +1,5 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 declare function cylinderMesh(options?: {
     wireFrame?: boolean;
-}): AttributeProvider;
+}): AttribProvider;
 export = cylinderMesh;

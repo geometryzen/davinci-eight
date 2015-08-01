@@ -16,6 +16,6 @@ declare class UniformColor extends DefaultUniformProvider implements UniformVari
     data: Color;
     callback: () => Color;
     getUniformVector3(name: string): number[];
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = UniformColor;

@@ -38,8 +38,8 @@ class UniformMat4 extends DefaultUniformProvider implements UniformVariable<{tra
       }
     }
   }
-  getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = super.getUniformMetaInfos();
+  getUniformMeta(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = super.getUniformMeta();
     uniforms[this.id] = {name: this.name, glslType: 'mat4'};
     return uniforms;
   }

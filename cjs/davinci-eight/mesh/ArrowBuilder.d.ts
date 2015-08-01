@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import Cartesian3 = require('../math/Cartesian3');
 /**
@@ -27,6 +27,6 @@ declare class ArrowBuilder {
     setHeightSegments(heightSegments: number): ArrowBuilder;
     setDepthSegments(depthSegments: number): ArrowBuilder;
     setWireFrame(wireFrame: boolean): ArrowBuilder;
-    buildMesh(): AttributeProvider;
+    buildMesh(): AttribProvider;
 }
 export = ArrowBuilder;

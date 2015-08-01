@@ -12,33 +12,33 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
 
     parameters = parameters || {};
 
-    //var drawContext = new FrameworkDrawContext();
     var gl: WebGLRenderingContext;
-    var gid: string;
+    var glId: string;
 
-    var publicAPI: Renderer = {
+    let self: Renderer = {
       get canvas() { return canvas; },
       get context(): WebGLRenderingContext { return gl;},
       contextFree() {
         gl = void 0;
-        gid = void 0;
+        glId = void 0;
       },
-      contextGain(context: WebGLRenderingContext, contextIdArg: string) {
+      contextGain(context: WebGLRenderingContext, contextId: string) {
+        expectArg('contextId', contextId).toBeString();
         gl = context;
-        gid = contextIdArg;
+        glId = contextId;
       },
       contextLoss() {
         gl = void 0;
-        gid = void 0;
+        glId = void 0;
       },
       hasContext() {
         return !!gl;
       },
-      render(drawList: DrawList, views: UniformProvider[]) {
+      render(drawList: DrawList, view: UniformProvider) {
         expectArg('drawList', drawList).toNotBeNull();
         if (gl) {
           if (!drawList.hasContext()) {
-            drawList.contextGain(gl, gid);
+            drawList.contextGain(gl, glId);
           }
           var programLoaded;
           for (var drawGroupName in drawList.drawGroups) {
@@ -48,9 +48,7 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
                 drawable.useProgram();
                 programLoaded = true;
               }
-              views.forEach(function(view) {
-                drawable.draw(view);
-              });
+              drawable.draw(view);
             });
           }
         }
@@ -60,7 +58,7 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
       },
     };
 
-    return publicAPI;
+    return self;
 };
 
 export = renderer;

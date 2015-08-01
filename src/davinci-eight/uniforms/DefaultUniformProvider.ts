@@ -54,10 +54,10 @@ class DefaultUniformProvider implements UniformProvider {
   }
   /**
    * 
-   * @method getUniformMetaInfos
+   * @method getUniformMeta
    * @return An empty object that derived class may modify.
    */
-  getUniformMetaInfos(): UniformMetaInfos {
+  getUniformMeta(): UniformMetaInfos {
     var uniforms: UniformMetaInfos = {};
     return uniforms;
   }

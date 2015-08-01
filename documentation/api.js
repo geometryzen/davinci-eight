@@ -4,9 +4,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "AmbientLight",
         "ArrowBuilder",
         "ArrowOptions",
-        "AttributeMetaInfo",
-        "AttributeMetaInfos",
-        "AttributeProvider",
+        "AttribMetaInfo",
+        "AttribMetaInfos",
+        "AttribProvider",
         "BoxBuilder",
         "BoxMesh",
         "Cartesian3",
@@ -36,8 +36,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "PointLight",
         "Renderer",
         "RenderingContextUser",
-        "ShaderAttributeLocation",
-        "ShaderAttributeLocation.",
+        "ShaderAttribLocation",
+        "ShaderAttribLocation.",
         "ShaderProgram",
         "ShaderUniformLocation",
         "ShaderVariableDecl",
@@ -62,12 +62,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "view"
     ],
     "modules": [
-        "d8"
+        "EIGHT"
     ],
     "allModules": [
         {
-            "displayName": "d8",
-            "name": "d8"
+            "displayName": "EIGHT",
+            "name": "EIGHT"
         }
     ]
 } };

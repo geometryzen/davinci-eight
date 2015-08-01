@@ -11,7 +11,7 @@ var EVENT_NAME_RESIZE = 'resize';
 var TAG_NAME_CANVAS = 'canvas';
 
 function removeElementsByTagName(doc: Document, tagname: string) {
-    var elements = doc.getElementsByTagName(tagname);
+    var elements: NodeList = doc.getElementsByTagName(tagname);
     for (var i = elements.length - 1; i >= 0; i--) {
         var e = elements[i];
         e.parentNode.removeChild(e);

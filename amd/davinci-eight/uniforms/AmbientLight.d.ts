@@ -34,6 +34,6 @@ declare class AmbientLight implements UniformProvider {
     getUniformVector2(name: string): number[];
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = AmbientLight;

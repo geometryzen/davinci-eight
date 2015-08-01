@@ -7,7 +7,7 @@ var ElementArray = (function () {
     /**
      * @class ElementArray
      * @constructor
-     * @param attributes {AttributeProvider}
+     * @param attributes {AttribProvider}
      */
     function ElementArray(attributes) {
         this.attributes = attributes;
@@ -27,7 +27,7 @@ var ElementArray = (function () {
      * @param context {WebGLRenderingContext}
      */
     ElementArray.prototype.contextGain = function (context, contextId) {
-        if (this.attributes.hasElements()) {
+        if (this.attributes.hasElementArray()) {
             this.buffer = context.createBuffer();
         }
         this.context = context;
@@ -41,11 +41,11 @@ var ElementArray = (function () {
     };
     /**
      * @method bufferData
-     * @param attributes {AttributeProvider}
+     * @param attributes {AttribProvider}
      */
     ElementArray.prototype.bufferData = function (attributes) {
         if (this.buffer) {
-            var elements = attributes.getElements();
+            var elements = attributes.getElementArray();
             this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);
             var usage = convertUsage(elements.usage, this.context);
             this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements.data, usage);

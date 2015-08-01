@@ -21,6 +21,6 @@ declare class UniformFloat extends DefaultUniformProvider implements UniformVari
     data: number;
     callback: () => number;
     getUniformFloat(name: string): number;
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = UniformFloat;

@@ -2,9 +2,9 @@ var ElementArray = require('../core/ElementArray');
 var ChainedUniformProvider = require('../uniforms/ChainedUniformProvider');
 var drawableModel = function (mesh, shaders, model) {
     /**
-     * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
+     * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
      */
-    function findAttributeMetaInfoByVariableName(name, attributes) {
+    function findAttribMetaInfoByVariableName(name, attributes) {
         for (var key in attributes) {
             var attribute = attributes[key];
             if (attribute.name === name) {
@@ -13,11 +13,11 @@ var drawableModel = function (mesh, shaders, model) {
         }
     }
     /**
-     * Constructs a ShaderAttributeLocation from a declaration.
+     * Constructs a ShaderAttribLocation from a declaration.
      */
     function shaderAttributeLocationFromDecl(declaration) {
         // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
-        var attribute = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
+        var attribute = findAttribMetaInfoByVariableName(declaration.name, mesh.getAttribMeta());
         if (attribute) {
             return shaders.attributeLocation(declaration.name);
         }
@@ -35,7 +35,7 @@ var drawableModel = function (mesh, shaders, model) {
         return shaders.uniformLocation(declaration.name);
     }
     function checkUniformsCompleteAndReady(provider) {
-        var metas = provider.getUniformMetaInfos();
+        var metas = provider.getUniformMeta();
         shaders.uniforms.forEach(function (uniformDecl) {
             var match = void 0;
             for (var id in metas) {
@@ -69,7 +69,7 @@ var drawableModel = function (mesh, shaders, model) {
         // Make sure to update the mesh first so that the shaders gets the correct data.
         mesh.update(shaders.attributes);
         vertexAttributes.forEach(function (vertexAttribute) {
-            var thing = mesh.getVertexAttributeData(vertexAttribute.name);
+            var thing = mesh.getAttribArray(vertexAttribute.name);
             if (thing) {
                 vertexAttribute.bufferData(thing.data, thing.usage);
             }
@@ -232,7 +232,7 @@ var drawableModel = function (mesh, shaders, model) {
                     vertexAttribute.enable();
                 });
                 vertexAttributes.forEach(function (vertexAttribute) {
-                    var attribute = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+                    var attribute = findAttribMetaInfoByVariableName(vertexAttribute.name, mesh.getAttribMeta());
                     if (attribute) {
                         var size = attribute.size;
                         var type = context.FLOAT; //attribute.dataType;

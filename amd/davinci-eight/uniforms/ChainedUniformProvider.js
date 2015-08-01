@@ -67,13 +67,13 @@ define(["require", "exports"], function (require, exports) {
                 return this.fallback.getUniformVector4(name);
             }
         };
-        ChainedUniformProvider.prototype.getUniformMetaInfos = function () {
+        ChainedUniformProvider.prototype.getUniformMeta = function () {
             var uniforms = {};
-            var ones = this.provider.getUniformMetaInfos();
+            var ones = this.provider.getUniformMeta();
             for (name in ones) {
                 uniforms[name] = ones[name];
             }
-            var twos = this.fallback.getUniformMetaInfos();
+            var twos = this.fallback.getUniformMeta();
             for (name in twos) {
                 uniforms[name] = twos[name];
             }

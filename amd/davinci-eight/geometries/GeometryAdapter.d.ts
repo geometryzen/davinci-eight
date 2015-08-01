@@ -1,15 +1,15 @@
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Geometry = require('../geometries/Geometry');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 /**
- * Adapter from a Geometry to a AttributeProvider.
+ * Adapter from a Geometry to a AttribProvider.
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-declare class GeometryAdapter implements AttributeProvider {
+declare class GeometryAdapter implements AttribProvider {
     geometry: Geometry;
     private elementArray;
     private aVertexPositionArray;
@@ -24,7 +24,7 @@ declare class GeometryAdapter implements AttributeProvider {
     /**
      * @class GeometryAdapter
      * @constructor
-     * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
+     * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
      */
     constructor(geometry: Geometry, options?: {
         drawMode?: DrawMode;
@@ -35,16 +35,16 @@ declare class GeometryAdapter implements AttributeProvider {
     drawMode: DrawMode;
     draw(context: WebGLRenderingContext): void;
     dynamic: boolean;
-    hasElements(): boolean;
-    getElements(): {
+    hasElementArray(): boolean;
+    getElementArray(): {
         usage: DataUsage;
         data: Uint16Array;
     };
-    getVertexAttributeData(name: string): {
+    getAttribArray(name: string): {
         usage: DataUsage;
         data: Float32Array;
     };
-    getAttributeMetaInfos(): AttributeMetaInfos;
+    getAttribMeta(): AttribMetaInfos;
     update(attributes: ShaderVariableDecl[]): void;
     private computeLines();
     private computePoints();

@@ -138,10 +138,10 @@ class Node extends TreeModel {
     }
   }
   /**
-   * @method getUniformMetaInfos
+   * @method getUniformMeta
    */
-  getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = this.uColor.getUniformMetaInfos();
+  getUniformMeta(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = this.uColor.getUniformMeta();
     uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: this.modelMatrixName,  glslType: 'mat4'};
     uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: this.normalMatrixName, glslType: 'mat3'};
     return uniforms;

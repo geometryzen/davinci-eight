@@ -48,8 +48,8 @@ define(["require", "exports", '../math/Vector3', '../uniforms/DefaultUniformProv
         UniformVector3.prototype.getUniformVector3 = function (name) {
             return this.inner.getUniformVector3(name);
         };
-        UniformVector3.prototype.getUniformMetaInfos = function () {
-            return this.inner.getUniformMetaInfos();
+        UniformVector3.prototype.getUniformMeta = function () {
+            return this.inner.getUniformMeta();
         };
         return UniformVector3;
     })(DefaultUniformProvider);

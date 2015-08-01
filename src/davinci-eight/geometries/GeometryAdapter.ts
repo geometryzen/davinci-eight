@@ -1,4 +1,4 @@
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Face3 = require('../core/Face3');
 import Line3 = require('../core/Line3');
 import Point3 = require('../core/Point3');
@@ -6,7 +6,7 @@ import Geometry = require('../geometries/Geometry');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
@@ -18,11 +18,11 @@ function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vect
 }
 
 /**
- * Adapter from a Geometry to a AttributeProvider.
+ * Adapter from a Geometry to a AttribProvider.
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-class GeometryAdapter implements AttributeProvider {
+class GeometryAdapter implements AttribProvider {
   public geometry: Geometry;
 //public color: Color;
 //public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
@@ -40,7 +40,7 @@ class GeometryAdapter implements AttributeProvider {
   /**
    * @class GeometryAdapter
    * @constructor
-   * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
+   * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
    */
   constructor(
     geometry: Geometry,
@@ -92,13 +92,13 @@ class GeometryAdapter implements AttributeProvider {
   get dynamic(): boolean {
     return this.geometry.dynamic;
   }
-  hasElements(): boolean {
+  hasElementArray(): boolean {
     return true;
   }
-  getElements() {
+  getElementArray() {
     return {usage: this.elementsUsage, data: this.elementArray};
   }
-  getVertexAttributeData(name: string) {
+  getAttribArray(name: string) {
     // FIXME: Need to inject usage for each array type.
     switch(name) {
       case this.positionVarName: {
@@ -120,8 +120,8 @@ class GeometryAdapter implements AttributeProvider {
       }
     }
   }
-  getAttributeMetaInfos(): AttributeMetaInfos {
-    var attribues: AttributeMetaInfos = {};
+  getAttribMeta(): AttribMetaInfos {
+    var attribues: AttribMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
       name: this.positionVarName,

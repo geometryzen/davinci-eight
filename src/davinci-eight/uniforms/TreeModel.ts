@@ -78,14 +78,14 @@ class TreeModel extends DefaultUniformProvider {
     }
   }
   /**
-   * @method getUniformMetaInfos
+   * @method getUniformMeta
    */
-  getUniformMetaInfos(): UniformMetaInfos {
+  getUniformMeta(): UniformMetaInfos {
     if (this.parent) {
-      return this.parent.getUniformMetaInfos();
+      return this.parent.getUniformMeta();
     }
     else {
-      return super.getUniformMetaInfos();
+      return super.getUniformMeta();
     }
   }
 }

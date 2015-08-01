@@ -33,9 +33,9 @@ interface UniformProvider {
    */
   getUniformVector4(name: string): number[];
   /**
-   * @method getUniformMetaInfos
+   * @method getUniformMeta
    */
-  getUniformMetaInfos(): UniformMetaInfos;
+  getUniformMeta(): UniformMetaInfos;
 }
 
 export = UniformProvider;

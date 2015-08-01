@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>AttributeMetaInfos - davinci-eight</title>
+    <title>ShaderAttribLocation. - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,21 +144,25 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>AttributeMetaInfos Class</h1>
+<h1>ShaderAttribLocation. Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_AttributeMetaInfos.ts.html#l3"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;AttributeMetaInfos.ts:3</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:9</code></a>
         </div>
 
-            Module: <a href="../modules/d8.html">d8</a>
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
-    
+    <p>Utility class for managing a shader attribute variable.
+While this class may be created directly by the user, it is preferable
+to use the ShaderAttribLocation instances managed by the ShaderProgram because
+there will be improved integrity and context loss management.</p>
+
 </div>
 
 
@@ -166,6 +170,7 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -173,11 +178,77 @@
             <h2 class="off-left">Item Index</h2>
 
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_glslType  The type of the variable as it appears in the GLSL program.">glslType  The type of the variable as it appears in the GLSL program.</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_name  The name of the variable as it appears in the GLSL program.">name  The name of the variable as it appears in the GLSL program.</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_glslType  The type of the variable as it appears in the GLSL program." class="property item">
+                        <h3 class="name"><code>glslType  The type of the variable as it appears in the GLSL program.</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:21</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_name  The name of the variable as it appears in the GLSL program." class="property item">
+                        <h3 class="name"><code>name  The name of the variable as it appears in the GLSL program.</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:17</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

@@ -50,8 +50,8 @@ var UniformColor = (function (_super) {
     UniformColor.prototype.getUniformVector3 = function (name) {
         return this.inner.getUniformVector3(name);
     };
-    UniformColor.prototype.getUniformMetaInfos = function () {
-        return this.inner.getUniformMetaInfos();
+    UniformColor.prototype.getUniformMeta = function () {
+        return this.inner.getUniformMeta();
     };
     return UniformColor;
 })(DefaultUniformProvider);

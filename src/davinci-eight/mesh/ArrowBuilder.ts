@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import arrowMesh = require('../mesh/arrowMesh');
@@ -83,7 +83,7 @@ class ArrowBuilder {
     this.$wireFrame = wireFrame;
     return this;
   }
-  buildMesh(): AttributeProvider {
+  buildMesh(): AttribProvider {
     return arrowMesh(this);
   }
 }

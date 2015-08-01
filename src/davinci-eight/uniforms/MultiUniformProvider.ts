@@ -73,10 +73,10 @@ class MultiUniformProvider extends DefaultUniformProvider {
       return super.getUniformVector4(name);
     }
   }
-  getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = super.getUniformMetaInfos();
+  getUniformMeta(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = super.getUniformMeta();
     this.providers.forEach(function(provider: UniformProvider) {
-      var metas = provider.getUniformMetaInfos();
+      var metas = provider.getUniformMeta();
       for (var id in metas) {
         uniforms[id] = metas[id];
       }

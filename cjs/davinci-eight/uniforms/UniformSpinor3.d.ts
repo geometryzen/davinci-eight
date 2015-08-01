@@ -16,6 +16,6 @@ declare class UniformSpinor3 extends DefaultUniformProvider implements UniformVa
     data: Spinor3;
     callback: () => Spinor3;
     getUniformVector4(name: string): number[];
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = UniformSpinor3;

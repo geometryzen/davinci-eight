@@ -73,14 +73,14 @@ define(["require", "exports", '../uniforms/DefaultUniformProvider'], function (r
             }
         };
         /**
-         * @method getUniformMetaInfos
+         * @method getUniformMeta
          */
-        TreeModel.prototype.getUniformMetaInfos = function () {
+        TreeModel.prototype.getUniformMeta = function () {
             if (this.parent) {
-                return this.parent.getUniformMetaInfos();
+                return this.parent.getUniformMeta();
             }
             else {
-                return _super.prototype.getUniformMetaInfos.call(this);
+                return _super.prototype.getUniformMeta.call(this);
             }
         };
         return TreeModel;

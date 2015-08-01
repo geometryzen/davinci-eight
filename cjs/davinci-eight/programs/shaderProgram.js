@@ -2,7 +2,7 @@ var parse = require('../glsl/parse');
 var NodeWalker = require('../glsl/NodeWalker');
 var ProgramArgs = require('../glsl/ProgramArgs');
 var uuid4 = require('../utils/uuid4');
-var ShaderAttributeLocation = require('../core/ShaderAttributeLocation');
+var ShaderAttribLocation = require('../core/ShaderAttribLocation');
 var ShaderUniformLocation = require('../core/ShaderUniformLocation');
 var shaderProgram = function (vertexShader, fragmentShader) {
     if (typeof vertexShader !== 'string') {
@@ -28,7 +28,7 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                     var attributeDecl = shaderVariable(a);
                     attributeDecls.push(attributeDecl);
                     // TODO: We should only build the locations based upon the active variables.
-                    attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
+                    attributeLocations[attributeDecl.name] = new ShaderAttribLocation(attributeDecl.name, attributeDecl.type);
                 });
                 // uniforms
                 args.uniforms.forEach(function (u) {

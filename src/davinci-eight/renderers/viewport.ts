@@ -84,7 +84,7 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
         clearAlpha = alpha;
         //
       },
-      render(drawList: DrawList, views: UniformProvider[]) {
+      render(drawList: DrawList, view: UniformProvider) {
         expectArg('drawList', drawList).toNotBeNull();
         if (context) {
           context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
@@ -102,9 +102,7 @@ let viewport = function(canvas: HTMLCanvasElement, parameters: ViewportParameter
                 drawable.useProgram();
                 programLoaded = true;
               }
-              views.forEach(function(view) {
-                drawable.draw(view);
-              });
+              drawable.draw(view);
             });
           }
         }

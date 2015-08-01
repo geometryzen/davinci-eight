@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -155,8 +155,8 @@ import DataUsage = require(&#x27;davinci-eight/core/DataUsage&#x27;);
 import DrawMode = require(&#x27;davinci-eight/core/DrawMode&#x27;);
 import UniformMetaInfo = require(&#x27;davinci-eight/core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;davinci-eight/core/UniformMetaInfos&#x27;);
-import AttributeProvider = require(&#x27;davinci-eight/core/AttributeProvider&#x27;);
-import AttributeMetaInfos = require(&#x27;davinci-eight/core/AttributeMetaInfos&#x27;);
+import AttribProvider = require(&#x27;davinci-eight/core/AttribProvider&#x27;);
+import AttribMetaInfos = require(&#x27;davinci-eight/core/AttribMetaInfos&#x27;);
 import core = require(&#x27;davinci-eight/core&#x27;);
 import Node3D = require(&#x27;davinci-eight/core/Node3D&#x27;);
 import object3D = require(&#x27;davinci-eight/core/object3D&#x27;);
@@ -175,7 +175,7 @@ import webGLRenderer = require(&#x27;davinci-eight/renderers/webGLRenderer&#x27;
 import drawableModel = require(&#x27;davinci-eight/objects/drawableModel&#x27;);
 import UniformProvider = require(&#x27;davinci-eight/core/UniformProvider&#x27;);
 import Face3 = require(&#x27;davinci-eight/core/Face3&#x27;);
-import ShaderAttributeLocation = require(&#x27;davinci-eight/core/ShaderAttributeLocation&#x27;);
+import ShaderAttribLocation = require(&#x27;davinci-eight/core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;davinci-eight/core/ShaderUniformLocation&#x27;);
 // geometries
 import Geometry = require(&#x27;davinci-eight/geometries/Geometry&#x27;);
@@ -275,7 +275,7 @@ import RGBMesh = require(&#x27;davinci-eight/mesh/RGBMesh&#x27;);
 */
 
 /**
- * @module d8
+ * @module EIGHT
  */
 var eight = {
   /**
@@ -299,7 +299,7 @@ var eight = {
   get DataUsage() { return DataUsage; },
   get drawableModel() { return drawableModel; },
   get DrawMode() { return DrawMode; },
-  get ShaderAttributeLocation() { return ShaderAttributeLocation; },
+  get ShaderAttribLocation() { return ShaderAttribLocation; },
   get ShaderUniformLocation() { return ShaderUniformLocation; },
   get pointsProgram() {
     return pointsProgram;

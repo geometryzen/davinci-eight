@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 /**
  * Manages the (optional) WebGLBuffer used to support gl.drawElements().
  * @class ElementArray
@@ -10,9 +10,9 @@ declare class ElementArray {
     /**
      * @class ElementArray
      * @constructor
-     * @param attributes {AttributeProvider}
+     * @param attributes {AttribProvider}
      */
-    constructor(attributes: AttributeProvider);
+    constructor(attributes: AttribProvider);
     /**
      * @method contextFree
      */
@@ -28,9 +28,9 @@ declare class ElementArray {
     contextLoss(): void;
     /**
      * @method bufferData
-     * @param attributes {AttributeProvider}
+     * @param attributes {AttribProvider}
      */
-    bufferData(attributes: AttributeProvider): void;
+    bufferData(attributes: AttribProvider): void;
     /**
      * @method bind
      */

@@ -65,8 +65,8 @@ class UniformFloat extends DefaultUniformProvider implements UniformVariable<num
       }
     }
   }
-  getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = super.getUniformMetaInfos();
+  getUniformMeta(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = super.getUniformMeta();
     uniforms[this.id] = {name: this.name, glslType: 'float'};
     return uniforms;
   }

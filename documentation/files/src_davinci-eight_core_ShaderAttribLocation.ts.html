@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ShaderAttributeLocation. - davinci-eight</title>
+    <title>src/davinci-eight/core/ShaderAttribLocation.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,114 +144,152 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ShaderAttributeLocation. Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: src/davinci-eight/core/ShaderAttribLocation.ts</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
+import convertUsage = require(&#x27;../core/convertUsage&#x27;);
+import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShaderAttributeLocation.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeLocation.ts:9</code></a>
-        </div>
+function existsLocation(location: number): boolean {
+  return location &gt;= 0;
+}
 
-            Module: <a href="../modules/d8.html">d8</a>
+/**
+ * Utility class for managing a shader attribute variable.
+ * While this class may be created directly by the user, it is preferable
+ * to use the ShaderAttribLocation instances managed by the ShaderProgram because
+ * there will be improved integrity and context loss management.
+ * @class ShaderAttribLocation.
+ */
+class ShaderAttribLocation {
+  /**
+   * @property name {string} The name of the variable as it appears in the GLSL program. 
+   */
+  private $name: string;
+  /**
+   * @property glslType {string} The type of the variable as it appears in the GLSL program. 
+   */
+  private $glslType: string;
+  /**
+   * Index of target attribute in the buffer.
+   */
+  private location: number;
+  private context: WebGLRenderingContext;
+  private buffer: WebGLBuffer;
+  /**
+   * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
+   * In particular, this class manages buffer allocation, location caching, and data binding.
+   * @class ShaderAttribLocation
+   * @constructor
+   * @param name {string} The name of the variable as it appears in the GLSL program.
+   * @param glslType {string} The type of the variable as it appears in the GLSL program.
+   */
+  constructor(name: string, glslType: string) {
+    this.$name = name;
+    switch(glslType) {
+      case &#x27;float&#x27;:
+      case &#x27;vec2&#x27;:
+      case &#x27;vec3&#x27;:
+      case &#x27;vec4&#x27;:
+      case &#x27;mat2&#x27;:
+      case &#x27;mat3&#x27;:
+      case &#x27;mat4&#x27;: {
+        this.$glslType = glslType;
+      }
+      break;
+      default: {
+        // TODO
+        throw new Error(&quot;Argument glslType in ShaderAttribLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: &quot; + glslType);
+      }
+    }
+  }
+  get name(): string {
+    return this.$name;
+  }
+  contextFree() {
+    if (this.buffer) {
+      this.context.deleteBuffer(this.buffer);
+      this.contextLoss();
+    }
+  }
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    this.location = context.getAttribLocation(program, this.name);
+    this.context = context;
+    if (existsLocation(this.location)) {
+      this.buffer = context.createBuffer();
+    }
+  }
+  contextLoss() {
+    this.location = void 0;
+    this.buffer = void 0;
+    this.context = void 0;
+  }
+  /**
+   * @method dataFormat
+   * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
+   * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
+   * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
+   * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
+   * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
+   */
+  dataFormat(size: number, type: number, normalized: boolean = false, stride: number = 0, offset: number = 0) {
+    if (existsLocation(this.location)) {
+      // TODO: We could assert that we have a buffer.
+      this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+      // 6.14 Fixed point support.
+      // The WebGL API does not support the GL_FIXED data type.
+      // Consequently, we hard-code the FLOAT constant.
+      this.context.vertexAttribPointer(this.location, size, type, normalized, stride, offset);
+    }
+  }
+  /**
+   * FIXME This should not couple to an AttribProvider.
+   * @method bufferData
+   */
+  bufferData(data: Float32Array, usage: DataUsage) {
+    if (existsLocation(this.location)) {
+      this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+      this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
+    }
+  }
+  /*
+  bufferData(attributes: AttribProvider) {
+    if (existsLocation(this.location)) {
+      let thing = attributes.getAttribArray(this.name);
+      if (thing) {
+        this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+        this.context.bufferData(this.context.ARRAY_BUFFER, thing.data, convertUsage(thing.usage, this.context));
+      }
+      else {
+        // We expect this to be detected long before we get here.
+        throw new Error(&quot;Geometry implementation claims to support but does not provide data for attribute &quot; + this.name);
+      }
+    }
+  }
+  */
+  enable() {
+    if (existsLocation(this.location)) {
+      this.context.enableVertexAttribArray(this.location);
+    }
+  }
+  disable() {
+    if (existsLocation(this.location)) {
+      this.context.disableVertexAttribArray(this.location);
+    }
+  }
+  /**
+   * @method toString
+   */
+  toString(): string {
+    return [&quot;ShaderAttribLocation({name: &quot;, this.name, &quot;, glslType: &quot;, this.$glslType + &quot;})&quot;].join(&#x27;&#x27;);
+  }
+}
 
-</div>
+export = ShaderAttribLocation;
 
-
-<div class="box intro">
-    <p>Utility class for managing a shader attribute variable.
-While this class may be created directly by the user, it is preferable
-to use the ShaderAttributeLocation instances managed by the ShaderProgram because
-there will be improved integrity and context loss management.</p>
-
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_glslType  The type of the variable as it appears in the GLSL program.">glslType  The type of the variable as it appears in the GLSL program.</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_name  The name of the variable as it appears in the GLSL program.">name  The name of the variable as it appears in the GLSL program.</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-                    <div id="property_glslType  The type of the variable as it appears in the GLSL program." class="property item">
-                        <h3 class="name"><code>glslType  The type of the variable as it appears in the GLSL program.</code></h3>
-                        <span class="type">String</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderAttributeLocation.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeLocation.ts:21</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_name  The name of the variable as it appears in the GLSL program." class="property item">
-                        <h3 class="name"><code>name  The name of the variable as it appears in the GLSL program.</code></h3>
-                        <span class="type">String</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderAttributeLocation.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttributeLocation.ts:17</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-            </div>
-
-
-    </div>
+    </pre>
 </div>
                     </div>
                 </div>

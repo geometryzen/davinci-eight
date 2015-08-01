@@ -62,8 +62,8 @@ class DirectionalLight implements UniformProvider {
   getUniformVector4(name: string) {
     return this.multi.getUniformVector4(name);
   }
-  getUniformMetaInfos() {
-    return this.multi.getUniformMetaInfos();
+  getUniformMeta() {
+    return this.multi.getUniformMeta();
   }
 }
 

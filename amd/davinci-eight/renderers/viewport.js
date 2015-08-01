@@ -62,7 +62,7 @@ define(["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../
                 clearAlpha = alpha;
                 //
             },
-            render: function (drawList, views) {
+            render: function (drawList, view) {
                 expectArg('drawList', drawList).toNotBeNull();
                 if (context) {
                     context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
@@ -80,9 +80,7 @@ define(["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../
                                 drawable.useProgram();
                                 programLoaded = true;
                             }
-                            views.forEach(function (view) {
-                                drawable.draw(view);
-                            });
+                            drawable.draw(view);
                         });
                     }
                 }

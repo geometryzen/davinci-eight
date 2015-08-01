@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -148,16 +148,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttributeMetaInfos = require(&#x27;../core/AttributeMetaInfos&#x27;);
+import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import cuboid = require(&#x27;../mesh/cuboid&#x27;);
 import CuboidMesh = require(&#x27;../mesh/CuboidMesh&#x27;);
-import AttributeProvider = require(&#x27;../core/AttributeProvider&#x27;);
+import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 
 /**
  * @class BoxMesh
  */
-class BoxMesh implements AttributeProvider {
+class BoxMesh implements AttribProvider {
   private cuboid: CuboidMesh;
   /**
    * @class BoxMesh
@@ -191,17 +191,17 @@ class BoxMesh implements AttributeProvider {
   get dynamic() {
     return this.cuboid.dynamic;
   }
-  hasElements() {
-    return this.cuboid.hasElements();
+  hasElementArray() {
+    return this.cuboid.hasElementArray();
   }
-  getElements() {
-    return this.cuboid.getElements();
+  getElementArray() {
+    return this.cuboid.getElementArray();
   }
-  getVertexAttributeData(name: string) {
-    return this.cuboid.getVertexAttributeData(name);
+  getAttribArray(name: string) {
+    return this.cuboid.getAttribArray(name);
   }
-  getAttributeMetaInfos() {
-    return this.cuboid.getAttributeMetaInfos();
+  getAttribMeta() {
+    return this.cuboid.getAttribMeta();
   }
   update(attributes: ShaderVariableDecl[]) {
     return this.cuboid.update(attributes);

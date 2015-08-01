@@ -108,8 +108,8 @@ let view = function(options?: {viewMatrixName?: string}): View {
       getUniformVector4(name: string) {
         return base.getUniformVector4(name);
       },
-      getUniformMetaInfos() {
-        return base.getUniformMetaInfos();
+      getUniformMeta() {
+        return base.getUniformMeta();
       }
   };
 

@@ -66,8 +66,8 @@ declare class Node extends TreeModel {
         matrix4: Float32Array;
     };
     /**
-     * @method getUniformMetaInfos
+     * @method getUniformMeta
      */
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = Node;

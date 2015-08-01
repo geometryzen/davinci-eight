@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -153,9 +153,9 @@
 //
 // This file was created manually in order to support the davinci-eight library.
 // These declarations are appropriate when using the library through the global
-// variable, &#x27;d8&#x27;.
+// variable, &#x27;EIGHT&#x27;.
 //
-declare module d8
+declare module EIGHT
 {
   /**
    * @class DrawMode
@@ -238,7 +238,7 @@ declare module d8
   /**
    * Manages the lifecycle of an attribute used in a vertex shader.
    */
-  class ShaderAttributeLocation {
+  class ShaderAttribLocation {
     constructor(name: string, glslType: string) {
     }
     contextFree();
@@ -247,7 +247,7 @@ declare module d8
     enable();
     disable();
     dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
-    bufferData(data: AttributeProvider);
+    bufferData(data: AttribProvider);
   }
   class ShaderUniformLocation {
     constructor(name: string, glslType: string);
@@ -344,7 +344,7 @@ declare module d8
     getUniformVector2(name: string): number[];
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
   }
   /**
    *
@@ -505,7 +505,7 @@ declare module d8
      */
     setEye(eye: {x: number; y: number; z:number}): LinearPerspectiveCamera;
   }
-  interface AttributeMetaInfo {
+  interface AttribMetaInfo {
     name: string,
     glslType: string,
     size: number,
@@ -514,8 +514,8 @@ declare module d8
     stride: number,
     offset: number
   }
-  interface AttributeMetaInfos {
-    [property: string]: AttributeMetaInfo;
+  interface AttribMetaInfos {
+    [property: string]: AttribMetaInfo;
   }
   /**
    * ShaderVariableDecl
@@ -537,7 +537,7 @@ declare module d8
   /**
    * A Geometry is the generator of calls to drawArrays or drawElements.
    */
-  class AttributeProvider
+  class AttribProvider
   {
     draw(context: WebGLRenderingContext): void;
     /**
@@ -551,20 +551,20 @@ declare module d8
     /**
      * Declares the vertex shader attributes the geometry can supply and information required for binding.
      */
-    getAttributeMetaInfos(): AttributeMetaInfos;
+    getAttribMeta(): AttribMetaInfos;
     /**
      * Determines whether this Geometry uses WebGL&#x27;s drawElements() for rendering.
      */
-    hasElements(): boolean;
+    hasElementArray(): boolean;
     /**
      * Returns the elements used in an index buffer implementation.
      * An implementation of Geometry is not required to support index buffers and may return undefined.
      */
-    getElements(): {usage: DataUsage; data: Uint16Array};
+    getElementArray(): {usage: DataUsage; data: Uint16Array};
     /**
      * Returns the data when drawing using arrays. 
      */
-    getVertexAttributeData(name: string): {usage: DataUsage; data: Float32Array};
+    getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
     /**
      * Notifies the mesh that it should update its array buffers.
      */
@@ -614,17 +614,17 @@ declare module d8
     public static fromHSL(H: number, S: number, L: number): Color;
     public static fromRGB(red: number, green: number, blue: number): Color;
   }
-  class GeometryAdapter extends AttributeProvider
+  class GeometryAdapter extends AttribProvider
   {
     public color: Color;
     constructor(geometry: Geometry, options?: {drawMode?: DrawMode});
   }
-  class CurveMesh extends AttributeProvider {
+  class CurveMesh extends AttribProvider {
     constructor(
       n: number,
       generator: (i: number, time: number) =&gt; {x: number; y: number; z: number});
   }
-  class LatticeMesh extends AttributeProvider {
+  class LatticeMesh extends AttribProvider {
     constructor(
       I: number,
       J: number,
@@ -651,7 +651,7 @@ declare module d8
       thetaStart?: number,
       thetaLength?: number);
   }
-  class RGBMesh extends AttributeProvider {
+  class RGBMesh extends AttribProvider {
     constructor();
   }
   /**
@@ -675,7 +675,7 @@ declare module d8
     /**
      *
      */
-    attributeLocation(name: string): ShaderAttributeLocation;
+    attributeLocation(name: string): ShaderAttribLocation;
     /**
      *
      */
@@ -684,7 +684,7 @@ declare module d8
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  class DrawableModel&lt;MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
+  class DrawableModel&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
   {
     mesh: MESH;
     shaders: SHADERS;
@@ -692,7 +692,7 @@ declare module d8
   }
   class Renderer extends RenderingContextUser
   {
-    render(drawList: DrawList, views: UniformProvider[]): void;
+    render(drawList: DrawList, ambients: UniformProvider): void;
   }
   interface RendererParameters {
   }
@@ -708,7 +708,7 @@ declare module d8
      *
      */
     clearColor(red: number, green: number, blue: number, alpha: number): void;
-    render(drawList: DrawList, views: UniformProvider[]): void;
+    render(drawList: DrawList, ambients: UniformProvider): void;
     setSize(width: number, height: number): void;
   }
   interface ViewportParameters {
@@ -721,7 +721,18 @@ declare module d8
   }
   interface WebGLRenderer extends RenderingContextUser
   {
-    render(drawList: DrawList, views: UniformProvider[]): void;
+    /**
+     * Defines whether the renderer should automatically clear its output before rendering.
+     */
+    autoClear: boolean;
+    /**
+     *
+     */
+    clearColor(red: number, green: number, blue: number, alpha: number);
+    /**
+     *
+     */
+    render(drawList: DrawList, ambients: UniformProvider): void;
   }
   interface WindowAnimationRunner
   {
@@ -795,13 +806,13 @@ declare module d8
   /**
    * Constructs a ShaderProgram by introspecting a Geometry.
    */
-  function smartProgram(attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram;
+  function smartProgram(attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram;
   /**
    * Constructs a Drawable from the specified attribute provider and program.
    * @param geometry
    * @param shaderProgram
    */
-  function drawableModel&lt;A extends AttributeProvider, S extends ShaderProgram, U extends UniformProvider&gt;(attributes: A, shaders: S, uniforms: U): DrawableModel&lt;A, S, U&gt;;
+  function drawableModel&lt;A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider&gt;(attributes: A, shaders: S, uniforms: U): DrawableModel&lt;A, S, U&gt;;
   /**
    *
    */
@@ -856,16 +867,16 @@ declare module d8
     constructor(options?: ArrowOptions);
     setAxis(axis: Cartesian3): ArrowBuilder;
     setWireFrame(wireFrame: boolean): ArrowBuilder;
-    buildMesh(): AttributeProvider;
+    buildMesh(): AttribProvider;
   }
   /**
    * Constructs and returns an arrow mesh.
    */
-  function arrowMesh(options?: ArrowOptions): AttributeProvider;
+  function arrowMesh(options?: ArrowOptions): AttribProvider;
   /**
    *
    */
-  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, LocalModel&gt;;
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    *
    */
@@ -901,16 +912,16 @@ declare module d8
     setDepthSegments(depthSegments: number): BoxBuilder;
     setWireFrame(wireFrame: boolean): BoxBuilder;
     setPositionVarName(positionVarName: string): BoxBuilder;
-    buildMesh(): AttributeProvider;
+    buildMesh(): AttribProvider;
   }
   /**
    * Constructs and returns a box mesh.
    */
-  function boxMesh(options?: BoxOptions): AttributeProvider;
+  function boxMesh(options?: BoxOptions): AttribProvider;
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, Node&gt;;
+  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel&lt;AttribProvider, ShaderProgram, Node&gt;;
   /**
    * Constructs and returns a cylinder mesh.
    */
@@ -918,13 +929,13 @@ declare module d8
     options?: {
       wireFrame?: boolean
     }
-  ): AttributeProvider;
+  ): AttribProvider;
   /**
    *
    */
   function cylinder(
     ambients: UniformProvider
-  ): DrawableModel&lt;AttributeProvider, ShaderProgram, LocalModel&gt;;
+  ): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    *
    */
@@ -959,16 +970,16 @@ declare module d8
     setThetaStart(phiStart: number): SphereBuilder;
     setThetaLength(phiLength: number): SphereBuilder;
     setWireFrame(wireFrame: boolean): SphereBuilder;
-    buildMesh(): AttributeProvider;
+    buildMesh(): AttribProvider;
   }
   /**
    * Constructs and returns an vortex mesh.
    */
-  function sphereMesh(options?: SphereOptions): AttributeProvider;
+  function sphereMesh(options?: SphereOptions): AttribProvider;
   /**
    *
    */
-  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel&lt;AttributeProvider, ShaderProgram, LocalModel&gt;;
+  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    * Constructs and returns an vortex mesh.
    */
@@ -976,17 +987,17 @@ declare module d8
     options?: {
       wireFrame?: boolean
     }
-  ): AttributeProvider;
+  ): AttribProvider;
   /**
    *
    */
   function vortex(
     ambients: UniformProvider
-  ): DrawableModel&lt;AttributeProvider, ShaderProgram, LocalModel&gt;;
+  ): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    *
    */
-  interface CuboidMesh extends AttributeProvider {
+  interface CuboidMesh extends AttribProvider {
     /**
      * The axis corresponding to e1.
      */
@@ -1028,7 +1039,7 @@ declare module d8
    * a * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),
    * where phi and theta are the conventional spherical coordinates.
    */
-  interface EllipsoidMesh extends AttributeProvider {
+  interface EllipsoidMesh extends AttribProvider {
     /**
      * The axis corresponding to (theta, phi) = (PI/2,0).
      */
@@ -1122,7 +1133,7 @@ declare module d8
   /**
    * Constructs and returns a prism mesh.
    */
-  function prism(): AttributeProvider;
+  function prism(): AttribProvider;
   /**
    *
    */
@@ -1185,9 +1196,9 @@ declare module d8
   var VERSION: string;
 }
 
-declare module &#x27;d8&#x27;
+declare module &#x27;EIGHT&#x27;
 {
-  export = d8;
+  export = EIGHT;
 }
 
     </pre>

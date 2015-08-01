@@ -1,8 +1,8 @@
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
-class RGBMesh implements AttributeProvider {
+class RGBMesh implements AttribProvider {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;
@@ -16,19 +16,19 @@ class RGBMesh implements AttributeProvider {
   get dynamic(): boolean {
     return false;
   }
-  getAttributeMetaInfos(): AttributeMetaInfos {
+  getAttribMeta(): AttribMetaInfos {
     return {
       position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
       color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
     };
   }
-  hasElements() {
+  hasElementArray() {
     return true;
   }
-  getElements() {
+  getElementArray() {
     return this.elements;
   }
-  getVertexAttributeData(name: string) {
+  getAttribArray(name: string) {
     switch(name) {
       case 'aVertexPosition': {
         return this.vertices;

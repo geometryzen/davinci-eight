@@ -1,5 +1,5 @@
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
+import AttribProvider = require('../core/AttribProvider');
 
 function makeArray(length: number) {
   var xs: number[] = [];
@@ -11,7 +11,7 @@ function makeArray(length: number) {
   return xs;
 }
 
-class CurveMesh implements AttributeProvider {
+class CurveMesh implements AttribProvider {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;
@@ -28,19 +28,19 @@ class CurveMesh implements AttributeProvider {
   get dynamic(): boolean {
     return true;
   }
-  getAttributeMetaInfos(): AttributeMetaInfos {
+  getAttribMeta(): AttribMetaInfos {
     return {
       position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
       color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
     };
   }
-  hasElements(): boolean {
+  hasElementArray(): boolean {
     return true;
   }
-  getElements(): Uint16Array {
+  getElementArray(): Uint16Array {
     return this.elements;
   }
-  getVertexAttributeData(name: string) {
+  getAttribArray(name: string) {
     switch(name) {
       case 'aVertexPosition': {
         return this.vertices;

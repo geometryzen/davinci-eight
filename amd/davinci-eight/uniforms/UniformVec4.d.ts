@@ -11,6 +11,6 @@ declare class UniformVec4 extends DefaultUniformProvider implements UniformVaria
     data: number[];
     callback: () => number[];
     getUniformVector4(name: string): number[];
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = UniformVec4;

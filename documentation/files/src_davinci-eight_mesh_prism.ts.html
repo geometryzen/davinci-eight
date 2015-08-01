@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -152,9 +152,9 @@
 // prism.ts
 //
 /// &lt;reference path=&quot;../../../vendor/davinci-blade/dist/davinci-blade.d.ts&quot; /&gt;
-import AttributeMetaInfos = require(&#x27;../core/AttributeMetaInfos&#x27;);
+import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import vectorE3 = require(&#x27;davinci-eight/math/e3ga/vectorE3&#x27;);
-import AttributeProvider = require(&#x27;../core/AttributeProvider&#x27;);
+import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 
 // The numbering of the front face, seen from the front is
@@ -221,7 +221,7 @@ var triangles =
 /**
  * Constructs and returns a prism mesh.
  */
-var prism = function(spec?): AttributeProvider {
+var prism = function(spec?): AttribProvider {
 
   var elements: number[] = [];
   var vertices: number[] = [];
@@ -258,7 +258,7 @@ var prism = function(spec?): AttributeProvider {
     }
   });
 
-  var publicAPI: AttributeProvider = {
+  var publicAPI: AttribProvider = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
@@ -266,21 +266,21 @@ var prism = function(spec?): AttributeProvider {
       return drawMode;
     },
     get dynamic(): boolean {return false;},
-    getAttributeMetaInfos(): AttributeMetaInfos {
+    getAttribMeta(): AttribMetaInfos {
       return {
         position: { name: &#x27;aVertexPosition&#x27;, glslType: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 },
         color:    { name: &#x27;aVertexColor&#x27;,    glslType: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 },
         normal:   { name: &#x27;aVertexNormal&#x27;,   glslType: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
-    hasElements(): boolean {
+    hasElementArray(): boolean {
       return false;
     },
-    getElements(): Uint16Array {
+    getElementArray(): Uint16Array {
       // We don&#x27;t support element arrays.
       return null;
     },
-    getVertexAttributeData(name: string) {
+    getAttribArray(name: string) {
       switch(name) {
         case &#x27;aVertexPosition&#x27;: {
           return new Float32Array(vertices);

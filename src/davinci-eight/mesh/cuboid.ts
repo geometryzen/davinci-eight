@@ -3,7 +3,7 @@
 //
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import CuboidMesh = require('../mesh/CuboidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Color = require('../core/Color');
@@ -171,8 +171,8 @@ var cuboid = function(
     get dynamic(): boolean {
       return false;
     },
-    getAttributeMetaInfos(): AttributeMetaInfos {
-      var attribues: AttributeMetaInfos = {};
+    getAttribMeta(): AttribMetaInfos {
+      var attribues: AttribMetaInfos = {};
       attribues[Symbolic.ATTRIBUTE_POSITION] = {
         name: VERTEX_ATTRIBUTE_POSITION,
         glslType: 'vec3',
@@ -202,14 +202,14 @@ var cuboid = function(
       }
       return attribues;
     },
-    hasElements(): boolean {
+    hasElementArray(): boolean {
       return false;
     },
-    getElements(): Uint16Array {
+    getElementArray(): Uint16Array {
       // We don't support element arrays (yet).
       return;
     },
-    getVertexAttributeData(name: string) {
+    getAttribArray(name: string) {
       switch(name) {
         case VERTEX_ATTRIBUTE_POSITION: {
           return aVertexPositionArray;

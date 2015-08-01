@@ -14,7 +14,7 @@ var viewport = require('davinci-eight/renderers/viewport');
 var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 var drawableModel = require('davinci-eight/objects/drawableModel');
 var Face3 = require('davinci-eight/core/Face3');
-var ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
+var ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 var ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // geometries
 var Geometry = require('davinci-eight/geometries/Geometry');
@@ -97,7 +97,7 @@ import ellipsoid = require('davinci-eight/mesh/ellipsoid');
 import RGBMesh = require('davinci-eight/mesh/RGBMesh');
 */
 /**
- * @module d8
+ * @module EIGHT
  */
 var eight = {
     /**
@@ -121,7 +121,7 @@ var eight = {
     get DataUsage() { return DataUsage; },
     get drawableModel() { return drawableModel; },
     get DrawMode() { return DrawMode; },
-    get ShaderAttributeLocation() { return ShaderAttributeLocation; },
+    get ShaderAttribLocation() { return ShaderAttribLocation; },
     get ShaderUniformLocation() { return ShaderUniformLocation; },
     get pointsProgram() {
         return pointsProgram;

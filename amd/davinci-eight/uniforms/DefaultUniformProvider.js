@@ -53,10 +53,10 @@ define(["require", "exports"], function (require, exports) {
         };
         /**
          *
-         * @method getUniformMetaInfos
+         * @method getUniformMeta
          * @return An empty object that derived class may modify.
          */
-        DefaultUniformProvider.prototype.getUniformMetaInfos = function () {
+        DefaultUniformProvider.prototype.getUniformMeta = function () {
             var uniforms = {};
             return uniforms;
         };

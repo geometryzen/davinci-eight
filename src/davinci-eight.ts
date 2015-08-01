@@ -5,8 +5,8 @@ import DataUsage = require('davinci-eight/core/DataUsage');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
-import AttributeProvider = require('davinci-eight/core/AttributeProvider');
-import AttributeMetaInfos = require('davinci-eight/core/AttributeMetaInfos');
+import AttribProvider = require('davinci-eight/core/AttribProvider');
+import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import core = require('davinci-eight/core');
 import Node3D = require('davinci-eight/core/Node3D');
 import object3D = require('davinci-eight/core/object3D');
@@ -25,7 +25,7 @@ import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 import drawableModel = require('davinci-eight/objects/drawableModel');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
-import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
+import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // geometries
 import Geometry = require('davinci-eight/geometries/Geometry');
@@ -125,7 +125,7 @@ import RGBMesh = require('davinci-eight/mesh/RGBMesh');
 */
 
 /**
- * @module d8
+ * @module EIGHT
  */
 var eight = {
   /**
@@ -149,7 +149,7 @@ var eight = {
   get DataUsage() { return DataUsage; },
   get drawableModel() { return drawableModel; },
   get DrawMode() { return DrawMode; },
-  get ShaderAttributeLocation() { return ShaderAttributeLocation; },
+  get ShaderAttribLocation() { return ShaderAttribLocation; },
   get ShaderUniformLocation() { return ShaderUniformLocation; },
   get pointsProgram() {
     return pointsProgram;

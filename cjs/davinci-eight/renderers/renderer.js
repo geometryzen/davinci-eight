@@ -2,32 +2,32 @@ var expectArg = require('../checks/expectArg');
 var renderer = function (canvas, parameters) {
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     parameters = parameters || {};
-    //var drawContext = new FrameworkDrawContext();
     var gl;
-    var gid;
-    var publicAPI = {
+    var glId;
+    var self = {
         get canvas() { return canvas; },
         get context() { return gl; },
         contextFree: function () {
             gl = void 0;
-            gid = void 0;
+            glId = void 0;
         },
-        contextGain: function (context, contextIdArg) {
+        contextGain: function (context, contextId) {
+            expectArg('contextId', contextId).toBeString();
             gl = context;
-            gid = contextIdArg;
+            glId = contextId;
         },
         contextLoss: function () {
             gl = void 0;
-            gid = void 0;
+            glId = void 0;
         },
         hasContext: function () {
             return !!gl;
         },
-        render: function (drawList, views) {
+        render: function (drawList, view) {
             expectArg('drawList', drawList).toNotBeNull();
             if (gl) {
                 if (!drawList.hasContext()) {
-                    drawList.contextGain(gl, gid);
+                    drawList.contextGain(gl, glId);
                 }
                 var programLoaded;
                 for (var drawGroupName in drawList.drawGroups) {
@@ -37,9 +37,7 @@ var renderer = function (canvas, parameters) {
                             drawable.useProgram();
                             programLoaded = true;
                         }
-                        views.forEach(function (view) {
-                            drawable.draw(view);
-                        });
+                        drawable.draw(view);
                     });
                 }
             }
@@ -48,6 +46,6 @@ var renderer = function (canvas, parameters) {
             }
         },
     };
-    return publicAPI;
+    return self;
 };
 module.exports = renderer;

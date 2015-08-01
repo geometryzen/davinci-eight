@@ -111,8 +111,8 @@ var perspective = function (options) {
         getUniformVector4: function (name) {
             return base.getUniformVector4(name);
         },
-        getUniformMetaInfos: function () {
-            var uniforms = base.getUniformMetaInfos();
+        getUniformMeta: function () {
+            var uniforms = base.getUniformMeta();
             uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: projectionMatrixName, glslType: 'mat4' };
             return uniforms;
         }

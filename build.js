@@ -39,7 +39,7 @@ requirejs.config({
            "    }(globalDefine));\n"+
            "  } else {\n"+
                 // define library on global namespace for inline script loading
-           "    global['d8'] = library;\n"+
+           "    global['EIGHT'] = library;\n"+
            "  }\n"+
            "}(this));\n"
   },

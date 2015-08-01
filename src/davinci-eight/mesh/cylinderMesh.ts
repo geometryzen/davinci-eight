@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DrawMode = require('../core/DrawMode');
 import Geometry = require('../geometries/Geometry');
@@ -14,24 +14,24 @@ function sphereGeometry(options: {wireFrame: boolean}): Geometry {
 function cylinderMesh(
   options?: {
     wireFrame?: boolean
-  }) : AttributeProvider {
+  }) : AttribProvider {
 
   let checkedOptions = checkMeshArgs(options);
 
   let base = new GeometryAdapter(sphereGeometry(checkedOptions), adapterOptions(checkedOptions));
 
-  let publicAPI: AttributeProvider = {
+  let publicAPI: AttribProvider = {
     draw(context: WebGLRenderingContext) {
       return base.draw(context);
     },
     update(attributes: ShaderVariableDecl[]) {
       return base.update(attributes);
     },
-    getVertexAttributeData(name: string) {
-      return base.getVertexAttributeData(name);
+    getAttribArray(name: string) {
+      return base.getAttribArray(name);
     },
-    getAttributeMetaInfos() {
-      return base.getAttributeMetaInfos();
+    getAttribMeta() {
+      return base.getAttribMeta();
     },
     get drawMode(): DrawMode {
       return base.drawMode;
@@ -42,11 +42,11 @@ function cylinderMesh(
     get dynamic() {
       return base.dynamic;
     },
-    hasElements() {
-      return base.hasElements();
+    hasElementArray() {
+      return base.hasElementArray();
     },
-    getElements() {
-      return base.getElements();
+    getElementArray() {
+      return base.getElementArray();
     }
   };
   return publicAPI;

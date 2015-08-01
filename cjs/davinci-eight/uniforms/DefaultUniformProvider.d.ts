@@ -48,9 +48,9 @@ declare class DefaultUniformProvider implements UniformProvider {
     getUniformVector4(name: string): number[];
     /**
      *
-     * @method getUniformMetaInfos
+     * @method getUniformMeta
      * @return An empty object that derived class may modify.
      */
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = DefaultUniformProvider;

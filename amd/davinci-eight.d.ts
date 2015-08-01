@@ -2,8 +2,8 @@
 import DataUsage = require('davinci-eight/core/DataUsage');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
-import AttributeProvider = require('davinci-eight/core/AttributeProvider');
-import AttributeMetaInfos = require('davinci-eight/core/AttributeMetaInfos');
+import AttribProvider = require('davinci-eight/core/AttribProvider');
+import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import Node3D = require('davinci-eight/core/Node3D');
 import Color = require('davinci-eight/core/Color');
 import View = require('davinci-eight/cameras/View');
@@ -12,7 +12,7 @@ import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiv
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
-import ShaderAttributeLocation = require('davinci-eight/core/ShaderAttributeLocation');
+import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -70,7 +70,7 @@ import UniformSpinor3 = require('davinci-eight/uniforms/UniformSpinor3');
 import RenderingContextMonitor = require('davinci-eight/utils/RenderingContextMonitor');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
- * @module d8
+ * @module EIGHT
  */
 declare var eight: {
     'VERSION': string;
@@ -120,13 +120,13 @@ declare var eight: {
         window?: Window;
     }) => WindowAnimationRunner;
     DataUsage: typeof DataUsage;
-    drawableModel: <MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL) => DrawableModel<MESH, SHADERS, MODEL>;
+    drawableModel: <MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL) => DrawableModel<MESH, SHADERS, MODEL>;
     DrawMode: typeof DrawMode;
-    ShaderAttributeLocation: typeof ShaderAttributeLocation;
+    ShaderAttribLocation: typeof ShaderAttribLocation;
     ShaderUniformLocation: typeof ShaderUniformLocation;
     pointsProgram: () => ShaderProgram;
     shaderProgram: (vertexShader: string, fragmentShader: string) => ShaderProgram;
-    smartProgram: (attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
+    smartProgram: (attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     AmbientLight: typeof AmbientLight;
     DirectionalLight: typeof DirectionalLight;
     PointLight: typeof PointLight;
@@ -170,23 +170,23 @@ declare var eight: {
     DefaultUniformProvider: typeof DefaultUniformProvider;
     MultiUniformProvider: typeof MultiUniformProvider;
     uniforms: (providers: UniformProvider[]) => UniformProvider;
-    arrowMesh: (options?: ArrowOptions) => AttributeProvider;
+    arrowMesh: (options?: ArrowOptions) => AttribProvider;
     ArrowBuilder: typeof ArrowBuilder;
-    boxMesh: (options?: BoxOptions) => AttributeProvider;
+    boxMesh: (options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
     cylinderMesh: (options?: {
         wireFrame?: boolean;
-    }) => AttributeProvider;
-    sphereMesh: (options?: SphereOptions) => AttributeProvider;
+    }) => AttribProvider;
+    sphereMesh: (options?: SphereOptions) => AttribProvider;
     vortexMesh: (options?: {
         wireFrame?: boolean;
-    }) => AttributeProvider;
-    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
-    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
-    cylinder: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
-    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
+    }) => AttribProvider;
+    arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttribProvider, ShaderProgram, Node>;
+    box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttribProvider, ShaderProgram, Node>;
+    cylinder: (ambients: UniformProvider) => DrawableModel<AttribProvider, ShaderProgram, Node>;
+    sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttribProvider, ShaderProgram, Node>;
     SphereBuilder: typeof SphereBuilder;
-    vortex: (ambients: UniformProvider) => DrawableModel<AttributeProvider, ShaderProgram, Node>;
+    vortex: (ambients: UniformProvider) => DrawableModel<AttribProvider, ShaderProgram, Node>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

@@ -1,4 +1,4 @@
-define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttributeLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttributeLocation, ShaderUniformLocation) {
+define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader) {
         if (typeof vertexShader !== 'string') {
             throw new Error("vertexShader argument must be a string.");
@@ -23,7 +23,7 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                         var attributeDecl = shaderVariable(a);
                         attributeDecls.push(attributeDecl);
                         // TODO: We should only build the locations based upon the active variables.
-                        attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
+                        attributeLocations[attributeDecl.name] = new ShaderAttribLocation(attributeDecl.name, attributeDecl.type);
                     });
                     // uniforms
                     args.uniforms.forEach(function (u) {

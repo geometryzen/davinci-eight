@@ -50,8 +50,8 @@ var UniformVec4 = (function (_super) {
             }
         }
     };
-    UniformVec4.prototype.getUniformMetaInfos = function () {
-        var uniforms = _super.prototype.getUniformMetaInfos.call(this);
+    UniformVec4.prototype.getUniformMeta = function () {
+        var uniforms = _super.prototype.getUniformMeta.call(this);
         uniforms[this.id] = { name: this.name, glslType: 'vec4' };
         return uniforms;
     };

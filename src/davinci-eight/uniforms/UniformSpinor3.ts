@@ -39,8 +39,8 @@ class UniformSpinor3 extends DefaultUniformProvider implements UniformVariable<S
   getUniformVector4(name: string): number[] {
     return this.inner.getUniformVector4(name);
   }
-  getUniformMetaInfos() {
-    return this.inner.getUniformMetaInfos();
+  getUniformMeta() {
+    return this.inner.getUniformMeta();
   }
 }
 

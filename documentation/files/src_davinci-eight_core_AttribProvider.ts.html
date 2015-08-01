@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/AttributeProvider.ts - davinci-eight</title>
+    <title>src/davinci-eight/core/AttribProvider.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,18 +144,18 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/AttributeProvider.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/core/AttribProvider.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttributeMetaInfos = require(&#x27;../core/AttributeMetaInfos&#x27;);
+import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 /**
- * @class AttributeProvider
+ * @class AttribProvider
  */
-interface AttributeProvider {
+interface AttribProvider {
   /**
    * @method draw
    * @param context {WebGLRenderingContext}
@@ -170,13 +170,13 @@ interface AttributeProvider {
    * @method getAttributeData
    * @return {Float32Array} The array of attribute values.
    */
-  getVertexAttributeData(name: string): {usage: DataUsage; data: Float32Array};
+  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
   /**
    * Provides the meta information corresponsing to provided attribute values. 
-   * @method getAttributeMetaInfos
-   * @return {AttributeMetaInfos} The meta information corresponding to all attributes supported.
+   * @method getAttribMeta
+   * @return {AttribMetaInfos} The meta information corresponding to all attributes supported.
    */
-  getAttributeMetaInfos(): AttributeMetaInfos;
+  getAttribMeta(): AttribMetaInfos;
   /**
    * @property drawMode
    * @type number
@@ -191,18 +191,18 @@ interface AttributeProvider {
   dynamic: boolean;
   /**
    * Determines whether this attribute provider uses vetex indexing.
-   * @method hasElements
+   * @method hasElementArray
    * @return {Boolean} true if the provider uses vertex indexing.
    */
-  hasElements(): boolean;
+  hasElementArray(): boolean;
   /**
-   * @method getElements
+   * @method getElementArray
    * @return {usage: DataUsage; data:Unit16Array} The array of vertex indices.
    */
-  getElements(): {usage: DataUsage; data: Uint16Array};
+  getElementArray(): {usage: DataUsage; data: Uint16Array};
 }
 
-export = AttributeProvider;
+export = AttribProvider;
 
     </pre>
 </div>

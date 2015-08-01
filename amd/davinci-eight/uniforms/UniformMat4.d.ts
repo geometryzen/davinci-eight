@@ -23,6 +23,6 @@ declare class UniformMat4 extends DefaultUniformProvider implements UniformVaria
         transpose: boolean;
         matrix4: Float32Array;
     };
-    getUniformMetaInfos(): UniformMetaInfos;
+    getUniformMeta(): UniformMetaInfos;
 }
 export = UniformMat4;

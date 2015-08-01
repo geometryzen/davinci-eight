@@ -1,5 +1,5 @@
 import ShaderProgram = require('../programs/ShaderProgram');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import parse = require('../glsl/parse');
 import NodeWalker = require('../glsl/NodeWalker');
 import ProgramArgs = require('../glsl/ProgramArgs');
@@ -7,7 +7,7 @@ import Declaration = require('../glsl/Declaration');
 import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
 import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 import uuid4 = require('../utils/uuid4');
-import ShaderAttributeLocation = require('../core/ShaderAttributeLocation');
+import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
@@ -36,7 +36,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
           let attributeDecl = shaderVariable(a);
           attributeDecls.push(attributeDecl);
           // TODO: We should only build the locations based upon the active variables.
-          attributeLocations[attributeDecl.name] = new ShaderAttributeLocation(attributeDecl.name, attributeDecl.type);
+          attributeLocations[attributeDecl.name] = new ShaderAttribLocation(attributeDecl.name, attributeDecl.type);
         });
         // uniforms
         args.uniforms.forEach(function(u: Declaration) {
@@ -90,7 +90,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
   var uniformDecls:   ShaderVariableDecl[] = [];
   var varyingDecls:   ShaderVariableDecl[] = [];
 
-  var attributeLocations: { [name: string]: ShaderAttributeLocation } = {};
+  var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
 
   var publicAPI: ShaderProgram = {

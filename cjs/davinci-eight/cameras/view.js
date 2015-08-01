@@ -108,8 +108,8 @@ var view = function (options) {
         getUniformVector4: function (name) {
             return base.getUniformVector4(name);
         },
-        getUniformMetaInfos: function () {
-            return base.getUniformMetaInfos();
+        getUniformMeta: function () {
+            return base.getUniformMeta();
         }
     };
     return publicAPI;

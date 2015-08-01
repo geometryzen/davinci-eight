@@ -72,8 +72,8 @@ var UniformVec3 = (function (_super) {
             }
         }
     };
-    UniformVec3.prototype.getUniformMetaInfos = function () {
-        var uniforms = _super.prototype.getUniformMetaInfos.call(this);
+    UniformVec3.prototype.getUniformMeta = function () {
+        var uniforms = _super.prototype.getUniformMeta.call(this);
         uniforms[this.id] = { name: this.name, glslType: 'vec3' };
         return uniforms;
     };

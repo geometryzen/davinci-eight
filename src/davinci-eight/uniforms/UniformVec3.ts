@@ -63,8 +63,8 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
       }
     }
   }
-  getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = super.getUniformMetaInfos();
+  getUniformMeta(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = super.getUniformMeta();
     uniforms[this.id] = {name: this.name, glslType: 'vec3'};
     return uniforms;
   }

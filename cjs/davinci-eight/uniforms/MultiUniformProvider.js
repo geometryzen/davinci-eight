@@ -76,10 +76,10 @@ var MultiUniformProvider = (function (_super) {
             return _super.prototype.getUniformVector4.call(this, name);
         }
     };
-    MultiUniformProvider.prototype.getUniformMetaInfos = function () {
-        var uniforms = _super.prototype.getUniformMetaInfos.call(this);
+    MultiUniformProvider.prototype.getUniformMeta = function () {
+        var uniforms = _super.prototype.getUniformMeta.call(this);
         this.providers.forEach(function (provider) {
-            var metas = provider.getUniformMetaInfos();
+            var metas = provider.getUniformMeta();
             for (var id in metas) {
                 uniforms[id] = metas[id];
             }

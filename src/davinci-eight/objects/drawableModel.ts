@@ -1,25 +1,25 @@
-import AttributeMetaInfo = require('../core/AttributeMetaInfo'); 
-import AttributeMetaInfos = require('../core/AttributeMetaInfos'); 
+import AttribMetaInfo = require('../core/AttribMetaInfo'); 
+import AttribMetaInfos = require('../core/AttribMetaInfos'); 
 import ShaderProgram = require('../programs/ShaderProgram');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
-import ShaderAttributeLocation = require('../core/ShaderAttributeLocation');
+import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
 import ElementArray = require('../core/ElementArray');
 import ChainedUniformProvider = require('../uniforms/ChainedUniformProvider');
 import DrawableModel = require('../objects/DrawableModel');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 
-var drawableModel = function<MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(
+var drawableModel = function<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(
   mesh: MESH,
   shaders: SHADERS,
   model: MODEL): DrawableModel<MESH, SHADERS, MODEL> {
   /**
-   * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
+   * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
    */
-  function findAttributeMetaInfoByVariableName(name: string, attributes: AttributeMetaInfos): AttributeMetaInfo {
+  function findAttribMetaInfoByVariableName(name: string, attributes: AttribMetaInfos): AttribMetaInfo {
     for (var key in attributes) {
       let attribute = attributes[key];
       if (attribute.name === name) {
@@ -28,11 +28,11 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
     }
   }
   /**
-   * Constructs a ShaderAttributeLocation from a declaration.
+   * Constructs a ShaderAttribLocation from a declaration.
    */
-  function shaderAttributeLocationFromDecl(declaration: ShaderVariableDecl): ShaderAttributeLocation {
+  function shaderAttributeLocationFromDecl(declaration: ShaderVariableDecl): ShaderAttribLocation {
     // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
-    let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
+    let attribute: AttribMetaInfo = findAttribMetaInfoByVariableName(declaration.name, mesh.getAttribMeta());
     if (attribute) {
       return shaders.attributeLocation(declaration.name);
     }
@@ -51,7 +51,7 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
   }
 
   function checkUniformsCompleteAndReady(provider: UniformProvider) {
-    var metas = provider.getUniformMetaInfos();
+    var metas = provider.getUniformMeta();
     shaders.uniforms.forEach(function(uniformDecl: ShaderVariableDecl) {
       var match: UniformMetaInfo = void 0;
       for (var id in metas) {
@@ -80,14 +80,14 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
   var context: WebGLRenderingContext;
   var contextGainId: string;
   var elements: ElementArray = new ElementArray(mesh);
-  var vertexAttributes: ShaderAttributeLocation[] = shaders.attributes.map(shaderAttributeLocationFromDecl);
+  var vertexAttributes: ShaderAttribLocation[] = shaders.attributes.map(shaderAttributeLocationFromDecl);
   var uniformVariables: ShaderUniformLocation[] = shaders.uniforms.map(shaderUniformLocationFromDecl);
 
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaders gets the correct data.
     mesh.update(shaders.attributes);
-    vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeLocation) {
-      let thing = mesh.getVertexAttributeData(vertexAttribute.name);
+    vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+      let thing = mesh.getAttribArray(vertexAttribute.name);
       if (thing) {
         vertexAttribute.bufferData(thing.data, thing.usage);
       }
@@ -247,8 +247,8 @@ var drawableModel = function<MESH extends AttributeProvider, SHADERS extends Sha
           vertexAttribute.enable();
         });
 
-        vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeLocation) {
-          let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+        vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+          let attribute: AttribMetaInfo = findAttribMetaInfoByVariableName(vertexAttribute.name, mesh.getAttribMeta());
           if (attribute) {
             let size = attribute.size;
             let type = context.FLOAT;//attribute.dataType;

@@ -2,7 +2,7 @@ define(["require", "exports", '../uniforms/Node', '../objects/drawableModel', '.
     function cylinder(ambients) {
         var mesh = cylinderMesh();
         var model = new Node();
-        var shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
+        var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
         return drawableModel(mesh, shaders, model);
     }
     return cylinder;

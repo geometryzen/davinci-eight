@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -2634,7 +2634,7 @@ interface Element extends Node, NodeSelector, ElementTraversal {
     clientTop: number;
     scrollHeight: number;
     getAttribute(name?: string): string;
-    getElementsByTagNameNS(namespaceURI: string, localName: string): NodeList;
+    getElementArrayByTagNameNS(namespaceURI: string, localName: string): NodeList;
     hasAttributeNS(namespaceURI: string, localName: string): boolean;
     getBoundingClientRect(): ClientRect;
     getAttributeNS(namespaceURI: string, localName: string): string;
@@ -2646,110 +2646,110 @@ interface Element extends Node, NodeSelector, ElementTraversal {
     setAttributeNS(namespaceURI: string, qualifiedName: string, value: string): void;
     getAttributeNode(name: string): Attr;
     fireEvent(eventName: string, eventObj?: any): boolean;
-    getElementsByTagName(name: &quot;a&quot;): NodeListOf&lt;HTMLAnchorElement&gt;;
-    getElementsByTagName(name: &quot;abbr&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;address&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;area&quot;): NodeListOf&lt;HTMLAreaElement&gt;;
-    getElementsByTagName(name: &quot;article&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;aside&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;audio&quot;): NodeListOf&lt;HTMLAudioElement&gt;;
-    getElementsByTagName(name: &quot;b&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;base&quot;): NodeListOf&lt;HTMLBaseElement&gt;;
-    getElementsByTagName(name: &quot;bdi&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;bdo&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;blockquote&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
-    getElementsByTagName(name: &quot;body&quot;): NodeListOf&lt;HTMLBodyElement&gt;;
-    getElementsByTagName(name: &quot;br&quot;): NodeListOf&lt;HTMLBRElement&gt;;
-    getElementsByTagName(name: &quot;button&quot;): NodeListOf&lt;HTMLButtonElement&gt;;
-    getElementsByTagName(name: &quot;canvas&quot;): NodeListOf&lt;HTMLCanvasElement&gt;;
-    getElementsByTagName(name: &quot;caption&quot;): NodeListOf&lt;HTMLTableCaptionElement&gt;;
-    getElementsByTagName(name: &quot;cite&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;code&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;col&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
-    getElementsByTagName(name: &quot;colgroup&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
-    getElementsByTagName(name: &quot;datalist&quot;): NodeListOf&lt;HTMLDataListElement&gt;;
-    getElementsByTagName(name: &quot;dd&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;del&quot;): NodeListOf&lt;HTMLModElement&gt;;
-    getElementsByTagName(name: &quot;dfn&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;div&quot;): NodeListOf&lt;HTMLDivElement&gt;;
-    getElementsByTagName(name: &quot;dl&quot;): NodeListOf&lt;HTMLDListElement&gt;;
-    getElementsByTagName(name: &quot;dt&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;em&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;embed&quot;): NodeListOf&lt;HTMLEmbedElement&gt;;
-    getElementsByTagName(name: &quot;fieldset&quot;): NodeListOf&lt;HTMLFieldSetElement&gt;;
-    getElementsByTagName(name: &quot;figcaption&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;figure&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;footer&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;form&quot;): NodeListOf&lt;HTMLFormElement&gt;;
-    getElementsByTagName(name: &quot;h1&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
-    getElementsByTagName(name: &quot;h2&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
-    getElementsByTagName(name: &quot;h3&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
-    getElementsByTagName(name: &quot;h4&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
-    getElementsByTagName(name: &quot;h5&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
-    getElementsByTagName(name: &quot;h6&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
-    getElementsByTagName(name: &quot;head&quot;): NodeListOf&lt;HTMLHeadElement&gt;;
-    getElementsByTagName(name: &quot;header&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;hgroup&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;hr&quot;): NodeListOf&lt;HTMLHRElement&gt;;
-    getElementsByTagName(name: &quot;html&quot;): NodeListOf&lt;HTMLHtmlElement&gt;;
-    getElementsByTagName(name: &quot;i&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;iframe&quot;): NodeListOf&lt;HTMLIFrameElement&gt;;
-    getElementsByTagName(name: &quot;img&quot;): NodeListOf&lt;HTMLImageElement&gt;;
-    getElementsByTagName(name: &quot;input&quot;): NodeListOf&lt;HTMLInputElement&gt;;
-    getElementsByTagName(name: &quot;ins&quot;): NodeListOf&lt;HTMLModElement&gt;;
-    getElementsByTagName(name: &quot;kbd&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;label&quot;): NodeListOf&lt;HTMLLabelElement&gt;;
-    getElementsByTagName(name: &quot;legend&quot;): NodeListOf&lt;HTMLLegendElement&gt;;
-    getElementsByTagName(name: &quot;li&quot;): NodeListOf&lt;HTMLLIElement&gt;;
-    getElementsByTagName(name: &quot;link&quot;): NodeListOf&lt;HTMLLinkElement&gt;;
-    getElementsByTagName(name: &quot;main&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;map&quot;): NodeListOf&lt;HTMLMapElement&gt;;
-    getElementsByTagName(name: &quot;mark&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;menu&quot;): NodeListOf&lt;HTMLMenuElement&gt;;
-    getElementsByTagName(name: &quot;meta&quot;): NodeListOf&lt;HTMLMetaElement&gt;;
-    getElementsByTagName(name: &quot;nav&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;noscript&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;object&quot;): NodeListOf&lt;HTMLObjectElement&gt;;
-    getElementsByTagName(name: &quot;ol&quot;): NodeListOf&lt;HTMLOListElement&gt;;
-    getElementsByTagName(name: &quot;optgroup&quot;): NodeListOf&lt;HTMLOptGroupElement&gt;;
-    getElementsByTagName(name: &quot;option&quot;): NodeListOf&lt;HTMLOptionElement&gt;;
-    getElementsByTagName(name: &quot;p&quot;): NodeListOf&lt;HTMLParagraphElement&gt;;
-    getElementsByTagName(name: &quot;param&quot;): NodeListOf&lt;HTMLParamElement&gt;;
-    getElementsByTagName(name: &quot;pre&quot;): NodeListOf&lt;HTMLPreElement&gt;;
-    getElementsByTagName(name: &quot;progress&quot;): NodeListOf&lt;HTMLProgressElement&gt;;
-    getElementsByTagName(name: &quot;q&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
-    getElementsByTagName(name: &quot;rp&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;rt&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;ruby&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;s&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;samp&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;script&quot;): NodeListOf&lt;HTMLScriptElement&gt;;
-    getElementsByTagName(name: &quot;section&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;select&quot;): NodeListOf&lt;HTMLSelectElement&gt;;
-    getElementsByTagName(name: &quot;small&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;source&quot;): NodeListOf&lt;HTMLSourceElement&gt;;
-    getElementsByTagName(name: &quot;span&quot;): NodeListOf&lt;HTMLSpanElement&gt;;
-    getElementsByTagName(name: &quot;strong&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;style&quot;): NodeListOf&lt;HTMLStyleElement&gt;;
-    getElementsByTagName(name: &quot;sub&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;summary&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;sup&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;table&quot;): NodeListOf&lt;HTMLTableElement&gt;;
-    getElementsByTagName(name: &quot;tbody&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
-    getElementsByTagName(name: &quot;td&quot;): NodeListOf&lt;HTMLTableDataCellElement&gt;;
-    getElementsByTagName(name: &quot;textarea&quot;): NodeListOf&lt;HTMLTextAreaElement&gt;;
-    getElementsByTagName(name: &quot;tfoot&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
-    getElementsByTagName(name: &quot;th&quot;): NodeListOf&lt;HTMLTableHeaderCellElement&gt;;
-    getElementsByTagName(name: &quot;thead&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
-    getElementsByTagName(name: &quot;title&quot;): NodeListOf&lt;HTMLTitleElement&gt;;
-    getElementsByTagName(name: &quot;tr&quot;): NodeListOf&lt;HTMLTableRowElement&gt;;
-    getElementsByTagName(name: &quot;track&quot;): NodeListOf&lt;HTMLTrackElement&gt;;
-    getElementsByTagName(name: &quot;u&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;ul&quot;): NodeListOf&lt;HTMLUListElement&gt;;
-    getElementsByTagName(name: &quot;var&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: &quot;video&quot;): NodeListOf&lt;HTMLVideoElement&gt;;
-    getElementsByTagName(name: &quot;wbr&quot;): NodeListOf&lt;HTMLElement&gt;;
-    getElementsByTagName(name: string): NodeList;
+    getElementArrayByTagName(name: &quot;a&quot;): NodeListOf&lt;HTMLAnchorElement&gt;;
+    getElementArrayByTagName(name: &quot;abbr&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;address&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;area&quot;): NodeListOf&lt;HTMLAreaElement&gt;;
+    getElementArrayByTagName(name: &quot;article&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;aside&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;audio&quot;): NodeListOf&lt;HTMLAudioElement&gt;;
+    getElementArrayByTagName(name: &quot;b&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;base&quot;): NodeListOf&lt;HTMLBaseElement&gt;;
+    getElementArrayByTagName(name: &quot;bdi&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;bdo&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;blockquote&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
+    getElementArrayByTagName(name: &quot;body&quot;): NodeListOf&lt;HTMLBodyElement&gt;;
+    getElementArrayByTagName(name: &quot;br&quot;): NodeListOf&lt;HTMLBRElement&gt;;
+    getElementArrayByTagName(name: &quot;button&quot;): NodeListOf&lt;HTMLButtonElement&gt;;
+    getElementArrayByTagName(name: &quot;canvas&quot;): NodeListOf&lt;HTMLCanvasElement&gt;;
+    getElementArrayByTagName(name: &quot;caption&quot;): NodeListOf&lt;HTMLTableCaptionElement&gt;;
+    getElementArrayByTagName(name: &quot;cite&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;code&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;col&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
+    getElementArrayByTagName(name: &quot;colgroup&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
+    getElementArrayByTagName(name: &quot;datalist&quot;): NodeListOf&lt;HTMLDataListElement&gt;;
+    getElementArrayByTagName(name: &quot;dd&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;del&quot;): NodeListOf&lt;HTMLModElement&gt;;
+    getElementArrayByTagName(name: &quot;dfn&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;div&quot;): NodeListOf&lt;HTMLDivElement&gt;;
+    getElementArrayByTagName(name: &quot;dl&quot;): NodeListOf&lt;HTMLDListElement&gt;;
+    getElementArrayByTagName(name: &quot;dt&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;em&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;embed&quot;): NodeListOf&lt;HTMLEmbedElement&gt;;
+    getElementArrayByTagName(name: &quot;fieldset&quot;): NodeListOf&lt;HTMLFieldSetElement&gt;;
+    getElementArrayByTagName(name: &quot;figcaption&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;figure&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;footer&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;form&quot;): NodeListOf&lt;HTMLFormElement&gt;;
+    getElementArrayByTagName(name: &quot;h1&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h2&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h3&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h4&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h5&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h6&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;head&quot;): NodeListOf&lt;HTMLHeadElement&gt;;
+    getElementArrayByTagName(name: &quot;header&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;hgroup&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;hr&quot;): NodeListOf&lt;HTMLHRElement&gt;;
+    getElementArrayByTagName(name: &quot;html&quot;): NodeListOf&lt;HTMLHtmlElement&gt;;
+    getElementArrayByTagName(name: &quot;i&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;iframe&quot;): NodeListOf&lt;HTMLIFrameElement&gt;;
+    getElementArrayByTagName(name: &quot;img&quot;): NodeListOf&lt;HTMLImageElement&gt;;
+    getElementArrayByTagName(name: &quot;input&quot;): NodeListOf&lt;HTMLInputElement&gt;;
+    getElementArrayByTagName(name: &quot;ins&quot;): NodeListOf&lt;HTMLModElement&gt;;
+    getElementArrayByTagName(name: &quot;kbd&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;label&quot;): NodeListOf&lt;HTMLLabelElement&gt;;
+    getElementArrayByTagName(name: &quot;legend&quot;): NodeListOf&lt;HTMLLegendElement&gt;;
+    getElementArrayByTagName(name: &quot;li&quot;): NodeListOf&lt;HTMLLIElement&gt;;
+    getElementArrayByTagName(name: &quot;link&quot;): NodeListOf&lt;HTMLLinkElement&gt;;
+    getElementArrayByTagName(name: &quot;main&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;map&quot;): NodeListOf&lt;HTMLMapElement&gt;;
+    getElementArrayByTagName(name: &quot;mark&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;menu&quot;): NodeListOf&lt;HTMLMenuElement&gt;;
+    getElementArrayByTagName(name: &quot;meta&quot;): NodeListOf&lt;HTMLMetaElement&gt;;
+    getElementArrayByTagName(name: &quot;nav&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;noscript&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;object&quot;): NodeListOf&lt;HTMLObjectElement&gt;;
+    getElementArrayByTagName(name: &quot;ol&quot;): NodeListOf&lt;HTMLOListElement&gt;;
+    getElementArrayByTagName(name: &quot;optgroup&quot;): NodeListOf&lt;HTMLOptGroupElement&gt;;
+    getElementArrayByTagName(name: &quot;option&quot;): NodeListOf&lt;HTMLOptionElement&gt;;
+    getElementArrayByTagName(name: &quot;p&quot;): NodeListOf&lt;HTMLParagraphElement&gt;;
+    getElementArrayByTagName(name: &quot;param&quot;): NodeListOf&lt;HTMLParamElement&gt;;
+    getElementArrayByTagName(name: &quot;pre&quot;): NodeListOf&lt;HTMLPreElement&gt;;
+    getElementArrayByTagName(name: &quot;progress&quot;): NodeListOf&lt;HTMLProgressElement&gt;;
+    getElementArrayByTagName(name: &quot;q&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
+    getElementArrayByTagName(name: &quot;rp&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;rt&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;ruby&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;s&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;samp&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;script&quot;): NodeListOf&lt;HTMLScriptElement&gt;;
+    getElementArrayByTagName(name: &quot;section&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;select&quot;): NodeListOf&lt;HTMLSelectElement&gt;;
+    getElementArrayByTagName(name: &quot;small&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;source&quot;): NodeListOf&lt;HTMLSourceElement&gt;;
+    getElementArrayByTagName(name: &quot;span&quot;): NodeListOf&lt;HTMLSpanElement&gt;;
+    getElementArrayByTagName(name: &quot;strong&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;style&quot;): NodeListOf&lt;HTMLStyleElement&gt;;
+    getElementArrayByTagName(name: &quot;sub&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;summary&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;sup&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;table&quot;): NodeListOf&lt;HTMLTableElement&gt;;
+    getElementArrayByTagName(name: &quot;tbody&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
+    getElementArrayByTagName(name: &quot;td&quot;): NodeListOf&lt;HTMLTableDataCellElement&gt;;
+    getElementArrayByTagName(name: &quot;textarea&quot;): NodeListOf&lt;HTMLTextAreaElement&gt;;
+    getElementArrayByTagName(name: &quot;tfoot&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
+    getElementArrayByTagName(name: &quot;th&quot;): NodeListOf&lt;HTMLTableHeaderCellElement&gt;;
+    getElementArrayByTagName(name: &quot;thead&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
+    getElementArrayByTagName(name: &quot;title&quot;): NodeListOf&lt;HTMLTitleElement&gt;;
+    getElementArrayByTagName(name: &quot;tr&quot;): NodeListOf&lt;HTMLTableRowElement&gt;;
+    getElementArrayByTagName(name: &quot;track&quot;): NodeListOf&lt;HTMLTrackElement&gt;;
+    getElementArrayByTagName(name: &quot;u&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;ul&quot;): NodeListOf&lt;HTMLUListElement&gt;;
+    getElementArrayByTagName(name: &quot;var&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;video&quot;): NodeListOf&lt;HTMLVideoElement&gt;;
+    getElementArrayByTagName(name: &quot;wbr&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: string): NodeList;
     getClientRects(): ClientRectList;
     setAttributeNode(newAttr: Attr): Attr;
     removeAttributeNode(oldAttr: Attr): Attr;
@@ -4830,7 +4830,7 @@ interface Document extends Node, NodeSelector, MSEventAttachmentTarget, Document
       */
     queryCommandIndeterm(commandId: string): boolean;
 
-    getElementsByTagNameNS(namespaceURI: string, localName: string): NodeList;
+    getElementArrayByTagNameNS(namespaceURI: string, localName: string): NodeList;
     createProcessingInstruction(target: string, data: string): ProcessingInstruction;
 
     /**
@@ -5440,7 +5440,7 @@ interface Document extends Node, NodeSelector, MSEventAttachmentTarget, Document
       */
     close(): void;
 
-    getElementsByClassName(classNames: string): NodeList;
+    getElementArrayByClassName(classNames: string): NodeList;
     importNode(importedNode: Node, deep: boolean): Node;
 
     /**
@@ -5465,212 +5465,212 @@ interface Document extends Node, NodeSelector, MSEventAttachmentTarget, Document
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;a&quot;): NodeListOf&lt;HTMLAnchorElement&gt;;
+    getElementArrayByTagName(name: &quot;a&quot;): NodeListOf&lt;HTMLAnchorElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;abbr&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;abbr&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;address&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;address&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;area&quot;): NodeListOf&lt;HTMLAreaElement&gt;;
+    getElementArrayByTagName(name: &quot;area&quot;): NodeListOf&lt;HTMLAreaElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;article&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;article&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;aside&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;aside&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;audio&quot;): NodeListOf&lt;HTMLAudioElement&gt;;
+    getElementArrayByTagName(name: &quot;audio&quot;): NodeListOf&lt;HTMLAudioElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;b&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;b&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;base&quot;): NodeListOf&lt;HTMLBaseElement&gt;;
+    getElementArrayByTagName(name: &quot;base&quot;): NodeListOf&lt;HTMLBaseElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;bdi&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;bdi&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;bdo&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;bdo&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;blockquote&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
+    getElementArrayByTagName(name: &quot;blockquote&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;body&quot;): NodeListOf&lt;HTMLBodyElement&gt;;
+    getElementArrayByTagName(name: &quot;body&quot;): NodeListOf&lt;HTMLBodyElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;br&quot;): NodeListOf&lt;HTMLBRElement&gt;;
+    getElementArrayByTagName(name: &quot;br&quot;): NodeListOf&lt;HTMLBRElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;button&quot;): NodeListOf&lt;HTMLButtonElement&gt;;
+    getElementArrayByTagName(name: &quot;button&quot;): NodeListOf&lt;HTMLButtonElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;canvas&quot;): NodeListOf&lt;HTMLCanvasElement&gt;;
+    getElementArrayByTagName(name: &quot;canvas&quot;): NodeListOf&lt;HTMLCanvasElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;caption&quot;): NodeListOf&lt;HTMLTableCaptionElement&gt;;
+    getElementArrayByTagName(name: &quot;caption&quot;): NodeListOf&lt;HTMLTableCaptionElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;cite&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;cite&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;code&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;code&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;col&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
+    getElementArrayByTagName(name: &quot;col&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;colgroup&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
+    getElementArrayByTagName(name: &quot;colgroup&quot;): NodeListOf&lt;HTMLTableColElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;datalist&quot;): NodeListOf&lt;HTMLDataListElement&gt;;
+    getElementArrayByTagName(name: &quot;datalist&quot;): NodeListOf&lt;HTMLDataListElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;dd&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;dd&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;del&quot;): NodeListOf&lt;HTMLModElement&gt;;
+    getElementArrayByTagName(name: &quot;del&quot;): NodeListOf&lt;HTMLModElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;dfn&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;dfn&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;div&quot;): NodeListOf&lt;HTMLDivElement&gt;;
+    getElementArrayByTagName(name: &quot;div&quot;): NodeListOf&lt;HTMLDivElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;dl&quot;): NodeListOf&lt;HTMLDListElement&gt;;
+    getElementArrayByTagName(name: &quot;dl&quot;): NodeListOf&lt;HTMLDListElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;dt&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;dt&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;em&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;em&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;embed&quot;): NodeListOf&lt;HTMLEmbedElement&gt;;
+    getElementArrayByTagName(name: &quot;embed&quot;): NodeListOf&lt;HTMLEmbedElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;fieldset&quot;): NodeListOf&lt;HTMLFieldSetElement&gt;;
+    getElementArrayByTagName(name: &quot;fieldset&quot;): NodeListOf&lt;HTMLFieldSetElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;figcaption&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;figcaption&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;figure&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;figure&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;footer&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;footer&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;form&quot;): NodeListOf&lt;HTMLFormElement&gt;;
+    getElementArrayByTagName(name: &quot;form&quot;): NodeListOf&lt;HTMLFormElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;h1&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h1&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;h2&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h2&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;h3&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h3&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;h4&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h4&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;h5&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h5&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;h6&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
+    getElementArrayByTagName(name: &quot;h6&quot;): NodeListOf&lt;HTMLHeadingElement&gt;;
     /**
      * Retrieves a collection of objects based on the specified element name.
      * @param name Specifies the name of an element.
      */
-    getElementsByTagName(name: &quot;head&quot;): NodeListOf&lt;HTMLHeadElement&gt;;
+    getElementArrayByTagName(name: &quot;head&quot;): NodeListOf&lt;HTMLHeadElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
@@ -5679,312 +5679,312 @@ interface Document extends Node, NodeSelector, MSEventAttachmentTarget, Document
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;header&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;header&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;hgroup&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;hgroup&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;hr&quot;): NodeListOf&lt;HTMLHRElement&gt;;
+    getElementArrayByTagName(name: &quot;hr&quot;): NodeListOf&lt;HTMLHRElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;html&quot;): NodeListOf&lt;HTMLHtmlElement&gt;;
+    getElementArrayByTagName(name: &quot;html&quot;): NodeListOf&lt;HTMLHtmlElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;i&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;i&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;iframe&quot;): NodeListOf&lt;HTMLIFrameElement&gt;;
+    getElementArrayByTagName(name: &quot;iframe&quot;): NodeListOf&lt;HTMLIFrameElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;img&quot;): NodeListOf&lt;HTMLImageElement&gt;;
+    getElementArrayByTagName(name: &quot;img&quot;): NodeListOf&lt;HTMLImageElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;input&quot;): NodeListOf&lt;HTMLInputElement&gt;;
+    getElementArrayByTagName(name: &quot;input&quot;): NodeListOf&lt;HTMLInputElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;ins&quot;): NodeListOf&lt;HTMLModElement&gt;;
+    getElementArrayByTagName(name: &quot;ins&quot;): NodeListOf&lt;HTMLModElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;kbd&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;kbd&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;label&quot;): NodeListOf&lt;HTMLLabelElement&gt;;
+    getElementArrayByTagName(name: &quot;label&quot;): NodeListOf&lt;HTMLLabelElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;legend&quot;): NodeListOf&lt;HTMLLegendElement&gt;;
+    getElementArrayByTagName(name: &quot;legend&quot;): NodeListOf&lt;HTMLLegendElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;li&quot;): NodeListOf&lt;HTMLLIElement&gt;;
+    getElementArrayByTagName(name: &quot;li&quot;): NodeListOf&lt;HTMLLIElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;link&quot;): NodeListOf&lt;HTMLLinkElement&gt;;
+    getElementArrayByTagName(name: &quot;link&quot;): NodeListOf&lt;HTMLLinkElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;main&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;main&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;map&quot;): NodeListOf&lt;HTMLMapElement&gt;;
+    getElementArrayByTagName(name: &quot;map&quot;): NodeListOf&lt;HTMLMapElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;mark&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;mark&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;menu&quot;): NodeListOf&lt;HTMLMenuElement&gt;;
+    getElementArrayByTagName(name: &quot;menu&quot;): NodeListOf&lt;HTMLMenuElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;meta&quot;): NodeListOf&lt;HTMLMetaElement&gt;;
+    getElementArrayByTagName(name: &quot;meta&quot;): NodeListOf&lt;HTMLMetaElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;nav&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;nav&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;noscript&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;noscript&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;object&quot;): NodeListOf&lt;HTMLObjectElement&gt;;
+    getElementArrayByTagName(name: &quot;object&quot;): NodeListOf&lt;HTMLObjectElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;ol&quot;): NodeListOf&lt;HTMLOListElement&gt;;
+    getElementArrayByTagName(name: &quot;ol&quot;): NodeListOf&lt;HTMLOListElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;optgroup&quot;): NodeListOf&lt;HTMLOptGroupElement&gt;;
+    getElementArrayByTagName(name: &quot;optgroup&quot;): NodeListOf&lt;HTMLOptGroupElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;option&quot;): NodeListOf&lt;HTMLOptionElement&gt;;
+    getElementArrayByTagName(name: &quot;option&quot;): NodeListOf&lt;HTMLOptionElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;p&quot;): NodeListOf&lt;HTMLParagraphElement&gt;;
+    getElementArrayByTagName(name: &quot;p&quot;): NodeListOf&lt;HTMLParagraphElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;param&quot;): NodeListOf&lt;HTMLParamElement&gt;;
+    getElementArrayByTagName(name: &quot;param&quot;): NodeListOf&lt;HTMLParamElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;pre&quot;): NodeListOf&lt;HTMLPreElement&gt;;
+    getElementArrayByTagName(name: &quot;pre&quot;): NodeListOf&lt;HTMLPreElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;progress&quot;): NodeListOf&lt;HTMLProgressElement&gt;;
+    getElementArrayByTagName(name: &quot;progress&quot;): NodeListOf&lt;HTMLProgressElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;q&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
+    getElementArrayByTagName(name: &quot;q&quot;): NodeListOf&lt;HTMLQuoteElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;rp&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;rp&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;rt&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;rt&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;ruby&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;ruby&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;s&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;s&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;samp&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;samp&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;script&quot;): NodeListOf&lt;HTMLScriptElement&gt;;
+    getElementArrayByTagName(name: &quot;script&quot;): NodeListOf&lt;HTMLScriptElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;section&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;section&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;select&quot;): NodeListOf&lt;HTMLSelectElement&gt;;
+    getElementArrayByTagName(name: &quot;select&quot;): NodeListOf&lt;HTMLSelectElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;small&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;small&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;source&quot;): NodeListOf&lt;HTMLSourceElement&gt;;
+    getElementArrayByTagName(name: &quot;source&quot;): NodeListOf&lt;HTMLSourceElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;span&quot;): NodeListOf&lt;HTMLSpanElement&gt;;
+    getElementArrayByTagName(name: &quot;span&quot;): NodeListOf&lt;HTMLSpanElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;strong&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;strong&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;style&quot;): NodeListOf&lt;HTMLStyleElement&gt;;
+    getElementArrayByTagName(name: &quot;style&quot;): NodeListOf&lt;HTMLStyleElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;sub&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;sub&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;summary&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;summary&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;sup&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;sup&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;table&quot;): NodeListOf&lt;HTMLTableElement&gt;;
+    getElementArrayByTagName(name: &quot;table&quot;): NodeListOf&lt;HTMLTableElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;tbody&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
+    getElementArrayByTagName(name: &quot;tbody&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;td&quot;): NodeListOf&lt;HTMLTableDataCellElement&gt;;
+    getElementArrayByTagName(name: &quot;td&quot;): NodeListOf&lt;HTMLTableDataCellElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;textarea&quot;): NodeListOf&lt;HTMLTextAreaElement&gt;;
+    getElementArrayByTagName(name: &quot;textarea&quot;): NodeListOf&lt;HTMLTextAreaElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;tfoot&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
+    getElementArrayByTagName(name: &quot;tfoot&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;th&quot;): NodeListOf&lt;HTMLTableHeaderCellElement&gt;;
+    getElementArrayByTagName(name: &quot;th&quot;): NodeListOf&lt;HTMLTableHeaderCellElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;thead&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
+    getElementArrayByTagName(name: &quot;thead&quot;): NodeListOf&lt;HTMLTableSectionElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;title&quot;): NodeListOf&lt;HTMLTitleElement&gt;;
+    getElementArrayByTagName(name: &quot;title&quot;): NodeListOf&lt;HTMLTitleElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;tr&quot;): NodeListOf&lt;HTMLTableRowElement&gt;;
+    getElementArrayByTagName(name: &quot;tr&quot;): NodeListOf&lt;HTMLTableRowElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;track&quot;): NodeListOf&lt;HTMLTrackElement&gt;;
+    getElementArrayByTagName(name: &quot;track&quot;): NodeListOf&lt;HTMLTrackElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;u&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;u&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;ul&quot;): NodeListOf&lt;HTMLUListElement&gt;;
+    getElementArrayByTagName(name: &quot;ul&quot;): NodeListOf&lt;HTMLUListElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;var&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;var&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;video&quot;): NodeListOf&lt;HTMLVideoElement&gt;;
+    getElementArrayByTagName(name: &quot;video&quot;): NodeListOf&lt;HTMLVideoElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: &quot;wbr&quot;): NodeListOf&lt;HTMLElement&gt;;
+    getElementArrayByTagName(name: &quot;wbr&quot;): NodeListOf&lt;HTMLElement&gt;;
     /**
       * Retrieves a collection of objects based on the specified element name.
       * @param name Specifies the name of an element.
       */
-    getElementsByTagName(name: string): NodeList;
+    getElementArrayByTagName(name: string): NodeList;
 
     /**
       * Creates a new document.
@@ -6002,7 +6002,7 @@ interface Document extends Node, NodeSelector, MSEventAttachmentTarget, Document
       * Gets a collection of objects based on the value of the NAME or ID attribute.
       * @param elementName Gets a collection of objects based on the value of the NAME or ID attribute.
       */
-    getElementsByName(elementName: string): NodeList;
+    getElementArrayByName(elementName: string): NodeList;
 
     /**
       * Returns a Boolean value that indicates the current state of the command.
@@ -9414,7 +9414,7 @@ interface HTMLElement extends Element, ElementCSSInlineStyle, MSEventAttachmentT
     focus(): void;
     getAdjacentText(where: string): string;
     insertAdjacentText(where: string, text: string): void;
-    getElementsByClassName(classNames: string): NodeList;
+    getElementArrayByClassName(classNames: string): NodeList;
     setActive(): void;
     removeFilter(filter: Object): void;
     blur(): void;

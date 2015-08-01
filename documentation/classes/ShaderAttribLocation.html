@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/AttributeMetaInfo.ts - davinci-eight</title>
+    <title>ShaderAttribLocation - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -144,40 +144,308 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/AttributeMetaInfo.ts</h1>
+<h1>ShaderAttribLocation Class</h1>
+<div class="box meta">
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * @class AttributeMetaInfo
- */
-interface AttributeMetaInfo {
-  /**
-   *
-   */
-  name: string,
-  /**
-   * @property glslType {string} The type keyword as it appears in the GLSL shader program.
-   * This property is used for program generation.
-   */
-  glslType: string,
-  /**
-   *
-   */
-  size: number,
-  /**
-   * @property type {number} Specifies the data type of each component in the array.
-   * Use either gl.FLOAT (default) or gl.FIXED.
-   */
-  type?: number,
-  normalized: boolean,
-  stride: number,
-  offset: number
-}
 
-export = AttributeMetaInfo;
+        <div class="foundat">
+            Defined in: <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:31</code></a>
+        </div>
 
-    </pre>
+            Module: <a href="../modules/EIGHT.html">EIGHT</a>
+
+</div>
+
+
+<div class="box intro">
+    <p>Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
+In particular, this class manages buffer allocation, location caching, and data binding.</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_ShaderAttribLocation" class="method item">
+            <h3 class="name"><code>ShaderAttribLocation</code></h3>
+        
+                <div class="args">
+                    <span class="paren">(</span><ul class="args-list inline commas">
+                        <li class="arg">
+                                <code>name</code>
+                        </li>
+                        <li class="arg">
+                                <code>glslType</code>
+                        </li>
+                    </ul><span class="paren">)</span>
+                </div>
+        
+        
+        
+        
+        
+        
+        
+        
+            <div class="meta">
+                        <p>
+                        Defined in
+                <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:31</code></a>
+                </p>
+        
+        
+        
+            </div>
+        
+            <div class="description">
+                
+            </div>
+        
+                <div class="params">
+                    <h4>Parameters:</h4>
+        
+                    <ul class="params-list">
+                        <li class="param">
+                                <code class="param-name">name</code>
+                                <span class="type">String</span>
+        
+        
+                            <div class="param-description">
+                                <p>The name of the variable as it appears in the GLSL program.</p>
+        
+                            </div>
+        
+                        </li>
+                        <li class="param">
+                                <code class="param-name">glslType</code>
+                                <span class="type">String</span>
+        
+        
+                            <div class="param-description">
+                                <p>The type of the variable as it appears in the GLSL program.</p>
+        
+                            </div>
+        
+                        </li>
+                    </ul>
+                </div>
+        
+        
+        
+        </div>
+    </div>
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_bufferData">bufferData</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_dataFormat">dataFormat</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toString">toString</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_bufferData" class="method item">
+    <h3 class="name"><code>bufferData</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:97</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>FIXME This should not couple to an AttribProvider.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_dataFormat" class="method item">
+    <h3 class="name"><code>dataFormat</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>size</code>
+                </li>
+                <li class="arg">
+                        <code>type</code>
+                </li>
+                <li class="arg">
+                        <code>normalized</code>
+                </li>
+                <li class="arg">
+                        <code>stride</code>
+                </li>
+                <li class="arg">
+                        <code>offset</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:79</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">size</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>The number of components per attribute. Must be 1,2,3, or 4.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">normalized</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                        <p>Used for WebGLRenderingContext.vertexAttribPointer().</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">stride</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Used for WebGLRenderingContext.vertexAttribPointer().</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">offset</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Used for WebGLRenderingContext.vertexAttribPointer().</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_toString" class="method item">
+    <h3 class="name"><code>toString</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderAttribLocation.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderAttribLocation.ts:132</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+            </div>
+
+
+
+    </div>
 </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import BoxOptions = require('../mesh/BoxOptions');
 /**
  * @class BoxBuilder
@@ -32,6 +32,6 @@ declare class BoxBuilder {
     setWireFrame(wireFrame: boolean): BoxBuilder;
     setPositionVarName(positionVarName: string): BoxBuilder;
     setNormalVarName(normalVarName: string): BoxBuilder;
-    buildMesh(): AttributeProvider;
+    buildMesh(): AttribProvider;
 }
 export = BoxBuilder;

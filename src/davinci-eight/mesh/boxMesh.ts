@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DrawMode = require('../core/DrawMode');
 import Geometry = require('../geometries/Geometry');
@@ -19,22 +19,22 @@ function boxGeometry(options?: BoxOptions): Geometry {
     options.wireFrame);
 }
 
-function boxMesh(options?: BoxOptions) : AttributeProvider {
+function boxMesh(options?: BoxOptions) : AttribProvider {
 
   let base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
 
-  let publicAPI: AttributeProvider = {
+  let publicAPI: AttribProvider = {
     draw(context: WebGLRenderingContext) {
       return base.draw(context);
     },
     update(attributes: ShaderVariableDecl[]) {
       return base.update(attributes);
     },
-    getVertexAttributeData(name: string) {
-      return base.getVertexAttributeData(name);
+    getAttribArray(name: string) {
+      return base.getAttribArray(name);
     },
-    getAttributeMetaInfos() {
-      return base.getAttributeMetaInfos();
+    getAttribMeta() {
+      return base.getAttribMeta();
     },
     get drawMode(): DrawMode {
       return base.drawMode;
@@ -45,11 +45,11 @@ function boxMesh(options?: BoxOptions) : AttributeProvider {
     get dynamic() {
       return base.dynamic;
     },
-    hasElements() {
-      return base.hasElements();
+    hasElementArray() {
+      return base.hasElementArray();
     },
-    getElements() {
-      return base.getElements();
+    getElementArray() {
+      return base.getElementArray();
     }
   };
   return publicAPI;

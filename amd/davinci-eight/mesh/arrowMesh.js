@@ -20,11 +20,11 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Ar
             update: function (attributes) {
                 return base.update(attributes);
             },
-            getVertexAttributeData: function (name) {
-                return base.getVertexAttributeData(name);
+            getAttribArray: function (name) {
+                return base.getAttribArray(name);
             },
-            getAttributeMetaInfos: function () {
-                return base.getAttributeMetaInfos();
+            getAttribMeta: function () {
+                return base.getAttribMeta();
             },
             get drawMode() {
                 return base.drawMode;
@@ -35,11 +35,11 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Ar
             get dynamic() {
                 return base.dynamic;
             },
-            hasElements: function () {
-                return base.hasElements();
+            hasElementArray: function () {
+                return base.hasElementArray();
             },
-            getElements: function () {
-                return base.getElements();
+            getElementArray: function () {
+                return base.getElementArray();
             }
         };
         return publicAPI;

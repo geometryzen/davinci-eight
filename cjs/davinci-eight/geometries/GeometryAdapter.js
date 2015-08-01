@@ -9,7 +9,7 @@ function defaultColorFunction(vertexIndex, face, vertexList) {
     return new Color([1.0, 1.0, 1.0]);
 }
 /**
- * Adapter from a Geometry to a AttributeProvider.
+ * Adapter from a Geometry to a AttribProvider.
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
@@ -17,7 +17,7 @@ var GeometryAdapter = (function () {
     /**
      * @class GeometryAdapter
      * @constructor
-     * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
+     * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
      */
     function GeometryAdapter(geometry, options) {
         this.$drawMode = DrawMode.TRIANGLES;
@@ -78,13 +78,13 @@ var GeometryAdapter = (function () {
         enumerable: true,
         configurable: true
     });
-    GeometryAdapter.prototype.hasElements = function () {
+    GeometryAdapter.prototype.hasElementArray = function () {
         return true;
     };
-    GeometryAdapter.prototype.getElements = function () {
+    GeometryAdapter.prototype.getElementArray = function () {
         return { usage: this.elementsUsage, data: this.elementArray };
     };
-    GeometryAdapter.prototype.getVertexAttributeData = function (name) {
+    GeometryAdapter.prototype.getAttribArray = function (name) {
         // FIXME: Need to inject usage for each array type.
         switch (name) {
             case this.positionVarName: {
@@ -106,7 +106,7 @@ var GeometryAdapter = (function () {
             }
         }
     };
-    GeometryAdapter.prototype.getAttributeMetaInfos = function () {
+    GeometryAdapter.prototype.getAttribMeta = function () {
         var attribues = {};
         attribues[Symbolic.ATTRIBUTE_POSITION] = {
             name: this.positionVarName,

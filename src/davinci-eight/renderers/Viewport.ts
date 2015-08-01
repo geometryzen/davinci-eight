@@ -34,9 +34,9 @@ interface Viewport extends RenderingContextUser {
   /**
    * @method render
    * @param drawList {DrawList}
-   * @param views {UniformProvider[]}
+   * @param view {UniformProvider}
    */
-  render(drawList: DrawList, views: UniformProvider[]): void;
+  render(drawList: DrawList, view: UniformProvider): void;
   /**
    * @method clearColor
    * @param red {number}

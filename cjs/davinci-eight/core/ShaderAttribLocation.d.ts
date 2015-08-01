@@ -2,11 +2,11 @@ import DataUsage = require('../core/DataUsage');
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
- * to use the ShaderAttributeLocation instances managed by the ShaderProgram because
+ * to use the ShaderAttribLocation instances managed by the ShaderProgram because
  * there will be improved integrity and context loss management.
- * @class ShaderAttributeLocation.
+ * @class ShaderAttribLocation.
  */
-declare class ShaderAttributeLocation {
+declare class ShaderAttribLocation {
     /**
      * @property name {string} The name of the variable as it appears in the GLSL program.
      */
@@ -24,7 +24,7 @@ declare class ShaderAttributeLocation {
     /**
      * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
      * In particular, this class manages buffer allocation, location caching, and data binding.
-     * @class ShaderAttributeLocation
+     * @class ShaderAttribLocation
      * @constructor
      * @param name {string} The name of the variable as it appears in the GLSL program.
      * @param glslType {string} The type of the variable as it appears in the GLSL program.
@@ -44,7 +44,7 @@ declare class ShaderAttributeLocation {
      */
     dataFormat(size: number, type: number, normalized?: boolean, stride?: number, offset?: number): void;
     /**
-     * FIXME This should not couple to an AttributeProvider.
+     * FIXME This should not couple to an AttribProvider.
      * @method bufferData
      */
     bufferData(data: Float32Array, usage: DataUsage): void;
@@ -55,4 +55,4 @@ declare class ShaderAttributeLocation {
      */
     toString(): string;
 }
-export = ShaderAttributeLocation;
+export = ShaderAttribLocation;

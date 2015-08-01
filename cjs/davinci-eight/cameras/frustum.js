@@ -118,8 +118,8 @@ var frustum = function (left, right, bottom, top, near, far) {
         getUniformVector4: function (name) {
             return base.getUniformVector4(name);
         },
-        getUniformMetaInfos: function () {
-            var uniforms = base.getUniformMetaInfos();
+        getUniformMeta: function () {
+            var uniforms = base.getUniformMeta();
             uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
             return uniforms;
         }

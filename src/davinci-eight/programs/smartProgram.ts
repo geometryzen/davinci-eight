@@ -1,4 +1,4 @@
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import shaderProgram = require('./shaderProgram');
 import ShaderProgram = require('../programs/ShaderProgram');
 import Symbolic = require('../core/Symbolic');
@@ -21,7 +21,7 @@ function vLightRequired(uniforms: UniformMetaInfos): boolean {
 /**
  * 
  */
-let vertexShader = function(attributes: AttributeMetaInfos, uniforms: UniformMetaInfos, vLight: boolean): string {
+let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vLight: boolean): string {
 
   var lines: string[] = [];
   for (name in attributes) {
@@ -130,7 +130,7 @@ let vertexShader = function(attributes: AttributeMetaInfos, uniforms: UniformMet
 /**
  *
  */
-let fragmentShader = function(attributes: AttributeMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
+let fragmentShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
 
   var lines: string[] = [];
   lines.push("varying highp vec4 vColor;");
@@ -161,7 +161,7 @@ let fragmentShader = function(attributes: AttributeMetaInfos, uniforms: UniformM
 /**
  *
  */
-var smartProgram = function(attributes: AttributeMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram {
+var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram {
 
   if (attributes) {
 

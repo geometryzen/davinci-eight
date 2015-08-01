@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import BoxOptions = require('../mesh/BoxOptions');
-declare function boxMesh(options?: BoxOptions): AttributeProvider;
+declare function boxMesh(options?: BoxOptions): AttribProvider;
 export = boxMesh;

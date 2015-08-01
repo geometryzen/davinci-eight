@@ -71,13 +71,13 @@ class ChainedUniformProvider implements UniformProvider {
       return this.fallback.getUniformVector4(name);
     }
   }
-  getUniformMetaInfos(): UniformMetaInfos {
+  getUniformMeta(): UniformMetaInfos {
     var uniforms: UniformMetaInfos = {};
-    var ones = this.provider.getUniformMetaInfos();
+    var ones = this.provider.getUniformMeta();
     for (name in ones) {
       uniforms[name] = ones[name];
     }
-    var twos = this.fallback.getUniformMetaInfos();
+    var twos = this.fallback.getUniformMeta();
     for (name in twos) {
       uniforms[name] = twos[name];
     }

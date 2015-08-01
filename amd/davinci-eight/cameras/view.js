@@ -102,8 +102,8 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
             getUniformVector4: function (name) {
                 return base.getUniformVector4(name);
             },
-            getUniformMetaInfos: function () {
-                return base.getUniformMetaInfos();
+            getUniformMeta: function () {
+                return base.getUniformMeta();
             }
         };
         return publicAPI;

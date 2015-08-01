@@ -109,10 +109,10 @@ class LocalModel extends DefaultUniformProvider {
     }
   }
   /**
-   * @method getUniformMetaInfos
+   * @method getUniformMeta
    */
-  getUniformMetaInfos(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = this.uColor.getUniformMetaInfos();
+  getUniformMeta(): UniformMetaInfos {
+    var uniforms: UniformMetaInfos = this.uColor.getUniformMeta();
     uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: UNIFORM_MODEL_MATRIX_NAME,  glslType: UNIFORM_MODEL_MATRIX_TYPE};
     uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE};
     return uniforms;

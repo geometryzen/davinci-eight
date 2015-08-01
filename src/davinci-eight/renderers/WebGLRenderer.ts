@@ -8,11 +8,20 @@ import UniformProvider = require('../core/UniformProvider');
  */
 interface WebGLRenderer extends RenderingContextUser {
   /**
+   * @property autoClear
+   * Defines whether the renderer should automatically clear its output before rendering.
+   */
+  autoClear: boolean;
+  /**
+   *
+   */
+  clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer;
+  /**
    * @method render
    * @param drawList {DrawList}
-   * @param views {UniformProvider[]}
+   * @param view {UniformProvider}
    */
-  render(drawList: DrawList, views: UniformProvider[]): void;
+  render(drawList: DrawList, view: UniformProvider): void;
 }
 
 export = WebGLRenderer;

@@ -2,9 +2,9 @@
 // box.ts
 //
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 var vertexList: blade.Euclidean3[] =
@@ -44,7 +44,7 @@ var triangles: number[][] =
   [0, 4, 5]
 ];
 
-var box = function(spec?): AttributeProvider {
+var box = function(spec?): AttribProvider {
 
   var elements: number[] = [];
 
@@ -53,7 +53,7 @@ var box = function(spec?): AttributeProvider {
   var aVertexNormalArray: Float32Array;
   var drawMode: number = 2;
 
-  var publicAPI: AttributeProvider = {
+  var publicAPI: AttribProvider = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
@@ -63,21 +63,21 @@ var box = function(spec?): AttributeProvider {
     get dynamic(): boolean {
       return false;
     },
-    getAttributeMetaInfos(): AttributeMetaInfos {
+    getAttribMeta(): AttribMetaInfos {
       return {
         position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
         color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
         normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
-    hasElements(): boolean {
+    hasElementArray(): boolean {
       return false;
     },
-    getElements(): Uint16Array {
+    getElementArray(): Uint16Array {
       // We don't support element arrays (yet).
       return;
     },
-    getVertexAttributeData(name: string) {
+    getAttribArray(name: string) {
       switch(name) {
         case 'aVertexPosition': {
           return aVertexPositionArray;

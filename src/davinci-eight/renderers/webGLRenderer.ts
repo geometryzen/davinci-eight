@@ -5,24 +5,32 @@ import RendererParameters = require('../renderers/RendererParameters');
 import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 import expectArg = require('../checks/expectArg');
+import Color = require('../core/Color');
 
 let webGLRenderer = function(canvas: HTMLCanvasElement): WebGLRenderer {
 
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 
-    var base: Renderer = renderer(canvas);
+    let base: Renderer = renderer(canvas);
     var gl: WebGLRenderingContext;
+    var glId: string;
+    var autoClear: boolean = true;
+    var clearColor: Color = Color.fromRGB(0, 0, 0);
+    var clearAlpha: number = 0;
 
-    var self: WebGLRenderer = {
+    let self: WebGLRenderer = {
       contextFree() {
         gl = void 0;
+        glId = void 0;
         return base.contextFree();
       },
       contextGain(context: WebGLRenderingContext, contextId: string) {
+        expectArg('contextId', contextId).toBeString();
         let attributes: WebGLContextAttributes = context.getContextAttributes();
         console.log(context.getParameter(context.VERSION));
         gl = context;
-        gl.clearColor(0.3, 0.3, 0.3, 1.0);
+        glId = contextId;
+        gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
         gl.clearDepth(1.0); 
         gl.enable(gl.DEPTH_TEST);
         gl.depthFunc(gl.LEQUAL);
@@ -31,16 +39,34 @@ let webGLRenderer = function(canvas: HTMLCanvasElement): WebGLRenderer {
       },
       contextLoss() {
         gl = void 0;
+        glId = void 0;
         return base.contextLoss();
       },
       hasContext() {
         return base.hasContext();
       },
-      render(drawList: DrawList, views: UniformProvider[]) {
+      get autoClear(): boolean {
+        return autoClear;
+      },
+      set autoClear(value: boolean) {
+        expectArg('autoClear', value).toBeBoolean();
+        autoClear = value;
+      },
+      clearColor(red: number, green: number, blue: number, alpha: number): WebGLRenderer {
+        clearColor.red = red;
+        clearColor.green = green;
+        clearColor.blue = blue;
+        clearAlpha = alpha;
         if (gl) {
+          gl.clearColor(red, green, blue, alpha);
+        }
+        return self;
+      },
+      render(drawList: DrawList, view: UniformProvider) {
+        if (autoClear && gl) {
           gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         }
-        return base.render(drawList, views);
+        return base.render(drawList, view);
       }
     };
 

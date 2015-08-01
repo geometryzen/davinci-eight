@@ -48,8 +48,8 @@ define(["require", "exports", '../math/Spinor3', '../uniforms/DefaultUniformProv
         UniformSpinor3.prototype.getUniformVector4 = function (name) {
             return this.inner.getUniformVector4(name);
         };
-        UniformSpinor3.prototype.getUniformMetaInfos = function () {
-            return this.inner.getUniformMetaInfos();
+        UniformSpinor3.prototype.getUniformMeta = function () {
+            return this.inner.getUniformMeta();
         };
         return UniformSpinor3;
     })(DefaultUniformProvider);

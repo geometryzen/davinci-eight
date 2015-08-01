@@ -1,7 +1,7 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderProgram = require('../programs/ShaderProgram');
 import Node = require('../uniforms/Node');
 import DrawableModel = require('../objects/DrawableModel');
 import UniformProvider = require('../core/UniformProvider');
-declare function cylinder(ambients: UniformProvider): DrawableModel<AttributeProvider, ShaderProgram, Node>;
+declare function cylinder(ambients: UniformProvider): DrawableModel<AttribProvider, ShaderProgram, Node>;
 export = cylinder;

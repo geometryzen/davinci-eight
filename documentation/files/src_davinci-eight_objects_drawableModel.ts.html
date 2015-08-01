@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.43.0</em>
+            <em>API Docs for: 2.44.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,9 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttributeMetaInfo.html">AttributeMetaInfo</a></li>
-                                <li><a href="../classes/AttributeMetaInfos.html">AttributeMetaInfos</a></li>
-                                <li><a href="../classes/AttributeProvider.html">AttributeProvider</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -83,8 +83,8 @@
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation.html">ShaderAttributeLocation</a></li>
-                                <li><a href="../classes/ShaderAttributeLocation..html">ShaderAttributeLocation.</a></li>
+                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
+                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -110,7 +110,7 @@
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/d8.html">d8</a></li>
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -148,28 +148,28 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttributeMetaInfo = require(&#x27;../core/AttributeMetaInfo&#x27;); 
-import AttributeMetaInfos = require(&#x27;../core/AttributeMetaInfos&#x27;); 
+import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;); 
+import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;); 
 import ShaderProgram = require(&#x27;../programs/ShaderProgram&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
-import ShaderAttributeLocation = require(&#x27;../core/ShaderAttributeLocation&#x27;);
+import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
 import ElementArray = require(&#x27;../core/ElementArray&#x27;);
 import ChainedUniformProvider = require(&#x27;../uniforms/ChainedUniformProvider&#x27;);
 import DrawableModel = require(&#x27;../objects/DrawableModel&#x27;);
-import AttributeProvider = require(&#x27;../core/AttributeProvider&#x27;);
+import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 
-var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt;(
+var drawableModel = function&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt;(
   mesh: MESH,
   shaders: SHADERS,
   model: MODEL): DrawableModel&lt;MESH, SHADERS, MODEL&gt; {
   /**
-   * Find an attribute by its code name rather than its semantic role (which is the key in AttributeMetaInfos)
+   * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
    */
-  function findAttributeMetaInfoByVariableName(name: string, attributes: AttributeMetaInfos): AttributeMetaInfo {
+  function findAttribMetaInfoByVariableName(name: string, attributes: AttribMetaInfos): AttribMetaInfo {
     for (var key in attributes) {
       let attribute = attributes[key];
       if (attribute.name === name) {
@@ -178,11 +178,11 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
     }
   }
   /**
-   * Constructs a ShaderAttributeLocation from a declaration.
+   * Constructs a ShaderAttribLocation from a declaration.
    */
-  function shaderAttributeLocationFromDecl(declaration: ShaderVariableDecl): ShaderAttributeLocation {
+  function shaderAttributeLocationFromDecl(declaration: ShaderVariableDecl): ShaderAttribLocation {
     // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
-    let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(declaration.name, mesh.getAttributeMetaInfos());
+    let attribute: AttribMetaInfo = findAttribMetaInfoByVariableName(declaration.name, mesh.getAttribMeta());
     if (attribute) {
       return shaders.attributeLocation(declaration.name);
     }
@@ -201,7 +201,7 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
   }
 
   function checkUniformsCompleteAndReady(provider: UniformProvider) {
-    var metas = provider.getUniformMetaInfos();
+    var metas = provider.getUniformMeta();
     shaders.uniforms.forEach(function(uniformDecl: ShaderVariableDecl) {
       var match: UniformMetaInfo = void 0;
       for (var id in metas) {
@@ -230,14 +230,14 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
   var context: WebGLRenderingContext;
   var contextGainId: string;
   var elements: ElementArray = new ElementArray(mesh);
-  var vertexAttributes: ShaderAttributeLocation[] = shaders.attributes.map(shaderAttributeLocationFromDecl);
+  var vertexAttributes: ShaderAttribLocation[] = shaders.attributes.map(shaderAttributeLocationFromDecl);
   var uniformVariables: ShaderUniformLocation[] = shaders.uniforms.map(shaderUniformLocationFromDecl);
 
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaders gets the correct data.
     mesh.update(shaders.attributes);
-    vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeLocation) {
-      let thing = mesh.getVertexAttributeData(vertexAttribute.name);
+    vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+      let thing = mesh.getAttribArray(vertexAttribute.name);
       if (thing) {
         vertexAttribute.bufferData(thing.data, thing.usage);
       }
@@ -397,8 +397,8 @@ var drawableModel = function&lt;MESH extends AttributeProvider, SHADERS extends 
           vertexAttribute.enable();
         });
 
-        vertexAttributes.forEach(function(vertexAttribute: ShaderAttributeLocation) {
-          let attribute: AttributeMetaInfo = findAttributeMetaInfoByVariableName(vertexAttribute.name, mesh.getAttributeMetaInfos());
+        vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+          let attribute: AttribMetaInfo = findAttribMetaInfoByVariableName(vertexAttribute.name, mesh.getAttribMeta());
           if (attribute) {
             let size = attribute.size;
             let type = context.FLOAT;//attribute.dataType;

@@ -1,4 +1,4 @@
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import SphereOptions = require('../mesh/SphereOptions');
 declare class SphereBuilder {
     private $radius;
@@ -26,6 +26,6 @@ declare class SphereBuilder {
     setWidthSegments(widthSegments: number): SphereBuilder;
     setHeightSegments(heightSegments: number): SphereBuilder;
     setWireFrame(wireFrame: boolean): SphereBuilder;
-    buildMesh(): AttributeProvider;
+    buildMesh(): AttribProvider;
 }
 export = SphereBuilder;

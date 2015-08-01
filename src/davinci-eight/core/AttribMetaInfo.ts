@@ -1,7 +1,7 @@
 /**
- * @class AttributeMetaInfo
+ * @class AttribMetaInfo
  */
-interface AttributeMetaInfo {
+interface AttribMetaInfo {
   /**
    *
    */
@@ -25,4 +25,4 @@ interface AttributeMetaInfo {
   offset: number
 }
 
-export = AttributeMetaInfo;
+export = AttribMetaInfo;

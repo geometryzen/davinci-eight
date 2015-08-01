@@ -1,13 +1,13 @@
-import AttributeMetaInfos = require('../core/AttributeMetaInfos');
+import AttribMetaInfos = require('../core/AttribMetaInfos');
 import cuboid = require('../mesh/cuboid');
 import CuboidMesh = require('../mesh/CuboidMesh');
-import AttributeProvider = require('../core/AttributeProvider');
+import AttribProvider = require('../core/AttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 /**
  * @class BoxMesh
  */
-class BoxMesh implements AttributeProvider {
+class BoxMesh implements AttribProvider {
   private cuboid: CuboidMesh;
   /**
    * @class BoxMesh
@@ -41,17 +41,17 @@ class BoxMesh implements AttributeProvider {
   get dynamic() {
     return this.cuboid.dynamic;
   }
-  hasElements() {
-    return this.cuboid.hasElements();
+  hasElementArray() {
+    return this.cuboid.hasElementArray();
   }
-  getElements() {
-    return this.cuboid.getElements();
+  getElementArray() {
+    return this.cuboid.getElementArray();
   }
-  getVertexAttributeData(name: string) {
-    return this.cuboid.getVertexAttributeData(name);
+  getAttribArray(name: string) {
+    return this.cuboid.getAttribArray(name);
   }
-  getAttributeMetaInfos() {
-    return this.cuboid.getAttributeMetaInfos();
+  getAttribMeta() {
+    return this.cuboid.getAttribMeta();
   }
   update(attributes: ShaderVariableDecl[]) {
     return this.cuboid.update(attributes);

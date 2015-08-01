@@ -39,8 +39,8 @@ class UniformVector3 extends DefaultUniformProvider implements UniformVariable<V
   getUniformVector3(name: string): number[] {
     return this.inner.getUniformVector3(name);
   }
-  getUniformMetaInfos() {
-    return this.inner.getUniformMetaInfos();
+  getUniformMeta() {
+    return this.inner.getUniformMeta();
   }
 }
 
