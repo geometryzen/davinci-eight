@@ -56,6 +56,8 @@ import DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformPr
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
 import LocalModel = require('davinci-eight/uniforms/LocalModel');
 import Node = require('davinci-eight/uniforms/Node');
+import TreeModel = require('davinci-eight/uniforms/TreeModel');
+import UniversalJoint = require('davinci-eight/uniforms/UniversalJoint');
 import MultiUniformProvider = require('davinci-eight/uniforms/MultiUniformProvider');
 import PointLight = require('davinci-eight/uniforms/PointLight');
 import UniformFloat = require('davinci-eight/uniforms/UniformFloat');
@@ -80,9 +82,18 @@ declare var eight: {
         preserveDrawingBuffer?: boolean;
         stencil?: boolean;
     }) => WebGLRenderingContext;
-    view: () => View;
+    view: (options?: {
+        viewMatrixName?: string;
+    }) => View;
     frustum: (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => Frustum;
-    perspective: (fov?: number, aspect?: number, near?: number, far?: number) => LinearPerspectiveCamera;
+    perspective: (options?: {
+        fov?: number;
+        aspect?: number;
+        near?: number;
+        far?: number;
+        projectionMatrixName?: string;
+        viewMatrixName?: string;
+    }) => LinearPerspectiveCamera;
     drawList: () => DrawList;
     object3D: () => Node3D;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
@@ -140,6 +151,8 @@ declare var eight: {
     VortexGeometry: typeof VortexGeometry;
     LocalModel: typeof LocalModel;
     Node: typeof Node;
+    TreeModel: typeof TreeModel;
+    UniversalJoint: typeof UniversalJoint;
     UniformFloat: typeof UniformFloat;
     UniformMat4: typeof UniformMat4;
     UniformVec2: typeof UniformVec2;

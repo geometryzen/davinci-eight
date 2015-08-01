@@ -1,6 +1,7 @@
 var expectArg = require('../checks/expectArg');
 var isUndefined = require('../checks/isUndefined');
 var boxMesh = require('../mesh/boxMesh');
+var Symbolic = require('../core/Symbolic');
 /**
  * @class BoxBuilder
  */
@@ -14,6 +15,8 @@ var BoxBuilder = (function () {
         this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
         this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
         this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
+        this.setPositionVarName(isUndefined(options.positionVarName) ? Symbolic.ATTRIBUTE_POSITION : options.positionVarName);
+        this.setNormalVarName(isUndefined(options.normalVarName) ? Symbolic.ATTRIBUTE_NORMAL : options.normalVarName);
     }
     Object.defineProperty(BoxBuilder.prototype, "width", {
         get: function () {
@@ -64,6 +67,20 @@ var BoxBuilder = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(BoxBuilder.prototype, "positionVarName", {
+        get: function () {
+            return this.$positionVarName;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BoxBuilder.prototype, "normalVarName", {
+        get: function () {
+            return this.$normalVarName;
+        },
+        enumerable: true,
+        configurable: true
+    });
     BoxBuilder.prototype.setWidth = function (width) {
         expectArg('width', width).toBeNumber().toSatisfy(width >= 0, "width must be greater than or equal to zero.");
         this.$width = width;
@@ -97,6 +114,16 @@ var BoxBuilder = (function () {
     BoxBuilder.prototype.setWireFrame = function (wireFrame) {
         expectArg('wireFrame', wireFrame).toBeBoolean();
         this.$wireFrame = wireFrame;
+        return this;
+    };
+    BoxBuilder.prototype.setPositionVarName = function (positionVarName) {
+        expectArg('positionVarName', positionVarName).toBeString();
+        this.$positionVarName = positionVarName;
+        return this;
+    };
+    BoxBuilder.prototype.setNormalVarName = function (normalVarName) {
+        expectArg('normalVarName', normalVarName).toBeString();
+        this.$normalVarName = normalVarName;
         return this;
     };
     BoxBuilder.prototype.buildMesh = function () {

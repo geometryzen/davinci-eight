@@ -6,7 +6,7 @@ var __extends = this.__extends || function (d, b) {
 };
 define(["require", "exports", '../math/Vector3', '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Vector3, DefaultUniformProvider, UniformVec3) {
     /**
-     * Provides a uniform variable representing an ambient light.
+     * Provides a uniform variable with the Vector3 data type.
      * @class UniformVector3
      */
     var UniformVector3 = (function (_super) {

@@ -144,6 +144,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.40.0: 2015-07-30 LocalModel
 * 2.41.0: 2015-07-30 Node
 * 2.42.0: 2015-07-31 DrawList
+* 2.43.0: 2015-08-01 VarName
 
 ## License
 Copyright (c) 2014-2015 David Holmes

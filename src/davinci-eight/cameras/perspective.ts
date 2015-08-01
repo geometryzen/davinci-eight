@@ -9,9 +9,10 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import isUndefined = require('../checks/isUndefined');
+import expectArg = require('../checks/expectArg');
 
-let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
-let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
+//let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
 
 /**
  * @class perspective
@@ -22,13 +23,28 @@ let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
  * @param far {number}
  * @return {LinearPerspectiveCamera}
  */
-var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000): LinearPerspectiveCamera {
+let perspective = function(options?: {
+    fov?: number;
+    aspect?: number;
+    near?: number;
+    far?: number;
+    projectionMatrixName?: string;
+    viewMatrixName?:string
+  }
+  ): LinearPerspectiveCamera {
 
-  var base: View = view();
-  var projectionMatrix = Matrix4.create();
+  options = options || {};
+  let fov: number = isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov;
+  let aspect: number = isUndefined(options.aspect) ? 1 : options.aspect;
+  let near: number = isUndefined(options.near) ? 0.1 : options.near;
+  let far: number = expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value;
+  let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+
+  let base: View = view(options);
+  let projectionMatrix = Matrix4.create();
   var matrixNeedsUpdate = true;
 
-  var self: LinearPerspectiveCamera = {
+  let self: LinearPerspectiveCamera = {
     // Delegate to the base camera.
     get eye(): Cartesian3 {
       return base.eye;
@@ -95,7 +111,7 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     },
     getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
       switch(name) {
-        case UNIFORM_PROJECTION_MATRIX_NAME: {
+        case projectionMatrixName: {
           if (matrixNeedsUpdate) {
             projectionMatrix.perspective(fov, aspect, near, far);
             matrixNeedsUpdate = false;
@@ -118,7 +134,7 @@ var perspective = function(fov: number = 75 * Math.PI / 180, aspect: number = 1,
     },
     getUniformMetaInfos(): UniformMetaInfos {
       var uniforms: UniformMetaInfos = base.getUniformMetaInfos();
-      uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE};
+      uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: projectionMatrixName, glslType: 'mat4'};
       return uniforms;
     }
   };

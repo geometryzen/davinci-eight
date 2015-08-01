@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.42.0</em>
+            <em>API Docs for: 2.43.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -73,21 +73,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
                                 <li><a href="../classes/LocalModel.html">LocalModel</a></li>
-                                <li><a href="../classes/Matrix4
-                
-                The correspondence between the elements property index and the matrix entries is...
-                
-                 0  4  8 12
-                 1  5  9 13
-                 2  6 10 14
-                 3  7 11 15.html">Matrix4
-                
-                The correspondence between the elements property index and the matrix entries is...
-                
-                 0  4  8 12
-                 1  5  9 13
-                 2  6 10 14
-                 3  7 11 15</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
@@ -103,6 +89,10 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/Symbolic
+                Canonical variable names, which act as semantic identifiers..html">Symbolic
+                Canonical variable names, which act as semantic identifiers.</a></li>
+                                <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -112,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -163,6 +153,7 @@ import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
 import boxMesh = require(&#x27;../mesh/boxMesh&#x27;);
 import BoxOptions = require(&#x27;../mesh/BoxOptions&#x27;);
+import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 
 /**
  * @class BoxBuilder
@@ -175,6 +166,8 @@ class BoxBuilder {
   private $heightSegments: number;
   private $depthSegments: number;
   private $wireFrame: boolean;
+  private $positionVarName: string;
+  private $normalVarName: string;
   constructor(options?: BoxOptions) {
     options = options || {};
     this.setWidth(isUndefined(options.width) ? 1 : options.width);
@@ -184,27 +177,35 @@ class BoxBuilder {
     this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
     this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
+    this.setPositionVarName(isUndefined(options.positionVarName) ? Symbolic.ATTRIBUTE_POSITION : options.positionVarName);
+    this.setNormalVarName(isUndefined(options.normalVarName) ? Symbolic.ATTRIBUTE_NORMAL : options.normalVarName);
   }
-  get width() {
+  get width(): number {
     return this.$width;
   }
-  get height() {
+  get height(): number {
     return this.$height;
   }
-  get depth() {
+  get depth(): number {
     return this.$depth;
   }
-  get widthSegments() {
+  get widthSegments(): number {
     return this.$widthSegments;
   }
-  get heightSegments() {
+  get heightSegments(): number {
     return this.$heightSegments;
   }
-  get depthSegments() {
+  get depthSegments(): number {
     return this.$depthSegments;
   }
-  get wireFrame() {
+  get wireFrame(): boolean {
     return this.$wireFrame;
+  }
+  get positionVarName(): string {
+    return this.$positionVarName;
+  }
+  get normalVarName(): string {
+    return this.$normalVarName;
   }
   setWidth(width: number): BoxBuilder {
     expectArg(&#x27;width&#x27;, width).toBeNumber().toSatisfy(width &gt;= 0, &quot;width must be greater than or equal to zero.&quot;);
@@ -239,6 +240,16 @@ class BoxBuilder {
   setWireFrame(wireFrame: boolean) {
     expectArg(&#x27;wireFrame&#x27;, wireFrame).toBeBoolean();
     this.$wireFrame = wireFrame;
+    return this;
+  }
+  setPositionVarName(positionVarName: string) {
+    expectArg(&#x27;positionVarName&#x27;, positionVarName).toBeString();
+    this.$positionVarName = positionVarName;
+    return this;
+  }
+  setNormalVarName(normalVarName: string) {
+    expectArg(&#x27;normalVarName&#x27;, normalVarName).toBeString();
+    this.$normalVarName = normalVarName;
     return this;
   }
   buildMesh(): AttributeProvider {

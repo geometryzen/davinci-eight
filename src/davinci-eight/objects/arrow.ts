@@ -10,7 +10,7 @@ import ArrowOptions = require('../mesh/ArrowOptions');
 
 function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttributeProvider, ShaderProgram, Node> {
   let mesh = arrowMesh(options);
-  let model = new Node();
+  let model = new Node(options);
   let shaders = smartProgram(mesh.getAttributeMetaInfos(), [model.getUniformMetaInfos(), ambients.getUniformMetaInfos()]);
   return drawableModel(mesh, shaders, model);
 }

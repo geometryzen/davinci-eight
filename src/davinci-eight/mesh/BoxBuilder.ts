@@ -3,6 +3,7 @@ import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import boxMesh = require('../mesh/boxMesh');
 import BoxOptions = require('../mesh/BoxOptions');
+import Symbolic = require('../core/Symbolic');
 
 /**
  * @class BoxBuilder
@@ -15,6 +16,8 @@ class BoxBuilder {
   private $heightSegments: number;
   private $depthSegments: number;
   private $wireFrame: boolean;
+  private $positionVarName: string;
+  private $normalVarName: string;
   constructor(options?: BoxOptions) {
     options = options || {};
     this.setWidth(isUndefined(options.width) ? 1 : options.width);
@@ -24,27 +27,35 @@ class BoxBuilder {
     this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
     this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
+    this.setPositionVarName(isUndefined(options.positionVarName) ? Symbolic.ATTRIBUTE_POSITION : options.positionVarName);
+    this.setNormalVarName(isUndefined(options.normalVarName) ? Symbolic.ATTRIBUTE_NORMAL : options.normalVarName);
   }
-  get width() {
+  get width(): number {
     return this.$width;
   }
-  get height() {
+  get height(): number {
     return this.$height;
   }
-  get depth() {
+  get depth(): number {
     return this.$depth;
   }
-  get widthSegments() {
+  get widthSegments(): number {
     return this.$widthSegments;
   }
-  get heightSegments() {
+  get heightSegments(): number {
     return this.$heightSegments;
   }
-  get depthSegments() {
+  get depthSegments(): number {
     return this.$depthSegments;
   }
-  get wireFrame() {
+  get wireFrame(): boolean {
     return this.$wireFrame;
+  }
+  get positionVarName(): string {
+    return this.$positionVarName;
+  }
+  get normalVarName(): string {
+    return this.$normalVarName;
   }
   setWidth(width: number): BoxBuilder {
     expectArg('width', width).toBeNumber().toSatisfy(width >= 0, "width must be greater than or equal to zero.");
@@ -79,6 +90,16 @@ class BoxBuilder {
   setWireFrame(wireFrame: boolean) {
     expectArg('wireFrame', wireFrame).toBeBoolean();
     this.$wireFrame = wireFrame;
+    return this;
+  }
+  setPositionVarName(positionVarName: string) {
+    expectArg('positionVarName', positionVarName).toBeString();
+    this.$positionVarName = positionVarName;
+    return this;
+  }
+  setNormalVarName(normalVarName: string) {
+    expectArg('normalVarName', normalVarName).toBeString();
+    this.$normalVarName = normalVarName;
     return this;
   }
   buildMesh(): AttributeProvider {

@@ -1,8 +1,9 @@
 var view = require('davinci-eight/cameras/view');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Symbolic = require('davinci-eight/core/Symbolic');
-var UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
-var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
+var isUndefined = require('../checks/isUndefined');
+var expectArg = require('../checks/expectArg');
+//let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
 /**
  * @class perspective
  * @constructor
@@ -12,12 +13,14 @@ var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
  * @param far {number}
  * @return {LinearPerspectiveCamera}
  */
-var perspective = function (fov, aspect, near, far) {
-    if (fov === void 0) { fov = 75 * Math.PI / 180; }
-    if (aspect === void 0) { aspect = 1; }
-    if (near === void 0) { near = 0.1; }
-    if (far === void 0) { far = 2000; }
-    var base = view();
+var perspective = function (options) {
+    options = options || {};
+    var fov = isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov;
+    var aspect = isUndefined(options.aspect) ? 1 : options.aspect;
+    var near = isUndefined(options.near) ? 0.1 : options.near;
+    var far = expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value;
+    var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+    var base = view(options);
     var projectionMatrix = Matrix4.create();
     var matrixNeedsUpdate = true;
     var self = {
@@ -87,7 +90,7 @@ var perspective = function (fov, aspect, near, far) {
         },
         getUniformMatrix4: function (name) {
             switch (name) {
-                case UNIFORM_PROJECTION_MATRIX_NAME: {
+                case projectionMatrixName: {
                     if (matrixNeedsUpdate) {
                         projectionMatrix.perspective(fov, aspect, near, far);
                         matrixNeedsUpdate = false;
@@ -110,7 +113,7 @@ var perspective = function (fov, aspect, near, far) {
         },
         getUniformMetaInfos: function () {
             var uniforms = base.getUniformMetaInfos();
-            uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
+            uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: projectionMatrixName, glslType: 'mat4' };
             return uniforms;
         }
     };

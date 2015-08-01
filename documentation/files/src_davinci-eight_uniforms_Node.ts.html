@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.42.0</em>
+            <em>API Docs for: 2.43.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -73,21 +73,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
                                 <li><a href="../classes/LocalModel.html">LocalModel</a></li>
-                                <li><a href="../classes/Matrix4
-                
-                The correspondence between the elements property index and the matrix entries is...
-                
-                 0  4  8 12
-                 1  5  9 13
-                 2  6 10 14
-                 3  7 11 15.html">Matrix4
-                
-                The correspondence between the elements property index and the matrix entries is...
-                
-                 0  4  8 12
-                 1  5  9 13
-                 2  6 10 14
-                 3  7 11 15</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
@@ -103,6 +89,10 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/Symbolic
+                Canonical variable names, which act as semantic identifiers..html">Symbolic
+                Canonical variable names, which act as semantic identifiers.</a></li>
+                                <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -112,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -160,7 +150,7 @@
     <pre class="code prettyprint linenums">
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
-import DefaultUniformProvider = require(&#x27;../uniforms/DefaultUniformProvider&#x27;);
+import TreeModel = require(&#x27;../uniforms/TreeModel&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
 import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
@@ -169,14 +159,6 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Color = require(&#x27;../core/Color&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import UniformColor = require(&#x27;../uniforms/UniformColor&#x27;);
-
-let UNIFORM_MODEL_MATRIX_NAME = &#x27;uModelMatrix&#x27;;
-let UNIFORM_MODEL_MATRIX_TYPE = &#x27;mat4&#x27;;
-
-let UNIFORM_NORMAL_MATRIX_NAME = &#x27;uNormalMatrix&#x27;;
-let UNIFORM_NORMAL_MATRIX_TYPE = &#x27;mat3&#x27;;
-
-let UNIFORM_COLOR_NAME         = &#x27;uColor&#x27;;
 
 function localMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
   var matrix = Matrix4.create();
@@ -190,9 +172,9 @@ function localMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
 
 /**
  * @class Node
- * @extends DefaultUniformProvider
+ * @extends TreeModel
  */
-class Node extends DefaultUniformProvider {
+class Node extends TreeModel {
   /**
    * @property position
    * @type Vector3
@@ -206,37 +188,38 @@ class Node extends DefaultUniformProvider {
   /**
    *
    */
+  private modelMatrixName: string;
+  /**
+   *
+   */
+  private normalMatrixName: string;
+  /**
+   *
+   */
+  private colorVarName: string;
+  /**
+   *
+   */
   private uColor: UniformColor;
-  private parent: Node;
-  private children: Node[] = [];
   /**
    * @class Model
    * @constructor
    */
-  constructor() {
+  constructor(
+    options?: {
+      modelMatrixName?: string,
+      normalMatrixName?: string,
+      colorVarName?: string
+    }) {
     super();
+    options = options || {};
+    this.modelMatrixName = options.modelMatrixName || Symbolic.UNIFORM_MODEL_MATRIX;
+    this.normalMatrixName = options.normalMatrixName || Symbolic.UNIFORM_NORMAL_MATRIX;
+    this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
     this.position = new Vector3();
     this.attitude = new Spinor3();
-    this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
+    this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
     this.uColor.data = Color.fromRGB(1, 1, 1);
-  }
-  setParent(parent: Node) {
-    if (this.parent) {
-      this.parent.removeChild(this);
-    }
-    if (parent) {
-      parent.addChild(this);
-    }
-    this.parent = parent;
-  }
-  addChild(child: Node) {
-    this.children.push(this);
-  }
-  removeChild(child: Node) {
-    var index = this.children.indexOf(child);
-    if (index &gt;= 0) {
-      this.children.splice(index, 1);
-    }
   }
   get color(): Color {
     return this.uColor.data;
@@ -257,13 +240,14 @@ class Node extends DefaultUniformProvider {
    */
   getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
     switch(name) {
-      case UNIFORM_NORMAL_MATRIX_NAME: {
+      case this.normalMatrixName: {
         // It&#x27;s unfortunate that we have to recompute the model-view matrix.
         // We could cache it, being careful that we don&#x27;t assume the callback order.
         // We don&#x27;t want to compute it in the shader beacause that would be per-vertex.
         var normalMatrix = new Matrix3();
         var mv = localMatrix(this.position, this.attitude);
         normalMatrix.normalFromMatrix4(mv);
+        // TODO: elements in Matrix3 should already be Float32Array
         return {transpose: false, matrix3: new Float32Array(normalMatrix.elements)};
       }
       break;
@@ -278,17 +262,23 @@ class Node extends DefaultUniformProvider {
    */
   getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
     switch(name) {
-      case UNIFORM_MODEL_MATRIX_NAME: {
-        if (this.parent) {
-          var m1 = new Matrix4(this.parent.getUniformMatrix4(name).matrix4);
-          var m2 = localMatrix(this.position, this.attitude);
-          var m = Matrix4.create().multiplyMatrices(m1, m2);
-          return {transpose: false, matrix4: new Float32Array(m.elements)};
-
+      case this.modelMatrixName: {
+        if (this.getParent()) {
+          var um4 = this.getParent().getUniformMatrix4(name);
+          if (um4) {
+            var m1 = new Matrix4(um4.matrix4);
+            var m2 = localMatrix(this.position, this.attitude);
+            var m = Matrix4.create().multiplyMatrices(m1, m2);
+            return {transpose: false, matrix4: m.elements};
+          }
+          else {
+            var m = localMatrix(this.position, this.attitude);
+            return {transpose: false, matrix4: m.elements};
+          }
         }
         else {
-          var elements = localMatrix(this.position, this.attitude).elements;
-          return {transpose: false, matrix4: new Float32Array(elements)};
+          var m = localMatrix(this.position, this.attitude);
+          return {transpose: false, matrix4: m.elements};
         }
       }
       break;
@@ -302,8 +292,8 @@ class Node extends DefaultUniformProvider {
    */
   getUniformMetaInfos(): UniformMetaInfos {
     var uniforms: UniformMetaInfos = this.uColor.getUniformMetaInfos();
-    uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: UNIFORM_MODEL_MATRIX_NAME,  glslType: UNIFORM_MODEL_MATRIX_TYPE};
-    uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE};
+    uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: this.modelMatrixName,  glslType: &#x27;mat4&#x27;};
+    uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: this.normalMatrixName, glslType: &#x27;mat3&#x27;};
     return uniforms;
   }
 }

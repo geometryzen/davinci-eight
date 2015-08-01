@@ -8,7 +8,7 @@ var Vector3 = require('../math/Vector3');
 var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 var UniformVec3 = require('../uniforms/UniformVec3');
 /**
- * Provides a uniform variable representing an ambient light.
+ * Provides a uniform variable with the Vector3 data type.
  * @class UniformVector3
  */
 var UniformVector3 = (function (_super) {

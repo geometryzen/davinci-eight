@@ -2,7 +2,6 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
 /**
  * 4x4 matrix integrating with WebGL.
- * @class Matrix4
  *
  * The correspondence between the elements property index and the matrix entries is...
  *
@@ -10,6 +9,8 @@ import Cartesian3 = require('../math/Cartesian3');
  *  1  5  9 13
  *  2  6 10 14
  *  3  7 11 15
+ *
+ * @class Matrix4
  */
 class Matrix4 {
   /**

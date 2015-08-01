@@ -5,8 +5,6 @@ import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import expectArg = require('../checks/expectArg');
 
-let DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_AMBIENT_LIGHT;
-
 /**
  * Provides a uniform variable representing an ambient light.
  * @class AmbientLight
@@ -22,7 +20,7 @@ class AmbientLight implements UniformProvider {
 
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
-    options.name = options.name || DEFAULT_UNIFORM_AMBIENT_LIGHT_NAME;
+    options.name = options.name || Symbolic.UNIFORM_AMBIENT_LIGHT;
 
     expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
 

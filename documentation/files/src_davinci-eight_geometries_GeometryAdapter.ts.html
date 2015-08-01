@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.42.0</em>
+            <em>API Docs for: 2.43.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -73,21 +73,7 @@
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
                                 <li><a href="../classes/LocalModel.html">LocalModel</a></li>
-                                <li><a href="../classes/Matrix4
-                
-                The correspondence between the elements property index and the matrix entries is...
-                
-                 0  4  8 12
-                 1  5  9 13
-                 2  6 10 14
-                 3  7 11 15.html">Matrix4
-                
-                The correspondence between the elements property index and the matrix entries is...
-                
-                 0  4  8 12
-                 1  5  9 13
-                 2  6 10 14
-                 3  7 11 15</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
@@ -103,6 +89,10 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/Symbolic
+                Canonical variable names, which act as semantic identifiers..html">Symbolic
+                Canonical variable names, which act as semantic identifiers.</a></li>
+                                <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
@@ -112,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -171,9 +161,7 @@ import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
 
-let DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = &#x27;aVertexPosition&#x27;;
 let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = &#x27;aVertexColor&#x27;;
-let DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME   = &#x27;aVertexNormal&#x27;;
 
 function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
   return new Color([1.0, 1.0, 1.0]);
@@ -197,16 +185,26 @@ class GeometryAdapter implements AttributeProvider {
   public grayScale: boolean = false;
   private lines: Line3[] = [];
   private points: Point3[] = [];
+  private positionVarName: string;
+  private normalVarName: string;
   /**
    * @class GeometryAdapter
    * @constructor
    * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
    */
-  constructor(geometry: Geometry, options?: { drawMode?: DrawMode; elementsUsage?: DataUsage}) {
+  constructor(
+    geometry: Geometry,
+    options?: {
+      drawMode?: DrawMode;
+      elementsUsage?: DataUsage;
+      positionVarName?: string;
+      normalVarName?: string;
+    }) {
     options = options || {};
     options.drawMode = typeof options.drawMode !== &#x27;undefined&#x27; ? options.drawMode : DrawMode.TRIANGLES;
     options.elementsUsage = typeof options.elementsUsage !== &#x27;undefined&#x27; ? options.elementsUsage : DataUsage.STREAM_DRAW;
-
+    this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
+    this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
     this.geometry = geometry;
 //  this.color = new Color([1.0, 1.0, 1.0]);
     this.geometry.dynamic = false;
@@ -253,13 +251,13 @@ class GeometryAdapter implements AttributeProvider {
   getVertexAttributeData(name: string) {
     // FIXME: Need to inject usage for each array type.
     switch(name) {
-      case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
+      case this.positionVarName: {
         return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
       }
 //      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
 //        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
 //      }
-      case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
+      case this.normalVarName: {
         if (this.$drawMode === DrawMode.TRIANGLES) {
           return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
         }
@@ -276,7 +274,7 @@ class GeometryAdapter implements AttributeProvider {
     var attribues: AttributeMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
-      name: DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME,
+      name: this.positionVarName,
       glslType: &#x27;vec3&#x27;,
       size: 3,
       normalized: false,
@@ -298,7 +296,7 @@ class GeometryAdapter implements AttributeProvider {
 */
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-        name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
+        name: this.normalVarName,
         glslType: &#x27;vec3&#x27;,
         size: 3,
         normalized: false,

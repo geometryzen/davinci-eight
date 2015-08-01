@@ -4,12 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3, Color, UniformColor) {
-    var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
-    var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
-    var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
-    var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
-    var UNIFORM_COLOR_NAME = 'uColor';
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, TreeModel, Spinor3, Symbolic, Vector3, Color, UniformColor) {
     function localMatrix(position, attitude) {
         var matrix = Matrix4.create();
         matrix.identity();
@@ -21,7 +16,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
     }
     /**
      * @class Node
-     * @extends DefaultUniformProvider
+     * @extends TreeModel
      */
     var Node = (function (_super) {
         __extends(Node, _super);
@@ -29,32 +24,17 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          * @class Model
          * @constructor
          */
-        function Node() {
+        function Node(options) {
             _super.call(this);
-            this.children = [];
+            options = options || {};
+            this.modelMatrixName = options.modelMatrixName || Symbolic.UNIFORM_MODEL_MATRIX;
+            this.normalMatrixName = options.normalMatrixName || Symbolic.UNIFORM_NORMAL_MATRIX;
+            this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
             this.position = new Vector3();
             this.attitude = new Spinor3();
-            this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
+            this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
             this.uColor.data = Color.fromRGB(1, 1, 1);
         }
-        Node.prototype.setParent = function (parent) {
-            if (this.parent) {
-                this.parent.removeChild(this);
-            }
-            if (parent) {
-                parent.addChild(this);
-            }
-            this.parent = parent;
-        };
-        Node.prototype.addChild = function (child) {
-            this.children.push(this);
-        };
-        Node.prototype.removeChild = function (child) {
-            var index = this.children.indexOf(child);
-            if (index >= 0) {
-                this.children.splice(index, 1);
-            }
-        };
         Object.defineProperty(Node.prototype, "color", {
             get: function () {
                 return this.uColor.data;
@@ -78,7 +58,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          */
         Node.prototype.getUniformMatrix3 = function (name) {
             switch (name) {
-                case UNIFORM_NORMAL_MATRIX_NAME:
+                case this.normalMatrixName:
                     {
                         // It's unfortunate that we have to recompute the model-view matrix.
                         // We could cache it, being careful that we don't assume the callback order.
@@ -86,6 +66,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
                         var normalMatrix = new Matrix3();
                         var mv = localMatrix(this.position, this.attitude);
                         normalMatrix.normalFromMatrix4(mv);
+                        // TODO: elements in Matrix3 should already be Float32Array
                         return { transpose: false, matrix3: new Float32Array(normalMatrix.elements) };
                     }
                     break;
@@ -100,17 +81,24 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          */
         Node.prototype.getUniformMatrix4 = function (name) {
             switch (name) {
-                case UNIFORM_MODEL_MATRIX_NAME:
+                case this.modelMatrixName:
                     {
-                        if (this.parent) {
-                            var m1 = new Matrix4(this.parent.getUniformMatrix4(name).matrix4);
-                            var m2 = localMatrix(this.position, this.attitude);
-                            var m = Matrix4.create().multiplyMatrices(m1, m2);
-                            return { transpose: false, matrix4: new Float32Array(m.elements) };
+                        if (this.getParent()) {
+                            var um4 = this.getParent().getUniformMatrix4(name);
+                            if (um4) {
+                                var m1 = new Matrix4(um4.matrix4);
+                                var m2 = localMatrix(this.position, this.attitude);
+                                var m = Matrix4.create().multiplyMatrices(m1, m2);
+                                return { transpose: false, matrix4: m.elements };
+                            }
+                            else {
+                                var m = localMatrix(this.position, this.attitude);
+                                return { transpose: false, matrix4: m.elements };
+                            }
                         }
                         else {
-                            var elements = localMatrix(this.position, this.attitude).elements;
-                            return { transpose: false, matrix4: new Float32Array(elements) };
+                            var m = localMatrix(this.position, this.attitude);
+                            return { transpose: false, matrix4: m.elements };
                         }
                     }
                     break;
@@ -124,11 +112,11 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
          */
         Node.prototype.getUniformMetaInfos = function () {
             var uniforms = this.uColor.getUniformMetaInfos();
-            uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
-            uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
+            uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: this.modelMatrixName, glslType: 'mat4' };
+            uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: this.normalMatrixName, glslType: 'mat3' };
             return uniforms;
         };
         return Node;
-    })(DefaultUniformProvider);
+    })(TreeModel);
     return Node;
 });

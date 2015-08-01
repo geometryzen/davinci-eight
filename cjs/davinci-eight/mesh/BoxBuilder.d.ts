@@ -11,6 +11,8 @@ declare class BoxBuilder {
     private $heightSegments;
     private $depthSegments;
     private $wireFrame;
+    private $positionVarName;
+    private $normalVarName;
     constructor(options?: BoxOptions);
     width: number;
     height: number;
@@ -19,6 +21,8 @@ declare class BoxBuilder {
     heightSegments: number;
     depthSegments: number;
     wireFrame: boolean;
+    positionVarName: string;
+    normalVarName: string;
     setWidth(width: number): BoxBuilder;
     setHeight(height: number): BoxBuilder;
     setDepth(depth: number): BoxBuilder;
@@ -26,6 +30,8 @@ declare class BoxBuilder {
     setHeightSegments(heightSegments: number): BoxBuilder;
     setDepthSegments(depthSegments: number): BoxBuilder;
     setWireFrame(wireFrame: boolean): BoxBuilder;
+    setPositionVarName(positionVarName: string): BoxBuilder;
+    setNormalVarName(normalVarName: string): BoxBuilder;
     buildMesh(): AttributeProvider;
 }
 export = BoxBuilder;

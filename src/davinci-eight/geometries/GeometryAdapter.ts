@@ -11,9 +11,7 @@ import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 
-let DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
 let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = 'aVertexColor';
-let DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME   = 'aVertexNormal';
 
 function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
   return new Color([1.0, 1.0, 1.0]);
@@ -37,16 +35,26 @@ class GeometryAdapter implements AttributeProvider {
   public grayScale: boolean = false;
   private lines: Line3[] = [];
   private points: Point3[] = [];
+  private positionVarName: string;
+  private normalVarName: string;
   /**
    * @class GeometryAdapter
    * @constructor
    * @param geometry {Geometry} The geometry that must be adapted to a AttributeProvider.
    */
-  constructor(geometry: Geometry, options?: { drawMode?: DrawMode; elementsUsage?: DataUsage}) {
+  constructor(
+    geometry: Geometry,
+    options?: {
+      drawMode?: DrawMode;
+      elementsUsage?: DataUsage;
+      positionVarName?: string;
+      normalVarName?: string;
+    }) {
     options = options || {};
     options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
     options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
-
+    this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
+    this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
     this.geometry = geometry;
 //  this.color = new Color([1.0, 1.0, 1.0]);
     this.geometry.dynamic = false;
@@ -93,13 +101,13 @@ class GeometryAdapter implements AttributeProvider {
   getVertexAttributeData(name: string) {
     // FIXME: Need to inject usage for each array type.
     switch(name) {
-      case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
+      case this.positionVarName: {
         return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
       }
 //      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
 //        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
 //      }
-      case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
+      case this.normalVarName: {
         if (this.$drawMode === DrawMode.TRIANGLES) {
           return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
         }
@@ -116,7 +124,7 @@ class GeometryAdapter implements AttributeProvider {
     var attribues: AttributeMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
-      name: DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME,
+      name: this.positionVarName,
       glslType: 'vec3',
       size: 3,
       normalized: false,
@@ -138,7 +146,7 @@ class GeometryAdapter implements AttributeProvider {
 */
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-        name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
+        name: this.normalVarName,
         glslType: 'vec3',
         size: 3,
         normalized: false,

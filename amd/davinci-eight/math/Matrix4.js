@@ -1,7 +1,6 @@
 define(["require", "exports"], function (require, exports) {
     /**
      * 4x4 matrix integrating with WebGL.
-     * @class Matrix4
      *
      * The correspondence between the elements property index and the matrix entries is...
      *
@@ -9,6 +8,8 @@ define(["require", "exports"], function (require, exports) {
      *  1  5  9 13
      *  2  6 10 14
      *  3  7 11 15
+     *
+     * @class Matrix4
      */
     var Matrix4 = (function () {
         /**

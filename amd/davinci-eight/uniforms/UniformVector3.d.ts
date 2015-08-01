@@ -3,7 +3,7 @@ import UniformMetaInfos = require('../core/UniformMetaInfos');
 import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
 /**
- * Provides a uniform variable representing an ambient light.
+ * Provides a uniform variable with the Vector3 data type.
  * @class UniformVector3
  */
 declare class UniformVector3 extends DefaultUniformProvider implements UniformVariable<Vector3> {

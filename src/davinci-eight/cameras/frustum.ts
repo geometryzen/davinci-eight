@@ -26,7 +26,9 @@ let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
  */
 var frustum = function(left: number = -1, right: number = 1, bottom: number = -1, top: number = 1, near: number = 1, far: number = 1000): Frustum {
 
-  var base: View = view();
+  var options = {viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX};
+
+  var base: View = view(options);
   var projectionMatrix = Matrix4.create();
 
   function updateProjectionMatrix() {

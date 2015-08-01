@@ -5,7 +5,7 @@ import UniformVariable = require('../uniforms/UniformVariable');
 import UniformVec3 = require('../uniforms/UniformVec3');
 
 /**
- * Provides a uniform variable representing an ambient light.
+ * Provides a uniform variable with the Vector3 data type.
  * @class UniformVector3
  */
 class UniformVector3 extends DefaultUniformProvider implements UniformVariable<Vector3> {

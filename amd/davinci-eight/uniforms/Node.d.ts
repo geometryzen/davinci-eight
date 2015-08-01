@@ -1,13 +1,13 @@
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import TreeModel = require('../uniforms/TreeModel');
 import Spinor3 = require('../math/Spinor3');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 /**
  * @class Node
- * @extends DefaultUniformProvider
+ * @extends TreeModel
  */
-declare class Node extends DefaultUniformProvider {
+declare class Node extends TreeModel {
     /**
      * @property position
      * @type Vector3
@@ -21,17 +21,28 @@ declare class Node extends DefaultUniformProvider {
     /**
      *
      */
+    private modelMatrixName;
+    /**
+     *
+     */
+    private normalMatrixName;
+    /**
+     *
+     */
+    private colorVarName;
+    /**
+     *
+     */
     private uColor;
-    private parent;
-    private children;
     /**
      * @class Model
      * @constructor
      */
-    constructor();
-    setParent(parent: Node): void;
-    addChild(child: Node): void;
-    removeChild(child: Node): void;
+    constructor(options?: {
+        modelMatrixName?: string;
+        normalMatrixName?: string;
+        colorVarName?: string;
+    });
     color: Color;
     /**
      * @method getUniformVector3

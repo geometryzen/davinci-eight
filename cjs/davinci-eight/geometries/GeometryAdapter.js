@@ -4,9 +4,7 @@ var Color = require('../core/Color');
 var Symbolic = require('../core/Symbolic');
 var DataUsage = require('../core/DataUsage');
 var DrawMode = require('../core/DrawMode');
-var DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
 var DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME = 'aVertexColor';
-var DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME = 'aVertexNormal';
 function defaultColorFunction(vertexIndex, face, vertexList) {
     return new Color([1.0, 1.0, 1.0]);
 }
@@ -30,6 +28,8 @@ var GeometryAdapter = (function () {
         options = options || {};
         options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
         options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
+        this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
+        this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
         this.geometry = geometry;
         //  this.color = new Color([1.0, 1.0, 1.0]);
         this.geometry.dynamic = false;
@@ -87,13 +87,13 @@ var GeometryAdapter = (function () {
     GeometryAdapter.prototype.getVertexAttributeData = function (name) {
         // FIXME: Need to inject usage for each array type.
         switch (name) {
-            case DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME: {
+            case this.positionVarName: {
                 return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
             }
             //      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
             //        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
             //      }
-            case DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME: {
+            case this.normalVarName: {
                 if (this.$drawMode === DrawMode.TRIANGLES) {
                     return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
                 }
@@ -109,7 +109,7 @@ var GeometryAdapter = (function () {
     GeometryAdapter.prototype.getAttributeMetaInfos = function () {
         var attribues = {};
         attribues[Symbolic.ATTRIBUTE_POSITION] = {
-            name: DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME,
+            name: this.positionVarName,
             glslType: 'vec3',
             size: 3,
             normalized: false,
@@ -130,7 +130,7 @@ var GeometryAdapter = (function () {
         */
         if (this.drawMode === DrawMode.TRIANGLES) {
             attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-                name: DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME,
+                name: this.normalVarName,
                 glslType: 'vec3',
                 size: 3,
                 normalized: false,

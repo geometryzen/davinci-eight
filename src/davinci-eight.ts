@@ -92,6 +92,8 @@ import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUnifo
 import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight');
 import LocalModel                 = require('davinci-eight/uniforms/LocalModel');
 import Node                       = require('davinci-eight/uniforms/Node');
+import TreeModel                  = require('davinci-eight/uniforms/TreeModel');
+import UniversalJoint             = require('davinci-eight/uniforms/UniversalJoint');
 import MultiUniformProvider       = require('davinci-eight/uniforms/MultiUniformProvider');
 import PointLight                 = require('davinci-eight/uniforms/PointLight');
 import uniforms                   = require('davinci-eight/uniforms/uniforms');
@@ -182,6 +184,8 @@ var eight = {
   get VortexGeometry() { return VortexGeometry; },
   get LocalModel() { return LocalModel; },
   get Node() { return Node; },
+  get TreeModel() { return TreeModel; },
+  get UniversalJoint() { return UniversalJoint; },
   get UniformFloat() { return UniformFloat; },
   get UniformMat4() { return UniformMat4; },
   get UniformVec2() { return UniformVec2; },

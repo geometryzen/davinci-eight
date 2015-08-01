@@ -21,7 +21,8 @@ var frustum = function (left, right, bottom, top, near, far) {
     if (top === void 0) { top = 1; }
     if (near === void 0) { near = 1; }
     if (far === void 0) { far = 1000; }
-    var base = view();
+    var options = { viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX };
+    var base = view(options);
     var projectionMatrix = Matrix4.create();
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left, right, bottom, top, near, far);

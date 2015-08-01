@@ -603,14 +603,18 @@ declare module d8
     top?: number,
     near?: number,
     far?: number): Frustum;
+  /**
+   * Constructs and returns a symmetric perspective projection camera.
+   */
   function perspective(
-    /**
-     * The field of view angle in the y-direction, measured in radians.
-     */
-    fov?: number,
-    aspect?: number,
-    near?: number,
-    far?: number): LinearPerspectiveCamera;
+    options?: {
+      fov?: number;
+      aspect?: number;
+      near?: number;
+      far?: number;
+      projectionMatrixName?: string;
+      viewMatrixName?: string
+    }): LinearPerspectiveCamera;
   /**
    * Constructs and returns a Renderer.
    * @param options Optional parameters for modifying the WebGL context.
@@ -660,12 +664,31 @@ declare module d8
   /**
    *
    */
-  class Node extends UniformProvider {
+  class TreeModel extends UniformProvider {
+    constructor();
+    setParent(parent: TreeModel);
+  }
+  /**
+   *
+   */
+  class Node extends TreeModel {
     public position: Vector3;
     public attitude: Spinor3;
-    constructor();
+    constructor(
+      options?: {
+        modelMatrixName?: string;
+        normalMatrixName?: string;
+        colorVarName?: string;
+      });
     get color(): Color;
-    setParent(parent: Node);
+  }
+  /**
+   *
+   */
+  class UniversalJoint extends TreeModel {
+    public theta: number;
+    public phi: number;
+    constructor(options?: {modelMatrixVarName?: string});
   }
   /**
    *
@@ -704,6 +727,8 @@ declare module d8
     heightSegments?: number;
     numberSegments?: number;
     wireFrame?: boolean;
+    positionVarName?: string;
+    normalVarName?: string;
   }
   /**
    *
@@ -716,6 +741,7 @@ declare module d8
     heightSegments: number;
     numberSegments: number;
     wireFrame: boolean;
+    positionVarName: string;
     constructor(options?: BoxOptions);
     setWidth(width: number): BoxBuilder;
     setHeight(height: number): BoxBuilder;
@@ -724,6 +750,7 @@ declare module d8
     setHeightSegments(heightSegments: number): BoxBuilder;
     setDepthSegments(depthSegments: number): BoxBuilder;
     setWireFrame(wireFrame: boolean): BoxBuilder;
+    setPositionVarName(positionVarName: string): BoxBuilder;
     buildMesh(): AttributeProvider;
   }
   /**

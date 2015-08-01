@@ -19,6 +19,8 @@ declare class GeometryAdapter implements AttributeProvider {
     grayScale: boolean;
     private lines;
     private points;
+    private positionVarName;
+    private normalVarName;
     /**
      * @class GeometryAdapter
      * @constructor
@@ -27,6 +29,8 @@ declare class GeometryAdapter implements AttributeProvider {
     constructor(geometry: Geometry, options?: {
         drawMode?: DrawMode;
         elementsUsage?: DataUsage;
+        positionVarName?: string;
+        normalVarName?: string;
     });
     drawMode: DrawMode;
     draw(context: WebGLRenderingContext): void;

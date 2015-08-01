@@ -8,7 +8,7 @@ var Vector3 = require('../math/Vector3');
 var ArrowBuilder = (function () {
     function ArrowBuilder(options) {
         this.$axis = Vector3.e3.clone();
-        options = options || {};
+        options = options || { modelMatrix: 'uModelMatrix' };
         //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
         //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
         //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
