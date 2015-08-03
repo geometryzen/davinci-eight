@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.45.0'
+        VERSION: '2.46.0'
     };
     return core;
 });
@@ -2258,13 +2258,13 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports", '../render
             contextGain: function (context, contextId) {
                 expectArg('contextId', contextId).toBeString();
                 var attributes = context.getContextAttributes();
-                console.log(context.getParameter(context.VERSION));
-                console.log("alpha                 => " + attributes.alpha);
-                console.log("antialias             => " + attributes.antialias);
-                console.log("depth                 => " + attributes.depth);
-                console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-                console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-                console.log("stencil               => " + attributes.stencil);
+                //console.log(context.getParameter(context.VERSION));
+                //console.log("alpha                 => " + attributes.alpha);
+                //console.log("antialias             => " + attributes.antialias);
+                //console.log("depth                 => " + attributes.depth);
+                //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+                //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+                //console.log("stencil               => " + attributes.stencil);
                 gl = context;
                 glId = contextId;
                 gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
@@ -2768,7 +2768,7 @@ define('davinci-eight/core/Face3',["require", "exports", '../math/Vector3'], fun
     return Face3;
 });
 
-define('davinci-eight/core/ShaderAttribLocation',["require", "exports", '../core/convertUsage'], function (require, exports, convertUsage) {
+define('davinci-eight/core/ShaderAttribLocation',["require", "exports", '../core/convertUsage', '../checks/expectArg'], function (require, exports, convertUsage, expectArg) {
     function existsLocation(location) {
         return location >= 0;
     }
@@ -2822,6 +2822,8 @@ define('davinci-eight/core/ShaderAttribLocation',["require", "exports", '../core
             }
         };
         ShaderAttribLocation.prototype.contextGain = function (context, program) {
+            expectArg('context', context).toBeObject();
+            expectArg('program', program).toBeObject();
             this.location = context.getAttribLocation(program, this.name);
             this.context = context;
             if (existsLocation(this.location)) {
@@ -7046,6 +7048,16 @@ define('davinci-eight/glsl/ProgramArgs',["require", "exports", './DefaultNodeEve
 });
 
 define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
+    function glslType(type) {
+        switch (type) {
+            case 2: {
+                return "foo";
+            }
+            default: {
+                throw new Error("Unexpected type: " + type);
+            }
+        }
+    }
     var shaderProgram = function (vertexShader, fragmentShader) {
         if (typeof vertexShader !== 'string') {
             throw new Error("vertexShader argument must be a string.");
@@ -7069,14 +7081,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     args.attributes.forEach(function (a) {
                         var attributeDecl = shaderVariable(a);
                         attributeDecls.push(attributeDecl);
-                        // TODO: We should only build the locations based upon the active variables.
                         attributeLocations[attributeDecl.name] = new ShaderAttribLocation(attributeDecl.name, attributeDecl.type);
                     });
                     // uniforms
                     args.uniforms.forEach(function (u) {
                         var uniformDecl = shaderVariable(u);
                         uniformDecls.push(uniformDecl);
-                        // TODO: ditto 
                         uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                     });
                     // varyings
@@ -7100,7 +7110,6 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     args.uniforms.forEach(function (u) {
                         var uniformDecl = shaderVariable(u);
                         uniformDecls.push(uniformDecl);
-                        // TODO: ditto
                         uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                     });
                 }
@@ -7147,13 +7156,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     programId = void 0;
                     context = void 0;
                     contextGainId = void 0;
-                    // TODO: free based on active varaibles, not all.
-                    attributeDecls.forEach(function (attributeDecl) {
-                        attributeLocations[attributeDecl.name].contextFree();
-                    });
-                    uniformDecls.forEach(function (uniformDecl) {
-                        uniformLocations[uniformDecl.name].contextFree();
-                    });
+                    for (var aName in attributeLocations) {
+                        attributeLocations[aName].contextFree();
+                    }
+                    for (var uName in uniformLocations) {
+                        uniformLocations[uName].contextFree();
+                    }
                 }
             },
             contextGain: function (contextArg, contextId) {
@@ -7162,22 +7170,22 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                     program = makeWebGLProgram(context, vertexShader, fragmentShader);
                     programId = uuid4().generate();
                     contextGainId = contextId;
-                    attributeDecls.forEach(function (attributeDecl) {
-                        attributeLocations[attributeDecl.name].contextGain(contextArg, program);
-                    });
-                    uniformDecls.forEach(function (uniformDecl) {
-                        uniformLocations[uniformDecl.name].contextGain(contextArg, program);
-                    });
-                    // TODO: Use the information about active attributes and locations to drive the locations.
-                    var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
-                    //console.log("activeAttributes: " + activeAttributes);
+                    /*
+                    let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
                     for (var a = 0; a < activeAttributes; a++) {
-                        var activeInfo = context.getActiveAttrib(program, a);
+                      let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
                     }
-                    var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
-                    //console.log("activeUniforms: " + activeUniforms);
+                    let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
                     for (var u = 0; u < activeUniforms; u++) {
-                        var activeInfo = context.getActiveUniform(program, u);
+                      let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
+                    }
+                    */
+                    // Broadcast contextGain to attribute and uniform locations.
+                    for (var aName in attributeLocations) {
+                        attributeLocations[aName].contextGain(contextArg, program);
+                    }
+                    for (var uName in uniformLocations) {
+                        uniformLocations[uName].contextGain(contextArg, program);
                     }
                 }
             },
@@ -7186,13 +7194,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../glsl/pa
                 programId = void 0;
                 context = void 0;
                 contextGainId = void 0;
-                // TODO: loss based on active varaibles, not all.
-                attributeDecls.forEach(function (attributeDecl) {
-                    attributeLocations[attributeDecl.name].contextLoss();
-                });
-                uniformDecls.forEach(function (uniformDecl) {
-                    uniformLocations[uniformDecl.name].contextLoss();
-                });
+                for (var aName in attributeLocations) {
+                    attributeLocations[aName].contextLoss();
+                }
+                for (var uName in uniformLocations) {
+                    uniformLocations[uName].contextLoss();
+                }
             },
             hasContext: function () {
                 return !!program;

@@ -1,4 +1,14 @@
 define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
+    function glslType(type) {
+        switch (type) {
+            case 2: {
+                return "foo";
+            }
+            default: {
+                throw new Error("Unexpected type: " + type);
+            }
+        }
+    }
     var shaderProgram = function (vertexShader, fragmentShader) {
         if (typeof vertexShader !== 'string') {
             throw new Error("vertexShader argument must be a string.");
@@ -22,14 +32,12 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     args.attributes.forEach(function (a) {
                         var attributeDecl = shaderVariable(a);
                         attributeDecls.push(attributeDecl);
-                        // TODO: We should only build the locations based upon the active variables.
                         attributeLocations[attributeDecl.name] = new ShaderAttribLocation(attributeDecl.name, attributeDecl.type);
                     });
                     // uniforms
                     args.uniforms.forEach(function (u) {
                         var uniformDecl = shaderVariable(u);
                         uniformDecls.push(uniformDecl);
-                        // TODO: ditto 
                         uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                     });
                     // varyings
@@ -53,7 +61,6 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     args.uniforms.forEach(function (u) {
                         var uniformDecl = shaderVariable(u);
                         uniformDecls.push(uniformDecl);
-                        // TODO: ditto
                         uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
                     });
                 }
@@ -100,13 +107,12 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     programId = void 0;
                     context = void 0;
                     contextGainId = void 0;
-                    // TODO: free based on active varaibles, not all.
-                    attributeDecls.forEach(function (attributeDecl) {
-                        attributeLocations[attributeDecl.name].contextFree();
-                    });
-                    uniformDecls.forEach(function (uniformDecl) {
-                        uniformLocations[uniformDecl.name].contextFree();
-                    });
+                    for (var aName in attributeLocations) {
+                        attributeLocations[aName].contextFree();
+                    }
+                    for (var uName in uniformLocations) {
+                        uniformLocations[uName].contextFree();
+                    }
                 }
             },
             contextGain: function (contextArg, contextId) {
@@ -115,22 +121,22 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     program = makeWebGLProgram(context, vertexShader, fragmentShader);
                     programId = uuid4().generate();
                     contextGainId = contextId;
-                    attributeDecls.forEach(function (attributeDecl) {
-                        attributeLocations[attributeDecl.name].contextGain(contextArg, program);
-                    });
-                    uniformDecls.forEach(function (uniformDecl) {
-                        uniformLocations[uniformDecl.name].contextGain(contextArg, program);
-                    });
-                    // TODO: Use the information about active attributes and locations to drive the locations.
-                    var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
-                    //console.log("activeAttributes: " + activeAttributes);
+                    /*
+                    let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
                     for (var a = 0; a < activeAttributes; a++) {
-                        var activeInfo = context.getActiveAttrib(program, a);
+                      let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
                     }
-                    var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
-                    //console.log("activeUniforms: " + activeUniforms);
+                    let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
                     for (var u = 0; u < activeUniforms; u++) {
-                        var activeInfo = context.getActiveUniform(program, u);
+                      let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
+                    }
+                    */
+                    // Broadcast contextGain to attribute and uniform locations.
+                    for (var aName in attributeLocations) {
+                        attributeLocations[aName].contextGain(contextArg, program);
+                    }
+                    for (var uName in uniformLocations) {
+                        uniformLocations[uName].contextGain(contextArg, program);
                     }
                 }
             },
@@ -139,13 +145,12 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                 programId = void 0;
                 context = void 0;
                 contextGainId = void 0;
-                // TODO: loss based on active varaibles, not all.
-                attributeDecls.forEach(function (attributeDecl) {
-                    attributeLocations[attributeDecl.name].contextLoss();
-                });
-                uniformDecls.forEach(function (uniformDecl) {
-                    uniformLocations[uniformDecl.name].contextLoss();
-                });
+                for (var aName in attributeLocations) {
+                    attributeLocations[aName].contextLoss();
+                }
+                for (var uName in uniformLocations) {
+                    uniformLocations[uName].contextLoss();
+                }
             },
             hasContext: function () {
                 return !!program;

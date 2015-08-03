@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.45.0</em>
+            <em>API Docs for: 2.46.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -151,6 +151,7 @@
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import convertUsage = require(&#x27;../core/convertUsage&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
 function existsLocation(location: number): boolean {
   return location &gt;= 0;
@@ -215,6 +216,8 @@ class ShaderAttribLocation {
     }
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    expectArg(&#x27;context&#x27;, context).toBeObject();
+    expectArg(&#x27;program&#x27;, program).toBeObject();
     this.location = context.getAttribLocation(program, this.name);
     this.context = context;
     if (existsLocation(this.location)) {

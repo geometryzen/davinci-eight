@@ -1,6 +1,7 @@
 import AttribProvider = require('../core/AttribProvider');
 import convertUsage = require('../core/convertUsage');
 import DataUsage = require('../core/DataUsage');
+import expectArg = require('../checks/expectArg');
 
 function existsLocation(location: number): boolean {
   return location >= 0;
@@ -65,6 +66,8 @@ class ShaderAttribLocation {
     }
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    expectArg('context', context).toBeObject();
+    expectArg('program', program).toBeObject();
     this.location = context.getAttribLocation(program, this.name);
     this.context = context;
     if (existsLocation(this.location)) {

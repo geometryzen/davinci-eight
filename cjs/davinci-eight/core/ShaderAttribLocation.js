@@ -1,4 +1,5 @@
 var convertUsage = require('../core/convertUsage');
+var expectArg = require('../checks/expectArg');
 function existsLocation(location) {
     return location >= 0;
 }
@@ -52,6 +53,8 @@ var ShaderAttribLocation = (function () {
         }
     };
     ShaderAttribLocation.prototype.contextGain = function (context, program) {
+        expectArg('context', context).toBeObject();
+        expectArg('program', program).toBeObject();
         this.location = context.getAttribLocation(program, this.name);
         this.context = context;
         if (existsLocation(this.location)) {

@@ -18,13 +18,13 @@ var webGLRenderer = function (canvas) {
         contextGain: function (context, contextId) {
             expectArg('contextId', contextId).toBeString();
             var attributes = context.getContextAttributes();
-            console.log(context.getParameter(context.VERSION));
-            console.log("alpha                 => " + attributes.alpha);
-            console.log("antialias             => " + attributes.antialias);
-            console.log("depth                 => " + attributes.depth);
-            console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-            console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-            console.log("stencil               => " + attributes.stencil);
+            //console.log(context.getParameter(context.VERSION));
+            //console.log("alpha                 => " + attributes.alpha);
+            //console.log("antialias             => " + attributes.antialias);
+            //console.log("depth                 => " + attributes.depth);
+            //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+            //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+            //console.log("stencil               => " + attributes.stencil);
             gl = context;
             glId = contextId;
             gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);

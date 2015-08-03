@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/convertUsage'], function (require, exports, convertUsage) {
+define(["require", "exports", '../core/convertUsage', '../checks/expectArg'], function (require, exports, convertUsage, expectArg) {
     function existsLocation(location) {
         return location >= 0;
     }
@@ -52,6 +52,8 @@ define(["require", "exports", '../core/convertUsage'], function (require, export
             }
         };
         ShaderAttribLocation.prototype.contextGain = function (context, program) {
+            expectArg('context', context).toBeObject();
+            expectArg('program', program).toBeObject();
             this.location = context.getAttribLocation(program, this.name);
             this.context = context;
             if (existsLocation(this.location)) {

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.45.0",
+        "version": "2.46.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1105,7 +1105,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 9,
+            "line": 10,
             "description": "Utility class for managing a shader attribute variable.\nWhile this class may be created directly by the user, it is preferable\nto use the ShaderAttribLocation instances managed by the ShaderProgram because\nthere will be improved integrity and context loss management."
         },
         "ShaderAttribLocation": {
@@ -1118,7 +1118,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 31,
+            "line": 32,
             "description": "Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.\nIn particular, this class manages buffer allocation, location caching, and data binding.",
             "is_constructor": 1,
             "params": [
@@ -2319,7 +2319,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 17,
+            "line": 18,
             "itemtype": "property",
             "name": "name  The name of the variable as it appears in the GLSL program.",
             "type": "String",
@@ -2327,7 +2327,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 21,
+            "line": 22,
             "itemtype": "property",
             "name": "glslType  The type of the variable as it appears in the GLSL program.",
             "type": "String",
@@ -2335,13 +2335,13 @@
         },
         {
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 25,
+            "line": 26,
             "description": "Index of target attribute in the buffer.",
             "class": "ShaderAttribLocation."
         },
         {
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 79,
+            "line": 82,
             "itemtype": "method",
             "name": "dataFormat",
             "params": [
@@ -2375,7 +2375,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 97,
+            "line": 100,
             "description": "FIXME This should not couple to an AttribProvider.",
             "itemtype": "method",
             "name": "bufferData",
@@ -2383,7 +2383,7 @@
         },
         {
             "file": "src/davinci-eight/core/ShaderAttribLocation.ts",
-            "line": 132,
+            "line": 135,
             "itemtype": "method",
             "name": "toString",
             "class": "ShaderAttribLocation"
@@ -14780,7 +14780,7 @@
         },
         {
             "message": "Missing item type\nIndex of target attribute in the buffer.",
-            "line": " src/davinci-eight/core/ShaderAttribLocation.ts:25"
+            "line": " src/davinci-eight/core/ShaderAttribLocation.ts:26"
         },
         {
             "message": "Missing item type",
