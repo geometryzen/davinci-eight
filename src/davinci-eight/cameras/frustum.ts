@@ -37,7 +37,7 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
 
   updateProjectionMatrix();
 
-  var publicAPI: Frustum = {
+  var self: Frustum = {
     // Delegate to the base camera.
     get eye(): Cartesian3 {
       return base.eye;
@@ -45,17 +45,29 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
     set eye(value: Cartesian3) {
       base.eye = value;
     },
+    setEye(eye: Cartesian3) {
+      base.setEye(eye);
+      return self;
+    },
     get look(): Cartesian3 {
       return base.look;
     },
     set look(value: Cartesian3) {
       base.look = value;
     },
+    setLook(look: Cartesian3) {
+      base.setLook(look);
+      return self;
+    },
     get up(): Cartesian3 {
       return base.up;
     },
-    set up(value: Cartesian3) {
-      base.up = value;
+    set up(up: Cartesian3) {
+      base.setUp(up);
+    },
+    setUp(up: Cartesian3): Frustum {
+      base.setUp(up);
+      return self;
     },
     get left(): number {
       return left;
@@ -134,7 +146,7 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
     }
   };
 
-  return publicAPI;
+  return self;
 };
 
 export =  frustum;

@@ -11,7 +11,7 @@ var expectArg = require('../checks/expectArg');
  * @param aspect {number}
  * @param near {number}
  * @param far {number}
- * @return {LinearPerspectiveCamera}
+ * @return {Perspective}
  */
 var perspective = function (options) {
     options = options || {};
@@ -28,11 +28,11 @@ var perspective = function (options) {
         get eye() {
             return base.eye;
         },
-        set eye(value) {
-            base.eye = value;
+        set eye(eye) {
+            base.eye = eye;
         },
         setEye: function (eye) {
-            self.eye = eye;
+            base.setEye(eye);
             return self;
         },
         get look() {
@@ -41,43 +41,67 @@ var perspective = function (options) {
         set look(value) {
             base.look = value;
         },
+        setLook: function (look) {
+            base.setLook(look);
+            return self;
+        },
         get up() {
             return base.up;
         },
         set up(value) {
             base.up = value;
         },
+        setUp: function (up) {
+            base.setUp(up);
+            return self;
+        },
         get fov() {
             return fov;
         },
         set fov(value) {
-            fov = value;
+            self.setFov(value);
+        },
+        setFov: function (value) {
+            expectArg('fov', value).toBeNumber();
             matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
+            fov = value;
+            return self;
         },
         get aspect() {
             return aspect;
         },
         set aspect(value) {
-            aspect = value;
-            matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+            self.setAspect(value);
         },
-        setAspect: function (aspect) {
-            self.aspect = aspect;
+        setAspect: function (value) {
+            expectArg('aspect', value).toBeNumber();
+            matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+            aspect = value;
             return self;
         },
         get near() {
             return near;
         },
         set near(value) {
-            near = value;
+            self.setNear(value);
+        },
+        setNear: function (value) {
+            expectArg('near', value).toBeNumber();
             matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
+            near = value;
+            return self;
         },
         get far() {
             return far;
         },
         set far(value) {
-            far = value;
+            self.setFar(value);
+        },
+        setFar: function (value) {
+            expectArg('far', value).toBeNumber();
             matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
+            far = value;
+            return self;
         },
         getUniformFloat: function (name) {
             return base.getUniformFloat(name);
@@ -89,6 +113,7 @@ var perspective = function (options) {
             return base.getUniformMatrix3(name);
         },
         getUniformMatrix4: function (name) {
+            expectArg('name', name).toBeString();
             switch (name) {
                 case projectionMatrixName: {
                     if (matrixNeedsUpdate) {

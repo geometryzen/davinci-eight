@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.44.0</em>
+            <em>API Docs for: 2.45.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,6 @@
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
                                 <li><a href="../classes/LocalModel.html">LocalModel</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
@@ -79,6 +78,7 @@
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -187,7 +187,7 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
 
   updateProjectionMatrix();
 
-  var publicAPI: Frustum = {
+  var self: Frustum = {
     // Delegate to the base camera.
     get eye(): Cartesian3 {
       return base.eye;
@@ -195,17 +195,29 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
     set eye(value: Cartesian3) {
       base.eye = value;
     },
+    setEye(eye: Cartesian3) {
+      base.setEye(eye);
+      return self;
+    },
     get look(): Cartesian3 {
       return base.look;
     },
     set look(value: Cartesian3) {
       base.look = value;
     },
+    setLook(look: Cartesian3) {
+      base.setLook(look);
+      return self;
+    },
     get up(): Cartesian3 {
       return base.up;
     },
-    set up(value: Cartesian3) {
-      base.up = value;
+    set up(up: Cartesian3) {
+      base.setUp(up);
+    },
+    setUp(up: Cartesian3): Frustum {
+      base.setUp(up);
+      return self;
     },
     get left(): number {
       return left;
@@ -284,7 +296,7 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
     }
   };
 
-  return publicAPI;
+  return self;
 };
 
 export =  frustum;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.44.0</em>
+            <em>API Docs for: 2.45.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -71,7 +71,6 @@
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LinearPerspectiveCamera.html">LinearPerspectiveCamera</a></li>
                                 <li><a href="../classes/LocalModel.html">LocalModel</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Model.html">Model</a></li>
@@ -79,6 +78,7 @@
                                 <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/Node3D.html">Node3D</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -465,6 +465,18 @@ declare module EIGHT
      * v = cross(n, u).
      */
     up: Cartesian3;
+    /**
+     * Convenience method for setting the eye property allowing chainable method calls.
+     */
+    setEye(eye: Cartesian3): View;
+    /**
+     * Convenience method for setting the look property allowing chainable method calls.
+     */
+    setLook(look: Cartesian3): View;
+    /**
+     * Convenience method for setting the up property allowing chainable method calls.
+     */
+    setUp(up: Cartesian3): View;
   }
   class Frustum extends View {
     left: number;
@@ -473,13 +485,25 @@ declare module EIGHT
     top: number;
     near: number;
     far: number;
+    /**
+     * Convenience method for setting the eye property allowing chainable method calls.
+     */
+    setEye(eye: Cartesian3): Frustum;
+    /**
+     * Convenience method for setting the look property allowing chainable method calls.
+     */
+    setLook(look: Cartesian3): Frustum;
+    /**
+     * Convenience method for setting the up property allowing chainable method calls.
+     */
+    setUp(up: Cartesian3): Frustum;
   }
   /**
    * A transformation from the 3D world coordinates or view volume to the canonical view volume.
    * The canonical view volume is the cube that extends from -1 to +1
    * in all cartesian directions. 
    */
-  class LinearPerspectiveCamera extends View {
+  class Perspective extends View {
     /**
      * field of view angle in the view volume vertical plane, measured in radians.
      */
@@ -497,13 +521,33 @@ declare module EIGHT
      */
     far: number;
     /**
+     * Convenience method for setting the fov property allowing chainable method calls.
+     */
+    setFov(fov: number): Perspective;
+    /**
      * Convenience method for setting the aspect property allowing chainable method calls.
      */
-    setAspect(aspect: number): LinearPerspectiveCamera;
+    setAspect(aspect: number): Perspective;
+    /**
+     * Convenience method for setting the near property allowing chainable method calls.
+     */
+    setNear(near: number): Perspective;
+    /**
+     * Convenience method for setting the far property allowing chainable method calls.
+     */
+    setFar(far: number): Perspective;
     /**
      * Convenience method for setting the eye property allowing chainable method calls.
      */
-    setEye(eye: {x: number; y: number; z:number}): LinearPerspectiveCamera;
+    setEye(eye: Cartesian3): Perspective;
+    /**
+     * Convenience method for setting the look property allowing chainable method calls.
+     */
+    setLook(look: Cartesian3): Perspective;
+    /**
+     * Convenience method for setting the up property allowing chainable method calls.
+     */
+    setUp(up: Cartesian3): Perspective;
   }
   interface AttribMetaInfo {
     name: string,
@@ -755,7 +799,7 @@ declare module EIGHT
   function drawList(): DrawList;
   function view(): View;
   /**
-   * Constructs and returns a LinearPerspectiveCamera.
+   * Constructs and returns a Perspective.
    */
   function frustum(
     left?: number,
@@ -775,7 +819,7 @@ declare module EIGHT
       far?: number;
       projectionMatrixName?: string;
       viewMatrixName?: string
-    }): LinearPerspectiveCamera;
+    }): Perspective;
   /**
    * Constructs and returns a Renderer.
    * @param options Optional parameters for modifying the WebGL context.

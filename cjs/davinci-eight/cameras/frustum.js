@@ -28,7 +28,7 @@ var frustum = function (left, right, bottom, top, near, far) {
         projectionMatrix.frustum(left, right, bottom, top, near, far);
     }
     updateProjectionMatrix();
-    var publicAPI = {
+    var self = {
         // Delegate to the base camera.
         get eye() {
             return base.eye;
@@ -36,17 +36,29 @@ var frustum = function (left, right, bottom, top, near, far) {
         set eye(value) {
             base.eye = value;
         },
+        setEye: function (eye) {
+            base.setEye(eye);
+            return self;
+        },
         get look() {
             return base.look;
         },
         set look(value) {
             base.look = value;
         },
+        setLook: function (look) {
+            base.setLook(look);
+            return self;
+        },
         get up() {
             return base.up;
         },
-        set up(value) {
-            base.up = value;
+        set up(up) {
+            base.setUp(up);
+        },
+        setUp: function (up) {
+            base.setUp(up);
+            return self;
         },
         get left() {
             return left;
@@ -124,6 +136,6 @@ var frustum = function (left, right, bottom, top, near, far) {
             return uniforms;
         }
     };
-    return publicAPI;
+    return self;
 };
 module.exports = frustum;

@@ -2,7 +2,7 @@
 // perspective.ts
 //
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
+import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
 import view  = require('davinci-eight/cameras/view');
 import Matrix4 = require('davinci-eight/math/Matrix4');
@@ -21,7 +21,7 @@ import expectArg = require('../checks/expectArg');
  * @param aspect {number}
  * @param near {number}
  * @param far {number}
- * @return {LinearPerspectiveCamera}
+ * @return {Perspective}
  */
 let perspective = function(options?: {
     fov?: number;
@@ -31,7 +31,7 @@ let perspective = function(options?: {
     projectionMatrixName?: string;
     viewMatrixName?:string
   }
-  ): LinearPerspectiveCamera {
+  ): Perspective {
 
   options = options || {};
   let fov: number = isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov;
@@ -44,16 +44,16 @@ let perspective = function(options?: {
   let projectionMatrix = Matrix4.create();
   var matrixNeedsUpdate = true;
 
-  let self: LinearPerspectiveCamera = {
+  let self: Perspective = {
     // Delegate to the base camera.
     get eye(): Cartesian3 {
       return base.eye;
     },
-    set eye(value: Cartesian3) {
-      base.eye = value;
+    set eye(eye: Cartesian3) {
+      base.eye = eye;
     },
     setEye(eye: Cartesian3) {
-      self.eye = eye;
+      base.setEye(eye);
       return self;
     },
     get look(): Cartesian3 {
@@ -62,43 +62,67 @@ let perspective = function(options?: {
     set look(value: Cartesian3) {
       base.look = value;
     },
+    setLook(look: Cartesian3) {
+      base.setLook(look);
+      return self;
+    },
     get up(): Cartesian3 {
       return base.up;
     },
     set up(value: Cartesian3) {
       base.up = value;
     },
+    setUp(up: Cartesian3) {
+      base.setUp(up);
+      return self;
+    },
     get fov(): number {
       return fov;
     },
     set fov(value: number) {
-      fov = value;
+      self.setFov(value);
+    },
+    setFov(value: number) {
+      expectArg('fov', value).toBeNumber();
       matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
+      fov = value;
+      return self;
     },
     get aspect(): number {
       return aspect;
     },
     set aspect(value: number) {
-      aspect = value;
-      matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+      self.setAspect(value);
     },
-    setAspect(aspect: number) {
-      self.aspect = aspect;
+    setAspect(value: number) {
+      expectArg('aspect', value).toBeNumber();
+      matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+      aspect = value;
       return self;
     },
     get near(): number {
       return near;
     },
     set near(value: number) {
-      near = value;
+      self.setNear(value);
+    },
+    setNear(value: number) {
+      expectArg('near', value).toBeNumber();
       matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
+      near = value;
+      return self;
     },
     get far(): number {
       return far;
     },
     set far(value: number) {
-      far = value;
+      self.setFar(value);
+    },
+    setFar(value: number) {
+      expectArg('far', value).toBeNumber();
       matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
+      far = value;
+      return self;
     },
     getUniformFloat(name: string): number {
       return base.getUniformFloat(name);
@@ -110,6 +134,7 @@ let perspective = function(options?: {
       return base.getUniformMatrix3(name);
     },
     getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
+      expectArg('name', name).toBeString();
       switch(name) {
         case projectionMatrixName: {
           if (matrixNeedsUpdate) {

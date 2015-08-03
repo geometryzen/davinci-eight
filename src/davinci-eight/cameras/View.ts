@@ -19,10 +19,28 @@ interface View extends UniformProvider {
    */
   look: Cartesian3;
   /**
-   * @property look
+   * @property up
    * @type Cartesian3
    */
   up: Cartesian3;
+  /**
+   * Convenience method for setting the eye property allowing chainable method calls.
+   * @method setEye
+   * @param eye {Cartesian3}
+   */
+  setEye(eye: Cartesian3): View;
+  /**
+   * Convenience method for setting the look property allowing chainable method calls.
+   * @method setLook
+   * @param look {Cartesian3}
+   */
+  setLook(look: Cartesian3): View;
+  /**
+   * Convenience method for setting the up property allowing chainable method calls.
+   * @method setUp
+   * @param up {Cartesian3}
+   */
+  setUp(up: Cartesian3): View;
 }
 
 export = View;

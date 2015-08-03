@@ -8,7 +8,7 @@ import Node3D = require('davinci-eight/core/Node3D');
 import Color = require('davinci-eight/core/Color');
 import View = require('davinci-eight/cameras/View');
 import Frustum = require('davinci-eight/cameras/Frustum');
-import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
+import Perspective = require('davinci-eight/cameras/Perspective');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import Face3 = require('davinci-eight/core/Face3');
@@ -93,7 +93,7 @@ declare var eight: {
         far?: number;
         projectionMatrixName?: string;
         viewMatrixName?: string;
-    }) => LinearPerspectiveCamera;
+    }) => Perspective;
     drawList: () => DrawList;
     object3D: () => Node3D;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;

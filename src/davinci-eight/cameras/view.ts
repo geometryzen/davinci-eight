@@ -61,31 +61,46 @@ let view = function(options?: {viewMatrixName?: string}): View {
   look.modified = true;
   up.modified = true;
 
-  let publicAPI: View = {
+  let self: View = {
       get eye(): Cartesian3 {
         return eye;
       },
       set eye(value: Cartesian3) {
+        self.setEye(value);
+      },
+      setEye(value: Cartesian3) {
+        expectArg('eye', value).toBeObject();
         eye.x = value.x;
         eye.y = value.y;
         eye.z = value.z;
+        return self;
       },
       get look(): Cartesian3 {
         return look;
       },
       set look(value: Cartesian3) {
+        self.setLook(value);
+      },
+      setLook(value: Cartesian3): View {
+        expectArg('look', value).toBeObject();
         look.x = value.x;
         look.y = value.y;
         look.z = value.z;
+        return self;
       },
       get up(): Cartesian3 {
         return up;
       },
       set up(value: Cartesian3) {
+        self.setUp(value);
+      },
+      setUp(value: Cartesian3): View {
+        expectArg('up', value).toBeObject();
         up.x = value.x;
         up.y = value.y;
         up.z = value.z;
         up.normalize();
+        return self;
       },
       getUniformFloat(name: string) {
         return base.getUniformFloat(name);
@@ -113,7 +128,7 @@ let view = function(options?: {viewMatrixName?: string}): View {
       }
   };
 
-  return publicAPI;
+  return self;
 };
 
 export = view;

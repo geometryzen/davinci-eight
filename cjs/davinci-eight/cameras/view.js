@@ -61,31 +61,46 @@ var view = function (options) {
     eye.modified = true;
     look.modified = true;
     up.modified = true;
-    var publicAPI = {
+    var self = {
         get eye() {
             return eye;
         },
         set eye(value) {
+            self.setEye(value);
+        },
+        setEye: function (value) {
+            expectArg('eye', value).toBeObject();
             eye.x = value.x;
             eye.y = value.y;
             eye.z = value.z;
+            return self;
         },
         get look() {
             return look;
         },
         set look(value) {
+            self.setLook(value);
+        },
+        setLook: function (value) {
+            expectArg('look', value).toBeObject();
             look.x = value.x;
             look.y = value.y;
             look.z = value.z;
+            return self;
         },
         get up() {
             return up;
         },
         set up(value) {
+            self.setUp(value);
+        },
+        setUp: function (value) {
+            expectArg('up', value).toBeObject();
             up.x = value.x;
             up.y = value.y;
             up.z = value.z;
             up.normalize();
+            return self;
         },
         getUniformFloat: function (name) {
             return base.getUniformFloat(name);
@@ -112,6 +127,6 @@ var view = function (options) {
             return base.getUniformMeta();
         }
     };
-    return publicAPI;
+    return self;
 };
 module.exports = view;

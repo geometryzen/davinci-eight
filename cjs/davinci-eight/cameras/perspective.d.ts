@@ -1,4 +1,4 @@
-import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiveCamera');
+import Perspective = require('davinci-eight/cameras/Perspective');
 /**
  * @class perspective
  * @constructor
@@ -6,7 +6,7 @@ import LinearPerspectiveCamera = require('davinci-eight/cameras/LinearPerspectiv
  * @param aspect {number}
  * @param near {number}
  * @param far {number}
- * @return {LinearPerspectiveCamera}
+ * @return {Perspective}
  */
 declare let perspective: (options?: {
     fov?: number;
@@ -15,5 +15,5 @@ declare let perspective: (options?: {
     far?: number;
     projectionMatrixName?: string;
     viewMatrixName?: string;
-}) => LinearPerspectiveCamera;
+}) => Perspective;
 export = perspective;

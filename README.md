@@ -146,6 +146,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.42.0: 2015-07-31 DrawList
 * 2.43.0: 2015-08-01 VarName
 * 2.44.0: 2015-08-01 clearColor
+* 2.45.0: 2015-08-02 View, Frustum, Perspective
 
 ## License
 Copyright (c) 2014-2015 David Holmes

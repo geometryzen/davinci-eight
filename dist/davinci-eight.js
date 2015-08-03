@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.44.0'
+        VERSION: '2.45.0'
     };
     return core;
 });
@@ -1501,31 +1501,46 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
         eye.modified = true;
         look.modified = true;
         up.modified = true;
-        var publicAPI = {
+        var self = {
             get eye() {
                 return eye;
             },
             set eye(value) {
+                self.setEye(value);
+            },
+            setEye: function (value) {
+                expectArg('eye', value).toBeObject();
                 eye.x = value.x;
                 eye.y = value.y;
                 eye.z = value.z;
+                return self;
             },
             get look() {
                 return look;
             },
             set look(value) {
+                self.setLook(value);
+            },
+            setLook: function (value) {
+                expectArg('look', value).toBeObject();
                 look.x = value.x;
                 look.y = value.y;
                 look.z = value.z;
+                return self;
             },
             get up() {
                 return up;
             },
             set up(value) {
+                self.setUp(value);
+            },
+            setUp: function (value) {
+                expectArg('up', value).toBeObject();
                 up.x = value.x;
                 up.y = value.y;
                 up.z = value.z;
                 up.normalize();
+                return self;
             },
             getUniformFloat: function (name) {
                 return base.getUniformFloat(name);
@@ -1552,7 +1567,7 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
                 return base.getUniformMeta();
             }
         };
-        return publicAPI;
+        return self;
     };
     return view;
 });
@@ -1707,7 +1722,7 @@ define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cam
             projectionMatrix.frustum(left, right, bottom, top, near, far);
         }
         updateProjectionMatrix();
-        var publicAPI = {
+        var self = {
             // Delegate to the base camera.
             get eye() {
                 return base.eye;
@@ -1715,17 +1730,29 @@ define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cam
             set eye(value) {
                 base.eye = value;
             },
+            setEye: function (eye) {
+                base.setEye(eye);
+                return self;
+            },
             get look() {
                 return base.look;
             },
             set look(value) {
                 base.look = value;
             },
+            setLook: function (look) {
+                base.setLook(look);
+                return self;
+            },
             get up() {
                 return base.up;
             },
-            set up(value) {
-                base.up = value;
+            set up(up) {
+                base.setUp(up);
+            },
+            setUp: function (up) {
+                base.setUp(up);
+                return self;
             },
             get left() {
                 return left;
@@ -1803,7 +1830,7 @@ define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cam
                 return uniforms;
             }
         };
-        return publicAPI;
+        return self;
     };
     return frustum;
 });
@@ -1817,7 +1844,7 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
      * @param aspect {number}
      * @param near {number}
      * @param far {number}
-     * @return {LinearPerspectiveCamera}
+     * @return {Perspective}
      */
     var perspective = function (options) {
         options = options || {};
@@ -1834,11 +1861,11 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
             get eye() {
                 return base.eye;
             },
-            set eye(value) {
-                base.eye = value;
+            set eye(eye) {
+                base.eye = eye;
             },
             setEye: function (eye) {
-                self.eye = eye;
+                base.setEye(eye);
                 return self;
             },
             get look() {
@@ -1847,43 +1874,67 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
             set look(value) {
                 base.look = value;
             },
+            setLook: function (look) {
+                base.setLook(look);
+                return self;
+            },
             get up() {
                 return base.up;
             },
             set up(value) {
                 base.up = value;
             },
+            setUp: function (up) {
+                base.setUp(up);
+                return self;
+            },
             get fov() {
                 return fov;
             },
             set fov(value) {
-                fov = value;
+                self.setFov(value);
+            },
+            setFov: function (value) {
+                expectArg('fov', value).toBeNumber();
                 matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
+                fov = value;
+                return self;
             },
             get aspect() {
                 return aspect;
             },
             set aspect(value) {
-                aspect = value;
-                matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+                self.setAspect(value);
             },
-            setAspect: function (aspect) {
-                self.aspect = aspect;
+            setAspect: function (value) {
+                expectArg('aspect', value).toBeNumber();
+                matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
+                aspect = value;
                 return self;
             },
             get near() {
                 return near;
             },
             set near(value) {
-                near = value;
+                self.setNear(value);
+            },
+            setNear: function (value) {
+                expectArg('near', value).toBeNumber();
                 matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
+                near = value;
+                return self;
             },
             get far() {
                 return far;
             },
             set far(value) {
-                far = value;
+                self.setFar(value);
+            },
+            setFar: function (value) {
+                expectArg('far', value).toBeNumber();
                 matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
+                far = value;
+                return self;
             },
             getUniformFloat: function (name) {
                 return base.getUniformFloat(name);
@@ -1895,6 +1946,7 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
                 return base.getUniformMatrix3(name);
             },
             getUniformMatrix4: function (name) {
+                expectArg('name', name).toBeString();
                 switch (name) {
                     case projectionMatrixName: {
                         if (matrixNeedsUpdate) {
@@ -2207,6 +2259,12 @@ define('davinci-eight/renderers/webGLRenderer',["require", "exports", '../render
                 expectArg('contextId', contextId).toBeString();
                 var attributes = context.getContextAttributes();
                 console.log(context.getParameter(context.VERSION));
+                console.log("alpha                 => " + attributes.alpha);
+                console.log("antialias             => " + attributes.antialias);
+                console.log("depth                 => " + attributes.depth);
+                console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+                console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+                console.log("stencil               => " + attributes.stencil);
                 gl = context;
                 glId = contextId;
                 gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
