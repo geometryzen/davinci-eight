@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.46.0</em>
+            <em>API Docs for: 2.47.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -102,8 +103,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -233,6 +234,7 @@ var drawableModel = function&lt;MESH extends AttribProvider, SHADERS extends Sha
   var vertexAttributes: ShaderAttribLocation[] = shaders.attributes.map(shaderAttributeLocationFromDecl);
   var uniformVariables: ShaderUniformLocation[] = shaders.uniforms.map(shaderUniformLocationFromDecl);
 
+/*
   function updateGeometry() {
     // Make sure to update the mesh first so that the shaders gets the correct data.
     mesh.update(shaders.attributes);
@@ -248,8 +250,8 @@ var drawableModel = function&lt;MESH extends AttribProvider, SHADERS extends Sha
     });
     elements.bufferData(mesh);
   }
-
-  var publicAPI = {
+*/
+  var self = {
     get mesh(): MESH {
       return mesh;
     },
@@ -271,10 +273,6 @@ var drawableModel = function&lt;MESH extends AttribProvider, SHADERS extends Sha
         contextGainId = contextId;
         shaders.contextGain(context, contextId);
         elements.contextGain(context, contextId);
-
-        if (!mesh.dynamic) {
-          updateGeometry();
-        }
       }
     },
     contextLoss() {
@@ -297,9 +295,25 @@ var drawableModel = function&lt;MESH extends AttribProvider, SHADERS extends Sha
      */
     draw(ambients: UniformProvider) {
       if (shaders.hasContext()) {
+
         if (mesh.dynamic) {
-          updateGeometry();
+          mesh.update(shaders.attributes);
         }
+
+        // attributes
+        vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+          let thing = mesh.getAttribArray(vertexAttribute.name);
+          if (thing) {
+            vertexAttribute.bufferData(thing.data, thing.usage);
+          }
+          else {
+            // We expect this to be detected long before we get here.
+            throw new Error(&quot;mesh implementation claims to support but does not provide data for attribute &quot; + vertexAttribute.name);
+          }
+        });
+        // elements
+        elements.bufferData(mesh);
+        // uniforms
         let chainedProvider = new ChainedUniformProvider(model, ambients);
         checkUniformsCompleteAndReady(chainedProvider);
         // check we have them all.
@@ -423,7 +437,11 @@ var drawableModel = function&lt;MESH extends AttribProvider, SHADERS extends Sha
     }
   };
 
-  return publicAPI;
+  if (!mesh.dynamic) {
+    mesh.update(shaders.attributes);
+  }
+
+  return self;
 };
 
 export = drawableModel;

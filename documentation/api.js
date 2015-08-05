@@ -13,6 +13,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Color",
         "Color\nWARNING: In many object-oriented designs, types representing values are completely immutable.\nIn a graphics library where data changes rapidly and garbage collection might become an issue,\nit is common to use reference types, such as in this design. This mutability can lead to\ndifficult bugs because it is hard to reason about where a color may have changed.",
         "CuboidMesh",
+        "CylinderBuilder",
         "DefaultUniformProvider",
         "DirectionalLight",
         "DrawMode",

@@ -19,10 +19,9 @@ var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
 var UNIFORM_COLOR_NAME = 'uColor';
 function modelViewMatrix(position, attitude) {
     var matrix = Matrix4.create();
-    matrix.identity();
-    matrix.translate(position);
+    matrix.makeTranslation(position);
     var rotation = Matrix4.create();
-    rotation.rotate(attitude);
+    rotation.makeRotation(attitude);
     matrix.mul(rotation);
     return matrix;
 }
@@ -40,6 +39,7 @@ var LocalModel = (function (_super) {
         _super.call(this);
         this.position = new Vector3();
         this.attitude = new Spinor3();
+        this.scale = new Vector3([1, 1, 1]);
         this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
         this.uColor.data = Color.fromRGB(1, 1, 1);
     }

@@ -19,6 +19,11 @@ declare class LocalModel extends DefaultUniformProvider {
      */
     attitude: Spinor3;
     /**
+     * @property position
+     * @type Vector3
+     */
+    scale: Vector3;
+    /**
      *
      */
     private uColor;

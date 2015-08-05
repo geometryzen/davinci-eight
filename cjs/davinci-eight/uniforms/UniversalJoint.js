@@ -10,15 +10,10 @@ var TreeModel = require('../uniforms/TreeModel');
 var Spinor3 = require('../math/Spinor3');
 var Symbolic = require('../core/Symbolic');
 var isUndefined = require('../checks/isUndefined');
-//import Color = require('../core/Color');
-//import Cartesian3 = require('../math/Cartesian3');
-//import UniformColor = require('../uniforms/UniformColor');
 function localMatrix(attitude) {
+    // TODO: Why don't we have a static constructor?
     var matrix = Matrix4.create();
-    matrix.identity();
-    var rotation = Matrix4.create();
-    rotation.rotate(attitude);
-    matrix.mul(rotation);
+    matrix.makeRotation(attitude);
     return matrix;
 }
 function attitude(theta, phi) {

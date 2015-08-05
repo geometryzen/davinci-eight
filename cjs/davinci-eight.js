@@ -51,11 +51,13 @@ var ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 var boxMesh = require('davinci-eight/mesh/boxMesh');
 var BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 var cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
+var CylinderBuilder = require('davinci-eight/mesh/CylinderBuilder');
 var sphereMesh = require('davinci-eight/mesh/sphereMesh');
 var SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 var vortexMesh = require('davinci-eight/mesh/vortexMesh');
 // objects
 var arrow = require('davinci-eight/objects/arrow');
+var Arrow = require('davinci-eight/objects/Arrow');
 var box = require('davinci-eight/objects/box');
 var cylinder = require('davinci-eight/objects/cylinder');
 var sphere = require('davinci-eight/objects/sphere');
@@ -181,14 +183,16 @@ var eight = {
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
     get cylinderMesh() { return cylinderMesh; },
+    get CylinderBuilder() { return CylinderBuilder; },
     get sphereMesh() { return sphereMesh; },
+    get SphereBuilder() { return SphereBuilder; },
     get vortexMesh() { return vortexMesh; },
     // objects
     get arrow() { return arrow; },
+    get Arrow() { return Arrow; },
     get box() { return box; },
     get cylinder() { return cylinder; },
     get sphere() { return sphere; },
-    get SphereBuilder() { return SphereBuilder; },
     get vortex() { return vortex; },
     // programs
     get shaderProgramFromScripts() { return shaderProgramFromScripts; },

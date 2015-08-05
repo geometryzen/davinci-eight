@@ -3,13 +3,6 @@ import Cartesian3 = require('../math/Cartesian3');
 /**
  * 4x4 matrix integrating with WebGL.
  *
- * The correspondence between the elements property index and the matrix entries is...
- *
- *  0  4  8 12
- *  1  5  9 13
- *  2  6 10 14
- *  3  7 11 15
- *
  * @class Matrix4
  */
 declare class Matrix4 {
@@ -48,16 +41,16 @@ declare class Matrix4 {
      * @method rotate
      * @param attitude  The spinor from which the rotation will be computed.
      */
-    rotate(spinor: Spinor3Coords): Matrix4;
+    makeRotation(spinor: Spinor3Coords): Matrix4;
     /**
      * @method
      * @param i {number} the zero-based index of the row.
      */
     row(i: number): number[];
-    scale(x: number, y: number, z: number): Matrix4;
+    makeScale(scale: Cartesian3): Matrix4;
     set(n11: number, n12: number, n13: number, n14: number, n21: number, n22: number, n23: number, n24: number, n31: number, n32: number, n33: number, n34: number, n41: number, n42: number, n43: number, n44: number): Matrix4;
     toFixed(n: number): string;
     toString(): string;
-    translate(position: Cartesian3): Matrix4;
+    makeTranslation(displacement: Cartesian3): Matrix4;
 }
 export = Matrix4;

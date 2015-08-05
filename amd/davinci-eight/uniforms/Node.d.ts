@@ -19,6 +19,11 @@ declare class Node extends TreeModel {
      */
     attitude: Spinor3;
     /**
+     * @property position
+     * @type Vector3
+     */
+    scale: Vector3;
+    /**
      *
      */
     private modelMatrixName;

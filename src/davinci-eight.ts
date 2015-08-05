@@ -60,16 +60,24 @@ import Vector3 = require('davinci-eight/math/Vector3');
 import arrowMesh = require('davinci-eight/mesh/arrowMesh');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import ArrowOptions = require('davinci-eight/mesh/ArrowOptions');
+
 import boxMesh = require('davinci-eight/mesh/boxMesh');
 import BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 import BoxOptions = require('davinci-eight/mesh/BoxOptions');
+
 import cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
+import CylinderBuilder = require('davinci-eight/mesh/CylinderBuilder');
+import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
+
 import sphereMesh = require('davinci-eight/mesh/sphereMesh');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
+
 import vortexMesh = require('davinci-eight/mesh/vortexMesh');
+
 // objects
 import arrow = require('davinci-eight/objects/arrow');
+import Arrow = require('davinci-eight/objects/Arrow');
 import box = require('davinci-eight/objects/box');
 import cylinder = require('davinci-eight/objects/cylinder');
 import sphere = require('davinci-eight/objects/sphere');
@@ -206,17 +214,23 @@ var eight = {
   // mesh
   get arrowMesh() { return arrowMesh; },
   get ArrowBuilder() { return ArrowBuilder; },
+  
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
+  
   get cylinderMesh() { return cylinderMesh; },
+  get CylinderBuilder() { return CylinderBuilder; },
+
   get sphereMesh() { return sphereMesh; },
+  get SphereBuilder() { return SphereBuilder; },
+
   get vortexMesh() { return vortexMesh; },
   // objects
   get arrow() { return arrow; },
+  get Arrow() { return Arrow; },
   get box() { return box; },
   get cylinder() { return cylinder; },
   get sphere() { return sphere; },
-  get SphereBuilder() { return SphereBuilder; },
   get vortex() { return vortex; },
   // programs
   get shaderProgramFromScripts() { return shaderProgramFromScripts; },

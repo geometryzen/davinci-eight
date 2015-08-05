@@ -1,13 +1,6 @@
 /**
  * 4x4 matrix integrating with WebGL.
  *
- * The correspondence between the elements property index and the matrix entries is...
- *
- *  0  4  8 12
- *  1  5  9 13
- *  2  6 10 14
- *  3  7 11 15
- *
  * @class Matrix4
  */
 var Matrix4 = (function () {
@@ -16,6 +9,12 @@ var Matrix4 = (function () {
      * @constructor
      */
     function Matrix4(elements) {
+        // The correspondence between the elements property index and the matrix entries is...
+        //
+        //  0  4  8 12
+        //  1  5  9 13
+        //  2  6 10 14
+        //  3  7 11 15
         /**
          * @property elements
          * @type Float32Array
@@ -127,7 +126,7 @@ var Matrix4 = (function () {
      * @method rotate
      * @param attitude  The spinor from which the rotation will be computed.
      */
-    Matrix4.prototype.rotate = function (spinor) {
+    Matrix4.prototype.makeRotation = function (spinor) {
         // The correspondence between quaternions and spinors is
         // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
         var x = -spinor.yz;
@@ -149,8 +148,8 @@ var Matrix4 = (function () {
         var te = this.elements;
         return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
     };
-    Matrix4.prototype.scale = function (x, y, z) {
-        this.set(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1);
+    Matrix4.prototype.makeScale = function (scale) {
+        this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
         return this;
     };
     Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -187,8 +186,8 @@ var Matrix4 = (function () {
         }
         return text.join('\n');
     };
-    Matrix4.prototype.translate = function (position) {
-        this.set(1, 0, 0, position.x, 0, 1, 0, position.y, 0, 0, 1, position.z, 0, 0, 0, 1);
+    Matrix4.prototype.makeTranslation = function (displacement) {
+        this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
         return this;
     };
     return Matrix4;

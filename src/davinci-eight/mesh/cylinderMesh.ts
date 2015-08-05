@@ -5,20 +5,19 @@ import Geometry = require('../geometries/Geometry');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import CylinderGeometry = require('../geometries/CylinderGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
-import checkMeshArgs = require('../mesh/checkMeshArgs');
+import CylinderOptions = require('../mesh/CylinderOptions');
 
-function sphereGeometry(options: {wireFrame: boolean}): Geometry {
-  return new CylinderGeometry();
+function cylinderGeometry(options?: CylinderOptions): Geometry {
+  options = options || {};
+  return new CylinderGeometry(
+    options.radiusTop,
+    options.radiusBottom,
+    options.height);
 }
 
-function cylinderMesh(
-  options?: {
-    wireFrame?: boolean
-  }) : AttribProvider {
+function cylinderMesh(options?: CylinderOptions) : AttribProvider {
 
-  let checkedOptions = checkMeshArgs(options);
-
-  let base = new GeometryAdapter(sphereGeometry(checkedOptions), adapterOptions(checkedOptions));
+  let base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
 
   let publicAPI: AttribProvider = {
     draw(context: WebGLRenderingContext) {

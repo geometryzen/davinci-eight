@@ -5,14 +5,15 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, TreeModel, Spinor3, Symbolic, Vector3, Color, UniformColor) {
-    function localMatrix(position, attitude) {
-        var matrix = Matrix4.create();
-        matrix.identity();
-        matrix.translate(position);
-        var rotation = Matrix4.create();
-        rotation.rotate(attitude);
-        matrix.mul(rotation);
-        return matrix;
+    function localMatrix(scale, attitude, position) {
+        var S = Matrix4.create();
+        S.makeScale(scale);
+        var T = Matrix4.create();
+        T.makeTranslation(position);
+        var R = Matrix4.create();
+        R.makeRotation(attitude);
+        T.mul(R.mul(S));
+        return T;
     }
     /**
      * @class Node
@@ -32,6 +33,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
             this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
             this.position = new Vector3();
             this.attitude = new Spinor3();
+            this.scale = new Vector3([1, 1, 1]);
             this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
             this.uColor.data = Color.fromRGB(1, 1, 1);
         }
@@ -64,7 +66,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
                         // We could cache it, being careful that we don't assume the callback order.
                         // We don't want to compute it in the shader beacause that would be per-vertex.
                         var normalMatrix = new Matrix3();
-                        var mv = localMatrix(this.position, this.attitude);
+                        var mv = localMatrix(this.scale, this.attitude, this.position);
                         normalMatrix.normalFromMatrix4(mv);
                         // TODO: elements in Matrix3 should already be Float32Array
                         return { transpose: false, matrix3: new Float32Array(normalMatrix.elements) };
@@ -87,17 +89,17 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
                             var um4 = this.getParent().getUniformMatrix4(name);
                             if (um4) {
                                 var m1 = new Matrix4(um4.matrix4);
-                                var m2 = localMatrix(this.position, this.attitude);
+                                var m2 = localMatrix(this.scale, this.attitude, this.position);
                                 var m = Matrix4.create().multiplyMatrices(m1, m2);
                                 return { transpose: false, matrix4: m.elements };
                             }
                             else {
-                                var m = localMatrix(this.position, this.attitude);
+                                var m = localMatrix(this.scale, this.attitude, this.position);
                                 return { transpose: false, matrix4: m.elements };
                             }
                         }
                         else {
-                            var m = localMatrix(this.position, this.attitude);
+                            var m = localMatrix(this.scale, this.attitude, this.position);
                             return { transpose: false, matrix4: m.elements };
                         }
                     }

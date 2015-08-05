@@ -40,8 +40,11 @@ import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import ArrowOptions = require('davinci-eight/mesh/ArrowOptions');
 import BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 import BoxOptions = require('davinci-eight/mesh/BoxOptions');
+import CylinderBuilder = require('davinci-eight/mesh/CylinderBuilder');
+import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
+import Arrow = require('davinci-eight/objects/Arrow');
 import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
@@ -174,18 +177,18 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
-    cylinderMesh: (options?: {
-        wireFrame?: boolean;
-    }) => AttribProvider;
+    cylinderMesh: (options?: CylinderOptions) => AttribProvider;
+    CylinderBuilder: typeof CylinderBuilder;
     sphereMesh: (options?: SphereOptions) => AttribProvider;
+    SphereBuilder: typeof SphereBuilder;
     vortexMesh: (options?: {
         wireFrame?: boolean;
     }) => AttribProvider;
     arrow: (ambients: UniformProvider, options?: ArrowOptions) => DrawableModel<AttribProvider, ShaderProgram, Node>;
+    Arrow: typeof Arrow;
     box: (ambients: UniformProvider, options?: BoxOptions) => DrawableModel<AttribProvider, ShaderProgram, Node>;
     cylinder: (ambients: UniformProvider) => DrawableModel<AttribProvider, ShaderProgram, Node>;
     sphere: (ambients: UniformProvider, options?: SphereOptions) => DrawableModel<AttribProvider, ShaderProgram, Node>;
-    SphereBuilder: typeof SphereBuilder;
     vortex: (ambients: UniformProvider) => DrawableModel<AttribProvider, ShaderProgram, Node>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };

@@ -5,32 +5,22 @@ import Vector3 = require('../math/Vector3');
 
 class CylinderGeometry extends Geometry {
   constructor(
-    radiusTop?: number,
-    radiusBottom?: number,
-    height?: number,
-    radialSegments?: number,
-    heightSegments?: number,
-    openEnded?: boolean,
-    thetaStart?: number,
-    thetaLength?: number) {
+    radiusTop: number = 1,
+    radiusBottom: number = 1,
+    height: number = 1,
+    radialSegments: number = 16,
+    heightSegments: number = 1,
+    openEnded: boolean = false,
+    thetaStart: number = 0,
+    thetaLength: number = 2 * Math.PI) {
     super();
-    radiusTop = radiusTop !== undefined ? radiusTop : 1;
-    radiusBottom = radiusBottom !== undefined ? radiusBottom : 1;
-    height = height !== undefined ? height : 1;
 
-    radialSegments = radialSegments || 16;
-    heightSegments = heightSegments || 1;
-
-    openEnded = openEnded !== undefined ? openEnded : false;
-    thetaStart = thetaStart !== undefined ? thetaStart : 0;
-    thetaLength = thetaLength !== undefined ? thetaLength : 2 * Math.PI;
-
-    var heightHalf = height / 2;
+    let heightHalf = height / 2;
 
     var x: number;
     var y: number;
-    var vertices: number[][] = [];
-    var uvs: Vector2[][] = [];
+    let vertices: number[][] = [];
+    let uvs: Vector2[][] = [];
 
     for ( y = 0; y <= heightSegments; y ++ ) {
 
@@ -61,22 +51,19 @@ class CylinderGeometry extends Geometry {
 
     }
 
-    var tanTheta = ( radiusBottom - radiusTop ) / height;
+    let tanTheta = ( radiusBottom - radiusTop ) / height;
     var na: Vector3;
     var nb: Vector3;
 
     for ( x = 0; x < radialSegments; x ++ ) {
 
       if ( radiusTop !== 0 ) {
-
         na = this.vertices[ vertices[ 0 ][ x ] ].clone();
         nb = this.vertices[ vertices[ 0 ][ x + 1 ] ].clone();
-
-      } else {
-
+      }
+      else {
         na = this.vertices[ vertices[ 1 ][ x ] ].clone();
         nb = this.vertices[ vertices[ 1 ][ x + 1 ] ].clone();
-
       }
 
       na.setY( Math.sqrt( na.x * na.x + na.z * na.z ) * tanTheta ).normalize();
@@ -109,7 +96,7 @@ class CylinderGeometry extends Geometry {
 
     // top cap
 
-    if ( openEnded === false && radiusTop > 0 ) {
+    if (!openEnded && radiusTop > 0 ) {
 
       this.vertices.push(Vector3.e2.clone().multiplyScalar(heightHalf));
 
@@ -136,7 +123,7 @@ class CylinderGeometry extends Geometry {
 
     // bottom cap
 
-    if ( openEnded === false && radiusBottom > 0 ) {
+    if (!openEnded && radiusBottom > 0 ) {
 
       this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
 

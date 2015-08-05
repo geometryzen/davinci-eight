@@ -11,15 +11,15 @@ var Vector3 = require('../math/Vector3');
 var CylinderGeometry = (function (_super) {
     __extends(CylinderGeometry, _super);
     function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
+        if (radiusTop === void 0) { radiusTop = 1; }
+        if (radiusBottom === void 0) { radiusBottom = 1; }
+        if (height === void 0) { height = 1; }
+        if (radialSegments === void 0) { radialSegments = 16; }
+        if (heightSegments === void 0) { heightSegments = 1; }
+        if (openEnded === void 0) { openEnded = false; }
+        if (thetaStart === void 0) { thetaStart = 0; }
+        if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
         _super.call(this);
-        radiusTop = radiusTop !== undefined ? radiusTop : 1;
-        radiusBottom = radiusBottom !== undefined ? radiusBottom : 1;
-        height = height !== undefined ? height : 1;
-        radialSegments = radialSegments || 16;
-        heightSegments = heightSegments || 1;
-        openEnded = openEnded !== undefined ? openEnded : false;
-        thetaStart = thetaStart !== undefined ? thetaStart : 0;
-        thetaLength = thetaLength !== undefined ? thetaLength : 2 * Math.PI;
         var heightHalf = height / 2;
         var x;
         var y;
@@ -77,7 +77,7 @@ var CylinderGeometry = (function (_super) {
             }
         }
         // top cap
-        if (openEnded === false && radiusTop > 0) {
+        if (!openEnded && radiusTop > 0) {
             this.vertices.push(Vector3.e2.clone().multiplyScalar(heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 var v1 = vertices[0][x];
@@ -94,7 +94,7 @@ var CylinderGeometry = (function (_super) {
             }
         }
         // bottom cap
-        if (openEnded === false && radiusBottom > 0) {
+        if (!openEnded && radiusBottom > 0) {
             this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
             for (x = 0; x < radialSegments; x++) {
                 var v1 = vertices[heightSegments][x + 1];

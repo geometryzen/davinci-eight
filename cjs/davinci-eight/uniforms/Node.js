@@ -12,14 +12,15 @@ var Symbolic = require('../core/Symbolic');
 var Vector3 = require('../math/Vector3');
 var Color = require('../core/Color');
 var UniformColor = require('../uniforms/UniformColor');
-function localMatrix(position, attitude) {
-    var matrix = Matrix4.create();
-    matrix.identity();
-    matrix.translate(position);
-    var rotation = Matrix4.create();
-    rotation.rotate(attitude);
-    matrix.mul(rotation);
-    return matrix;
+function localMatrix(scale, attitude, position) {
+    var S = Matrix4.create();
+    S.makeScale(scale);
+    var T = Matrix4.create();
+    T.makeTranslation(position);
+    var R = Matrix4.create();
+    R.makeRotation(attitude);
+    T.mul(R.mul(S));
+    return T;
 }
 /**
  * @class Node
@@ -39,6 +40,7 @@ var Node = (function (_super) {
         this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
         this.position = new Vector3();
         this.attitude = new Spinor3();
+        this.scale = new Vector3([1, 1, 1]);
         this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
         this.uColor.data = Color.fromRGB(1, 1, 1);
     }
@@ -71,7 +73,7 @@ var Node = (function (_super) {
                     // We could cache it, being careful that we don't assume the callback order.
                     // We don't want to compute it in the shader beacause that would be per-vertex.
                     var normalMatrix = new Matrix3();
-                    var mv = localMatrix(this.position, this.attitude);
+                    var mv = localMatrix(this.scale, this.attitude, this.position);
                     normalMatrix.normalFromMatrix4(mv);
                     // TODO: elements in Matrix3 should already be Float32Array
                     return { transpose: false, matrix3: new Float32Array(normalMatrix.elements) };
@@ -94,17 +96,17 @@ var Node = (function (_super) {
                         var um4 = this.getParent().getUniformMatrix4(name);
                         if (um4) {
                             var m1 = new Matrix4(um4.matrix4);
-                            var m2 = localMatrix(this.position, this.attitude);
+                            var m2 = localMatrix(this.scale, this.attitude, this.position);
                             var m = Matrix4.create().multiplyMatrices(m1, m2);
                             return { transpose: false, matrix4: m.elements };
                         }
                         else {
-                            var m = localMatrix(this.position, this.attitude);
+                            var m = localMatrix(this.scale, this.attitude, this.position);
                             return { transpose: false, matrix4: m.elements };
                         }
                     }
                     else {
-                        var m = localMatrix(this.position, this.attitude);
+                        var m = localMatrix(this.scale, this.attitude, this.position);
                         return { transpose: false, matrix4: m.elements };
                     }
                 }

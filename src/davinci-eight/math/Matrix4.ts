@@ -3,16 +3,15 @@ import Cartesian3 = require('../math/Cartesian3');
 /**
  * 4x4 matrix integrating with WebGL.
  *
- * The correspondence between the elements property index and the matrix entries is...
- *
- *  0  4  8 12
- *  1  5  9 13
- *  2  6 10 14
- *  3  7 11 15
- *
  * @class Matrix4
  */
 class Matrix4 {
+// The correspondence between the elements property index and the matrix entries is...
+//
+//  0  4  8 12
+//  1  5  9 13
+//  2  6 10 14
+//  3  7 11 15
   /**
    * @property elements
    * @type Float32Array
@@ -144,7 +143,7 @@ class Matrix4 {
    * @method rotate
    * @param attitude  The spinor from which the rotation will be computed.
    */
-  rotate(spinor: Spinor3Coords): Matrix4 {
+  makeRotation(spinor: Spinor3Coords): Matrix4 {
     // The correspondence between quaternions and spinors is
     // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
     let x: number = -spinor.yz;
@@ -174,13 +173,8 @@ class Matrix4 {
     let te = this.elements;
     return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
   }
-  scale(x: number, y: number, z: number): Matrix4 {
-    this.set(
-      x, 0, 0, 0,
-      0, y, 0, 0,
-      0, 0, z, 0,
-      0, 0, 0, 1
-    );
+  makeScale(scale: Cartesian3): Matrix4 {
+    this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
     return this;
   }
   set(
@@ -224,13 +218,8 @@ class Matrix4 {
     }
     return text.join('\n');
   }
-  translate(position: Cartesian3): Matrix4 {
-    this.set(
-      1, 0, 0, position.x,
-      0, 1, 0, position.y,
-      0, 0, 1, position.z,
-      0, 0, 0, 1
-    );
+  makeTranslation(displacement: Cartesian3): Matrix4 {
+    this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
     return this;
   }
 }

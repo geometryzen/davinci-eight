@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.46.0</em>
+            <em>API Docs for: 2.47.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -102,8 +103,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -153,16 +154,15 @@ import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 /**
  * 4x4 matrix integrating with WebGL.
  *
- * The correspondence between the elements property index and the matrix entries is...
- *
- *  0  4  8 12
- *  1  5  9 13
- *  2  6 10 14
- *  3  7 11 15
- *
  * @class Matrix4
  */
 class Matrix4 {
+// The correspondence between the elements property index and the matrix entries is...
+//
+//  0  4  8 12
+//  1  5  9 13
+//  2  6 10 14
+//  3  7 11 15
   /**
    * @property elements
    * @type Float32Array
@@ -294,7 +294,7 @@ class Matrix4 {
    * @method rotate
    * @param attitude  The spinor from which the rotation will be computed.
    */
-  rotate(spinor: Spinor3Coords): Matrix4 {
+  makeRotation(spinor: Spinor3Coords): Matrix4 {
     // The correspondence between quaternions and spinors is
     // i &lt;=&gt; -e2^e3, j &lt;=&gt; -e3^e1, k &lt;=&gt; -e1^e2.
     let x: number = -spinor.yz;
@@ -324,13 +324,8 @@ class Matrix4 {
     let te = this.elements;
     return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
   }
-  scale(x: number, y: number, z: number): Matrix4 {
-    this.set(
-      x, 0, 0, 0,
-      0, y, 0, 0,
-      0, 0, z, 0,
-      0, 0, 0, 1
-    );
+  makeScale(scale: Cartesian3): Matrix4 {
+    this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
     return this;
   }
   set(
@@ -374,13 +369,8 @@ class Matrix4 {
     }
     return text.join(&#x27;\n&#x27;);
   }
-  translate(position: Cartesian3): Matrix4 {
-    this.set(
-      1, 0, 0, position.x,
-      0, 1, 0, position.y,
-      0, 0, 1, position.z,
-      0, 0, 0, 1
-    );
+  makeTranslation(displacement: Cartesian3): Matrix4 {
+    this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
     return this;
   }
 }

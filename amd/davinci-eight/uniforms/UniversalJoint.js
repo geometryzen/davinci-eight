@@ -5,15 +5,10 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 define(["require", "exports", '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../checks/isUndefined'], function (require, exports, Matrix4, TreeModel, Spinor3, Symbolic, isUndefined) {
-    //import Color = require('../core/Color');
-    //import Cartesian3 = require('../math/Cartesian3');
-    //import UniformColor = require('../uniforms/UniformColor');
     function localMatrix(attitude) {
+        // TODO: Why don't we have a static constructor?
         var matrix = Matrix4.create();
-        matrix.identity();
-        var rotation = Matrix4.create();
-        rotation.rotate(attitude);
-        matrix.mul(rotation);
+        matrix.makeRotation(attitude);
         return matrix;
     }
     function attitude(theta, phi) {

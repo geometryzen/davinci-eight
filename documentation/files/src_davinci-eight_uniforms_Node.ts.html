@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.46.0</em>
+            <em>API Docs for: 2.47.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -102,8 +103,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -160,14 +161,19 @@ import Color = require(&#x27;../core/Color&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import UniformColor = require(&#x27;../uniforms/UniformColor&#x27;);
 
-function localMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
-  var matrix = Matrix4.create();
-  matrix.identity();
-  matrix.translate(position);
-  var rotation = Matrix4.create();
-  rotation.rotate(attitude);
-  matrix.mul(rotation);
-  return matrix;
+function localMatrix(scale: Cartesian3, attitude: Spinor3Coords, position: Cartesian3): Matrix4 {
+
+  var S = Matrix4.create();
+  S.makeScale(scale);
+
+  var T = Matrix4.create();
+  T.makeTranslation(position);
+
+  var R = Matrix4.create();
+  R.makeRotation(attitude);
+
+  T.mul(R.mul(S));
+  return T;
 }
 
 /**
@@ -185,6 +191,11 @@ class Node extends TreeModel {
      * @type Spinor3Coords
      */
   public attitude: Spinor3;
+  /**
+   * @property position
+   * @type Vector3
+   */
+  public scale: Vector3;
   /**
    *
    */
@@ -218,6 +229,7 @@ class Node extends TreeModel {
     this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
     this.position = new Vector3();
     this.attitude = new Spinor3();
+    this.scale = new Vector3([1, 1, 1]);
     this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
     this.uColor.data = Color.fromRGB(1, 1, 1);
   }
@@ -245,7 +257,7 @@ class Node extends TreeModel {
         // We could cache it, being careful that we don&#x27;t assume the callback order.
         // We don&#x27;t want to compute it in the shader beacause that would be per-vertex.
         var normalMatrix = new Matrix3();
-        var mv = localMatrix(this.position, this.attitude);
+        var mv = localMatrix(this.scale, this.attitude, this.position);
         normalMatrix.normalFromMatrix4(mv);
         // TODO: elements in Matrix3 should already be Float32Array
         return {transpose: false, matrix3: new Float32Array(normalMatrix.elements)};
@@ -267,17 +279,17 @@ class Node extends TreeModel {
           var um4 = this.getParent().getUniformMatrix4(name);
           if (um4) {
             var m1 = new Matrix4(um4.matrix4);
-            var m2 = localMatrix(this.position, this.attitude);
+            var m2 = localMatrix(this.scale, this.attitude, this.position);
             var m = Matrix4.create().multiplyMatrices(m1, m2);
             return {transpose: false, matrix4: m.elements};
           }
           else {
-            var m = localMatrix(this.position, this.attitude);
+            var m = localMatrix(this.scale, this.attitude, this.position);
             return {transpose: false, matrix4: m.elements};
           }
         }
         else {
-          var m = localMatrix(this.position, this.attitude);
+          var m = localMatrix(this.scale, this.attitude, this.position);
           return {transpose: false, matrix4: m.elements};
         }
       }

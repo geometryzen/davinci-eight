@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.46.0</em>
+            <em>API Docs for: 2.47.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -102,8 +103,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -212,7 +213,7 @@ declare module EIGHT
      */
     hasContext(): boolean;
   }
-  class Drawable extends RenderingContextUser {
+  interface Drawable extends RenderingContextUser {
     drawGroupName: string;
     /**
      *
@@ -337,7 +338,7 @@ declare module EIGHT
   /**
    * Provides the runtime and design time data required to use a uniform in a vertex shader.
    */
-  class UniformProvider {
+  interface UniformProvider {
     getUniformFloat(name: string): number;
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
@@ -349,42 +350,78 @@ declare module EIGHT
   /**
    *
    */
-  class AmbientLight extends UniformProvider {
+  class AmbientLight implements UniformProvider {
     public color: UniformColor;
     constructor(options?: {color?: Color; name?: string});
+    getUniformFloat(name: string): number;
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector2(name: string): number[];
+    getUniformVector3(name: string): number[];
+    getUniformVector4(name: string): number[];
+    getUniformMeta(): UniformMetaInfos;
   }
   /**
    *
    */
-  class ChainedUniformProvider extends UniformProvider {
+  class ChainedUniformProvider implements UniformProvider {
     constructor(one: UniformProvider, two: UniformProvider);
+    getUniformFloat(name: string): number;
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector2(name: string): number[];
+    getUniformVector3(name: string): number[];
+    getUniformVector4(name: string): number[];
+    getUniformMeta(): UniformMetaInfos;
   }
   /**
    *
    */
-  class DefaultUniformProvider extends UniformProvider {
+  class DefaultUniformProvider implements UniformProvider {
     constructor();
+    getUniformFloat(name: string);
+    getUniformMatrix2(name: string): { transpose: boolean; matrix2: Float32Array };
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector2(name: string): number[];
+    getUniformVector3(name: string): number[];
+    getUniformVector4(name: string): number[];
+    getUniformMeta(): UniformMetaInfos;
   }
   /**
    *
    */
-  class DirectionalLight extends UniformProvider {
+  class DirectionalLight implements UniformProvider {
     public color: UniformColor;
     public direction: UniformVector3;
     constructor(options?: {color?: Color; direction?: Vector3; name?: string});
+    getUniformFloat(name: string): number;
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector2(name: string): number[];
+    getUniformVector3(name: string): number[];
+    getUniformVector4(name: string): number[];
+    getUniformMeta(): UniformMetaInfos;
   }
   /**
    *
    */
-  class PointLight extends UniformProvider {
+  class PointLight implements UniformProvider {
     public color: UniformColor;
     public position: UniformVector3;
     constructor(options?: {color?: Color; position?: Vector3; name?: string});
+    getUniformFloat(name: string): number;
+    getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
+    getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
+    getUniformVector2(name: string): number[];
+    getUniformVector3(name: string): number[];
+    getUniformVector4(name: string): number[];
+    getUniformMeta(): UniformMetaInfos;
   }
   /**
    *
    */
-  class MultiUniformProvider extends UniformProvider {
+  class MultiUniformProvider extends DefaultUniformProvider {
     constructor(providers: UniformProvider[]);
   }
   /**
@@ -394,62 +431,78 @@ declare module EIGHT
   /**
    *
    */
-  class UniformVariable&lt;T&gt; extends UniformProvider {
+  interface UniformVariable&lt;T&gt; extends UniformProvider {
     data: T;
     callback: () =&gt; T;
   }
   /**
    * Represents a uniform vec3 for a Color.
    */
-  class UniformColor extends UniformVariable&lt;Color&gt; {
+  class UniformColor extends DefaultUniformProvider implements UniformVariable&lt;Color&gt; {
     constructor(name: string, id?: string);
+    data: Color;
+    callback: () =&gt; Color;
   }
   /**
    * Represents a uniform vec3 for a Vector3.
    */
-  class UniformVector3 extends UniformVariable&lt;Vector3&gt; {
+  class UniformVector3 extends DefaultUniformProvider implements UniformVariable&lt;Vector3&gt; {
     constructor(name: string, id?: string);
+    data: Vector3;
+    callback: () =&gt; Vector3;
   }
   /**
    * Represents a uniform vec4 for a Spinor3.
    */
-  class UniformSpinor3 extends UniformVariable&lt;Spinor3&gt; {
+  class UniformSpinor3 extends DefaultUniformProvider implements UniformVariable&lt;Spinor3&gt; {
     constructor(name: string, id?: string);
+    data: Spinor3;
+    callback: () =&gt; Spinor3;
   }
   /**
    * Represents a uniform float.
    */
-  class UniformFloat extends UniformVariable&lt;number&gt; {
+  class UniformFloat extends DefaultUniformProvider implements UniformVariable&lt;number&gt; {
     constructor(name: string, id?: string);
+    data: number;
+    callback: () =&gt; number;
   }
   /**
    * Represents a uniform mat4.
    */
-  class UniformMat4 extends UniformVariable&lt;{ transpose: boolean; matrix4: Float32Array}&gt; {
+  class UniformMat4 extends DefaultUniformProvider implements UniformVariable&lt;{ transpose: boolean; matrix4: Float32Array}&gt; {
     constructor(name: string, id?: string);
+    data: { transpose: boolean; matrix4: Float32Array};
+    callback: () =&gt; { transpose: boolean; matrix4: Float32Array};
   }
   /**
    * Represents a uniform vec2.
    */
-  class UniformVec2 extends UniformVariable&lt;number[]&gt; {
+  class UniformVec2 extends DefaultUniformProvider implements UniformVariable&lt;number[]&gt; {
     constructor(name: string, id?: string);
+    data: number[];
+    callback: () =&gt; number[];
   }
   /**
    * Represents a uniform vec3.
    */
-  class UniformVec3 extends UniformVariable&lt;number[]&gt; {
+  class UniformVec3 extends DefaultUniformProvider implements UniformVariable&lt;number[]&gt; {
     constructor(name: string, id?: string);
+    data: number[];
+    callback: () =&gt; number[];
   }
   /**
    * Represents a uniform vec4.
    */
-  class UniformVec4 extends UniformVariable&lt;number[]&gt; {
+  class UniformVec4 extends DefaultUniformProvider implements UniformVariable&lt;number[]&gt; {
     constructor(name: string, id?: string);
+    data: number[];
+    callback: () =&gt; number[];
   }
   /**
    * Provides the uniform for the model to view coordinates transformation.
    */
-  class View extends UniformProvider {
+  interface View extends UniformProvider {
     /**
      * The position of the view reference point, VRP.
      */
@@ -478,7 +531,7 @@ declare module EIGHT
      */
     setUp(up: Cartesian3): View;
   }
-  class Frustum extends View {
+  interface Frustum extends View {
     left: number;
     right: number;
     bottom: number;
@@ -503,7 +556,7 @@ declare module EIGHT
    * The canonical view volume is the cube that extends from -1 to +1
    * in all cartesian directions. 
    */
-  class Perspective extends View {
+  interface Perspective extends View {
     /**
      * field of view angle in the view volume vertical plane, measured in radians.
      */
@@ -728,7 +781,7 @@ declare module EIGHT
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  class DrawableModel&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
+  interface DrawableModel&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
   {
     mesh: MESH;
     shaders: SHADERS;
@@ -860,16 +913,16 @@ declare module EIGHT
   /**
    *
    */
-  class LocalModel extends UniformProvider {
+  class LocalModel extends DefaultUniformProvider {
     public position: Vector3;
     public attitude: Spinor3;
+    public color: Color;
     constructor();
-    get color(): Color;
   }
   /**
    *
    */
-  class TreeModel extends UniformProvider {
+  class TreeModel extends DefaultUniformProvider {
     constructor();
     setParent(parent: TreeModel);
   }
@@ -879,13 +932,14 @@ declare module EIGHT
   class Node extends TreeModel {
     public position: Vector3;
     public attitude: Spinor3;
+    public scale: Vector3;
+    public color: Color;
     constructor(
       options?: {
         modelMatrixName?: string;
         normalMatrixName?: string;
         colorVarName?: string;
       });
-    get color(): Color;
   }
   /**
    *
@@ -921,6 +975,22 @@ declare module EIGHT
    *
    */
   function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
+  /**
+   *
+   */
+  class Arrow implements Drawable {
+    position: Vector3;
+    attitude: Spinor3;
+    color: Color;
+    drawGroupName: string;
+    constructor(ambients: UniformProvider);
+    useProgram(): void;
+    draw(ambients: UniformProvider): void;
+    contextLoss(): void;
+    contextGain(context: WebGLRenderingContext, contextId: string): void;
+    contextFree(): void;
+    hasContext(): boolean;
+  }
   /**
    *
    */
@@ -966,6 +1036,27 @@ declare module EIGHT
    *
    */
   function box(ambients: UniformProvider, options: BoxOptions): DrawableModel&lt;AttribProvider, ShaderProgram, Node&gt;;
+  /**
+   *
+   */
+  interface CylinderOptions {
+    radiusTop?: number;
+    radiusBottom?: number;
+    height?: number;
+  }
+  /**
+   *
+   */
+  class CylinderBuilder {
+    radiusTop: number;
+    radiusBottom: number;
+    height: number;
+    constructor(options?: CylinderOptions);
+    setRadiusTop(radiusTop: number): CylinderBuilder;
+    setRadiusBottom(radiusBottom: number): CylinderBuilder;
+    setHeight(height: number): CylinderBuilder;
+    buildMesh(): AttribProvider;
+  }
   /**
    * Constructs and returns a cylinder mesh.
    */

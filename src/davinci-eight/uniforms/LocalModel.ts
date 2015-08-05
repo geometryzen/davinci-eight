@@ -20,10 +20,9 @@ let UNIFORM_COLOR_NAME         = 'uColor';
 
 function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
   var matrix = Matrix4.create();
-  matrix.identity();
-  matrix.translate(position);
+  matrix.makeTranslation(position);
   var rotation = Matrix4.create();
-  rotation.rotate(attitude);
+  rotation.makeRotation(attitude);
   matrix.mul(rotation);
   return matrix;
 }
@@ -44,6 +43,11 @@ class LocalModel extends DefaultUniformProvider {
      */
   public attitude: Spinor3;
   /**
+   * @property position
+   * @type Vector3
+   */
+  public scale: Vector3;
+  /**
    *
    */
   private uColor: UniformColor;
@@ -55,6 +59,7 @@ class LocalModel extends DefaultUniformProvider {
     super();
     this.position = new Vector3();
     this.attitude = new Spinor3();
+    this.scale = new Vector3([1, 1, 1]);
     this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
     this.uColor.data = Color.fromRGB(1, 1, 1);
   }

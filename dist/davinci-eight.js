@@ -455,7 +455,7 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.46.0'
+        VERSION: '2.47.0'
     };
     return core;
 });
@@ -992,13 +992,6 @@ define('davinci-eight/math/Matrix4',["require", "exports"], function (require, e
     /**
      * 4x4 matrix integrating with WebGL.
      *
-     * The correspondence between the elements property index and the matrix entries is...
-     *
-     *  0  4  8 12
-     *  1  5  9 13
-     *  2  6 10 14
-     *  3  7 11 15
-     *
      * @class Matrix4
      */
     var Matrix4 = (function () {
@@ -1007,6 +1000,12 @@ define('davinci-eight/math/Matrix4',["require", "exports"], function (require, e
          * @constructor
          */
         function Matrix4(elements) {
+            // The correspondence between the elements property index and the matrix entries is...
+            //
+            //  0  4  8 12
+            //  1  5  9 13
+            //  2  6 10 14
+            //  3  7 11 15
             /**
              * @property elements
              * @type Float32Array
@@ -1118,7 +1117,7 @@ define('davinci-eight/math/Matrix4',["require", "exports"], function (require, e
          * @method rotate
          * @param attitude  The spinor from which the rotation will be computed.
          */
-        Matrix4.prototype.rotate = function (spinor) {
+        Matrix4.prototype.makeRotation = function (spinor) {
             // The correspondence between quaternions and spinors is
             // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
             var x = -spinor.yz;
@@ -1140,8 +1139,8 @@ define('davinci-eight/math/Matrix4',["require", "exports"], function (require, e
             var te = this.elements;
             return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
         };
-        Matrix4.prototype.scale = function (x, y, z) {
-            this.set(x, 0, 0, 0, 0, y, 0, 0, 0, 0, z, 0, 0, 0, 0, 1);
+        Matrix4.prototype.makeScale = function (scale) {
+            this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
             return this;
         };
         Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -1178,8 +1177,8 @@ define('davinci-eight/math/Matrix4',["require", "exports"], function (require, e
             }
             return text.join('\n');
         };
-        Matrix4.prototype.translate = function (position) {
-            this.set(1, 0, 0, position.x, 0, 1, 0, position.y, 0, 0, 1, position.z, 0, 0, 0, 1);
+        Matrix4.prototype.makeTranslation = function (displacement) {
+            this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
             return this;
         };
         return Matrix4;
@@ -2549,22 +2548,24 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
         var elements = new ElementArray(mesh);
         var vertexAttributes = shaders.attributes.map(shaderAttributeLocationFromDecl);
         var uniformVariables = shaders.uniforms.map(shaderUniformLocationFromDecl);
-        function updateGeometry() {
+        /*
+          function updateGeometry() {
             // Make sure to update the mesh first so that the shaders gets the correct data.
             mesh.update(shaders.attributes);
-            vertexAttributes.forEach(function (vertexAttribute) {
-                var thing = mesh.getAttribArray(vertexAttribute.name);
-                if (thing) {
-                    vertexAttribute.bufferData(thing.data, thing.usage);
-                }
-                else {
-                    // We expect this to be detected long before we get here.
-                    throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
-                }
+            vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+              let thing = mesh.getAttribArray(vertexAttribute.name);
+              if (thing) {
+                vertexAttribute.bufferData(thing.data, thing.usage);
+              }
+              else {
+                // We expect this to be detected long before we get here.
+                throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+              }
             });
             elements.bufferData(mesh);
-        }
-        var publicAPI = {
+          }
+        */
+        var self = {
             get mesh() {
                 return mesh;
             },
@@ -2586,9 +2587,6 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
                     contextGainId = contextId;
                     shaders.contextGain(context, contextId);
                     elements.contextGain(context, contextId);
-                    if (!mesh.dynamic) {
-                        updateGeometry();
-                    }
                 }
             },
             contextLoss: function () {
@@ -2612,8 +2610,22 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
             draw: function (ambients) {
                 if (shaders.hasContext()) {
                     if (mesh.dynamic) {
-                        updateGeometry();
+                        mesh.update(shaders.attributes);
                     }
+                    // attributes
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        var thing = mesh.getAttribArray(vertexAttribute.name);
+                        if (thing) {
+                            vertexAttribute.bufferData(thing.data, thing.usage);
+                        }
+                        else {
+                            // We expect this to be detected long before we get here.
+                            throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+                        }
+                    });
+                    // elements
+                    elements.bufferData(mesh);
+                    // uniforms
                     var chainedProvider = new ChainedUniformProvider(model, ambients);
                     checkUniformsCompleteAndReady(chainedProvider);
                     // check we have them all.
@@ -2737,7 +2749,10 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
                 }
             }
         };
-        return publicAPI;
+        if (!mesh.dynamic) {
+            mesh.update(shaders.attributes);
+        }
+        return self;
     };
     return drawableModel;
 });
@@ -4022,15 +4037,15 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
         function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
+            if (radiusTop === void 0) { radiusTop = 1; }
+            if (radiusBottom === void 0) { radiusBottom = 1; }
+            if (height === void 0) { height = 1; }
+            if (radialSegments === void 0) { radialSegments = 16; }
+            if (heightSegments === void 0) { heightSegments = 1; }
+            if (openEnded === void 0) { openEnded = false; }
+            if (thetaStart === void 0) { thetaStart = 0; }
+            if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
             _super.call(this);
-            radiusTop = radiusTop !== undefined ? radiusTop : 1;
-            radiusBottom = radiusBottom !== undefined ? radiusBottom : 1;
-            height = height !== undefined ? height : 1;
-            radialSegments = radialSegments || 16;
-            heightSegments = heightSegments || 1;
-            openEnded = openEnded !== undefined ? openEnded : false;
-            thetaStart = thetaStart !== undefined ? thetaStart : 0;
-            thetaLength = thetaLength !== undefined ? thetaLength : 2 * Math.PI;
             var heightHalf = height / 2;
             var x;
             var y;
@@ -4088,7 +4103,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
                 }
             }
             // top cap
-            if (openEnded === false && radiusTop > 0) {
+            if (!openEnded && radiusTop > 0) {
                 this.vertices.push(Vector3.e2.clone().multiplyScalar(heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[0][x];
@@ -4105,7 +4120,7 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
                 }
             }
             // bottom cap
-            if (openEnded === false && radiusBottom > 0) {
+            if (!openEnded && radiusBottom > 0) {
                 this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
                 for (x = 0; x < radialSegments; x++) {
                     var v1 = vertices[heightSegments][x + 1];
@@ -8037,24 +8052,13 @@ define('davinci-eight/mesh/BoxBuilder',["require", "exports", '../checks/expectA
     return BoxBuilder;
 });
 
-define('davinci-eight/mesh/checkMeshArgs',["require", "exports"], function (require, exports) {
-    function checkMeshArgs(options) {
+define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/CylinderGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, CylinderGeometry, adapterOptions) {
+    function cylinderGeometry(options) {
         options = options || {};
-        var wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
-        return {
-            wireFrame: wireFrame
-        };
-    }
-    return checkMeshArgs;
-});
-
-define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/CylinderGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, CylinderGeometry, adapterOptions, checkMeshArgs) {
-    function sphereGeometry(options) {
-        return new CylinderGeometry();
+        return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height);
     }
     function cylinderMesh(options) {
-        var checkedOptions = checkMeshArgs(options);
-        var base = new GeometryAdapter(sphereGeometry(checkedOptions), adapterOptions(checkedOptions));
+        var base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
         var publicAPI = {
             draw: function (context) {
                 return base.draw(context);
@@ -8087,6 +8091,139 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
         return publicAPI;
     }
     return cylinderMesh;
+});
+
+define('davinci-eight/mesh/CylinderBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/cylinderMesh', '../math/Vector3'], function (require, exports, expectArg, isUndefined, cylinderMesh, Vector3) {
+    /**
+     * @class CylinderBuilder
+     */
+    var CylinderBuilder = (function () {
+        function CylinderBuilder(options) {
+            this.$axis = Vector3.e3.clone();
+            options = options || { modelMatrix: 'uModelMatrix' };
+            this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
+            this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
+            //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
+            //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
+            //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
+            //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
+            //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+            this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
+        }
+        Object.defineProperty(CylinderBuilder.prototype, "radiusTop", {
+            get: function () {
+                return this.$radiusTop;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "radiusBottom", {
+            get: function () {
+                return this.$radiusBottom;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "height", {
+            get: function () {
+                return this.$height;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "axis", {
+            get: function () {
+                return this.$axis;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "depth", {
+            get: function () {
+                return this.$depth;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "widthSegments", {
+            get: function () {
+                return this.$widthSegments;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "heightSegments", {
+            get: function () {
+                return this.$heightSegments;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "depthSegments", {
+            get: function () {
+                return this.$depthSegments;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderBuilder.prototype, "wireFrame", {
+            get: function () {
+                return this.$wireFrame;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        CylinderBuilder.prototype.setRadiusTop = function (radiusTop) {
+            expectArg('radiusTop', radiusTop).toBeNumber().toSatisfy(radiusTop >= 0, "radiusTop must be greater than or equal to zero.");
+            this.$radiusTop = radiusTop;
+            return this;
+        };
+        CylinderBuilder.prototype.setRadiusBottom = function (radiusBottom) {
+            expectArg('radiusBottom', radiusBottom).toBeNumber().toSatisfy(radiusBottom >= 0, "radiusBottom must be greater than or equal to zero.");
+            this.$radiusBottom = radiusBottom;
+            return this;
+        };
+        CylinderBuilder.prototype.setHeight = function (height) {
+            expectArg('height', height).toBeNumber().toSatisfy(height >= 0, "height must be greater than or equal to zero.");
+            this.$height = height;
+            return this;
+        };
+        CylinderBuilder.prototype.setAxis = function (axis) {
+            expectArg('axis', axis).toBeObject();
+            this.$axis.copy(axis);
+            return this;
+        };
+        CylinderBuilder.prototype.setDepth = function (depth) {
+            expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
+            this.$depth = depth;
+            return this;
+        };
+        CylinderBuilder.prototype.setWidthSegments = function (widthSegments) {
+            expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
+            this.$widthSegments = widthSegments;
+            return this;
+        };
+        CylinderBuilder.prototype.setHeightSegments = function (heightSegments) {
+            expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
+            this.$heightSegments = heightSegments;
+            return this;
+        };
+        CylinderBuilder.prototype.setDepthSegments = function (depthSegments) {
+            expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
+            this.$depthSegments = depthSegments;
+            return this;
+        };
+        CylinderBuilder.prototype.setWireFrame = function (wireFrame) {
+            expectArg('wireFrame', wireFrame).toBeBoolean();
+            this.$wireFrame = wireFrame;
+            return this;
+        };
+        CylinderBuilder.prototype.buildMesh = function () {
+            return cylinderMesh(this);
+        };
+        return CylinderBuilder;
+    })();
+    return CylinderBuilder;
 });
 
 define('davinci-eight/mesh/sphereMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/SphereGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, SphereGeometry, adapterOptions) {
@@ -8245,6 +8382,17 @@ define('davinci-eight/mesh/SphereBuilder',["require", "exports", '../checks/expe
         return SphereBuilder;
     })();
     return SphereBuilder;
+});
+
+define('davinci-eight/mesh/checkMeshArgs',["require", "exports"], function (require, exports) {
+    function checkMeshArgs(options) {
+        options = options || {};
+        var wireFrame = typeof options.wireFrame === 'undefined' ? false : options.wireFrame;
+        return {
+            wireFrame: wireFrame
+        };
+    }
+    return checkMeshArgs;
 });
 
 define('davinci-eight/mesh/vortexMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/VortexGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, VortexGeometry, adapterOptions, checkMeshArgs) {
@@ -8525,14 +8673,15 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, TreeModel, Spinor3, Symbolic, Vector3, Color, UniformColor) {
-    function localMatrix(position, attitude) {
-        var matrix = Matrix4.create();
-        matrix.identity();
-        matrix.translate(position);
-        var rotation = Matrix4.create();
-        rotation.rotate(attitude);
-        matrix.mul(rotation);
-        return matrix;
+    function localMatrix(scale, attitude, position) {
+        var S = Matrix4.create();
+        S.makeScale(scale);
+        var T = Matrix4.create();
+        T.makeTranslation(position);
+        var R = Matrix4.create();
+        R.makeRotation(attitude);
+        T.mul(R.mul(S));
+        return T;
     }
     /**
      * @class Node
@@ -8552,6 +8701,7 @@ define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '
             this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
             this.position = new Vector3();
             this.attitude = new Spinor3();
+            this.scale = new Vector3([1, 1, 1]);
             this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
             this.uColor.data = Color.fromRGB(1, 1, 1);
         }
@@ -8584,7 +8734,7 @@ define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '
                         // We could cache it, being careful that we don't assume the callback order.
                         // We don't want to compute it in the shader beacause that would be per-vertex.
                         var normalMatrix = new Matrix3();
-                        var mv = localMatrix(this.position, this.attitude);
+                        var mv = localMatrix(this.scale, this.attitude, this.position);
                         normalMatrix.normalFromMatrix4(mv);
                         // TODO: elements in Matrix3 should already be Float32Array
                         return { transpose: false, matrix3: new Float32Array(normalMatrix.elements) };
@@ -8607,17 +8757,17 @@ define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '
                             var um4 = this.getParent().getUniformMatrix4(name);
                             if (um4) {
                                 var m1 = new Matrix4(um4.matrix4);
-                                var m2 = localMatrix(this.position, this.attitude);
+                                var m2 = localMatrix(this.scale, this.attitude, this.position);
                                 var m = Matrix4.create().multiplyMatrices(m1, m2);
                                 return { transpose: false, matrix4: m.elements };
                             }
                             else {
-                                var m = localMatrix(this.position, this.attitude);
+                                var m = localMatrix(this.scale, this.attitude, this.position);
                                 return { transpose: false, matrix4: m.elements };
                             }
                         }
                         else {
-                            var m = localMatrix(this.position, this.attitude);
+                            var m = localMatrix(this.scale, this.attitude, this.position);
                             return { transpose: false, matrix4: m.elements };
                         }
                     }
@@ -8649,6 +8799,97 @@ define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/Node', 
         return drawableModel(mesh, shaders, model);
     }
     return arrow;
+});
+
+define('davinci-eight/objects/Arrow',["require", "exports", '../mesh/CylinderBuilder', '../objects/drawableModel', '../programs/smartProgram', '../uniforms/Node'], function (require, exports, CylinderBuilder, drawableModel, smartProgram, Node) {
+    var Arrow = (function () {
+        function Arrow(ambients) {
+            this.$length = 1;
+            this.model = new Node();
+            var headMesh = new CylinderBuilder().setRadiusTop(0.0).setRadiusBottom(0.08).setHeight(0.2).buildMesh();
+            var tailMesh = new CylinderBuilder().setRadiusTop(0.01).setRadiusBottom(0.01).buildMesh();
+            var shaders = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
+            this.headModel = new Node();
+            this.headModel.setParent(this.model);
+            this.head = drawableModel(headMesh, shaders, this.headModel);
+            this.tailModel = new Node();
+            this.tailModel.setParent(this.model);
+            this.tailModel.position.y = -0.2;
+            this.setLength(1);
+            this.tail = drawableModel(tailMesh, shaders, this.tailModel);
+        }
+        Object.defineProperty(Arrow.prototype, "length", {
+            get: function () {
+                return this.tailModel.scale.y + 0.2;
+            },
+            set: function (value) {
+                this.setLength(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Arrow.prototype.setLength = function (length) {
+            this.headModel.position.y = (length / 2) - 0.2;
+            this.tailModel.scale.y = length - 0.2;
+            return this;
+        };
+        Object.defineProperty(Arrow.prototype, "color", {
+            set: function (value) {
+                this.headModel.color = value;
+                this.tailModel.color = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Arrow.prototype, "position", {
+            get: function () {
+                return this.model.position;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Arrow.prototype, "positione", {
+            set: function (value) {
+                this.model.position = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Arrow.prototype, "attitude", {
+            get: function () {
+                return this.model.attitude;
+            },
+            set: function (value) {
+                this.model.attitude = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Arrow.prototype.useProgram = function () {
+            this.head.shaders.use();
+        };
+        Arrow.prototype.draw = function (ambients) {
+            this.head.draw(ambients);
+            this.tail.draw(ambients);
+        };
+        Arrow.prototype.contextFree = function () {
+            this.head.contextFree();
+            this.tail.contextFree();
+        };
+        Arrow.prototype.contextGain = function (context, contextId) {
+            this.head.contextGain(context, contextId);
+            this.tail.contextGain(context, contextId);
+        };
+        Arrow.prototype.contextLoss = function () {
+            this.head.contextLoss();
+            this.tail.contextLoss();
+        };
+        Arrow.prototype.hasContext = function () {
+            return this.head.hasContext();
+        };
+        return Arrow;
+    })();
+    return Arrow;
 });
 
 define('davinci-eight/objects/box',["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/boxMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, boxMesh, smartProgram) {
@@ -9169,10 +9410,9 @@ define('davinci-eight/uniforms/LocalModel',["require", "exports", '../math/Matri
     var UNIFORM_COLOR_NAME = 'uColor';
     function modelViewMatrix(position, attitude) {
         var matrix = Matrix4.create();
-        matrix.identity();
-        matrix.translate(position);
+        matrix.makeTranslation(position);
         var rotation = Matrix4.create();
-        rotation.rotate(attitude);
+        rotation.makeRotation(attitude);
         matrix.mul(rotation);
         return matrix;
     }
@@ -9190,6 +9430,7 @@ define('davinci-eight/uniforms/LocalModel',["require", "exports", '../math/Matri
             _super.call(this);
             this.position = new Vector3();
             this.attitude = new Spinor3();
+            this.scale = new Vector3([1, 1, 1]);
             this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
             this.uColor.data = Color.fromRGB(1, 1, 1);
         }
@@ -9270,15 +9511,10 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 define('davinci-eight/uniforms/UniversalJoint',["require", "exports", '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../checks/isUndefined'], function (require, exports, Matrix4, TreeModel, Spinor3, Symbolic, isUndefined) {
-    //import Color = require('../core/Color');
-    //import Cartesian3 = require('../math/Cartesian3');
-    //import UniformColor = require('../uniforms/UniformColor');
     function localMatrix(attitude) {
+        // TODO: Why don't we have a static constructor?
         var matrix = Matrix4.create();
-        matrix.identity();
-        var rotation = Matrix4.create();
-        rotation.rotate(attitude);
-        matrix.mul(rotation);
+        matrix.makeRotation(attitude);
         return matrix;
     }
     function attitude(theta, phi) {
@@ -9919,7 +10155,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/drawLists/drawList', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, drawList, renderer, viewport, webGLRenderer, drawableModel, Face3, ShaderAttribLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/drawLists/drawList', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/Arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, drawList, renderer, viewport, webGLRenderer, drawableModel, Face3, ShaderAttribLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderBuilder, sphereMesh, SphereBuilder, vortexMesh, arrow, Arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -10017,14 +10253,16 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get boxMesh() { return boxMesh; },
         get BoxBuilder() { return BoxBuilder; },
         get cylinderMesh() { return cylinderMesh; },
+        get CylinderBuilder() { return CylinderBuilder; },
         get sphereMesh() { return sphereMesh; },
+        get SphereBuilder() { return SphereBuilder; },
         get vortexMesh() { return vortexMesh; },
         // objects
         get arrow() { return arrow; },
+        get Arrow() { return Arrow; },
         get box() { return box; },
         get cylinder() { return cylinder; },
         get sphere() { return sphere; },
-        get SphereBuilder() { return SphereBuilder; },
         get vortex() { return vortex; },
         // programs
         get shaderProgramFromScripts() { return shaderProgramFromScripts; },

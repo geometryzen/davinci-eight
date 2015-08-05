@@ -1,10 +1,10 @@
-define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/CylinderGeometry', '../mesh/adapterOptions', '../mesh/checkMeshArgs'], function (require, exports, GeometryAdapter, CylinderGeometry, adapterOptions, checkMeshArgs) {
-    function sphereGeometry(options) {
-        return new CylinderGeometry();
+define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/CylinderGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, CylinderGeometry, adapterOptions) {
+    function cylinderGeometry(options) {
+        options = options || {};
+        return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height);
     }
     function cylinderMesh(options) {
-        var checkedOptions = checkMeshArgs(options);
-        var base = new GeometryAdapter(sphereGeometry(checkedOptions), adapterOptions(checkedOptions));
+        var base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
         var publicAPI = {
             draw: function (context) {
                 return base.draw(context);

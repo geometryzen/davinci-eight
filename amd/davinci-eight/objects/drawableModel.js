@@ -64,22 +64,24 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
         var elements = new ElementArray(mesh);
         var vertexAttributes = shaders.attributes.map(shaderAttributeLocationFromDecl);
         var uniformVariables = shaders.uniforms.map(shaderUniformLocationFromDecl);
-        function updateGeometry() {
+        /*
+          function updateGeometry() {
             // Make sure to update the mesh first so that the shaders gets the correct data.
             mesh.update(shaders.attributes);
-            vertexAttributes.forEach(function (vertexAttribute) {
-                var thing = mesh.getAttribArray(vertexAttribute.name);
-                if (thing) {
-                    vertexAttribute.bufferData(thing.data, thing.usage);
-                }
-                else {
-                    // We expect this to be detected long before we get here.
-                    throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
-                }
+            vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
+              let thing = mesh.getAttribArray(vertexAttribute.name);
+              if (thing) {
+                vertexAttribute.bufferData(thing.data, thing.usage);
+              }
+              else {
+                // We expect this to be detected long before we get here.
+                throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+              }
             });
             elements.bufferData(mesh);
-        }
-        var publicAPI = {
+          }
+        */
+        var self = {
             get mesh() {
                 return mesh;
             },
@@ -101,9 +103,6 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                     contextGainId = contextId;
                     shaders.contextGain(context, contextId);
                     elements.contextGain(context, contextId);
-                    if (!mesh.dynamic) {
-                        updateGeometry();
-                    }
                 }
             },
             contextLoss: function () {
@@ -127,8 +126,22 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
             draw: function (ambients) {
                 if (shaders.hasContext()) {
                     if (mesh.dynamic) {
-                        updateGeometry();
+                        mesh.update(shaders.attributes);
                     }
+                    // attributes
+                    vertexAttributes.forEach(function (vertexAttribute) {
+                        var thing = mesh.getAttribArray(vertexAttribute.name);
+                        if (thing) {
+                            vertexAttribute.bufferData(thing.data, thing.usage);
+                        }
+                        else {
+                            // We expect this to be detected long before we get here.
+                            throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+                        }
+                    });
+                    // elements
+                    elements.bufferData(mesh);
+                    // uniforms
                     var chainedProvider = new ChainedUniformProvider(model, ambients);
                     checkUniformsCompleteAndReady(chainedProvider);
                     // check we have them all.
@@ -252,7 +265,10 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                 }
             }
         };
-        return publicAPI;
+        if (!mesh.dynamic) {
+            mesh.update(shaders.attributes);
+        }
+        return self;
     };
     return drawableModel;
 });

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.46.0</em>
+            <em>API Docs for: 2.47.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,6 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -102,8 +103,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -210,16 +211,24 @@ import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
 import arrowMesh = require(&#x27;davinci-eight/mesh/arrowMesh&#x27;);
 import ArrowBuilder = require(&#x27;davinci-eight/mesh/ArrowBuilder&#x27;);
 import ArrowOptions = require(&#x27;davinci-eight/mesh/ArrowOptions&#x27;);
+
 import boxMesh = require(&#x27;davinci-eight/mesh/boxMesh&#x27;);
 import BoxBuilder = require(&#x27;davinci-eight/mesh/BoxBuilder&#x27;);
 import BoxOptions = require(&#x27;davinci-eight/mesh/BoxOptions&#x27;);
+
 import cylinderMesh = require(&#x27;davinci-eight/mesh/cylinderMesh&#x27;);
+import CylinderBuilder = require(&#x27;davinci-eight/mesh/CylinderBuilder&#x27;);
+import CylinderOptions = require(&#x27;davinci-eight/mesh/CylinderOptions&#x27;);
+
 import sphereMesh = require(&#x27;davinci-eight/mesh/sphereMesh&#x27;);
 import SphereBuilder = require(&#x27;davinci-eight/mesh/SphereBuilder&#x27;);
 import SphereOptions = require(&#x27;davinci-eight/mesh/SphereOptions&#x27;);
+
 import vortexMesh = require(&#x27;davinci-eight/mesh/vortexMesh&#x27;);
+
 // objects
 import arrow = require(&#x27;davinci-eight/objects/arrow&#x27;);
+import Arrow = require(&#x27;davinci-eight/objects/Arrow&#x27;);
 import box = require(&#x27;davinci-eight/objects/box&#x27;);
 import cylinder = require(&#x27;davinci-eight/objects/cylinder&#x27;);
 import sphere = require(&#x27;davinci-eight/objects/sphere&#x27;);
@@ -356,17 +365,23 @@ var eight = {
   // mesh
   get arrowMesh() { return arrowMesh; },
   get ArrowBuilder() { return ArrowBuilder; },
+  
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
+  
   get cylinderMesh() { return cylinderMesh; },
+  get CylinderBuilder() { return CylinderBuilder; },
+
   get sphereMesh() { return sphereMesh; },
+  get SphereBuilder() { return SphereBuilder; },
+
   get vortexMesh() { return vortexMesh; },
   // objects
   get arrow() { return arrow; },
+  get Arrow() { return Arrow; },
   get box() { return box; },
   get cylinder() { return cylinder; },
   get sphere() { return sphere; },
-  get SphereBuilder() { return SphereBuilder; },
   get vortex() { return vortex; },
   // programs
   get shaderProgramFromScripts() { return shaderProgramFromScripts; },
