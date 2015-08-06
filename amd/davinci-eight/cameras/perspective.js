@@ -17,7 +17,7 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
         var far = expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value;
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var base = view(options);
-        var projectionMatrix = Matrix4.create();
+        var projectionMatrix = Matrix4.identity();
         var matrixNeedsUpdate = true;
         var self = {
             // Delegate to the base camera.

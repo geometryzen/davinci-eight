@@ -12,8 +12,8 @@ var Symbolic = require('../core/Symbolic');
 var isUndefined = require('../checks/isUndefined');
 function localMatrix(attitude) {
     // TODO: Why don't we have a static constructor?
-    var matrix = Matrix4.create();
-    matrix.makeRotation(attitude);
+    var matrix = Matrix4.identity();
+    matrix.rotation(attitude);
     return matrix;
 }
 function attitude(theta, phi) {
@@ -37,7 +37,7 @@ var UniversalJoint = (function (_super) {
                     if (this.getParent()) {
                         var m1 = new Matrix4(this.getParent().getUniformMatrix4(name).matrix4);
                         var m2 = localMatrix(attitude(this.theta, this.phi));
-                        var m = Matrix4.create().multiplyMatrices(m1, m2);
+                        var m = Matrix4.identity().multiplyMatrices(m1, m2);
                         return { transpose: false, matrix4: m.elements };
                     }
                     else {

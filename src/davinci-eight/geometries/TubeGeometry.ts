@@ -154,7 +154,7 @@ class FrenetFrames {
     var binormals: Vector3[] = [];
 
     var vec = new Vector3([0, 0, 0]);
-    var mat = Matrix4.create();
+    var mat = Matrix4.identity();
 
     var numpoints: number = segments + 1;
     var theta: number;
@@ -254,7 +254,7 @@ class FrenetFrames {
 
             theta = Math.acos(clamp(tangents[i - 1].dot(tangents[i]), - 1, 1)); // clamp for floating pt errors
 
-            normals[i].applyMatrix4(mat.makeRotationAxis(vec, theta));
+            normals[i].applyMatrix4(mat.rotationAxis(vec, theta));
 
         }
 
@@ -279,7 +279,7 @@ class FrenetFrames {
         for (i = 1; i < numpoints; i++) {
 
             // twist a little...
-            normals[i].applyMatrix4(mat.makeRotationAxis(tangents[i], theta * i));
+            normals[i].applyMatrix4(mat.rotationAxis(tangents[i], theta * i));
             binormals[i].crossVectors(tangents[i], normals[i]);
 
         }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.47.0</em>
+            <em>API Docs for: 2.48.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -170,10 +170,10 @@ let UNIFORM_NORMAL_MATRIX_TYPE = &#x27;mat3&#x27;;
 let UNIFORM_COLOR_NAME         = &#x27;uColor&#x27;;
 
 function modelViewMatrix(position: Cartesian3, attitude: Spinor3Coords): Matrix4 {
-  var matrix = Matrix4.create();
-  matrix.makeTranslation(position);
-  var rotation = Matrix4.create();
-  rotation.makeRotation(attitude);
+  var matrix = Matrix4.identity();
+  matrix.translation(position);
+  var rotation = Matrix4.identity();
+  rotation.rotation(attitude);
   matrix.mul(rotation);
   return matrix;
 }

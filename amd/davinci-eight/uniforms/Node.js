@@ -6,12 +6,12 @@ var __extends = this.__extends || function (d, b) {
 };
 define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, TreeModel, Spinor3, Symbolic, Vector3, Color, UniformColor) {
     function localMatrix(scale, attitude, position) {
-        var S = Matrix4.create();
-        S.makeScale(scale);
-        var T = Matrix4.create();
-        T.makeTranslation(position);
-        var R = Matrix4.create();
-        R.makeRotation(attitude);
+        var S = Matrix4.identity();
+        S.scaling(scale);
+        var T = Matrix4.identity();
+        T.translation(position);
+        var R = Matrix4.identity();
+        R.rotation(attitude);
         T.mul(R.mul(S));
         return T;
     }
@@ -90,7 +90,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms
                             if (um4) {
                                 var m1 = new Matrix4(um4.matrix4);
                                 var m2 = localMatrix(this.scale, this.attitude, this.position);
-                                var m = Matrix4.create().multiplyMatrices(m1, m2);
+                                var m = Matrix4.identity().multiplyMatrices(m1, m2);
                                 return { transpose: false, matrix4: m.elements };
                             }
                             else {

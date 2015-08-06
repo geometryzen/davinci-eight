@@ -125,13 +125,46 @@ declare module EIGHT
     normalFromMatrix4(matrix: Matrix4): void;
   }
   class Matrix4 {
-    public elements: number[];
-    constructor();
-    identity(): void;
+    public elements: Float32Array;
+    /**
+     * Constructs a Matrix4 by wrapping an existing Float32Array.
+     */
+    constructor(elements: Float32Array);
+    /**
+     * Generates a new identity matrix.
+     */
+    static identity(): Matrix4;
+    /**
+     * Generates a new scaling matrix.
+     */
+    static scaling(scale: Cartesian3): Matrix4;
+    /**
+     * Generates a new translation matrix.
+     */
+    static translation(vector: Cartesian3): Matrix4;
+    /**
+     * Generates a new rotation matrix.
+     */
+    static rotation(spinor: Spinor3Coords): Matrix4;
+    /**
+     *
+     */
+    determinant(): number;
+    /**
+     *
+     */
+    identity(): Matrix4;
+    invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
     mul(matrix: Matrix4): void;
-    translate(position: { x: number, y: number, z: number }): void;
-    rotate(rotation: { yz: number, zx: number, xy: number, w: number }): void;
+    rotate(spinor: Spinor3Coords): void;
+    rotation(spinor: Spinor3Coords): void;
+    scale(scale: Cartesian3): void;
+    scaling(scale: Cartesian3): void;
+    translate(displacement: Cartesian3): void;
+    translation(displacement: Cartesian3): void;
     frustum(left: number, right: number, bottom: number, top: number, near: number, far: number);
+    toString(): string;
+    toFixed(digits?: number): string;
   }
   interface Spinor3Coords {
     yz: number;

@@ -1,4 +1,4 @@
-function isUndefined(arg): boolean {
+function isUndefined(arg: any): boolean {
   return (typeof arg === 'undefined');
 }
 

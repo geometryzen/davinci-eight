@@ -18,10 +18,10 @@ var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
 var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
 var UNIFORM_COLOR_NAME = 'uColor';
 function modelViewMatrix(position, attitude) {
-    var matrix = Matrix4.create();
-    matrix.makeTranslation(position);
-    var rotation = Matrix4.create();
-    rotation.makeRotation(attitude);
+    var matrix = Matrix4.identity();
+    matrix.translation(position);
+    var rotation = Matrix4.identity();
+    rotation.rotation(attitude);
     matrix.mul(rotation);
     return matrix;
 }

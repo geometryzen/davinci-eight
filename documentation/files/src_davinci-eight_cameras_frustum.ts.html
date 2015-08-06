@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.47.0</em>
+            <em>API Docs for: 2.48.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -180,7 +180,8 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
   var options = {viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX};
 
   var base: View = view(options);
-  var projectionMatrix = Matrix4.create();
+  // TODO: We should immediately create with a frustum static constructor?
+  var projectionMatrix = Matrix4.identity();
 
   function updateProjectionMatrix() {
     projectionMatrix.frustum(left, right, bottom, top, near, far);

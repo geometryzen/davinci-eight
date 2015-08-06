@@ -41,7 +41,7 @@ let perspective = function(options?: {
   let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
   let base: View = view(options);
-  let projectionMatrix = Matrix4.create();
+  let projectionMatrix = Matrix4.identity();
   var matrixNeedsUpdate = true;
 
   let self: Perspective = {

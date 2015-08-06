@@ -16,7 +16,7 @@ var view = function (options) {
     var eye = new Vector3();
     var look = new Vector3();
     var up = Vector3.e2;
-    var viewMatrix = Matrix4.create();
+    var viewMatrix = Matrix4.identity();
     var base = new UniformMat4(viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
     base.callback = function () {
         if (eye.modified || look.modified || up.modified) {

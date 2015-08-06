@@ -23,7 +23,7 @@ class ArrowGeometry extends RevolutionGeometry {
     axis = axis || Vector3.e3.clone();
     var lengthShaft = length - lengthCone;
     var halfLength = length / 2;
-    var permutation = function(direction: {x: number, y: number, z: number}) {
+    var permutation = function(direction: Cartesian3) {
       if (direction.x) {
         return 2;
       }
@@ -34,7 +34,7 @@ class ArrowGeometry extends RevolutionGeometry {
         return 0;
       }
     };
-    var orientation = function(direction: {x: number, y: number, z: number}) {
+    var orientation = function(direction: Cartesian3) {
       if (direction.x > 0) {
         return +1;
       }
@@ -57,7 +57,7 @@ class ArrowGeometry extends RevolutionGeometry {
         return 0;
       }
     }
-    var computeArrow = function (direction: {x: number, y: number, z: number}) {
+    var computeArrow = function (direction: Cartesian3) {
       var cycle = permutation(direction);
       var sign  = orientation(direction);
       var i = (cycle + 0) % 3;

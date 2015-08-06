@@ -12,14 +12,14 @@ import UniformColor = require('../uniforms/UniformColor');
 
 function localMatrix(scale: Cartesian3, attitude: Spinor3Coords, position: Cartesian3): Matrix4 {
 
-  var S = Matrix4.create();
-  S.makeScale(scale);
+  var S = Matrix4.identity();
+  S.scaling(scale);
 
-  var T = Matrix4.create();
-  T.makeTranslation(position);
+  var T = Matrix4.identity();
+  T.translation(position);
 
-  var R = Matrix4.create();
-  R.makeRotation(attitude);
+  var R = Matrix4.identity();
+  R.rotation(attitude);
 
   T.mul(R.mul(S));
   return T;
@@ -129,7 +129,7 @@ class Node extends TreeModel {
           if (um4) {
             var m1 = new Matrix4(um4.matrix4);
             var m2 = localMatrix(this.scale, this.attitude, this.position);
-            var m = Matrix4.create().multiplyMatrices(m1, m2);
+            var m = Matrix4.identity().multiplyMatrices(m1, m2);
             return {transpose: false, matrix4: m.elements};
           }
           else {

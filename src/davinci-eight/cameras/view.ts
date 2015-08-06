@@ -25,7 +25,7 @@ let view = function(options?: {viewMatrixName?: string}): View {
   let eye: Vector3 = new Vector3();
   let look: Vector3 = new Vector3();
   let up: Vector3 = Vector3.e2;
-  let viewMatrix: Matrix4 = Matrix4.create();
+  let viewMatrix: Matrix4 = Matrix4.identity();
   let base = new UniformMat4(viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
   base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
     if (eye.modified || look.modified || up.modified) {

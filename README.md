@@ -149,6 +149,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.45.0: 2015-08-02 View, Frustum, Perspective
 * 2.46.0: 2015-08-03 shaderProgram
 * 2.47.0: 2015-08-04 Arrow
+* 2.48.0: 2015-08-06 Matrix4
 
 ## License
 Copyright (c) 2014-2015 David Holmes

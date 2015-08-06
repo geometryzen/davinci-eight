@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.47.0</em>
+            <em>API Docs for: 2.48.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -305,7 +305,7 @@ class FrenetFrames {
     var binormals: Vector3[] = [];
 
     var vec = new Vector3([0, 0, 0]);
-    var mat = Matrix4.create();
+    var mat = Matrix4.identity();
 
     var numpoints: number = segments + 1;
     var theta: number;
@@ -405,7 +405,7 @@ class FrenetFrames {
 
             theta = Math.acos(clamp(tangents[i - 1].dot(tangents[i]), - 1, 1)); // clamp for floating pt errors
 
-            normals[i].applyMatrix4(mat.makeRotationAxis(vec, theta));
+            normals[i].applyMatrix4(mat.rotationAxis(vec, theta));
 
         }
 
@@ -430,7 +430,7 @@ class FrenetFrames {
         for (i = 1; i &lt; numpoints; i++) {
 
             // twist a little...
-            normals[i].applyMatrix4(mat.makeRotationAxis(tangents[i], theta * i));
+            normals[i].applyMatrix4(mat.rotationAxis(tangents[i], theta * i));
             binormals[i].crossVectors(tangents[i], normals[i]);
 
         }

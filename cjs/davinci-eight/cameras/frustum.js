@@ -23,7 +23,8 @@ var frustum = function (left, right, bottom, top, near, far) {
     if (far === void 0) { far = 1000; }
     var options = { viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX };
     var base = view(options);
-    var projectionMatrix = Matrix4.create();
+    // TODO: We should immediately create with a frustum static constructor?
+    var projectionMatrix = Matrix4.identity();
     function updateProjectionMatrix() {
         projectionMatrix.frustum(left, right, bottom, top, near, far);
     }
