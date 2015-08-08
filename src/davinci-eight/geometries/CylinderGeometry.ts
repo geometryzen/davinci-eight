@@ -13,6 +13,7 @@ class CylinderGeometry extends Geometry {
     openEnded: boolean = false,
     thetaStart: number = 0,
     thetaLength: number = 2 * Math.PI) {
+
     super();
 
     let heightHalf = height / 2;
@@ -32,9 +33,9 @@ class CylinderGeometry extends Geometry {
 
       for ( x = 0; x <= radialSegments; x ++ ) {
 
-        var u = x / radialSegments;
+        let u = x / radialSegments;
 
-        var vertex = new Vector3();
+        let vertex = new Vector3();
         vertex.x = radius * Math.sin( u * thetaLength + thetaStart );
         vertex.y = - v * height + heightHalf;
         vertex.z = radius * Math.cos( u * thetaLength + thetaStart );
@@ -42,7 +43,7 @@ class CylinderGeometry extends Geometry {
         this.vertices.push( vertex );
 
         verticesRow.push( this.vertices.length - 1 );
-        uvsRow.push( new Vector2( u, 1 - v ) );
+        uvsRow.push(new Vector2(u, 1 - v));
 
       }
 

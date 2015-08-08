@@ -1,3 +1,3 @@
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 declare var shaderProgram: (vertexShader: string, fragmentShader: string) => ShaderProgram;
 export = shaderProgram;

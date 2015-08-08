@@ -1,4 +1,4 @@
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 import shaderProgram = require('../programs/shaderProgram');
 
 /**

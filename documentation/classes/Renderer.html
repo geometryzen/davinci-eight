@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.48.0</em>
+            <em>API Docs for: 2.49.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
-                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
+                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -77,9 +77,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/Node3D.html">Node3D</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -103,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -193,6 +192,10 @@
                                 <a href="#method_contextLoss">contextLoss</a>
 
                             </li>
+                            <li class="index-item method">
+                                <a href="#method_draw">draw</a>
+
+                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_hasContext">hasContext</a>
 
@@ -203,6 +206,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_shaderProgramFromScripts">shaderProgramFromScripts</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_useProgram">useProgram</a>
 
                             </li>
                     </ul>
@@ -350,6 +357,58 @@ The dependent should reset its state to that for which there is no context.</p>
 
     </div>
 
+
+
+
+</div>
+<div id="method_draw" class="method item">
+    <h3 class="name"><code>draw</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>ambients</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_objects_primitive.ts.html#l124"><code>src&#x2F;davinci-eight&#x2F;objects&#x2F;primitive.ts:124</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">ambients</code>
+                        <span class="type"><a href="../classes/UniformProvider.html" class="crosslink">UniformProvider</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -527,6 +586,36 @@ The dependent should reset its state to that for which there is no context.</p>
                 </li>
             </ul>
         </div>
+
+
+
+</div>
+<div id="method_useProgram" class="method item">
+    <h3 class="name"><code>useProgram</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_objects_primitive.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;objects&#x2F;primitive.ts:120</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
 
 
 

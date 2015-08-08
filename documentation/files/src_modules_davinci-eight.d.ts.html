@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.48.0</em>
+            <em>API Docs for: 2.49.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
-                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
+                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -77,9 +77,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/Node3D.html">Node3D</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -103,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -814,11 +813,17 @@ declare module EIGHT
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  interface DrawableModel&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
+  interface Primitive&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
   {
     mesh: MESH;
     shaders: SHADERS;
     model: MODEL;
+  }
+  interface Composite&lt;M&gt; extends Drawable {
+    model: M;
+  }
+  interface Blade&lt;M&gt; extends Composite&lt;M&gt; {
+    setMagnitude(magnitude: number): Blade&lt;M&gt;;
   }
   class Renderer extends RenderingContextUser
   {
@@ -942,7 +947,7 @@ declare module EIGHT
    * @param geometry
    * @param shaderProgram
    */
-  function drawableModel&lt;A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider&gt;(attributes: A, shaders: S, uniforms: U): DrawableModel&lt;A, S, U&gt;;
+  function primitive&lt;A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider&gt;(attributes: A, shaders: S, uniforms: U): Primitive&lt;A, S, U&gt;;
   /**
    *
    */
@@ -987,6 +992,8 @@ declare module EIGHT
    */
   interface ArrowOptions {
     axis?: Cartesian3;
+    flavor?: number;
+    coneHeight?: number;
     wireFrame?: boolean;
   }
   /**
@@ -994,9 +1001,13 @@ declare module EIGHT
    */
   class ArrowBuilder {
     axis: Cartesian3;
+    flavor: number;
+    coneHeight: number;
     wireFrame: boolean;
     constructor(options?: ArrowOptions);
     setAxis(axis: Cartesian3): ArrowBuilder;
+    setFlavor(flavor: number): ArrowBuilder;
+    setConeHeight(coneHeight: number): ArrowBuilder;
     setWireFrame(wireFrame: boolean): ArrowBuilder;
     buildMesh(): AttribProvider;
   }
@@ -1007,23 +1018,7 @@ declare module EIGHT
   /**
    *
    */
-  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
-  /**
-   *
-   */
-  class Arrow implements Drawable {
-    position: Vector3;
-    attitude: Spinor3;
-    color: Color;
-    drawGroupName: string;
-    constructor(ambients: UniformProvider);
-    useProgram(): void;
-    draw(ambients: UniformProvider): void;
-    contextLoss(): void;
-    contextGain(context: WebGLRenderingContext, contextId: string): void;
-    contextFree(): void;
-    hasContext(): boolean;
-  }
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): Blade&lt;Node&gt;;
   /**
    *
    */
@@ -1068,7 +1063,7 @@ declare module EIGHT
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel&lt;AttribProvider, ShaderProgram, Node&gt;;
+  function box(ambients: UniformProvider, options: BoxOptions): Primitive&lt;AttribProvider, ShaderProgram, Node&gt;;
   /**
    *
    */
@@ -1080,30 +1075,24 @@ declare module EIGHT
   /**
    *
    */
-  class CylinderBuilder {
+  class CylinderArgs {
     radiusTop: number;
     radiusBottom: number;
     height: number;
     constructor(options?: CylinderOptions);
-    setRadiusTop(radiusTop: number): CylinderBuilder;
-    setRadiusBottom(radiusBottom: number): CylinderBuilder;
-    setHeight(height: number): CylinderBuilder;
+    setRadiusTop(radiusTop: number): CylinderArgs;
+    setRadiusBottom(radiusBottom: number): CylinderArgs;
+    setHeight(height: number): CylinderArgs;
     buildMesh(): AttribProvider;
   }
   /**
    * Constructs and returns a cylinder mesh.
    */
-  function cylinderMesh(
-    options?: {
-      wireFrame?: boolean
-    }
-  ): AttribProvider;
+  function cylinderMesh(options?: CylinderOptions): AttribProvider;
   /**
    *
    */
-  function cylinder(
-    ambients: UniformProvider
-  ): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
+  function cylinder(ambients: UniformProvider, options?: CylinderOptions): Primitive&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    *
    */
@@ -1147,7 +1136,7 @@ declare module EIGHT
   /**
    *
    */
-  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
+  function sphere(ambients: UniformProvider, options?: SphereOptions): Primitive&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    * Constructs and returns an vortex mesh.
    */
@@ -1161,7 +1150,7 @@ declare module EIGHT
    */
   function vortex(
     ambients: UniformProvider
-  ): DrawableModel&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
+  ): Primitive&lt;AttribProvider, ShaderProgram, LocalModel&gt;;
   /**
    *
    */

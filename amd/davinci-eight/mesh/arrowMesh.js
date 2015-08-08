@@ -7,9 +7,7 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Ar
         var length = 1;
         var radiusShaft = 0.01;
         var radiusCone = 0.08;
-        var lengthCone = 0.20;
-        var axis = options.axis;
-        return new ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis);
+        return new ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, options.coneHeight, options.axis);
     }
     function arrowMesh(options) {
         var base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));

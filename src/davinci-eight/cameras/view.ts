@@ -1,5 +1,4 @@
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import object3D = require('../core/object3D');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 import Spinor3 = require('../math/Spinor3');

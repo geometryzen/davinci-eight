@@ -1,4 +1,4 @@
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 import AttribProvider = require('../core/AttribProvider');
 import parse = require('../glsl/parse');
 import NodeWalker = require('../glsl/NodeWalker');

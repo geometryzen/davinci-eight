@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.48.0</em>
+            <em>API Docs for: 2.49.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
-                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
+                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -77,9 +77,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/Node3D.html">Node3D</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -103,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -153,7 +152,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:5</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:5</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -200,10 +199,6 @@ The ShaderProgram must be able to provide introspection information that describ
                                 <a href="#method_contextLoss">contextLoss</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_draw">draw</a>
-
-                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_hasContext">hasContext</a>
 
@@ -214,10 +209,6 @@ The ShaderProgram must be able to provide introspection information that describ
                             </li>
                             <li class="index-item method">
                                 <a href="#method_use">use</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_useProgram">useProgram</a>
 
                             </li>
                     </ul>
@@ -289,7 +280,7 @@ The ShaderProgram must be able to provide introspection information that describ
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:58</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:58</code></a>
         </p>
 
 
@@ -463,58 +454,6 @@ The dependent should reset its state to that for which there is no context.</p>
 
 
 </div>
-<div id="method_draw" class="method item">
-    <h3 class="name"><code>draw</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>ambients</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_objects_drawableModel.ts.html#l141"><code>src&#x2F;davinci-eight&#x2F;objects&#x2F;drawableModel.ts:141</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">ambients</code>
-                        <span class="type"><a href="../classes/UniformProvider.html" class="crosslink">UniformProvider</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
 <div id="method_hasContext" class="method item inherited">
     <h3 class="name"><code>hasContext</code></h3>
 
@@ -567,7 +506,7 @@ The dependent should reset its state to that for which there is no context.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:66</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:66</code></a>
         </p>
 
 
@@ -617,7 +556,7 @@ is updated through context loss and restore events.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:52</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:52</code></a>
         </p>
 
 
@@ -628,36 +567,6 @@ is updated through context loss and restore events.</p>
         <p>Makes the ShaderProgram the current program for WebGL.
 This method has no effect if the ShaderProgram does not have a WebGLRenderingContext.</p>
 
-    </div>
-
-
-
-
-</div>
-<div id="method_useProgram" class="method item">
-    <h3 class="name"><code>useProgram</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_objects_drawableModel.ts.html#l137"><code>src&#x2F;davinci-eight&#x2F;objects&#x2F;drawableModel.ts:137</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
     </div>
 
 
@@ -680,7 +589,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:12</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:12</code></a>
                             </p>
                     
                     
@@ -704,7 +613,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:17</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:17</code></a>
                             </p>
                     
                     
@@ -728,7 +637,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:47</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:47</code></a>
                             </p>
                     
                     
@@ -752,7 +661,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:32</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:32</code></a>
                             </p>
                     
                     
@@ -776,7 +685,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:37</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:37</code></a>
                             </p>
                     
                     
@@ -800,7 +709,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:22</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:22</code></a>
                             </p>
                     
                     
@@ -824,7 +733,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:27</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:27</code></a>
                             </p>
                     
                     
@@ -848,7 +757,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_programs_ShaderProgram.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;programs&#x2F;ShaderProgram.ts:42</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:42</code></a>
                             </p>
                     
                     

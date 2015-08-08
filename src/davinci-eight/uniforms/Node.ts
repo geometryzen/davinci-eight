@@ -80,7 +80,6 @@ class Node extends TreeModel {
     this.attitude = new Spinor3();
     this.scale = new Vector3([1, 1, 1]);
     this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
-    this.uColor.data = Color.fromRGB(1, 1, 1);
   }
   get color(): Color {
     return this.uColor.data;
@@ -93,7 +92,24 @@ class Node extends TreeModel {
    * @param name {string}
    */
   getUniformVector3(name: string) {
-    return this.uColor.getUniformVector3(name);
+    //console.log("getUniformVector3(name='" + name + "')");
+    switch(name) {
+      case this.colorVarName: {
+        if (this.uColor.data) {
+          return this.uColor.getUniformVector3(name);
+        }
+        else if (this.getParent()) {
+          return this.getParent().getUniformVector3(name);
+        }
+        else {
+          return Color.fromRGB(1, 1, 1).data;
+        }
+      }
+      break;
+      default: {
+        return super.getUniformVector3(name);
+      }
+    }
   }
   /**
    * @method getUniformMatrix3

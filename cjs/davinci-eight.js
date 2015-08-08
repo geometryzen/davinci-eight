@@ -1,21 +1,17 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-// core
-var DataUsage = require('davinci-eight/core/DataUsage');
-var DrawMode = require('davinci-eight/core/DrawMode');
-var core = require('davinci-eight/core');
-var object3D = require('davinci-eight/core/object3D');
 var view = require('davinci-eight/cameras/view');
-var Color = require('davinci-eight/core/Color');
 var frustum = require('davinci-eight/cameras/frustum');
 var perspective = require('davinci-eight/cameras/perspective');
-var drawList = require('davinci-eight/drawLists/drawList');
-var renderer = require('davinci-eight/renderers/renderer');
-var viewport = require('davinci-eight/renderers/viewport');
-var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
-var drawableModel = require('davinci-eight/objects/drawableModel');
+var Color = require('davinci-eight/core/Color');
+var DataUsage = require('davinci-eight/core/DataUsage');
+var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
+var core = require('davinci-eight/core');
+var primitive = require('davinci-eight/objects/primitive');
 var ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 var ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
+// drawLists
+var drawList = require('davinci-eight/drawLists/drawList');
 // geometries
 var Geometry = require('davinci-eight/geometries/Geometry');
 var GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -23,6 +19,7 @@ var ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 var CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 var DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+var EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 var KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 var MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -51,19 +48,20 @@ var ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 var boxMesh = require('davinci-eight/mesh/boxMesh');
 var BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 var cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
-var CylinderBuilder = require('davinci-eight/mesh/CylinderBuilder');
+var CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 var sphereMesh = require('davinci-eight/mesh/sphereMesh');
 var SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 var vortexMesh = require('davinci-eight/mesh/vortexMesh');
-// objects
 var arrow = require('davinci-eight/objects/arrow');
-var Arrow = require('davinci-eight/objects/Arrow');
 var box = require('davinci-eight/objects/box');
 var cylinder = require('davinci-eight/objects/cylinder');
 var sphere = require('davinci-eight/objects/sphere');
 var vortex = require('davinci-eight/objects/vortex');
 var Curve = require('davinci-eight/curves/Curve');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
+var renderer = require('davinci-eight/renderers/renderer');
+var viewport = require('davinci-eight/renderers/viewport');
+var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 // uniforms
 var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
@@ -113,7 +111,6 @@ var eight = {
     get frustum() { return frustum; },
     get perspective() { return perspective; },
     get drawList() { return drawList; },
-    object3D: object3D,
     get renderer() { return renderer; },
     get viewport() { return viewport; },
     get webGLRenderer() { return webGLRenderer; },
@@ -121,7 +118,7 @@ var eight = {
     workbench: workbench3D,
     animation: windowAnimationRunner,
     get DataUsage() { return DataUsage; },
-    get drawableModel() { return drawableModel; },
+    get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },
     get ShaderAttribLocation() { return ShaderAttribLocation; },
     get ShaderUniformLocation() { return ShaderUniformLocation; },
@@ -144,6 +141,7 @@ var eight = {
     get ArrowGeometry() { return ArrowGeometry; },
     get BoxGeometry() { return BoxGeometry; },
     get CylinderGeometry() { return CylinderGeometry; },
+    get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
     get DodecahedronGeometry() { return DodecahedronGeometry; },
     get IcosahedronGeometry() { return IcosahedronGeometry; },
     get KleinBottleGeometry() { return KleinBottleGeometry; },
@@ -183,13 +181,12 @@ var eight = {
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
     get cylinderMesh() { return cylinderMesh; },
-    get CylinderBuilder() { return CylinderBuilder; },
+    get CylinderArgs() { return CylinderArgs; },
     get sphereMesh() { return sphereMesh; },
     get SphereBuilder() { return SphereBuilder; },
     get vortexMesh() { return vortexMesh; },
     // objects
     get arrow() { return arrow; },
-    get Arrow() { return Arrow; },
     get box() { return box; },
     get cylinder() { return cylinder; },
     get sphere() { return sphere; },

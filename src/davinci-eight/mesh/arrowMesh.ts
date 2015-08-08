@@ -17,8 +17,6 @@ function arrowGeometry(options?: ArrowOptions): Geometry {
   let length = 1;
   let radiusShaft = 0.01;
   let radiusCone = 0.08;
-  let lengthCone = 0.20;
-  let axis: Cartesian3 = options.axis;
   return new ArrowGeometry(
     scale,
     attitude,
@@ -26,8 +24,8 @@ function arrowGeometry(options?: ArrowOptions): Geometry {
     length,
     radiusShaft,
     radiusCone,
-    lengthCone,
-    axis);
+    options.coneHeight,
+    options.axis);
 }
 
 function arrowMesh(options?: ArrowOptions) : AttribProvider {

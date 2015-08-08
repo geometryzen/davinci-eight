@@ -12,11 +12,19 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
             //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
             //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+            this.setFlavor(isUndefined(options.flavor) ? 0 : options.flavor);
             this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
         }
         Object.defineProperty(ArrowBuilder.prototype, "axis", {
             get: function () {
                 return this.$axis;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "flavor", {
+            get: function () {
+                return this.$flavor;
             },
             enumerable: true,
             configurable: true
@@ -56,6 +64,13 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ArrowBuilder.prototype, "coneHeight", {
+            get: function () {
+                return this.$coneHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ArrowBuilder.prototype, "wireFrame", {
             get: function () {
                 return this.$wireFrame;
@@ -66,6 +81,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
         ArrowBuilder.prototype.setAxis = function (axis) {
             expectArg('axis', axis).toBeObject();
             this.$axis.copy(axis);
+            return this;
+        };
+        ArrowBuilder.prototype.setFlavor = function (flavor) {
+            expectArg('flavor', flavor).toBeNumber().toSatisfy(flavor >= 0, "flavor must be greater than or equal to zero.");
+            this.$flavor = flavor;
             return this;
         };
         ArrowBuilder.prototype.setHeight = function (height) {
@@ -91,6 +111,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
         ArrowBuilder.prototype.setDepthSegments = function (depthSegments) {
             expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
             this.$depthSegments = depthSegments;
+            return this;
+        };
+        ArrowBuilder.prototype.setConeHeight = function (coneHeight) {
+            expectArg('coneHeight', coneHeight).toBeNumber().toSatisfy(coneHeight >= 0, "coneHeight must be positive.");
+            this.$coneHeight = coneHeight;
             return this;
         };
         ArrowBuilder.prototype.setWireFrame = function (wireFrame) {

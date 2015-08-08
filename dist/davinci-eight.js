@@ -433,33 +433,6 @@ var requirejs, require, define;
 
 define("../vendor/almond/almond", function(){});
 
-define('davinci-eight/core/DataUsage',["require", "exports"], function (require, exports) {
-    var DataUsage;
-    (function (DataUsage) {
-        DataUsage[DataUsage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
-        DataUsage[DataUsage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
-        DataUsage[DataUsage["STREAM_DRAW"] = 2] = "STREAM_DRAW";
-    })(DataUsage || (DataUsage = {}));
-    return DataUsage;
-});
-
-define('davinci-eight/core/DrawMode',["require", "exports"], function (require, exports) {
-    var DrawMode;
-    (function (DrawMode) {
-        DrawMode[DrawMode["POINTS"] = 0] = "POINTS";
-        DrawMode[DrawMode["LINES"] = 1] = "LINES";
-        DrawMode[DrawMode["TRIANGLES"] = 2] = "TRIANGLES";
-    })(DrawMode || (DrawMode = {}));
-    return DrawMode;
-});
-
-define('davinci-eight/core',["require", "exports"], function (require, exports) {
-    var core = {
-        VERSION: '2.48.0'
-    };
-    return core;
-});
-
 define('davinci-eight/checks/expectArg',["require", "exports"], function (require, exports) {
     function expectArg(name, value) {
         var arg = {
@@ -816,176 +789,6 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
         return Vector3;
     })();
     return Vector3;
-});
-
-define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    /**
-     * @class Spinor3
-     */
-    var Spinor3 = (function () {
-        function Spinor3(data) {
-            if (data === void 0) { data = [0, 0, 0, 1]; }
-            this.data = data;
-            this.modified = false;
-        }
-        Object.defineProperty(Spinor3.prototype, "data", {
-            get: function () {
-                if (this.$data) {
-                    return this.$data;
-                }
-                else if (this.$callback) {
-                    var data = this.$callback();
-                    expectArg('callback()', data).toSatisfy(data.length === 4, "callback() length must be 4");
-                    return this.$callback();
-                }
-                else {
-                    throw new Error("Vector3 is undefined.");
-                }
-            },
-            set: function (data) {
-                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
-                this.$data = data;
-                this.$callback = void 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "callback", {
-            get: function () {
-                return this.$callback;
-            },
-            set: function (reactTo) {
-                this.$callback = reactTo;
-                this.$data = void 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "yz", {
-            /**
-             * @property yz
-             * @type Number
-             */
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.yz !== value;
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "zx", {
-            /**
-             * @property zx
-             * @type Number
-             */
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.zx !== value;
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "xy", {
-            /**
-             * @property xy
-             * @type Number
-             */
-            get: function () {
-                return this.data[2];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.xy !== value;
-                this.data[2] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "w", {
-            /**
-             * @property w
-             * @type Number
-             */
-            get: function () {
-                return this.data[3];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Spinor3.prototype.clone = function () {
-            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
-        };
-        Spinor3.prototype.copy = function (spinor) {
-            this.yz = spinor.yz;
-            this.zx = spinor.zx;
-            this.xy = spinor.xy;
-            this.w = spinor.w;
-            return this;
-        };
-        /**
-         * @method toString
-         * @return {string} A non-normative string representation of the target.
-         */
-        Spinor3.prototype.toString = function () {
-            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
-        };
-        return Spinor3;
-    })();
-    return Spinor3;
-});
-
-define('davinci-eight/core/object3D',["require", "exports", '../math/Vector3', '../math/Spinor3'], function (require, exports, Vector3, Spinor3) {
-    /**
-     * @return {Node3D} The constructed object.
-     */
-    var object3D = function () {
-        var position = new Vector3();
-        var attitude = new Spinor3();
-        var scale = new Vector3([1, 1, 1]);
-        var parent = null;
-        var children = [];
-        var publicAPI = {
-            get position() {
-                return position;
-            },
-            set position(value) {
-                position = value;
-            },
-            get attitude() {
-                return attitude;
-            },
-            set attitude(value) {
-                attitude = value;
-            },
-            get scale() {
-                return scale;
-            },
-            set scale(value) {
-                scale = value;
-            },
-            get parent() {
-                return parent;
-            },
-            get children() {
-                return children;
-            },
-            translateOnAxis: function (axis, distance) {
-                throw new Error('Not Implemented');
-                return publicAPI;
-            }
-        };
-        return publicAPI;
-    };
-    return object3D;
 });
 
 define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
@@ -1752,128 +1555,6 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
     return view;
 });
 
-define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    /**
-     * A mutable type representing a color through its RGB components.
-     * @class Color
-     * WARNING: In many object-oriented designs, types representing values are completely immutable.
-     * In a graphics library where data changes rapidly and garbage collection might become an issue,
-     * it is common to use reference types, such as in this design. This mutability can lead to
-     * difficult bugs because it is hard to reason about where a color may have changed.
-     */
-    var Color = (function () {
-        /**
-         * @class Color
-         * @constructor
-         * @param data {number[]}
-         */
-        function Color(data) {
-            if (data === void 0) { data = [0, 0, 0]; }
-            expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
-            this.data = data;
-        }
-        Object.defineProperty(Color.prototype, "red", {
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Color.prototype, "green", {
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Color.prototype, "blue", {
-            get: function () {
-                return this.data[2];
-            },
-            set: function (value) {
-                this.data[2] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Color.prototype.clone = function () {
-            return new Color([this.data[0], this.data[1], this.data[2]]);
-        };
-        Color.prototype.luminance = function () {
-            return Color.luminance(this.red, this.green, this.blue);
-        };
-        Color.prototype.toString = function () {
-            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
-        };
-        Color.luminance = function (red, green, blue) {
-            var gamma = 2.2;
-            return 0.2126 * Math.pow(red, gamma) + 0.7152 * Math.pow(green, gamma) + 0.0722 * Math.pow(blue, gamma);
-        };
-        /**
-         * Converts an angle, radius, height to a color on a color wheel.
-         */
-        Color.fromHSL = function (H, S, L) {
-            var C = (1 - Math.abs(2 * L - 1)) * S;
-            function normalizeAngle(angle) {
-                if (angle > 2 * Math.PI) {
-                    return normalizeAngle(angle - 2 * Math.PI);
-                }
-                else if (angle < 0) {
-                    return normalizeAngle(angle + 2 * Math.PI);
-                }
-                else {
-                    return angle;
-                }
-            }
-            function matchLightness(R, G, B) {
-                var x = Color.luminance(R, G, B);
-                var m = L - (0.5 * C);
-                return new Color([R + m, G + m, B + m]);
-            }
-            var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
-            var X = C * (1 - Math.abs(sextant % 2 - 1));
-            if (sextant >= 0 && sextant < 1) {
-                return matchLightness(C, X /*C*(sextant-0)*/, 0.0);
-            }
-            else if (sextant >= 1 && sextant < 2) {
-                return matchLightness(X /*C*(2-sextant)*/, C, 0.0);
-            }
-            else if (sextant >= 2 && sextant < 3) {
-                return matchLightness(0.0, C, C * (sextant - 2));
-            }
-            else if (sextant >= 3 && sextant < 4) {
-                return matchLightness(0.0, C * (4 - sextant), C);
-            }
-            else if (sextant >= 4 && sextant < 5) {
-                return matchLightness(X, 0.0, C);
-            }
-            else if (sextant >= 5 && sextant < 6) {
-                return matchLightness(C, 0.0, X);
-            }
-            else {
-                return matchLightness(0.0, 0.0, 0.0);
-            }
-        };
-        Color.fromRGB = function (red, green, blue) {
-            expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
-            expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
-            expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
-            return new Color([red, green, blue]);
-        };
-        Color.copy = function (color) {
-            return new Color([color.red, color.green, color.blue]);
-        };
-        return Color;
-    })();
-    return Color;
-});
-
 define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic'], function (require, exports, view, Matrix4, Symbolic) {
     var UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
@@ -2161,335 +1842,179 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
     return perspective;
 });
 
-define('davinci-eight/drawLists/drawList',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    var drawList = function () {
-        var drawables = [];
-        var drawGroups = {};
-        var gl;
-        var contextId;
-        var publicAPI = {
-            get drawGroups() { return drawGroups; },
-            get children() { return drawables; },
-            contextFree: function () {
-                drawables.forEach(function (drawable) {
-                    drawable.contextFree();
-                });
-                gl = void 0;
-                contextId = void 0;
+define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    /**
+     * A mutable type representing a color through its RGB components.
+     * @class Color
+     * WARNING: In many object-oriented designs, types representing values are completely immutable.
+     * In a graphics library where data changes rapidly and garbage collection might become an issue,
+     * it is common to use reference types, such as in this design. This mutability can lead to
+     * difficult bugs because it is hard to reason about where a color may have changed.
+     */
+    var Color = (function () {
+        /**
+         * @class Color
+         * @constructor
+         * @param data {number[]}
+         */
+        function Color(data) {
+            if (data === void 0) { data = [0, 0, 0]; }
+            expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
+            this.data = data;
+        }
+        Object.defineProperty(Color.prototype, "red", {
+            get: function () {
+                return this.data[0];
             },
-            contextGain: function (context, contextId) {
-                expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext");
-                expectArg('contextId', contextId).toBeString();
-                gl = context;
-                contextId = contextId;
-                drawables.forEach(function (drawable) {
-                    drawable.contextGain(context, contextId);
-                    var groupName = drawable.drawGroupName;
-                    if (!drawGroups[groupName]) {
-                        drawGroups[groupName] = [];
-                    }
-                    drawGroups[groupName].push(drawable);
-                });
+            set: function (value) {
+                this.data[0] = value;
             },
-            contextLoss: function () {
-                drawables.forEach(function (drawable) {
-                    drawable.contextLoss();
-                });
-                gl = void 0;
-                contextId = void 0;
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Color.prototype, "green", {
+            get: function () {
+                return this.data[1];
             },
-            hasContext: function () {
-                return !!gl;
+            set: function (value) {
+                this.data[1] = value;
             },
-            add: function (drawable) {
-                drawables.push(drawable);
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Color.prototype, "blue", {
+            get: function () {
+                return this.data[2];
             },
-            remove: function (drawable) {
-                var index = drawables.indexOf(drawable);
-                if (index >= 0) {
-                    drawables.splice(index, 1);
-                }
-            }
+            set: function (value) {
+                this.data[2] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Color.prototype.clone = function () {
+            return new Color([this.data[0], this.data[1], this.data[2]]);
         };
-        return publicAPI;
-    };
-    return drawList;
-});
-
-define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    var renderer = function (canvas, parameters) {
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        parameters = parameters || {};
-        var gl;
-        var glId;
-        var self = {
-            get canvas() { return canvas; },
-            get context() { return gl; },
-            contextFree: function () {
-                gl = void 0;
-                glId = void 0;
-            },
-            contextGain: function (context, contextId) {
-                expectArg('contextId', contextId).toBeString();
-                gl = context;
-                glId = contextId;
-            },
-            contextLoss: function () {
-                gl = void 0;
-                glId = void 0;
-            },
-            hasContext: function () {
-                return !!gl;
-            },
-            render: function (drawList, view) {
-                expectArg('drawList', drawList).toNotBeNull();
-                if (gl) {
-                    if (!drawList.hasContext()) {
-                        drawList.contextGain(gl, glId);
-                    }
-                    var programLoaded;
-                    for (var drawGroupName in drawList.drawGroups) {
-                        programLoaded = false;
-                        drawList.drawGroups[drawGroupName].forEach(function (drawable) {
-                            if (!programLoaded) {
-                                drawable.useProgram();
-                                programLoaded = true;
-                            }
-                            drawable.draw(view);
-                        });
-                    }
+        Color.prototype.luminance = function () {
+            return Color.luminance(this.red, this.green, this.blue);
+        };
+        Color.prototype.toString = function () {
+            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
+        };
+        Color.luminance = function (red, green, blue) {
+            var gamma = 2.2;
+            return 0.2126 * Math.pow(red, gamma) + 0.7152 * Math.pow(green, gamma) + 0.0722 * Math.pow(blue, gamma);
+        };
+        /**
+         * Converts an angle, radius, height to a color on a color wheel.
+         */
+        Color.fromHSL = function (H, S, L) {
+            var C = (1 - Math.abs(2 * L - 1)) * S;
+            function normalizeAngle(angle) {
+                if (angle > 2 * Math.PI) {
+                    return normalizeAngle(angle - 2 * Math.PI);
+                }
+                else if (angle < 0) {
+                    return normalizeAngle(angle + 2 * Math.PI);
                 }
                 else {
-                    console.warn("renderer is unable to render because WebGLRenderingContext is missing");
+                    return angle;
                 }
-            },
+            }
+            function matchLightness(R, G, B) {
+                var x = Color.luminance(R, G, B);
+                var m = L - (0.5 * C);
+                return new Color([R + m, G + m, B + m]);
+            }
+            var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
+            var X = C * (1 - Math.abs(sextant % 2 - 1));
+            if (sextant >= 0 && sextant < 1) {
+                return matchLightness(C, X /*C*(sextant-0)*/, 0.0);
+            }
+            else if (sextant >= 1 && sextant < 2) {
+                return matchLightness(X /*C*(2-sextant)*/, C, 0.0);
+            }
+            else if (sextant >= 2 && sextant < 3) {
+                return matchLightness(0.0, C, C * (sextant - 2));
+            }
+            else if (sextant >= 3 && sextant < 4) {
+                return matchLightness(0.0, C * (4 - sextant), C);
+            }
+            else if (sextant >= 4 && sextant < 5) {
+                return matchLightness(X, 0.0, C);
+            }
+            else if (sextant >= 5 && sextant < 6) {
+                return matchLightness(C, 0.0, X);
+            }
+            else {
+                return matchLightness(0.0, 0.0, 0.0);
+            }
         };
-        return self;
-    };
-    return renderer;
-});
-
-define('davinci-eight/renderers/ViewportArgs',["require", "exports"], function (require, exports) {
-    var ViewportArgs = (function () {
-        function ViewportArgs(x, y, width, height) {
-            this.x = 0;
-            this.y = 0;
-            this.width = width;
-            this.height = height;
-            this.modified = false;
-        }
-        return ViewportArgs;
+        Color.fromRGB = function (red, green, blue) {
+            expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
+            expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
+            expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
+            return new Color([red, green, blue]);
+        };
+        Color.copy = function (color) {
+            return new Color([color.red, color.green, color.blue]);
+        };
+        return Color;
     })();
-    return ViewportArgs;
+    return Color;
 });
 
-define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../checks/expectArg'], function (require, exports, Color, ViewportArgs, expectArg) {
-    var viewport = function (canvas, parameters) {
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        parameters = parameters || {};
-        var alpha = parameters.alpha !== undefined ? parameters.alpha : false;
-        var depth = parameters.depth !== undefined ? parameters.depth : true;
-        var stencil = parameters.stencil !== undefined ? parameters.stencil : true;
-        var antialias = parameters.antialias !== undefined ? parameters.antialias : false;
-        var premultipliedAlpha = parameters.premultipliedAlpha !== undefined ? parameters.premultipliedAlpha : true;
-        var preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
-        //var drawContext = new FrameworkDrawContext();
-        var context;
-        var contextId;
-        var devicePixelRatio = 1;
-        var autoClearColor = true;
-        var autoClearDepth = true;
-        var clearColor = new Color([1.0, 1.0, 1.0]);
-        var clearAlpha = 1.0;
-        // If we had an active context then we might use context.drawingBufferWidth etc.
-        var viewport = new ViewportArgs(0, 0, canvas.width, canvas.height);
-        function setViewport(x, y, width, height) {
-            if (context) {
-                context.viewport(x * devicePixelRatio, y * devicePixelRatio, width * devicePixelRatio, height * devicePixelRatio);
-            }
-        }
-        function clear() {
-            var mask = 0;
-            if (context) {
-                if (autoClearColor) {
-                    mask |= context.COLOR_BUFFER_BIT;
-                }
-                if (autoClearDepth) {
-                    mask |= context.DEPTH_BUFFER_BIT;
-                }
-                context.clear(mask);
-            }
-        }
-        var publicAPI = {
-            get canvas() { return canvas; },
-            get context() { return context; },
-            contextFree: function () {
-                context = void 0;
-                contextId = void 0;
-            },
-            contextGain: function (contextArg, contextIdArg) {
-                context = contextArg;
-                contextId = contextIdArg;
-                context.enable(context.DEPTH_TEST);
-                context.enable(context.SCISSOR_TEST);
-            },
-            contextLoss: function () {
-                context = void 0;
-                contextId = void 0;
-            },
-            hasContext: function () {
-                return !!context;
-            },
-            clearColor: function (red, green, blue, alpha) {
-                clearColor.red = red;
-                clearColor.green = green;
-                clearColor.blue = blue;
-                clearAlpha = alpha;
-                //
-            },
-            render: function (drawList, view) {
-                expectArg('drawList', drawList).toNotBeNull();
-                if (context) {
-                    context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
-                    context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
-                    context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
-                    clear();
-                    if (!drawList.hasContext()) {
-                        drawList.contextGain(context, contextId);
-                    }
-                    var programLoaded;
-                    for (var drawGroupName in drawList.drawGroups) {
-                        programLoaded = false;
-                        drawList.drawGroups[drawGroupName].forEach(function (drawable) {
-                            if (!programLoaded) {
-                                drawable.useProgram();
-                                programLoaded = true;
-                            }
-                            drawable.draw(view);
-                        });
-                    }
-                }
-                else {
-                    console.warn("viewport is unable to render because WebGLRenderingContext is missing");
-                }
-            },
-            setViewport: setViewport,
-            get x() {
-                return viewport.x;
-            },
-            set x(value) {
-                viewport.x = value;
-            },
-            get y() {
-                return viewport.y;
-            },
-            set y(value) {
-                viewport.y = value;
-            },
-            get width() {
-                return viewport.width;
-            },
-            set width(value) {
-                viewport.width = value;
-            },
-            get height() {
-                return viewport.height;
-            },
-            set height(value) {
-                viewport.height = value;
-            },
-            setSize: function (width, height, updateStyle) {
-                canvas.width = width * devicePixelRatio;
-                canvas.height = height * devicePixelRatio;
-                if (updateStyle !== false) {
-                    canvas.style.width = width + 'px';
-                    canvas.style.height = height + 'px';
-                }
-                setViewport(0, 0, width, height);
-            }
-        };
-        var attributes = {
-            'alpha': alpha,
-            'depth': depth,
-            'stencil': stencil,
-            'antialias': antialias,
-            'premultipliedAlpha': premultipliedAlpha,
-            'preserveDrawingBuffer': preserveDrawingBuffer
-        };
-        return publicAPI;
-    };
-    return viewport;
+define('davinci-eight/core/DataUsage',["require", "exports"], function (require, exports) {
+    var DataUsage;
+    (function (DataUsage) {
+        DataUsage[DataUsage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
+        DataUsage[DataUsage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
+        DataUsage[DataUsage["STREAM_DRAW"] = 2] = "STREAM_DRAW";
+    })(DataUsage || (DataUsage = {}));
+    return DataUsage;
 });
 
-define('davinci-eight/renderers/webGLRenderer',["require", "exports", '../renderers/renderer', '../checks/expectArg', '../core/Color'], function (require, exports, renderer, expectArg, Color) {
-    var webGLRenderer = function (canvas) {
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        var base = renderer(canvas);
-        var gl;
-        var glId;
-        var autoClear = true;
-        var clearColor = Color.fromRGB(0, 0, 0);
-        var clearAlpha = 0;
-        var self = {
-            contextFree: function () {
-                gl = void 0;
-                glId = void 0;
-                return base.contextFree();
-            },
-            contextGain: function (context, contextId) {
-                expectArg('contextId', contextId).toBeString();
-                var attributes = context.getContextAttributes();
-                //console.log(context.getParameter(context.VERSION));
-                //console.log("alpha                 => " + attributes.alpha);
-                //console.log("antialias             => " + attributes.antialias);
-                //console.log("depth                 => " + attributes.depth);
-                //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-                //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-                //console.log("stencil               => " + attributes.stencil);
-                gl = context;
-                glId = contextId;
-                gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
-                gl.clearDepth(1.0);
-                gl.enable(gl.DEPTH_TEST);
-                gl.depthFunc(gl.LEQUAL);
-                gl.viewport(0, 0, canvas.width, canvas.height);
-                return base.contextGain(context, contextId);
-            },
-            contextLoss: function () {
-                gl = void 0;
-                glId = void 0;
-                return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
-            },
-            get autoClear() {
-                return autoClear;
-            },
-            set autoClear(value) {
-                expectArg('autoClear', value).toBeBoolean();
-                autoClear = value;
-            },
-            clearColor: function (red, green, blue, alpha) {
-                clearColor.red = red;
-                clearColor.green = green;
-                clearColor.blue = blue;
-                clearAlpha = alpha;
-                if (gl) {
-                    gl.clearColor(red, green, blue, alpha);
-                }
-                return self;
-            },
-            render: function (drawList, view) {
-                if (autoClear && gl) {
-                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                }
-                return base.render(drawList, view);
-            }
-        };
-        return self;
+define('davinci-eight/core/DrawMode',["require", "exports"], function (require, exports) {
+    var DrawMode;
+    (function (DrawMode) {
+        DrawMode[DrawMode["POINTS"] = 0] = "POINTS";
+        DrawMode[DrawMode["LINES"] = 1] = "LINES";
+        DrawMode[DrawMode["TRIANGLES"] = 2] = "TRIANGLES";
+    })(DrawMode || (DrawMode = {}));
+    return DrawMode;
+});
+
+define('davinci-eight/core/Face3',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
+    /**
+     * @class Face3
+     */
+    var Face3 = (function () {
+        /**
+         * @class Face3
+         * @constructor
+         * @param a {number}
+         * @param b {number}
+         * @param c {number}
+         */
+        function Face3(a, b, c, normal, vertexNormals) {
+            if (normal === void 0) { normal = new Vector3(); }
+            if (vertexNormals === void 0) { vertexNormals = []; }
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.normal = normal;
+            this.vertexNormals = vertexNormals;
+        }
+        return Face3;
+    })();
+    return Face3;
+});
+
+define('davinci-eight/core',["require", "exports"], function (require, exports) {
+    var core = {
+        VERSION: '2.49.0'
     };
-    return webGLRenderer;
+    return core;
 });
 
 define('davinci-eight/core/convertUsage',["require", "exports", '../core/DataUsage'], function (require, exports, DataUsage) {
@@ -2664,8 +2189,8 @@ define('davinci-eight/uniforms/ChainedUniformProvider',["require", "exports"], f
     return ChainedUniformProvider;
 });
 
-define('davinci-eight/objects/drawableModel',["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ElementArray, ChainedUniformProvider) {
-    var drawableModel = function (mesh, shaders, model) {
+define('davinci-eight/objects/primitive',["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ElementArray, ChainedUniformProvider) {
+    var primitive = function (mesh, shaders, model) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
          */
@@ -2730,23 +2255,6 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
         var elements = new ElementArray(mesh);
         var vertexAttributes = shaders.attributes.map(shaderAttributeLocationFromDecl);
         var uniformVariables = shaders.uniforms.map(shaderUniformLocationFromDecl);
-        /*
-          function updateGeometry() {
-            // Make sure to update the mesh first so that the shaders gets the correct data.
-            mesh.update(shaders.attributes);
-            vertexAttributes.forEach(function(vertexAttribute: ShaderAttribLocation) {
-              let thing = mesh.getAttribArray(vertexAttribute.name);
-              if (thing) {
-                vertexAttribute.bufferData(thing.data, thing.usage);
-              }
-              else {
-                // We expect this to be detected long before we get here.
-                throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
-              }
-            });
-            elements.bufferData(mesh);
-          }
-        */
         var self = {
             get mesh() {
                 return mesh;
@@ -2902,7 +2410,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
                                 }
                                 break;
                             default: {
-                                throw new Error("Unexpected uniform GLSL type in drawableModel.draw: " + uniformVariable.glslType);
+                                throw new Error("Unexpected uniform GLSL type in primitive.draw: " + uniformVariable.glslType);
                             }
                         }
                     });
@@ -2936,33 +2444,7 @@ define('davinci-eight/objects/drawableModel',["require", "exports", '../core/Ele
         }
         return self;
     };
-    return drawableModel;
-});
-
-define('davinci-eight/core/Face3',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
-    /**
-     * @class Face3
-     */
-    var Face3 = (function () {
-        /**
-         * @class Face3
-         * @constructor
-         * @param a {number}
-         * @param b {number}
-         * @param c {number}
-         */
-        function Face3(a, b, c, normal, vertexNormals) {
-            if (normal === void 0) { normal = new Vector3(); }
-            if (vertexNormals === void 0) { vertexNormals = []; }
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.normal = normal;
-            this.vertexNormals = vertexNormals;
-        }
-        return Face3;
-    })();
-    return Face3;
+    return primitive;
 });
 
 define('davinci-eight/core/ShaderAttribLocation',["require", "exports", '../core/convertUsage', '../checks/expectArg'], function (require, exports, convertUsage, expectArg) {
@@ -3220,6 +2702,61 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
         return ShaderUniformLocation;
     })();
     return ShaderUniformLocation;
+});
+
+define('davinci-eight/drawLists/drawList',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    var drawList = function () {
+        var drawables = [];
+        var drawGroups = {};
+        var gl;
+        var contextId;
+        var publicAPI = {
+            get drawGroups() { return drawGroups; },
+            get children() { return drawables; },
+            contextFree: function () {
+                drawables.forEach(function (drawable) {
+                    drawable.contextFree();
+                });
+                gl = void 0;
+                contextId = void 0;
+            },
+            contextGain: function (context, contextId) {
+                expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext");
+                expectArg('contextId', contextId).toBeString();
+                gl = context;
+                contextId = contextId;
+                drawables.forEach(function (drawable) {
+                    drawable.contextGain(context, contextId);
+                    var groupName = drawable.drawGroupName;
+                    if (!drawGroups[groupName]) {
+                        drawGroups[groupName] = [];
+                    }
+                    drawGroups[groupName].push(drawable);
+                });
+            },
+            contextLoss: function () {
+                drawables.forEach(function (drawable) {
+                    drawable.contextLoss();
+                });
+                gl = void 0;
+                contextId = void 0;
+            },
+            hasContext: function () {
+                return !!gl;
+            },
+            add: function (drawable) {
+                drawables.push(drawable);
+            },
+            remove: function (drawable) {
+                var index = drawables.indexOf(drawable);
+                if (index >= 0) {
+                    drawables.splice(index, 1);
+                }
+            }
+        };
+        return publicAPI;
+    };
+    return drawList;
 });
 
 define('davinci-eight/math/Sphere',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
@@ -3739,6 +3276,131 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
         return GeometryAdapter;
     })();
     return GeometryAdapter;
+});
+
+define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    /**
+     * @class Spinor3
+     */
+    var Spinor3 = (function () {
+        function Spinor3(data) {
+            if (data === void 0) { data = [0, 0, 0, 1]; }
+            this.data = data;
+            this.modified = false;
+        }
+        Object.defineProperty(Spinor3.prototype, "data", {
+            get: function () {
+                if (this.$data) {
+                    return this.$data;
+                }
+                else if (this.$callback) {
+                    var data = this.$callback();
+                    expectArg('callback()', data).toSatisfy(data.length === 4, "callback() length must be 4");
+                    return this.$callback();
+                }
+                else {
+                    throw new Error("Vector3 is undefined.");
+                }
+            },
+            set: function (data) {
+                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
+                this.$data = data;
+                this.$callback = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "callback", {
+            get: function () {
+                return this.$callback;
+            },
+            set: function (reactTo) {
+                this.$callback = reactTo;
+                this.$data = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "yz", {
+            /**
+             * @property yz
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.yz !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "zx", {
+            /**
+             * @property zx
+             * @type Number
+             */
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.zx !== value;
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "xy", {
+            /**
+             * @property xy
+             * @type Number
+             */
+            get: function () {
+                return this.data[2];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.xy !== value;
+                this.data[2] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "w", {
+            /**
+             * @property w
+             * @type Number
+             */
+            get: function () {
+                return this.data[3];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.w !== value;
+                this.data[3] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Spinor3.prototype.clone = function () {
+            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
+        };
+        Spinor3.prototype.copy = function (spinor) {
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.w = spinor.w;
+            return this;
+        };
+        /**
+         * @method toString
+         * @return {string} A non-normative string representation of the target.
+         */
+        Spinor3.prototype.toString = function () {
+            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        return Spinor3;
+    })();
+    return Spinor3;
 });
 
 define('davinci-eight/math/Vector2',["require", "exports"], function (require, exports) {
@@ -4512,6 +4174,164 @@ define('davinci-eight/geometries/DodecahedronGeometry',["require", "exports", '.
         return DodecahedronGeometry;
     })(PolyhedronGeometry);
     return DodecahedronGeometry;
+});
+
+define('davinci-eight/math/Euclidean3',["require", "exports"], function (require, exports) {
+    // Considering new ideas for a totally immutable Euclidean3 value type.
+    var Euclidean3 = (function () {
+        // The constructor is essentially for internal use.
+        function Euclidean3(w, x, y, z) {
+        }
+        // It's a bit dangerous, but it might let us coexist with other types.
+        // Another possibility is to write specialized mapping functions.
+        Euclidean3.prototype.copy = function (coords) {
+        };
+        Euclidean3.prototype.add = function (other) {
+            return new Euclidean3(0, 0, 0, 0);
+        };
+        Euclidean3.prototype.sub = function (other) {
+            return new Euclidean3(0, 0, 0, 0);
+        };
+        Euclidean3.prototype.mul = function (other) {
+            return new Euclidean3(0, 0, 0, 0);
+        };
+        Euclidean3.prototype.div = function (other) {
+            return new Euclidean3(0, 0, 0, 0);
+        };
+        Euclidean3.scalar = function (w) {
+            return new Euclidean3(w, 0, 0, 0);
+        };
+        Euclidean3.vector = function (x, y, z) {
+            return new Euclidean3(0, x, y, z);
+        };
+        Euclidean3.ZERO = Euclidean3.scalar(0);
+        Euclidean3.ONE = Euclidean3.scalar(1);
+        Euclidean3.MINUS_ONE = Euclidean3.scalar(-1);
+        Euclidean3.TWO = Euclidean3.scalar(2);
+        Euclidean3.e1 = Euclidean3.vector(1, 0, 0);
+        Euclidean3.e2 = Euclidean3.vector(0, 1, 0);
+        Euclidean3.e3 = Euclidean3.vector(0, 1, 0);
+        return Euclidean3;
+    })();
+    return Euclidean3;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/geometries/EllipticalCylinderGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Euclidean3', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Euclidean3, Vector2, Vector3) {
+    var EllipticalCylinderGeometry = (function (_super) {
+        __extends(EllipticalCylinderGeometry, _super);
+        function EllipticalCylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
+            if (radiusTop === void 0) { radiusTop = 1; }
+            if (radiusBottom === void 0) { radiusBottom = 1; }
+            if (height === void 0) { height = 1; }
+            if (radialSegments === void 0) { radialSegments = 16; }
+            if (heightSegments === void 0) { heightSegments = 1; }
+            if (openEnded === void 0) { openEnded = false; }
+            if (thetaStart === void 0) { thetaStart = 0; }
+            if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
+            _super.call(this);
+            var h = Euclidean3.scalar(height).mul(Euclidean3.e2); // This will become a parameter.
+            var two = Euclidean3.TWO;
+            var heightHalf = h.div(two);
+            var x;
+            var y;
+            var vertices = [];
+            var uvs = [];
+            for (y = 0; y <= heightSegments; y++) {
+                var verticesRow = [];
+                var uvsRow = [];
+                var v = y / heightSegments;
+                var radius = v * (radiusBottom - radiusTop) + radiusTop;
+                for (x = 0; x <= radialSegments; x++) {
+                    var u = x / radialSegments;
+                    var vertex = new Vector3();
+                    vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
+                    //TODO        vertex.y = - v * height + heightHalf;
+                    vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
+                    this.vertices.push(vertex);
+                    verticesRow.push(this.vertices.length - 1);
+                    uvsRow.push(new Vector2(u, 1 - v));
+                }
+                vertices.push(verticesRow);
+                uvs.push(uvsRow);
+            }
+            var tanTheta = (radiusBottom - radiusTop) / height;
+            var na;
+            var nb;
+            for (x = 0; x < radialSegments; x++) {
+                if (radiusTop !== 0) {
+                    na = this.vertices[vertices[0][x]].clone();
+                    nb = this.vertices[vertices[0][x + 1]].clone();
+                }
+                else {
+                    na = this.vertices[vertices[1][x]].clone();
+                    nb = this.vertices[vertices[1][x + 1]].clone();
+                }
+                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
+                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
+                for (y = 0; y < heightSegments; y++) {
+                    var v1 = vertices[y][x];
+                    var v2 = vertices[y + 1][x];
+                    var v3 = vertices[y + 1][x + 1];
+                    var v4 = vertices[y][x + 1];
+                    var n1 = na.clone();
+                    var n2 = na.clone();
+                    var n3 = nb.clone();
+                    var n4 = nb.clone();
+                    var uv1 = uvs[y][x].clone();
+                    var uv2 = uvs[y + 1][x].clone();
+                    var uv3 = uvs[y + 1][x + 1].clone();
+                    var uv4 = uvs[y][x + 1].clone();
+                    this.faces.push(new Face3(v1, v2, v4, undefined, [n1, n2, n4]));
+                    this.faceVertexUvs[0].push([uv1, uv2, uv4]);
+                    this.faces.push(new Face3(v2, v3, v4, undefined, [n2.clone(), n3, n4.clone()]));
+                    this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
+                }
+            }
+            // top cap
+            if (!openEnded && radiusTop > 0) {
+                //TODO      this.vertices.push(Vector3..e2.clone().multiplyScalar(heightHalf));
+                for (x = 0; x < radialSegments; x++) {
+                    var v1 = vertices[0][x];
+                    var v2 = vertices[0][x + 1];
+                    var v3 = this.vertices.length - 1;
+                    var n1 = Vector3.e2;
+                    var n2 = Vector3.e2;
+                    var n3 = Vector3.e2;
+                    var uv1 = uvs[0][x].clone();
+                    var uv2 = uvs[0][x + 1].clone();
+                    var uv3 = new Vector2(uv2.x, 0);
+                    this.faces.push(new Face3(v1, v2, v3, undefined, [n1, n2, n3]));
+                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
+                }
+            }
+            // bottom cap
+            if (!openEnded && radiusBottom > 0) {
+                this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
+                for (x = 0; x < radialSegments; x++) {
+                    var v1 = vertices[heightSegments][x + 1];
+                    var v2 = vertices[heightSegments][x];
+                    var v3 = this.vertices.length - 1;
+                    var n1 = Vector3.e2.clone().multiplyScalar(-1);
+                    var n2 = Vector3.e2.clone().multiplyScalar(-1);
+                    var n3 = Vector3.e2.clone().multiplyScalar(-1);
+                    var uv1 = uvs[heightSegments][x + 1].clone();
+                    var uv2 = uvs[heightSegments][x].clone();
+                    var uv3 = new Vector2(uv2.x, 1);
+                    this.faces.push(new Face3(v1, v2, v3, undefined, [n1, n2, n3]));
+                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
+                }
+            }
+            this.computeFaceNormals();
+        }
+        return EllipticalCylinderGeometry;
+    })(Geometry);
+    return EllipticalCylinderGeometry;
 });
 
 var __extends = this.__extends || function (d, b) {
@@ -7912,9 +7732,7 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
         var length = 1;
         var radiusShaft = 0.01;
         var radiusCone = 0.08;
-        var lengthCone = 0.20;
-        var axis = options.axis;
-        return new ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis);
+        return new ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, options.coneHeight, options.axis);
     }
     function arrowMesh(options) {
         var base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
@@ -7966,11 +7784,19 @@ define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expec
             //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
             //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
             //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+            this.setFlavor(isUndefined(options.flavor) ? 0 : options.flavor);
             this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
         }
         Object.defineProperty(ArrowBuilder.prototype, "axis", {
             get: function () {
                 return this.$axis;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ArrowBuilder.prototype, "flavor", {
+            get: function () {
+                return this.$flavor;
             },
             enumerable: true,
             configurable: true
@@ -8010,6 +7836,13 @@ define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expec
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ArrowBuilder.prototype, "coneHeight", {
+            get: function () {
+                return this.$coneHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ArrowBuilder.prototype, "wireFrame", {
             get: function () {
                 return this.$wireFrame;
@@ -8020,6 +7853,11 @@ define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expec
         ArrowBuilder.prototype.setAxis = function (axis) {
             expectArg('axis', axis).toBeObject();
             this.$axis.copy(axis);
+            return this;
+        };
+        ArrowBuilder.prototype.setFlavor = function (flavor) {
+            expectArg('flavor', flavor).toBeNumber().toSatisfy(flavor >= 0, "flavor must be greater than or equal to zero.");
+            this.$flavor = flavor;
             return this;
         };
         ArrowBuilder.prototype.setHeight = function (height) {
@@ -8045,6 +7883,11 @@ define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expec
         ArrowBuilder.prototype.setDepthSegments = function (depthSegments) {
             expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
             this.$depthSegments = depthSegments;
+            return this;
+        };
+        ArrowBuilder.prototype.setConeHeight = function (coneHeight) {
+            expectArg('coneHeight', coneHeight).toBeNumber().toSatisfy(coneHeight >= 0, "coneHeight must be positive.");
+            this.$coneHeight = coneHeight;
             return this;
         };
         ArrowBuilder.prototype.setWireFrame = function (wireFrame) {
@@ -8275,12 +8118,12 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
     return cylinderMesh;
 });
 
-define('davinci-eight/mesh/CylinderBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/cylinderMesh', '../math/Vector3'], function (require, exports, expectArg, isUndefined, cylinderMesh, Vector3) {
+define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
     /**
-     * @class CylinderBuilder
+     * @class CylinderArgs
      */
-    var CylinderBuilder = (function () {
-        function CylinderBuilder(options) {
+    var CylinderArgs = (function () {
+        function CylinderArgs(options) {
             this.$axis = Vector3.e3.clone();
             options = options || { modelMatrix: 'uModelMatrix' };
             this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
@@ -8292,120 +8135,117 @@ define('davinci-eight/mesh/CylinderBuilder',["require", "exports", '../checks/ex
             //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
             this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
         }
-        Object.defineProperty(CylinderBuilder.prototype, "radiusTop", {
+        Object.defineProperty(CylinderArgs.prototype, "radiusTop", {
             get: function () {
                 return this.$radiusTop;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "radiusBottom", {
+        Object.defineProperty(CylinderArgs.prototype, "radiusBottom", {
             get: function () {
                 return this.$radiusBottom;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "height", {
+        Object.defineProperty(CylinderArgs.prototype, "height", {
             get: function () {
                 return this.$height;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "axis", {
+        Object.defineProperty(CylinderArgs.prototype, "axis", {
             get: function () {
                 return this.$axis;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "depth", {
+        Object.defineProperty(CylinderArgs.prototype, "depth", {
             get: function () {
                 return this.$depth;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "widthSegments", {
+        Object.defineProperty(CylinderArgs.prototype, "widthSegments", {
             get: function () {
                 return this.$widthSegments;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "heightSegments", {
+        Object.defineProperty(CylinderArgs.prototype, "heightSegments", {
             get: function () {
                 return this.$heightSegments;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "depthSegments", {
+        Object.defineProperty(CylinderArgs.prototype, "depthSegments", {
             get: function () {
                 return this.$depthSegments;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderBuilder.prototype, "wireFrame", {
+        Object.defineProperty(CylinderArgs.prototype, "wireFrame", {
             get: function () {
                 return this.$wireFrame;
             },
             enumerable: true,
             configurable: true
         });
-        CylinderBuilder.prototype.setRadiusTop = function (radiusTop) {
+        CylinderArgs.prototype.setRadiusTop = function (radiusTop) {
             expectArg('radiusTop', radiusTop).toBeNumber().toSatisfy(radiusTop >= 0, "radiusTop must be greater than or equal to zero.");
             this.$radiusTop = radiusTop;
             return this;
         };
-        CylinderBuilder.prototype.setRadiusBottom = function (radiusBottom) {
+        CylinderArgs.prototype.setRadiusBottom = function (radiusBottom) {
             expectArg('radiusBottom', radiusBottom).toBeNumber().toSatisfy(radiusBottom >= 0, "radiusBottom must be greater than or equal to zero.");
             this.$radiusBottom = radiusBottom;
             return this;
         };
-        CylinderBuilder.prototype.setHeight = function (height) {
+        CylinderArgs.prototype.setHeight = function (height) {
             expectArg('height', height).toBeNumber().toSatisfy(height >= 0, "height must be greater than or equal to zero.");
             this.$height = height;
             return this;
         };
-        CylinderBuilder.prototype.setAxis = function (axis) {
+        CylinderArgs.prototype.setAxis = function (axis) {
             expectArg('axis', axis).toBeObject();
             this.$axis.copy(axis);
             return this;
         };
-        CylinderBuilder.prototype.setDepth = function (depth) {
+        CylinderArgs.prototype.setDepth = function (depth) {
             expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
             this.$depth = depth;
             return this;
         };
-        CylinderBuilder.prototype.setWidthSegments = function (widthSegments) {
+        CylinderArgs.prototype.setWidthSegments = function (widthSegments) {
             expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
             this.$widthSegments = widthSegments;
             return this;
         };
-        CylinderBuilder.prototype.setHeightSegments = function (heightSegments) {
+        CylinderArgs.prototype.setHeightSegments = function (heightSegments) {
             expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
             this.$heightSegments = heightSegments;
             return this;
         };
-        CylinderBuilder.prototype.setDepthSegments = function (depthSegments) {
+        CylinderArgs.prototype.setDepthSegments = function (depthSegments) {
             expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
             this.$depthSegments = depthSegments;
             return this;
         };
-        CylinderBuilder.prototype.setWireFrame = function (wireFrame) {
+        CylinderArgs.prototype.setWireFrame = function (wireFrame) {
             expectArg('wireFrame', wireFrame).toBeBoolean();
             this.$wireFrame = wireFrame;
             return this;
         };
-        CylinderBuilder.prototype.buildMesh = function () {
-            return cylinderMesh(this);
-        };
-        return CylinderBuilder;
+        return CylinderArgs;
     })();
-    return CylinderBuilder;
+    return CylinderArgs;
 });
 
 define('davinci-eight/mesh/sphereMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/SphereGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, SphereGeometry, adapterOptions) {
@@ -8885,7 +8725,6 @@ define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '
             this.attitude = new Spinor3();
             this.scale = new Vector3([1, 1, 1]);
             this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
-            this.uColor.data = Color.fromRGB(1, 1, 1);
         }
         Object.defineProperty(Node.prototype, "color", {
             get: function () {
@@ -8902,7 +8741,25 @@ define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '
          * @param name {string}
          */
         Node.prototype.getUniformVector3 = function (name) {
-            return this.uColor.getUniformVector3(name);
+            //console.log("getUniformVector3(name='" + name + "')");
+            switch (name) {
+                case this.colorVarName:
+                    {
+                        if (this.uColor.data) {
+                            return this.uColor.getUniformVector3(name);
+                        }
+                        else if (this.getParent()) {
+                            return this.getParent().getUniformVector3(name);
+                        }
+                        else {
+                            return Color.fromRGB(1, 1, 1).data;
+                        }
+                    }
+                    break;
+                default: {
+                    return _super.prototype.getUniformVector3.call(this, name);
+                }
+            }
         };
         /**
          * @method getUniformMatrix3
@@ -8973,143 +8830,191 @@ define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '
     return Node;
 });
 
-define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/arrowMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, arrowMesh, smartProgram) {
+define('davinci-eight/mesh/CylinderMeshBuilder',["require", "exports", '../mesh/CylinderArgs', '../mesh/cylinderMesh'], function (require, exports, CylinderArgs, cylinderMesh) {
+    var CylinderMeshBuilder = (function () {
+        function CylinderMeshBuilder(options) {
+            this.args = new CylinderArgs(options);
+        }
+        CylinderMeshBuilder.prototype.setHeight = function (height) {
+            this.args.setHeight(height);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setRadiusTop = function (radiusTop) {
+            this.args.setRadiusTop(radiusTop);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setRadiusBottom = function (radiusBottom) {
+            this.args.setRadiusBottom(radiusBottom);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.buildMesh = function () {
+            return cylinderMesh(this);
+        };
+        return CylinderMeshBuilder;
+    })();
+    return CylinderMeshBuilder;
+});
+
+define('davinci-eight/objects/Arrow3D',["require", "exports", '../mesh/CylinderMeshBuilder', '../objects/primitive', '../programs/smartProgram', '../uniforms/Node', '../checks/isDefined'], function (require, exports, CylinderMeshBuilder, primitive, smartProgram, Node, isDefined) {
+    var Arrow3D = (function () {
+        function Arrow3D(ambients, options) {
+            this.$magnitude = 1;
+            options = options || {};
+            this.$coneHeight = isDefined(options.coneHeight) ? options.coneHeight : 0.2;
+            this.model = new Node();
+            var headMesh = new CylinderMeshBuilder(options).setRadiusTop(0.0).setRadiusBottom(0.08).setHeight(this.$coneHeight).buildMesh();
+            var tailMesh = new CylinderMeshBuilder(options).setRadiusTop(0.01).setRadiusBottom(0.01).buildMesh();
+            this.shaders = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
+            this.headModel = new Node();
+            this.headModel.setParent(this.model);
+            this.head = primitive(headMesh, this.shaders, this.headModel);
+            this.tailModel = new Node();
+            this.tailModel.setParent(this.model);
+            this.setMagnitude(1);
+            this.tail = primitive(tailMesh, this.shaders, this.tailModel);
+        }
+        Object.defineProperty(Arrow3D.prototype, "magnitude", {
+            get: function () {
+                return this.tailModel.scale.y + this.$coneHeight;
+            },
+            set: function (value) {
+                this.setMagnitude(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Arrow3D.prototype.setMagnitude = function (magnitude) {
+            this.headModel.position.y = (magnitude - this.$coneHeight) / 2;
+            this.tailModel.scale.y = magnitude - this.$coneHeight;
+            this.tailModel.position.y = -this.$coneHeight / 2;
+            return this;
+        };
+        Arrow3D.prototype.useProgram = function () {
+            this.shaders.use();
+        };
+        Arrow3D.prototype.draw = function (ambients) {
+            this.head.draw(ambients);
+            this.tail.draw(ambients);
+        };
+        Arrow3D.prototype.contextFree = function () {
+            this.head.contextFree();
+            this.tail.contextFree();
+        };
+        Arrow3D.prototype.contextGain = function (context, contextId) {
+            this.head.contextGain(context, contextId);
+            this.tail.contextGain(context, contextId);
+        };
+        Arrow3D.prototype.contextLoss = function () {
+            this.head.contextLoss();
+            this.tail.contextLoss();
+        };
+        Arrow3D.prototype.hasContext = function () {
+            return this.head.hasContext();
+        };
+        return Arrow3D;
+    })();
+    return Arrow3D;
+});
+
+define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/arrowMesh', '../programs/smartProgram', '../objects/Arrow3D', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Node, primitive, arrowMesh, smartProgram, Arrow3D, expectArg, isDefined) {
+    var ArrowWrapper = (function () {
+        function ArrowWrapper(primitive) {
+            this.primitive = primitive;
+        }
+        Object.defineProperty(ArrowWrapper.prototype, "model", {
+            get: function () {
+                return this.primitive.model;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ArrowWrapper.prototype.setMagnitude = function (magnitude) {
+            expectArg('magnitude', magnitude).toBeNumber().toSatisfy(magnitude >= 0, "magnitude must be positive");
+            this.primitive.model.scale.x = magnitude;
+            this.primitive.model.scale.y = magnitude;
+            this.primitive.model.scale.z = magnitude;
+            return this;
+        };
+        Object.defineProperty(ArrowWrapper.prototype, "drawGroupName", {
+            get: function () {
+                return this.primitive.drawGroupName;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ArrowWrapper.prototype.useProgram = function () {
+            return this.primitive.useProgram();
+        };
+        ArrowWrapper.prototype.draw = function (ambients) {
+            return this.primitive.draw(ambients);
+        };
+        ArrowWrapper.prototype.contextFree = function () {
+            return this.primitive.contextFree();
+        };
+        ArrowWrapper.prototype.contextGain = function (context, contextId) {
+            return this.primitive.contextGain(context, contextId);
+        };
+        ArrowWrapper.prototype.contextLoss = function () {
+            return this.primitive.contextLoss();
+        };
+        ArrowWrapper.prototype.hasContext = function () {
+            return this.primitive.hasContext();
+        };
+        return ArrowWrapper;
+    })();
+    // TODO" Should only take the UniformMetaInfos for construction.
     function arrow(ambients, options) {
-        var mesh = arrowMesh(options);
-        var model = new Node(options);
-        var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return drawableModel(mesh, shaders, model);
+        options = options || {};
+        var flavor = isDefined(options.flavor) ? options.flavor : 0;
+        if (flavor === 0) {
+            var mesh = arrowMesh(options);
+            var model = new Node(options);
+            var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
+            return new ArrowWrapper(primitive(mesh, shaders, model));
+        }
+        else {
+            return new Arrow3D(ambients, options);
+        }
     }
     return arrow;
 });
 
-define('davinci-eight/objects/Arrow',["require", "exports", '../mesh/CylinderBuilder', '../objects/drawableModel', '../programs/smartProgram', '../uniforms/Node'], function (require, exports, CylinderBuilder, drawableModel, smartProgram, Node) {
-    var Arrow = (function () {
-        function Arrow(ambients) {
-            this.$length = 1;
-            this.model = new Node();
-            var headMesh = new CylinderBuilder().setRadiusTop(0.0).setRadiusBottom(0.08).setHeight(0.2).buildMesh();
-            var tailMesh = new CylinderBuilder().setRadiusTop(0.01).setRadiusBottom(0.01).buildMesh();
-            var shaders = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
-            this.headModel = new Node();
-            this.headModel.setParent(this.model);
-            this.head = drawableModel(headMesh, shaders, this.headModel);
-            this.tailModel = new Node();
-            this.tailModel.setParent(this.model);
-            this.tailModel.position.y = -0.2;
-            this.setLength(1);
-            this.tail = drawableModel(tailMesh, shaders, this.tailModel);
-        }
-        Object.defineProperty(Arrow.prototype, "length", {
-            get: function () {
-                return this.tailModel.scale.y + 0.2;
-            },
-            set: function (value) {
-                this.setLength(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Arrow.prototype.setLength = function (length) {
-            this.headModel.position.y = (length / 2) - 0.2;
-            this.tailModel.scale.y = length - 0.2;
-            return this;
-        };
-        Object.defineProperty(Arrow.prototype, "color", {
-            set: function (value) {
-                this.headModel.color = value;
-                this.tailModel.color = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Arrow.prototype, "position", {
-            get: function () {
-                return this.model.position;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Arrow.prototype, "positione", {
-            set: function (value) {
-                this.model.position = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Arrow.prototype, "attitude", {
-            get: function () {
-                return this.model.attitude;
-            },
-            set: function (value) {
-                this.model.attitude = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Arrow.prototype.useProgram = function () {
-            this.head.shaders.use();
-        };
-        Arrow.prototype.draw = function (ambients) {
-            this.head.draw(ambients);
-            this.tail.draw(ambients);
-        };
-        Arrow.prototype.contextFree = function () {
-            this.head.contextFree();
-            this.tail.contextFree();
-        };
-        Arrow.prototype.contextGain = function (context, contextId) {
-            this.head.contextGain(context, contextId);
-            this.tail.contextGain(context, contextId);
-        };
-        Arrow.prototype.contextLoss = function () {
-            this.head.contextLoss();
-            this.tail.contextLoss();
-        };
-        Arrow.prototype.hasContext = function () {
-            return this.head.hasContext();
-        };
-        return Arrow;
-    })();
-    return Arrow;
-});
-
-define('davinci-eight/objects/box',["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/boxMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, boxMesh, smartProgram) {
+define('davinci-eight/objects/box',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/boxMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, boxMesh, smartProgram) {
     function box(ambients, options) {
         var mesh = boxMesh(options);
         var model = new Node();
         var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return drawableModel(mesh, shaders, model);
+        return primitive(mesh, shaders, model);
     }
     return box;
 });
 
-define('davinci-eight/objects/cylinder',["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/cylinderMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, cylinderMesh, smartProgram) {
-    function cylinder(ambients) {
-        var mesh = cylinderMesh();
+define('davinci-eight/objects/cylinder',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/cylinderMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, cylinderMesh, smartProgram) {
+    function cylinder(ambients, options) {
+        var mesh = cylinderMesh(options);
         var model = new Node();
         var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return drawableModel(mesh, shaders, model);
+        return primitive(mesh, shaders, model);
     }
     return cylinder;
 });
 
-define('davinci-eight/objects/sphere',["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, sphereMesh, smartProgram) {
+define('davinci-eight/objects/sphere',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, sphereMesh, smartProgram) {
     function sphere(ambients, options) {
         var mesh = sphereMesh(options);
         var model = new Node();
         var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return drawableModel(mesh, shaders, model);
+        return primitive(mesh, shaders, model);
     }
     return sphere;
 });
 
-define('davinci-eight/objects/vortex',["require", "exports", '../uniforms/Node', '../objects/drawableModel', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, Node, drawableModel, vortexMesh, smartProgram) {
+define('davinci-eight/objects/vortex',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, vortexMesh, smartProgram) {
     function vortex(ambients) {
         var mesh = vortexMesh();
         var model = new Node();
         var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return drawableModel(mesh, shaders, model);
+        return primitive(mesh, shaders, model);
     }
     return vortex;
 });
@@ -9302,6 +9207,282 @@ define('davinci-eight/renderers/initWebGL',["require", "exports"], function (req
         }
     }
     return initWebGL;
+});
+
+define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    var renderer = function (canvas, parameters) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        parameters = parameters || {};
+        var gl;
+        var glId;
+        var self = {
+            get canvas() { return canvas; },
+            get context() { return gl; },
+            contextFree: function () {
+                gl = void 0;
+                glId = void 0;
+            },
+            contextGain: function (context, contextId) {
+                expectArg('contextId', contextId).toBeString();
+                gl = context;
+                glId = contextId;
+            },
+            contextLoss: function () {
+                gl = void 0;
+                glId = void 0;
+            },
+            hasContext: function () {
+                return !!gl;
+            },
+            render: function (drawList, view) {
+                expectArg('drawList', drawList).toNotBeNull();
+                if (gl) {
+                    if (!drawList.hasContext()) {
+                        drawList.contextGain(gl, glId);
+                    }
+                    var programLoaded;
+                    for (var drawGroupName in drawList.drawGroups) {
+                        programLoaded = false;
+                        drawList.drawGroups[drawGroupName].forEach(function (drawable) {
+                            if (!programLoaded) {
+                                drawable.useProgram();
+                                programLoaded = true;
+                            }
+                            drawable.draw(view);
+                        });
+                    }
+                }
+                else {
+                    console.warn("renderer is unable to render because WebGLRenderingContext is missing");
+                }
+            },
+        };
+        return self;
+    };
+    return renderer;
+});
+
+define('davinci-eight/renderers/ViewportArgs',["require", "exports"], function (require, exports) {
+    var ViewportArgs = (function () {
+        function ViewportArgs(x, y, width, height) {
+            this.x = 0;
+            this.y = 0;
+            this.width = width;
+            this.height = height;
+            this.modified = false;
+        }
+        return ViewportArgs;
+    })();
+    return ViewportArgs;
+});
+
+define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../checks/expectArg'], function (require, exports, Color, ViewportArgs, expectArg) {
+    var viewport = function (canvas, parameters) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        parameters = parameters || {};
+        var alpha = parameters.alpha !== undefined ? parameters.alpha : false;
+        var depth = parameters.depth !== undefined ? parameters.depth : true;
+        var stencil = parameters.stencil !== undefined ? parameters.stencil : true;
+        var antialias = parameters.antialias !== undefined ? parameters.antialias : false;
+        var premultipliedAlpha = parameters.premultipliedAlpha !== undefined ? parameters.premultipliedAlpha : true;
+        var preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
+        //var drawContext = new FrameworkDrawContext();
+        var context;
+        var contextId;
+        var devicePixelRatio = 1;
+        var autoClearColor = true;
+        var autoClearDepth = true;
+        var clearColor = new Color([1.0, 1.0, 1.0]);
+        var clearAlpha = 1.0;
+        // If we had an active context then we might use context.drawingBufferWidth etc.
+        var viewport = new ViewportArgs(0, 0, canvas.width, canvas.height);
+        function setViewport(x, y, width, height) {
+            if (context) {
+                context.viewport(x * devicePixelRatio, y * devicePixelRatio, width * devicePixelRatio, height * devicePixelRatio);
+            }
+        }
+        function clear() {
+            var mask = 0;
+            if (context) {
+                if (autoClearColor) {
+                    mask |= context.COLOR_BUFFER_BIT;
+                }
+                if (autoClearDepth) {
+                    mask |= context.DEPTH_BUFFER_BIT;
+                }
+                context.clear(mask);
+            }
+        }
+        var publicAPI = {
+            get canvas() { return canvas; },
+            get context() { return context; },
+            contextFree: function () {
+                context = void 0;
+                contextId = void 0;
+            },
+            contextGain: function (contextArg, contextIdArg) {
+                context = contextArg;
+                contextId = contextIdArg;
+                context.enable(context.DEPTH_TEST);
+                context.enable(context.SCISSOR_TEST);
+            },
+            contextLoss: function () {
+                context = void 0;
+                contextId = void 0;
+            },
+            hasContext: function () {
+                return !!context;
+            },
+            clearColor: function (red, green, blue, alpha) {
+                clearColor.red = red;
+                clearColor.green = green;
+                clearColor.blue = blue;
+                clearAlpha = alpha;
+                //
+            },
+            render: function (drawList, view) {
+                expectArg('drawList', drawList).toNotBeNull();
+                if (context) {
+                    context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
+                    context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
+                    context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
+                    clear();
+                    if (!drawList.hasContext()) {
+                        drawList.contextGain(context, contextId);
+                    }
+                    var programLoaded;
+                    for (var drawGroupName in drawList.drawGroups) {
+                        programLoaded = false;
+                        drawList.drawGroups[drawGroupName].forEach(function (drawable) {
+                            if (!programLoaded) {
+                                drawable.useProgram();
+                                programLoaded = true;
+                            }
+                            drawable.draw(view);
+                        });
+                    }
+                }
+                else {
+                    console.warn("viewport is unable to render because WebGLRenderingContext is missing");
+                }
+            },
+            setViewport: setViewport,
+            get x() {
+                return viewport.x;
+            },
+            set x(value) {
+                viewport.x = value;
+            },
+            get y() {
+                return viewport.y;
+            },
+            set y(value) {
+                viewport.y = value;
+            },
+            get width() {
+                return viewport.width;
+            },
+            set width(value) {
+                viewport.width = value;
+            },
+            get height() {
+                return viewport.height;
+            },
+            set height(value) {
+                viewport.height = value;
+            },
+            setSize: function (width, height, updateStyle) {
+                canvas.width = width * devicePixelRatio;
+                canvas.height = height * devicePixelRatio;
+                if (updateStyle !== false) {
+                    canvas.style.width = width + 'px';
+                    canvas.style.height = height + 'px';
+                }
+                setViewport(0, 0, width, height);
+            }
+        };
+        var attributes = {
+            'alpha': alpha,
+            'depth': depth,
+            'stencil': stencil,
+            'antialias': antialias,
+            'premultipliedAlpha': premultipliedAlpha,
+            'preserveDrawingBuffer': preserveDrawingBuffer
+        };
+        return publicAPI;
+    };
+    return viewport;
+});
+
+define('davinci-eight/renderers/webGLRenderer',["require", "exports", '../renderers/renderer', '../checks/expectArg', '../core/Color'], function (require, exports, renderer, expectArg, Color) {
+    var webGLRenderer = function (canvas) {
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        var base = renderer(canvas);
+        var gl;
+        var glId;
+        var autoClear = true;
+        var clearColor = Color.fromRGB(0, 0, 0);
+        var clearAlpha = 0;
+        var self = {
+            contextFree: function () {
+                gl = void 0;
+                glId = void 0;
+                return base.contextFree();
+            },
+            contextGain: function (context, contextId) {
+                expectArg('contextId', contextId).toBeString();
+                var attributes = context.getContextAttributes();
+                //console.log(context.getParameter(context.VERSION));
+                //console.log("alpha                 => " + attributes.alpha);
+                //console.log("antialias             => " + attributes.antialias);
+                //console.log("depth                 => " + attributes.depth);
+                //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+                //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+                //console.log("stencil               => " + attributes.stencil);
+                gl = context;
+                glId = contextId;
+                gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
+                gl.clearDepth(1.0);
+                gl.enable(gl.DEPTH_TEST);
+                gl.depthFunc(gl.LEQUAL);
+                gl.viewport(0, 0, canvas.width, canvas.height);
+                return base.contextGain(context, contextId);
+            },
+            contextLoss: function () {
+                gl = void 0;
+                glId = void 0;
+                return base.contextLoss();
+            },
+            hasContext: function () {
+                return base.hasContext();
+            },
+            get autoClear() {
+                return autoClear;
+            },
+            set autoClear(value) {
+                expectArg('autoClear', value).toBeBoolean();
+                autoClear = value;
+            },
+            clearColor: function (red, green, blue, alpha) {
+                clearColor.red = red;
+                clearColor.green = green;
+                clearColor.blue = blue;
+                clearAlpha = alpha;
+                if (gl) {
+                    gl.clearColor(red, green, blue, alpha);
+                }
+                return self;
+            },
+            render: function (drawList, view) {
+                if (autoClear && gl) {
+                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                }
+                return base.render(drawList, view);
+            }
+        };
+        return self;
+    };
+    return webGLRenderer;
 });
 
 define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor', '../checks/expectArg'], function (require, exports, Color, Symbolic, UniformColor, expectArg) {
@@ -10337,7 +10518,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core', 'davinci-eight/core/object3D', 'davinci-eight/cameras/view', 'davinci-eight/core/Color', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/drawLists/drawList', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/objects/drawableModel', 'davinci-eight/core/Face3', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/Arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, DataUsage, DrawMode, core, object3D, view, Color, frustum, perspective, drawList, renderer, viewport, webGLRenderer, drawableModel, Face3, ShaderAttribLocation, ShaderUniformLocation, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderBuilder, sphereMesh, SphereBuilder, vortexMesh, arrow, Arrow, box, cylinder, sphere, vortex, Curve, initWebGL, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/drawList', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DefaultUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, view, frustum, perspective, Color, DataUsage, DrawMode, Face3, core, primitive, ShaderAttribLocation, ShaderUniformLocation, drawList, Geometry, GeometryAdapter, ArrowGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, viewport, webGLRenderer, AmbientLight, ChainedUniformProvider, DefaultUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -10365,7 +10546,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get frustum() { return frustum; },
         get perspective() { return perspective; },
         get drawList() { return drawList; },
-        object3D: object3D,
         get renderer() { return renderer; },
         get viewport() { return viewport; },
         get webGLRenderer() { return webGLRenderer; },
@@ -10373,7 +10553,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         workbench: workbench3D,
         animation: windowAnimationRunner,
         get DataUsage() { return DataUsage; },
-        get drawableModel() { return drawableModel; },
+        get primitive() { return primitive; },
         get DrawMode() { return DrawMode; },
         get ShaderAttribLocation() { return ShaderAttribLocation; },
         get ShaderUniformLocation() { return ShaderUniformLocation; },
@@ -10396,6 +10576,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get ArrowGeometry() { return ArrowGeometry; },
         get BoxGeometry() { return BoxGeometry; },
         get CylinderGeometry() { return CylinderGeometry; },
+        get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
         get DodecahedronGeometry() { return DodecahedronGeometry; },
         get IcosahedronGeometry() { return IcosahedronGeometry; },
         get KleinBottleGeometry() { return KleinBottleGeometry; },
@@ -10435,13 +10616,12 @@ define('davinci-eight',["require", "exports", 'davinci-eight/core/DataUsage', 'd
         get boxMesh() { return boxMesh; },
         get BoxBuilder() { return BoxBuilder; },
         get cylinderMesh() { return cylinderMesh; },
-        get CylinderBuilder() { return CylinderBuilder; },
+        get CylinderArgs() { return CylinderArgs; },
         get sphereMesh() { return sphereMesh; },
         get SphereBuilder() { return SphereBuilder; },
         get vortexMesh() { return vortexMesh; },
         // objects
         get arrow() { return arrow; },
-        get Arrow() { return Arrow; },
         get box() { return box; },
         get cylinder() { return cylinder; },
         get sphere() { return sphere; },

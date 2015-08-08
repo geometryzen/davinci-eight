@@ -1,17 +1,18 @@
 import AttribProvider = require('../core/AttribProvider');
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 import Node = require('../uniforms/Node');
-import DrawableModel = require('../objects/DrawableModel');
-import drawableModel = require('../objects/drawableModel');
+import Primitive = require('../core/Primitive');
+import primitive = require('../objects/primitive');
 import cylinderMesh = require('../mesh/cylinderMesh');
 import smartProgram = require('../programs/smartProgram');
 import UniformProvider = require('../core/UniformProvider');
+import CylinderOptions = require('../mesh/CylinderOptions');
 
-function cylinder(ambients: UniformProvider): DrawableModel<AttribProvider, ShaderProgram, Node> {
-  let mesh = cylinderMesh();
+function cylinder(ambients: UniformProvider, options?: CylinderOptions): Primitive<AttribProvider, ShaderProgram, Node> {
+  let mesh = cylinderMesh(options);
   let model = new Node();
   let shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-  return drawableModel(mesh, shaders, model);
+  return primitive(mesh, shaders, model);
 }
 
 export = cylinder;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.48.0</em>
+            <em>API Docs for: 2.49.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -58,7 +58,7 @@
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
-                                <li><a href="../classes/CylinderBuilder.html">CylinderBuilder</a></li>
+                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
                                 <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -77,9 +77,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/Node3D.html">Node3D</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -103,8 +102,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -162,11 +161,13 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
  */
 class ArrowBuilder {
   private $axis: Vector3 = Vector3.e3.clone();
+  private $flavor: number;
   private $height: number;
   private $depth: number;
   private $widthSegments: number;
   private $heightSegments: number;
   private $depthSegments: number;
+  private $coneHeight: number;
   private $wireFrame: boolean;
   constructor(options?: ArrowOptions) {
     options = options || {modelMatrix: &#x27;uModelMatrix&#x27;};
@@ -176,10 +177,14 @@ class ArrowBuilder {
 //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
 //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
 //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+    this.setFlavor(isUndefined(options.flavor) ? 0 : options.flavor);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
   }
   get axis(): Cartesian3 {
     return this.$axis;
+  }
+  get flavor() {
+    return this.$flavor;
   }
   get height() {
     return this.$height;
@@ -196,12 +201,20 @@ class ArrowBuilder {
   get depthSegments() {
     return this.$depthSegments;
   }
+  get coneHeight() {
+    return this.$coneHeight;
+  }
   get wireFrame() {
     return this.$wireFrame;
   }
   setAxis(axis: Cartesian3): ArrowBuilder {
     expectArg(&#x27;axis&#x27;, axis).toBeObject();
     this.$axis.copy(axis);
+    return this;
+  }
+  setFlavor(flavor: number): ArrowBuilder {
+    expectArg(&#x27;flavor&#x27;, flavor).toBeNumber().toSatisfy(flavor &gt;= 0, &quot;flavor must be greater than or equal to zero.&quot;);
+    this.$flavor = flavor;
     return this;
   }
   setHeight(height: number): ArrowBuilder {
@@ -227,6 +240,11 @@ class ArrowBuilder {
   setDepthSegments(depthSegments: number): ArrowBuilder {
     expectArg(&#x27;depthSegments&#x27;, depthSegments).toBeNumber().toSatisfy(depthSegments &gt; 0, &quot;depthSegments must be greater than zero.&quot;);
     this.$depthSegments = depthSegments;
+    return this;
+  }
+  setConeHeight(coneHeight: number): ArrowBuilder {
+    expectArg(&#x27;coneHeight&#x27;, coneHeight).toBeNumber().toSatisfy(coneHeight &gt;= 0, &quot;coneHeight must be positive.&quot;);
+    this.$coneHeight = coneHeight;
     return this;
   }
   setWireFrame(wireFrame: boolean) {

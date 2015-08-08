@@ -663,11 +663,17 @@ declare module EIGHT
   /**
    * The combination of a geometry, model and a shaderProgram.
    */
-  interface DrawableModel<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Drawable
+  interface Primitive<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Drawable
   {
     mesh: MESH;
     shaders: SHADERS;
     model: MODEL;
+  }
+  interface Composite<M> extends Drawable {
+    model: M;
+  }
+  interface Blade<M> extends Composite<M> {
+    setMagnitude(magnitude: number): Blade<M>;
   }
   class Renderer extends RenderingContextUser
   {
@@ -791,7 +797,7 @@ declare module EIGHT
    * @param geometry
    * @param shaderProgram
    */
-  function drawableModel<A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaders: S, uniforms: U): DrawableModel<A, S, U>;
+  function primitive<A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaders: S, uniforms: U): Primitive<A, S, U>;
   /**
    *
    */
@@ -836,6 +842,8 @@ declare module EIGHT
    */
   interface ArrowOptions {
     axis?: Cartesian3;
+    flavor?: number;
+    coneHeight?: number;
     wireFrame?: boolean;
   }
   /**
@@ -843,9 +851,13 @@ declare module EIGHT
    */
   class ArrowBuilder {
     axis: Cartesian3;
+    flavor: number;
+    coneHeight: number;
     wireFrame: boolean;
     constructor(options?: ArrowOptions);
     setAxis(axis: Cartesian3): ArrowBuilder;
+    setFlavor(flavor: number): ArrowBuilder;
+    setConeHeight(coneHeight: number): ArrowBuilder;
     setWireFrame(wireFrame: boolean): ArrowBuilder;
     buildMesh(): AttribProvider;
   }
@@ -856,23 +868,7 @@ declare module EIGHT
   /**
    *
    */
-  function arrow(ambients: UniformProvider, options?: ArrowOptions): DrawableModel<AttribProvider, ShaderProgram, LocalModel>;
-  /**
-   *
-   */
-  class Arrow implements Drawable {
-    position: Vector3;
-    attitude: Spinor3;
-    color: Color;
-    drawGroupName: string;
-    constructor(ambients: UniformProvider);
-    useProgram(): void;
-    draw(ambients: UniformProvider): void;
-    contextLoss(): void;
-    contextGain(context: WebGLRenderingContext, contextId: string): void;
-    contextFree(): void;
-    hasContext(): boolean;
-  }
+  function arrow(ambients: UniformProvider, options?: ArrowOptions): Blade<Node>;
   /**
    *
    */
@@ -917,7 +913,7 @@ declare module EIGHT
   /**
    *
    */
-  function box(ambients: UniformProvider, options: BoxOptions): DrawableModel<AttribProvider, ShaderProgram, Node>;
+  function box(ambients: UniformProvider, options: BoxOptions): Primitive<AttribProvider, ShaderProgram, Node>;
   /**
    *
    */
@@ -929,30 +925,24 @@ declare module EIGHT
   /**
    *
    */
-  class CylinderBuilder {
+  class CylinderArgs {
     radiusTop: number;
     radiusBottom: number;
     height: number;
     constructor(options?: CylinderOptions);
-    setRadiusTop(radiusTop: number): CylinderBuilder;
-    setRadiusBottom(radiusBottom: number): CylinderBuilder;
-    setHeight(height: number): CylinderBuilder;
+    setRadiusTop(radiusTop: number): CylinderArgs;
+    setRadiusBottom(radiusBottom: number): CylinderArgs;
+    setHeight(height: number): CylinderArgs;
     buildMesh(): AttribProvider;
   }
   /**
    * Constructs and returns a cylinder mesh.
    */
-  function cylinderMesh(
-    options?: {
-      wireFrame?: boolean
-    }
-  ): AttribProvider;
+  function cylinderMesh(options?: CylinderOptions): AttribProvider;
   /**
    *
    */
-  function cylinder(
-    ambients: UniformProvider
-  ): DrawableModel<AttribProvider, ShaderProgram, LocalModel>;
+  function cylinder(ambients: UniformProvider, options?: CylinderOptions): Primitive<AttribProvider, ShaderProgram, LocalModel>;
   /**
    *
    */
@@ -996,7 +986,7 @@ declare module EIGHT
   /**
    *
    */
-  function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttribProvider, ShaderProgram, LocalModel>;
+  function sphere(ambients: UniformProvider, options?: SphereOptions): Primitive<AttribProvider, ShaderProgram, LocalModel>;
   /**
    * Constructs and returns an vortex mesh.
    */
@@ -1010,7 +1000,7 @@ declare module EIGHT
    */
   function vortex(
     ambients: UniformProvider
-  ): DrawableModel<AttribProvider, ShaderProgram, LocalModel>;
+  ): Primitive<AttribProvider, ShaderProgram, LocalModel>;
   /**
    *
    */

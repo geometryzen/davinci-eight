@@ -1,8 +1,8 @@
 import AttribProvider = require('../core/AttribProvider');
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 import Node = require('../uniforms/Node');
-import DrawableModel = require('../objects/DrawableModel');
+import Primitive = require('../core/Primitive');
 import UniformProvider = require('../core/UniformProvider');
 import SphereOptions = require('../mesh/SphereOptions');
-declare function sphere(ambients: UniformProvider, options?: SphereOptions): DrawableModel<AttribProvider, ShaderProgram, Node>;
+declare function sphere(ambients: UniformProvider, options?: SphereOptions): Primitive<AttribProvider, ShaderProgram, Node>;
 export = sphere;

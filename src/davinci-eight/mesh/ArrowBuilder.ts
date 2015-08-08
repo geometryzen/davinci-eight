@@ -11,11 +11,13 @@ import Vector3 = require('../math/Vector3');
  */
 class ArrowBuilder {
   private $axis: Vector3 = Vector3.e3.clone();
+  private $flavor: number;
   private $height: number;
   private $depth: number;
   private $widthSegments: number;
   private $heightSegments: number;
   private $depthSegments: number;
+  private $coneHeight: number;
   private $wireFrame: boolean;
   constructor(options?: ArrowOptions) {
     options = options || {modelMatrix: 'uModelMatrix'};
@@ -25,10 +27,14 @@ class ArrowBuilder {
 //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
 //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
 //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+    this.setFlavor(isUndefined(options.flavor) ? 0 : options.flavor);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
   }
   get axis(): Cartesian3 {
     return this.$axis;
+  }
+  get flavor() {
+    return this.$flavor;
   }
   get height() {
     return this.$height;
@@ -45,12 +51,20 @@ class ArrowBuilder {
   get depthSegments() {
     return this.$depthSegments;
   }
+  get coneHeight() {
+    return this.$coneHeight;
+  }
   get wireFrame() {
     return this.$wireFrame;
   }
   setAxis(axis: Cartesian3): ArrowBuilder {
     expectArg('axis', axis).toBeObject();
     this.$axis.copy(axis);
+    return this;
+  }
+  setFlavor(flavor: number): ArrowBuilder {
+    expectArg('flavor', flavor).toBeNumber().toSatisfy(flavor >= 0, "flavor must be greater than or equal to zero.");
+    this.$flavor = flavor;
     return this;
   }
   setHeight(height: number): ArrowBuilder {
@@ -76,6 +90,11 @@ class ArrowBuilder {
   setDepthSegments(depthSegments: number): ArrowBuilder {
     expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
     this.$depthSegments = depthSegments;
+    return this;
+  }
+  setConeHeight(coneHeight: number): ArrowBuilder {
+    expectArg('coneHeight', coneHeight).toBeNumber().toSatisfy(coneHeight >= 0, "coneHeight must be positive.");
+    this.$coneHeight = coneHeight;
     return this;
   }
   setWireFrame(wireFrame: boolean) {

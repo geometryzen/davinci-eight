@@ -1,32 +1,31 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 
-// core
-import DataUsage = require('davinci-eight/core/DataUsage');
-import DrawMode = require('davinci-eight/core/DrawMode');
-import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
-import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
-import AttribProvider = require('davinci-eight/core/AttribProvider');
-import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
-import core = require('davinci-eight/core');
-import Node3D = require('davinci-eight/core/Node3D');
-import object3D = require('davinci-eight/core/object3D');
-import view = require('davinci-eight/cameras/view');
-import Color = require('davinci-eight/core/Color');
-import View = require('davinci-eight/cameras/View');
+// cameras
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
+import view = require('davinci-eight/cameras/view');
 import frustum = require('davinci-eight/cameras/frustum');
 import perspective = require('davinci-eight/cameras/perspective');
-import drawList = require('davinci-eight/drawLists/drawList');
-import DrawList = require('davinci-eight/drawLists/DrawList');
-import renderer = require('davinci-eight/renderers/renderer');
-import viewport = require('davinci-eight/renderers/viewport');
-import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
-import drawableModel = require('davinci-eight/objects/drawableModel');
-import UniformProvider = require('davinci-eight/core/UniformProvider');
+import View = require('davinci-eight/cameras/View');
+// core
+import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
+import AttribProvider = require('davinci-eight/core/AttribProvider');
+import Color = require('davinci-eight/core/Color');
+import Composite = require('davinci-eight/core/Composite');
+import DataUsage = require('davinci-eight/core/DataUsage');
+import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
+import Primitive = require('davinci-eight/core/Primitive');
+import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
+import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
+import core = require('davinci-eight/core');
+import primitive = require('davinci-eight/objects/primitive');
+import UniformProvider = require('davinci-eight/core/UniformProvider');
 import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
+// drawLists
+import drawList = require('davinci-eight/drawLists/drawList');
+import DrawList = require('davinci-eight/drawLists/DrawList');
 // geometries
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -34,6 +33,7 @@ import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -66,7 +66,7 @@ import BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 import BoxOptions = require('davinci-eight/mesh/BoxOptions');
 
 import cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
-import CylinderBuilder = require('davinci-eight/mesh/CylinderBuilder');
+import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
 
 import sphereMesh = require('davinci-eight/mesh/sphereMesh');
@@ -76,16 +76,15 @@ import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 import vortexMesh = require('davinci-eight/mesh/vortexMesh');
 
 // objects
+import Blade = require('davinci-eight/objects/Blade');
 import arrow = require('davinci-eight/objects/arrow');
-import Arrow = require('davinci-eight/objects/Arrow');
 import box = require('davinci-eight/objects/box');
 import cylinder = require('davinci-eight/objects/cylinder');
 import sphere = require('davinci-eight/objects/sphere');
 import vortex = require('davinci-eight/objects/vortex');
-import DrawableModel = require('davinci-eight/objects/DrawableModel');
 import Curve = require('davinci-eight/curves/Curve');
 // programs
-import ShaderProgram = require('davinci-eight/programs/ShaderProgram');
+import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 // renderers
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
@@ -93,6 +92,9 @@ import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
 import Viewport = require('davinci-eight/renderers/Viewport');
 import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import initWebGL = require('davinci-eight/renderers/initWebGL');
+import renderer = require('davinci-eight/renderers/renderer');
+import viewport = require('davinci-eight/renderers/viewport');
+import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 // uniforms
 import AmbientLight               = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
@@ -147,7 +149,6 @@ var eight = {
   get frustum() { return frustum; },
   get perspective() { return perspective; },
   get drawList() { return drawList; },
-  object3D: object3D,
   get renderer() { return renderer; },
   get viewport() { return viewport; },
   get webGLRenderer() { return webGLRenderer; },
@@ -155,7 +156,7 @@ var eight = {
   workbench: workbench3D,
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
-  get drawableModel() { return drawableModel; },
+  get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
   get ShaderUniformLocation() { return ShaderUniformLocation; },
@@ -178,6 +179,7 @@ var eight = {
   get ArrowGeometry() { return ArrowGeometry; },
   get BoxGeometry() { return BoxGeometry; },
   get CylinderGeometry() { return CylinderGeometry; },
+  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
   get DodecahedronGeometry() { return DodecahedronGeometry; },
   get IcosahedronGeometry() { return IcosahedronGeometry; },
   get KleinBottleGeometry() { return KleinBottleGeometry; },
@@ -219,7 +221,7 @@ var eight = {
   get BoxBuilder() { return BoxBuilder; },
   
   get cylinderMesh() { return cylinderMesh; },
-  get CylinderBuilder() { return CylinderBuilder; },
+  get CylinderArgs() { return CylinderArgs; },
 
   get sphereMesh() { return sphereMesh; },
   get SphereBuilder() { return SphereBuilder; },
@@ -227,7 +229,6 @@ var eight = {
   get vortexMesh() { return vortexMesh; },
   // objects
   get arrow() { return arrow; },
-  get Arrow() { return Arrow; },
   get box() { return box; },
   get cylinder() { return cylinder; },
   get sphere() { return sphere; },

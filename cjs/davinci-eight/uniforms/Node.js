@@ -42,7 +42,6 @@ var Node = (function (_super) {
         this.attitude = new Spinor3();
         this.scale = new Vector3([1, 1, 1]);
         this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
-        this.uColor.data = Color.fromRGB(1, 1, 1);
     }
     Object.defineProperty(Node.prototype, "color", {
         get: function () {
@@ -59,7 +58,25 @@ var Node = (function (_super) {
      * @param name {string}
      */
     Node.prototype.getUniformVector3 = function (name) {
-        return this.uColor.getUniformVector3(name);
+        //console.log("getUniformVector3(name='" + name + "')");
+        switch (name) {
+            case this.colorVarName:
+                {
+                    if (this.uColor.data) {
+                        return this.uColor.getUniformVector3(name);
+                    }
+                    else if (this.getParent()) {
+                        return this.getParent().getUniformVector3(name);
+                    }
+                    else {
+                        return Color.fromRGB(1, 1, 1).data;
+                    }
+                }
+                break;
+            default: {
+                return _super.prototype.getUniformVector3.call(this, name);
+            }
+        }
     };
     /**
      * @method getUniformMatrix3

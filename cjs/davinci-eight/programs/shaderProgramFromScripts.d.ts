@@ -1,4 +1,4 @@
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 /**
  * @method shaderProgramFromScripts
  * @param vsId {string} The vertex shader script element identifier.

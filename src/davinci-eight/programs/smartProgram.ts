@@ -1,6 +1,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import shaderProgram = require('./shaderProgram');
-import ShaderProgram = require('../programs/ShaderProgram');
+import ShaderProgram = require('../core/ShaderProgram');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 
