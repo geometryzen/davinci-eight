@@ -9,6 +9,7 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
 import expectArg = require('../checks/expectArg');
 
@@ -159,7 +160,12 @@ let perspective = function(options?: {
     },
     getUniformMeta(): UniformMetaInfos {
       var uniforms: UniformMetaInfos = base.getUniformMeta();
-      uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: projectionMatrixName, glslType: 'mat4'};
+      if (isDefined(options.projectionMatrixName)) {
+        uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: options.projectionMatrixName, glslType: 'mat4'};
+      }
+      else {
+        uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {glslType: 'mat4'};
+      }
       return uniforms;
     }
   };

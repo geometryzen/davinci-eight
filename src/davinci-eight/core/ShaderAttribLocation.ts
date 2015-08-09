@@ -22,6 +22,8 @@ class ShaderAttribLocation {
   /**
    * @property glslType {string} The type of the variable as it appears in the GLSL program. 
    */
+  // This property is not actually used right now but is retained for future use and for
+  // symmetry with the uniform location abstraction.
   private $glslType: string;
   /**
    * Index of target attribute in the buffer.

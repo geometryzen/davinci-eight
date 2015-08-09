@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.49.0</em>
+            <em>API Docs for: 2.50.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -635,16 +635,19 @@ declare module EIGHT
     setUp(up: Cartesian3): Perspective;
   }
   interface AttribMetaInfo {
-    name: string,
     glslType: string,
     size: number,
+    /**
+     * An optional override of the name that appers as the key in AttributeMetaInfos.
+     */
+    name?: string,
     type?: number,
-    normalized: boolean,
-    stride: number,
-    offset: number
+    normalized?: boolean,
+    stride?: number,
+    offset?: number
   }
   interface AttribMetaInfos {
-    [property: string]: AttribMetaInfo;
+    [name: string]: AttribMetaInfo;
   }
   /**
    * ShaderVariableDecl

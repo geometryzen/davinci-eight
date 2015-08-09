@@ -1,6 +1,7 @@
 var view = require('davinci-eight/cameras/view');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Symbolic = require('davinci-eight/core/Symbolic');
+var isDefined = require('../checks/isDefined');
 var isUndefined = require('../checks/isUndefined');
 var expectArg = require('../checks/expectArg');
 //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
@@ -138,7 +139,12 @@ var perspective = function (options) {
         },
         getUniformMeta: function () {
             var uniforms = base.getUniformMeta();
-            uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: projectionMatrixName, glslType: 'mat4' };
+            if (isDefined(options.projectionMatrixName)) {
+                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: options.projectionMatrixName, glslType: 'mat4' };
+            }
+            else {
+                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { glslType: 'mat4' };
+            }
             return uniforms;
         }
     };

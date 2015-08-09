@@ -1,5 +1,10 @@
 var shaderProgram = require('./shaderProgram');
 var Symbolic = require('../core/Symbolic');
+var getAttribVarName = require('../core/getAttribVarName');
+var getUniformVarName = require('../core/getUniformVarName');
+function getUniformCodeName(uniforms, name) {
+    return getUniformVarName(uniforms[name], name);
+}
 var SPACE = ' ';
 var ATTRIBUTE = 'attribute' + SPACE;
 var UNIFORM = 'uniform' + SPACE;
@@ -19,10 +24,10 @@ function vLightRequired(uniforms) {
 var vertexShader = function (attributes, uniforms, vLight) {
     var lines = [];
     for (name in attributes) {
-        lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + attributes[name].name + SEMICOLON);
+        lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + getAttribVarName(attributes[name], name) + SEMICOLON);
     }
     for (name in uniforms) {
-        lines.push(UNIFORM + uniforms[name].glslType + SPACE + uniforms[name].name + SEMICOLON);
+        lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
     }
     lines.push("varying highp vec4 vColor;");
     if (vLight) {
@@ -34,77 +39,77 @@ var vertexShader = function (attributes, uniforms, vLight) {
     glPosition.unshift(RPAREN);
     glPosition.unshift("1.0");
     glPosition.unshift(COMMA);
-    glPosition.unshift(attributes[Symbolic.ATTRIBUTE_POSITION].name);
+    glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
     glPosition.unshift(LPAREN);
     glPosition.unshift("vec4");
     if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
         glPosition.unshift(TIMES);
-        glPosition.unshift(uniforms[Symbolic.UNIFORM_MODEL_MATRIX].name);
+        glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
     }
     if (uniforms[Symbolic.UNIFORM_VIEW_MATRIX]) {
         glPosition.unshift(TIMES);
-        glPosition.unshift(uniforms[Symbolic.UNIFORM_VIEW_MATRIX].name);
+        glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX));
     }
     if (uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]) {
         glPosition.unshift(TIMES);
-        glPosition.unshift(uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX].name);
+        glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX));
     }
     glPosition.unshift(ASSIGN);
     glPosition.unshift("gl_Position");
     lines.push(glPosition.join(''));
     var vColorAssignLines = [];
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+        var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
         switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
             case 'vec4':
                 {
-                    lines.push("  vColor = " + attributes[Symbolic.ATTRIBUTE_COLOR].name + SEMICOLON);
+                    lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
                 }
                 break;
             case 'vec3':
                 {
-                    lines.push("  vColor = vec4(" + attributes[Symbolic.ATTRIBUTE_COLOR].name + ", 1.0);");
+                    lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
                 }
                 break;
-            default:
-                {
-                    throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
-                }
+            default: {
+                throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
+            }
         }
     }
     else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+        var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
         switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
             case 'vec4':
                 {
-                    lines.push("  vColor = " + uniforms[Symbolic.UNIFORM_COLOR].name + SEMICOLON);
+                    lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
                 }
                 break;
             case 'vec3':
                 {
-                    lines.push("  vColor = vec4(" + uniforms[Symbolic.UNIFORM_COLOR].name + ", 1.0);");
+                    lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
                 }
                 break;
-            default:
-                {
-                    throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
-                }
+            default: {
+                throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+            }
         }
     }
     lines.push(vColorAssignLines.join(''));
     if (vLight) {
         if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
-            lines.push("  vec3 L = normalize(" + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION].name + ");");
-            lines.push("  vec3 N = normalize(" + uniforms[Symbolic.UNIFORM_NORMAL_MATRIX].name + " * " + attributes[Symbolic.ATTRIBUTE_NORMAL].name + ");");
+            lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
+            lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + ");");
             lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(dot(N, L), 0.0);");
             if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-                lines.push("  vLight = " + uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT].name + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR].name + ";");
+                lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
             }
             else {
-                lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR].name + ";");
+                lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
             }
         }
         else {
             if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-                lines.push("  vLight = " + uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT].name + ";");
+                lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + ";");
             }
             else {
                 lines.push("  vLight = vec3(1.0, 1.0, 1.0);");

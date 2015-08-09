@@ -3,6 +3,7 @@ import Symbolic = require('../core/Symbolic');
 import UniformColor = require('../uniforms/UniformColor');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
+import isDefined = require('../checks/isDefined');
 import expectArg = require('../checks/expectArg');
 
 /**
@@ -20,9 +21,9 @@ class AmbientLight implements UniformProvider {
 
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
-    options.name = options.name || Symbolic.UNIFORM_AMBIENT_LIGHT;
+//    options.name = options.name || Symbolic.UNIFORM_AMBIENT_LIGHT;
 
-    expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
+//    expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
 
     this.uColor = new UniformColor(options.name, Symbolic.UNIFORM_AMBIENT_LIGHT);
     this.uColor.data = options.color;

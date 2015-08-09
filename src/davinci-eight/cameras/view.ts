@@ -18,14 +18,12 @@ import isVariableName = require('../checks/isVariableName');
 let view = function(options?: {viewMatrixName?: string}): View {
 
   options = options || {};
-  let viewMatrixName: string = expectArg('options.viewMatrixName', isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName).toBeString().value;
-  expectArg('viewMatrixName', viewMatrixName).toSatisfy(isVariableName(viewMatrixName),"viewMatrixName must be a variable name");
 
   let eye: Vector3 = new Vector3();
   let look: Vector3 = new Vector3();
   let up: Vector3 = Vector3.e2;
   let viewMatrix: Matrix4 = Matrix4.identity();
-  let base = new UniformMat4(viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
+  let base = new UniformMat4(options.viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
   base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
     if (eye.modified || look.modified || up.modified) {
       updateViewMatrix();

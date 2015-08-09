@@ -485,16 +485,19 @@ declare module EIGHT
     setUp(up: Cartesian3): Perspective;
   }
   interface AttribMetaInfo {
-    name: string,
     glslType: string,
     size: number,
+    /**
+     * An optional override of the name that appers as the key in AttributeMetaInfos.
+     */
+    name?: string,
     type?: number,
-    normalized: boolean,
-    stride: number,
-    offset: number
+    normalized?: boolean,
+    stride?: number,
+    offset?: number
   }
   interface AttribMetaInfos {
-    [property: string]: AttribMetaInfo;
+    [name: string]: AttribMetaInfo;
   }
   /**
    * ShaderVariableDecl

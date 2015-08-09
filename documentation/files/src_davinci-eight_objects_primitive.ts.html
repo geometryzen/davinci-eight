@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.49.0</em>
+            <em>API Docs for: 2.50.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -161,6 +161,9 @@ import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
+import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;);
+import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;);
 
 var primitive = function&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt;(
   mesh: MESH,
@@ -169,10 +172,10 @@ var primitive = function&lt;MESH extends AttribProvider, SHADERS extends ShaderP
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
    */
-  function findAttribMetaInfoByVariableName(name: string, attributes: AttribMetaInfos): AttribMetaInfo {
-    for (var key in attributes) {
-      let attribute = attributes[key];
-      if (attribute.name === name) {
+  function findAttribMetaInfoByVariableName(attribVarName: string, attributes: AttribMetaInfos): AttribMetaInfo {
+    for (var name in attributes) {
+      let attribute = attributes[name];
+      if (getAttribVarName(attribute, name) === attribVarName) {
         return attribute;
       }
     }
@@ -206,7 +209,7 @@ var primitive = function&lt;MESH extends AttribProvider, SHADERS extends ShaderP
       var match: UniformMetaInfo = void 0;
       for (var id in metas) {
         let candidate: UniformMetaInfo = metas[id];
-        if (candidate.name === uniformDecl.name) {
+        if (getUniformVarName(candidate, id) === uniformDecl.name) {
           match = candidate;
         }
       }

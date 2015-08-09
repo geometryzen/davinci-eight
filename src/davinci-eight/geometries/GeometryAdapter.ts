@@ -124,7 +124,7 @@ class GeometryAdapter implements AttribProvider {
     var attribues: AttribMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
-      name: this.positionVarName,
+      overrideName: this.positionVarName,
       glslType: 'vec3',
       size: 3,
       normalized: false,
@@ -146,7 +146,7 @@ class GeometryAdapter implements AttribProvider {
 */
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-        name: this.normalVarName,
+        overrideName: this.normalVarName,
         glslType: 'vec3',
         size: 3,
         normalized: false,

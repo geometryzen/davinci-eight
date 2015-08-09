@@ -6,13 +6,15 @@ var __extends = this.__extends || function (d, b) {
 };
 var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
 var uuid4 = require('../utils/uuid4');
+var isDefined = require('../checks/isDefined');
 var UniformMat4 = (function (_super) {
     __extends(UniformMat4, _super);
     function UniformMat4(name, id) {
         _super.call(this);
         this.useData = true;
-        this.name = name;
+        this.$name = name;
         this.id = typeof id !== 'undefined' ? id : uuid4().generate();
+        this.$varName = isDefined(this.$name) ? this.$name : this.id;
     }
     Object.defineProperty(UniformMat4.prototype, "data", {
         set: function (data) {
@@ -32,7 +34,7 @@ var UniformMat4 = (function (_super) {
     });
     UniformMat4.prototype.getUniformMatrix4 = function (name) {
         switch (name) {
-            case this.name:
+            case this.$varName:
                 {
                     if (this.useData) {
                         return this.$data;
@@ -49,7 +51,12 @@ var UniformMat4 = (function (_super) {
     };
     UniformMat4.prototype.getUniformMeta = function () {
         var uniforms = _super.prototype.getUniformMeta.call(this);
-        uniforms[this.id] = { name: this.name, glslType: 'mat4' };
+        if (isDefined(this.$name)) {
+            uniforms[this.id] = { name: this.$name, glslType: 'mat4' };
+        }
+        else {
+            uniforms[this.id] = { glslType: 'mat4' };
+        }
         return uniforms;
     };
     return UniformMat4;

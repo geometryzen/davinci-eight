@@ -3,9 +3,9 @@
  */
 interface AttribMetaInfo {
   /**
-   *
+   * @property name {string} Specifies an optional override of the name used as a key in AttributeMetaInfos.
    */
-  name: string,
+  name?: string,
   /**
    * @property glslType {string} The type keyword as it appears in the GLSL shader program.
    * This property is used for program generation.
@@ -20,9 +20,9 @@ interface AttribMetaInfo {
    * Use either gl.FLOAT (default) or gl.FIXED.
    */
   type?: number,
-  normalized: boolean,
-  stride: number,
-  offset: number
+  normalized?: boolean,
+  stride?: number,
+  offset?: number
 }
 
 export = AttribMetaInfo;

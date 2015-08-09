@@ -3,21 +3,17 @@ var Matrix4 = require('../math/Matrix4');
 var Symbolic = require('../core/Symbolic');
 var UniformMat4 = require('../uniforms/UniformMat4');
 var expectArg = require('../checks/expectArg');
-var isUndefined = require('../checks/isUndefined');
-var isVariableName = require('../checks/isVariableName');
 /**
  * @class view
  * @constructor
  */
 var view = function (options) {
     options = options || {};
-    var viewMatrixName = expectArg('options.viewMatrixName', isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName).toBeString().value;
-    expectArg('viewMatrixName', viewMatrixName).toSatisfy(isVariableName(viewMatrixName), "viewMatrixName must be a variable name");
     var eye = new Vector3();
     var look = new Vector3();
     var up = Vector3.e2;
     var viewMatrix = Matrix4.identity();
-    var base = new UniformMat4(viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
+    var base = new UniformMat4(options.viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
     base.callback = function () {
         if (eye.modified || look.modified || up.modified) {
             updateViewMatrix();

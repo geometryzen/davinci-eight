@@ -1,12 +1,12 @@
-define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider'], function (require, exports, ElementArray, ChainedUniformProvider) {
+define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider', '../core/getAttribVarName', '../core/getUniformVarName'], function (require, exports, ElementArray, ChainedUniformProvider, getAttribVarName, getUniformVarName) {
     var primitive = function (mesh, shaders, model) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
          */
-        function findAttribMetaInfoByVariableName(name, attributes) {
-            for (var key in attributes) {
-                var attribute = attributes[key];
-                if (attribute.name === name) {
+        function findAttribMetaInfoByVariableName(attribVarName, attributes) {
+            for (var name in attributes) {
+                var attribute = attributes[name];
+                if (getAttribVarName(attribute, name) === attribVarName) {
                     return attribute;
                 }
             }
@@ -39,7 +39,7 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                 var match = void 0;
                 for (var id in metas) {
                     var candidate = metas[id];
-                    if (candidate.name === uniformDecl.name) {
+                    if (getUniformVarName(candidate, id) === uniformDecl.name) {
                         match = candidate;
                     }
                 }

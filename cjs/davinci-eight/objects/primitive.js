@@ -1,13 +1,15 @@
 var ElementArray = require('../core/ElementArray');
 var ChainedUniformProvider = require('../uniforms/ChainedUniformProvider');
+var getAttribVarName = require('../core/getAttribVarName');
+var getUniformVarName = require('../core/getUniformVarName');
 var primitive = function (mesh, shaders, model) {
     /**
      * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
      */
-    function findAttribMetaInfoByVariableName(name, attributes) {
-        for (var key in attributes) {
-            var attribute = attributes[key];
-            if (attribute.name === name) {
+    function findAttribMetaInfoByVariableName(attribVarName, attributes) {
+        for (var name in attributes) {
+            var attribute = attributes[name];
+            if (getAttribVarName(attribute, name) === attribVarName) {
                 return attribute;
             }
         }
@@ -40,7 +42,7 @@ var primitive = function (mesh, shaders, model) {
             var match = void 0;
             for (var id in metas) {
                 var candidate = metas[id];
-                if (candidate.name === uniformDecl.name) {
+                if (getUniformVarName(candidate, id) === uniformDecl.name) {
                     match = candidate;
                 }
             }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.49.0</em>
+            <em>API Docs for: 2.50.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -274,7 +274,7 @@ class GeometryAdapter implements AttribProvider {
     var attribues: AttribMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
-      name: this.positionVarName,
+      overrideName: this.positionVarName,
       glslType: &#x27;vec3&#x27;,
       size: 3,
       normalized: false,
@@ -296,7 +296,7 @@ class GeometryAdapter implements AttribProvider {
 */
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-        name: this.normalVarName,
+        overrideName: this.normalVarName,
         glslType: &#x27;vec3&#x27;,
         size: 3,
         normalized: false,

@@ -11,6 +11,9 @@ import AttribProvider = require('../core/AttribProvider');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
+import isDefined = require('../checks/isDefined');
+import getAttribVarName = require('../core/getAttribVarName');
+import getUniformVarName = require('../core/getUniformVarName');
 
 var primitive = function<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(
   mesh: MESH,
@@ -19,10 +22,10 @@ var primitive = function<MESH extends AttribProvider, SHADERS extends ShaderProg
   /**
    * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
    */
-  function findAttribMetaInfoByVariableName(name: string, attributes: AttribMetaInfos): AttribMetaInfo {
-    for (var key in attributes) {
-      let attribute = attributes[key];
-      if (attribute.name === name) {
+  function findAttribMetaInfoByVariableName(attribVarName: string, attributes: AttribMetaInfos): AttribMetaInfo {
+    for (var name in attributes) {
+      let attribute = attributes[name];
+      if (getAttribVarName(attribute, name) === attribVarName) {
         return attribute;
       }
     }
@@ -56,7 +59,7 @@ var primitive = function<MESH extends AttribProvider, SHADERS extends ShaderProg
       var match: UniformMetaInfo = void 0;
       for (var id in metas) {
         let candidate: UniformMetaInfo = metas[id];
-        if (candidate.name === uniformDecl.name) {
+        if (getUniformVarName(candidate, id) === uniformDecl.name) {
           match = candidate;
         }
       }

@@ -6,6 +6,7 @@ import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import UniformVector3 = require('../uniforms/UniformVector3');
 import Vector3 = require('../math/Vector3');
+import isDefined = require('../checks/isDefined');
 
 let DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
 
@@ -26,10 +27,12 @@ class DirectionalLight implements UniformProvider {
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
     options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
-    options.name = options.name || DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME;
 
-    this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
-    this.uDirection = new UniformVector3(options.name + 'Direction', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
+    let colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
+    let directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
+
+    this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+    this.uDirection = new UniformVector3(directionName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
 
     this.uColor.data = options.color;

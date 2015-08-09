@@ -3,18 +3,21 @@ import UniformMetaInfos = require('../core/UniformMetaInfos');
 import uuid4 = require('../utils/uuid4');
 import UniformVariable = require('../uniforms/UniformVariable');
 import expectArg = require('../checks/expectArg');
+import isDefined = require('../checks/isDefined');
 
 class UniformVec3 extends DefaultUniformProvider implements UniformVariable<number[]> {
-  private name: string;
+  private $name: string;
   private $data: number[];
   private $callback: () => number[];
   private useData: boolean = false;
   private useCallback = false;
   private id: string;
+  private $varName: string;
   constructor(name: string, id?: string) {
     super();
-    this.name = name;
+    this.$name = name;
     this.id = typeof id !== 'undefined' ? id: uuid4().generate();
+    this.$varName = isDefined(this.$name) ? this.$name : this.id;
   }
   get data() {
     return this.$data;
@@ -44,7 +47,7 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
   }
   getUniformVector3(name: string): number[] {
     switch(name) {
-      case this.name: {
+      case this.$varName: {
         if (this.useData) {
           return this.$data;
         }
@@ -52,7 +55,7 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
           return this.$callback();
         }
         else {
-          let message = "uniform vec3 " + this.name + " has not been assigned a data or callback.";
+          let message = "uniform vec3 " + this.$varName + " has not been assigned a data or callback.";
           console.warn(message);
           throw new Error(message);
         }
@@ -65,7 +68,12 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
   }
   getUniformMeta(): UniformMetaInfos {
     var uniforms: UniformMetaInfos = super.getUniformMeta();
-    uniforms[this.id] = {name: this.name, glslType: 'vec3'};
+    if (isDefined(this.$name)) {
+      uniforms[this.id] = {name: this.$name, glslType: 'vec3'};
+    }
+    else {
+      uniforms[this.id] = {glslType: 'vec3'};
+    }
     return uniforms;
   }
 }

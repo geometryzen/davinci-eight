@@ -151,6 +151,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.47.0: 2015-08-04 Arrow
 * 2.48.0: 2015-08-06 Matrix4
 * 2.49.0: 2015-08-07 Arrow
+* 2.50.0: 2015-08-09 attribute and uniform name overrides
 
 ## License
 Copyright (c) 2014-2015 David Holmes

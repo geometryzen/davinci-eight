@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../checks/isUndefined', '../checks/expectArg'], function (require, exports, view, Matrix4, Symbolic, isUndefined, expectArg) {
+define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../checks/isDefined', '../checks/isUndefined', '../checks/expectArg'], function (require, exports, view, Matrix4, Symbolic, isDefined, isUndefined, expectArg) {
     //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     /**
      * @class perspective
@@ -134,7 +134,12 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
             },
             getUniformMeta: function () {
                 var uniforms = base.getUniformMeta();
-                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: projectionMatrixName, glslType: 'mat4' };
+                if (isDefined(options.projectionMatrixName)) {
+                    uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: options.projectionMatrixName, glslType: 'mat4' };
+                }
+                else {
+                    uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { glslType: 'mat4' };
+                }
                 return uniforms;
             }
         };

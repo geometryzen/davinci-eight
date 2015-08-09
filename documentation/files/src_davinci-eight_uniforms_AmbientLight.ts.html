@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.49.0</em>
+            <em>API Docs for: 2.50.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -153,6 +153,7 @@ import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformColor = require(&#x27;../uniforms/UniformColor&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
 /**
@@ -170,9 +171,9 @@ class AmbientLight implements UniformProvider {
 
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
-    options.name = options.name || Symbolic.UNIFORM_AMBIENT_LIGHT;
+//    options.name = options.name || Symbolic.UNIFORM_AMBIENT_LIGHT;
 
-    expectArg(&#x27;options.name&#x27;, options.name).toBeString().toSatisfy(options.name.length &gt; 0, &quot;options.name must have at least one character&quot;);
+//    expectArg(&#x27;options.name&#x27;, options.name).toBeString().toSatisfy(options.name.length &gt; 0, &quot;options.name must have at least one character&quot;);
 
     this.uColor = new UniformColor(options.name, Symbolic.UNIFORM_AMBIENT_LIGHT);
     this.uColor.data = options.color;

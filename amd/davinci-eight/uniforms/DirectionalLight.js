@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../math/Vector3'], function (require, exports, Color, MultiUniformProvider, Symbolic, UniformColor, UniformVector3, Vector3) {
+define(["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../math/Vector3', '../checks/isDefined'], function (require, exports, Color, MultiUniformProvider, Symbolic, UniformColor, UniformVector3, Vector3, isDefined) {
     var DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
     /**
      * Provides a uniform variable representing a directional light.
@@ -13,9 +13,10 @@ define(["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider
             options = options || {};
             options.color = options.color || new Color([1.0, 1.0, 1.0]);
             options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
-            options.name = options.name || DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME;
-            this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
-            this.uDirection = new UniformVector3(options.name + 'Direction', Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
+            var colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
+            var directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
+            this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
+            this.uDirection = new UniformVector3(directionName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
             this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
             this.uColor.data = options.color;
             this.uDirection.data = options.direction;

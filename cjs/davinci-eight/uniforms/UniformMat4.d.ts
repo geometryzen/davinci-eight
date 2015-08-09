@@ -5,12 +5,13 @@ declare class UniformMat4 extends DefaultUniformProvider implements UniformVaria
     transpose: boolean;
     matrix4: Float32Array;
 }> {
-    private name;
+    private $name;
     private $data;
     private $callback;
     private useData;
     private id;
-    constructor(name: string, id?: string);
+    private $varName;
+    constructor(name?: string, id?: string);
     data: {
         transpose: boolean;
         matrix4: Float32Array;

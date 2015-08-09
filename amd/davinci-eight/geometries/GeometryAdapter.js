@@ -104,7 +104,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
         GeometryAdapter.prototype.getAttribMeta = function () {
             var attribues = {};
             attribues[Symbolic.ATTRIBUTE_POSITION] = {
-                name: this.positionVarName,
+                overrideName: this.positionVarName,
                 glslType: 'vec3',
                 size: 3,
                 normalized: false,
@@ -125,7 +125,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             */
             if (this.drawMode === DrawMode.TRIANGLES) {
                 attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-                    name: this.normalVarName,
+                    overrideName: this.normalVarName,
                     glslType: 'vec3',
                     size: 3,
                     normalized: false,
