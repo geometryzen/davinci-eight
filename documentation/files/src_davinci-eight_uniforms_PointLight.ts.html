@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.50.0</em>
+            <em>API Docs for: 2.51.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -89,9 +89,7 @@
                                 <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
-                                <li><a href="../classes/Symbolic
-                Canonical variable names, which act as semantic identifiers..html">Symbolic
-                Canonical variable names, which act as semantic identifiers.</a></li>
+                                <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
@@ -157,8 +155,7 @@ import MultiUniformProvider = require(&#x27;../uniforms/MultiUniformProvider&#x2
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
-
-let DEFAULT_UNIFORM_POINT_LIGHT_NAME = &#x27;u&#x27; + Symbolic.UNIFORM_POINT_LIGHT;
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
 
 /**
  * Provides a uniform variable representing a point light.
@@ -177,10 +174,12 @@ class PointLight implements UniformProvider {
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
     options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
-    options.name = options.name || DEFAULT_UNIFORM_POINT_LIGHT_NAME;
 
-    this.uColor = new UniformColor(options.name + &#x27;Color&#x27;, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-    this.uPosition = new UniformVector3(options.name + &#x27;Position&#x27;, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+    let colorName = isDefined(options.name) ? options.name + &#x27;Color&#x27; : void 0;
+    let directionName = isDefined(options.name) ? options.name + &#x27;Direction&#x27; : void 0;
+
+    this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
+    this.uPosition = new UniformVector3(directionName, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
     this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
     this.uColor.data = options.color;
     this.uPosition.data = options.position;

@@ -8,8 +8,6 @@ import UniformVector3 = require('../uniforms/UniformVector3');
 import Vector3 = require('../math/Vector3');
 import isDefined = require('../checks/isDefined');
 
-let DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
-
 /**
  * Provides a uniform variable representing a directional light.
  * @class DirectionalLight

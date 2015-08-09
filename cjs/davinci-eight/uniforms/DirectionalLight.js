@@ -5,7 +5,6 @@ var UniformColor = require('../uniforms/UniformColor');
 var UniformVector3 = require('../uniforms/UniformVector3');
 var Vector3 = require('../math/Vector3');
 var isDefined = require('../checks/isDefined');
-var DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
 /**
  * Provides a uniform variable representing a directional light.
  * @class DirectionalLight

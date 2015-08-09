@@ -4,7 +4,7 @@ var Symbolic = require('../core/Symbolic');
 var UniformColor = require('../uniforms/UniformColor');
 var UniformVector3 = require('../uniforms/UniformVector3');
 var MultiUniformProvider = require('../uniforms/MultiUniformProvider');
-var DEFAULT_UNIFORM_POINT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_POINT_LIGHT;
+var isDefined = require('../checks/isDefined');
 /**
  * Provides a uniform variable representing a point light.
  * @class PointLight
@@ -18,9 +18,10 @@ var PointLight = (function () {
         options = options || {};
         options.color = options.color || new Color([1.0, 1.0, 1.0]);
         options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
-        options.name = options.name || DEFAULT_UNIFORM_POINT_LIGHT_NAME;
-        this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-        this.uPosition = new UniformVector3(options.name + 'Position', Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+        var colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
+        var directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
+        this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
+        this.uPosition = new UniformVector3(directionName, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
         this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
         this.uColor.data = options.color;
         this.uPosition.data = options.position;

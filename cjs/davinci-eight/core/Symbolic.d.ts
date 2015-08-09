@@ -1,6 +1,7 @@
 /**
+ * Canonical variable names, which also act as semantic identifiers for name overrides.
+ * These names must be stable to avoid breaking custom vertex and fragment shaders.
  * @class Symbolic
- * Canonical variable names, which act as semantic identifiers.
  */
 declare class Symbolic {
     static ATTRIBUTE_COLOR: string;
@@ -18,7 +19,5 @@ declare class Symbolic {
     static UNIFORM_VIEW_MATRIX: string;
     static VARYING_COLOR: string;
     static VARYING_LIGHT: string;
-    static UNIFORM_DIRECTIONAL_LIGHT: string;
-    static UNIFORM_POINT_LIGHT: string;
 }
 export = Symbolic;

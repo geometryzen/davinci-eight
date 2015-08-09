@@ -211,11 +211,14 @@ declare module EIGHT
    *
    */
   interface UniformMetaInfo {
-    name: string;
+    /**
+     * An optional override of the name that appears as the key in UniformMetaInfos.
+     */
+    name?: string;
     glslType: string;
   }
   interface UniformMetaInfos {
-    [property: string]: UniformMetaInfo
+    [name: string]: UniformMetaInfo
   }
   /**
    * Provides the runtime and design time data required to use a uniform in a vertex shader.

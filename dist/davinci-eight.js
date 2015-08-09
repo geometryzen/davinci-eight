@@ -1172,30 +1172,28 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg'
 
 define('davinci-eight/core/Symbolic',["require", "exports"], function (require, exports) {
     /**
+     * Canonical variable names, which also act as semantic identifiers for name overrides.
+     * These names must be stable to avoid breaking custom vertex and fragment shaders.
      * @class Symbolic
-     * Canonical variable names, which act as semantic identifiers.
      */
     var Symbolic = (function () {
         function Symbolic() {
         }
-        Symbolic.ATTRIBUTE_COLOR = 'vertexColor';
-        Symbolic.ATTRIBUTE_NORMAL = 'vertexNormal';
-        Symbolic.ATTRIBUTE_POSITION = 'vertexPosition';
-        Symbolic.UNIFORM_AMBIENT_LIGHT = 'ambientLight';
-        Symbolic.UNIFORM_COLOR = 'color';
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'directionalLightColor';
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'directionalLightDirection';
-        Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'pointLightColor';
-        Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'pointLightPosition';
-        Symbolic.UNIFORM_PROJECTION_MATRIX = 'projectionMatrix';
-        Symbolic.UNIFORM_MODEL_MATRIX = 'modelMatrix';
-        Symbolic.UNIFORM_NORMAL_MATRIX = 'normalMatrix';
-        Symbolic.UNIFORM_VIEW_MATRIX = 'viewMatrix';
+        Symbolic.ATTRIBUTE_COLOR = 'aVertexColor';
+        Symbolic.ATTRIBUTE_NORMAL = 'aVertexNormal';
+        Symbolic.ATTRIBUTE_POSITION = 'aVertexPosition';
+        Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
+        Symbolic.UNIFORM_COLOR = 'uColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
+        Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+        Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjectionMatrix';
+        Symbolic.UNIFORM_MODEL_MATRIX = 'uModelMatrix';
+        Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormalMatrix';
+        Symbolic.UNIFORM_VIEW_MATRIX = 'uViewMatrix';
         Symbolic.VARYING_COLOR = 'vColor';
         Symbolic.VARYING_LIGHT = 'vLight';
-        // FIXME: These are stems, not uniform variable names.
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT = 'DirectionalLight';
-        Symbolic.UNIFORM_POINT_LIGHT = 'PointLight';
         return Symbolic;
     })();
     return Symbolic;
@@ -2001,7 +1999,7 @@ define('davinci-eight/core/Face3',["require", "exports", '../math/Vector3'], fun
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.50.0'
+        VERSION: '2.51.0'
     };
     return core;
 });
@@ -9713,7 +9711,6 @@ define('davinci-eight/uniforms/UniformVector3',["require", "exports", '../math/V
 });
 
 define('davinci-eight/uniforms/DirectionalLight',["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../math/Vector3', '../checks/isDefined'], function (require, exports, Color, MultiUniformProvider, Symbolic, UniformColor, UniformVector3, Vector3, isDefined) {
-    var DEFAULT_UNIFORM_DIRECTIONAL_LIGHT_NAME = 'u' + Symbolic.UNIFORM_DIRECTIONAL_LIGHT;
     /**
      * Provides a uniform variable representing a directional light.
      * @class DirectionalLight
@@ -9939,8 +9936,7 @@ define('davinci-eight/uniforms/UniversalJoint',["require", "exports", '../math/M
     return UniversalJoint;
 });
 
-define('davinci-eight/uniforms/PointLight',["require", "exports", '../core/Color', '../math/Vector3', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../uniforms/MultiUniformProvider'], function (require, exports, Color, Vector3, Symbolic, UniformColor, UniformVector3, MultiUniformProvider) {
-    var DEFAULT_UNIFORM_POINT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_POINT_LIGHT;
+define('davinci-eight/uniforms/PointLight',["require", "exports", '../core/Color', '../math/Vector3', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../uniforms/MultiUniformProvider', '../checks/isDefined'], function (require, exports, Color, Vector3, Symbolic, UniformColor, UniformVector3, MultiUniformProvider, isDefined) {
     /**
      * Provides a uniform variable representing a point light.
      * @class PointLight
@@ -9954,9 +9950,10 @@ define('davinci-eight/uniforms/PointLight',["require", "exports", '../core/Color
             options = options || {};
             options.color = options.color || new Color([1.0, 1.0, 1.0]);
             options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
-            options.name = options.name || DEFAULT_UNIFORM_POINT_LIGHT_NAME;
-            this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-            this.uPosition = new UniformVector3(options.name + 'Position', Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+            var colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
+            var directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
+            this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
+            this.uPosition = new UniformVector3(directionName, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
             this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
             this.uColor.data = options.color;
             this.uPosition.data = options.position;

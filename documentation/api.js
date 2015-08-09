@@ -42,7 +42,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ShaderUniformLocation",
         "ShaderVariableDecl",
         "Spinor3",
-        "Symbolic\nCanonical variable names, which act as semantic identifiers.",
+        "Symbolic",
         "TreeModel",
         "UniformColor",
         "UniformFloat",

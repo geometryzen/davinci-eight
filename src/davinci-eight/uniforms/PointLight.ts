@@ -7,8 +7,7 @@ import MultiUniformProvider = require('../uniforms/MultiUniformProvider');
 import UniformProvider = require('../core/UniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Cartesian3 = require('../math/Cartesian3');
-
-let DEFAULT_UNIFORM_POINT_LIGHT_NAME = 'u' + Symbolic.UNIFORM_POINT_LIGHT;
+import isDefined = require('../checks/isDefined');
 
 /**
  * Provides a uniform variable representing a point light.
@@ -27,10 +26,12 @@ class PointLight implements UniformProvider {
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
     options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
-    options.name = options.name || DEFAULT_UNIFORM_POINT_LIGHT_NAME;
 
-    this.uColor = new UniformColor(options.name + 'Color', Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-    this.uPosition = new UniformVector3(options.name + 'Position', Symbolic.UNIFORM_POINT_LIGHT_POSITION);
+    let colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
+    let directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
+
+    this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
+    this.uPosition = new UniformVector3(directionName, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
     this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
     this.uColor.data = options.color;
     this.uPosition.data = options.position;

@@ -1,29 +1,27 @@
 define(["require", "exports"], function (require, exports) {
     /**
+     * Canonical variable names, which also act as semantic identifiers for name overrides.
+     * These names must be stable to avoid breaking custom vertex and fragment shaders.
      * @class Symbolic
-     * Canonical variable names, which act as semantic identifiers.
      */
     var Symbolic = (function () {
         function Symbolic() {
         }
-        Symbolic.ATTRIBUTE_COLOR = 'vertexColor';
-        Symbolic.ATTRIBUTE_NORMAL = 'vertexNormal';
-        Symbolic.ATTRIBUTE_POSITION = 'vertexPosition';
-        Symbolic.UNIFORM_AMBIENT_LIGHT = 'ambientLight';
-        Symbolic.UNIFORM_COLOR = 'color';
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'directionalLightColor';
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'directionalLightDirection';
-        Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'pointLightColor';
-        Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'pointLightPosition';
-        Symbolic.UNIFORM_PROJECTION_MATRIX = 'projectionMatrix';
-        Symbolic.UNIFORM_MODEL_MATRIX = 'modelMatrix';
-        Symbolic.UNIFORM_NORMAL_MATRIX = 'normalMatrix';
-        Symbolic.UNIFORM_VIEW_MATRIX = 'viewMatrix';
+        Symbolic.ATTRIBUTE_COLOR = 'aVertexColor';
+        Symbolic.ATTRIBUTE_NORMAL = 'aVertexNormal';
+        Symbolic.ATTRIBUTE_POSITION = 'aVertexPosition';
+        Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
+        Symbolic.UNIFORM_COLOR = 'uColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
+        Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+        Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjectionMatrix';
+        Symbolic.UNIFORM_MODEL_MATRIX = 'uModelMatrix';
+        Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormalMatrix';
+        Symbolic.UNIFORM_VIEW_MATRIX = 'uViewMatrix';
         Symbolic.VARYING_COLOR = 'vColor';
         Symbolic.VARYING_LIGHT = 'vLight';
-        // FIXME: These are stems, not uniform variable names.
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT = 'DirectionalLight';
-        Symbolic.UNIFORM_POINT_LIGHT = 'PointLight';
         return Symbolic;
     })();
     return Symbolic;
