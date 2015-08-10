@@ -277,15 +277,8 @@ class GeometryAdapter implements AttribProvider {
               normals.push(nC.z);
           }
           else {
-            // TODO: Why aren't we simply using the pre-calculated face normals?
-            // Make copies where needed to avoid mutating the geometry.
-            let a: Vector3 = vertexList[face.a];
-            let b: Vector3 = vertexList[face.b].clone();
-            let c: Vector3 = vertexList[face.c].clone();
-
-            let perp: Vector3 = b.sub(a).cross(c.sub(a));
-            // TODO: This is simply the normalize() function.
-            let normal: Vector3 = perp.divideScalar(perp.length());
+            // We assume that face normals have been computed!
+            let normal: Vector3 = face.normal;
 
             normals.push(normal.x);
             normals.push(normal.y);

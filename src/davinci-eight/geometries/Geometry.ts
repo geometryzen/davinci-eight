@@ -24,27 +24,26 @@ import Vector3 = require('../math/Vector3');
     }
     this.boundingSphere.setFromPoints(this.vertices);
   }
+  /**
+   * Ensures that the normal property of each face is assigned
+   * a value equal to the normalized cross product of two edge vectors
+   * taken counter-clockwise. This pseudo vector is then taken to face outwards by convention.
+   * @method computeFaceNormals
+   */
+  // TODO: What would happen if we computed unit tangent spinors?
+  // Would such elements of the geometry be better behaved than pseudo vectors?
   computeFaceNormals(): void {
-
-    let cb = new Vector3();
-    let ab = new Vector3();
-
-    for (var f = 0, fl = this.faces.length; f < fl; f ++) {
-
-      let face = this.faces[ f ];
-
-      let vA = this.vertices[face.a];
-      let vB = this.vertices[face.b];
-      let vC = this.vertices[face.c];
-
-      cb.subVectors(vC, vB);
-      ab.subVectors(vA, vB);
-      cb.cross(ab);
-
-      cb.normalize();
-
-      face.normal.copy(cb);
-    }
+    // Avoid  the this pointer in forEach callback function.
+    let vertices = this.vertices;
+    let computeFaceNormal = function(face: Face3) {
+      let vA = vertices[face.a];
+      let vB = vertices[face.b];
+      let vC = vertices[face.c];
+      let cb = new Vector3().subVectors(vC, vB);
+      let ab = new Vector3().subVectors(vA, vB);
+      face.normal.crossVectors(cb, ab).normalize();
+    };
+    this.faces.forEach(computeFaceNormal);
   }
   computeVertexNormals(areaWeighted?: boolean): void {
     var v: number;
@@ -121,47 +120,49 @@ import Vector3 = require('../math/Vector3');
     }
   }
   mergeVertices() {
+    /**
+     * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
+     * key is constructed from coordinates, value is index in vertices array.
+     */
+    var verticesMap: {[key:string]:number} = {};
+    /**
+     * The list of unique vertices.
+     */
+    var unique: Vector3[] = [];
+    /**
+     * Index is original index in vertices. Entry is index in unique array.
+     */
+    var changes: number[] = [];
 
-    var verticesMap = {}; // Hashmap for looking up vertice by position coordinates (and making sure they are unique)
-    var unique = [], changes = [];
-
-    var v: Vector3;
-    var key: string;
-    var precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
-    var precision = Math.pow( 10, precisionPoints );
+    let precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
+    let precision = Math.pow(10, precisionPoints);
     var i: number;
     var il: number;
-    var face: Face3;
     var indices, j, jl;
 
-    for ( i = 0, il = this.vertices.length; i < il; i ++ ) {
+    for (i = 0, il = this.vertices.length; i < il; i ++) {
+      let v: Vector3 = this.vertices[ i ];
+      let key: string = Math.round( v.x * precision ) + '_' + Math.round( v.y * precision ) + '_' + Math.round( v.z * precision );
 
-      v = this.vertices[ i ];
-      key = Math.round( v.x * precision ) + '_' + Math.round( v.y * precision ) + '_' + Math.round( v.z * precision );
-
-      if ( verticesMap[ key ] === undefined ) {
-
-        verticesMap[ key ] = i;
-        unique.push( this.vertices[ i ] );
-        changes[ i ] = unique.length - 1;
-
-      } else {
-
-        //console.log('Duplicate vertex found. ', i, ' could be using ', verticesMap[key]);
-        changes[ i ] = changes[ verticesMap[ key ] ];
-
+      if (verticesMap[key] === void 0) {
+        verticesMap[key] = i;
+        unique.push(this.vertices[i]);
+        changes[i] = unique.length - 1;
       }
-
-    };
+      else {
+        changes[i] = changes[verticesMap[key]];
+      }
+    }
 
 
     // if faces are completely degenerate after merging vertices, we
     // have to remove them.
     var faceIndicesToRemove: number[] = [];
 
+    // Update the faces to use the unique indices.
     for ( i = 0, il = this.faces.length; i < il; i ++ ) {
 
-      face = this.faces[ i ];
+      let face: Face3 = this.faces[ i ];
 
       face.a = changes[ face.a ];
       face.b = changes[ face.b ];

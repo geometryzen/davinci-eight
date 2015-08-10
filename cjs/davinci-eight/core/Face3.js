@@ -9,6 +9,8 @@ var Face3 = (function () {
      * @param a {number}
      * @param b {number}
      * @param c {number}
+     * @param normal {Vector3} The face normal.
+     * @param vertexNormals {Vector3[]} The per-vertex normals for this face.
      */
     function Face3(a, b, c, normal, vertexNormals) {
         if (normal === void 0) { normal = new Vector3(); }

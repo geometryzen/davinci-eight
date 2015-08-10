@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.51.0</em>
+            <em>API Docs for: 2.52.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
+                                <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -77,8 +78,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -100,8 +101,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -174,10 +175,14 @@ let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = &quot;directionalLightCosineFactor
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
 }
+
+function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos): boolean {
+  return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
+}
 /**
  * 
  */
-let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vLight: boolean): string {
+let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean): string {
 
   var lines: string[] = [];
   for (name in attributes) {
@@ -186,7 +191,9 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
   for (name in uniforms) {
     lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
   }
-  lines.push(&quot;varying highp vec4 vColor;&quot;);
+  if (vColor) {
+    lines.push(&quot;varying highp vec4 vColor;&quot;);
+  }
   if (vLight) {
     lines.push(&quot;varying highp vec3 vLight;&quot;);
   }
@@ -283,7 +290,9 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
 let fragmentShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
 
   var lines: string[] = [];
-  lines.push(&quot;varying highp vec4 vColor;&quot;);
+  if (vColor) {
+    lines.push(&quot;varying highp vec4 vColor;&quot;);
+  }
   if (vLight) {
     lines.push(&quot;varying highp vec3 vLight;&quot;);
   }
@@ -334,10 +343,10 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     }
   });
 
-  let vColor = true;
+  let vColor = vColorRequired(attributes, uniforms);
   let vLight = vLightRequired(uniforms);
 
-  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
+  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
 
   let publicAPI: ShaderProgram = {
     get attributes() {

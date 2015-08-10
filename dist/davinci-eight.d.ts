@@ -558,36 +558,30 @@ declare module EIGHT
   class Face3 {
     constructor(a: number, b: number, c: number);
   }
+  class Sphere {
+    public center: Vector3;
+    public radius: number;
+    constructor(center?: Vector3, radius?: number);
+    setFromPoints(points: Vector3[]);
+  }
   /**
    * Base class for geometries.
    * A geometry holds all data necessary to describe a 3D model.
    */
   class Geometry {
-    /**
-     * Set to true if the faces array has been updated.
-     */
-    public elementsNeedUpdate: boolean;
-    /**
-     * Array of vertices.
-     * The array of vertices holds every position of points in the model.
-     * To signal an update in this array, Geometry.verticesNeedUpdate needs to be set to true.
-     */
     public vertices: Vector3[];
-    /**
-     * Set to true if the vertices array has been updated.
-     */
-    public verticesNeedUpdate: boolean;
-    /**
-     * Array of triangles.
-     * The array of faces describe how each vertex in the model is connected with each other.
-     * To signal an update in this array, Geometry.elementsNeedUpdate needs to be set to true.
-     */
     public faces: Face3[];
-    /**
-     * The constructor takes no arguments.
-     */
+    public faceVertexUvs: Vector2[][][];
+    public dynamic: boolean;
+    public verticesNeedUpdate: boolean;
+    public elementsNeedUpdate: boolean;
+    public uvsNeedUpdate: boolean;
+    public boundingSphere: Sphere;
     constructor();
-    computeBoundingSphere(): void;
+    //computeBoundingSphere(): void;
+    computeFaceNormals(): void;
+    computeVertexNormals(): void;
+    mergeVertices(): void;
   }
   class Color
   {
@@ -615,6 +609,9 @@ declare module EIGHT
       J: number,
       K: number,
       generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
+  }
+  class BarnGeometry extends Geometry {
+    constructor();
   }
   class BoxGeometry extends Geometry {
     constructor(

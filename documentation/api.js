@@ -7,6 +7,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "AttribMetaInfo",
         "AttribMetaInfos",
         "AttribProvider",
+        "BarnGeometry",
         "BoxBuilder",
         "BoxMesh",
         "Cartesian3",

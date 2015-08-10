@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.51.0</em>
+            <em>API Docs for: 2.52.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -44,6 +44,7 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
+                                <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -77,8 +78,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -100,8 +101,8 @@
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/Viewport.html">Viewport</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -172,27 +173,26 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
     }
     this.boundingSphere.setFromPoints(this.vertices);
   }
+  /**
+   * Ensures that the normal property of each face is assigned
+   * a value equal to the normalized cross product of two edge vectors
+   * taken counter-clockwise. This pseudo vector is then taken to face outwards by convention.
+   * @method computeFaceNormals
+   */
+  // TODO: What would happen if we computed unit tangent spinors?
+  // Would such elements of the geometry be better behaved than pseudo vectors?
   computeFaceNormals(): void {
-
-    let cb = new Vector3();
-    let ab = new Vector3();
-
-    for (var f = 0, fl = this.faces.length; f &lt; fl; f ++) {
-
-      let face = this.faces[ f ];
-
-      let vA = this.vertices[face.a];
-      let vB = this.vertices[face.b];
-      let vC = this.vertices[face.c];
-
-      cb.subVectors(vC, vB);
-      ab.subVectors(vA, vB);
-      cb.cross(ab);
-
-      cb.normalize();
-
-      face.normal.copy(cb);
-    }
+    // Avoid  the this pointer in forEach callback function.
+    let vertices = this.vertices;
+    let computeFaceNormal = function(face: Face3) {
+      let vA = vertices[face.a];
+      let vB = vertices[face.b];
+      let vC = vertices[face.c];
+      let cb = new Vector3().subVectors(vC, vB);
+      let ab = new Vector3().subVectors(vA, vB);
+      face.normal.crossVectors(cb, ab).normalize();
+    };
+    this.faces.forEach(computeFaceNormal);
   }
   computeVertexNormals(areaWeighted?: boolean): void {
     var v: number;
@@ -269,47 +269,49 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
     }
   }
   mergeVertices() {
+    /**
+     * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
+     * key is constructed from coordinates, value is index in vertices array.
+     */
+    var verticesMap: {[key:string]:number} = {};
+    /**
+     * The list of unique vertices.
+     */
+    var unique: Vector3[] = [];
+    /**
+     * Index is original index in vertices. Entry is index in unique array.
+     */
+    var changes: number[] = [];
 
-    var verticesMap = {}; // Hashmap for looking up vertice by position coordinates (and making sure they are unique)
-    var unique = [], changes = [];
-
-    var v: Vector3;
-    var key: string;
-    var precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
-    var precision = Math.pow( 10, precisionPoints );
+    let precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
+    let precision = Math.pow(10, precisionPoints);
     var i: number;
     var il: number;
-    var face: Face3;
     var indices, j, jl;
 
-    for ( i = 0, il = this.vertices.length; i &lt; il; i ++ ) {
+    for (i = 0, il = this.vertices.length; i &lt; il; i ++) {
+      let v: Vector3 = this.vertices[ i ];
+      let key: string = Math.round( v.x * precision ) + &#x27;_&#x27; + Math.round( v.y * precision ) + &#x27;_&#x27; + Math.round( v.z * precision );
 
-      v = this.vertices[ i ];
-      key = Math.round( v.x * precision ) + &#x27;_&#x27; + Math.round( v.y * precision ) + &#x27;_&#x27; + Math.round( v.z * precision );
-
-      if ( verticesMap[ key ] === undefined ) {
-
-        verticesMap[ key ] = i;
-        unique.push( this.vertices[ i ] );
-        changes[ i ] = unique.length - 1;
-
-      } else {
-
-        //console.log(&#x27;Duplicate vertex found. &#x27;, i, &#x27; could be using &#x27;, verticesMap[key]);
-        changes[ i ] = changes[ verticesMap[ key ] ];
-
+      if (verticesMap[key] === void 0) {
+        verticesMap[key] = i;
+        unique.push(this.vertices[i]);
+        changes[i] = unique.length - 1;
       }
-
-    };
+      else {
+        changes[i] = changes[verticesMap[key]];
+      }
+    }
 
 
     // if faces are completely degenerate after merging vertices, we
     // have to remove them.
     var faceIndicesToRemove: number[] = [];
 
+    // Update the faces to use the unique indices.
     for ( i = 0, il = this.faces.length; i &lt; il; i ++ ) {
 
-      face = this.faces[ i ];
+      let face: Face3 = this.faces[ i ];
 
       face.a = changes[ face.a ];
       face.b = changes[ face.b ];

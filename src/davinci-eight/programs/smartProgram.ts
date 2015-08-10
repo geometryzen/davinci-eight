@@ -26,10 +26,14 @@ let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor"
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
 }
+
+function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos): boolean {
+  return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
+}
 /**
  * 
  */
-let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vLight: boolean): string {
+let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean): string {
 
   var lines: string[] = [];
   for (name in attributes) {
@@ -38,7 +42,9 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
   for (name in uniforms) {
     lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
   }
-  lines.push("varying highp vec4 vColor;");
+  if (vColor) {
+    lines.push("varying highp vec4 vColor;");
+  }
   if (vLight) {
     lines.push("varying highp vec3 vLight;");
   }
@@ -135,7 +141,9 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
 let fragmentShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
 
   var lines: string[] = [];
-  lines.push("varying highp vec4 vColor;");
+  if (vColor) {
+    lines.push("varying highp vec4 vColor;");
+  }
   if (vLight) {
     lines.push("varying highp vec3 vLight;");
   }
@@ -186,10 +194,10 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     }
   });
 
-  let vColor = true;
+  let vColor = vColorRequired(attributes, uniforms);
   let vLight = vLightRequired(uniforms);
 
-  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
+  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
 
   let publicAPI: ShaderProgram = {
     get attributes() {

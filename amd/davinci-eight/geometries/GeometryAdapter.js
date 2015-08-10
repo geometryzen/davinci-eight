@@ -246,14 +246,8 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                                 normals.push(nC.z);
                             }
                             else {
-                                // TODO: Why aren't we simply using the pre-calculated face normals?
-                                // Make copies where needed to avoid mutating the geometry.
-                                var a = vertexList[face.a];
-                                var b = vertexList[face.b].clone();
-                                var c = vertexList[face.c].clone();
-                                var perp = b.sub(a).cross(c.sub(a));
-                                // TODO: This is simply the normalize() function.
-                                var normal = perp.divideScalar(perp.length());
+                                // We assume that face normals have been computed!
+                                var normal = face.normal;
                                 normals.push(normal.x);
                                 normals.push(normal.y);
                                 normals.push(normal.z);

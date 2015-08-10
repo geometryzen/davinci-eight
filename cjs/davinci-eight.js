@@ -16,6 +16,7 @@ var drawList = require('davinci-eight/drawLists/drawList');
 var Geometry = require('davinci-eight/geometries/Geometry');
 var GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
 var ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
+var BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 var CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 var DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
@@ -139,6 +140,7 @@ var eight = {
     get Geometry() { return Geometry; },
     get GeometryAdapter() { return GeometryAdapter; },
     get ArrowGeometry() { return ArrowGeometry; },
+    get BarnGeometry() { return BarnGeometry; },
     get BoxGeometry() { return BoxGeometry; },
     get CylinderGeometry() { return CylinderGeometry; },
     get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },

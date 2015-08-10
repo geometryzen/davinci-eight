@@ -20,20 +20,26 @@ var Geometry = (function () {
         }
         this.boundingSphere.setFromPoints(this.vertices);
     };
+    /**
+     * Ensures that the normal property of each face is assigned
+     * a value equal to the normalized cross product of two edge vectors
+     * taken counter-clockwise. This pseudo vector is then taken to face outwards by convention.
+     * @method computeFaceNormals
+     */
+    // TODO: What would happen if we computed unit tangent spinors?
+    // Would such elements of the geometry be better behaved than pseudo vectors?
     Geometry.prototype.computeFaceNormals = function () {
-        var cb = new Vector3();
-        var ab = new Vector3();
-        for (var f = 0, fl = this.faces.length; f < fl; f++) {
-            var face = this.faces[f];
-            var vA = this.vertices[face.a];
-            var vB = this.vertices[face.b];
-            var vC = this.vertices[face.c];
-            cb.subVectors(vC, vB);
-            ab.subVectors(vA, vB);
-            cb.cross(ab);
-            cb.normalize();
-            face.normal.copy(cb);
-        }
+        // Avoid  the this pointer in forEach callback function.
+        var vertices = this.vertices;
+        var computeFaceNormal = function (face) {
+            var vA = vertices[face.a];
+            var vB = vertices[face.b];
+            var vC = vertices[face.c];
+            var cb = new Vector3().subVectors(vC, vB);
+            var ab = new Vector3().subVectors(vA, vB);
+            face.normal.crossVectors(cb, ab).normalize();
+        };
+        this.faces.forEach(computeFaceNormal);
     };
     Geometry.prototype.computeVertexNormals = function (areaWeighted) {
         var v;
@@ -87,35 +93,42 @@ var Geometry = (function () {
         }
     };
     Geometry.prototype.mergeVertices = function () {
-        var verticesMap = {}; // Hashmap for looking up vertice by position coordinates (and making sure they are unique)
-        var unique = [], changes = [];
-        var v;
-        var key;
+        /**
+         * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
+         * key is constructed from coordinates, value is index in vertices array.
+         */
+        var verticesMap = {};
+        /**
+         * The list of unique vertices.
+         */
+        var unique = [];
+        /**
+         * Index is original index in vertices. Entry is index in unique array.
+         */
+        var changes = [];
         var precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
         var precision = Math.pow(10, precisionPoints);
         var i;
         var il;
-        var face;
         var indices, j, jl;
         for (i = 0, il = this.vertices.length; i < il; i++) {
-            v = this.vertices[i];
-            key = Math.round(v.x * precision) + '_' + Math.round(v.y * precision) + '_' + Math.round(v.z * precision);
-            if (verticesMap[key] === undefined) {
+            var v = this.vertices[i];
+            var key = Math.round(v.x * precision) + '_' + Math.round(v.y * precision) + '_' + Math.round(v.z * precision);
+            if (verticesMap[key] === void 0) {
                 verticesMap[key] = i;
                 unique.push(this.vertices[i]);
                 changes[i] = unique.length - 1;
             }
             else {
-                //console.log('Duplicate vertex found. ', i, ' could be using ', verticesMap[key]);
                 changes[i] = changes[verticesMap[key]];
             }
         }
-        ;
         // if faces are completely degenerate after merging vertices, we
         // have to remove them.
         var faceIndicesToRemove = [];
+        // Update the faces to use the unique indices.
         for (i = 0, il = this.faces.length; i < il; i++) {
-            face = this.faces[i];
+            var face = this.faces[i];
             face.a = changes[face.a];
             face.b = changes[face.b];
             face.c = changes[face.c];

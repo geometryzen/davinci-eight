@@ -15,10 +15,13 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
     function vLightRequired(uniforms) {
         return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
     }
+    function vColorRequired(attributes, uniforms) {
+        return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
+    }
     /**
      *
      */
-    var vertexShader = function (attributes, uniforms, vLight) {
+    var vertexShader = function (attributes, uniforms, vColor, vLight) {
         var lines = [];
         for (name in attributes) {
             lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + getAttribVarName(attributes[name], name) + SEMICOLON);
@@ -26,7 +29,9 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
         for (name in uniforms) {
             lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
         }
-        lines.push("varying highp vec4 vColor;");
+        if (vColor) {
+            lines.push("varying highp vec4 vColor;");
+        }
         if (vLight) {
             lines.push("varying highp vec3 vLight;");
         }
@@ -123,7 +128,9 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
      */
     var fragmentShader = function (attributes, uniforms, vColor, vLight) {
         var lines = [];
-        lines.push("varying highp vec4 vColor;");
+        if (vColor) {
+            lines.push("varying highp vec4 vColor;");
+        }
         if (vLight) {
             lines.push("varying highp vec3 vLight;");
         }
@@ -168,9 +175,9 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
                 uniforms[name] = uniformsElement[name];
             }
         });
-        var vColor = true;
+        var vColor = vColorRequired(attributes, uniforms);
         var vLight = vLightRequired(uniforms);
-        var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
+        var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
         var publicAPI = {
             get attributes() {
                 return innerProgram.attributes;
