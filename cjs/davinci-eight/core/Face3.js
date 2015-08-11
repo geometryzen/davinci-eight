@@ -1,4 +1,3 @@
-var Vector3 = require('../math/Vector3');
 /**
  * @class Face3
  */
@@ -9,17 +8,14 @@ var Face3 = (function () {
      * @param a {number}
      * @param b {number}
      * @param c {number}
-     * @param normal {Vector3} The face normal.
-     * @param vertexNormals {Vector3[]} The per-vertex normals for this face.
+     * @param normals {Vector3[]} The per-vertex normals for this face (3) or face normal (1).
      */
-    function Face3(a, b, c, normal, vertexNormals) {
-        if (normal === void 0) { normal = new Vector3(); }
-        if (vertexNormals === void 0) { vertexNormals = []; }
+    function Face3(a, b, c, normals) {
+        if (normals === void 0) { normals = []; }
         this.a = a;
         this.b = b;
         this.c = c;
-        this.normal = normal;
-        this.vertexNormals = vertexNormals;
+        this.normals = normals;
     }
     return Face3;
 })();

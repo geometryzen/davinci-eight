@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../geometries/ParametricGeometry', '../math/Vector3'], function (require, exports, ParametricGeometry, Vector3) {
+define(["require", "exports", '../geometries/ParametricSurfaceGeometry', '../math/Vector3'], function (require, exports, ParametricSurfaceGeometry, Vector3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -34,6 +34,6 @@ define(["require", "exports", '../geometries/ParametricGeometry', '../math/Vecto
             _super.call(this, mobius, uSegments, vSegments);
         }
         return MobiusStripGeometry;
-    })(ParametricGeometry);
+    })(ParametricSurfaceGeometry);
     return MobiusStripGeometry;
 });

@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var Spinor3 = require('../math/Spinor3');
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var DefaultUniformProvider = require('../core/DefaultUniformProvider');
 var UniformVec4 = require('../uniforms/UniformVec4');
 /**
  * Provides a uniform variable representing an ambient light.

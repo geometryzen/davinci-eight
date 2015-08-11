@@ -3,7 +3,7 @@ import UniformColor = require('../uniforms/UniformColor');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import UniformVector3 = require('../uniforms/UniformVector3');
-import Vector3 = require('../math/Vector3');
+import Cartesian3 = require('../math/Cartesian3');
 /**
  * Provides a uniform variable representing a directional light.
  * @class DirectionalLight
@@ -18,7 +18,7 @@ declare class DirectionalLight implements UniformProvider {
      */
     constructor(options?: {
         color?: Color;
-        direction?: Vector3;
+        direction?: Cartesian3;
         name?: string;
     });
     color: UniformColor;

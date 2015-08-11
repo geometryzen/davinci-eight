@@ -1,6 +1,6 @@
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 
 function isDefined(value): boolean {return value !== void 0;}
 

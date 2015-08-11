@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../uniforms/DefaultUniformProvider'], function (require, exports, DefaultUniformProvider) {
+define(["require", "exports", '../core/DefaultUniformProvider'], function (require, exports, DefaultUniformProvider) {
     /**
      * @class TreeModel
      * @extends DefaultUniformProvider

@@ -78,10 +78,10 @@ define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/G
                     b = grid[ip][j];
                     c = grid[ip][jp];
                     d = grid[i][jp];
-                    uva = new Vector2(i / segments, j / radialSegments);
-                    uvb = new Vector2((i + 1) / segments, j / radialSegments);
-                    uvc = new Vector2((i + 1) / segments, (j + 1) / radialSegments);
-                    uvd = new Vector2(i / segments, (j + 1) / radialSegments);
+                    uva = new Vector2([i / segments, j / radialSegments]);
+                    uvb = new Vector2([(i + 1) / segments, j / radialSegments]);
+                    uvc = new Vector2([(i + 1) / segments, (j + 1) / radialSegments]);
+                    uvd = new Vector2([i / segments, (j + 1) / radialSegments]);
                     this.faces.push(new Face3(a, b, d));
                     this.faceVertexUvs[0].push([uva, uvb, uvd]);
                     this.faces.push(new Face3(b, c, d));

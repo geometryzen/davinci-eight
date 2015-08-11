@@ -122,7 +122,7 @@ var primitive = function (mesh, shaders, model) {
                     }
                     else {
                         // We expect this to be detected long before we get here.
-                        throw new Error("mesh implementation claims to support but does not provide data for attribute " + vertexAttribute.name);
+                        throw new Error("mesh implementation claims to support, but does not provide data for, attribute " + vertexAttribute.name);
                     }
                 });
                 // elements

@@ -15,26 +15,23 @@ class Face3 {
    * @property c {number} The index of the vertex with label 'c' in the array of vertices.
    */
   public c: number;
-  public normal: Vector3;
   /**
-   * 0 <=> a, 1 <=> b, 2 <=> c
+   * length 3 implies index 0 <=> a, 1 <=> b, 2 <=> c. length 1 implies a face normal.
    */
-  public vertexNormals: Vector3[];
+  public normals: Vector3[];
   /**
    * @class Face3
    * @constructor
    * @param a {number}
    * @param b {number}
    * @param c {number}
-   * @param normal {Vector3} The face normal.
-   * @param vertexNormals {Vector3[]} The per-vertex normals for this face.
+   * @param normals {Vector3[]} The per-vertex normals for this face (3) or face normal (1).
    */
-  constructor(a: number, b: number, c: number, normal: Vector3 = new Vector3(), vertexNormals: Vector3[] = []) {
+  constructor(a: number, b: number, c: number, normals: Vector3[] = []) {
     this.a = a;
     this.b = b;
     this.c = c;
-    this.normal = normal;
-    this.vertexNormals = vertexNormals;
+    this.normals = normals;
   }
 }
 

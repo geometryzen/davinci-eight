@@ -1,9 +1,81 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    /**
+     * @class Vector2
+     */
     var Vector2 = (function () {
-        function Vector2(x, y) {
-            this.x = x || 0;
-            this.y = y || 0;
+        /**
+         * @class Vector2
+         * @constructor
+         * @param data {number[]}
+         */
+        function Vector2(data) {
+            if (data === void 0) { data = [0, 0]; }
+            this.data = data;
+            this.modified = false;
         }
+        Object.defineProperty(Vector2.prototype, "data", {
+            get: function () {
+                if (this.$data) {
+                    return this.$data;
+                }
+                else if (this.$callback) {
+                    var data = this.$callback();
+                    expectArg('callback()', data).toSatisfy(data.length === 2, "callback() length must be 2");
+                    return this.$callback();
+                }
+                else {
+                    throw new Error("Vector2 is undefined.");
+                }
+            },
+            set: function (data) {
+                expectArg('data', data).toSatisfy(data.length === 2, "data length must be 2");
+                this.$data = data;
+                this.$callback = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector2.prototype, "callback", {
+            get: function () {
+                return this.$callback;
+            },
+            set: function (reactTo) {
+                this.$callback = reactTo;
+                this.$data = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector2.prototype, "x", {
+            /**
+             * @property x
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.x !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector2.prototype, "y", {
+            /**
+             * @property y
+             * @type Number
+             */
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.y !== value;
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Vector2.prototype.set = function (x, y) {
             this.x = x;
             this.y = y;
@@ -203,7 +275,7 @@ define(["require", "exports"], function (require, exports) {
             return this;
         };
         Vector2.prototype.clone = function () {
-            return new Vector2(this.x, this.y);
+            return new Vector2([this.x, this.y]);
         };
         return Vector2;
     })();

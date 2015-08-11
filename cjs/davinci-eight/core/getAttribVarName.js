@@ -1,8 +1,11 @@
 var isDefined = require('../checks/isDefined');
+var expectArg = require('../checks/expectArg');
 /**
  * Policy for how an attribute variable name is determined.
  */
 function getAttribVarName(attribute, varName) {
-    return isDefined(attribute.name) ? attribute.name : varName;
+    expectArg('attribute', attribute).toBeObject();
+    expectArg('varName', varName).toBeString();
+    return isDefined(attribute.name) ? expectArg('attribute.name', attribute.name).toBeString().value : varName;
 }
 module.exports = getAttribVarName;

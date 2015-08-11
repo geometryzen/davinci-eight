@@ -37,7 +37,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
                     this.vertices.push(vertex);
                     verticesRow.push(this.vertices.length - 1);
-                    uvsRow.push(new Vector2(u, 1 - v));
+                    uvsRow.push(new Vector2([u, 1 - v]));
                 }
                 vertices.push(verticesRow);
                 uvs.push(uvsRow);
@@ -69,9 +69,9 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var uv2 = uvs[y + 1][x].clone();
                     var uv3 = uvs[y + 1][x + 1].clone();
                     var uv4 = uvs[y][x + 1].clone();
-                    this.faces.push(new Face3(v1, v2, v4, undefined, [n1, n2, n4]));
+                    this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
                     this.faceVertexUvs[0].push([uv1, uv2, uv4]);
-                    this.faces.push(new Face3(v2, v3, v4, undefined, [n2.clone(), n3, n4.clone()]));
+                    this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
                     this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
                 }
             }
@@ -87,8 +87,8 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var n3 = Vector3.e2;
                     var uv1 = uvs[0][x].clone();
                     var uv2 = uvs[0][x + 1].clone();
-                    var uv3 = new Vector2(uv2.x, 0);
-                    this.faces.push(new Face3(v1, v2, v3, undefined, [n1, n2, n3]));
+                    var uv3 = new Vector2([uv2.x, 0]);
+                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
                     this.faceVertexUvs[0].push([uv1, uv2, uv3]);
                 }
             }
@@ -104,8 +104,8 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var n3 = Vector3.e2.clone().multiplyScalar(-1);
                     var uv1 = uvs[heightSegments][x + 1].clone();
                     var uv2 = uvs[heightSegments][x].clone();
-                    var uv3 = new Vector2(uv2.x, 1);
-                    this.faces.push(new Face3(v1, v2, v3, undefined, [n1, n2, n3]));
+                    var uv3 = new Vector2([uv2.x, 1]);
+                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
                     this.faceVertexUvs[0].push([uv1, uv2, uv3]);
                 }
             }

@@ -4,36 +4,36 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2'], function (require, exports, Face3, Geometry, Vector2) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
     /**
      * @author zz85 / https://github.com/zz85
      * Parametric Surfaces Geometry
      * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
      *
-     * new ParametricGeometry( parametricFunction, uSegments, vSegments );
+     * new ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );
      */
-    var ParametricGeometry = (function (_super) {
-        __extends(ParametricGeometry, _super);
-        function ParametricGeometry(parametricFunction, uSegments, vSegments) {
+    var ParametricSurfaceGeometry = (function (_super) {
+        __extends(ParametricSurfaceGeometry, _super);
+        function ParametricSurfaceGeometry(parametricFunction, uSegments, vSegments) {
             _super.call(this);
-            var verts = this.vertices;
+            var vertices = this.vertices;
             var faces = this.faces;
             var uvs = this.faceVertexUvs[0];
             var i;
             var j;
-            var p;
-            var u;
-            var v;
             var sliceCount = uSegments + 1;
             for (i = 0; i <= vSegments; i++) {
-                v = i / vSegments;
+                var v = i / vSegments;
                 for (j = 0; j <= uSegments; j++) {
-                    u = j / uSegments;
-                    p = parametricFunction(u, v);
-                    verts.push(p);
+                    var u = j / uSegments;
+                    var p = parametricFunction(u, v);
+                    vertices.push(new Vector3([p.x, p.y, p.z]));
                 }
             }
-            var a, b, c, d;
+            var a;
+            var b;
+            var c;
+            var d;
             var uva;
             var uvb;
             var uvc;
@@ -44,10 +44,10 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     b = i * sliceCount + j + 1;
                     c = (i + 1) * sliceCount + j + 1;
                     d = (i + 1) * sliceCount + j;
-                    uva = new Vector2(j / uSegments, i / vSegments);
-                    uvb = new Vector2((j + 1) / uSegments, i / vSegments);
-                    uvc = new Vector2((j + 1) / uSegments, (i + 1) / vSegments);
-                    uvd = new Vector2(j / uSegments, (i + 1) / vSegments);
+                    uva = new Vector2([j / uSegments, i / vSegments]);
+                    uvb = new Vector2([(j + 1) / uSegments, i / vSegments]);
+                    uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
+                    uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
                     faces.push(new Face3(a, b, d));
                     uvs.push([uva, uvb, uvd]);
                     faces.push(new Face3(b, c, d));
@@ -57,7 +57,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             this.computeFaceNormals();
             this.computeVertexNormals();
         }
-        return ParametricGeometry;
+        return ParametricSurfaceGeometry;
     })(Geometry);
-    return ParametricGeometry;
+    return ParametricSurfaceGeometry;
 });

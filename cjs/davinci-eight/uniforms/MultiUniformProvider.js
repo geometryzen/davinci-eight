@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var DefaultUniformProvider = require('../core/DefaultUniformProvider');
 function isDefined(value) { return value !== void 0; }
 var MultiUniformProvider = (function (_super) {
     __extends(MultiUniformProvider, _super);

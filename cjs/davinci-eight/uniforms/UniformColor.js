@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var Color = require('../core/Color');
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var DefaultUniformProvider = require('../core/DefaultUniformProvider');
 var UniformVec3 = require('../uniforms/UniformVec3');
 /**
  * Provides a uniform variable representing an ambient light.

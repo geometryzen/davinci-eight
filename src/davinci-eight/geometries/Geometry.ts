@@ -41,7 +41,8 @@ import Vector3 = require('../math/Vector3');
       let vC = vertices[face.c];
       let cb = new Vector3().subVectors(vC, vB);
       let ab = new Vector3().subVectors(vA, vB);
-      face.normal.crossVectors(cb, ab).normalize();
+      let normal = new Vector3().crossVectors(cb, ab).normalize();
+      face.normals.push(normal);
     };
     this.faces.forEach(computeFaceNormal);
   }
@@ -95,9 +96,9 @@ import Vector3 = require('../math/Vector3');
 
         face = this.faces[ f ];
 
-        vertexNormals[face.a].add(face.normal);
-        vertexNormals[face.b].add(face.normal);
-        vertexNormals[face.c].add(face.normal);
+        vertexNormals[face.a].add(face.normals[0]);
+        vertexNormals[face.b].add(face.normals[0]);
+        vertexNormals[face.c].add(face.normals[0]);
 
       }
 
@@ -113,9 +114,9 @@ import Vector3 = require('../math/Vector3');
 
       face = this.faces[ f ];
 
-      face.vertexNormals[0] = vertexNormals[face.a].clone();
-      face.vertexNormals[1] = vertexNormals[face.b].clone();
-      face.vertexNormals[2] = vertexNormals[face.c].clone();
+      face.normals[0] = vertexNormals[face.a].clone();
+      face.normals[1] = vertexNormals[face.b].clone();
+      face.normals[2] = vertexNormals[face.c].clone();
 
     }
   }

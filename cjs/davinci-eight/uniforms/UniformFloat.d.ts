@@ -1,4 +1,4 @@
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformVariable = require('../uniforms/UniformVariable');
 /**

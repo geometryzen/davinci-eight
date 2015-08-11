@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/uniforms/DefaultUniformProvider.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/Cartesian2.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.52.0</em>
+            <em>API Docs for: 2.53.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,8 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
+                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Color
@@ -78,8 +80,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -100,6 +102,7 @@
                                 <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
@@ -143,77 +146,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/uniforms/DefaultUniformProvider.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/Cartesian2.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
-import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 /**
- * @class DefaultUniformProvider
+ * @class Cartesian2
  */
-class DefaultUniformProvider implements UniformProvider {
+interface Cartesian2 {
   /**
-   * @class DefaultUniformProvider
-   * @constructor
+   * @property x
+   * @type number
    */
-  constructor() {
-  }
+  x: number;
   /**
-   * @method getUniformFloat
+   * @property y
+   * @type number
    */
-  getUniformFloat(name: string): number {
-    return;
-  }
-  /**
-   * @method getUniformMatrix2
-   */
-  getUniformMatrix2(name: string): {transpose: boolean; matrix2: Float32Array} {
-    return;
-  }
-  /**
-   * @method getUniformMatrix3
-   */
-  getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
-    return;
-  }
-  /**
-   * @method getUniformMatrix4
-   */
-  getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
-    return;
-  }
-  /**
-   * @method getUniformVector2
-   */
-  getUniformVector2(name: string): number[] {
-    return;
-  }
-  /**
-   * @method getUniformVector3
-   */
-  getUniformVector3(name: string): number[] {
-    return;
-  }
-  /**
-   * @method getUniformVector4
-   */
-  getUniformVector4(name: string): number[] {
-    return;
-  }
-  /**
-   * 
-   * @method getUniformMeta
-   * @return An empty object that derived class may modify.
-   */
-  getUniformMeta(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = {};
-    return uniforms;
-  }
+  y: number;
 }
 
-export = DefaultUniformProvider;
-
+export = Cartesian2;
     </pre>
 </div>
                     </div>

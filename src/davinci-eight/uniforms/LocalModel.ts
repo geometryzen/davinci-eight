@@ -1,6 +1,6 @@
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import Spinor3 = require('../math/Spinor3');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Symbolic = require('../core/Symbolic');

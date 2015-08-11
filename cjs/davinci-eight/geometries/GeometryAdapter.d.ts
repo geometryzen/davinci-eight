@@ -1,15 +1,17 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Geometry = require('../geometries/Geometry');
-import AttribProvider = require('../core/AttribProvider');
+import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 /**
  * Adapter from a Geometry to a AttribProvider.
+ * Enables the rapid construction of meshes starting from classes that extend Geometry.
+ * Automatically uses elements (vertex indices).
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-declare class GeometryAdapter implements AttribProvider {
+declare class GeometryAdapter extends DefaultAttribProvider {
     geometry: Geometry;
     private elementArray;
     private aVertexPositionArray;

@@ -1,6 +1,6 @@
 import Vector3 = require('../math/Vector3');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
 import UniformVec3 = require('../uniforms/UniformVec3');
 

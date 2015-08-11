@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../uniforms/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg', '../checks/isDefined'], function (require, exports, DefaultUniformProvider, uuid4, expectArg, isDefined) {
+define(["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg', '../checks/isDefined'], function (require, exports, DefaultUniformProvider, uuid4, expectArg, isDefined) {
     var UniformVec3 = (function (_super) {
         __extends(UniformVec3, _super);
         function UniformVec3(name, id) {

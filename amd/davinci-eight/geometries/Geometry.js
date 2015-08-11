@@ -36,7 +36,8 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
                 var vC = vertices[face.c];
                 var cb = new Vector3().subVectors(vC, vB);
                 var ab = new Vector3().subVectors(vA, vB);
-                face.normal.crossVectors(cb, ab).normalize();
+                var normal = new Vector3().crossVectors(cb, ab).normalize();
+                face.normals.push(normal);
             };
             this.faces.forEach(computeFaceNormal);
         };
@@ -76,9 +77,9 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             else {
                 for (f = 0, fl = this.faces.length; f < fl; f++) {
                     face = this.faces[f];
-                    vertexNormals[face.a].add(face.normal);
-                    vertexNormals[face.b].add(face.normal);
-                    vertexNormals[face.c].add(face.normal);
+                    vertexNormals[face.a].add(face.normals[0]);
+                    vertexNormals[face.b].add(face.normals[0]);
+                    vertexNormals[face.c].add(face.normals[0]);
                 }
             }
             for (v = 0, vl = this.vertices.length; v < vl; v++) {
@@ -86,9 +87,9 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             }
             for (f = 0, fl = this.faces.length; f < fl; f++) {
                 face = this.faces[f];
-                face.vertexNormals[0] = vertexNormals[face.a].clone();
-                face.vertexNormals[1] = vertexNormals[face.b].clone();
-                face.vertexNormals[2] = vertexNormals[face.c].clone();
+                face.normals[0] = vertexNormals[face.a].clone();
+                face.normals[1] = vertexNormals[face.b].clone();
+                face.normals[2] = vertexNormals[face.c].clone();
             }
         };
         Geometry.prototype.mergeVertices = function () {

@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var DefaultUniformProvider = require('../core/DefaultUniformProvider');
 var uuid4 = require('../utils/uuid4');
 var expectArg = require('../checks/expectArg');
 var UniformVec4 = (function (_super) {

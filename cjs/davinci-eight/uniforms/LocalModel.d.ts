@@ -1,4 +1,4 @@
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import Spinor3 = require('../math/Spinor3');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');

@@ -83,16 +83,16 @@ class RevolutionGeometry extends Geometry
 
         this.faces.push(new Face3(d, b, a));
         this.faceVertexUvs[ 0 ].push([
-          new Vector2(u0, v0),
-          new Vector2(u1, v0),
-          new Vector2(u0, v1)
+          new Vector2([u0, v0]),
+          new Vector2([u1, v0]),
+          new Vector2([u0, v1])
         ]);
 
         this.faces.push(new Face3(d, c, b));
         this.faceVertexUvs[ 0 ].push([
-          new Vector2(u1, v0),
-          new Vector2(u1, v1),
-          new Vector2(u0, v1)
+          new Vector2([u1, v0]),
+          new Vector2([u1, v1]),
+          new Vector2([u0, v1])
         ]);
       }
     }

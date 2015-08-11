@@ -1,11 +1,11 @@
-import ParametricGeometry = require('../geometries/ParametricGeometry');
+import ParametricSurfaceGeometry = require('../geometries/ParametricSurfaceGeometry');
 /**
  * By connecting the edge of a Mobius Strip we get a Klein Bottle.
  * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
  * @class KleinBottleGeometry
- * @extends ParametricGeometry
+ * @extends ParametricSurfaceGeometry
  */
-declare class KleinBottleGeometry extends ParametricGeometry {
+declare class KleinBottleGeometry extends ParametricSurfaceGeometry {
     /**
      * @class KleinBottleGeometry
      * @constructor

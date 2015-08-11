@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Spinor3', '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec4'], function (require, exports, Spinor3, DefaultUniformProvider, UniformVec4) {
+define(["require", "exports", '../math/Spinor3', '../core/DefaultUniformProvider', '../uniforms/UniformVec4'], function (require, exports, Spinor3, DefaultUniformProvider, UniformVec4) {
     /**
      * Provides a uniform variable representing an ambient light.
      * @class UniformSpinor3

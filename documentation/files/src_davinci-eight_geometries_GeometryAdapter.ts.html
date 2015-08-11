@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.52.0</em>
+            <em>API Docs for: 2.53.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,8 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
+                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Color
@@ -78,8 +80,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -100,6 +102,7 @@
                                 <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
@@ -155,12 +158,10 @@ import Geometry = require(&#x27;../geometries/Geometry&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Color = require(&#x27;../core/Color&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
+import DefaultAttribProvider = require(&#x27;../core/DefaultAttribProvider&#x27;);
 import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
-
-let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = &#x27;aVertexColor&#x27;;
 
 function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
   return new Color([1.0, 1.0, 1.0]);
@@ -168,10 +169,12 @@ function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vect
 
 /**
  * Adapter from a Geometry to a AttribProvider.
+ * Enables the rapid construction of meshes starting from classes that extend Geometry.
+ * Automatically uses elements (vertex indices).
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-class GeometryAdapter implements AttribProvider {
+class GeometryAdapter extends DefaultAttribProvider {
   public geometry: Geometry;
 //public color: Color;
 //public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) =&gt; Color;
@@ -199,6 +202,7 @@ class GeometryAdapter implements AttribProvider {
       positionVarName?: string;
       normalVarName?: string;
     }) {
+    super();
     options = options || {};
     options.drawMode = typeof options.drawMode !== &#x27;undefined&#x27; ? options.drawMode : DrawMode.TRIANGLES;
     options.elementsUsage = typeof options.elementsUsage !== &#x27;undefined&#x27; ? options.elementsUsage : DataUsage.STREAM_DRAW;
@@ -273,7 +277,7 @@ class GeometryAdapter implements AttribProvider {
     var attribues: AttribMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
-      overrideName: this.positionVarName,
+      name: this.positionVarName,
       glslType: &#x27;vec3&#x27;,
       size: 3,
       normalized: false,
@@ -295,7 +299,7 @@ class GeometryAdapter implements AttribProvider {
 */
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-        overrideName: this.normalVarName,
+        name: this.normalVarName,
         glslType: &#x27;vec3&#x27;,
         size: 3,
         normalized: false,
@@ -408,11 +412,11 @@ class GeometryAdapter implements AttribProvider {
           vertices.push(vC.y);
           vertices.push(vC.z);
 
-          if (face.vertexNormals.length === 3) {
-              let vertexNormals = face.vertexNormals;
-              let nA = vertexNormals[0];
-              let nB = vertexNormals[1];
-              let nC = vertexNormals[2];
+          // TODO: 3 means per-vertex, 1 means same per face, 0 means compute face normals?
+          if (face.normals.length === 3) {
+              let nA = face.normals[0];
+              let nB = face.normals[1];
+              let nC = face.normals[2];
               normals.push(nA.x);
               normals.push(nA.y);
               normals.push(nA.z);
@@ -425,9 +429,9 @@ class GeometryAdapter implements AttribProvider {
               normals.push(nC.y);
               normals.push(nC.z);
           }
-          else {
-            // We assume that face normals have been computed!
-            let normal: Vector3 = face.normal;
+          else if (face.normals.length === 1) {
+
+            let normal: Vector3 = face.normals[0];
 
             normals.push(normal.x);
             normals.push(normal.y);

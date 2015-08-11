@@ -28,7 +28,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 var v1 = p[indices[i]];
                 var v2 = p[indices[i + 1]];
                 var v3 = p[indices[i + 2]];
-                faces[j] = new Face3(v1['index'], v2['index'], v3['index'], undefined, [v1.clone(), v2.clone(), v3.clone()]);
+                faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
             }
             var centroid = new Vector3([0, 0, 0]);
             for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
@@ -66,12 +66,12 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
                 var u = azimuth(vector) / 2 / Math.PI + 0.5;
                 var v = inclination(vector) / Math.PI + 0.5;
-                vertex['uv'] = new Vector2(u, 1 - v);
+                vertex['uv'] = new Vector2([u, 1 - v]);
                 return vertex;
             }
             // Approximate a curved face with recursively sub-divided triangles.
             function make(v1, v2, v3) {
-                var face = new Face3(v1['index'], v2['index'], v3['index'], undefined, [v1.clone(), v2.clone(), v3.clone()]);
+                var face = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
                 that.faces.push(face);
                 centroid.copy(v1).add(v2).add(v3).divideScalar(3);
                 var azi = azimuth(centroid);
@@ -127,9 +127,9 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             // Texture fixing helper. Spheres have some odd behaviours.
             function correctUV(uv, vector, azimuth) {
                 if ((azimuth < 0) && (uv.x === 1))
-                    uv = new Vector2(uv.x - 1, uv.y);
+                    uv = new Vector2([uv.x - 1, uv.y]);
                 if ((vector.x === 0) && (vector.z === 0))
-                    uv = new Vector2(azimuth / 2 / Math.PI + 0.5, uv.y);
+                    uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
                 return uv.clone();
             }
         }

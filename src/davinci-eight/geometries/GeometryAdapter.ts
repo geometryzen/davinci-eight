@@ -6,12 +6,10 @@ import Geometry = require('../geometries/Geometry');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
-import AttribProvider = require('../core/AttribProvider');
+import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
-
-let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = 'aVertexColor';
 
 function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
   return new Color([1.0, 1.0, 1.0]);
@@ -19,10 +17,12 @@ function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vect
 
 /**
  * Adapter from a Geometry to a AttribProvider.
+ * Enables the rapid construction of meshes starting from classes that extend Geometry.
+ * Automatically uses elements (vertex indices).
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-class GeometryAdapter implements AttribProvider {
+class GeometryAdapter extends DefaultAttribProvider {
   public geometry: Geometry;
 //public color: Color;
 //public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
@@ -50,6 +50,7 @@ class GeometryAdapter implements AttribProvider {
       positionVarName?: string;
       normalVarName?: string;
     }) {
+    super();
     options = options || {};
     options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
     options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
@@ -124,7 +125,7 @@ class GeometryAdapter implements AttribProvider {
     var attribues: AttribMetaInfos = {};
 
     attribues[Symbolic.ATTRIBUTE_POSITION] = {
-      overrideName: this.positionVarName,
+      name: this.positionVarName,
       glslType: 'vec3',
       size: 3,
       normalized: false,
@@ -146,7 +147,7 @@ class GeometryAdapter implements AttribProvider {
 */
     if (this.drawMode === DrawMode.TRIANGLES) {
       attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-        overrideName: this.normalVarName,
+        name: this.normalVarName,
         glslType: 'vec3',
         size: 3,
         normalized: false,
@@ -259,11 +260,11 @@ class GeometryAdapter implements AttribProvider {
           vertices.push(vC.y);
           vertices.push(vC.z);
 
-          if (face.vertexNormals.length === 3) {
-              let vertexNormals = face.vertexNormals;
-              let nA = vertexNormals[0];
-              let nB = vertexNormals[1];
-              let nC = vertexNormals[2];
+          // TODO: 3 means per-vertex, 1 means same per face, 0 means compute face normals?
+          if (face.normals.length === 3) {
+              let nA = face.normals[0];
+              let nB = face.normals[1];
+              let nC = face.normals[2];
               normals.push(nA.x);
               normals.push(nA.y);
               normals.push(nA.z);
@@ -276,9 +277,9 @@ class GeometryAdapter implements AttribProvider {
               normals.push(nC.y);
               normals.push(nC.z);
           }
-          else {
-            // We assume that face normals have been computed!
-            let normal: Vector3 = face.normal;
+          else if (face.normals.length === 1) {
+
+            let normal: Vector3 = face.normals[0];
 
             normals.push(normal.x);
             normals.push(normal.y);

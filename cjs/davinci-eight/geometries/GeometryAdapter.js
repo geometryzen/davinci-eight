@@ -1,25 +1,35 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var Line3 = require('../core/Line3');
 var Point3 = require('../core/Point3');
 var Color = require('../core/Color');
 var Symbolic = require('../core/Symbolic');
+var DefaultAttribProvider = require('../core/DefaultAttribProvider');
 var DataUsage = require('../core/DataUsage');
 var DrawMode = require('../core/DrawMode');
-var DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME = 'aVertexColor';
 function defaultColorFunction(vertexIndex, face, vertexList) {
     return new Color([1.0, 1.0, 1.0]);
 }
 /**
  * Adapter from a Geometry to a AttribProvider.
+ * Enables the rapid construction of meshes starting from classes that extend Geometry.
+ * Automatically uses elements (vertex indices).
  * @class GeometryAdapter
  * @extends VertexAttributeProivider
  */
-var GeometryAdapter = (function () {
+var GeometryAdapter = (function (_super) {
+    __extends(GeometryAdapter, _super);
     /**
      * @class GeometryAdapter
      * @constructor
      * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
      */
     function GeometryAdapter(geometry, options) {
+        _super.call(this);
         this.$drawMode = DrawMode.TRIANGLES;
         this.elementsUsage = DataUsage.STREAM_DRAW;
         this.grayScale = false;
@@ -109,7 +119,7 @@ var GeometryAdapter = (function () {
     GeometryAdapter.prototype.getAttribMeta = function () {
         var attribues = {};
         attribues[Symbolic.ATTRIBUTE_POSITION] = {
-            overrideName: this.positionVarName,
+            name: this.positionVarName,
             glslType: 'vec3',
             size: 3,
             normalized: false,
@@ -130,7 +140,7 @@ var GeometryAdapter = (function () {
         */
         if (this.drawMode === DrawMode.TRIANGLES) {
             attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-                overrideName: this.normalVarName,
+                name: this.normalVarName,
                 glslType: 'vec3',
                 size: 3,
                 normalized: false,
@@ -235,11 +245,11 @@ var GeometryAdapter = (function () {
                         vertices.push(vC.x);
                         vertices.push(vC.y);
                         vertices.push(vC.z);
-                        if (face.vertexNormals.length === 3) {
-                            var vertexNormals = face.vertexNormals;
-                            var nA = vertexNormals[0];
-                            var nB = vertexNormals[1];
-                            var nC = vertexNormals[2];
+                        // TODO: 3 means per-vertex, 1 means same per face, 0 means compute face normals?
+                        if (face.normals.length === 3) {
+                            var nA = face.normals[0];
+                            var nB = face.normals[1];
+                            var nC = face.normals[2];
                             normals.push(nA.x);
                             normals.push(nA.y);
                             normals.push(nA.z);
@@ -250,9 +260,8 @@ var GeometryAdapter = (function () {
                             normals.push(nC.y);
                             normals.push(nC.z);
                         }
-                        else {
-                            // We assume that face normals have been computed!
-                            var normal = face.normal;
+                        else if (face.normals.length === 1) {
+                            var normal = face.normals[0];
                             normals.push(normal.x);
                             normals.push(normal.y);
                             normals.push(normal.z);
@@ -311,5 +320,5 @@ var GeometryAdapter = (function () {
         });
     };
     return GeometryAdapter;
-})();
+})(DefaultAttribProvider);
 module.exports = GeometryAdapter;

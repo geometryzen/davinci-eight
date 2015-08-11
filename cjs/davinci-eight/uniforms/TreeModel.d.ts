@@ -1,4 +1,4 @@
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 /**
  * @class TreeModel

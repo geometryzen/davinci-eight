@@ -10,6 +10,7 @@ import View = require('davinci-eight/cameras/View');
 // core
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
+import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 import Color = require('davinci-eight/core/Color');
 import Composite = require('davinci-eight/core/Composite');
 import DataUsage = require('davinci-eight/core/DataUsage');
@@ -21,6 +22,7 @@ import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import core = require('davinci-eight/core');
 import primitive = require('davinci-eight/objects/primitive');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
+import DefaultUniformProvider = require('davinci-eight/core/DefaultUniformProvider');
 import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // drawLists
@@ -39,7 +41,7 @@ import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeomet
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
-import ParametricGeometry = require('davinci-eight/geometries/ParametricGeometry');
+import ParametricSurfaceGeometry = require('davinci-eight/geometries/ParametricSurfaceGeometry');
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
@@ -99,7 +101,6 @@ import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 // uniforms
 import AmbientLight               = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
-import DefaultUniformProvider     = require('davinci-eight/uniforms/DefaultUniformProvider');
 import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight');
 import LocalModel                 = require('davinci-eight/uniforms/LocalModel');
 import Node                       = require('davinci-eight/uniforms/Node');
@@ -157,6 +158,8 @@ var eight = {
   workbench: workbench3D,
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
+  get DefaultAttribProvider() { return DefaultAttribProvider; },
+  get DefaultUniformProvider() { return DefaultUniformProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
@@ -187,7 +190,7 @@ var eight = {
   get KleinBottleGeometry() { return KleinBottleGeometry; },
   get MobiusStripGeometry() { return MobiusStripGeometry; },
   get OctahedronGeometry() { return OctahedronGeometry; },
-  get ParametricGeometry() { return ParametricGeometry; },
+  get ParametricSurfaceGeometry() { return ParametricSurfaceGeometry; },
   get PolyhedronGeometry() { return PolyhedronGeometry; },
   get RevolutionGeometry() { return RevolutionGeometry; },
   get SphereGeometry() { return SphereGeometry; },
@@ -212,7 +215,6 @@ var eight = {
   get Vector3() { return Vector3; },
   get Curve() { return Curve; },
   get ChainedUniformProvider() { return ChainedUniformProvider; },
-  get DefaultUniformProvider() { return DefaultUniformProvider; },
   get MultiUniformProvider() { return MultiUniformProvider; },
   get uniforms() { return uniforms; },
   // mesh

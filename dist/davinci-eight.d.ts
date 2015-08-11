@@ -172,6 +172,10 @@ declare module EIGHT
     xy: number;
     w: number;
   }
+  class Vector2 extends Mutable<number[]> {
+    public x: number;
+    public y: number;
+  }
   class Spinor3 extends Mutable<number[]> implements Spinor3Coords {
     public yz: number;
     public zx: number;
@@ -262,6 +266,20 @@ declare module EIGHT
   /**
    *
    */
+  class DefaultAttribProvider implements AttribProvider {
+    public drawMode: DrawMode;
+    public dynamic: boolean;
+    constructor();
+    draw(context: WebGLRenderingContext): void;
+    update(attributes: ShaderVariableDecl[]): void;
+    getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
+    getAttribMeta(): AttribMetaInfos;
+    hasElementArray(): boolean;
+    getElementArray(): {usage: DataUsage; data: Uint16Array};
+  }
+  /**
+   *
+   */
   class DefaultUniformProvider implements UniformProvider {
     constructor();
     getUniformFloat(name: string);
@@ -279,7 +297,7 @@ declare module EIGHT
   class DirectionalLight implements UniformProvider {
     public color: UniformColor;
     public direction: UniformVector3;
-    constructor(options?: {color?: Color; direction?: Vector3; name?: string});
+    constructor(options?: {color?: Color; direction?: Cartesian3; name?: string});
     getUniformFloat(name: string): number;
     getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
     getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
@@ -520,9 +538,10 @@ declare module EIGHT
     name: string;
   }
   /**
-   * A Geometry is the generator of calls to drawArrays or drawElements.
+   * The generator of calls to drawArrays or drawElements and a source of attribute data.
+   * This interface must be implemented in order to define a mesh.
    */
-  class AttribProvider
+  interface AttribProvider
   {
     draw(context: WebGLRenderingContext): void;
     /**
@@ -556,7 +575,11 @@ declare module EIGHT
     update(attributes: ShaderVariableDecl[]): void;
   }
   class Face3 {
-    constructor(a: number, b: number, c: number);
+    public a: number;
+    public b: number;
+    public c: number;
+    public normals: Vector3[];
+    constructor(a: number, b: number, c: number, normals?: Vector3[]);
   }
   class Sphere {
     public center: Vector3;
@@ -593,22 +616,17 @@ declare module EIGHT
     public static fromHSL(H: number, S: number, L: number): Color;
     public static fromRGB(red: number, green: number, blue: number): Color;
   }
-  class GeometryAdapter extends AttribProvider
+  class GeometryAdapter implements AttribProvider
   {
-    public color: Color;
+    drawMode: DrawMode;
+    dynamic: boolean;
     constructor(geometry: Geometry, options?: {drawMode?: DrawMode});
-  }
-  class CurveMesh extends AttribProvider {
-    constructor(
-      n: number,
-      generator: (i: number, time: number) => {x: number; y: number; z: number});
-  }
-  class LatticeMesh extends AttribProvider {
-    constructor(
-      I: number,
-      J: number,
-      K: number,
-      generator: (i: number, j: number, k: number, time: number) => { x: number; y: number; z: number });
+    draw(context: WebGLRenderingContext): void;
+    getAttribMeta(): AttribMetaInfos;
+    hasElementArray(): boolean;
+    getElementArray(): {usage: DataUsage; data: Uint16Array};
+    getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
+    update(attributes: ShaderVariableDecl[]): void;
   }
   class BarnGeometry extends Geometry {
     constructor();
@@ -632,9 +650,6 @@ declare module EIGHT
       openEnded?: boolean,
       thetaStart?: number,
       thetaLength?: number);
-  }
-  class RGBMesh extends AttribProvider {
-    constructor();
   }
   /**
    * A vertex shader and a fragment shader combined into a program.
@@ -1102,17 +1117,17 @@ declare module EIGHT
   class IcosahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
   }
-  class KleinBottleGeometry extends ParametricGeometry {
+  class KleinBottleGeometry extends ParametricSurfaceGeometry {
     constructor(uSegments: number, vSegments: number);
   }
-  class MobiusStripGeometry extends ParametricGeometry {
+  class MobiusStripGeometry extends ParametricSurfaceGeometry {
     constructor(uSegments: number, vSegments: number);
   }
   class OctahedronGeometry extends PolyhedronGeometry {
     constructor(radius?: number, detail?: number);
   }
-  class ParametricGeometry extends Geometry {
-    constructor(parametricFunction: (u: number, v: number) => Vector3, uSegments: number, vSegments: number);
+  class ParametricSurfaceGeometry extends Geometry {
+    constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
   }
   class SphereGeometry extends Geometry {
     constructor(

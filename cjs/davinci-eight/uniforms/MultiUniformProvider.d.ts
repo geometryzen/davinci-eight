@@ -1,6 +1,6 @@
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 declare class MultiUniformProvider extends DefaultUniformProvider {
     private providers;
     constructor(providers: UniformProvider[]);

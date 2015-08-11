@@ -9,8 +9,11 @@ import Vector3 = require('../math/Vector3');
 class BarnGeometry extends Geometry {
   constructor() {
     super();
-
-    this.vertices.push(new Vector3([-0.5, 0.0, -1.0]));
+    let vertexList = this.vertices;
+    function vertex(x: number, y: number, z: number) {
+      vertexList.push(new Vector3([x, y, z]));
+    }
+    vertex(-0.5, 0.0, -1.0);
     this.vertices.push(new Vector3([ 0.5, 0.0, -1.0]));
     this.vertices.push(new Vector3([ 0.5, 1.0, -1.0]));
     this.vertices.push(new Vector3([ 0.0, 1.5, -1.0]));

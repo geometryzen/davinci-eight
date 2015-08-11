@@ -147,6 +147,7 @@ var ellipsoid = function(spec?): EllipsoidMesh {
       return false;
     },
     getAttribMeta(): AttribMetaInfos {
+      // TODO: Use the defaults.
       return {
         position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
         color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },

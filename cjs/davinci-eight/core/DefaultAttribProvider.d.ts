@@ -1,0 +1,20 @@
+import AttribMetaInfos = require('../core/AttribMetaInfos');
+import IdentityAttribProvider = require('../core/IdentityAttribProvider');
+import DataUsage = require('../core/DataUsage');
+import ShaderVariableDecl = require('../core/ShaderVariableDecl');
+declare class DefaultAttribProvider extends IdentityAttribProvider {
+    constructor();
+    draw(context: WebGLRenderingContext): void;
+    update(attributes: ShaderVariableDecl[]): void;
+    getAttribArray(name: string): {
+        usage: DataUsage;
+        data: Float32Array;
+    };
+    getAttribMeta(): AttribMetaInfos;
+    hasElementArray(): boolean;
+    getElementArray(): {
+        usage: DataUsage;
+        data: Uint16Array;
+    };
+}
+export = DefaultAttribProvider;

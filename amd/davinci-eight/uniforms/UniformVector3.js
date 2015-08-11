@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Vector3', '../uniforms/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Vector3, DefaultUniformProvider, UniformVec3) {
+define(["require", "exports", '../math/Vector3', '../core/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Vector3, DefaultUniformProvider, UniformVec3) {
     /**
      * Provides a uniform variable with the Vector3 data type.
      * @class UniformVector3

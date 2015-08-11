@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3, Color, UniformColor) {
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../core/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3, Color, UniformColor) {
     var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
     var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
     var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';

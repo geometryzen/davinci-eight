@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var Vector3 = require('../math/Vector3');
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var DefaultUniformProvider = require('../core/DefaultUniformProvider');
 var UniformVec3 = require('../uniforms/UniformVec3');
 /**
  * Provides a uniform variable with the Vector3 data type.

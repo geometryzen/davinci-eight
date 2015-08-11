@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var ParametricGeometry = require('../geometries/ParametricGeometry');
+var ParametricSurfaceGeometry = require('../geometries/ParametricSurfaceGeometry');
 var Vector3 = require('../math/Vector3');
 var cos = Math.cos;
 var sin = Math.sin;
@@ -35,5 +35,5 @@ var MobiusStripGeometry = (function (_super) {
         _super.call(this, mobius, uSegments, vSegments);
     }
     return MobiusStripGeometry;
-})(ParametricGeometry);
+})(ParametricSurfaceGeometry);
 module.exports = MobiusStripGeometry;

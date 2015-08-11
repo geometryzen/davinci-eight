@@ -6,7 +6,7 @@ var __extends = this.__extends || function (d, b) {
 };
 var Matrix3 = require('../math/Matrix3');
 var Matrix4 = require('../math/Matrix4');
-var DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+var DefaultUniformProvider = require('../core/DefaultUniformProvider');
 var Spinor3 = require('../math/Spinor3');
 var Symbolic = require('../core/Symbolic');
 var Vector3 = require('../math/Vector3');

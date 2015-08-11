@@ -13,7 +13,11 @@ define(["require", "exports", '../geometries/Geometry', '../core/Face3', '../mat
         __extends(BarnGeometry, _super);
         function BarnGeometry() {
             _super.call(this);
-            this.vertices.push(new Vector3([-0.5, 0.0, -1.0]));
+            var vertexList = this.vertices;
+            function vertex(x, y, z) {
+                vertexList.push(new Vector3([x, y, z]));
+            }
+            vertex(-0.5, 0.0, -1.0);
             this.vertices.push(new Vector3([0.5, 0.0, -1.0]));
             this.vertices.push(new Vector3([0.5, 1.0, -1.0]));
             this.vertices.push(new Vector3([0.0, 1.5, -1.0]));

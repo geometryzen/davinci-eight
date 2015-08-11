@@ -1,6 +1,6 @@
 import Color = require('../core/Color');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
 /**
  * Provides a uniform variable representing an ambient light.

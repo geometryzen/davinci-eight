@@ -65,18 +65,16 @@ var BoxGeometry = (function (_super) {
                     var b = ix + gridX1 * (iy + 1);
                     var c = (ix + 1) + gridX1 * (iy + 1);
                     var d = (ix + 1) + gridX1 * iy;
-                    var uva = new Vector2(ix / gridX, 1 - iy / gridY);
-                    var uvb = new Vector2(ix / gridX, 1 - (iy + 1) / gridY);
-                    var uvc = new Vector2((ix + 1) / gridX, 1 - (iy + 1) / gridY);
-                    var uvd = new Vector2((ix + 1) / gridX, 1 - iy / gridY);
+                    var uva = new Vector2([ix / gridX, 1 - iy / gridY]);
+                    var uvb = new Vector2([ix / gridX, 1 - (iy + 1) / gridY]);
+                    var uvc = new Vector2([(ix + 1) / gridX, 1 - (iy + 1) / gridY]);
+                    var uvd = new Vector2([(ix + 1) / gridX, 1 - iy / gridY]);
                     var face = new Face3(a + offset, b + offset, d + offset);
-                    face.normal.copy(normal);
-                    face.vertexNormals.push(normal.clone(), normal.clone(), normal.clone());
+                    face.normals.push(normal);
                     scope.faces.push(face);
                     scope.faceVertexUvs[0].push([uva, uvb, uvd]);
                     face = new Face3(b + offset, c + offset, d + offset);
-                    face.normal.copy(normal);
-                    face.vertexNormals.push(normal.clone(), normal.clone(), normal.clone());
+                    face.normals.push(normal);
                     scope.faces.push(face);
                     scope.faceVertexUvs[0].push([uvb.clone(), uvc, uvd.clone()]);
                 }

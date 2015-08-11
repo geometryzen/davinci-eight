@@ -1,6 +1,6 @@
 import Spinor3 = require('../math/Spinor3');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import DefaultUniformProvider = require('../uniforms/DefaultUniformProvider');
+import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
 import UniformVec4 = require('../uniforms/UniformVec4');
 

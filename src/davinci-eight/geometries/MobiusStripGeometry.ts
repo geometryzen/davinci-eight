@@ -1,4 +1,4 @@
-import ParametricGeometry = require('../geometries/ParametricGeometry');
+import ParametricSurfaceGeometry = require('../geometries/ParametricSurfaceGeometry');
 import Vector3 = require('../math/Vector3');
 
 let cos = Math.cos;
@@ -28,7 +28,7 @@ function mobius(u: number, v: number): Vector3 {
 /**
  * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html
  */
-class MobiusStripGeometry extends ParametricGeometry {
+class MobiusStripGeometry extends ParametricSurfaceGeometry {
   constructor(uSegments: number, vSegments: number) {
     super(mobius, uSegments, vSegments);
   }

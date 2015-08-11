@@ -2,12 +2,14 @@
 var view = require('davinci-eight/cameras/view');
 var frustum = require('davinci-eight/cameras/frustum');
 var perspective = require('davinci-eight/cameras/perspective');
+var DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 var Color = require('davinci-eight/core/Color');
 var DataUsage = require('davinci-eight/core/DataUsage');
 var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
 var core = require('davinci-eight/core');
 var primitive = require('davinci-eight/objects/primitive');
+var DefaultUniformProvider = require('davinci-eight/core/DefaultUniformProvider');
 var ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 var ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // drawLists
@@ -25,7 +27,7 @@ var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry'
 var KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 var MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
 var OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
-var ParametricGeometry = require('davinci-eight/geometries/ParametricGeometry');
+var ParametricSurfaceGeometry = require('davinci-eight/geometries/ParametricSurfaceGeometry');
 var PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 var RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 var SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
@@ -66,7 +68,6 @@ var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 // uniforms
 var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
-var DefaultUniformProvider = require('davinci-eight/uniforms/DefaultUniformProvider');
 var DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
 var LocalModel = require('davinci-eight/uniforms/LocalModel');
 var Node = require('davinci-eight/uniforms/Node');
@@ -119,6 +120,8 @@ var eight = {
     workbench: workbench3D,
     animation: windowAnimationRunner,
     get DataUsage() { return DataUsage; },
+    get DefaultAttribProvider() { return DefaultAttribProvider; },
+    get DefaultUniformProvider() { return DefaultUniformProvider; },
     get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },
     get ShaderAttribLocation() { return ShaderAttribLocation; },
@@ -149,7 +152,7 @@ var eight = {
     get KleinBottleGeometry() { return KleinBottleGeometry; },
     get MobiusStripGeometry() { return MobiusStripGeometry; },
     get OctahedronGeometry() { return OctahedronGeometry; },
-    get ParametricGeometry() { return ParametricGeometry; },
+    get ParametricSurfaceGeometry() { return ParametricSurfaceGeometry; },
     get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
     get SphereGeometry() { return SphereGeometry; },
@@ -174,7 +177,6 @@ var eight = {
     get Vector3() { return Vector3; },
     get Curve() { return Curve; },
     get ChainedUniformProvider() { return ChainedUniformProvider; },
-    get DefaultUniformProvider() { return DefaultUniformProvider; },
     get MultiUniformProvider() { return MultiUniformProvider; },
     get uniforms() { return uniforms; },
     // mesh

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.52.0</em>
+            <em>API Docs for: 2.53.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,6 +47,8 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
+                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Color
@@ -78,8 +80,8 @@
                                 <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Node.html">Node</a></li>
-                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
@@ -100,6 +102,7 @@
                                 <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
                                 <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
@@ -154,6 +157,7 @@ import UniformColor = require(&#x27;../uniforms/UniformColor&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
 import UniformVector3 = require(&#x27;../uniforms/UniformVector3&#x27;);
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 
@@ -169,11 +173,11 @@ class DirectionalLight implements UniformProvider {
    * @class DirectionalLight
    * @constructor
    */
-  constructor(options?: {color?: Color; direction?: Vector3; name?: string}) {
+  constructor(options?: {color?: Color; direction?: Cartesian3; name?: string}) {
 
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
-    options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
+    let direction: Cartesian3 = isDefined(options.direction) ? options.direction : {x: 0, y: 0, z: -1};
 
     let colorName = isDefined(options.name) ? options.name + &#x27;Color&#x27; : void 0;
     let directionName = isDefined(options.name) ? options.name + &#x27;Direction&#x27; : void 0;
@@ -183,7 +187,7 @@ class DirectionalLight implements UniformProvider {
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
 
     this.uColor.data = options.color;
-    this.uDirection.data = options.direction;
+    this.uDirection.data = new Vector3().copy(direction);
   }
   get color() {
     return this.uColor;

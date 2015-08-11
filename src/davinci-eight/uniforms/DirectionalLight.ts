@@ -5,6 +5,7 @@ import UniformColor = require('../uniforms/UniformColor');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import UniformVector3 = require('../uniforms/UniformVector3');
+import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
 import isDefined = require('../checks/isDefined');
 
@@ -20,11 +21,11 @@ class DirectionalLight implements UniformProvider {
    * @class DirectionalLight
    * @constructor
    */
-  constructor(options?: {color?: Color; direction?: Vector3; name?: string}) {
+  constructor(options?: {color?: Color; direction?: Cartesian3; name?: string}) {
 
     options = options || {};
     options.color = options.color || new Color([1.0, 1.0, 1.0]);
-    options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
+    let direction: Cartesian3 = isDefined(options.direction) ? options.direction : {x: 0, y: 0, z: -1};
 
     let colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
     let directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
@@ -34,7 +35,7 @@ class DirectionalLight implements UniformProvider {
     this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
 
     this.uColor.data = options.color;
-    this.uDirection.data = options.direction;
+    this.uDirection.data = new Vector3().copy(direction);
   }
   get color() {
     return this.uColor;

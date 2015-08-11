@@ -8,6 +8,10 @@ import isDefined = require('../checks/isDefined');
 import getAttribVarName = require('../core/getAttribVarName');
 import getUniformVarName = require('../core/getUniformVarName');
 
+function getAttribCodeName(attributes: AttribMetaInfos, name: string) {
+  return getAttribVarName(attributes[name], name);
+}
+
 function getUniformCodeName(uniforms: UniformMetaInfos, name: string) {
   return getUniformVarName(uniforms[name], name);
 }
@@ -51,12 +55,19 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
   lines.push("void main(void) {");
   let glPosition: string[] = [];
   glPosition.unshift(SEMICOLON);
-  glPosition.unshift(RPAREN);
-  glPosition.unshift("1.0");
-  glPosition.unshift(COMMA);
-  glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
-  glPosition.unshift(LPAREN);
-  glPosition.unshift("vec4");
+
+  if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
+    glPosition.unshift(RPAREN);
+    glPosition.unshift("1.0");
+    glPosition.unshift(COMMA);
+    glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
+    glPosition.unshift(LPAREN);
+    glPosition.unshift("vec4");
+  }
+  else {
+    glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
+  }
+
   if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
     glPosition.unshift(TIMES);
     glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
@@ -71,10 +82,11 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
   }
   glPosition.unshift(ASSIGN);
   glPosition.unshift("gl_Position");
+  glPosition.unshift('  ');
   lines.push(glPosition.join(''));
 
-  let vColorAssignLines: string[] = [];
   if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+    let vColorAssignLines: string[] = [];
     let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
     switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
       case 'vec4': {
@@ -89,8 +101,10 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
         throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
       }
     }
+    lines.push(vColorAssignLines.join(''));
   }
   else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+    let vColorAssignLines: string[] = [];
     let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
     switch(uniforms[Symbolic.UNIFORM_COLOR].glslType) {
       case 'vec4': {
@@ -105,8 +119,8 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
         throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
       }
     }
+    lines.push(vColorAssignLines.join(''));
   }
-  lines.push(vColorAssignLines.join(''));
 
   if (vLight) {
     if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
@@ -129,7 +143,8 @@ let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaIn
       }
     }
   }
-  lines.push("  gl_PointSize = 6.0;");
+  // TODO: This should be made conditional and variable or constant.
+  //lines.push("  gl_PointSize = 6.0;");
   lines.push("}");
 
   let code = lines.join("\n");

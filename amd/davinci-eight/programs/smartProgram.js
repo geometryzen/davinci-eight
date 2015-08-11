@@ -1,4 +1,7 @@
 define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/getAttribVarName', '../core/getUniformVarName'], function (require, exports, shaderProgram, Symbolic, getAttribVarName, getUniformVarName) {
+    function getAttribCodeName(attributes, name) {
+        return getAttribVarName(attributes[name], name);
+    }
     function getUniformCodeName(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
@@ -38,12 +41,17 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
         lines.push("void main(void) {");
         var glPosition = [];
         glPosition.unshift(SEMICOLON);
-        glPosition.unshift(RPAREN);
-        glPosition.unshift("1.0");
-        glPosition.unshift(COMMA);
-        glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
-        glPosition.unshift(LPAREN);
-        glPosition.unshift("vec4");
+        if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
+            glPosition.unshift(RPAREN);
+            glPosition.unshift("1.0");
+            glPosition.unshift(COMMA);
+            glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
+            glPosition.unshift(LPAREN);
+            glPosition.unshift("vec4");
+        }
+        else {
+            glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
+        }
         if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
             glPosition.unshift(TIMES);
             glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
@@ -58,9 +66,10 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
         }
         glPosition.unshift(ASSIGN);
         glPosition.unshift("gl_Position");
+        glPosition.unshift('  ');
         lines.push(glPosition.join(''));
-        var vColorAssignLines = [];
         if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+            var vColorAssignLines = [];
             var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
             switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
                 case 'vec4':
@@ -77,8 +86,10 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
                     throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
                 }
             }
+            lines.push(vColorAssignLines.join(''));
         }
         else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+            var vColorAssignLines = [];
             var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
             switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
                 case 'vec4':
@@ -95,8 +106,8 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
                     throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
                 }
             }
+            lines.push(vColorAssignLines.join(''));
         }
-        lines.push(vColorAssignLines.join(''));
         if (vLight) {
             if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
                 lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
@@ -118,7 +129,8 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../core/ge
                 }
             }
         }
-        lines.push("  gl_PointSize = 6.0;");
+        // TODO: This should be made conditional and variable or constant.
+        //lines.push("  gl_PointSize = 6.0;");
         lines.push("}");
         var code = lines.join("\n");
         return code;

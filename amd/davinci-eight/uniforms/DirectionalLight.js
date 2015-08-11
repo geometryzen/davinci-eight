@@ -11,14 +11,14 @@ define(["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider
         function DirectionalLight(options) {
             options = options || {};
             options.color = options.color || new Color([1.0, 1.0, 1.0]);
-            options.direction = options.direction || new Vector3([0.0, 0.0, -1.0]);
+            var direction = isDefined(options.direction) ? options.direction : { x: 0, y: 0, z: -1 };
             var colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
             var directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
             this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
             this.uDirection = new UniformVector3(directionName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
             this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
             this.uColor.data = options.color;
-            this.uDirection.data = options.direction;
+            this.uDirection.data = new Vector3().copy(direction);
         }
         Object.defineProperty(DirectionalLight.prototype, "color", {
             get: function () {

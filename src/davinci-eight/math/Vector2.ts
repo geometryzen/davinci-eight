@@ -1,9 +1,69 @@
-class Vector2 {
-  public x: number;
-  public y: number;
-  constructor(x?: number, y?: number) {
-    this.x = x || 0;
-    this.y = y || 0;
+import Cartesian2 = require('../math/Cartesian2');
+import Mutable = require('../math/Mutable');
+import expectArg = require('../checks/expectArg');
+
+/**
+ * @class Vector2
+ */
+class Vector2 implements Cartesian2, Mutable<number[]> {
+  private $data: number[];
+  private $callback: () => number[];
+  public modified: boolean;
+  /**
+   * @class Vector2
+   * @constructor
+   * @param data {number[]}
+   */
+  constructor(data: number[] = [0, 0]) {
+    this.data = data;
+    this.modified = false;
+  }
+  get data() {
+    if (this.$data) {
+      return this.$data;
+    }
+    else if (this.$callback) {
+      var data = this.$callback();
+      expectArg('callback()', data).toSatisfy(data.length === 2, "callback() length must be 2");
+      return this.$callback();
+    }
+    else {
+      throw new Error("Vector2 is undefined.");
+    }
+  }
+  set data(data: number[]) {
+    expectArg('data', data).toSatisfy(data.length === 2, "data length must be 2");
+    this.$data = data;
+    this.$callback = void 0;
+  }
+  get callback() {
+    return this.$callback;
+  }
+  set callback(reactTo: () => number[]) {
+    this.$callback = reactTo;
+    this.$data = void 0;
+  }
+  /**
+   * @property x
+   * @type Number
+   */
+  get x(): number {
+    return this.data[0];
+  }
+  set x(value: number) {
+    this.modified = this.modified || this.x !== value;
+    this.data[0] = value;
+  }
+  /**
+   * @property y
+   * @type Number
+   */
+  get y(): number {
+    return this.data[1];
+  }
+  set y(value: number) {
+    this.modified = this.modified || this.y !== value;
+    this.data[1] = value;
   }
   set(x: number, y: number) {
     this.x = x;
@@ -32,12 +92,12 @@ class Vector2 {
       default: throw new Error( 'index is out of range: ' + index );
     }
   }
-  copy(v: Vector2) {
+  copy(v: Cartesian2) {
     this.x = v.x;
     this.y = v.y;
     return this;
   }
-  add(v: Vector2) {
+  add(v: Cartesian2) {
     this.x += v.x;
     this.y += v.y;
     return this;
@@ -47,12 +107,12 @@ class Vector2 {
     this.y += s;
     return this;
   }
-  addVectors(a: Vector2, b: Vector2) {
+  addVectors(a: Cartesian2, b: Cartesian2) {
     this.x = a.x + b.x;
     this.y = a.y + b.y;
     return this;
   }
-  sub(v: Vector2) {
+  sub(v: Cartesian2) {
     this.x -= v.x;
     this.y -= v.y;
     return this;
@@ -62,12 +122,12 @@ class Vector2 {
     this.y -= s;
     return this;
   }
-  subVectors(a: Vector2, b: Vector2) {
+  subVectors(a: Cartesian2, b: Cartesian2) {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
     return this;
   }
-  multiply(v: Vector2) {
+  multiply(v: Cartesian2) {
     this.x *= v.x;
     this.y *= v.y;
     return this;
@@ -77,7 +137,7 @@ class Vector2 {
     this.y *= s;
     return this;
   }
-  divide(v: Vector2) {
+  divide(v: Cartesian2) {
     this.x /= v.x;
     this.y /= v.y;
     return this;
@@ -94,7 +154,7 @@ class Vector2 {
     }
     return this;
   }
-  min(v: Vector2) {
+  min(v: Cartesian2) {
     if ( this.x > v.x ) {
       this.x = v.x;
     }
@@ -103,7 +163,7 @@ class Vector2 {
     }
     return this;
   }
-  max(v: Vector2) {
+  max(v: Cartesian2) {
     if ( this.x < v.x ) {
       this.x = v.x;
     }
@@ -137,7 +197,7 @@ class Vector2 {
     this.y = - this.y;
     return this;
   }
-  dot(v: Vector2) {
+  dot(v: Cartesian2) {
     return this.x * v.x + this.y * v.y;
   }
   lengthSq() {
@@ -149,10 +209,10 @@ class Vector2 {
   normalize() {
     return this.divideScalar( this.length() );
   }
-  distanceTo(v: Vector2) {
+  distanceTo(v: Cartesian2) {
     return Math.sqrt( this.distanceToSquared( v ) );
   }
-  distanceToSquared(v: Vector2) {
+  distanceToSquared(v: Cartesian2) {
     var dx = this.x - v.x, dy = this.y - v.y;
     return dx * dx + dy * dy;
   }
@@ -163,7 +223,7 @@ class Vector2 {
     }
     return this;
   }
-  lerp(v: Vector2, alpha: number) {
+  lerp(v: Cartesian2, alpha: number) {
     this.x += ( v.x - this.x ) * alpha;
     this.y += ( v.y - this.y ) * alpha;
     return this;
@@ -172,7 +232,7 @@ class Vector2 {
     this.subVectors( v2, v1 ).multiplyScalar( alpha ).add( v1 );
     return this;
   }
-  equals(v: Vector2) {
+  equals(v: Cartesian2) {
     return ( ( v.x === this.x ) && ( v.y === this.y ) );
   }
   fromArray(array: number[], offset: number) {
@@ -196,7 +256,7 @@ class Vector2 {
     return this;
   }
   clone() {
-    return new Vector2(this.x, this.y);
+    return new Vector2([this.x, this.y]);
   }
 }
 
