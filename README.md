@@ -155,6 +155,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.51.0: 2015-08-09 Restore names used in Symbolic
 * 2.52.0: 2015-08-09 BarnGeometry
 * 2.53.0: 2015-08-10 Vector2
+* 2.54.0: 2015-08-11 Quaternion
 
 ## License
 Copyright (c) 2014-2015 David Holmes

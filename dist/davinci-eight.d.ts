@@ -166,15 +166,57 @@ declare module EIGHT
     toString(): string;
     toFixed(digits?: number): string;
   }
+  interface Cartesian2 {
+    x: number;
+    y: number;
+  }
+  class Vector2 extends Mutable<number[]> implements Cartesian2 {
+    public x: number;
+    public y: number;
+    constructor(vector?: number[]);
+    add(v: Cartesian2): Vector2;
+    addVectors(a: Cartesian2, b: Cartesian2): Vector2;
+    copy(v: Cartesian2): Vector2;
+    magnitude(): number;
+    multiplyScalar(s: number): Vector2;
+    quaditude(): number;
+    set(x: number, y: number): Vector2;
+    sub(v: Cartesian2): Vector2;
+    subVectors(a: Cartesian2, b: Cartesian2): Vector2;
+  }
+  class Quaternion {
+    public x: number;
+    public y: number;
+    public z: number;
+    public w: number;
+    public onChangeCallback: () => void;
+    constructor(x?: number, y?: number, z?: number, w?: number);
+    set(x: number, y: number, z: number, w: number);
+    clone(): Quaternion;
+    conjugate(): Quaternion;
+    copy(quaternion: Quaternion): Quaternion;
+    dot(v: Quaternion): number;
+    inverse(): Quaternion;
+    magnitude(): number;
+    multiply(q: Quaternion): Quaternion;
+    multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion;
+    normalize(): Quaternion;
+    onChange(callback: () => void): Quaternion;
+    quaditude(): number;
+    setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion;
+    setFromRotationMatrix(m: Matrix4): Quaternion;
+    setFromUnitVectors(vFrom: Vector3, vTo: Vector3);
+    slerp(qb: Quaternion, t: number): Quaternion;
+    equals(quaternion: Quaternion);
+    fromArray(array: number[], offset: number): Quaternion;
+    toArray(array: number[], offset): number[];
+    public static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion;
+  }
   interface Spinor3Coords {
     yz: number;
     zx: number;
     xy: number;
     w: number;
-  }
-  class Vector2 extends Mutable<number[]> {
-    public x: number;
-    public y: number;
   }
   class Spinor3 extends Mutable<number[]> implements Spinor3Coords {
     public yz: number;
@@ -204,12 +246,23 @@ declare module EIGHT
     public static e3: Vector3;
     public static copy(vector: Cartesian3): Vector3;
     constructor(vector?: number[]);
-    multiplyScalar(s: number): Vector3;
+    add(v: Cartesian3): Vector3;
+    addVectors(a: Cartesian3, b: Cartesian3): Vector3;
+    applyQuaternion(q: { x: number, y: number, z: number, w: number }): Vector3;
     clone(): Vector3;
     copy(v: Cartesian3): Vector3;
     cross(v: Cartesian3): Vector3;
     crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
+    distanceTo(position: Cartesian3): number;
+    magnitude(): number;
+    multiplyScalar(s: number): Vector3;
     normalize(): Vector3;
+    quaditude(): number;
+    quadranceTo(position: Cartesian3): number;
+    set(x: number, y: number, z: number): Vector3;
+    setMagnitude(magnitude: number): Vector3;
+    sub(v: Cartesian3): Vector3;
+    subVectors(a: Cartesian3, b: Cartesian3): Vector3;
   }
   /**
    *

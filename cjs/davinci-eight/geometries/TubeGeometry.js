@@ -125,6 +125,7 @@ var FrenetFrames = (function () {
         var numpoints = segments + 1;
         var theta;
         var epsilon = 0.0001;
+        var epsilonSquared = 0.0001 * 0.0001;
         var smallest;
         // TODO: The folloowing should be a Vector3
         var tx;
@@ -190,9 +191,10 @@ var FrenetFrames = (function () {
             normals[i] = normals[i - 1].clone();
             binormals[i] = binormals[i - 1].clone();
             vec.crossVectors(tangents[i - 1], tangents[i]);
-            if (vec.length() > epsilon) {
+            if (vec.magnitude() > epsilon) {
                 vec.normalize();
                 theta = Math.acos(clamp(tangents[i - 1].dot(tangents[i]), -1, 1)); // clamp for floating pt errors
+                // TODO: don't like this applyMatrix4 use applySpinor
                 normals[i].applyMatrix4(mat.rotationAxis(vec, theta));
             }
             binormals[i].crossVectors(tangents[i], normals[i]);
@@ -206,6 +208,7 @@ var FrenetFrames = (function () {
             }
             for (i = 1; i < numpoints; i++) {
                 // twist a little...
+                // TODO: Don't like this applyMatrix4 use applySpinor
                 normals[i].applyMatrix4(mat.rotationAxis(tangents[i], theta * i));
                 binormals[i].crossVectors(tangents[i], normals[i]);
             }

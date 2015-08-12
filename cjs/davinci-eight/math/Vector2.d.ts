@@ -48,13 +48,13 @@ declare class Vector2 implements Cartesian2, Mutable<number[]> {
     round(): Vector2;
     roundToZero(): Vector2;
     negate(): Vector2;
+    distanceTo(position: Cartesian2): number;
     dot(v: Cartesian2): number;
-    lengthSq(): number;
-    length(): number;
+    magnitude(): number;
     normalize(): Vector2;
-    distanceTo(v: Cartesian2): number;
-    distanceToSquared(v: Cartesian2): number;
-    setLength(l: number): Vector2;
+    quaditude(): number;
+    quadranceTo(position: Cartesian2): number;
+    setMagnitude(l: number): Vector2;
     lerp(v: Cartesian2, alpha: number): Vector2;
     lerpVectors(v1: Vector2, v2: Vector2, alpha: number): Vector2;
     equals(v: Cartesian2): boolean;

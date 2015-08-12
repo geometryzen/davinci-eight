@@ -617,13 +617,34 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
          * @param v {Vector3} The vector to add to this vector.
          */
         Vector3.prototype.add = function (v) {
-            this.x += v.x;
-            this.y += v.y;
-            this.z += v.z;
+            return this.addVectors(this, v);
+        };
+        Vector3.prototype.addVectors = function (a, b) {
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.z = a.z + b.z;
             return this;
         };
+        Vector3.prototype.applyMatrix3 = function (m) {
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var e = m.elements;
+            this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
+            this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
+            this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
+            return this;
+        };
+        /**
+         * Pre-multiplies the column vector corresponding to this vector by the matrix.
+         * The result is applied to this vector.
+         * Strictly speaking, this method does not make much sense because the dimensions
+         * of the square matrix and column vector don't match.
+         * TODO: Used by TubeGeometry.
+         * @method applyMatrix
+         * @param m The 4x4 matrix that pre-multiplies this column vector.
+         */
         Vector3.prototype.applyMatrix4 = function (m) {
-            // input: THREE.Matrix4 affine matrix
             var x = this.x, y = this.y, z = this.z;
             var e = m.elements;
             this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
@@ -689,13 +710,13 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             this.z = ax * by - ay * bx;
             return this;
         };
-        Vector3.prototype.distance = function (v) {
-            return Math.sqrt(this.quadrance(v));
+        Vector3.prototype.distanceTo = function (position) {
+            return Math.sqrt(this.quadranceTo(position));
         };
-        Vector3.prototype.quadrance = function (v) {
-            var dx = this.x - v.x;
-            var dy = this.y - v.y;
-            var dz = this.z - v.z;
+        Vector3.prototype.quadranceTo = function (position) {
+            var dx = this.x - position.x;
+            var dy = this.y - position.y;
+            var dz = this.z - position.z;
             return dx * dx + dy * dy + dz * dz;
         };
         Vector3.prototype.divideScalar = function (scalar) {
@@ -715,11 +736,14 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
         Vector3.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y + this.z * v.z;
         };
-        Vector3.prototype.length = function () {
+        Vector3.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Vector3.prototype.quaditude = function () {
             var x = this.x;
             var y = this.y;
             var z = this.z;
-            return Math.sqrt(x * x + y * y + z * z);
+            return x * x + y * y + z * z;
         };
         Vector3.prototype.lerp = function (v, alpha) {
             this.x += (v.x - this.x) * alpha;
@@ -728,7 +752,7 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             return this;
         };
         Vector3.prototype.normalize = function () {
-            return this.divideScalar(this.length());
+            return this.divideScalar(this.magnitude());
         };
         Vector3.prototype.multiply = function (v) {
             this.x *= v.x;
@@ -747,6 +771,21 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
             this.y = y;
             this.z = z;
             return this;
+        };
+        Vector3.prototype.setMagnitude = function (magnitude) {
+            var m = this.magnitude();
+            if (m !== 0) {
+                if (magnitude !== m) {
+                    return this.multiplyScalar(magnitude / m);
+                }
+                else {
+                    return this; // No change
+                }
+            }
+            else {
+                // Former magnitude was zero, i.e. a null vector.
+                throw new Error("Attempting to set the magnitude of a null vector.");
+            }
         };
         Vector3.prototype.setX = function (x) {
             this.x = x;
@@ -2079,7 +2118,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.53.0'
+        VERSION: '2.54.0'
     };
     return core;
 });
@@ -3724,27 +3763,28 @@ define('davinci-eight/math/Vector2',["require", "exports", '../checks/expectArg'
             this.y = -this.y;
             return this;
         };
+        Vector2.prototype.distanceTo = function (position) {
+            return Math.sqrt(this.quadranceTo(position));
+        };
         Vector2.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y;
         };
-        Vector2.prototype.lengthSq = function () {
-            return this.x * this.x + this.y * this.y;
-        };
-        Vector2.prototype.length = function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y);
+        Vector2.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
         };
         Vector2.prototype.normalize = function () {
-            return this.divideScalar(this.length());
+            return this.divideScalar(this.magnitude());
         };
-        Vector2.prototype.distanceTo = function (v) {
-            return Math.sqrt(this.distanceToSquared(v));
+        Vector2.prototype.quaditude = function () {
+            return this.x * this.x + this.y * this.y;
         };
-        Vector2.prototype.distanceToSquared = function (v) {
-            var dx = this.x - v.x, dy = this.y - v.y;
+        Vector2.prototype.quadranceTo = function (position) {
+            var dx = this.x - position.x;
+            var dy = this.y - position.y;
             return dx * dx + dy * dy;
         };
-        Vector2.prototype.setLength = function (l) {
-            var oldLength = this.length();
+        Vector2.prototype.setMagnitude = function (l) {
+            var oldLength = this.magnitude();
             if (oldLength !== 0 && l !== oldLength) {
                 this.multiplyScalar(l / oldLength);
             }
@@ -4984,6 +5024,7 @@ define('davinci-eight/geometries/TubeGeometry',["require", "exports", '../math/c
             var numpoints = segments + 1;
             var theta;
             var epsilon = 0.0001;
+            var epsilonSquared = 0.0001 * 0.0001;
             var smallest;
             // TODO: The folloowing should be a Vector3
             var tx;
@@ -5049,9 +5090,10 @@ define('davinci-eight/geometries/TubeGeometry',["require", "exports", '../math/c
                 normals[i] = normals[i - 1].clone();
                 binormals[i] = binormals[i - 1].clone();
                 vec.crossVectors(tangents[i - 1], tangents[i]);
-                if (vec.length() > epsilon) {
+                if (vec.magnitude() > epsilon) {
                     vec.normalize();
                     theta = Math.acos(clamp(tangents[i - 1].dot(tangents[i]), -1, 1)); // clamp for floating pt errors
+                    // TODO: don't like this applyMatrix4 use applySpinor
                     normals[i].applyMatrix4(mat.rotationAxis(vec, theta));
                 }
                 binormals[i].crossVectors(tangents[i], normals[i]);
@@ -5065,6 +5107,7 @@ define('davinci-eight/geometries/TubeGeometry',["require", "exports", '../math/c
                 }
                 for (i = 1; i < numpoints; i++) {
                     // twist a little...
+                    // TODO: Don't like this applyMatrix4 use applySpinor
                     normals[i].applyMatrix4(mat.rotationAxis(tangents[i], theta * i));
                     binormals[i].crossVectors(tangents[i], normals[i]);
                 }
@@ -7946,6 +7989,282 @@ define('davinci-eight/math/Matrix3',["require", "exports", "gl-matrix"], functio
     return Matrix3;
 });
 
+define('davinci-eight/math/Quaternion',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
+    var EPS = 0.000001;
+    var Quaternion = (function () {
+        function Quaternion(x, y, z, w) {
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (z === void 0) { z = 0; }
+            if (w === void 0) { w = 1; }
+            this.onChangeCallback = function () { };
+            this._x = x;
+            this._y = y;
+            this._z = z;
+            this._w = w;
+        }
+        Object.defineProperty(Quaternion.prototype, "x", {
+            get: function () {
+                return this._x;
+            },
+            set: function (value) {
+                this._x = value;
+                this.onChangeCallback();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Quaternion.prototype, "y", {
+            get: function () {
+                return this._y;
+            },
+            set: function (value) {
+                this._y = value;
+                this.onChangeCallback();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Quaternion.prototype, "z", {
+            get: function () {
+                return this._z;
+            },
+            set: function (value) {
+                this._z = value;
+                this.onChangeCallback();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Quaternion.prototype, "w", {
+            get: function () {
+                return this._w;
+            },
+            set: function (value) {
+                this._w = value;
+                this.onChangeCallback();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Quaternion.prototype.set = function (x, y, z, w) {
+            this._x = x;
+            this._y = y;
+            this._z = z;
+            this._w = w;
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.clone = function () {
+            return new Quaternion(this._x, this._y, this._z, this._w);
+        };
+        Quaternion.prototype.conjugate = function () {
+            this._x *= -1;
+            this._y *= -1;
+            this._z *= -1;
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.copy = function (quaternion) {
+            this._x = quaternion.x;
+            this._y = quaternion.y;
+            this._z = quaternion.z;
+            this._w = quaternion.w;
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.dot = function (v) {
+            return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
+        };
+        Quaternion.prototype.inverse = function () {
+            this.conjugate().normalize();
+            return this;
+        };
+        Quaternion.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Quaternion.prototype.multiply = function (q) {
+            return this.multiplyQuaternions(this, q);
+        };
+        Quaternion.prototype.multiplyQuaternions = function (a, b) {
+            // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
+            var qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
+            var qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
+            this._x = qax * qbw + qaw * qbx + qay * qbz - qaz * qby;
+            this._y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz;
+            this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
+            this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.normalize = function () {
+            var l = this.magnitude();
+            if (l === 0) {
+                this._x = 0;
+                this._y = 0;
+                this._z = 0;
+                this._w = 1;
+            }
+            else {
+                l = 1 / l;
+                this._x = this._x * l;
+                this._y = this._y * l;
+                this._z = this._z * l;
+                this._w = this._w * l;
+            }
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.onChange = function (callback) {
+            this.onChangeCallback = callback;
+            return this;
+        };
+        Quaternion.prototype.quaditude = function () {
+            return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
+        };
+        Quaternion.prototype.setFromAxisAngle = function (axis, angle) {
+            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
+            // assumes axis is normalized
+            var halfAngle = angle / 2, s = Math.sin(halfAngle);
+            this._x = axis.x * s;
+            this._y = axis.y * s;
+            this._z = axis.z * s;
+            this._w = Math.cos(halfAngle);
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.setFromRotationMatrix = function (m) {
+            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+            // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+            var te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33, s;
+            if (trace > 0) {
+                s = 0.5 / Math.sqrt(trace + 1.0);
+                this._w = 0.25 / s;
+                this._x = (m32 - m23) * s;
+                this._y = (m13 - m31) * s;
+                this._z = (m21 - m12) * s;
+            }
+            else if (m11 > m22 && m11 > m33) {
+                s = 2.0 * Math.sqrt(1.0 + m11 - m22 - m33);
+                this._w = (m32 - m23) / s;
+                this._x = 0.25 * s;
+                this._y = (m12 + m21) / s;
+                this._z = (m13 + m31) / s;
+            }
+            else if (m22 > m33) {
+                s = 2.0 * Math.sqrt(1.0 + m22 - m11 - m33);
+                this._w = (m13 - m31) / s;
+                this._x = (m12 + m21) / s;
+                this._y = 0.25 * s;
+                this._z = (m23 + m32) / s;
+            }
+            else {
+                s = 2.0 * Math.sqrt(1.0 + m33 - m11 - m22);
+                this._w = (m21 - m12) / s;
+                this._x = (m13 + m31) / s;
+                this._y = (m23 + m32) / s;
+                this._z = 0.25 * s;
+            }
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.setFromUnitVectors = function (vFrom, vTo) {
+            // TODO: Could create circularity problems.
+            var v1 = new Vector3();
+            var r = vFrom.dot(vTo) + 1;
+            if (r < EPS) {
+                r = 0;
+                if (Math.abs(vFrom.x) > Math.abs(vFrom.z)) {
+                    v1.set(-vFrom.y, vFrom.x, 0);
+                }
+                else {
+                    v1.set(0, -vFrom.z, vFrom.y);
+                }
+            }
+            else {
+                v1.crossVectors(vFrom, vTo);
+            }
+            this._x = v1.x;
+            this._y = v1.y;
+            this._z = v1.z;
+            this._w = r;
+            this.normalize();
+            return this;
+        };
+        Quaternion.prototype.slerp = function (qb, t) {
+            if (t === 0)
+                return this;
+            if (t === 1)
+                return this.copy(qb);
+            var x = this._x, y = this._y, z = this._z, w = this._w;
+            // http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/slerp/
+            var cosHalfTheta = w * qb._w + x * qb._x + y * qb._y + z * qb._z;
+            if (cosHalfTheta < 0) {
+                this._w = -qb._w;
+                this._x = -qb._x;
+                this._y = -qb._y;
+                this._z = -qb._z;
+                cosHalfTheta = -cosHalfTheta;
+            }
+            else {
+                this.copy(qb);
+            }
+            if (cosHalfTheta >= 1.0) {
+                this._w = w;
+                this._x = x;
+                this._y = y;
+                this._z = z;
+                return this;
+            }
+            var halfTheta = Math.acos(cosHalfTheta);
+            var sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
+            if (Math.abs(sinHalfTheta) < 0.001) {
+                this._w = 0.5 * (w + this._w);
+                this._x = 0.5 * (x + this._x);
+                this._y = 0.5 * (y + this._y);
+                this._z = 0.5 * (z + this._z);
+                return this;
+            }
+            var ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta, ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
+            this._w = (w * ratioA + this._w * ratioB);
+            this._x = (x * ratioA + this._x * ratioB);
+            this._y = (y * ratioA + this._y * ratioB);
+            this._z = (z * ratioA + this._z * ratioB);
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.equals = function (quaternion) {
+            return (quaternion._x === this._x) && (quaternion._y === this._y) && (quaternion._z === this._z) && (quaternion._w === this._w);
+        };
+        Quaternion.prototype.fromArray = function (array, offset) {
+            if (offset === undefined)
+                offset = 0;
+            this._x = array[offset];
+            this._y = array[offset + 1];
+            this._z = array[offset + 2];
+            this._w = array[offset + 3];
+            this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.toArray = function (array, offset) {
+            if (array === undefined)
+                array = [];
+            if (offset === undefined)
+                offset = 0;
+            array[offset] = this._x;
+            array[offset + 1] = this._y;
+            array[offset + 2] = this._z;
+            array[offset + 3] = this._w;
+            return array;
+        };
+        Quaternion.slerp = function (qa, qb, qm, t) {
+            return qm.copy(qa).slerp(qb, t);
+        };
+        return Quaternion;
+    })();
+    return Quaternion;
+});
+
 define('davinci-eight/mesh/adapterOptions',["require", "exports", '../core/DrawMode', '../core/Symbolic'], function (require, exports, DrawMode, Symbolic) {
     function adapterOptions(options) {
         if (options === void 0) { options = {
@@ -9351,7 +9670,7 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
             cache.push(0);
             for (p = 1; p <= divisions; p++) {
                 current = this.getPoint(p / divisions);
-                sum += current.distance(last);
+                sum += current.distanceTo(last);
                 cache.push(sum);
                 last = current;
             }
@@ -10766,7 +11085,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/drawList', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricSurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, view, frustum, perspective, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, drawList, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricSurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, viewport, webGLRenderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/drawList', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricSurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, view, frustum, perspective, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, drawList, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricSurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, viewport, webGLRenderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -10854,6 +11173,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'dav
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get Spinor3() { return Spinor3; },
+        get Quaternion() { return Quaternion; },
         get Vector2() { return Vector2; },
         get Vector3() { return Vector3; },
         get Curve() { return Curve; },

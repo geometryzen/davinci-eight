@@ -2,6 +2,7 @@
 // Only use Matrix4 in type positions.
 // Otherwise, create standalone functions.
 import Cartesian3 = require('../math/Cartesian3');
+import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
 import expectArg = require('../checks/expectArg');
@@ -92,14 +93,37 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
    * @param v {Vector3} The vector to add to this vector.
    */
   add(v: Cartesian3): Vector3 {
-    this.x += v.x;
-    this.y += v.y;
-    this.z += v.z;
+    return this.addVectors(this, v);
+  }
+  addVectors(a: Cartesian3, b: Cartesian3): Vector3 {
+    this.x = a.x + b.x;
+    this.y = a.y + b.y;
+    this.z = a.z + b.z;
     return this;
   }
-  applyMatrix4(m: Matrix4) {
+  applyMatrix3(m: Matrix3 ) {
+    let x = this.x;
+    let y = this.y;
+    let z = this.z;
 
-    // input: THREE.Matrix4 affine matrix
+    let e = m.elements;
+
+    this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
+    this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
+    this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
+
+    return this;
+  }
+  /**
+   * Pre-multiplies the column vector corresponding to this vector by the matrix.
+   * The result is applied to this vector.
+   * Strictly speaking, this method does not make much sense because the dimensions
+   * of the square matrix and column vector don't match.
+   * TODO: Used by TubeGeometry.
+   * @method applyMatrix
+   * @param m The 4x4 matrix that pre-multiplies this column vector.
+   */
+  applyMatrix4(m: Matrix4): Vector3 {
 
     var x = this.x, y = this.y, z = this.z;
 
@@ -183,13 +207,14 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
 
     return this;
   }
-  distance(v: Cartesian3): number {
-    return Math.sqrt(this.quadrance(v));
+
+  distanceTo(position: Cartesian3): number {
+    return Math.sqrt(this.quadranceTo(position));
   }
-  quadrance(v: Cartesian3): number {
-    var dx = this.x - v.x;
-    var dy = this.y - v.y;
-    var dz = this.z - v.z;
+  quadranceTo(position: Cartesian3): number {
+    var dx = this.x - position.x;
+    var dy = this.y - position.y;
+    var dz = this.z - position.z;
     return dx * dx + dy * dy + dz * dz;
   }
   divideScalar(scalar: number): Vector3 {
@@ -209,11 +234,14 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
   dot(v: Cartesian3): number {
     return this.x * v.x + this.y * v.y + this.z * v.z;
   }
-  length(): number {
+  magnitude(): number {
+    return Math.sqrt(this.quaditude());
+  }
+  quaditude(): number {
     let x = this.x;
     let y = this.y;
     let z = this.z;
-    return Math.sqrt(x * x + y * y + z * z);
+    return x * x + y * y + z * z;
   }
   lerp(v: Cartesian3, alpha: number): Vector3 {
     this.x += ( v.x - this.x ) * alpha;
@@ -223,7 +251,7 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
 
   }
   normalize(): Vector3 {
-    return this.divideScalar(this.length());
+    return this.divideScalar(this.magnitude());
   }
   multiply(v: Cartesian3): Vector3 {
     this.x *= v.x;
@@ -242,6 +270,21 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
     this.y = y;
     this.z = z;
     return this;
+  }
+  setMagnitude(magnitude: number): Vector3 {
+    let m = this.magnitude();
+    if (m !== 0) {
+      if (magnitude !== m) {
+        return this.multiplyScalar(magnitude / m);
+      }
+      else {
+        return this;  // No change
+      }
+    }
+    else {
+      // Former magnitude was zero, i.e. a null vector.
+      throw new Error("Attempting to set the magnitude of a null vector.");
+    }
   }
   setX(x: number): Vector3 {
     this.x = x;

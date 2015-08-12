@@ -81,7 +81,7 @@ var Curve = (function () {
         cache.push(0);
         for (p = 1; p <= divisions; p++) {
             current = this.getPoint(p / divisions);
-            sum += current.distance(last);
+            sum += current.distanceTo(last);
             cache.push(sum);
             last = current;
         }

@@ -98,13 +98,34 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param v {Vector3} The vector to add to this vector.
          */
         Vector3.prototype.add = function (v) {
-            this.x += v.x;
-            this.y += v.y;
-            this.z += v.z;
+            return this.addVectors(this, v);
+        };
+        Vector3.prototype.addVectors = function (a, b) {
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            this.z = a.z + b.z;
             return this;
         };
+        Vector3.prototype.applyMatrix3 = function (m) {
+            var x = this.x;
+            var y = this.y;
+            var z = this.z;
+            var e = m.elements;
+            this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
+            this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
+            this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
+            return this;
+        };
+        /**
+         * Pre-multiplies the column vector corresponding to this vector by the matrix.
+         * The result is applied to this vector.
+         * Strictly speaking, this method does not make much sense because the dimensions
+         * of the square matrix and column vector don't match.
+         * TODO: Used by TubeGeometry.
+         * @method applyMatrix
+         * @param m The 4x4 matrix that pre-multiplies this column vector.
+         */
         Vector3.prototype.applyMatrix4 = function (m) {
-            // input: THREE.Matrix4 affine matrix
             var x = this.x, y = this.y, z = this.z;
             var e = m.elements;
             this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
@@ -170,13 +191,13 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this.z = ax * by - ay * bx;
             return this;
         };
-        Vector3.prototype.distance = function (v) {
-            return Math.sqrt(this.quadrance(v));
+        Vector3.prototype.distanceTo = function (position) {
+            return Math.sqrt(this.quadranceTo(position));
         };
-        Vector3.prototype.quadrance = function (v) {
-            var dx = this.x - v.x;
-            var dy = this.y - v.y;
-            var dz = this.z - v.z;
+        Vector3.prototype.quadranceTo = function (position) {
+            var dx = this.x - position.x;
+            var dy = this.y - position.y;
+            var dz = this.z - position.z;
             return dx * dx + dy * dy + dz * dz;
         };
         Vector3.prototype.divideScalar = function (scalar) {
@@ -196,11 +217,14 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         Vector3.prototype.dot = function (v) {
             return this.x * v.x + this.y * v.y + this.z * v.z;
         };
-        Vector3.prototype.length = function () {
+        Vector3.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Vector3.prototype.quaditude = function () {
             var x = this.x;
             var y = this.y;
             var z = this.z;
-            return Math.sqrt(x * x + y * y + z * z);
+            return x * x + y * y + z * z;
         };
         Vector3.prototype.lerp = function (v, alpha) {
             this.x += (v.x - this.x) * alpha;
@@ -209,7 +233,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             return this;
         };
         Vector3.prototype.normalize = function () {
-            return this.divideScalar(this.length());
+            return this.divideScalar(this.magnitude());
         };
         Vector3.prototype.multiply = function (v) {
             this.x *= v.x;
@@ -228,6 +252,21 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this.y = y;
             this.z = z;
             return this;
+        };
+        Vector3.prototype.setMagnitude = function (magnitude) {
+            var m = this.magnitude();
+            if (m !== 0) {
+                if (magnitude !== m) {
+                    return this.multiplyScalar(magnitude / m);
+                }
+                else {
+                    return this; // No change
+                }
+            }
+            else {
+                // Former magnitude was zero, i.e. a null vector.
+                throw new Error("Attempting to set the magnitude of a null vector.");
+            }
         };
         Vector3.prototype.setX = function (x) {
             this.x = x;

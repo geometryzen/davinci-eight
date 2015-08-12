@@ -1,4 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3');
+import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
 import Mutable = require('../math/Mutable');
@@ -42,6 +43,17 @@ declare class Vector3 implements Cartesian3, Mutable<number[]> {
      * @param v {Vector3} The vector to add to this vector.
      */
     add(v: Cartesian3): Vector3;
+    addVectors(a: Cartesian3, b: Cartesian3): Vector3;
+    applyMatrix3(m: Matrix3): Vector3;
+    /**
+     * Pre-multiplies the column vector corresponding to this vector by the matrix.
+     * The result is applied to this vector.
+     * Strictly speaking, this method does not make much sense because the dimensions
+     * of the square matrix and column vector don't match.
+     * TODO: Used by TubeGeometry.
+     * @method applyMatrix
+     * @param m The 4x4 matrix that pre-multiplies this column vector.
+     */
     applyMatrix4(m: Matrix4): Vector3;
     applyQuaternion(q: {
         x: number;
@@ -54,16 +66,18 @@ declare class Vector3 implements Cartesian3, Mutable<number[]> {
     copy(v: Cartesian3): Vector3;
     cross(v: Cartesian3): Vector3;
     crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
-    distance(v: Cartesian3): number;
-    quadrance(v: Cartesian3): number;
+    distanceTo(position: Cartesian3): number;
+    quadranceTo(position: Cartesian3): number;
     divideScalar(scalar: number): Vector3;
     dot(v: Cartesian3): number;
-    length(): number;
+    magnitude(): number;
+    quaditude(): number;
     lerp(v: Cartesian3, alpha: number): Vector3;
     normalize(): Vector3;
     multiply(v: Cartesian3): Vector3;
     multiplyScalar(scalar: number): Vector3;
     set(x: number, y: number, z: number): Vector3;
+    setMagnitude(magnitude: number): Vector3;
     setX(x: number): Vector3;
     setY(y: number): Vector3;
     setZ(z: number): Vector3;

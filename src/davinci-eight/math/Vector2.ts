@@ -65,7 +65,7 @@ class Vector2 implements Cartesian2, Mutable<number[]> {
     this.modified = this.modified || this.y !== value;
     this.data[1] = value;
   }
-  set(x: number, y: number) {
+  set(x: number, y: number): Vector2 {
     this.x = x;
     this.y = y;
     return this;
@@ -197,27 +197,28 @@ class Vector2 implements Cartesian2, Mutable<number[]> {
     this.y = - this.y;
     return this;
   }
+  distanceTo(position: Cartesian2) {
+    return Math.sqrt( this.quadranceTo(position));
+  }
   dot(v: Cartesian2) {
     return this.x * v.x + this.y * v.y;
   }
-  lengthSq() {
-    return this.x * this.x + this.y * this.y;
-  }
-  length(): number {
-    return Math.sqrt( this.x * this.x + this.y * this.y );
+  magnitude(): number {
+    return Math.sqrt(this.quaditude());
   }
   normalize() {
-    return this.divideScalar( this.length() );
+    return this.divideScalar(this.magnitude());
   }
-  distanceTo(v: Cartesian2) {
-    return Math.sqrt( this.distanceToSquared( v ) );
+  quaditude(): number {
+    return this.x * this.x + this.y * this.y;
   }
-  distanceToSquared(v: Cartesian2) {
-    var dx = this.x - v.x, dy = this.y - v.y;
+  quadranceTo(position: Cartesian2) {
+    let dx = this.x - position.x;
+    let dy = this.y - position.y;
     return dx * dx + dy * dy;
   }
-  setLength(l: number) {
-    var oldLength = this.length();
+  setMagnitude(l: number) {
+    var oldLength = this.magnitude();
     if ( oldLength !== 0 && l !== oldLength ) {
       this.multiplyScalar( l / oldLength );
     }

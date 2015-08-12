@@ -37,6 +37,7 @@ import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
+import Quaternion = require('davinci-eight/math/Quaternion');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
@@ -171,6 +172,7 @@ declare var eight: {
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     Spinor3: typeof Spinor3;
+    Quaternion: typeof Quaternion;
     Vector2: typeof Vector2;
     Vector3: typeof Vector3;
     Curve: typeof Curve;

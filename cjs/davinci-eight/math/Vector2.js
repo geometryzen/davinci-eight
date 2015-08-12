@@ -212,27 +212,28 @@ var Vector2 = (function () {
         this.y = -this.y;
         return this;
     };
+    Vector2.prototype.distanceTo = function (position) {
+        return Math.sqrt(this.quadranceTo(position));
+    };
     Vector2.prototype.dot = function (v) {
         return this.x * v.x + this.y * v.y;
     };
-    Vector2.prototype.lengthSq = function () {
-        return this.x * this.x + this.y * this.y;
-    };
-    Vector2.prototype.length = function () {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+    Vector2.prototype.magnitude = function () {
+        return Math.sqrt(this.quaditude());
     };
     Vector2.prototype.normalize = function () {
-        return this.divideScalar(this.length());
+        return this.divideScalar(this.magnitude());
     };
-    Vector2.prototype.distanceTo = function (v) {
-        return Math.sqrt(this.distanceToSquared(v));
+    Vector2.prototype.quaditude = function () {
+        return this.x * this.x + this.y * this.y;
     };
-    Vector2.prototype.distanceToSquared = function (v) {
-        var dx = this.x - v.x, dy = this.y - v.y;
+    Vector2.prototype.quadranceTo = function (position) {
+        var dx = this.x - position.x;
+        var dy = this.y - position.y;
         return dx * dx + dy * dy;
     };
-    Vector2.prototype.setLength = function (l) {
-        var oldLength = this.length();
+    Vector2.prototype.setMagnitude = function (l) {
+        var oldLength = this.magnitude();
         if (oldLength !== 0 && l !== oldLength) {
             this.multiplyScalar(l / oldLength);
         }

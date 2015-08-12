@@ -1,0 +1,36 @@
+import Cartesian3 = require('../math/Cartesian3');
+import Matrix4 = require('../math/Matrix4');
+import Vector3 = require('../math/Vector3');
+declare class Quaternion {
+    private _x;
+    private _y;
+    private _z;
+    private _w;
+    onChangeCallback: () => void;
+    constructor(x?: number, y?: number, z?: number, w?: number);
+    x: number;
+    y: number;
+    z: number;
+    w: number;
+    set(x: number, y: number, z: number, w: number): Quaternion;
+    clone(): Quaternion;
+    conjugate(): Quaternion;
+    copy(quaternion: Quaternion): Quaternion;
+    dot(v: Quaternion): number;
+    inverse(): Quaternion;
+    magnitude(): number;
+    multiply(q: Quaternion): Quaternion;
+    multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion;
+    normalize(): Quaternion;
+    onChange(callback: () => void): Quaternion;
+    quaditude(): number;
+    setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion;
+    setFromRotationMatrix(m: Matrix4): Quaternion;
+    setFromUnitVectors(vFrom: Vector3, vTo: Vector3): Quaternion;
+    slerp(qb: Quaternion, t: number): Quaternion;
+    equals(quaternion: Quaternion): boolean;
+    fromArray(array: number[], offset: number): Quaternion;
+    toArray(array: number[], offset: any): number[];
+    static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion;
+}
+export = Quaternion;

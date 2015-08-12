@@ -42,6 +42,7 @@ var shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFrom
 // math
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
+var Quaternion = require('davinci-eight/math/Quaternion');
 var Spinor3 = require('davinci-eight/math/Spinor3');
 var Vector2 = require('davinci-eight/math/Vector2');
 var Vector3 = require('davinci-eight/math/Vector3');
@@ -173,6 +174,7 @@ var eight = {
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
     get Spinor3() { return Spinor3; },
+    get Quaternion() { return Quaternion; },
     get Vector2() { return Vector2; },
     get Vector3() { return Vector3; },
     get Curve() { return Curve; },
