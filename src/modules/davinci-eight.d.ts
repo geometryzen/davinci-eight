@@ -462,7 +462,7 @@ declare module EIGHT
     /**
      * The position of the view reference point, VRP.
      */
-    eye: Cartesian3;
+    eye: Vector3;
     /**
      * A special point in the world coordinates that defines the viewplane normal, VPN or n.
      * n = eye - look, normalized to unity.
@@ -473,7 +473,7 @@ declare module EIGHT
      * u = cross(up, n), and
      * v = cross(n, u).
      */
-    up: Cartesian3;
+    up: Vector3;
     /**
      * Convenience method for setting the eye property allowing chainable method calls.
      */

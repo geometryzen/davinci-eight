@@ -9,6 +9,7 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import Vector3 = require('../math/Vector3');
 import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
 import expectArg = require('../checks/expectArg');
@@ -47,30 +48,30 @@ let perspective = function(options?: {
 
   let self: Perspective = {
     // Delegate to the base camera.
-    get eye(): Cartesian3 {
+    get eye(): Vector3 {
       return base.eye;
     },
-    set eye(eye: Cartesian3) {
+    set eye(eye: Vector3) {
       base.eye = eye;
     },
     setEye(eye: Cartesian3) {
       base.setEye(eye);
       return self;
     },
-    get look(): Cartesian3 {
+    get look(): Vector3 {
       return base.look;
     },
-    set look(value: Cartesian3) {
+    set look(value: Vector3) {
       base.look = value;
     },
     setLook(look: Cartesian3) {
       base.setLook(look);
       return self;
     },
-    get up(): Cartesian3 {
+    get up(): Vector3 {
       return base.up;
     },
-    set up(value: Cartesian3) {
+    set up(value: Vector3) {
       base.up = value;
     },
     setUp(up: Cartesian3) {

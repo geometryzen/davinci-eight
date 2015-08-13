@@ -9,6 +9,7 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import Vector3 = require('../math/Vector3');
 
 let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
 let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
@@ -40,30 +41,30 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
 
   var self: Frustum = {
     // Delegate to the base camera.
-    get eye(): Cartesian3 {
+    get eye(): Vector3 {
       return base.eye;
     },
-    set eye(value: Cartesian3) {
+    set eye(value: Vector3) {
       base.eye = value;
     },
     setEye(eye: Cartesian3) {
       base.setEye(eye);
       return self;
     },
-    get look(): Cartesian3 {
+    get look(): Vector3 {
       return base.look;
     },
-    set look(value: Cartesian3) {
+    set look(value: Vector3) {
       base.look = value;
     },
     setLook(look: Cartesian3) {
       base.setLook(look);
       return self;
     },
-    get up(): Cartesian3 {
+    get up(): Vector3 {
       return base.up;
     },
-    set up(up: Cartesian3) {
+    set up(up: Vector3) {
       base.setUp(up);
     },
     setUp(up: Cartesian3): Frustum {

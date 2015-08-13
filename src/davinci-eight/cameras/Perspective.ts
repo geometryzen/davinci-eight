@@ -1,5 +1,6 @@
 import View = require('../cameras/View');
 import Cartesian3 = require('../math/Cartesian3');
+import Vector3 = require('../math/Vector3');
 
 /**
  * @class Perspective

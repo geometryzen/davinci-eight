@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.54.0",
+        "version": "2.55.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -815,7 +815,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 4,
+            "line": 5,
             "extends": "Camera"
         },
         "Perspective": {
@@ -828,7 +828,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 4,
+            "line": 5,
             "extends": "Camera"
         },
         "View": {
@@ -853,7 +853,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/frustum.ts",
-            "line": 16,
+            "line": 17,
             "is_constructor": 1,
             "params": [
                 {
@@ -902,7 +902,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/cameras/perspective.ts",
-            "line": 18,
+            "line": 19,
             "is_constructor": 1,
             "params": [
                 {
@@ -1830,7 +1830,7 @@
     "classitems": [
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 9,
+            "line": 10,
             "itemtype": "property",
             "name": "left",
             "type": "number",
@@ -1838,7 +1838,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 14,
+            "line": 15,
             "itemtype": "property",
             "name": "right",
             "type": "number",
@@ -1846,7 +1846,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "property",
             "name": "bottom",
             "type": "number",
@@ -1854,7 +1854,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 24,
+            "line": 25,
             "itemtype": "property",
             "name": "top",
             "type": "number",
@@ -1862,7 +1862,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 29,
+            "line": 30,
             "itemtype": "property",
             "name": "near",
             "type": "number",
@@ -1870,7 +1870,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 34,
+            "line": 35,
             "itemtype": "property",
             "name": "far",
             "type": "number",
@@ -1878,7 +1878,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 39,
+            "line": 40,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setEye",
@@ -1893,7 +1893,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 45,
+            "line": 46,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setLook",
@@ -1908,7 +1908,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
-            "line": 51,
+            "line": 52,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setUp",
@@ -1923,7 +1923,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 9,
+            "line": 10,
             "itemtype": "property",
             "name": "fov",
             "type": "number",
@@ -1931,7 +1931,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 14,
+            "line": 15,
             "itemtype": "property",
             "name": "aspect",
             "type": "number",
@@ -1939,7 +1939,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 19,
+            "line": 20,
             "itemtype": "property",
             "name": "near",
             "type": "number",
@@ -1947,7 +1947,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 24,
+            "line": 25,
             "itemtype": "property",
             "name": "far",
             "type": "number",
@@ -1955,7 +1955,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 29,
+            "line": 30,
             "description": "Convenience method for setting the fov property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setFov",
@@ -1970,7 +1970,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 35,
+            "line": 36,
             "description": "Convenience method for setting the aspect property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setAspect",
@@ -1985,7 +1985,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 41,
+            "line": 42,
             "description": "Convenience method for setting the near property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setNear",
@@ -2000,7 +2000,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 47,
+            "line": 48,
             "description": "Convenience method for setting the far property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setFar",
@@ -2015,7 +2015,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 53,
+            "line": 54,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setEye",
@@ -2030,7 +2030,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 59,
+            "line": 60,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setLook",
@@ -2045,7 +2045,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/Perspective.ts",
-            "line": 65,
+            "line": 66,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "itemtype": "method",
             "name": "setUp",
@@ -2063,7 +2063,7 @@
             "line": 11,
             "itemtype": "property",
             "name": "eye",
-            "type": "Cartesian3",
+            "type": "Vector3",
             "class": "View"
         },
         {
@@ -2071,7 +2071,7 @@
             "line": 16,
             "itemtype": "property",
             "name": "look",
-            "type": "Cartesian3",
+            "type": "Vector3",
             "class": "View"
         },
         {
@@ -2079,7 +2079,7 @@
             "line": 21,
             "itemtype": "property",
             "name": "up",
-            "type": "Cartesian3",
+            "type": "Vector3",
             "class": "View"
         },
         {

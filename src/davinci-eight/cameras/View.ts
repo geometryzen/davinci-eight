@@ -10,19 +10,19 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 interface View extends UniformProvider {
   /**
    * @property eye
-   * @type Cartesian3
+   * @type Vector3
    */
-  eye: Cartesian3;
+  eye: Vector3;
   /**
    * @property look
-   * @type Cartesian3
+   * @type Vector3
    */
-  look: Cartesian3;
+  look: Vector3;
   /**
    * @property up
-   * @type Cartesian3
+   * @type Vector3
    */
-  up: Cartesian3;
+  up: Vector3;
   /**
    * Convenience method for setting the eye property allowing chainable method calls.
    * @method setEye

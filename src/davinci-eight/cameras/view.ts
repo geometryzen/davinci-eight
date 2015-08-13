@@ -59,23 +59,23 @@ let view = function(options?: {viewMatrixName?: string}): View {
   up.modified = true;
 
   let self: View = {
-      get eye(): Cartesian3 {
+      get eye(): Vector3 {
         return eye;
       },
-      set eye(value: Cartesian3) {
+      set eye(value: Vector3) {
         self.setEye(value);
       },
-      setEye(value: Cartesian3) {
+      setEye(value: Vector3) {
         expectArg('eye', value).toBeObject();
         eye.x = value.x;
         eye.y = value.y;
         eye.z = value.z;
         return self;
       },
-      get look(): Cartesian3 {
+      get look(): Vector3 {
         return look;
       },
-      set look(value: Cartesian3) {
+      set look(value: Vector3) {
         self.setLook(value);
       },
       setLook(value: Cartesian3): View {
@@ -85,10 +85,10 @@ let view = function(options?: {viewMatrixName?: string}): View {
         look.z = value.z;
         return self;
       },
-      get up(): Cartesian3 {
+      get up(): Vector3 {
         return up;
       },
-      set up(value: Cartesian3) {
+      set up(value: Vector3) {
         self.setUp(value);
       },
       setUp(value: Cartesian3): View {
