@@ -13,7 +13,7 @@ var DefaultUniformProvider = require('davinci-eight/core/DefaultUniformProvider'
 var ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 var ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // drawLists
-var drawList = require('davinci-eight/drawLists/drawList');
+var scene = require('davinci-eight/drawLists/scene');
 // geometries
 var Geometry = require('davinci-eight/geometries/Geometry');
 var GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -22,7 +22,6 @@ var BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 var CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 var DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
-var EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 var KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 var MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -64,8 +63,6 @@ var vortex = require('davinci-eight/objects/vortex');
 var Curve = require('davinci-eight/curves/Curve');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
 var renderer = require('davinci-eight/renderers/renderer');
-var viewport = require('davinci-eight/renderers/viewport');
-var webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 // uniforms
 var AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 var ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
@@ -113,10 +110,8 @@ var eight = {
     get view() { return view; },
     get frustum() { return frustum; },
     get perspective() { return perspective; },
-    get drawList() { return drawList; },
+    get scene() { return scene; },
     get renderer() { return renderer; },
-    get viewport() { return viewport; },
-    get webGLRenderer() { return webGLRenderer; },
     get contextMonitor() { return contextMonitor; },
     workbench: workbench3D,
     animation: windowAnimationRunner,
@@ -147,7 +142,6 @@ var eight = {
     get BarnGeometry() { return BarnGeometry; },
     get BoxGeometry() { return BoxGeometry; },
     get CylinderGeometry() { return CylinderGeometry; },
-    get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
     get DodecahedronGeometry() { return DodecahedronGeometry; },
     get IcosahedronGeometry() { return IcosahedronGeometry; },
     get KleinBottleGeometry() { return KleinBottleGeometry; },

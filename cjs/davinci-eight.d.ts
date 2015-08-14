@@ -23,7 +23,6 @@ import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
-import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -54,9 +53,6 @@ import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
-import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
-import Viewport = require('davinci-eight/renderers/Viewport');
-import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider = require('davinci-eight/uniforms/ChainedUniformProvider');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
@@ -100,10 +96,8 @@ declare var eight: {
         projectionMatrixName?: string;
         viewMatrixName?: string;
     }) => Perspective;
-    drawList: () => DrawList;
+    scene: () => DrawList;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
-    viewport: (canvas: HTMLCanvasElement, parameters: ViewportParameters) => Viewport;
-    webGLRenderer: (canvas: HTMLCanvasElement) => WebGLRenderer;
     contextMonitor: (canvas: HTMLCanvasElement, attributes?: {
         alpha?: boolean;
         antialias?: boolean;
@@ -145,7 +139,6 @@ declare var eight: {
     BarnGeometry: typeof BarnGeometry;
     BoxGeometry: typeof BoxGeometry;
     CylinderGeometry: typeof CylinderGeometry;
-    EllipticalCylinderGeometry: typeof EllipticalCylinderGeometry;
     DodecahedronGeometry: typeof DodecahedronGeometry;
     IcosahedronGeometry: typeof IcosahedronGeometry;
     KleinBottleGeometry: typeof KleinBottleGeometry;

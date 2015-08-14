@@ -107,7 +107,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     this.faceVertexUvs[0].push([uv1, uv2, uv3]);
                 }
             }
-            this.computeFaceNormals();
         }
         return CylinderGeometry;
     })(Geometry);

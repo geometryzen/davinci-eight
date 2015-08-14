@@ -26,7 +26,7 @@ import DefaultUniformProvider = require('davinci-eight/core/DefaultUniformProvid
 import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // drawLists
-import drawList = require('davinci-eight/drawLists/drawList');
+import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 // geometries
 import Geometry = require('davinci-eight/geometries/Geometry');
@@ -36,7 +36,6 @@ import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
-import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -92,13 +91,8 @@ import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 // renderers
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
-import WebGLRenderer = require('davinci-eight/renderers/WebGLRenderer');
-import Viewport = require('davinci-eight/renderers/Viewport');
-import ViewportParameters = require('davinci-eight/renderers/ViewportParameters');
 import initWebGL = require('davinci-eight/renderers/initWebGL');
 import renderer = require('davinci-eight/renderers/renderer');
-import viewport = require('davinci-eight/renderers/viewport');
-import webGLRenderer = require('davinci-eight/renderers/webGLRenderer');
 // uniforms
 import AmbientLight               = require('davinci-eight/uniforms/AmbientLight');
 import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
@@ -151,10 +145,8 @@ var eight = {
   get view() { return view; },
   get frustum() { return frustum; },
   get perspective() { return perspective; },
-  get drawList() { return drawList; },
+  get scene() { return scene; },
   get renderer() { return renderer; },
-  get viewport() { return viewport; },
-  get webGLRenderer() { return webGLRenderer; },
   get contextMonitor() {return contextMonitor;},
   workbench: workbench3D,
   animation: windowAnimationRunner,
@@ -185,7 +177,6 @@ var eight = {
   get BarnGeometry() { return BarnGeometry; },
   get BoxGeometry() { return BoxGeometry; },
   get CylinderGeometry() { return CylinderGeometry; },
-  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
   get DodecahedronGeometry() { return DodecahedronGeometry; },
   get IcosahedronGeometry() { return IcosahedronGeometry; },
   get KleinBottleGeometry() { return KleinBottleGeometry; },

@@ -58,8 +58,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "Vector2",
         "Vector3",
         "View",
-        "Viewport",
-        "WebGLRenderer",
         "WindowAnimationRunner",
         "frustum",
         "perspective",

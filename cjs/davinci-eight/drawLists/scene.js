@@ -1,5 +1,5 @@
 var expectArg = require('../checks/expectArg');
-var drawList = function () {
+var scene = function () {
     var drawables = [];
     var drawGroups = {};
     var gl;
@@ -50,4 +50,4 @@ var drawList = function () {
     };
     return publicAPI;
 };
-module.exports = drawList;
+module.exports = scene;

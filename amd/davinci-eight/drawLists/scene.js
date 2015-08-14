@@ -1,5 +1,5 @@
 define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    var drawList = function () {
+    var scene = function () {
         var drawables = [];
         var drawGroups = {};
         var gl;
@@ -50,5 +50,5 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         };
         return publicAPI;
     };
-    return drawList;
+    return scene;
 });

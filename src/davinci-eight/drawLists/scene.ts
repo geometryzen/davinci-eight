@@ -2,7 +2,7 @@ import DrawList = require('../drawLists/DrawList');
 import Drawable = require('../core/Drawable');
 import expectArg = require('../checks/expectArg');
 
-let drawList = function(): DrawList {
+let scene = function(): DrawList {
 
     let drawables: Drawable[] = [];
     let drawGroups: {[drawGroupName:string]: Drawable[]} = {};
@@ -58,4 +58,4 @@ let drawList = function(): DrawList {
     return publicAPI;
 };
 
-export = drawList;
+export = scene;

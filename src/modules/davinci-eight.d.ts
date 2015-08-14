@@ -748,32 +748,20 @@ declare module EIGHT
   }
   class Renderer extends RenderingContextUser
   {
-    render(drawList: DrawList, ambients: UniformProvider): void;
-  }
-  interface RendererParameters {
-  }
-  class Viewport extends RenderingContextUser
-  {
-    canvas: HTMLCanvasElement;
-    context: WebGLRenderingContext;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
+    /**
+     * Defines whether the renderer should automatically clear its output before rendering.
+     */
+    autoClear: boolean;
     /**
      *
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): void;
+    clearColor(red: number, green: number, blue: number, alpha: number);
+    /**
+     *
+     */
     render(drawList: DrawList, ambients: UniformProvider): void;
-    setSize(width: number, height: number): void;
   }
-  interface ViewportParameters {
-    alpha?: boolean;
-    antialias?: boolean;
-    depth?: boolean;
-    premultipliedAlpha?: boolean;
-    preserveDrawingBuffer?: boolean;
-    stencil?: boolean;
+  interface RendererParameters {
   }
   interface WebGLRenderer extends RenderingContextUser
   {
@@ -808,7 +796,7 @@ declare module EIGHT
   /**
    * Constructs and returns a DrawList.
    */
-  function drawList(): DrawList;
+  function scene(): DrawList;
   function view(): View;
   /**
    * Constructs and returns a Perspective.
@@ -837,16 +825,6 @@ declare module EIGHT
    * @param options Optional parameters for modifying the WebGL context.
    */
   function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
-  /**
-   * Constructs and returns a Viewport.
-   * @param options Optional parameters for modifying the WebGL context.
-   */
-  function viewport(canvas: HTMLCanvasElement, options?: ViewportParameters): Viewport;
-  /**
-   * Constructs and returns a WebGLRenderer.
-   * @param options Optional parameters for modifying the WebGL context.
-   */
-  function webGLRenderer(canvas: HTMLCanvasElement): WebGLRenderer;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */

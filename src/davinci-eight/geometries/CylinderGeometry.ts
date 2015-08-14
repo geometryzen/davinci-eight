@@ -148,8 +148,6 @@ class CylinderGeometry extends Geometry {
       }
 
     }
-
-    this.computeFaceNormals();
   }
 }
 

@@ -2118,7 +2118,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.55.0'
+        VERSION: '2.56.0'
     };
     return core;
 });
@@ -2834,8 +2834,8 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
     return ShaderUniformLocation;
 });
 
-define('davinci-eight/drawLists/drawList',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    var drawList = function () {
+define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    var scene = function () {
         var drawables = [];
         var drawGroups = {};
         var gl;
@@ -2886,7 +2886,7 @@ define('davinci-eight/drawLists/drawList',["require", "exports", '../checks/expe
         };
         return publicAPI;
     };
-    return drawList;
+    return scene;
 });
 
 define('davinci-eight/math/Sphere',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
@@ -4249,7 +4249,6 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
                     this.faceVertexUvs[0].push([uv1, uv2, uv3]);
                 }
             }
-            this.computeFaceNormals();
         }
         return CylinderGeometry;
     })(Geometry);
@@ -4443,164 +4442,6 @@ define('davinci-eight/geometries/DodecahedronGeometry',["require", "exports", '.
         return DodecahedronGeometry;
     })(PolyhedronGeometry);
     return DodecahedronGeometry;
-});
-
-define('davinci-eight/math/Euclidean3',["require", "exports"], function (require, exports) {
-    // Considering new ideas for a totally immutable Euclidean3 value type.
-    var Euclidean3 = (function () {
-        // The constructor is essentially for internal use.
-        function Euclidean3(w, x, y, z) {
-        }
-        // It's a bit dangerous, but it might let us coexist with other types.
-        // Another possibility is to write specialized mapping functions.
-        Euclidean3.prototype.copy = function (coords) {
-        };
-        Euclidean3.prototype.add = function (other) {
-            return new Euclidean3(0, 0, 0, 0);
-        };
-        Euclidean3.prototype.sub = function (other) {
-            return new Euclidean3(0, 0, 0, 0);
-        };
-        Euclidean3.prototype.mul = function (other) {
-            return new Euclidean3(0, 0, 0, 0);
-        };
-        Euclidean3.prototype.div = function (other) {
-            return new Euclidean3(0, 0, 0, 0);
-        };
-        Euclidean3.scalar = function (w) {
-            return new Euclidean3(w, 0, 0, 0);
-        };
-        Euclidean3.vector = function (x, y, z) {
-            return new Euclidean3(0, x, y, z);
-        };
-        Euclidean3.ZERO = Euclidean3.scalar(0);
-        Euclidean3.ONE = Euclidean3.scalar(1);
-        Euclidean3.MINUS_ONE = Euclidean3.scalar(-1);
-        Euclidean3.TWO = Euclidean3.scalar(2);
-        Euclidean3.e1 = Euclidean3.vector(1, 0, 0);
-        Euclidean3.e2 = Euclidean3.vector(0, 1, 0);
-        Euclidean3.e3 = Euclidean3.vector(0, 1, 0);
-        return Euclidean3;
-    })();
-    return Euclidean3;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/EllipticalCylinderGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Euclidean3', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Euclidean3, Vector2, Vector3) {
-    var EllipticalCylinderGeometry = (function (_super) {
-        __extends(EllipticalCylinderGeometry, _super);
-        function EllipticalCylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
-            if (radiusTop === void 0) { radiusTop = 1; }
-            if (radiusBottom === void 0) { radiusBottom = 1; }
-            if (height === void 0) { height = 1; }
-            if (radialSegments === void 0) { radialSegments = 16; }
-            if (heightSegments === void 0) { heightSegments = 1; }
-            if (openEnded === void 0) { openEnded = false; }
-            if (thetaStart === void 0) { thetaStart = 0; }
-            if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
-            _super.call(this);
-            var h = Euclidean3.scalar(height).mul(Euclidean3.e2); // This will become a parameter.
-            var two = Euclidean3.TWO;
-            var heightHalf = h.div(two);
-            var x;
-            var y;
-            var vertices = [];
-            var uvs = [];
-            for (y = 0; y <= heightSegments; y++) {
-                var verticesRow = [];
-                var uvsRow = [];
-                var v = y / heightSegments;
-                var radius = v * (radiusBottom - radiusTop) + radiusTop;
-                for (x = 0; x <= radialSegments; x++) {
-                    var u = x / radialSegments;
-                    var vertex = new Vector3();
-                    vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
-                    //TODO        vertex.y = - v * height + heightHalf;
-                    vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
-                    this.vertices.push(vertex);
-                    verticesRow.push(this.vertices.length - 1);
-                    uvsRow.push(new Vector2([u, 1 - v]));
-                }
-                vertices.push(verticesRow);
-                uvs.push(uvsRow);
-            }
-            var tanTheta = (radiusBottom - radiusTop) / height;
-            var na;
-            var nb;
-            for (x = 0; x < radialSegments; x++) {
-                if (radiusTop !== 0) {
-                    na = this.vertices[vertices[0][x]].clone();
-                    nb = this.vertices[vertices[0][x + 1]].clone();
-                }
-                else {
-                    na = this.vertices[vertices[1][x]].clone();
-                    nb = this.vertices[vertices[1][x + 1]].clone();
-                }
-                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
-                for (y = 0; y < heightSegments; y++) {
-                    var v1 = vertices[y][x];
-                    var v2 = vertices[y + 1][x];
-                    var v3 = vertices[y + 1][x + 1];
-                    var v4 = vertices[y][x + 1];
-                    var n1 = na.clone();
-                    var n2 = na.clone();
-                    var n3 = nb.clone();
-                    var n4 = nb.clone();
-                    var uv1 = uvs[y][x].clone();
-                    var uv2 = uvs[y + 1][x].clone();
-                    var uv3 = uvs[y + 1][x + 1].clone();
-                    var uv4 = uvs[y][x + 1].clone();
-                    this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
-                    this.faceVertexUvs[0].push([uv1, uv2, uv4]);
-                    this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
-                    this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
-                }
-            }
-            // top cap
-            if (!openEnded && radiusTop > 0) {
-                //TODO      this.vertices.push(Vector3..e2.clone().multiplyScalar(heightHalf));
-                for (x = 0; x < radialSegments; x++) {
-                    var v1 = vertices[0][x];
-                    var v2 = vertices[0][x + 1];
-                    var v3 = this.vertices.length - 1;
-                    var n1 = Vector3.e2;
-                    var n2 = Vector3.e2;
-                    var n3 = Vector3.e2;
-                    var uv1 = uvs[0][x].clone();
-                    var uv2 = uvs[0][x + 1].clone();
-                    var uv3 = new Vector2([uv2.x, 0]);
-                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
-                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
-                }
-            }
-            // bottom cap
-            if (!openEnded && radiusBottom > 0) {
-                this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
-                for (x = 0; x < radialSegments; x++) {
-                    var v1 = vertices[heightSegments][x + 1];
-                    var v2 = vertices[heightSegments][x];
-                    var v3 = this.vertices.length - 1;
-                    var n1 = Vector3.e2.clone().multiplyScalar(-1);
-                    var n2 = Vector3.e2.clone().multiplyScalar(-1);
-                    var n3 = Vector3.e2.clone().multiplyScalar(-1);
-                    var uv1 = uvs[heightSegments][x + 1].clone();
-                    var uv2 = uvs[heightSegments][x].clone();
-                    var uv3 = new Vector2([uv2.x, 1]);
-                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
-                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
-                }
-            }
-            this.computeFaceNormals();
-        }
-        return EllipticalCylinderGeometry;
-    })(Geometry);
-    return EllipticalCylinderGeometry;
 });
 
 var __extends = this.__extends || function (d, b) {
@@ -9776,12 +9617,15 @@ define('davinci-eight/renderers/initWebGL',["require", "exports"], function (req
     return initWebGL;
 });
 
-define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expectArg', '../core/Color'], function (require, exports, expectArg, Color) {
     var renderer = function (canvas, parameters) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         parameters = parameters || {};
         var gl;
         var glId;
+        var autoClear = true;
+        var clearColor = Color.fromRGB(0, 0, 0);
+        var clearAlpha = 0;
         var self = {
             get canvas() { return canvas; },
             get context() { return gl; },
@@ -9791,8 +9635,21 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expe
             },
             contextGain: function (context, contextId) {
                 expectArg('contextId', contextId).toBeString();
+                var attributes = context.getContextAttributes();
+                //console.log(context.getParameter(context.VERSION));
+                //console.log("alpha                 => " + attributes.alpha);
+                //console.log("antialias             => " + attributes.antialias);
+                //console.log("depth                 => " + attributes.depth);
+                //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+                //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+                //console.log("stencil               => " + attributes.stencil);
                 gl = context;
                 glId = contextId;
+                gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
+                gl.clearDepth(1.0);
+                gl.enable(gl.DEPTH_TEST);
+                gl.depthFunc(gl.LEQUAL);
+                gl.viewport(0, 0, canvas.width, canvas.height);
             },
             contextLoss: function () {
                 gl = void 0;
@@ -9801,9 +9658,29 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expe
             hasContext: function () {
                 return !!gl;
             },
+            get autoClear() {
+                return autoClear;
+            },
+            set autoClear(value) {
+                expectArg('autoClear', value).toBeBoolean();
+                autoClear = value;
+            },
+            clearColor: function (red, green, blue, alpha) {
+                clearColor.red = red;
+                clearColor.green = green;
+                clearColor.blue = blue;
+                clearAlpha = alpha;
+                if (gl) {
+                    gl.clearColor(red, green, blue, alpha);
+                }
+                return self;
+            },
             render: function (drawList, view) {
                 expectArg('drawList', drawList).toNotBeNull();
                 if (gl) {
+                    if (autoClear) {
+                        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                    }
                     if (!drawList.hasContext()) {
                         drawList.contextGain(gl, glId);
                     }
@@ -9827,229 +9704,6 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expe
         return self;
     };
     return renderer;
-});
-
-define('davinci-eight/renderers/ViewportArgs',["require", "exports"], function (require, exports) {
-    var ViewportArgs = (function () {
-        function ViewportArgs(x, y, width, height) {
-            this.x = 0;
-            this.y = 0;
-            this.width = width;
-            this.height = height;
-            this.modified = false;
-        }
-        return ViewportArgs;
-    })();
-    return ViewportArgs;
-});
-
-define('davinci-eight/renderers/viewport',["require", "exports", '../core/Color', '../renderers/ViewportArgs', '../checks/expectArg'], function (require, exports, Color, ViewportArgs, expectArg) {
-    var viewport = function (canvas, parameters) {
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        parameters = parameters || {};
-        var alpha = parameters.alpha !== undefined ? parameters.alpha : false;
-        var depth = parameters.depth !== undefined ? parameters.depth : true;
-        var stencil = parameters.stencil !== undefined ? parameters.stencil : true;
-        var antialias = parameters.antialias !== undefined ? parameters.antialias : false;
-        var premultipliedAlpha = parameters.premultipliedAlpha !== undefined ? parameters.premultipliedAlpha : true;
-        var preserveDrawingBuffer = parameters.preserveDrawingBuffer !== undefined ? parameters.preserveDrawingBuffer : false;
-        //var drawContext = new FrameworkDrawContext();
-        var context;
-        var contextId;
-        var devicePixelRatio = 1;
-        var autoClearColor = true;
-        var autoClearDepth = true;
-        var clearColor = new Color([1.0, 1.0, 1.0]);
-        var clearAlpha = 1.0;
-        // If we had an active context then we might use context.drawingBufferWidth etc.
-        var viewport = new ViewportArgs(0, 0, canvas.width, canvas.height);
-        function setViewport(x, y, width, height) {
-            if (context) {
-                context.viewport(x * devicePixelRatio, y * devicePixelRatio, width * devicePixelRatio, height * devicePixelRatio);
-            }
-        }
-        function clear() {
-            var mask = 0;
-            if (context) {
-                if (autoClearColor) {
-                    mask |= context.COLOR_BUFFER_BIT;
-                }
-                if (autoClearDepth) {
-                    mask |= context.DEPTH_BUFFER_BIT;
-                }
-                context.clear(mask);
-            }
-        }
-        var publicAPI = {
-            get canvas() { return canvas; },
-            get context() { return context; },
-            contextFree: function () {
-                context = void 0;
-                contextId = void 0;
-            },
-            contextGain: function (contextArg, contextIdArg) {
-                context = contextArg;
-                contextId = contextIdArg;
-                context.enable(context.DEPTH_TEST);
-                context.enable(context.SCISSOR_TEST);
-            },
-            contextLoss: function () {
-                context = void 0;
-                contextId = void 0;
-            },
-            hasContext: function () {
-                return !!context;
-            },
-            clearColor: function (red, green, blue, alpha) {
-                clearColor.red = red;
-                clearColor.green = green;
-                clearColor.blue = blue;
-                clearAlpha = alpha;
-                //
-            },
-            render: function (drawList, view) {
-                expectArg('drawList', drawList).toNotBeNull();
-                if (context) {
-                    context.scissor(viewport.x, viewport.y, viewport.width, viewport.height);
-                    context.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
-                    context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
-                    clear();
-                    if (!drawList.hasContext()) {
-                        drawList.contextGain(context, contextId);
-                    }
-                    var programLoaded;
-                    for (var drawGroupName in drawList.drawGroups) {
-                        programLoaded = false;
-                        drawList.drawGroups[drawGroupName].forEach(function (drawable) {
-                            if (!programLoaded) {
-                                drawable.useProgram();
-                                programLoaded = true;
-                            }
-                            drawable.draw(view);
-                        });
-                    }
-                }
-                else {
-                    console.warn("viewport is unable to render because WebGLRenderingContext is missing");
-                }
-            },
-            setViewport: setViewport,
-            get x() {
-                return viewport.x;
-            },
-            set x(value) {
-                viewport.x = value;
-            },
-            get y() {
-                return viewport.y;
-            },
-            set y(value) {
-                viewport.y = value;
-            },
-            get width() {
-                return viewport.width;
-            },
-            set width(value) {
-                viewport.width = value;
-            },
-            get height() {
-                return viewport.height;
-            },
-            set height(value) {
-                viewport.height = value;
-            },
-            setSize: function (width, height, updateStyle) {
-                canvas.width = width * devicePixelRatio;
-                canvas.height = height * devicePixelRatio;
-                if (updateStyle !== false) {
-                    canvas.style.width = width + 'px';
-                    canvas.style.height = height + 'px';
-                }
-                setViewport(0, 0, width, height);
-            }
-        };
-        var attributes = {
-            'alpha': alpha,
-            'depth': depth,
-            'stencil': stencil,
-            'antialias': antialias,
-            'premultipliedAlpha': premultipliedAlpha,
-            'preserveDrawingBuffer': preserveDrawingBuffer
-        };
-        return publicAPI;
-    };
-    return viewport;
-});
-
-define('davinci-eight/renderers/webGLRenderer',["require", "exports", '../renderers/renderer', '../checks/expectArg', '../core/Color'], function (require, exports, renderer, expectArg, Color) {
-    var webGLRenderer = function (canvas) {
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        var base = renderer(canvas);
-        var gl;
-        var glId;
-        var autoClear = true;
-        var clearColor = Color.fromRGB(0, 0, 0);
-        var clearAlpha = 0;
-        var self = {
-            contextFree: function () {
-                gl = void 0;
-                glId = void 0;
-                return base.contextFree();
-            },
-            contextGain: function (context, contextId) {
-                expectArg('contextId', contextId).toBeString();
-                var attributes = context.getContextAttributes();
-                //console.log(context.getParameter(context.VERSION));
-                //console.log("alpha                 => " + attributes.alpha);
-                //console.log("antialias             => " + attributes.antialias);
-                //console.log("depth                 => " + attributes.depth);
-                //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-                //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-                //console.log("stencil               => " + attributes.stencil);
-                gl = context;
-                glId = contextId;
-                gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
-                gl.clearDepth(1.0);
-                gl.enable(gl.DEPTH_TEST);
-                gl.depthFunc(gl.LEQUAL);
-                gl.viewport(0, 0, canvas.width, canvas.height);
-                return base.contextGain(context, contextId);
-            },
-            contextLoss: function () {
-                gl = void 0;
-                glId = void 0;
-                return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
-            },
-            get autoClear() {
-                return autoClear;
-            },
-            set autoClear(value) {
-                expectArg('autoClear', value).toBeBoolean();
-                autoClear = value;
-            },
-            clearColor: function (red, green, blue, alpha) {
-                clearColor.red = red;
-                clearColor.green = green;
-                clearColor.blue = blue;
-                clearAlpha = alpha;
-                if (gl) {
-                    gl.clearColor(red, green, blue, alpha);
-                }
-                return self;
-            },
-            render: function (drawList, view) {
-                if (autoClear && gl) {
-                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                }
-                return base.render(drawList, view);
-            }
-        };
-        return self;
-    };
-    return webGLRenderer;
 });
 
 define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor'], function (require, exports, Color, Symbolic, UniformColor) {
@@ -11085,7 +10739,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/drawList', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricSurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/renderers/viewport', 'davinci-eight/renderers/webGLRenderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, view, frustum, perspective, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, drawList, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricSurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, viewport, webGLRenderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/perspective', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricSurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/pointsProgram', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, view, frustum, perspective, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricSurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, pointsProgram, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -11112,10 +10766,8 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'dav
         get view() { return view; },
         get frustum() { return frustum; },
         get perspective() { return perspective; },
-        get drawList() { return drawList; },
+        get scene() { return scene; },
         get renderer() { return renderer; },
-        get viewport() { return viewport; },
-        get webGLRenderer() { return webGLRenderer; },
         get contextMonitor() { return contextMonitor; },
         workbench: workbench3D,
         animation: windowAnimationRunner,
@@ -11146,7 +10798,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/view', 'dav
         get BarnGeometry() { return BarnGeometry; },
         get BoxGeometry() { return BoxGeometry; },
         get CylinderGeometry() { return CylinderGeometry; },
-        get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
         get DodecahedronGeometry() { return DodecahedronGeometry; },
         get IcosahedronGeometry() { return IcosahedronGeometry; },
         get KleinBottleGeometry() { return KleinBottleGeometry; },

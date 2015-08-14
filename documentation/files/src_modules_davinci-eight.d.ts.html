@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.55.0</em>
+            <em>API Docs for: 2.56.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -69,8 +69,8 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -106,8 +106,6 @@
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
-                                <li><a href="../classes/Viewport.html">Viewport</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -900,32 +898,20 @@ declare module EIGHT
   }
   class Renderer extends RenderingContextUser
   {
-    render(drawList: DrawList, ambients: UniformProvider): void;
-  }
-  interface RendererParameters {
-  }
-  class Viewport extends RenderingContextUser
-  {
-    canvas: HTMLCanvasElement;
-    context: WebGLRenderingContext;
-    x: number;
-    y: number;
-    width: number;
-    height: number;
+    /**
+     * Defines whether the renderer should automatically clear its output before rendering.
+     */
+    autoClear: boolean;
     /**
      *
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): void;
+    clearColor(red: number, green: number, blue: number, alpha: number);
+    /**
+     *
+     */
     render(drawList: DrawList, ambients: UniformProvider): void;
-    setSize(width: number, height: number): void;
   }
-  interface ViewportParameters {
-    alpha?: boolean;
-    antialias?: boolean;
-    depth?: boolean;
-    premultipliedAlpha?: boolean;
-    preserveDrawingBuffer?: boolean;
-    stencil?: boolean;
+  interface RendererParameters {
   }
   interface WebGLRenderer extends RenderingContextUser
   {
@@ -960,7 +946,7 @@ declare module EIGHT
   /**
    * Constructs and returns a DrawList.
    */
-  function drawList(): DrawList;
+  function scene(): DrawList;
   function view(): View;
   /**
    * Constructs and returns a Perspective.
@@ -989,16 +975,6 @@ declare module EIGHT
    * @param options Optional parameters for modifying the WebGL context.
    */
   function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
-  /**
-   * Constructs and returns a Viewport.
-   * @param options Optional parameters for modifying the WebGL context.
-   */
-  function viewport(canvas: HTMLCanvasElement, options?: ViewportParameters): Viewport;
-  /**
-   * Constructs and returns a WebGLRenderer.
-   * @param options Optional parameters for modifying the WebGL context.
-   */
-  function webGLRenderer(canvas: HTMLCanvasElement): WebGLRenderer;
   /**
    * Constructs a ShaderProgram from the specified shader codes.
    */

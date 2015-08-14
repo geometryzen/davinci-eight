@@ -110,7 +110,6 @@ var CylinderGeometry = (function (_super) {
                 this.faceVertexUvs[0].push([uv1, uv2, uv3]);
             }
         }
-        this.computeFaceNormals();
     }
     return CylinderGeometry;
 })(Geometry);
