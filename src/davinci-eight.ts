@@ -71,6 +71,7 @@ import BoxOptions = require('davinci-eight/mesh/BoxOptions');
 import cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
+import CylinderMeshBuilder = require('davinci-eight/mesh/CylinderMeshBuilder');
 
 import sphereMesh = require('davinci-eight/mesh/sphereMesh');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
@@ -217,8 +218,9 @@ var eight = {
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
   
-  get cylinderMesh() { return cylinderMesh; },
   get CylinderArgs() { return CylinderArgs; },
+  get cylinderMesh() { return cylinderMesh; },
+  get CylinderMeshBuilder() { return CylinderMeshBuilder; },
 
   get sphereMesh() { return sphereMesh; },
   get SphereBuilder() { return SphereBuilder; },

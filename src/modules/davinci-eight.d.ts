@@ -992,6 +992,21 @@ declare module EIGHT
     setThetaStart(thetaStart: number): CylinderArgs;
     setThetaLength(thetaLength: number): CylinderArgs;
     setWireFrame(wireFrame: boolean): CylinderArgs;
+  }
+  /**
+   *
+   */
+  class CylinderMeshBuilder extends CylinderArgs {
+    constructor(options?: CylinderOptions);
+    setRadiusTop(radiusTop: number): CylinderMeshBuilder;
+    setRadiusBottom(radiusBottom: number): CylinderMeshBuilder;
+    setHeight(height: number): CylinderMeshBuilder;
+    setRadialSegments(radialSegments: number): CylinderMeshBuilder;
+    setHeightSegments(heightSegments: number): CylinderMeshBuilder;
+    setOpenEnded(openEnded: boolean): CylinderMeshBuilder;
+    setThetaStart(thetaStart: number): CylinderMeshBuilder;
+    setThetaLength(thetaLength: number): CylinderMeshBuilder;
+    setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
     buildMesh(): AttribProvider;
   }
   /**

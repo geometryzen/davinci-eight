@@ -46,6 +46,7 @@ import BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
 import BoxOptions = require('davinci-eight/mesh/BoxOptions');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
+import CylinderMeshBuilder = require('davinci-eight/mesh/CylinderMeshBuilder');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 import Blade = require('davinci-eight/objects/Blade');
@@ -176,8 +177,9 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
-    cylinderMesh: (options?: CylinderOptions) => AttribProvider;
     CylinderArgs: typeof CylinderArgs;
+    cylinderMesh: (options?: CylinderOptions) => AttribProvider;
+    CylinderMeshBuilder: typeof CylinderMeshBuilder;
     sphereMesh: (options?: SphereOptions) => AttribProvider;
     SphereBuilder: typeof SphereBuilder;
     vortexMesh: (options?: {

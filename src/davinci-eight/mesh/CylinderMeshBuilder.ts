@@ -3,37 +3,44 @@ import CylinderArgs = require('../mesh/CylinderArgs');
 import CylinderOptions = require('../mesh/CylinderOptions');
 import cylinderMesh = require('../mesh/cylinderMesh');
 
-class CylinderMeshBuilder {
-  private args: CylinderArgs;
+class CylinderMeshBuilder extends CylinderArgs {
   constructor(options?: CylinderOptions) {
-    this.args = new CylinderArgs(options);
+    super(options);
   }
   setRadiusTop(radiusTop: number): CylinderMeshBuilder {
-    this.args.setRadiusTop(radiusTop);
+    super.setRadiusTop(radiusTop);
     return this;
   }
   setRadiusBottom(radiusBottom: number): CylinderMeshBuilder {
-    this.args.setRadiusBottom(radiusBottom);
+    super.setRadiusBottom(radiusBottom);
     return this;
   }
   setHeight(height: number): CylinderMeshBuilder {
-    this.args.setHeight(height);
+    super.setHeight(height);
     return this;
   }
   setRadialSegments(radialSegments: number): CylinderMeshBuilder {
-    this.args.setRadialSegments(radialSegments);
+    super.setRadialSegments(radialSegments);
     return this;
   }
   setHeightSegments(heightSegments: number): CylinderMeshBuilder {
-    this.args.setHeightSegments(heightSegments);
+    super.setHeightSegments(heightSegments);
     return this;
   }
   setOpenEnded(openEnded: boolean): CylinderMeshBuilder {
-    this.args.setOpenEnded(openEnded);
+    super.setOpenEnded(openEnded);
+    return this;
+  }
+  setThetaStart(thetaStart: number): CylinderMeshBuilder {
+    super.setThetaStart(thetaStart);
+    return this;
+  }
+  setThetaLength(thetaLength: number): CylinderMeshBuilder {
+    super.setThetaLength(thetaLength);
     return this;
   }
   setWireFrame(wireFrame: boolean): CylinderMeshBuilder {
-    this.args.setWireFrame(wireFrame);
+    super.setWireFrame(wireFrame);
     return this;
   }
   buildMesh(): AttribProvider {

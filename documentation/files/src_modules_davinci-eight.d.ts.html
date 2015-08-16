@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.57.0</em>
+            <em>API Docs for: 2.58.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1142,6 +1142,21 @@ declare module EIGHT
     setThetaStart(thetaStart: number): CylinderArgs;
     setThetaLength(thetaLength: number): CylinderArgs;
     setWireFrame(wireFrame: boolean): CylinderArgs;
+  }
+  /**
+   *
+   */
+  class CylinderMeshBuilder extends CylinderArgs {
+    constructor(options?: CylinderOptions);
+    setRadiusTop(radiusTop: number): CylinderMeshBuilder;
+    setRadiusBottom(radiusBottom: number): CylinderMeshBuilder;
+    setHeight(height: number): CylinderMeshBuilder;
+    setRadialSegments(radialSegments: number): CylinderMeshBuilder;
+    setHeightSegments(heightSegments: number): CylinderMeshBuilder;
+    setOpenEnded(openEnded: boolean): CylinderMeshBuilder;
+    setThetaStart(thetaStart: number): CylinderMeshBuilder;
+    setThetaLength(thetaLength: number): CylinderMeshBuilder;
+    setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
     buildMesh(): AttribProvider;
   }
   /**

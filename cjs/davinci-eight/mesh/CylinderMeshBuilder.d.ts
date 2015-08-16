@@ -1,7 +1,7 @@
 import AttribProvider = require('../core/AttribProvider');
+import CylinderArgs = require('../mesh/CylinderArgs');
 import CylinderOptions = require('../mesh/CylinderOptions');
-declare class CylinderMeshBuilder {
-    private args;
+declare class CylinderMeshBuilder extends CylinderArgs {
     constructor(options?: CylinderOptions);
     setRadiusTop(radiusTop: number): CylinderMeshBuilder;
     setRadiusBottom(radiusBottom: number): CylinderMeshBuilder;
@@ -9,6 +9,8 @@ declare class CylinderMeshBuilder {
     setRadialSegments(radialSegments: number): CylinderMeshBuilder;
     setHeightSegments(heightSegments: number): CylinderMeshBuilder;
     setOpenEnded(openEnded: boolean): CylinderMeshBuilder;
+    setThetaStart(thetaStart: number): CylinderMeshBuilder;
+    setThetaLength(thetaLength: number): CylinderMeshBuilder;
     setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
     buildMesh(): AttribProvider;
 }
