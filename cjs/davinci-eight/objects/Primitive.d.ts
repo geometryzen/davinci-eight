@@ -7,6 +7,8 @@ import ShaderProgram = require('../core/ShaderProgram');
  * This factoring is not essential but does enable reuse.
  */
 interface Primitive<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Drawable {
+    mesh: MESH;
+    shaders: SHADERS;
     model: MODEL;
 }
 export = Primitive;

@@ -13,21 +13,23 @@ class CylinderArgs {
   private $radiusTop: number;
   private $radiusBottom: number;
   private $height: number;
-  private $axis: Vector3 = Vector3.e3.clone();
-  private $depth: number;
-  private $widthSegments: number;
+  private $radialSegments: number;
   private $heightSegments: number;
-  private $depthSegments: number;
+  private $openEnded: boolean
+  private $thetaStart: number;
+  private $thetaLength: number;
   private $wireFrame: boolean;
+  private $axis: Vector3 = Vector3.e3.clone();
   constructor(options?: CylinderOptions) {
     options = options || {modelMatrix: 'uModelMatrix'};
     this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
     this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
-//    this.setHeight(isUndefined(options.height) ? 1 : options.height);
-//    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
-//    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
-//    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
-//    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+    this.setHeight(isUndefined(options.height) ? 1 : options.height);
+    this.setRadialSegments(isUndefined(options.radialSegments) ? 16 : options.radialSegments);
+    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
+    this.setOpenEnded(isUndefined(options.openEnded) ? false : options.openEnded);
+    this.setThetaStart(isUndefined(options.thetaStart) ? 0 : options.thetaStart);
+    this.setThetaLength(isUndefined(options.thetaLength) ? 2 * Math.PI : options.thetaLength);
     this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
   }
   get radiusTop(): number {
@@ -39,23 +41,26 @@ class CylinderArgs {
   get height() {
     return this.$height;
   }
-  get axis(): Cartesian3 {
-    return this.$axis;
-  }
-  get depth() {
-    return this.$depth;
-  }
-  get widthSegments() {
-    return this.$widthSegments;
+  get radialSegments() {
+    return this.$radialSegments;
   }
   get heightSegments() {
     return this.$heightSegments;
   }
-  get depthSegments() {
-    return this.$depthSegments;
+  get openEnded() {
+    return this.$openEnded;
+  }
+  get thetaStart() {
+    return this.$thetaStart;
+  }
+  get thetaLength() {
+    return this.$thetaLength;
   }
   get wireFrame() {
     return this.$wireFrame;
+  }
+  get axis(): Cartesian3 {
+    return this.$axis;
   }
   setRadiusTop(radiusTop: number): CylinderArgs {
     expectArg('radiusTop', radiusTop).toBeNumber().toSatisfy(radiusTop >= 0, "radiusTop must be greater than or equal to zero.");
@@ -72,34 +77,39 @@ class CylinderArgs {
     this.$height = height;
     return this;
   }
-  setAxis(axis: Cartesian3): CylinderArgs {
-    expectArg('axis', axis).toBeObject();
-    this.$axis.copy(axis);
-    return this;
-  }
-  setDepth(depth: number): CylinderArgs {
-    expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
-    this.$depth = depth;
-    return this;
-  }
-  setWidthSegments(widthSegments: number): CylinderArgs {
-    expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
-    this.$widthSegments = widthSegments;
+  setRadialSegments(radialSegments: number): CylinderArgs {
+    expectArg('radialSegments', radialSegments).toBeNumber();
+    this.$radialSegments = radialSegments;
     return this;
   }
   setHeightSegments(heightSegments: number): CylinderArgs {
-    expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
+    expectArg('heightSegments', heightSegments).toBeNumber();
     this.$heightSegments = heightSegments;
     return this;
   }
-  setDepthSegments(depthSegments: number): CylinderArgs {
-    expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
-    this.$depthSegments = depthSegments;
+  setOpenEnded(openEnded: boolean) {
+    expectArg('openEnded', openEnded).toBeBoolean();
+    this.$openEnded = openEnded;
+    return this;
+  }
+  setThetaStart(thetaStart: number): CylinderArgs {
+    expectArg('thetaStart', thetaStart).toBeNumber();
+    this.$thetaStart = thetaStart;
+    return this;
+  }
+  setThetaLength(thetaLength: number): CylinderArgs {
+    expectArg('thetaLength', thetaLength).toBeNumber();
+    this.$thetaLength = thetaLength;
     return this;
   }
   setWireFrame(wireFrame: boolean) {
     expectArg('wireFrame', wireFrame).toBeBoolean();
     this.$wireFrame = wireFrame;
+    return this;
+  }
+  setAxis(axis: Cartesian3): CylinderArgs {
+    expectArg('axis', axis).toBeObject();
+    this.$axis.copy(axis);
     return this;
   }
 }

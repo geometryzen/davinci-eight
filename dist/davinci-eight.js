@@ -2118,7 +2118,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.56.0'
+        VERSION: '2.57.0'
     };
     return core;
 });
@@ -2936,12 +2936,15 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Spher
             // Avoid  the this pointer in forEach callback function.
             var vertices = this.vertices;
             var computeFaceNormal = function (face) {
+                face.normals = [];
                 var vA = vertices[face.a];
                 var vB = vertices[face.b];
                 var vC = vertices[face.c];
                 var cb = new Vector3().subVectors(vC, vB);
                 var ab = new Vector3().subVectors(vA, vB);
                 var normal = new Vector3().crossVectors(cb, ab).normalize();
+                face.normals.push(normal);
+                face.normals.push(normal);
                 face.normals.push(normal);
             };
             this.faces.forEach(computeFaceNormal);
@@ -4158,6 +4161,8 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
             if (openEnded === void 0) { openEnded = false; }
             if (thetaStart === void 0) { thetaStart = 0; }
             if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
+            radialSegments = Math.max(radialSegments, 3);
+            heightSegments = Math.max(heightSegments, 1);
             _super.call(this);
             var heightHalf = height / 2;
             var x;
@@ -4222,9 +4227,9 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
                     var v1 = vertices[0][x];
                     var v2 = vertices[0][x + 1];
                     var v3 = this.vertices.length - 1;
-                    var n1 = Vector3.e2;
-                    var n2 = Vector3.e2;
-                    var n3 = Vector3.e2;
+                    var n1 = Vector3.e2.clone();
+                    var n2 = Vector3.e2.clone();
+                    var n3 = Vector3.e2.clone();
                     var uv1 = uvs[0][x].clone();
                     var uv2 = uvs[0][x + 1].clone();
                     var uv3 = new Vector2([uv2.x, 0]);
@@ -4249,6 +4254,8 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
                     this.faceVertexUvs[0].push([uv1, uv2, uv3]);
                 }
             }
+            //    this.computeFaceNormals();
+            //    this.computeVertexNormals();
         }
         return CylinderGeometry;
     })(Geometry);
@@ -8482,7 +8489,7 @@ define('davinci-eight/mesh/BoxBuilder',["require", "exports", '../checks/expectA
 define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/GeometryAdapter', '../geometries/CylinderGeometry', '../mesh/adapterOptions'], function (require, exports, GeometryAdapter, CylinderGeometry, adapterOptions) {
     function cylinderGeometry(options) {
         options = options || {};
-        return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height);
+        return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height, options.radialSegments, options.heightSegments, options.openEnded, options.thetaStart, options.thetaLength);
     }
     function cylinderMesh(options) {
         var base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
@@ -8530,11 +8537,12 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
             options = options || { modelMatrix: 'uModelMatrix' };
             this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
             this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
-            //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
-            //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
-            //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
-            //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
-            //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+            this.setHeight(isUndefined(options.height) ? 1 : options.height);
+            this.setRadialSegments(isUndefined(options.radialSegments) ? 16 : options.radialSegments);
+            this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
+            this.setOpenEnded(isUndefined(options.openEnded) ? false : options.openEnded);
+            this.setThetaStart(isUndefined(options.thetaStart) ? 0 : options.thetaStart);
+            this.setThetaLength(isUndefined(options.thetaLength) ? 2 * Math.PI : options.thetaLength);
             this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
         }
         Object.defineProperty(CylinderArgs.prototype, "radiusTop", {
@@ -8558,23 +8566,9 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderArgs.prototype, "axis", {
+        Object.defineProperty(CylinderArgs.prototype, "radialSegments", {
             get: function () {
-                return this.$axis;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "depth", {
-            get: function () {
-                return this.$depth;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "widthSegments", {
-            get: function () {
-                return this.$widthSegments;
+                return this.$radialSegments;
             },
             enumerable: true,
             configurable: true
@@ -8586,9 +8580,23 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderArgs.prototype, "depthSegments", {
+        Object.defineProperty(CylinderArgs.prototype, "openEnded", {
             get: function () {
-                return this.$depthSegments;
+                return this.$openEnded;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderArgs.prototype, "thetaStart", {
+            get: function () {
+                return this.$thetaStart;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderArgs.prototype, "thetaLength", {
+            get: function () {
+                return this.$thetaLength;
             },
             enumerable: true,
             configurable: true
@@ -8596,6 +8604,13 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
         Object.defineProperty(CylinderArgs.prototype, "wireFrame", {
             get: function () {
                 return this.$wireFrame;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderArgs.prototype, "axis", {
+            get: function () {
+                return this.$axis;
             },
             enumerable: true,
             configurable: true
@@ -8615,34 +8630,39 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
             this.$height = height;
             return this;
         };
-        CylinderArgs.prototype.setAxis = function (axis) {
-            expectArg('axis', axis).toBeObject();
-            this.$axis.copy(axis);
-            return this;
-        };
-        CylinderArgs.prototype.setDepth = function (depth) {
-            expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
-            this.$depth = depth;
-            return this;
-        };
-        CylinderArgs.prototype.setWidthSegments = function (widthSegments) {
-            expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
-            this.$widthSegments = widthSegments;
+        CylinderArgs.prototype.setRadialSegments = function (radialSegments) {
+            expectArg('radialSegments', radialSegments).toBeNumber();
+            this.$radialSegments = radialSegments;
             return this;
         };
         CylinderArgs.prototype.setHeightSegments = function (heightSegments) {
-            expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
+            expectArg('heightSegments', heightSegments).toBeNumber();
             this.$heightSegments = heightSegments;
             return this;
         };
-        CylinderArgs.prototype.setDepthSegments = function (depthSegments) {
-            expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
-            this.$depthSegments = depthSegments;
+        CylinderArgs.prototype.setOpenEnded = function (openEnded) {
+            expectArg('openEnded', openEnded).toBeBoolean();
+            this.$openEnded = openEnded;
+            return this;
+        };
+        CylinderArgs.prototype.setThetaStart = function (thetaStart) {
+            expectArg('thetaStart', thetaStart).toBeNumber();
+            this.$thetaStart = thetaStart;
+            return this;
+        };
+        CylinderArgs.prototype.setThetaLength = function (thetaLength) {
+            expectArg('thetaLength', thetaLength).toBeNumber();
+            this.$thetaLength = thetaLength;
             return this;
         };
         CylinderArgs.prototype.setWireFrame = function (wireFrame) {
             expectArg('wireFrame', wireFrame).toBeBoolean();
             this.$wireFrame = wireFrame;
+            return this;
+        };
+        CylinderArgs.prototype.setAxis = function (axis) {
+            expectArg('axis', axis).toBeObject();
+            this.$axis.copy(axis);
             return this;
         };
         return CylinderArgs;
@@ -9243,16 +9263,32 @@ define('davinci-eight/mesh/CylinderMeshBuilder',["require", "exports", '../mesh/
         function CylinderMeshBuilder(options) {
             this.args = new CylinderArgs(options);
         }
-        CylinderMeshBuilder.prototype.setHeight = function (height) {
-            this.args.setHeight(height);
-            return this;
-        };
         CylinderMeshBuilder.prototype.setRadiusTop = function (radiusTop) {
             this.args.setRadiusTop(radiusTop);
             return this;
         };
         CylinderMeshBuilder.prototype.setRadiusBottom = function (radiusBottom) {
             this.args.setRadiusBottom(radiusBottom);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setHeight = function (height) {
+            this.args.setHeight(height);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setRadialSegments = function (radialSegments) {
+            this.args.setRadialSegments(radialSegments);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setHeightSegments = function (heightSegments) {
+            this.args.setHeightSegments(heightSegments);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setOpenEnded = function (openEnded) {
+            this.args.setOpenEnded(openEnded);
+            return this;
+        };
+        CylinderMeshBuilder.prototype.setWireFrame = function (wireFrame) {
+            this.args.setWireFrame(wireFrame);
             return this;
         };
         CylinderMeshBuilder.prototype.buildMesh = function () {

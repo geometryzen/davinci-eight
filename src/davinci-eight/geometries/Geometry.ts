@@ -2,6 +2,7 @@ import Face3 = require('../core/Face3');
 import Sphere = require('../math/Sphere');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
+import isDefined = require('../checks/isDefined');
 
 /**
  * @class Geometry
@@ -36,12 +37,15 @@ import Vector3 = require('../math/Vector3');
     // Avoid  the this pointer in forEach callback function.
     let vertices = this.vertices;
     let computeFaceNormal = function(face: Face3) {
-      let vA = vertices[face.a];
-      let vB = vertices[face.b];
-      let vC = vertices[face.c];
+      face.normals = [];
+      let vA: Vector3 = vertices[face.a];
+      let vB: Vector3 = vertices[face.b];
+      let vC: Vector3 = vertices[face.c];
       let cb = new Vector3().subVectors(vC, vB);
       let ab = new Vector3().subVectors(vA, vB);
       let normal = new Vector3().crossVectors(cb, ab).normalize();
+      face.normals.push(normal);
+      face.normals.push(normal);
       face.normals.push(normal);
     };
     this.faces.forEach(computeFaceNormal);

@@ -31,12 +31,15 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             // Avoid  the this pointer in forEach callback function.
             var vertices = this.vertices;
             var computeFaceNormal = function (face) {
+                face.normals = [];
                 var vA = vertices[face.a];
                 var vB = vertices[face.b];
                 var vC = vertices[face.c];
                 var cb = new Vector3().subVectors(vC, vB);
                 var ab = new Vector3().subVectors(vA, vB);
                 var normal = new Vector3().crossVectors(cb, ab).normalize();
+                face.normals.push(normal);
+                face.normals.push(normal);
                 face.normals.push(normal);
             };
             this.faces.forEach(computeFaceNormal);

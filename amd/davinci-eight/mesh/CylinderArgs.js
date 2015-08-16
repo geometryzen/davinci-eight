@@ -8,11 +8,12 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             options = options || { modelMatrix: 'uModelMatrix' };
             this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
             this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
-            //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
-            //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
-            //    this.setWidthSegments(isUndefined(options.widthSegments) ? 1 : options.widthSegments);
-            //    this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
-            //    this.setDepthSegments(isUndefined(options.depthSegments) ? 1 : options.depthSegments);
+            this.setHeight(isUndefined(options.height) ? 1 : options.height);
+            this.setRadialSegments(isUndefined(options.radialSegments) ? 16 : options.radialSegments);
+            this.setHeightSegments(isUndefined(options.heightSegments) ? 1 : options.heightSegments);
+            this.setOpenEnded(isUndefined(options.openEnded) ? false : options.openEnded);
+            this.setThetaStart(isUndefined(options.thetaStart) ? 0 : options.thetaStart);
+            this.setThetaLength(isUndefined(options.thetaLength) ? 2 * Math.PI : options.thetaLength);
             this.setWireFrame(isUndefined(options.wireFrame) ? false : options.wireFrame);
         }
         Object.defineProperty(CylinderArgs.prototype, "radiusTop", {
@@ -36,23 +37,9 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderArgs.prototype, "axis", {
+        Object.defineProperty(CylinderArgs.prototype, "radialSegments", {
             get: function () {
-                return this.$axis;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "depth", {
-            get: function () {
-                return this.$depth;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CylinderArgs.prototype, "widthSegments", {
-            get: function () {
-                return this.$widthSegments;
+                return this.$radialSegments;
             },
             enumerable: true,
             configurable: true
@@ -64,9 +51,23 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(CylinderArgs.prototype, "depthSegments", {
+        Object.defineProperty(CylinderArgs.prototype, "openEnded", {
             get: function () {
-                return this.$depthSegments;
+                return this.$openEnded;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderArgs.prototype, "thetaStart", {
+            get: function () {
+                return this.$thetaStart;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderArgs.prototype, "thetaLength", {
+            get: function () {
+                return this.$thetaLength;
             },
             enumerable: true,
             configurable: true
@@ -74,6 +75,13 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
         Object.defineProperty(CylinderArgs.prototype, "wireFrame", {
             get: function () {
                 return this.$wireFrame;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CylinderArgs.prototype, "axis", {
+            get: function () {
+                return this.$axis;
             },
             enumerable: true,
             configurable: true
@@ -93,34 +101,39 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             this.$height = height;
             return this;
         };
-        CylinderArgs.prototype.setAxis = function (axis) {
-            expectArg('axis', axis).toBeObject();
-            this.$axis.copy(axis);
-            return this;
-        };
-        CylinderArgs.prototype.setDepth = function (depth) {
-            expectArg('depth', depth).toBeNumber().toSatisfy(depth >= 0, "depth must be greater than or equal to zero.");
-            this.$depth = depth;
-            return this;
-        };
-        CylinderArgs.prototype.setWidthSegments = function (widthSegments) {
-            expectArg('widthSegments', widthSegments).toBeNumber().toSatisfy(widthSegments > 0, "widthSegments must be greater than zero.");
-            this.$widthSegments = widthSegments;
+        CylinderArgs.prototype.setRadialSegments = function (radialSegments) {
+            expectArg('radialSegments', radialSegments).toBeNumber();
+            this.$radialSegments = radialSegments;
             return this;
         };
         CylinderArgs.prototype.setHeightSegments = function (heightSegments) {
-            expectArg('heightSegments', heightSegments).toBeNumber().toSatisfy(heightSegments > 0, "heightSegments must be greater than zero.");
+            expectArg('heightSegments', heightSegments).toBeNumber();
             this.$heightSegments = heightSegments;
             return this;
         };
-        CylinderArgs.prototype.setDepthSegments = function (depthSegments) {
-            expectArg('depthSegments', depthSegments).toBeNumber().toSatisfy(depthSegments > 0, "depthSegments must be greater than zero.");
-            this.$depthSegments = depthSegments;
+        CylinderArgs.prototype.setOpenEnded = function (openEnded) {
+            expectArg('openEnded', openEnded).toBeBoolean();
+            this.$openEnded = openEnded;
+            return this;
+        };
+        CylinderArgs.prototype.setThetaStart = function (thetaStart) {
+            expectArg('thetaStart', thetaStart).toBeNumber();
+            this.$thetaStart = thetaStart;
+            return this;
+        };
+        CylinderArgs.prototype.setThetaLength = function (thetaLength) {
+            expectArg('thetaLength', thetaLength).toBeNumber();
+            this.$thetaLength = thetaLength;
             return this;
         };
         CylinderArgs.prototype.setWireFrame = function (wireFrame) {
             expectArg('wireFrame', wireFrame).toBeBoolean();
             this.$wireFrame = wireFrame;
+            return this;
+        };
+        CylinderArgs.prototype.setAxis = function (axis) {
+            expectArg('axis', axis).toBeObject();
+            this.$axis.copy(axis);
             return this;
         };
         return CylinderArgs;

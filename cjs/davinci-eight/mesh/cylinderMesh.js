@@ -3,7 +3,7 @@ var CylinderGeometry = require('../geometries/CylinderGeometry');
 var adapterOptions = require('../mesh/adapterOptions');
 function cylinderGeometry(options) {
     options = options || {};
-    return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height);
+    return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height, options.radialSegments, options.heightSegments, options.openEnded, options.thetaStart, options.thetaLength);
 }
 function cylinderMesh(options) {
     var base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));

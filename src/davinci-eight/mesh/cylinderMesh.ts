@@ -12,7 +12,12 @@ function cylinderGeometry(options?: CylinderOptions): Geometry {
   return new CylinderGeometry(
     options.radiusTop,
     options.radiusBottom,
-    options.height);
+    options.height,
+    options.radialSegments,
+    options.heightSegments,
+    options.openEnded,
+    options.thetaStart,
+    options.thetaLength);
 }
 
 function cylinderMesh(options?: CylinderOptions) : AttribProvider {

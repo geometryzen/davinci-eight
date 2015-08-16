@@ -8,16 +8,32 @@ class CylinderMeshBuilder {
   constructor(options?: CylinderOptions) {
     this.args = new CylinderArgs(options);
   }
-  setHeight(height: number): CylinderMeshBuilder {
-    this.args.setHeight(height);
-    return this;
-  }
   setRadiusTop(radiusTop: number): CylinderMeshBuilder {
     this.args.setRadiusTop(radiusTop);
     return this;
   }
   setRadiusBottom(radiusBottom: number): CylinderMeshBuilder {
     this.args.setRadiusBottom(radiusBottom);
+    return this;
+  }
+  setHeight(height: number): CylinderMeshBuilder {
+    this.args.setHeight(height);
+    return this;
+  }
+  setRadialSegments(radialSegments: number): CylinderMeshBuilder {
+    this.args.setRadialSegments(radialSegments);
+    return this;
+  }
+  setHeightSegments(heightSegments: number): CylinderMeshBuilder {
+    this.args.setHeightSegments(heightSegments);
+    return this;
+  }
+  setOpenEnded(openEnded: boolean): CylinderMeshBuilder {
+    this.args.setOpenEnded(openEnded);
+    return this;
+  }
+  setWireFrame(wireFrame: boolean): CylinderMeshBuilder {
+    this.args.setWireFrame(wireFrame);
     return this;
   }
   buildMesh(): AttribProvider {

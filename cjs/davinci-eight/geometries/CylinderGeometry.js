@@ -19,6 +19,8 @@ var CylinderGeometry = (function (_super) {
         if (openEnded === void 0) { openEnded = false; }
         if (thetaStart === void 0) { thetaStart = 0; }
         if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
+        radialSegments = Math.max(radialSegments, 3);
+        heightSegments = Math.max(heightSegments, 1);
         _super.call(this);
         var heightHalf = height / 2;
         var x;
@@ -83,9 +85,9 @@ var CylinderGeometry = (function (_super) {
                 var v1 = vertices[0][x];
                 var v2 = vertices[0][x + 1];
                 var v3 = this.vertices.length - 1;
-                var n1 = Vector3.e2;
-                var n2 = Vector3.e2;
-                var n3 = Vector3.e2;
+                var n1 = Vector3.e2.clone();
+                var n2 = Vector3.e2.clone();
+                var n3 = Vector3.e2.clone();
                 var uv1 = uvs[0][x].clone();
                 var uv2 = uvs[0][x + 1].clone();
                 var uv3 = new Vector2([uv2.x, 0]);
@@ -110,6 +112,8 @@ var CylinderGeometry = (function (_super) {
                 this.faceVertexUvs[0].push([uv1, uv2, uv3]);
             }
         }
+        //    this.computeFaceNormals();
+        //    this.computeVertexNormals();
     }
     return CylinderGeometry;
 })(Geometry);

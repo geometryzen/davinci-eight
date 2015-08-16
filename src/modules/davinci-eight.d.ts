@@ -978,10 +978,20 @@ declare module EIGHT
     radiusTop: number;
     radiusBottom: number;
     height: number;
+    radialSegments: number;
+    heightSegments: number;
+    openEnded: boolean;
+    wireFrame: boolean;
     constructor(options?: CylinderOptions);
     setRadiusTop(radiusTop: number): CylinderArgs;
     setRadiusBottom(radiusBottom: number): CylinderArgs;
     setHeight(height: number): CylinderArgs;
+    setRadialSegments(radialSegments: number): CylinderArgs;
+    setHeightSegments(heightSegments: number): CylinderArgs;
+    setOpenEnded(openEnded: boolean): CylinderArgs;
+    setThetaStart(thetaStart: number): CylinderArgs;
+    setThetaLength(thetaLength: number): CylinderArgs;
+    setWireFrame(wireFrame: boolean): CylinderArgs;
     buildMesh(): AttribProvider;
   }
   /**

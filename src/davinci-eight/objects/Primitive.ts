@@ -9,8 +9,8 @@ import ShaderProgram = require('../core/ShaderProgram');
  */
 interface Primitive<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Drawable
 {
-//  mesh: MESH;
-//  shaders: SHADERS;
+  mesh: MESH;
+  shaders: SHADERS;
   model: MODEL;
 }
 
