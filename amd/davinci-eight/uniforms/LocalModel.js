@@ -64,7 +64,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../core/Def
                         // It's unfortunate that we have to recompute the model-view matrix.
                         // We could cache it, being careful that we don't assume the callback order.
                         // We don't want to compute it in the shader beacause that would be per-vertex.
-                        var normalMatrix = new Matrix3();
+                        var normalMatrix = Matrix3.identity();
                         var mv = modelViewMatrix(this.position, this.attitude);
                         normalMatrix.normalFromMatrix4(mv);
                         return { transpose: false, matrix3: new Float32Array(normalMatrix.elements) };

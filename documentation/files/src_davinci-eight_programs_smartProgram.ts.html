@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -153,29 +153,11 @@ import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import shaderProgram = require(&#x27;./shaderProgram&#x27;);
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
-import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;);
-import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;);
-
-function getAttribCodeName(attributes: AttribMetaInfos, name: string) {
-  return getAttribVarName(attributes[name], name);
-}
-
-function getUniformCodeName(uniforms: UniformMetaInfos, name: string) {
-  return getUniformVarName(uniforms[name], name);
-}
-
-let SPACE = &#x27; &#x27;;
-let ATTRIBUTE = &#x27;attribute&#x27; + SPACE;
-let UNIFORM = &#x27;uniform&#x27; + SPACE;
-let COMMA = &#x27;,&#x27; + SPACE;
-let SEMICOLON = &#x27;;&#x27;;
-let LPAREN = &#x27;(&#x27;;
-let RPAREN = &#x27;)&#x27;;
-let TIMES  = SPACE + &#x27;*&#x27; + SPACE;
-let ASSIGN = SPACE + &#x27;=&#x27; + SPACE;
-let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = &quot;directionalLightCosineFactor&quot;
+import vertexShader = require(&#x27;../programs/vertexShader&#x27;);
+import fragmentShader = require(&#x27;../programs/fragmentShader&#x27;);
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
@@ -185,171 +167,18 @@ function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos)
   return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
 }
 /**
- * 
- */
-let vertexShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean): string {
-
-  var lines: string[] = [];
-  for (name in attributes) {
-    lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + getAttribVarName(attributes[name], name) + SEMICOLON);
-  }
-  for (name in uniforms) {
-    lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
-  }
-  if (vColor) {
-    lines.push(&quot;varying highp vec4 vColor;&quot;);
-  }
-  if (vLight) {
-    lines.push(&quot;varying highp vec3 vLight;&quot;);
-  }
-  lines.push(&quot;void main(void) {&quot;);
-  let glPosition: string[] = [];
-  glPosition.unshift(SEMICOLON);
-
-  if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
-    glPosition.unshift(RPAREN);
-    glPosition.unshift(&quot;1.0&quot;);
-    glPosition.unshift(COMMA);
-    glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
-    glPosition.unshift(LPAREN);
-    glPosition.unshift(&quot;vec4&quot;);
-  }
-  else {
-    glPosition.unshift(&quot;vec4(0.0, 0.0, 0.0, 1.0)&quot;);
-  }
-
-  if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
-    glPosition.unshift(TIMES);
-    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
-  }
-  if (uniforms[Symbolic.UNIFORM_VIEW_MATRIX]) {
-    glPosition.unshift(TIMES);
-    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX));
-  }
-  if (uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]) {
-    glPosition.unshift(TIMES);
-    glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX));
-  }
-  glPosition.unshift(ASSIGN);
-  glPosition.unshift(&quot;gl_Position&quot;);
-  glPosition.unshift(&#x27;  &#x27;);
-  lines.push(glPosition.join(&#x27;&#x27;));
-
-  if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-    let vColorAssignLines: string[] = [];
-    let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
-    switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
-      case &#x27;vec4&#x27;: {
-        lines.push(&quot;  vColor = &quot; + colorAttribVarName + SEMICOLON);
-      }
-      break;
-      case &#x27;vec3&#x27;: {
-        lines.push(&quot;  vColor = vec4(&quot; + colorAttribVarName + &quot;, 1.0);&quot;);
-      }
-      break;
-      default: {
-        throw new Error(&quot;Unexpected type for color attribute: &quot; + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
-      }
-    }
-    lines.push(vColorAssignLines.join(&#x27;&#x27;));
-  }
-  else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-    let vColorAssignLines: string[] = [];
-    let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
-    switch(uniforms[Symbolic.UNIFORM_COLOR].glslType) {
-      case &#x27;vec4&#x27;: {
-        lines.push(&quot;  vColor = &quot; + colorUniformVarName + SEMICOLON);
-      }
-      break;
-      case &#x27;vec3&#x27;: {
-        lines.push(&quot;  vColor = vec4(&quot; + colorUniformVarName + &quot;, 1.0);&quot;);
-      }
-      break;
-      default: {
-        throw new Error(&quot;Unexpected type for color uniform: &quot; + uniforms[Symbolic.UNIFORM_COLOR].glslType);
-      }
-    }
-    lines.push(vColorAssignLines.join(&#x27;&#x27;));
-  }
-
-  if (vLight) {
-    if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] &amp;&amp; uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] &amp;&amp; attributes[Symbolic.ATTRIBUTE_NORMAL]) {
-      lines.push(&quot;  vec3 L = normalize(&quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + &quot;);&quot;);
-      lines.push(&quot;  vec3 N = normalize(&quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + &quot; * &quot; + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + &quot;);&quot;);
-      lines.push(&quot;  float &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; = max(dot(N, L), 0.0);&quot;);
-      if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-        lines.push(&quot;  vLight = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + &quot; + &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; * &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + &quot;;&quot;);
-      }
-      else {
-        lines.push(&quot;  vLight = &quot; + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + &quot; * &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + &quot;;&quot;);
-      }
-    }
-    else {
-      if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-        lines.push(&quot;  vLight = &quot; + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + &quot;;&quot;);
-      }
-      else {
-        lines.push(&quot;  vLight = vec3(1.0, 1.0, 1.0);&quot;);
-      }
-    }
-  }
-  // TODO: This should be made conditional and variable or constant.
-  //lines.push(&quot;  gl_PointSize = 6.0;&quot;);
-  lines.push(&quot;}&quot;);
-
-  let code = lines.join(&quot;\n&quot;);
-  return code;
-}
-/**
- *
- */
-let fragmentShader = function(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
-
-  var lines: string[] = [];
-  if (vColor) {
-    lines.push(&quot;varying highp vec4 vColor;&quot;);
-  }
-  if (vLight) {
-    lines.push(&quot;varying highp vec3 vLight;&quot;);
-  }
-  lines.push(&quot;void main(void) {&quot;);
-  if (vLight) {
-    if (vColor) {
-      lines.push(&quot;  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
-    }
-    else {
-      lines.push(&quot;  gl_FragColor = vec4(vLight, 1.0);&quot;);
-    }
-  }
-  else {
-    if (vColor) {
-      lines.push(&quot;  gl_FragColor = vColor;&quot;);
-    }
-    else {
-      lines.push(&quot;  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
-    }
-  }
-  lines.push(&quot;}&quot;);
-  var code = lines.join(&quot;\n&quot;);
-  return code;
-}
-/**
  *
  */
 var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram {
 
-  if (attributes) {
-
-  }
-  else {
+  if (!isDefined(attributes)) {
     throw new Error(&quot;The attributes parameter is required for smartProgram.&quot;);
   }
 
   if (uniformsList) {
-
   }
   else {
-    throw new Error(&quot;The uniforms parameter is required for smartProgram.&quot;);
+    throw new Error(&quot;The uniformsList parameter is required for smartProgram.&quot;);
   }
 
   var uniforms: UniformMetaInfos = {};
@@ -359,29 +188,23 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     }
   });
 
-  let vColor = vColorRequired(attributes, uniforms);
-  let vLight = vLightRequired(uniforms);
+  let vColor: boolean = vColorRequired(attributes, uniforms);
+  let vLight: boolean = vLightRequired(uniforms);
 
   let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
 
   let publicAPI: ShaderProgram = {
-    get attributes() {
-      return innerProgram.attributes;
-    },
-    get constants() {
-      return innerProgram.constants;
-    },
-    get uniforms() {
-      return innerProgram.uniforms;
-    },
-    get varyings() {
-      return innerProgram.varyings;
-    },
     get program() {
       return innerProgram.program;
     },
     get programId() {
       return innerProgram.programId;
+    },
+    get attributeLocations() {
+      return innerProgram.attributeLocations;
+    },
+    get uniformLocations() {
+      return innerProgram.uniformLocations;
     },
     get vertexShader() {
       return innerProgram.vertexShader;
@@ -403,12 +226,6 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     },
     use() {
       return innerProgram.use();
-    },
-    attributeLocation(name: string) {
-      return innerProgram.attributeLocation(name);
-    },
-    uniformLocation(name: string) {
-      return innerProgram.uniformLocation(name);
     }
   }
 

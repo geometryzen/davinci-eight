@@ -1,8 +1,20 @@
-define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/ProgramArgs', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, parse, NodeWalker, ProgramArgs, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
-    function glslType(type) {
+define(["require", "exports", '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
+    function glslType(type, context) {
         switch (type) {
             case 2: {
                 return "foo";
+            }
+            case context.FLOAT_VEC3: {
+                return 'vec3';
+            }
+            case context.FLOAT_MAT2: {
+                return 'mat2';
+            }
+            case context.FLOAT_MAT3: {
+                return 'mat3';
+            }
+            case context.FLOAT_MAT4: {
+                return 'mat4';
             }
             default: {
                 throw new Error("Unexpected type: " + type);
@@ -16,69 +28,10 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
         if (typeof fragmentShader !== 'string') {
             throw new Error("fragmentShader argument must be a string.");
         }
-        function analyze() {
-            // TODO: uniform with same name in both files.
-            // TODO: varying correlation.
-            function shaderVariable(d) {
-                return { modifiers: d.modifiers, type: d.type, name: d.name };
-            }
-            function analyzeVertexShader() {
-                try {
-                    var vsTree = parse(vertexShader);
-                    var walker = new NodeWalker();
-                    var args = new ProgramArgs();
-                    walker.walk(vsTree, args);
-                    // attributes
-                    args.attributes.forEach(function (a) {
-                        var attributeDecl = shaderVariable(a);
-                        attributeDecls.push(attributeDecl);
-                        attributeLocations[attributeDecl.name] = new ShaderAttribLocation(attributeDecl.name, attributeDecl.type);
-                    });
-                    // uniforms
-                    args.uniforms.forEach(function (u) {
-                        var uniformDecl = shaderVariable(u);
-                        uniformDecls.push(uniformDecl);
-                        uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
-                    });
-                    // varyings
-                    args.varyings.forEach(function (v) {
-                        var varyingDecl = shaderVariable(v);
-                        varyingDecls.push(varyingDecl);
-                    });
-                }
-                catch (e) {
-                    console.log(e);
-                }
-            }
-            function analyzeFragmentShader() {
-                try {
-                    var fsTree = parse(fragmentShader);
-                    var walker = new NodeWalker();
-                    var args = new ProgramArgs();
-                    walker.walk(fsTree, args);
-                    // attributes
-                    // uniforms
-                    args.uniforms.forEach(function (u) {
-                        var uniformDecl = shaderVariable(u);
-                        uniformDecls.push(uniformDecl);
-                        uniformLocations[uniformDecl.name] = new ShaderUniformLocation(uniformDecl.name, uniformDecl.type);
-                    });
-                }
-                catch (e) {
-                    console.log(e);
-                }
-            }
-            analyzeVertexShader();
-            analyzeFragmentShader();
-        }
         var program;
         var programId;
         var context;
         var contextGainId;
-        var attributeDecls = [];
-        var constantDecls = [];
-        var uniformDecls = [];
-        var varyingDecls = [];
         var attributeLocations = {};
         var uniformLocations = {};
         var publicAPI = {
@@ -88,17 +41,11 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
             get fragmentShader() {
                 return fragmentShader;
             },
-            get attributes() {
-                return attributeDecls;
+            get attributeLocations() {
+                return attributeLocations;
             },
-            get constants() {
-                return constantDecls;
-            },
-            get uniforms() {
-                return uniformDecls;
-            },
-            get varyings() {
-                return varyingDecls;
+            get uniformLocations() {
+                return uniformLocations;
             },
             contextFree: function () {
                 if (program) {
@@ -121,16 +68,18 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
                     program = makeWebGLProgram(context, vertexShader, fragmentShader);
                     programId = uuid4().generate();
                     contextGainId = contextId;
-                    /*
-                    let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
+                    var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
                     for (var a = 0; a < activeAttributes; a++) {
-                      let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
+                        var activeInfo = context.getActiveAttrib(program, a);
+                        activeInfo.size; // What is this used for?
+                        activeInfo.type;
+                        attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
                     }
-                    let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
+                    var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
                     for (var u = 0; u < activeUniforms; u++) {
-                      let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
+                        var activeInfo = context.getActiveUniform(program, u);
+                        uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
                     }
-                    */
                     // Broadcast contextGain to attribute and uniform locations.
                     for (var aName in attributeLocations) {
                         attributeLocations[aName].contextGain(contextArg, program);
@@ -159,54 +108,48 @@ define(["require", "exports", '../glsl/parse', '../glsl/NodeWalker', '../glsl/Pr
             get programId() { return programId; },
             use: function () {
                 if (context) {
-                    return context.useProgram(program);
+                    context.useProgram(program);
                 }
-            },
-            attributeLocation: function (name) {
-                if (attributeLocations[name]) {
-                    return attributeLocations[name];
-                }
-                else {
-                    throw new Error(name + " is not an attribute variable in the shader program.");
-                }
-            },
-            uniformLocation: function (name) {
-                if (uniformLocations[name]) {
-                    return uniformLocations[name];
-                }
-                else {
-                    throw new Error(name + " is not a uniform variable in the shader program.");
-                }
+                return publicAPI;
             }
         };
-        analyze();
         return publicAPI;
     };
+    function makeWebGLShader(gl, source, type) {
+        var shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            return shader;
+        }
+        else {
+            var message = gl.getShaderInfoLog(shader);
+            gl.deleteShader(shader);
+            throw new Error("Error compiling shader: " + message);
+        }
+    }
     /**
      * Creates a WebGLProgram with compiled and linked shaders.
      */
     function makeWebGLProgram(gl, vertexShader, fragmentShader) {
-        // TODO: Proper cleanup if we throw an error at any point.
-        var vs = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(vs, vertexShader);
-        gl.compileShader(vs);
-        if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
-            throw new Error(gl.getShaderInfoLog(vs));
-        }
-        var fs = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(fs, fragmentShader);
-        gl.compileShader(fs);
-        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-            throw new Error(gl.getShaderInfoLog(fs));
-        }
+        var vs = makeWebGLShader(gl, vertexShader, gl.VERTEX_SHADER);
+        var fs = makeWebGLShader(gl, fragmentShader, gl.FRAGMENT_SHADER);
         var program = gl.createProgram();
         gl.attachShader(program, vs);
         gl.attachShader(program, fs);
         gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            throw new Error(gl.getProgramInfoLog(program));
+        if (gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            return program;
         }
-        return program;
+        else {
+            var message = gl.getProgramInfoLog(program);
+            gl.detachShader(program, vs);
+            gl.deleteShader(vs);
+            gl.detachShader(program, fs);
+            gl.deleteShader(fs);
+            gl.deleteProgram(program);
+            throw new Error("Error linking program: " + message);
+        }
     }
     return shaderProgram;
 });

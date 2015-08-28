@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../core/Color'], function (require, exports, expectArg, Color) {
+define(["require", "exports", '../checks/expectArg', '../core/Color', '../core/updateUniform'], function (require, exports, expectArg, Color, updateUniform) {
     var renderer = function (canvas, parameters) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         parameters = parameters || {};
@@ -56,7 +56,8 @@ define(["require", "exports", '../checks/expectArg', '../core/Color'], function 
                 }
                 return self;
             },
-            render: function (drawList, view) {
+            render: function (drawList, ambients) {
+                var program;
                 expectArg('drawList', drawList).toNotBeNull();
                 if (gl) {
                     if (autoClear) {
@@ -70,10 +71,18 @@ define(["require", "exports", '../checks/expectArg', '../core/Color'], function 
                         programLoaded = false;
                         drawList.drawGroups[drawGroupName].forEach(function (drawable) {
                             if (!programLoaded) {
-                                drawable.useProgram();
+                                var program_1 = drawable.program.use();
+                                var uniformLocations = program_1.uniformLocations;
+                                var umis = ambients.getUniformMeta();
+                                for (var name in umis) {
+                                    var uniformLocation = uniformLocations[name];
+                                    if (uniformLocation) {
+                                        updateUniform(uniformLocation, ambients);
+                                    }
+                                }
                                 programLoaded = true;
                             }
-                            drawable.draw(view);
+                            drawable.draw();
                         });
                     }
                 }

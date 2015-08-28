@@ -1,5 +1,4 @@
 import AttribProvider = require('../core/AttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DrawMode = require('../core/DrawMode');
 import Geometry = require('../geometries/Geometry');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
@@ -36,8 +35,8 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     draw(context: WebGLRenderingContext) {
       return base.draw(context);
     },
-    update(attributes: ShaderVariableDecl[]) {
-      return base.update(attributes);
+    update() {
+      return base.update();
     },
     getAttribArray(name: string) {
       return base.getAttribArray(name);

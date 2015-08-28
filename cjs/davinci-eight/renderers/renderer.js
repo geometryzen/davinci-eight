@@ -1,5 +1,6 @@
 var expectArg = require('../checks/expectArg');
 var Color = require('../core/Color');
+var updateUniform = require('../core/updateUniform');
 var renderer = function (canvas, parameters) {
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     parameters = parameters || {};
@@ -57,7 +58,8 @@ var renderer = function (canvas, parameters) {
             }
             return self;
         },
-        render: function (drawList, view) {
+        render: function (drawList, ambients) {
+            var program;
             expectArg('drawList', drawList).toNotBeNull();
             if (gl) {
                 if (autoClear) {
@@ -71,10 +73,18 @@ var renderer = function (canvas, parameters) {
                     programLoaded = false;
                     drawList.drawGroups[drawGroupName].forEach(function (drawable) {
                         if (!programLoaded) {
-                            drawable.useProgram();
+                            var program_1 = drawable.program.use();
+                            var uniformLocations = program_1.uniformLocations;
+                            var umis = ambients.getUniformMeta();
+                            for (var name in umis) {
+                                var uniformLocation = uniformLocations[name];
+                                if (uniformLocation) {
+                                    updateUniform(uniformLocation, ambients);
+                                }
+                            }
                             programLoaded = true;
                         }
-                        drawable.draw(view);
+                        drawable.draw();
                     });
                 }
             }

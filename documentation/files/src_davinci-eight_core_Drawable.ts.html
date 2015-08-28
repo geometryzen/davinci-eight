@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,7 +149,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
-import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
+import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 
 /**
  * The Drawable interface indicates that the implementation can make a call
@@ -159,19 +159,13 @@ import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
  */
 interface Drawable extends RenderingContextUser {
   /**
-   * @property drawGroupName
-   * @type string
+   * @property program
    */
-  drawGroupName: string;
-  /**
-   * @method useProgram
-   */
-  useProgram(): void;
+  program: ShaderProgram;
   /**
    * @method draw
-   * @param view {UniformProvider}
    */
-  draw(view: UniformProvider): void;
+  draw(): void;
 }
 
 export = Drawable;

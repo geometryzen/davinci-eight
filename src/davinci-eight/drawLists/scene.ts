@@ -27,7 +27,7 @@ let scene = function(): DrawList {
           contextId = contextId;
           drawables.forEach(function(drawable) {
             drawable.contextGain(context, contextId);
-            let groupName = drawable.drawGroupName;
+            let groupName = drawable.program.programId;
             if (!drawGroups[groupName]) {
               drawGroups[groupName] = [];
             }

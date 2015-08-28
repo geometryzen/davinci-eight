@@ -15,8 +15,8 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Ar
             draw: function (context) {
                 return base.draw(context);
             },
-            update: function (attributes) {
-                return base.update(attributes);
+            update: function () {
+                return base.update();
             },
             getAttribArray: function (name) {
                 return base.getAttribArray(name);

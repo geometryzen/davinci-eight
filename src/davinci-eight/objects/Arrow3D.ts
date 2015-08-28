@@ -17,7 +17,6 @@ import Blade = require('../objects/Blade');
 import isDefined = require('../checks/isDefined');
 
 class Arrow3D implements Blade<Node> {
-  public drawGroupName: string;
   private $magnitude: number = 1;
   private $coneHeight: number;
   public model: Node;
@@ -53,12 +52,12 @@ class Arrow3D implements Blade<Node> {
     this.tailModel.position.y = - this.$coneHeight / 2;
     return this;
   }
-  useProgram(): void {
-    this.shaders.use();
+  get program(): ShaderProgram {
+    return this.shaders;
   }
-  draw(ambients: UniformProvider) {
-    this.head.draw(ambients);
-    this.tail.draw(ambients);
+  draw() {
+    this.head.draw();
+    this.tail.draw();
   }
   contextFree() {
     this.head.contextFree();

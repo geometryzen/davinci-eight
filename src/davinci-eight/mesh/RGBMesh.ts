@@ -1,6 +1,5 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import AttribProvider = require('../core/AttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 class RGBMesh implements AttribProvider {
   private elements: Uint16Array;
@@ -41,7 +40,7 @@ class RGBMesh implements AttribProvider {
       }
     }
   }
-  update(attributes: ShaderVariableDecl[]): void {
+  update(): void {
     var vs: number[] = [
       0,0,1,
       0,0,0,

@@ -1,5 +1,5 @@
-define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUniformProvider', '../core/getAttribVarName', '../core/getUniformVarName'], function (require, exports, ElementArray, ChainedUniformProvider, getAttribVarName, getUniformVarName) {
-    var primitive = function (mesh, shaders, model) {
+define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName', '../core/updateUniform'], function (require, exports, ElementArray, getAttribVarName, updateUniform) {
+    var primitive = function (mesh, program, model) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
          */
@@ -11,71 +11,21 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                 }
             }
         }
-        /**
-         * Constructs a ShaderAttribLocation from a declaration.
-         */
-        function shaderAttributeLocationFromDecl(declaration) {
-            // Looking up the attribute meta info gives us some early warning if the mesh is deficient.
-            var attribute = findAttribMetaInfoByVariableName(declaration.name, mesh.getAttribMeta());
-            if (attribute) {
-                return shaders.attributeLocation(declaration.name);
-            }
-            else {
-                var message = "The mesh does not support attribute " + declaration.type + " " + declaration.name;
-                console.warn(message);
-                throw new Error(message);
-            }
-        }
-        /**
-         * Constructs a ShaderUniformLocation from a declaration.
-         */
-        function shaderUniformLocationFromDecl(declaration) {
-            // By using the ShaderProgram, we get to delegate the management of uniform locations. 
-            return shaders.uniformLocation(declaration.name);
-        }
-        function checkUniformsCompleteAndReady(provider) {
-            var metas = provider.getUniformMeta();
-            shaders.uniforms.forEach(function (uniformDecl) {
-                var match = void 0;
-                for (var id in metas) {
-                    var candidate = metas[id];
-                    if (getUniformVarName(candidate, id) === uniformDecl.name) {
-                        match = candidate;
-                    }
-                }
-                if (match === void 0) {
-                    var message = "Missing uniform " + uniformDecl.type + " " + uniformDecl.name;
-                    console.warn(message);
-                    throw new Error(message);
-                }
-                else {
-                    if (match.glslType !== uniformDecl.type) {
-                        var message = "Mismatch in uniform types " + uniformDecl.name;
-                        console.warn(message);
-                        throw new Error(message);
-                    }
-                    else {
-                    }
-                }
-            });
-        }
         var context;
         var contextGainId;
         var elements = new ElementArray(mesh);
-        var vertexAttributes = shaders.attributes.map(shaderAttributeLocationFromDecl);
-        var uniformVariables = shaders.uniforms.map(shaderUniformLocationFromDecl);
         var self = {
             get mesh() {
                 return mesh;
             },
             get shaders() {
-                return shaders;
+                return program;
             },
             get model() {
                 return model;
             },
             contextFree: function () {
-                shaders.contextFree();
+                program.contextFree();
                 elements.contextFree();
                 context = null;
                 contextGainId = null;
@@ -84,172 +34,82 @@ define(["require", "exports", '../core/ElementArray', '../uniforms/ChainedUnifor
                 context = contextArg;
                 if (contextGainId !== contextId) {
                     contextGainId = contextId;
-                    shaders.contextGain(context, contextId);
+                    program.contextGain(context, contextId);
                     elements.contextGain(context, contextId);
                 }
             },
             contextLoss: function () {
-                shaders.contextLoss();
+                program.contextLoss();
                 elements.contextLoss();
                 context = null;
                 contextGainId = null;
             },
             hasContext: function () {
-                return shaders.hasContext();
+                return program.hasContext();
             },
-            get drawGroupName() { return shaders.programId; },
             /**
-             * @method useProgram
+             * @property program
              */
-            useProgram: function () { return shaders.use(); },
+            get program() { return program; },
             /**
              * @method draw
-             * @param ambients {UniformProvider}
              */
-            draw: function (ambients) {
-                if (shaders.hasContext()) {
-                    if (mesh.dynamic) {
-                        mesh.update(shaders.attributes);
+            draw: function () {
+                if (!program.hasContext()) {
+                    return;
+                }
+                if (mesh.dynamic) {
+                    mesh.update();
+                }
+                // attributes
+                var attributeLocations = program.attributeLocations;
+                for (var name in attributeLocations) {
+                    var thing = mesh.getAttribArray(name);
+                    if (thing) {
+                        attributeLocations[name].bufferData(thing.data, thing.usage);
                     }
-                    // attributes
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        var thing = mesh.getAttribArray(vertexAttribute.name);
-                        if (thing) {
-                            vertexAttribute.bufferData(thing.data, thing.usage);
-                        }
-                        else {
-                            // We expect this to be detected long before we get here.
-                            throw new Error("mesh implementation claims to support, but does not provide data for, attribute " + vertexAttribute.name);
-                        }
-                    });
-                    // elements
-                    elements.bufferData(mesh);
-                    // uniforms
-                    var chainedProvider = new ChainedUniformProvider(model, ambients);
-                    checkUniformsCompleteAndReady(chainedProvider);
-                    // check we have them all.
-                    // check they are all initialized.
-                    // Update the uniform location values.
-                    uniformVariables.forEach(function (uniformVariable) {
-                        switch (uniformVariable.glslType) {
-                            case 'float':
-                                {
-                                    var data = chainedProvider.getUniformFloat(uniformVariable.name);
-                                    if (typeof data !== 'undefined') {
-                                        if (typeof data === 'number') {
-                                            uniformVariable.uniform1f(data);
-                                        }
-                                        else {
-                                            throw new Error("Expecting typeof data for uniform float " + uniformVariable.name + " to be 'number'.");
-                                        }
-                                    }
-                                    else {
-                                        throw new Error("Expecting data for uniform float " + uniformVariable.name);
-                                    }
-                                }
-                                break;
-                            case 'vec2':
-                                {
-                                    var data = chainedProvider.getUniformVector2(uniformVariable.name);
-                                    if (data) {
-                                        if (data.length === 2) {
-                                            uniformVariable.uniform2fv(data);
-                                        }
-                                        else {
-                                            throw new Error("Expecting data for uniform vec2 " + uniformVariable.name + " to be number[] with length 2");
-                                        }
-                                    }
-                                    else {
-                                        throw new Error("Expecting data for uniform vec2 " + uniformVariable.name);
-                                    }
-                                }
-                                break;
-                            case 'vec3':
-                                {
-                                    var data = chainedProvider.getUniformVector3(uniformVariable.name);
-                                    if (data) {
-                                        if (data.length === 3) {
-                                            uniformVariable.uniform3fv(data);
-                                        }
-                                        else {
-                                            throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 3");
-                                        }
-                                    }
-                                    else {
-                                        throw new Error("Expecting data for uniform " + uniformVariable.name);
-                                    }
-                                }
-                                break;
-                            case 'vec4':
-                                {
-                                    var data = chainedProvider.getUniformVector4(uniformVariable.name);
-                                    if (data) {
-                                        if (data.length === 4) {
-                                            uniformVariable.uniform4fv(data);
-                                        }
-                                        else {
-                                            throw new Error("Expecting data for uniform " + uniformVariable.name + " to be number[] with length 4");
-                                        }
-                                    }
-                                    else {
-                                        throw new Error("Expecting data for uniform " + uniformVariable.name);
-                                    }
-                                }
-                                break;
-                            case 'mat3':
-                                {
-                                    var data = chainedProvider.getUniformMatrix3(uniformVariable.name);
-                                    if (data) {
-                                        uniformVariable.uniformMatrix3fv(data.transpose, data.matrix3);
-                                    }
-                                    else {
-                                        throw new Error("Expecting data for uniform " + uniformVariable.name);
-                                    }
-                                }
-                                break;
-                            case 'mat4':
-                                {
-                                    var data = chainedProvider.getUniformMatrix4(uniformVariable.name);
-                                    if (data) {
-                                        uniformVariable.uniformMatrix4fv(data.transpose, data.matrix4);
-                                    }
-                                    else {
-                                        throw new Error("Expecting data for uniform " + uniformVariable.name);
-                                    }
-                                }
-                                break;
-                            default: {
-                                throw new Error("Unexpected uniform GLSL type in primitive.draw: " + uniformVariable.glslType);
-                            }
-                        }
-                    });
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.enable();
-                    });
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        var attribute = findAttribMetaInfoByVariableName(vertexAttribute.name, mesh.getAttribMeta());
-                        if (attribute) {
-                            var size = attribute.size;
-                            var type = context.FLOAT; //attribute.dataType;
-                            var normalized = attribute.normalized;
-                            var stride = attribute.stride;
-                            var offset = attribute.offset;
-                            vertexAttribute.dataFormat(size, type, normalized, stride, offset);
-                        }
-                        else {
-                            throw new Error("The mesh does not support the attribute variable named " + vertexAttribute.name);
-                        }
-                    });
-                    elements.bind();
-                    mesh.draw(context);
-                    vertexAttributes.forEach(function (vertexAttribute) {
-                        vertexAttribute.disable();
-                    });
+                    else {
+                        // We expect this to be detected long before we get here.
+                        throw new Error("mesh implementation claims to support, but does not provide data for, attribute " + name);
+                    }
+                }
+                // elements
+                elements.bufferData(mesh);
+                // uniforms
+                var uniformLocations = program.uniformLocations;
+                var umis = model.getUniformMeta();
+                for (var name in umis) {
+                    var uniformLocation = uniformLocations[name];
+                    if (uniformLocation) {
+                        updateUniform(uniformLocation, model);
+                    }
+                }
+                for (var name in attributeLocations) {
+                    var attribLocation = attributeLocations[name];
+                    attribLocation.enable();
+                    var attribute = findAttribMetaInfoByVariableName(attribLocation.name, mesh.getAttribMeta());
+                    if (attribute) {
+                        var size = attribute.size;
+                        var type = context.FLOAT; //attribute.dataType;
+                        var normalized = attribute.normalized;
+                        var stride = attribute.stride;
+                        var offset = attribute.offset;
+                        attribLocation.dataFormat(size, type, normalized, stride, offset);
+                    }
+                    else {
+                        throw new Error("The mesh does not support the attribute variable named " + attribLocation.name);
+                    }
+                }
+                elements.bind();
+                mesh.draw(context);
+                for (var name in attributeLocations) {
+                    var attribLocation = attributeLocations[name];
+                    attribLocation.disable();
                 }
             }
         };
         if (!mesh.dynamic) {
-            mesh.update(shaders.attributes);
+            mesh.update();
         }
         return self;
     };

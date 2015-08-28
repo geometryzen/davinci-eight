@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/programs/pointsProgram.ts - davinci-eight</title>
+    <title>src/davinci-eight/programs/fragmentShader.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -144,101 +144,51 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/programs/pointsProgram.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/programs/fragmentShader.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
-import shaderProgram = require(&#x27;../programs/shaderProgram&#x27;);
-/**
- * 
- */
-let vertexShader = [
-  &quot;attribute vec3 aVertexPosition;&quot;,
-  &quot;attribute vec3 aVertexColor;&quot;,
-  &quot;&quot;,
-  &quot;uniform mat4 uMVMatrix;&quot;,
-  &quot;uniform mat4 uPMatrix;&quot;,
-  &quot;&quot;,
-  &quot;varying highp vec4 vColor;&quot;,
-  &quot;void main(void)&quot;,
-  &quot;{&quot;,
-  &quot;gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);&quot;,
-  &quot;vColor = vec4(aVertexColor, 1.0);&quot;,
-  &quot;gl_PointSize = 6.0;&quot;,
-  &quot;}&quot;
-].join(&quot;\n&quot;);
+import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;);
+import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
+import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
+import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 /**
  *
  */
-let fragmentShader = [
-  &quot;varying highp vec4 vColor;&quot;,
-  &quot;void main(void)&quot;,
-  &quot;{&quot;,
-  &quot;gl_FragColor = vColor;&quot;,
-  &quot;}&quot;
-].join(&quot;\n&quot;);
-/**
- *
- */
-var pointsProgram = function(): ShaderProgram {
+function fragmentShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
 
-  let innerProgram: ShaderProgram = shaderProgram(vertexShader, fragmentShader);
-
-  let publicAPI: ShaderProgram = {
-    get attributes() {
-      return innerProgram.attributes;
-    },
-    get constants() {
-      return innerProgram.constants;
-    },
-    get uniforms() {
-      return innerProgram.uniforms;
-    },
-    get varyings() {
-      return innerProgram.varyings;
-    },
-    get program() {
-      return innerProgram.program;
-    },
-    get programId() {
-      return innerProgram.programId;
-    },
-    contextFree() {
-      return innerProgram.contextFree();
-    },
-    contextGain(context: WebGLRenderingContext, contextGainId: string) {
-      return innerProgram.contextGain(context, contextGainId);
-    },
-    contextLoss() {
-      return innerProgram.contextLoss();
-    },
-    hasContext() {
-      return innerProgram.hasContext();
-    },
-    get vertexShader()
-    {
-      return innerProgram.vertexShader;
-    },
-    get fragmentShader()
-    {
-      return innerProgram.fragmentShader;
-    },
-    use() {
-      return innerProgram.use();
-    },
-    attributeLocation(name: string) {
-      return innerProgram.attributeLocation(name);
-    },
-    uniformLocation(name: string) {
-      return innerProgram.uniformLocation(name);
+  var lines: string[] = [];
+  if (vColor) {
+    lines.push(&quot;varying highp vec4 vColor;&quot;);
+  }
+  if (vLight) {
+    lines.push(&quot;varying highp vec3 vLight;&quot;);
+  }
+  lines.push(&quot;void main(void) {&quot;);
+  let glFragColor: string[] = [];
+  if (vLight) {
+    if (vColor) {
+      lines.push(&quot;  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);&quot;);
+    }
+    else {
+      lines.push(&quot;  gl_FragColor = vec4(vLight, 1.0);&quot;);
     }
   }
-
-  return publicAPI;
+  else {
+    if (vColor) {
+      lines.push(&quot;  gl_FragColor = vColor;&quot;);
+    }
+    else {
+      lines.push(&quot;  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);&quot;);
+    }
+  }
+  lines.push(&quot;}&quot;);
+  var code = lines.join(&quot;\n&quot;);
+  return code;
 }
 
-export = pointsProgram;
+export = fragmentShader;
+
     </pre>
 </div>
                     </div>

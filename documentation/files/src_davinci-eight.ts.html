@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -186,6 +186,7 @@ import BarnGeometry = require(&#x27;davinci-eight/geometries/BarnGeometry&#x27;)
 import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
 import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
 import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
+import EllipticalCylinderGeometry = require(&#x27;davinci-eight/geometries/EllipticalCylinderGeometry&#x27;);
 import IcosahedronGeometry = require(&#x27;davinci-eight/geometries/IcosahedronGeometry&#x27;);
 import KleinBottleGeometry = require(&#x27;davinci-eight/geometries/KleinBottleGeometry&#x27;);
 import MobiusStripGeometry = require(&#x27;davinci-eight/geometries/MobiusStripGeometry&#x27;);
@@ -198,7 +199,6 @@ import TetrahedronGeometry = require(&#x27;davinci-eight/geometries/TetrahedronG
 import TubeGeometry = require(&#x27;davinci-eight/geometries/TubeGeometry&#x27;);
 import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x27;);
 // programs
-import pointsProgram = require(&#x27;davinci-eight/programs/pointsProgram&#x27;);
 import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
 import shaderProgramFromScripts = require(&#x27;davinci-eight/programs/shaderProgramFromScripts&#x27;);
@@ -308,9 +308,6 @@ var eight = {
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
   get ShaderUniformLocation() { return ShaderUniformLocation; },
-  get pointsProgram() {
-    return pointsProgram;
-  },
   get shaderProgram() {
     return shaderProgram;
   },
@@ -329,6 +326,7 @@ var eight = {
   get BoxGeometry() { return BoxGeometry; },
   get CylinderGeometry() { return CylinderGeometry; },
   get DodecahedronGeometry() { return DodecahedronGeometry; },
+  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
   get IcosahedronGeometry() { return IcosahedronGeometry; },
   get KleinBottleGeometry() { return KleinBottleGeometry; },
   get MobiusStripGeometry() { return MobiusStripGeometry; },

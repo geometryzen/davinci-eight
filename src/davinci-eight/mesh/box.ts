@@ -5,7 +5,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import AttribProvider = require('../core/AttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 var vertexList: blade.Euclidean3[] =
 [
@@ -93,7 +92,7 @@ var box = function(spec?): AttribProvider {
         }
       }
     },
-    update(attributes: ShaderVariableDecl[]): void {
+    update(): void {
       let names: string[] = attributes.map(function(attribute){return attribute.name});
       let requirePosition: boolean = names.indexOf('aVertexPosition') >= 0;
       let requireColor: boolean = names.indexOf('aVertexColor') >= 0;

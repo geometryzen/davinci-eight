@@ -2,7 +2,6 @@ import AttribMetaInfos = require('../core/AttribMetaInfos');
 import cuboid = require('../mesh/cuboid');
 import CuboidMesh = require('../mesh/CuboidMesh');
 import AttribProvider = require('../core/AttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 /**
  * @class BoxMesh
@@ -53,8 +52,8 @@ class BoxMesh implements AttribProvider {
   getAttribMeta() {
     return this.cuboid.getAttribMeta();
   }
-  update(attributes: ShaderVariableDecl[]) {
-    return this.cuboid.update(attributes);
+  update() {
+    return this.cuboid.update();
   }
 }
 

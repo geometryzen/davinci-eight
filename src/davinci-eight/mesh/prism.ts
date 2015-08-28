@@ -5,7 +5,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import AttribProvider = require('../core/AttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 // The numbering of the front face, seen from the front is
 //   5
@@ -140,7 +139,7 @@ var prism = function(spec?): AttribProvider {
         }
       }
     },
-    update(attributes: ShaderVariableDecl[]): void {
+    update(): void {
 
     }
   };

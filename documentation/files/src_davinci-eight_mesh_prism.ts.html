@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -155,7 +155,6 @@
 import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import vectorE3 = require(&#x27;davinci-eight/math/e3ga/vectorE3&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
-import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 
 // The numbering of the front face, seen from the front is
 //   5
@@ -290,7 +289,7 @@ var prism = function(spec?): AttribProvider {
         }
       }
     },
-    update(attributes: ShaderVariableDecl[]): void {
+    update(): void {
 
     }
   };

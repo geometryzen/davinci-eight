@@ -28,7 +28,7 @@ module.exports = function(grunt) {
           mainConfigFile: "build.js",
           paths: {
               'davinci-blade': './../vendor/davinci-blade/amd/davinci-blade',
-              'gl-matrix': './../vendor/gl-matrix/dist/gl-matrix-min'
+              'gl-matrix':     './../vendor/gl-matrix/dist/gl-matrix-min'
           }
         }
       }

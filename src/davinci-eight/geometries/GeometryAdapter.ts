@@ -7,7 +7,6 @@ import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 
@@ -158,7 +157,7 @@ class GeometryAdapter extends DefaultAttribProvider {
 
     return attribues;
   }
-  update(attributes: ShaderVariableDecl[]): void
+  update(): void
   {
     let vertices: number[] = [];
 //  let colors: number[] = [];

@@ -1,6 +1,6 @@
 {
   "name": "davinci-eight",
-  "version": "2.58.0",
+  "version": "2.60.0",
   "description": "WebGL library for mathematical physics using Geometric Algebra",
   "author":
   {
@@ -26,7 +26,7 @@
   ],
   "dependencies":
   {
-    "davinci-blade": "~1.7.1",
+    "davinci-blade": "~1.7.2",
     "gl-matrix": "~2.3.1"
   },
   "devDependencies":

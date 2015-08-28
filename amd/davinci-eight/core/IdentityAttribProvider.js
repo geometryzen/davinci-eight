@@ -4,7 +4,7 @@ define(["require", "exports"], function (require, exports) {
         }
         IdentityAttribProvider.prototype.draw = function (context) {
         };
-        IdentityAttribProvider.prototype.update = function (attributes) {
+        IdentityAttribProvider.prototype.update = function () {
         };
         IdentityAttribProvider.prototype.getAttribArray = function (name) {
             return;

@@ -1,14 +1,28 @@
 /// <reference path="../../../src/gl-matrix.d.ts" />
 /// <amd-dependency path="gl-matrix" name="glMatrix"/>
 import Matrix4 = require('./Matrix4');
+import expectArg = require('../checks/expectArg');
+import isDefined = require('../checks/isDefined');
 declare var glMatrix: glMatrix;
 
 class Matrix3 {
-  public elements: number[] = glMatrix.mat3.create();
-  constructor() {
+  /**
+   * @property elements
+   * @type Float32Array
+   */
+  public elements: Float32Array;
+  /**
+   * Constructs the Matrix4 by wrapping a Float32Array.
+   * @constructor
+   */
+  constructor(elements: Float32Array) {
+    expectArg('elements', elements)
+    .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
+    .toSatisfy(elements.length === 9, 'elements must have length 9');
+    this.elements = elements;
   }
-  identity(): void {
-    glMatrix.mat3.identity(this.elements);
+  public static identity() {
+    return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
   }
   getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3 {
 
@@ -57,6 +71,9 @@ class Matrix3 {
     return this;
 
   }
+  identity(): Matrix3 {
+    return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+  }
   multiplyScalar(s: number): Matrix3 {
     let m = this.elements;
     m[0] *= s; m[3] *= s; m[6] *= s;
@@ -66,6 +83,25 @@ class Matrix3 {
   }
   normalFromMatrix4(m: Matrix4): void {
     this.getInverse(m).transpose();
+  }
+  set(
+    n11: number,
+    n12: number,
+    n13: number,
+    n21: number,
+    n22: number,
+    n23: number,
+    n31: number,
+    n32: number,
+    n33: number): Matrix3 {
+
+    var te = this.elements;
+
+    te[ 0 ] = n11; te[ 3 ] = n12; te[ 6 ] = n13;
+    te[ 1 ] = n21; te[ 4 ] = n22; te[ 7 ] = n23;
+    te[ 2 ] = n31; te[ 5 ] = n32; te[ 8 ] = n33;
+
+    return this;
   }
   transpose(): Matrix3 {
     var tmp: number;

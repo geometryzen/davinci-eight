@@ -27,14 +27,11 @@ class ArrowWrapper implements Blade<Node> {
     this.primitive.model.scale.z = magnitude;
     return this;
   }
-  get drawGroupName(): string {
-    return this.primitive.drawGroupName;
+  get program(): ShaderProgram {
+    return this.primitive.program;
   }
-  useProgram(): void {
-    return this.primitive.useProgram();
-  }
-  draw(ambients: UniformProvider): void {
-    return this.primitive.draw(ambients);
+  draw(): void {
+    return this.primitive.draw();
   }
   contextFree(): void {
     return this.primitive.contextFree();

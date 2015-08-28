@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -157,7 +157,6 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Color = require(&#x27;../core/Color&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import DefaultAttribProvider = require(&#x27;../core/DefaultAttribProvider&#x27;);
-import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
 
@@ -308,7 +307,7 @@ class GeometryAdapter extends DefaultAttribProvider {
 
     return attribues;
   }
-  update(attributes: ShaderVariableDecl[]): void
+  update(): void
   {
     let vertices: number[] = [];
 //  let colors: number[] = [];

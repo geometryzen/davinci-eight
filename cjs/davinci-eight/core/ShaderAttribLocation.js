@@ -97,21 +97,6 @@ var ShaderAttribLocation = (function () {
             this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
         }
     };
-    /*
-    bufferData(attributes: AttribProvider) {
-      if (existsLocation(this.location)) {
-        let thing = attributes.getAttribArray(this.name);
-        if (thing) {
-          this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-          this.context.bufferData(this.context.ARRAY_BUFFER, thing.data, convertUsage(thing.usage, this.context));
-        }
-        else {
-          // We expect this to be detected long before we get here.
-          throw new Error("Geometry implementation claims to support but does not provide data for attribute " + this.name);
-        }
-      }
-    }
-    */
     ShaderAttribLocation.prototype.enable = function () {
         if (existsLocation(this.location)) {
             this.context.enableVertexAttribArray(this.location);

@@ -160,6 +160,8 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.56.0: 2015-08-13 Renderer
 * 2.57.0: 2015-08-16 Cylinder
 * 2.58.0: 2015-08-16 CylinderMeshBuilder
+* 2.59.0: 2015-08-19 Upgrade blade
+* 2.60.0: 2015-08-27 Stats
 
 ## License
 Copyright (c) 2014-2015 David Holmes

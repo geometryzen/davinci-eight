@@ -63,15 +63,14 @@ declare module EIGHT
     hasContext(): boolean;
   }
   interface Drawable extends RenderingContextUser {
-    drawGroupName: string;
     /**
      *
      */
-    useProgram(): void;
+    program: ShaderProgram;
     /**
      *
      */
-    draw(ambients: UniformProvider): void;
+    draw(): void;
   }
   interface DrawList extends RenderingContextUser
   {
@@ -324,7 +323,7 @@ declare module EIGHT
     public dynamic: boolean;
     constructor();
     draw(context: WebGLRenderingContext): void;
-    update(attributes: ShaderVariableDecl[]): void;
+    update(): void;
     getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
     getAttribMeta(): AttribMetaInfos;
     hasElementArray(): boolean;
@@ -574,23 +573,6 @@ declare module EIGHT
     [name: string]: AttribMetaInfo;
   }
   /**
-   * ShaderVariableDecl
-   */
-  interface ShaderVariableDecl {
-    /**
-     * modifiers
-     */
-    modifiers: string[];
-    /**
-     * type
-     */
-    type: string;
-    /**
-     * name
-     */
-    name: string;
-  }
-  /**
    * The generator of calls to drawArrays or drawElements and a source of attribute data.
    * This interface must be implemented in order to define a mesh.
    */
@@ -625,7 +607,7 @@ declare module EIGHT
     /**
      * Notifies the mesh that it should update its array buffers.
      */
-    update(attributes: ShaderVariableDecl[]): void;
+    update(): void;
   }
   class Face3 {
     public a: number;
@@ -679,7 +661,7 @@ declare module EIGHT
     hasElementArray(): boolean;
     getElementArray(): {usage: DataUsage; data: Uint16Array};
     getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
-    update(attributes: ShaderVariableDecl[]): void;
+    update(): void;
   }
   class BarnGeometry extends Geometry {
     constructor();
@@ -704,15 +686,14 @@ declare module EIGHT
       thetaStart?: number,
       thetaLength?: number);
   }
+  class EllipticalCylinderGeometry extends Geometry {
+    constructor();
+  }
   /**
    * A vertex shader and a fragment shader combined into a program.
    */
   class ShaderProgram extends RenderingContextUser
   {
-    attributes: ShaderVariableDecl[];
-    constants: ShaderVariableDecl[];
-    uniforms: ShaderVariableDecl[];
-    varyings: ShaderVariableDecl[];
     program: WebGLProgram;
     programId: string;
     vertexShader: string;
@@ -825,10 +806,6 @@ declare module EIGHT
    * @param options Optional parameters for modifying the WebGL context.
    */
   function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
-  /**
-   * Constructs a ShaderProgram from the specified shader codes.
-   */
-  function pointsProgram(): ShaderProgram;
   /**
    * Constructs a ShaderProgram from the specified vertex and fragment shader codes.
    */

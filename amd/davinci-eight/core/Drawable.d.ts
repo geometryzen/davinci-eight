@@ -1,5 +1,5 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-import UniformProvider = require('../core/UniformProvider');
+import ShaderProgram = require('../core/ShaderProgram');
 /**
  * The Drawable interface indicates that the implementation can make a call
  * to either drawArrays or drawElements on the WebGLRenderingContext.
@@ -8,18 +8,12 @@ import UniformProvider = require('../core/UniformProvider');
  */
 interface Drawable extends RenderingContextUser {
     /**
-     * @property drawGroupName
-     * @type string
+     * @property program
      */
-    drawGroupName: string;
-    /**
-     * @method useProgram
-     */
-    useProgram(): void;
+    program: ShaderProgram;
     /**
      * @method draw
-     * @param view {UniformProvider}
      */
-    draw(view: UniformProvider): void;
+    draw(): void;
 }
 export = Drawable;

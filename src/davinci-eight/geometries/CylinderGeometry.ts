@@ -44,6 +44,7 @@ class CylinderGeometry extends Geometry {
       vertices.push( verticesRow );
       uvs.push( uvsRow );
     }
+
     let tanTheta = ( radiusBottom - radiusTop ) / height;
     var na: Vector3;
     var nb: Vector3;

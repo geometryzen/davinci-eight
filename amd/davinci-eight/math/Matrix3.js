@@ -1,10 +1,17 @@
-define(["require", "exports", "gl-matrix"], function (require, exports, glMatrix) {
+define(["require", "exports", "gl-matrix", '../checks/expectArg'], function (require, exports, glMatrix, expectArg) {
     var Matrix3 = (function () {
-        function Matrix3() {
-            this.elements = glMatrix.mat3.create();
+        /**
+         * Constructs the Matrix4 by wrapping a Float32Array.
+         * @constructor
+         */
+        function Matrix3(elements) {
+            expectArg('elements', elements)
+                .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
+                .toSatisfy(elements.length === 9, 'elements must have length 9');
+            this.elements = elements;
         }
-        Matrix3.prototype.identity = function () {
-            glMatrix.mat3.identity(this.elements);
+        Matrix3.identity = function () {
+            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
         };
         Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
             // input: THREE.Matrix4
@@ -36,6 +43,9 @@ define(["require", "exports", "gl-matrix"], function (require, exports, glMatrix
             this.multiplyScalar(1.0 / det);
             return this;
         };
+        Matrix3.prototype.identity = function () {
+            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
         Matrix3.prototype.multiplyScalar = function (s) {
             var m = this.elements;
             m[0] *= s;
@@ -51,6 +61,19 @@ define(["require", "exports", "gl-matrix"], function (require, exports, glMatrix
         };
         Matrix3.prototype.normalFromMatrix4 = function (m) {
             this.getInverse(m).transpose();
+        };
+        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
+            var te = this.elements;
+            te[0] = n11;
+            te[3] = n12;
+            te[6] = n13;
+            te[1] = n21;
+            te[4] = n22;
+            te[7] = n23;
+            te[2] = n31;
+            te[5] = n32;
+            te[8] = n33;
+            return this;
         };
         Matrix3.prototype.transpose = function () {
             var tmp;

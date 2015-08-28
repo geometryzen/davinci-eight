@@ -22,6 +22,7 @@ var BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 var CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 var DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+var EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 var KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 var MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -34,7 +35,6 @@ var TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry'
 var TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 // programs
-var pointsProgram = require('davinci-eight/programs/pointsProgram');
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
 var shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
@@ -123,9 +123,6 @@ var eight = {
     get DrawMode() { return DrawMode; },
     get ShaderAttribLocation() { return ShaderAttribLocation; },
     get ShaderUniformLocation() { return ShaderUniformLocation; },
-    get pointsProgram() {
-        return pointsProgram;
-    },
     get shaderProgram() {
         return shaderProgram;
     },
@@ -144,6 +141,7 @@ var eight = {
     get BoxGeometry() { return BoxGeometry; },
     get CylinderGeometry() { return CylinderGeometry; },
     get DodecahedronGeometry() { return DodecahedronGeometry; },
+    get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
     get IcosahedronGeometry() { return IcosahedronGeometry; },
     get KleinBottleGeometry() { return KleinBottleGeometry; },
     get MobiusStripGeometry() { return MobiusStripGeometry; },

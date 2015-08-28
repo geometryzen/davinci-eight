@@ -32,12 +32,16 @@ define(["require", "exports", '../mesh/CylinderMeshBuilder', '../objects/primiti
             this.tailModel.position.y = -this.$coneHeight / 2;
             return this;
         };
-        Arrow3D.prototype.useProgram = function () {
-            this.shaders.use();
-        };
-        Arrow3D.prototype.draw = function (ambients) {
-            this.head.draw(ambients);
-            this.tail.draw(ambients);
+        Object.defineProperty(Arrow3D.prototype, "program", {
+            get: function () {
+                return this.shaders;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Arrow3D.prototype.draw = function () {
+            this.head.draw();
+            this.tail.draw();
         };
         Arrow3D.prototype.contextFree = function () {
             this.head.contextFree();

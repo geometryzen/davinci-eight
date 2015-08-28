@@ -144,7 +144,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             }
             return attribues;
         };
-        GeometryAdapter.prototype.update = function (attributes) {
+        GeometryAdapter.prototype.update = function () {
             var vertices = [];
             //  let colors: number[] = [];
             var normals = [];

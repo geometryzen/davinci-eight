@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -236,7 +236,7 @@ class LocalModel extends DefaultUniformProvider {
         // It&#x27;s unfortunate that we have to recompute the model-view matrix.
         // We could cache it, being careful that we don&#x27;t assume the callback order.
         // We don&#x27;t want to compute it in the shader beacause that would be per-vertex.
-        var normalMatrix = new Matrix3();
+        var normalMatrix = Matrix3.identity();
         var mv = modelViewMatrix(this.position, this.attitude);
         normalMatrix.normalFromMatrix4(mv);
         return {transpose: false, matrix3: new Float32Array(normalMatrix.elements)};

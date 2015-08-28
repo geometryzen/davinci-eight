@@ -21,7 +21,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
                 contextId = contextId;
                 drawables.forEach(function (drawable) {
                     drawable.contextGain(context, contextId);
-                    var groupName = drawable.drawGroupName;
+                    var groupName = drawable.program.programId;
                     if (!drawGroups[groupName]) {
                         drawGroups[groupName] = [];
                     }

@@ -31,8 +31,8 @@ define(["require", "exports", '../core/IdentityAttribProvider', '../core/Symboli
             }
             */
         };
-        DefaultAttribProvider.prototype.update = function (attributes) {
-            return _super.prototype.update.call(this, attributes);
+        DefaultAttribProvider.prototype.update = function () {
+            return _super.prototype.update.call(this);
         };
         DefaultAttribProvider.prototype.getAttribArray = function (name) {
             return _super.prototype.getAttribArray.call(this, name);

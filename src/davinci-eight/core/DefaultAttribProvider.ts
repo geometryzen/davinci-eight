@@ -2,7 +2,6 @@ import AttribMetaInfos = require('../core/AttribMetaInfos');
 import IdentityAttribProvider = require('../core/IdentityAttribProvider');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import Symbolic = require('../core/Symbolic');
 
 class DefaultAttribProvider extends IdentityAttribProvider {
@@ -30,8 +29,8 @@ class DefaultAttribProvider extends IdentityAttribProvider {
     }
     */
   }
-  update(attributes: ShaderVariableDecl[]): void {
-    return super.update(attributes);
+  update(): void {
+    return super.update();
   }
   getAttribArray(name: string): {usage: DataUsage; data: Float32Array} {
     return super.getAttribArray(name);

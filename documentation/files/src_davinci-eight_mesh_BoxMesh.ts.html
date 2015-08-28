@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -152,7 +152,6 @@ import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import cuboid = require(&#x27;../mesh/cuboid&#x27;);
 import CuboidMesh = require(&#x27;../mesh/CuboidMesh&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
-import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 
 /**
  * @class BoxMesh
@@ -203,8 +202,8 @@ class BoxMesh implements AttribProvider {
   getAttribMeta() {
     return this.cuboid.getAttribMeta();
   }
-  update(attributes: ShaderVariableDecl[]) {
-    return this.cuboid.update(attributes);
+  update() {
+    return this.cuboid.update();
   }
 }
 

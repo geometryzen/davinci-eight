@@ -8,7 +8,6 @@ import CuboidMesh = require('../mesh/CuboidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DrawMode = require('../core/DrawMode');
 
 declare var Euclidean3: any;
@@ -230,7 +229,7 @@ var cuboid = function(
         }
       }
     },
-    update(attributes: ShaderVariableDecl[]): void {
+    update(): void {
       function computeVertexList() {
         var vertexList: blade.Euclidean3[] =
         [

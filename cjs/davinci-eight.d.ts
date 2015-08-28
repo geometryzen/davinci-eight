@@ -23,6 +23,7 @@ import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -122,11 +123,10 @@ declare var eight: {
     DataUsage: typeof DataUsage;
     DefaultAttribProvider: typeof DefaultAttribProvider;
     DefaultUniformProvider: typeof DefaultUniformProvider;
-    primitive: <MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, shaders: SHADERS, model: MODEL) => Primitive<MESH, SHADERS, MODEL>;
+    primitive: <MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, program: SHADERS, model: MODEL) => Primitive<MESH, SHADERS, MODEL>;
     DrawMode: typeof DrawMode;
     ShaderAttribLocation: typeof ShaderAttribLocation;
     ShaderUniformLocation: typeof ShaderUniformLocation;
-    pointsProgram: () => ShaderProgram;
     shaderProgram: (vertexShader: string, fragmentShader: string) => ShaderProgram;
     smartProgram: (attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     AmbientLight: typeof AmbientLight;
@@ -141,6 +141,7 @@ declare var eight: {
     BoxGeometry: typeof BoxGeometry;
     CylinderGeometry: typeof CylinderGeometry;
     DodecahedronGeometry: typeof DodecahedronGeometry;
+    EllipticalCylinderGeometry: typeof EllipticalCylinderGeometry;
     IcosahedronGeometry: typeof IcosahedronGeometry;
     KleinBottleGeometry: typeof KleinBottleGeometry;
     MobiusStripGeometry: typeof MobiusStripGeometry;

@@ -121,7 +121,7 @@ class Node extends TreeModel {
         // It's unfortunate that we have to recompute the model-view matrix.
         // We could cache it, being careful that we don't assume the callback order.
         // We don't want to compute it in the shader beacause that would be per-vertex.
-        var normalMatrix = new Matrix3();
+        var normalMatrix = Matrix3.identity();
         var mv = localMatrix(this.scale, this.attitude, this.position);
         normalMatrix.normalFromMatrix4(mv);
         // TODO: elements in Matrix3 should already be Float32Array

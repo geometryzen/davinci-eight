@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -152,7 +152,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:5</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l4"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:4</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -183,10 +183,6 @@ The ShaderProgram must be able to provide introspection information that describ
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method">
-                                <a href="#method_attributeVariable">attributeVariable</a>
-
-                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_contextFree">contextFree</a>
 
@@ -204,10 +200,6 @@ The ShaderProgram must be able to provide introspection information that describ
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_uniformVariable">uniformVariable</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_use">use</a>
 
                             </li>
@@ -219,14 +211,6 @@ The ShaderProgram must be able to provide introspection information that describ
 
                     <ul class="index-list properties extends">
                             <li class="index-item property">
-                                <a href="#property_attributes">attributes</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_constants">constants</a>
-
-                            </li>
-                            <li class="index-item property">
                                 <a href="#property_fragmentShader">fragmentShader</a>
 
                             </li>
@@ -236,14 +220,6 @@ The ShaderProgram must be able to provide introspection information that describ
                             </li>
                             <li class="index-item property">
                                 <a href="#property_programId">programId</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_uniforms">uniforms</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_varyings">varyings</a>
 
                             </li>
                             <li class="index-item property">
@@ -259,62 +235,6 @@ The ShaderProgram must be able to provide introspection information that describ
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_attributeVariable" class="method item">
-    <h3 class="name"><code>attributeVariable</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:58</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Provides a reference to the attribute variable location object (ShaderAttribLocation).
-This reference is managed by the ShaderProgram, ensuring that the location
-is updated through context loss and restore events.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The name of the attribute variable.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
 <div id="method_contextFree" class="method item inherited">
     <h3 class="name"><code>contextFree</code></h3>
 
@@ -485,62 +405,6 @@ The dependent should reset its state to that for which there is no context.</p>
 
 
 </div>
-<div id="method_uniformVariable" class="method item">
-    <h3 class="name"><code>uniformVariable</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:66</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Provides a reference to the uniform variable location object (ShaderUniformLocation).
-This reference is managed by the ShaderProgram, ensuring that the location
-is updated through context loss and restore events.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-
-
-                    <div class="param-description">
-                        <p>The name of the uniform variable.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
 <div id="method_use" class="method item">
     <h3 class="name"><code>use</code></h3>
 
@@ -556,7 +420,7 @@ is updated through context loss and restore events.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l52"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:52</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:31</code></a>
         </p>
 
 
@@ -564,8 +428,7 @@ is updated through context loss and restore events.</p>
     </div>
 
     <div class="description">
-        <p>Makes the ShaderProgram the current program for WebGL.
-This method has no effect if the ShaderProgram does not have a WebGLRenderingContext.</p>
+        <p>Makes the ShaderProgram the current program for WebGL.</p>
 
     </div>
 
@@ -578,54 +441,6 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-                    <div id="property_attributes" class="property item">
-                        <h3 class="name"><code>attributes</code></h3>
-                        <span class="type"><a href="../classes/ShaderVariableDecl.html" class="crosslink">ShaderVariableDecl</a></span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:12</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_constants" class="property item">
-                        <h3 class="name"><code>constants</code></h3>
-                        <span class="type"><a href="../classes/ShaderVariableDecl.html" class="crosslink">ShaderVariableDecl</a></span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:17</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
                     <div id="property_fragmentShader" class="property item">
                         <h3 class="name"><code>fragmentShader</code></h3>
                         <span class="type">String</span>
@@ -637,7 +452,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:47</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:26</code></a>
                             </p>
                     
                     
@@ -661,7 +476,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:32</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:11</code></a>
                             </p>
                     
                     
@@ -685,55 +500,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:37</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_uniforms" class="property item">
-                        <h3 class="name"><code>uniforms</code></h3>
-                        <span class="type"><a href="../classes/ShaderVariableDecl.html" class="crosslink">ShaderVariableDecl</a></span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:22</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_varyings" class="property item">
-                        <h3 class="name"><code>varyings</code></h3>
-                        <span class="type"><a href="../classes/ShaderVariableDecl.html" class="crosslink">ShaderVariableDecl</a></span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:27</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:16</code></a>
                             </p>
                     
                     
@@ -757,7 +524,7 @@ This method has no effect if the ShaderProgram does not have a WebGLRenderingCon
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:42</code></a>
+                            <a href="../files/src_davinci-eight_core_ShaderProgram.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderProgram.ts:21</code></a>
                             </p>
                     
                     

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.58.0</em>
+            <em>API Docs for: 2.60.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -151,7 +151,6 @@
 import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
-import ShaderVariableDecl = require(&#x27;../core/ShaderVariableDecl&#x27;);
 /**
  * @class AttribProvider
  */
@@ -164,7 +163,7 @@ interface AttribProvider {
   /**
    * @method update
    */
-  update(attributes: ShaderVariableDecl[]): void;
+  update(): void;
   /**
    * Provides the values required for vertex shader attributes. 
    * @method getAttributeData

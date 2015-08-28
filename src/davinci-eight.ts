@@ -36,6 +36,7 @@ import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
@@ -48,7 +49,6 @@ import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeomet
 import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 // programs
-import pointsProgram = require('davinci-eight/programs/pointsProgram');
 import shaderProgram = require('davinci-eight/programs/shaderProgram');
 import smartProgram = require('davinci-eight/programs/smartProgram');
 import shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
@@ -158,9 +158,6 @@ var eight = {
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
   get ShaderUniformLocation() { return ShaderUniformLocation; },
-  get pointsProgram() {
-    return pointsProgram;
-  },
   get shaderProgram() {
     return shaderProgram;
   },
@@ -179,6 +176,7 @@ var eight = {
   get BoxGeometry() { return BoxGeometry; },
   get CylinderGeometry() { return CylinderGeometry; },
   get DodecahedronGeometry() { return DodecahedronGeometry; },
+  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
   get IcosahedronGeometry() { return IcosahedronGeometry; },
   get KleinBottleGeometry() { return KleinBottleGeometry; },
   get MobiusStripGeometry() { return MobiusStripGeometry; },

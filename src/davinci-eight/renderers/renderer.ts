@@ -6,6 +6,7 @@ import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 import expectArg = require('../checks/expectArg');
 import Color = require('../core/Color');
+import updateUniform = require('../core/updateUniform');
 
 let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParameters): Renderer {
 
@@ -68,7 +69,8 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
         }
         return self;
       },
-      render(drawList: DrawList, view: UniformProvider) {
+      render(drawList: DrawList, ambients: UniformProvider) {
+        var program
         expectArg('drawList', drawList).toNotBeNull();
         if (gl) {
           if (autoClear) {
@@ -82,10 +84,18 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
             programLoaded = false;
             drawList.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
               if (!programLoaded) {
-                drawable.useProgram();
+                let program = drawable.program.use();
+                let uniformLocations = program.uniformLocations;
+                let umis = ambients.getUniformMeta();
+                for (var name in umis) {
+                  let uniformLocation = uniformLocations[name];
+                  if (uniformLocation) {
+                    updateUniform(uniformLocation, ambients);
+                  }
+                }
                 programLoaded = true;
               }
-              drawable.draw(view);
+              drawable.draw();
             });
           }
         }

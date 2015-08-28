@@ -1,7 +1,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Geometry = require('../geometries/Geometry');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 /**
@@ -47,7 +46,7 @@ declare class GeometryAdapter extends DefaultAttribProvider {
         data: Float32Array;
     };
     getAttribMeta(): AttribMetaInfos;
-    update(attributes: ShaderVariableDecl[]): void;
+    update(): void;
     private computeLines();
     private computePoints();
 }

@@ -17,18 +17,15 @@ define(["require", "exports", '../uniforms/Node', '../objects/primitive', '../me
             this.primitive.model.scale.z = magnitude;
             return this;
         };
-        Object.defineProperty(ArrowWrapper.prototype, "drawGroupName", {
+        Object.defineProperty(ArrowWrapper.prototype, "program", {
             get: function () {
-                return this.primitive.drawGroupName;
+                return this.primitive.program;
             },
             enumerable: true,
             configurable: true
         });
-        ArrowWrapper.prototype.useProgram = function () {
-            return this.primitive.useProgram();
-        };
-        ArrowWrapper.prototype.draw = function (ambients) {
-            return this.primitive.draw(ambients);
+        ArrowWrapper.prototype.draw = function () {
+            return this.primitive.draw();
         };
         ArrowWrapper.prototype.contextFree = function () {
             return this.primitive.contextFree();

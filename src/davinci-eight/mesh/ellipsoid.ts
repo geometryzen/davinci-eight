@@ -6,7 +6,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import EllipsoidMesh = require('../mesh/EllipsoidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 
 declare var Euclidean3: any;
 
@@ -177,7 +176,7 @@ var ellipsoid = function(spec?): EllipsoidMesh {
         }
       }
     },
-    update(attributes: ShaderVariableDecl[]): void {
+    update(): void {
       // This function depends on how the vertexList is computed.
       function vertexIndex(thetaIndex: number, phiIndex: number): number {
         return thetaIndex * (phiSegments + 1) + phiIndex;

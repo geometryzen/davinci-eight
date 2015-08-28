@@ -1,7 +1,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
-import ShaderVariableDecl = require('../core/ShaderVariableDecl');
 /**
  * @class AttribProvider
  */
@@ -14,7 +13,7 @@ interface AttribProvider {
   /**
    * @method update
    */
-  update(attributes: ShaderVariableDecl[]): void;
+  update(): void;
   /**
    * Provides the values required for vertex shader attributes. 
    * @method getAttributeData
