@@ -83,6 +83,17 @@ define(["require", "exports", '../core/DefaultUniformProvider'], function (requi
                 return _super.prototype.getUniformMeta.call(this);
             }
         };
+        /**
+         * @method getUniformData
+         */
+        TreeModel.prototype.getUniformData = function () {
+            if (this.parent) {
+                return this.parent.getUniformData();
+            }
+            else {
+                return _super.prototype.getUniformData.call(this);
+            }
+        };
         return TreeModel;
     })(DefaultUniformProvider);
     return TreeModel;

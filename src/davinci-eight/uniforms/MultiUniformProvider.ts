@@ -1,3 +1,4 @@
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
@@ -74,14 +75,24 @@ class MultiUniformProvider extends DefaultUniformProvider {
     }
   }
   getUniformMeta(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = super.getUniformMeta();
+    var meta: UniformMetaInfos = super.getUniformMeta();
     this.providers.forEach(function(provider: UniformProvider) {
       var metas = provider.getUniformMeta();
       for (var id in metas) {
-        uniforms[id] = metas[id];
+        meta[id] = metas[id];
       }
     });
-    return uniforms;
+    return meta;
+  }
+  getUniformData(): UniformDataInfos {
+    var data: UniformDataInfos = super.getUniformData();
+    this.providers.forEach(function(provider: UniformProvider) {
+      var datas = provider.getUniformData();
+      for (var id in datas) {
+        data[id] = datas[id];
+      }
+    });
+    return data;
   }
 }
 

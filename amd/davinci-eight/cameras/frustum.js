@@ -133,6 +133,10 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
                 var uniforms = base.getUniformMeta();
                 uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
                 return uniforms;
+            },
+            getUniformData: function () {
+                var data = base.getUniformData();
+                return data;
             }
         };
         return self;

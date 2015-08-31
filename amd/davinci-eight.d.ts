@@ -123,7 +123,7 @@ declare var eight: {
     DataUsage: typeof DataUsage;
     DefaultAttribProvider: typeof DefaultAttribProvider;
     DefaultUniformProvider: typeof DefaultUniformProvider;
-    primitive: <MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider>(mesh: MESH, program: SHADERS, model: MODEL) => Primitive<MESH, SHADERS, MODEL>;
+    primitive: <MESH extends AttribProvider, MODEL extends UniformProvider>(mesh: MESH, program: ShaderProgram, model: MODEL) => Primitive<MESH, MODEL>;
     DrawMode: typeof DrawMode;
     ShaderAttribLocation: typeof ShaderAttribLocation;
     ShaderUniformLocation: typeof ShaderUniformLocation;
@@ -187,10 +187,10 @@ declare var eight: {
         wireFrame?: boolean;
     }) => AttribProvider;
     arrow: (ambients: UniformProvider, options?: ArrowOptions) => Blade<Node>;
-    box: (ambients: UniformProvider, options?: BoxOptions) => Primitive<AttribProvider, ShaderProgram, Node>;
-    cylinder: (ambients: UniformProvider, options?: CylinderOptions) => Primitive<AttribProvider, ShaderProgram, Node>;
-    sphere: (ambients: UniformProvider, options?: SphereOptions) => Primitive<AttribProvider, ShaderProgram, Node>;
-    vortex: (ambients: UniformProvider) => Primitive<AttribProvider, ShaderProgram, Node>;
+    box: (ambients: UniformProvider, options?: BoxOptions) => Primitive<AttribProvider, Node>;
+    cylinder: (ambients: UniformProvider, options?: CylinderOptions) => Primitive<AttribProvider, Node>;
+    sphere: (ambients: UniformProvider, options?: SphereOptions) => Primitive<AttribProvider, Node>;
+    vortex: (ambients: UniformProvider) => Primitive<AttribProvider, Node>;
     shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

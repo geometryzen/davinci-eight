@@ -117,6 +117,9 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
             },
             getUniformMeta: function () {
                 return base.getUniformMeta();
+            },
+            getUniformData: function () {
+                return base.getUniformData();
             }
         };
         return self;

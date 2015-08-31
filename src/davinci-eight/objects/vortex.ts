@@ -7,11 +7,11 @@ import vortexMesh = require('../mesh/vortexMesh');
 import smartProgram = require('../programs/smartProgram');
 import UniformProvider = require('../core/UniformProvider');
 
-function vortex(ambients: UniformProvider): Primitive<AttribProvider, ShaderProgram, Node> {
+function vortex(ambients: UniformProvider): Primitive<AttribProvider, Node> {
   let mesh = vortexMesh();
   let model = new Node();
-  let shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-  return primitive(mesh, shaders, model);
+  let program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
+  return primitive(mesh, program, model);
 }
 
 export = vortex;

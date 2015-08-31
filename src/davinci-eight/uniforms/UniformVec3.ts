@@ -1,4 +1,5 @@
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import uuid4 = require('../utils/uuid4');
 import UniformVariable = require('../uniforms/UniformVariable');
@@ -75,6 +76,12 @@ class UniformVec3 extends DefaultUniformProvider implements UniformVariable<numb
       uniforms[this.id] = {glslType: 'vec3'};
     }
     return uniforms;
+  }
+  getUniformData(): UniformDataInfos {
+    var data: UniformDataInfos = super.getUniformData();
+    var value: number[] = this.useData ? this.$data : this.$callback();
+    data[this.$varName] = { vector: value };
+    return data;
   }
 }
 

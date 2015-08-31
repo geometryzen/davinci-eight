@@ -83,6 +83,17 @@ var TreeModel = (function (_super) {
             return _super.prototype.getUniformMeta.call(this);
         }
     };
+    /**
+     * @method getUniformData
+     */
+    TreeModel.prototype.getUniformData = function () {
+        if (this.parent) {
+            return this.parent.getUniformData();
+        }
+        else {
+            return _super.prototype.getUniformData.call(this);
+        }
+    };
     return TreeModel;
 })(DefaultUniformProvider);
 module.exports = TreeModel;

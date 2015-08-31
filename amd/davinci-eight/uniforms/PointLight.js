@@ -58,6 +58,9 @@ define(["require", "exports", '../core/Color', '../math/Vector3', '../core/Symbo
         PointLight.prototype.getUniformMeta = function () {
             return this.multi.getUniformMeta();
         };
+        PointLight.prototype.getUniformData = function () {
+            return this.multi.getUniformData();
+        };
         return PointLight;
     })();
     return PointLight;

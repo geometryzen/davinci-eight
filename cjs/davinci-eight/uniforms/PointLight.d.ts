@@ -3,6 +3,7 @@ import Vector3 = require('../math/Vector3');
 import UniformColor = require('../uniforms/UniformColor');
 import UniformVector3 = require('../uniforms/UniformVector3');
 import UniformProvider = require('../core/UniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
  * Provides a uniform variable representing a point light.
@@ -40,5 +41,6 @@ declare class PointLight implements UniformProvider {
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = PointLight;

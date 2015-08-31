@@ -1,3 +1,4 @@
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
@@ -21,5 +22,6 @@ declare class MultiUniformProvider extends DefaultUniformProvider {
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = MultiUniformProvider;

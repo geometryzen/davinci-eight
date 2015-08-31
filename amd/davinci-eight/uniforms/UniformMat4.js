@@ -30,6 +30,14 @@ define(["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4'
             enumerable: true,
             configurable: true
         });
+        UniformMat4.prototype.getValue = function () {
+            if (this.useData) {
+                return this.$data;
+            }
+            else {
+                return this.$callback();
+            }
+        };
         UniformMat4.prototype.getUniformMatrix4 = function (name) {
             switch (name) {
                 case this.$varName:
@@ -56,6 +64,18 @@ define(["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4'
                 uniforms[this.id] = { glslType: 'mat4' };
             }
             return uniforms;
+        };
+        UniformMat4.prototype.getUniformData = function () {
+            var data = _super.prototype.getUniformData.call(this);
+            var value = this.getValue();
+            var m4 = { transpose: value.transpose, matrix3: void 0, matrix4: value.matrix4, uniformZs: void 0 };
+            if (isDefined(this.$name)) {
+                data[this.$name] = m4;
+            }
+            else {
+                data[this.id] = m4;
+            }
+            return data;
         };
         return UniformMat4;
     })(DefaultUniformProvider);

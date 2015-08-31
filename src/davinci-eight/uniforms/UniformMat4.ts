@@ -1,4 +1,6 @@
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
+import UniformDataInfo = require('../core/UniformDataInfo');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import uuid4 = require('../utils/uuid4');
 import UniformVariable = require('../uniforms/UniformVariable');
@@ -25,6 +27,14 @@ class UniformMat4 extends DefaultUniformProvider implements UniformVariable<{tra
     this.$callback = callback;
     this.useData = false;
   }
+  private getValue(): {transpose: boolean; matrix4: Float32Array} {
+    if (this.useData) {
+      return this.$data;
+    }
+    else {
+      return this.$callback();
+    }
+  }
   getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
     switch(name) {
       case this.$varName: {
@@ -50,6 +60,18 @@ class UniformMat4 extends DefaultUniformProvider implements UniformVariable<{tra
       uniforms[this.id] = {glslType: 'mat4'};
     }
     return uniforms;
+  }
+  getUniformData(): UniformDataInfos {
+    let data = super.getUniformData();
+    let value = this.getValue();
+    let m4 = {transpose: value.transpose, matrix3: void 0, matrix4: value.matrix4, uniformZs: void 0};
+    if (isDefined(this.$name)) {
+      data[this.$name] = m4;
+    }
+    else {
+      data[this.id] = m4;
+    }
+    return data;
   }
 }
 

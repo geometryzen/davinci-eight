@@ -1,5 +1,6 @@
 import ShaderProgram = require('../core/ShaderProgram');
 import AttribProvider = require('../core/AttribProvider');
+import ShaderAttribSetter   = require('../core/ShaderAttribSetter');
 import parse = require('../glsl/parse');
 import NodeWalker = require('../glsl/NodeWalker');
 import ProgramArgs = require('../glsl/ProgramArgs');
@@ -9,29 +10,15 @@ import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 import uuid4 = require('../utils/uuid4');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
-
-function glslType(type: number, context: WebGLRenderingContext): string {
-  switch(type) {
-    case 2 : {
-      return "foo";
-    }
-    case context.FLOAT_VEC3: {
-      return 'vec3';
-    }
-    case context.FLOAT_MAT2: {
-      return 'mat2';
-    }
-    case context.FLOAT_MAT3: {
-      return 'mat3';
-    }
-    case context.FLOAT_MAT4: {
-      return 'mat4';
-    }
-    default: {
-      throw new Error("Unexpected type: " + type);
-    }
-  }
-}
+import UniformSetter   = require('../core/UniformSetter');
+import createAttributeSetters = require('../programs/createAttributeSetters');
+import createUniformSetters = require('../programs/createUniformSetters');
+import setUniforms = require('../programs/setUniforms');
+import UniformDataInfo = require('../core/UniformDataInfo');
+import UniformDataInfos = require('../core/UniformDataInfos');
+import UniformMetaInfo = require('../core/UniformMetaInfo');
+import UniformMetaInfos = require('../core/UniformMetaInfos');
+import glslType = require('../programs/glslType');
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string): ShaderProgram {
 
@@ -47,7 +34,9 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
   var contextGainId: string;
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
+  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
+  var uniformSetters: {[name: string]: UniformSetter} = {};
 
   var publicAPI: ShaderProgram = {
     get vertexShader() {
@@ -56,11 +45,17 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
     get fragmentShader() {
       return fragmentShader;
     },
-    get attributeLocations() {
+    get attributeLocations(): { [name: string]: ShaderAttribLocation } {
       return attributeLocations;
     },
-    get uniformLocations() {
+    get attribSetters(): { [name: string]: ShaderAttribSetter } {
+      return attribSetters;
+    },
+    get uniformLocations(): { [name: string]: ShaderUniformLocation } {
       return uniformLocations;
+    },
+    get uniformSetters(): {[name: string]: UniformSetter} {
+      return uniformSetters;
     },
     contextFree: function(): void {
       if (program) {
@@ -83,25 +78,32 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         program = makeWebGLProgram(context, vertexShader, fragmentShader);
         programId = uuid4().generate();
         contextGainId = contextId;
+
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
         for (var a = 0; a < activeAttributes; a++) {
           let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
           activeInfo.size; // What is this used for?
           activeInfo.type;
-          attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+          if (!attributeLocations[activeInfo.name]) {
+            attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+          }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
         for (var u = 0; u < activeUniforms; u++) {
           let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
-          uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
+          if (!uniformLocations[activeInfo.name]) {
+            uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
+            uniformSetters[activeInfo.name] = uniformLocations[activeInfo.name].createSetter(context, activeInfo);
+          }
         }
         // Broadcast contextGain to attribute and uniform locations.
         for(var aName in attributeLocations) {
-          attributeLocations[aName].contextGain(contextArg, program);
+          attributeLocations[aName].contextGain(contextArg, program, contextId);
         }
-        for(var uName in uniformLocations) {
-          uniformLocations[uName].contextGain(contextArg, program);
-        }
+        Object.keys(uniformLocations).forEach(function(uName: string) {
+          uniformLocations[uName].contextGain(contextArg, program, contextId);
+        });
+        attribSetters = createAttributeSetters(contextArg, program);
       }
     },
     contextLoss() {
@@ -126,6 +128,9 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         context.useProgram(program);
       }
       return publicAPI;
+    },
+    setUniforms(values: UniformDataInfos) {
+      setUniforms(uniformSetters, values);
     }
   };
   return publicAPI;

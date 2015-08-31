@@ -2,6 +2,7 @@ import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
 import UniformColor = require('../uniforms/UniformColor');
 import UniformProvider = require('../core/UniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import isDefined = require('../checks/isDefined');
 import expectArg = require('../checks/expectArg');
@@ -57,6 +58,9 @@ class AmbientLight implements UniformProvider {
   }
   getUniformMeta() {
     return this.uColor.getUniformMeta();
+  }
+  getUniformData() {
+    return this.uColor.getUniformData();
   }
 }
 

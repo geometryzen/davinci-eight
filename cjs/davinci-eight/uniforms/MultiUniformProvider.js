@@ -77,14 +77,24 @@ var MultiUniformProvider = (function (_super) {
         }
     };
     MultiUniformProvider.prototype.getUniformMeta = function () {
-        var uniforms = _super.prototype.getUniformMeta.call(this);
+        var meta = _super.prototype.getUniformMeta.call(this);
         this.providers.forEach(function (provider) {
             var metas = provider.getUniformMeta();
             for (var id in metas) {
-                uniforms[id] = metas[id];
+                meta[id] = metas[id];
             }
         });
-        return uniforms;
+        return meta;
+    };
+    MultiUniformProvider.prototype.getUniformData = function () {
+        var data = _super.prototype.getUniformData.call(this);
+        this.providers.forEach(function (provider) {
+            var datas = provider.getUniformData();
+            for (var id in datas) {
+                data[id] = datas[id];
+            }
+        });
+        return data;
     };
     return MultiUniformProvider;
 })(DefaultUniformProvider);

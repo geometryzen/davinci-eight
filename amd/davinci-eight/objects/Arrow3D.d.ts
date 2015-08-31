@@ -7,15 +7,14 @@ declare class Arrow3D implements Blade<Node> {
     private $magnitude;
     private $coneHeight;
     model: Node;
+    program: ShaderProgram;
     private headModel;
     private tailModel;
     private head;
     private tail;
-    private shaders;
     constructor(ambients: UniformProvider, options?: ArrowOptions);
     magnitude: number;
     setMagnitude(magnitude: number): Blade<Node>;
-    program: ShaderProgram;
     draw(): void;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext, contextId: string): void;

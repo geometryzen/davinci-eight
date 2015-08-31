@@ -1,5 +1,6 @@
 import TreeModel = require('../uniforms/TreeModel');
 import Spinor3 = require('../math/Spinor3');
+import UniformDataInfos = require('davinci-eight/core/UniformDataInfos');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
@@ -54,6 +55,7 @@ declare class Node extends TreeModel {
      * @param name {string}
      */
     getUniformVector3(name: string): number[];
+    private getNormalMatrix();
     /**
      * @method getUniformMatrix3
      * @param name {string}
@@ -62,6 +64,7 @@ declare class Node extends TreeModel {
         transpose: boolean;
         matrix3: Float32Array;
     };
+    private getModelMatrix();
     /**
      * @method getUniformMatrix4
      * @param name {string}
@@ -74,5 +77,9 @@ declare class Node extends TreeModel {
      * @method getUniformMeta
      */
     getUniformMeta(): UniformMetaInfos;
+    /**
+     * @method getUniformData
+     */
+    getUniformData(): UniformDataInfos;
 }
 export = Node;

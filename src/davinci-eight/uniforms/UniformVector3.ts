@@ -1,4 +1,5 @@
 import Vector3 = require('../math/Vector3');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
@@ -41,6 +42,9 @@ class UniformVector3 extends DefaultUniformProvider implements UniformVariable<V
   }
   getUniformMeta() {
     return this.inner.getUniformMeta();
+  }
+  getUniformData() {
+    return this.inner.getUniformData();
   }
 }
 

@@ -1,4 +1,5 @@
 import UniformProvider = require('../core/UniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
  * @class DefaultUniformProvider
@@ -53,13 +54,20 @@ class DefaultUniformProvider implements UniformProvider {
     return;
   }
   /**
-   * 
    * @method getUniformMeta
    * @return An empty object that derived class may modify.
    */
   getUniformMeta(): UniformMetaInfos {
     var uniforms: UniformMetaInfos = {};
     return uniforms;
+  }
+  /**
+   * @method getUniformData
+   * @return An empty object that derived class may modify.
+   */
+  getUniformData(): UniformDataInfos {
+    let data: UniformDataInfos = {};
+    return data;
   }
 }
 

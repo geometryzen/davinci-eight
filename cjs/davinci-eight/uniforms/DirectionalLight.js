@@ -64,6 +64,9 @@ var DirectionalLight = (function () {
     DirectionalLight.prototype.getUniformMeta = function () {
         return this.multi.getUniformMeta();
     };
+    DirectionalLight.prototype.getUniformData = function () {
+        return this.multi.getUniformData();
+    };
     return DirectionalLight;
 })();
 module.exports = DirectionalLight;

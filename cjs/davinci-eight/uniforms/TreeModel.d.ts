@@ -1,4 +1,5 @@
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
+import UniformDataInfos = require('davinci-eight/core/UniformDataInfos');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 /**
  * @class TreeModel
@@ -37,5 +38,9 @@ declare class TreeModel extends DefaultUniformProvider {
      * @method getUniformMeta
      */
     getUniformMeta(): UniformMetaInfos;
+    /**
+     * @method getUniformData
+     */
+    getUniformData(): UniformDataInfos;
 }
 export = TreeModel;

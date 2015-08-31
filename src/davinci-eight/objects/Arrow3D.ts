@@ -20,25 +20,25 @@ class Arrow3D implements Blade<Node> {
   private $magnitude: number = 1;
   private $coneHeight: number;
   public model: Node;
+  public program: ShaderProgram;
   private headModel: Node;
   private tailModel: Node;
-  private head: Primitive<AttribProvider, ShaderProgram, Node>;
-  private tail: Primitive<AttribProvider, ShaderProgram, Node>;
-  private shaders: ShaderProgram;
+  private head: Primitive<AttribProvider, Node>;
+  private tail: Primitive<AttribProvider, Node>;
   constructor(ambients: UniformProvider, options?: ArrowOptions) {
     options = options || {};
     this.$coneHeight = isDefined(options.coneHeight) ? options.coneHeight : 0.2;
     this.model = new Node();
     var headMesh = new CylinderMeshBuilder(options).setRadiusTop(0.0).setRadiusBottom(0.08).setHeight(this.$coneHeight).buildMesh();
     var tailMesh = new CylinderMeshBuilder(options).setRadiusTop(0.01).setRadiusBottom(0.01).buildMesh();
-    this.shaders = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
+    this.program = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
     this.headModel = new Node();
     this.headModel.setParent(this.model);
-    this.head = primitive(headMesh, this.shaders, this.headModel);
+    this.head = primitive(headMesh, this.program, this.headModel);
     this.tailModel = new Node();
     this.tailModel.setParent(this.model);
     this.setMagnitude(1);
-    this.tail = primitive(tailMesh, this.shaders, this.tailModel);
+    this.tail = primitive(tailMesh, this.program, this.tailModel);
   }
   get magnitude(): number {
     return this.tailModel.scale.y + this.$coneHeight;
@@ -51,9 +51,6 @@ class Arrow3D implements Blade<Node> {
     this.tailModel.scale.y = magnitude - this.$coneHeight;
     this.tailModel.position.y = - this.$coneHeight / 2;
     return this;
-  }
-  get program(): ShaderProgram {
-    return this.shaders;
   }
   draw() {
     this.head.draw();

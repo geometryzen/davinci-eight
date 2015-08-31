@@ -1,3 +1,4 @@
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 
@@ -82,6 +83,18 @@ class ChainedUniformProvider implements UniformProvider {
       uniforms[name] = twos[name];
     }
     return uniforms;
+  }
+  getUniformData(): UniformDataInfos {
+    var data: {[name:string]: any} = {};
+    var ones = this.provider.getUniformData();
+    for (name in ones) {
+      data[name] = ones[name];
+    }
+    var twos = this.fallback.getUniformData();
+    for (name in twos) {
+      data[name] = twos[name];
+    }
+    return data;
   }
 }
 

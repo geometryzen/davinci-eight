@@ -84,6 +84,12 @@ var UniformVec3 = (function (_super) {
         }
         return uniforms;
     };
+    UniformVec3.prototype.getUniformData = function () {
+        var data = _super.prototype.getUniformData.call(this);
+        var value = this.useData ? this.$data : this.$callback();
+        data[this.$varName] = { vector: value };
+        return data;
+    };
     return UniformVec3;
 })(DefaultUniformProvider);
 module.exports = UniformVec3;

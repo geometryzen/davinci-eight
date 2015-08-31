@@ -1,5 +1,6 @@
 import Color = require('../core/Color');
 import UniformColor = require('../uniforms/UniformColor');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import UniformVector3 = require('../uniforms/UniformVector3');
@@ -40,5 +41,6 @@ declare class DirectionalLight implements UniformProvider {
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = DirectionalLight;

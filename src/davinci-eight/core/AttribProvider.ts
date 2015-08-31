@@ -19,7 +19,7 @@ interface AttribProvider {
    * @method getAttributeData
    * @return {Float32Array} The array of attribute values.
    */
-  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
+  getAttribArray(name: string): { usage: DataUsage; data: Float32Array };
   /**
    * Provides the meta information corresponsing to provided attribute values. 
    * @method getAttribMeta

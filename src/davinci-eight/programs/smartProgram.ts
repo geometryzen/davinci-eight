@@ -3,6 +3,8 @@ import AttribMetaInfos = require('../core/AttribMetaInfos');
 import shaderProgram = require('./shaderProgram');
 import ShaderProgram = require('../core/ShaderProgram');
 import Symbolic = require('../core/Symbolic');
+import UniformDataInfo = require('../core/UniformDataInfo');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import isDefined = require('../checks/isDefined');
@@ -53,8 +55,14 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get attributeLocations() {
       return innerProgram.attributeLocations;
     },
+    get attribSetters() {
+      return innerProgram.attribSetters;
+    },
     get uniformLocations() {
       return innerProgram.uniformLocations;
+    },
+    get uniformSetters() {
+      return innerProgram.uniformSetters;
     },
     get vertexShader() {
       return innerProgram.vertexShader;
@@ -76,7 +84,11 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     },
     use() {
       return innerProgram.use();
+    },
+    setUniforms(values: UniformDataInfos) {
+      return innerProgram.setUniforms(values);
     }
+
   }
 
   return publicAPI;

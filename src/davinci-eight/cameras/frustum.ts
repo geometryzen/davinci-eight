@@ -145,6 +145,10 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
       var uniforms: UniformMetaInfos = base.getUniformMeta();
       uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE};
       return uniforms;
+    },
+    getUniformData(): {[name:string]: any} {
+      var data = base.getUniformData();
+      return data;
     }
   };
 

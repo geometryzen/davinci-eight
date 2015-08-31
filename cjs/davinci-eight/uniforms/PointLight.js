@@ -64,6 +64,9 @@ var PointLight = (function () {
     PointLight.prototype.getUniformMeta = function () {
         return this.multi.getUniformMeta();
     };
+    PointLight.prototype.getUniformData = function () {
+        return this.multi.getUniformData();
+    };
     return PointLight;
 })();
 module.exports = PointLight;

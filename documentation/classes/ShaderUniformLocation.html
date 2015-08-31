@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.60.0</em>
+            <em>API Docs for: 2.61.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,7 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfo
+                TODO: AttribPointerInfo?.html">AttribMetaInfo
+                TODO: AttribPointerInfo?</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -95,6 +97,8 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
+                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
+                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
@@ -104,8 +108,8 @@
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -149,7 +153,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:10</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:22</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -188,7 +192,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:10</code></a>
+                <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:22</code></a>
                 </p>
         
         
@@ -269,6 +273,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_uniform1fv">uniform1fv</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_uniform2f">uniform2f</a>
 
                             </li>
@@ -277,11 +285,23 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_uniform3f">uniform3f</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_uniform3f">uniform3f</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_uniform3fv">uniform3fv</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_uniform4fv">uniform4fv</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_uniformMatrix2fv">uniformMatrix2fv</a>
 
                             </li>
                             <li class="index-item method">
@@ -317,7 +337,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:34</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l46"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:46</code></a>
         </p>
 
 
@@ -343,6 +363,9 @@
                 <li class="arg">
                         <code>program</code>
                 </li>
+                <li class="arg">
+                        <code>contextId</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
 
@@ -356,7 +379,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:41</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:53</code></a>
         </p>
 
 
@@ -391,6 +414,16 @@
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name">contextId</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
             </ul>
         </div>
 
@@ -412,7 +445,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:50</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:63</code></a>
         </p>
 
 
@@ -442,7 +475,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:115</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l286"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:286</code></a>
         </p>
 
 
@@ -478,7 +511,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:57</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l191"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:191</code></a>
         </p>
 
 
@@ -501,6 +534,58 @@
                     <div class="param-description">
                         <p>Value to assign.</p>
 
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_uniform1fv" class="method item">
+    <h3 class="name"><code>uniform1fv</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l198"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:198</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
                     </div>
 
                 </li>
@@ -534,7 +619,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:64</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l205"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:205</code></a>
         </p>
 
 
@@ -598,7 +683,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:72</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l213"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:213</code></a>
         </p>
 
 
@@ -615,6 +700,179 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">data</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_uniform3f" class="method item">
+    <h3 class="name"><code>uniform3f</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l220"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:220</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Horizontal value to assign.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Vertical number to assign.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_uniform3f" class="method item">
+    <h3 class="name"><code>uniform3f</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+                <li class="arg">
+                        <code>z</code>
+                </li>
+                <li class="arg">
+                        <code>w</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l236"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:236</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Horizontal value to assign.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Vertical number to assign.</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">z</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">w</code>
                         <span class="type">Number</span>
 
 
@@ -650,7 +908,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l79"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:79</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l229"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:229</code></a>
         </p>
 
 
@@ -702,7 +960,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:86</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l246"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:246</code></a>
         </p>
 
 
@@ -720,6 +978,71 @@
                 <li class="param">
                         <code class="param-name">data</code>
                         <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_uniformMatrix2fv" class="method item">
+    <h3 class="name"><code>uniformMatrix2fv</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>transpose</code>
+                </li>
+                <li class="arg">
+                        <code>matrix</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l253"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:253</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">transpose</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">matrix</code>
+                        <span class="type">Float32Array</span>
 
 
                     <div class="param-description">
@@ -757,7 +1080,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l93"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:93</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l264"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:264</code></a>
         </p>
 
 
@@ -822,7 +1145,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:104</code></a>
+        <a href="../files/src_davinci-eight_core_ShaderUniformLocation.ts.html#l275"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ShaderUniformLocation.ts:275</code></a>
         </p>
 
 

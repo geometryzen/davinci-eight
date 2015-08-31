@@ -79,6 +79,18 @@ define(["require", "exports"], function (require, exports) {
             }
             return uniforms;
         };
+        ChainedUniformProvider.prototype.getUniformData = function () {
+            var data = {};
+            var ones = this.provider.getUniformData();
+            for (name in ones) {
+                data[name] = ones[name];
+            }
+            var twos = this.fallback.getUniformData();
+            for (name in twos) {
+                data[name] = twos[name];
+            }
+            return data;
+        };
         return ChainedUniformProvider;
     })();
     return ChainedUniformProvider;

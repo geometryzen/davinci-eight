@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.60.0</em>
+            <em>API Docs for: 2.61.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,7 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfo
+                TODO: AttribPointerInfo?.html">AttribMetaInfo
+                TODO: AttribPointerInfo?</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -95,6 +97,8 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
+                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
+                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
@@ -104,8 +108,8 @@
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -153,6 +157,8 @@ import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import shaderProgram = require(&#x27;./shaderProgram&#x27;);
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import UniformDataInfo = require(&#x27;../core/UniformDataInfo&#x27;);
+import UniformDataInfos = require(&#x27;../core/UniformDataInfos&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
@@ -203,8 +209,14 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get attributeLocations() {
       return innerProgram.attributeLocations;
     },
+    get attribSetters() {
+      return innerProgram.attribSetters;
+    },
     get uniformLocations() {
       return innerProgram.uniformLocations;
+    },
+    get uniformSetters() {
+      return innerProgram.uniformSetters;
     },
     get vertexShader() {
       return innerProgram.vertexShader;
@@ -226,7 +238,11 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     },
     use() {
       return innerProgram.use();
+    },
+    setUniforms(values: UniformDataInfos) {
+      return innerProgram.setUniforms(values);
     }
+
   }
 
   return publicAPI;

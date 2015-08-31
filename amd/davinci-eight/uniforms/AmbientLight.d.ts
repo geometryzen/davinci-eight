@@ -1,6 +1,7 @@
 import Color = require('../core/Color');
 import UniformColor = require('../uniforms/UniformColor');
 import UniformProvider = require('../core/UniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
  * Provides a uniform variable representing an ambient light.
@@ -35,5 +36,6 @@ declare class AmbientLight implements UniformProvider {
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = AmbientLight;

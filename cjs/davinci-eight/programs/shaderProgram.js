@@ -1,28 +1,9 @@
 var uuid4 = require('../utils/uuid4');
 var ShaderAttribLocation = require('../core/ShaderAttribLocation');
 var ShaderUniformLocation = require('../core/ShaderUniformLocation');
-function glslType(type, context) {
-    switch (type) {
-        case 2: {
-            return "foo";
-        }
-        case context.FLOAT_VEC3: {
-            return 'vec3';
-        }
-        case context.FLOAT_MAT2: {
-            return 'mat2';
-        }
-        case context.FLOAT_MAT3: {
-            return 'mat3';
-        }
-        case context.FLOAT_MAT4: {
-            return 'mat4';
-        }
-        default: {
-            throw new Error("Unexpected type: " + type);
-        }
-    }
-}
+var createAttributeSetters = require('../programs/createAttributeSetters');
+var setUniforms = require('../programs/setUniforms');
+var glslType = require('../programs/glslType');
 var shaderProgram = function (vertexShader, fragmentShader) {
     if (typeof vertexShader !== 'string') {
         throw new Error("vertexShader argument must be a string.");
@@ -35,7 +16,9 @@ var shaderProgram = function (vertexShader, fragmentShader) {
     var context;
     var contextGainId;
     var attributeLocations = {};
+    var attribSetters = {};
     var uniformLocations = {};
+    var uniformSetters = {};
     var publicAPI = {
         get vertexShader() {
             return vertexShader;
@@ -46,8 +29,14 @@ var shaderProgram = function (vertexShader, fragmentShader) {
         get attributeLocations() {
             return attributeLocations;
         },
+        get attribSetters() {
+            return attribSetters;
+        },
         get uniformLocations() {
             return uniformLocations;
+        },
+        get uniformSetters() {
+            return uniformSetters;
         },
         contextFree: function () {
             if (program) {
@@ -75,20 +64,26 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                     var activeInfo = context.getActiveAttrib(program, a);
                     activeInfo.size; // What is this used for?
                     activeInfo.type;
-                    attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+                    if (!attributeLocations[activeInfo.name]) {
+                        attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+                    }
                 }
                 var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
                 for (var u = 0; u < activeUniforms; u++) {
                     var activeInfo = context.getActiveUniform(program, u);
-                    uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
+                    if (!uniformLocations[activeInfo.name]) {
+                        uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
+                        uniformSetters[activeInfo.name] = uniformLocations[activeInfo.name].createSetter(context, activeInfo);
+                    }
                 }
                 // Broadcast contextGain to attribute and uniform locations.
                 for (var aName in attributeLocations) {
-                    attributeLocations[aName].contextGain(contextArg, program);
+                    attributeLocations[aName].contextGain(contextArg, program, contextId);
                 }
-                for (var uName in uniformLocations) {
-                    uniformLocations[uName].contextGain(contextArg, program);
-                }
+                Object.keys(uniformLocations).forEach(function (uName) {
+                    uniformLocations[uName].contextGain(contextArg, program, contextId);
+                });
+                attribSetters = createAttributeSetters(contextArg, program);
             }
         },
         contextLoss: function () {
@@ -113,6 +108,9 @@ var shaderProgram = function (vertexShader, fragmentShader) {
                 context.useProgram(program);
             }
             return publicAPI;
+        },
+        setUniforms: function (values) {
+            setUniforms(uniformSetters, values);
         }
     };
     return publicAPI;

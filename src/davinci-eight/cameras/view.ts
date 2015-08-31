@@ -122,6 +122,9 @@ let view = function(options?: {viewMatrixName?: string}): View {
       },
       getUniformMeta() {
         return base.getUniformMeta();
+      },
+      getUniformData() {
+        return base.getUniformData();
       }
   };
 

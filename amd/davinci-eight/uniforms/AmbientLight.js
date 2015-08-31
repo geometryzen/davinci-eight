@@ -51,6 +51,9 @@ define(["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/
         AmbientLight.prototype.getUniformMeta = function () {
             return this.uColor.getUniformMeta();
         };
+        AmbientLight.prototype.getUniformData = function () {
+            return this.uColor.getUniformData();
+        };
         return AmbientLight;
     })();
     return AmbientLight;

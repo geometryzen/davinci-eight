@@ -2,7 +2,7 @@ import AttribProvider = require('../core/AttribProvider');
 import ShaderProgram = require('../core/ShaderProgram');
 import Node = require('../uniforms/Node');
 import Blade = require('../objects/Blade');
-import Primitive = require('../objects/Primitive');
+import Primitive = require('../core/Primitive');
 import primitive = require('../objects/primitive');
 import arrowMesh = require('../mesh/arrowMesh');
 import smartProgram = require('../programs/smartProgram');
@@ -13,8 +13,8 @@ import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 
 class ArrowWrapper implements Blade<Node> {
-  private primitive: Primitive<AttribProvider, ShaderProgram, Node>
-  constructor(primitive: Primitive<AttribProvider, ShaderProgram, Node>) {
+  private primitive: Primitive<AttribProvider, Node>
+  constructor(primitive: Primitive<AttribProvider, Node>) {
     this.primitive = primitive;
   }
   get model(): Node {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.60.0</em>
+            <em>API Docs for: 2.61.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,7 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfo
+                TODO: AttribPointerInfo?.html">AttribMetaInfo
+                TODO: AttribPointerInfo?</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -95,6 +97,8 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
+                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
+                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
@@ -104,8 +108,8 @@
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -150,6 +154,7 @@
     <pre class="code prettyprint linenums">
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
+import ShaderAttribSetter   = require(&#x27;../core/ShaderAttribSetter&#x27;);
 import parse = require(&#x27;../glsl/parse&#x27;);
 import NodeWalker = require(&#x27;../glsl/NodeWalker&#x27;);
 import ProgramArgs = require(&#x27;../glsl/ProgramArgs&#x27;);
@@ -159,29 +164,15 @@ import DefaultNodeEventHandler = require(&#x27;../glsl/DefaultNodeEventHandler&#
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
-
-function glslType(type: number, context: WebGLRenderingContext): string {
-  switch(type) {
-    case 2 : {
-      return &quot;foo&quot;;
-    }
-    case context.FLOAT_VEC3: {
-      return &#x27;vec3&#x27;;
-    }
-    case context.FLOAT_MAT2: {
-      return &#x27;mat2&#x27;;
-    }
-    case context.FLOAT_MAT3: {
-      return &#x27;mat3&#x27;;
-    }
-    case context.FLOAT_MAT4: {
-      return &#x27;mat4&#x27;;
-    }
-    default: {
-      throw new Error(&quot;Unexpected type: &quot; + type);
-    }
-  }
-}
+import UniformSetter   = require(&#x27;../core/UniformSetter&#x27;);
+import createAttributeSetters = require(&#x27;../programs/createAttributeSetters&#x27;);
+import createUniformSetters = require(&#x27;../programs/createUniformSetters&#x27;);
+import setUniforms = require(&#x27;../programs/setUniforms&#x27;);
+import UniformDataInfo = require(&#x27;../core/UniformDataInfo&#x27;);
+import UniformDataInfos = require(&#x27;../core/UniformDataInfos&#x27;);
+import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
+import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
+import glslType = require(&#x27;../programs/glslType&#x27;);
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string): ShaderProgram {
 
@@ -197,7 +188,9 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
   var contextGainId: string;
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
+  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
+  var uniformSetters: {[name: string]: UniformSetter} = {};
 
   var publicAPI: ShaderProgram = {
     get vertexShader() {
@@ -206,11 +199,17 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
     get fragmentShader() {
       return fragmentShader;
     },
-    get attributeLocations() {
+    get attributeLocations(): { [name: string]: ShaderAttribLocation } {
       return attributeLocations;
     },
-    get uniformLocations() {
+    get attribSetters(): { [name: string]: ShaderAttribSetter } {
+      return attribSetters;
+    },
+    get uniformLocations(): { [name: string]: ShaderUniformLocation } {
       return uniformLocations;
+    },
+    get uniformSetters(): {[name: string]: UniformSetter} {
+      return uniformSetters;
     },
     contextFree: function(): void {
       if (program) {
@@ -233,25 +232,32 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         program = makeWebGLProgram(context, vertexShader, fragmentShader);
         programId = uuid4().generate();
         contextGainId = contextId;
+
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
         for (var a = 0; a &lt; activeAttributes; a++) {
           let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
           activeInfo.size; // What is this used for?
           activeInfo.type;
-          attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+          if (!attributeLocations[activeInfo.name]) {
+            attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+          }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
         for (var u = 0; u &lt; activeUniforms; u++) {
           let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
-          uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
+          if (!uniformLocations[activeInfo.name]) {
+            uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
+            uniformSetters[activeInfo.name] = uniformLocations[activeInfo.name].createSetter(context, activeInfo);
+          }
         }
         // Broadcast contextGain to attribute and uniform locations.
         for(var aName in attributeLocations) {
-          attributeLocations[aName].contextGain(contextArg, program);
+          attributeLocations[aName].contextGain(contextArg, program, contextId);
         }
-        for(var uName in uniformLocations) {
-          uniformLocations[uName].contextGain(contextArg, program);
-        }
+        Object.keys(uniformLocations).forEach(function(uName: string) {
+          uniformLocations[uName].contextGain(contextArg, program, contextId);
+        });
+        attribSetters = createAttributeSetters(contextArg, program);
       }
     },
     contextLoss() {
@@ -276,6 +282,9 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
         context.useProgram(program);
       }
       return publicAPI;
+    },
+    setUniforms(values: UniformDataInfos) {
+      setUniforms(uniformSetters, values);
     }
   };
   return publicAPI;

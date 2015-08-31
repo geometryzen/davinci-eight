@@ -2,6 +2,7 @@ import AttribProvider = require('../core/AttribProvider');
 import convertUsage = require('../core/convertUsage');
 import DataUsage = require('../core/DataUsage');
 import expectArg = require('../checks/expectArg');
+import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
 
 function existsLocation(location: number): boolean {
   return location >= 0;
@@ -14,7 +15,7 @@ function existsLocation(location: number): boolean {
  * there will be improved integrity and context loss management.
  * @class ShaderAttribLocation.
  */
-class ShaderAttribLocation {
+class ShaderAttribLocation implements RenderingContextProgramUser {
   /**
    * @property name {string} The name of the variable as it appears in the GLSL program. 
    */
@@ -67,7 +68,7 @@ class ShaderAttribLocation {
       this.contextLoss();
     }
   }
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string) {
     expectArg('context', context).toBeObject();
     expectArg('program', program).toBeObject();
     this.location = context.getAttribLocation(program, this.name);

@@ -5,6 +5,7 @@ import UniformColor = require('../uniforms/UniformColor');
 import UniformVector3 = require('../uniforms/UniformVector3');
 import MultiUniformProvider = require('../uniforms/MultiUniformProvider');
 import UniformProvider = require('../core/UniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Cartesian3 = require('../math/Cartesian3');
 import isDefined = require('../checks/isDefined');
@@ -65,6 +66,9 @@ class PointLight implements UniformProvider {
   }
   getUniformMeta() {
     return this.multi.getUniformMeta();
+  }
+  getUniformData() {
+    return this.multi.getUniformData();
   }
 }
 

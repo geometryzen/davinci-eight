@@ -4,8 +4,8 @@ define(["require", "exports", '../uniforms/Node', '../objects/primitive', '../me
         var model = new Node();
         // TODO: Inject a program manager.
         // Would be nice to have dependency injection?
-        var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return primitive(mesh, shaders, model);
+        var program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
+        return primitive(mesh, program, model);
     }
     return sphere;
 });

@@ -2,6 +2,7 @@ import Color = require('../core/Color');
 import MultiUniformProvider = require('../uniforms/MultiUniformProvider');
 import Symbolic = require('../core/Symbolic');
 import UniformColor = require('../uniforms/UniformColor');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformProvider = require('../core/UniformProvider');
 import UniformVector3 = require('../uniforms/UniformVector3');
@@ -66,6 +67,9 @@ class DirectionalLight implements UniformProvider {
   }
   getUniformMeta() {
     return this.multi.getUniformMeta();
+  }
+  getUniformData() {
+    return this.multi.getUniformData();
   }
 }
 

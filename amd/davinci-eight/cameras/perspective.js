@@ -133,14 +133,19 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
                 return base.getUniformVector4(name);
             },
             getUniformMeta: function () {
-                var uniforms = base.getUniformMeta();
+                var meta = base.getUniformMeta();
                 if (isDefined(options.projectionMatrixName)) {
-                    uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: options.projectionMatrixName, glslType: 'mat4' };
+                    meta[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: options.projectionMatrixName, glslType: 'mat4' };
                 }
                 else {
-                    uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { glslType: 'mat4' };
+                    meta[Symbolic.UNIFORM_PROJECTION_MATRIX] = { glslType: 'mat4' };
                 }
-                return uniforms;
+                return meta;
+            },
+            getUniformData: function () {
+                var data = base.getUniformData();
+                data[projectionMatrixName] = self.getUniformMatrix4(projectionMatrixName);
+                return data;
             }
         };
         return self;

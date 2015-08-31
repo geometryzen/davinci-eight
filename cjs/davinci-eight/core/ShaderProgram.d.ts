@@ -1,6 +1,9 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
+import ShaderAttribSetter = require('../core/ShaderAttribSetter');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
+import ShaderUniformSetter = require('../core/UniformSetter');
+import UniformDataInfos = require('../core/UniformDataInfos');
 /**
  * The role of a ShaderProgram is to manage the WebGLProgram consisting of a vertex shader and fragment shader.
  * The ShaderProgram must be able to provide introspection information that describes the program.
@@ -34,6 +37,10 @@ interface ShaderProgram extends RenderingContextUser {
      */
     use(): ShaderProgram;
     /**
+     * Sets the uniforms provided into the appropriate locations.
+     */
+    setUniforms(values: UniformDataInfos): any;
+    /**
      *
      */
     attributeLocations: {
@@ -42,8 +49,20 @@ interface ShaderProgram extends RenderingContextUser {
     /**
      *
      */
+    attribSetters: {
+        [name: string]: ShaderAttribSetter;
+    };
+    /**
+     *
+     */
     uniformLocations: {
         [name: string]: ShaderUniformLocation;
+    };
+    /**
+     *
+     */
+    uniformSetters: {
+        [name: string]: ShaderUniformSetter;
     };
 }
 export = ShaderProgram;

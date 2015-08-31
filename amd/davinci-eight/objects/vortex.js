@@ -2,8 +2,8 @@ define(["require", "exports", '../uniforms/Node', '../objects/primitive', '../me
     function vortex(ambients) {
         var mesh = vortexMesh();
         var model = new Node();
-        var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return primitive(mesh, shaders, model);
+        var program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
+        return primitive(mesh, program, model);
     }
     return vortex;
 });

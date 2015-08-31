@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.60.0</em>
+            <em>API Docs for: 2.61.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,7 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfo
+                TODO: AttribPointerInfo?.html">AttribMetaInfo
+                TODO: AttribPointerInfo?</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -95,6 +97,8 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
+                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
+                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
@@ -104,8 +108,8 @@
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -426,6 +430,11 @@ declare module EIGHT
   interface UniformMetaInfos {
     [name: string]: UniformMetaInfo
   }
+  interface UniformDataInfo {
+  }
+  interface UniformDataInfos {
+    [name: string]: UniformDataInfo
+  }
   /**
    * Provides the runtime and design time data required to use a uniform in a vertex shader.
    */
@@ -437,6 +446,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -451,6 +461,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -464,6 +475,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -492,6 +504,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -507,6 +520,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -522,6 +536,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -854,6 +869,10 @@ declare module EIGHT
      */
     use(): void;
     /**
+     * Sets the uniforms provided into the appropriate locations.
+     */
+    setUniforms(values: UniformDataInfos);
+    /**
      *
      */
     attributeLocation(name: string): ShaderAttribLocation;
@@ -863,16 +882,17 @@ declare module EIGHT
     uniformLocation(name: string): ShaderUniformLocation;
   }
   /**
-   * The combination of a geometry, model and a shaderProgram.
+   *
    */
-  interface Primitive&lt;MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider&gt; extends Drawable
-  {
-    mesh: MESH;
-    shaders: SHADERS;
-    model: MODEL;
-  }
   interface Composite&lt;M&gt; extends Drawable {
     model: M;
+  }
+  /**
+   * The combination of a geometry, model and a program.
+   */
+  interface Primitive&lt;MESH extends AttribProvider, MODEL extends UniformProvider&gt; extends Composite&lt;MODEL&gt;
+  {
+    mesh: MESH;
   }
   interface Blade&lt;M&gt; extends Composite&lt;M&gt; {
     setMagnitude(magnitude: number): Blade&lt;M&gt;;
@@ -890,24 +910,9 @@ declare module EIGHT
     /**
      *
      */
-    render(drawList: DrawList, ambients: UniformProvider): void;
+    render(drawList: DrawList, ambients?: UniformProvider): void;
   }
   interface RendererParameters {
-  }
-  interface WebGLRenderer extends RenderingContextUser
-  {
-    /**
-     * Defines whether the renderer should automatically clear its output before rendering.
-     */
-    autoClear: boolean;
-    /**
-     *
-     */
-    clearColor(red: number, green: number, blue: number, alpha: number);
-    /**
-     *
-     */
-    render(drawList: DrawList, ambients: UniformProvider): void;
   }
   interface WindowAnimationRunner
   {
@@ -973,7 +978,7 @@ declare module EIGHT
    * @param geometry
    * @param shaderProgram
    */
-  function primitive&lt;A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider&gt;(attributes: A, shaders: S, uniforms: U): Primitive&lt;A, S, U&gt;;
+  function primitive&lt;MESH extends AttribProvider, MODEL extends UniformProvider&gt;(attributes: MESH, program: ShaderProgram, uniforms: MODEL): Primitive&lt;MESH, MODEL&gt;;
   /**
    *
    */

@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName', '../core/updateUniform'], function (require, exports, ElementArray, getAttribVarName, updateUniform) {
+define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName', '../programs/setAttributes', '../programs/setUniforms'], function (require, exports, ElementArray, getAttribVarName, setAttributes, setUniforms) {
     var primitive = function (mesh, program, model) {
         /**
          * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
@@ -18,7 +18,7 @@ define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName'
             get mesh() {
                 return mesh;
             },
-            get shaders() {
+            get program() {
                 return program;
             },
             get model() {
@@ -48,10 +48,6 @@ define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName'
                 return program.hasContext();
             },
             /**
-             * @property program
-             */
-            get program() { return program; },
-            /**
              * @method draw
              */
             draw: function () {
@@ -61,6 +57,11 @@ define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName'
                 if (mesh.dynamic) {
                     mesh.update();
                 }
+                // NEW attributes
+                // No problem here because we loop on keys in buffers.
+                var buffers = {};
+                var metas = mesh.getAttribMeta();
+                setAttributes(program.attribSetters, buffers, metas);
                 // attributes
                 var attributeLocations = program.attributeLocations;
                 for (var name in attributeLocations) {
@@ -75,15 +76,7 @@ define(["require", "exports", '../core/ElementArray', '../core/getAttribVarName'
                 }
                 // elements
                 elements.bufferData(mesh);
-                // uniforms
-                var uniformLocations = program.uniformLocations;
-                var umis = model.getUniformMeta();
-                for (var name in umis) {
-                    var uniformLocation = uniformLocations[name];
-                    if (uniformLocation) {
-                        updateUniform(uniformLocation, model);
-                    }
-                }
+                setUniforms(program.uniformSetters, model.getUniformData());
                 for (var name in attributeLocations) {
                     var attribLocation = attributeLocations[name];
                     attribLocation.enable();

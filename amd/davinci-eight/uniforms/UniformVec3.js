@@ -81,6 +81,12 @@ define(["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4'
             }
             return uniforms;
         };
+        UniformVec3.prototype.getUniformData = function () {
+            var data = _super.prototype.getUniformData.call(this);
+            var value = this.useData ? this.$data : this.$callback();
+            data[this.$varName] = { vector: value };
+            return data;
+        };
         return UniformVec3;
     })(DefaultUniformProvider);
     return UniformVec3;

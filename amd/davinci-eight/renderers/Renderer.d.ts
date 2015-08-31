@@ -18,8 +18,8 @@ interface Renderer extends RenderingContextUser {
     /**
       * @method render
       * @param drawList {DrawList}
-      * @param view {UniformProvider}
+      * @param ambients {UniformProvider} optional
       */
-    render(drawList: DrawList, view: UniformProvider): void;
+    render(drawList: DrawList, ambients?: UniformProvider): void;
 }
 export = Renderer;

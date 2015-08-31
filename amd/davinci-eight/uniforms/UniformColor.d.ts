@@ -1,4 +1,5 @@
 import Color = require('../core/Color');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
@@ -17,5 +18,6 @@ declare class UniformColor extends DefaultUniformProvider implements UniformVari
     callback: () => Color;
     getUniformVector3(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = UniformColor;

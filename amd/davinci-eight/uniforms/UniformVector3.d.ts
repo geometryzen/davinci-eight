@@ -1,4 +1,5 @@
 import Vector3 = require('../math/Vector3');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
@@ -17,5 +18,6 @@ declare class UniformVector3 extends DefaultUniformProvider implements UniformVa
     callback: () => Vector3;
     getUniformVector3(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = UniformVector3;

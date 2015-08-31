@@ -53,6 +53,9 @@ var UniformVector3 = (function (_super) {
     UniformVector3.prototype.getUniformMeta = function () {
         return this.inner.getUniformMeta();
     };
+    UniformVector3.prototype.getUniformData = function () {
+        return this.inner.getUniformData();
+    };
     return UniformVector3;
 })(DefaultUniformProvider);
 module.exports = UniformVector3;

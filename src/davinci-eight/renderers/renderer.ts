@@ -2,11 +2,13 @@ import core = require('davinci-eight/core');
 import Drawable = require('../core/Drawable');
 import Renderer = require('../renderers/Renderer');
 import RendererParameters = require('../renderers/RendererParameters');
+import ShaderProgram = require('../core/ShaderProgram');
 import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 import expectArg = require('../checks/expectArg');
 import Color = require('../core/Color');
 import updateUniform = require('../core/updateUniform');
+import setUniforms = require('../programs/setUniforms');
 
 let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParameters): Renderer {
 
@@ -69,7 +71,7 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
         }
         return self;
       },
-      render(drawList: DrawList, ambients: UniformProvider) {
+      render(drawList: DrawList, ambients?: UniformProvider) {
         var program
         expectArg('drawList', drawList).toNotBeNull();
         if (gl) {
@@ -84,14 +86,9 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
             programLoaded = false;
             drawList.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
               if (!programLoaded) {
-                let program = drawable.program.use();
-                let uniformLocations = program.uniformLocations;
-                let umis = ambients.getUniformMeta();
-                for (var name in umis) {
-                  let uniformLocation = uniformLocations[name];
-                  if (uniformLocation) {
-                    updateUniform(uniformLocation, ambients);
-                  }
+                let program: ShaderProgram = drawable.program.use();
+                if (ambients) {
+                  setUniforms(drawable.program.uniformSetters, ambients.getUniformData());
                 }
                 programLoaded = true;
               }

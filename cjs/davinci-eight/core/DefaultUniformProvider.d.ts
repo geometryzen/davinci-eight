@@ -1,4 +1,5 @@
 import UniformProvider = require('../core/UniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
  * @class DefaultUniformProvider
@@ -47,10 +48,14 @@ declare class DefaultUniformProvider implements UniformProvider {
      */
     getUniformVector4(name: string): number[];
     /**
-     *
      * @method getUniformMeta
      * @return An empty object that derived class may modify.
      */
     getUniformMeta(): UniformMetaInfos;
+    /**
+     * @method getUniformData
+     * @return An empty object that derived class may modify.
+     */
+    getUniformData(): UniformDataInfos;
 }
 export = DefaultUniformProvider;

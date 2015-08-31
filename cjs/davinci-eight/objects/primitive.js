@@ -1,6 +1,7 @@
 var ElementArray = require('../core/ElementArray');
 var getAttribVarName = require('../core/getAttribVarName');
-var updateUniform = require('../core/updateUniform');
+var setAttributes = require('../programs/setAttributes');
+var setUniforms = require('../programs/setUniforms');
 var primitive = function (mesh, program, model) {
     /**
      * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
@@ -20,7 +21,7 @@ var primitive = function (mesh, program, model) {
         get mesh() {
             return mesh;
         },
-        get shaders() {
+        get program() {
             return program;
         },
         get model() {
@@ -50,10 +51,6 @@ var primitive = function (mesh, program, model) {
             return program.hasContext();
         },
         /**
-         * @property program
-         */
-        get program() { return program; },
-        /**
          * @method draw
          */
         draw: function () {
@@ -63,6 +60,11 @@ var primitive = function (mesh, program, model) {
             if (mesh.dynamic) {
                 mesh.update();
             }
+            // NEW attributes
+            // No problem here because we loop on keys in buffers.
+            var buffers = {};
+            var metas = mesh.getAttribMeta();
+            setAttributes(program.attribSetters, buffers, metas);
             // attributes
             var attributeLocations = program.attributeLocations;
             for (var name in attributeLocations) {
@@ -77,15 +79,7 @@ var primitive = function (mesh, program, model) {
             }
             // elements
             elements.bufferData(mesh);
-            // uniforms
-            var uniformLocations = program.uniformLocations;
-            var umis = model.getUniformMeta();
-            for (var name in umis) {
-                var uniformLocation = uniformLocations[name];
-                if (uniformLocation) {
-                    updateUniform(uniformLocation, model);
-                }
-            }
+            setUniforms(program.uniformSetters, model.getUniformData());
             for (var name in attributeLocations) {
                 var attribLocation = attributeLocations[name];
                 attribLocation.enable();

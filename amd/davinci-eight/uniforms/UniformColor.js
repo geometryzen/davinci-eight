@@ -51,6 +51,9 @@ define(["require", "exports", '../core/Color', '../core/DefaultUniformProvider',
         UniformColor.prototype.getUniformMeta = function () {
             return this.inner.getUniformMeta();
         };
+        UniformColor.prototype.getUniformData = function () {
+            return this.inner.getUniformData();
+        };
         return UniformColor;
     })(DefaultUniformProvider);
     return UniformColor;

@@ -53,6 +53,9 @@ var AmbientLight = (function () {
     AmbientLight.prototype.getUniformMeta = function () {
         return this.uColor.getUniformMeta();
     };
+    AmbientLight.prototype.getUniformData = function () {
+        return this.uColor.getUniformData();
+    };
     return AmbientLight;
 })();
 module.exports = AmbientLight;

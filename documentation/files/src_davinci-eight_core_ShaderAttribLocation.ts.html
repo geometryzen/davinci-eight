@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.60.0</em>
+            <em>API Docs for: 2.61.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,7 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfo
+                TODO: AttribPointerInfo?.html">AttribMetaInfo
+                TODO: AttribPointerInfo?</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -95,6 +97,8 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
+                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
+                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
@@ -104,8 +108,8 @@
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -152,6 +156,7 @@ import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import convertUsage = require(&#x27;../core/convertUsage&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import RenderingContextProgramUser = require(&#x27;../core/RenderingContextProgramUser&#x27;);
 
 function existsLocation(location: number): boolean {
   return location &gt;= 0;
@@ -164,7 +169,7 @@ function existsLocation(location: number): boolean {
  * there will be improved integrity and context loss management.
  * @class ShaderAttribLocation.
  */
-class ShaderAttribLocation {
+class ShaderAttribLocation implements RenderingContextProgramUser {
   /**
    * @property name {string} The name of the variable as it appears in the GLSL program. 
    */
@@ -217,7 +222,7 @@ class ShaderAttribLocation {
       this.contextLoss();
     }
   }
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string) {
     expectArg(&#x27;context&#x27;, context).toBeObject();
     expectArg(&#x27;program&#x27;, program).toBeObject();
     this.location = context.getAttribLocation(program, this.name);

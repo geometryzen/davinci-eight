@@ -52,7 +52,7 @@ var ShaderAttribLocation = (function () {
             this.contextLoss();
         }
     };
-    ShaderAttribLocation.prototype.contextGain = function (context, program) {
+    ShaderAttribLocation.prototype.contextGain = function (context, program, contextId) {
         expectArg('context', context).toBeObject();
         expectArg('program', program).toBeObject();
         this.location = context.getAttribLocation(program, this.name);

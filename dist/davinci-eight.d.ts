@@ -276,6 +276,11 @@ declare module EIGHT
   interface UniformMetaInfos {
     [name: string]: UniformMetaInfo
   }
+  interface UniformDataInfo {
+  }
+  interface UniformDataInfos {
+    [name: string]: UniformDataInfo
+  }
   /**
    * Provides the runtime and design time data required to use a uniform in a vertex shader.
    */
@@ -287,6 +292,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -301,6 +307,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -314,6 +321,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -342,6 +350,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -357,6 +366,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -372,6 +382,7 @@ declare module EIGHT
     getUniformVector3(name: string): number[];
     getUniformVector4(name: string): number[];
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
   }
   /**
    *
@@ -704,6 +715,10 @@ declare module EIGHT
      */
     use(): void;
     /**
+     * Sets the uniforms provided into the appropriate locations.
+     */
+    setUniforms(values: UniformDataInfos);
+    /**
      *
      */
     attributeLocation(name: string): ShaderAttribLocation;
@@ -713,16 +728,17 @@ declare module EIGHT
     uniformLocation(name: string): ShaderUniformLocation;
   }
   /**
-   * The combination of a geometry, model and a shaderProgram.
+   *
    */
-  interface Primitive<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Drawable
-  {
-    mesh: MESH;
-    shaders: SHADERS;
-    model: MODEL;
-  }
   interface Composite<M> extends Drawable {
     model: M;
+  }
+  /**
+   * The combination of a geometry, model and a program.
+   */
+  interface Primitive<MESH extends AttribProvider, MODEL extends UniformProvider> extends Composite<MODEL>
+  {
+    mesh: MESH;
   }
   interface Blade<M> extends Composite<M> {
     setMagnitude(magnitude: number): Blade<M>;
@@ -740,24 +756,9 @@ declare module EIGHT
     /**
      *
      */
-    render(drawList: DrawList, ambients: UniformProvider): void;
+    render(drawList: DrawList, ambients?: UniformProvider): void;
   }
   interface RendererParameters {
-  }
-  interface WebGLRenderer extends RenderingContextUser
-  {
-    /**
-     * Defines whether the renderer should automatically clear its output before rendering.
-     */
-    autoClear: boolean;
-    /**
-     *
-     */
-    clearColor(red: number, green: number, blue: number, alpha: number);
-    /**
-     *
-     */
-    render(drawList: DrawList, ambients: UniformProvider): void;
   }
   interface WindowAnimationRunner
   {
@@ -823,7 +824,7 @@ declare module EIGHT
    * @param geometry
    * @param shaderProgram
    */
-  function primitive<A extends AttribProvider, S extends ShaderProgram, U extends UniformProvider>(attributes: A, shaders: S, uniforms: U): Primitive<A, S, U>;
+  function primitive<MESH extends AttribProvider, MODEL extends UniformProvider>(attributes: MESH, program: ShaderProgram, uniforms: MODEL): Primitive<MESH, MODEL>;
   /**
    *
    */

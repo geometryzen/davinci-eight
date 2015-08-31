@@ -8,13 +8,13 @@ import smartProgram = require('../programs/smartProgram');
 import UniformProvider = require('../core/UniformProvider');
 import SphereOptions = require('../mesh/SphereOptions');
 
-function sphere(ambients: UniformProvider, options?: SphereOptions): Primitive<AttribProvider, ShaderProgram, Node> {
+function sphere(ambients: UniformProvider, options?: SphereOptions): Primitive<AttribProvider, Node> {
   let mesh = sphereMesh(options);
   let model = new Node();
   // TODO: Inject a program manager.
   // Would be nice to have dependency injection?
-  let shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-  return primitive(mesh, shaders, model);
+  let program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
+  return primitive(mesh, program, model);
 }
 
 export = sphere;

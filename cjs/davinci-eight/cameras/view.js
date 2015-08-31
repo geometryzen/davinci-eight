@@ -121,6 +121,9 @@ var view = function (options) {
         },
         getUniformMeta: function () {
             return base.getUniformMeta();
+        },
+        getUniformData: function () {
+            return base.getUniformData();
         }
     };
     return self;

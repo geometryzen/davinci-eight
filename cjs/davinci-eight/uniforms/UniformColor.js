@@ -53,6 +53,9 @@ var UniformColor = (function (_super) {
     UniformColor.prototype.getUniformMeta = function () {
         return this.inner.getUniformMeta();
     };
+    UniformColor.prototype.getUniformData = function () {
+        return this.inner.getUniformData();
+    };
     return UniformColor;
 })(DefaultUniformProvider);
 module.exports = UniformColor;

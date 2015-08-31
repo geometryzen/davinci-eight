@@ -8,11 +8,11 @@ import smartProgram = require('../programs/smartProgram');
 import UniformProvider = require('../core/UniformProvider');
 import CylinderOptions = require('../mesh/CylinderOptions');
 
-function cylinder(ambients: UniformProvider, options?: CylinderOptions): Primitive<AttribProvider, ShaderProgram, Node> {
+function cylinder(ambients: UniformProvider, options?: CylinderOptions): Primitive<AttribProvider, Node> {
   let mesh = cylinderMesh(options);
   let model = new Node();
-  let shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-  return primitive(mesh, shaders, model);
+  let program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
+  return primitive(mesh, program, model);
 }
 
 export = cylinder;

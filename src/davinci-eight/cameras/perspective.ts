@@ -160,14 +160,19 @@ let perspective = function(options?: {
       return base.getUniformVector4(name);
     },
     getUniformMeta(): UniformMetaInfos {
-      var uniforms: UniformMetaInfos = base.getUniformMeta();
+      var meta: UniformMetaInfos = base.getUniformMeta();
       if (isDefined(options.projectionMatrixName)) {
-        uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: options.projectionMatrixName, glslType: 'mat4'};
+        meta[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: options.projectionMatrixName, glslType: 'mat4'};
       }
       else {
-        uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {glslType: 'mat4'};
+        meta[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {glslType: 'mat4'};
       }
-      return uniforms;
+      return meta;
+    },
+    getUniformData(): {[name:string]: any} {
+      var data = base.getUniformData();
+      data[projectionMatrixName] = self.getUniformMatrix4(projectionMatrixName);
+      return data;
     }
   };
 

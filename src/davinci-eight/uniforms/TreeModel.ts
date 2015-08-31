@@ -4,6 +4,7 @@ import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import Spinor3 = require('../math/Spinor3');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Symbolic = require('../core/Symbolic');
+import UniformDataInfos = require('davinci-eight/core/UniformDataInfos');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
@@ -86,6 +87,17 @@ class TreeModel extends DefaultUniformProvider {
     }
     else {
       return super.getUniformMeta();
+    }
+  }
+  /**
+   * @method getUniformData
+   */
+  getUniformData(): UniformDataInfos {
+    if (this.parent) {
+      return this.parent.getUniformData();
+    }
+    else {
+      return super.getUniformData();
     }
   }
 }

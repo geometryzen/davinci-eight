@@ -4,6 +4,7 @@ import TreeModel = require('../uniforms/TreeModel');
 import Spinor3 = require('../math/Spinor3');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Symbolic = require('../core/Symbolic');
+import UniformDataInfos = require('davinci-eight/core/UniformDataInfos');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
@@ -111,6 +112,16 @@ class Node extends TreeModel {
       }
     }
   }
+  private getNormalMatrix(): Float32Array {
+    // It's unfortunate that we have to recompute the model-view matrix.
+    // We could cache it, being careful that we don't assume the callback order.
+    // We don't want to compute it in the shader beacause that would be per-vertex.
+    var normalMatrix: Matrix3 = Matrix3.identity();
+    var mv: Matrix4 = localMatrix(this.scale, this.attitude, this.position);
+    normalMatrix.normalFromMatrix4(mv);
+    // TODO: elements in Matrix3 should already be Float32Array
+    return normalMatrix.elements;
+  }
   /**
    * @method getUniformMatrix3
    * @param name {string}
@@ -118,19 +129,31 @@ class Node extends TreeModel {
   getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
     switch(name) {
       case this.normalMatrixName: {
-        // It's unfortunate that we have to recompute the model-view matrix.
-        // We could cache it, being careful that we don't assume the callback order.
-        // We don't want to compute it in the shader beacause that would be per-vertex.
-        var normalMatrix = Matrix3.identity();
-        var mv = localMatrix(this.scale, this.attitude, this.position);
-        normalMatrix.normalFromMatrix4(mv);
-        // TODO: elements in Matrix3 should already be Float32Array
-        return {transpose: false, matrix3: new Float32Array(normalMatrix.elements)};
+        return {transpose: false, matrix3: this.getNormalMatrix()};
       }
       break;
       default: {
         return super.getUniformMatrix3(name);
       }
+    }
+  }
+  private getModelMatrix(): Float32Array {
+    if (this.getParent()) {
+      var um4 = this.getParent().getUniformMatrix4(name);
+      if (um4) {
+        var m1 = new Matrix4(um4.matrix4);
+        var m2 = localMatrix(this.scale, this.attitude, this.position);
+        var m = Matrix4.identity().multiplyMatrices(m1, m2);
+        return m.elements;
+      }
+      else {
+        var m = localMatrix(this.scale, this.attitude, this.position);
+        return m.elements;
+      }
+    }
+    else {
+      var m = localMatrix(this.scale, this.attitude, this.position);
+      return m.elements;
     }
   }
   /**
@@ -140,23 +163,7 @@ class Node extends TreeModel {
   getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
     switch(name) {
       case this.modelMatrixName: {
-        if (this.getParent()) {
-          var um4 = this.getParent().getUniformMatrix4(name);
-          if (um4) {
-            var m1 = new Matrix4(um4.matrix4);
-            var m2 = localMatrix(this.scale, this.attitude, this.position);
-            var m = Matrix4.identity().multiplyMatrices(m1, m2);
-            return {transpose: false, matrix4: m.elements};
-          }
-          else {
-            var m = localMatrix(this.scale, this.attitude, this.position);
-            return {transpose: false, matrix4: m.elements};
-          }
-        }
-        else {
-          var m = localMatrix(this.scale, this.attitude, this.position);
-          return {transpose: false, matrix4: m.elements};
-        }
+        return {transpose: false, matrix4: this.getModelMatrix()};
       }
       break;
       default: {
@@ -168,10 +175,29 @@ class Node extends TreeModel {
    * @method getUniformMeta
    */
   getUniformMeta(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = this.uColor.getUniformMeta();
+    let uniforms: UniformMetaInfos = this.uColor.getUniformMeta();
     uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: this.modelMatrixName,  glslType: 'mat4'};
     uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: this.normalMatrixName, glslType: 'mat3'};
     return uniforms;
+  }
+  /**
+   * @method getUniformData
+   */
+  getUniformData(): UniformDataInfos {
+    let data: UniformDataInfos = this.uColor.getUniformData();
+    data[Symbolic.UNIFORM_MODEL_MATRIX]  = {
+      transpose: false,
+      matrix3: void 0,
+      matrix4: this.getModelMatrix(),
+      uniformZs: void 0
+    };
+    data[Symbolic.UNIFORM_NORMAL_MATRIX] = {
+      transpose: false,
+      matrix3: this.getNormalMatrix(),
+      matrix4: void 0,
+      uniformZs: void 0
+    };
+    return data;
   }
 }
 

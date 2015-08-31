@@ -1,4 +1,5 @@
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import UniformVariable = require('../uniforms/UniformVariable');
 declare class UniformMat4 extends DefaultUniformProvider implements UniformVariable<{
@@ -20,10 +21,12 @@ declare class UniformMat4 extends DefaultUniformProvider implements UniformVaria
         transpose: boolean;
         matrix4: Float32Array;
     };
+    private getValue();
     getUniformMatrix4(name: string): {
         transpose: boolean;
         matrix4: Float32Array;
     };
     getUniformMeta(): UniformMetaInfos;
+    getUniformData(): UniformDataInfos;
 }
 export = UniformMat4;

@@ -1,3 +1,4 @@
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
  * Provides the runtime and design time data required to use a uniform in a vertex shader.
@@ -36,6 +37,10 @@ interface UniformProvider {
    * @method getUniformMeta
    */
   getUniformMeta(): UniformMetaInfos;
+  /**
+   * @method getUniformData
+   */
+  getUniformData(): UniformDataInfos;
 }
 
 export = UniformProvider;

@@ -7,11 +7,9 @@ import ShaderProgram = require('../core/ShaderProgram');
  * A design in which a Drawable is factored into a Geometry and a Material.
  * This factoring is not essential but does enable reuse.
  */
-interface Primitive<MESH extends AttribProvider, SHADERS extends ShaderProgram, MODEL extends UniformProvider> extends Composite<MODEL>
+interface Primitive<MESH extends AttribProvider, MODEL extends UniformProvider> extends Composite<MODEL>
 {
   mesh: MESH;
-  shaders: SHADERS;
-  model: MODEL;
 }
 
 export = Primitive;

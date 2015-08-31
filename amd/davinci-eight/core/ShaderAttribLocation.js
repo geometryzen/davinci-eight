@@ -51,7 +51,7 @@ define(["require", "exports", '../core/convertUsage', '../checks/expectArg'], fu
                 this.contextLoss();
             }
         };
-        ShaderAttribLocation.prototype.contextGain = function (context, program) {
+        ShaderAttribLocation.prototype.contextGain = function (context, program, contextId) {
             expectArg('context', context).toBeObject();
             expectArg('program', program).toBeObject();
             this.location = context.getAttribLocation(program, this.name);

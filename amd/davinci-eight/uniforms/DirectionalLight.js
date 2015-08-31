@@ -58,6 +58,9 @@ define(["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider
         DirectionalLight.prototype.getUniformMeta = function () {
             return this.multi.getUniformMeta();
         };
+        DirectionalLight.prototype.getUniformData = function () {
+            return this.multi.getUniformData();
+        };
         return DirectionalLight;
     })();
     return DirectionalLight;

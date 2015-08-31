@@ -1,4 +1,5 @@
 import Color = require('../core/Color');
+import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import DefaultUniformProvider = require('../core/DefaultUniformProvider');
 import UniformVariable = require('../uniforms/UniformVariable');
@@ -41,6 +42,9 @@ class UniformColor extends DefaultUniformProvider implements UniformVariable<Col
   }
   getUniformMeta() {
     return this.inner.getUniformMeta();
+  }
+  getUniformData() {
+    return this.inner.getUniformData();
   }
 }
 

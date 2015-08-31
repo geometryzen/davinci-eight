@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.60.0</em>
+            <em>API Docs for: 2.61.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,7 +41,9 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
-                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfo
+                TODO: AttribPointerInfo?.html">AttribMetaInfo
+                TODO: AttribPointerInfo?</a></li>
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/AttribProvider.html">AttribProvider</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -95,6 +97,8 @@
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/TreeModel.html">TreeModel</a></li>
                                 <li><a href="../classes/UniformColor.html">UniformColor</a></li>
+                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
+                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
                                 <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
@@ -104,8 +108,8 @@
                                 <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -154,6 +158,7 @@ import TreeModel = require(&#x27;../uniforms/TreeModel&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
 import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import UniformDataInfos = require(&#x27;davinci-eight/core/UniformDataInfos&#x27;);
 import UniformMetaInfos = require(&#x27;davinci-eight/core/UniformMetaInfos&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Color = require(&#x27;../core/Color&#x27;);
@@ -261,6 +266,16 @@ class Node extends TreeModel {
       }
     }
   }
+  private getNormalMatrix(): Float32Array {
+    // It&#x27;s unfortunate that we have to recompute the model-view matrix.
+    // We could cache it, being careful that we don&#x27;t assume the callback order.
+    // We don&#x27;t want to compute it in the shader beacause that would be per-vertex.
+    var normalMatrix: Matrix3 = Matrix3.identity();
+    var mv: Matrix4 = localMatrix(this.scale, this.attitude, this.position);
+    normalMatrix.normalFromMatrix4(mv);
+    // TODO: elements in Matrix3 should already be Float32Array
+    return normalMatrix.elements;
+  }
   /**
    * @method getUniformMatrix3
    * @param name {string}
@@ -268,19 +283,31 @@ class Node extends TreeModel {
   getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
     switch(name) {
       case this.normalMatrixName: {
-        // It&#x27;s unfortunate that we have to recompute the model-view matrix.
-        // We could cache it, being careful that we don&#x27;t assume the callback order.
-        // We don&#x27;t want to compute it in the shader beacause that would be per-vertex.
-        var normalMatrix = Matrix3.identity();
-        var mv = localMatrix(this.scale, this.attitude, this.position);
-        normalMatrix.normalFromMatrix4(mv);
-        // TODO: elements in Matrix3 should already be Float32Array
-        return {transpose: false, matrix3: new Float32Array(normalMatrix.elements)};
+        return {transpose: false, matrix3: this.getNormalMatrix()};
       }
       break;
       default: {
         return super.getUniformMatrix3(name);
       }
+    }
+  }
+  private getModelMatrix(): Float32Array {
+    if (this.getParent()) {
+      var um4 = this.getParent().getUniformMatrix4(name);
+      if (um4) {
+        var m1 = new Matrix4(um4.matrix4);
+        var m2 = localMatrix(this.scale, this.attitude, this.position);
+        var m = Matrix4.identity().multiplyMatrices(m1, m2);
+        return m.elements;
+      }
+      else {
+        var m = localMatrix(this.scale, this.attitude, this.position);
+        return m.elements;
+      }
+    }
+    else {
+      var m = localMatrix(this.scale, this.attitude, this.position);
+      return m.elements;
     }
   }
   /**
@@ -290,23 +317,7 @@ class Node extends TreeModel {
   getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
     switch(name) {
       case this.modelMatrixName: {
-        if (this.getParent()) {
-          var um4 = this.getParent().getUniformMatrix4(name);
-          if (um4) {
-            var m1 = new Matrix4(um4.matrix4);
-            var m2 = localMatrix(this.scale, this.attitude, this.position);
-            var m = Matrix4.identity().multiplyMatrices(m1, m2);
-            return {transpose: false, matrix4: m.elements};
-          }
-          else {
-            var m = localMatrix(this.scale, this.attitude, this.position);
-            return {transpose: false, matrix4: m.elements};
-          }
-        }
-        else {
-          var m = localMatrix(this.scale, this.attitude, this.position);
-          return {transpose: false, matrix4: m.elements};
-        }
+        return {transpose: false, matrix4: this.getModelMatrix()};
       }
       break;
       default: {
@@ -318,10 +329,29 @@ class Node extends TreeModel {
    * @method getUniformMeta
    */
   getUniformMeta(): UniformMetaInfos {
-    var uniforms: UniformMetaInfos = this.uColor.getUniformMeta();
+    let uniforms: UniformMetaInfos = this.uColor.getUniformMeta();
     uniforms[Symbolic.UNIFORM_MODEL_MATRIX]  = {name: this.modelMatrixName,  glslType: &#x27;mat4&#x27;};
     uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = {name: this.normalMatrixName, glslType: &#x27;mat3&#x27;};
     return uniforms;
+  }
+  /**
+   * @method getUniformData
+   */
+  getUniformData(): UniformDataInfos {
+    let data: UniformDataInfos = this.uColor.getUniformData();
+    data[Symbolic.UNIFORM_MODEL_MATRIX]  = {
+      transpose: false,
+      matrix3: void 0,
+      matrix4: this.getModelMatrix(),
+      uniformZs: void 0
+    };
+    data[Symbolic.UNIFORM_NORMAL_MATRIX] = {
+      transpose: false,
+      matrix3: this.getNormalMatrix(),
+      matrix4: void 0,
+      uniformZs: void 0
+    };
+    return data;
   }
 }
 

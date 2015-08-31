@@ -1,4 +1,5 @@
 import DataUsage = require('../core/DataUsage');
+import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
@@ -6,7 +7,7 @@ import DataUsage = require('../core/DataUsage');
  * there will be improved integrity and context loss management.
  * @class ShaderAttribLocation.
  */
-declare class ShaderAttribLocation {
+declare class ShaderAttribLocation implements RenderingContextProgramUser {
     /**
      * @property name {string} The name of the variable as it appears in the GLSL program.
      */
@@ -32,7 +33,7 @@ declare class ShaderAttribLocation {
     constructor(name: string, glslType: string);
     name: string;
     contextFree(): void;
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string): void;
     contextLoss(): void;
     /**
      * @method dataFormat
