@@ -40,6 +40,7 @@ declare module EIGHT
    *
    */
   interface RenderingContextUser extends ReferenceCounted {
+    contextFree(): void;
     /**
      * Notification of a new WebGLRenderingContext.
      * @param context The WebGLRenderingContext.
@@ -85,9 +86,9 @@ declare module EIGHT
    */
   class ShaderAttribLocation {
     constructor(name: string, glslType: string);
-    release();
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram);
-    contextLoss();
+    contextFree(): void;
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+    contextLoss(): void;
     enable();
     disable();
     dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
@@ -98,9 +99,9 @@ declare module EIGHT
   }
   class ShaderUniformLocation {
     constructor(name: string, glslType: string);
-    release();
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram);
-    contextLoss();
+    contextFree(): void;
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+    contextLoss(): void;
     createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter;
     uniform1f(x: number);
     uniform1fv(data: number[]);
@@ -690,6 +691,7 @@ declare module EIGHT
     update(): void;
     addRef(): void;
     release(): void;
+    contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
     hasContext(): boolean;

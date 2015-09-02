@@ -72,6 +72,9 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
         base.release();
       }
     },
+    contextFree() {
+      return base.contextFree();
+    },
     contextGain(context: WebGLRenderingContext) {
       return base.contextGain(context);
     },

@@ -26,7 +26,7 @@ declare class ShaderAttribLocation implements RenderingContextProgramUser {
      * @param type {number} The type of the variable as it appears in the GLSL program.
      */
     constructor(name: string, size: number, type: number);
-    release(): void;
+    contextFree(): void;
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     contextLoss(): void;
     /**

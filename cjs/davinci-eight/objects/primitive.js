@@ -28,6 +28,13 @@ var primitive = function (mesh, program, model) {
                 program = void 0;
             }
         },
+        contextFree: function () {
+            if (isDefined($context)) {
+                $context = void 0;
+                mesh.contextFree();
+                program.contextFree();
+            }
+        },
         contextGain: function (context) {
             if ($context !== context) {
                 $context = context;

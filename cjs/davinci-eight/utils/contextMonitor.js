@@ -29,8 +29,7 @@ function contextMonitor(canvas, attributes) {
         },
         stop: function () {
             context = void 0;
-            // TODO: contextFree would make sense here, I think, in order to reclaim resources.
-            //users.forEach(function(user: RenderingContextUser) {user.contextFree();});
+            users.forEach(function (user) { user.contextFree(); });
             canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
             canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
             return self;

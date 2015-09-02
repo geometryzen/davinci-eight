@@ -25,6 +25,11 @@ var scene = function () {
                 });
             }
         },
+        contextFree: function () {
+            self.traverse(function (drawable) {
+                drawable.contextFree();
+            });
+        },
         contextGain: function (context) {
             if ($context !== context) {
                 $context = expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext").value;

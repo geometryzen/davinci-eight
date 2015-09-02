@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.62.0</em>
+            <em>API Docs for: 2.63.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -165,6 +165,7 @@ import ProgramArgs = require(&#x27;../glsl/ProgramArgs&#x27;);
 import Declaration = require(&#x27;../glsl/Declaration&#x27;);
 import DebugNodeEventHandler = require(&#x27;../glsl/DebugNodeEventHandler&#x27;);
 import DefaultNodeEventHandler = require(&#x27;../glsl/DefaultNodeEventHandler&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
@@ -186,21 +187,11 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     throw new Error(&quot;fragmentShader argument must be a string.&quot;);
   }
 
-  function free() {
-    if (program) {
-      // console.log(&quot;WebGLProgram deleted&quot;);
-      $context.deleteProgram(program);
-      program = void 0;
-    }
-    $context = void 0;
-  }
-
   var refCount: number = 0;
   var program: WebGLProgram;
   var $context: WebGLRenderingContext;
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
-//  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
   var uniformSetters: {[name: string]: ShaderUniformSetter} = {};
 
@@ -228,12 +219,28 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
       refCount--;
       // console.log(&quot;shaderProgram.release() =&gt; &quot; + refCount);
       if (refCount === 0) {
-        free();
+        self.contextFree();
+      }
+    },
+    contextFree() {
+      if (isDefined($context)) {
+        if (program) {
+          // console.log(&quot;WebGLProgram deleted&quot;);
+          $context.deleteProgram(program);
+          program = void 0;
+        }
+        $context = void 0;
+        for(var aName in attributeLocations) {
+          attributeLocations[aName].contextFree();
+        }
+        for(var uName in uniformLocations) {
+          uniformLocations[uName].contextFree();
+        }
       }
     },
     contextGain(context: WebGLRenderingContext): void {
       if ($context !== context) {
-        free();
+        self.contextFree();
         $context = context;
         program = makeWebGLProgram(context, vertexShader, fragmentShader);
 

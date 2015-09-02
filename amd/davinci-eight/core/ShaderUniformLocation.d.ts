@@ -15,9 +15,9 @@ declare class ShaderUniformLocation implements RenderingContextProgramUser {
      */
     constructor(name: string);
     /**
-     * @method release
+     * @method contextFree
      */
-    release(): void;
+    contextFree(): void;
     /**
      * @method contextGain
      * @param context {WebGLRenderingContext}

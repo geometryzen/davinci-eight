@@ -41,6 +41,7 @@ declare class GeometryAdapter extends DefaultAttribProvider {
     });
     addRef(): void;
     release(): void;
+    contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
     hasContext(): boolean;

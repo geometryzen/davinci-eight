@@ -17,10 +17,13 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
         ElementBuffer.prototype.release = function () {
             this._refCount--;
             if (this._refCount === 0) {
-                this._free();
+                this.contextFree();
             }
         };
-        ElementBuffer.prototype._free = function () {
+        /**
+         * @method contextFree
+         */
+        ElementBuffer.prototype.contextFree = function () {
             if (this._buffer) {
                 this._context.deleteBuffer(this._buffer);
                 this._buffer = void 0;
@@ -33,7 +36,7 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
          */
         ElementBuffer.prototype.contextGain = function (context) {
             if (this._context !== context) {
-                this._free();
+                this.contextFree();
                 this._context = context;
                 this._buffer = context.createBuffer();
             }

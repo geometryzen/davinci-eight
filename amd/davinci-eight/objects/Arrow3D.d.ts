@@ -19,6 +19,7 @@ declare class Arrow3D implements Blade<Node> {
     draw(): void;
     addRef(): void;
     release(): void;
+    contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
     hasContext(): boolean;

@@ -21,10 +21,11 @@ var ShaderUniformLocation = (function () {
         this.name = name;
     }
     /**
-     * @method release
+     * @method contextFree
      */
-    ShaderUniformLocation.prototype.release = function () {
-        this.contextLoss();
+    ShaderUniformLocation.prototype.contextFree = function () {
+        this.location = void 0;
+        this.context = void 0;
     };
     /**
      * @method contextGain

@@ -80,6 +80,12 @@ var GeometryAdapter = (function (_super) {
             this.normalBuffer = void 0;
         }
     };
+    GeometryAdapter.prototype.contextFree = function () {
+        this.indexBuffer.contextFree();
+        this.positionBuffer.contextFree();
+        this.normalBuffer.contextFree();
+        _super.prototype.contextFree.call(this);
+    };
     GeometryAdapter.prototype.contextGain = function (context) {
         _super.prototype.contextGain.call(this, context);
         this.indexBuffer.contextGain(context);

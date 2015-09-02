@@ -67,6 +67,10 @@ class Arrow3D implements Blade<Node> {
       this.tail.release();
     }
   }
+  contextFree() {
+    this.head.contextFree();
+    this.tail.contextFree();
+  }
   contextGain(context: WebGLRenderingContext) {
     this.head.contextGain(context);
     this.tail.contextGain(context);
@@ -75,7 +79,7 @@ class Arrow3D implements Blade<Node> {
     this.head.contextLoss();
     this.tail.contextLoss();
   }
-  hasContext(): boolean {
+  hasContext() {
     return this.head.hasContext();
   }
 }

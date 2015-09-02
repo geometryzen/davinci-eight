@@ -50,6 +50,9 @@ function boxMesh(options) {
                 base = void 0;
             }
         },
+        contextFree: function () {
+            return base.contextFree();
+        },
         contextGain: function (context) {
             return base.contextGain(context);
         },

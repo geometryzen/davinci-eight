@@ -51,6 +51,10 @@ var Arrow3D = (function () {
             this.tail.release();
         }
     };
+    Arrow3D.prototype.contextFree = function () {
+        this.head.contextFree();
+        this.tail.contextFree();
+    };
     Arrow3D.prototype.contextGain = function (context) {
         this.head.contextGain(context);
         this.tail.contextGain(context);

@@ -54,22 +54,25 @@ function sphereMesh(options?: SphereOptions) : AttribProvider {
     getElementArray() {
       return base.getElementArray();
     },
-    addRef(): void {
+    addRef() {
       refCount++;
     },
-    release(): void {
+    release() {
       refCount--;
       if (refCount === 0) {
         base.release();
       }
     },
-    contextGain(context: WebGLRenderingContext): void {
+    contextFree() {
+      return base.contextFree();
+    },
+    contextGain(context: WebGLRenderingContext) {
       return base.contextGain(context);
     },
-    contextLoss(): void {
+    contextLoss() {
       return base.contextLoss();
     },
-    hasContext(): boolean {
+    hasContext() {
       return base.hasContext();
     }
   };

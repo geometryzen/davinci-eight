@@ -22,8 +22,9 @@ define(["require", "exports"], function (require, exports) {
         function ShaderAttribLocation(name, size, type) {
             this.name = name;
         }
-        ShaderAttribLocation.prototype.release = function () {
-            this.contextLoss();
+        ShaderAttribLocation.prototype.contextFree = function () {
+            this.location = void 0;
+            this._context = void 0;
         };
         ShaderAttribLocation.prototype.contextGain = function (context, program) {
             if (this._context !== context) {

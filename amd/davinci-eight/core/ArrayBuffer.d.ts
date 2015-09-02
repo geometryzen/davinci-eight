@@ -6,7 +6,7 @@ declare class ArrayBuffer implements RenderingContextUser {
     constructor();
     addRef(): void;
     release(): void;
-    private _free();
+    contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
     hasContext(): boolean;

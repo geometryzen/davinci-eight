@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.62.0</em>
+            <em>API Docs for: 2.63.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -175,10 +175,13 @@ class ElementBuffer {
   release() {
     this._refCount--;
     if (this._refCount === 0) {
-      this._free();
+      this.contextFree();
     }
   }
-  private _free() {
+  /**
+   * @method contextFree
+   */
+  contextFree() {
     if (this._buffer) {
       this._context.deleteBuffer(this._buffer);
       this._buffer = void 0;
@@ -191,7 +194,7 @@ class ElementBuffer {
    */
   contextGain(context: WebGLRenderingContext) {
     if (this._context !== context) {
-      this._free();
+      this.contextFree();
       this._context = context;
       this._buffer = context.createBuffer();
     }

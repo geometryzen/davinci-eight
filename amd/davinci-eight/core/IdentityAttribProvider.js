@@ -27,6 +27,9 @@ define(["require", "exports"], function (require, exports) {
         };
         IdentityAttribProvider.prototype.release = function () {
         };
+        IdentityAttribProvider.prototype.contextFree = function () {
+            this._context = void 0;
+        };
         IdentityAttribProvider.prototype.contextGain = function (context) {
             this._context = context;
         };

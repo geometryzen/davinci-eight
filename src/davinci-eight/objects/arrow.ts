@@ -27,25 +27,28 @@ class ArrowWrapper implements Blade<Node> {
     this.primitive.model.scale.z = magnitude;
     return this;
   }
-  get program(): ShaderProgram {
+  get program() {
     return this.primitive.program;
   }
-  draw(): void {
+  draw() {
     return this.primitive.draw();
   }
-  addRef(): void {
+  addRef() {
     return this.primitive.addRef();
   }
-  release(): void {
+  release() {
     return this.primitive.release();
   }
-  contextGain(context: WebGLRenderingContext): void {
+  contextFree() {
+    return this.primitive.contextFree();
+  }
+  contextGain(context: WebGLRenderingContext) {
     return this.primitive.contextGain(context);
   }
-  contextLoss(): void {
+  contextLoss() {
     return this.primitive.contextLoss();
   }
-  hasContext(): boolean {
+  hasContext() {
     return this.primitive.hasContext();
   }
 }

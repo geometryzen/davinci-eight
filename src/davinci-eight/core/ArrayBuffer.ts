@@ -13,19 +13,20 @@ class ArrayBuffer implements RenderingContextUser {
   release() {
     this._refCount--;
     if (this._refCount === 0) {
-      this._free();
+      this.contextFree();
     }
   }
-  private _free() {
+  contextFree() {
     if (this._buffer) {
       this._context.deleteBuffer(this._buffer);
       // console.log("WebGLBuffer deleted");
       this._buffer = void 0;
     }
+    this._context = void 0;
   }
   contextGain(context: WebGLRenderingContext) {
     if (this._context !== context) {
-      this._free();
+      this.contextFree();
       this._context = context;
       this._buffer = context.createBuffer();
       // console.log("WebGLBuffer created");

@@ -1,4 +1,4 @@
-define(["require", "exports", '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
+define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -7,19 +7,10 @@ define(["require", "exports", '../utils/uuid4', '../core/ShaderAttribLocation', 
         if (typeof fragmentShader !== 'string') {
             throw new Error("fragmentShader argument must be a string.");
         }
-        function free() {
-            if (program) {
-                // console.log("WebGLProgram deleted");
-                $context.deleteProgram(program);
-                program = void 0;
-            }
-            $context = void 0;
-        }
         var refCount = 0;
         var program;
         var $context;
         var attributeLocations = {};
-        //  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
         var uniformLocations = {};
         var uniformSetters = {};
         var self = {
@@ -46,12 +37,28 @@ define(["require", "exports", '../utils/uuid4', '../core/ShaderAttribLocation', 
                 refCount--;
                 // console.log("shaderProgram.release() => " + refCount);
                 if (refCount === 0) {
-                    free();
+                    self.contextFree();
+                }
+            },
+            contextFree: function () {
+                if (isDefined($context)) {
+                    if (program) {
+                        // console.log("WebGLProgram deleted");
+                        $context.deleteProgram(program);
+                        program = void 0;
+                    }
+                    $context = void 0;
+                    for (var aName in attributeLocations) {
+                        attributeLocations[aName].contextFree();
+                    }
+                    for (var uName in uniformLocations) {
+                        uniformLocations[uName].contextFree();
+                    }
                 }
             },
             contextGain: function (context) {
                 if ($context !== context) {
-                    free();
+                    self.contextFree();
                     $context = context;
                     program = makeWebGLProgram(context, vertexShader, fragmentShader);
                     var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);

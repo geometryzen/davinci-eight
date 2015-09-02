@@ -38,6 +38,9 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
           $context = void 0;
         }
       },
+      contextFree() {
+        $context = void 0;
+      },
       contextGain(context: WebGLRenderingContext) {
         //let attributes: WebGLContextAttributes = context.getContextAttributes();
         //console.log(context.getParameter(context.VERSION));

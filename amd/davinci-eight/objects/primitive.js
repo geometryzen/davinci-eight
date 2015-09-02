@@ -28,6 +28,13 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
                     program = void 0;
                 }
             },
+            contextFree: function () {
+                if (isDefined($context)) {
+                    $context = void 0;
+                    mesh.contextFree();
+                    program.contextFree();
+                }
+            },
             contextGain: function (context) {
                 if ($context !== context) {
                     $context = context;

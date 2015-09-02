@@ -104,6 +104,12 @@ class GeometryAdapter extends DefaultAttribProvider {
       this.normalBuffer = void 0;
     }
   }
+  contextFree(): void {
+    this.indexBuffer.contextFree();
+    this.positionBuffer.contextFree();
+    this.normalBuffer.contextFree();
+    super.contextFree();
+  }
   contextGain(context: WebGLRenderingContext) {
     super.contextGain(context);
     this.indexBuffer.contextGain(context);

@@ -34,6 +34,9 @@ class IdentityAttribProvider implements AttribProvider {
   }
   release(): void {
   }
+  contextFree(): void {
+    this._context = void 0;
+  }
   contextGain(context: WebGLRenderingContext): void {
     this._context = context;
   }

@@ -46,6 +46,13 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformProvi
         program = void 0;
       }
     },
+    contextFree() {
+      if (isDefined($context)) {
+        $context = void 0;
+        mesh.contextFree();
+        program.contextFree();
+      }
+    },
     contextGain(context: WebGLRenderingContext) {
       if ($context !== context) {
         $context = context;

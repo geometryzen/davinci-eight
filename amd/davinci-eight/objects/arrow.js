@@ -33,6 +33,9 @@ define(["require", "exports", '../uniforms/Node', '../objects/primitive', '../me
         ArrowWrapper.prototype.release = function () {
             return this.primitive.release();
         };
+        ArrowWrapper.prototype.contextFree = function () {
+            return this.primitive.contextFree();
+        };
         ArrowWrapper.prototype.contextGain = function (context) {
             return this.primitive.contextGain(context);
         };

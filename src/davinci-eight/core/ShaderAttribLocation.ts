@@ -40,8 +40,9 @@ class ShaderAttribLocation implements RenderingContextProgramUser {
   constructor(name: string, size: number, type: number) {
     this.name = name;
   }
-  release() {
-    this.contextLoss();
+  contextFree() {
+    this.location = void 0;
+    this._context = void 0;
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
     if (this._context !== context) {

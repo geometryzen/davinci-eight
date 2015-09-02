@@ -22,11 +22,11 @@ let scene = function(): DrawList {
   var $context: WebGLRenderingContext;
 
   let self: DrawList = {
-    addRef(): void {
+    addRef() {
       refCount++;
       // console.log("scene.addRef() => " + refCount);
     },
-    release(): void {
+    release() {
       refCount--;
       // console.log("scene.release() => " + refCount);
       if (refCount === 0) {
@@ -35,7 +35,12 @@ let scene = function(): DrawList {
         });
       }
     },
-    contextGain(context: WebGLRenderingContext): void {
+    contextFree() {
+      self.traverse(function(drawable) {
+        drawable.contextFree();
+      });
+    },
+    contextGain(context: WebGLRenderingContext) {
       if ($context !== context) {
         $context = expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext").value;
         Object.keys(programs).forEach(function(programId: string) {
@@ -47,7 +52,7 @@ let scene = function(): DrawList {
         });
       }
     },
-    contextLoss(): void {
+    contextLoss() {
       if (isDefined($context)) {
         $context = void 0;
         Object.keys(programs).forEach(function(programId: string) {
@@ -57,7 +62,7 @@ let scene = function(): DrawList {
         });
       }
     },
-    hasContext(): boolean {
+    hasContext() {
       return isDefined($context);
     },
     add(drawable: Drawable) {

@@ -27,10 +27,11 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
     this.name = name;
   }
   /**
-   * @method release
+   * @method contextFree
    */
-  release() {
-    this.contextLoss();
+  contextFree() {
+    this.location = void 0;
+    this.context = void 0;
   }
   /**
    * @method contextGain

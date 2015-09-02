@@ -22,6 +22,7 @@ declare class IdentityAttribProvider implements AttribProvider {
     };
     addRef(): void;
     release(): void;
+    contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
     hasContext(): boolean;

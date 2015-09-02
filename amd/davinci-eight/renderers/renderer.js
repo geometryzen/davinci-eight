@@ -24,6 +24,9 @@ define(["require", "exports", '../checks/expectArg', '../core/Color'], function 
                     $context = void 0;
                 }
             },
+            contextFree: function () {
+                $context = void 0;
+            },
             contextGain: function (context) {
                 //let attributes: WebGLContextAttributes = context.getContextAttributes();
                 //console.log(context.getParameter(context.VERSION));

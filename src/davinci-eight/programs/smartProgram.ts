@@ -75,6 +75,9 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     release() {
       return innerProgram.release();
     },
+    contextFree() {
+      return innerProgram.contextFree();
+    },
     contextGain(context: WebGLRenderingContext) {
       return innerProgram.contextGain(context);
     },

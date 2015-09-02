@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.62.0</em>
+            <em>API Docs for: 2.63.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -164,8 +164,17 @@ import ReferenceCounted = require(&#x27;../core/ReferenceCounted&#x27;);
  */
 interface RenderingContextUser extends ReferenceCounted {
   /**
+   * Called to request the dependent to free any WebGL resources acquired and owned.
+   * The dependent may assume that its cached context is still valid in order
+   * to properly dispose of any cached resources. In the case of shared objects, this
+   * method may be called multiple times for what is logically the same context. In such
+   * cases the dependent must be idempotent and respond only to the first request.
+   * @method contextFree
+   */
+  contextFree(): void;
+  /**
    * Called to inform the dependent of a new WebGLRenderingContext.
-   * The implementation should ignore thenotification if it has already
+   * The implementation should ignore the notification if it has already
    * received the same context.
    * @method contextGain
    * @param context {WebGLRenderingContext} The WebGL rendering context.

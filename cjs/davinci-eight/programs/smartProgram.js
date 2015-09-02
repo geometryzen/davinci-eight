@@ -58,6 +58,9 @@ var smartProgram = function (attributes, uniformsList) {
         release: function () {
             return innerProgram.release();
         },
+        contextFree: function () {
+            return innerProgram.contextFree();
+        },
         contextGain: function (context) {
             return innerProgram.contextGain(context);
         },

@@ -65,6 +65,9 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
         base = void 0;
       }
     },
+    contextFree() {
+      return base.contextFree();
+    },
     contextGain(context: WebGLRenderingContext) {
       return base.contextGain(context);
     },

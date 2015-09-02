@@ -9,6 +9,7 @@ import ProgramArgs = require('../glsl/ProgramArgs');
 import Declaration = require('../glsl/Declaration');
 import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
 import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
+import isDefined = require('../checks/isDefined');
 import uuid4 = require('../utils/uuid4');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
@@ -30,21 +31,11 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     throw new Error("fragmentShader argument must be a string.");
   }
 
-  function free() {
-    if (program) {
-      // console.log("WebGLProgram deleted");
-      $context.deleteProgram(program);
-      program = void 0;
-    }
-    $context = void 0;
-  }
-
   var refCount: number = 0;
   var program: WebGLProgram;
   var $context: WebGLRenderingContext;
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
-//  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
   var uniformSetters: {[name: string]: ShaderUniformSetter} = {};
 
@@ -72,12 +63,28 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
       refCount--;
       // console.log("shaderProgram.release() => " + refCount);
       if (refCount === 0) {
-        free();
+        self.contextFree();
+      }
+    },
+    contextFree() {
+      if (isDefined($context)) {
+        if (program) {
+          // console.log("WebGLProgram deleted");
+          $context.deleteProgram(program);
+          program = void 0;
+        }
+        $context = void 0;
+        for(var aName in attributeLocations) {
+          attributeLocations[aName].contextFree();
+        }
+        for(var uName in uniformLocations) {
+          uniformLocations[uName].contextFree();
+        }
       }
     },
     contextGain(context: WebGLRenderingContext): void {
       if ($context !== context) {
-        free();
+        self.contextFree();
         $context = context;
         program = makeWebGLProgram(context, vertexShader, fragmentShader);
 

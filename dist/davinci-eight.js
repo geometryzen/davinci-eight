@@ -1936,6 +1936,9 @@ define('davinci-eight/core/IdentityAttribProvider',["require", "exports"], funct
         };
         IdentityAttribProvider.prototype.release = function () {
         };
+        IdentityAttribProvider.prototype.contextFree = function () {
+            this._context = void 0;
+        };
         IdentityAttribProvider.prototype.contextGain = function (context) {
             this._context = context;
         };
@@ -2155,7 +2158,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.62.0'
+        VERSION: '2.63.0'
     };
     return core;
 });
@@ -2188,6 +2191,13 @@ define('davinci-eight/objects/primitive',["require", "exports", '../checks/isDef
                     mesh = void 0;
                     program.release();
                     program = void 0;
+                }
+            },
+            contextFree: function () {
+                if (isDefined($context)) {
+                    $context = void 0;
+                    mesh.contextFree();
+                    program.contextFree();
                 }
             },
             contextGain: function (context) {
@@ -2253,8 +2263,9 @@ define('davinci-eight/core/ShaderAttribLocation',["require", "exports"], functio
         function ShaderAttribLocation(name, size, type) {
             this.name = name;
         }
-        ShaderAttribLocation.prototype.release = function () {
-            this.contextLoss();
+        ShaderAttribLocation.prototype.contextFree = function () {
+            this.location = void 0;
+            this._context = void 0;
         };
         ShaderAttribLocation.prototype.contextGain = function (context, program) {
             if (this._context !== context) {
@@ -2335,10 +2346,11 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
             this.name = name;
         }
         /**
-         * @method release
+         * @method contextFree
          */
-        ShaderUniformLocation.prototype.release = function () {
-            this.contextLoss();
+        ShaderUniformLocation.prototype.contextFree = function () {
+            this.location = void 0;
+            this.context = void 0;
         };
         /**
          * @method contextGain
@@ -2610,6 +2622,11 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
                         drawable.release();
                     });
                 }
+            },
+            contextFree: function () {
+                self.traverse(function (drawable) {
+                    drawable.contextFree();
+                });
             },
             contextGain: function (context) {
                 if ($context !== context) {
@@ -2914,19 +2931,20 @@ define('davinci-eight/core/ArrayBuffer',["require", "exports", '../checks/isDefi
         ArrayBuffer.prototype.release = function () {
             this._refCount--;
             if (this._refCount === 0) {
-                this._free();
+                this.contextFree();
             }
         };
-        ArrayBuffer.prototype._free = function () {
+        ArrayBuffer.prototype.contextFree = function () {
             if (this._buffer) {
                 this._context.deleteBuffer(this._buffer);
                 // console.log("WebGLBuffer deleted");
                 this._buffer = void 0;
             }
+            this._context = void 0;
         };
         ArrayBuffer.prototype.contextGain = function (context) {
             if (this._context !== context) {
-                this._free();
+                this.contextFree();
                 this._context = context;
                 this._buffer = context.createBuffer();
             }
@@ -2987,10 +3005,13 @@ define('davinci-eight/core/ElementBuffer',["require", "exports", '../checks/isDe
         ElementBuffer.prototype.release = function () {
             this._refCount--;
             if (this._refCount === 0) {
-                this._free();
+                this.contextFree();
             }
         };
-        ElementBuffer.prototype._free = function () {
+        /**
+         * @method contextFree
+         */
+        ElementBuffer.prototype.contextFree = function () {
             if (this._buffer) {
                 this._context.deleteBuffer(this._buffer);
                 this._buffer = void 0;
@@ -3003,7 +3024,7 @@ define('davinci-eight/core/ElementBuffer',["require", "exports", '../checks/isDe
          */
         ElementBuffer.prototype.contextGain = function (context) {
             if (this._context !== context) {
-                this._free();
+                this.contextFree();
                 this._context = context;
                 this._buffer = context.createBuffer();
             }
@@ -3118,6 +3139,12 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
                 this.normalBuffer.release();
                 this.normalBuffer = void 0;
             }
+        };
+        GeometryAdapter.prototype.contextFree = function () {
+            this.indexBuffer.contextFree();
+            this.positionBuffer.contextFree();
+            this.normalBuffer.contextFree();
+            _super.prototype.contextFree.call(this);
         };
         GeometryAdapter.prototype.contextGain = function (context) {
             _super.prototype.contextGain.call(this, context);
@@ -7068,7 +7095,7 @@ define('davinci-eight/programs/setUniforms',["require", "exports"], function (re
     return setUniforms;
 });
 
-define('davinci-eight/programs/shaderProgram',["require", "exports", '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
+define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -7077,19 +7104,10 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../utils/u
         if (typeof fragmentShader !== 'string') {
             throw new Error("fragmentShader argument must be a string.");
         }
-        function free() {
-            if (program) {
-                // console.log("WebGLProgram deleted");
-                $context.deleteProgram(program);
-                program = void 0;
-            }
-            $context = void 0;
-        }
         var refCount = 0;
         var program;
         var $context;
         var attributeLocations = {};
-        //  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
         var uniformLocations = {};
         var uniformSetters = {};
         var self = {
@@ -7116,12 +7134,28 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../utils/u
                 refCount--;
                 // console.log("shaderProgram.release() => " + refCount);
                 if (refCount === 0) {
-                    free();
+                    self.contextFree();
+                }
+            },
+            contextFree: function () {
+                if (isDefined($context)) {
+                    if (program) {
+                        // console.log("WebGLProgram deleted");
+                        $context.deleteProgram(program);
+                        program = void 0;
+                    }
+                    $context = void 0;
+                    for (var aName in attributeLocations) {
+                        attributeLocations[aName].contextFree();
+                    }
+                    for (var uName in uniformLocations) {
+                        uniformLocations[uName].contextFree();
+                    }
                 }
             },
             contextGain: function (context) {
                 if ($context !== context) {
-                    free();
+                    self.contextFree();
                     $context = context;
                     program = makeWebGLProgram(context, vertexShader, fragmentShader);
                     var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
@@ -7488,6 +7522,9 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             },
             release: function () {
                 return innerProgram.release();
+            },
+            contextFree: function () {
+                return innerProgram.contextFree();
             },
             contextGain: function (context) {
                 return innerProgram.contextGain(context);
@@ -8004,6 +8041,9 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
                     base.release();
                 }
             },
+            contextFree: function () {
+                return base.contextFree();
+            },
             contextGain: function (context) {
                 return base.contextGain(context);
             },
@@ -8202,6 +8242,9 @@ define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/Geomet
                     base = void 0;
                 }
             },
+            contextFree: function () {
+                return base.contextFree();
+            },
             contextGain: function (context) {
                 return base.contextGain(context);
             },
@@ -8397,6 +8440,9 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
                 if (refCount === 0) {
                     base.release();
                 }
+            },
+            contextFree: function () {
+                return base.contextFree();
             },
             contextGain: function (context) {
                 return base.contextGain(context);
@@ -8660,6 +8706,9 @@ define('davinci-eight/mesh/sphereMesh',["require", "exports", '../geometries/Geo
                     base.release();
                 }
             },
+            contextFree: function () {
+                return base.contextFree();
+            },
             contextGain: function (context) {
                 return base.contextGain(context);
             },
@@ -8851,6 +8900,9 @@ define('davinci-eight/mesh/vortexMesh',["require", "exports", '../geometries/Geo
                     base.release();
                     base = void 0;
                 }
+            },
+            contextFree: function () {
+                return base.contextFree();
             },
             contextGain: function (context) {
                 return base.contextGain(context);
@@ -9339,6 +9391,10 @@ define('davinci-eight/objects/Arrow3D',["require", "exports", '../mesh/CylinderM
                 this.tail.release();
             }
         };
+        Arrow3D.prototype.contextFree = function () {
+            this.head.contextFree();
+            this.tail.contextFree();
+        };
         Arrow3D.prototype.contextGain = function (context) {
             this.head.contextGain(context);
             this.tail.contextGain(context);
@@ -9389,6 +9445,9 @@ define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/Node', 
         };
         ArrowWrapper.prototype.release = function () {
             return this.primitive.release();
+        };
+        ArrowWrapper.prototype.contextFree = function () {
+            return this.primitive.contextFree();
         };
         ArrowWrapper.prototype.contextGain = function (context) {
             return this.primitive.contextGain(context);
@@ -9675,6 +9734,9 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expe
                 if (refCount === 0) {
                     $context = void 0;
                 }
+            },
+            contextFree: function () {
+                $context = void 0;
             },
             contextGain: function (context) {
                 //let attributes: WebGLContextAttributes = context.getContextAttributes();
@@ -10655,8 +10717,7 @@ define('davinci-eight/utils/contextMonitor',["require", "exports", '../renderers
             },
             stop: function () {
                 context = void 0;
-                // TODO: contextFree would make sense here, I think, in order to reclaim resources.
-                //users.forEach(function(user: RenderingContextUser) {user.contextFree();});
+                users.forEach(function (user) { user.contextFree(); });
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
                 return self;

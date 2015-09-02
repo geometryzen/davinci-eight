@@ -8,8 +8,17 @@ import ReferenceCounted = require('../core/ReferenceCounted');
  */
 interface RenderingContextUser extends ReferenceCounted {
     /**
+     * Called to request the dependent to free any WebGL resources acquired and owned.
+     * The dependent may assume that its cached context is still valid in order
+     * to properly dispose of any cached resources. In the case of shared objects, this
+     * method may be called multiple times for what is logically the same context. In such
+     * cases the dependent must be idempotent and respond only to the first request.
+     * @method contextFree
+     */
+    contextFree(): void;
+    /**
      * Called to inform the dependent of a new WebGLRenderingContext.
-     * The implementation should ignore thenotification if it has already
+     * The implementation should ignore the notification if it has already
      * received the same context.
      * @method contextGain
      * @param context {WebGLRenderingContext} The WebGL rendering context.

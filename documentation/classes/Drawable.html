@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.62.0</em>
+            <em>API Docs for: 2.63.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -190,6 +190,10 @@ to either drawArrays or drawElements on the WebGLRenderingContext.</p>
 
                     <ul class="index-list methods extends">
                             <li class="index-item method inherited">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method inherited">
                                 <a href="#method_contextGain">contextGain</a>
 
                             </li>
@@ -225,6 +229,41 @@ to either drawArrays or drawElements on the WebGLRenderingContext.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_contextFree" class="method item inherited">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/RenderingContextUser.html#method_contextFree">RenderingContextUser</a>:
+        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:10</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to request the dependent to free any WebGL resources acquired and owned.
+The dependent may assume that its cached context is still valid in order
+to properly dispose of any cached resources. In the case of shared objects, this
+method may be called multiple times for what is logically the same context. In such
+cases the dependent must be idempotent and respond only to the first request.</p>
+
+    </div>
+
+
+
+
+</div>
 <div id="method_contextGain" class="method item inherited">
     <h3 class="name"><code>contextGain</code></h3>
 
@@ -246,7 +285,7 @@ to either drawArrays or drawElements on the WebGLRenderingContext.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RenderingContextUser.html#method_contextGain">RenderingContextUser</a>:
-        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:10</code></a>
+        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:19</code></a>
         </p>
 
 
@@ -255,7 +294,7 @@ to either drawArrays or drawElements on the WebGLRenderingContext.</p>
 
     <div class="description">
         <p>Called to inform the dependent of a new WebGLRenderingContext.
-The implementation should ignore thenotification if it has already
+The implementation should ignore the notification if it has already
 received the same context.</p>
 
     </div>
@@ -296,7 +335,7 @@ received the same context.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RenderingContextUser.html#method_contextLoss">RenderingContextUser</a>:
-        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:18</code></a>
+        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:27</code></a>
         </p>
 
 
@@ -360,7 +399,7 @@ The dependent should reset its state to that for which there is no context.</p>
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/RenderingContextUser.html#method_hasContext">RenderingContextUser</a>:
-        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:26</code></a>
+        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:35</code></a>
         </p>
 
 

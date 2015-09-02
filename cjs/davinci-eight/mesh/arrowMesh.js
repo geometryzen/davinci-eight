@@ -55,6 +55,9 @@ function arrowMesh(options) {
                 base.release();
             }
         },
+        contextFree: function () {
+            return base.contextFree();
+        },
         contextGain: function (context) {
             return base.contextGain(context);
         },

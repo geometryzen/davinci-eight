@@ -13,7 +13,10 @@ declare class ElementBuffer {
     constructor();
     addRef(): void;
     release(): void;
-    private _free();
+    /**
+     * @method contextFree
+     */
+    contextFree(): void;
     /**
      * @method contextGain
      * @param context {WebGLRenderingContext}

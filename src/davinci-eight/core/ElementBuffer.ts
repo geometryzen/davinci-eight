@@ -19,10 +19,13 @@ class ElementBuffer {
   release() {
     this._refCount--;
     if (this._refCount === 0) {
-      this._free();
+      this.contextFree();
     }
   }
-  private _free() {
+  /**
+   * @method contextFree
+   */
+  contextFree() {
     if (this._buffer) {
       this._context.deleteBuffer(this._buffer);
       this._buffer = void 0;
@@ -35,7 +38,7 @@ class ElementBuffer {
    */
   contextGain(context: WebGLRenderingContext) {
     if (this._context !== context) {
-      this._free();
+      this.contextFree();
       this._context = context;
       this._buffer = context.createBuffer();
     }

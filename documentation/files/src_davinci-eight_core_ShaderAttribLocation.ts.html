@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.62.0</em>
+            <em>API Docs for: 2.63.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -196,8 +196,9 @@ class ShaderAttribLocation implements RenderingContextProgramUser {
   constructor(name: string, size: number, type: number) {
     this.name = name;
   }
-  release() {
-    this.contextLoss();
+  contextFree() {
+    this.location = void 0;
+    this._context = void 0;
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
     if (this._context !== context) {

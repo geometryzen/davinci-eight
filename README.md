@@ -164,6 +164,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.60.0: 2015-08-27 Stats
 * 2.61.0: 2015-08-30 uniforms
 * 2.62.0: 2015-09-02 addRef,release
+* 2.63.0: 2015-09-02 contextFree
 
 ## License
 Copyright (c) 2014-2015 David Holmes
