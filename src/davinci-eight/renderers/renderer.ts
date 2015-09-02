@@ -7,8 +7,6 @@ import DrawList = require('../drawLists/DrawList');
 import UniformProvider = require('../core/UniformProvider');
 import expectArg = require('../checks/expectArg');
 import Color = require('../core/Color');
-import updateUniform = require('../core/updateUniform');
-import setUniforms = require('../programs/setUniforms');
 
 let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParameters): Renderer {
 
@@ -16,22 +14,32 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
 
     parameters = parameters || {};
 
-    var gl: WebGLRenderingContext;
-    var glId: string;
+    var $context: WebGLRenderingContext = void 0;
+    var refCount: number = 0;
     var autoClear: boolean = true;
-    var clearColor: Color = Color.fromRGB(0, 0, 0);
+    let clearColor: Color = Color.fromRGB(0, 0, 0);
     var clearAlpha: number = 0;
+
+    function drawHandler(drawable: Drawable) {
+      drawable.draw();
+    }
 
     let self: Renderer = {
       get canvas() { return canvas; },
-      get context(): WebGLRenderingContext { return gl;},
-      contextFree() {
-        gl = void 0;
-        glId = void 0;
+      get context(): WebGLRenderingContext { return $context;},
+      addRef() {
+        refCount++;
+        // console.log("renderer.addRef() => " + refCount);
       },
-      contextGain(context: WebGLRenderingContext, contextId: string) {
-        expectArg('contextId', contextId).toBeString();
-        let attributes: WebGLContextAttributes = context.getContextAttributes();
+      release() {
+        refCount--;
+        // console.log("renderer.release() => " + refCount);
+        if (refCount === 0) {
+          $context = void 0;
+        }
+      },
+      contextGain(context: WebGLRenderingContext) {
+        //let attributes: WebGLContextAttributes = context.getContextAttributes();
         //console.log(context.getParameter(context.VERSION));
         //console.log("alpha                 => " + attributes.alpha);
         //console.log("antialias             => " + attributes.antialias);
@@ -39,62 +47,42 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
         //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
         //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
         //console.log("stencil               => " + attributes.stencil);
-        gl = context;
-        glId = contextId;
-        gl.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
-        gl.clearDepth(1.0); 
-        gl.enable(gl.DEPTH_TEST);
-        gl.depthFunc(gl.LEQUAL);
-        gl.viewport(0, 0, canvas.width, canvas.height);
+        $context = context;
+        context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
+        context.clearDepth(1.0); 
+        context.enable($context.DEPTH_TEST);
+        context.depthFunc($context.LEQUAL);
+        context.viewport(0, 0, canvas.width, canvas.height);
       },
       contextLoss() {
-        gl = void 0;
-        glId = void 0;
+        $context = void 0;
       },
       hasContext() {
-        return !!gl;
+        return !!$context;
       },
       get autoClear(): boolean {
         return autoClear;
       },
       set autoClear(value: boolean) {
-        expectArg('autoClear', value).toBeBoolean();
-        autoClear = value;
+        autoClear = expectArg('autoClear', value).toBeBoolean().value;
       },
       clearColor(red: number, green: number, blue: number, alpha: number): Renderer {
-        clearColor.red = red;
-        clearColor.green = green;
-        clearColor.blue = blue;
-        clearAlpha = alpha;
-        if (gl) {
-          gl.clearColor(red, green, blue, alpha);
+        clearColor.red = expectArg('red', red).toBeNumber().value;
+        clearColor.green = expectArg('green', green).toBeNumber().value;
+        clearColor.blue = expectArg('blue', blue).toBeNumber().value;
+        clearAlpha = expectArg('alpha', alpha).toBeNumber().value;
+        if ($context) {
+          $context.clearColor(red, green, blue, alpha);
         }
         return self;
       },
-      render(drawList: DrawList, ambients?: UniformProvider) {
-        var program
-        expectArg('drawList', drawList).toNotBeNull();
-        if (gl) {
+      render(scene: DrawList) {
+        var program;
+        if ($context) {
           if (autoClear) {
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            $context.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
           }
-          if (!drawList.hasContext()) {
-            drawList.contextGain(gl, glId);
-          }
-          var programLoaded;
-          for (var drawGroupName in drawList.drawGroups) {
-            programLoaded = false;
-            drawList.drawGroups[drawGroupName].forEach(function(drawable: Drawable) {
-              if (!programLoaded) {
-                let program: ShaderProgram = drawable.program.use();
-                if (ambients) {
-                  setUniforms(drawable.program.uniformSetters, ambients.getUniformData());
-                }
-                programLoaded = true;
-              }
-              drawable.draw();
-            });
-          }
+          scene.traverse(drawHandler);
         }
         else {
           console.warn("renderer is unable to render because WebGLRenderingContext is missing");

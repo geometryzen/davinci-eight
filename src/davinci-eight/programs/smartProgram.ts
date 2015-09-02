@@ -1,3 +1,5 @@
+import AttribDataInfo = require('../core/AttribDataInfo');
+import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import shaderProgram = require('./shaderProgram');
@@ -55,9 +57,6 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get attributeLocations() {
       return innerProgram.attributeLocations;
     },
-    get attribSetters() {
-      return innerProgram.attribSetters;
-    },
     get uniformLocations() {
       return innerProgram.uniformLocations;
     },
@@ -70,11 +69,14 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get fragmentShader() {
       return innerProgram.fragmentShader;
     },
-    contextFree() {
-      return innerProgram.contextFree();
+    addRef() {
+      return innerProgram.addRef();
     },
-    contextGain(context: WebGLRenderingContext, contextGainId: string) {
-      return innerProgram.contextGain(context, contextGainId);
+    release() {
+      return innerProgram.release();
+    },
+    contextGain(context: WebGLRenderingContext) {
+      return innerProgram.contextGain(context);
     },
     contextLoss() {
       return innerProgram.contextLoss();
@@ -85,10 +87,12 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     use() {
       return innerProgram.use();
     },
+    setAttributes(values: AttribDataInfos) {
+      return innerProgram.setAttributes(values);
+    },
     setUniforms(values: UniformDataInfos) {
       return innerProgram.setUniforms(values);
     }
-
   }
 
   return publicAPI;

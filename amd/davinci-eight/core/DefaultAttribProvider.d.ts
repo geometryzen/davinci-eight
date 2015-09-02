@@ -3,7 +3,7 @@ import IdentityAttribProvider = require('../core/IdentityAttribProvider');
 import DataUsage = require('../core/DataUsage');
 declare class DefaultAttribProvider extends IdentityAttribProvider {
     constructor();
-    draw(context: WebGLRenderingContext): void;
+    draw(): void;
     update(): void;
     getAttribArray(name: string): {
         usage: DataUsage;

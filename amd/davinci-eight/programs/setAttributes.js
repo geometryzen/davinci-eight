@@ -52,13 +52,13 @@ define(["require", "exports"], function (require, exports) {
      * @memberOf module:webgl-utils
      * @deprecated use {@link module:webgl-utils.setBuffersAndAttributes}
      */
-    function setAttributes(setters, buffers, metas) {
+    function setAttributes(setters, buffers) {
         // setters are defined by the program. buffers are defined for objects but may be consolidated.
         // But if the buffer spec does not exist in the program as a setter, we ignore it.
         Object.keys(buffers).forEach(function (name) {
             var setter = setters[name];
             if (setter) {
-                setter(buffers[name], metas[name]);
+                setter(buffers[name]);
             }
         });
     }

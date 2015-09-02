@@ -1,5 +1,5 @@
-import UniformSetter = require('../core/UniformSetter');
+import ShaderUniformSetter = require('../core/ShaderUniformSetter');
 declare function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram): {
-    [name: string]: UniformSetter;
+    [name: string]: ShaderUniformSetter;
 };
 export = createUniformSetters;

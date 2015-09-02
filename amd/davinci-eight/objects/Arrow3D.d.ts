@@ -12,12 +12,14 @@ declare class Arrow3D implements Blade<Node> {
     private tailModel;
     private head;
     private tail;
+    private _refCount;
     constructor(ambients: UniformProvider, options?: ArrowOptions);
     magnitude: number;
     setMagnitude(magnitude: number): Blade<Node>;
     draw(): void;
-    contextFree(): void;
-    contextGain(context: WebGLRenderingContext, contextId: string): void;
+    addRef(): void;
+    release(): void;
+    contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
     hasContext(): boolean;
 }

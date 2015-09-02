@@ -30,10 +30,11 @@ function arrowGeometry(options?: ArrowOptions): Geometry {
 function arrowMesh(options?: ArrowOptions) : AttribProvider {
 
   let base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
+  var refCount: number = 0;
 
   let publicAPI: AttribProvider = {
-    draw(context: WebGLRenderingContext) {
-      return base.draw(context);
+    draw() {
+      return base.draw();
     },
     update() {
       return base.update();
@@ -41,10 +42,13 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     getAttribArray(name: string) {
       return base.getAttribArray(name);
     },
+    getAttribData() {
+      return base.getAttribData();
+    },
     getAttribMeta() {
       return base.getAttribMeta();
     },
-    get drawMode(): DrawMode {
+    get drawMode() {
       return base.drawMode;
     },
     set drawMode(value: DrawMode) {
@@ -58,6 +62,24 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     },
     getElementArray() {
       return base.getElementArray();
+    },
+    addRef() {
+      refCount++;
+    },
+    release() {
+      refCount--;
+      if (refCount === 0) {
+        base.release();
+      }
+    },
+    contextGain(context: WebGLRenderingContext) {
+      return base.contextGain(context);
+    },
+    contextLoss() {
+      return base.contextLoss();
+    },
+    hasContext() {
+      return base.hasContext();
     }
   };
   return publicAPI;

@@ -1,13 +1,12 @@
-define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL', '../checks/expectArg'], function (require, exports, uuid4, initWebGL, expectArg) {
+define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], function (require, exports, initWebGL, expectArg) {
     function contextMonitor(canvas, attributes) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var users = [];
         var context;
-        var contextId;
+        var refCount = 0;
         var webGLContextLost = function (event) {
             event.preventDefault();
             context = void 0;
-            contextId = void 0;
             users.forEach(function (user) {
                 user.contextLoss();
             });
@@ -15,42 +14,59 @@ define(["require", "exports", '../utils/uuid4', '../renderers/initWebGL', '../ch
         var webGLContextRestored = function (event) {
             event.preventDefault();
             context = initWebGL(canvas, attributes);
-            contextId = uuid4().generate();
             users.forEach(function (user) {
-                user.contextGain(context, contextId);
+                user.contextGain(context);
             });
         };
         var self = {
             start: function () {
                 context = initWebGL(canvas, attributes);
-                contextId = uuid4().generate();
                 canvas.addEventListener('webglcontextlost', webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-                users.forEach(function (user) {
-                    user.contextGain(context, contextId);
-                });
+                users.forEach(function (user) { user.contextGain(context); });
                 return self;
             },
             stop: function () {
                 context = void 0;
-                contextId = void 0;
-                users.forEach(function (user) {
-                    user.contextFree();
-                });
+                // TODO: contextFree would make sense here, I think, in order to reclaim resources.
+                //users.forEach(function(user: RenderingContextUser) {user.contextFree();});
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
                 return self;
             },
             addContextUser: function (user) {
                 expectArg('user', user).toBeObject();
+                user.addRef();
                 users.push(user);
-                if (context && !user.hasContext()) {
-                    user.contextGain(context, contextId);
+                if (context) {
+                    user.contextGain(context);
+                }
+                return self;
+            },
+            removeContextUser: function (user) {
+                expectArg('user', user).toBeObject();
+                var index = users.indexOf(user);
+                if (index >= 0) {
+                    users.splice(index, 1);
+                    user.release();
                 }
                 return self;
             },
             get context() {
                 return context;
+            },
+            addRef: function () {
+                refCount++;
+                // console.log("monitor.addRef() => " + refCount);
+            },
+            release: function () {
+                refCount--;
+                // console.log("monitor.release() => " + refCount);
+                if (refCount === 0) {
+                    while (users.length > 0) {
+                        users.pop().release();
+                    }
+                }
             }
         };
         return self;

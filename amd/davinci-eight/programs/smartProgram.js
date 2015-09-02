@@ -36,9 +36,6 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/
             get attributeLocations() {
                 return innerProgram.attributeLocations;
             },
-            get attribSetters() {
-                return innerProgram.attribSetters;
-            },
             get uniformLocations() {
                 return innerProgram.uniformLocations;
             },
@@ -51,11 +48,14 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/
             get fragmentShader() {
                 return innerProgram.fragmentShader;
             },
-            contextFree: function () {
-                return innerProgram.contextFree();
+            addRef: function () {
+                return innerProgram.addRef();
             },
-            contextGain: function (context, contextGainId) {
-                return innerProgram.contextGain(context, contextGainId);
+            release: function () {
+                return innerProgram.release();
+            },
+            contextGain: function (context) {
+                return innerProgram.contextGain(context);
             },
             contextLoss: function () {
                 return innerProgram.contextLoss();
@@ -65,6 +65,9 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/
             },
             use: function () {
                 return innerProgram.use();
+            },
+            setAttributes: function (values) {
+                return innerProgram.setAttributes(values);
             },
             setUniforms: function (values) {
                 return innerProgram.setUniforms(values);

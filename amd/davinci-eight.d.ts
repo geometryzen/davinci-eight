@@ -78,14 +78,7 @@ import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunne
  */
 declare var eight: {
     'VERSION': string;
-    initWebGL: (canvas: HTMLCanvasElement, attributes: {
-        alpha?: boolean;
-        antialias?: boolean;
-        depth?: boolean;
-        premultipliedAlpha?: boolean;
-        preserveDrawingBuffer?: boolean;
-        stencil?: boolean;
-    }) => WebGLRenderingContext;
+    initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
     view: (options?: {
         viewMatrixName?: string;
     }) => View;
@@ -100,14 +93,7 @@ declare var eight: {
     }) => Perspective;
     scene: () => DrawList;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
-    contextMonitor: (canvas: HTMLCanvasElement, attributes?: {
-        alpha?: boolean;
-        antialias?: boolean;
-        depth?: boolean;
-        premultipliedAlpha?: boolean;
-        preserveDrawingBuffer?: boolean;
-        stencil?: boolean;
-    }) => RenderingContextMonitor;
+    contextMonitor: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
@@ -127,7 +113,7 @@ declare var eight: {
     DrawMode: typeof DrawMode;
     ShaderAttribLocation: typeof ShaderAttribLocation;
     ShaderUniformLocation: typeof ShaderUniformLocation;
-    shaderProgram: (vertexShader: string, fragmentShader: string) => ShaderProgram;
+    shaderProgram: (vertexShader: string, fragmentShader: string, uuid?: string) => ShaderProgram;
     smartProgram: (attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     AmbientLight: typeof AmbientLight;
     DirectionalLight: typeof DirectionalLight;

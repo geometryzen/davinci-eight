@@ -14,15 +14,19 @@ function arrowGeometry(options) {
 }
 function arrowMesh(options) {
     var base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
+    var refCount = 0;
     var publicAPI = {
-        draw: function (context) {
-            return base.draw(context);
+        draw: function () {
+            return base.draw();
         },
         update: function () {
             return base.update();
         },
         getAttribArray: function (name) {
             return base.getAttribArray(name);
+        },
+        getAttribData: function () {
+            return base.getAttribData();
         },
         getAttribMeta: function () {
             return base.getAttribMeta();
@@ -41,6 +45,24 @@ function arrowMesh(options) {
         },
         getElementArray: function () {
             return base.getElementArray();
+        },
+        addRef: function () {
+            refCount++;
+        },
+        release: function () {
+            refCount--;
+            if (refCount === 0) {
+                base.release();
+            }
+        },
+        contextGain: function (context) {
+            return base.contextGain(context);
+        },
+        contextLoss: function () {
+            return base.contextLoss();
+        },
+        hasContext: function () {
+            return base.hasContext();
         }
     };
     return publicAPI;

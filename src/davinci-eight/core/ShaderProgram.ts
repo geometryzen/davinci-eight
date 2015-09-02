@@ -1,8 +1,10 @@
+import AttribDataInfo = require('../core/AttribDataInfo');
+import AttribDataInfos = require('../core/AttribDataInfos');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderAttribSetter = require('../core/ShaderAttribSetter');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
-import ShaderUniformSetter = require('../core/UniformSetter');
+import ShaderUniformSetter = require('../core/ShaderUniformSetter');
 import UniformDataInfo = require('../core/UniformDataInfo');
 import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
@@ -40,6 +42,10 @@ interface ShaderProgram extends RenderingContextUser {
    */
   use(): ShaderProgram;
   /**
+   * Sets the attributes provided into the appropriate locations.
+   */
+  setAttributes(values: AttribDataInfos);
+  /**
    * Sets the uniforms provided into the appropriate locations.
    */
   setUniforms(values: UniformDataInfos);
@@ -47,10 +53,6 @@ interface ShaderProgram extends RenderingContextUser {
    *
    */
   attributeLocations: { [name: string]: ShaderAttribLocation };
-  /**
-   *
-   */
-  attribSetters: { [name: string]: ShaderAttribSetter };
   /**
    *
    */

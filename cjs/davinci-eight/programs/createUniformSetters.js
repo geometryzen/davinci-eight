@@ -19,7 +19,6 @@ function createUniformSetters(gl, program) {
     function createUniformSetter(program, uniformInfo) {
         var name = uniformInfo.name;
         var type = uniformInfo.type;
-        //    let uniformLoc: ShaderUniformLocation = new ShaderUniformLocation(name, glslType(type, gl));
         var location = gl.getUniformLocation(program, name);
         // Check if this uniform is an array
         var isArray = (uniformInfo.size > 1 && name.substr(-3) === "[0]");

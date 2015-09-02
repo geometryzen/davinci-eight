@@ -84,7 +84,7 @@ define(["require", "exports"], function (require, exports) {
                 setter(values[name]);
             }
             else {
-                console.warn("UniformSetter missing for uniform " + name);
+                console.warn("setter missing for uniform " + name);
             }
         });
     }

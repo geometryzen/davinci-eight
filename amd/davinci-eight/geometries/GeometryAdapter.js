@@ -4,9 +4,17 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode'], function (require, exports, Line3, Point3, Color, Symbolic, DefaultAttribProvider, DataUsage, DrawMode) {
+define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Color, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, ArrayBuffer, ElementBuffer) {
     function defaultColorFunction(vertexIndex, face, vertexList) {
         return new Color([1.0, 1.0, 1.0]);
+    }
+    function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
+        var attributes = {};
+        attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };
+        if (drawMode === DrawMode.TRIANGLES) {
+            attributes[normalVarName] = { buffer: normalBuffer, numComponents: 3 };
+        }
+        return attributes;
     }
     /**
      * Adapter from a Geometry to a AttribProvider.
@@ -29,17 +37,57 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             this.grayScale = false;
             this.lines = [];
             this.points = [];
+            this._refCount = 0;
             options = options || {};
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
             options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
+            // TODO: Sharing of buffers.
+            this.indexBuffer = new ElementBuffer();
+            this.indexBuffer.addRef();
             this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
+            this.positionBuffer = new ArrayBuffer();
+            this.positionBuffer.addRef();
             this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
+            this.normalBuffer = new ArrayBuffer();
+            this.normalBuffer.addRef();
             this.geometry = geometry;
-            //  this.color = new Color([1.0, 1.0, 1.0]);
             this.geometry.dynamic = false;
             this.$drawMode = options.drawMode;
             this.elementsUsage = options.elementsUsage;
+            this.attributeDataInfos = computeAttribData(this.positionVarName, this.positionBuffer, this.normalVarName, this.normalBuffer, this.drawMode);
         }
+        GeometryAdapter.prototype.addRef = function () {
+            this._refCount++;
+            // console.log("GeometryAdapter.addRef() => " + this._refCount);
+        };
+        GeometryAdapter.prototype.release = function () {
+            this._refCount--;
+            // console.log("GeometryAdapter.release() => " + this._refCount);
+            if (this._refCount === 0) {
+                this.indexBuffer.release();
+                this.indexBuffer = void 0;
+                this.positionBuffer.release();
+                this.positionBuffer = void 0;
+                this.normalBuffer.release();
+                this.normalBuffer = void 0;
+            }
+        };
+        GeometryAdapter.prototype.contextGain = function (context) {
+            _super.prototype.contextGain.call(this, context);
+            this.indexBuffer.contextGain(context);
+            this.positionBuffer.contextGain(context);
+            this.normalBuffer.contextGain(context);
+            this.update();
+        };
+        GeometryAdapter.prototype.contextLoss = function () {
+            this.indexBuffer.contextLoss();
+            this.positionBuffer.contextLoss();
+            this.normalBuffer.contextLoss();
+            _super.prototype.contextLoss.call(this);
+        };
+        GeometryAdapter.prototype.hasContext = function () {
+            return !!this._context;
+        };
         Object.defineProperty(GeometryAdapter.prototype, "drawMode", {
             get: function () {
                 return this.$drawMode;
@@ -53,26 +101,31 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
             enumerable: true,
             configurable: true
         });
-        GeometryAdapter.prototype.draw = function (context) {
-            switch (this.drawMode) {
-                case DrawMode.POINTS:
-                    {
-                        context.drawArrays(context.POINTS, 0, this.points.length * 1);
+        GeometryAdapter.prototype.draw = function () {
+            if (this._context) {
+                switch (this.drawMode) {
+                    case DrawMode.POINTS:
+                        {
+                            this._context.drawArrays(this._context.POINTS, 0, this.points.length * 1);
+                        }
+                        break;
+                    case DrawMode.LINES:
+                        {
+                            this._context.drawArrays(this._context.LINES, 0, this.lines.length * 2);
+                        }
+                        break;
+                    case DrawMode.TRIANGLES:
+                        {
+                            //context.drawElements(context.TRIANGLES, this.elementArray.length, context.UNSIGNED_SHORT,0);
+                            this._context.drawArrays(this._context.TRIANGLES, 0, this.geometry.faces.length * 3);
+                        }
+                        break;
+                    default: {
                     }
-                    break;
-                case DrawMode.LINES:
-                    {
-                        context.drawArrays(context.LINES, 0, this.lines.length * 2);
-                    }
-                    break;
-                case DrawMode.TRIANGLES:
-                    {
-                        //context.drawElements(context.TRIANGLES, this.elementArray.length, context.UNSIGNED_SHORT,0);
-                        context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
-                    }
-                    break;
-                default: {
                 }
+            }
+            else {
+                console.warn("GeometryAdapter.draw() missing WebGLRenderingContext");
             }
         };
         Object.defineProperty(GeometryAdapter.prototype, "dynamic", {
@@ -94,9 +147,6 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                 case this.positionVarName: {
                     return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
                 }
-                //      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-                //        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
-                //      }
                 case this.normalVarName: {
                     if (this.$drawMode === DrawMode.TRIANGLES) {
                         return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
@@ -110,9 +160,12 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                 }
             }
         };
+        GeometryAdapter.prototype.getAttribData = function () {
+            return this.attributeDataInfos;
+        };
         GeometryAdapter.prototype.getAttribMeta = function () {
-            var attribues = {};
-            attribues[Symbolic.ATTRIBUTE_POSITION] = {
+            var attributes = {};
+            attributes[Symbolic.ATTRIBUTE_POSITION] = {
                 name: this.positionVarName,
                 glslType: 'vec3',
                 size: 3,
@@ -120,20 +173,8 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                 stride: 0,
                 offset: 0
             };
-            /*
-                if (!this.grayScale) {
-                  attribues[Symbolic.ATTRIBUTE_COLOR] = {
-                    name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
-                    glslType: 'vec4',
-                    size: 4,
-                    normalized: false,
-                    stride: 0,
-                    offset: 0
-                  };
-                }
-            */
             if (this.drawMode === DrawMode.TRIANGLES) {
-                attribues[Symbolic.ATTRIBUTE_NORMAL] = {
+                attributes[Symbolic.ATTRIBUTE_NORMAL] = {
                     name: this.normalVarName,
                     glslType: 'vec3',
                     size: 3,
@@ -142,33 +183,13 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                     offset: 0
                 };
             }
-            return attribues;
+            return attributes;
         };
         GeometryAdapter.prototype.update = function () {
             var vertices = [];
-            //  let colors: number[] = [];
             var normals = [];
             var elements = [];
             var vertexList = this.geometry.vertices;
-            /*
-            let color = this.color;
-            let colorFunction = this.colorFunction;
-            let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color
-            {
-              if (color)
-              {
-                return color;
-              }
-              else if (colorFunction)
-              {
-                return colorFunction(vertexIndex, face, vertexList);
-              }
-              else
-              {
-                return defaultColorFunction(vertexIndex, face, vertexList);
-              }
-            }
-            */
             switch (this.drawMode) {
                 case DrawMode.POINTS:
                     {
@@ -180,13 +201,6 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             vertices.push(vA.x);
                             vertices.push(vA.y);
                             vertices.push(vA.z);
-                            /*
-                            var colorA: Color = color;
-                            colors.push(colorA.red);
-                            colors.push(colorA.green);
-                            colors.push(colorA.blue);
-                            colors.push(1.0);
-                            */
                         });
                     }
                     break;
@@ -205,19 +219,6 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                             vertices.push(vB.x);
                             vertices.push(vB.y);
                             vertices.push(vB.z);
-                            /*
-                            var colorA: Color = color;
-                            var colorB: Color = color;
-                            colors.push(colorA.red);
-                            colors.push(colorA.green);
-                            colors.push(colorA.blue);
-                            colors.push(1.0);
-                  
-                            colors.push(colorB.red);
-                            colors.push(colorB.green);
-                            colors.push(colorB.blue);
-                            colors.push(1.0);
-                            */
                         });
                     }
                     break;
@@ -266,26 +267,6 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                                 normals.push(normal.y);
                                 normals.push(normal.z);
                             }
-                            /*
-                            var colorA: Color = colorMaker(face.a, face, vertexList);
-                            var colorB: Color = colorMaker(face.b, face, vertexList);
-                            var colorC: Color = colorMaker(face.c, face, vertexList);
-                  
-                            colors.push(colorA.red);
-                            colors.push(colorA.green);
-                            colors.push(colorA.blue);
-                            colors.push(1.0);
-                  
-                            colors.push(colorB.red);
-                            colors.push(colorB.green);
-                            colors.push(colorB.blue);
-                            colors.push(1.0);
-                  
-                            colors.push(colorC.red);
-                            colors.push(colorC.green);
-                            colors.push(colorC.blue);
-                            colors.push(1.0);
-                            */
                         });
                     }
                     break;
@@ -293,9 +274,14 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color'
                 }
             }
             this.elementArray = new Uint16Array(elements);
+            this.indexBuffer.bindBuffer();
+            this.indexBuffer.bufferData(this.elementArray);
             this.aVertexPositionArray = new Float32Array(vertices);
-            //  this.aVertexColorArray = new Float32Array(colors);
+            this.positionBuffer.bindBuffer();
+            this.positionBuffer.bufferData(this.aVertexPositionArray);
             this.aVertexNormalArray = new Float32Array(normals);
+            this.normalBuffer.bindBuffer();
+            this.normalBuffer.bufferData(this.aVertexNormalArray);
         };
         GeometryAdapter.prototype.computeLines = function () {
             var lines = this.lines;

@@ -1,5 +1,5 @@
 import UniformDataInfo = require('../core/UniformDataInfo');
-interface UniformSetter {
+interface ShaderUniformSetter {
     (data: UniformDataInfo): void;
 }
-export = UniformSetter;
+export = ShaderUniformSetter;

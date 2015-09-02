@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -154,7 +156,7 @@
     <pre class="code prettyprint linenums">
 import RenderingContextProgramUser = require(&#x27;../core/RenderingContextProgramUser&#x27;);
 import UniformDataInfo = require(&#x27;../core/UniformDataInfo&#x27;);
-import UniformSetter = require(&#x27;../core/UniformSetter&#x27;);
+import ShaderUniformSetter = require(&#x27;../core/ShaderUniformSetter&#x27;);
 
 /**
  * Returns the corresponding bind point for a given sampler type
@@ -170,58 +172,41 @@ function getBindPointForSamplerType(gl: WebGLRenderingContext, type: number) {
  */
 class ShaderUniformLocation implements RenderingContextProgramUser {
   public name: string;
-  public glslType: string;
   private context: WebGLRenderingContext;
   private location: WebGLUniformLocation;
   /**
    * @class ShaderUniformLocation
    * @constructor
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
-   * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.  
    */
-  constructor(name: string, glslType: string) {
+  constructor(name: string) {
     this.name = name;
-    switch(glslType) {
-      case &#x27;float&#x27;:
-      case &#x27;vec2&#x27;:
-      case &#x27;vec3&#x27;:
-      case &#x27;vec4&#x27;:
-      case &#x27;mat2&#x27;:
-      case &#x27;mat3&#x27;:
-      case &#x27;mat4&#x27;: {
-        this.glslType = glslType;
-      }
-      break;
-      default: {
-        throw new Error(&quot;Illegal argument glslType in ShaderUniformLocation constructor: &quot; + glslType);
-      }
-    }
   }
   /**
-   * @method contextFree
+   * @method release
    */
-  contextFree() {
-    this.location = null;
-    this.context = null;
+  release() {
+    this.contextLoss();
   }
   /**
    * @method contextGain
    * @param context {WebGLRenderingContext}
    * @param program {WebGLProgram}
-   * @param contextId {string}
    */
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string) {
-    this.location = context.getUniformLocation(program, this.name);
-    this.context = context;
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    if (this.context !== context) {
+      this.location = context.getUniformLocation(program, this.name);
+      this.context = context;
+    }
   }
   /**
    * @method contextLoss
    */
   contextLoss() {
-    this.location = null;
-    this.context = null;
+    this.location = void 0;
+    this.context = void 0;
   }
-  createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): UniformSetter {
+  createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter {
     let uniformLoc = this;
     let name = uniformInfo.name;
     let size = uniformInfo.size;
@@ -344,10 +329,10 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
   }
   /**
    * @method uniform1f
-   * @param value {number} Value to assign.
+   * @param x {number} Value to assign.
    */
-  uniform1f(value: number) {
-    this.context.uniform1f(this.location, value);
+  uniform1f(x: number) {
+    this.context.uniform1f(this.location, x);
   }
   /**
    * @method uniform1fv
@@ -441,7 +426,7 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
    * @method toString
    */
   toString(): string {
-    return [&quot;ShaderUniformLocation({name: &quot;, this.name, &quot;, glslType: &quot;, this.glslType + &quot;})&quot;].join(&#x27;&#x27;);
+    return [&quot;ShaderUniformLocation(&quot;, this.name, &quot;)&quot;].join(&#x27;&#x27;);
   }
 }
 

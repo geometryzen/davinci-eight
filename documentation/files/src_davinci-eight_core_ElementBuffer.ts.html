@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/programs/setBuffersAndAttributes.ts - davinci-eight</title>
+    <title>src/davinci-eight/core/ElementBuffer.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -148,56 +150,87 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/programs/setBuffersAndAttributes.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/core/ElementBuffer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
-import setAttributes = require(&#x27;../programs/setAttributes&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
 /**
- * Sets attributes and buffers including the &#x60;ELEMENT_ARRAY_BUFFER&#x60; if appropriate
- *
- * Example:
- *
- *     var programInfo = createProgramInfo(
- *         gl, [&quot;some-vs&quot;, &quot;some-fs&quot;);
- *
- *     var arrays = {
- *       position: { numComponents: 3, data: [0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 10, 0], },
- *       texcoord: { numComponents: 2, data: [0, 0, 0, 1, 1, 0, 1, 1],                 },
- *     };
- *
- *     var bufferInfo = createBufferInfoFromArrays(gl, arrays);
- *
- *     gl.useProgram(programInfo.program);
- *
- * This will automatically bind the buffers AND set the
- * attributes.
- *
- *     setBuffersAndAttributes(programInfo.attribSetters, bufferInfo);
- *
- * For the example above it is equivilent to
- *
- *     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
- *     gl.enableVertexAttribArray(a_positionLocation);
- *     gl.vertexAttribPointer(a_positionLocation, 3, gl.FLOAT, false, 0, 0);
- *     gl.bindBuffer(gl.ARRAY_BUFFER, texcoordBuffer);
- *     gl.enableVertexAttribArray(a_texcoordLocation);
- *     gl.vertexAttribPointer(a_texcoordLocation, 4, gl.FLOAT, false, 0, 0);
- *
- * @param {WebGLRenderingContext} gl A WebGLRenderingContext.
- * @param {Object.&lt;string, function&gt;} setters Attribute setters as returned from &#x60;createAttributeSetters&#x60;
- * @param {module:webgl-utils.BufferInfo} buffers a BufferInfo as returned from &#x60;createBufferInfoFromArrays&#x60;.
- * @memberOf module:webgl-utils
+ * Manages the WebGLBuffer used to support gl.drawElements().
+ * @class ElementBuffer
  */
-function setBuffersAndAttributes(gl: WebGLRenderingContext, setters, buffers: {[name:string]: WebGLBuffer}, metas: AttribMetaInfos) {
-  setAttributes(setters, buffers, metas);
-  if (buffers[&#x27;indices&#x27;]) {
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers[&#x27;indices&#x27;]);
+class ElementBuffer {
+  private _buffer: WebGLBuffer;
+  private _context: WebGLRenderingContext;
+  private _refCount: number = 0;
+  /**
+   * @class ElementArray
+   * @constructor
+   */
+  constructor() {
+  }
+  addRef() {
+    this._refCount++;
+  }
+  release() {
+    this._refCount--;
+    if (this._refCount === 0) {
+      this._free();
+    }
+  }
+  private _free() {
+    if (this._buffer) {
+      this._context.deleteBuffer(this._buffer);
+      this._buffer = void 0;
+    }
+    this._context = void 0;
+  }
+  /**
+   * @method contextGain
+   * @param context {WebGLRenderingContext}
+   */
+  contextGain(context: WebGLRenderingContext) {
+    if (this._context !== context) {
+      this._free();
+      this._context = context;
+      this._buffer = context.createBuffer();
+    }
+  }
+  /**
+   * @method contextLoss
+   */
+  contextLoss() {
+    this._buffer = void 0;
+    this._context = void 0;
+  }
+  /**
+   * @method bindBuffer
+   */
+  bindBuffer() {
+    if (this._context) {
+      this._context.bindBuffer(this._context.ELEMENT_ARRAY_BUFFER, this._buffer);
+    }
+    else {
+      console.warn(&quot;ElementBuffer.bindBuffer() missing WebGLRenderingContext&quot;);
+    }
+  }
+  /**
+   * @method bufferData
+   * @param data {Uint16Array}
+   * @param usage {number} Optional. Defaults to STREAM_DRAW.
+   */
+  bufferData(data: Uint16Array, usage?: number) {
+    if (this._context) {
+      usage = isDefined(usage) ? usage : this._context.STREAM_DRAW;
+      this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, data, usage);
+    }
+    else {
+      console.warn(&quot;ElementBuffer.bindBuffer() missing WebGLRenderingContext&quot;);
+    }
   }
 }
 
-export = setBuffersAndAttributes;
+export = ElementBuffer;
 
     </pre>
 </div>

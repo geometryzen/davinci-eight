@@ -21,10 +21,12 @@ function boxGeometry(options?: BoxOptions): Geometry {
 function boxMesh(options?: BoxOptions) : AttribProvider {
 
   let base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
+  base.addRef();
+  var refCount: number = 0;
 
-  let publicAPI: AttribProvider = {
-    draw(context: WebGLRenderingContext) {
-      return base.draw(context);
+  let self: AttribProvider = {
+    draw() {
+      return base.draw();
     },
     update() {
       return base.update();
@@ -32,10 +34,13 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
     getAttribArray(name: string) {
       return base.getAttribArray(name);
     },
+    getAttribData() {
+      return base.getAttribData();
+    },
     getAttribMeta() {
       return base.getAttribMeta();
     },
-    get drawMode(): DrawMode {
+    get drawMode() {
       return base.drawMode;
     },
     set drawMode(value: DrawMode) {
@@ -49,9 +54,28 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
     },
     getElementArray() {
       return base.getElementArray();
+    },
+    addRef() {
+      refCount++;
+    },
+    release() {
+      refCount--;
+      if (refCount === 0) {
+        base.release();
+        base = void 0;
+      }
+    },
+    contextGain(context: WebGLRenderingContext) {
+      return base.contextGain(context);
+    },
+    contextLoss() {
+      return base.contextLoss();
+    },
+    hasContext() {
+      return base.hasContext();
     }
   };
-  return publicAPI;
+  return self;
 }
 
 export = boxMesh;

@@ -1,9 +1,8 @@
-import AttribMetaInfo = require('../core/AttribMetaInfo');
+import AttribDataInfo = require('../core/AttribDataInfo');
 
-// Maybe ShaderBufferSetter?
 /**
  *
  */
-interface ShaderAttribSetter {(data: WebGLBuffer, meta: AttribMetaInfo): void}
+interface ShaderAttribSetter {(data: AttribDataInfo): void}
 
 export = ShaderAttribSetter;

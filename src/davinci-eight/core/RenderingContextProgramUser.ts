@@ -1,6 +1,7 @@
 interface RenderingContextProgramUser {
-  contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string): void;
+  // addRef();
+  //release(): void;
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
 }
 

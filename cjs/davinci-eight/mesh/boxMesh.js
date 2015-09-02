@@ -7,15 +7,20 @@ function boxGeometry(options) {
 }
 function boxMesh(options) {
     var base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
-    var publicAPI = {
-        draw: function (context) {
-            return base.draw(context);
+    base.addRef();
+    var refCount = 0;
+    var self = {
+        draw: function () {
+            return base.draw();
         },
         update: function () {
             return base.update();
         },
         getAttribArray: function (name) {
             return base.getAttribArray(name);
+        },
+        getAttribData: function () {
+            return base.getAttribData();
         },
         getAttribMeta: function () {
             return base.getAttribMeta();
@@ -34,8 +39,27 @@ function boxMesh(options) {
         },
         getElementArray: function () {
             return base.getElementArray();
+        },
+        addRef: function () {
+            refCount++;
+        },
+        release: function () {
+            refCount--;
+            if (refCount === 0) {
+                base.release();
+                base = void 0;
+            }
+        },
+        contextGain: function (context) {
+            return base.contextGain(context);
+        },
+        contextLoss: function () {
+            return base.contextLoss();
+        },
+        hasContext: function () {
+            return base.hasContext();
         }
     };
-    return publicAPI;
+    return self;
 }
 module.exports = boxMesh;

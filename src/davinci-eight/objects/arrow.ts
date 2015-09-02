@@ -33,11 +33,14 @@ class ArrowWrapper implements Blade<Node> {
   draw(): void {
     return this.primitive.draw();
   }
-  contextFree(): void {
-    return this.primitive.contextFree();
+  addRef(): void {
+    return this.primitive.addRef();
   }
-  contextGain(context: WebGLRenderingContext, contextId: string): void {
-    return this.primitive.contextGain(context, contextId);
+  release(): void {
+    return this.primitive.release();
+  }
+  contextGain(context: WebGLRenderingContext): void {
+    return this.primitive.contextGain(context);
   }
   contextLoss(): void {
     return this.primitive.contextLoss();

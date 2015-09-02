@@ -1,3 +1,4 @@
+import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import IdentityAttribProvider = require('../core/IdentityAttribProvider');
 import DataUsage = require('../core/DataUsage');
@@ -8,26 +9,7 @@ class DefaultAttribProvider extends IdentityAttribProvider {
   constructor() {
     super();
   }
-  draw(context: WebGLRenderingContext): void {
-    /*
-    switch(this.drawMode) {
-      case DrawMode.POINTS: {
-        context.drawArrays(context.POINTS, 0, this.points.length * 1);
-      }
-      break;
-      case DrawMode.LINES: {
-        context.drawArrays(context.LINES, 0, this.lines.length * 2);
-      }
-      break;
-      case DrawMode.TRIANGLES: {
-        //context.drawElements(context.TRIANGLES, this.elementArray.length, context.UNSIGNED_SHORT,0);
-        context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
-      }
-      break;
-      default : {
-      }
-    }
-    */
+  draw(): void {
   }
   update(): void {
     return super.update();

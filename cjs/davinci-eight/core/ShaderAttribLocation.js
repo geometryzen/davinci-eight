@@ -1,5 +1,3 @@
-var convertUsage = require('../core/convertUsage');
-var expectArg = require('../checks/expectArg');
 function existsLocation(location) {
     return location >= 0;
 }
@@ -17,101 +15,64 @@ var ShaderAttribLocation = (function () {
      * @class ShaderAttribLocation
      * @constructor
      * @param name {string} The name of the variable as it appears in the GLSL program.
-     * @param glslType {string} The type of the variable as it appears in the GLSL program.
+     * @param size {number} The size of the variable as it appears in the GLSL program.
+     * @param type {number} The type of the variable as it appears in the GLSL program.
      */
-    function ShaderAttribLocation(name, glslType) {
-        this.$name = name;
-        switch (glslType) {
-            case 'float':
-            case 'vec2':
-            case 'vec3':
-            case 'vec4':
-            case 'mat2':
-            case 'mat3':
-            case 'mat4':
-                {
-                    this.$glslType = glslType;
-                }
-                break;
-            default: {
-                // TODO
-                throw new Error("Argument glslType in ShaderAttribLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: " + glslType);
-            }
-        }
+    function ShaderAttribLocation(name, size, type) {
+        this.name = name;
     }
-    Object.defineProperty(ShaderAttribLocation.prototype, "name", {
-        get: function () {
-            return this.$name;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ShaderAttribLocation.prototype.contextFree = function () {
-        if (this.buffer) {
-            this.context.deleteBuffer(this.buffer);
-            this.contextLoss();
-        }
+    ShaderAttribLocation.prototype.release = function () {
+        this.contextLoss();
     };
-    ShaderAttribLocation.prototype.contextGain = function (context, program, contextId) {
-        expectArg('context', context).toBeObject();
-        expectArg('program', program).toBeObject();
-        this.location = context.getAttribLocation(program, this.name);
-        this.context = context;
-        if (existsLocation(this.location)) {
-            this.buffer = context.createBuffer();
+    ShaderAttribLocation.prototype.contextGain = function (context, program) {
+        if (this._context !== context) {
+            this.location = context.getAttribLocation(program, this.name);
+            this._context = context;
         }
     };
     ShaderAttribLocation.prototype.contextLoss = function () {
         this.location = void 0;
-        this.buffer = void 0;
-        this.context = void 0;
+        this._context = void 0;
     };
     /**
-     * @method dataFormat
-     * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
-     * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
+     * @method vertexAttribPointer
+     * @param numComponents {number} The number of components per attribute. Must be 1,2,3, or 4.
      * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
      * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
      * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
      */
-    ShaderAttribLocation.prototype.dataFormat = function (size, type, normalized, stride, offset) {
+    ShaderAttribLocation.prototype.vertexAttribPointer = function (numComponents, normalized, stride, offset) {
         if (normalized === void 0) { normalized = false; }
         if (stride === void 0) { stride = 0; }
         if (offset === void 0) { offset = 0; }
-        if (existsLocation(this.location)) {
-            // TODO: We could assert that we have a buffer.
-            this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-            // 6.14 Fixed point support.
-            // The WebGL API does not support the GL_FIXED data type.
-            // Consequently, we hard-code the FLOAT constant.
-            this.context.vertexAttribPointer(this.location, size, type, normalized, stride, offset);
+        if (this._context) {
+            this._context.vertexAttribPointer(this.location, numComponents, this._context.FLOAT, normalized, stride, offset);
         }
-    };
-    /**
-     * FIXME This should not couple to an AttribProvider.
-     * @method bufferData
-     */
-    ShaderAttribLocation.prototype.bufferData = function (data, usage) {
-        if (existsLocation(this.location)) {
-            this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-            this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
+        else {
+            console.warn("ShaderAttribLocation.vertexAttribPointer() missing WebGLRenderingContext");
         }
     };
     ShaderAttribLocation.prototype.enable = function () {
-        if (existsLocation(this.location)) {
-            this.context.enableVertexAttribArray(this.location);
+        if (this._context) {
+            this._context.enableVertexAttribArray(this.location);
+        }
+        else {
+            console.warn("ShaderAttribLocation.enable() missing WebGLRenderingContext");
         }
     };
     ShaderAttribLocation.prototype.disable = function () {
-        if (existsLocation(this.location)) {
-            this.context.disableVertexAttribArray(this.location);
+        if (this._context) {
+            this._context.disableVertexAttribArray(this.location);
+        }
+        else {
+            console.warn("ShaderAttribLocation.disable() missing WebGLRenderingContext");
         }
     };
     /**
      * @method toString
      */
     ShaderAttribLocation.prototype.toString = function () {
-        return ["ShaderAttribLocation({name: ", this.name, ", glslType: ", this.$glslType + "})"].join('');
+        return ["ShaderAttribLocation(", this.name, ")"].join('');
     };
     return ShaderAttribLocation;
 })();

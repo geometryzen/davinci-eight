@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -152,11 +154,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import convertUsage = require(&#x27;../core/convertUsage&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import RenderingContextProgramUser = require(&#x27;../core/RenderingContextProgramUser&#x27;);
+import ShaderAttribSetter = require(&#x27;../core/ShaderAttribSetter&#x27;);
 
 function existsLocation(location: number): boolean {
   return location &gt;= 0;
@@ -173,112 +178,73 @@ class ShaderAttribLocation implements RenderingContextProgramUser {
   /**
    * @property name {string} The name of the variable as it appears in the GLSL program. 
    */
-  private $name: string;
-  /**
-   * @property glslType {string} The type of the variable as it appears in the GLSL program. 
-   */
-  // This property is not actually used right now but is retained for future use and for
-  // symmetry with the uniform location abstraction.
-  private $glslType: string;
+  public name: string;
   /**
    * Index of target attribute in the buffer.
    */
   private location: number;
-  private context: WebGLRenderingContext;
-  private buffer: WebGLBuffer;
+  private _context: WebGLRenderingContext;
   /**
    * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
    * In particular, this class manages buffer allocation, location caching, and data binding.
    * @class ShaderAttribLocation
    * @constructor
    * @param name {string} The name of the variable as it appears in the GLSL program.
-   * @param glslType {string} The type of the variable as it appears in the GLSL program.
+   * @param size {number} The size of the variable as it appears in the GLSL program.
+   * @param type {number} The type of the variable as it appears in the GLSL program.
    */
-  constructor(name: string, glslType: string) {
-    this.$name = name;
-    switch(glslType) {
-      case &#x27;float&#x27;:
-      case &#x27;vec2&#x27;:
-      case &#x27;vec3&#x27;:
-      case &#x27;vec4&#x27;:
-      case &#x27;mat2&#x27;:
-      case &#x27;mat3&#x27;:
-      case &#x27;mat4&#x27;: {
-        this.$glslType = glslType;
-      }
-      break;
-      default: {
-        // TODO
-        throw new Error(&quot;Argument glslType in ShaderAttribLocation constructor must be one of float, vec2, vec3, vec4, mat2, mat3, mat4. Got: &quot; + glslType);
-      }
-    }
+  constructor(name: string, size: number, type: number) {
+    this.name = name;
   }
-  get name(): string {
-    return this.$name;
+  release() {
+    this.contextLoss();
   }
-  contextFree() {
-    if (this.buffer) {
-      this.context.deleteBuffer(this.buffer);
-      this.contextLoss();
-    }
-  }
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string) {
-    expectArg(&#x27;context&#x27;, context).toBeObject();
-    expectArg(&#x27;program&#x27;, program).toBeObject();
-    this.location = context.getAttribLocation(program, this.name);
-    this.context = context;
-    if (existsLocation(this.location)) {
-      this.buffer = context.createBuffer();
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    if (this._context !== context) {
+      this.location = context.getAttribLocation(program, this.name);
+      this._context = context;
     }
   }
   contextLoss() {
     this.location = void 0;
-    this.buffer = void 0;
-    this.context = void 0;
+    this._context = void 0;
   }
   /**
-   * @method dataFormat
-   * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
-   * @param type {number} Specifies the data type of each component in the array. gl.FLOAT (default) or gl.FIXED.
+   * @method vertexAttribPointer
+   * @param numComponents {number} The number of components per attribute. Must be 1,2,3, or 4.
    * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
    * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
    * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
    */
-  dataFormat(size: number, type: number, normalized: boolean = false, stride: number = 0, offset: number = 0) {
-    if (existsLocation(this.location)) {
-      // TODO: We could assert that we have a buffer.
-      this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-      // 6.14 Fixed point support.
-      // The WebGL API does not support the GL_FIXED data type.
-      // Consequently, we hard-code the FLOAT constant.
-      this.context.vertexAttribPointer(this.location, size, type, normalized, stride, offset);
+  vertexAttribPointer(numComponents: number, normalized: boolean = false, stride: number = 0, offset: number = 0) {
+    if (this._context) {
+      this._context.vertexAttribPointer(this.location, numComponents, this._context.FLOAT, normalized, stride, offset);
     }
-  }
-  /**
-   * FIXME This should not couple to an AttribProvider.
-   * @method bufferData
-   */
-  bufferData(data: Float32Array, usage: DataUsage) {
-    if (existsLocation(this.location)) {
-      this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-      this.context.bufferData(this.context.ARRAY_BUFFER, data, convertUsage(usage, this.context));
+    else {
+      console.warn(&quot;ShaderAttribLocation.vertexAttribPointer() missing WebGLRenderingContext&quot;);
     }
   }
   enable() {
-    if (existsLocation(this.location)) {
-      this.context.enableVertexAttribArray(this.location);
+    if (this._context) {
+      this._context.enableVertexAttribArray(this.location);
+    }
+    else {
+      console.warn(&quot;ShaderAttribLocation.enable() missing WebGLRenderingContext&quot;);
     }
   }
   disable() {
-    if (existsLocation(this.location)) {
-      this.context.disableVertexAttribArray(this.location);
+    if (this._context) {
+      this._context.disableVertexAttribArray(this.location);
+    }
+    else {
+      console.warn(&quot;ShaderAttribLocation.disable() missing WebGLRenderingContext&quot;);
     }
   }
   /**
    * @method toString
    */
   toString(): string {
-    return [&quot;ShaderAttribLocation({name: &quot;, this.name, &quot;, glslType: &quot;, this.$glslType + &quot;})&quot;].join(&#x27;&#x27;);
+    return [&quot;ShaderAttribLocation(&quot;, this.name, &quot;)&quot;].join(&#x27;&#x27;);
   }
 }
 

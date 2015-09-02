@@ -25,6 +25,7 @@ class Arrow3D implements Blade<Node> {
   private tailModel: Node;
   private head: Primitive<AttribProvider, Node>;
   private tail: Primitive<AttribProvider, Node>;
+  private _refCount: number = 0;
   constructor(ambients: UniformProvider, options?: ArrowOptions) {
     options = options || {};
     this.$coneHeight = isDefined(options.coneHeight) ? options.coneHeight : 0.2;
@@ -56,13 +57,19 @@ class Arrow3D implements Blade<Node> {
     this.head.draw();
     this.tail.draw();
   }
-  contextFree() {
-    this.head.contextFree();
-    this.tail.contextFree();
+  addRef() {
+    this._refCount++;
   }
-  contextGain(context: WebGLRenderingContext, contextId: string) {
-    this.head.contextGain(context, contextId);
-    this.tail.contextGain(context, contextId);
+  release() {
+    this._refCount--;
+    if (this._refCount === 0) {
+      this.head.release();
+      this.tail.release();
+    }
+  }
+  contextGain(context: WebGLRenderingContext) {
+    this.head.contextGain(context);
+    this.tail.contextGain(context);
   }
   contextLoss() {
     this.head.contextLoss();

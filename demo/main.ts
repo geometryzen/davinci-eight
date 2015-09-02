@@ -71,15 +71,15 @@ function tearDown(e) {
     else {
         console.log("Goodbye!");
         workbench.tearDown();
-        scene.contextFree();
+        scene.release();
         // This will not do anything in future.
-        renderer.contextFree();
+        renderer.release();
     }
 }
 
 var runner = e8.animationRunner(tick, terminate, setUp, tearDown, glwin);
 
-function contextFree() {
+function release() {
 }
 
 function contextGain(gl: WebGLRenderingContext, contextGainId: string) {

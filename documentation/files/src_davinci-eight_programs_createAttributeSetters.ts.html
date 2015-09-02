@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -152,7 +154,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;);
+import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import ShaderAttribSetter = require(&#x27;../core/ShaderAttribSetter&#x27;);
 /**
  * Creates setter functions for all attributes of a shader
@@ -173,10 +175,11 @@ function createAttributeSetters(gl: WebGLRenderingContext, program: WebGLProgram
   // Buffers don&#x27;t exist before we create the setters, but do when they are called.
   function createAttribSetter(index: number): ShaderAttribSetter {
     // TODO: Separate into the WebGLBuffer and the meta data?
-    return function(buffer: WebGLBuffer, meta: AttribMetaInfo) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    return function(data: AttribDataInfo) {
+        data.buffer.bindBuffer();
+//      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.enableVertexAttribArray(index);
-        gl.vertexAttribPointer(index, meta.size, meta.type || gl.FLOAT, meta.normalized || false, meta.stride || 0, meta.offset || 0);
+        gl.vertexAttribPointer(index, data.size, data.type || gl.FLOAT, data.normalized || false, data.stride || 0, data.offset || 0);
       };
   }
 

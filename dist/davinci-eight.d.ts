@@ -26,32 +26,25 @@ declare module EIGHT
   /**
    *
    */
-  function initWebGL(
-    canvas: HTMLCanvasElement,
-    attributes?: {
-      alpha?: boolean,
-      antialias?: boolean,
-      depth?: boolean,
-      premultipliedAlpha?: boolean,
-      preserveDrawingBuffer?: boolean,
-      stencil?: boolean
-    }
-    ): WebGLRenderingContext;
+  function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): WebGLRenderingContext;
 
   /**
    *
    */
-  class RenderingContextUser {
-    /**
-     * Notify the target that it is no longer required, and request to free, dispose, or delete any WebGL resources acquired and owned by the target.
-     */
-    contextFree(): void;
+  interface ReferenceCounted {
+    addRef(): void;
+    release(): void;
+  }
+
+  /**
+   *
+   */
+  interface RenderingContextUser extends ReferenceCounted {
     /**
      * Notification of a new WebGLRenderingContext.
      * @param context The WebGLRenderingContext.
-     * @param contextId A unique identifier used to distinguish the context.
      */
-    contextGain(context: WebGLRenderingContext, contextGainId: string): void;
+    contextGain(context: WebGLRenderingContext): void;
     /**
      * Notification that any WebGL resources cached are invalid because the WebGLContext has been lost.
      * This is a cue to rest to the initial state without attempting to dispose or free held resources.
@@ -74,7 +67,6 @@ declare module EIGHT
   }
   interface DrawList extends RenderingContextUser
   {
-    drawGroups: {[drawGroupName:string]: Drawable[]},
     /**
      * Add a drawable to the DrawList.
      */
@@ -83,14 +75,17 @@ declare module EIGHT
      * Removes a drawable from the DrawList.
      */
     remove(drawable: Drawable): void;
+    /**
+     * Sets the uniforms provided into all programs.
+     */
+    setUniforms(values: UniformDataInfos);
   }
   /**
    * Manages the lifecycle of an attribute used in a vertex shader.
    */
   class ShaderAttribLocation {
-    constructor(name: string, glslType: string) {
-    }
-    contextFree();
+    constructor(name: string, glslType: string);
+    release();
     contextGain(context: WebGLRenderingContext, program: WebGLProgram);
     contextLoss();
     enable();
@@ -98,15 +93,24 @@ declare module EIGHT
     dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
     bufferData(data: AttribProvider);
   }
+  interface ShaderUniformSetter {
+    (data: UniformDataInfo): void
+  }
   class ShaderUniformLocation {
     constructor(name: string, glslType: string);
-    contextFree();
+    release();
     contextGain(context: WebGLRenderingContext, program: WebGLProgram);
     contextLoss();
+    createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter;
+    uniform1f(x: number);
+    uniform1fv(data: number[]);
     uniform2f(x: number, y: number);
     uniform2fv(data: number[]);
+    uniform3f(x: number, y: number, z: number);
     uniform3fv(data: number[]);
+    uniform4f(x: number, y: number, z: number, w: number);
     uniform4fv(data: number[]);
+    uniformMatrix2fv(transpose: boolean, matrix: Float32Array);
     uniformMatrix3fv(transpose: boolean, matrix: Float32Array);
     uniformMatrix4fv(transpose: boolean, matrix: Float32Array);
   }
@@ -277,6 +281,16 @@ declare module EIGHT
     [name: string]: UniformMetaInfo
   }
   interface UniformDataInfo {
+    transpose?: boolean;
+    x?: number;
+    y?: number;
+    z?: number;
+    w?: number;
+    vector?: number[];
+    matrix2?: Float32Array;
+    matrix3?: Float32Array;
+    matrix4?: Float32Array;
+    uniformZs?: Int32Array;
   }
   interface UniformDataInfos {
     [name: string]: UniformDataInfo
@@ -330,7 +344,7 @@ declare module EIGHT
     public drawMode: DrawMode;
     public dynamic: boolean;
     constructor();
-    draw(context: WebGLRenderingContext): void;
+    draw(): void;
     update(): void;
     getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
     getAttribMeta(): AttribMetaInfos;
@@ -587,9 +601,9 @@ declare module EIGHT
    * The generator of calls to drawArrays or drawElements and a source of attribute data.
    * This interface must be implemented in order to define a mesh.
    */
-  interface AttribProvider
+  interface AttribProvider extends RenderingContextUser
   {
-    draw(context: WebGLRenderingContext): void;
+    draw(): void;
     /**
      * Determines how the thing will be drawn.
      */
@@ -667,12 +681,18 @@ declare module EIGHT
     drawMode: DrawMode;
     dynamic: boolean;
     constructor(geometry: Geometry, options?: {drawMode?: DrawMode});
-    draw(context: WebGLRenderingContext): void;
+    draw(): void;
+    getAttribData(): AttribDataInfos;
     getAttribMeta(): AttribMetaInfos;
     hasElementArray(): boolean;
     getElementArray(): {usage: DataUsage; data: Uint16Array};
     getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
     update(): void;
+    addRef(): void;
+    release(): void;
+    contextGain(context: WebGLRenderingContext): void;
+    contextLoss(): void;
+    hasContext(): boolean;
   }
   class BarnGeometry extends Geometry {
     constructor();
@@ -703,7 +723,7 @@ declare module EIGHT
   /**
    * A vertex shader and a fragment shader combined into a program.
    */
-  class ShaderProgram extends RenderingContextUser
+  interface ShaderProgram extends RenderingContextUser
   {
     program: WebGLProgram;
     programId: string;
@@ -743,7 +763,7 @@ declare module EIGHT
   interface Blade<M> extends Composite<M> {
     setMagnitude(magnitude: number): Blade<M>;
   }
-  class Renderer extends RenderingContextUser
+  interface Renderer extends RenderingContextUser
   {
     /**
      * Defines whether the renderer should automatically clear its output before rendering.
@@ -756,7 +776,7 @@ declare module EIGHT
     /**
      *
      */
-    render(drawList: DrawList, ambients?: UniformProvider): void;
+    render(drawList: DrawList): void;
   }
   interface RendererParameters {
   }
@@ -1216,7 +1236,7 @@ declare module EIGHT
   /**
    *
    */
-  interface RenderingContextMonitor
+  interface RenderingContextMonitor extends ReferenceCounted
   {
     /**
      * Starts the monitoring of the WebGL context.
@@ -1230,6 +1250,10 @@ declare module EIGHT
      *
      */
     addContextUser(user: RenderingContextUser): RenderingContextMonitor;
+    /**
+     *
+     */
+    removeContextUser(user: RenderingContextUser): RenderingContextMonitor;
     /**
      *
      */

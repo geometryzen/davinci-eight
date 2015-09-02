@@ -1,4 +1,4 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
+import AttribDataInfos = require('../core/AttribDataInfos');
 import ShaderAttribSetter = require('../core/ShaderAttribSetter');
 /**
  * Sets attributes and binds buffers (deprecated... use {@link module:webgl-utils.setBuffersAndAttributes})
@@ -55,7 +55,5 @@ import ShaderAttribSetter = require('../core/ShaderAttribSetter');
  */
 declare function setAttributes(setters: {
     [name: string]: ShaderAttribSetter;
-}, buffers: {
-    [name: string]: WebGLBuffer;
-}, metas: AttribMetaInfos): void;
+}, buffers: AttribDataInfos): void;
 export = setAttributes;

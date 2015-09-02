@@ -1,4 +1,4 @@
-import AttribMetaInfo = require('../core/AttribMetaInfo');
+import AttribDataInfo = require('../core/AttribDataInfo');
 import ShaderAttribSetter = require('../core/ShaderAttribSetter');
 /**
  * Creates setter functions for all attributes of a shader
@@ -19,10 +19,11 @@ function createAttributeSetters(gl: WebGLRenderingContext, program: WebGLProgram
   // Buffers don't exist before we create the setters, but do when they are called.
   function createAttribSetter(index: number): ShaderAttribSetter {
     // TODO: Separate into the WebGLBuffer and the meta data?
-    return function(buffer: WebGLBuffer, meta: AttribMetaInfo) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    return function(data: AttribDataInfo) {
+        data.buffer.bindBuffer();
+//      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.enableVertexAttribArray(index);
-        gl.vertexAttribPointer(index, meta.size, meta.type || gl.FLOAT, meta.normalized || false, meta.stride || 0, meta.offset || 0);
+        gl.vertexAttribPointer(index, data.size, data.type || gl.FLOAT, data.normalized || false, data.stride || 0, data.offset || 0);
       };
   }
 

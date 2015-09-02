@@ -18,16 +18,20 @@ function vortexMesh(
   let checkedOptions = checkMeshArgs(options);
 
   let base = new GeometryAdapter(vortexGeometry(checkedOptions), adapterOptions(checkedOptions));
+  var refCount = 1;
 
   let publicAPI: AttribProvider = {
-    draw(context: WebGLRenderingContext) {
-      return base.draw(context);
+    draw() {
+      return base.draw();
     },
     update() {
       return base.update();
     },
     getAttribArray(name: string) {
       return base.getAttribArray(name);
+    },
+    getAttribData() {
+      return base.getAttribData();
     },
     getAttribMeta() {
       return base.getAttribMeta();
@@ -46,6 +50,25 @@ function vortexMesh(
     },
     getElementArray() {
       return base.getElementArray();
+    },
+    addRef(): void {
+      refCount++;
+    },
+    release(): void {
+      refCount--;
+      if (refCount === 0) {
+        base.release();
+        base = void 0;
+      }
+    },
+    contextGain(context: WebGLRenderingContext): void {
+      return base.contextGain(context);
+    },
+    contextLoss(): void {
+      return base.contextLoss();
+    },
+    hasContext(): boolean {
+      return base.hasContext();
     }
   };
   return publicAPI;

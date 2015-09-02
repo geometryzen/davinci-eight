@@ -1,15 +1,16 @@
+import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
+import RenderingContextUser = require('../core/RenderingContextUser');
 /**
  * @class AttribProvider
  */
-interface AttribProvider {
+interface AttribProvider extends RenderingContextUser {
     /**
      * @method draw
-     * @param context {WebGLRenderingContext}
      */
-    draw(context: WebGLRenderingContext): void;
+    draw(): void;
     /**
      * @method update
      */
@@ -23,6 +24,12 @@ interface AttribProvider {
         usage: DataUsage;
         data: Float32Array;
     };
+    /**
+     * Provides the data information corresponsing to provided attribute values.
+     * @method getAttribData
+     * @return {AttribDataInfos} The data information corresponding to all attributes supported.
+     */
+    getAttribData(): AttribDataInfos;
     /**
      * Provides the meta information corresponsing to provided attribute values.
      * @method getAttribMeta

@@ -1,3 +1,4 @@
+import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Face3 = require('../core/Face3');
 import Line3 = require('../core/Line3');
@@ -9,10 +10,27 @@ import Symbolic = require('../core/Symbolic');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
+import ArrayBuffer = require('../core/ArrayBuffer');
+import ElementBuffer = require('../core/ElementBuffer');
 
 function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
   return new Color([1.0, 1.0, 1.0]);
 }
+
+function computeAttribData(
+  positionVarName: string,
+  positionBuffer: ArrayBuffer,
+  normalVarName: string,
+  normalBuffer: ArrayBuffer,
+  drawMode: DrawMode): AttribDataInfos {
+  var attributes: AttribDataInfos = {};
+  attributes[positionVarName] = {buffer: positionBuffer, numComponents: 3};
+  if (drawMode === DrawMode.TRIANGLES) {
+    attributes[normalVarName] = {buffer: normalBuffer, numComponents: 3};
+  }
+  return attributes;
+}
+
 
 /**
  * Adapter from a Geometry to a AttribProvider.
@@ -23,11 +41,8 @@ function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vect
  */
 class GeometryAdapter extends DefaultAttribProvider {
   public geometry: Geometry;
-//public color: Color;
-//public colorFunction: (vertexIndex: number, face: Face3, vertexList: Vector3[]) => Color;
   private elementArray: Uint16Array;
   private aVertexPositionArray: Float32Array;
-//private aVertexColorArray: Float32Array;
   private aVertexNormalArray: Float32Array;
   private $drawMode: DrawMode = DrawMode.TRIANGLES;
   private elementsUsage: DataUsage = DataUsage.STREAM_DRAW;
@@ -36,6 +51,11 @@ class GeometryAdapter extends DefaultAttribProvider {
   private points: Point3[] = [];
   private positionVarName: string;
   private normalVarName: string;
+  private indexBuffer: ElementBuffer;
+  private positionBuffer: ArrayBuffer;
+  private normalBuffer: ArrayBuffer;
+  private attributeDataInfos: AttribDataInfos;
+  private _refCount: number = 0;
   /**
    * @class GeometryAdapter
    * @constructor
@@ -53,13 +73,52 @@ class GeometryAdapter extends DefaultAttribProvider {
     options = options || {};
     options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
     options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
+    // TODO: Sharing of buffers.
+    this.indexBuffer = new ElementBuffer();
+    this.indexBuffer.addRef();
     this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
+    this.positionBuffer = new ArrayBuffer();
+    this.positionBuffer.addRef();
     this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
+    this.normalBuffer = new ArrayBuffer();
+    this.normalBuffer.addRef();
     this.geometry = geometry;
-//  this.color = new Color([1.0, 1.0, 1.0]);
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
     this.elementsUsage = options.elementsUsage;
+    this.attributeDataInfos = computeAttribData(this.positionVarName, this.positionBuffer, this.normalVarName, this.normalBuffer, this.drawMode);
+  }
+  addRef() {
+    this._refCount++;
+    // console.log("GeometryAdapter.addRef() => " + this._refCount);
+  }
+  release() {
+    this._refCount--;
+    // console.log("GeometryAdapter.release() => " + this._refCount);
+    if (this._refCount === 0) {
+      this.indexBuffer.release();
+      this.indexBuffer = void 0;
+      this.positionBuffer.release();
+      this.positionBuffer = void 0;
+      this.normalBuffer.release();
+      this.normalBuffer = void 0;
+    }
+  }
+  contextGain(context: WebGLRenderingContext) {
+    super.contextGain(context);
+    this.indexBuffer.contextGain(context);
+    this.positionBuffer.contextGain(context);
+    this.normalBuffer.contextGain(context);
+    this.update();
+  }
+  contextLoss(): void {
+    this.indexBuffer.contextLoss();
+    this.positionBuffer.contextLoss();
+    this.normalBuffer.contextLoss();
+    super.contextLoss();
+  }
+  hasContext(): boolean {
+    return !!this._context;
   }
   get drawMode(): DrawMode {
     return this.$drawMode;
@@ -70,23 +129,28 @@ class GeometryAdapter extends DefaultAttribProvider {
     // what the mesh is able to provide.
     throw new Error("The drawMode property is readonly");
   }
-  draw(context: WebGLRenderingContext): void {
-    switch(this.drawMode) {
-      case DrawMode.POINTS: {
-        context.drawArrays(context.POINTS, 0, this.points.length * 1);
+  draw(): void {
+    if (this._context) {
+      switch(this.drawMode) {
+        case DrawMode.POINTS: {
+          this._context.drawArrays(this._context.POINTS, 0, this.points.length * 1);
+        }
+        break;
+        case DrawMode.LINES: {
+          this._context.drawArrays(this._context.LINES, 0, this.lines.length * 2);
+        }
+        break;
+        case DrawMode.TRIANGLES: {
+          //context.drawElements(context.TRIANGLES, this.elementArray.length, context.UNSIGNED_SHORT,0);
+          this._context.drawArrays(this._context.TRIANGLES, 0, this.geometry.faces.length * 3);
+        }
+        break;
+        default : {
+        }
       }
-      break;
-      case DrawMode.LINES: {
-        context.drawArrays(context.LINES, 0, this.lines.length * 2);
-      }
-      break;
-      case DrawMode.TRIANGLES: {
-        //context.drawElements(context.TRIANGLES, this.elementArray.length, context.UNSIGNED_SHORT,0);
-        context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
-      }
-      break;
-      default : {
-      }
+    }
+    else {
+      console.warn("GeometryAdapter.draw() missing WebGLRenderingContext");
     }
   }
   get dynamic(): boolean {
@@ -104,9 +168,6 @@ class GeometryAdapter extends DefaultAttribProvider {
       case this.positionVarName: {
         return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
       }
-//      case DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME: {
-//        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexColorArray };
-//      }
       case this.normalVarName: {
         if (this.$drawMode === DrawMode.TRIANGLES) {
           return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
@@ -120,10 +181,13 @@ class GeometryAdapter extends DefaultAttribProvider {
       }
     }
   }
+  getAttribData(): AttribDataInfos {
+    return this.attributeDataInfos;
+  }
   getAttribMeta(): AttribMetaInfos {
-    var attribues: AttribMetaInfos = {};
+    var attributes: AttribMetaInfos = {};
 
-    attribues[Symbolic.ATTRIBUTE_POSITION] = {
+    attributes[Symbolic.ATTRIBUTE_POSITION] = {
       name: this.positionVarName,
       glslType: 'vec3',
       size: 3,
@@ -131,21 +195,8 @@ class GeometryAdapter extends DefaultAttribProvider {
       stride: 0,
       offset: 0
     };
-
-/*
-    if (!this.grayScale) {
-      attribues[Symbolic.ATTRIBUTE_COLOR] = {
-        name: DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME,
-        glslType: 'vec4',
-        size: 4,
-        normalized: false,
-        stride: 0,
-        offset: 0
-      };
-    }
-*/
     if (this.drawMode === DrawMode.TRIANGLES) {
-      attribues[Symbolic.ATTRIBUTE_NORMAL] = {
+      attributes[Symbolic.ATTRIBUTE_NORMAL] = {
         name: this.normalVarName,
         glslType: 'vec3',
         size: 3,
@@ -155,35 +206,15 @@ class GeometryAdapter extends DefaultAttribProvider {
       };
     }
 
-    return attribues;
+    return attributes;
   }
   update(): void
   {
     let vertices: number[] = [];
-//  let colors: number[] = [];
     let normals: number[] = [];
     let elements: number[] = [];
 
     let vertexList = this.geometry.vertices;
-    /*
-    let color = this.color;
-    let colorFunction = this.colorFunction;
-    let colorMaker = function(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color
-    {
-      if (color)
-      {
-        return color;
-      }
-      else if (colorFunction)
-      {
-        return colorFunction(vertexIndex, face, vertexList);
-      }
-      else
-      {
-        return defaultColorFunction(vertexIndex, face, vertexList);
-      }
-    }
-    */
     switch(this.drawMode) {
       case DrawMode.POINTS: {
         this.points = [];
@@ -195,13 +226,6 @@ class GeometryAdapter extends DefaultAttribProvider {
           vertices.push(vA.x);
           vertices.push(vA.y);
           vertices.push(vA.z);
-          /*
-          var colorA: Color = color;
-          colors.push(colorA.red);
-          colors.push(colorA.green);
-          colors.push(colorA.blue);
-          colors.push(1.0);
-          */
         });
       }
       break;
@@ -221,20 +245,6 @@ class GeometryAdapter extends DefaultAttribProvider {
           vertices.push(vB.x);
           vertices.push(vB.y);
           vertices.push(vB.z);
-
-          /*
-          var colorA: Color = color;
-          var colorB: Color = color;
-          colors.push(colorA.red);
-          colors.push(colorA.green);
-          colors.push(colorA.blue);
-          colors.push(1.0);
-
-          colors.push(colorB.red);
-          colors.push(colorB.green);
-          colors.push(colorB.blue);
-          colors.push(1.0);
-          */
         });
       }
       break;
@@ -292,26 +302,6 @@ class GeometryAdapter extends DefaultAttribProvider {
             normals.push(normal.y);
             normals.push(normal.z);
           }
-          /*
-          var colorA: Color = colorMaker(face.a, face, vertexList);
-          var colorB: Color = colorMaker(face.b, face, vertexList);
-          var colorC: Color = colorMaker(face.c, face, vertexList);
-
-          colors.push(colorA.red);
-          colors.push(colorA.green);
-          colors.push(colorA.blue);
-          colors.push(1.0);
-
-          colors.push(colorB.red);
-          colors.push(colorB.green);
-          colors.push(colorB.blue);
-          colors.push(1.0);
-
-          colors.push(colorC.red);
-          colors.push(colorC.green);
-          colors.push(colorC.blue);
-          colors.push(1.0);
-          */
         });
       }
       break;
@@ -319,9 +309,16 @@ class GeometryAdapter extends DefaultAttribProvider {
       }
     }
     this.elementArray = new Uint16Array(elements);
+    this.indexBuffer.bindBuffer();
+    this.indexBuffer.bufferData(this.elementArray);
+
     this.aVertexPositionArray = new Float32Array(vertices);
-//  this.aVertexColorArray = new Float32Array(colors);
+    this.positionBuffer.bindBuffer();
+    this.positionBuffer.bufferData(this.aVertexPositionArray);
+
     this.aVertexNormalArray = new Float32Array(normals);
+    this.normalBuffer.bindBuffer();
+    this.normalBuffer.bufferData(this.aVertexNormalArray);
   }
   private computeLines() {
     var lines = this.lines;

@@ -1,4 +1,4 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
+import AttribDataInfos = require('../core/AttribDataInfos');
 import ShaderAttribSetter = require('../core/ShaderAttribSetter');
 /**
  * Sets attributes and binds buffers (deprecated... use {@link module:webgl-utils.setBuffersAndAttributes})
@@ -53,13 +53,13 @@ import ShaderAttribSetter = require('../core/ShaderAttribSetter');
  * @memberOf module:webgl-utils
  * @deprecated use {@link module:webgl-utils.setBuffersAndAttributes}
  */
-function setAttributes(setters:{[name:string]: ShaderAttribSetter}, buffers: {[name:string]: WebGLBuffer;}, metas: AttribMetaInfos) {
+function setAttributes(setters:{[name:string]: ShaderAttribSetter}, buffers: AttribDataInfos) {
   // setters are defined by the program. buffers are defined for objects but may be consolidated.
   // But if the buffer spec does not exist in the program as a setter, we ignore it.
   Object.keys(buffers).forEach(function(name) {
-    var setter: ShaderAttribSetter = setters[name];
+    let setter: ShaderAttribSetter = setters[name];
     if (setter) {
-      setter(buffers[name], metas[name]);
+      setter(buffers[name]);
     }
   });
 }

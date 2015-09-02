@@ -1,5 +1,5 @@
 import UniformDataInfos = require('../core/UniformDataInfos');
-import UniformSetter = require('../core/UniformSetter');
+import ShaderUniformSetter = require('../core/ShaderUniformSetter');
 /**
  * Set uniforms and binds related textures.
  *
@@ -79,6 +79,6 @@ import UniformSetter = require('../core/UniformSetter');
  * @memberOf module:webgl-utils
  */
 declare function setUniforms(setters: {
-    [name: string]: UniformSetter;
+    [name: string]: ShaderUniformSetter;
 }, values: UniformDataInfos): void;
 export = setUniforms;

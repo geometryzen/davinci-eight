@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -154,7 +156,7 @@
     <pre class="code prettyprint linenums">
 import UniformDataInfo = require(&#x27;../core/UniformDataInfo&#x27;);
 import UniformDataInfos = require(&#x27;../core/UniformDataInfos&#x27;);
-import UniformSetter = require(&#x27;../core/UniformSetter&#x27;);
+import ShaderUniformSetter = require(&#x27;../core/ShaderUniformSetter&#x27;);
 /**
  * Set uniforms and binds related textures.
  *
@@ -233,14 +235,14 @@ import UniformSetter = require(&#x27;../core/UniformSetter&#x27;);
  *        uniforms.
  * @memberOf module:webgl-utils
  */
-function setUniforms(setters:{[name:string]: UniformSetter}, values: UniformDataInfos) {
+function setUniforms(setters:{[name:string]: ShaderUniformSetter}, values: UniformDataInfos) {
   Object.keys(values).forEach(function(name: string) {
     var setter = setters[name];
     if (setter) {
       setter(values[name]);
     }
     else {
-      console.warn(&quot;UniformSetter missing for uniform &quot; + name);
+      console.warn(&quot;setter missing for uniform &quot; + name);
     }
   });
 }

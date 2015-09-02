@@ -16,50 +16,33 @@ var ShaderUniformLocation = (function () {
      * @class ShaderUniformLocation
      * @constructor
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
-     * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.
      */
-    function ShaderUniformLocation(name, glslType) {
+    function ShaderUniformLocation(name) {
         this.name = name;
-        switch (glslType) {
-            case 'float':
-            case 'vec2':
-            case 'vec3':
-            case 'vec4':
-            case 'mat2':
-            case 'mat3':
-            case 'mat4':
-                {
-                    this.glslType = glslType;
-                }
-                break;
-            default: {
-                throw new Error("Illegal argument glslType in ShaderUniformLocation constructor: " + glslType);
-            }
-        }
     }
     /**
-     * @method contextFree
+     * @method release
      */
-    ShaderUniformLocation.prototype.contextFree = function () {
-        this.location = null;
-        this.context = null;
+    ShaderUniformLocation.prototype.release = function () {
+        this.contextLoss();
     };
     /**
      * @method contextGain
      * @param context {WebGLRenderingContext}
      * @param program {WebGLProgram}
-     * @param contextId {string}
      */
-    ShaderUniformLocation.prototype.contextGain = function (context, program, contextId) {
-        this.location = context.getUniformLocation(program, this.name);
-        this.context = context;
+    ShaderUniformLocation.prototype.contextGain = function (context, program) {
+        if (this.context !== context) {
+            this.location = context.getUniformLocation(program, this.name);
+            this.context = context;
+        }
     };
     /**
      * @method contextLoss
      */
     ShaderUniformLocation.prototype.contextLoss = function () {
-        this.location = null;
-        this.context = null;
+        this.location = void 0;
+        this.context = void 0;
     };
     ShaderUniformLocation.prototype.createSetter = function (gl, uniformInfo) {
         var uniformLoc = this;
@@ -184,10 +167,10 @@ var ShaderUniformLocation = (function () {
     };
     /**
      * @method uniform1f
-     * @param value {number} Value to assign.
+     * @param x {number} Value to assign.
      */
-    ShaderUniformLocation.prototype.uniform1f = function (value) {
-        this.context.uniform1f(this.location, value);
+    ShaderUniformLocation.prototype.uniform1f = function (x) {
+        this.context.uniform1f(this.location, x);
     };
     /**
      * @method uniform1fv
@@ -281,7 +264,7 @@ var ShaderUniformLocation = (function () {
      * @method toString
      */
     ShaderUniformLocation.prototype.toString = function () {
-        return ["ShaderUniformLocation({name: ", this.name, ", glslType: ", this.glslType + "})"].join('');
+        return ["ShaderUniformLocation(", this.name, ")"].join('');
     };
     return ShaderUniformLocation;
 })();

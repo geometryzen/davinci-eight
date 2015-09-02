@@ -1,6 +1,6 @@
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
 import UniformDataInfo = require('../core/UniformDataInfo');
-import UniformSetter = require('../core/UniformSetter');
+import ShaderUniformSetter = require('../core/ShaderUniformSetter');
 
 /**
  * Returns the corresponding bind point for a given sampler type
@@ -16,58 +16,41 @@ function getBindPointForSamplerType(gl: WebGLRenderingContext, type: number) {
  */
 class ShaderUniformLocation implements RenderingContextProgramUser {
   public name: string;
-  public glslType: string;
   private context: WebGLRenderingContext;
   private location: WebGLUniformLocation;
   /**
    * @class ShaderUniformLocation
    * @constructor
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
-   * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.  
    */
-  constructor(name: string, glslType: string) {
+  constructor(name: string) {
     this.name = name;
-    switch(glslType) {
-      case 'float':
-      case 'vec2':
-      case 'vec3':
-      case 'vec4':
-      case 'mat2':
-      case 'mat3':
-      case 'mat4': {
-        this.glslType = glslType;
-      }
-      break;
-      default: {
-        throw new Error("Illegal argument glslType in ShaderUniformLocation constructor: " + glslType);
-      }
-    }
   }
   /**
-   * @method contextFree
+   * @method release
    */
-  contextFree() {
-    this.location = null;
-    this.context = null;
+  release() {
+    this.contextLoss();
   }
   /**
    * @method contextGain
    * @param context {WebGLRenderingContext}
    * @param program {WebGLProgram}
-   * @param contextId {string}
    */
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string) {
-    this.location = context.getUniformLocation(program, this.name);
-    this.context = context;
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    if (this.context !== context) {
+      this.location = context.getUniformLocation(program, this.name);
+      this.context = context;
+    }
   }
   /**
    * @method contextLoss
    */
   contextLoss() {
-    this.location = null;
-    this.context = null;
+    this.location = void 0;
+    this.context = void 0;
   }
-  createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): UniformSetter {
+  createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter {
     let uniformLoc = this;
     let name = uniformInfo.name;
     let size = uniformInfo.size;
@@ -190,10 +173,10 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
   }
   /**
    * @method uniform1f
-   * @param value {number} Value to assign.
+   * @param x {number} Value to assign.
    */
-  uniform1f(value: number) {
-    this.context.uniform1f(this.location, value);
+  uniform1f(x: number) {
+    this.context.uniform1f(this.location, x);
   }
   /**
    * @method uniform1fv
@@ -287,7 +270,7 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
    * @method toString
    */
   toString(): string {
-    return ["ShaderUniformLocation({name: ", this.name, ", glslType: ", this.glslType + "})"].join('');
+    return ["ShaderUniformLocation(", this.name, ")"].join('');
   }
 }
 

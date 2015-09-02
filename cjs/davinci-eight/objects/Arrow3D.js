@@ -6,6 +6,7 @@ var isDefined = require('../checks/isDefined');
 var Arrow3D = (function () {
     function Arrow3D(ambients, options) {
         this.$magnitude = 1;
+        this._refCount = 0;
         options = options || {};
         this.$coneHeight = isDefined(options.coneHeight) ? options.coneHeight : 0.2;
         this.model = new Node();
@@ -40,13 +41,19 @@ var Arrow3D = (function () {
         this.head.draw();
         this.tail.draw();
     };
-    Arrow3D.prototype.contextFree = function () {
-        this.head.contextFree();
-        this.tail.contextFree();
+    Arrow3D.prototype.addRef = function () {
+        this._refCount++;
     };
-    Arrow3D.prototype.contextGain = function (context, contextId) {
-        this.head.contextGain(context, contextId);
-        this.tail.contextGain(context, contextId);
+    Arrow3D.prototype.release = function () {
+        this._refCount--;
+        if (this._refCount === 0) {
+            this.head.release();
+            this.tail.release();
+        }
+    };
+    Arrow3D.prototype.contextGain = function (context) {
+        this.head.contextGain(context);
+        this.tail.contextGain(context);
     };
     Arrow3D.prototype.contextLoss = function () {
         this.head.contextLoss();

@@ -21,16 +21,20 @@ function sphereGeometry(options?: SphereOptions): Geometry {
 function sphereMesh(options?: SphereOptions) : AttribProvider {
 
   let base = new GeometryAdapter(sphereGeometry(options), adapterOptions(options));
+  var refCount: number = 0;
 
   let publicAPI: AttribProvider = {
-    draw(context: WebGLRenderingContext) {
-      return base.draw(context);
+    draw() {
+      return base.draw();
     },
     update() {
       return base.update();
     },
     getAttribArray(name: string) {
       return base.getAttribArray(name);
+    },
+    getAttribData() {
+      return base.getAttribData();
     },
     getAttribMeta() {
       return base.getAttribMeta();
@@ -49,6 +53,24 @@ function sphereMesh(options?: SphereOptions) : AttribProvider {
     },
     getElementArray() {
       return base.getElementArray();
+    },
+    addRef(): void {
+      refCount++;
+    },
+    release(): void {
+      refCount--;
+      if (refCount === 0) {
+        base.release();
+      }
+    },
+    contextGain(context: WebGLRenderingContext): void {
+      return base.contextGain(context);
+    },
+    contextLoss(): void {
+      return base.contextLoss();
+    },
+    hasContext(): boolean {
+      return base.hasContext();
     }
   };
   return publicAPI;

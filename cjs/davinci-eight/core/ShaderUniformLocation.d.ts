@@ -1,42 +1,39 @@
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
-import UniformSetter = require('../core/UniformSetter');
+import ShaderUniformSetter = require('../core/ShaderUniformSetter');
 /**
  * Utility class for managing a shader uniform variable.
  * @class ShaderUniformLocation
  */
 declare class ShaderUniformLocation implements RenderingContextProgramUser {
     name: string;
-    glslType: string;
     private context;
     private location;
     /**
      * @class ShaderUniformLocation
      * @constructor
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
-     * @param glslType {string} The type of the uniform variale, as it appears in the GLSL shader code.
      */
-    constructor(name: string, glslType: string);
+    constructor(name: string);
     /**
-     * @method contextFree
+     * @method release
      */
-    contextFree(): void;
+    release(): void;
     /**
      * @method contextGain
      * @param context {WebGLRenderingContext}
      * @param program {WebGLProgram}
-     * @param contextId {string}
      */
-    contextGain(context: WebGLRenderingContext, program: WebGLProgram, contextId: string): void;
+    contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     /**
      * @method contextLoss
      */
     contextLoss(): void;
-    createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): UniformSetter;
+    createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter;
     /**
      * @method uniform1f
-     * @param value {number} Value to assign.
+     * @param x {number} Value to assign.
      */
-    uniform1f(value: number): void;
+    uniform1f(x: number): void;
     /**
      * @method uniform1fv
      * @param data {number[]}

@@ -1,3 +1,4 @@
+import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Geometry = require('../geometries/Geometry');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
@@ -22,6 +23,11 @@ declare class GeometryAdapter extends DefaultAttribProvider {
     private points;
     private positionVarName;
     private normalVarName;
+    private indexBuffer;
+    private positionBuffer;
+    private normalBuffer;
+    private attributeDataInfos;
+    private _refCount;
     /**
      * @class GeometryAdapter
      * @constructor
@@ -33,8 +39,13 @@ declare class GeometryAdapter extends DefaultAttribProvider {
         positionVarName?: string;
         normalVarName?: string;
     });
+    addRef(): void;
+    release(): void;
+    contextGain(context: WebGLRenderingContext): void;
+    contextLoss(): void;
+    hasContext(): boolean;
     drawMode: DrawMode;
-    draw(context: WebGLRenderingContext): void;
+    draw(): void;
     dynamic: boolean;
     hasElementArray(): boolean;
     getElementArray(): {
@@ -45,6 +56,7 @@ declare class GeometryAdapter extends DefaultAttribProvider {
         usage: DataUsage;
         data: Float32Array;
     };
+    getAttribData(): AttribDataInfos;
     getAttribMeta(): AttribMetaInfos;
     update(): void;
     private computeLines();

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -152,13 +154,11 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;); 
-import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;); 
+import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;); 
+import AttribDataInfos = require(&#x27;../core/AttribDataInfos&#x27;); 
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
-import ElementArray = require(&#x27;../core/ElementArray&#x27;);
-import ChainedUniformProvider = require(&#x27;../uniforms/ChainedUniformProvider&#x27;);
 import Primitive = require(&#x27;../core/Primitive&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
@@ -167,27 +167,18 @@ import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;);
 import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;);
-import updateUniform = require(&#x27;../core/updateUniform&#x27;);
 import setAttributes = require(&#x27;../programs/setAttributes&#x27;);
 import setUniforms = require(&#x27;../programs/setUniforms&#x27;);
 
 var primitive = function&lt;MESH extends AttribProvider, MODEL extends UniformProvider&gt;(mesh: MESH, program: ShaderProgram, model: MODEL): Primitive&lt;MESH, MODEL&gt; {
-  /**
-   * Find an attribute by its code name rather than its semantic role (which is the key in AttribMetaInfos)
-   */
-  function findAttribMetaInfoByVariableName(attribVarName: string, attributes: AttribMetaInfos): AttribMetaInfo {
-    for (var name in attributes) {
-      let attribute = attributes[name];
-      if (getAttribVarName(attribute, name) === attribVarName) {
-        return attribute;
-      }
-    }
-  }
-  var context: WebGLRenderingContext;
-  var contextGainId: string;
-  var elements: ElementArray = new ElementArray(mesh);
 
-  var self = {
+  var $context: WebGLRenderingContext;
+  var refCount: number = 0;
+
+  mesh.addRef();
+  program.addRef();
+
+  let self = {
     get mesh(): MESH {
       return mesh;
     },
@@ -197,95 +188,58 @@ var primitive = function&lt;MESH extends AttribProvider, MODEL extends UniformPr
     get model(): MODEL {
       return model;
     },
-    contextFree() {
-      program.contextFree();
-      elements.contextFree();
-      context = null;
-      contextGainId = null;
+    addRef() {
+      refCount++;
+      // console.log(&quot;primitive.addRef() =&gt; &quot; + refCount);
     },
-    contextGain(contextArg: WebGLRenderingContext, contextId: string) {
-      context = contextArg;
-      if (contextGainId !== contextId) {
-        contextGainId = contextId;
-        program.contextGain(context, contextId);
-        elements.contextGain(context, contextId);
+    release() {
+      refCount--;
+      // console.log(&quot;primitive.release() =&gt; &quot; + refCount);
+      if (refCount === 0) {
+        mesh.release();
+        mesh = void 0;
+        program.release();
+        program = void 0;
+      }
+    },
+    contextGain(context: WebGLRenderingContext) {
+      if ($context !== context) {
+        $context = context;
+        mesh.contextGain(context);
+        program.contextGain(context);
       }
     },
     contextLoss() {
-      program.contextLoss();
-      elements.contextLoss();
-      context = null;
-      contextGainId = null;
+      if (isDefined($context)) {
+        $context = void 0;
+        mesh.contextLoss();
+        program.contextLoss();
+      }
     },
     hasContext(): boolean {
-      return program.hasContext();
+      return !!$context;
     },
     /**
      * @method draw
      */
     draw() {
-      if (!program.hasContext()) {
-        return;
-      }
-
+      // TODO: Make this event-driven?
       if (mesh.dynamic) {
         mesh.update();
       }
 
-      // NEW attributes
-      // No problem here because we loop on keys in buffers.
-      let buffers: { [name: string]: WebGLBuffer;} = {}
-      let metas: AttribMetaInfos = mesh.getAttribMeta()
-      setAttributes(program.attribSetters, buffers, metas);
+      program.use();
 
-      // attributes
-      let attributeLocations = program.attributeLocations;
-      for (var name in attributeLocations) {
-        let thing = mesh.getAttribArray(name);
-        if (thing) {
-          attributeLocations[name].bufferData(thing.data, thing.usage);
-        }
-        else {
-          // We expect this to be detected long before we get here.
-          throw new Error(&quot;mesh implementation claims to support, but does not provide data for, attribute &quot; + name);
-        }
-      }
-      // elements
-      elements.bufferData(mesh);
+      program.setUniforms(model.getUniformData());
+      program.setAttributes(mesh.getAttribData());
 
-      setUniforms(program.uniformSetters, model.getUniformData());
+      mesh.draw();
 
-      for (var name in attributeLocations) {
-        let attribLocation = attributeLocations[name];
-        attribLocation.enable();
-        let attribute: AttribMetaInfo = findAttribMetaInfoByVariableName(attribLocation.name, mesh.getAttribMeta());
-        if (attribute) {
-          let size = attribute.size;
-          let type = context.FLOAT;//attribute.dataType;
-          let normalized = attribute.normalized;
-          let stride = attribute.stride;
-          let offset = attribute.offset;
-          attribLocation.dataFormat(size, type, normalized, stride, offset);
-        }
-        else {
-          throw new Error(&quot;The mesh does not support the attribute variable named &quot; + attribLocation.name);
-        }
-      }
-
-      elements.bind();
-
-      mesh.draw(context);
-
-      for (var name in attributeLocations) {
-        let attribLocation = attributeLocations[name];
-        attribLocation.disable();
+      for (var name in program.attributeLocations) {
+        program.attributeLocations[name].disable();
       }
     }
   };
-
-  if (!mesh.dynamic) {
-    mesh.update();
-  }
 
   return self;
 };

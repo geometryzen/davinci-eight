@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -154,8 +156,7 @@
     <pre class="code prettyprint linenums">
 import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
 import UniformDataInfo = require(&#x27;../core/UniformDataInfo&#x27;);
-import UniformSetter = require(&#x27;../core/UniformSetter&#x27;);
-import glslType = require(&#x27;../programs/glslType&#x27;);
+import ShaderUniformSetter = require(&#x27;../core/ShaderUniformSetter&#x27;);
 /**
  * Returns the corresponding bind point for a given sampler type
  */
@@ -164,7 +165,7 @@ function getBindPointForSamplerType(gl: WebGLRenderingContext, type: number) {
   if (type === gl.SAMPLER_CUBE) return gl.TEXTURE_CUBE_MAP;
 }
 
-function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram):{[name: string]: UniformSetter} {
+function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram):{[name: string]: ShaderUniformSetter} {
     var textureUnit = 0;
 
     /**
@@ -174,10 +175,9 @@ function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram):
      * @param {WebGLUniformInfo} uniformInfo
      * @returns {function} the created setter.
      */
-    function createUniformSetter(program: WebGLProgram, uniformInfo: WebGLActiveInfo): UniformSetter {
+    function createUniformSetter(program: WebGLProgram, uniformInfo: WebGLActiveInfo): ShaderUniformSetter {
       let name: string = uniformInfo.name;
       let type: number = uniformInfo.type;
-//    let uniformLoc: ShaderUniformLocation = new ShaderUniformLocation(name, glslType(type, gl));
       let location: WebGLUniformLocation = gl.getUniformLocation(program, name);
       // Check if this uniform is an array
       var isArray = (uniformInfo.size &gt; 1 &amp;&amp; name.substr(-3) === &quot;[0]&quot;);

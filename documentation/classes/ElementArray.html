@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -153,7 +155,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:13</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_ElementBuffer.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementBuffer.ts:10</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -162,8 +164,7 @@
 
 
 <div class="box intro">
-    <p>Manages the (optional) WebGLBuffer used to support gl.drawElements().</p>
-
+    
 </div>
 
     <div class="constructor">
@@ -171,13 +172,7 @@
         <div id="method_ElementArray" class="method item">
             <h3 class="name"><code>ElementArray</code></h3>
         
-                <div class="args">
-                    <span class="paren">(</span><ul class="args-list inline commas">
-                        <li class="arg">
-                                <code>attributes</code>
-                        </li>
-                    </ul><span class="paren">)</span>
-                </div>
+                <span class="paren">()</span>
         
         
         
@@ -189,7 +184,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l13"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:13</code></a>
+                <a href="../files/src_davinci-eight_core_ElementBuffer.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementBuffer.ts:10</code></a>
                 </p>
         
         
@@ -200,22 +195,6 @@
                 
             </div>
         
-                <div class="params">
-                    <h4>Parameters:</h4>
-        
-                    <ul class="params-list">
-                        <li class="param">
-                                <code class="param-name">attributes</code>
-                                <span class="type"><a href="../classes/AttribProvider.html" class="crosslink">AttribProvider</a></span>
-        
-        
-                            <div class="param-description">
-                                 
-                            </div>
-        
-                        </li>
-                    </ul>
-                </div>
         
         
         
@@ -238,15 +217,11 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_bind">bind</a>
+                                <a href="#method_bindBuffer">bindBuffer</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_bufferData">bufferData</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_contextFree">contextFree</a>
 
                             </li>
                             <li class="index-item method">
@@ -267,8 +242,8 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_bind" class="method item">
-    <h3 class="name"><code>bind</code></h3>
+<div id="method_bindBuffer" class="method item">
+    <h3 class="name"><code>bindBuffer</code></h3>
 
         <span class="paren">()</span>
 
@@ -282,7 +257,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:60</code></a>
+        <a href="../files/src_davinci-eight_core_ElementBuffer.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementBuffer.ts:50</code></a>
         </p>
 
 
@@ -303,7 +278,10 @@
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>attributes</code>
+                        <code>data</code>
+                </li>
+                <li class="arg">
+                        <code>usage</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -318,7 +296,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:48</code></a>
+        <a href="../files/src_davinci-eight_core_ElementBuffer.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementBuffer.ts:61</code></a>
         </p>
 
 
@@ -334,8 +312,8 @@
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">attributes</code>
-                        <span class="type"><a href="../classes/AttribProvider.html" class="crosslink">AttribProvider</a></span>
+                        <code class="param-name">data</code>
+                        <span class="type">Uint16Array</span>
 
 
                     <div class="param-description">
@@ -343,38 +321,19 @@
                     </div>
 
                 </li>
+                <li class="param">
+                        <code class="param-name">usage</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>Optional. Defaults to STREAM_DRAW.</p>
+
+                    </div>
+
+                </li>
             </ul>
         </div>
-
-
-
-</div>
-<div id="method_contextFree" class="method item">
-    <h3 class="name"><code>contextFree</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:21</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
 
 
 
@@ -400,7 +359,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:31</code></a>
+        <a href="../files/src_davinci-eight_core_ElementBuffer.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementBuffer.ts:32</code></a>
         </p>
 
 
@@ -446,7 +405,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_ElementArray.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementArray.ts:41</code></a>
+        <a href="../files/src_davinci-eight_core_ElementBuffer.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ElementBuffer.ts:43</code></a>
         </p>
 
 

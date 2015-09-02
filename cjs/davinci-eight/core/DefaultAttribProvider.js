@@ -11,26 +11,7 @@ var DefaultAttribProvider = (function (_super) {
     function DefaultAttribProvider() {
         _super.call(this);
     }
-    DefaultAttribProvider.prototype.draw = function (context) {
-        /*
-        switch(this.drawMode) {
-          case DrawMode.POINTS: {
-            context.drawArrays(context.POINTS, 0, this.points.length * 1);
-          }
-          break;
-          case DrawMode.LINES: {
-            context.drawArrays(context.LINES, 0, this.lines.length * 2);
-          }
-          break;
-          case DrawMode.TRIANGLES: {
-            //context.drawElements(context.TRIANGLES, this.elementArray.length, context.UNSIGNED_SHORT,0);
-            context.drawArrays(context.TRIANGLES, 0, this.geometry.faces.length * 3);
-          }
-          break;
-          default : {
-          }
-        }
-        */
+    DefaultAttribProvider.prototype.draw = function () {
     };
     DefaultAttribProvider.prototype.update = function () {
         return _super.prototype.update.call(this);

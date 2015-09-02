@@ -1,5 +1,7 @@
-import ShaderProgram = require('../core/ShaderProgram');
+import AttribDataInfo = require('../core/AttribDataInfo');
+import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribProvider = require('../core/AttribProvider');
+import ShaderProgram = require('../core/ShaderProgram');
 import ShaderAttribSetter   = require('../core/ShaderAttribSetter');
 import parse = require('../glsl/parse');
 import NodeWalker = require('../glsl/NodeWalker');
@@ -10,35 +12,43 @@ import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 import uuid4 = require('../utils/uuid4');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
-import UniformSetter   = require('../core/UniformSetter');
-import createAttributeSetters = require('../programs/createAttributeSetters');
+import ShaderUniformSetter   = require('../core/ShaderUniformSetter');
 import createUniformSetters = require('../programs/createUniformSetters');
 import setUniforms = require('../programs/setUniforms');
 import UniformDataInfo = require('../core/UniformDataInfo');
 import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import glslType = require('../programs/glslType');
 
-var shaderProgram = function(vertexShader: string, fragmentShader: string): ShaderProgram {
+var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid: string = uuid4().generate()): ShaderProgram {
 
   if (typeof vertexShader !== 'string') {
     throw new Error("vertexShader argument must be a string.");
   }
+
   if (typeof fragmentShader !== 'string') {
     throw new Error("fragmentShader argument must be a string.");
   }
+
+  function free() {
+    if (program) {
+      // console.log("WebGLProgram deleted");
+      $context.deleteProgram(program);
+      program = void 0;
+    }
+    $context = void 0;
+  }
+
+  var refCount: number = 0;
   var program: WebGLProgram;
-  var programId: string;
-  var context: WebGLRenderingContext;
-  var contextGainId: string;
+  var $context: WebGLRenderingContext;
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
-  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
+//  var attribSetters:{[name: string]: ShaderAttribSetter} = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
-  var uniformSetters: {[name: string]: UniformSetter} = {};
+  var uniformSetters: {[name: string]: ShaderUniformSetter} = {};
 
-  var publicAPI: ShaderProgram = {
+  var self: ShaderProgram = {
     get vertexShader() {
       return vertexShader;
     },
@@ -48,69 +58,64 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
     get attributeLocations(): { [name: string]: ShaderAttribLocation } {
       return attributeLocations;
     },
-    get attribSetters(): { [name: string]: ShaderAttribSetter } {
-      return attribSetters;
-    },
     get uniformLocations(): { [name: string]: ShaderUniformLocation } {
       return uniformLocations;
     },
-    get uniformSetters(): {[name: string]: UniformSetter} {
+    get uniformSetters(): {[name: string]: ShaderUniformSetter} {
       return uniformSetters;
     },
-    contextFree: function(): void {
-      if (program) {
-        context.deleteProgram(program);
-        program = void 0;
-        programId = void 0;
-        context = void 0;
-        contextGainId = void 0;
-        for(var aName in attributeLocations) {
-          attributeLocations[aName].contextFree();
-        }
-        for(var uName in uniformLocations) {
-          uniformLocations[uName].contextFree();
-        }
+    addRef(): void {
+      refCount++;
+      // console.log("shaderProgram.addRef() => " + refCount);
+    },
+    release(): void {
+      refCount--;
+      // console.log("shaderProgram.release() => " + refCount);
+      if (refCount === 0) {
+        free();
       }
     },
-    contextGain: function(contextArg: WebGLRenderingContext, contextId: string): void {
-      context = contextArg;
-      if (contextGainId !== contextId) {
+    contextGain(context: WebGLRenderingContext): void {
+      if ($context !== context) {
+        free();
+        $context = context;
         program = makeWebGLProgram(context, vertexShader, fragmentShader);
-        programId = uuid4().generate();
-        contextGainId = contextId;
 
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
         for (var a = 0; a < activeAttributes; a++) {
           let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
-          activeInfo.size; // What is this used for?
-          activeInfo.type;
-          if (!attributeLocations[activeInfo.name]) {
-            attributeLocations[activeInfo.name] = new ShaderAttribLocation(activeInfo.name, glslType(activeInfo.type, context));
+          let name: string = activeInfo.name;
+          // The following properties don't correspond directly wuth those used.
+          // If the attribute or uniform is an array, this will be the number of elements in the array. Otherwise, this will be 1.
+          let size: number = activeInfo.size;
+          let type: number = activeInfo.type;
+          if (!attributeLocations[name]) {
+            // TODO: Since name MUST be part of Location, maybe should use an array?
+            attributeLocations[name] = new ShaderAttribLocation(name, activeInfo.size, activeInfo.type);
           }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
         for (var u = 0; u < activeUniforms; u++) {
           let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
-          if (!uniformLocations[activeInfo.name]) {
-            uniformLocations[activeInfo.name] = new ShaderUniformLocation(activeInfo.name, glslType(activeInfo.type, context));
-            uniformSetters[activeInfo.name] = uniformLocations[activeInfo.name].createSetter(context, activeInfo);
+          let name: string = activeInfo.name;
+          if (!uniformLocations[name]) {
+            // TODO: Seems like we should be able to make use of the size and type?
+            uniformLocations[name] = new ShaderUniformLocation(name);
+            // TODO: Seems like create setter S/B redundant.
+            uniformSetters[name] = uniformLocations[name].createSetter(context, activeInfo);
           }
         }
-        // Broadcast contextGain to attribute and uniform locations.
         for(var aName in attributeLocations) {
-          attributeLocations[aName].contextGain(contextArg, program, contextId);
+          attributeLocations[aName].contextGain(context, program);
         }
-        Object.keys(uniformLocations).forEach(function(uName: string) {
-          uniformLocations[uName].contextGain(contextArg, program, contextId);
-        });
-        attribSetters = createAttributeSetters(contextArg, program);
+        for(var uName in uniformLocations) {
+          uniformLocations[uName].contextGain(context, program);
+        }
       }
     },
     contextLoss() {
       program = void 0;
-      programId = void 0;
-      context = void 0;
-      contextGainId = void 0;
+      $context = void 0;
       for(var aName in attributeLocations) {
         attributeLocations[aName].contextLoss();
       }
@@ -119,21 +124,38 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string): Shad
       }
     },
     hasContext: function(): boolean {
-      return !!program;
+      return !!$context;
     },
     get program() { return program; },
-    get programId() {return programId;},
+    get programId() {return uuid;},
     use(): ShaderProgram {
-      if (context) {
-        context.useProgram(program);
+      if ($context) {
+        $context.useProgram(program);
       }
-      return publicAPI;
+      else {
+        console.warn("shaderProgram.use() missing WebGLRenderingContext");
+      }
+      return self;
+    },
+    setAttributes(values: AttribDataInfos) {
+      for (var name in attributeLocations) {
+        let slot = attributeLocations[name];
+        let data: AttribDataInfo = values[slot.name];
+        if (data) {
+          data.buffer.bindBuffer();
+          slot.enable();
+          slot.vertexAttribPointer(data.numComponents, data.normalized, data.stride, data.offset);
+        }
+        else {
+          throw new Error("The mesh does not support the attribute variable named " + slot.name);
+        }
+      }
     },
     setUniforms(values: UniformDataInfos) {
       setUniforms(uniformSetters, values);
     }
   };
-  return publicAPI;
+  return self;
 };
 
 function makeWebGLShader(gl: WebGLRenderingContext, source: string, type: number): WebGLShader {
@@ -157,6 +179,7 @@ function makeWebGLProgram(gl: WebGLRenderingContext, vertexShader: string, fragm
   let vs: WebGLShader = makeWebGLShader(gl, vertexShader, gl.VERTEX_SHADER);
   let fs: WebGLShader = makeWebGLShader(gl, fragmentShader, gl.FRAGMENT_SHADER);
   let program = gl.createProgram();
+  // console.log("WebGLProgram created");
   gl.attachShader(program, vs);
   gl.attachShader(program, fs);
   gl.linkProgram(program);
@@ -173,6 +196,7 @@ function makeWebGLProgram(gl: WebGLRenderingContext, vertexShader: string, fragm
     gl.deleteShader(fs);
 
     gl.deleteProgram(program);
+    // console.log("WebGLProgram deleted");
 
     throw new Error("Error linking program: " + message);
   }

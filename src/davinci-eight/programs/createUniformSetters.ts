@@ -1,7 +1,6 @@
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
 import UniformDataInfo = require('../core/UniformDataInfo');
-import UniformSetter = require('../core/UniformSetter');
-import glslType = require('../programs/glslType');
+import ShaderUniformSetter = require('../core/ShaderUniformSetter');
 /**
  * Returns the corresponding bind point for a given sampler type
  */
@@ -10,7 +9,7 @@ function getBindPointForSamplerType(gl: WebGLRenderingContext, type: number) {
   if (type === gl.SAMPLER_CUBE) return gl.TEXTURE_CUBE_MAP;
 }
 
-function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram):{[name: string]: UniformSetter} {
+function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram):{[name: string]: ShaderUniformSetter} {
     var textureUnit = 0;
 
     /**
@@ -20,10 +19,9 @@ function createUniformSetters(gl: WebGLRenderingContext, program: WebGLProgram):
      * @param {WebGLUniformInfo} uniformInfo
      * @returns {function} the created setter.
      */
-    function createUniformSetter(program: WebGLProgram, uniformInfo: WebGLActiveInfo): UniformSetter {
+    function createUniformSetter(program: WebGLProgram, uniformInfo: WebGLActiveInfo): ShaderUniformSetter {
       let name: string = uniformInfo.name;
       let type: number = uniformInfo.type;
-//    let uniformLoc: ShaderUniformLocation = new ShaderUniformLocation(name, glslType(type, gl));
       let location: WebGLUniformLocation = gl.getUniformLocation(program, name);
       // Check if this uniform is an array
       var isArray = (uniformInfo.size > 1 && name.substr(-3) === "[0]");

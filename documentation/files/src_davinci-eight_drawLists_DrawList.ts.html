@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/core/ElementArray.ts - davinci-eight</title>
+    <title>src/davinci-eight/drawLists/DrawList.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.61.0</em>
+            <em>API Docs for: 2.62.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,7 @@
                                 <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -69,6 +70,7 @@
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
@@ -148,80 +150,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/core/ElementArray.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/drawLists/DrawList.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
-import convertUsage = require(&#x27;../core/convertUsage&#x27;);
-import DataUsage = require(&#x27;../core/DataUsage&#x27;);
+import Drawable = require(&#x27;../core/Drawable&#x27;);
+import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
+import UniformDataInfo = require(&#x27;../core/UniformDataInfo&#x27;);
+import UniformDataInfos = require(&#x27;../core/UniformDataInfos&#x27;);
 
-/**
- * Manages the (optional) WebGLBuffer used to support gl.drawElements().
- * @class ElementArray
- */
-class ElementArray {
-  private buffer: WebGLBuffer;
-  private attributes: AttribProvider;
-  private context: WebGLRenderingContext;
+interface DrawList extends RenderingContextUser {
+  add(drawable: Drawable): void;
+  remove(drawable: Drawable): void;
+  traverse(callback: (value: Drawable, index: number, array: Drawable[]) =&gt; void): void;
   /**
-   * @class ElementArray
-   * @constructor
-   * @param attributes {AttribProvider}
+   * Sets the uniforms provided into all programs.
    */
-  constructor(attributes: AttribProvider) {
-    this.attributes = attributes;
-  }
-  /**
-   * @method contextFree
-   */
-  contextFree() {
-    if (this.buffer) {
-      this.context.deleteBuffer(this.buffer);
-      this.buffer = void 0;
-    }
-    this.context = void 0;
-  }
-  /**
-   * @method contextGain
-   * @param context {WebGLRenderingContext}
-   */
-  contextGain(context: WebGLRenderingContext, contextId : string) {
-    if (this.attributes.hasElementArray()) {
-      this.buffer = context.createBuffer();
-    }
-    this.context = context;
-  }
-  /**
-   * @method contextLoss
-   */
-  contextLoss() {
-    this.buffer = void 0;
-    this.context = void 0;
-  }
-  /**
-   * @method bufferData
-   * @param attributes {AttribProvider}
-   */
-  bufferData(attributes: AttribProvider) {
-    if (this.buffer) {
-      let elements: { usage: DataUsage; data: Uint16Array } = attributes.getElementArray();
-      this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);
-      let usage: number = convertUsage(elements.usage, this.context);
-      this.context.bufferData(this.context.ELEMENT_ARRAY_BUFFER, elements.data, usage);
-    }
-  }
-  /**
-   * @method bind
-   */
-  bind() {
-    if (this.buffer) {
-      this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.buffer);
-    }
-  }
+  setUniforms(values: UniformDataInfos);
 }
 
-export = ElementArray;
+export = DrawList;
+
     </pre>
 </div>
                     </div>

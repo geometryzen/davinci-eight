@@ -33,11 +33,14 @@ var ArrowWrapper = (function () {
     ArrowWrapper.prototype.draw = function () {
         return this.primitive.draw();
     };
-    ArrowWrapper.prototype.contextFree = function () {
-        return this.primitive.contextFree();
+    ArrowWrapper.prototype.addRef = function () {
+        return this.primitive.addRef();
     };
-    ArrowWrapper.prototype.contextGain = function (context, contextId) {
-        return this.primitive.contextGain(context, contextId);
+    ArrowWrapper.prototype.release = function () {
+        return this.primitive.release();
+    };
+    ArrowWrapper.prototype.contextGain = function (context) {
+        return this.primitive.contextGain(context);
     };
     ArrowWrapper.prototype.contextLoss = function () {
         return this.primitive.contextLoss();
