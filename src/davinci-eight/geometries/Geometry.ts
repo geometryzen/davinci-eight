@@ -1,3 +1,5 @@
+import Cartesian2 = require('../math/Cartesian2');
+import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
 import Sphere = require('../math/Sphere');
 import Vector2 = require('../math/Vector2');
@@ -8,9 +10,9 @@ import isDefined = require('../checks/isDefined');
  * @class Geometry
  */
  class Geometry {
-  public vertices: Vector3[] = [];
+  public vertices: Cartesian3[] = [];
   public faces: Face3[] = [];
-  public faceVertexUvs: Vector2[][][] = [[]];
+  public faceVertexUvs: Cartesian2[][][] = [[]];
   public dynamic = true;
   public verticesNeedUpdate = false;
   public elementsNeedUpdate = false;
@@ -38,9 +40,9 @@ import isDefined = require('../checks/isDefined');
     let vertices = this.vertices;
     let computeFaceNormal = function(face: Face3) {
       face.normals = [];
-      let vA: Vector3 = vertices[face.a];
-      let vB: Vector3 = vertices[face.b];
-      let vC: Vector3 = vertices[face.c];
+      let vA: Cartesian3 = vertices[face.a];
+      let vB: Cartesian3 = vertices[face.b];
+      let vC: Cartesian3 = vertices[face.c];
       let cb = new Vector3().subVectors(vC, vB);
       let ab = new Vector3().subVectors(vA, vB);
       let normal = new Vector3().crossVectors(cb, ab).normalize();
@@ -69,9 +71,9 @@ import isDefined = require('../checks/isDefined');
       // vertex normals weighted by triangle areas
       // http://www.iquilezles.org/www/articles/normals/normals.htm
 
-      var vA: Vector3;
-      var vB: Vector3;
-      var vC: Vector3;
+      var vA: Cartesian3;
+      var vB: Cartesian3;
+      var vC: Cartesian3;
       var cb = new Vector3();
       var ab = new Vector3();
 
@@ -133,7 +135,7 @@ import isDefined = require('../checks/isDefined');
     /**
      * The list of unique vertices.
      */
-    var unique: Vector3[] = [];
+    var unique: Cartesian3[] = [];
     /**
      * Index is original index in vertices. Entry is index in unique array.
      */
@@ -146,7 +148,7 @@ import isDefined = require('../checks/isDefined');
     var indices, j, jl;
 
     for (i = 0, il = this.vertices.length; i < il; i ++) {
-      let v: Vector3 = this.vertices[ i ];
+      let v: Cartesian3 = this.vertices[ i ];
       let key: string = Math.round( v.x * precision ) + '_' + Math.round( v.y * precision ) + '_' + Math.round( v.z * precision );
 
       if (verticesMap[key] === void 0) {

@@ -43,10 +43,10 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     var v2 = vertices[y][x];
                     var v3 = vertices[y + 1][x];
                     var v4 = vertices[y + 1][x + 1];
-                    var n1 = this.vertices[v1].clone().normalize();
-                    var n2 = this.vertices[v2].clone().normalize();
-                    var n3 = this.vertices[v3].clone().normalize();
-                    var n4 = this.vertices[v4].clone().normalize();
+                    var n1 = Vector3.copy(this.vertices[v1]).normalize();
+                    var n2 = Vector3.copy(this.vertices[v2]).normalize();
+                    var n3 = Vector3.copy(this.vertices[v3]).normalize();
+                    var n4 = Vector3.copy(this.vertices[v4]).normalize();
                     var uv1 = uvs[y][x + 1].clone();
                     var uv2 = uvs[y][x].clone();
                     var uv3 = uvs[y + 1][x].clone();

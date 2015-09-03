@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.64.0",
+        "version": "2.65.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1156,7 +1156,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/Face3.ts",
-            "line": 22,
+            "line": 24,
             "is_constructor": 1,
             "params": [
                 {
@@ -1177,7 +1177,7 @@
                 {
                     "name": "normals",
                     "description": "The per-vertex normals for this face (3) or face normal (1).",
-                    "type": "Vector3[]"
+                    "type": "Cartesian3[]"
                 }
             ]
         },
@@ -1427,7 +1427,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 7
+            "line": 9
         },
         "GeometryAdapter": {
             "name": "GeometryAdapter",
@@ -1439,7 +1439,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/GeometryAdapter.ts",
-            "line": 59,
+            "line": 56,
             "description": "Adapter from a Geometry to a AttribProvider.\nEnables the rapid construction of meshes starting from classes that extend Geometry.\nAutomatically uses elements (vertex indices).",
             "extends": "VertexAttributeProivider",
             "is_constructor": 1,
@@ -2567,7 +2567,7 @@
         {
             "file": "src/davinci-eight/core/Face3.ts",
             "line": 18,
-            "description": "length 3 implies index 0 <=> a, 1 <=> b, 2 <=> c. length 1 implies a face normal.",
+            "description": "length 3 implies per-vertex normals with correspondence index 0 <=> a, 1 <=> b, 2 <=> c.\nlength 1 implies a face normal.\nlength 0 implies",
             "class": "Face3"
         },
         {
@@ -3161,7 +3161,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 28,
+            "line": 30,
             "description": "Ensures that the normal property of each face is assigned\na value equal to the normalized cross product of two edge vectors\ntaken counter-clockwise. This pseudo vector is then taken to face outwards by convention.",
             "itemtype": "method",
             "name": "computeFaceNormals",
@@ -3169,19 +3169,19 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 128,
+            "line": 130,
             "description": "Hashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",
             "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 133,
+            "line": 135,
             "description": "The list of unique vertices.",
             "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 137,
+            "line": 139,
             "description": "Index is original index in vertices. Entry is index in unique array.",
             "class": "Geometry"
         },
@@ -3205,7 +3205,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/ParametricSurfaceGeometry.ts",
-            "line": 7,
+            "line": 8,
             "author": "zz85 / https://github.com/zz85\nParametric Surfaces Geometry\nbased on the brilliant article by @prideout http://prideout.net/blog/?p=44\n\nnew ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );",
             "class": "Cartesian1"
         },
@@ -15282,7 +15282,7 @@
             "line": " src/davinci-eight/core/DrawContext.ts:5"
         },
         {
-            "message": "Missing item type\nlength 3 implies index 0 <=> a, 1 <=> b, 2 <=> c. length 1 implies a face normal.",
+            "message": "Missing item type\nlength 3 implies per-vertex normals with correspondence index 0 <=> a, 1 <=> b, 2 <=> c.\nlength 1 implies a face normal.\nlength 0 implies",
             "line": " src/davinci-eight/core/Face3.ts:18"
         },
         {
@@ -15371,15 +15371,15 @@
         },
         {
             "message": "Missing item type\nHashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",
-            "line": " src/davinci-eight/geometries/Geometry.ts:128"
+            "line": " src/davinci-eight/geometries/Geometry.ts:130"
         },
         {
             "message": "Missing item type\nThe list of unique vertices.",
-            "line": " src/davinci-eight/geometries/Geometry.ts:133"
+            "line": " src/davinci-eight/geometries/Geometry.ts:135"
         },
         {
             "message": "Missing item type\nIndex is original index in vertices. Entry is index in unique array.",
-            "line": " src/davinci-eight/geometries/Geometry.ts:137"
+            "line": " src/davinci-eight/geometries/Geometry.ts:139"
         },
         {
             "message": "Missing item type\nradius",
@@ -15395,7 +15395,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/ParametricSurfaceGeometry.ts:7"
+            "line": " src/davinci-eight/geometries/ParametricSurfaceGeometry.ts:8"
         },
         {
             "message": "Missing item type",

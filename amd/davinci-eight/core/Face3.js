@@ -9,7 +9,7 @@ define(["require", "exports"], function (require, exports) {
          * @param a {number}
          * @param b {number}
          * @param c {number}
-         * @param normals {Vector3[]} The per-vertex normals for this face (3) or face normal (1).
+         * @param normals {Cartesian3[]} The per-vertex normals for this face (3) or face normal (1).
          */
         function Face3(a, b, c, normals) {
             if (normals === void 0) { normals = []; }

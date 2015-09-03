@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.64.0</em>
+            <em>API Docs for: 2.65.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -154,6 +154,8 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;);
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import Face3 = require(&#x27;../core/Face3&#x27;);
 import Sphere = require(&#x27;../math/Sphere&#x27;);
 import Vector2 = require(&#x27;../math/Vector2&#x27;);
@@ -164,9 +166,9 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
  * @class Geometry
  */
  class Geometry {
-  public vertices: Vector3[] = [];
+  public vertices: Cartesian3[] = [];
   public faces: Face3[] = [];
-  public faceVertexUvs: Vector2[][][] = [[]];
+  public faceVertexUvs: Cartesian2[][][] = [[]];
   public dynamic = true;
   public verticesNeedUpdate = false;
   public elementsNeedUpdate = false;
@@ -194,9 +196,9 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
     let vertices = this.vertices;
     let computeFaceNormal = function(face: Face3) {
       face.normals = [];
-      let vA: Vector3 = vertices[face.a];
-      let vB: Vector3 = vertices[face.b];
-      let vC: Vector3 = vertices[face.c];
+      let vA: Cartesian3 = vertices[face.a];
+      let vB: Cartesian3 = vertices[face.b];
+      let vC: Cartesian3 = vertices[face.c];
       let cb = new Vector3().subVectors(vC, vB);
       let ab = new Vector3().subVectors(vA, vB);
       let normal = new Vector3().crossVectors(cb, ab).normalize();
@@ -225,9 +227,9 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
       // vertex normals weighted by triangle areas
       // http://www.iquilezles.org/www/articles/normals/normals.htm
 
-      var vA: Vector3;
-      var vB: Vector3;
-      var vC: Vector3;
+      var vA: Cartesian3;
+      var vB: Cartesian3;
+      var vC: Cartesian3;
       var cb = new Vector3();
       var ab = new Vector3();
 
@@ -289,7 +291,7 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
     /**
      * The list of unique vertices.
      */
-    var unique: Vector3[] = [];
+    var unique: Cartesian3[] = [];
     /**
      * Index is original index in vertices. Entry is index in unique array.
      */
@@ -302,7 +304,7 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
     var indices, j, jl;
 
     for (i = 0, il = this.vertices.length; i &lt; il; i ++) {
-      let v: Vector3 = this.vertices[ i ];
+      let v: Cartesian3 = this.vertices[ i ];
       let key: string = Math.round( v.x * precision ) + &#x27;_&#x27; + Math.round( v.y * precision ) + &#x27;_&#x27; + Math.round( v.z * precision );
 
       if (verticesMap[key] === void 0) {

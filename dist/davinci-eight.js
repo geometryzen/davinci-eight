@@ -2217,7 +2217,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
          * @param a {number}
          * @param b {number}
          * @param c {number}
-         * @param normals {Vector3[]} The per-vertex normals for this face (3) or face normal (1).
+         * @param normals {Cartesian3[]} The per-vertex normals for this face (3) or face normal (1).
          */
         function Face3(a, b, c, normals) {
             if (normals === void 0) { normals = []; }
@@ -2233,7 +2233,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.64.0'
+        VERSION: '2.65.0'
     };
     return core;
 });
@@ -2795,10 +2795,10 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
     return scene;
 });
 
-define('davinci-eight/math/Sphere',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
+define('davinci-eight/math/Sphere',["require", "exports"], function (require, exports) {
     var Sphere = (function () {
         function Sphere(center, radius) {
-            this.center = (center !== undefined) ? center : new Vector3([0, 0, 0]);
+            this.center = (center !== undefined) ? center : { x: 0, y: 0, z: 0 };
             this.radius = (radius !== undefined) ? radius : 0;
         }
         Sphere.prototype.setFromPoints = function (points) {
@@ -3165,10 +3165,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../core/Line3', '../core/Point3', '../core/Color', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Color, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, ArrayBuffer, ElementBuffer) {
-    function defaultColorFunction(vertexIndex, face, vertexList) {
-        return new Color([1.0, 1.0, 1.0]);
-    }
+define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, ArrayBuffer, ElementBuffer) {
     function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
         var attributes = {};
         attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };
@@ -4236,12 +4233,12 @@ define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../co
             var nb;
             for (x = 0; x < radialSegments; x++) {
                 if (radiusTop !== 0) {
-                    na = this.vertices[vertices[0][x]].clone();
-                    nb = this.vertices[vertices[0][x + 1]].clone();
+                    na = Vector3.copy(this.vertices[vertices[0][x]]);
+                    nb = Vector3.copy(this.vertices[vertices[0][x + 1]]);
                 }
                 else {
-                    na = this.vertices[vertices[1][x]].clone();
-                    nb = this.vertices[vertices[1][x + 1]].clone();
+                    na = Vector3.copy(this.vertices[vertices[1][x]]);
+                    nb = Vector3.copy(this.vertices[vertices[1][x + 1]]);
                 }
                 na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
                 nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
@@ -4316,16 +4313,9 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
     var PolyhedronGeometry = (function (_super) {
         __extends(PolyhedronGeometry, _super);
         function PolyhedronGeometry(vertices, indices, radius, detail) {
+            if (radius === void 0) { radius = 1; }
+            if (detail === void 0) { detail = 0; }
             _super.call(this);
-            this.type = 'PolyhedronGeometry';
-            this.parameters = {
-                vertices: vertices,
-                indices: indices,
-                radius: radius,
-                detail: detail
-            };
-            radius = radius || 1;
-            detail = detail || 0;
             var that = this;
             for (var i = 0, l = vertices.length; i < l; i += 3) {
                 prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]));
@@ -4336,9 +4326,10 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
                 var v1 = p[indices[i]];
                 var v2 = p[indices[i + 1]];
                 var v3 = p[indices[i + 2]];
-                faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
+                // FIXME: Using some modifications of the data structures given.
+                // TODO: Optimize vector copies.
+                faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
             }
-            var centroid = new Vector3([0, 0, 0]);
             for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
                 subdivide(faces[i], detail);
             }
@@ -4361,15 +4352,19 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
             }
             // Apply radius
             for (var i = 0, verticesLength = this.vertices.length; i < verticesLength; i++) {
-                this.vertices[i].multiplyScalar(radius);
+                this.vertices[i].x *= radius;
+                this.vertices[i].y *= radius;
+                this.vertices[i].z *= radius;
             }
             // Merge vertices
             this.mergeVertices();
             this.computeFaceNormals();
             this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
-            // Project vector onto sphere's surface
+            /*
+             * Project vector onto sphere's surface
+             */
             function prepare(vector) {
-                var vertex = vector.normalize().clone();
+                var vertex = Vector3.copy(vector).normalize();
                 vertex['index'] = that.vertices.push(vertex) - 1;
                 // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
                 var u = azimuth(vector) / 2 / Math.PI + 0.5;
@@ -4377,12 +4372,17 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
                 vertex['uv'] = new Vector2([u, 1 - v]);
                 return vertex;
             }
+            function centroid(v1, v2, v3) {
+                var x = (v1.x + v2.x + v3.x) / 3;
+                var y = (v1.y + v2.y + v3.y) / 3;
+                var z = (v1.z + v2.z + v3.z) / 3;
+                return { x: x, y: y, z: z };
+            }
             // Approximate a curved face with recursively sub-divided triangles.
             function make(v1, v2, v3) {
-                var face = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
+                var face = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
                 that.faces.push(face);
-                centroid.copy(v1).add(v2).add(v3).divideScalar(3);
-                var azi = azimuth(centroid);
+                var azi = azimuth(centroid(v1, v2, v3));
                 that.faceVertexUvs[0].push([
                     correctUV(v1['uv'], v1, azi),
                     correctUV(v2['uv'], v2, azi),
@@ -4399,15 +4399,15 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
                 // Construct all of the vertices for this subdivision.
                 for (var i = 0; i <= cols; i++) {
                     v[i] = [];
-                    var aj = prepare(a.clone().lerp(c, i / cols));
-                    var bj = prepare(b.clone().lerp(c, i / cols));
+                    var aj = prepare(Vector3.copy(a).lerp(c, i / cols));
+                    var bj = prepare(Vector3.copy(b).lerp(c, i / cols));
                     var rows = cols - i;
                     for (var j = 0; j <= rows; j++) {
                         if (j == 0 && i == cols) {
                             v[i][j] = aj;
                         }
                         else {
-                            v[i][j] = prepare(aj.clone().lerp(bj, j / rows));
+                            v[i][j] = prepare(Vector3.copy(aj).lerp(bj, j / rows));
                         }
                     }
                 }
@@ -4429,8 +4429,8 @@ define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../
                 return Math.atan2(vector.z, -vector.x);
             }
             // Angle above the XZ plane.
-            function inclination(vector) {
-                return Math.atan2(-vector.y, Math.sqrt((vector.x * vector.x) + (vector.z * vector.z)));
+            function inclination(pos) {
+                return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
             }
             // Texture fixing helper. Spheres have some odd behaviours.
             function correctUV(uv, vector, azimuth) {
@@ -6519,7 +6519,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/ParametricSurfaceGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, Vector3, expectArg) {
+define('davinci-eight/geometries/ParametricSurfaceGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, expectArg) {
     /**
      * @author zz85 / https://github.com/zz85
      * Parametric Surfaces Geometry
@@ -6544,8 +6544,9 @@ define('davinci-eight/geometries/ParametricSurfaceGeometry',["require", "exports
                 var v = i / vSegments;
                 for (j = 0; j <= uSegments; j++) {
                     var u = j / uSegments;
-                    var p = parametricFunction(u, v);
-                    vertices.push(new Vector3([p.x, p.y, p.z]));
+                    var point = parametricFunction(u, v);
+                    // Make a copy just in case the function is returning mutable references.
+                    vertices.push({ x: point.x, y: point.y, z: point.z });
                 }
             }
             var a;
@@ -6735,10 +6736,10 @@ define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core
                     var v2 = vertices[y][x];
                     var v3 = vertices[y + 1][x];
                     var v4 = vertices[y + 1][x + 1];
-                    var n1 = this.vertices[v1].clone().normalize();
-                    var n2 = this.vertices[v2].clone().normalize();
-                    var n3 = this.vertices[v3].clone().normalize();
-                    var n4 = this.vertices[v4].clone().normalize();
+                    var n1 = Vector3.copy(this.vertices[v1]).normalize();
+                    var n2 = Vector3.copy(this.vertices[v2]).normalize();
+                    var n3 = Vector3.copy(this.vertices[v3]).normalize();
+                    var n4 = Vector3.copy(this.vertices[v4]).normalize();
                     var uv1 = uvs[y][x + 1].clone();
                     var uv2 = uvs[y][x].clone();
                     var uv3 = uvs[y + 1][x].clone();

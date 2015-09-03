@@ -1,13 +1,13 @@
-import Vector3 = require('../math/Vector3');
+import Cartesian3 = require('../math/Cartesian3');
 
 class Sphere {
-  public center: Vector3;
+  public center: Cartesian3;
   public radius: number;
-  constructor(center?: Vector3, radius?: number) {
-    this.center = ( center !== undefined ) ? center : new Vector3([0, 0, 0]);
+  constructor(center?: Cartesian3, radius?: number) {
+    this.center = (center !== undefined) ? center : { x: 0, y: 0, z: 0 };
     this.radius = ( radius !== undefined ) ? radius : 0;
   }
-  setFromPoints(points: Vector3[]) {
+  setFromPoints(points: Cartesian3[]) {
     throw new Error("Not Implemented: Sphere.setFromPoints");
   }
 }

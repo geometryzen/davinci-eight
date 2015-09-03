@@ -4,10 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Color', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Color, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, ArrayBuffer, ElementBuffer) {
-    function defaultColorFunction(vertexIndex, face, vertexList) {
-        return new Color([1.0, 1.0, 1.0]);
-    }
+define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, ArrayBuffer, ElementBuffer) {
     function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
         var attributes = {};
         attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };

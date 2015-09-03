@@ -1,14 +1,14 @@
+import Cartesian2 = require('../math/Cartesian2');
+import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
 import Sphere = require('../math/Sphere');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
 /**
  * @class Geometry
  */
 declare class Geometry {
-    vertices: Vector3[];
+    vertices: Cartesian3[];
     faces: Face3[];
-    faceVertexUvs: Vector2[][][];
+    faceVertexUvs: Cartesian2[][][];
     dynamic: boolean;
     verticesNeedUpdate: boolean;
     elementsNeedUpdate: boolean;

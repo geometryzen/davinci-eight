@@ -1,8 +1,8 @@
-import Vector3 = require('../math/Vector3');
+import Cartesian3 = require('../math/Cartesian3');
 declare class Sphere {
-    center: Vector3;
+    center: Cartesian3;
     radius: number;
-    constructor(center?: Vector3, radius?: number);
-    setFromPoints(points: Vector3[]): void;
+    constructor(center?: Cartesian3, radius?: number);
+    setFromPoints(points: Cartesian3[]): void;
 }
 export = Sphere;

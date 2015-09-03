@@ -7,7 +7,6 @@ var __extends = this.__extends || function (d, b) {
 var Face3 = require('../core/Face3');
 var Geometry = require('../geometries/Geometry');
 var Vector2 = require('../math/Vector2');
-var Vector3 = require('../math/Vector3');
 var expectArg = require('../checks/expectArg');
 /**
  * @author zz85 / https://github.com/zz85
@@ -33,8 +32,9 @@ var ParametricSurfaceGeometry = (function (_super) {
             var v = i / vSegments;
             for (j = 0; j <= uSegments; j++) {
                 var u = j / uSegments;
-                var p = parametricFunction(u, v);
-                vertices.push(new Vector3([p.x, p.y, p.z]));
+                var point = parametricFunction(u, v);
+                // Make a copy just in case the function is returning mutable references.
+                vertices.push({ x: point.x, y: point.y, z: point.z });
             }
         }
         var a;

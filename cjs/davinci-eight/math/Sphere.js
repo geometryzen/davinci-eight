@@ -1,7 +1,6 @@
-var Vector3 = require('../math/Vector3');
 var Sphere = (function () {
     function Sphere(center, radius) {
-        this.center = (center !== undefined) ? center : new Vector3([0, 0, 0]);
+        this.center = (center !== undefined) ? center : { x: 0, y: 0, z: 0 };
         this.radius = (radius !== undefined) ? radius : 0;
     }
     Sphere.prototype.setFromPoints = function (points) {

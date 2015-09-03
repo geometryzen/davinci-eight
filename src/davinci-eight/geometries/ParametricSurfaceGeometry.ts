@@ -1,8 +1,9 @@
+import Cartesian2 = require('../math/Cartesian2');
+import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
 import Geometry = require('../geometries/Geometry');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
-import Cartesian3 = require('../math/Cartesian3');
 import expectArg = require('../checks/expectArg');
 /**
  * @author zz85 / https://github.com/zz85
@@ -17,9 +18,9 @@ class ParametricSurfaceGeometry extends Geometry {
     expectArg('parametricFunction', parametricFunction).toBeFunction();
     expectArg('uSegments', uSegments).toBeNumber();
     expectArg('vSegments', vSegments).toBeNumber();
-    let vertices: Vector3[] = this.vertices;
+    let vertices: Cartesian3[] = this.vertices;
     let faces: Face3[] = this.faces;
-    let uvs: Vector2[][] = this.faceVertexUvs[ 0 ];
+    let uvs: Cartesian2[][] = this.faceVertexUvs[ 0 ];
 
     var i: number;
     var j: number;
@@ -34,9 +35,9 @@ class ParametricSurfaceGeometry extends Geometry {
 
         let u: number = j / uSegments;
 
-        let p: Cartesian3 = parametricFunction( u, v );
-        vertices.push(new Vector3([p.x, p.y, p.z]));
-
+        let point: Cartesian3 = parametricFunction( u, v );
+        // Make a copy just in case the function is returning mutable references.
+        vertices.push({x: point.x, y: point.y, z: point.z});
       }
     }
 

@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, Vector3, expectArg) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, expectArg) {
     /**
      * @author zz85 / https://github.com/zz85
      * Parametric Surfaces Geometry
@@ -29,8 +29,9 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 var v = i / vSegments;
                 for (j = 0; j <= uSegments; j++) {
                     var u = j / uSegments;
-                    var p = parametricFunction(u, v);
-                    vertices.push(new Vector3([p.x, p.y, p.z]));
+                    var point = parametricFunction(u, v);
+                    // Make a copy just in case the function is returning mutable references.
+                    vertices.push({ x: point.x, y: point.y, z: point.z });
                 }
             }
             var a;

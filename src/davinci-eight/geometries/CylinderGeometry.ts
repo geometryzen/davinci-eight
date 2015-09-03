@@ -50,12 +50,12 @@ class CylinderGeometry extends Geometry {
     var nb: Vector3;
     for ( x = 0; x < radialSegments; x ++ ) {
       if ( radiusTop !== 0 ) {
-        na = this.vertices[ vertices[ 0 ][ x ] ].clone();
-        nb = this.vertices[ vertices[ 0 ][ x + 1 ] ].clone();
+        na = Vector3.copy(this.vertices[vertices[0][x]]);
+        nb = Vector3.copy(this.vertices[vertices[0][x + 1]]);
       }
       else {
-        na = this.vertices[ vertices[ 1 ][ x ] ].clone();
-        nb = this.vertices[ vertices[ 1 ][ x + 1 ] ].clone();
+        na = Vector3.copy(this.vertices[vertices[1][x]]);
+        nb = Vector3.copy(this.vertices[vertices[1][x + 1]]);
       }
       na.setY( Math.sqrt( na.x * na.x + na.z * na.z ) * tanTheta ).normalize();
       nb.setY( Math.sqrt( nb.x * nb.x + nb.z * nb.z ) * tanTheta ).normalize();

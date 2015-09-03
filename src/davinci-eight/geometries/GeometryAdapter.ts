@@ -4,6 +4,7 @@ import Face3 = require('../core/Face3');
 import Line3 = require('../core/Line3');
 import Point3 = require('../core/Point3');
 import Geometry = require('../geometries/Geometry');
+import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
@@ -12,10 +13,6 @@ import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 import ArrayBuffer = require('../core/ArrayBuffer');
 import ElementBuffer = require('../core/ElementBuffer');
-
-function defaultColorFunction(vertexIndex: number, face: Face3, vertexList: Vector3[]): Color {
-  return new Color([1.0, 1.0, 1.0]);
-}
 
 function computeAttribData(
   positionVarName: string,
@@ -220,7 +217,7 @@ class GeometryAdapter extends DefaultAttribProvider {
     let normals: number[] = [];
     let elements: number[] = [];
 
-    let vertexList = this.geometry.vertices;
+    let vertexList: Cartesian3[] = this.geometry.vertices;
     switch(this.drawMode) {
       case DrawMode.POINTS: {
         this.points = [];
@@ -228,7 +225,7 @@ class GeometryAdapter extends DefaultAttribProvider {
         this.points.forEach(function(point: Point3) {
           elements.push(point.a);
 
-          let vA: Vector3 = vertexList[point.a];
+          let vA: Cartesian3 = vertexList[point.a];
           vertices.push(vA.x);
           vertices.push(vA.y);
           vertices.push(vA.z);
@@ -242,12 +239,12 @@ class GeometryAdapter extends DefaultAttribProvider {
           elements.push(line.a);
           elements.push(line.b);
 
-          let vA: Vector3 = vertexList[line.a];
+          let vA: Cartesian3 = vertexList[line.a];
           vertices.push(vA.x);
           vertices.push(vA.y);
           vertices.push(vA.z);
 
-          let vB: Vector3 = vertexList[line.b];
+          let vB: Cartesian3 = vertexList[line.b];
           vertices.push(vB.x);
           vertices.push(vB.y);
           vertices.push(vB.z);
@@ -260,26 +257,26 @@ class GeometryAdapter extends DefaultAttribProvider {
           elements.push(face.b);
           elements.push(face.c);
 
-          let vA: Vector3 = vertexList[face.a];
+          let vA: Cartesian3 = vertexList[face.a];
           vertices.push(vA.x);
           vertices.push(vA.y);
           vertices.push(vA.z);
 
-          let vB: Vector3 = vertexList[face.b];
+          let vB: Cartesian3 = vertexList[face.b];
           vertices.push(vB.x);
           vertices.push(vB.y);
           vertices.push(vB.z);
 
-          let vC: Vector3 = vertexList[face.c];
+          let vC: Cartesian3 = vertexList[face.c];
           vertices.push(vC.x);
           vertices.push(vC.y);
           vertices.push(vC.z);
 
           // TODO: 3 means per-vertex, 1 means same per face, 0 means compute face normals?
           if (face.normals.length === 3) {
-              let nA = face.normals[0];
-              let nB = face.normals[1];
-              let nC = face.normals[2];
+              let nA: Cartesian3 = face.normals[0];
+              let nB: Cartesian3 = face.normals[1];
+              let nC: Cartesian3 = face.normals[2];
               normals.push(nA.x);
               normals.push(nA.y);
               normals.push(nA.z);
@@ -294,7 +291,7 @@ class GeometryAdapter extends DefaultAttribProvider {
           }
           else if (face.normals.length === 1) {
 
-            let normal: Vector3 = face.normals[0];
+            let normal: Cartesian3 = face.normals[0];
 
             normals.push(normal.x);
             normals.push(normal.y);

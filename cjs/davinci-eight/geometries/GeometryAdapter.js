@@ -6,16 +6,12 @@ var __extends = this.__extends || function (d, b) {
 };
 var Line3 = require('../core/Line3');
 var Point3 = require('../core/Point3');
-var Color = require('../core/Color');
 var Symbolic = require('../core/Symbolic');
 var DefaultAttribProvider = require('../core/DefaultAttribProvider');
 var DataUsage = require('../core/DataUsage');
 var DrawMode = require('../core/DrawMode');
 var ArrayBuffer = require('../core/ArrayBuffer');
 var ElementBuffer = require('../core/ElementBuffer');
-function defaultColorFunction(vertexIndex, face, vertexList) {
-    return new Color([1.0, 1.0, 1.0]);
-}
 function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
     var attributes = {};
     attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };

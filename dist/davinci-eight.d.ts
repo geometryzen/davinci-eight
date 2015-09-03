@@ -655,23 +655,23 @@ class Face3 {
   public a: number;
   public b: number;
   public c: number;
-  public normals: Vector3[];
-  constructor(a: number, b: number, c: number, normals?: Vector3[]);
+  public normals: Cartesian3[];
+  constructor(a: number, b: number, c: number, normals?: Cartesian3[]);
 }
 class Sphere {
-  public center: Vector3;
+  public center: Cartesian3;
   public radius: number;
-  constructor(center?: Vector3, radius?: number);
-  setFromPoints(points: Vector3[]);
+  constructor(center?: Cartesian3, radius?: number);
+  setFromPoints(points: Cartesian3[]);
 }
 /**
  * Base class for geometries.
  * A geometry holds all data necessary to describe a 3D model.
  */
 class Geometry {
-  public vertices: Vector3[];
+  public vertices: Cartesian3[];
   public faces: Face3[];
-  public faceVertexUvs: Vector2[][][];
+  public faceVertexUvs: Cartesian2[][][];
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
   public elementsNeedUpdate: boolean;

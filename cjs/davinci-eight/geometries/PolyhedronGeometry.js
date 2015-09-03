@@ -12,16 +12,9 @@ var Vector3 = require('../math/Vector3');
 var PolyhedronGeometry = (function (_super) {
     __extends(PolyhedronGeometry, _super);
     function PolyhedronGeometry(vertices, indices, radius, detail) {
+        if (radius === void 0) { radius = 1; }
+        if (detail === void 0) { detail = 0; }
         _super.call(this);
-        this.type = 'PolyhedronGeometry';
-        this.parameters = {
-            vertices: vertices,
-            indices: indices,
-            radius: radius,
-            detail: detail
-        };
-        radius = radius || 1;
-        detail = detail || 0;
         var that = this;
         for (var i = 0, l = vertices.length; i < l; i += 3) {
             prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]));
@@ -32,9 +25,10 @@ var PolyhedronGeometry = (function (_super) {
             var v1 = p[indices[i]];
             var v2 = p[indices[i + 1]];
             var v3 = p[indices[i + 2]];
-            faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
+            // FIXME: Using some modifications of the data structures given.
+            // TODO: Optimize vector copies.
+            faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
         }
-        var centroid = new Vector3([0, 0, 0]);
         for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
             subdivide(faces[i], detail);
         }
@@ -57,15 +51,19 @@ var PolyhedronGeometry = (function (_super) {
         }
         // Apply radius
         for (var i = 0, verticesLength = this.vertices.length; i < verticesLength; i++) {
-            this.vertices[i].multiplyScalar(radius);
+            this.vertices[i].x *= radius;
+            this.vertices[i].y *= radius;
+            this.vertices[i].z *= radius;
         }
         // Merge vertices
         this.mergeVertices();
         this.computeFaceNormals();
         this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
-        // Project vector onto sphere's surface
+        /*
+         * Project vector onto sphere's surface
+         */
         function prepare(vector) {
-            var vertex = vector.normalize().clone();
+            var vertex = Vector3.copy(vector).normalize();
             vertex['index'] = that.vertices.push(vertex) - 1;
             // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
             var u = azimuth(vector) / 2 / Math.PI + 0.5;
@@ -73,12 +71,17 @@ var PolyhedronGeometry = (function (_super) {
             vertex['uv'] = new Vector2([u, 1 - v]);
             return vertex;
         }
+        function centroid(v1, v2, v3) {
+            var x = (v1.x + v2.x + v3.x) / 3;
+            var y = (v1.y + v2.y + v3.y) / 3;
+            var z = (v1.z + v2.z + v3.z) / 3;
+            return { x: x, y: y, z: z };
+        }
         // Approximate a curved face with recursively sub-divided triangles.
         function make(v1, v2, v3) {
-            var face = new Face3(v1['index'], v2['index'], v3['index'], [v1.clone(), v2.clone(), v3.clone()]);
+            var face = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
             that.faces.push(face);
-            centroid.copy(v1).add(v2).add(v3).divideScalar(3);
-            var azi = azimuth(centroid);
+            var azi = azimuth(centroid(v1, v2, v3));
             that.faceVertexUvs[0].push([
                 correctUV(v1['uv'], v1, azi),
                 correctUV(v2['uv'], v2, azi),
@@ -95,15 +98,15 @@ var PolyhedronGeometry = (function (_super) {
             // Construct all of the vertices for this subdivision.
             for (var i = 0; i <= cols; i++) {
                 v[i] = [];
-                var aj = prepare(a.clone().lerp(c, i / cols));
-                var bj = prepare(b.clone().lerp(c, i / cols));
+                var aj = prepare(Vector3.copy(a).lerp(c, i / cols));
+                var bj = prepare(Vector3.copy(b).lerp(c, i / cols));
                 var rows = cols - i;
                 for (var j = 0; j <= rows; j++) {
                     if (j == 0 && i == cols) {
                         v[i][j] = aj;
                     }
                     else {
-                        v[i][j] = prepare(aj.clone().lerp(bj, j / rows));
+                        v[i][j] = prepare(Vector3.copy(aj).lerp(bj, j / rows));
                     }
                 }
             }
@@ -125,8 +128,8 @@ var PolyhedronGeometry = (function (_super) {
             return Math.atan2(vector.z, -vector.x);
         }
         // Angle above the XZ plane.
-        function inclination(vector) {
-            return Math.atan2(-vector.y, Math.sqrt((vector.x * vector.x) + (vector.z * vector.z)));
+        function inclination(pos) {
+            return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
         }
         // Texture fixing helper. Spheres have some odd behaviours.
         function correctUV(uv, vector, azimuth) {

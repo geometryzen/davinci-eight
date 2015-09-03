@@ -1,4 +1,4 @@
-import Vector3 = require('../math/Vector3');
+import Cartesian3 = require('../math/Cartesian3');
 /**
  * @class Face3
  */
@@ -16,17 +16,19 @@ declare class Face3 {
      */
     c: number;
     /**
-     * length 3 implies index 0 <=> a, 1 <=> b, 2 <=> c. length 1 implies a face normal.
+     * length 3 implies per-vertex normals with correspondence index 0 <=> a, 1 <=> b, 2 <=> c.
+     * length 1 implies a face normal.
+     * length 0 implies
      */
-    normals: Vector3[];
+    normals: Cartesian3[];
     /**
      * @class Face3
      * @constructor
      * @param a {number}
      * @param b {number}
      * @param c {number}
-     * @param normals {Vector3[]} The per-vertex normals for this face (3) or face normal (1).
+     * @param normals {Cartesian3[]} The per-vertex normals for this face (3) or face normal (1).
      */
-    constructor(a: number, b: number, c: number, normals?: Vector3[]);
+    constructor(a: number, b: number, c: number, normals?: Cartesian3[]);
 }
 export = Face3;

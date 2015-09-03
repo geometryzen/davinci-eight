@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.64.0</em>
+            <em>API Docs for: 2.65.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -154,11 +154,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;);
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import Face3 = require(&#x27;../core/Face3&#x27;);
 import Geometry = require(&#x27;../geometries/Geometry&#x27;);
 import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 /**
  * @author zz85 / https://github.com/zz85
@@ -173,9 +174,9 @@ class ParametricSurfaceGeometry extends Geometry {
     expectArg(&#x27;parametricFunction&#x27;, parametricFunction).toBeFunction();
     expectArg(&#x27;uSegments&#x27;, uSegments).toBeNumber();
     expectArg(&#x27;vSegments&#x27;, vSegments).toBeNumber();
-    let vertices: Vector3[] = this.vertices;
+    let vertices: Cartesian3[] = this.vertices;
     let faces: Face3[] = this.faces;
-    let uvs: Vector2[][] = this.faceVertexUvs[ 0 ];
+    let uvs: Cartesian2[][] = this.faceVertexUvs[ 0 ];
 
     var i: number;
     var j: number;
@@ -190,9 +191,9 @@ class ParametricSurfaceGeometry extends Geometry {
 
         let u: number = j / uSegments;
 
-        let p: Cartesian3 = parametricFunction( u, v );
-        vertices.push(new Vector3([p.x, p.y, p.z]));
-
+        let point: Cartesian3 = parametricFunction( u, v );
+        // Make a copy just in case the function is returning mutable references.
+        vertices.push({x: point.x, y: point.y, z: point.z});
       }
     }
 

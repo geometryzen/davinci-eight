@@ -1,5 +1,5 @@
-import Geometry = require('../geometries/Geometry');
 import Cartesian3 = require('../math/Cartesian3');
+import Geometry = require('../geometries/Geometry');
 /**
  * @author zz85 / https://github.com/zz85
  * Parametric Surfaces Geometry
