@@ -10,6 +10,7 @@ import UniformMat4 = require('../uniforms/UniformMat4');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import isVariableName = require('../checks/isVariableName');
+import computeViewMatrix = require('../cameras/viewMatrix');
 
 /**
  * @class view
@@ -26,31 +27,12 @@ let view = function(options?: {viewMatrixName?: string}): View {
   let base = new UniformMat4(options.viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
   base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
     if (eye.modified || look.modified || up.modified) {
-      updateViewMatrix();
+      computeViewMatrix(eye, look, up, viewMatrix.elements);
       eye.modified = false;
       look.modified = false;
       up.modified = false;
     }
     return {transpose: false, matrix4: viewMatrix.elements};
-  }
-
-  function updateViewMatrix() {
-    let n = new Vector3().subVectors(eye, look);
-    if (n.x === 0 && n.y === 0 && n.z === 0) {
-      // View direction is ambiguous.
-        n.z = 1;
-    }
-    else {
-      n.normalize();
-    }
-    let u = new Vector3().crossVectors(up, n);
-    let v = new Vector3().crossVectors(n, u);
-    let d = new Vector3([eye.dot(u), eye.dot(v), eye.dot(n)]).multiplyScalar(-1);
-    let m = viewMatrix.elements;
-    m[0] = u.x;  m[4] = u.y; m[8]  = u.z; m[12] = d.x;
-    m[1] = v.x;  m[5] = v.y; m[9]  = v.z; m[13] = d.y;
-    m[2] = n.x;  m[6] = n.y; m[10] = n.z; m[14] = d.z;
-    m[3] = 0;    m[7] = 0;   m[11] = 0;   m[15] = 1;
   }
 
   // Force an update of the view matrix.

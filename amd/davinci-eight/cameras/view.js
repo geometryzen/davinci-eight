@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../uniforms/UniformMat4', '../checks/expectArg'], function (require, exports, Vector3, Matrix4, Symbolic, UniformMat4, expectArg) {
+define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../uniforms/UniformMat4', '../checks/expectArg', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, Symbolic, UniformMat4, expectArg, computeViewMatrix) {
     /**
      * @class view
      * @constructor
@@ -12,43 +12,13 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
         var base = new UniformMat4(options.viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
         base.callback = function () {
             if (eye.modified || look.modified || up.modified) {
-                updateViewMatrix();
+                computeViewMatrix(eye, look, up, viewMatrix.elements);
                 eye.modified = false;
                 look.modified = false;
                 up.modified = false;
             }
             return { transpose: false, matrix4: viewMatrix.elements };
         };
-        function updateViewMatrix() {
-            var n = new Vector3().subVectors(eye, look);
-            if (n.x === 0 && n.y === 0 && n.z === 0) {
-                // View direction is ambiguous.
-                n.z = 1;
-            }
-            else {
-                n.normalize();
-            }
-            var u = new Vector3().crossVectors(up, n);
-            var v = new Vector3().crossVectors(n, u);
-            var d = new Vector3([eye.dot(u), eye.dot(v), eye.dot(n)]).multiplyScalar(-1);
-            var m = viewMatrix.elements;
-            m[0] = u.x;
-            m[4] = u.y;
-            m[8] = u.z;
-            m[12] = d.x;
-            m[1] = v.x;
-            m[5] = v.y;
-            m[9] = v.z;
-            m[13] = d.y;
-            m[2] = n.x;
-            m[6] = n.y;
-            m[10] = n.z;
-            m[14] = d.z;
-            m[3] = 0;
-            m[7] = 0;
-            m[11] = 0;
-            m[15] = 1;
-        }
         // Force an update of the view matrix.
         eye.modified = true;
         look.modified = true;

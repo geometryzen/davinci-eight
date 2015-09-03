@@ -13,6 +13,9 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this.data = data;
             this.modified = false;
         }
+        Vector3.dot = function (a, b) {
+            return a.x * b.x + a.y * b.y + a.z * b.z;
+        };
         Object.defineProperty(Vector3.prototype, "data", {
             get: function () {
                 if (this.$data) {
@@ -215,7 +218,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             return this;
         };
         Vector3.prototype.dot = function (v) {
-            return this.x * v.x + this.y * v.y + this.z * v.z;
+            return Vector3.dot(this, v);
         };
         Vector3.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());

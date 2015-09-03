@@ -81,6 +81,7 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformProvi
 
       program.use();
 
+      // TODO: What is the overhead?
       program.setUniforms(model.getUniformData());
       program.setAttributes(mesh.getAttribData());
 

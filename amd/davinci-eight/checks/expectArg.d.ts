@@ -3,6 +3,7 @@ declare function expectArg<T>(name: string, value: T): {
     toBeBoolean(): any;
     toBeDefined(): any;
     toBeInClosedInterval(lower: any, upper: any): any;
+    toBeFunction(): any;
     toBeNumber(): any;
     toBeObject(): any;
     toBeString(): any;

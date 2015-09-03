@@ -8,6 +8,7 @@ var Face3 = require('../core/Face3');
 var Geometry = require('../geometries/Geometry');
 var Vector2 = require('../math/Vector2');
 var Vector3 = require('../math/Vector3');
+var expectArg = require('../checks/expectArg');
 /**
  * @author zz85 / https://github.com/zz85
  * Parametric Surfaces Geometry
@@ -19,6 +20,9 @@ var ParametricSurfaceGeometry = (function (_super) {
     __extends(ParametricSurfaceGeometry, _super);
     function ParametricSurfaceGeometry(parametricFunction, uSegments, vSegments) {
         _super.call(this);
+        expectArg('parametricFunction', parametricFunction).toBeFunction();
+        expectArg('uSegments', uSegments).toBeNumber();
+        expectArg('vSegments', vSegments).toBeNumber();
         var vertices = this.vertices;
         var faces = this.faces;
         var uvs = this.faceVertexUvs[0];

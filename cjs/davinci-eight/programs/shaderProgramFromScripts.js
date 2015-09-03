@@ -1,4 +1,5 @@
 var shaderProgram = require('../programs/shaderProgram');
+var expectArg = require('../checks/expectArg');
 /**
  * @method shaderProgramFromScripts
  * @param vsId {string} The vertex shader script element identifier.
@@ -7,9 +8,21 @@ var shaderProgram = require('../programs/shaderProgram');
  */
 function shaderProgramFromScripts(vsId, fsId, $document) {
     if ($document === void 0) { $document = document; }
+    expectArg('vsId', vsId).toBeString();
+    expectArg('fsId', fsId).toBeString();
+    expectArg('$document', $document).toBeObject();
     function $(id) {
-        return $document.getElementById(id);
+        expectArg('id', id).toBeString();
+        var element = $document.getElementById(id);
+        if (element) {
+            return element;
+        }
+        else {
+            throw new Error(id + " is not a valid DOM element identifier.");
+        }
     }
-    return shaderProgram($(vsId).textContent, $(fsId).textContent);
+    var vertexShader = $(vsId).textContent;
+    var fragmentShader = $(fsId).textContent;
+    return shaderProgram(vertexShader, fragmentShader);
 }
 module.exports = shaderProgramFromScripts;

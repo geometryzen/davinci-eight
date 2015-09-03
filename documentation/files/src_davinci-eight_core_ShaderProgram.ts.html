@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.63.0</em>
+            <em>API Docs for: 2.64.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -203,8 +203,17 @@ interface ShaderProgram extends RenderingContextUser {
   setAttributes(values: AttribDataInfos);
   /**
    * Sets the uniforms provided into the appropriate locations.
+   * @param values {UniformDataInfos}
    */
   setUniforms(values: UniformDataInfos);
+  /**
+   * Sets the uniform of the specied name to the specified value.
+   */
+  setUniform3fv(name: string, value: number[]);
+  /**
+   *
+   */
+  setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean);
   /**
    *
    */

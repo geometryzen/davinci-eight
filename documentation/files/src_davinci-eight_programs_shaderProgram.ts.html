@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.63.0</em>
+            <em>API Docs for: 2.64.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -165,6 +165,7 @@ import ProgramArgs = require(&#x27;../glsl/ProgramArgs&#x27;);
 import Declaration = require(&#x27;../glsl/Declaration&#x27;);
 import DebugNodeEventHandler = require(&#x27;../glsl/DebugNodeEventHandler&#x27;);
 import DefaultNodeEventHandler = require(&#x27;../glsl/DefaultNodeEventHandler&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
@@ -316,6 +317,26 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     },
     setUniforms(values: UniformDataInfos) {
       setUniforms(uniformSetters, values);
+    },
+    setUniform3fv(name: string, value: number[]) {
+      // TODO: Unwrap and make more efficient.
+      // TODO: Eliminate setters.
+      expectArg(&#x27;name&#x27;, name).toBeString();
+      let values: UniformDataInfos = {};
+      let data: UniformDataInfo = {};
+      data.vector = value;
+      values[name] = data;
+      setUniforms(uniformSetters, values);
+    },
+    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
+      expectArg(&#x27;name&#x27;, name).toBeString();
+      var uniformLocation = uniformLocations[name];
+      if (uniformLocation) {
+        uniformLocation.uniformMatrix4fv(transpose, matrix);
+      }
+      else {
+        // Ignore the fact that the program does not contain the active uniform.
+      }
     }
   };
   return self;

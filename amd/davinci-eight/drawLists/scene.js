@@ -92,6 +92,23 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                     program.setUniforms(values);
                 });
             },
+            setUniform3fv: function (name, value) {
+                Object.keys(programs).forEach(function (programId) {
+                    var programInfo = programs[programId];
+                    var program = programInfo.program;
+                    program.use();
+                    program.setUniform3fv(name, value);
+                });
+            },
+            setUniformMatrix4fv: function (name, matrix, transpose) {
+                if (transpose === void 0) { transpose = false; }
+                Object.keys(programs).forEach(function (programId) {
+                    var programInfo = programs[programId];
+                    var program = programInfo.program;
+                    program.use();
+                    program.setUniformMatrix4fv(name, matrix, transpose);
+                });
+            },
             traverse: function (callback) {
                 Object.keys(programs).forEach(function (programId) {
                     programs[programId].drawables.forEach(callback);

@@ -32,6 +32,14 @@ define(["require", "exports"], function (require, exports) {
                     throw new Error(message);
                 }
             },
+            toBeFunction: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'function') {
+                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
+                    throw new Error(message);
+                }
+                return arg;
+            },
             toBeNumber: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'number') {

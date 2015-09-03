@@ -61,6 +61,7 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
                     mesh.update();
                 }
                 program.use();
+                // TODO: What is the overhead?
                 program.setUniforms(model.getUniformData());
                 program.setAttributes(mesh.getAttribData());
                 mesh.draw();

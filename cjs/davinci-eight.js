@@ -1,7 +1,10 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-var view = require('davinci-eight/cameras/view');
 var frustum = require('davinci-eight/cameras/frustum');
+var frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
 var perspective = require('davinci-eight/cameras/perspective');
+var perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
+var view = require('davinci-eight/cameras/view');
+var viewMatrix = require('davinci-eight/cameras/viewMatrix');
 var DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 var Color = require('davinci-eight/core/Color');
 var DataUsage = require('davinci-eight/core/DataUsage');
@@ -38,7 +41,6 @@ var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
 var shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
-// math
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
@@ -108,9 +110,12 @@ var eight = {
      */
     'VERSION': core.VERSION,
     get initWebGL() { return initWebGL; },
-    get view() { return view; },
     get frustum() { return frustum; },
+    get frustumMatrix() { return frustumMatrix; },
     get perspective() { return perspective; },
+    get perspectiveMatrix() { return perspectiveMatrix; },
+    get view() { return view; },
+    get viewMatrix() { return viewMatrix; },
     get scene() { return scene; },
     get renderer() { return renderer; },
     get contextMonitor() { return contextMonitor; },

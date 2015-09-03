@@ -3,6 +3,7 @@ import Geometry = require('../geometries/Geometry');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
+import expectArg = require('../checks/expectArg');
 /**
  * @author zz85 / https://github.com/zz85
  * Parametric Surfaces Geometry
@@ -13,6 +14,9 @@ import Cartesian3 = require('../math/Cartesian3');
 class ParametricSurfaceGeometry extends Geometry {
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number) {
     super();
+    expectArg('parametricFunction', parametricFunction).toBeFunction();
+    expectArg('uSegments', uSegments).toBeNumber();
+    expectArg('vSegments', vSegments).toBeNumber();
     let vertices: Vector3[] = this.vertices;
     let faces: Face3[] = this.faces;
     let uvs: Vector2[][] = this.faceVertexUvs[ 0 ];

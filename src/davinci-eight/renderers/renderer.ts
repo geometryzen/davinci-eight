@@ -70,10 +70,10 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
         autoClear = expectArg('autoClear', value).toBeBoolean().value;
       },
       clearColor(red: number, green: number, blue: number, alpha: number): Renderer {
-        clearColor.red = expectArg('red', red).toBeNumber().value;
+        clearColor.red   = expectArg('red',   red  ).toBeNumber().value;
         clearColor.green = expectArg('green', green).toBeNumber().value;
-        clearColor.blue = expectArg('blue', blue).toBeNumber().value;
-        clearAlpha = expectArg('alpha', alpha).toBeNumber().value;
+        clearColor.blue  = expectArg('blue',  blue ).toBeNumber().value;
+        clearAlpha       = expectArg('alpha', alpha).toBeNumber().value;
         if ($context) {
           $context.clearColor(red, green, blue, alpha);
         }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.63.0</em>
+            <em>API Docs for: 2.64.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -158,11 +158,14 @@
 
 // cameras
 import Frustum = require(&#x27;davinci-eight/cameras/Frustum&#x27;);
-import Perspective = require(&#x27;davinci-eight/cameras/Perspective&#x27;);
-import view = require(&#x27;davinci-eight/cameras/view&#x27;);
 import frustum = require(&#x27;davinci-eight/cameras/frustum&#x27;);
+import frustumMatrix = require(&#x27;davinci-eight/cameras/frustumMatrix&#x27;);
+import Perspective = require(&#x27;davinci-eight/cameras/Perspective&#x27;);
 import perspective = require(&#x27;davinci-eight/cameras/perspective&#x27;);
+import perspectiveMatrix = require(&#x27;davinci-eight/cameras/perspectiveMatrix&#x27;);
 import View = require(&#x27;davinci-eight/cameras/View&#x27;);
+import view = require(&#x27;davinci-eight/cameras/view&#x27;);
+import viewMatrix = require(&#x27;davinci-eight/cameras/viewMatrix&#x27;);
 // core
 import AttribMetaInfos = require(&#x27;davinci-eight/core/AttribMetaInfos&#x27;);
 import AttribProvider = require(&#x27;davinci-eight/core/AttribProvider&#x27;);
@@ -209,6 +212,7 @@ import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;)
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
 import shaderProgramFromScripts = require(&#x27;davinci-eight/programs/shaderProgramFromScripts&#x27;);
 // math
+import Cartesian3 = require(&#x27;davinci-eight/math/Cartesian3&#x27;);
 import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;davinci-eight/math/Matrix4&#x27;);
 import Quaternion = require(&#x27;davinci-eight/math/Quaternion&#x27;);
@@ -299,9 +303,12 @@ var eight = {
    */
   &#x27;VERSION&#x27;: core.VERSION,
   get initWebGL() { return initWebGL; },
-  get view() { return view; },
   get frustum() { return frustum; },
+  get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
+  get perspectiveMatrix() { return perspectiveMatrix; },
+  get view() { return view; },
+  get viewMatrix() { return viewMatrix; },
   get scene() { return scene; },
   get renderer() { return renderer; },
   get contextMonitor() {return contextMonitor;},

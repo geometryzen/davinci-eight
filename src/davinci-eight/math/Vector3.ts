@@ -19,6 +19,9 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
   public static e1 = new Vector3([1, 0, 0]);
   public static e2 = new Vector3([0, 1, 0]);
   public static e3 = new Vector3([0, 0, 1]);
+  public static dot(a: Cartesian3, b: Cartesian3): number {
+    return a.x * b.x + a.y * b.y + a.z * b.z;
+  }
   /**
    * @class Vector3
    * @constructor
@@ -232,7 +235,7 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
     return this;
   }
   dot(v: Cartesian3): number {
-    return this.x * v.x + this.y * v.y + this.z * v.z;
+    return Vector3.dot(this, v);
   }
   magnitude(): number {
     return Math.sqrt(this.quaditude());

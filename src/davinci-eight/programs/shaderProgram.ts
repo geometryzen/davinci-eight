@@ -9,6 +9,7 @@ import ProgramArgs = require('../glsl/ProgramArgs');
 import Declaration = require('../glsl/Declaration');
 import DebugNodeEventHandler = require('../glsl/DebugNodeEventHandler');
 import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
+import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import uuid4 = require('../utils/uuid4');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
@@ -160,6 +161,26 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     },
     setUniforms(values: UniformDataInfos) {
       setUniforms(uniformSetters, values);
+    },
+    setUniform3fv(name: string, value: number[]) {
+      // TODO: Unwrap and make more efficient.
+      // TODO: Eliminate setters.
+      expectArg('name', name).toBeString();
+      let values: UniformDataInfos = {};
+      let data: UniformDataInfo = {};
+      data.vector = value;
+      values[name] = data;
+      setUniforms(uniformSetters, values);
+    },
+    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
+      expectArg('name', name).toBeString();
+      var uniformLocation = uniformLocations[name];
+      if (uniformLocation) {
+        uniformLocation.uniformMatrix4fv(transpose, matrix);
+      }
+      else {
+        // Ignore the fact that the program does not contain the active uniform.
+      }
     }
   };
   return self;

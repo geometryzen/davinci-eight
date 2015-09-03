@@ -17,6 +17,7 @@ declare class Matrix4 {
      */
     constructor(elements: Float32Array);
     static identity(): Matrix4;
+    static perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
     static scaling(scale: Cartesian3): Matrix4;
     static translation(vector: Cartesian3): Matrix4;
     static rotation(spinor: Spinor3Coords): Matrix4;

@@ -18,6 +18,9 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         Matrix4.identity = function () {
             return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
         };
+        Matrix4.perspective = function (fov, aspect, near, far) {
+            return Matrix4.identity().perspective(fov, aspect, near, far);
+        };
         Matrix4.scaling = function (scale) {
             return Matrix4.identity().scaling(scale);
         };

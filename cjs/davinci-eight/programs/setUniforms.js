@@ -77,13 +77,13 @@
  * @memberOf module:webgl-utils
  */
 function setUniforms(setters, values) {
+    // We work from the values, not the setters, because uniforms may be set piecemeal.
     Object.keys(values).forEach(function (name) {
         var setter = setters[name];
         if (setter) {
             setter(values[name]);
         }
         else {
-            console.warn("setter missing for uniform " + name);
         }
     });
 }

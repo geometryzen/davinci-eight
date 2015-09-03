@@ -32,6 +32,9 @@ class Matrix4 {
   public static identity() {
     return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
   }
+  public static perspective(fov: number, aspect: number, near: number, far: number): Matrix4 {
+    return Matrix4.identity().perspective(fov, aspect, near, far);
+  }
   public static scaling(scale: Cartesian3): Matrix4 {
     return Matrix4.identity().scaling(scale);
   }

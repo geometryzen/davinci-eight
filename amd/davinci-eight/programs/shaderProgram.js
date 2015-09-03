@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
+define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, expectArg, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -133,6 +133,26 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             },
             setUniforms: function (values) {
                 setUniforms(uniformSetters, values);
+            },
+            setUniform3fv: function (name, value) {
+                // TODO: Unwrap and make more efficient.
+                // TODO: Eliminate setters.
+                expectArg('name', name).toBeString();
+                var values = {};
+                var data = {};
+                data.vector = value;
+                values[name] = data;
+                setUniforms(uniformSetters, values);
+            },
+            setUniformMatrix4fv: function (name, matrix, transpose) {
+                if (transpose === void 0) { transpose = false; }
+                expectArg('name', name).toBeString();
+                var uniformLocation = uniformLocations[name];
+                if (uniformLocation) {
+                    uniformLocation.uniformMatrix4fv(transpose, matrix);
+                }
+                else {
+                }
             }
         };
         return self;

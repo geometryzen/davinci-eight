@@ -1,3 +1,4 @@
+var expectArg = require('../checks/expectArg');
 var isDefined = require('../checks/isDefined');
 var uuid4 = require('../utils/uuid4');
 var ShaderAttribLocation = require('../core/ShaderAttribLocation');
@@ -137,6 +138,26 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         },
         setUniforms: function (values) {
             setUniforms(uniformSetters, values);
+        },
+        setUniform3fv: function (name, value) {
+            // TODO: Unwrap and make more efficient.
+            // TODO: Eliminate setters.
+            expectArg('name', name).toBeString();
+            var values = {};
+            var data = {};
+            data.vector = value;
+            values[name] = data;
+            setUniforms(uniformSetters, values);
+        },
+        setUniformMatrix4fv: function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
+            expectArg('name', name).toBeString();
+            var uniformLocation = uniformLocations[name];
+            if (uniformLocation) {
+                uniformLocation.uniformMatrix4fv(transpose, matrix);
+            }
+            else {
+            }
         }
     };
     return self;

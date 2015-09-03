@@ -13,6 +13,7 @@ declare class Vector3 implements Cartesian3, Mutable<number[]> {
     static e1: Vector3;
     static e2: Vector3;
     static e3: Vector3;
+    static dot(a: Cartesian3, b: Cartesian3): number;
     /**
      * @class Vector3
      * @constructor

@@ -42,8 +42,17 @@ interface ShaderProgram extends RenderingContextUser {
     setAttributes(values: AttribDataInfos): any;
     /**
      * Sets the uniforms provided into the appropriate locations.
+     * @param values {UniformDataInfos}
      */
     setUniforms(values: UniformDataInfos): any;
+    /**
+     * Sets the uniform of the specied name to the specified value.
+     */
+    setUniform3fv(name: string, value: number[]): any;
+    /**
+     *
+     */
+    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean): any;
     /**
      *
      */

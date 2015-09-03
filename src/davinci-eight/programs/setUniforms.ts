@@ -1,6 +1,7 @@
 import UniformDataInfo = require('../core/UniformDataInfo');
 import UniformDataInfos = require('../core/UniformDataInfos');
 import ShaderUniformSetter = require('../core/ShaderUniformSetter');
+import isDefined = require('../checks/isDefined');
 /**
  * Set uniforms and binds related textures.
  *
@@ -79,14 +80,15 @@ import ShaderUniformSetter = require('../core/ShaderUniformSetter');
  *        uniforms.
  * @memberOf module:webgl-utils
  */
-function setUniforms(setters:{[name:string]: ShaderUniformSetter}, values: UniformDataInfos) {
+function setUniforms(setters: { [name: string]: ShaderUniformSetter }, values: UniformDataInfos) {
+  // We work from the values, not the setters, because uniforms may be set piecemeal.
   Object.keys(values).forEach(function(name: string) {
     var setter = setters[name];
     if (setter) {
       setter(values[name]);
     }
     else {
-      console.warn("setter missing for uniform " + name);
+      // Ignore the fact that the program does not contain the active uniform.
     }
   });
 }

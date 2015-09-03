@@ -33,6 +33,14 @@ function expectArg<T>(name: string, value: T) {
         throw new Error(message);
       }
     },
+    toBeFunction() {
+      let typeOfValue: string = typeof value;
+      if (typeOfValue !== 'function') {
+        let message = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
+        throw new Error(message);
+      }
+      return arg;
+    },
     toBeNumber() {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'number') {

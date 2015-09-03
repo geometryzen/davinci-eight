@@ -13,6 +13,7 @@ import Vector3 = require('../math/Vector3');
 import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
 import expectArg = require('../checks/expectArg');
+import perspectiveMatix = require('../cameras/perspectiveMatrix');
 
 //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
 

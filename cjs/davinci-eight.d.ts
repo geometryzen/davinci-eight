@@ -35,6 +35,7 @@ import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
+import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Quaternion = require('davinci-eight/math/Quaternion');
@@ -79,10 +80,8 @@ import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunne
 declare var eight: {
     'VERSION': string;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
-    view: (options?: {
-        viewMatrixName?: string;
-    }) => View;
     frustum: (left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number) => Frustum;
+    frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
     perspective: (options?: {
         fov?: number;
         aspect?: number;
@@ -91,6 +90,11 @@ declare var eight: {
         projectionMatrixName?: string;
         viewMatrixName?: string;
     }) => Perspective;
+    perspectiveMatrix: (fov: number, aspect: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
+    view: (options?: {
+        viewMatrixName?: string;
+    }) => View;
+    viewMatrix: (eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Float32Array) => Float32Array;
     scene: () => DrawList;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
     contextMonitor: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextMonitor;

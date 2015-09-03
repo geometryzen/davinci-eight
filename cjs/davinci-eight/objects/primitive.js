@@ -61,6 +61,7 @@ var primitive = function (mesh, program, model) {
                 mesh.update();
             }
             program.use();
+            // TODO: What is the overhead?
             program.setUniforms(model.getUniformData());
             program.setAttributes(mesh.getAttribData());
             mesh.draw();

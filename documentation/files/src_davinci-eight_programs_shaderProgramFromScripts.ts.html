@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.63.0</em>
+            <em>API Docs for: 2.64.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -156,6 +156,8 @@
     <pre class="code prettyprint linenums">
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import shaderProgram = require(&#x27;../programs/shaderProgram&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
 /**
  * @method shaderProgramFromScripts
@@ -164,10 +166,23 @@ import shaderProgram = require(&#x27;../programs/shaderProgram&#x27;);
  * @param $document {Document} The document containing the script elements.
  */
 function shaderProgramFromScripts(vsId: string, fsId: string, $document: Document = document): ShaderProgram {
+  expectArg(&#x27;vsId&#x27;, vsId).toBeString();
+  expectArg(&#x27;fsId&#x27;, fsId).toBeString();
+  expectArg(&#x27;$document&#x27;, $document).toBeObject();
+
   function $(id: string): HTMLElement {
-    return $document.getElementById(id);
+    expectArg(&#x27;id&#x27;, id).toBeString();
+    let element = $document.getElementById(id);
+    if (element) {
+      return element;
+    }
+    else {
+      throw new Error(id + &quot; is not a valid DOM element identifier.&quot;);
+    }
   }
-  return shaderProgram($(vsId).textContent, $(fsId).textContent);
+  let vertexShader: string = $(vsId).textContent;
+  let fragmentShader: string = $(fsId).textContent;
+  return shaderProgram(vertexShader, fragmentShader);
 }
 
 export = shaderProgramFromScripts;

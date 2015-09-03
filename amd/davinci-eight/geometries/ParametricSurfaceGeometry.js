@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, Vector3, expectArg) {
     /**
      * @author zz85 / https://github.com/zz85
      * Parametric Surfaces Geometry
@@ -16,6 +16,9 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
         __extends(ParametricSurfaceGeometry, _super);
         function ParametricSurfaceGeometry(parametricFunction, uSegments, vSegments) {
             _super.call(this);
+            expectArg('parametricFunction', parametricFunction).toBeFunction();
+            expectArg('uSegments', uSegments).toBeNumber();
+            expectArg('vSegments', vSegments).toBeNumber();
             var vertices = this.vertices;
             var faces = this.faces;
             var uvs = this.faceVertexUvs[0];

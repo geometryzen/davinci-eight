@@ -103,6 +103,22 @@ let scene = function(): DrawList {
         program.setUniforms(values);
       });
     },
+    setUniform3fv(name: string, value: number[]) {
+      Object.keys(programs).forEach(function(programId) {
+        let programInfo = programs[programId];
+        let program = programInfo.program;
+        program.use();
+        program.setUniform3fv(name, value);
+      });
+    },
+    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
+      Object.keys(programs).forEach(function(programId) {
+        let programInfo = programs[programId];
+        let program = programInfo.program;
+        program.use();
+        program.setUniformMatrix4fv(name, matrix, transpose);
+      });
+    },
     traverse(callback: (value: Drawable, index: number, array: Drawable[]) => void) {
       Object.keys(programs).forEach(function(programId: string) {
         programs[programId].drawables.forEach(callback);

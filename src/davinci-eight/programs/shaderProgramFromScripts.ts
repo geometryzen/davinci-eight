@@ -1,5 +1,7 @@
 import ShaderProgram = require('../core/ShaderProgram');
 import shaderProgram = require('../programs/shaderProgram');
+import isDefined = require('../checks/isDefined');
+import expectArg = require('../checks/expectArg');
 
 /**
  * @method shaderProgramFromScripts
@@ -8,10 +10,23 @@ import shaderProgram = require('../programs/shaderProgram');
  * @param $document {Document} The document containing the script elements.
  */
 function shaderProgramFromScripts(vsId: string, fsId: string, $document: Document = document): ShaderProgram {
+  expectArg('vsId', vsId).toBeString();
+  expectArg('fsId', fsId).toBeString();
+  expectArg('$document', $document).toBeObject();
+
   function $(id: string): HTMLElement {
-    return $document.getElementById(id);
+    expectArg('id', id).toBeString();
+    let element = $document.getElementById(id);
+    if (element) {
+      return element;
+    }
+    else {
+      throw new Error(id + " is not a valid DOM element identifier.");
+    }
   }
-  return shaderProgram($(vsId).textContent, $(fsId).textContent);
+  let vertexShader: string = $(vsId).textContent;
+  let fragmentShader: string = $(fsId).textContent;
+  return shaderProgram(vertexShader, fragmentShader);
 }
 
 export = shaderProgramFromScripts;

@@ -30,7 +30,7 @@ var smartProgram = function (attributes, uniformsList) {
     var vColor = vColorRequired(attributes, uniforms);
     var vLight = vLightRequired(uniforms);
     var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
-    var publicAPI = {
+    var self = {
         get program() {
             return innerProgram.program;
         },
@@ -78,8 +78,15 @@ var smartProgram = function (attributes, uniformsList) {
         },
         setUniforms: function (values) {
             return innerProgram.setUniforms(values);
+        },
+        setUniform3fv: function (name, value) {
+            return innerProgram.setUniform3fv(name, value);
+        },
+        setUniformMatrix4fv: function (name, matrix, transpose) {
+            if (transpose === void 0) { transpose = false; }
+            return innerProgram.setUniformMatrix4fv(name, matrix, transpose);
         }
     };
-    return publicAPI;
+    return self;
 };
 module.exports = smartProgram;

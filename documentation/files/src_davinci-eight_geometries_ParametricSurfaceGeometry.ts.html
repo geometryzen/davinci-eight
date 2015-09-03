@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.63.0</em>
+            <em>API Docs for: 2.64.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -159,6 +159,7 @@ import Geometry = require(&#x27;../geometries/Geometry&#x27;);
 import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 /**
  * @author zz85 / https://github.com/zz85
  * Parametric Surfaces Geometry
@@ -169,6 +170,9 @@ import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 class ParametricSurfaceGeometry extends Geometry {
   constructor(parametricFunction: (u: number, v: number) =&gt; Cartesian3, uSegments: number, vSegments: number) {
     super();
+    expectArg(&#x27;parametricFunction&#x27;, parametricFunction).toBeFunction();
+    expectArg(&#x27;uSegments&#x27;, uSegments).toBeNumber();
+    expectArg(&#x27;vSegments&#x27;, vSegments).toBeNumber();
     let vertices: Vector3[] = this.vertices;
     let faces: Face3[] = this.faces;
     let uvs: Vector2[][] = this.faceVertexUvs[ 0 ];

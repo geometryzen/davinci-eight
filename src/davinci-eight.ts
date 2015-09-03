@@ -2,11 +2,14 @@
 
 // cameras
 import Frustum = require('davinci-eight/cameras/Frustum');
-import Perspective = require('davinci-eight/cameras/Perspective');
-import view = require('davinci-eight/cameras/view');
 import frustum = require('davinci-eight/cameras/frustum');
+import frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
+import Perspective = require('davinci-eight/cameras/Perspective');
 import perspective = require('davinci-eight/cameras/perspective');
+import perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
 import View = require('davinci-eight/cameras/View');
+import view = require('davinci-eight/cameras/view');
+import viewMatrix = require('davinci-eight/cameras/viewMatrix');
 // core
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
@@ -53,6 +56,7 @@ import shaderProgram = require('davinci-eight/programs/shaderProgram');
 import smartProgram = require('davinci-eight/programs/smartProgram');
 import shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
 // math
+import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Quaternion = require('davinci-eight/math/Quaternion');
@@ -143,9 +147,12 @@ var eight = {
    */
   'VERSION': core.VERSION,
   get initWebGL() { return initWebGL; },
-  get view() { return view; },
   get frustum() { return frustum; },
+  get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
+  get perspectiveMatrix() { return perspectiveMatrix; },
+  get view() { return view; },
+  get viewMatrix() { return viewMatrix; },
   get scene() { return scene; },
   get renderer() { return renderer; },
   get contextMonitor() {return contextMonitor;},

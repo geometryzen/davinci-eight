@@ -47,7 +47,7 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
 
   let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
 
-  let publicAPI: ShaderProgram = {
+  let self: ShaderProgram = {
     get program() {
       return innerProgram.program;
     },
@@ -95,10 +95,16 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     },
     setUniforms(values: UniformDataInfos) {
       return innerProgram.setUniforms(values);
+    },
+    setUniform3fv(name: string, value: number[]) {
+      return innerProgram.setUniform3fv(name, value);
+    },
+    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
+      return innerProgram.setUniformMatrix4fv(name, matrix, transpose);
     }
   }
 
-  return publicAPI;
+  return self;
 }
 
 export = smartProgram;
