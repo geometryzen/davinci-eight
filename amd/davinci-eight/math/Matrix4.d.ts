@@ -36,7 +36,7 @@ declare class Matrix4 {
     rotationAxis(axis: Cartesian3, angle: number): Matrix4;
     mul(m: Matrix4): Matrix4;
     multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4;
-    static mul(a: Matrix4, b: Matrix4, out: Matrix4): Matrix4;
+    static mul(ae: Float32Array, be: Float32Array, oe: Float32Array): Float32Array;
     /**
      * Sets the elements of the target matrix to the perspective transformation.
      * The perspective transformation maps homogeneous world coordinates into

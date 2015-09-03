@@ -96,11 +96,38 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     setUniforms(values: UniformDataInfos) {
       return innerProgram.setUniforms(values);
     },
-    setUniform3fv(name: string, value: number[]) {
-      return innerProgram.setUniform3fv(name, value);
+    uniform1f(name: string, x: number, picky: boolean) {
+      return innerProgram.uniform1f(name, x, picky);
     },
-    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
-      return innerProgram.setUniformMatrix4fv(name, matrix, transpose);
+    uniform1fv(name: string, value: number[], picky: boolean) {
+      return innerProgram.uniform1fv(name, value, picky);
+    },
+    uniform2f(name: string, x: number, y: number, picky: boolean) {
+      return innerProgram.uniform2f(name, x, y, picky);
+    },
+    uniform2fv(name: string, value: number[], picky: boolean) {
+      return innerProgram.uniform2fv(name, value, picky);
+    },
+    uniform3f(name: string, x: number, y: number, z: number, picky: boolean) {
+      return innerProgram.uniform3f(name, x, y, z, picky);
+    },
+    uniform3fv(name: string, value: number[], picky: boolean) {
+      return innerProgram.uniform3fv(name, value, picky);
+    },
+    uniform4f(name: string, x: number, y: number, z: number, w: number, picky: boolean) {
+      return innerProgram.uniform4f(name, x, y, z, w, picky);
+    },
+    uniform4fv(name: string, value: number[], picky: boolean) {
+      return innerProgram.uniform4fv(name, value, picky);
+    },
+    uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      return innerProgram.uniformMatrix2fv(name, transpose, matrix, picky);
+    },
+    uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      return innerProgram.uniformMatrix3fv(name, transpose, matrix, picky);
+    },
+    uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      return innerProgram.uniformMatrix4fv(name, transpose, matrix, picky);
     }
   }
 

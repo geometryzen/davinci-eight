@@ -202,15 +202,14 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.mul = function (m) {
-            return Matrix4.mul(this, m, this);
+            Matrix4.mul(this.elements, m.elements, this.elements);
+            return this;
         };
         Matrix4.prototype.multiplyMatrices = function (a, b) {
-            return Matrix4.mul(a, b, this);
+            Matrix4.mul(a.elements, b.elements, this.elements);
+            return this;
         };
-        Matrix4.mul = function (a, b, out) {
-            var ae = a.elements;
-            var be = b.elements;
-            var oe = out.elements;
+        Matrix4.mul = function (ae, be, oe) {
             var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
             var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
             var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
@@ -231,11 +230,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
             oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
             oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-            out[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-            out[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-            out[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-            out[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-            return out;
+            oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+            oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+            oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+            oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+            return oe;
         };
         /**
          * Sets the elements of the target matrix to the perspective transformation.
@@ -260,7 +259,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         };
         Matrix4.prototype.rotate = function (spinor) {
             var S = Matrix4.rotation(spinor);
-            return Matrix4.mul(S, this, this);
+            Matrix4.mul(S.elements, this.elements, this.elements);
+            return this;
         };
         /**
          * @method rotate
@@ -303,7 +303,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
             // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
             var S = Matrix4.scaling(scale);
-            return Matrix4.mul(S, this, this);
+            Matrix4.mul(S.elements, this.elements, this.elements);
+            return this;
         };
         Matrix4.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
@@ -347,7 +348,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         };
         Matrix4.prototype.translate = function (displacement) {
             var T = Matrix4.translation(displacement);
-            return Matrix4.mul(T, this, this);
+            Matrix4.mul(T.elements, this.elements, this.elements);
+            return this;
         };
         Matrix4.prototype.translation = function (displacement) {
             return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);

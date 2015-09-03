@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../geometries/ParametricSurfaceGeometry', '../math/Vector3'], function (require, exports, ParametricSurfaceGeometry, Vector3) {
+define(["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -27,7 +27,7 @@ define(["require", "exports", '../geometries/ParametricSurfaceGeometry', '../mat
      * By connecting the edge of a Mobius Strip we get a Klein Bottle.
      * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
      * @class KleinBottleGeometry
-     * @extends ParametricSurfaceGeometry
+     * @extends SurfaceGeometry
      */
     var KleinBottleGeometry = (function (_super) {
         __extends(KleinBottleGeometry, _super);
@@ -41,6 +41,6 @@ define(["require", "exports", '../geometries/ParametricSurfaceGeometry', '../mat
             _super.call(this, klein, uSegments, vSegments);
         }
         return KleinBottleGeometry;
-    })(ParametricSurfaceGeometry);
+    })(SurfaceGeometry);
     return KleinBottleGeometry;
 });

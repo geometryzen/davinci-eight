@@ -28,7 +28,7 @@ import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeomet
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
-import ParametricSurfaceGeometry = require('davinci-eight/geometries/ParametricSurfaceGeometry');
+import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry');
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
@@ -136,7 +136,7 @@ declare var eight: {
     KleinBottleGeometry: typeof KleinBottleGeometry;
     MobiusStripGeometry: typeof MobiusStripGeometry;
     OctahedronGeometry: typeof OctahedronGeometry;
-    ParametricSurfaceGeometry: typeof ParametricSurfaceGeometry;
+    SurfaceGeometry: typeof SurfaceGeometry;
     PolyhedronGeometry: typeof PolyhedronGeometry;
     RevolutionGeometry: typeof RevolutionGeometry;
     SphereGeometry: typeof SphereGeometry;

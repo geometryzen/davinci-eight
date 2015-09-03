@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.65.0</em>
+            <em>API Docs for: 2.66.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -162,6 +162,20 @@ import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 
+function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
+  face.normals = [];
+  let vA: Cartesian3 = vertices[face.a];
+  let vB: Cartesian3 = vertices[face.b];
+  let vC: Cartesian3 = vertices[face.c];
+  let cb = new Vector3().subVectors(vC, vB);
+  let ab = new Vector3().subVectors(vA, vB);
+  let normal = new Vector3().crossVectors(cb, ab).normalize();
+  // TODO: I think we only need to push one normal here?
+  face.normals.push(normal);
+  face.normals.push(normal);
+  face.normals.push(normal);
+}
+
 /**
  * @class Geometry
  */
@@ -173,14 +187,10 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
   public verticesNeedUpdate = false;
   public elementsNeedUpdate = false;
   public uvsNeedUpdate = false;
-  public boundingSphere: Sphere = null;
+  public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
   constructor() {
-
   }
-  computeBoundingSphere(): void {
-    if (this.boundingSphere === null) {
-      this.boundingSphere = new Sphere();
-    }
+  protected computeBoundingSphere(): void {
     this.boundingSphere.setFromPoints(this.vertices);
   }
   /**
@@ -191,24 +201,13 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
    */
   // TODO: What would happen if we computed unit tangent spinors?
   // Would such elements of the geometry be better behaved than pseudo vectors?
-  computeFaceNormals(): void {
-    // Avoid  the this pointer in forEach callback function.
+  protected computeFaceNormals(): void {
+    // Avoid the this pointer in forEach callback function.
     let vertices = this.vertices;
-    let computeFaceNormal = function(face: Face3) {
-      face.normals = [];
-      let vA: Cartesian3 = vertices[face.a];
-      let vB: Cartesian3 = vertices[face.b];
-      let vC: Cartesian3 = vertices[face.c];
-      let cb = new Vector3().subVectors(vC, vB);
-      let ab = new Vector3().subVectors(vA, vB);
-      let normal = new Vector3().crossVectors(cb, ab).normalize();
-      face.normals.push(normal);
-      face.normals.push(normal);
-      face.normals.push(normal);
-    };
-    this.faces.forEach(computeFaceNormal);
+    let updateFaceNormalCallback = function(face: Face3) {return updateFaceNormal(face, vertices);};
+    this.faces.forEach(updateFaceNormalCallback);
   }
-  computeVertexNormals(areaWeighted?: boolean): void {
+  protected computeVertexNormals(areaWeighted?: boolean): void {
     var v: number;
     let vl: number = this.vertices.length;
     var f: number;
@@ -234,7 +233,6 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
       var ab = new Vector3();
 
       for ( f = 0, fl = this.faces.length; f &lt; fl; f ++ ) {
-
         face = this.faces[ f ];
 
         vA = this.vertices[ face.a ];
@@ -248,41 +246,37 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
         vertexNormals[face.a].add( cb );
         vertexNormals[face.b].add( cb );
         vertexNormals[face.c].add( cb );
-
       }
 
     }
     else {
 
       for ( f = 0, fl = this.faces.length; f &lt; fl; f ++ ) {
-
         face = this.faces[ f ];
-
         vertexNormals[face.a].add(face.normals[0]);
         vertexNormals[face.b].add(face.normals[0]);
         vertexNormals[face.c].add(face.normals[0]);
-
       }
 
     }
 
     for ( v = 0, vl = this.vertices.length; v &lt; vl; v ++ ) {
-
       vertexNormals[v].normalize();
-
     }
 
     for ( f = 0, fl = this.faces.length; f &lt; fl; f ++ ) {
-
       face = this.faces[ f ];
-
       face.normals[0] = vertexNormals[face.a].clone();
       face.normals[1] = vertexNormals[face.b].clone();
       face.normals[2] = vertexNormals[face.c].clone();
-
     }
   }
-  mergeVertices() {
+  /**
+   * Updates the geometry by merging closely separated vertices.
+   * @method mergeVertices
+   * @param precisionPoints {number} number of decimal points, eg. 4 for epsilon of 0.0001
+   */
+  protected mergeVertices(precisionPoints: number = 4) {
     /**
      * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
      * key is constructed from coordinates, value is index in vertices array.
@@ -297,7 +291,6 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
      */
     var changes: number[] = [];
 
-    let precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
     let precision = Math.pow(10, precisionPoints);
     var i: number;
     var il: number;

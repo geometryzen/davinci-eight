@@ -79,12 +79,38 @@ var smartProgram = function (attributes, uniformsList) {
         setUniforms: function (values) {
             return innerProgram.setUniforms(values);
         },
-        setUniform3fv: function (name, value) {
-            return innerProgram.setUniform3fv(name, value);
+        uniform1f: function (name, x, picky) {
+            return innerProgram.uniform1f(name, x, picky);
         },
-        setUniformMatrix4fv: function (name, matrix, transpose) {
-            if (transpose === void 0) { transpose = false; }
-            return innerProgram.setUniformMatrix4fv(name, matrix, transpose);
+        uniform1fv: function (name, value, picky) {
+            return innerProgram.uniform1fv(name, value, picky);
+        },
+        uniform2f: function (name, x, y, picky) {
+            return innerProgram.uniform2f(name, x, y, picky);
+        },
+        uniform2fv: function (name, value, picky) {
+            return innerProgram.uniform2fv(name, value, picky);
+        },
+        uniform3f: function (name, x, y, z, picky) {
+            return innerProgram.uniform3f(name, x, y, z, picky);
+        },
+        uniform3fv: function (name, value, picky) {
+            return innerProgram.uniform3fv(name, value, picky);
+        },
+        uniform4f: function (name, x, y, z, w, picky) {
+            return innerProgram.uniform4f(name, x, y, z, w, picky);
+        },
+        uniform4fv: function (name, value, picky) {
+            return innerProgram.uniform4fv(name, value, picky);
+        },
+        uniformMatrix2fv: function (name, transpose, matrix, picky) {
+            return innerProgram.uniformMatrix2fv(name, transpose, matrix, picky);
+        },
+        uniformMatrix3fv: function (name, transpose, matrix, picky) {
+            return innerProgram.uniformMatrix3fv(name, transpose, matrix, picky);
+        },
+        uniformMatrix4fv: function (name, transpose, matrix, picky) {
+            return innerProgram.uniformMatrix4fv(name, transpose, matrix, picky);
         }
     };
     return self;

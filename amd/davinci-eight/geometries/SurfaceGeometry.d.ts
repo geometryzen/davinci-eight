@@ -5,9 +5,9 @@ import Geometry = require('../geometries/Geometry');
  * Parametric Surfaces Geometry
  * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
  *
- * new ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );
+ * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
  */
-declare class ParametricSurfaceGeometry extends Geometry {
+declare class SurfaceGeometry extends Geometry {
     constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
 }
-export = ParametricSurfaceGeometry;
+export = SurfaceGeometry;

@@ -10,9 +10,9 @@ import expectArg = require('../checks/expectArg');
  * Parametric Surfaces Geometry
  * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
  *
- * new ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );
+ * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
  */
-class ParametricSurfaceGeometry extends Geometry {
+class SurfaceGeometry extends Geometry {
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number) {
     super();
     expectArg('parametricFunction', parametricFunction).toBeFunction();
@@ -77,4 +77,4 @@ class ParametricSurfaceGeometry extends Geometry {
   }
 }
 
-export = ParametricSurfaceGeometry;
+export = SurfaceGeometry;

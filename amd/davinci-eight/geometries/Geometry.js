@@ -1,4 +1,17 @@
 define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (require, exports, Sphere, Vector3) {
+    function updateFaceNormal(face, vertices) {
+        face.normals = [];
+        var vA = vertices[face.a];
+        var vB = vertices[face.b];
+        var vC = vertices[face.c];
+        var cb = new Vector3().subVectors(vC, vB);
+        var ab = new Vector3().subVectors(vA, vB);
+        var normal = new Vector3().crossVectors(cb, ab).normalize();
+        // TODO: I think we only need to push one normal here?
+        face.normals.push(normal);
+        face.normals.push(normal);
+        face.normals.push(normal);
+    }
     /**
      * @class Geometry
      */
@@ -11,12 +24,9 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             this.verticesNeedUpdate = false;
             this.elementsNeedUpdate = false;
             this.uvsNeedUpdate = false;
-            this.boundingSphere = null;
+            this.boundingSphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
         }
         Geometry.prototype.computeBoundingSphere = function () {
-            if (this.boundingSphere === null) {
-                this.boundingSphere = new Sphere();
-            }
             this.boundingSphere.setFromPoints(this.vertices);
         };
         /**
@@ -28,21 +38,10 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
         // TODO: What would happen if we computed unit tangent spinors?
         // Would such elements of the geometry be better behaved than pseudo vectors?
         Geometry.prototype.computeFaceNormals = function () {
-            // Avoid  the this pointer in forEach callback function.
+            // Avoid the this pointer in forEach callback function.
             var vertices = this.vertices;
-            var computeFaceNormal = function (face) {
-                face.normals = [];
-                var vA = vertices[face.a];
-                var vB = vertices[face.b];
-                var vC = vertices[face.c];
-                var cb = new Vector3().subVectors(vC, vB);
-                var ab = new Vector3().subVectors(vA, vB);
-                var normal = new Vector3().crossVectors(cb, ab).normalize();
-                face.normals.push(normal);
-                face.normals.push(normal);
-                face.normals.push(normal);
-            };
-            this.faces.forEach(computeFaceNormal);
+            var updateFaceNormalCallback = function (face) { return updateFaceNormal(face, vertices); };
+            this.faces.forEach(updateFaceNormalCallback);
         };
         Geometry.prototype.computeVertexNormals = function (areaWeighted) {
             var v;
@@ -95,7 +94,13 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
                 face.normals[2] = vertexNormals[face.c].clone();
             }
         };
-        Geometry.prototype.mergeVertices = function () {
+        /**
+         * Updates the geometry by merging closely separated vertices.
+         * @method mergeVertices
+         * @param precisionPoints {number} number of decimal points, eg. 4 for epsilon of 0.0001
+         */
+        Geometry.prototype.mergeVertices = function (precisionPoints) {
+            if (precisionPoints === void 0) { precisionPoints = 4; }
             /**
              * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
              * key is constructed from coordinates, value is index in vertices array.
@@ -109,7 +114,6 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
              * Index is original index in vertices. Entry is index in unique array.
              */
             var changes = [];
-            var precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
             var precision = Math.pow(10, precisionPoints);
             var i;
             var il;

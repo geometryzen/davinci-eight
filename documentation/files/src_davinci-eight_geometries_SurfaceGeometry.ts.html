@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/ParametricSurfaceGeometry.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/SurfaceGeometry.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.65.0</em>
+            <em>API Docs for: 2.66.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -150,7 +150,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/ParametricSurfaceGeometry.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/SurfaceGeometry.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -166,9 +166,9 @@ import expectArg = require(&#x27;../checks/expectArg&#x27;);
  * Parametric Surfaces Geometry
  * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
  *
- * new ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );
+ * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
  */
-class ParametricSurfaceGeometry extends Geometry {
+class SurfaceGeometry extends Geometry {
   constructor(parametricFunction: (u: number, v: number) =&gt; Cartesian3, uSegments: number, vSegments: number) {
     super();
     expectArg(&#x27;parametricFunction&#x27;, parametricFunction).toBeFunction();
@@ -233,7 +233,7 @@ class ParametricSurfaceGeometry extends Geometry {
   }
 }
 
-export = ParametricSurfaceGeometry;
+export = SurfaceGeometry;
 
     </pre>
 </div>

@@ -1,4 +1,4 @@
-import ParametricSurfaceGeometry = require('../geometries/ParametricSurfaceGeometry');
+import SurfaceGeometry = require('../geometries/SurfaceGeometry');
 import Vector3 = require('../math/Vector3');
 
 let cos = Math.cos;
@@ -27,9 +27,9 @@ function klein(u: number, v: number): Vector3 {
  * By connecting the edge of a Mobius Strip we get a Klein Bottle.
  * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
  * @class KleinBottleGeometry
- * @extends ParametricSurfaceGeometry
+ * @extends SurfaceGeometry
  */
-class KleinBottleGeometry extends ParametricSurfaceGeometry {
+class KleinBottleGeometry extends SurfaceGeometry {
   /**
    * @class KleinBottleGeometry
    * @constructor

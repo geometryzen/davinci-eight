@@ -13,11 +13,11 @@ var expectArg = require('../checks/expectArg');
  * Parametric Surfaces Geometry
  * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
  *
- * new ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );
+ * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
  */
-var ParametricSurfaceGeometry = (function (_super) {
-    __extends(ParametricSurfaceGeometry, _super);
-    function ParametricSurfaceGeometry(parametricFunction, uSegments, vSegments) {
+var SurfaceGeometry = (function (_super) {
+    __extends(SurfaceGeometry, _super);
+    function SurfaceGeometry(parametricFunction, uSegments, vSegments) {
         _super.call(this);
         expectArg('parametricFunction', parametricFunction).toBeFunction();
         expectArg('uSegments', uSegments).toBeNumber();
@@ -64,6 +64,6 @@ var ParametricSurfaceGeometry = (function (_super) {
         this.computeFaceNormals();
         this.computeVertexNormals();
     }
-    return ParametricSurfaceGeometry;
+    return SurfaceGeometry;
 })(Geometry);
-module.exports = ParametricSurfaceGeometry;
+module.exports = SurfaceGeometry;

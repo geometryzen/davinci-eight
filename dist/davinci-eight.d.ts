@@ -80,11 +80,18 @@ interface DrawList extends RenderingContextUser
    * Sets the uniforms provided into all programs.
    */
   setUniforms(values: UniformDataInfos);
-  /**
-   * Sets the uniform of the specied name to the specified value on all programs.
-   */
-  setUniform3fv(name: string, value: number[]);
-  setUniformMatrix4fv(name: string, matrix: Float32Array, transpose?: boolean);
+
+  uniform1f(name: string, x: number);
+  uniform1fv(name: string, data: number[]);
+  uniform2f(name: string, x: number, y: number);
+  uniform2fv(name: string, data: number[]);
+  uniform3f(name: string, x: number, y: number, z: number);
+  uniform3fv(name: string, data: number[]);
+  uniform4f(name: string, x: number, y: number, z: number, w: number);
+  uniform4fv(name: string, data: number[]);
+  uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array);
+  uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array);
+  uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array);
 }
 /**
  * Manages the lifecycle of an attribute used in a vertex shader.
@@ -159,6 +166,10 @@ class Matrix4 {
    * Generates a new rotation matrix.
    */
   static rotation(spinor: Spinor3Coords): Matrix4;
+  /**
+   *
+   */
+  static mul(a: Float32Array, b: Float32Array, out: Float32Array): Float32Array
   /**
    *
    */
@@ -666,7 +677,7 @@ class Sphere {
 }
 /**
  * Base class for geometries.
- * A geometry holds all data necessary to describe a 3D model.
+ * A geometry holds faces and vertices used to describe a 3D mesh.
  */
 class Geometry {
   public vertices: Cartesian3[];
@@ -676,12 +687,19 @@ class Geometry {
   public verticesNeedUpdate: boolean;
   public elementsNeedUpdate: boolean;
   public uvsNeedUpdate: boolean;
-  public boundingSphere: Sphere;
   constructor();
-  //computeBoundingSphere(): void;
-  computeFaceNormals(): void;
-  computeVertexNormals(): void;
-  mergeVertices(): void;
+  /**
+   * Updates the normals property of each face by creating a per-face normal.
+   */
+  public computeFaceNormals(): void;
+  /**
+   * Updates the normals property of each face by creating per-vertex normals averaged over adjacent faces.
+   */
+  public computeVertexNormals(): void;
+  /**
+   * Merges vertices which are separated by less than the specified quadrance.
+   */
+  public mergeVertices(precisionPoints?: number): void;
 }
 class Color
 {
@@ -776,14 +794,18 @@ interface ShaderProgram extends RenderingContextUser
    * Sets the uniforms provided into the appropriate locations.
    */
   setUniforms(values: UniformDataInfos);
-  /**
-   * Sets the uniform of the specied name to the specified value.
-   */
-  setUniform3fv(name: string, value: number[]);
-  /**
-   * Sets the uniform of the specied name to the specified value.
-   */
-  setUniformMatrix4fv(name: string, matrix: Float32Array, transpose?: boolean);
+
+  uniform1f(name: string, x: number);
+  uniform1fv(name: string, data: number[]);
+  uniform2f(name: string, x: number, y: number);
+  uniform2fv(name: string, data: number[]);
+  uniform3f(name: string, x: number, y: number, z: number);
+  uniform3fv(name: string, data: number[]);
+  uniform4f(name: string, x: number, y: number, z: number, w: number);
+  uniform4fv(name: string, data: number[]);
+  uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array);
+  uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array);
+  uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array);
   /**
    *
    */
@@ -1222,16 +1244,16 @@ class DodecahedronGeometry extends PolyhedronGeometry {
 class IcosahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
-class KleinBottleGeometry extends ParametricSurfaceGeometry {
+class KleinBottleGeometry extends SurfaceGeometry {
   constructor(uSegments: number, vSegments: number);
 }
-class MobiusStripGeometry extends ParametricSurfaceGeometry {
+class MobiusStripGeometry extends SurfaceGeometry {
   constructor(uSegments: number, vSegments: number);
 }
 class OctahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
-class ParametricSurfaceGeometry extends Geometry {
+class SurfaceGeometry extends Geometry {
   /**
    * Constructs a parametric surface geometry from a function.
    * parametricFunction The function that determines a 3D point corresponding to the two parameters.

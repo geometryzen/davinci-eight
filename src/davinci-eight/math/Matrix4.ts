@@ -202,25 +202,24 @@ class Matrix4 {
     );
   }
   mul(m: Matrix4): Matrix4 {
-    return Matrix4.mul(this, m, this);
+    Matrix4.mul(this.elements, m.elements, this.elements);
+    return this;
   }
   multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4 {
-    return Matrix4.mul(a, b, this);
+    Matrix4.mul(a.elements, b.elements, this.elements);
+    return this;
   }
-  static mul(a: Matrix4, b: Matrix4, out: Matrix4): Matrix4 {
-    var ae = a.elements;
-    var be = b.elements;
-    var oe: Float32Array = out.elements;
+  static mul(ae: Float32Array, be: Float32Array, oe: Float32Array): Float32Array {
 
-    var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
-    var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
-    var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
-    var a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
+    let a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
+    let a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
+    let a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
+    let a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
 
-    var b11 = be[ 0 ], b12 = be[ 4 ], b13 = be[ 8 ], b14 = be[ 12 ];
-    var b21 = be[ 1 ], b22 = be[ 5 ], b23 = be[ 9 ], b24 = be[ 13 ];
-    var b31 = be[ 2 ], b32 = be[ 6 ], b33 = be[ 10 ], b34 = be[ 14 ];
-    var b41 = be[ 3 ], b42 = be[ 7 ], b43 = be[ 11 ], b44 = be[ 15 ];
+    let b11 = be[ 0 ], b12 = be[ 4 ], b13 = be[ 8 ], b14 = be[ 12 ];
+    let b21 = be[ 1 ], b22 = be[ 5 ], b23 = be[ 9 ], b24 = be[ 13 ];
+    let b31 = be[ 2 ], b32 = be[ 6 ], b33 = be[ 10 ], b34 = be[ 14 ];
+    let b41 = be[ 3 ], b42 = be[ 7 ], b43 = be[ 11 ], b44 = be[ 15 ];
 
     oe[ 0 ] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
     oe[ 4 ] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
@@ -237,12 +236,12 @@ class Matrix4 {
     oe[ 10 ] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
     oe[ 14 ] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
 
-    out[ 3 ] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-    out[ 7 ] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-    out[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-    out[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+    oe[ 3 ] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+    oe[ 7 ] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+    oe[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+    oe[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 
-    return out;
+    return oe;
   }
   /**
    * Sets the elements of the target matrix to the perspective transformation.
@@ -266,8 +265,9 @@ class Matrix4 {
     return this.frustum(xmin, xmax, ymin, ymax, near, far);
   }
   rotate(spinor: Spinor3Coords): Matrix4 {
-    let S = Matrix4.rotation(spinor);
-    return Matrix4.mul(S, this, this);
+    let S: Matrix4 = Matrix4.rotation(spinor);
+    Matrix4.mul(S.elements, this.elements, this.elements);
+    return this;
   }
   /**
    * @method rotate
@@ -318,8 +318,9 @@ class Matrix4 {
     // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
     // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
     // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
-    let S = Matrix4.scaling(scale);
-    return Matrix4.mul(S, this, this);
+    let S: Matrix4 = Matrix4.scaling(scale);
+    Matrix4.mul(S.elements, this.elements, this.elements);
+    return this;
   }
   scaling(scale: Cartesian3): Matrix4 {
     return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
@@ -367,8 +368,9 @@ class Matrix4 {
     return text.join('\n');
   }
   translate(displacement: Cartesian3): Matrix4 {
-    let T = Matrix4.translation(displacement);
-    return Matrix4.mul(T, this, this);
+    let T: Matrix4 = Matrix4.translation(displacement);
+    Matrix4.mul(T.elements, this.elements, this.elements);
+    return this;
   }
   translation(displacement: Cartesian3): Matrix4 {
     return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);

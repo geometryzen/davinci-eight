@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.65.0</em>
+            <em>API Docs for: 2.66.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -154,7 +154,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ParametricSurfaceGeometry = require(&#x27;../geometries/ParametricSurfaceGeometry&#x27;);
+import SurfaceGeometry = require(&#x27;../geometries/SurfaceGeometry&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 
 let cos = Math.cos;
@@ -184,7 +184,7 @@ function mobius(u: number, v: number): Vector3 {
 /**
  * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html
  */
-class MobiusStripGeometry extends ParametricSurfaceGeometry {
+class MobiusStripGeometry extends SurfaceGeometry {
   constructor(uSegments: number, vSegments: number) {
     super(mobius, uSegments, vSegments);
   }

@@ -10,6 +10,16 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         var programs = {};
         var refCount = 0;
         var $context;
+        function traversePrograms(callback) {
+            Object.keys(programs).forEach(function (programId) {
+                callback(programs[programId].program);
+            });
+        }
+        function traverseProgramInfos(callback) {
+            Object.keys(programs).forEach(function (programId) {
+                callback(programs[programId]);
+            });
+        }
         var self = {
             addRef: function () {
                 refCount++;
@@ -85,28 +95,75 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                 }
             },
             setUniforms: function (values) {
-                Object.keys(programs).forEach(function (programId) {
-                    var programInfo = programs[programId];
-                    var program = programInfo.program;
+                traversePrograms(function (program) {
                     program.use();
                     program.setUniforms(values);
                 });
             },
-            setUniform3fv: function (name, value) {
-                Object.keys(programs).forEach(function (programId) {
-                    var programInfo = programs[programId];
-                    var program = programInfo.program;
+            uniform1f: function (name, x, picky) {
+                traversePrograms(function (program) {
                     program.use();
-                    program.setUniform3fv(name, value);
+                    program.uniform1f(name, x, picky);
                 });
             },
-            setUniformMatrix4fv: function (name, matrix, transpose) {
-                if (transpose === void 0) { transpose = false; }
-                Object.keys(programs).forEach(function (programId) {
-                    var programInfo = programs[programId];
-                    var program = programInfo.program;
+            uniform1fv: function (name, value, picky) {
+                traversePrograms(function (program) {
                     program.use();
-                    program.setUniformMatrix4fv(name, matrix, transpose);
+                    program.uniform1fv(name, value, picky);
+                });
+            },
+            uniform2f: function (name, x, y, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform2f(name, x, y, picky);
+                });
+            },
+            uniform2fv: function (name, value, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform2fv(name, value, picky);
+                });
+            },
+            uniform3f: function (name, x, y, z, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform3f(name, x, y, z, picky);
+                });
+            },
+            uniform3fv: function (name, value, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform3fv(name, value, picky);
+                });
+            },
+            uniform4f: function (name, x, y, z, w, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform4f(name, x, y, z, w, picky);
+                });
+            },
+            uniform4fv: function (name, value, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform4fv(name, value, picky);
+                });
+            },
+            uniformMatrix2fv: function (name, transpose, matrix, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformMatrix2fv(name, transpose, matrix, picky);
+                });
+            },
+            uniformMatrix3fv: function (name, transpose, matrix, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformMatrix3fv(name, transpose, matrix, picky);
+                });
+            },
+            uniformMatrix4fv: function (name, transpose, matrix, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformMatrix4fv(name, transpose, matrix, picky);
                 });
             },
             traverse: function (callback) {

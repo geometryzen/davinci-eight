@@ -21,6 +21,18 @@ let scene = function(): DrawList {
 
   var $context: WebGLRenderingContext;
 
+  function traversePrograms(callback: (value: ShaderProgram) => void) {
+    Object.keys(programs).forEach(function(programId: string) {
+      callback(programs[programId].program);
+    });
+  }
+
+  function traverseProgramInfos(callback: (value: ProgramInfo) => void) {
+    Object.keys(programs).forEach(function(programId: string) {
+      callback(programs[programId]);
+    });
+  }
+
   let self: DrawList = {
     addRef() {
       refCount++;
@@ -96,27 +108,75 @@ let scene = function(): DrawList {
       }
     },
     setUniforms(values: UniformDataInfos) {
-      Object.keys(programs).forEach(function(programId) {
-        let programInfo = programs[programId];
-        let program = programInfo.program;
+      traversePrograms(function(program: ShaderProgram) {
         program.use();
         program.setUniforms(values);
       });
     },
-    setUniform3fv(name: string, value: number[]) {
-      Object.keys(programs).forEach(function(programId) {
-        let programInfo = programs[programId];
-        let program = programInfo.program;
+    uniform1f(name: string, x: number, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.setUniform3fv(name, value);
+        program.uniform1f(name, x, picky);
       });
     },
-    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
-      Object.keys(programs).forEach(function(programId) {
-        let programInfo = programs[programId];
-        let program = programInfo.program;
+    uniform1fv(name: string, value: number[], picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.setUniformMatrix4fv(name, matrix, transpose);
+        program.uniform1fv(name, value, picky);
+      });
+    },
+    uniform2f(name: string, x: number, y: number, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniform2f(name, x, y, picky);
+      });
+    },
+    uniform2fv(name: string, value: number[], picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniform2fv(name, value, picky);
+      });
+    },
+    uniform3f(name: string, x: number, y: number, z: number, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniform3f(name, x, y, z, picky);
+      });
+    },
+    uniform3fv(name: string, value: number[], picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniform3fv(name, value, picky);
+      });
+    },
+    uniform4f(name: string, x: number, y: number, z: number, w: number, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniform4f(name, x, y, z, w, picky);
+      });
+    },
+    uniform4fv(name: string, value: number[], picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniform4fv(name, value, picky);
+      });
+    },
+    uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniformMatrix2fv(name, transpose, matrix, picky);
+      });
+    },
+    uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniformMatrix3fv(name, transpose, matrix, picky);
+      });
+    },
+    uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniformMatrix4fv(name, transpose, matrix, picky);
       });
     },
     traverse(callback: (value: Drawable, index: number, array: Drawable[]) => void) {

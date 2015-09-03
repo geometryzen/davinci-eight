@@ -44,7 +44,7 @@ import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeomet
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
-import ParametricSurfaceGeometry = require('davinci-eight/geometries/ParametricSurfaceGeometry');
+import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry');
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
@@ -188,7 +188,7 @@ var eight = {
   get KleinBottleGeometry() { return KleinBottleGeometry; },
   get MobiusStripGeometry() { return MobiusStripGeometry; },
   get OctahedronGeometry() { return OctahedronGeometry; },
-  get ParametricSurfaceGeometry() { return ParametricSurfaceGeometry; },
+  get SurfaceGeometry() { return SurfaceGeometry; },
   get PolyhedronGeometry() { return PolyhedronGeometry; },
   get RevolutionGeometry() { return RevolutionGeometry; },
   get SphereGeometry() { return SphereGeometry; },

@@ -11,14 +11,17 @@ interface DrawList extends RenderingContextUser {
    * Sets the uniforms provided into all programs.
    */
   setUniforms(values: UniformDataInfos);
-  /**
-   * Sets the uniform of the specied name to the specified value on all programs.
-   */
-  setUniform3fv(name: string, value: number[]);
-  /**
-   *
-   */
-  setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean);
+  uniform1f(name: string, x: number, picky?: boolean);
+  uniform1fv(name: string, value: number[], picky?: boolean);
+  uniform2f(name: string, x: number, y: number, picky?: boolean);
+  uniform2fv(name: string, value: number[], picky?: boolean);
+  uniform3f(name: string, x: number, y: number, z: number, picky?: boolean);
+  uniform3fv(name: string, value: number[], picky?: boolean);
+  uniform4f(name: string, x: number, y: number, z: number, w: number, picky?: boolean);
+  uniform4fv(name: string, value: number[], picky?: boolean);
+  uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky?: boolean);
+  uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky?: boolean);
+  uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky?: boolean);
 }
 
 export = DrawList;

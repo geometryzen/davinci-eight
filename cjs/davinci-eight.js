@@ -30,7 +30,7 @@ var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry'
 var KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
 var MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
 var OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
-var ParametricSurfaceGeometry = require('davinci-eight/geometries/ParametricSurfaceGeometry');
+var SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry');
 var PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
 var RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 var SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
@@ -151,7 +151,7 @@ var eight = {
     get KleinBottleGeometry() { return KleinBottleGeometry; },
     get MobiusStripGeometry() { return MobiusStripGeometry; },
     get OctahedronGeometry() { return OctahedronGeometry; },
-    get ParametricSurfaceGeometry() { return ParametricSurfaceGeometry; },
+    get SurfaceGeometry() { return SurfaceGeometry; },
     get PolyhedronGeometry() { return PolyhedronGeometry; },
     get RevolutionGeometry() { return RevolutionGeometry; },
     get SphereGeometry() { return SphereGeometry; },

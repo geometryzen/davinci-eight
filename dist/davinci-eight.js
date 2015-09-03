@@ -1052,15 +1052,14 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg'
             return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.mul = function (m) {
-            return Matrix4.mul(this, m, this);
+            Matrix4.mul(this.elements, m.elements, this.elements);
+            return this;
         };
         Matrix4.prototype.multiplyMatrices = function (a, b) {
-            return Matrix4.mul(a, b, this);
+            Matrix4.mul(a.elements, b.elements, this.elements);
+            return this;
         };
-        Matrix4.mul = function (a, b, out) {
-            var ae = a.elements;
-            var be = b.elements;
-            var oe = out.elements;
+        Matrix4.mul = function (ae, be, oe) {
             var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
             var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
             var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
@@ -1081,11 +1080,11 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg'
             oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
             oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
             oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-            out[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-            out[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-            out[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-            out[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-            return out;
+            oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+            oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+            oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+            oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+            return oe;
         };
         /**
          * Sets the elements of the target matrix to the perspective transformation.
@@ -1110,7 +1109,8 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg'
         };
         Matrix4.prototype.rotate = function (spinor) {
             var S = Matrix4.rotation(spinor);
-            return Matrix4.mul(S, this, this);
+            Matrix4.mul(S.elements, this.elements, this.elements);
+            return this;
         };
         /**
          * @method rotate
@@ -1153,7 +1153,8 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg'
             // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
             // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
             var S = Matrix4.scaling(scale);
-            return Matrix4.mul(S, this, this);
+            Matrix4.mul(S.elements, this.elements, this.elements);
+            return this;
         };
         Matrix4.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
@@ -1197,7 +1198,8 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg'
         };
         Matrix4.prototype.translate = function (displacement) {
             var T = Matrix4.translation(displacement);
-            return Matrix4.mul(T, this, this);
+            Matrix4.mul(T.elements, this.elements, this.elements);
+            return this;
         };
         Matrix4.prototype.translation = function (displacement) {
             return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
@@ -2233,7 +2235,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.65.0'
+        VERSION: '2.66.0'
     };
     return core;
 });
@@ -2685,6 +2687,16 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
         var programs = {};
         var refCount = 0;
         var $context;
+        function traversePrograms(callback) {
+            Object.keys(programs).forEach(function (programId) {
+                callback(programs[programId].program);
+            });
+        }
+        function traverseProgramInfos(callback) {
+            Object.keys(programs).forEach(function (programId) {
+                callback(programs[programId]);
+            });
+        }
         var self = {
             addRef: function () {
                 refCount++;
@@ -2760,28 +2772,75 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
                 }
             },
             setUniforms: function (values) {
-                Object.keys(programs).forEach(function (programId) {
-                    var programInfo = programs[programId];
-                    var program = programInfo.program;
+                traversePrograms(function (program) {
                     program.use();
                     program.setUniforms(values);
                 });
             },
-            setUniform3fv: function (name, value) {
-                Object.keys(programs).forEach(function (programId) {
-                    var programInfo = programs[programId];
-                    var program = programInfo.program;
+            uniform1f: function (name, x, picky) {
+                traversePrograms(function (program) {
                     program.use();
-                    program.setUniform3fv(name, value);
+                    program.uniform1f(name, x, picky);
                 });
             },
-            setUniformMatrix4fv: function (name, matrix, transpose) {
-                if (transpose === void 0) { transpose = false; }
-                Object.keys(programs).forEach(function (programId) {
-                    var programInfo = programs[programId];
-                    var program = programInfo.program;
+            uniform1fv: function (name, value, picky) {
+                traversePrograms(function (program) {
                     program.use();
-                    program.setUniformMatrix4fv(name, matrix, transpose);
+                    program.uniform1fv(name, value, picky);
+                });
+            },
+            uniform2f: function (name, x, y, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform2f(name, x, y, picky);
+                });
+            },
+            uniform2fv: function (name, value, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform2fv(name, value, picky);
+                });
+            },
+            uniform3f: function (name, x, y, z, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform3f(name, x, y, z, picky);
+                });
+            },
+            uniform3fv: function (name, value, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform3fv(name, value, picky);
+                });
+            },
+            uniform4f: function (name, x, y, z, w, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform4f(name, x, y, z, w, picky);
+                });
+            },
+            uniform4fv: function (name, value, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniform4fv(name, value, picky);
+                });
+            },
+            uniformMatrix2fv: function (name, transpose, matrix, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformMatrix2fv(name, transpose, matrix, picky);
+                });
+            },
+            uniformMatrix3fv: function (name, transpose, matrix, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformMatrix3fv(name, transpose, matrix, picky);
+                });
+            },
+            uniformMatrix4fv: function (name, transpose, matrix, picky) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformMatrix4fv(name, transpose, matrix, picky);
                 });
             },
             traverse: function (callback) {
@@ -2810,6 +2869,19 @@ define('davinci-eight/math/Sphere',["require", "exports"], function (require, ex
 });
 
 define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Sphere', '../math/Vector3'], function (require, exports, Sphere, Vector3) {
+    function updateFaceNormal(face, vertices) {
+        face.normals = [];
+        var vA = vertices[face.a];
+        var vB = vertices[face.b];
+        var vC = vertices[face.c];
+        var cb = new Vector3().subVectors(vC, vB);
+        var ab = new Vector3().subVectors(vA, vB);
+        var normal = new Vector3().crossVectors(cb, ab).normalize();
+        // TODO: I think we only need to push one normal here?
+        face.normals.push(normal);
+        face.normals.push(normal);
+        face.normals.push(normal);
+    }
     /**
      * @class Geometry
      */
@@ -2822,12 +2894,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Spher
             this.verticesNeedUpdate = false;
             this.elementsNeedUpdate = false;
             this.uvsNeedUpdate = false;
-            this.boundingSphere = null;
+            this.boundingSphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
         }
         Geometry.prototype.computeBoundingSphere = function () {
-            if (this.boundingSphere === null) {
-                this.boundingSphere = new Sphere();
-            }
             this.boundingSphere.setFromPoints(this.vertices);
         };
         /**
@@ -2839,21 +2908,10 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Spher
         // TODO: What would happen if we computed unit tangent spinors?
         // Would such elements of the geometry be better behaved than pseudo vectors?
         Geometry.prototype.computeFaceNormals = function () {
-            // Avoid  the this pointer in forEach callback function.
+            // Avoid the this pointer in forEach callback function.
             var vertices = this.vertices;
-            var computeFaceNormal = function (face) {
-                face.normals = [];
-                var vA = vertices[face.a];
-                var vB = vertices[face.b];
-                var vC = vertices[face.c];
-                var cb = new Vector3().subVectors(vC, vB);
-                var ab = new Vector3().subVectors(vA, vB);
-                var normal = new Vector3().crossVectors(cb, ab).normalize();
-                face.normals.push(normal);
-                face.normals.push(normal);
-                face.normals.push(normal);
-            };
-            this.faces.forEach(computeFaceNormal);
+            var updateFaceNormalCallback = function (face) { return updateFaceNormal(face, vertices); };
+            this.faces.forEach(updateFaceNormalCallback);
         };
         Geometry.prototype.computeVertexNormals = function (areaWeighted) {
             var v;
@@ -2906,7 +2964,13 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Spher
                 face.normals[2] = vertexNormals[face.c].clone();
             }
         };
-        Geometry.prototype.mergeVertices = function () {
+        /**
+         * Updates the geometry by merging closely separated vertices.
+         * @method mergeVertices
+         * @param precisionPoints {number} number of decimal points, eg. 4 for epsilon of 0.0001
+         */
+        Geometry.prototype.mergeVertices = function (precisionPoints) {
+            if (precisionPoints === void 0) { precisionPoints = 4; }
             /**
              * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
              * key is constructed from coordinates, value is index in vertices array.
@@ -2920,7 +2984,6 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Spher
              * Index is original index in vertices. Entry is index in unique array.
              */
             var changes = [];
-            var precisionPoints = 4; // number of decimal points, eg. 4 for epsilon of 0.0001
             var precision = Math.pow(10, precisionPoints);
             var i;
             var il;
@@ -6519,17 +6582,17 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/ParametricSurfaceGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, expectArg) {
+define('davinci-eight/geometries/SurfaceGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, expectArg) {
     /**
      * @author zz85 / https://github.com/zz85
      * Parametric Surfaces Geometry
      * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
      *
-     * new ParametricSurfaceGeometry( parametricFunction, uSegments, vSegments );
+     * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
      */
-    var ParametricSurfaceGeometry = (function (_super) {
-        __extends(ParametricSurfaceGeometry, _super);
-        function ParametricSurfaceGeometry(parametricFunction, uSegments, vSegments) {
+    var SurfaceGeometry = (function (_super) {
+        __extends(SurfaceGeometry, _super);
+        function SurfaceGeometry(parametricFunction, uSegments, vSegments) {
             _super.call(this);
             expectArg('parametricFunction', parametricFunction).toBeFunction();
             expectArg('uSegments', uSegments).toBeNumber();
@@ -6576,9 +6639,9 @@ define('davinci-eight/geometries/ParametricSurfaceGeometry',["require", "exports
             this.computeFaceNormals();
             this.computeVertexNormals();
         }
-        return ParametricSurfaceGeometry;
+        return SurfaceGeometry;
     })(Geometry);
-    return ParametricSurfaceGeometry;
+    return SurfaceGeometry;
 });
 
 var __extends = this.__extends || function (d, b) {
@@ -6587,7 +6650,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '../geometries/ParametricSurfaceGeometry', '../math/Vector3'], function (require, exports, ParametricSurfaceGeometry, Vector3) {
+define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -6610,7 +6673,7 @@ define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '..
      * By connecting the edge of a Mobius Strip we get a Klein Bottle.
      * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
      * @class KleinBottleGeometry
-     * @extends ParametricSurfaceGeometry
+     * @extends SurfaceGeometry
      */
     var KleinBottleGeometry = (function (_super) {
         __extends(KleinBottleGeometry, _super);
@@ -6624,7 +6687,7 @@ define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '..
             _super.call(this, klein, uSegments, vSegments);
         }
         return KleinBottleGeometry;
-    })(ParametricSurfaceGeometry);
+    })(SurfaceGeometry);
     return KleinBottleGeometry;
 });
 
@@ -6634,7 +6697,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '../geometries/ParametricSurfaceGeometry', '../math/Vector3'], function (require, exports, ParametricSurfaceGeometry, Vector3) {
+define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
     var cos = Math.cos;
     var sin = Math.sin;
     var pi = Math.PI;
@@ -6664,7 +6727,7 @@ define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '..
             _super.call(this, mobius, uSegments, vSegments);
         }
         return MobiusStripGeometry;
-    })(ParametricSurfaceGeometry);
+    })(SurfaceGeometry);
     return MobiusStripGeometry;
 });
 
@@ -7328,24 +7391,125 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
             setUniforms: function (values) {
                 setUniforms(uniformSetters, values);
             },
-            setUniform3fv: function (name, value) {
-                // TODO: Unwrap and make more efficient.
-                // TODO: Eliminate setters.
-                expectArg('name', name).toBeString();
-                var values = {};
-                var data = {};
-                data.vector = value;
-                values[name] = data;
-                setUniforms(uniformSetters, values);
-            },
-            setUniformMatrix4fv: function (name, matrix, transpose) {
-                if (transpose === void 0) { transpose = false; }
-                expectArg('name', name).toBeString();
-                var uniformLocation = uniformLocations[name];
-                if (uniformLocation) {
-                    uniformLocation.uniformMatrix4fv(transpose, matrix);
+            uniform1f: function (name, x, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform1f(x);
                 }
                 else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform1fv: function (name, data, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform1fv(data);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform2f: function (name, x, y, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform2f(x, y);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform2fv: function (name, data, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform2fv(data);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform3f: function (name, x, y, z, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform3f(x, y, z);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform3fv: function (name, data, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform3fv(data);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform4f: function (name, x, y, z, w, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform4f(x, y, z, w);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniform4fv: function (name, data, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniform4fv(data);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniformMatrix2fv: function (name, transpose, matrix, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformMatrix2fv(transpose, matrix);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniformMatrix3fv: function (name, transpose, matrix, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformMatrix3fv(transpose, matrix);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
+                }
+            },
+            uniformMatrix4fv: function (name, transpose, matrix, picky) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformMatrix4fv(transpose, matrix);
+                }
+                else {
+                    if (picky) {
+                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+                    }
                 }
             }
         };
@@ -7661,12 +7825,38 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             setUniforms: function (values) {
                 return innerProgram.setUniforms(values);
             },
-            setUniform3fv: function (name, value) {
-                return innerProgram.setUniform3fv(name, value);
+            uniform1f: function (name, x, picky) {
+                return innerProgram.uniform1f(name, x, picky);
             },
-            setUniformMatrix4fv: function (name, matrix, transpose) {
-                if (transpose === void 0) { transpose = false; }
-                return innerProgram.setUniformMatrix4fv(name, matrix, transpose);
+            uniform1fv: function (name, value, picky) {
+                return innerProgram.uniform1fv(name, value, picky);
+            },
+            uniform2f: function (name, x, y, picky) {
+                return innerProgram.uniform2f(name, x, y, picky);
+            },
+            uniform2fv: function (name, value, picky) {
+                return innerProgram.uniform2fv(name, value, picky);
+            },
+            uniform3f: function (name, x, y, z, picky) {
+                return innerProgram.uniform3f(name, x, y, z, picky);
+            },
+            uniform3fv: function (name, value, picky) {
+                return innerProgram.uniform3fv(name, value, picky);
+            },
+            uniform4f: function (name, x, y, z, w, picky) {
+                return innerProgram.uniform4f(name, x, y, z, w, picky);
+            },
+            uniform4fv: function (name, value, picky) {
+                return innerProgram.uniform4fv(name, value, picky);
+            },
+            uniformMatrix2fv: function (name, transpose, matrix, picky) {
+                return innerProgram.uniformMatrix2fv(name, transpose, matrix, picky);
+            },
+            uniformMatrix3fv: function (name, transpose, matrix, picky) {
+                return innerProgram.uniformMatrix3fv(name, transpose, matrix, picky);
+            },
+            uniformMatrix4fv: function (name, transpose, matrix, picky) {
+                return innerProgram.uniformMatrix4fv(name, transpose, matrix, picky);
             }
         };
         return self;
@@ -11098,7 +11288,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/ParametricSurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, ParametricSurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
     /*
     import BoxMesh = require('davinci-eight/mesh/BoxMesh');
     import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
@@ -11163,7 +11353,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get KleinBottleGeometry() { return KleinBottleGeometry; },
         get MobiusStripGeometry() { return MobiusStripGeometry; },
         get OctahedronGeometry() { return OctahedronGeometry; },
-        get ParametricSurfaceGeometry() { return ParametricSurfaceGeometry; },
+        get SurfaceGeometry() { return SurfaceGeometry; },
         get PolyhedronGeometry() { return PolyhedronGeometry; },
         get RevolutionGeometry() { return RevolutionGeometry; },
         get SphereGeometry() { return SphereGeometry; },

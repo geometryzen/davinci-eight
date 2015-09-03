@@ -162,24 +162,125 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     setUniforms(values: UniformDataInfos) {
       setUniforms(uniformSetters, values);
     },
-    setUniform3fv(name: string, value: number[]) {
-      // TODO: Unwrap and make more efficient.
-      // TODO: Eliminate setters.
-      expectArg('name', name).toBeString();
-      let values: UniformDataInfos = {};
-      let data: UniformDataInfo = {};
-      data.vector = value;
-      values[name] = data;
-      setUniforms(uniformSetters, values);
-    },
-    setUniformMatrix4fv(name: string, matrix: Float32Array, transpose: boolean = false) {
-      expectArg('name', name).toBeString();
-      var uniformLocation = uniformLocations[name];
-      if (uniformLocation) {
-        uniformLocation.uniformMatrix4fv(transpose, matrix);
+    uniform1f(name: string, x: number, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform1f(x);
       }
       else {
-        // Ignore the fact that the program does not contain the active uniform.
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform1fv(name: string, data: number[], picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform1fv(data);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform2f(name: string, x: number, y: number, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform2f(x, y);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform2fv(name: string, data: number[], picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform2fv(data);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform3f(name: string, x: number, y: number, z: number, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform3f(x, y, z);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform3fv(name: string, data: number[], picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform3fv(data);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform4f(name: string, x: number, y: number, z: number, w: number, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform4f(x, y, z, w);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniform4fv(name: string, data: number[], picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniform4fv(data);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformMatrix2fv(transpose, matrix);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformMatrix3fv(transpose, matrix);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
+      }
+    },
+    uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformMatrix4fv(transpose, matrix);
+      }
+      else {
+        if (picky) {
+          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
+        }
       }
     }
   };
