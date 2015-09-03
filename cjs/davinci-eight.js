@@ -6,6 +6,7 @@ var perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
 var view = require('davinci-eight/cameras/view');
 var viewMatrix = require('davinci-eight/cameras/viewMatrix');
 var DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
+var DefaultDrawableVisitor = require('davinci-eight/core/DefaultDrawableVisitor');
 var Color = require('davinci-eight/core/Color');
 var DataUsage = require('davinci-eight/core/DataUsage');
 var DrawMode = require('davinci-eight/core/DrawMode');
@@ -123,6 +124,7 @@ var eight = {
     animation: windowAnimationRunner,
     get DataUsage() { return DataUsage; },
     get DefaultAttribProvider() { return DefaultAttribProvider; },
+    get DefaultDrawableVisitor() { return DefaultDrawableVisitor; },
     get DefaultUniformProvider() { return DefaultUniformProvider; },
     get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },

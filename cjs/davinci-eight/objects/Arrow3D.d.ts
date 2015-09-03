@@ -1,3 +1,4 @@
+import DrawableVisitor = require('../core/DrawableVisitor');
 import ShaderProgram = require('../core/ShaderProgram');
 import Node = require('../uniforms/Node');
 import UniformProvider = require('../core/UniformProvider');
@@ -16,7 +17,10 @@ declare class Arrow3D implements Blade<Node> {
     constructor(ambients: UniformProvider, options?: ArrowOptions);
     magnitude: number;
     setMagnitude(magnitude: number): Blade<Node>;
-    draw(): void;
+    /**
+     *
+     */
+    accept(visitor: DrawableVisitor): void;
     addRef(): void;
     release(): void;
     contextFree(): void;

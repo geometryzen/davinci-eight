@@ -2,6 +2,7 @@ import AttribProvider = require('../core/AttribProvider');
 import ShaderProgram = require('../core/ShaderProgram');
 import Node = require('../uniforms/Node');
 import Blade = require('../objects/Blade');
+import DrawableVisitor = require('../core/DrawableVisitor');
 import Primitive = require('../core/Primitive');
 import primitive = require('../objects/primitive');
 import arrowMesh = require('../mesh/arrowMesh');
@@ -30,8 +31,8 @@ class ArrowWrapper implements Blade<Node> {
   get program() {
     return this.primitive.program;
   }
-  draw() {
-    return this.primitive.draw();
+  accept(visitor: DrawableVisitor) {
+    this.primitive.accept(visitor);
   }
   addRef() {
     return this.primitive.addRef();

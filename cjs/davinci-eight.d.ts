@@ -5,6 +5,7 @@ import View = require('davinci-eight/cameras/View');
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
 import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
+import DefaultDrawableVisitor = require('davinci-eight/core/DefaultDrawableVisitor');
 import Color = require('davinci-eight/core/Color');
 import DataUsage = require('davinci-eight/core/DataUsage');
 import DrawMode = require('davinci-eight/core/DrawMode');
@@ -112,6 +113,7 @@ declare var eight: {
     }) => WindowAnimationRunner;
     DataUsage: typeof DataUsage;
     DefaultAttribProvider: typeof DefaultAttribProvider;
+    DefaultDrawableVisitor: typeof DefaultDrawableVisitor;
     DefaultUniformProvider: typeof DefaultUniformProvider;
     primitive: <MESH extends AttribProvider, MODEL extends UniformProvider>(mesh: MESH, program: ShaderProgram, model: MODEL) => Primitive<MESH, MODEL>;
     DrawMode: typeof DrawMode;

@@ -1,3 +1,4 @@
+import DrawableVisitor = require('../core/DrawableVisitor');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import ShaderProgram = require('../core/ShaderProgram');
 
@@ -13,9 +14,10 @@ interface Drawable extends RenderingContextUser {
    */
   program: ShaderProgram;
   /**
-   * @method draw
+   * @method accept
+   * @param visitor {DrawableVisitor}
    */
-  draw(): void;
+  accept(visitor: DrawableVisitor);
 }
 
 export = Drawable;

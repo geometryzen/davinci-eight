@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/objects/primitive.ts - davinci-eight</title>
+    <title>src/davinci-eight/objects/Arrow3D.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.66.0</em>
+            <em>API Docs for: 2.67.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -150,109 +150,101 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/objects/primitive.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/objects/Arrow3D.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;); 
-import AttribDataInfos = require(&#x27;../core/AttribDataInfos&#x27;); 
-import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
-import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
-import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
-import Primitive = require(&#x27;../core/Primitive&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
+import Color = require(&#x27;../core/Color&#x27;);
+import CylinderMeshBuilder = require(&#x27;../mesh/CylinderMeshBuilder&#x27;);
+import Drawable = require(&#x27;../core/Drawable&#x27;);
+import DrawableVisitor = require(&#x27;../core/DrawableVisitor&#x27;);
+import Primitive = require(&#x27;../core/Primitive&#x27;);
+import Composite = require(&#x27;../core/Composite&#x27;);
+import primitive = require(&#x27;../objects/primitive&#x27;);
+import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
+import smartProgram = require(&#x27;../programs/smartProgram&#x27;)
+import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
+import Node = require(&#x27;../uniforms/Node&#x27;);
 import UniformProvider = require(&#x27;../core/UniformProvider&#x27;);
-import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
-import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
+import Vector3 = require(&#x27;../math/Vector3&#x27;);
+import Object3D = require(&#x27;../objects/Object3D&#x27;);
+import ArrowOptions = require(&#x27;../mesh/ArrowOptions&#x27;);
+import Blade = require(&#x27;../objects/Blade&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
-import getAttribVarName = require(&#x27;../core/getAttribVarName&#x27;);
-import getUniformVarName = require(&#x27;../core/getUniformVarName&#x27;);
-import setAttributes = require(&#x27;../programs/setAttributes&#x27;);
-import setUniforms = require(&#x27;../programs/setUniforms&#x27;);
 
-var primitive = function&lt;MESH extends AttribProvider, MODEL extends UniformProvider&gt;(mesh: MESH, program: ShaderProgram, model: MODEL): Primitive&lt;MESH, MODEL&gt; {
-
-  var $context: WebGLRenderingContext;
-  var refCount: number = 0;
-
-  mesh.addRef();
-  program.addRef();
-
-  let self = {
-    get mesh(): MESH {
-      return mesh;
-    },
-    get program(): ShaderProgram {
-      return program;
-    },
-    get model(): MODEL {
-      return model;
-    },
-    addRef() {
-      refCount++;
-      // console.log(&quot;primitive.addRef() =&gt; &quot; + refCount);
-    },
-    release() {
-      refCount--;
-      // console.log(&quot;primitive.release() =&gt; &quot; + refCount);
-      if (refCount === 0) {
-        mesh.release();
-        mesh = void 0;
-        program.release();
-        program = void 0;
-      }
-    },
-    contextFree() {
-      if (isDefined($context)) {
-        $context = void 0;
-        mesh.contextFree();
-        program.contextFree();
-      }
-    },
-    contextGain(context: WebGLRenderingContext) {
-      if ($context !== context) {
-        $context = context;
-        mesh.contextGain(context);
-        program.contextGain(context);
-      }
-    },
-    contextLoss() {
-      if (isDefined($context)) {
-        $context = void 0;
-        mesh.contextLoss();
-        program.contextLoss();
-      }
-    },
-    hasContext(): boolean {
-      return !!$context;
-    },
-    /**
-     * @method draw
-     */
-    draw() {
-      // TODO: Make this event-driven?
-      if (mesh.dynamic) {
-        mesh.update();
-      }
-
-      program.use();
-
-      // TODO: What is the overhead?
-      program.setUniforms(model.getUniformData());
-      program.setAttributes(mesh.getAttribData());
-
-      mesh.draw();
-
-      for (var name in program.attributeLocations) {
-        program.attributeLocations[name].disable();
-      }
+class Arrow3D implements Blade&lt;Node&gt; {
+  private $magnitude: number = 1;
+  private $coneHeight: number;
+  public model: Node;
+  public program: ShaderProgram;
+  private headModel: Node;
+  private tailModel: Node;
+  private head: Primitive&lt;AttribProvider, Node&gt;;
+  private tail: Primitive&lt;AttribProvider, Node&gt;;
+  private _refCount: number = 0;
+  constructor(ambients: UniformProvider, options?: ArrowOptions) {
+    options = options || {};
+    this.$coneHeight = isDefined(options.coneHeight) ? options.coneHeight : 0.2;
+    this.model = new Node();
+    var headMesh = new CylinderMeshBuilder(options).setRadiusTop(0.0).setRadiusBottom(0.08).setHeight(this.$coneHeight).buildMesh();
+    var tailMesh = new CylinderMeshBuilder(options).setRadiusTop(0.01).setRadiusBottom(0.01).buildMesh();
+    this.program = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
+    this.headModel = new Node();
+    this.headModel.setParent(this.model);
+    this.head = primitive(headMesh, this.program, this.headModel);
+    this.tailModel = new Node();
+    this.tailModel.setParent(this.model);
+    this.setMagnitude(1);
+    this.tail = primitive(tailMesh, this.program, this.tailModel);
+  }
+  get magnitude(): number {
+    return this.tailModel.scale.y + this.$coneHeight;
+  }
+  set magnitude(value: number) {
+    this.setMagnitude(value);
+  }
+  setMagnitude(magnitude: number): Blade&lt;Node&gt; {
+    this.headModel.position.y = (magnitude - this.$coneHeight) / 2;
+    this.tailModel.scale.y = magnitude - this.$coneHeight;
+    this.tailModel.position.y = - this.$coneHeight / 2;
+    return this;
+  }
+  /**
+   *
+   */
+  accept(visitor: DrawableVisitor) {
+    this.head.accept(visitor);
+    this.tail.accept(visitor);
+  }
+  addRef() {
+    this._refCount++;
+  }
+  release() {
+    this._refCount--;
+    if (this._refCount === 0) {
+      this.head.release();
+      this.tail.release();
     }
-  };
+  }
+  contextFree() {
+    this.head.contextFree();
+    this.tail.contextFree();
+  }
+  contextGain(context: WebGLRenderingContext) {
+    this.head.contextGain(context);
+    this.tail.contextGain(context);
+  }
+  contextLoss() {
+    this.head.contextLoss();
+    this.tail.contextLoss();
+  }
+  hasContext() {
+    return this.head.hasContext();
+  }
+}
 
-  return self;
-};
-
-export = primitive;
+export = Arrow3D;
 
     </pre>
 </div>

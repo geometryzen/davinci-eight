@@ -56,6 +56,11 @@ interface RenderingContextUser extends ReferenceCounted {
    */
   hasContext(): boolean;
 }
+
+interface DrawableVisitor {
+  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformProvider);
+}
+
 interface Drawable extends RenderingContextUser {
   /**
    *
@@ -64,8 +69,13 @@ interface Drawable extends RenderingContextUser {
   /**
    *
    */
-  draw(): void;
+  accept(visitor: DrawableVisitor);
 }
+class DefaultDrawableVisitor implements DrawableVisitor {
+  constructor();
+  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformProvider);
+}
+
 interface DrawList extends RenderingContextUser
 {
   /**
@@ -76,6 +86,10 @@ interface DrawList extends RenderingContextUser
    * Removes a drawable from the DrawList.
    */
   remove(drawable: Drawable): void;
+  /**
+   * Traverse the drawables in the DrawList.
+   */
+  traverse(callback: (value: Drawable, index: number, array: Drawable[]) => void): void;
   /**
    * Sets the uniforms provided into all programs.
    */
@@ -641,6 +655,16 @@ interface AttribProvider extends RenderingContextUser
    */
   dynamic: boolean;
   /**
+   * Returns the data when drawing using arrays. 
+   */
+  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
+  /**
+   * Provides the data information corresponsing to provided attribute values. 
+   * @method getAttribData
+   * @return {AttribDataInfos} The data information corresponding to all attributes supported.
+   */
+  getAttribData(): AttribDataInfos;
+  /**
    * Declares the vertex shader attributes the geometry can supply and information required for binding.
    */
   getAttribMeta(): AttribMetaInfos;
@@ -653,10 +677,6 @@ interface AttribProvider extends RenderingContextUser
    * An implementation of Geometry is not required to support index buffers and may return undefined.
    */
   getElementArray(): {usage: DataUsage; data: Uint16Array};
-  /**
-   * Returns the data when drawing using arrays. 
-   */
-  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
   /**
    * Notifies the mesh that it should update its array buffers.
    */
@@ -838,17 +858,33 @@ interface Blade<M> extends Composite<M> {
 interface Renderer extends RenderingContextUser
 {
   /**
+   * The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.
+   */
+  context: WebGLRenderingContext;
+  /**
    * Defines whether the renderer should automatically clear its output before rendering.
    */
   autoClear: boolean;
   /**
    * Specify the clear values for the color buffers.
    */
-  clearColor(red: number, green: number, blue: number, alpha: number): Renderer;
+  clearColor(red: number, green: number, blue: number, alpha: number): void;
+  /**
+   * Clears buffers to preset values specified by clearColor(), clearDepth() and clearStencil().
+   * mask {number} A bitwise OR of masks that indicates the buffers to be cleared.
+   */
+  clear(mask: number): void;
   /**
    * Render the contents of the drawList.
+   * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.
    */
   render(drawList: DrawList): void;
+  /**
+   *
+   */
+  COLOR_BUFFER_BIT: number;
+  DEPTH_BUFFER_BIT: number;
+  STENCIL_BUFFER_BIT: number;
 }
 interface RendererParameters {
 }

@@ -168,6 +168,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.64.0: 2015-09-02 frustum, perspective, view
 * 2.65.0: 2015-09-03 Geometry
 * 2.66.0: 2015-09-03 uniforms
+* 2.67.0: 2015-09-03 DrawableVisitor
 
 ## License
 Copyright (c) 2014-2015 David Holmes

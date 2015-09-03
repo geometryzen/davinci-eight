@@ -37,9 +37,12 @@ var Arrow3D = (function () {
         this.tailModel.position.y = -this.$coneHeight / 2;
         return this;
     };
-    Arrow3D.prototype.draw = function () {
-        this.head.draw();
-        this.tail.draw();
+    /**
+     *
+     */
+    Arrow3D.prototype.accept = function (visitor) {
+        this.head.accept(visitor);
+        this.tail.accept(visitor);
     };
     Arrow3D.prototype.addRef = function () {
         this._refCount++;

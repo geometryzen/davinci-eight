@@ -14,6 +14,7 @@ import viewMatrix = require('davinci-eight/cameras/viewMatrix');
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
 import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
+import DefaultDrawableVisitor = require('davinci-eight/core/DefaultDrawableVisitor');
 import Color = require('davinci-eight/core/Color');
 import Composite = require('davinci-eight/core/Composite');
 import DataUsage = require('davinci-eight/core/DataUsage');
@@ -160,6 +161,7 @@ var eight = {
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
+  get DefaultDrawableVisitor() { return DefaultDrawableVisitor; },
   get DefaultUniformProvider() { return DefaultUniformProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },

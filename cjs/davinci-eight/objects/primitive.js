@@ -52,22 +52,8 @@ var primitive = function (mesh, program, model) {
         hasContext: function () {
             return !!$context;
         },
-        /**
-         * @method draw
-         */
-        draw: function () {
-            // TODO: Make this event-driven?
-            if (mesh.dynamic) {
-                mesh.update();
-            }
-            program.use();
-            // TODO: What is the overhead?
-            program.setUniforms(model.getUniformData());
-            program.setAttributes(mesh.getAttribData());
-            mesh.draw();
-            for (var name in program.attributeLocations) {
-                program.attributeLocations[name].disable();
-            }
+        accept: function (visitor) {
+            visitor.primitive(mesh, program, model);
         }
     };
     return self;

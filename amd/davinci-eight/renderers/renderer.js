@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../core/Color'], function (require, exports, expectArg, Color) {
+define(["require", "exports", '../core/DefaultDrawableVisitor', '../checks/expectArg', '../core/Color'], function (require, exports, DefaultDrawableVisitor, expectArg, Color) {
     var renderer = function (canvas, parameters) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         parameters = parameters || {};
@@ -7,8 +7,9 @@ define(["require", "exports", '../checks/expectArg', '../core/Color'], function 
         var autoClear = true;
         var clearColor = Color.fromRGB(0, 0, 0);
         var clearAlpha = 0;
+        var drawVisitor = new DefaultDrawableVisitor();
         function drawHandler(drawable) {
-            drawable.draw();
+            drawable.accept(drawVisitor);
         }
         var self = {
             get canvas() { return canvas; },
@@ -63,20 +64,32 @@ define(["require", "exports", '../checks/expectArg', '../core/Color'], function 
                 if ($context) {
                     $context.clearColor(red, green, blue, alpha);
                 }
-                return self;
             },
-            render: function (scene) {
-                var program;
+            clear: function (mask) {
+                if ($context) {
+                    $context.clear(mask);
+                }
+            },
+            render: function (drawList) {
                 if ($context) {
                     if (autoClear) {
-                        $context.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
+                        self.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
                     }
-                    scene.traverse(drawHandler);
                 }
                 else {
-                    console.warn("renderer is unable to render because WebGLRenderingContext is missing");
+                    console.warn("renderer is unable to clear because WebGLRenderingContext is missing");
                 }
+                drawList.traverse(drawHandler);
             },
+            get COLOR_BUFFER_BIT() {
+                return !!$context ? $context.COLOR_BUFFER_BIT : 0;
+            },
+            get DEPTH_BUFFER_BIT() {
+                return !!$context ? $context.DEPTH_BUFFER_BIT : 0;
+            },
+            get STENCIL_BUFFER_BIT() {
+                return !!$context ? $context.STENCIL_BUFFER_BIT : 0;
+            }
         };
         return self;
     };

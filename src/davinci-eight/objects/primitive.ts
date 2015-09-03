@@ -1,18 +1,9 @@
-import AttribDataInfo = require('../core/AttribDataInfo'); 
-import AttribDataInfos = require('../core/AttribDataInfos'); 
-import ShaderProgram = require('../core/ShaderProgram');
-import ShaderAttribLocation = require('../core/ShaderAttribLocation');
-import ShaderUniformLocation = require('../core/ShaderUniformLocation');
-import Primitive = require('../core/Primitive');
 import AttribProvider = require('../core/AttribProvider');
-import UniformProvider = require('../core/UniformProvider');
-import UniformMetaInfo = require('../core/UniformMetaInfo');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
+import DrawableVisitor = require('../core/DrawableVisitor'); 
 import isDefined = require('../checks/isDefined');
-import getAttribVarName = require('../core/getAttribVarName');
-import getUniformVarName = require('../core/getUniformVarName');
-import setAttributes = require('../programs/setAttributes');
-import setUniforms = require('../programs/setUniforms');
+import Primitive = require('../core/Primitive');
+import ShaderProgram = require('../core/ShaderProgram');
+import UniformProvider = require('../core/UniformProvider');
 
 var primitive = function<MESH extends AttribProvider, MODEL extends UniformProvider>(mesh: MESH, program: ShaderProgram, model: MODEL): Primitive<MESH, MODEL> {
 
@@ -22,7 +13,7 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformProvi
   mesh.addRef();
   program.addRef();
 
-  let self = {
+  let self: Primitive<MESH, MODEL> = {
     get mesh(): MESH {
       return mesh;
     },
@@ -70,29 +61,10 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformProvi
     hasContext(): boolean {
       return !!$context;
     },
-    /**
-     * @method draw
-     */
-    draw() {
-      // TODO: Make this event-driven?
-      if (mesh.dynamic) {
-        mesh.update();
-      }
-
-      program.use();
-
-      // TODO: What is the overhead?
-      program.setUniforms(model.getUniformData());
-      program.setAttributes(mesh.getAttribData());
-
-      mesh.draw();
-
-      for (var name in program.attributeLocations) {
-        program.attributeLocations[name].disable();
-      }
+    accept(visitor: DrawableVisitor) {
+      visitor.primitive(mesh, program, model);
     }
   };
-
   return self;
 };
 

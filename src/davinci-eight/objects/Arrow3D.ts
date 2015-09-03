@@ -2,6 +2,7 @@ import AttribProvider = require('../core/AttribProvider');
 import Color = require('../core/Color');
 import CylinderMeshBuilder = require('../mesh/CylinderMeshBuilder');
 import Drawable = require('../core/Drawable');
+import DrawableVisitor = require('../core/DrawableVisitor');
 import Primitive = require('../core/Primitive');
 import Composite = require('../core/Composite');
 import primitive = require('../objects/primitive');
@@ -53,9 +54,12 @@ class Arrow3D implements Blade<Node> {
     this.tailModel.position.y = - this.$coneHeight / 2;
     return this;
   }
-  draw() {
-    this.head.draw();
-    this.tail.draw();
+  /**
+   *
+   */
+  accept(visitor: DrawableVisitor) {
+    this.head.accept(visitor);
+    this.tail.accept(visitor);
   }
   addRef() {
     this._refCount++;

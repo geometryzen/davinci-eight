@@ -30,8 +30,8 @@ var ArrowWrapper = (function () {
         enumerable: true,
         configurable: true
     });
-    ArrowWrapper.prototype.draw = function () {
-        return this.primitive.draw();
+    ArrowWrapper.prototype.accept = function (visitor) {
+        this.primitive.accept(visitor);
     };
     ArrowWrapper.prototype.addRef = function () {
         return this.primitive.addRef();

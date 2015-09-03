@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.66.0</em>
+            <em>API Docs for: 2.67.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -170,6 +170,7 @@ import viewMatrix = require(&#x27;davinci-eight/cameras/viewMatrix&#x27;);
 import AttribMetaInfos = require(&#x27;davinci-eight/core/AttribMetaInfos&#x27;);
 import AttribProvider = require(&#x27;davinci-eight/core/AttribProvider&#x27;);
 import DefaultAttribProvider = require(&#x27;davinci-eight/core/DefaultAttribProvider&#x27;);
+import DefaultDrawableVisitor = require(&#x27;davinci-eight/core/DefaultDrawableVisitor&#x27;);
 import Color = require(&#x27;davinci-eight/core/Color&#x27;);
 import Composite = require(&#x27;davinci-eight/core/Composite&#x27;);
 import DataUsage = require(&#x27;davinci-eight/core/DataUsage&#x27;);
@@ -316,6 +317,7 @@ var eight = {
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
+  get DefaultDrawableVisitor() { return DefaultDrawableVisitor; },
   get DefaultUniformProvider() { return DefaultUniformProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
