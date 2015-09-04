@@ -1,6 +1,7 @@
 //
 // perspective.ts
 //
+import UniformDataVisitor = require('../core/UniformDataVisitor');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
@@ -9,11 +10,12 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import Vector1 = require('../math/Vector1');
 import Vector3 = require('../math/Vector3');
 import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
 import expectArg = require('../checks/expectArg');
-import perspectiveMatix = require('../cameras/perspectiveMatrix');
+import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
 
 //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
 
@@ -26,25 +28,17 @@ import perspectiveMatix = require('../cameras/perspectiveMatrix');
  * @param far {number}
  * @return {Perspective}
  */
-let perspective = function(options?: {
-    fov?: number;
-    aspect?: number;
-    near?: number;
-    far?: number;
-    projectionMatrixName?: string;
-    viewMatrixName?:string
-  }
-  ): Perspective {
+let perspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string;}): Perspective {
 
   options = options || {};
-  let fov: number = isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov;
-  let aspect: number = isUndefined(options.aspect) ? 1 : options.aspect;
-  let near: number = isUndefined(options.near) ? 0.1 : options.near;
-  let far: number = expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value;
+  let fov: Vector1 = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+  let aspect: Vector1 = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
+  let near: Vector1 = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
+  let far: Vector1 = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
   let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
   let base: View = view(options);
-  let projectionMatrix = Matrix4.identity();
+  let projectionMatrix: Matrix4 = Matrix4.identity();
   var matrixNeedsUpdate = true;
 
   let self: Perspective = {
@@ -80,100 +74,60 @@ let perspective = function(options?: {
       return self;
     },
     get fov(): number {
-      return fov;
+      return fov.x;
     },
     set fov(value: number) {
       self.setFov(value);
     },
     setFov(value: number) {
       expectArg('fov', value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
-      fov = value;
+      matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
+      fov.x = value;
       return self;
     },
     get aspect(): number {
-      return aspect;
+      return aspect.x;
     },
     set aspect(value: number) {
       self.setAspect(value);
     },
     setAspect(value: number) {
       expectArg('aspect', value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
-      aspect = value;
+      matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
+      aspect.x = value;
       return self;
     },
     get near(): number {
-      return near;
+      return near.x;
     },
     set near(value: number) {
       self.setNear(value);
     },
     setNear(value: number) {
       expectArg('near', value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
-      near = value;
+      matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
+      near.x = value;
       return self;
     },
     get far(): number {
-      return far;
+      return far.x;
     },
     set far(value: number) {
       self.setFar(value);
     },
     setFar(value: number) {
       expectArg('far', value).toBeNumber();
-      matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
-      far = value;
+      matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
+      far.x = value;
       return self;
     },
-    getUniformFloat(name: string): number {
-      return base.getUniformFloat(name);
-    },
-    getUniformMatrix2(name: string): {transpose: boolean; matrix2: Float32Array} {
-      return base.getUniformMatrix2(name);
-    },
-    getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
-      return base.getUniformMatrix3(name);
-    },
-    getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
-      expectArg('name', name).toBeString();
-      switch(name) {
-        case projectionMatrixName: {
-          if (matrixNeedsUpdate) {
-            projectionMatrix.perspective(fov, aspect, near, far);
-            matrixNeedsUpdate = false;
-          }
-          return {transpose: false, matrix4: projectionMatrix.elements};
-        }
-        default: {
-          return base.getUniformMatrix4(name);
-        }
+    accept(visitor: UniformDataVisitor) {
+      if (matrixNeedsUpdate) {
+        computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+        matrixNeedsUpdate = false;
       }
-    },
-    getUniformVector2(name: string): number[] {
-      return base.getUniformVector2(name);
-    },
-    getUniformVector3(name: string): number[] {
-      return base.getUniformVector3(name);
-    },
-    getUniformVector4(name: string): number[] {
-      return base.getUniformVector4(name);
-    },
-    getUniformMeta(): UniformMetaInfos {
-      var meta: UniformMetaInfos = base.getUniformMeta();
-      if (isDefined(options.projectionMatrixName)) {
-        meta[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: options.projectionMatrixName, glslType: 'mat4'};
-      }
-      else {
-        meta[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {glslType: 'mat4'};
-      }
-      return meta;
-    },
-    getUniformData(): {[name:string]: any} {
-      var data = base.getUniformData();
-      data[projectionMatrixName] = self.getUniformMatrix4(projectionMatrixName);
-      return data;
+      visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+      base.accept(visitor);
     }
   };
 

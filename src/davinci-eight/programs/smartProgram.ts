@@ -2,16 +2,18 @@ import AttribDataInfo = require('../core/AttribDataInfo');
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
+import fragmentShader = require('../programs/fragmentShader');
+import isDefined = require('../checks/isDefined');
+import Matrix2 = require('../math/Matrix2');
+import Matrix3 = require('../math/Matrix3');
+import Matrix4 = require('../math/Matrix4');
 import shaderProgram = require('./shaderProgram');
 import ShaderProgram = require('../core/ShaderProgram');
 import Symbolic = require('../core/Symbolic');
-import UniformDataInfo = require('../core/UniformDataInfo');
-import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import isDefined = require('../checks/isDefined');
+import Vector3 = require('../math/Vector3');
 import vertexShader = require('../programs/vertexShader');
-import fragmentShader = require('../programs/fragmentShader');
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
@@ -60,9 +62,6 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get uniformLocations() {
       return innerProgram.uniformLocations;
     },
-    get uniformSetters() {
-      return innerProgram.uniformSetters;
-    },
     get vertexShader() {
       return innerProgram.vertexShader;
     },
@@ -93,41 +92,38 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     setAttributes(values: AttribDataInfos) {
       return innerProgram.setAttributes(values);
     },
-    setUniforms(values: UniformDataInfos) {
-      return innerProgram.setUniforms(values);
+    uniform1f(name: string, x: number) {
+      return innerProgram.uniform1f(name, x);
     },
-    uniform1f(name: string, x: number, picky: boolean) {
-      return innerProgram.uniform1f(name, x, picky);
+    uniform1fv(name: string, value: number[]) {
+      return innerProgram.uniform1fv(name, value);
     },
-    uniform1fv(name: string, value: number[], picky: boolean) {
-      return innerProgram.uniform1fv(name, value, picky);
+    uniform2f(name: string, x: number, y: number) {
+      return innerProgram.uniform2f(name, x, y);
     },
-    uniform2f(name: string, x: number, y: number, picky: boolean) {
-      return innerProgram.uniform2f(name, x, y, picky);
+    uniform2fv(name: string, value: number[]) {
+      return innerProgram.uniform2fv(name, value);
     },
-    uniform2fv(name: string, value: number[], picky: boolean) {
-      return innerProgram.uniform2fv(name, value, picky);
+    uniform3f(name: string, x: number, y: number, z: number) {
+      return innerProgram.uniform3f(name, x, y, z);
     },
-    uniform3f(name: string, x: number, y: number, z: number, picky: boolean) {
-      return innerProgram.uniform3f(name, x, y, z, picky);
+    uniform4f(name: string, x: number, y: number, z: number, w: number) {
+      return innerProgram.uniform4f(name, x, y, z, w);
     },
-    uniform3fv(name: string, value: number[], picky: boolean) {
-      return innerProgram.uniform3fv(name, value, picky);
+    uniform4fv(name: string, value: number[]) {
+      return innerProgram.uniform4fv(name, value);
     },
-    uniform4f(name: string, x: number, y: number, z: number, w: number, picky: boolean) {
-      return innerProgram.uniform4f(name, x, y, z, w, picky);
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
+      return innerProgram.uniformMatrix2(name, transpose, matrix);
     },
-    uniform4fv(name: string, value: number[], picky: boolean) {
-      return innerProgram.uniform4fv(name, value, picky);
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
+      return innerProgram.uniformMatrix3(name, transpose, matrix);
     },
-    uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
-      return innerProgram.uniformMatrix2fv(name, transpose, matrix, picky);
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
+      return innerProgram.uniformMatrix4(name, transpose, matrix);
     },
-    uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
-      return innerProgram.uniformMatrix3fv(name, transpose, matrix, picky);
-    },
-    uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
-      return innerProgram.uniformMatrix4fv(name, transpose, matrix, picky);
+    uniformVector3(name: string, vector: Vector3) {
+      return innerProgram.uniformVector3(name, vector);
     }
   }
 

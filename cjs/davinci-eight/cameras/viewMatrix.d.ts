@@ -1,3 +1,4 @@
 import Cartesian3 = require('../math/Cartesian3');
-declare function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Float32Array): Float32Array;
+import Matrix4 = require('../math/Matrix4');
+declare function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4): Matrix4;
 export = viewMatrix;

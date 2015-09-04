@@ -2,19 +2,19 @@
 
 // cameras
 import Frustum = require('davinci-eight/cameras/Frustum');
+import Node = require('davinci-eight/cameras/Node');
+import Perspective = require('davinci-eight/cameras/Perspective');
+import View = require('davinci-eight/cameras/View');
 import frustum = require('davinci-eight/cameras/frustum');
 import frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
-import Perspective = require('davinci-eight/cameras/Perspective');
 import perspective = require('davinci-eight/cameras/perspective');
 import perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
-import View = require('davinci-eight/cameras/View');
 import view = require('davinci-eight/cameras/view');
 import viewMatrix = require('davinci-eight/cameras/viewMatrix');
 // core
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
 import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
-import DefaultDrawableVisitor = require('davinci-eight/core/DefaultDrawableVisitor');
 import Color = require('davinci-eight/core/Color');
 import Composite = require('davinci-eight/core/Composite');
 import DataUsage = require('davinci-eight/core/DataUsage');
@@ -26,7 +26,8 @@ import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import core = require('davinci-eight/core');
 import primitive = require('davinci-eight/objects/primitive');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
-import DefaultUniformProvider = require('davinci-eight/core/DefaultUniformProvider');
+import UniformData = require('davinci-eight/core/UniformData');
+import UniformDataVisitor = require('davinci-eight/core/UniformDataVisitor');
 import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
 import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
 // drawLists
@@ -62,6 +63,7 @@ import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Quaternion = require('davinci-eight/math/Quaternion');
 import Spinor3 = require('davinci-eight/math/Spinor3');
+import Vector1 = require('davinci-eight/math/Vector1');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
 // mesh
@@ -84,13 +86,7 @@ import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 
 import vortexMesh = require('davinci-eight/mesh/vortexMesh');
 
-// objects
-import Blade = require('davinci-eight/objects/Blade');
-import arrow = require('davinci-eight/objects/arrow');
-import box = require('davinci-eight/objects/box');
-import cylinder = require('davinci-eight/objects/cylinder');
-import sphere = require('davinci-eight/objects/sphere');
-import vortex = require('davinci-eight/objects/vortex');
+// curves
 import Curve = require('davinci-eight/curves/Curve');
 // programs
 import ShaderProgram = require('davinci-eight/core/ShaderProgram');
@@ -100,42 +96,13 @@ import RendererParameters = require('davinci-eight/renderers/RendererParameters'
 import initWebGL = require('davinci-eight/renderers/initWebGL');
 import renderer = require('davinci-eight/renderers/renderer');
 // uniforms
-import AmbientLight               = require('davinci-eight/uniforms/AmbientLight');
-import ChainedUniformProvider     = require('davinci-eight/uniforms/ChainedUniformProvider');
-import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight');
-import LocalModel                 = require('davinci-eight/uniforms/LocalModel');
-import Node                       = require('davinci-eight/uniforms/Node');
-import TreeModel                  = require('davinci-eight/uniforms/TreeModel');
-import UniversalJoint             = require('davinci-eight/uniforms/UniversalJoint');
-import MultiUniformProvider       = require('davinci-eight/uniforms/MultiUniformProvider');
-import PointLight                 = require('davinci-eight/uniforms/PointLight');
-import uniforms                   = require('davinci-eight/uniforms/uniforms');
-import UniformFloat               = require('davinci-eight/uniforms/UniformFloat');
-import UniformMat4                = require('davinci-eight/uniforms/UniformMat4');
-import UniformVec2                = require('davinci-eight/uniforms/UniformVec2');
-import UniformVec3                = require('davinci-eight/uniforms/UniformVec3');
-import UniformVec4                = require('davinci-eight/uniforms/UniformVec4');
-import UniformVector3             = require('davinci-eight/uniforms/UniformVector3');
-import UniformSpinor3             = require('davinci-eight/uniforms/UniformSpinor3');
+
 // utils
 import RenderingContextMonitor    = require('davinci-eight/utils/RenderingContextMonitor');
 import contextMonitor             = require('davinci-eight/utils/contextMonitor');
 import workbench3D                = require('davinci-eight/utils/workbench3D');
 import WindowAnimationRunner      = require('davinci-eight/utils/WindowAnimationRunner');
 import windowAnimationRunner      = require('davinci-eight/utils/windowAnimationRunner');
-
-/*
-import BoxMesh = require('davinci-eight/mesh/BoxMesh');
-import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
-import CurveMesh = require('davinci-eight/mesh/CurveMesh');
-import EllipsoidMesh = require('davinci-eight/mesh/EllipsoidMesh');
-import LatticeMesh = require('davinci-eight/mesh/LatticeMesh');
-import box = require('davinci-eight/mesh/box');
-import prism = require('davinci-eight/mesh/prism');
-import cuboid = require('davinci-eight/mesh/cuboid');
-import ellipsoid = require('davinci-eight/mesh/ellipsoid');
-import RGBMesh = require('davinci-eight/mesh/RGBMesh');
-*/
 
 /**
  * @module EIGHT
@@ -148,6 +115,7 @@ var eight = {
    */
   'VERSION': core.VERSION,
   get initWebGL() { return initWebGL; },
+  get Node() { return Node; },
   get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
@@ -161,8 +129,6 @@ var eight = {
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
-  get DefaultDrawableVisitor() { return DefaultDrawableVisitor; },
-  get DefaultUniformProvider() { return DefaultUniformProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
@@ -173,9 +139,6 @@ var eight = {
   get smartProgram() {
     return smartProgram;
   },
-  get AmbientLight() { return AmbientLight; },
-  get DirectionalLight() { return DirectionalLight; },
-  get PointLight() { return PointLight; },
   get Color() { return Color; },
   get Face3() { return Face3; },
   get Geometry() { return Geometry; },
@@ -197,27 +160,14 @@ var eight = {
   get TetrahedronGeometry() { return TetrahedronGeometry; },
   get TubeGeometry() { return TubeGeometry; },
   get VortexGeometry() { return VortexGeometry; },
-  get LocalModel() { return LocalModel; },
-  get Node() { return Node; },
-  get TreeModel() { return TreeModel; },
-  get UniversalJoint() { return UniversalJoint; },
-  get UniformFloat() { return UniformFloat; },
-  get UniformMat4() { return UniformMat4; },
-  get UniformVec2() { return UniformVec2; },
-  get UniformVec3() { return UniformVec3; },
-  get UniformVec4() { return UniformVec4; },
-  get UniformVector3() { return UniformVector3; },
-  get UniformSpinor3() { return UniformSpinor3; },
   get Matrix3() { return Matrix3; },
   get Matrix4() { return Matrix4; },
   get Spinor3() { return Spinor3; },
   get Quaternion() { return Quaternion; },
+  get Vector1() { return Vector1; },
   get Vector2() { return Vector2; },
   get Vector3() { return Vector3; },
   get Curve() { return Curve; },
-  get ChainedUniformProvider() { return ChainedUniformProvider; },
-  get MultiUniformProvider() { return MultiUniformProvider; },
-  get uniforms() { return uniforms; },
   // mesh
   get arrowMesh() { return arrowMesh; },
   get ArrowBuilder() { return ArrowBuilder; },
@@ -233,23 +183,7 @@ var eight = {
   get SphereBuilder() { return SphereBuilder; },
 
   get vortexMesh() { return vortexMesh; },
-  // objects
-  get arrow() { return arrow; },
-  get box() { return box; },
-  get cylinder() { return cylinder; },
-  get sphere() { return sphere; },
-  get vortex() { return vortex; },
   // programs
   get shaderProgramFromScripts() { return shaderProgramFromScripts; },
-  /*
-  get box() { return box; },
-  get BoxMesh() { return BoxMesh; },
-  get cuboid() { return cuboid; },
-  get ellipsoid() { return ellipsoid; },
-  prism: prism,
-  CurveMesh: CurveMesh,
-  LatticeMesh: LatticeMesh,
-  RGBMesh: RGBMesh,
-  */
 };
 export = eight;

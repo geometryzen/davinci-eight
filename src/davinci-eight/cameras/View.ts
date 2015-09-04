@@ -1,4 +1,4 @@
-import UniformProvider = require('../core/UniformProvider');
+import UniformData = require('../core/UniformData');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 import Spinor3 = require('../math/Spinor3');
@@ -7,7 +7,7 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class View
  */
-interface View extends UniformProvider {
+interface View extends UniformData {
   /**
    * @property eye
    * @type Vector3

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.67.0</em>
+            <em>API Docs for: 2.68.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,7 +38,6 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/AmbientLight.html">AmbientLight</a></li>
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
@@ -65,29 +64,23 @@
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
-                                <li><a href="../classes/DefaultUniformProvider.html">DefaultUniformProvider</a></li>
-                                <li><a href="../classes/DirectionalLight.html">DirectionalLight</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
                                 <li><a href="../classes/DrawMode.html">DrawMode</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
-                                <li><a href="../classes/LocalModel.html">LocalModel</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
-                                <li><a href="../classes/Model.html">Model</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/Node.html">Node</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/PointLight.html">PointLight</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
@@ -97,17 +90,10 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
-                                <li><a href="../classes/TreeModel.html">TreeModel</a></li>
-                                <li><a href="../classes/UniformColor.html">UniformColor</a></li>
-                                <li><a href="../classes/UniformDataInfo.html">UniformDataInfo</a></li>
-                                <li><a href="../classes/UniformDataInfos.html">UniformDataInfos</a></li>
-                                <li><a href="../classes/UniformFloat.html">UniformFloat</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
-                                <li><a href="../classes/UniformSpinor3.html">UniformSpinor3</a></li>
-                                <li><a href="../classes/UniformVariable.html">UniformVariable</a></li>
-                                <li><a href="../classes/UniformVector3.html">UniformVector3</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
@@ -158,19 +144,19 @@
 
 // cameras
 import Frustum = require(&#x27;davinci-eight/cameras/Frustum&#x27;);
+import Node = require(&#x27;davinci-eight/cameras/Node&#x27;);
+import Perspective = require(&#x27;davinci-eight/cameras/Perspective&#x27;);
+import View = require(&#x27;davinci-eight/cameras/View&#x27;);
 import frustum = require(&#x27;davinci-eight/cameras/frustum&#x27;);
 import frustumMatrix = require(&#x27;davinci-eight/cameras/frustumMatrix&#x27;);
-import Perspective = require(&#x27;davinci-eight/cameras/Perspective&#x27;);
 import perspective = require(&#x27;davinci-eight/cameras/perspective&#x27;);
 import perspectiveMatrix = require(&#x27;davinci-eight/cameras/perspectiveMatrix&#x27;);
-import View = require(&#x27;davinci-eight/cameras/View&#x27;);
 import view = require(&#x27;davinci-eight/cameras/view&#x27;);
 import viewMatrix = require(&#x27;davinci-eight/cameras/viewMatrix&#x27;);
 // core
 import AttribMetaInfos = require(&#x27;davinci-eight/core/AttribMetaInfos&#x27;);
 import AttribProvider = require(&#x27;davinci-eight/core/AttribProvider&#x27;);
 import DefaultAttribProvider = require(&#x27;davinci-eight/core/DefaultAttribProvider&#x27;);
-import DefaultDrawableVisitor = require(&#x27;davinci-eight/core/DefaultDrawableVisitor&#x27;);
 import Color = require(&#x27;davinci-eight/core/Color&#x27;);
 import Composite = require(&#x27;davinci-eight/core/Composite&#x27;);
 import DataUsage = require(&#x27;davinci-eight/core/DataUsage&#x27;);
@@ -182,7 +168,8 @@ import UniformMetaInfos = require(&#x27;davinci-eight/core/UniformMetaInfos&#x27
 import core = require(&#x27;davinci-eight/core&#x27;);
 import primitive = require(&#x27;davinci-eight/objects/primitive&#x27;);
 import UniformProvider = require(&#x27;davinci-eight/core/UniformProvider&#x27;);
-import DefaultUniformProvider = require(&#x27;davinci-eight/core/DefaultUniformProvider&#x27;);
+import UniformData = require(&#x27;davinci-eight/core/UniformData&#x27;);
+import UniformDataVisitor = require(&#x27;davinci-eight/core/UniformDataVisitor&#x27;);
 import ShaderAttribLocation = require(&#x27;davinci-eight/core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;davinci-eight/core/ShaderUniformLocation&#x27;);
 // drawLists
@@ -218,6 +205,7 @@ import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;davinci-eight/math/Matrix4&#x27;);
 import Quaternion = require(&#x27;davinci-eight/math/Quaternion&#x27;);
 import Spinor3 = require(&#x27;davinci-eight/math/Spinor3&#x27;);
+import Vector1 = require(&#x27;davinci-eight/math/Vector1&#x27;);
 import Vector2 = require(&#x27;davinci-eight/math/Vector2&#x27;);
 import Vector3 = require(&#x27;davinci-eight/math/Vector3&#x27;);
 // mesh
@@ -240,13 +228,7 @@ import SphereOptions = require(&#x27;davinci-eight/mesh/SphereOptions&#x27;);
 
 import vortexMesh = require(&#x27;davinci-eight/mesh/vortexMesh&#x27;);
 
-// objects
-import Blade = require(&#x27;davinci-eight/objects/Blade&#x27;);
-import arrow = require(&#x27;davinci-eight/objects/arrow&#x27;);
-import box = require(&#x27;davinci-eight/objects/box&#x27;);
-import cylinder = require(&#x27;davinci-eight/objects/cylinder&#x27;);
-import sphere = require(&#x27;davinci-eight/objects/sphere&#x27;);
-import vortex = require(&#x27;davinci-eight/objects/vortex&#x27;);
+// curves
 import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
 // programs
 import ShaderProgram = require(&#x27;davinci-eight/core/ShaderProgram&#x27;);
@@ -256,42 +238,13 @@ import RendererParameters = require(&#x27;davinci-eight/renderers/RendererParame
 import initWebGL = require(&#x27;davinci-eight/renderers/initWebGL&#x27;);
 import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
 // uniforms
-import AmbientLight               = require(&#x27;davinci-eight/uniforms/AmbientLight&#x27;);
-import ChainedUniformProvider     = require(&#x27;davinci-eight/uniforms/ChainedUniformProvider&#x27;);
-import DirectionalLight           = require(&#x27;davinci-eight/uniforms/DirectionalLight&#x27;);
-import LocalModel                 = require(&#x27;davinci-eight/uniforms/LocalModel&#x27;);
-import Node                       = require(&#x27;davinci-eight/uniforms/Node&#x27;);
-import TreeModel                  = require(&#x27;davinci-eight/uniforms/TreeModel&#x27;);
-import UniversalJoint             = require(&#x27;davinci-eight/uniforms/UniversalJoint&#x27;);
-import MultiUniformProvider       = require(&#x27;davinci-eight/uniforms/MultiUniformProvider&#x27;);
-import PointLight                 = require(&#x27;davinci-eight/uniforms/PointLight&#x27;);
-import uniforms                   = require(&#x27;davinci-eight/uniforms/uniforms&#x27;);
-import UniformFloat               = require(&#x27;davinci-eight/uniforms/UniformFloat&#x27;);
-import UniformMat4                = require(&#x27;davinci-eight/uniforms/UniformMat4&#x27;);
-import UniformVec2                = require(&#x27;davinci-eight/uniforms/UniformVec2&#x27;);
-import UniformVec3                = require(&#x27;davinci-eight/uniforms/UniformVec3&#x27;);
-import UniformVec4                = require(&#x27;davinci-eight/uniforms/UniformVec4&#x27;);
-import UniformVector3             = require(&#x27;davinci-eight/uniforms/UniformVector3&#x27;);
-import UniformSpinor3             = require(&#x27;davinci-eight/uniforms/UniformSpinor3&#x27;);
+
 // utils
 import RenderingContextMonitor    = require(&#x27;davinci-eight/utils/RenderingContextMonitor&#x27;);
 import contextMonitor             = require(&#x27;davinci-eight/utils/contextMonitor&#x27;);
 import workbench3D                = require(&#x27;davinci-eight/utils/workbench3D&#x27;);
 import WindowAnimationRunner      = require(&#x27;davinci-eight/utils/WindowAnimationRunner&#x27;);
 import windowAnimationRunner      = require(&#x27;davinci-eight/utils/windowAnimationRunner&#x27;);
-
-/*
-import BoxMesh = require(&#x27;davinci-eight/mesh/BoxMesh&#x27;);
-import CuboidMesh = require(&#x27;davinci-eight/mesh/CuboidMesh&#x27;);
-import CurveMesh = require(&#x27;davinci-eight/mesh/CurveMesh&#x27;);
-import EllipsoidMesh = require(&#x27;davinci-eight/mesh/EllipsoidMesh&#x27;);
-import LatticeMesh = require(&#x27;davinci-eight/mesh/LatticeMesh&#x27;);
-import box = require(&#x27;davinci-eight/mesh/box&#x27;);
-import prism = require(&#x27;davinci-eight/mesh/prism&#x27;);
-import cuboid = require(&#x27;davinci-eight/mesh/cuboid&#x27;);
-import ellipsoid = require(&#x27;davinci-eight/mesh/ellipsoid&#x27;);
-import RGBMesh = require(&#x27;davinci-eight/mesh/RGBMesh&#x27;);
-*/
 
 /**
  * @module EIGHT
@@ -304,6 +257,7 @@ var eight = {
    */
   &#x27;VERSION&#x27;: core.VERSION,
   get initWebGL() { return initWebGL; },
+  get Node() { return Node; },
   get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
@@ -317,8 +271,6 @@ var eight = {
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
-  get DefaultDrawableVisitor() { return DefaultDrawableVisitor; },
-  get DefaultUniformProvider() { return DefaultUniformProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
@@ -329,9 +281,6 @@ var eight = {
   get smartProgram() {
     return smartProgram;
   },
-  get AmbientLight() { return AmbientLight; },
-  get DirectionalLight() { return DirectionalLight; },
-  get PointLight() { return PointLight; },
   get Color() { return Color; },
   get Face3() { return Face3; },
   get Geometry() { return Geometry; },
@@ -353,27 +302,14 @@ var eight = {
   get TetrahedronGeometry() { return TetrahedronGeometry; },
   get TubeGeometry() { return TubeGeometry; },
   get VortexGeometry() { return VortexGeometry; },
-  get LocalModel() { return LocalModel; },
-  get Node() { return Node; },
-  get TreeModel() { return TreeModel; },
-  get UniversalJoint() { return UniversalJoint; },
-  get UniformFloat() { return UniformFloat; },
-  get UniformMat4() { return UniformMat4; },
-  get UniformVec2() { return UniformVec2; },
-  get UniformVec3() { return UniformVec3; },
-  get UniformVec4() { return UniformVec4; },
-  get UniformVector3() { return UniformVector3; },
-  get UniformSpinor3() { return UniformSpinor3; },
   get Matrix3() { return Matrix3; },
   get Matrix4() { return Matrix4; },
   get Spinor3() { return Spinor3; },
   get Quaternion() { return Quaternion; },
+  get Vector1() { return Vector1; },
   get Vector2() { return Vector2; },
   get Vector3() { return Vector3; },
   get Curve() { return Curve; },
-  get ChainedUniformProvider() { return ChainedUniformProvider; },
-  get MultiUniformProvider() { return MultiUniformProvider; },
-  get uniforms() { return uniforms; },
   // mesh
   get arrowMesh() { return arrowMesh; },
   get ArrowBuilder() { return ArrowBuilder; },
@@ -389,24 +325,8 @@ var eight = {
   get SphereBuilder() { return SphereBuilder; },
 
   get vortexMesh() { return vortexMesh; },
-  // objects
-  get arrow() { return arrow; },
-  get box() { return box; },
-  get cylinder() { return cylinder; },
-  get sphere() { return sphere; },
-  get vortex() { return vortex; },
   // programs
   get shaderProgramFromScripts() { return shaderProgramFromScripts; },
-  /*
-  get box() { return box; },
-  get BoxMesh() { return BoxMesh; },
-  get cuboid() { return cuboid; },
-  get ellipsoid() { return ellipsoid; },
-  prism: prism,
-  CurveMesh: CurveMesh,
-  LatticeMesh: LatticeMesh,
-  RGBMesh: RGBMesh,
-  */
 };
 export = eight;
 

@@ -12,7 +12,7 @@ function frustumMatrix(left: number, right: number, bottom: number, top: number,
 
   let m = isDefined(matrix) ? matrix : new Float32Array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
 
-  expectArg('m', m).toSatisfy(m instanceof Float32Array, "elements must be a Float32Array").toSatisfy(m.length === 16, 'elements must have length 16');
+  expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
 
   let x = 2 * near / ( right - left );
   let y = 2 * near / ( top - bottom );

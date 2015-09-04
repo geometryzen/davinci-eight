@@ -433,6 +433,35 @@ var requirejs, require, define;
 
 define("../vendor/almond/almond", function(){});
 
+/**
+ * @fileoverview gl-matrix - High performance matrix and vector operations
+ * @author Brandon Jones
+ * @author Colin MacKenzie IV
+ * @version 2.3.0
+ */
+
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+!function(t,n){if("object"==typeof exports&&"object"==typeof module)module.exports=n();else if("function"==typeof define&&define.amd)define('gl-matrix',n);else{var r=n();for(var a in r)("object"==typeof exports?exports:t)[a]=r[a]}}(this,function(){return function(t){function n(a){if(r[a])return r[a].exports;var e=r[a]={exports:{},id:a,loaded:!1};return t[a].call(e.exports,e,e.exports,n),e.loaded=!0,e.exports}var r={};return n.m=t,n.c=r,n.p="",n(0)}([function(t,n,r){n.glMatrix=r(1),n.mat2=r(2),n.mat2d=r(3),n.mat3=r(4),n.mat4=r(5),n.quat=r(6),n.vec2=r(9),n.vec3=r(7),n.vec4=r(8)},function(t,n){var r={};r.EPSILON=1e-6,r.ARRAY_TYPE="undefined"!=typeof Float32Array?Float32Array:Array,r.RANDOM=Math.random,r.setMatrixArrayType=function(t){GLMAT_ARRAY_TYPE=t};var a=Math.PI/180;r.toRadian=function(t){return t*a},t.exports=r},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(4);return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t},e.clone=function(t){var n=new a.ARRAY_TYPE(4);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t},e.transpose=function(t,n){if(t===n){var r=n[1];t[1]=n[2],t[2]=r}else t[0]=n[0],t[1]=n[2],t[2]=n[1],t[3]=n[3];return t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r*u-e*a;return o?(o=1/o,t[0]=u*o,t[1]=-a*o,t[2]=-e*o,t[3]=r*o,t):null},e.adjoint=function(t,n){var r=n[0];return t[0]=n[3],t[1]=-n[1],t[2]=-n[2],t[3]=r,t},e.determinant=function(t){return t[0]*t[3]-t[2]*t[1]},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=r[0],c=r[1],f=r[2],s=r[3];return t[0]=a*i+u*c,t[1]=e*i+o*c,t[2]=a*f+u*s,t[3]=e*f+o*s,t},e.mul=e.multiply,e.rotate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c+u*i,t[1]=e*c+o*i,t[2]=a*-i+u*c,t[3]=e*-i+o*c,t},e.scale=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=r[0],c=r[1];return t[0]=a*i,t[1]=e*i,t[2]=u*c,t[3]=o*c,t},e.fromRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=-r,t[3]=a,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=n[1],t},e.str=function(t){return"mat2("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2))},e.LDU=function(t,n,r,a){return t[2]=a[2]/a[0],r[0]=a[0],r[1]=a[1],r[3]=a[3]-t[2]*r[1],[t,n,r]},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(6);return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t[4]=0,t[5]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(6);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n[4]=t[4],n[5]=t[5],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[4]=n[4],t[5]=n[5],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t[4]=0,t[5]=0,t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=r*u-a*e;return c?(c=1/c,t[0]=u*c,t[1]=-a*c,t[2]=-e*c,t[3]=r*c,t[4]=(e*i-u*o)*c,t[5]=(a*o-r*i)*c,t):null},e.determinant=function(t){return t[0]*t[3]-t[1]*t[2]},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=r[0],s=r[1],h=r[2],M=r[3],l=r[4],v=r[5];return t[0]=a*f+u*s,t[1]=e*f+o*s,t[2]=a*h+u*M,t[3]=e*h+o*M,t[4]=a*l+u*v+i,t[5]=e*l+o*v+c,t},e.mul=e.multiply,e.rotate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=Math.sin(r),s=Math.cos(r);return t[0]=a*s+u*f,t[1]=e*s+o*f,t[2]=a*-f+u*s,t[3]=e*-f+o*s,t[4]=i,t[5]=c,t},e.scale=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=r[0],s=r[1];return t[0]=a*f,t[1]=e*f,t[2]=u*s,t[3]=o*s,t[4]=i,t[5]=c,t},e.translate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=r[0],s=r[1];return t[0]=a,t[1]=e,t[2]=u,t[3]=o,t[4]=a*f+u*s+i,t[5]=e*f+o*s+c,t},e.fromRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=-r,t[3]=a,t[4]=0,t[5]=0,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=n[1],t[4]=0,t[5]=0,t},e.fromTranslation=function(t,n){return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t[4]=n[0],t[5]=n[1],t},e.str=function(t){return"mat2d("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+", "+t[4]+", "+t[5]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2)+Math.pow(t[4],2)+Math.pow(t[5],2)+1)},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(9);return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=1,t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.fromMat4=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[4],t[4]=n[5],t[5]=n[6],t[6]=n[8],t[7]=n[9],t[8]=n[10],t},e.clone=function(t){var n=new a.ARRAY_TYPE(9);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n[4]=t[4],n[5]=t[5],n[6]=t[6],n[7]=t[7],n[8]=t[8],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[4]=n[4],t[5]=n[5],t[6]=n[6],t[7]=n[7],t[8]=n[8],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=1,t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.transpose=function(t,n){if(t===n){var r=n[1],a=n[2],e=n[5];t[1]=n[3],t[2]=n[6],t[3]=r,t[5]=n[7],t[6]=a,t[7]=e}else t[0]=n[0],t[1]=n[3],t[2]=n[6],t[3]=n[1],t[4]=n[4],t[5]=n[7],t[6]=n[2],t[7]=n[5],t[8]=n[8];return t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=s*o-i*f,M=-s*u+i*c,l=f*u-o*c,v=r*h+a*M+e*l;return v?(v=1/v,t[0]=h*v,t[1]=(-s*a+e*f)*v,t[2]=(i*a-e*o)*v,t[3]=M*v,t[4]=(s*r-e*c)*v,t[5]=(-i*r+e*u)*v,t[6]=l*v,t[7]=(-f*r+a*c)*v,t[8]=(o*r-a*u)*v,t):null},e.adjoint=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8];return t[0]=o*s-i*f,t[1]=e*f-a*s,t[2]=a*i-e*o,t[3]=i*c-u*s,t[4]=r*s-e*c,t[5]=e*u-r*i,t[6]=u*f-o*c,t[7]=a*c-r*f,t[8]=r*o-a*u,t},e.determinant=function(t){var n=t[0],r=t[1],a=t[2],e=t[3],u=t[4],o=t[5],i=t[6],c=t[7],f=t[8];return n*(f*u-o*c)+r*(-f*e+o*i)+a*(c*e-u*i)},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=r[0],l=r[1],v=r[2],m=r[3],p=r[4],d=r[5],A=r[6],R=r[7],w=r[8];return t[0]=M*a+l*o+v*f,t[1]=M*e+l*i+v*s,t[2]=M*u+l*c+v*h,t[3]=m*a+p*o+d*f,t[4]=m*e+p*i+d*s,t[5]=m*u+p*c+d*h,t[6]=A*a+R*o+w*f,t[7]=A*e+R*i+w*s,t[8]=A*u+R*c+w*h,t},e.mul=e.multiply,e.translate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=r[0],l=r[1];return t[0]=a,t[1]=e,t[2]=u,t[3]=o,t[4]=i,t[5]=c,t[6]=M*a+l*o+f,t[7]=M*e+l*i+s,t[8]=M*u+l*c+h,t},e.rotate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=Math.sin(r),l=Math.cos(r);return t[0]=l*a+M*o,t[1]=l*e+M*i,t[2]=l*u+M*c,t[3]=l*o-M*a,t[4]=l*i-M*e,t[5]=l*c-M*u,t[6]=f,t[7]=s,t[8]=h,t},e.scale=function(t,n,r){var a=r[0],e=r[1];return t[0]=a*n[0],t[1]=a*n[1],t[2]=a*n[2],t[3]=e*n[3],t[4]=e*n[4],t[5]=e*n[5],t[6]=n[6],t[7]=n[7],t[8]=n[8],t},e.fromTranslation=function(t,n){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=1,t[5]=0,t[6]=n[0],t[7]=n[1],t[8]=1,t},e.fromRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=0,t[3]=-r,t[4]=a,t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=0,t[4]=n[1],t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.fromMat2d=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=0,t[3]=n[2],t[4]=n[3],t[5]=0,t[6]=n[4],t[7]=n[5],t[8]=1,t},e.fromQuat=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r+r,i=a+a,c=e+e,f=r*o,s=a*o,h=a*i,M=e*o,l=e*i,v=e*c,m=u*o,p=u*i,d=u*c;return t[0]=1-h-v,t[3]=s-d,t[6]=M+p,t[1]=s+d,t[4]=1-f-v,t[7]=l-m,t[2]=M-p,t[5]=l+m,t[8]=1-f-h,t},e.normalFromMat4=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=n[9],M=n[10],l=n[11],v=n[12],m=n[13],p=n[14],d=n[15],A=r*i-a*o,R=r*c-e*o,w=r*f-u*o,q=a*c-e*i,Y=a*f-u*i,g=e*f-u*c,y=s*m-h*v,x=s*p-M*v,P=s*d-l*v,E=h*p-M*m,T=h*d-l*m,b=M*d-l*p,D=A*b-R*T+w*E+q*P-Y*x+g*y;return D?(D=1/D,t[0]=(i*b-c*T+f*E)*D,t[1]=(c*P-o*b-f*x)*D,t[2]=(o*T-i*P+f*y)*D,t[3]=(e*T-a*b-u*E)*D,t[4]=(r*b-e*P+u*x)*D,t[5]=(a*P-r*T-u*y)*D,t[6]=(m*g-p*Y+d*q)*D,t[7]=(p*w-v*g-d*R)*D,t[8]=(v*Y-m*w+d*A)*D,t):null},e.str=function(t){return"mat3("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+", "+t[4]+", "+t[5]+", "+t[6]+", "+t[7]+", "+t[8]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2)+Math.pow(t[4],2)+Math.pow(t[5],2)+Math.pow(t[6],2)+Math.pow(t[7],2)+Math.pow(t[8],2))},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(16);return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.clone=function(t){var n=new a.ARRAY_TYPE(16);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n[4]=t[4],n[5]=t[5],n[6]=t[6],n[7]=t[7],n[8]=t[8],n[9]=t[9],n[10]=t[10],n[11]=t[11],n[12]=t[12],n[13]=t[13],n[14]=t[14],n[15]=t[15],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[4]=n[4],t[5]=n[5],t[6]=n[6],t[7]=n[7],t[8]=n[8],t[9]=n[9],t[10]=n[10],t[11]=n[11],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.transpose=function(t,n){if(t===n){var r=n[1],a=n[2],e=n[3],u=n[6],o=n[7],i=n[11];t[1]=n[4],t[2]=n[8],t[3]=n[12],t[4]=r,t[6]=n[9],t[7]=n[13],t[8]=a,t[9]=u,t[11]=n[14],t[12]=e,t[13]=o,t[14]=i}else t[0]=n[0],t[1]=n[4],t[2]=n[8],t[3]=n[12],t[4]=n[1],t[5]=n[5],t[6]=n[9],t[7]=n[13],t[8]=n[2],t[9]=n[6],t[10]=n[10],t[11]=n[14],t[12]=n[3],t[13]=n[7],t[14]=n[11],t[15]=n[15];return t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=n[9],M=n[10],l=n[11],v=n[12],m=n[13],p=n[14],d=n[15],A=r*i-a*o,R=r*c-e*o,w=r*f-u*o,q=a*c-e*i,Y=a*f-u*i,g=e*f-u*c,y=s*m-h*v,x=s*p-M*v,P=s*d-l*v,E=h*p-M*m,T=h*d-l*m,b=M*d-l*p,D=A*b-R*T+w*E+q*P-Y*x+g*y;return D?(D=1/D,t[0]=(i*b-c*T+f*E)*D,t[1]=(e*T-a*b-u*E)*D,t[2]=(m*g-p*Y+d*q)*D,t[3]=(M*Y-h*g-l*q)*D,t[4]=(c*P-o*b-f*x)*D,t[5]=(r*b-e*P+u*x)*D,t[6]=(p*w-v*g-d*R)*D,t[7]=(s*g-M*w+l*R)*D,t[8]=(o*T-i*P+f*y)*D,t[9]=(a*P-r*T-u*y)*D,t[10]=(v*Y-m*w+d*A)*D,t[11]=(h*w-s*Y-l*A)*D,t[12]=(i*x-o*E-c*y)*D,t[13]=(r*E-a*x+e*y)*D,t[14]=(m*R-v*q-p*A)*D,t[15]=(s*q-h*R+M*A)*D,t):null},e.adjoint=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=n[9],M=n[10],l=n[11],v=n[12],m=n[13],p=n[14],d=n[15];return t[0]=i*(M*d-l*p)-h*(c*d-f*p)+m*(c*l-f*M),t[1]=-(a*(M*d-l*p)-h*(e*d-u*p)+m*(e*l-u*M)),t[2]=a*(c*d-f*p)-i*(e*d-u*p)+m*(e*f-u*c),t[3]=-(a*(c*l-f*M)-i*(e*l-u*M)+h*(e*f-u*c)),t[4]=-(o*(M*d-l*p)-s*(c*d-f*p)+v*(c*l-f*M)),t[5]=r*(M*d-l*p)-s*(e*d-u*p)+v*(e*l-u*M),t[6]=-(r*(c*d-f*p)-o*(e*d-u*p)+v*(e*f-u*c)),t[7]=r*(c*l-f*M)-o*(e*l-u*M)+s*(e*f-u*c),t[8]=o*(h*d-l*m)-s*(i*d-f*m)+v*(i*l-f*h),t[9]=-(r*(h*d-l*m)-s*(a*d-u*m)+v*(a*l-u*h)),t[10]=r*(i*d-f*m)-o*(a*d-u*m)+v*(a*f-u*i),t[11]=-(r*(i*l-f*h)-o*(a*l-u*h)+s*(a*f-u*i)),t[12]=-(o*(h*p-M*m)-s*(i*p-c*m)+v*(i*M-c*h)),t[13]=r*(h*p-M*m)-s*(a*p-e*m)+v*(a*M-e*h),t[14]=-(r*(i*p-c*m)-o*(a*p-e*m)+v*(a*c-e*i)),t[15]=r*(i*M-c*h)-o*(a*M-e*h)+s*(a*c-e*i),t},e.determinant=function(t){var n=t[0],r=t[1],a=t[2],e=t[3],u=t[4],o=t[5],i=t[6],c=t[7],f=t[8],s=t[9],h=t[10],M=t[11],l=t[12],v=t[13],m=t[14],p=t[15],d=n*o-r*u,A=n*i-a*u,R=n*c-e*u,w=r*i-a*o,q=r*c-e*o,Y=a*c-e*i,g=f*v-s*l,y=f*m-h*l,x=f*p-M*l,P=s*m-h*v,E=s*p-M*v,T=h*p-M*m;return d*T-A*E+R*P+w*x-q*y+Y*g},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=n[9],l=n[10],v=n[11],m=n[12],p=n[13],d=n[14],A=n[15],R=r[0],w=r[1],q=r[2],Y=r[3];return t[0]=R*a+w*i+q*h+Y*m,t[1]=R*e+w*c+q*M+Y*p,t[2]=R*u+w*f+q*l+Y*d,t[3]=R*o+w*s+q*v+Y*A,R=r[4],w=r[5],q=r[6],Y=r[7],t[4]=R*a+w*i+q*h+Y*m,t[5]=R*e+w*c+q*M+Y*p,t[6]=R*u+w*f+q*l+Y*d,t[7]=R*o+w*s+q*v+Y*A,R=r[8],w=r[9],q=r[10],Y=r[11],t[8]=R*a+w*i+q*h+Y*m,t[9]=R*e+w*c+q*M+Y*p,t[10]=R*u+w*f+q*l+Y*d,t[11]=R*o+w*s+q*v+Y*A,R=r[12],w=r[13],q=r[14],Y=r[15],t[12]=R*a+w*i+q*h+Y*m,t[13]=R*e+w*c+q*M+Y*p,t[14]=R*u+w*f+q*l+Y*d,t[15]=R*o+w*s+q*v+Y*A,t},e.mul=e.multiply,e.translate=function(t,n,r){var a,e,u,o,i,c,f,s,h,M,l,v,m=r[0],p=r[1],d=r[2];return n===t?(t[12]=n[0]*m+n[4]*p+n[8]*d+n[12],t[13]=n[1]*m+n[5]*p+n[9]*d+n[13],t[14]=n[2]*m+n[6]*p+n[10]*d+n[14],t[15]=n[3]*m+n[7]*p+n[11]*d+n[15]):(a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=n[9],l=n[10],v=n[11],t[0]=a,t[1]=e,t[2]=u,t[3]=o,t[4]=i,t[5]=c,t[6]=f,t[7]=s,t[8]=h,t[9]=M,t[10]=l,t[11]=v,t[12]=a*m+i*p+h*d+n[12],t[13]=e*m+c*p+M*d+n[13],t[14]=u*m+f*p+l*d+n[14],t[15]=o*m+s*p+v*d+n[15]),t},e.scale=function(t,n,r){var a=r[0],e=r[1],u=r[2];return t[0]=n[0]*a,t[1]=n[1]*a,t[2]=n[2]*a,t[3]=n[3]*a,t[4]=n[4]*e,t[5]=n[5]*e,t[6]=n[6]*e,t[7]=n[7]*e,t[8]=n[8]*u,t[9]=n[9]*u,t[10]=n[10]*u,t[11]=n[11]*u,t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15],t},e.rotate=function(t,n,r,e){var u,o,i,c,f,s,h,M,l,v,m,p,d,A,R,w,q,Y,g,y,x,P,E,T,b=e[0],D=e[1],L=e[2],_=Math.sqrt(b*b+D*D+L*L);return Math.abs(_)<a.EPSILON?null:(_=1/_,b*=_,D*=_,L*=_,u=Math.sin(r),o=Math.cos(r),i=1-o,c=n[0],f=n[1],s=n[2],h=n[3],M=n[4],l=n[5],v=n[6],m=n[7],p=n[8],d=n[9],A=n[10],R=n[11],w=b*b*i+o,q=D*b*i+L*u,Y=L*b*i-D*u,g=b*D*i-L*u,y=D*D*i+o,x=L*D*i+b*u,P=b*L*i+D*u,E=D*L*i-b*u,T=L*L*i+o,t[0]=c*w+M*q+p*Y,t[1]=f*w+l*q+d*Y,t[2]=s*w+v*q+A*Y,t[3]=h*w+m*q+R*Y,t[4]=c*g+M*y+p*x,t[5]=f*g+l*y+d*x,t[6]=s*g+v*y+A*x,t[7]=h*g+m*y+R*x,t[8]=c*P+M*E+p*T,t[9]=f*P+l*E+d*T,t[10]=s*P+v*E+A*T,t[11]=h*P+m*E+R*T,n!==t&&(t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t)},e.rotateX=function(t,n,r){var a=Math.sin(r),e=Math.cos(r),u=n[4],o=n[5],i=n[6],c=n[7],f=n[8],s=n[9],h=n[10],M=n[11];return n!==t&&(t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t[4]=u*e+f*a,t[5]=o*e+s*a,t[6]=i*e+h*a,t[7]=c*e+M*a,t[8]=f*e-u*a,t[9]=s*e-o*a,t[10]=h*e-i*a,t[11]=M*e-c*a,t},e.rotateY=function(t,n,r){var a=Math.sin(r),e=Math.cos(r),u=n[0],o=n[1],i=n[2],c=n[3],f=n[8],s=n[9],h=n[10],M=n[11];return n!==t&&(t[4]=n[4],t[5]=n[5],t[6]=n[6],t[7]=n[7],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t[0]=u*e-f*a,t[1]=o*e-s*a,t[2]=i*e-h*a,t[3]=c*e-M*a,t[8]=u*a+f*e,t[9]=o*a+s*e,t[10]=i*a+h*e,t[11]=c*a+M*e,t},e.rotateZ=function(t,n,r){var a=Math.sin(r),e=Math.cos(r),u=n[0],o=n[1],i=n[2],c=n[3],f=n[4],s=n[5],h=n[6],M=n[7];return n!==t&&(t[8]=n[8],t[9]=n[9],t[10]=n[10],t[11]=n[11],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t[0]=u*e+f*a,t[1]=o*e+s*a,t[2]=i*e+h*a,t[3]=c*e+M*a,t[4]=f*e-u*a,t[5]=s*e-o*a,t[6]=h*e-i*a,t[7]=M*e-c*a,t},e.fromTranslation=function(t,n){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=n[0],t[13]=n[1],t[14]=n[2],t[15]=1,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=n[1],t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=n[2],t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromRotation=function(t,n,r){var e,u,o,i=r[0],c=r[1],f=r[2],s=Math.sqrt(i*i+c*c+f*f);return Math.abs(s)<a.EPSILON?null:(s=1/s,i*=s,c*=s,f*=s,e=Math.sin(n),u=Math.cos(n),o=1-u,t[0]=i*i*o+u,t[1]=c*i*o+f*e,t[2]=f*i*o-c*e,t[3]=0,t[4]=i*c*o-f*e,t[5]=c*c*o+u,t[6]=f*c*o+i*e,t[7]=0,t[8]=i*f*o+c*e,t[9]=c*f*o-i*e,t[10]=f*f*o+u,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t)},e.fromXRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=a,t[6]=r,t[7]=0,t[8]=0,t[9]=-r,t[10]=a,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromYRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=0,t[2]=-r,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=r,t[9]=0,t[10]=a,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromZRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=0,t[3]=0,t[4]=-r,t[5]=a,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromRotationTranslation=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=a+a,c=e+e,f=u+u,s=a*i,h=a*c,M=a*f,l=e*c,v=e*f,m=u*f,p=o*i,d=o*c,A=o*f;return t[0]=1-(l+m),t[1]=h+A,t[2]=M-d,t[3]=0,t[4]=h-A,t[5]=1-(s+m),t[6]=v+p,t[7]=0,t[8]=M+d,t[9]=v-p,t[10]=1-(s+l),t[11]=0,t[12]=r[0],t[13]=r[1],t[14]=r[2],t[15]=1,t},e.fromRotationTranslationScale=function(t,n,r,a){var e=n[0],u=n[1],o=n[2],i=n[3],c=e+e,f=u+u,s=o+o,h=e*c,M=e*f,l=e*s,v=u*f,m=u*s,p=o*s,d=i*c,A=i*f,R=i*s,w=a[0],q=a[1],Y=a[2];return t[0]=(1-(v+p))*w,t[1]=(M+R)*w,t[2]=(l-A)*w,t[3]=0,t[4]=(M-R)*q,t[5]=(1-(h+p))*q,t[6]=(m+d)*q,t[7]=0,t[8]=(l+A)*Y,t[9]=(m-d)*Y,t[10]=(1-(h+v))*Y,t[11]=0,t[12]=r[0],t[13]=r[1],t[14]=r[2],t[15]=1,t},e.fromRotationTranslationScaleOrigin=function(t,n,r,a,e){var u=n[0],o=n[1],i=n[2],c=n[3],f=u+u,s=o+o,h=i+i,M=u*f,l=u*s,v=u*h,m=o*s,p=o*h,d=i*h,A=c*f,R=c*s,w=c*h,q=a[0],Y=a[1],g=a[2],y=e[0],x=e[1],P=e[2];return t[0]=(1-(m+d))*q,t[1]=(l+w)*q,t[2]=(v-R)*q,t[3]=0,t[4]=(l-w)*Y,t[5]=(1-(M+d))*Y,t[6]=(p+A)*Y,t[7]=0,t[8]=(v+R)*g,t[9]=(p-A)*g,t[10]=(1-(M+m))*g,t[11]=0,t[12]=r[0]+y-(t[0]*y+t[4]*x+t[8]*P),t[13]=r[1]+x-(t[1]*y+t[5]*x+t[9]*P),t[14]=r[2]+P-(t[2]*y+t[6]*x+t[10]*P),t[15]=1,t},e.fromQuat=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r+r,i=a+a,c=e+e,f=r*o,s=a*o,h=a*i,M=e*o,l=e*i,v=e*c,m=u*o,p=u*i,d=u*c;return t[0]=1-h-v,t[1]=s+d,t[2]=M-p,t[3]=0,t[4]=s-d,t[5]=1-f-v,t[6]=l+m,t[7]=0,t[8]=M+p,t[9]=l-m,t[10]=1-f-h,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.frustum=function(t,n,r,a,e,u,o){var i=1/(r-n),c=1/(e-a),f=1/(u-o);return t[0]=2*u*i,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=2*u*c,t[6]=0,t[7]=0,t[8]=(r+n)*i,t[9]=(e+a)*c,t[10]=(o+u)*f,t[11]=-1,t[12]=0,t[13]=0,t[14]=o*u*2*f,t[15]=0,t},e.perspective=function(t,n,r,a,e){var u=1/Math.tan(n/2),o=1/(a-e);return t[0]=u/r,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=u,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=(e+a)*o,t[11]=-1,t[12]=0,t[13]=0,t[14]=2*e*a*o,t[15]=0,t},e.perspectiveFromFieldOfView=function(t,n,r,a){var e=Math.tan(n.upDegrees*Math.PI/180),u=Math.tan(n.downDegrees*Math.PI/180),o=Math.tan(n.leftDegrees*Math.PI/180),i=Math.tan(n.rightDegrees*Math.PI/180),c=2/(o+i),f=2/(e+u);return t[0]=c,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=f,t[6]=0,t[7]=0,t[8]=-((o-i)*c*.5),t[9]=(e-u)*f*.5,t[10]=a/(r-a),t[11]=-1,t[12]=0,t[13]=0,t[14]=a*r/(r-a),t[15]=0,t},e.ortho=function(t,n,r,a,e,u,o){var i=1/(n-r),c=1/(a-e),f=1/(u-o);return t[0]=-2*i,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=-2*c,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=2*f,t[11]=0,t[12]=(n+r)*i,t[13]=(e+a)*c,t[14]=(o+u)*f,t[15]=1,t},e.lookAt=function(t,n,r,u){var o,i,c,f,s,h,M,l,v,m,p=n[0],d=n[1],A=n[2],R=u[0],w=u[1],q=u[2],Y=r[0],g=r[1],y=r[2];return Math.abs(p-Y)<a.EPSILON&&Math.abs(d-g)<a.EPSILON&&Math.abs(A-y)<a.EPSILON?e.identity(t):(M=p-Y,l=d-g,v=A-y,m=1/Math.sqrt(M*M+l*l+v*v),M*=m,l*=m,v*=m,o=w*v-q*l,i=q*M-R*v,c=R*l-w*M,m=Math.sqrt(o*o+i*i+c*c),m?(m=1/m,o*=m,i*=m,c*=m):(o=0,i=0,c=0),f=l*c-v*i,s=v*o-M*c,h=M*i-l*o,m=Math.sqrt(f*f+s*s+h*h),m?(m=1/m,f*=m,s*=m,h*=m):(f=0,s=0,h=0),t[0]=o,t[1]=f,t[2]=M,t[3]=0,t[4]=i,t[5]=s,t[6]=l,t[7]=0,t[8]=c,t[9]=h,t[10]=v,t[11]=0,t[12]=-(o*p+i*d+c*A),t[13]=-(f*p+s*d+h*A),t[14]=-(M*p+l*d+v*A),t[15]=1,t)},e.str=function(t){return"mat4("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+", "+t[4]+", "+t[5]+", "+t[6]+", "+t[7]+", "+t[8]+", "+t[9]+", "+t[10]+", "+t[11]+", "+t[12]+", "+t[13]+", "+t[14]+", "+t[15]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2)+Math.pow(t[4],2)+Math.pow(t[5],2)+Math.pow(t[6],2)+Math.pow(t[7],2)+Math.pow(t[8],2)+Math.pow(t[9],2)+Math.pow(t[10],2)+Math.pow(t[11],2)+Math.pow(t[12],2)+Math.pow(t[13],2)+Math.pow(t[14],2)+Math.pow(t[15],2))},t.exports=e},function(t,n,r){var a=r(1),e=r(4),u=r(7),o=r(8),i={};i.create=function(){var t=new a.ARRAY_TYPE(4);return t[0]=0,t[1]=0,t[2]=0,t[3]=1,t},i.rotationTo=function(){var t=u.create(),n=u.fromValues(1,0,0),r=u.fromValues(0,1,0);return function(a,e,o){var c=u.dot(e,o);return-.999999>c?(u.cross(t,n,e),u.length(t)<1e-6&&u.cross(t,r,e),u.normalize(t,t),i.setAxisAngle(a,t,Math.PI),a):c>.999999?(a[0]=0,a[1]=0,a[2]=0,a[3]=1,a):(u.cross(t,e,o),a[0]=t[0],a[1]=t[1],a[2]=t[2],a[3]=1+c,i.normalize(a,a))}}(),i.setAxes=function(){var t=e.create();return function(n,r,a,e){return t[0]=a[0],t[3]=a[1],t[6]=a[2],t[1]=e[0],t[4]=e[1],t[7]=e[2],t[2]=-r[0],t[5]=-r[1],t[8]=-r[2],i.normalize(n,i.fromMat3(n,t))}}(),i.clone=o.clone,i.fromValues=o.fromValues,i.copy=o.copy,i.set=o.set,i.identity=function(t){return t[0]=0,t[1]=0,t[2]=0,t[3]=1,t},i.setAxisAngle=function(t,n,r){r=.5*r;var a=Math.sin(r);return t[0]=a*n[0],t[1]=a*n[1],t[2]=a*n[2],t[3]=Math.cos(r),t},i.add=o.add,i.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=r[0],c=r[1],f=r[2],s=r[3];return t[0]=a*s+o*i+e*f-u*c,t[1]=e*s+o*c+u*i-a*f,t[2]=u*s+o*f+a*c-e*i,t[3]=o*s-a*i-e*c-u*f,t},i.mul=i.multiply,i.scale=o.scale,i.rotateX=function(t,n,r){r*=.5;var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c+o*i,t[1]=e*c+u*i,t[2]=u*c-e*i,t[3]=o*c-a*i,t},i.rotateY=function(t,n,r){r*=.5;var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c-u*i,t[1]=e*c+o*i,t[2]=u*c+a*i,t[3]=o*c-e*i,t},i.rotateZ=function(t,n,r){r*=.5;var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c+e*i,t[1]=e*c-a*i,t[2]=u*c+o*i,t[3]=o*c-u*i,t},i.calculateW=function(t,n){var r=n[0],a=n[1],e=n[2];return t[0]=r,t[1]=a,t[2]=e,t[3]=Math.sqrt(Math.abs(1-r*r-a*a-e*e)),t},i.dot=o.dot,i.lerp=o.lerp,i.slerp=function(t,n,r,a){var e,u,o,i,c,f=n[0],s=n[1],h=n[2],M=n[3],l=r[0],v=r[1],m=r[2],p=r[3];return u=f*l+s*v+h*m+M*p,0>u&&(u=-u,l=-l,v=-v,m=-m,p=-p),1-u>1e-6?(e=Math.acos(u),o=Math.sin(e),i=Math.sin((1-a)*e)/o,c=Math.sin(a*e)/o):(i=1-a,c=a),t[0]=i*f+c*l,t[1]=i*s+c*v,t[2]=i*h+c*m,t[3]=i*M+c*p,t},i.sqlerp=function(){var t=i.create(),n=i.create();return function(r,a,e,u,o,c){return i.slerp(t,a,o,c),i.slerp(n,e,u,c),i.slerp(r,t,n,2*c*(1-c)),r}}(),i.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r*r+a*a+e*e+u*u,i=o?1/o:0;return t[0]=-r*i,t[1]=-a*i,t[2]=-e*i,t[3]=u*i,t},i.conjugate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t[2]=-n[2],t[3]=n[3],t},i.length=o.length,i.len=i.length,i.squaredLength=o.squaredLength,i.sqrLen=i.squaredLength,i.normalize=o.normalize,i.fromMat3=function(t,n){var r,a=n[0]+n[4]+n[8];if(a>0)r=Math.sqrt(a+1),t[3]=.5*r,r=.5/r,t[0]=(n[5]-n[7])*r,t[1]=(n[6]-n[2])*r,t[2]=(n[1]-n[3])*r;else{var e=0;n[4]>n[0]&&(e=1),n[8]>n[3*e+e]&&(e=2);var u=(e+1)%3,o=(e+2)%3;r=Math.sqrt(n[3*e+e]-n[3*u+u]-n[3*o+o]+1),t[e]=.5*r,r=.5/r,t[3]=(n[3*u+o]-n[3*o+u])*r,t[u]=(n[3*u+e]+n[3*e+u])*r,t[o]=(n[3*o+e]+n[3*e+o])*r}return t},i.str=function(t){return"quat("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+")"},t.exports=i},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(3);return t[0]=0,t[1]=0,t[2]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(3);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n},e.fromValues=function(t,n,r){var e=new a.ARRAY_TYPE(3);return e[0]=t,e[1]=n,e[2]=r,e},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t},e.set=function(t,n,r,a){return t[0]=n,t[1]=r,t[2]=a,t},e.add=function(t,n,r){return t[0]=n[0]+r[0],t[1]=n[1]+r[1],t[2]=n[2]+r[2],t},e.subtract=function(t,n,r){return t[0]=n[0]-r[0],t[1]=n[1]-r[1],t[2]=n[2]-r[2],t},e.sub=e.subtract,e.multiply=function(t,n,r){return t[0]=n[0]*r[0],t[1]=n[1]*r[1],t[2]=n[2]*r[2],t},e.mul=e.multiply,e.divide=function(t,n,r){return t[0]=n[0]/r[0],t[1]=n[1]/r[1],t[2]=n[2]/r[2],t},e.div=e.divide,e.min=function(t,n,r){return t[0]=Math.min(n[0],r[0]),t[1]=Math.min(n[1],r[1]),t[2]=Math.min(n[2],r[2]),t},e.max=function(t,n,r){return t[0]=Math.max(n[0],r[0]),t[1]=Math.max(n[1],r[1]),t[2]=Math.max(n[2],r[2]),t},e.scale=function(t,n,r){return t[0]=n[0]*r,t[1]=n[1]*r,t[2]=n[2]*r,t},e.scaleAndAdd=function(t,n,r,a){return t[0]=n[0]+r[0]*a,t[1]=n[1]+r[1]*a,t[2]=n[2]+r[2]*a,t},e.distance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2];return Math.sqrt(r*r+a*a+e*e)},e.dist=e.distance,e.squaredDistance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2];return r*r+a*a+e*e},e.sqrDist=e.squaredDistance,e.length=function(t){var n=t[0],r=t[1],a=t[2];return Math.sqrt(n*n+r*r+a*a)},e.len=e.length,e.squaredLength=function(t){var n=t[0],r=t[1],a=t[2];return n*n+r*r+a*a},e.sqrLen=e.squaredLength,e.negate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t[2]=-n[2],t},e.inverse=function(t,n){return t[0]=1/n[0],t[1]=1/n[1],t[2]=1/n[2],t},e.normalize=function(t,n){var r=n[0],a=n[1],e=n[2],u=r*r+a*a+e*e;return u>0&&(u=1/Math.sqrt(u),t[0]=n[0]*u,t[1]=n[1]*u,t[2]=n[2]*u),t},e.dot=function(t,n){return t[0]*n[0]+t[1]*n[1]+t[2]*n[2]},e.cross=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[0],i=r[1],c=r[2];return t[0]=e*c-u*i,t[1]=u*o-a*c,t[2]=a*i-e*o,t},e.lerp=function(t,n,r,a){var e=n[0],u=n[1],o=n[2];return t[0]=e+a*(r[0]-e),t[1]=u+a*(r[1]-u),t[2]=o+a*(r[2]-o),t},e.hermite=function(t,n,r,a,e,u){var o=u*u,i=o*(2*u-3)+1,c=o*(u-2)+u,f=o*(u-1),s=o*(3-2*u);return t[0]=n[0]*i+r[0]*c+a[0]*f+e[0]*s,t[1]=n[1]*i+r[1]*c+a[1]*f+e[1]*s,t[2]=n[2]*i+r[2]*c+a[2]*f+e[2]*s,t},e.bezier=function(t,n,r,a,e,u){var o=1-u,i=o*o,c=u*u,f=i*o,s=3*u*i,h=3*c*o,M=c*u;return t[0]=n[0]*f+r[0]*s+a[0]*h+e[0]*M,t[1]=n[1]*f+r[1]*s+a[1]*h+e[1]*M,t[2]=n[2]*f+r[2]*s+a[2]*h+e[2]*M,t},e.random=function(t,n){n=n||1;var r=2*a.RANDOM()*Math.PI,e=2*a.RANDOM()-1,u=Math.sqrt(1-e*e)*n;return t[0]=Math.cos(r)*u,t[1]=Math.sin(r)*u,t[2]=e*n,t},e.transformMat4=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[3]*a+r[7]*e+r[11]*u+r[15];return o=o||1,t[0]=(r[0]*a+r[4]*e+r[8]*u+r[12])/o,t[1]=(r[1]*a+r[5]*e+r[9]*u+r[13])/o,t[2]=(r[2]*a+r[6]*e+r[10]*u+r[14])/o,t},e.transformMat3=function(t,n,r){var a=n[0],e=n[1],u=n[2];return t[0]=a*r[0]+e*r[3]+u*r[6],t[1]=a*r[1]+e*r[4]+u*r[7],t[2]=a*r[2]+e*r[5]+u*r[8],t},e.transformQuat=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[0],i=r[1],c=r[2],f=r[3],s=f*a+i*u-c*e,h=f*e+c*a-o*u,M=f*u+o*e-i*a,l=-o*a-i*e-c*u;return t[0]=s*f+l*-o+h*-c-M*-i,t[1]=h*f+l*-i+M*-o-s*-c,t[2]=M*f+l*-c+s*-i-h*-o,t},e.rotateX=function(t,n,r,a){var e=[],u=[];return e[0]=n[0]-r[0],e[1]=n[1]-r[1],e[2]=n[2]-r[2],u[0]=e[0],u[1]=e[1]*Math.cos(a)-e[2]*Math.sin(a),u[2]=e[1]*Math.sin(a)+e[2]*Math.cos(a),t[0]=u[0]+r[0],t[1]=u[1]+r[1],t[2]=u[2]+r[2],t},e.rotateY=function(t,n,r,a){var e=[],u=[];return e[0]=n[0]-r[0],e[1]=n[1]-r[1],e[2]=n[2]-r[2],u[0]=e[2]*Math.sin(a)+e[0]*Math.cos(a),u[1]=e[1],u[2]=e[2]*Math.cos(a)-e[0]*Math.sin(a),t[0]=u[0]+r[0],t[1]=u[1]+r[1],t[2]=u[2]+r[2],t},e.rotateZ=function(t,n,r,a){var e=[],u=[];return e[0]=n[0]-r[0],e[1]=n[1]-r[1],e[2]=n[2]-r[2],u[0]=e[0]*Math.cos(a)-e[1]*Math.sin(a),u[1]=e[0]*Math.sin(a)+e[1]*Math.cos(a),u[2]=e[2],t[0]=u[0]+r[0],t[1]=u[1]+r[1],t[2]=u[2]+r[2],t},e.forEach=function(){var t=e.create();return function(n,r,a,e,u,o){var i,c;for(r||(r=3),a||(a=0),c=e?Math.min(e*r+a,n.length):n.length,i=a;c>i;i+=r)t[0]=n[i],t[1]=n[i+1],t[2]=n[i+2],u(t,t,o),n[i]=t[0],n[i+1]=t[1],n[i+2]=t[2];return n}}(),e.angle=function(t,n){var r=e.fromValues(t[0],t[1],t[2]),a=e.fromValues(n[0],n[1],n[2]);e.normalize(r,r),e.normalize(a,a);var u=e.dot(r,a);return u>1?0:Math.acos(u)},e.str=function(t){return"vec3("+t[0]+", "+t[1]+", "+t[2]+")"},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(4);return t[0]=0,t[1]=0,t[2]=0,t[3]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(4);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n},e.fromValues=function(t,n,r,e){var u=new a.ARRAY_TYPE(4);return u[0]=t,u[1]=n,u[2]=r,u[3]=e,u},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t},e.set=function(t,n,r,a,e){return t[0]=n,t[1]=r,t[2]=a,t[3]=e,t},e.add=function(t,n,r){return t[0]=n[0]+r[0],t[1]=n[1]+r[1],t[2]=n[2]+r[2],t[3]=n[3]+r[3],t},e.subtract=function(t,n,r){return t[0]=n[0]-r[0],t[1]=n[1]-r[1],t[2]=n[2]-r[2],t[3]=n[3]-r[3],t},e.sub=e.subtract,e.multiply=function(t,n,r){return t[0]=n[0]*r[0],t[1]=n[1]*r[1],t[2]=n[2]*r[2],t[3]=n[3]*r[3],t},e.mul=e.multiply,e.divide=function(t,n,r){return t[0]=n[0]/r[0],t[1]=n[1]/r[1],t[2]=n[2]/r[2],t[3]=n[3]/r[3],t},e.div=e.divide,e.min=function(t,n,r){return t[0]=Math.min(n[0],r[0]),t[1]=Math.min(n[1],r[1]),t[2]=Math.min(n[2],r[2]),t[3]=Math.min(n[3],r[3]),t},e.max=function(t,n,r){return t[0]=Math.max(n[0],r[0]),t[1]=Math.max(n[1],r[1]),t[2]=Math.max(n[2],r[2]),t[3]=Math.max(n[3],r[3]),t},e.scale=function(t,n,r){return t[0]=n[0]*r,t[1]=n[1]*r,t[2]=n[2]*r,t[3]=n[3]*r,t},e.scaleAndAdd=function(t,n,r,a){return t[0]=n[0]+r[0]*a,t[1]=n[1]+r[1]*a,t[2]=n[2]+r[2]*a,t[3]=n[3]+r[3]*a,t},e.distance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2],u=n[3]-t[3];return Math.sqrt(r*r+a*a+e*e+u*u)},e.dist=e.distance,e.squaredDistance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2],u=n[3]-t[3];return r*r+a*a+e*e+u*u},e.sqrDist=e.squaredDistance,e.length=function(t){var n=t[0],r=t[1],a=t[2],e=t[3];return Math.sqrt(n*n+r*r+a*a+e*e)},e.len=e.length,e.squaredLength=function(t){var n=t[0],r=t[1],a=t[2],e=t[3];return n*n+r*r+a*a+e*e},e.sqrLen=e.squaredLength,e.negate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t[2]=-n[2],t[3]=-n[3],t},e.inverse=function(t,n){return t[0]=1/n[0],t[1]=1/n[1],t[2]=1/n[2],t[3]=1/n[3],t},e.normalize=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r*r+a*a+e*e+u*u;return o>0&&(o=1/Math.sqrt(o),t[0]=r*o,t[1]=a*o,t[2]=e*o,t[3]=u*o),t},e.dot=function(t,n){return t[0]*n[0]+t[1]*n[1]+t[2]*n[2]+t[3]*n[3]},e.lerp=function(t,n,r,a){var e=n[0],u=n[1],o=n[2],i=n[3];return t[0]=e+a*(r[0]-e),t[1]=u+a*(r[1]-u),t[2]=o+a*(r[2]-o),t[3]=i+a*(r[3]-i),t},e.random=function(t,n){return n=n||1,t[0]=a.RANDOM(),t[1]=a.RANDOM(),t[2]=a.RANDOM(),t[3]=a.RANDOM(),e.normalize(t,t),e.scale(t,t,n),t},e.transformMat4=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3];return t[0]=r[0]*a+r[4]*e+r[8]*u+r[12]*o,t[1]=r[1]*a+r[5]*e+r[9]*u+r[13]*o,t[2]=r[2]*a+r[6]*e+r[10]*u+r[14]*o,t[3]=r[3]*a+r[7]*e+r[11]*u+r[15]*o,t},e.transformQuat=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[0],i=r[1],c=r[2],f=r[3],s=f*a+i*u-c*e,h=f*e+c*a-o*u,M=f*u+o*e-i*a,l=-o*a-i*e-c*u;return t[0]=s*f+l*-o+h*-c-M*-i,t[1]=h*f+l*-i+M*-o-s*-c,t[2]=M*f+l*-c+s*-i-h*-o,t[3]=n[3],t},e.forEach=function(){var t=e.create();return function(n,r,a,e,u,o){var i,c;for(r||(r=4),a||(a=0),c=e?Math.min(e*r+a,n.length):n.length,i=a;c>i;i+=r)t[0]=n[i],t[1]=n[i+1],t[2]=n[i+2],t[3]=n[i+3],u(t,t,o),n[i]=t[0],n[i+1]=t[1],n[i+2]=t[2],n[i+3]=t[3];return n}}(),e.str=function(t){return"vec4("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+")"},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(2);return t[0]=0,t[1]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(2);return n[0]=t[0],n[1]=t[1],n},e.fromValues=function(t,n){var r=new a.ARRAY_TYPE(2);return r[0]=t,r[1]=n,r},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t},e.set=function(t,n,r){return t[0]=n,t[1]=r,t},e.add=function(t,n,r){return t[0]=n[0]+r[0],t[1]=n[1]+r[1],t},e.subtract=function(t,n,r){return t[0]=n[0]-r[0],t[1]=n[1]-r[1],t},e.sub=e.subtract,e.multiply=function(t,n,r){return t[0]=n[0]*r[0],t[1]=n[1]*r[1],t},e.mul=e.multiply,e.divide=function(t,n,r){return t[0]=n[0]/r[0],t[1]=n[1]/r[1],t},e.div=e.divide,e.min=function(t,n,r){return t[0]=Math.min(n[0],r[0]),t[1]=Math.min(n[1],r[1]),t},e.max=function(t,n,r){return t[0]=Math.max(n[0],r[0]),t[1]=Math.max(n[1],r[1]),t},e.scale=function(t,n,r){return t[0]=n[0]*r,t[1]=n[1]*r,t},e.scaleAndAdd=function(t,n,r,a){return t[0]=n[0]+r[0]*a,t[1]=n[1]+r[1]*a,t},e.distance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1];return Math.sqrt(r*r+a*a)},e.dist=e.distance,e.squaredDistance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1];return r*r+a*a},e.sqrDist=e.squaredDistance,e.length=function(t){var n=t[0],r=t[1];return Math.sqrt(n*n+r*r)},e.len=e.length,e.squaredLength=function(t){var n=t[0],r=t[1];return n*n+r*r},e.sqrLen=e.squaredLength,e.negate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t},e.inverse=function(t,n){return t[0]=1/n[0],t[1]=1/n[1],t},e.normalize=function(t,n){var r=n[0],a=n[1],e=r*r+a*a;return e>0&&(e=1/Math.sqrt(e),t[0]=n[0]*e,t[1]=n[1]*e),t},e.dot=function(t,n){return t[0]*n[0]+t[1]*n[1]},e.cross=function(t,n,r){var a=n[0]*r[1]-n[1]*r[0];return t[0]=t[1]=0,t[2]=a,t},e.lerp=function(t,n,r,a){var e=n[0],u=n[1];return t[0]=e+a*(r[0]-e),t[1]=u+a*(r[1]-u),t},e.random=function(t,n){n=n||1;var r=2*a.RANDOM()*Math.PI;return t[0]=Math.cos(r)*n,t[1]=Math.sin(r)*n,t},e.transformMat2=function(t,n,r){var a=n[0],e=n[1];return t[0]=r[0]*a+r[2]*e,t[1]=r[1]*a+r[3]*e,t},e.transformMat2d=function(t,n,r){var a=n[0],e=n[1];return t[0]=r[0]*a+r[2]*e+r[4],t[1]=r[1]*a+r[3]*e+r[5],t},e.transformMat3=function(t,n,r){
+var a=n[0],e=n[1];return t[0]=r[0]*a+r[3]*e+r[6],t[1]=r[1]*a+r[4]*e+r[7],t},e.transformMat4=function(t,n,r){var a=n[0],e=n[1];return t[0]=r[0]*a+r[4]*e+r[12],t[1]=r[1]*a+r[5]*e+r[13],t},e.forEach=function(){var t=e.create();return function(n,r,a,e,u,o){var i,c;for(r||(r=2),a||(a=0),c=e?Math.min(e*r+a,n.length):n.length,i=a;c>i;i+=r)t[0]=n[i],t[1]=n[i+1],u(t,t,o),n[i]=t[0],n[i+1]=t[1];return n}}(),e.str=function(t){return"vec2("+t[0]+", "+t[1]+")"},t.exports=e}])});
 define('davinci-eight/checks/expectArg',["require", "exports"], function (require, exports) {
     function expectArg(name, value) {
         var arg = {
@@ -523,6 +552,582 @@ define('davinci-eight/checks/expectArg',["require", "exports"], function (requir
         return arg;
     }
     return expectArg;
+});
+
+define('davinci-eight/math/Matrix3',["require", "exports", "gl-matrix", '../checks/expectArg'], function (require, exports, glMatrix, expectArg) {
+    var Matrix3 = (function () {
+        /**
+         * Constructs the Matrix4 by wrapping a Float32Array.
+         * @constructor
+         */
+        function Matrix3(elements) {
+            expectArg('elements', elements)
+                .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
+                .toSatisfy(elements.length === 9, 'elements must have length 9');
+            this.elements = elements;
+        }
+        Matrix3.identity = function () {
+            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        };
+        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
+            // input: THREE.Matrix4
+            // ( based on http://code.google.com/p/webgl-mjs/ )
+            var me = matrix.elements;
+            var te = this.elements;
+            te[0] = me[10] * me[5] - me[6] * me[9];
+            te[1] = -me[10] * me[1] + me[2] * me[9];
+            te[2] = me[6] * me[1] - me[2] * me[5];
+            te[3] = -me[10] * me[4] + me[6] * me[8];
+            te[4] = me[10] * me[0] - me[2] * me[8];
+            te[5] = -me[6] * me[0] + me[2] * me[4];
+            te[6] = me[9] * me[4] - me[5] * me[8];
+            te[7] = -me[9] * me[0] + me[1] * me[8];
+            te[8] = me[5] * me[0] - me[1] * me[4];
+            var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
+            // no inverse
+            if (det === 0) {
+                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
+                if (throwOnInvertible || !throwOnInvertible) {
+                    throw new Error(msg);
+                }
+                else {
+                    console.warn(msg);
+                }
+                this.identity();
+                return this;
+            }
+            this.multiplyScalar(1.0 / det);
+            return this;
+        };
+        Matrix3.prototype.identity = function () {
+            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        Matrix3.prototype.multiplyScalar = function (s) {
+            var m = this.elements;
+            m[0] *= s;
+            m[3] *= s;
+            m[6] *= s;
+            m[1] *= s;
+            m[4] *= s;
+            m[7] *= s;
+            m[2] *= s;
+            m[5] *= s;
+            m[8] *= s;
+            return this;
+        };
+        Matrix3.prototype.normalFromMatrix4 = function (m) {
+            this.getInverse(m).transpose();
+        };
+        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
+            var te = this.elements;
+            te[0] = n11;
+            te[3] = n12;
+            te[6] = n13;
+            te[1] = n21;
+            te[4] = n22;
+            te[7] = n23;
+            te[2] = n31;
+            te[5] = n32;
+            te[8] = n33;
+            return this;
+        };
+        Matrix3.prototype.transpose = function () {
+            var tmp;
+            var m = this.elements;
+            tmp = m[1];
+            m[1] = m[3];
+            m[3] = tmp;
+            tmp = m[2];
+            m[2] = m[6];
+            m[6] = tmp;
+            tmp = m[5];
+            m[5] = m[7];
+            m[7] = tmp;
+            return this;
+        };
+        return Matrix3;
+    })();
+    return Matrix3;
+});
+
+define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
+    function isDefined(arg) {
+        return (typeof arg !== 'undefined');
+    }
+    return isDefined;
+});
+
+define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
+    /**
+     * 4x4 matrix integrating with WebGL.
+     *
+     * @class Matrix4
+     */
+    var Matrix4 = (function () {
+        /**
+         * Constructs the Matrix4 by wrapping a Float32Array.
+         * @constructor
+         */
+        function Matrix4(elements) {
+            expectArg('elements', elements)
+                .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
+                .toSatisfy(elements.length === 16, 'elements must have length 16');
+            this.elements = elements;
+        }
+        Matrix4.identity = function () {
+            return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+        };
+        Matrix4.scaling = function (scale) {
+            return Matrix4.identity().scaling(scale);
+        };
+        Matrix4.translation = function (vector) {
+            return Matrix4.identity().translation(vector);
+        };
+        Matrix4.rotation = function (spinor) {
+            return Matrix4.identity().rotation(spinor);
+        };
+        Matrix4.prototype.clone = function () {
+            return Matrix4.identity().copy(this);
+        };
+        Matrix4.prototype.compose = function (scale, attitude, position) {
+            // We 
+            // this.identity();
+            // this.scale(scale);
+            this.scaling(scale);
+            this.rotate(attitude);
+            this.translate(position);
+            return this;
+        };
+        Matrix4.prototype.copy = function (m) {
+            this.elements.set(m.elements);
+            return this;
+        };
+        Matrix4.prototype.determinant = function () {
+            var te = this.elements;
+            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
+            var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
+            var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
+            var n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
+            //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
+            var n1122 = n11 * n22;
+            var n1123 = n11 * n23;
+            var n1124 = n11 * n24;
+            var n1221 = n12 * n21;
+            var n1223 = n12 * n23;
+            var n1224 = n12 * n24;
+            var n1321 = n13 * n21;
+            var n1322 = n13 * n22;
+            var n1324 = n13 * n24;
+            var n1421 = n14 * n21;
+            var n1422 = n14 * n22;
+            var n1423 = n14 * n23;
+            return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
+                n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
+                n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
+                n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
+        };
+        Matrix4.prototype.invert = function (m, throwOnSingular) {
+            if (throwOnSingular === void 0) { throwOnSingular = false; }
+            // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
+            var te = this.elements;
+            var me = m.elements;
+            var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
+            var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
+            var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
+            var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
+            te[0] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
+            te[4] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
+            te[8] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
+            te[12] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
+            te[1] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
+            te[5] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
+            te[9] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
+            te[13] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
+            te[2] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
+            te[6] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
+            te[10] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
+            te[14] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
+            te[3] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
+            te[7] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
+            te[11] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
+            te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
+            var det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
+            if (det !== 0) {
+                return this.multiplyScalar(1 / det);
+            }
+            else {
+                var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
+                if (throwOnSingular) {
+                    throw new Error(msg);
+                }
+                else {
+                    console.warn(msg);
+                }
+                this.identity();
+                return this;
+            }
+        };
+        Matrix4.prototype.identity = function () {
+            return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        };
+        Matrix4.prototype.multiplyScalar = function (s) {
+            var te = this.elements;
+            te[0] *= s;
+            te[4] *= s;
+            te[8] *= s;
+            te[12] *= s;
+            te[1] *= s;
+            te[5] *= s;
+            te[9] *= s;
+            te[13] *= s;
+            te[2] *= s;
+            te[6] *= s;
+            te[10] *= s;
+            te[14] *= s;
+            te[3] *= s;
+            te[7] *= s;
+            te[11] *= s;
+            te[15] *= s;
+            return this;
+        };
+        Matrix4.prototype.transpose = function () {
+            var te = this.elements;
+            var tmp;
+            tmp = te[1];
+            te[1] = te[4];
+            te[4] = tmp;
+            tmp = te[2];
+            te[2] = te[8];
+            te[8] = tmp;
+            tmp = te[6];
+            te[6] = te[9];
+            te[9] = tmp;
+            tmp = te[3];
+            te[3] = te[12];
+            te[12] = tmp;
+            tmp = te[7];
+            te[7] = te[13];
+            te[13] = tmp;
+            tmp = te[11];
+            te[11] = te[14];
+            te[14] = tmp;
+            return this;
+        };
+        /**
+         *
+         */
+        Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
+            var te = this.elements;
+            var x = 2 * near / (right - left);
+            var y = 2 * near / (top - bottom);
+            var a = (right + left) / (right - left);
+            var b = (top + bottom) / (top - bottom);
+            var c = -(far + near) / (far - near);
+            var d = -2 * far * near / (far - near);
+            te[0] = x;
+            te[4] = 0;
+            te[8] = a;
+            te[12] = 0;
+            te[1] = 0;
+            te[5] = y;
+            te[9] = b;
+            te[13] = 0;
+            te[2] = 0;
+            te[6] = 0;
+            te[10] = c;
+            te[14] = d;
+            te[3] = 0;
+            te[7] = 0;
+            te[11] = -1;
+            te[15] = 0;
+            return this;
+        };
+        Matrix4.prototype.rotationAxis = function (axis, angle) {
+            // Based on http://www.gamedev.net/reference/articles/article1199.asp
+            var c = Math.cos(angle);
+            var s = Math.sin(angle);
+            var t = 1 - c;
+            var x = axis.x, y = axis.y, z = axis.z;
+            var tx = t * x, ty = t * y;
+            return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
+        };
+        Matrix4.prototype.mul = function (m) {
+            Matrix4.mul(this.elements, m.elements, this.elements);
+            return this;
+        };
+        Matrix4.prototype.multiplyMatrices = function (a, b) {
+            Matrix4.mul(a.elements, b.elements, this.elements);
+            return this;
+        };
+        // TODO: This should not be here.
+        Matrix4.mul = function (ae, be, oe) {
+            var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
+            var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
+            var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
+            var a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
+            var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
+            var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
+            var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
+            var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
+            oe[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
+            oe[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
+            oe[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
+            oe[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
+            oe[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
+            oe[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
+            oe[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
+            oe[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
+            oe[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
+            oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
+            oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
+            oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
+            oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+            oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+            oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+            oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+            return oe;
+        };
+        Matrix4.prototype.rotate = function (spinor) {
+            var S = Matrix4.rotation(spinor);
+            Matrix4.mul(S.elements, this.elements, this.elements);
+            return this;
+        };
+        /**
+         * @method rotate
+         * @param attitude  The spinor from which the rotation will be computed.
+         */
+        Matrix4.prototype.rotation = function (spinor) {
+            // The correspondence between quaternions and spinors is
+            // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
+            var x = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
+            var y = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
+            var z = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
+            var w = expectArg('spinor.w', spinor.w).toBeNumber().value;
+            var x2 = x + x, y2 = y + y, z2 = z + z;
+            var xx = x * x2, xy = x * y2, xz = x * z2;
+            var yy = y * y2, yz = y * z2, zz = z * z2;
+            var wx = w * x2, wy = w * y2, wz = w * z2;
+            this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
+            return this;
+        };
+        /**
+         * @method
+         * @param i {number} the zero-based index of the row.
+         */
+        Matrix4.prototype.row = function (i) {
+            var te = this.elements;
+            return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
+        };
+        /**
+         *
+         */
+        Matrix4.prototype.scale = function (scale) {
+            // We treat the scale operation as pre-multiplication: 
+            // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
+            // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
+            // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
+            // |0 0 0 1|   |m[3] m[7] m[B] m[F]|   |    m[3]     m[7]     m[B]     m[F]|
+            // The following would be post-multiplication:
+            // |m[0] m[4] m[8] m[C]|   |x 0 0 0|   |x * m[0] y * m[4] z * m[8]     m[C]|
+            // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
+            // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
+            // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
+            var S = Matrix4.scaling(scale);
+            Matrix4.mul(S.elements, this.elements, this.elements);
+            return this;
+        };
+        Matrix4.prototype.scaling = function (scale) {
+            return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
+        };
+        Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
+            var te = this.elements;
+            te[0] = n11;
+            te[4] = n12;
+            te[8] = n13;
+            te[12] = n14;
+            te[1] = n21;
+            te[5] = n22;
+            te[9] = n23;
+            te[13] = n24;
+            te[2] = n31;
+            te[6] = n32;
+            te[10] = n33;
+            te[14] = n34;
+            te[3] = n41;
+            te[7] = n42;
+            te[11] = n43;
+            te[15] = n44;
+            return this;
+        };
+        Matrix4.prototype.toFixed = function (digits) {
+            if (isDefined(digits)) {
+                expectArg('digits', digits).toBeNumber();
+            }
+            var text = [];
+            for (var i = 0; i <= 3; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        Matrix4.prototype.toString = function () {
+            var text = [];
+            for (var i = 0; i <= 3; i++) {
+                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
+            }
+            return text.join('\n');
+        };
+        Matrix4.prototype.translate = function (displacement) {
+            var T = Matrix4.translation(displacement);
+            Matrix4.mul(T.elements, this.elements, this.elements);
+            return this;
+        };
+        Matrix4.prototype.translation = function (displacement) {
+            return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
+        };
+        Matrix4.prototype.__mul__ = function (other) {
+            if (other instanceof Matrix4) {
+                return Matrix4.identity().multiplyMatrices(this, other);
+            }
+            else if (typeof other === 'number') {
+                return this.clone().multiplyScalar(other);
+            }
+        };
+        Matrix4.prototype.__rmul__ = function (other) {
+            if (other instanceof Matrix4) {
+                return Matrix4.identity().multiplyMatrices(other, this);
+            }
+            else if (typeof other === 'number') {
+                return this.clone().multiplyScalar(other);
+            }
+        };
+        return Matrix4;
+    })();
+    return Matrix4;
+});
+
+define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    /**
+     * @class Spinor3
+     */
+    var Spinor3 = (function () {
+        function Spinor3(data) {
+            if (data === void 0) { data = [0, 0, 0, 1]; }
+            this.data = data;
+            this.modified = false;
+        }
+        Object.defineProperty(Spinor3.prototype, "data", {
+            get: function () {
+                if (this.$data) {
+                    return this.$data;
+                }
+                else if (this.$callback) {
+                    var data = this.$callback();
+                    expectArg('callback()', data).toSatisfy(data.length === 4, "callback() length must be 4");
+                    return this.$callback();
+                }
+                else {
+                    throw new Error("Vector3 is undefined.");
+                }
+            },
+            set: function (data) {
+                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
+                this.$data = data;
+                this.$callback = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "callback", {
+            get: function () {
+                return this.$callback;
+            },
+            set: function (reactTo) {
+                this.$callback = reactTo;
+                this.$data = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "yz", {
+            /**
+             * @property yz
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.yz !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "zx", {
+            /**
+             * @property zx
+             * @type Number
+             */
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.zx !== value;
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "xy", {
+            /**
+             * @property xy
+             * @type Number
+             */
+            get: function () {
+                return this.data[2];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.xy !== value;
+                this.data[2] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "w", {
+            /**
+             * @property w
+             * @type Number
+             */
+            get: function () {
+                return this.data[3];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.w !== value;
+                this.data[3] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Spinor3.prototype.clone = function () {
+            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
+        };
+        Spinor3.prototype.copy = function (spinor) {
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.w = spinor.w;
+            return this;
+        };
+        /**
+         * @method toString
+         * @return {string} A non-normative string representation of the target.
+         */
+        Spinor3.prototype.toString = function () {
+            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        return Spinor3;
+    })();
+    return Spinor3;
 });
 
 define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
@@ -841,388 +1446,41 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
     return Vector3;
 });
 
-define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
-    function isDefined(arg) {
-        return (typeof arg !== 'undefined');
-    }
-    return isDefined;
-});
-
-define('davinci-eight/math/Matrix4',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
+define('davinci-eight/cameras/Node',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Vector3) {
     /**
-     * 4x4 matrix integrating with WebGL.
-     *
-     * @class Matrix4
+     * Node implements UniformData required for manipulating a body.
      */
-    var Matrix4 = (function () {
+    var Node = (function () {
         /**
-         * Constructs the Matrix4 by wrapping a Float32Array.
-         * @constructor
+         * Node implements UniformData required for manipulating a body.
          */
-        function Matrix4(elements) {
-            expectArg('elements', elements)
-                .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
-                .toSatisfy(elements.length === 16, 'elements must have length 16');
-            this.elements = elements;
+        function Node() {
+            this.position = new Vector3(); // default is the origin.
+            this.attitude = new Spinor3(); // default is unity.
+            this.scale = new Vector3([1, 1, 1]); // default is to not scale.
+            this.color = new Vector3([1, 1, 1]); // default is white.
+            this.position.modified = true;
+            this.attitude.modified = true;
+            this.scale.modified = true;
+            this.color.modified = true;
         }
-        Matrix4.identity = function () {
-            return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+        Node.prototype.accept = function (visitor) {
+            var S = Matrix4.identity();
+            S.scaling(this.scale);
+            var T = Matrix4.identity();
+            T.translation(this.position);
+            var R = Matrix4.identity();
+            R.rotation(this.attitude);
+            var M = T.mul(R.mul(S));
+            var N = Matrix3.identity();
+            N.normalFromMatrix4(M);
+            visitor.uniformMatrix4('uModelMatrix', false, M);
+            visitor.uniformMatrix3('uNormalMatrix', false, N);
+            visitor.uniformVector3('uColor', this.color);
         };
-        Matrix4.perspective = function (fov, aspect, near, far) {
-            return Matrix4.identity().perspective(fov, aspect, near, far);
-        };
-        Matrix4.scaling = function (scale) {
-            return Matrix4.identity().scaling(scale);
-        };
-        Matrix4.translation = function (vector) {
-            return Matrix4.identity().translation(vector);
-        };
-        Matrix4.rotation = function (spinor) {
-            if (isDefined(spinor)) {
-                expectArg('spinor', spinor).toBeObject();
-                return Matrix4.identity().rotation(spinor);
-            }
-            else {
-                return;
-            }
-        };
-        Matrix4.prototype.clone = function () {
-            return Matrix4.identity().copy(this);
-        };
-        Matrix4.prototype.compose = function (scale, attitude, position) {
-            // We 
-            // this.identity();
-            // this.scale(scale);
-            this.scaling(scale);
-            this.rotate(attitude);
-            this.translate(position);
-            return this;
-        };
-        Matrix4.prototype.copy = function (m) {
-            this.elements.set(m.elements);
-            return this;
-        };
-        Matrix4.prototype.determinant = function () {
-            var te = this.elements;
-            var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
-            var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
-            var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
-            var n41 = te[3], n42 = te[7], n43 = te[11], n44 = te[15];
-            //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
-            var n1122 = n11 * n22;
-            var n1123 = n11 * n23;
-            var n1124 = n11 * n24;
-            var n1221 = n12 * n21;
-            var n1223 = n12 * n23;
-            var n1224 = n12 * n24;
-            var n1321 = n13 * n21;
-            var n1322 = n13 * n22;
-            var n1324 = n13 * n24;
-            var n1421 = n14 * n21;
-            var n1422 = n14 * n22;
-            var n1423 = n14 * n23;
-            return n41 * ((n1423 - n1324) * n32 + (n1224 - n1422) * n33 + (n1322 - n1223) * n34) +
-                n42 * ((n1324 - n1423) * n31 + (n1421 - n1124) * n33 + (n1123 - n1321) * n34) +
-                n43 * ((n1422 - n1224) * n31 + (n1124 - n1421) * n32 + (n1221 - n1122) * n34) +
-                n44 * ((n1223 - n1322) * n31 + (n1321 - n1123) * n32 + (n1122 - n1221) * n33);
-        };
-        Matrix4.prototype.invert = function (m, throwOnSingular) {
-            if (throwOnSingular === void 0) { throwOnSingular = false; }
-            // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-            var te = this.elements;
-            var me = m.elements;
-            var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
-            var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
-            var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
-            var n41 = me[3], n42 = me[7], n43 = me[11], n44 = me[15];
-            te[0] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
-            te[4] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
-            te[8] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
-            te[12] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
-            te[1] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
-            te[5] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
-            te[9] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
-            te[13] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
-            te[2] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
-            te[6] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
-            te[10] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
-            te[14] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
-            te[3] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
-            te[7] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
-            te[11] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
-            te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
-            var det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
-            if (det !== 0) {
-                return this.multiplyScalar(1 / det);
-            }
-            else {
-                var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnSingular) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
-                this.identity();
-                return this;
-            }
-        };
-        Matrix4.prototype.identity = function () {
-            return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.multiplyScalar = function (s) {
-            var te = this.elements;
-            te[0] *= s;
-            te[4] *= s;
-            te[8] *= s;
-            te[12] *= s;
-            te[1] *= s;
-            te[5] *= s;
-            te[9] *= s;
-            te[13] *= s;
-            te[2] *= s;
-            te[6] *= s;
-            te[10] *= s;
-            te[14] *= s;
-            te[3] *= s;
-            te[7] *= s;
-            te[11] *= s;
-            te[15] *= s;
-            return this;
-        };
-        Matrix4.prototype.transpose = function () {
-            var te = this.elements;
-            var tmp;
-            tmp = te[1];
-            te[1] = te[4];
-            te[4] = tmp;
-            tmp = te[2];
-            te[2] = te[8];
-            te[8] = tmp;
-            tmp = te[6];
-            te[6] = te[9];
-            te[9] = tmp;
-            tmp = te[3];
-            te[3] = te[12];
-            te[12] = tmp;
-            tmp = te[7];
-            te[7] = te[13];
-            te[13] = tmp;
-            tmp = te[11];
-            te[11] = te[14];
-            te[14] = tmp;
-            return this;
-        };
-        /**
-         *
-         */
-        Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
-            var te = this.elements;
-            var x = 2 * near / (right - left);
-            var y = 2 * near / (top - bottom);
-            var a = (right + left) / (right - left);
-            var b = (top + bottom) / (top - bottom);
-            var c = -(far + near) / (far - near);
-            var d = -2 * far * near / (far - near);
-            te[0] = x;
-            te[4] = 0;
-            te[8] = a;
-            te[12] = 0;
-            te[1] = 0;
-            te[5] = y;
-            te[9] = b;
-            te[13] = 0;
-            te[2] = 0;
-            te[6] = 0;
-            te[10] = c;
-            te[14] = d;
-            te[3] = 0;
-            te[7] = 0;
-            te[11] = -1;
-            te[15] = 0;
-            return this;
-        };
-        Matrix4.prototype.rotationAxis = function (axis, angle) {
-            // Based on http://www.gamedev.net/reference/articles/article1199.asp
-            var c = Math.cos(angle);
-            var s = Math.sin(angle);
-            var t = 1 - c;
-            var x = axis.x, y = axis.y, z = axis.z;
-            var tx = t * x, ty = t * y;
-            return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.mul = function (m) {
-            Matrix4.mul(this.elements, m.elements, this.elements);
-            return this;
-        };
-        Matrix4.prototype.multiplyMatrices = function (a, b) {
-            Matrix4.mul(a.elements, b.elements, this.elements);
-            return this;
-        };
-        Matrix4.mul = function (ae, be, oe) {
-            var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
-            var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
-            var a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
-            var a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
-            var b11 = be[0], b12 = be[4], b13 = be[8], b14 = be[12];
-            var b21 = be[1], b22 = be[5], b23 = be[9], b24 = be[13];
-            var b31 = be[2], b32 = be[6], b33 = be[10], b34 = be[14];
-            var b41 = be[3], b42 = be[7], b43 = be[11], b44 = be[15];
-            oe[0] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-            oe[4] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-            oe[8] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-            oe[12] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
-            oe[1] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-            oe[5] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-            oe[9] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-            oe[13] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
-            oe[2] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-            oe[6] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-            oe[10] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-            oe[14] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-            oe[3] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-            oe[7] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-            oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-            oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-            return oe;
-        };
-        /**
-         * Sets the elements of the target matrix to the perspective transformation.
-         * The perspective transformation maps homogeneous world coordinates into
-         * a cubic viewing volume such that an orthogonal projection of that viewing
-         * volume will give the correct linear perspective.
-         * @method perspective
-         * @param fov {Number} field of view in the vertical direction, measured in radians.
-         * @param aspect {Number} The ratio of view width divided by view height.
-         * @param near {Number} The distance to the near field plane.
-         * @param far {Number} The distance to the far field plane.
-         */
-        Matrix4.prototype.perspective = function (fov, aspect, near, far) {
-            // We can leverage the frustum function, although technically the
-            // symmetry in this perspective transformation should reduce the amount
-            // of computation required.
-            var ymax = near * Math.tan(fov * 0.5); // top
-            var ymin = -ymax; // bottom
-            var xmin = ymin * aspect; // left
-            var xmax = ymax * aspect; // right
-            return this.frustum(xmin, xmax, ymin, ymax, near, far);
-        };
-        Matrix4.prototype.rotate = function (spinor) {
-            var S = Matrix4.rotation(spinor);
-            Matrix4.mul(S.elements, this.elements, this.elements);
-            return this;
-        };
-        /**
-         * @method rotate
-         * @param attitude  The spinor from which the rotation will be computed.
-         */
-        Matrix4.prototype.rotation = function (spinor) {
-            // The correspondence between quaternions and spinors is
-            // i <=> -e2^e3, j <=> -e3^e1, k <=> -e1^e2.
-            var x = -expectArg('spinor.yz', spinor.yz).toBeNumber().value;
-            var y = -expectArg('spinor.zx', spinor.zx).toBeNumber().value;
-            var z = -expectArg('spinor.xy', spinor.xy).toBeNumber().value;
-            var w = expectArg('spinor.w', spinor.w).toBeNumber().value;
-            var x2 = x + x, y2 = y + y, z2 = z + z;
-            var xx = x * x2, xy = x * y2, xz = x * z2;
-            var yy = y * y2, yz = y * z2, zz = z * z2;
-            var wx = w * x2, wy = w * y2, wz = w * z2;
-            this.set(1 - yy - zz, xy - wz, xz + wy, 0, xy + wz, 1 - xx - zz, yz - wx, 0, xz - wy, yz + wx, 1 - xx - yy, 0, 0, 0, 0, 1);
-            return this;
-        };
-        /**
-         * @method
-         * @param i {number} the zero-based index of the row.
-         */
-        Matrix4.prototype.row = function (i) {
-            var te = this.elements;
-            return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
-        };
-        /**
-         *
-         */
-        Matrix4.prototype.scale = function (scale) {
-            // We treat the scale operation as pre-multiplication: 
-            // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
-            // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
-            // |0 0 z 0|   |m[2] m[6] m[A] m[E]|   |z * m[2] z * m[6] z * m[A] z * m[E]|
-            // |0 0 0 1|   |m[3] m[7] m[B] m[F]|   |    m[3]     m[7]     m[B]     m[F]|
-            // The following would be post-multiplication:
-            // |m[0] m[4] m[8] m[C]|   |x 0 0 0|   |x * m[0] y * m[4] z * m[8]     m[C]|
-            // |m[1] m[5] m[9] m[D]| * |0 y 0 0| = |x * m[1] y * m[5] z * m[9]     m[D]|
-            // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
-            // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
-            var S = Matrix4.scaling(scale);
-            Matrix4.mul(S.elements, this.elements, this.elements);
-            return this;
-        };
-        Matrix4.prototype.scaling = function (scale) {
-            return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-            var te = this.elements;
-            te[0] = n11;
-            te[4] = n12;
-            te[8] = n13;
-            te[12] = n14;
-            te[1] = n21;
-            te[5] = n22;
-            te[9] = n23;
-            te[13] = n24;
-            te[2] = n31;
-            te[6] = n32;
-            te[10] = n33;
-            te[14] = n34;
-            te[3] = n41;
-            te[7] = n42;
-            te[11] = n43;
-            te[15] = n44;
-            return this;
-        };
-        Matrix4.prototype.toFixed = function (digits) {
-            if (isDefined(digits)) {
-                expectArg('digits', digits).toBeNumber();
-            }
-            var text = [];
-            for (var i = 0; i <= 3; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toFixed(digits); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        Matrix4.prototype.toString = function () {
-            var text = [];
-            for (var i = 0; i <= 3; i++) {
-                text.push(this.row(i).map(function (element, index) { return element.toString(); }).join(' '));
-            }
-            return text.join('\n');
-        };
-        Matrix4.prototype.translate = function (displacement) {
-            var T = Matrix4.translation(displacement);
-            Matrix4.mul(T.elements, this.elements, this.elements);
-            return this;
-        };
-        Matrix4.prototype.translation = function (displacement) {
-            return this.set(1, 0, 0, displacement.x, 0, 1, 0, displacement.y, 0, 0, 1, displacement.z, 0, 0, 0, 1);
-        };
-        Matrix4.prototype.__mul__ = function (other) {
-            if (other instanceof Matrix4) {
-                return Matrix4.identity().multiplyMatrices(this, other);
-            }
-            else if (typeof other === 'number') {
-                return this.clone().multiplyScalar(other);
-            }
-        };
-        Matrix4.prototype.__rmul__ = function (other) {
-            if (other instanceof Matrix4) {
-                return Matrix4.identity().multiplyMatrices(other, this);
-            }
-            else if (typeof other === 'number') {
-                return this.clone().multiplyScalar(other);
-            }
-        };
-        return Matrix4;
+        return Node;
     })();
-    return Matrix4;
+    return Node;
 });
 
 define('davinci-eight/core/Symbolic',["require", "exports"], function (require, exports) {
@@ -1254,242 +1512,17 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
     return Symbolic;
 });
 
-define('davinci-eight/core/DefaultUniformProvider',["require", "exports"], function (require, exports) {
-    /**
-     * @class DefaultUniformProvider
-     */
-    var DefaultUniformProvider = (function () {
-        /**
-         * @class DefaultUniformProvider
-         * @constructor
-         */
-        function DefaultUniformProvider() {
-        }
-        /**
-         * @method getUniformFloat
-         */
-        DefaultUniformProvider.prototype.getUniformFloat = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformMatrix2
-         */
-        DefaultUniformProvider.prototype.getUniformMatrix2 = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformMatrix3
-         */
-        DefaultUniformProvider.prototype.getUniformMatrix3 = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformMatrix4
-         */
-        DefaultUniformProvider.prototype.getUniformMatrix4 = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformVector2
-         */
-        DefaultUniformProvider.prototype.getUniformVector2 = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformVector3
-         */
-        DefaultUniformProvider.prototype.getUniformVector3 = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformVector4
-         */
-        DefaultUniformProvider.prototype.getUniformVector4 = function (name) {
-            return;
-        };
-        /**
-         * @method getUniformMeta
-         * @return An empty object that derived class may modify.
-         */
-        DefaultUniformProvider.prototype.getUniformMeta = function () {
-            var uniforms = {};
-            return uniforms;
-        };
-        /**
-         * @method getUniformData
-         * @return An empty object that derived class may modify.
-         */
-        DefaultUniformProvider.prototype.getUniformData = function () {
-            var data = {};
-            return data;
-        };
-        return DefaultUniformProvider;
-    })();
-    return DefaultUniformProvider;
-});
-
-define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
-    function uuid4() {
-        var maxFromBits = function (bits) {
-            return Math.pow(2, bits);
-        };
-        var limitUI04 = maxFromBits(4);
-        var limitUI06 = maxFromBits(6);
-        var limitUI08 = maxFromBits(8);
-        var limitUI12 = maxFromBits(12);
-        var limitUI14 = maxFromBits(14);
-        var limitUI16 = maxFromBits(16);
-        var limitUI32 = maxFromBits(32);
-        var limitUI40 = maxFromBits(40);
-        var limitUI48 = maxFromBits(48);
-        var getRandomInt = function (min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
-        var randomUI06 = function () {
-            return getRandomInt(0, limitUI06 - 1);
-        };
-        var randomUI08 = function () {
-            return getRandomInt(0, limitUI08 - 1);
-        };
-        var randomUI12 = function () {
-            return getRandomInt(0, limitUI12 - 1);
-        };
-        var randomUI16 = function () {
-            return getRandomInt(0, limitUI16 - 1);
-        };
-        var randomUI32 = function () {
-            return getRandomInt(0, limitUI32 - 1);
-        };
-        var randomUI48 = function () {
-            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
-        };
-        var paddedString = function (str, length, z) {
-            str = String(str);
-            z = (!z) ? '0' : z;
-            var i = length - str.length;
-            for (; i > 0; i >>>= 1, z += z) {
-                if (i & 1) {
-                    str = z + str;
-                }
-            }
-            return str;
-        };
-        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
-            var hex = paddedString(timeLow.toString(16), 8) +
-                '-' +
-                paddedString(timeMid.toString(16), 4) +
-                '-' +
-                paddedString(timeHiAndVersion.toString(16), 4) +
-                '-' +
-                paddedString(clockSeqHiAndReserved.toString(16), 2) +
-                paddedString(clockSeqLow.toString(16), 2) +
-                '-' +
-                paddedString(node.toString(16), 12);
-            return hex;
-        };
-        return {
-            generate: function () {
-                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
-            },
-            // addition by Ka-Jan to test for validity
-            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
-            validate: function (uuid) {
-                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-                return testPattern.test(uuid);
-            }
-        };
+define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
+    function isUndefined(arg) {
+        return (typeof arg === 'undefined');
     }
-    return uuid4;
+    return isUndefined;
 });
 
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformMat4',["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4', '../checks/isDefined'], function (require, exports, DefaultUniformProvider, uuid4, isDefined) {
-    var UniformMat4 = (function (_super) {
-        __extends(UniformMat4, _super);
-        function UniformMat4(name, id) {
-            _super.call(this);
-            this.useData = true;
-            this.$name = name;
-            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
-            this.$varName = isDefined(this.$name) ? this.$name : this.id;
-        }
-        Object.defineProperty(UniformMat4.prototype, "data", {
-            set: function (data) {
-                this.$data = data;
-                this.useData = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformMat4.prototype, "callback", {
-            set: function (callback) {
-                this.$callback = callback;
-                this.useData = false;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformMat4.prototype.getValue = function () {
-            if (this.useData) {
-                return this.$data;
-            }
-            else {
-                return this.$callback();
-            }
-        };
-        UniformMat4.prototype.getUniformMatrix4 = function (name) {
-            switch (name) {
-                case this.$varName:
-                    {
-                        if (this.useData) {
-                            return this.$data;
-                        }
-                        else {
-                            return this.$callback();
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformMatrix4.call(this, name);
-                }
-            }
-        };
-        UniformMat4.prototype.getUniformMeta = function () {
-            var uniforms = _super.prototype.getUniformMeta.call(this);
-            if (isDefined(this.$name)) {
-                uniforms[this.id] = { name: this.$name, glslType: 'mat4' };
-            }
-            else {
-                uniforms[this.id] = { glslType: 'mat4' };
-            }
-            return uniforms;
-        };
-        UniformMat4.prototype.getUniformData = function () {
-            var data = _super.prototype.getUniformData.call(this);
-            var value = this.getValue();
-            var m4 = { transpose: value.transpose, matrix3: void 0, matrix4: value.matrix4, uniformZs: void 0 };
-            if (isDefined(this.$name)) {
-                data[this.$name] = m4;
-            }
-            else {
-                data[this.id] = m4;
-            }
-            return data;
-        };
-        return UniformMat4;
-    })(DefaultUniformProvider);
-    return UniformMat4;
-});
-
-define('davinci-eight/cameras/viewMatrix',["require", "exports", '../math/Vector3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Vector3, expectArg, isDefined) {
-    function viewMatrix(eye, look, up, matrix) {
+define('davinci-eight/cameras/viewArray',["require", "exports", '../math/Vector3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Vector3, expectArg, isDefined) {
+    function viewArray(eye, look, up, matrix) {
         var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        expectArg('m', m).toSatisfy(m instanceof Float32Array, "matrix must be a Float32Array").toSatisfy(m.length === 16, 'matrix must have length 16');
+        expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
         var n = new Vector3().subVectors(eye, look);
         if (n.x === 0 && n.y === 0 && n.z === 0) {
             // View direction is ambiguous.
@@ -1519,30 +1552,29 @@ define('davinci-eight/cameras/viewMatrix',["require", "exports", '../math/Vector
         m[15] = 1;
         return m;
     }
+    return viewArray;
+});
+
+define('davinci-eight/cameras/viewMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/viewArray'], function (require, exports, isDefined, Matrix4, viewArray) {
+    function viewMatrix(eye, look, up, matrix) {
+        var m = isDefined(matrix) ? matrix : Matrix4.identity();
+        viewArray(eye, look, up, m.elements);
+        return m;
+    }
     return viewMatrix;
 });
 
-define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../uniforms/UniformMat4', '../checks/expectArg', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, Symbolic, UniformMat4, expectArg, computeViewMatrix) {
+define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../checks/expectArg', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, Symbolic, expectArg, isUndefined, computeViewMatrix) {
     /**
      * @class view
      * @constructor
      */
     var view = function (options) {
-        options = options || {};
         var eye = new Vector3();
         var look = new Vector3();
         var up = Vector3.e2;
         var viewMatrix = Matrix4.identity();
-        var base = new UniformMat4(options.viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
-        base.callback = function () {
-            if (eye.modified || look.modified || up.modified) {
-                computeViewMatrix(eye, look, up, viewMatrix.elements);
-                eye.modified = false;
-                look.modified = false;
-                up.modified = false;
-            }
-            return { transpose: false, matrix4: viewMatrix.elements };
-        };
+        var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
         // Force an update of the view matrix.
         eye.modified = true;
         look.modified = true;
@@ -1588,32 +1620,15 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
                 up.normalize();
                 return self;
             },
-            getUniformFloat: function (name) {
-                return base.getUniformFloat(name);
-            },
-            getUniformMatrix2: function (name) {
-                return base.getUniformMatrix2(name);
-            },
-            getUniformMatrix3: function (name) {
-                return base.getUniformMatrix3(name);
-            },
-            getUniformMatrix4: function (name) {
-                return base.getUniformMatrix4(name);
-            },
-            getUniformVector2: function (name) {
-                return base.getUniformVector2(name);
-            },
-            getUniformVector3: function (name) {
-                return base.getUniformVector3(name);
-            },
-            getUniformVector4: function (name) {
-                return base.getUniformVector4(name);
-            },
-            getUniformMeta: function () {
-                return base.getUniformMeta();
-            },
-            getUniformData: function () {
-                return base.getUniformData();
+            accept: function (visitor) {
+                if (eye.modified || look.modified || up.modified) {
+                    // TODO: view matrix would be better.
+                    computeViewMatrix(eye, look, up, viewMatrix);
+                    eye.modified = false;
+                    look.modified = false;
+                    up.modified = false;
+                }
+                visitor.uniformMatrix4(viewMatrixName, false, viewMatrix);
             }
         };
         return self;
@@ -1621,33 +1636,257 @@ define('davinci-eight/cameras/view',["require", "exports", '../math/Vector3', '.
     return view;
 });
 
-define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic'], function (require, exports, view, Matrix4, Symbolic) {
-    var UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
-    var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
+define('davinci-eight/math/Vector1',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    /**
+     * @class Vector1
+     */
+    var Vector1 = (function () {
+        /**
+         * @class Vector1
+         * @constructor
+         * @param data {number[]}
+         */
+        function Vector1(data) {
+            if (data === void 0) { data = [0, 0]; }
+            this.data = data;
+            this.modified = false;
+        }
+        Object.defineProperty(Vector1.prototype, "data", {
+            get: function () {
+                if (this.$data) {
+                    return this.$data;
+                }
+                else if (this.$callback) {
+                    var data = this.$callback();
+                    expectArg('callback()', data).toSatisfy(data.length === 1, "callback() length must be 1");
+                    return this.$callback();
+                }
+                else {
+                    throw new Error("Vector1 is undefined.");
+                }
+            },
+            set: function (data) {
+                expectArg('data', data).toSatisfy(data.length === 1, "data length must be 1");
+                this.$data = data;
+                this.$callback = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector1.prototype, "callback", {
+            get: function () {
+                return this.$callback;
+            },
+            set: function (reactTo) {
+                this.$callback = reactTo;
+                this.$data = void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector1.prototype, "x", {
+            /**
+             * @property x
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.x !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Vector1.prototype.set = function (x) {
+            this.x = x;
+            return this;
+        };
+        Vector1.prototype.setX = function (x) {
+            this.x = x;
+            return this;
+        };
+        Vector1.prototype.setComponent = function (index, value) {
+            switch (index) {
+                case 0:
+                    this.x = value;
+                    break;
+                default: throw new Error('index is out of range: ' + index);
+            }
+        };
+        Vector1.prototype.getComponent = function (index) {
+            switch (index) {
+                case 0: return this.x;
+                default: throw new Error('index is out of range: ' + index);
+            }
+        };
+        Vector1.prototype.copy = function (v) {
+            this.x = v.x;
+            return this;
+        };
+        Vector1.prototype.add = function (v) {
+            this.x += v.x;
+            return this;
+        };
+        Vector1.prototype.addScalar = function (s) {
+            this.x += s;
+            return this;
+        };
+        Vector1.prototype.addVectors = function (a, b) {
+            this.x = a.x + b.x;
+            return this;
+        };
+        Vector1.prototype.sub = function (v) {
+            this.x -= v.x;
+            return this;
+        };
+        Vector1.prototype.subScalar = function (s) {
+            this.x -= s;
+            return this;
+        };
+        Vector1.prototype.subVectors = function (a, b) {
+            this.x = a.x - b.x;
+            return this;
+        };
+        Vector1.prototype.multiply = function (v) {
+            this.x *= v.x;
+            return this;
+        };
+        Vector1.prototype.multiplyScalar = function (s) {
+            this.x *= s;
+            return this;
+        };
+        Vector1.prototype.divide = function (v) {
+            this.x /= v.x;
+            return this;
+        };
+        Vector1.prototype.divideScalar = function (scalar) {
+            if (scalar !== 0) {
+                var invScalar = 1 / scalar;
+                this.x *= invScalar;
+            }
+            else {
+                this.x = 0;
+            }
+            return this;
+        };
+        Vector1.prototype.min = function (v) {
+            if (this.x > v.x) {
+                this.x = v.x;
+            }
+            return this;
+        };
+        Vector1.prototype.max = function (v) {
+            if (this.x < v.x) {
+                this.x = v.x;
+            }
+            return this;
+        };
+        Vector1.prototype.floor = function () {
+            this.x = Math.floor(this.x);
+            return this;
+        };
+        Vector1.prototype.ceil = function () {
+            this.x = Math.ceil(this.x);
+            return this;
+        };
+        Vector1.prototype.round = function () {
+            this.x = Math.round(this.x);
+            return this;
+        };
+        Vector1.prototype.roundToZero = function () {
+            this.x = (this.x < 0) ? Math.ceil(this.x) : Math.floor(this.x);
+            return this;
+        };
+        Vector1.prototype.negate = function () {
+            this.x = -this.x;
+            return this;
+        };
+        Vector1.prototype.distanceTo = function (position) {
+            return Math.sqrt(this.quadranceTo(position));
+        };
+        Vector1.prototype.dot = function (v) {
+            return this.x * v.x;
+        };
+        Vector1.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Vector1.prototype.normalize = function () {
+            return this.divideScalar(this.magnitude());
+        };
+        Vector1.prototype.quaditude = function () {
+            return this.x * this.x;
+        };
+        Vector1.prototype.quadranceTo = function (position) {
+            var dx = this.x - position.x;
+            return dx * dx;
+        };
+        Vector1.prototype.setMagnitude = function (l) {
+            var oldLength = this.magnitude();
+            if (oldLength !== 0 && l !== oldLength) {
+                this.multiplyScalar(l / oldLength);
+            }
+            return this;
+        };
+        Vector1.prototype.lerp = function (v, alpha) {
+            this.x += (v.x - this.x) * alpha;
+            return this;
+        };
+        Vector1.prototype.lerpVectors = function (v1, v2, alpha) {
+            this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
+            return this;
+        };
+        Vector1.prototype.equals = function (v) {
+            return v.x === this.x;
+        };
+        Vector1.prototype.fromArray = function (array, offset) {
+            if (offset === undefined)
+                offset = 0;
+            this.x = array[offset];
+            return this;
+        };
+        Vector1.prototype.toArray = function (array, offset) {
+            if (array === undefined)
+                array = [];
+            if (offset === undefined)
+                offset = 0;
+            array[offset] = this.x;
+            return array;
+        };
+        Vector1.prototype.fromAttribute = function (attribute, index, offset) {
+            if (offset === undefined)
+                offset = 0;
+            index = index * attribute.itemSize + offset;
+            this.x = attribute.array[index];
+            return this;
+        };
+        Vector1.prototype.clone = function () {
+            return new Vector1([this.x]);
+        };
+        return Vector1;
+    })();
+    return Vector1;
+});
+
+define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, view, Matrix4, Vector1) {
     /**
      * @class frustum
      * @constructor
-     * @param left {number}
-     * @param right {number}
-     * @param bottom {number}
-     * @param top {number}
-     * @param near {number}
-     * @param far {number}
      * @return {Frustum}
      */
-    var frustum = function (left, right, bottom, top, near, far) {
-        if (left === void 0) { left = -1; }
-        if (right === void 0) { right = 1; }
-        if (bottom === void 0) { bottom = -1; }
-        if (top === void 0) { top = 1; }
-        if (near === void 0) { near = 1; }
-        if (far === void 0) { far = 1000; }
-        var options = { viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX };
-        var base = view(options);
+    var frustum = function (viewMatrixName, projectionMatrixName) {
+        var base = view(viewMatrixName);
+        var left = new Vector1();
+        var right = new Vector1();
+        var bottom = new Vector1();
+        var top = new Vector1();
+        var near = new Vector1();
+        var far = new Vector1();
         // TODO: We should immediately create with a frustum static constructor?
         var projectionMatrix = Matrix4.identity();
         function updateProjectionMatrix() {
-            projectionMatrix.frustum(left, right, bottom, top, near, far);
+            projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
         }
         updateProjectionMatrix();
         var self = {
@@ -1683,83 +1922,50 @@ define('davinci-eight/cameras/frustum',["require", "exports", 'davinci-eight/cam
                 return self;
             },
             get left() {
-                return left;
+                return left.x;
             },
             set left(value) {
-                left = value;
+                left.x = value;
                 updateProjectionMatrix();
             },
             get right() {
-                return right;
+                return right.x;
             },
             set right(value) {
-                right = value;
+                right.x = value;
                 updateProjectionMatrix();
             },
             get bottom() {
-                return bottom;
+                return bottom.x;
             },
             set bottom(value) {
-                bottom = value;
+                bottom.x = value;
                 updateProjectionMatrix();
             },
             get top() {
-                return top;
+                return top.x;
             },
             set top(value) {
-                top = value;
+                top.x = value;
                 updateProjectionMatrix();
             },
             get near() {
-                return near;
+                return near.x;
             },
             set near(value) {
-                near = value;
+                near.x = value;
                 updateProjectionMatrix();
             },
             get far() {
-                return far;
+                return far.x;
             },
             set far(value) {
-                far = value;
+                far.x = value;
                 updateProjectionMatrix();
             },
-            getUniformFloat: function (name) {
-                return base.getUniformFloat(name);
-            },
-            getUniformMatrix2: function (name) {
-                return base.getUniformMatrix2(name);
-            },
-            getUniformMatrix3: function (name) {
-                return base.getUniformMatrix3(name);
-            },
-            getUniformMatrix4: function (name) {
-                switch (name) {
-                    case UNIFORM_PROJECTION_MATRIX_NAME: {
-                        return { transpose: false, matrix4: projectionMatrix.elements };
-                    }
-                    default: {
-                        return base.getUniformMatrix4(name);
-                    }
-                }
-            },
-            getUniformVector2: function (name) {
-                return base.getUniformVector2(name);
-            },
-            getUniformVector3: function (name) {
-                return base.getUniformVector3(name);
-            },
-            getUniformVector4: function (name) {
-                return base.getUniformVector4(name);
-            },
-            getUniformMeta: function () {
-                var uniforms = base.getUniformMeta();
-                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
-                return uniforms;
-            },
-            getUniformData: function () {
-                var data = base.getUniformData();
-                return data;
+            accept: function (visitor) {
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+                base.accept(visitor);
             }
         };
         return self;
@@ -1776,7 +1982,7 @@ define('davinci-eight/cameras/frustumMatrix',["require", "exports", '../checks/e
         expectArg('near', near).toBeNumber();
         expectArg('far', far).toBeNumber();
         var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        expectArg('m', m).toSatisfy(m instanceof Float32Array, "elements must be a Float32Array").toSatisfy(m.length === 16, 'elements must have length 16');
+        expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
         var x = 2 * near / (right - left);
         var y = 2 * near / (top - bottom);
         var a = (right + left) / (right - left);
@@ -1804,14 +2010,34 @@ define('davinci-eight/cameras/frustumMatrix',["require", "exports", '../checks/e
     return frustumMatrix;
 });
 
-define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
-    function isUndefined(arg) {
-        return (typeof arg === 'undefined');
+define('davinci-eight/cameras/perspectiveArray',["require", "exports", '../cameras/frustumMatrix', '../checks/expectArg'], function (require, exports, frustumMatrix, expectArg) {
+    function perspectiveArray(fov, aspect, near, far, matrix) {
+        // We can leverage the frustum function, although technically the
+        // symmetry in this perspective transformation should reduce the amount
+        // of computation required.
+        expectArg('fov', fov).toBeNumber();
+        expectArg('aspect', aspect).toBeNumber();
+        expectArg('near', near).toBeNumber();
+        expectArg('far', far).toBeNumber();
+        var ymax = near * Math.tan(fov * 0.5); // top
+        var ymin = -ymax; // bottom
+        var xmin = ymin * aspect; // left
+        var xmax = ymax * aspect; // right
+        return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
     }
-    return isUndefined;
+    return perspectiveArray;
 });
 
-define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../checks/isDefined', '../checks/isUndefined', '../checks/expectArg'], function (require, exports, view, Matrix4, Symbolic, isDefined, isUndefined, expectArg) {
+define('davinci-eight/cameras/perspectiveMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/perspectiveArray'], function (require, exports, isDefined, Matrix4, perspectiveArray) {
+    function perspectiveMatrix(fov, aspect, near, far, matrix) {
+        var m = isDefined(matrix) ? matrix : Matrix4.identity();
+        perspectiveArray(fov, aspect, near, far, m.elements);
+        return m;
+    }
+    return perspectiveMatrix;
+});
+
+define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, view, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
     //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     /**
      * @class perspective
@@ -1824,10 +2050,10 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
      */
     var perspective = function (options) {
         options = options || {};
-        var fov = isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov;
-        var aspect = isUndefined(options.aspect) ? 1 : options.aspect;
-        var near = isUndefined(options.near) ? 0.1 : options.near;
-        var far = expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value;
+        var fov = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+        var aspect = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
+        var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
+        var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var base = view(options);
         var projectionMatrix = Matrix4.identity();
@@ -1865,123 +2091,65 @@ define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight
                 return self;
             },
             get fov() {
-                return fov;
+                return fov.x;
             },
             set fov(value) {
                 self.setFov(value);
             },
             setFov: function (value) {
                 expectArg('fov', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
-                fov = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
+                fov.x = value;
                 return self;
             },
             get aspect() {
-                return aspect;
+                return aspect.x;
             },
             set aspect(value) {
                 self.setAspect(value);
             },
             setAspect: function (value) {
                 expectArg('aspect', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
-                aspect = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
+                aspect.x = value;
                 return self;
             },
             get near() {
-                return near;
+                return near.x;
             },
             set near(value) {
                 self.setNear(value);
             },
             setNear: function (value) {
                 expectArg('near', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
-                near = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
+                near.x = value;
                 return self;
             },
             get far() {
-                return far;
+                return far.x;
             },
             set far(value) {
                 self.setFar(value);
             },
             setFar: function (value) {
                 expectArg('far', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
-                far = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
+                far.x = value;
                 return self;
             },
-            getUniformFloat: function (name) {
-                return base.getUniformFloat(name);
-            },
-            getUniformMatrix2: function (name) {
-                return base.getUniformMatrix2(name);
-            },
-            getUniformMatrix3: function (name) {
-                return base.getUniformMatrix3(name);
-            },
-            getUniformMatrix4: function (name) {
-                expectArg('name', name).toBeString();
-                switch (name) {
-                    case projectionMatrixName: {
-                        if (matrixNeedsUpdate) {
-                            projectionMatrix.perspective(fov, aspect, near, far);
-                            matrixNeedsUpdate = false;
-                        }
-                        return { transpose: false, matrix4: projectionMatrix.elements };
-                    }
-                    default: {
-                        return base.getUniformMatrix4(name);
-                    }
+            accept: function (visitor) {
+                if (matrixNeedsUpdate) {
+                    computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                    matrixNeedsUpdate = false;
                 }
-            },
-            getUniformVector2: function (name) {
-                return base.getUniformVector2(name);
-            },
-            getUniformVector3: function (name) {
-                return base.getUniformVector3(name);
-            },
-            getUniformVector4: function (name) {
-                return base.getUniformVector4(name);
-            },
-            getUniformMeta: function () {
-                var meta = base.getUniformMeta();
-                if (isDefined(options.projectionMatrixName)) {
-                    meta[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: options.projectionMatrixName, glslType: 'mat4' };
-                }
-                else {
-                    meta[Symbolic.UNIFORM_PROJECTION_MATRIX] = { glslType: 'mat4' };
-                }
-                return meta;
-            },
-            getUniformData: function () {
-                var data = base.getUniformData();
-                data[projectionMatrixName] = self.getUniformMatrix4(projectionMatrixName);
-                return data;
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+                base.accept(visitor);
             }
         };
         return self;
     };
     return perspective;
-});
-
-define('davinci-eight/cameras/perspectiveMatrix',["require", "exports", '../cameras/frustumMatrix', '../checks/expectArg'], function (require, exports, frustumMatrix, expectArg) {
-    function perspectiveMatrix(fov, aspect, near, far, matrix) {
-        // We can leverage the frustum function, although technically the
-        // symmetry in this perspective transformation should reduce the amount
-        // of computation required.
-        expectArg('fov', fov).toBeNumber();
-        expectArg('aspect', aspect).toBeNumber();
-        expectArg('near', near).toBeNumber();
-        expectArg('far', far).toBeNumber();
-        var ymax = near * Math.tan(fov * 0.5); // top
-        var ymin = -ymax; // bottom
-        var xmin = ymin * aspect; // left
-        var xmax = ymax * aspect; // right
-        return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
-    }
-    return perspectiveMatrix;
 });
 
 define('davinci-eight/core/IdentityAttribProvider',["require", "exports"], function (require, exports) {
@@ -2066,28 +2234,6 @@ define('davinci-eight/core/DefaultAttribProvider',["require", "exports", '../cor
     return DefaultAttribProvider;
 });
 
-define('davinci-eight/core/DefaultDrawableVisitor',["require", "exports"], function (require, exports) {
-    var DefaultDrawableVisitor = (function () {
-        function DefaultDrawableVisitor() {
-        }
-        DefaultDrawableVisitor.prototype.primitive = function (mesh, program, model) {
-            if (mesh.dynamic) {
-                mesh.update();
-            }
-            program.use();
-            // TODO: What is the overhead?
-            program.setUniforms(model.getUniformData());
-            program.setAttributes(mesh.getAttribData());
-            mesh.draw();
-            for (var name in program.attributeLocations) {
-                program.attributeLocations[name].disable();
-            }
-        };
-        return DefaultDrawableVisitor;
-    })();
-    return DefaultDrawableVisitor;
-});
-
 define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     /**
      * A mutable type representing a color through its RGB components.
@@ -2105,6 +2251,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
          */
         function Color(data) {
             if (data === void 0) { data = [0, 0, 0]; }
+            this.modified = false;
             expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
             this.data = data;
         }
@@ -2257,7 +2404,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.67.0'
+        VERSION: '2.68.0'
     };
     return core;
 });
@@ -2410,15 +2557,6 @@ define('davinci-eight/core/ShaderAttribLocation',["require", "exports"], functio
 
 define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], function (require, exports) {
     /**
-     * Returns the corresponding bind point for a given sampler type
-     */
-    function getBindPointForSamplerType(gl, type) {
-        if (type === gl.SAMPLER_2D)
-            return gl.TEXTURE_2D;
-        if (type === gl.SAMPLER_CUBE)
-            return gl.TEXTURE_CUBE_MAP;
-    }
-    /**
      * Utility class for managing a shader uniform variable.
      * @class ShaderUniformLocation
      */
@@ -2455,127 +2593,6 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
         ShaderUniformLocation.prototype.contextLoss = function () {
             this.location = void 0;
             this.context = void 0;
-        };
-        ShaderUniformLocation.prototype.createSetter = function (gl, uniformInfo) {
-            var uniformLoc = this;
-            var name = uniformInfo.name;
-            var size = uniformInfo.size;
-            var type = uniformInfo.type;
-            var isArray = (size > 1 && name.substr(-3) === "[0]");
-            if (type === gl.FLOAT && isArray) {
-                return function (data) {
-                    uniformLoc.uniform1fv(data.vector);
-                };
-            }
-            if (type === gl.FLOAT) {
-                return function (data) {
-                    uniformLoc.uniform1f(data.x);
-                };
-            }
-            if (type === gl.FLOAT_VEC2) {
-                return function (data) {
-                    uniformLoc.uniform2fv(data.vector);
-                };
-            }
-            if (type === gl.FLOAT_VEC3) {
-                return function (data) {
-                    uniformLoc.uniform3fv(data.vector);
-                };
-            }
-            if (type === gl.FLOAT_VEC4) {
-                return function (data) {
-                    uniformLoc.uniform4fv(data.vector);
-                };
-            }
-            /*
-            if (type === gl.INT && isArray) {
-              return function(data: UniformDataInfo) {
-                gl.uniform1iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.INT) {
-              return function(data: UniformDataInfo) {
-                gl.uniform1i(location, data.x);
-              };
-            }
-            if (type === gl.INT_VEC2) {
-              return function(data: UniformDataInfo) {
-                gl.uniform2iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.INT_VEC3) {
-              return function(data: UniformDataInfo) {
-                gl.uniform3iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.INT_VEC4) {
-              return function(data: UniformDataInfo) {
-                gl.uniform4iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.BOOL) {
-              return function(data: UniformDataInfo) {
-                gl.uniform1iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.BOOL_VEC2) {
-              return function(data: UniformDataInfo) {
-                gl.uniform2iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.BOOL_VEC3) {
-              return function(data: UniformDataInfo) {
-                gl.uniform3iv(location, data.uniformZs);
-              };
-            }
-            if (type === gl.BOOL_VEC4) {
-              return function(data: UniformDataInfo) {
-                gl.uniform4iv(location, data.uniformZs);
-              };
-            }
-            */
-            if (type === gl.FLOAT_MAT2) {
-                return function (data) {
-                    uniformLoc.uniformMatrix2fv(data.transpose, data.matrix2);
-                };
-            }
-            if (type === gl.FLOAT_MAT3) {
-                return function (data) {
-                    uniformLoc.uniformMatrix3fv(data.transpose, data.matrix3);
-                };
-            }
-            if (type === gl.FLOAT_MAT4) {
-                return function (data) {
-                    uniformLoc.uniformMatrix4fv(data.transpose, data.matrix4);
-                };
-            }
-            /*
-            if ((type === gl.SAMPLER_2D || type === gl.SAMPLER_CUBE) && isArray) {
-              var units: number[] = [];
-              for (var ii = 0; ii < uniformInfo.size; ++ii) { // BUG fixed info
-                units.push(textureUnit++);
-              }
-              return function(bindPoint, units) {
-                return function(textures) {
-                  gl.uniform1iv(location, units);
-                  textures.forEach(function(texture, index) {
-                    gl.activeTexture(gl.TEXTURE0 + units[index]);
-                    gl.bindTexture(bindPoint, texture);
-                  });
-                };
-              }(getBindPointForSamplerType(gl, type), units);
-            }
-            if (type === gl.SAMPLER_2D || type === gl.SAMPLER_CUBE) {
-              return function(bindPoint, unit) {
-                return function(texture) {
-                  gl.uniform1i(location, unit);
-                  gl.activeTexture(gl.TEXTURE0 + unit);
-                  gl.bindTexture(bindPoint, texture);
-                };
-              }(getBindPointForSamplerType(gl, type), textureUnit++);
-            }
-            */
-            throw ("unknown type: 0x" + type.toString(16)); // we should never get here.
         };
         /**
          * @method uniform1f
@@ -2616,13 +2633,6 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
             this.context.uniform3f(this.location, x, y, z);
         };
         /**
-         * @method uniform3fv
-         * @param data {number[]}
-         */
-        ShaderUniformLocation.prototype.uniform3fv = function (data) {
-            this.context.uniform3fv(this.location, data);
-        };
-        /**
          * @method uniform3f
          * @param x {number} Horizontal value to assign.
          * @param y {number} Vertical number to assign.
@@ -2640,37 +2650,37 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
             this.context.uniform4fv(this.location, data);
         };
         /**
-         * @method uniformMatrix2fv
+         * @method uniformMatrix2
          * @param transpose {boolean}
-         * @param matrix {Float32Array}
+         * @param matrix {Matrix2}
          */
-        ShaderUniformLocation.prototype.uniformMatrix2fv = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix2fv(this.location, transpose, matrix);
+        ShaderUniformLocation.prototype.uniformMatrix2 = function (transpose, matrix) {
+            this.context.uniformMatrix2fv(this.location, transpose, matrix.elements);
         };
         /**
-         * @method uniformMatrix3fv
+         * @method uniformMatrix3
          * @param transpose {boolean}
-         * @param matrix {Float32Array}
+         * @param matrix {Matrix3}
          */
-        ShaderUniformLocation.prototype.uniformMatrix3fv = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix3fv(this.location, transpose, matrix);
+        ShaderUniformLocation.prototype.uniformMatrix3 = function (transpose, matrix) {
+            this.context.uniformMatrix3fv(this.location, transpose, matrix.elements);
         };
         /**
-         * @method uniformMatrix4fv
+         * @method uniformMatrix4
          * @param transpose {boolean}
-         * @param matrix {Float32Array}
+         * @param matrix {Matrix4}
          */
-        ShaderUniformLocation.prototype.uniformMatrix4fv = function (transpose, matrix) {
-            if (!(matrix instanceof Float32Array)) {
-                throw new Error("matrix must be a Float32Array.");
-            }
-            this.context.uniformMatrix4fv(this.location, transpose, matrix);
+        ShaderUniformLocation.prototype.uniformMatrix4 = function (transpose, matrix) {
+            this.context.uniformMatrix4fv(this.location, transpose, matrix.elements);
+        };
+        /**
+         * @method uniformVector3
+         * @param vector {Vector3}
+         */
+        ShaderUniformLocation.prototype.uniformVector3 = function (vector) {
+            // The v argument is either a number[] or a Float32Array.
+            // In our case we supply number[].
+            this.context.uniform3fv(this.location, vector.data);
         };
         /**
          * @method toString
@@ -2779,76 +2789,70 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
                     throw new Error("drawable not found.");
                 }
             },
-            setUniforms: function (values) {
+            uniform1f: function (name, x) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.setUniforms(values);
+                    program.uniform1f(name, x);
                 });
             },
-            uniform1f: function (name, x, picky) {
+            uniform1fv: function (name, value) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform1f(name, x, picky);
+                    program.uniform1fv(name, value);
                 });
             },
-            uniform1fv: function (name, value, picky) {
+            uniform2f: function (name, x, y) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform1fv(name, value, picky);
+                    program.uniform2f(name, x, y);
                 });
             },
-            uniform2f: function (name, x, y, picky) {
+            uniform2fv: function (name, value) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform2f(name, x, y, picky);
+                    program.uniform2fv(name, value);
                 });
             },
-            uniform2fv: function (name, value, picky) {
+            uniform3f: function (name, x, y, z) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform2fv(name, value, picky);
+                    program.uniform3f(name, x, y, z);
                 });
             },
-            uniform3f: function (name, x, y, z, picky) {
+            uniform4f: function (name, x, y, z, w) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform3f(name, x, y, z, picky);
+                    program.uniform4f(name, x, y, z, w);
                 });
             },
-            uniform3fv: function (name, value, picky) {
+            uniform4fv: function (name, value) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform3fv(name, value, picky);
+                    program.uniform4fv(name, value);
                 });
             },
-            uniform4f: function (name, x, y, z, w, picky) {
+            uniformMatrix2: function (name, transpose, matrix) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform4f(name, x, y, z, w, picky);
+                    program.uniformMatrix2(name, transpose, matrix);
                 });
             },
-            uniform4fv: function (name, value, picky) {
+            uniformMatrix3: function (name, transpose, matrix) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform4fv(name, value, picky);
+                    program.uniformMatrix3(name, transpose, matrix);
                 });
             },
-            uniformMatrix2fv: function (name, transpose, matrix, picky) {
+            uniformMatrix4: function (name, transpose, matrix) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniformMatrix2fv(name, transpose, matrix, picky);
+                    program.uniformMatrix4(name, transpose, matrix);
                 });
             },
-            uniformMatrix3fv: function (name, transpose, matrix, picky) {
+            uniformVector3: function (name, vector) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniformMatrix3fv(name, transpose, matrix, picky);
-                });
-            },
-            uniformMatrix4fv: function (name, transpose, matrix, picky) {
-                traversePrograms(function (program) {
-                    program.use();
-                    program.uniformMatrix4fv(name, transpose, matrix, picky);
+                    program.uniformVector3(name, vector);
                 });
             },
             traverse: function (callback) {
@@ -3537,131 +3541,6 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
         return GeometryAdapter;
     })(DefaultAttribProvider);
     return GeometryAdapter;
-});
-
-define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    /**
-     * @class Spinor3
-     */
-    var Spinor3 = (function () {
-        function Spinor3(data) {
-            if (data === void 0) { data = [0, 0, 0, 1]; }
-            this.data = data;
-            this.modified = false;
-        }
-        Object.defineProperty(Spinor3.prototype, "data", {
-            get: function () {
-                if (this.$data) {
-                    return this.$data;
-                }
-                else if (this.$callback) {
-                    var data = this.$callback();
-                    expectArg('callback()', data).toSatisfy(data.length === 4, "callback() length must be 4");
-                    return this.$callback();
-                }
-                else {
-                    throw new Error("Vector3 is undefined.");
-                }
-            },
-            set: function (data) {
-                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
-                this.$data = data;
-                this.$callback = void 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "callback", {
-            get: function () {
-                return this.$callback;
-            },
-            set: function (reactTo) {
-                this.$callback = reactTo;
-                this.$data = void 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "yz", {
-            /**
-             * @property yz
-             * @type Number
-             */
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.yz !== value;
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "zx", {
-            /**
-             * @property zx
-             * @type Number
-             */
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.zx !== value;
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "xy", {
-            /**
-             * @property xy
-             * @type Number
-             */
-            get: function () {
-                return this.data[2];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.xy !== value;
-                this.data[2] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "w", {
-            /**
-             * @property w
-             * @type Number
-             */
-            get: function () {
-                return this.data[3];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Spinor3.prototype.clone = function () {
-            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
-        };
-        Spinor3.prototype.copy = function (spinor) {
-            this.yz = spinor.yz;
-            this.zx = spinor.zx;
-            this.xy = spinor.xy;
-            this.w = spinor.w;
-            return this;
-        };
-        /**
-         * @method toString
-         * @return {string} A non-normative string representation of the target.
-         */
-        Spinor3.prototype.toString = function () {
-            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
-        };
-        return Spinor3;
-    })();
-    return Spinor3;
 });
 
 define('davinci-eight/math/Vector2',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
@@ -7170,100 +7049,81 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../core
     return VortexGeometry;
 });
 
-define('davinci-eight/programs/setUniforms',["require", "exports"], function (require, exports) {
-    /**
-     * Set uniforms and binds related textures.
-     *
-     * example:
-     *
-     *     var programInfo = createProgramInfo(
-     *         gl, ["some-vs", "some-fs");
-     *
-     *     var tex1 = gl.createTexture();
-     *     var tex2 = gl.createTexture();
-     *
-     *     ... assume we setup the textures with data ...
-     *
-     *     var uniforms = {
-     *       u_someSampler: tex1,
-     *       u_someOtherSampler: tex2,
-     *       u_someColor: [1,0,0,1],
-     *       u_somePosition: [0,1,1],
-     *       u_someMatrix: [
-     *         1,0,0,0,
-     *         0,1,0,0,
-     *         0,0,1,0,
-     *         0,0,0,0,
-     *       ],
-     *     };
-     *
-     *     gl.useProgram(program);
-     *
-     * This will automatically bind the textures AND set the
-     * uniforms.
-     *
-     *     setUniforms(programInfo.uniformSetters, uniforms);
-     *
-     * For the example above it is equivalent to
-     *
-     *     var texUnit = 0;
-     *     gl.activeTexture(gl.TEXTURE0 + texUnit);
-     *     gl.bindTexture(gl.TEXTURE_2D, tex1);
-     *     gl.uniform1i(u_someSamplerLocation, texUnit++);
-     *     gl.activeTexture(gl.TEXTURE0 + texUnit);
-     *     gl.bindTexture(gl.TEXTURE_2D, tex2);
-     *     gl.uniform1i(u_someSamplerLocation, texUnit++);
-     *     gl.uniform4fv(u_someColorLocation, [1, 0, 0, 1]);
-     *     gl.uniform3fv(u_somePositionLocation, [0, 1, 1]);
-     *     gl.uniformMatrix4fv(u_someMatrix, false, [
-     *         1,0,0,0,
-     *         0,1,0,0,
-     *         0,0,1,0,
-     *         0,0,0,0,
-     *       ]);
-     *
-     * Note it is perfectly reasonable to call `setUniforms` multiple times. For example
-     *
-     *     var uniforms = {
-     *       u_someSampler: tex1,
-     *       u_someOtherSampler: tex2,
-     *     };
-     *
-     *     var moreUniforms {
-     *       u_someColor: [1,0,0,1],
-     *       u_somePosition: [0,1,1],
-     *       u_someMatrix: [
-     *         1,0,0,0,
-     *         0,1,0,0,
-     *         0,0,1,0,
-     *         0,0,0,0,
-     *       ],
-     *     };
-     *
-     *     setUniforms(programInfo.uniformSetters, uniforms);
-     *     setUniforms(programInfo.uniformSetters, moreUniforms);
-     *
-     * @param {Object.<string, function>} setters the setters returned from
-     *        `createUniformSetters`.
-     * @param {Object.<string, value>} an object with values for the
-     *        uniforms.
-     * @memberOf module:webgl-utils
-     */
-    function setUniforms(setters, values) {
-        // We work from the values, not the setters, because uniforms may be set piecemeal.
-        Object.keys(values).forEach(function (name) {
-            var setter = setters[name];
-            if (setter) {
-                setter(values[name]);
+define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
+    function uuid4() {
+        var maxFromBits = function (bits) {
+            return Math.pow(2, bits);
+        };
+        var limitUI04 = maxFromBits(4);
+        var limitUI06 = maxFromBits(6);
+        var limitUI08 = maxFromBits(8);
+        var limitUI12 = maxFromBits(12);
+        var limitUI14 = maxFromBits(14);
+        var limitUI16 = maxFromBits(16);
+        var limitUI32 = maxFromBits(32);
+        var limitUI40 = maxFromBits(40);
+        var limitUI48 = maxFromBits(48);
+        var getRandomInt = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+        var randomUI06 = function () {
+            return getRandomInt(0, limitUI06 - 1);
+        };
+        var randomUI08 = function () {
+            return getRandomInt(0, limitUI08 - 1);
+        };
+        var randomUI12 = function () {
+            return getRandomInt(0, limitUI12 - 1);
+        };
+        var randomUI16 = function () {
+            return getRandomInt(0, limitUI16 - 1);
+        };
+        var randomUI32 = function () {
+            return getRandomInt(0, limitUI32 - 1);
+        };
+        var randomUI48 = function () {
+            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
+        };
+        var paddedString = function (str, length, z) {
+            str = String(str);
+            z = (!z) ? '0' : z;
+            var i = length - str.length;
+            for (; i > 0; i >>>= 1, z += z) {
+                if (i & 1) {
+                    str = z + str;
+                }
             }
-            else {
+            return str;
+        };
+        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
+            var hex = paddedString(timeLow.toString(16), 8) +
+                '-' +
+                paddedString(timeMid.toString(16), 4) +
+                '-' +
+                paddedString(timeHiAndVersion.toString(16), 4) +
+                '-' +
+                paddedString(clockSeqHiAndReserved.toString(16), 2) +
+                paddedString(clockSeqLow.toString(16), 2) +
+                '-' +
+                paddedString(node.toString(16), 12);
+            return hex;
+        };
+        return {
+            generate: function () {
+                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
+            },
+            // addition by Ka-Jan to test for validity
+            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
+            validate: function (uuid) {
+                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                return testPattern.test(uuid);
             }
-        });
+        };
     }
-    return setUniforms;
+    return uuid4;
 });
 
-define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation', '../programs/setUniforms'], function (require, exports, expectArg, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation, setUniforms) {
+define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -7277,7 +7137,6 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
         var $context;
         var attributeLocations = {};
         var uniformLocations = {};
-        var uniformSetters = {};
         var self = {
             get vertexShader() {
                 return vertexShader;
@@ -7290,9 +7149,6 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
             },
             get uniformLocations() {
                 return uniformLocations;
-            },
-            get uniformSetters() {
-                return uniformSetters;
             },
             addRef: function () {
                 refCount++;
@@ -7344,10 +7200,9 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                         var activeInfo = context.getActiveUniform(program, u);
                         var name_2 = activeInfo.name;
                         if (!uniformLocations[name_2]) {
+                            // TODO: Since name MUST be part of Location, maybe should use an array?
                             // TODO: Seems like we should be able to make use of the size and type?
                             uniformLocations[name_2] = new ShaderUniformLocation(name_2);
-                            // TODO: Seems like create setter S/B redundant.
-                            uniformSetters[name_2] = uniformLocations[name_2].createSetter(context, activeInfo);
                         }
                     }
                     for (var aName in attributeLocations) {
@@ -7396,128 +7251,70 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                     }
                 }
             },
-            setUniforms: function (values) {
-                setUniforms(uniformSetters, values);
-            },
-            uniform1f: function (name, x, picky) {
+            uniform1f: function (name, x) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform1f(x);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniform1fv: function (name, data, picky) {
+            uniform1fv: function (name, data) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform1fv(data);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniform2f: function (name, x, y, picky) {
+            uniform2f: function (name, x, y) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform2f(x, y);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniform2fv: function (name, data, picky) {
+            uniform2fv: function (name, data) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform2fv(data);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniform3f: function (name, x, y, z, picky) {
+            uniform3f: function (name, x, y, z) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform3f(x, y, z);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniform3fv: function (name, data, picky) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform3fv(data);
-                }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
-            },
-            uniform4f: function (name, x, y, z, w, picky) {
+            uniform4f: function (name, x, y, z, w) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform4f(x, y, z, w);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniform4fv: function (name, data, picky) {
+            uniform4fv: function (name, data) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform4fv(data);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
-                }
             },
-            uniformMatrix2fv: function (name, transpose, matrix, picky) {
+            uniformMatrix2: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix2fv(transpose, matrix);
-                }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
+                    uniformLoc.uniformMatrix2(transpose, matrix);
                 }
             },
-            uniformMatrix3fv: function (name, transpose, matrix, picky) {
+            uniformMatrix3: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix3fv(transpose, matrix);
-                }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
+                    uniformLoc.uniformMatrix3(transpose, matrix);
                 }
             },
-            uniformMatrix4fv: function (name, transpose, matrix, picky) {
+            uniformMatrix4: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix4fv(transpose, matrix);
+                    uniformLoc.uniformMatrix4(transpose, matrix);
                 }
-                else {
-                    if (picky) {
-                        expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                    }
+            },
+            uniformVector3: function (name, vector) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformVector3(vector);
                 }
             }
         };
@@ -7564,6 +7361,43 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
     return shaderProgram;
 });
 
+define('davinci-eight/programs/fragmentShader',["require", "exports"], function (require, exports) {
+    /**
+     *
+     */
+    function fragmentShader(attributes, uniforms, vColor, vLight) {
+        var lines = [];
+        if (vColor) {
+            lines.push("varying highp vec4 vColor;");
+        }
+        if (vLight) {
+            lines.push("varying highp vec3 vLight;");
+        }
+        lines.push("void main(void) {");
+        var glFragColor = [];
+        if (vLight) {
+            if (vColor) {
+                lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
+            }
+            else {
+                lines.push("  gl_FragColor = vec4(vLight, 1.0);");
+            }
+        }
+        else {
+            if (vColor) {
+                lines.push("  gl_FragColor = vColor;");
+            }
+            else {
+                lines.push("  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
+            }
+        }
+        lines.push("}");
+        var code = lines.join("\n");
+        return code;
+    }
+    return fragmentShader;
+});
+
 define('davinci-eight/core/getAttribVarName',["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
     /**
      * Policy for how an attribute variable name is determined.
@@ -7578,7 +7412,7 @@ define('davinci-eight/core/getAttribVarName',["require", "exports", '../checks/i
 
 define('davinci-eight/core/getUniformVarName',["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
     /**
-     * Policy for how an uniform variable name is determined.
+     * Policy for how a uniform variable name is determined.
      */
     function getUniformVarName(uniform, varName) {
         expectArg('uniform', uniform).toBeObject();
@@ -7719,44 +7553,7 @@ define('davinci-eight/programs/vertexShader',["require", "exports", '../core/get
     return vertexShader;
 });
 
-define('davinci-eight/programs/fragmentShader',["require", "exports"], function (require, exports) {
-    /**
-     *
-     */
-    function fragmentShader(attributes, uniforms, vColor, vLight) {
-        var lines = [];
-        if (vColor) {
-            lines.push("varying highp vec4 vColor;");
-        }
-        if (vLight) {
-            lines.push("varying highp vec3 vLight;");
-        }
-        lines.push("void main(void) {");
-        var glFragColor = [];
-        if (vLight) {
-            if (vColor) {
-                lines.push("  gl_FragColor = vec4(vColor.xyz * vLight, vColor.a);");
-            }
-            else {
-                lines.push("  gl_FragColor = vec4(vLight, 1.0);");
-            }
-        }
-        else {
-            if (vColor) {
-                lines.push("  gl_FragColor = vColor;");
-            }
-            else {
-                lines.push("  gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);");
-            }
-        }
-        lines.push("}");
-        var code = lines.join("\n");
-        return code;
-    }
-    return fragmentShader;
-});
-
-define('davinci-eight/programs/smartProgram',["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/isDefined', '../programs/vertexShader', '../programs/fragmentShader'], function (require, exports, shaderProgram, Symbolic, isDefined, vertexShader, fragmentShader) {
+define('davinci-eight/programs/smartProgram',["require", "exports", '../programs/fragmentShader', '../checks/isDefined', './shaderProgram', '../core/Symbolic', '../programs/vertexShader'], function (require, exports, fragmentShader, isDefined, shaderProgram, Symbolic, vertexShader) {
     function vLightRequired(uniforms) {
         return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
     }
@@ -7797,9 +7594,6 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             get uniformLocations() {
                 return innerProgram.uniformLocations;
             },
-            get uniformSetters() {
-                return innerProgram.uniformSetters;
-            },
             get vertexShader() {
                 return innerProgram.vertexShader;
             },
@@ -7830,41 +7624,38 @@ define('davinci-eight/programs/smartProgram',["require", "exports", './shaderPro
             setAttributes: function (values) {
                 return innerProgram.setAttributes(values);
             },
-            setUniforms: function (values) {
-                return innerProgram.setUniforms(values);
+            uniform1f: function (name, x) {
+                return innerProgram.uniform1f(name, x);
             },
-            uniform1f: function (name, x, picky) {
-                return innerProgram.uniform1f(name, x, picky);
+            uniform1fv: function (name, value) {
+                return innerProgram.uniform1fv(name, value);
             },
-            uniform1fv: function (name, value, picky) {
-                return innerProgram.uniform1fv(name, value, picky);
+            uniform2f: function (name, x, y) {
+                return innerProgram.uniform2f(name, x, y);
             },
-            uniform2f: function (name, x, y, picky) {
-                return innerProgram.uniform2f(name, x, y, picky);
+            uniform2fv: function (name, value) {
+                return innerProgram.uniform2fv(name, value);
             },
-            uniform2fv: function (name, value, picky) {
-                return innerProgram.uniform2fv(name, value, picky);
+            uniform3f: function (name, x, y, z) {
+                return innerProgram.uniform3f(name, x, y, z);
             },
-            uniform3f: function (name, x, y, z, picky) {
-                return innerProgram.uniform3f(name, x, y, z, picky);
+            uniform4f: function (name, x, y, z, w) {
+                return innerProgram.uniform4f(name, x, y, z, w);
             },
-            uniform3fv: function (name, value, picky) {
-                return innerProgram.uniform3fv(name, value, picky);
+            uniform4fv: function (name, value) {
+                return innerProgram.uniform4fv(name, value);
             },
-            uniform4f: function (name, x, y, z, w, picky) {
-                return innerProgram.uniform4f(name, x, y, z, w, picky);
+            uniformMatrix2: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix2(name, transpose, matrix);
             },
-            uniform4fv: function (name, value, picky) {
-                return innerProgram.uniform4fv(name, value, picky);
+            uniformMatrix3: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix3(name, transpose, matrix);
             },
-            uniformMatrix2fv: function (name, transpose, matrix, picky) {
-                return innerProgram.uniformMatrix2fv(name, transpose, matrix, picky);
+            uniformMatrix4: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix4(name, transpose, matrix);
             },
-            uniformMatrix3fv: function (name, transpose, matrix, picky) {
-                return innerProgram.uniformMatrix3fv(name, transpose, matrix, picky);
-            },
-            uniformMatrix4fv: function (name, transpose, matrix, picky) {
-                return innerProgram.uniformMatrix4fv(name, transpose, matrix, picky);
+            uniformVector3: function (name, vector) {
+                return innerProgram.uniformVector3(name, vector);
             }
         };
         return self;
@@ -7899,131 +7690,6 @@ define('davinci-eight/programs/shaderProgramFromScripts',["require", "exports", 
         return shaderProgram(vertexShader, fragmentShader);
     }
     return shaderProgramFromScripts;
-});
-
-/**
- * @fileoverview gl-matrix - High performance matrix and vector operations
- * @author Brandon Jones
- * @author Colin MacKenzie IV
- * @version 2.3.0
- */
-
-/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE. */
-
-!function(t,n){if("object"==typeof exports&&"object"==typeof module)module.exports=n();else if("function"==typeof define&&define.amd)define('gl-matrix',n);else{var r=n();for(var a in r)("object"==typeof exports?exports:t)[a]=r[a]}}(this,function(){return function(t){function n(a){if(r[a])return r[a].exports;var e=r[a]={exports:{},id:a,loaded:!1};return t[a].call(e.exports,e,e.exports,n),e.loaded=!0,e.exports}var r={};return n.m=t,n.c=r,n.p="",n(0)}([function(t,n,r){n.glMatrix=r(1),n.mat2=r(2),n.mat2d=r(3),n.mat3=r(4),n.mat4=r(5),n.quat=r(6),n.vec2=r(9),n.vec3=r(7),n.vec4=r(8)},function(t,n){var r={};r.EPSILON=1e-6,r.ARRAY_TYPE="undefined"!=typeof Float32Array?Float32Array:Array,r.RANDOM=Math.random,r.setMatrixArrayType=function(t){GLMAT_ARRAY_TYPE=t};var a=Math.PI/180;r.toRadian=function(t){return t*a},t.exports=r},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(4);return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t},e.clone=function(t){var n=new a.ARRAY_TYPE(4);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t},e.transpose=function(t,n){if(t===n){var r=n[1];t[1]=n[2],t[2]=r}else t[0]=n[0],t[1]=n[2],t[2]=n[1],t[3]=n[3];return t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r*u-e*a;return o?(o=1/o,t[0]=u*o,t[1]=-a*o,t[2]=-e*o,t[3]=r*o,t):null},e.adjoint=function(t,n){var r=n[0];return t[0]=n[3],t[1]=-n[1],t[2]=-n[2],t[3]=r,t},e.determinant=function(t){return t[0]*t[3]-t[2]*t[1]},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=r[0],c=r[1],f=r[2],s=r[3];return t[0]=a*i+u*c,t[1]=e*i+o*c,t[2]=a*f+u*s,t[3]=e*f+o*s,t},e.mul=e.multiply,e.rotate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c+u*i,t[1]=e*c+o*i,t[2]=a*-i+u*c,t[3]=e*-i+o*c,t},e.scale=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=r[0],c=r[1];return t[0]=a*i,t[1]=e*i,t[2]=u*c,t[3]=o*c,t},e.fromRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=-r,t[3]=a,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=n[1],t},e.str=function(t){return"mat2("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2))},e.LDU=function(t,n,r,a){return t[2]=a[2]/a[0],r[0]=a[0],r[1]=a[1],r[3]=a[3]-t[2]*r[1],[t,n,r]},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(6);return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t[4]=0,t[5]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(6);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n[4]=t[4],n[5]=t[5],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[4]=n[4],t[5]=n[5],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t[4]=0,t[5]=0,t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=r*u-a*e;return c?(c=1/c,t[0]=u*c,t[1]=-a*c,t[2]=-e*c,t[3]=r*c,t[4]=(e*i-u*o)*c,t[5]=(a*o-r*i)*c,t):null},e.determinant=function(t){return t[0]*t[3]-t[1]*t[2]},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=r[0],s=r[1],h=r[2],M=r[3],l=r[4],v=r[5];return t[0]=a*f+u*s,t[1]=e*f+o*s,t[2]=a*h+u*M,t[3]=e*h+o*M,t[4]=a*l+u*v+i,t[5]=e*l+o*v+c,t},e.mul=e.multiply,e.rotate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=Math.sin(r),s=Math.cos(r);return t[0]=a*s+u*f,t[1]=e*s+o*f,t[2]=a*-f+u*s,t[3]=e*-f+o*s,t[4]=i,t[5]=c,t},e.scale=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=r[0],s=r[1];return t[0]=a*f,t[1]=e*f,t[2]=u*s,t[3]=o*s,t[4]=i,t[5]=c,t},e.translate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=r[0],s=r[1];return t[0]=a,t[1]=e,t[2]=u,t[3]=o,t[4]=a*f+u*s+i,t[5]=e*f+o*s+c,t},e.fromRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=-r,t[3]=a,t[4]=0,t[5]=0,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=n[1],t[4]=0,t[5]=0,t},e.fromTranslation=function(t,n){return t[0]=1,t[1]=0,t[2]=0,t[3]=1,t[4]=n[0],t[5]=n[1],t},e.str=function(t){return"mat2d("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+", "+t[4]+", "+t[5]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2)+Math.pow(t[4],2)+Math.pow(t[5],2)+1)},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(9);return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=1,t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.fromMat4=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[4],t[4]=n[5],t[5]=n[6],t[6]=n[8],t[7]=n[9],t[8]=n[10],t},e.clone=function(t){var n=new a.ARRAY_TYPE(9);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n[4]=t[4],n[5]=t[5],n[6]=t[6],n[7]=t[7],n[8]=t[8],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[4]=n[4],t[5]=n[5],t[6]=n[6],t[7]=n[7],t[8]=n[8],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=1,t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.transpose=function(t,n){if(t===n){var r=n[1],a=n[2],e=n[5];t[1]=n[3],t[2]=n[6],t[3]=r,t[5]=n[7],t[6]=a,t[7]=e}else t[0]=n[0],t[1]=n[3],t[2]=n[6],t[3]=n[1],t[4]=n[4],t[5]=n[7],t[6]=n[2],t[7]=n[5],t[8]=n[8];return t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=s*o-i*f,M=-s*u+i*c,l=f*u-o*c,v=r*h+a*M+e*l;return v?(v=1/v,t[0]=h*v,t[1]=(-s*a+e*f)*v,t[2]=(i*a-e*o)*v,t[3]=M*v,t[4]=(s*r-e*c)*v,t[5]=(-i*r+e*u)*v,t[6]=l*v,t[7]=(-f*r+a*c)*v,t[8]=(o*r-a*u)*v,t):null},e.adjoint=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8];return t[0]=o*s-i*f,t[1]=e*f-a*s,t[2]=a*i-e*o,t[3]=i*c-u*s,t[4]=r*s-e*c,t[5]=e*u-r*i,t[6]=u*f-o*c,t[7]=a*c-r*f,t[8]=r*o-a*u,t},e.determinant=function(t){var n=t[0],r=t[1],a=t[2],e=t[3],u=t[4],o=t[5],i=t[6],c=t[7],f=t[8];return n*(f*u-o*c)+r*(-f*e+o*i)+a*(c*e-u*i)},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=r[0],l=r[1],v=r[2],m=r[3],p=r[4],d=r[5],A=r[6],R=r[7],w=r[8];return t[0]=M*a+l*o+v*f,t[1]=M*e+l*i+v*s,t[2]=M*u+l*c+v*h,t[3]=m*a+p*o+d*f,t[4]=m*e+p*i+d*s,t[5]=m*u+p*c+d*h,t[6]=A*a+R*o+w*f,t[7]=A*e+R*i+w*s,t[8]=A*u+R*c+w*h,t},e.mul=e.multiply,e.translate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=r[0],l=r[1];return t[0]=a,t[1]=e,t[2]=u,t[3]=o,t[4]=i,t[5]=c,t[6]=M*a+l*o+f,t[7]=M*e+l*i+s,t[8]=M*u+l*c+h,t},e.rotate=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=Math.sin(r),l=Math.cos(r);return t[0]=l*a+M*o,t[1]=l*e+M*i,t[2]=l*u+M*c,t[3]=l*o-M*a,t[4]=l*i-M*e,t[5]=l*c-M*u,t[6]=f,t[7]=s,t[8]=h,t},e.scale=function(t,n,r){var a=r[0],e=r[1];return t[0]=a*n[0],t[1]=a*n[1],t[2]=a*n[2],t[3]=e*n[3],t[4]=e*n[4],t[5]=e*n[5],t[6]=n[6],t[7]=n[7],t[8]=n[8],t},e.fromTranslation=function(t,n){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=1,t[5]=0,t[6]=n[0],t[7]=n[1],t[8]=1,t},e.fromRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=0,t[3]=-r,t[4]=a,t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=0,t[4]=n[1],t[5]=0,t[6]=0,t[7]=0,t[8]=1,t},e.fromMat2d=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=0,t[3]=n[2],t[4]=n[3],t[5]=0,t[6]=n[4],t[7]=n[5],t[8]=1,t},e.fromQuat=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r+r,i=a+a,c=e+e,f=r*o,s=a*o,h=a*i,M=e*o,l=e*i,v=e*c,m=u*o,p=u*i,d=u*c;return t[0]=1-h-v,t[3]=s-d,t[6]=M+p,t[1]=s+d,t[4]=1-f-v,t[7]=l-m,t[2]=M-p,t[5]=l+m,t[8]=1-f-h,t},e.normalFromMat4=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=n[9],M=n[10],l=n[11],v=n[12],m=n[13],p=n[14],d=n[15],A=r*i-a*o,R=r*c-e*o,w=r*f-u*o,q=a*c-e*i,Y=a*f-u*i,g=e*f-u*c,y=s*m-h*v,x=s*p-M*v,P=s*d-l*v,E=h*p-M*m,T=h*d-l*m,b=M*d-l*p,D=A*b-R*T+w*E+q*P-Y*x+g*y;return D?(D=1/D,t[0]=(i*b-c*T+f*E)*D,t[1]=(c*P-o*b-f*x)*D,t[2]=(o*T-i*P+f*y)*D,t[3]=(e*T-a*b-u*E)*D,t[4]=(r*b-e*P+u*x)*D,t[5]=(a*P-r*T-u*y)*D,t[6]=(m*g-p*Y+d*q)*D,t[7]=(p*w-v*g-d*R)*D,t[8]=(v*Y-m*w+d*A)*D,t):null},e.str=function(t){return"mat3("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+", "+t[4]+", "+t[5]+", "+t[6]+", "+t[7]+", "+t[8]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2)+Math.pow(t[4],2)+Math.pow(t[5],2)+Math.pow(t[6],2)+Math.pow(t[7],2)+Math.pow(t[8],2))},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(16);return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.clone=function(t){var n=new a.ARRAY_TYPE(16);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n[4]=t[4],n[5]=t[5],n[6]=t[6],n[7]=t[7],n[8]=t[8],n[9]=t[9],n[10]=t[10],n[11]=t[11],n[12]=t[12],n[13]=t[13],n[14]=t[14],n[15]=t[15],n},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[4]=n[4],t[5]=n[5],t[6]=n[6],t[7]=n[7],t[8]=n[8],t[9]=n[9],t[10]=n[10],t[11]=n[11],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15],t},e.identity=function(t){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.transpose=function(t,n){if(t===n){var r=n[1],a=n[2],e=n[3],u=n[6],o=n[7],i=n[11];t[1]=n[4],t[2]=n[8],t[3]=n[12],t[4]=r,t[6]=n[9],t[7]=n[13],t[8]=a,t[9]=u,t[11]=n[14],t[12]=e,t[13]=o,t[14]=i}else t[0]=n[0],t[1]=n[4],t[2]=n[8],t[3]=n[12],t[4]=n[1],t[5]=n[5],t[6]=n[9],t[7]=n[13],t[8]=n[2],t[9]=n[6],t[10]=n[10],t[11]=n[14],t[12]=n[3],t[13]=n[7],t[14]=n[11],t[15]=n[15];return t},e.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=n[9],M=n[10],l=n[11],v=n[12],m=n[13],p=n[14],d=n[15],A=r*i-a*o,R=r*c-e*o,w=r*f-u*o,q=a*c-e*i,Y=a*f-u*i,g=e*f-u*c,y=s*m-h*v,x=s*p-M*v,P=s*d-l*v,E=h*p-M*m,T=h*d-l*m,b=M*d-l*p,D=A*b-R*T+w*E+q*P-Y*x+g*y;return D?(D=1/D,t[0]=(i*b-c*T+f*E)*D,t[1]=(e*T-a*b-u*E)*D,t[2]=(m*g-p*Y+d*q)*D,t[3]=(M*Y-h*g-l*q)*D,t[4]=(c*P-o*b-f*x)*D,t[5]=(r*b-e*P+u*x)*D,t[6]=(p*w-v*g-d*R)*D,t[7]=(s*g-M*w+l*R)*D,t[8]=(o*T-i*P+f*y)*D,t[9]=(a*P-r*T-u*y)*D,t[10]=(v*Y-m*w+d*A)*D,t[11]=(h*w-s*Y-l*A)*D,t[12]=(i*x-o*E-c*y)*D,t[13]=(r*E-a*x+e*y)*D,t[14]=(m*R-v*q-p*A)*D,t[15]=(s*q-h*R+M*A)*D,t):null},e.adjoint=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=n[4],i=n[5],c=n[6],f=n[7],s=n[8],h=n[9],M=n[10],l=n[11],v=n[12],m=n[13],p=n[14],d=n[15];return t[0]=i*(M*d-l*p)-h*(c*d-f*p)+m*(c*l-f*M),t[1]=-(a*(M*d-l*p)-h*(e*d-u*p)+m*(e*l-u*M)),t[2]=a*(c*d-f*p)-i*(e*d-u*p)+m*(e*f-u*c),t[3]=-(a*(c*l-f*M)-i*(e*l-u*M)+h*(e*f-u*c)),t[4]=-(o*(M*d-l*p)-s*(c*d-f*p)+v*(c*l-f*M)),t[5]=r*(M*d-l*p)-s*(e*d-u*p)+v*(e*l-u*M),t[6]=-(r*(c*d-f*p)-o*(e*d-u*p)+v*(e*f-u*c)),t[7]=r*(c*l-f*M)-o*(e*l-u*M)+s*(e*f-u*c),t[8]=o*(h*d-l*m)-s*(i*d-f*m)+v*(i*l-f*h),t[9]=-(r*(h*d-l*m)-s*(a*d-u*m)+v*(a*l-u*h)),t[10]=r*(i*d-f*m)-o*(a*d-u*m)+v*(a*f-u*i),t[11]=-(r*(i*l-f*h)-o*(a*l-u*h)+s*(a*f-u*i)),t[12]=-(o*(h*p-M*m)-s*(i*p-c*m)+v*(i*M-c*h)),t[13]=r*(h*p-M*m)-s*(a*p-e*m)+v*(a*M-e*h),t[14]=-(r*(i*p-c*m)-o*(a*p-e*m)+v*(a*c-e*i)),t[15]=r*(i*M-c*h)-o*(a*M-e*h)+s*(a*c-e*i),t},e.determinant=function(t){var n=t[0],r=t[1],a=t[2],e=t[3],u=t[4],o=t[5],i=t[6],c=t[7],f=t[8],s=t[9],h=t[10],M=t[11],l=t[12],v=t[13],m=t[14],p=t[15],d=n*o-r*u,A=n*i-a*u,R=n*c-e*u,w=r*i-a*o,q=r*c-e*o,Y=a*c-e*i,g=f*v-s*l,y=f*m-h*l,x=f*p-M*l,P=s*m-h*v,E=s*p-M*v,T=h*p-M*m;return d*T-A*E+R*P+w*x-q*y+Y*g},e.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=n[9],l=n[10],v=n[11],m=n[12],p=n[13],d=n[14],A=n[15],R=r[0],w=r[1],q=r[2],Y=r[3];return t[0]=R*a+w*i+q*h+Y*m,t[1]=R*e+w*c+q*M+Y*p,t[2]=R*u+w*f+q*l+Y*d,t[3]=R*o+w*s+q*v+Y*A,R=r[4],w=r[5],q=r[6],Y=r[7],t[4]=R*a+w*i+q*h+Y*m,t[5]=R*e+w*c+q*M+Y*p,t[6]=R*u+w*f+q*l+Y*d,t[7]=R*o+w*s+q*v+Y*A,R=r[8],w=r[9],q=r[10],Y=r[11],t[8]=R*a+w*i+q*h+Y*m,t[9]=R*e+w*c+q*M+Y*p,t[10]=R*u+w*f+q*l+Y*d,t[11]=R*o+w*s+q*v+Y*A,R=r[12],w=r[13],q=r[14],Y=r[15],t[12]=R*a+w*i+q*h+Y*m,t[13]=R*e+w*c+q*M+Y*p,t[14]=R*u+w*f+q*l+Y*d,t[15]=R*o+w*s+q*v+Y*A,t},e.mul=e.multiply,e.translate=function(t,n,r){var a,e,u,o,i,c,f,s,h,M,l,v,m=r[0],p=r[1],d=r[2];return n===t?(t[12]=n[0]*m+n[4]*p+n[8]*d+n[12],t[13]=n[1]*m+n[5]*p+n[9]*d+n[13],t[14]=n[2]*m+n[6]*p+n[10]*d+n[14],t[15]=n[3]*m+n[7]*p+n[11]*d+n[15]):(a=n[0],e=n[1],u=n[2],o=n[3],i=n[4],c=n[5],f=n[6],s=n[7],h=n[8],M=n[9],l=n[10],v=n[11],t[0]=a,t[1]=e,t[2]=u,t[3]=o,t[4]=i,t[5]=c,t[6]=f,t[7]=s,t[8]=h,t[9]=M,t[10]=l,t[11]=v,t[12]=a*m+i*p+h*d+n[12],t[13]=e*m+c*p+M*d+n[13],t[14]=u*m+f*p+l*d+n[14],t[15]=o*m+s*p+v*d+n[15]),t},e.scale=function(t,n,r){var a=r[0],e=r[1],u=r[2];return t[0]=n[0]*a,t[1]=n[1]*a,t[2]=n[2]*a,t[3]=n[3]*a,t[4]=n[4]*e,t[5]=n[5]*e,t[6]=n[6]*e,t[7]=n[7]*e,t[8]=n[8]*u,t[9]=n[9]*u,t[10]=n[10]*u,t[11]=n[11]*u,t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15],t},e.rotate=function(t,n,r,e){var u,o,i,c,f,s,h,M,l,v,m,p,d,A,R,w,q,Y,g,y,x,P,E,T,b=e[0],D=e[1],L=e[2],_=Math.sqrt(b*b+D*D+L*L);return Math.abs(_)<a.EPSILON?null:(_=1/_,b*=_,D*=_,L*=_,u=Math.sin(r),o=Math.cos(r),i=1-o,c=n[0],f=n[1],s=n[2],h=n[3],M=n[4],l=n[5],v=n[6],m=n[7],p=n[8],d=n[9],A=n[10],R=n[11],w=b*b*i+o,q=D*b*i+L*u,Y=L*b*i-D*u,g=b*D*i-L*u,y=D*D*i+o,x=L*D*i+b*u,P=b*L*i+D*u,E=D*L*i-b*u,T=L*L*i+o,t[0]=c*w+M*q+p*Y,t[1]=f*w+l*q+d*Y,t[2]=s*w+v*q+A*Y,t[3]=h*w+m*q+R*Y,t[4]=c*g+M*y+p*x,t[5]=f*g+l*y+d*x,t[6]=s*g+v*y+A*x,t[7]=h*g+m*y+R*x,t[8]=c*P+M*E+p*T,t[9]=f*P+l*E+d*T,t[10]=s*P+v*E+A*T,t[11]=h*P+m*E+R*T,n!==t&&(t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t)},e.rotateX=function(t,n,r){var a=Math.sin(r),e=Math.cos(r),u=n[4],o=n[5],i=n[6],c=n[7],f=n[8],s=n[9],h=n[10],M=n[11];return n!==t&&(t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t[4]=u*e+f*a,t[5]=o*e+s*a,t[6]=i*e+h*a,t[7]=c*e+M*a,t[8]=f*e-u*a,t[9]=s*e-o*a,t[10]=h*e-i*a,t[11]=M*e-c*a,t},e.rotateY=function(t,n,r){var a=Math.sin(r),e=Math.cos(r),u=n[0],o=n[1],i=n[2],c=n[3],f=n[8],s=n[9],h=n[10],M=n[11];return n!==t&&(t[4]=n[4],t[5]=n[5],t[6]=n[6],t[7]=n[7],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t[0]=u*e-f*a,t[1]=o*e-s*a,t[2]=i*e-h*a,t[3]=c*e-M*a,t[8]=u*a+f*e,t[9]=o*a+s*e,t[10]=i*a+h*e,t[11]=c*a+M*e,t},e.rotateZ=function(t,n,r){var a=Math.sin(r),e=Math.cos(r),u=n[0],o=n[1],i=n[2],c=n[3],f=n[4],s=n[5],h=n[6],M=n[7];return n!==t&&(t[8]=n[8],t[9]=n[9],t[10]=n[10],t[11]=n[11],t[12]=n[12],t[13]=n[13],t[14]=n[14],t[15]=n[15]),t[0]=u*e+f*a,t[1]=o*e+s*a,t[2]=i*e+h*a,t[3]=c*e+M*a,t[4]=f*e-u*a,t[5]=s*e-o*a,t[6]=h*e-i*a,t[7]=M*e-c*a,t},e.fromTranslation=function(t,n){return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=n[0],t[13]=n[1],t[14]=n[2],t[15]=1,t},e.fromScaling=function(t,n){return t[0]=n[0],t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=n[1],t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=n[2],t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromRotation=function(t,n,r){var e,u,o,i=r[0],c=r[1],f=r[2],s=Math.sqrt(i*i+c*c+f*f);return Math.abs(s)<a.EPSILON?null:(s=1/s,i*=s,c*=s,f*=s,e=Math.sin(n),u=Math.cos(n),o=1-u,t[0]=i*i*o+u,t[1]=c*i*o+f*e,t[2]=f*i*o-c*e,t[3]=0,t[4]=i*c*o-f*e,t[5]=c*c*o+u,t[6]=f*c*o+i*e,t[7]=0,t[8]=i*f*o+c*e,t[9]=c*f*o-i*e,t[10]=f*f*o+u,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t)},e.fromXRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=1,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=a,t[6]=r,t[7]=0,t[8]=0,t[9]=-r,t[10]=a,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromYRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=0,t[2]=-r,t[3]=0,t[4]=0,t[5]=1,t[6]=0,t[7]=0,t[8]=r,t[9]=0,t[10]=a,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromZRotation=function(t,n){var r=Math.sin(n),a=Math.cos(n);return t[0]=a,t[1]=r,t[2]=0,t[3]=0,t[4]=-r,t[5]=a,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=1,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.fromRotationTranslation=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=a+a,c=e+e,f=u+u,s=a*i,h=a*c,M=a*f,l=e*c,v=e*f,m=u*f,p=o*i,d=o*c,A=o*f;return t[0]=1-(l+m),t[1]=h+A,t[2]=M-d,t[3]=0,t[4]=h-A,t[5]=1-(s+m),t[6]=v+p,t[7]=0,t[8]=M+d,t[9]=v-p,t[10]=1-(s+l),t[11]=0,t[12]=r[0],t[13]=r[1],t[14]=r[2],t[15]=1,t},e.fromRotationTranslationScale=function(t,n,r,a){var e=n[0],u=n[1],o=n[2],i=n[3],c=e+e,f=u+u,s=o+o,h=e*c,M=e*f,l=e*s,v=u*f,m=u*s,p=o*s,d=i*c,A=i*f,R=i*s,w=a[0],q=a[1],Y=a[2];return t[0]=(1-(v+p))*w,t[1]=(M+R)*w,t[2]=(l-A)*w,t[3]=0,t[4]=(M-R)*q,t[5]=(1-(h+p))*q,t[6]=(m+d)*q,t[7]=0,t[8]=(l+A)*Y,t[9]=(m-d)*Y,t[10]=(1-(h+v))*Y,t[11]=0,t[12]=r[0],t[13]=r[1],t[14]=r[2],t[15]=1,t},e.fromRotationTranslationScaleOrigin=function(t,n,r,a,e){var u=n[0],o=n[1],i=n[2],c=n[3],f=u+u,s=o+o,h=i+i,M=u*f,l=u*s,v=u*h,m=o*s,p=o*h,d=i*h,A=c*f,R=c*s,w=c*h,q=a[0],Y=a[1],g=a[2],y=e[0],x=e[1],P=e[2];return t[0]=(1-(m+d))*q,t[1]=(l+w)*q,t[2]=(v-R)*q,t[3]=0,t[4]=(l-w)*Y,t[5]=(1-(M+d))*Y,t[6]=(p+A)*Y,t[7]=0,t[8]=(v+R)*g,t[9]=(p-A)*g,t[10]=(1-(M+m))*g,t[11]=0,t[12]=r[0]+y-(t[0]*y+t[4]*x+t[8]*P),t[13]=r[1]+x-(t[1]*y+t[5]*x+t[9]*P),t[14]=r[2]+P-(t[2]*y+t[6]*x+t[10]*P),t[15]=1,t},e.fromQuat=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r+r,i=a+a,c=e+e,f=r*o,s=a*o,h=a*i,M=e*o,l=e*i,v=e*c,m=u*o,p=u*i,d=u*c;return t[0]=1-h-v,t[1]=s+d,t[2]=M-p,t[3]=0,t[4]=s-d,t[5]=1-f-v,t[6]=l+m,t[7]=0,t[8]=M+p,t[9]=l-m,t[10]=1-f-h,t[11]=0,t[12]=0,t[13]=0,t[14]=0,t[15]=1,t},e.frustum=function(t,n,r,a,e,u,o){var i=1/(r-n),c=1/(e-a),f=1/(u-o);return t[0]=2*u*i,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=2*u*c,t[6]=0,t[7]=0,t[8]=(r+n)*i,t[9]=(e+a)*c,t[10]=(o+u)*f,t[11]=-1,t[12]=0,t[13]=0,t[14]=o*u*2*f,t[15]=0,t},e.perspective=function(t,n,r,a,e){var u=1/Math.tan(n/2),o=1/(a-e);return t[0]=u/r,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=u,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=(e+a)*o,t[11]=-1,t[12]=0,t[13]=0,t[14]=2*e*a*o,t[15]=0,t},e.perspectiveFromFieldOfView=function(t,n,r,a){var e=Math.tan(n.upDegrees*Math.PI/180),u=Math.tan(n.downDegrees*Math.PI/180),o=Math.tan(n.leftDegrees*Math.PI/180),i=Math.tan(n.rightDegrees*Math.PI/180),c=2/(o+i),f=2/(e+u);return t[0]=c,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=f,t[6]=0,t[7]=0,t[8]=-((o-i)*c*.5),t[9]=(e-u)*f*.5,t[10]=a/(r-a),t[11]=-1,t[12]=0,t[13]=0,t[14]=a*r/(r-a),t[15]=0,t},e.ortho=function(t,n,r,a,e,u,o){var i=1/(n-r),c=1/(a-e),f=1/(u-o);return t[0]=-2*i,t[1]=0,t[2]=0,t[3]=0,t[4]=0,t[5]=-2*c,t[6]=0,t[7]=0,t[8]=0,t[9]=0,t[10]=2*f,t[11]=0,t[12]=(n+r)*i,t[13]=(e+a)*c,t[14]=(o+u)*f,t[15]=1,t},e.lookAt=function(t,n,r,u){var o,i,c,f,s,h,M,l,v,m,p=n[0],d=n[1],A=n[2],R=u[0],w=u[1],q=u[2],Y=r[0],g=r[1],y=r[2];return Math.abs(p-Y)<a.EPSILON&&Math.abs(d-g)<a.EPSILON&&Math.abs(A-y)<a.EPSILON?e.identity(t):(M=p-Y,l=d-g,v=A-y,m=1/Math.sqrt(M*M+l*l+v*v),M*=m,l*=m,v*=m,o=w*v-q*l,i=q*M-R*v,c=R*l-w*M,m=Math.sqrt(o*o+i*i+c*c),m?(m=1/m,o*=m,i*=m,c*=m):(o=0,i=0,c=0),f=l*c-v*i,s=v*o-M*c,h=M*i-l*o,m=Math.sqrt(f*f+s*s+h*h),m?(m=1/m,f*=m,s*=m,h*=m):(f=0,s=0,h=0),t[0]=o,t[1]=f,t[2]=M,t[3]=0,t[4]=i,t[5]=s,t[6]=l,t[7]=0,t[8]=c,t[9]=h,t[10]=v,t[11]=0,t[12]=-(o*p+i*d+c*A),t[13]=-(f*p+s*d+h*A),t[14]=-(M*p+l*d+v*A),t[15]=1,t)},e.str=function(t){return"mat4("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+", "+t[4]+", "+t[5]+", "+t[6]+", "+t[7]+", "+t[8]+", "+t[9]+", "+t[10]+", "+t[11]+", "+t[12]+", "+t[13]+", "+t[14]+", "+t[15]+")"},e.frob=function(t){return Math.sqrt(Math.pow(t[0],2)+Math.pow(t[1],2)+Math.pow(t[2],2)+Math.pow(t[3],2)+Math.pow(t[4],2)+Math.pow(t[5],2)+Math.pow(t[6],2)+Math.pow(t[7],2)+Math.pow(t[8],2)+Math.pow(t[9],2)+Math.pow(t[10],2)+Math.pow(t[11],2)+Math.pow(t[12],2)+Math.pow(t[13],2)+Math.pow(t[14],2)+Math.pow(t[15],2))},t.exports=e},function(t,n,r){var a=r(1),e=r(4),u=r(7),o=r(8),i={};i.create=function(){var t=new a.ARRAY_TYPE(4);return t[0]=0,t[1]=0,t[2]=0,t[3]=1,t},i.rotationTo=function(){var t=u.create(),n=u.fromValues(1,0,0),r=u.fromValues(0,1,0);return function(a,e,o){var c=u.dot(e,o);return-.999999>c?(u.cross(t,n,e),u.length(t)<1e-6&&u.cross(t,r,e),u.normalize(t,t),i.setAxisAngle(a,t,Math.PI),a):c>.999999?(a[0]=0,a[1]=0,a[2]=0,a[3]=1,a):(u.cross(t,e,o),a[0]=t[0],a[1]=t[1],a[2]=t[2],a[3]=1+c,i.normalize(a,a))}}(),i.setAxes=function(){var t=e.create();return function(n,r,a,e){return t[0]=a[0],t[3]=a[1],t[6]=a[2],t[1]=e[0],t[4]=e[1],t[7]=e[2],t[2]=-r[0],t[5]=-r[1],t[8]=-r[2],i.normalize(n,i.fromMat3(n,t))}}(),i.clone=o.clone,i.fromValues=o.fromValues,i.copy=o.copy,i.set=o.set,i.identity=function(t){return t[0]=0,t[1]=0,t[2]=0,t[3]=1,t},i.setAxisAngle=function(t,n,r){r=.5*r;var a=Math.sin(r);return t[0]=a*n[0],t[1]=a*n[1],t[2]=a*n[2],t[3]=Math.cos(r),t},i.add=o.add,i.multiply=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3],i=r[0],c=r[1],f=r[2],s=r[3];return t[0]=a*s+o*i+e*f-u*c,t[1]=e*s+o*c+u*i-a*f,t[2]=u*s+o*f+a*c-e*i,t[3]=o*s-a*i-e*c-u*f,t},i.mul=i.multiply,i.scale=o.scale,i.rotateX=function(t,n,r){r*=.5;var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c+o*i,t[1]=e*c+u*i,t[2]=u*c-e*i,t[3]=o*c-a*i,t},i.rotateY=function(t,n,r){r*=.5;var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c-u*i,t[1]=e*c+o*i,t[2]=u*c+a*i,t[3]=o*c-e*i,t},i.rotateZ=function(t,n,r){r*=.5;var a=n[0],e=n[1],u=n[2],o=n[3],i=Math.sin(r),c=Math.cos(r);return t[0]=a*c+e*i,t[1]=e*c-a*i,t[2]=u*c+o*i,t[3]=o*c-u*i,t},i.calculateW=function(t,n){var r=n[0],a=n[1],e=n[2];return t[0]=r,t[1]=a,t[2]=e,t[3]=Math.sqrt(Math.abs(1-r*r-a*a-e*e)),t},i.dot=o.dot,i.lerp=o.lerp,i.slerp=function(t,n,r,a){var e,u,o,i,c,f=n[0],s=n[1],h=n[2],M=n[3],l=r[0],v=r[1],m=r[2],p=r[3];return u=f*l+s*v+h*m+M*p,0>u&&(u=-u,l=-l,v=-v,m=-m,p=-p),1-u>1e-6?(e=Math.acos(u),o=Math.sin(e),i=Math.sin((1-a)*e)/o,c=Math.sin(a*e)/o):(i=1-a,c=a),t[0]=i*f+c*l,t[1]=i*s+c*v,t[2]=i*h+c*m,t[3]=i*M+c*p,t},i.sqlerp=function(){var t=i.create(),n=i.create();return function(r,a,e,u,o,c){return i.slerp(t,a,o,c),i.slerp(n,e,u,c),i.slerp(r,t,n,2*c*(1-c)),r}}(),i.invert=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r*r+a*a+e*e+u*u,i=o?1/o:0;return t[0]=-r*i,t[1]=-a*i,t[2]=-e*i,t[3]=u*i,t},i.conjugate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t[2]=-n[2],t[3]=n[3],t},i.length=o.length,i.len=i.length,i.squaredLength=o.squaredLength,i.sqrLen=i.squaredLength,i.normalize=o.normalize,i.fromMat3=function(t,n){var r,a=n[0]+n[4]+n[8];if(a>0)r=Math.sqrt(a+1),t[3]=.5*r,r=.5/r,t[0]=(n[5]-n[7])*r,t[1]=(n[6]-n[2])*r,t[2]=(n[1]-n[3])*r;else{var e=0;n[4]>n[0]&&(e=1),n[8]>n[3*e+e]&&(e=2);var u=(e+1)%3,o=(e+2)%3;r=Math.sqrt(n[3*e+e]-n[3*u+u]-n[3*o+o]+1),t[e]=.5*r,r=.5/r,t[3]=(n[3*u+o]-n[3*o+u])*r,t[u]=(n[3*u+e]+n[3*e+u])*r,t[o]=(n[3*o+e]+n[3*e+o])*r}return t},i.str=function(t){return"quat("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+")"},t.exports=i},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(3);return t[0]=0,t[1]=0,t[2]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(3);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n},e.fromValues=function(t,n,r){var e=new a.ARRAY_TYPE(3);return e[0]=t,e[1]=n,e[2]=r,e},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t},e.set=function(t,n,r,a){return t[0]=n,t[1]=r,t[2]=a,t},e.add=function(t,n,r){return t[0]=n[0]+r[0],t[1]=n[1]+r[1],t[2]=n[2]+r[2],t},e.subtract=function(t,n,r){return t[0]=n[0]-r[0],t[1]=n[1]-r[1],t[2]=n[2]-r[2],t},e.sub=e.subtract,e.multiply=function(t,n,r){return t[0]=n[0]*r[0],t[1]=n[1]*r[1],t[2]=n[2]*r[2],t},e.mul=e.multiply,e.divide=function(t,n,r){return t[0]=n[0]/r[0],t[1]=n[1]/r[1],t[2]=n[2]/r[2],t},e.div=e.divide,e.min=function(t,n,r){return t[0]=Math.min(n[0],r[0]),t[1]=Math.min(n[1],r[1]),t[2]=Math.min(n[2],r[2]),t},e.max=function(t,n,r){return t[0]=Math.max(n[0],r[0]),t[1]=Math.max(n[1],r[1]),t[2]=Math.max(n[2],r[2]),t},e.scale=function(t,n,r){return t[0]=n[0]*r,t[1]=n[1]*r,t[2]=n[2]*r,t},e.scaleAndAdd=function(t,n,r,a){return t[0]=n[0]+r[0]*a,t[1]=n[1]+r[1]*a,t[2]=n[2]+r[2]*a,t},e.distance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2];return Math.sqrt(r*r+a*a+e*e)},e.dist=e.distance,e.squaredDistance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2];return r*r+a*a+e*e},e.sqrDist=e.squaredDistance,e.length=function(t){var n=t[0],r=t[1],a=t[2];return Math.sqrt(n*n+r*r+a*a)},e.len=e.length,e.squaredLength=function(t){var n=t[0],r=t[1],a=t[2];return n*n+r*r+a*a},e.sqrLen=e.squaredLength,e.negate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t[2]=-n[2],t},e.inverse=function(t,n){return t[0]=1/n[0],t[1]=1/n[1],t[2]=1/n[2],t},e.normalize=function(t,n){var r=n[0],a=n[1],e=n[2],u=r*r+a*a+e*e;return u>0&&(u=1/Math.sqrt(u),t[0]=n[0]*u,t[1]=n[1]*u,t[2]=n[2]*u),t},e.dot=function(t,n){return t[0]*n[0]+t[1]*n[1]+t[2]*n[2]},e.cross=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[0],i=r[1],c=r[2];return t[0]=e*c-u*i,t[1]=u*o-a*c,t[2]=a*i-e*o,t},e.lerp=function(t,n,r,a){var e=n[0],u=n[1],o=n[2];return t[0]=e+a*(r[0]-e),t[1]=u+a*(r[1]-u),t[2]=o+a*(r[2]-o),t},e.hermite=function(t,n,r,a,e,u){var o=u*u,i=o*(2*u-3)+1,c=o*(u-2)+u,f=o*(u-1),s=o*(3-2*u);return t[0]=n[0]*i+r[0]*c+a[0]*f+e[0]*s,t[1]=n[1]*i+r[1]*c+a[1]*f+e[1]*s,t[2]=n[2]*i+r[2]*c+a[2]*f+e[2]*s,t},e.bezier=function(t,n,r,a,e,u){var o=1-u,i=o*o,c=u*u,f=i*o,s=3*u*i,h=3*c*o,M=c*u;return t[0]=n[0]*f+r[0]*s+a[0]*h+e[0]*M,t[1]=n[1]*f+r[1]*s+a[1]*h+e[1]*M,t[2]=n[2]*f+r[2]*s+a[2]*h+e[2]*M,t},e.random=function(t,n){n=n||1;var r=2*a.RANDOM()*Math.PI,e=2*a.RANDOM()-1,u=Math.sqrt(1-e*e)*n;return t[0]=Math.cos(r)*u,t[1]=Math.sin(r)*u,t[2]=e*n,t},e.transformMat4=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[3]*a+r[7]*e+r[11]*u+r[15];return o=o||1,t[0]=(r[0]*a+r[4]*e+r[8]*u+r[12])/o,t[1]=(r[1]*a+r[5]*e+r[9]*u+r[13])/o,t[2]=(r[2]*a+r[6]*e+r[10]*u+r[14])/o,t},e.transformMat3=function(t,n,r){var a=n[0],e=n[1],u=n[2];return t[0]=a*r[0]+e*r[3]+u*r[6],t[1]=a*r[1]+e*r[4]+u*r[7],t[2]=a*r[2]+e*r[5]+u*r[8],t},e.transformQuat=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[0],i=r[1],c=r[2],f=r[3],s=f*a+i*u-c*e,h=f*e+c*a-o*u,M=f*u+o*e-i*a,l=-o*a-i*e-c*u;return t[0]=s*f+l*-o+h*-c-M*-i,t[1]=h*f+l*-i+M*-o-s*-c,t[2]=M*f+l*-c+s*-i-h*-o,t},e.rotateX=function(t,n,r,a){var e=[],u=[];return e[0]=n[0]-r[0],e[1]=n[1]-r[1],e[2]=n[2]-r[2],u[0]=e[0],u[1]=e[1]*Math.cos(a)-e[2]*Math.sin(a),u[2]=e[1]*Math.sin(a)+e[2]*Math.cos(a),t[0]=u[0]+r[0],t[1]=u[1]+r[1],t[2]=u[2]+r[2],t},e.rotateY=function(t,n,r,a){var e=[],u=[];return e[0]=n[0]-r[0],e[1]=n[1]-r[1],e[2]=n[2]-r[2],u[0]=e[2]*Math.sin(a)+e[0]*Math.cos(a),u[1]=e[1],u[2]=e[2]*Math.cos(a)-e[0]*Math.sin(a),t[0]=u[0]+r[0],t[1]=u[1]+r[1],t[2]=u[2]+r[2],t},e.rotateZ=function(t,n,r,a){var e=[],u=[];return e[0]=n[0]-r[0],e[1]=n[1]-r[1],e[2]=n[2]-r[2],u[0]=e[0]*Math.cos(a)-e[1]*Math.sin(a),u[1]=e[0]*Math.sin(a)+e[1]*Math.cos(a),u[2]=e[2],t[0]=u[0]+r[0],t[1]=u[1]+r[1],t[2]=u[2]+r[2],t},e.forEach=function(){var t=e.create();return function(n,r,a,e,u,o){var i,c;for(r||(r=3),a||(a=0),c=e?Math.min(e*r+a,n.length):n.length,i=a;c>i;i+=r)t[0]=n[i],t[1]=n[i+1],t[2]=n[i+2],u(t,t,o),n[i]=t[0],n[i+1]=t[1],n[i+2]=t[2];return n}}(),e.angle=function(t,n){var r=e.fromValues(t[0],t[1],t[2]),a=e.fromValues(n[0],n[1],n[2]);e.normalize(r,r),e.normalize(a,a);var u=e.dot(r,a);return u>1?0:Math.acos(u)},e.str=function(t){return"vec3("+t[0]+", "+t[1]+", "+t[2]+")"},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(4);return t[0]=0,t[1]=0,t[2]=0,t[3]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(4);return n[0]=t[0],n[1]=t[1],n[2]=t[2],n[3]=t[3],n},e.fromValues=function(t,n,r,e){var u=new a.ARRAY_TYPE(4);return u[0]=t,u[1]=n,u[2]=r,u[3]=e,u},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t[2]=n[2],t[3]=n[3],t},e.set=function(t,n,r,a,e){return t[0]=n,t[1]=r,t[2]=a,t[3]=e,t},e.add=function(t,n,r){return t[0]=n[0]+r[0],t[1]=n[1]+r[1],t[2]=n[2]+r[2],t[3]=n[3]+r[3],t},e.subtract=function(t,n,r){return t[0]=n[0]-r[0],t[1]=n[1]-r[1],t[2]=n[2]-r[2],t[3]=n[3]-r[3],t},e.sub=e.subtract,e.multiply=function(t,n,r){return t[0]=n[0]*r[0],t[1]=n[1]*r[1],t[2]=n[2]*r[2],t[3]=n[3]*r[3],t},e.mul=e.multiply,e.divide=function(t,n,r){return t[0]=n[0]/r[0],t[1]=n[1]/r[1],t[2]=n[2]/r[2],t[3]=n[3]/r[3],t},e.div=e.divide,e.min=function(t,n,r){return t[0]=Math.min(n[0],r[0]),t[1]=Math.min(n[1],r[1]),t[2]=Math.min(n[2],r[2]),t[3]=Math.min(n[3],r[3]),t},e.max=function(t,n,r){return t[0]=Math.max(n[0],r[0]),t[1]=Math.max(n[1],r[1]),t[2]=Math.max(n[2],r[2]),t[3]=Math.max(n[3],r[3]),t},e.scale=function(t,n,r){return t[0]=n[0]*r,t[1]=n[1]*r,t[2]=n[2]*r,t[3]=n[3]*r,t},e.scaleAndAdd=function(t,n,r,a){return t[0]=n[0]+r[0]*a,t[1]=n[1]+r[1]*a,t[2]=n[2]+r[2]*a,t[3]=n[3]+r[3]*a,t},e.distance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2],u=n[3]-t[3];return Math.sqrt(r*r+a*a+e*e+u*u)},e.dist=e.distance,e.squaredDistance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1],e=n[2]-t[2],u=n[3]-t[3];return r*r+a*a+e*e+u*u},e.sqrDist=e.squaredDistance,e.length=function(t){var n=t[0],r=t[1],a=t[2],e=t[3];return Math.sqrt(n*n+r*r+a*a+e*e)},e.len=e.length,e.squaredLength=function(t){var n=t[0],r=t[1],a=t[2],e=t[3];return n*n+r*r+a*a+e*e},e.sqrLen=e.squaredLength,e.negate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t[2]=-n[2],t[3]=-n[3],t},e.inverse=function(t,n){return t[0]=1/n[0],t[1]=1/n[1],t[2]=1/n[2],t[3]=1/n[3],t},e.normalize=function(t,n){var r=n[0],a=n[1],e=n[2],u=n[3],o=r*r+a*a+e*e+u*u;return o>0&&(o=1/Math.sqrt(o),t[0]=r*o,t[1]=a*o,t[2]=e*o,t[3]=u*o),t},e.dot=function(t,n){return t[0]*n[0]+t[1]*n[1]+t[2]*n[2]+t[3]*n[3]},e.lerp=function(t,n,r,a){var e=n[0],u=n[1],o=n[2],i=n[3];return t[0]=e+a*(r[0]-e),t[1]=u+a*(r[1]-u),t[2]=o+a*(r[2]-o),t[3]=i+a*(r[3]-i),t},e.random=function(t,n){return n=n||1,t[0]=a.RANDOM(),t[1]=a.RANDOM(),t[2]=a.RANDOM(),t[3]=a.RANDOM(),e.normalize(t,t),e.scale(t,t,n),t},e.transformMat4=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=n[3];return t[0]=r[0]*a+r[4]*e+r[8]*u+r[12]*o,t[1]=r[1]*a+r[5]*e+r[9]*u+r[13]*o,t[2]=r[2]*a+r[6]*e+r[10]*u+r[14]*o,t[3]=r[3]*a+r[7]*e+r[11]*u+r[15]*o,t},e.transformQuat=function(t,n,r){var a=n[0],e=n[1],u=n[2],o=r[0],i=r[1],c=r[2],f=r[3],s=f*a+i*u-c*e,h=f*e+c*a-o*u,M=f*u+o*e-i*a,l=-o*a-i*e-c*u;return t[0]=s*f+l*-o+h*-c-M*-i,t[1]=h*f+l*-i+M*-o-s*-c,t[2]=M*f+l*-c+s*-i-h*-o,t[3]=n[3],t},e.forEach=function(){var t=e.create();return function(n,r,a,e,u,o){var i,c;for(r||(r=4),a||(a=0),c=e?Math.min(e*r+a,n.length):n.length,i=a;c>i;i+=r)t[0]=n[i],t[1]=n[i+1],t[2]=n[i+2],t[3]=n[i+3],u(t,t,o),n[i]=t[0],n[i+1]=t[1],n[i+2]=t[2],n[i+3]=t[3];return n}}(),e.str=function(t){return"vec4("+t[0]+", "+t[1]+", "+t[2]+", "+t[3]+")"},t.exports=e},function(t,n,r){var a=r(1),e={};e.create=function(){var t=new a.ARRAY_TYPE(2);return t[0]=0,t[1]=0,t},e.clone=function(t){var n=new a.ARRAY_TYPE(2);return n[0]=t[0],n[1]=t[1],n},e.fromValues=function(t,n){var r=new a.ARRAY_TYPE(2);return r[0]=t,r[1]=n,r},e.copy=function(t,n){return t[0]=n[0],t[1]=n[1],t},e.set=function(t,n,r){return t[0]=n,t[1]=r,t},e.add=function(t,n,r){return t[0]=n[0]+r[0],t[1]=n[1]+r[1],t},e.subtract=function(t,n,r){return t[0]=n[0]-r[0],t[1]=n[1]-r[1],t},e.sub=e.subtract,e.multiply=function(t,n,r){return t[0]=n[0]*r[0],t[1]=n[1]*r[1],t},e.mul=e.multiply,e.divide=function(t,n,r){return t[0]=n[0]/r[0],t[1]=n[1]/r[1],t},e.div=e.divide,e.min=function(t,n,r){return t[0]=Math.min(n[0],r[0]),t[1]=Math.min(n[1],r[1]),t},e.max=function(t,n,r){return t[0]=Math.max(n[0],r[0]),t[1]=Math.max(n[1],r[1]),t},e.scale=function(t,n,r){return t[0]=n[0]*r,t[1]=n[1]*r,t},e.scaleAndAdd=function(t,n,r,a){return t[0]=n[0]+r[0]*a,t[1]=n[1]+r[1]*a,t},e.distance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1];return Math.sqrt(r*r+a*a)},e.dist=e.distance,e.squaredDistance=function(t,n){var r=n[0]-t[0],a=n[1]-t[1];return r*r+a*a},e.sqrDist=e.squaredDistance,e.length=function(t){var n=t[0],r=t[1];return Math.sqrt(n*n+r*r)},e.len=e.length,e.squaredLength=function(t){var n=t[0],r=t[1];return n*n+r*r},e.sqrLen=e.squaredLength,e.negate=function(t,n){return t[0]=-n[0],t[1]=-n[1],t},e.inverse=function(t,n){return t[0]=1/n[0],t[1]=1/n[1],t},e.normalize=function(t,n){var r=n[0],a=n[1],e=r*r+a*a;return e>0&&(e=1/Math.sqrt(e),t[0]=n[0]*e,t[1]=n[1]*e),t},e.dot=function(t,n){return t[0]*n[0]+t[1]*n[1]},e.cross=function(t,n,r){var a=n[0]*r[1]-n[1]*r[0];return t[0]=t[1]=0,t[2]=a,t},e.lerp=function(t,n,r,a){var e=n[0],u=n[1];return t[0]=e+a*(r[0]-e),t[1]=u+a*(r[1]-u),t},e.random=function(t,n){n=n||1;var r=2*a.RANDOM()*Math.PI;return t[0]=Math.cos(r)*n,t[1]=Math.sin(r)*n,t},e.transformMat2=function(t,n,r){var a=n[0],e=n[1];return t[0]=r[0]*a+r[2]*e,t[1]=r[1]*a+r[3]*e,t},e.transformMat2d=function(t,n,r){var a=n[0],e=n[1];return t[0]=r[0]*a+r[2]*e+r[4],t[1]=r[1]*a+r[3]*e+r[5],t},e.transformMat3=function(t,n,r){
-var a=n[0],e=n[1];return t[0]=r[0]*a+r[3]*e+r[6],t[1]=r[1]*a+r[4]*e+r[7],t},e.transformMat4=function(t,n,r){var a=n[0],e=n[1];return t[0]=r[0]*a+r[4]*e+r[12],t[1]=r[1]*a+r[5]*e+r[13],t},e.forEach=function(){var t=e.create();return function(n,r,a,e,u,o){var i,c;for(r||(r=2),a||(a=0),c=e?Math.min(e*r+a,n.length):n.length,i=a;c>i;i+=r)t[0]=n[i],t[1]=n[i+1],u(t,t,o),n[i]=t[0],n[i+1]=t[1];return n}}(),e.str=function(t){return"vec2("+t[0]+", "+t[1]+")"},t.exports=e}])});
-define('davinci-eight/math/Matrix3',["require", "exports", "gl-matrix", '../checks/expectArg'], function (require, exports, glMatrix, expectArg) {
-    var Matrix3 = (function () {
-        /**
-         * Constructs the Matrix4 by wrapping a Float32Array.
-         * @constructor
-         */
-        function Matrix3(elements) {
-            expectArg('elements', elements)
-                .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
-                .toSatisfy(elements.length === 9, 'elements must have length 9');
-            this.elements = elements;
-        }
-        Matrix3.identity = function () {
-            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
-        };
-        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
-            // input: THREE.Matrix4
-            // ( based on http://code.google.com/p/webgl-mjs/ )
-            var me = matrix.elements;
-            var te = this.elements;
-            te[0] = me[10] * me[5] - me[6] * me[9];
-            te[1] = -me[10] * me[1] + me[2] * me[9];
-            te[2] = me[6] * me[1] - me[2] * me[5];
-            te[3] = -me[10] * me[4] + me[6] * me[8];
-            te[4] = me[10] * me[0] - me[2] * me[8];
-            te[5] = -me[6] * me[0] + me[2] * me[4];
-            te[6] = me[9] * me[4] - me[5] * me[8];
-            te[7] = -me[9] * me[0] + me[1] * me[8];
-            te[8] = me[5] * me[0] - me[1] * me[4];
-            var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
-            // no inverse
-            if (det === 0) {
-                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnInvertible || !throwOnInvertible) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
-                this.identity();
-                return this;
-            }
-            this.multiplyScalar(1.0 / det);
-            return this;
-        };
-        Matrix3.prototype.identity = function () {
-            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
-        };
-        Matrix3.prototype.multiplyScalar = function (s) {
-            var m = this.elements;
-            m[0] *= s;
-            m[3] *= s;
-            m[6] *= s;
-            m[1] *= s;
-            m[4] *= s;
-            m[7] *= s;
-            m[2] *= s;
-            m[5] *= s;
-            m[8] *= s;
-            return this;
-        };
-        Matrix3.prototype.normalFromMatrix4 = function (m) {
-            this.getInverse(m).transpose();
-        };
-        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
-            var te = this.elements;
-            te[0] = n11;
-            te[3] = n12;
-            te[6] = n13;
-            te[1] = n21;
-            te[4] = n22;
-            te[7] = n23;
-            te[2] = n31;
-            te[5] = n32;
-            te[8] = n33;
-            return this;
-        };
-        Matrix3.prototype.transpose = function () {
-            var tmp;
-            var m = this.elements;
-            tmp = m[1];
-            m[1] = m[3];
-            m[3] = tmp;
-            tmp = m[2];
-            m[2] = m[6];
-            m[6] = tmp;
-            tmp = m[5];
-            m[5] = m[7];
-            m[7] = tmp;
-            return this;
-        };
-        return Matrix3;
-    })();
-    return Matrix3;
 });
 
 define('davinci-eight/math/Quaternion',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
@@ -9253,609 +8919,6 @@ define('davinci-eight/mesh/vortexMesh',["require", "exports", '../geometries/Geo
     return vortexMesh;
 });
 
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/TreeModel',["require", "exports", '../core/DefaultUniformProvider'], function (require, exports, DefaultUniformProvider) {
-    /**
-     * @class TreeModel
-     * @extends DefaultUniformProvider
-     */
-    var TreeModel = (function (_super) {
-        __extends(TreeModel, _super);
-        /**
-         * @class Model
-         * @constructor
-         */
-        function TreeModel() {
-            _super.call(this);
-            this.children = [];
-        }
-        TreeModel.prototype.getParent = function () {
-            return this.parent;
-        };
-        TreeModel.prototype.setParent = function (parent) {
-            if (this.parent) {
-                this.parent.removeChild(this);
-            }
-            if (parent) {
-                parent.addChild(this);
-            }
-            this.parent = parent;
-        };
-        TreeModel.prototype.addChild = function (child) {
-            this.children.push(this);
-        };
-        TreeModel.prototype.removeChild = function (child) {
-            var index = this.children.indexOf(child);
-            if (index >= 0) {
-                this.children.splice(index, 1);
-            }
-        };
-        TreeModel.prototype.getUniformVector3 = function (name) {
-            if (this.parent) {
-                return this.parent.getUniformVector3(name);
-            }
-            else {
-                return _super.prototype.getUniformVector3.call(this, name);
-            }
-        };
-        /**
-         * @method getUniformMatrix3
-         * @param name {string}
-         */
-        TreeModel.prototype.getUniformMatrix3 = function (name) {
-            if (this.parent) {
-                return this.parent.getUniformMatrix3(name);
-            }
-            else {
-                return _super.prototype.getUniformMatrix3.call(this, name);
-            }
-        };
-        /**
-         * @method getUniformMatrix4
-         * @param name {string}
-         */
-        TreeModel.prototype.getUniformMatrix4 = function (name) {
-            if (this.parent) {
-                return this.parent.getUniformMatrix4(name);
-            }
-            else {
-                return _super.prototype.getUniformMatrix4.call(this, name);
-            }
-        };
-        /**
-         * @method getUniformMeta
-         */
-        TreeModel.prototype.getUniformMeta = function () {
-            if (this.parent) {
-                return this.parent.getUniformMeta();
-            }
-            else {
-                return _super.prototype.getUniformMeta.call(this);
-            }
-        };
-        /**
-         * @method getUniformData
-         */
-        TreeModel.prototype.getUniformData = function () {
-            if (this.parent) {
-                return this.parent.getUniformData();
-            }
-            else {
-                return _super.prototype.getUniformData.call(this);
-            }
-        };
-        return TreeModel;
-    })(DefaultUniformProvider);
-    return TreeModel;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformVec3',["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg', '../checks/isDefined'], function (require, exports, DefaultUniformProvider, uuid4, expectArg, isDefined) {
-    var UniformVec3 = (function (_super) {
-        __extends(UniformVec3, _super);
-        function UniformVec3(name, id) {
-            _super.call(this);
-            this.useData = false;
-            this.useCallback = false;
-            this.$name = name;
-            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
-            this.$varName = isDefined(this.$name) ? this.$name : this.id;
-        }
-        Object.defineProperty(UniformVec3.prototype, "data", {
-            get: function () {
-                return this.$data;
-            },
-            set: function (data) {
-                this.$data = data;
-                if (typeof data !== void 0) {
-                    expectArg('data', data).toSatisfy(data.length === 3, "data.length must be 3");
-                    this.useData = true;
-                    this.useCallback = false;
-                }
-                else {
-                    this.useData = false;
-                    this.$callback = void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformVec3.prototype, "callback", {
-            set: function (callback) {
-                this.$callback = callback;
-                if (typeof callback !== void 0) {
-                    this.useCallback = true;
-                    this.useData = false;
-                }
-                else {
-                    this.useCallback = false;
-                    this.$data = void 0;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformVec3.prototype.getUniformVector3 = function (name) {
-            switch (name) {
-                case this.$varName:
-                    {
-                        if (this.useData) {
-                            return this.$data;
-                        }
-                        else if (this.useCallback) {
-                            return this.$callback();
-                        }
-                        else {
-                            var message = "uniform vec3 " + this.$varName + " has not been assigned a data or callback.";
-                            console.warn(message);
-                            throw new Error(message);
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformVector3.call(this, name);
-                }
-            }
-        };
-        UniformVec3.prototype.getUniformMeta = function () {
-            var uniforms = _super.prototype.getUniformMeta.call(this);
-            if (isDefined(this.$name)) {
-                uniforms[this.id] = { name: this.$name, glslType: 'vec3' };
-            }
-            else {
-                uniforms[this.id] = { glslType: 'vec3' };
-            }
-            return uniforms;
-        };
-        UniformVec3.prototype.getUniformData = function () {
-            var data = _super.prototype.getUniformData.call(this);
-            var value = this.useData ? this.$data : this.$callback();
-            data[this.$varName] = { vector: value };
-            return data;
-        };
-        return UniformVec3;
-    })(DefaultUniformProvider);
-    return UniformVec3;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformColor',["require", "exports", '../core/Color', '../core/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Color, DefaultUniformProvider, UniformVec3) {
-    /**
-     * Provides a uniform variable representing an ambient light.
-     * @class UniformColor
-     */
-    var UniformColor = (function (_super) {
-        __extends(UniformColor, _super);
-        /**
-         * @class UniformColor
-         * @constructor
-         */
-        function UniformColor(name, id) {
-            _super.call(this);
-            this.inner = new UniformVec3(name, id);
-        }
-        Object.defineProperty(UniformColor.prototype, "data", {
-            get: function () {
-                var data = this.inner.data;
-                if (data) {
-                    return new Color(data);
-                }
-                else {
-                    return;
-                }
-            },
-            set: function (color) {
-                this.inner.data = color.data;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformColor.prototype, "callback", {
-            set: function (callback) {
-                this.inner.callback = function () {
-                    var color = callback();
-                    return color.data;
-                };
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformColor.prototype.getUniformVector3 = function (name) {
-            return this.inner.getUniformVector3(name);
-        };
-        UniformColor.prototype.getUniformMeta = function () {
-            return this.inner.getUniformMeta();
-        };
-        UniformColor.prototype.getUniformData = function () {
-            return this.inner.getUniformData();
-        };
-        return UniformColor;
-    })(DefaultUniformProvider);
-    return UniformColor;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/Node',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, TreeModel, Spinor3, Symbolic, Vector3, Color, UniformColor) {
-    function localMatrix(scale, attitude, position) {
-        var S = Matrix4.identity();
-        S.scaling(scale);
-        var T = Matrix4.identity();
-        T.translation(position);
-        var R = Matrix4.identity();
-        R.rotation(attitude);
-        T.mul(R.mul(S));
-        return T;
-    }
-    /**
-     * @class Node
-     * @extends TreeModel
-     */
-    var Node = (function (_super) {
-        __extends(Node, _super);
-        /**
-         * @class Model
-         * @constructor
-         */
-        function Node(options) {
-            _super.call(this);
-            options = options || {};
-            this.modelMatrixName = options.modelMatrixName || Symbolic.UNIFORM_MODEL_MATRIX;
-            this.normalMatrixName = options.normalMatrixName || Symbolic.UNIFORM_NORMAL_MATRIX;
-            this.colorVarName = options.colorVarName || Symbolic.UNIFORM_COLOR;
-            this.position = new Vector3();
-            this.attitude = new Spinor3();
-            this.scale = new Vector3([1, 1, 1]);
-            this.uColor = new UniformColor(this.colorVarName, Symbolic.UNIFORM_COLOR);
-        }
-        Object.defineProperty(Node.prototype, "color", {
-            get: function () {
-                return this.uColor.data;
-            },
-            set: function (color) {
-                this.uColor.data = color;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method getUniformVector3
-         * @param name {string}
-         */
-        Node.prototype.getUniformVector3 = function (name) {
-            //console.log("getUniformVector3(name='" + name + "')");
-            switch (name) {
-                case this.colorVarName:
-                    {
-                        if (this.uColor.data) {
-                            return this.uColor.getUniformVector3(name);
-                        }
-                        else if (this.getParent()) {
-                            return this.getParent().getUniformVector3(name);
-                        }
-                        else {
-                            return Color.fromRGB(1, 1, 1).data;
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformVector3.call(this, name);
-                }
-            }
-        };
-        Node.prototype.getNormalMatrix = function () {
-            // It's unfortunate that we have to recompute the model-view matrix.
-            // We could cache it, being careful that we don't assume the callback order.
-            // We don't want to compute it in the shader beacause that would be per-vertex.
-            var normalMatrix = Matrix3.identity();
-            var mv = localMatrix(this.scale, this.attitude, this.position);
-            normalMatrix.normalFromMatrix4(mv);
-            // TODO: elements in Matrix3 should already be Float32Array
-            return normalMatrix.elements;
-        };
-        /**
-         * @method getUniformMatrix3
-         * @param name {string}
-         */
-        Node.prototype.getUniformMatrix3 = function (name) {
-            switch (name) {
-                case this.normalMatrixName:
-                    {
-                        return { transpose: false, matrix3: this.getNormalMatrix() };
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformMatrix3.call(this, name);
-                }
-            }
-        };
-        Node.prototype.getModelMatrix = function () {
-            if (this.getParent()) {
-                var um4 = this.getParent().getUniformMatrix4(name);
-                if (um4) {
-                    var m1 = new Matrix4(um4.matrix4);
-                    var m2 = localMatrix(this.scale, this.attitude, this.position);
-                    var m = Matrix4.identity().multiplyMatrices(m1, m2);
-                    return m.elements;
-                }
-                else {
-                    var m = localMatrix(this.scale, this.attitude, this.position);
-                    return m.elements;
-                }
-            }
-            else {
-                var m = localMatrix(this.scale, this.attitude, this.position);
-                return m.elements;
-            }
-        };
-        /**
-         * @method getUniformMatrix4
-         * @param name {string}
-         */
-        Node.prototype.getUniformMatrix4 = function (name) {
-            switch (name) {
-                case this.modelMatrixName:
-                    {
-                        return { transpose: false, matrix4: this.getModelMatrix() };
-                    }
-                    break;
-                default: {
-                    return this.uColor.getUniformMatrix4(name);
-                }
-            }
-        };
-        /**
-         * @method getUniformMeta
-         */
-        Node.prototype.getUniformMeta = function () {
-            var uniforms = this.uColor.getUniformMeta();
-            uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: this.modelMatrixName, glslType: 'mat4' };
-            uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: this.normalMatrixName, glslType: 'mat3' };
-            return uniforms;
-        };
-        /**
-         * @method getUniformData
-         */
-        Node.prototype.getUniformData = function () {
-            var data = this.uColor.getUniformData();
-            data[Symbolic.UNIFORM_MODEL_MATRIX] = {
-                transpose: false,
-                matrix3: void 0,
-                matrix4: this.getModelMatrix(),
-                uniformZs: void 0
-            };
-            data[Symbolic.UNIFORM_NORMAL_MATRIX] = {
-                transpose: false,
-                matrix3: this.getNormalMatrix(),
-                matrix4: void 0,
-                uniformZs: void 0
-            };
-            return data;
-        };
-        return Node;
-    })(TreeModel);
-    return Node;
-});
-
-define('davinci-eight/objects/Arrow3D',["require", "exports", '../mesh/CylinderMeshBuilder', '../objects/primitive', '../programs/smartProgram', '../uniforms/Node', '../checks/isDefined'], function (require, exports, CylinderMeshBuilder, primitive, smartProgram, Node, isDefined) {
-    var Arrow3D = (function () {
-        function Arrow3D(ambients, options) {
-            this.$magnitude = 1;
-            this._refCount = 0;
-            options = options || {};
-            this.$coneHeight = isDefined(options.coneHeight) ? options.coneHeight : 0.2;
-            this.model = new Node();
-            var headMesh = new CylinderMeshBuilder(options).setRadiusTop(0.0).setRadiusBottom(0.08).setHeight(this.$coneHeight).buildMesh();
-            var tailMesh = new CylinderMeshBuilder(options).setRadiusTop(0.01).setRadiusBottom(0.01).buildMesh();
-            this.program = smartProgram(headMesh.getAttribMeta(), [this.model.getUniformMeta(), ambients.getUniformMeta()]);
-            this.headModel = new Node();
-            this.headModel.setParent(this.model);
-            this.head = primitive(headMesh, this.program, this.headModel);
-            this.tailModel = new Node();
-            this.tailModel.setParent(this.model);
-            this.setMagnitude(1);
-            this.tail = primitive(tailMesh, this.program, this.tailModel);
-        }
-        Object.defineProperty(Arrow3D.prototype, "magnitude", {
-            get: function () {
-                return this.tailModel.scale.y + this.$coneHeight;
-            },
-            set: function (value) {
-                this.setMagnitude(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Arrow3D.prototype.setMagnitude = function (magnitude) {
-            this.headModel.position.y = (magnitude - this.$coneHeight) / 2;
-            this.tailModel.scale.y = magnitude - this.$coneHeight;
-            this.tailModel.position.y = -this.$coneHeight / 2;
-            return this;
-        };
-        /**
-         *
-         */
-        Arrow3D.prototype.accept = function (visitor) {
-            this.head.accept(visitor);
-            this.tail.accept(visitor);
-        };
-        Arrow3D.prototype.addRef = function () {
-            this._refCount++;
-        };
-        Arrow3D.prototype.release = function () {
-            this._refCount--;
-            if (this._refCount === 0) {
-                this.head.release();
-                this.tail.release();
-            }
-        };
-        Arrow3D.prototype.contextFree = function () {
-            this.head.contextFree();
-            this.tail.contextFree();
-        };
-        Arrow3D.prototype.contextGain = function (context) {
-            this.head.contextGain(context);
-            this.tail.contextGain(context);
-        };
-        Arrow3D.prototype.contextLoss = function () {
-            this.head.contextLoss();
-            this.tail.contextLoss();
-        };
-        Arrow3D.prototype.hasContext = function () {
-            return this.head.hasContext();
-        };
-        return Arrow3D;
-    })();
-    return Arrow3D;
-});
-
-define('davinci-eight/objects/arrow',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/arrowMesh', '../programs/smartProgram', '../objects/Arrow3D', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Node, primitive, arrowMesh, smartProgram, Arrow3D, expectArg, isDefined) {
-    var ArrowWrapper = (function () {
-        function ArrowWrapper(primitive) {
-            this.primitive = primitive;
-        }
-        Object.defineProperty(ArrowWrapper.prototype, "model", {
-            get: function () {
-                return this.primitive.model;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ArrowWrapper.prototype.setMagnitude = function (magnitude) {
-            expectArg('magnitude', magnitude).toBeNumber().toSatisfy(magnitude >= 0, "magnitude must be positive");
-            this.primitive.model.scale.x = magnitude;
-            this.primitive.model.scale.y = magnitude;
-            this.primitive.model.scale.z = magnitude;
-            return this;
-        };
-        Object.defineProperty(ArrowWrapper.prototype, "program", {
-            get: function () {
-                return this.primitive.program;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ArrowWrapper.prototype.accept = function (visitor) {
-            this.primitive.accept(visitor);
-        };
-        ArrowWrapper.prototype.addRef = function () {
-            return this.primitive.addRef();
-        };
-        ArrowWrapper.prototype.release = function () {
-            return this.primitive.release();
-        };
-        ArrowWrapper.prototype.contextFree = function () {
-            return this.primitive.contextFree();
-        };
-        ArrowWrapper.prototype.contextGain = function (context) {
-            return this.primitive.contextGain(context);
-        };
-        ArrowWrapper.prototype.contextLoss = function () {
-            return this.primitive.contextLoss();
-        };
-        ArrowWrapper.prototype.hasContext = function () {
-            return this.primitive.hasContext();
-        };
-        return ArrowWrapper;
-    })();
-    // TODO" Should only take the UniformMetaInfos for construction.
-    function arrow(ambients, options) {
-        options = options || {};
-        var flavor = isDefined(options.flavor) ? options.flavor : 0;
-        if (flavor === 0) {
-            var mesh = arrowMesh(options);
-            var model = new Node(options);
-            var shaders = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-            return new ArrowWrapper(primitive(mesh, shaders, model));
-        }
-        else {
-            return new Arrow3D(ambients, options);
-        }
-    }
-    return arrow;
-});
-
-define('davinci-eight/objects/box',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/boxMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, boxMesh, smartProgram) {
-    function box(ambients, options) {
-        var mesh = boxMesh(options);
-        var model = new Node();
-        var program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return primitive(mesh, program, model);
-    }
-    return box;
-});
-
-define('davinci-eight/objects/cylinder',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/cylinderMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, cylinderMesh, smartProgram) {
-    function cylinder(ambients, options) {
-        var mesh = cylinderMesh(options);
-        var model = new Node();
-        var program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return primitive(mesh, program, model);
-    }
-    return cylinder;
-});
-
-define('davinci-eight/objects/sphere',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/sphereMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, sphereMesh, smartProgram) {
-    function sphere(ambients, options) {
-        var mesh = sphereMesh(options);
-        var model = new Node();
-        // TODO: Inject a program manager.
-        // Would be nice to have dependency injection?
-        var program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return primitive(mesh, program, model);
-    }
-    return sphere;
-});
-
-define('davinci-eight/objects/vortex',["require", "exports", '../uniforms/Node', '../objects/primitive', '../mesh/vortexMesh', '../programs/smartProgram'], function (require, exports, Node, primitive, vortexMesh, smartProgram) {
-    function vortex(ambients) {
-        var mesh = vortexMesh();
-        var model = new Node();
-        var program = smartProgram(mesh.getAttribMeta(), [model.getUniformMeta(), ambients.getUniformMeta()]);
-        return primitive(mesh, program, model);
-    }
-    return vortex;
-});
-
 define('davinci-eight/curves/Curve',["require", "exports"], function (require, exports) {
     /**
      * @author zz85 / http://www.lab4games.net/zz85/blog
@@ -10046,7 +9109,26 @@ define('davinci-eight/renderers/initWebGL',["require", "exports"], function (req
     return initWebGL;
 });
 
-define('davinci-eight/renderers/renderer',["require", "exports", '../core/DefaultDrawableVisitor', '../checks/expectArg', '../core/Color'], function (require, exports, DefaultDrawableVisitor, expectArg, Color) {
+define('davinci-eight/renderers/renderer',["require", "exports", '../checks/expectArg', '../core/Color'], function (require, exports, expectArg, Color) {
+    var DefaultDrawableVisitor = (function () {
+        function DefaultDrawableVisitor() {
+        }
+        DefaultDrawableVisitor.prototype.primitive = function (mesh, program, model) {
+            if (mesh.dynamic) {
+                mesh.update();
+            }
+            program.use();
+            model.accept(program);
+            program.setAttributes(mesh.getAttribData());
+            mesh.draw();
+            for (var name in program.attributeLocations) {
+                program.attributeLocations[name].disable();
+            }
+        };
+        return DefaultDrawableVisitor;
+    })();
+    // This visitor is completely stateless so we can create it here.
+    var drawVisitor = new DefaultDrawableVisitor();
     var renderer = function (canvas, parameters) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         parameters = parameters || {};
@@ -10055,7 +9137,6 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Defaul
         var autoClear = true;
         var clearColor = Color.fromRGB(0, 0, 0);
         var clearAlpha = 0;
-        var drawVisitor = new DefaultDrawableVisitor();
         function drawHandler(drawable) {
             drawable.accept(drawVisitor);
         }
@@ -10142,899 +9223,6 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Defaul
         return self;
     };
     return renderer;
-});
-
-define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../core/Symbolic', '../uniforms/UniformColor'], function (require, exports, Color, Symbolic, UniformColor) {
-    /**
-     * Provides a uniform variable representing an ambient light.
-     * @class AmbientLight
-     */
-    var AmbientLight = (function () {
-        /**
-         * @class AmbientLight
-         * @constructor
-         * @param options {{color?: Color; name?: string}}
-         */
-        function AmbientLight(options) {
-            options = options || {};
-            options.color = options.color || new Color([1.0, 1.0, 1.0]);
-            //    options.name = options.name || Symbolic.UNIFORM_AMBIENT_LIGHT;
-            //    expectArg('options.name', options.name).toBeString().toSatisfy(options.name.length > 0, "options.name must have at least one character");
-            this.uColor = new UniformColor(options.name, Symbolic.UNIFORM_AMBIENT_LIGHT);
-            this.uColor.data = options.color;
-        }
-        Object.defineProperty(AmbientLight.prototype, "color", {
-            get: function () {
-                return this.uColor;
-            },
-            set: function (color) {
-                throw new Error("color is readonly");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        AmbientLight.prototype.getUniformFloat = function (name) {
-            return this.uColor.getUniformFloat(name);
-        };
-        AmbientLight.prototype.getUniformMatrix2 = function (name) {
-            return this.uColor.getUniformMatrix2(name);
-        };
-        AmbientLight.prototype.getUniformMatrix3 = function (name) {
-            return this.uColor.getUniformMatrix3(name);
-        };
-        AmbientLight.prototype.getUniformMatrix4 = function (name) {
-            return this.uColor.getUniformMatrix4(name);
-        };
-        AmbientLight.prototype.getUniformVector2 = function (name) {
-            return this.uColor.getUniformVector2(name);
-        };
-        AmbientLight.prototype.getUniformVector3 = function (name) {
-            return this.uColor.getUniformVector3(name);
-        };
-        AmbientLight.prototype.getUniformVector4 = function (name) {
-            return this.uColor.getUniformVector4(name);
-        };
-        AmbientLight.prototype.getUniformMeta = function () {
-            return this.uColor.getUniformMeta();
-        };
-        AmbientLight.prototype.getUniformData = function () {
-            return this.uColor.getUniformData();
-        };
-        return AmbientLight;
-    })();
-    return AmbientLight;
-});
-
-define('davinci-eight/uniforms/ChainedUniformProvider',["require", "exports"], function (require, exports) {
-    var ChainedUniformProvider = (function () {
-        function ChainedUniformProvider(provider, fallback) {
-            this.provider = provider;
-            this.fallback = fallback;
-        }
-        ChainedUniformProvider.prototype.getUniformFloat = function (name) {
-            var data = this.provider.getUniformFloat(name);
-            if (typeof data === 'number') {
-                return data;
-            }
-            else {
-                return this.fallback.getUniformFloat(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformMatrix2 = function (name) {
-            var m2 = this.provider.getUniformMatrix2(name);
-            if (m2) {
-                return m2;
-            }
-            else {
-                return this.fallback.getUniformMatrix2(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformMatrix3 = function (name) {
-            var m3 = this.provider.getUniformMatrix3(name);
-            if (m3) {
-                return m3;
-            }
-            else {
-                return this.fallback.getUniformMatrix3(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformMatrix4 = function (name) {
-            var m4 = this.provider.getUniformMatrix4(name);
-            if (m4) {
-                return m4;
-            }
-            else {
-                return this.fallback.getUniformMatrix4(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformVector2 = function (name) {
-            var v2 = this.provider.getUniformVector2(name);
-            if (v2) {
-                return v2;
-            }
-            else {
-                return this.fallback.getUniformVector2(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformVector3 = function (name) {
-            var v3 = this.provider.getUniformVector3(name);
-            if (v3) {
-                return v3;
-            }
-            else {
-                return this.fallback.getUniformVector3(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformVector4 = function (name) {
-            var v4 = this.provider.getUniformVector4(name);
-            if (v4) {
-                return v4;
-            }
-            else {
-                return this.fallback.getUniformVector4(name);
-            }
-        };
-        ChainedUniformProvider.prototype.getUniformMeta = function () {
-            var uniforms = {};
-            var ones = this.provider.getUniformMeta();
-            for (name in ones) {
-                uniforms[name] = ones[name];
-            }
-            var twos = this.fallback.getUniformMeta();
-            for (name in twos) {
-                uniforms[name] = twos[name];
-            }
-            return uniforms;
-        };
-        ChainedUniformProvider.prototype.getUniformData = function () {
-            var data = {};
-            var ones = this.provider.getUniformData();
-            for (name in ones) {
-                data[name] = ones[name];
-            }
-            var twos = this.fallback.getUniformData();
-            for (name in twos) {
-                data[name] = twos[name];
-            }
-            return data;
-        };
-        return ChainedUniformProvider;
-    })();
-    return ChainedUniformProvider;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/MultiUniformProvider',["require", "exports", '../core/DefaultUniformProvider'], function (require, exports, DefaultUniformProvider) {
-    function isDefined(value) { return value !== void 0; }
-    var MultiUniformProvider = (function (_super) {
-        __extends(MultiUniformProvider, _super);
-        function MultiUniformProvider(providers) {
-            _super.call(this);
-            this.providers = [];
-            this.providers = providers;
-        }
-        MultiUniformProvider.prototype.getUniformFloat = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformFloat(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformFloat.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformMatrix2 = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformMatrix2(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformMatrix2.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformMatrix3 = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformMatrix3(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformMatrix3.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformMatrix4 = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformMatrix4(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformMatrix4.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformVector2 = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformVector2(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformVector2.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformVector3 = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformVector3(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformVector3.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformVector4 = function (name) {
-            var values = this.providers.map(function (provider) { return provider.getUniformVector4(name); }).filter(isDefined);
-            if (values.length === 1) {
-                return values[0];
-            }
-            else {
-                return _super.prototype.getUniformVector4.call(this, name);
-            }
-        };
-        MultiUniformProvider.prototype.getUniformMeta = function () {
-            var meta = _super.prototype.getUniformMeta.call(this);
-            this.providers.forEach(function (provider) {
-                var metas = provider.getUniformMeta();
-                for (var id in metas) {
-                    meta[id] = metas[id];
-                }
-            });
-            return meta;
-        };
-        MultiUniformProvider.prototype.getUniformData = function () {
-            var data = _super.prototype.getUniformData.call(this);
-            this.providers.forEach(function (provider) {
-                var datas = provider.getUniformData();
-                for (var id in datas) {
-                    data[id] = datas[id];
-                }
-            });
-            return data;
-        };
-        return MultiUniformProvider;
-    })(DefaultUniformProvider);
-    return MultiUniformProvider;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformVector3',["require", "exports", '../math/Vector3', '../core/DefaultUniformProvider', '../uniforms/UniformVec3'], function (require, exports, Vector3, DefaultUniformProvider, UniformVec3) {
-    /**
-     * Provides a uniform variable with the Vector3 data type.
-     * @class UniformVector3
-     */
-    var UniformVector3 = (function (_super) {
-        __extends(UniformVector3, _super);
-        /**
-         * @class UniformVector3
-         * @constructor
-         */
-        function UniformVector3(name, id) {
-            _super.call(this);
-            this.inner = new UniformVec3(name, id);
-        }
-        Object.defineProperty(UniformVector3.prototype, "data", {
-            get: function () {
-                var data = this.inner.data;
-                if (data) {
-                    return new Vector3(data);
-                }
-                else {
-                    return;
-                }
-            },
-            set: function (vector) {
-                this.inner.data = vector.data;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformVector3.prototype, "callback", {
-            set: function (callback) {
-                this.inner.callback = function () {
-                    var vector = callback();
-                    return vector.data;
-                };
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformVector3.prototype.getUniformVector3 = function (name) {
-            return this.inner.getUniformVector3(name);
-        };
-        UniformVector3.prototype.getUniformMeta = function () {
-            return this.inner.getUniformMeta();
-        };
-        UniformVector3.prototype.getUniformData = function () {
-            return this.inner.getUniformData();
-        };
-        return UniformVector3;
-    })(DefaultUniformProvider);
-    return UniformVector3;
-});
-
-define('davinci-eight/uniforms/DirectionalLight',["require", "exports", '../core/Color', '../uniforms/MultiUniformProvider', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../math/Vector3', '../checks/isDefined'], function (require, exports, Color, MultiUniformProvider, Symbolic, UniformColor, UniformVector3, Vector3, isDefined) {
-    /**
-     * Provides a uniform variable representing a directional light.
-     * @class DirectionalLight
-     */
-    var DirectionalLight = (function () {
-        /**
-         * @class DirectionalLight
-         * @constructor
-         */
-        function DirectionalLight(options) {
-            options = options || {};
-            options.color = options.color || new Color([1.0, 1.0, 1.0]);
-            var direction = isDefined(options.direction) ? options.direction : { x: 0, y: 0, z: -1 };
-            var colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
-            var directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
-            this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR);
-            this.uDirection = new UniformVector3(directionName, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION);
-            this.multi = new MultiUniformProvider([this.uColor, this.uDirection]);
-            this.uColor.data = options.color;
-            this.uDirection.data = new Vector3().copy(direction);
-        }
-        Object.defineProperty(DirectionalLight.prototype, "color", {
-            get: function () {
-                return this.uColor;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DirectionalLight.prototype, "direction", {
-            get: function () {
-                return this.uDirection;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        DirectionalLight.prototype.getUniformFloat = function (name) {
-            return this.multi.getUniformFloat(name);
-        };
-        DirectionalLight.prototype.getUniformMatrix2 = function (name) {
-            return this.multi.getUniformMatrix2(name);
-        };
-        DirectionalLight.prototype.getUniformMatrix3 = function (name) {
-            return this.multi.getUniformMatrix3(name);
-        };
-        DirectionalLight.prototype.getUniformMatrix4 = function (name) {
-            return this.multi.getUniformMatrix4(name);
-        };
-        DirectionalLight.prototype.getUniformVector2 = function (name) {
-            return this.multi.getUniformVector2(name);
-        };
-        DirectionalLight.prototype.getUniformVector3 = function (name) {
-            return this.multi.getUniformVector3(name);
-        };
-        DirectionalLight.prototype.getUniformVector4 = function (name) {
-            return this.multi.getUniformVector4(name);
-        };
-        DirectionalLight.prototype.getUniformMeta = function () {
-            return this.multi.getUniformMeta();
-        };
-        DirectionalLight.prototype.getUniformData = function () {
-            return this.multi.getUniformData();
-        };
-        return DirectionalLight;
-    })();
-    return DirectionalLight;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/LocalModel',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../core/DefaultUniformProvider', '../math/Spinor3', '../core/Symbolic', '../math/Vector3', '../core/Color', '../uniforms/UniformColor'], function (require, exports, Matrix3, Matrix4, DefaultUniformProvider, Spinor3, Symbolic, Vector3, Color, UniformColor) {
-    var UNIFORM_MODEL_MATRIX_NAME = 'uModelMatrix';
-    var UNIFORM_MODEL_MATRIX_TYPE = 'mat4';
-    var UNIFORM_NORMAL_MATRIX_NAME = 'uNormalMatrix';
-    var UNIFORM_NORMAL_MATRIX_TYPE = 'mat3';
-    var UNIFORM_COLOR_NAME = 'uColor';
-    function modelViewMatrix(position, attitude) {
-        var matrix = Matrix4.identity();
-        matrix.translation(position);
-        var rotation = Matrix4.identity();
-        rotation.rotation(attitude);
-        matrix.mul(rotation);
-        return matrix;
-    }
-    /**
-     * @class LocalModel
-     * @extends DefaultUniformProvider
-     */
-    var LocalModel = (function (_super) {
-        __extends(LocalModel, _super);
-        /**
-         * @class Model
-         * @constructor
-         */
-        function LocalModel() {
-            _super.call(this);
-            this.position = new Vector3();
-            this.attitude = new Spinor3();
-            this.scale = new Vector3([1, 1, 1]);
-            this.uColor = new UniformColor(UNIFORM_COLOR_NAME, Symbolic.UNIFORM_COLOR);
-            this.uColor.data = Color.fromRGB(1, 1, 1);
-        }
-        Object.defineProperty(LocalModel.prototype, "color", {
-            get: function () {
-                return this.uColor.data;
-            },
-            set: function (color) {
-                this.uColor.data = color;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method getUniformVector3
-         * @param name {string}
-         */
-        LocalModel.prototype.getUniformVector3 = function (name) {
-            return this.uColor.getUniformVector3(name);
-        };
-        /**
-         * @method getUniformMatrix3
-         * @param name {string}
-         */
-        LocalModel.prototype.getUniformMatrix3 = function (name) {
-            switch (name) {
-                case UNIFORM_NORMAL_MATRIX_NAME:
-                    {
-                        // It's unfortunate that we have to recompute the model-view matrix.
-                        // We could cache it, being careful that we don't assume the callback order.
-                        // We don't want to compute it in the shader beacause that would be per-vertex.
-                        var normalMatrix = Matrix3.identity();
-                        var mv = modelViewMatrix(this.position, this.attitude);
-                        normalMatrix.normalFromMatrix4(mv);
-                        return { transpose: false, matrix3: new Float32Array(normalMatrix.elements) };
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformMatrix3.call(this, name);
-                }
-            }
-        };
-        /**
-         * @method getUniformMatrix4
-         * @param name {string}
-         */
-        LocalModel.prototype.getUniformMatrix4 = function (name) {
-            switch (name) {
-                case UNIFORM_MODEL_MATRIX_NAME:
-                    {
-                        var elements = modelViewMatrix(this.position, this.attitude).elements;
-                        return { transpose: false, matrix4: new Float32Array(elements) };
-                    }
-                    break;
-                default: {
-                    return this.uColor.getUniformMatrix4(name);
-                }
-            }
-        };
-        /**
-         * @method getUniformMeta
-         */
-        LocalModel.prototype.getUniformMeta = function () {
-            var uniforms = this.uColor.getUniformMeta();
-            uniforms[Symbolic.UNIFORM_MODEL_MATRIX] = { name: UNIFORM_MODEL_MATRIX_NAME, glslType: UNIFORM_MODEL_MATRIX_TYPE };
-            uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] = { name: UNIFORM_NORMAL_MATRIX_NAME, glslType: UNIFORM_NORMAL_MATRIX_TYPE };
-            return uniforms;
-        };
-        return LocalModel;
-    })(DefaultUniformProvider);
-    return LocalModel;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniversalJoint',["require", "exports", '../math/Matrix4', '../uniforms/TreeModel', '../math/Spinor3', '../core/Symbolic', '../checks/isUndefined'], function (require, exports, Matrix4, TreeModel, Spinor3, Symbolic, isUndefined) {
-    function localMatrix(attitude) {
-        // TODO: Why don't we have a static constructor?
-        var matrix = Matrix4.identity();
-        matrix.rotation(attitude);
-        return matrix;
-    }
-    function attitude(theta, phi) {
-        var c = Math.cos(theta / 2);
-        var s = Math.sin(theta / 2);
-        return new Spinor3([s * Math.sin(phi), -s * Math.cos(phi), 0, c]);
-    }
-    var UniversalJoint = (function (_super) {
-        __extends(UniversalJoint, _super);
-        function UniversalJoint(options) {
-            _super.call(this);
-            this.theta = 0;
-            this.phi = 0;
-            options = options || {};
-            this.modelMatrixVarName = isUndefined(options.modelMatrixVarName) ? Symbolic.UNIFORM_MODEL_MATRIX : options.modelMatrixVarName;
-        }
-        UniversalJoint.prototype.getUniformMatrix4 = function (name) {
-            switch (name) {
-                case this.modelMatrixVarName:
-                    {
-                        if (this.getParent()) {
-                            var m1 = new Matrix4(this.getParent().getUniformMatrix4(name).matrix4);
-                            var m2 = localMatrix(attitude(this.theta, this.phi));
-                            var m = Matrix4.identity().multiplyMatrices(m1, m2);
-                            return { transpose: false, matrix4: m.elements };
-                        }
-                        else {
-                            var m = localMatrix(attitude(this.theta, this.phi));
-                            return { transpose: false, matrix4: m.elements };
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformMatrix4.call(this, name);
-                }
-            }
-        };
-        return UniversalJoint;
-    })(TreeModel);
-    return UniversalJoint;
-});
-
-define('davinci-eight/uniforms/PointLight',["require", "exports", '../core/Color', '../math/Vector3', '../core/Symbolic', '../uniforms/UniformColor', '../uniforms/UniformVector3', '../uniforms/MultiUniformProvider', '../checks/isDefined'], function (require, exports, Color, Vector3, Symbolic, UniformColor, UniformVector3, MultiUniformProvider, isDefined) {
-    /**
-     * Provides a uniform variable representing a point light.
-     * @class PointLight
-     */
-    var PointLight = (function () {
-        /**
-         * @class PointLight
-         * @constructor
-         */
-        function PointLight(options) {
-            options = options || {};
-            options.color = options.color || new Color([1.0, 1.0, 1.0]);
-            options.position = options.position || new Vector3([0.0, 0.0, 0.0]);
-            var colorName = isDefined(options.name) ? options.name + 'Color' : void 0;
-            var directionName = isDefined(options.name) ? options.name + 'Direction' : void 0;
-            this.uColor = new UniformColor(colorName, Symbolic.UNIFORM_POINT_LIGHT_COLOR);
-            this.uPosition = new UniformVector3(directionName, Symbolic.UNIFORM_POINT_LIGHT_POSITION);
-            this.multi = new MultiUniformProvider([this.uColor, this.uPosition]);
-            this.uColor.data = options.color;
-            this.uPosition.data = options.position;
-        }
-        Object.defineProperty(PointLight.prototype, "color", {
-            get: function () {
-                return this.uColor;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PointLight.prototype, "position", {
-            get: function () {
-                return this.uPosition;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PointLight.prototype.getUniformFloat = function (name) {
-            return this.multi.getUniformFloat(name);
-        };
-        PointLight.prototype.getUniformMatrix2 = function (name) {
-            return this.multi.getUniformMatrix2(name);
-        };
-        PointLight.prototype.getUniformMatrix3 = function (name) {
-            return this.multi.getUniformMatrix3(name);
-        };
-        PointLight.prototype.getUniformMatrix4 = function (name) {
-            return this.multi.getUniformMatrix4(name);
-        };
-        PointLight.prototype.getUniformVector2 = function (name) {
-            return this.multi.getUniformVector2(name);
-        };
-        PointLight.prototype.getUniformVector3 = function (name) {
-            return this.multi.getUniformVector3(name);
-        };
-        PointLight.prototype.getUniformVector4 = function (name) {
-            return this.multi.getUniformVector4(name);
-        };
-        PointLight.prototype.getUniformMeta = function () {
-            return this.multi.getUniformMeta();
-        };
-        PointLight.prototype.getUniformData = function () {
-            return this.multi.getUniformData();
-        };
-        return PointLight;
-    })();
-    return PointLight;
-});
-
-define('davinci-eight/uniforms/uniforms',["require", "exports", '../uniforms/MultiUniformProvider'], function (require, exports, MultiUniformProvider) {
-    /**
-     * @method uniforms
-     */
-    function uniforms(providers) {
-        return new MultiUniformProvider(providers);
-    }
-    return uniforms;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformFloat',["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4'], function (require, exports, DefaultUniformProvider, uuid4) {
-    /**
-     * @class UniformFloat
-     */
-    var UniformFloat = (function (_super) {
-        __extends(UniformFloat, _super);
-        /**
-         * @class UniformFloat
-         * @constructor
-         * @param name {string}
-         * @param name {id}
-         */
-        function UniformFloat(name, id) {
-            _super.call(this);
-            this.$data = 0;
-            this.useData = false;
-            this.useCallback = false;
-            this.name = name;
-            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
-        }
-        Object.defineProperty(UniformFloat.prototype, "data", {
-            set: function (data) {
-                this.$data = data;
-                if (typeof data !== void 0) {
-                    this.useData = true;
-                    this.useCallback = false;
-                }
-                else {
-                    this.useData = false;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformFloat.prototype, "callback", {
-            set: function (callback) {
-                this.$callback = callback;
-                if (typeof callback !== void 0) {
-                    this.useCallback = true;
-                    this.useData = false;
-                }
-                else {
-                    this.useCallback = false;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformFloat.prototype.getUniformFloat = function (name) {
-            switch (name) {
-                case this.name:
-                    {
-                        if (this.useData) {
-                            return this.$data;
-                        }
-                        else if (this.useCallback) {
-                            return this.$callback();
-                        }
-                        else {
-                            var message = "uniform float " + this.name + " has not been assigned a data or callback.";
-                            console.warn(message);
-                            throw new Error(message);
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformFloat.call(this, name);
-                }
-            }
-        };
-        UniformFloat.prototype.getUniformMeta = function () {
-            var uniforms = _super.prototype.getUniformMeta.call(this);
-            uniforms[this.id] = { name: this.name, glslType: 'float' };
-            return uniforms;
-        };
-        return UniformFloat;
-    })(DefaultUniformProvider);
-    return UniformFloat;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformVec2',["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4'], function (require, exports, DefaultUniformProvider, uuid4) {
-    var UniformVec2 = (function (_super) {
-        __extends(UniformVec2, _super);
-        function UniformVec2(name, id) {
-            _super.call(this);
-            this.$data = [0, 0];
-            this.useData = true;
-            this.name = name;
-            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
-        }
-        Object.defineProperty(UniformVec2.prototype, "data", {
-            set: function (data) {
-                this.$data = data;
-                this.useData = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformVec2.prototype, "callback", {
-            set: function (callback) {
-                this.$callback = callback;
-                this.useData = false;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformVec2.prototype.getUniformVector2 = function (name) {
-            switch (name) {
-                case this.name:
-                    {
-                        if (this.useData) {
-                            return this.$data;
-                        }
-                        else {
-                            return this.$callback();
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformVector2.call(this, name);
-                }
-            }
-        };
-        UniformVec2.prototype.getUniformMeta = function () {
-            var uniforms = _super.prototype.getUniformMeta.call(this);
-            uniforms[this.id] = { name: this.name, glslType: 'vec2' };
-            return uniforms;
-        };
-        return UniformVec2;
-    })(DefaultUniformProvider);
-    return UniformVec2;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformVec4',["require", "exports", '../core/DefaultUniformProvider', '../utils/uuid4', '../checks/expectArg'], function (require, exports, DefaultUniformProvider, uuid4, expectArg) {
-    var UniformVec4 = (function (_super) {
-        __extends(UniformVec4, _super);
-        function UniformVec4(name, id) {
-            _super.call(this);
-            this.$data = [0, 0, 0];
-            this.useData = true;
-            this.name = name;
-            this.id = typeof id !== 'undefined' ? id : uuid4().generate();
-        }
-        Object.defineProperty(UniformVec4.prototype, "data", {
-            set: function (data) {
-                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
-                this.$data = data;
-                this.useData = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformVec4.prototype, "callback", {
-            set: function (callback) {
-                this.$callback = callback;
-                this.useData = false;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformVec4.prototype.getUniformVector4 = function (name) {
-            switch (name) {
-                case this.name:
-                    {
-                        if (this.useData) {
-                            return this.$data;
-                        }
-                        else {
-                            return this.$callback();
-                        }
-                    }
-                    break;
-                default: {
-                    return _super.prototype.getUniformVector4.call(this, name);
-                }
-            }
-        };
-        UniformVec4.prototype.getUniformMeta = function () {
-            var uniforms = _super.prototype.getUniformMeta.call(this);
-            uniforms[this.id] = { name: this.name, glslType: 'vec4' };
-            return uniforms;
-        };
-        return UniformVec4;
-    })(DefaultUniformProvider);
-    return UniformVec4;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/uniforms/UniformSpinor3',["require", "exports", '../math/Spinor3', '../core/DefaultUniformProvider', '../uniforms/UniformVec4'], function (require, exports, Spinor3, DefaultUniformProvider, UniformVec4) {
-    /**
-     * Provides a uniform variable representing an ambient light.
-     * @class UniformSpinor3
-     */
-    var UniformSpinor3 = (function (_super) {
-        __extends(UniformSpinor3, _super);
-        /**
-         * @class UniformSpinor3
-         * @constructor
-         */
-        function UniformSpinor3(name, id) {
-            _super.call(this);
-            this.inner = new UniformVec4(name, id);
-        }
-        Object.defineProperty(UniformSpinor3.prototype, "data", {
-            get: function () {
-                var data = this.inner.data;
-                if (data) {
-                    return new Spinor3(data);
-                }
-                else {
-                    return;
-                }
-            },
-            set: function (vector) {
-                this.inner.data = vector.data;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(UniformSpinor3.prototype, "callback", {
-            set: function (callback) {
-                this.inner.callback = function () {
-                    var vector = callback();
-                    return vector.data;
-                };
-            },
-            enumerable: true,
-            configurable: true
-        });
-        UniformSpinor3.prototype.getUniformVector4 = function (name) {
-            return this.inner.getUniformVector4(name);
-        };
-        UniformSpinor3.prototype.getUniformMeta = function () {
-            return this.inner.getUniformMeta();
-        };
-        return UniformSpinor3;
-    })(DefaultUniformProvider);
-    return UniformSpinor3;
 });
 
 define('davinci-eight/utils/contextMonitor',["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], function (require, exports, initWebGL, expectArg) {
@@ -11312,19 +9500,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/DefaultDrawableVisitor', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/DefaultUniformProvider', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/objects/arrow', 'davinci-eight/objects/box', 'davinci-eight/objects/cylinder', 'davinci-eight/objects/sphere', 'davinci-eight/objects/vortex', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ChainedUniformProvider', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/LocalModel', 'davinci-eight/uniforms/Node', 'davinci-eight/uniforms/TreeModel', 'davinci-eight/uniforms/UniversalJoint', 'davinci-eight/uniforms/MultiUniformProvider', 'davinci-eight/uniforms/PointLight', 'davinci-eight/uniforms/uniforms', 'davinci-eight/uniforms/UniformFloat', 'davinci-eight/uniforms/UniformMat4', 'davinci-eight/uniforms/UniformVec2', 'davinci-eight/uniforms/UniformVec3', 'davinci-eight/uniforms/UniformVec4', 'davinci-eight/uniforms/UniformVector3', 'davinci-eight/uniforms/UniformSpinor3', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, DefaultDrawableVisitor, Color, DataUsage, DrawMode, Face3, core, primitive, DefaultUniformProvider, ShaderAttribLocation, ShaderUniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, arrow, box, cylinder, sphere, vortex, Curve, initWebGL, renderer, AmbientLight, ChainedUniformProvider, DirectionalLight, LocalModel, Node, TreeModel, UniversalJoint, MultiUniformProvider, PointLight, uniforms, UniformFloat, UniformMat4, UniformVec2, UniformVec3, UniformVec4, UniformVector3, UniformSpinor3, contextMonitor, workbench3D, windowAnimationRunner) {
-    /*
-    import BoxMesh = require('davinci-eight/mesh/BoxMesh');
-    import CuboidMesh = require('davinci-eight/mesh/CuboidMesh');
-    import CurveMesh = require('davinci-eight/mesh/CurveMesh');
-    import EllipsoidMesh = require('davinci-eight/mesh/EllipsoidMesh');
-    import LatticeMesh = require('davinci-eight/mesh/LatticeMesh');
-    import box = require('davinci-eight/mesh/box');
-    import prism = require('davinci-eight/mesh/prism');
-    import cuboid = require('davinci-eight/mesh/cuboid');
-    import ellipsoid = require('davinci-eight/mesh/ellipsoid');
-    import RGBMesh = require('davinci-eight/mesh/RGBMesh');
-    */
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Node, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, ShaderAttribLocation, ShaderUniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, Curve, initWebGL, renderer, contextMonitor, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -11336,6 +9512,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
          */
         'VERSION': core.VERSION,
         get initWebGL() { return initWebGL; },
+        get Node() { return Node; },
         get frustum() { return frustum; },
         get frustumMatrix() { return frustumMatrix; },
         get perspective() { return perspective; },
@@ -11349,8 +9526,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         animation: windowAnimationRunner,
         get DataUsage() { return DataUsage; },
         get DefaultAttribProvider() { return DefaultAttribProvider; },
-        get DefaultDrawableVisitor() { return DefaultDrawableVisitor; },
-        get DefaultUniformProvider() { return DefaultUniformProvider; },
         get primitive() { return primitive; },
         get DrawMode() { return DrawMode; },
         get ShaderAttribLocation() { return ShaderAttribLocation; },
@@ -11361,9 +9536,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get smartProgram() {
             return smartProgram;
         },
-        get AmbientLight() { return AmbientLight; },
-        get DirectionalLight() { return DirectionalLight; },
-        get PointLight() { return PointLight; },
         get Color() { return Color; },
         get Face3() { return Face3; },
         get Geometry() { return Geometry; },
@@ -11385,27 +9557,14 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get TetrahedronGeometry() { return TetrahedronGeometry; },
         get TubeGeometry() { return TubeGeometry; },
         get VortexGeometry() { return VortexGeometry; },
-        get LocalModel() { return LocalModel; },
-        get Node() { return Node; },
-        get TreeModel() { return TreeModel; },
-        get UniversalJoint() { return UniversalJoint; },
-        get UniformFloat() { return UniformFloat; },
-        get UniformMat4() { return UniformMat4; },
-        get UniformVec2() { return UniformVec2; },
-        get UniformVec3() { return UniformVec3; },
-        get UniformVec4() { return UniformVec4; },
-        get UniformVector3() { return UniformVector3; },
-        get UniformSpinor3() { return UniformSpinor3; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get Spinor3() { return Spinor3; },
         get Quaternion() { return Quaternion; },
+        get Vector1() { return Vector1; },
         get Vector2() { return Vector2; },
         get Vector3() { return Vector3; },
         get Curve() { return Curve; },
-        get ChainedUniformProvider() { return ChainedUniformProvider; },
-        get MultiUniformProvider() { return MultiUniformProvider; },
-        get uniforms() { return uniforms; },
         // mesh
         get arrowMesh() { return arrowMesh; },
         get ArrowBuilder() { return ArrowBuilder; },
@@ -11417,12 +9576,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get sphereMesh() { return sphereMesh; },
         get SphereBuilder() { return SphereBuilder; },
         get vortexMesh() { return vortexMesh; },
-        // objects
-        get arrow() { return arrow; },
-        get box() { return box; },
-        get cylinder() { return cylinder; },
-        get sphere() { return sphere; },
-        get vortex() { return vortex; },
         // programs
         get shaderProgramFromScripts() { return shaderProgramFromScripts; },
     };

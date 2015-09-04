@@ -1,30 +1,21 @@
-define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic'], function (require, exports, view, Matrix4, Symbolic) {
-    var UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
-    var UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
+define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, view, Matrix4, Vector1) {
     /**
      * @class frustum
      * @constructor
-     * @param left {number}
-     * @param right {number}
-     * @param bottom {number}
-     * @param top {number}
-     * @param near {number}
-     * @param far {number}
      * @return {Frustum}
      */
-    var frustum = function (left, right, bottom, top, near, far) {
-        if (left === void 0) { left = -1; }
-        if (right === void 0) { right = 1; }
-        if (bottom === void 0) { bottom = -1; }
-        if (top === void 0) { top = 1; }
-        if (near === void 0) { near = 1; }
-        if (far === void 0) { far = 1000; }
-        var options = { viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX };
-        var base = view(options);
+    var frustum = function (viewMatrixName, projectionMatrixName) {
+        var base = view(viewMatrixName);
+        var left = new Vector1();
+        var right = new Vector1();
+        var bottom = new Vector1();
+        var top = new Vector1();
+        var near = new Vector1();
+        var far = new Vector1();
         // TODO: We should immediately create with a frustum static constructor?
         var projectionMatrix = Matrix4.identity();
         function updateProjectionMatrix() {
-            projectionMatrix.frustum(left, right, bottom, top, near, far);
+            projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
         }
         updateProjectionMatrix();
         var self = {
@@ -60,83 +51,50 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
                 return self;
             },
             get left() {
-                return left;
+                return left.x;
             },
             set left(value) {
-                left = value;
+                left.x = value;
                 updateProjectionMatrix();
             },
             get right() {
-                return right;
+                return right.x;
             },
             set right(value) {
-                right = value;
+                right.x = value;
                 updateProjectionMatrix();
             },
             get bottom() {
-                return bottom;
+                return bottom.x;
             },
             set bottom(value) {
-                bottom = value;
+                bottom.x = value;
                 updateProjectionMatrix();
             },
             get top() {
-                return top;
+                return top.x;
             },
             set top(value) {
-                top = value;
+                top.x = value;
                 updateProjectionMatrix();
             },
             get near() {
-                return near;
+                return near.x;
             },
             set near(value) {
-                near = value;
+                near.x = value;
                 updateProjectionMatrix();
             },
             get far() {
-                return far;
+                return far.x;
             },
             set far(value) {
-                far = value;
+                far.x = value;
                 updateProjectionMatrix();
             },
-            getUniformFloat: function (name) {
-                return base.getUniformFloat(name);
-            },
-            getUniformMatrix2: function (name) {
-                return base.getUniformMatrix2(name);
-            },
-            getUniformMatrix3: function (name) {
-                return base.getUniformMatrix3(name);
-            },
-            getUniformMatrix4: function (name) {
-                switch (name) {
-                    case UNIFORM_PROJECTION_MATRIX_NAME: {
-                        return { transpose: false, matrix4: projectionMatrix.elements };
-                    }
-                    default: {
-                        return base.getUniformMatrix4(name);
-                    }
-                }
-            },
-            getUniformVector2: function (name) {
-                return base.getUniformVector2(name);
-            },
-            getUniformVector3: function (name) {
-                return base.getUniformVector3(name);
-            },
-            getUniformVector4: function (name) {
-                return base.getUniformVector4(name);
-            },
-            getUniformMeta: function () {
-                var uniforms = base.getUniformMeta();
-                uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE };
-                return uniforms;
-            },
-            getUniformData: function () {
-                var data = base.getUniformData();
-                return data;
+            accept: function (visitor) {
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+                base.accept(visitor);
             }
         };
         return self;

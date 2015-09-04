@@ -1,17 +1,9 @@
-var frustumMatrix = require('../cameras/frustumMatrix');
-var expectArg = require('../checks/expectArg');
+var isDefined = require('../checks/isDefined');
+var Matrix4 = require('../math/Matrix4');
+var perspectiveArray = require('../cameras/perspectiveArray');
 function perspectiveMatrix(fov, aspect, near, far, matrix) {
-    // We can leverage the frustum function, although technically the
-    // symmetry in this perspective transformation should reduce the amount
-    // of computation required.
-    expectArg('fov', fov).toBeNumber();
-    expectArg('aspect', aspect).toBeNumber();
-    expectArg('near', near).toBeNumber();
-    expectArg('far', far).toBeNumber();
-    var ymax = near * Math.tan(fov * 0.5); // top
-    var ymin = -ymax; // bottom
-    var xmin = ymin * aspect; // left
-    var xmax = ymax * aspect; // right
-    return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
+    var m = isDefined(matrix) ? matrix : Matrix4.identity();
+    perspectiveArray(fov, aspect, near, far, m.elements);
+    return m;
 }
 module.exports = perspectiveMatrix;

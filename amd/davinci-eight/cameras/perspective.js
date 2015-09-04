@@ -1,4 +1,4 @@
-define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../checks/isDefined', '../checks/isUndefined', '../checks/expectArg'], function (require, exports, view, Matrix4, Symbolic, isDefined, isUndefined, expectArg) {
+define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, view, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
     //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     /**
      * @class perspective
@@ -11,10 +11,10 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
      */
     var perspective = function (options) {
         options = options || {};
-        var fov = isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov;
-        var aspect = isUndefined(options.aspect) ? 1 : options.aspect;
-        var near = isUndefined(options.near) ? 0.1 : options.near;
-        var far = expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value;
+        var fov = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+        var aspect = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
+        var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
+        var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
         var base = view(options);
         var projectionMatrix = Matrix4.identity();
@@ -52,100 +52,60 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
                 return self;
             },
             get fov() {
-                return fov;
+                return fov.x;
             },
             set fov(value) {
                 self.setFov(value);
             },
             setFov: function (value) {
                 expectArg('fov', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || fov !== value;
-                fov = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
+                fov.x = value;
                 return self;
             },
             get aspect() {
-                return aspect;
+                return aspect.x;
             },
             set aspect(value) {
                 self.setAspect(value);
             },
             setAspect: function (value) {
                 expectArg('aspect', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || aspect !== value;
-                aspect = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
+                aspect.x = value;
                 return self;
             },
             get near() {
-                return near;
+                return near.x;
             },
             set near(value) {
                 self.setNear(value);
             },
             setNear: function (value) {
                 expectArg('near', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || near !== value;
-                near = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
+                near.x = value;
                 return self;
             },
             get far() {
-                return far;
+                return far.x;
             },
             set far(value) {
                 self.setFar(value);
             },
             setFar: function (value) {
                 expectArg('far', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || far !== value;
-                far = value;
+                matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
+                far.x = value;
                 return self;
             },
-            getUniformFloat: function (name) {
-                return base.getUniformFloat(name);
-            },
-            getUniformMatrix2: function (name) {
-                return base.getUniformMatrix2(name);
-            },
-            getUniformMatrix3: function (name) {
-                return base.getUniformMatrix3(name);
-            },
-            getUniformMatrix4: function (name) {
-                expectArg('name', name).toBeString();
-                switch (name) {
-                    case projectionMatrixName: {
-                        if (matrixNeedsUpdate) {
-                            projectionMatrix.perspective(fov, aspect, near, far);
-                            matrixNeedsUpdate = false;
-                        }
-                        return { transpose: false, matrix4: projectionMatrix.elements };
-                    }
-                    default: {
-                        return base.getUniformMatrix4(name);
-                    }
+            accept: function (visitor) {
+                if (matrixNeedsUpdate) {
+                    computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                    matrixNeedsUpdate = false;
                 }
-            },
-            getUniformVector2: function (name) {
-                return base.getUniformVector2(name);
-            },
-            getUniformVector3: function (name) {
-                return base.getUniformVector3(name);
-            },
-            getUniformVector4: function (name) {
-                return base.getUniformVector4(name);
-            },
-            getUniformMeta: function () {
-                var meta = base.getUniformMeta();
-                if (isDefined(options.projectionMatrixName)) {
-                    meta[Symbolic.UNIFORM_PROJECTION_MATRIX] = { name: options.projectionMatrixName, glslType: 'mat4' };
-                }
-                else {
-                    meta[Symbolic.UNIFORM_PROJECTION_MATRIX] = { glslType: 'mat4' };
-                }
-                return meta;
-            },
-            getUniformData: function () {
-                var data = base.getUniformData();
-                data[projectionMatrixName] = self.getUniformMatrix4(projectionMatrixName);
-                return data;
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+                base.accept(visitor);
             }
         };
         return self;

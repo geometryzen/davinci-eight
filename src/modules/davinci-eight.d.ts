@@ -58,7 +58,7 @@ interface RenderingContextUser extends ReferenceCounted {
 }
 
 interface DrawableVisitor {
-  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformProvider);
+  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformData);
 }
 
 interface Drawable extends RenderingContextUser {
@@ -71,12 +71,10 @@ interface Drawable extends RenderingContextUser {
    */
   accept(visitor: DrawableVisitor);
 }
-class DefaultDrawableVisitor implements DrawableVisitor {
-  constructor();
-  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformProvider);
-}
-
-interface DrawList extends RenderingContextUser
+/**
+ *
+ */
+interface DrawList extends RenderingContextUser, UniformDataVisitor
 {
   /**
    * Add a drawable to the DrawList.
@@ -89,23 +87,7 @@ interface DrawList extends RenderingContextUser
   /**
    * Traverse the drawables in the DrawList.
    */
-  traverse(callback: (value: Drawable, index: number, array: Drawable[]) => void): void;
-  /**
-   * Sets the uniforms provided into all programs.
-   */
-  setUniforms(values: UniformDataInfos);
-
-  uniform1f(name: string, x: number);
-  uniform1fv(name: string, data: number[]);
-  uniform2f(name: string, x: number, y: number);
-  uniform2fv(name: string, data: number[]);
-  uniform3f(name: string, x: number, y: number, z: number);
-  uniform3fv(name: string, data: number[]);
-  uniform4f(name: string, x: number, y: number, z: number, w: number);
-  uniform4fv(name: string, data: number[]);
-  uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array);
-  uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array);
-  uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array);
+  traverse(callback: (value: Drawable) => void): void;
 }
 /**
  * Manages the lifecycle of an attribute used in a vertex shader.
@@ -120,26 +102,22 @@ class ShaderAttribLocation {
   dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
   bufferData(data: AttribProvider);
 }
-interface ShaderUniformSetter {
-  (data: UniformDataInfo): void
-}
 class ShaderUniformLocation {
   constructor(name: string, glslType: string);
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
-  createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter;
   uniform1f(x: number);
   uniform1fv(data: number[]);
   uniform2f(x: number, y: number);
   uniform2fv(data: number[]);
   uniform3f(x: number, y: number, z: number);
-  uniform3fv(data: number[]);
   uniform4f(x: number, y: number, z: number, w: number);
   uniform4fv(data: number[]);
-  uniformMatrix2fv(transpose: boolean, matrix: Float32Array);
-  uniformMatrix3fv(transpose: boolean, matrix: Float32Array);
-  uniformMatrix4fv(transpose: boolean, matrix: Float32Array);
+  uniformMatrix2(transpose: boolean, matrix: Matrix2);
+  uniformMatrix3(transpose: boolean, matrix: Matrix3);
+  uniformMatrix4(transpose: boolean, matrix: Matrix4);
+  uniformVector3(vector: Vector3);
 }
 /**
  *
@@ -165,10 +143,6 @@ class Matrix4 {
    */
   static identity(): Matrix4;
   /**
-   * Generates a new perspective matrix.
-   */
-  static perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
-  /**
    * Generates a new scaling matrix.
    */
   static scaling(scale: Cartesian3): Matrix4;
@@ -183,7 +157,12 @@ class Matrix4 {
   /**
    *
    */
+  // TODO: This should not be here (or should change API).
   static mul(a: Float32Array, b: Float32Array, out: Float32Array): Float32Array
+  /**
+   *
+   */
+  copy(matrix: Matrix4): Matrix4;
   /**
    *
    */
@@ -193,8 +172,8 @@ class Matrix4 {
    */
   identity(): Matrix4;
   invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
-  mul(matrix: Matrix4): void;
-  perspective(fov: number, aspect: number, near: number, far: number): void;
+  mul(matrix: Matrix4): Matrix4;
+  multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4;
   rotate(spinor: Spinor3Coords): void;
   rotation(spinor: Spinor3Coords): void;
   scale(scale: Cartesian3): void;
@@ -264,6 +243,7 @@ class Spinor3 extends Mutable<number[]> implements Spinor3Coords {
   public w: number;
   public data: number[];
   public callback: () => number[];
+  public modified: boolean;
   constructor(spinor?: number[]);
   clone(): Spinor3;
   copy(spinor: Spinor3Coords): Spinor3;
@@ -280,6 +260,7 @@ class Vector3 extends Mutable<number[]> implements Cartesian3 {
   public z: number;
   public data: number[];
   public callback: () => number[];
+  public modified: boolean;
   public static e1: Vector3;
   public static e2: Vector3;
   public static e3: Vector3;
@@ -316,62 +297,29 @@ interface UniformMetaInfo {
 interface UniformMetaInfos {
   [name: string]: UniformMetaInfo
 }
-interface UniformDataInfo {
-  transpose?: boolean;
-  x?: number;
-  y?: number;
-  z?: number;
-  w?: number;
-  vector?: number[];
-  matrix2?: Float32Array;
-  matrix3?: Float32Array;
-  matrix4?: Float32Array;
-  uniformZs?: Int32Array;
+
+interface UniformDataVisitor {
+  uniform1f(name: string, x: number);
+  uniform1fv(name: string, value: number[]);
+  uniform2f(name: string, x: number, y: number);
+  uniform2fv(name: string, value: number[]);
+  uniform3f(name: string, x: number, y: number, z: number);
+  uniform4f(name: string, x: number, y: number, z: number, w: number);
+  uniform4fv(name: string, value: number[]);
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2);
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3);
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4);
+  uniformVector3(name: string, vector: Vector3);
 }
-interface UniformDataInfos {
-  [name: string]: UniformDataInfo
+
+interface UniformData {
+  accept(visitor: UniformDataVisitor);
 }
 /**
  * Provides the runtime and design time data required to use a uniform in a vertex shader.
  */
-interface UniformProvider {
-  getUniformFloat(name: string): number;
-  getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-  getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-  getUniformVector2(name: string): number[];
-  getUniformVector3(name: string): number[];
-  getUniformVector4(name: string): number[];
+interface UniformProvider extends UniformData {
   getUniformMeta(): UniformMetaInfos;
-  getUniformData(): UniformDataInfos;
-}
-/**
- *
- */
-class AmbientLight implements UniformProvider {
-  public color: UniformColor;
-  constructor(options?: {color?: Color; name?: string});
-  getUniformFloat(name: string): number;
-  getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-  getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-  getUniformVector2(name: string): number[];
-  getUniformVector3(name: string): number[];
-  getUniformVector4(name: string): number[];
-  getUniformMeta(): UniformMetaInfos;
-  getUniformData(): UniformDataInfos;
-}
-/**
- *
- */
-class ChainedUniformProvider implements UniformProvider {
-  constructor(one: UniformProvider, two: UniformProvider);
-  getUniformFloat(name: string): number;
-  getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-  getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-  getUniformVector2(name: string): number[];
-  getUniformVector3(name: string): number[];
-  getUniformVector4(name: string): number[];
-  getUniformMeta(): UniformMetaInfos;
-  getUniformData(): UniformDataInfos;
 }
 /**
  *
@@ -388,137 +336,9 @@ class DefaultAttribProvider implements AttribProvider {
   getElementArray(): {usage: DataUsage; data: Uint16Array};
 }
 /**
- *
- */
-class DefaultUniformProvider implements UniformProvider {
-  constructor();
-  getUniformFloat(name: string);
-  getUniformMatrix2(name: string): { transpose: boolean; matrix2: Float32Array };
-  getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-  getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-  getUniformVector2(name: string): number[];
-  getUniformVector3(name: string): number[];
-  getUniformVector4(name: string): number[];
-  getUniformMeta(): UniformMetaInfos;
-  getUniformData(): UniformDataInfos;
-}
-/**
- *
- */
-class DirectionalLight implements UniformProvider {
-  public color: UniformColor;
-  public direction: UniformVector3;
-  constructor(options?: {color?: Color; direction?: Cartesian3; name?: string});
-  getUniformFloat(name: string): number;
-  getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-  getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-  getUniformVector2(name: string): number[];
-  getUniformVector3(name: string): number[];
-  getUniformVector4(name: string): number[];
-  getUniformMeta(): UniformMetaInfos;
-  getUniformData(): UniformDataInfos;
-}
-/**
- *
- */
-class PointLight implements UniformProvider {
-  public color: UniformColor;
-  public position: UniformVector3;
-  constructor(options?: {color?: Color; position?: Vector3; name?: string});
-  getUniformFloat(name: string): number;
-  getUniformMatrix3(name: string): { transpose: boolean; matrix3: Float32Array };
-  getUniformMatrix4(name: string): { transpose: boolean; matrix4: Float32Array };
-  getUniformVector2(name: string): number[];
-  getUniformVector3(name: string): number[];
-  getUniformVector4(name: string): number[];
-  getUniformMeta(): UniformMetaInfos;
-  getUniformData(): UniformDataInfos;
-}
-/**
- *
- */
-class MultiUniformProvider extends DefaultUniformProvider {
-  constructor(providers: UniformProvider[]);
-}
-/**
- *
- */
-function uniforms(providers: UniformProvider[]): UniformProvider;
-/**
- *
- */
-interface UniformVariable<T> extends UniformProvider {
-  data: T;
-  callback: () => T;
-}
-/**
- * Represents a uniform vec3 for a Color.
- */
-class UniformColor extends DefaultUniformProvider implements UniformVariable<Color> {
-  constructor(name: string, id?: string);
-  data: Color;
-  callback: () => Color;
-}
-/**
- * Represents a uniform vec3 for a Vector3.
- */
-class UniformVector3 extends DefaultUniformProvider implements UniformVariable<Vector3> {
-  constructor(name: string, id?: string);
-  data: Vector3;
-  callback: () => Vector3;
-}
-/**
- * Represents a uniform vec4 for a Spinor3.
- */
-class UniformSpinor3 extends DefaultUniformProvider implements UniformVariable<Spinor3> {
-  constructor(name: string, id?: string);
-  data: Spinor3;
-  callback: () => Spinor3;
-}
-/**
- * Represents a uniform float.
- */
-class UniformFloat extends DefaultUniformProvider implements UniformVariable<number> {
-  constructor(name: string, id?: string);
-  data: number;
-  callback: () => number;
-}
-/**
- * Represents a uniform mat4.
- */
-class UniformMat4 extends DefaultUniformProvider implements UniformVariable<{ transpose: boolean; matrix4: Float32Array}> {
-  constructor(name: string, id?: string);
-  data: { transpose: boolean; matrix4: Float32Array};
-  callback: () => { transpose: boolean; matrix4: Float32Array};
-}
-/**
- * Represents a uniform vec2.
- */
-class UniformVec2 extends DefaultUniformProvider implements UniformVariable<number[]> {
-  constructor(name: string, id?: string);
-  data: number[];
-  callback: () => number[];
-}
-/**
- * Represents a uniform vec3.
- */
-class UniformVec3 extends DefaultUniformProvider implements UniformVariable<number[]> {
-  constructor(name: string, id?: string);
-  data: number[];
-  callback: () => number[];
-}
-/**
- * Represents a uniform vec4.
- */
-class UniformVec4 extends DefaultUniformProvider implements UniformVariable<number[]> {
-  constructor(name: string, id?: string);
-  data: number[];
-  callback: () => number[];
-}
-/**
  * Provides the uniform for the model to view coordinates transformation.
  */
-interface View extends UniformProvider {
+interface View extends UniformData {
   /**
    * The position of the view reference point, VRP.
    */
@@ -727,6 +547,7 @@ class Color
   public green: number;
   public blue: number;
   public data: number[];
+  public modified: boolean;
   constructor(data?: number[]);
   public static fromHSL(H: number, S: number, L: number): Color;
   public static fromRGB(red: number, green: number, blue: number): Color;
@@ -779,7 +600,7 @@ class EllipticalCylinderGeometry extends Geometry {
 /**
  * A vertex shader and a fragment shader combined into a program.
  */
-interface ShaderProgram extends RenderingContextUser
+interface ShaderProgram extends RenderingContextUser, UniformDataVisitor
 {
   /**
    * @property program
@@ -811,22 +632,6 @@ interface ShaderProgram extends RenderingContextUser
    */
   setAttributes(values: AttribDataInfos);
   /**
-   * Sets the uniforms provided into the appropriate locations.
-   */
-  setUniforms(values: UniformDataInfos);
-
-  uniform1f(name: string, x: number);
-  uniform1fv(name: string, data: number[]);
-  uniform2f(name: string, x: number, y: number);
-  uniform2fv(name: string, data: number[]);
-  uniform3f(name: string, x: number, y: number, z: number);
-  uniform3fv(name: string, data: number[]);
-  uniform4f(name: string, x: number, y: number, z: number, w: number);
-  uniform4fv(name: string, data: number[]);
-  uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array);
-  uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array);
-  uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array);
-  /**
    *
    */
   attributeLocations: { [name: string]: ShaderAttribLocation };
@@ -834,10 +639,6 @@ interface ShaderProgram extends RenderingContextUser
    *
    */
   uniformLocations: { [name: string]: ShaderUniformLocation };
-  /**
-   *
-   */
-  uniformSetters: { [name: string]: ShaderUniformSetter };
 }
 /**
  *
@@ -848,12 +649,9 @@ interface Composite<M> extends Drawable {
 /**
  * The combination of a geometry, model and a program.
  */
-interface Primitive<MESH extends AttribProvider, MODEL extends UniformProvider> extends Composite<MODEL>
+interface Primitive<MESH extends AttribProvider, MODEL extends UniformData> extends Composite<MODEL>
 {
   mesh: MESH;
-}
-interface Blade<M> extends Composite<M> {
-  setMagnitude(magnitude: number): Blade<M>;
 }
 interface Renderer extends RenderingContextUser
 {
@@ -914,7 +712,7 @@ function frustum(left?: number, right?: number, bottom?: number, top?: number, n
 /**
  * Computes a frustum matrix.
  */
- function frustumMatrix(left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array): Float32Array;
+function frustumMatrix(left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array): Float32Array;
 /**
  * Constructs and returns a Perspective.
  */
@@ -922,7 +720,7 @@ function perspective(options?: {fov?: number; aspect?: number; near?: number; fa
 /**
  * Computes a perspective matrix.
  */
- function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Float32Array): Float32Array;
+function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Matrix4): Matrix4;
 /**
  * Constructs and returns a View.
  */
@@ -930,7 +728,7 @@ function view(): View;
 /**
  * Computes a view matrix.
  */
- function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Float32Array): Float32Array;
+function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4): Matrix4;
 /**
  * Constructs and returns a Renderer.
  * @param options Optional parameters for modifying the WebGL context.
@@ -953,46 +751,7 @@ function smartProgram(attributes: AttribMetaInfos, uniformsList: UniformMetaInfo
  * @param geometry
  * @param shaderProgram
  */
-function primitive<MESH extends AttribProvider, MODEL extends UniformProvider>(attributes: MESH, program: ShaderProgram, uniforms: MODEL): Primitive<MESH, MODEL>;
-/**
- *
- */
-class LocalModel extends DefaultUniformProvider {
-  public position: Vector3;
-  public attitude: Spinor3;
-  public color: Color;
-  constructor();
-}
-/**
- *
- */
-class TreeModel extends DefaultUniformProvider {
-  constructor();
-  setParent(parent: TreeModel);
-}
-/**
- *
- */
-class Node extends TreeModel {
-  public position: Vector3;
-  public attitude: Spinor3;
-  public scale: Vector3;
-  public color: Color;
-  constructor(
-    options?: {
-      modelMatrixName?: string;
-      normalMatrixName?: string;
-      colorVarName?: string;
-    });
-}
-/**
- *
- */
-class UniversalJoint extends TreeModel {
-  public theta: number;
-  public phi: number;
-  constructor(options?: {modelMatrixVarName?: string});
-}
+function primitive<MESH extends AttribProvider, MODEL extends UniformData>(attributes: MESH, program: ShaderProgram, uniforms: MODEL): Primitive<MESH, MODEL>;
 /**
  *
  */
@@ -1021,10 +780,6 @@ class ArrowBuilder {
  * Constructs and returns an arrow mesh.
  */
 function arrowMesh(options?: ArrowOptions): AttribProvider;
-/**
- *
- */
-function arrow(ambients: UniformProvider, options?: ArrowOptions): Blade<Node>;
 /**
  *
  */
@@ -1066,10 +821,6 @@ class BoxBuilder {
  * Constructs and returns a box mesh.
  */
 function boxMesh(options?: BoxOptions): AttribProvider;
-/**
- *
- */
-function box(ambients: UniformProvider, options: BoxOptions): Primitive<AttribProvider, ShaderProgram, Node>;
 /**
  *
  */
@@ -1123,10 +874,6 @@ function cylinderMesh(options?: CylinderOptions): AttribProvider;
 /**
  *
  */
-function cylinder(ambients: UniformProvider, options?: CylinderOptions): Primitive<AttribProvider, ShaderProgram, LocalModel>;
-/**
- *
- */
 interface SphereOptions {
   radius?: number;
   widthSegments?: number;
@@ -1165,23 +912,9 @@ class SphereBuilder {
  */
 function sphereMesh(options?: SphereOptions): AttribProvider;
 /**
- *
- */
-function sphere(ambients: UniformProvider, options?: SphereOptions): Primitive<AttribProvider, ShaderProgram, LocalModel>;
-/**
  * Constructs and returns an vortex mesh.
  */
-function vortexMesh(
-  options?: {
-    wireFrame?: boolean
-  }
-): AttribProvider;
-/**
- *
- */
-function vortex(
-  ambients: UniformProvider
-): Primitive<AttribProvider, ShaderProgram, LocalModel>;
+function vortexMesh(options?: {wireFrame?: boolean}): AttribProvider;
 /**
  *
  */
@@ -1388,6 +1121,21 @@ function contextMonitor(
     stencil?: boolean
   }
   ): RenderingContextMonitor;
+/**
+ *
+ */
+class Node implements UniformData {
+  public position: Vector3;
+  public attitude: Spinor3;
+  public scale: Vector3;
+  public color: Vector3;
+  /**
+   * Node implements UniformData required for manipulating a body.
+   */ 
+  constructor();
+  accept(visitor: UniformDataVisitor);
+}
+
 /**
  * The version string of the davinci-eight module.
  */

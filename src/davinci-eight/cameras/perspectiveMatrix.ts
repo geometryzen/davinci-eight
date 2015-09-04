@@ -1,23 +1,12 @@
-import frustumMatrix = require('../cameras/frustumMatrix');
-import expectArg = require('../checks/expectArg');
+import Cartesian3 = require('../math/Cartesian3');
 import isDefined = require('../checks/isDefined');
+import Matrix4 = require('../math/Matrix4');
+import perspectiveArray = require('../cameras/perspectiveArray');
 
-function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Float32Array): Float32Array {
-  // We can leverage the frustum function, although technically the
-  // symmetry in this perspective transformation should reduce the amount
-  // of computation required.
-
-  expectArg('fov',    fov   ).toBeNumber();
-  expectArg('aspect', aspect).toBeNumber();
-  expectArg('near',   near  ).toBeNumber();
-  expectArg('far',    far   ).toBeNumber();
-
-  let ymax: number = near * Math.tan(fov * 0.5);   // top
-  let ymin: number = - ymax;                       // bottom
-  let xmin: number = ymin * aspect;                // left
-  let xmax: number = ymax * aspect;                // right
-
-  return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
+function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Matrix4): Matrix4 {
+  let m: Matrix4 = isDefined(matrix) ? matrix : Matrix4.identity();
+  perspectiveArray(fov, aspect, near, far, m.elements);
+  return m;
 }
 
 export = perspectiveMatrix;

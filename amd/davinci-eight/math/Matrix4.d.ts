@@ -17,7 +17,6 @@ declare class Matrix4 {
      */
     constructor(elements: Float32Array);
     static identity(): Matrix4;
-    static perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
     static scaling(scale: Cartesian3): Matrix4;
     static translation(vector: Cartesian3): Matrix4;
     static rotation(spinor: Spinor3Coords): Matrix4;
@@ -37,18 +36,6 @@ declare class Matrix4 {
     mul(m: Matrix4): Matrix4;
     multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4;
     static mul(ae: Float32Array, be: Float32Array, oe: Float32Array): Float32Array;
-    /**
-     * Sets the elements of the target matrix to the perspective transformation.
-     * The perspective transformation maps homogeneous world coordinates into
-     * a cubic viewing volume such that an orthogonal projection of that viewing
-     * volume will give the correct linear perspective.
-     * @method perspective
-     * @param fov {Number} field of view in the vertical direction, measured in radians.
-     * @param aspect {Number} The ratio of view width divided by view height.
-     * @param near {Number} The distance to the near field plane.
-     * @param far {Number} The distance to the far field plane.
-     */
-    perspective(fov: number, aspect: number, near: number, far: number): Matrix4;
     rotate(spinor: Spinor3Coords): Matrix4;
     /**
      * @method rotate

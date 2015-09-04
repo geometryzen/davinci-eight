@@ -6,7 +6,6 @@ import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
 import expectArg = require('../checks/expectArg');
-import UniformVariable = require('../uniforms/UniformVariable');
 import Mutable = require('../math/Mutable');
 
 /**

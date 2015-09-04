@@ -1,7 +1,7 @@
 var isDefined = require('../checks/isDefined');
 var expectArg = require('../checks/expectArg');
 /**
- * Policy for how an uniform variable name is determined.
+ * Policy for how a uniform variable name is determined.
  */
 function getUniformVarName(uniform, varName) {
     expectArg('uniform', uniform).toBeObject();

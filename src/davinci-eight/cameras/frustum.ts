@@ -1,7 +1,7 @@
 //
 // frustum.ts
 //
-import UniformMetaInfos = require('../core/UniformMetaInfos');
+import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import View = require('davinci-eight/cameras/View');
 import view  = require('davinci-eight/cameras/view');
@@ -9,32 +9,28 @@ import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
+import Vector1 = require('../math/Vector1');
 import Vector3 = require('../math/Vector3');
-
-let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
-let UNIFORM_PROJECTION_MATRIX_TYPE = 'mat4';
 
 /**
  * @class frustum
  * @constructor
- * @param left {number}
- * @param right {number}
- * @param bottom {number}
- * @param top {number}
- * @param near {number}
- * @param far {number}
  * @return {Frustum}
  */
-var frustum = function(left: number = -1, right: number = 1, bottom: number = -1, top: number = 1, near: number = 1, far: number = 1000): Frustum {
+let frustum = function(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
-  var options = {viewMatrixName: Symbolic.UNIFORM_VIEW_MATRIX};
-
-  var base: View = view(options);
+  let base: View = view(viewMatrixName);
+  let left: Vector1 = new Vector1();
+  let right: Vector1 = new Vector1();
+  let bottom: Vector1 = new Vector1();
+  let top: Vector1 = new Vector1();
+  let near: Vector1 = new Vector1();
+  let far: Vector1 = new Vector1();
   // TODO: We should immediately create with a frustum static constructor?
-  var projectionMatrix = Matrix4.identity();
+  let projectionMatrix: Matrix4 = Matrix4.identity();
 
   function updateProjectionMatrix() {
-    projectionMatrix.frustum(left, right, bottom, top, near, far);
+    projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
   }
 
   updateProjectionMatrix();
@@ -72,83 +68,50 @@ var frustum = function(left: number = -1, right: number = 1, bottom: number = -1
       return self;
     },
     get left(): number {
-      return left;
+      return left.x;
     },
     set left(value: number) {
-      left = value;
+      left.x = value;
       updateProjectionMatrix();
     },
     get right(): number {
-      return right;
+      return right.x;
     },
     set right(value: number) {
-      right = value;
+      right.x = value;
       updateProjectionMatrix();
     },
     get bottom(): number {
-      return bottom;
+      return bottom.x;
     },
     set bottom(value: number) {
-      bottom = value;
+      bottom.x = value;
       updateProjectionMatrix();
     },
     get top(): number {
-      return top;
+      return top.x;
     },
     set top(value: number) {
-      top = value;
+      top.x = value;
       updateProjectionMatrix();
     },
     get near(): number {
-      return near;
+      return near.x;
     },
     set near(value: number) {
-      near = value;
+      near.x = value;
       updateProjectionMatrix();
     },
     get far(): number {
-      return far;
+      return far.x;
     },
     set far(value: number) {
-      far = value;
+      far.x = value;
       updateProjectionMatrix();
     },
-    getUniformFloat(name: string): number {
-      return base.getUniformFloat(name);
-    },
-    getUniformMatrix2(name: string): {transpose: boolean; matrix2: Float32Array} {
-      return base.getUniformMatrix2(name);
-    },
-    getUniformMatrix3(name: string): {transpose: boolean; matrix3: Float32Array} {
-      return base.getUniformMatrix3(name);
-    },
-    getUniformMatrix4(name: string): {transpose: boolean; matrix4: Float32Array} {
-      switch(name) {
-        case UNIFORM_PROJECTION_MATRIX_NAME: {
-          return {transpose: false, matrix4: projectionMatrix.elements};
-        }
-        default: {
-          return base.getUniformMatrix4(name);
-        }
-      }
-    },
-    getUniformVector2(name: string): number[] {
-      return base.getUniformVector2(name);
-    },
-    getUniformVector3(name: string): number[] {
-      return base.getUniformVector3(name);
-    },
-    getUniformVector4(name: string): number[] {
-      return base.getUniformVector4(name);
-    },
-    getUniformMeta(): UniformMetaInfos {
-      var uniforms: UniformMetaInfos = base.getUniformMeta();
-      uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]  = {name: UNIFORM_PROJECTION_MATRIX_NAME, glslType: UNIFORM_PROJECTION_MATRIX_TYPE};
-      return uniforms;
-    },
-    getUniformData(): {[name:string]: any} {
-      var data = base.getUniformData();
-      return data;
+    accept(visitor: UniformDataVisitor) {
+      visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+      base.accept(visitor);
     }
   };
 

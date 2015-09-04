@@ -2,9 +2,11 @@ import DrawList = require('../drawLists/DrawList');
 import Drawable = require('../core/Drawable');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+import Matrix2 = require('../math/Matrix2');
+import Matrix3 = require('../math/Matrix3');
+import Matrix4 = require('../math/Matrix4');
 import ShaderProgram = require('../core/ShaderProgram');
-import UniformDataInfo = require('../core/UniformDataInfo');
-import UniformDataInfos = require('../core/UniformDataInfos');
+import Vector3 = require('../math/Vector3');
 
 class ProgramInfo {
   public program: ShaderProgram;
@@ -42,13 +44,13 @@ let scene = function(): DrawList {
       refCount--;
       // console.log("scene.release() => " + refCount);
       if (refCount === 0) {
-        self.traverse(function(drawable) {
+        self.traverse(function(drawable: Drawable) {
           drawable.release();
         });
       }
     },
     contextFree() {
-      self.traverse(function(drawable) {
+      self.traverse(function(drawable: Drawable) {
         drawable.contextFree();
       });
     },
@@ -56,10 +58,10 @@ let scene = function(): DrawList {
       if ($context !== context) {
         $context = expectArg('context', context).toSatisfy(context instanceof WebGLRenderingContext, "context must implement WebGLRenderingContext").value;
         Object.keys(programs).forEach(function(programId: string) {
-          programs[programId].drawables.forEach(function(drawable) {
+          programs[programId].drawables.forEach(function(drawable: Drawable) {
             drawable.contextGain(context);
-            let program = drawable.program;
-            let programId = program.programId;
+            let program: ShaderProgram = drawable.program;
+            let programId: string = program.programId;
           });
         });
       }
@@ -107,76 +109,70 @@ let scene = function(): DrawList {
         throw new Error("drawable not found.");
       }
     },
-    setUniforms(values: UniformDataInfos) {
+    uniform1f(name: string, x: number) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.setUniforms(values);
+        program.uniform1f(name, x);
       });
     },
-    uniform1f(name: string, x: number, picky: boolean) {
+    uniform1fv(name: string, value: number[]) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform1f(name, x, picky);
+        program.uniform1fv(name, value);
       });
     },
-    uniform1fv(name: string, value: number[], picky: boolean) {
+    uniform2f(name: string, x: number, y: number) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform1fv(name, value, picky);
+        program.uniform2f(name, x, y);
       });
     },
-    uniform2f(name: string, x: number, y: number, picky: boolean) {
+    uniform2fv(name: string, value: number[]) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform2f(name, x, y, picky);
+        program.uniform2fv(name, value);
       });
     },
-    uniform2fv(name: string, value: number[], picky: boolean) {
+    uniform3f(name: string, x: number, y: number, z: number) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform2fv(name, value, picky);
+        program.uniform3f(name, x, y, z);
       });
     },
-    uniform3f(name: string, x: number, y: number, z: number, picky: boolean) {
+    uniform4f(name: string, x: number, y: number, z: number, w: number) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform3f(name, x, y, z, picky);
+        program.uniform4f(name, x, y, z, w);
       });
     },
-    uniform3fv(name: string, value: number[], picky: boolean) {
+    uniform4fv(name: string, value: number[]) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform3fv(name, value, picky);
+        program.uniform4fv(name, value);
       });
     },
-    uniform4f(name: string, x: number, y: number, z: number, w: number, picky: boolean) {
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform4f(name, x, y, z, w, picky);
+        program.uniformMatrix2(name, transpose, matrix);
       });
     },
-    uniform4fv(name: string, value: number[], picky: boolean) {
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform4fv(name, value, picky);
+        program.uniformMatrix3(name, transpose, matrix);
       });
     },
-    uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniformMatrix2fv(name, transpose, matrix, picky);
+        program.uniformMatrix4(name, transpose, matrix);
       });
     },
-    uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+    uniformVector3(name: string, vector: Vector3) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniformMatrix3fv(name, transpose, matrix, picky);
-      });
-    },
-    uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
-      traversePrograms(function(program: ShaderProgram) {
-        program.use();
-        program.uniformMatrix4fv(name, transpose, matrix, picky);
+        program.uniformVector3(name, vector);
       });
     },
     traverse(callback: (value: Drawable, index: number, array: Drawable[]) => void) {

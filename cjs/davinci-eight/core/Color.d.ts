@@ -11,6 +11,7 @@ import Mutable = require('../math/Mutable');
 declare class Color implements ColorRGB, Mutable<number[]> {
     data: number[];
     callback: () => number[];
+    modified: boolean;
     /**
      * @class Color
      * @constructor

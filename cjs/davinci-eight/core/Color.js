@@ -15,6 +15,7 @@ var Color = (function () {
      */
     function Color(data) {
         if (data === void 0) { data = [0, 0, 0]; }
+        this.modified = false;
         expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
         this.data = data;
     }

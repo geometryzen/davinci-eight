@@ -1,7 +1,7 @@
 import AttribProvider = require('../core/AttribProvider');
 import ShaderProgram = require('../core/ShaderProgram');
-import UniformProvider = require('../core/UniformProvider');
+import UniformData = require('../core/UniformData');
 interface DrawableVisitor {
-    primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformProvider): any;
+    primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformData): any;
 }
 export = DrawableVisitor;

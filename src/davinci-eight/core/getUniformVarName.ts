@@ -3,7 +3,7 @@ import isDefined = require('../checks/isDefined');
 import expectArg = require('../checks/expectArg');
 
 /**
- * Policy for how an uniform variable name is determined.
+ * Policy for how a uniform variable name is determined.
  */
 function getUniformVarName(uniform: UniformMetaInfo, varName: string) {
   expectArg('uniform', uniform).toBeObject();

@@ -1,14 +1,8 @@
+import Matrix2 = require('../math/Matrix2');
+import Matrix3 = require('../math/Matrix3');
+import Matrix4 = require('../math/Matrix4');
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
-import UniformDataInfo = require('../core/UniformDataInfo');
-import ShaderUniformSetter = require('../core/ShaderUniformSetter');
-
-/**
- * Returns the corresponding bind point for a given sampler type
- */
-function getBindPointForSamplerType(gl: WebGLRenderingContext, type: number) {
-  if (type === gl.SAMPLER_2D)   return gl.TEXTURE_2D;
-  if (type === gl.SAMPLER_CUBE) return gl.TEXTURE_CUBE_MAP;
-}
+import Vector3 = require('../math/Vector3');
 
 /**
  * Utility class for managing a shader uniform variable.
@@ -51,127 +45,6 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
     this.location = void 0;
     this.context = void 0;
   }
-  createSetter(gl: WebGLRenderingContext, uniformInfo: WebGLActiveInfo): ShaderUniformSetter {
-    let uniformLoc = this;
-    let name = uniformInfo.name;
-    let size = uniformInfo.size;
-    let type = uniformInfo.type;
-    let isArray = (size > 1 && name.substr(-3) === "[0]");
-    if (type === gl.FLOAT && isArray) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniform1fv(data.vector);
-      };
-    }
-    if (type === gl.FLOAT) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniform1f(data.x);
-      };
-    }
-    if (type === gl.FLOAT_VEC2) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniform2fv(data.vector);
-      };
-    }
-    if (type === gl.FLOAT_VEC3) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniform3fv(data.vector);
-      };
-    }
-    if (type === gl.FLOAT_VEC4) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniform4fv(data.vector);
-      };
-    }
-    /*
-    if (type === gl.INT && isArray) {
-      return function(data: UniformDataInfo) {
-        gl.uniform1iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.INT) {
-      return function(data: UniformDataInfo) {
-        gl.uniform1i(location, data.x);
-      };
-    }
-    if (type === gl.INT_VEC2) {
-      return function(data: UniformDataInfo) {
-        gl.uniform2iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.INT_VEC3) {
-      return function(data: UniformDataInfo) {
-        gl.uniform3iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.INT_VEC4) {
-      return function(data: UniformDataInfo) {
-        gl.uniform4iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.BOOL) {
-      return function(data: UniformDataInfo) {
-        gl.uniform1iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.BOOL_VEC2) {
-      return function(data: UniformDataInfo) {
-        gl.uniform2iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.BOOL_VEC3) {
-      return function(data: UniformDataInfo) {
-        gl.uniform3iv(location, data.uniformZs);
-      };
-    }
-    if (type === gl.BOOL_VEC4) {
-      return function(data: UniformDataInfo) {
-        gl.uniform4iv(location, data.uniformZs);
-      };
-    }
-    */
-    if (type === gl.FLOAT_MAT2) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniformMatrix2fv(data.transpose, data.matrix2);
-      };
-    }
-    if (type === gl.FLOAT_MAT3) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniformMatrix3fv(data.transpose, data.matrix3);
-      };
-    }
-    if (type === gl.FLOAT_MAT4) {
-      return function(data: UniformDataInfo) {
-        uniformLoc.uniformMatrix4fv(data.transpose, data.matrix4);
-      };
-    }
-    /*
-    if ((type === gl.SAMPLER_2D || type === gl.SAMPLER_CUBE) && isArray) {
-      var units: number[] = [];
-      for (var ii = 0; ii < uniformInfo.size; ++ii) { // BUG fixed info
-        units.push(textureUnit++);
-      }
-      return function(bindPoint, units) {
-        return function(textures) {
-          gl.uniform1iv(location, units);
-          textures.forEach(function(texture, index) {
-            gl.activeTexture(gl.TEXTURE0 + units[index]);
-            gl.bindTexture(bindPoint, texture);
-          });
-        };
-      }(getBindPointForSamplerType(gl, type), units);
-    }
-    if (type === gl.SAMPLER_2D || type === gl.SAMPLER_CUBE) {
-      return function(bindPoint, unit) {
-        return function(texture) {
-          gl.uniform1i(location, unit);
-          gl.activeTexture(gl.TEXTURE0 + unit);
-          gl.bindTexture(bindPoint, texture);
-        };
-      }(getBindPointForSamplerType(gl, type), textureUnit++);
-    }
-    */
-    throw ("unknown type: 0x" + type.toString(16)); // we should never get here.
-  }
   /**
    * @method uniform1f
    * @param x {number} Value to assign.
@@ -211,13 +84,6 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
     this.context.uniform3f(this.location, x, y, z);
   }
   /**
-   * @method uniform3fv
-   * @param data {number[]}
-   */
-  uniform3fv(data: number[]) {
-    this.context.uniform3fv(this.location, data);
-  }
-  /**
    * @method uniform3f
    * @param x {number} Horizontal value to assign.
    * @param y {number} Vertical number to assign.
@@ -235,37 +101,37 @@ class ShaderUniformLocation implements RenderingContextProgramUser {
     this.context.uniform4fv(this.location, data);
   }
   /**
-   * @method uniformMatrix2fv
+   * @method uniformMatrix2
    * @param transpose {boolean}
-   * @param matrix {Float32Array}
+   * @param matrix {Matrix2}
    */
-  uniformMatrix2fv(transpose: boolean, matrix: Float32Array) {
-    if (!(matrix instanceof Float32Array)) {
-      throw new Error("matrix must be a Float32Array.");
-    }
-    this.context.uniformMatrix2fv(this.location, transpose, matrix);
+  uniformMatrix2(transpose: boolean, matrix: Matrix2) {
+    this.context.uniformMatrix2fv(this.location, transpose, matrix.elements);
   }
   /**
-   * @method uniformMatrix3fv
+   * @method uniformMatrix3
    * @param transpose {boolean}
-   * @param matrix {Float32Array}
+   * @param matrix {Matrix3}
    */
-  uniformMatrix3fv(transpose: boolean, matrix: Float32Array) {
-    if (!(matrix instanceof Float32Array)) {
-      throw new Error("matrix must be a Float32Array.");
-    }
-    this.context.uniformMatrix3fv(this.location, transpose, matrix);
+  uniformMatrix3(transpose: boolean, matrix: Matrix3) {
+    this.context.uniformMatrix3fv(this.location, transpose, matrix.elements);
   }
   /**
-   * @method uniformMatrix4fv
+   * @method uniformMatrix4
    * @param transpose {boolean}
-   * @param matrix {Float32Array}
+   * @param matrix {Matrix4}
    */
-  uniformMatrix4fv(transpose: boolean, matrix: Float32Array) {
-    if (!(matrix instanceof Float32Array)) {
-      throw new Error("matrix must be a Float32Array.");
-    }
-    this.context.uniformMatrix4fv(this.location, transpose, matrix);
+  uniformMatrix4(transpose: boolean, matrix: Matrix4) {
+    this.context.uniformMatrix4fv(this.location, transpose, matrix.elements);
+  }
+  /**
+   * @method uniformVector3
+   * @param vector {Vector3}
+   */
+  uniformVector3(vector: Vector3) {
+    // The v argument is either a number[] or a Float32Array.
+    // In our case we supply number[].
+    this.context.uniform3fv(this.location, vector.data);
   }
   /**
    * @method toString

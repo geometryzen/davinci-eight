@@ -3,9 +3,9 @@ import DrawableVisitor = require('../core/DrawableVisitor');
 import isDefined = require('../checks/isDefined');
 import Primitive = require('../core/Primitive');
 import ShaderProgram = require('../core/ShaderProgram');
-import UniformProvider = require('../core/UniformProvider');
+import UniformData = require('../core/UniformData');
 
-var primitive = function<MESH extends AttribProvider, MODEL extends UniformProvider>(mesh: MESH, program: ShaderProgram, model: MODEL): Primitive<MESH, MODEL> {
+var primitive = function<MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: ShaderProgram, model: MODEL): Primitive<MESH, MODEL> {
 
   var $context: WebGLRenderingContext;
   var refCount: number = 0;

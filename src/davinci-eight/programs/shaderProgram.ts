@@ -4,6 +4,9 @@ import AttribProvider = require('../core/AttribProvider');
 import ShaderProgram = require('../core/ShaderProgram');
 import ShaderAttribSetter   = require('../core/ShaderAttribSetter');
 import parse = require('../glsl/parse');
+import Matrix2 = require('../math/Matrix2');
+import Matrix3 = require('../math/Matrix3');
+import Matrix4 = require('../math/Matrix4');
 import NodeWalker = require('../glsl/NodeWalker');
 import ProgramArgs = require('../glsl/ProgramArgs');
 import Declaration = require('../glsl/Declaration');
@@ -14,13 +17,9 @@ import isDefined = require('../checks/isDefined');
 import uuid4 = require('../utils/uuid4');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
-import ShaderUniformSetter   = require('../core/ShaderUniformSetter');
-import createUniformSetters = require('../programs/createUniformSetters');
-import setUniforms = require('../programs/setUniforms');
-import UniformDataInfo = require('../core/UniformDataInfo');
-import UniformDataInfos = require('../core/UniformDataInfos');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
+import Vector3 = require('../math/Vector3');
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid: string = uuid4().generate()): ShaderProgram {
 
@@ -38,7 +37,6 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
   var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
-  var uniformSetters: {[name: string]: ShaderUniformSetter} = {};
 
   var self: ShaderProgram = {
     get vertexShader() {
@@ -52,9 +50,6 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     },
     get uniformLocations(): { [name: string]: ShaderUniformLocation } {
       return uniformLocations;
-    },
-    get uniformSetters(): {[name: string]: ShaderUniformSetter} {
-      return uniformSetters;
     },
     addRef(): void {
       refCount++;
@@ -107,10 +102,9 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
           let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
           let name: string = activeInfo.name;
           if (!uniformLocations[name]) {
+            // TODO: Since name MUST be part of Location, maybe should use an array?
             // TODO: Seems like we should be able to make use of the size and type?
             uniformLocations[name] = new ShaderUniformLocation(name);
-            // TODO: Seems like create setter S/B redundant.
-            uniformSetters[name] = uniformLocations[name].createSetter(context, activeInfo);
           }
         }
         for(var aName in attributeLocations) {
@@ -159,128 +153,70 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         }
       }
     },
-    setUniforms(values: UniformDataInfos) {
-      setUniforms(uniformSetters, values);
-    },
-    uniform1f(name: string, x: number, picky: boolean) {
+    uniform1f(name: string, x: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform1f(x);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniform1fv(name: string, data: number[], picky: boolean) {
+    uniform1fv(name: string, data: number[]) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform1fv(data);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniform2f(name: string, x: number, y: number, picky: boolean) {
+    uniform2f(name: string, x: number, y: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform2f(x, y);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniform2fv(name: string, data: number[], picky: boolean) {
+    uniform2fv(name: string, data: number[]) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform2fv(data);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniform3f(name: string, x: number, y: number, z: number, picky: boolean) {
+    uniform3f(name: string, x: number, y: number, z: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform3f(x, y, z);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniform3fv(name: string, data: number[], picky: boolean) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.uniform3fv(data);
-      }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
-    },
-    uniform4f(name: string, x: number, y: number, z: number, w: number, picky: boolean) {
+    uniform4f(name: string, x: number, y: number, z: number, w: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform4f(x, y, z, w);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniform4fv(name: string, data: number[], picky: boolean) {
+    uniform4fv(name: string, data: number[]) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform4fv(data);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
-      }
     },
-    uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix2fv(transpose, matrix);
-      }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
+        uniformLoc.uniformMatrix2(transpose, matrix);
       }
     },
-    uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix3fv(transpose, matrix);
-      }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
+        uniformLoc.uniformMatrix3(transpose, matrix);
       }
     },
-    uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky: boolean) {
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix4fv(transpose, matrix);
+        uniformLoc.uniformMatrix4(transpose, matrix);
       }
-      else {
-        if (picky) {
-          expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-        }
+    },
+    uniformVector3(name: string, vector: Vector3) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector3(vector);
       }
     }
   };

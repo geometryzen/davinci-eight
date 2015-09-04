@@ -1,4 +1,4 @@
-define(["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/isDefined', '../programs/vertexShader', '../programs/fragmentShader'], function (require, exports, shaderProgram, Symbolic, isDefined, vertexShader, fragmentShader) {
+define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined', './shaderProgram', '../core/Symbolic', '../programs/vertexShader'], function (require, exports, fragmentShader, isDefined, shaderProgram, Symbolic, vertexShader) {
     function vLightRequired(uniforms) {
         return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
     }
@@ -39,9 +39,6 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/
             get uniformLocations() {
                 return innerProgram.uniformLocations;
             },
-            get uniformSetters() {
-                return innerProgram.uniformSetters;
-            },
             get vertexShader() {
                 return innerProgram.vertexShader;
             },
@@ -72,41 +69,38 @@ define(["require", "exports", './shaderProgram', '../core/Symbolic', '../checks/
             setAttributes: function (values) {
                 return innerProgram.setAttributes(values);
             },
-            setUniforms: function (values) {
-                return innerProgram.setUniforms(values);
+            uniform1f: function (name, x) {
+                return innerProgram.uniform1f(name, x);
             },
-            uniform1f: function (name, x, picky) {
-                return innerProgram.uniform1f(name, x, picky);
+            uniform1fv: function (name, value) {
+                return innerProgram.uniform1fv(name, value);
             },
-            uniform1fv: function (name, value, picky) {
-                return innerProgram.uniform1fv(name, value, picky);
+            uniform2f: function (name, x, y) {
+                return innerProgram.uniform2f(name, x, y);
             },
-            uniform2f: function (name, x, y, picky) {
-                return innerProgram.uniform2f(name, x, y, picky);
+            uniform2fv: function (name, value) {
+                return innerProgram.uniform2fv(name, value);
             },
-            uniform2fv: function (name, value, picky) {
-                return innerProgram.uniform2fv(name, value, picky);
+            uniform3f: function (name, x, y, z) {
+                return innerProgram.uniform3f(name, x, y, z);
             },
-            uniform3f: function (name, x, y, z, picky) {
-                return innerProgram.uniform3f(name, x, y, z, picky);
+            uniform4f: function (name, x, y, z, w) {
+                return innerProgram.uniform4f(name, x, y, z, w);
             },
-            uniform3fv: function (name, value, picky) {
-                return innerProgram.uniform3fv(name, value, picky);
+            uniform4fv: function (name, value) {
+                return innerProgram.uniform4fv(name, value);
             },
-            uniform4f: function (name, x, y, z, w, picky) {
-                return innerProgram.uniform4f(name, x, y, z, w, picky);
+            uniformMatrix2: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix2(name, transpose, matrix);
             },
-            uniform4fv: function (name, value, picky) {
-                return innerProgram.uniform4fv(name, value, picky);
+            uniformMatrix3: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix3(name, transpose, matrix);
             },
-            uniformMatrix2fv: function (name, transpose, matrix, picky) {
-                return innerProgram.uniformMatrix2fv(name, transpose, matrix, picky);
+            uniformMatrix4: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix4(name, transpose, matrix);
             },
-            uniformMatrix3fv: function (name, transpose, matrix, picky) {
-                return innerProgram.uniformMatrix3fv(name, transpose, matrix, picky);
-            },
-            uniformMatrix4fv: function (name, transpose, matrix, picky) {
-                return innerProgram.uniformMatrix4fv(name, transpose, matrix, picky);
+            uniformVector3: function (name, vector) {
+                return innerProgram.uniformVector3(name, vector);
             }
         };
         return self;

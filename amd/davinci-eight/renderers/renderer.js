@@ -1,4 +1,23 @@
-define(["require", "exports", '../core/DefaultDrawableVisitor', '../checks/expectArg', '../core/Color'], function (require, exports, DefaultDrawableVisitor, expectArg, Color) {
+define(["require", "exports", '../checks/expectArg', '../core/Color'], function (require, exports, expectArg, Color) {
+    var DefaultDrawableVisitor = (function () {
+        function DefaultDrawableVisitor() {
+        }
+        DefaultDrawableVisitor.prototype.primitive = function (mesh, program, model) {
+            if (mesh.dynamic) {
+                mesh.update();
+            }
+            program.use();
+            model.accept(program);
+            program.setAttributes(mesh.getAttribData());
+            mesh.draw();
+            for (var name in program.attributeLocations) {
+                program.attributeLocations[name].disable();
+            }
+        };
+        return DefaultDrawableVisitor;
+    })();
+    // This visitor is completely stateless so we can create it here.
+    var drawVisitor = new DefaultDrawableVisitor();
     var renderer = function (canvas, parameters) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         parameters = parameters || {};
@@ -7,7 +26,6 @@ define(["require", "exports", '../core/DefaultDrawableVisitor', '../checks/expec
         var autoClear = true;
         var clearColor = Color.fromRGB(0, 0, 0);
         var clearAlpha = 0;
-        var drawVisitor = new DefaultDrawableVisitor();
         function drawHandler(drawable) {
             drawable.accept(drawVisitor);
         }

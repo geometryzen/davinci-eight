@@ -19,9 +19,6 @@ var Matrix4 = (function () {
     Matrix4.identity = function () {
         return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
     };
-    Matrix4.perspective = function (fov, aspect, near, far) {
-        return Matrix4.identity().perspective(fov, aspect, near, far);
-    };
     Matrix4.scaling = function (scale) {
         return Matrix4.identity().scaling(scale);
     };
@@ -29,13 +26,7 @@ var Matrix4 = (function () {
         return Matrix4.identity().translation(vector);
     };
     Matrix4.rotation = function (spinor) {
-        if (isDefined(spinor)) {
-            expectArg('spinor', spinor).toBeObject();
-            return Matrix4.identity().rotation(spinor);
-        }
-        else {
-            return;
-        }
+        return Matrix4.identity().rotation(spinor);
     };
     Matrix4.prototype.clone = function () {
         return Matrix4.identity().copy(this);
@@ -210,6 +201,7 @@ var Matrix4 = (function () {
         Matrix4.mul(a.elements, b.elements, this.elements);
         return this;
     };
+    // TODO: This should not be here.
     Matrix4.mul = function (ae, be, oe) {
         var a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
         var a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
@@ -236,27 +228,6 @@ var Matrix4 = (function () {
         oe[11] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
         oe[15] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
         return oe;
-    };
-    /**
-     * Sets the elements of the target matrix to the perspective transformation.
-     * The perspective transformation maps homogeneous world coordinates into
-     * a cubic viewing volume such that an orthogonal projection of that viewing
-     * volume will give the correct linear perspective.
-     * @method perspective
-     * @param fov {Number} field of view in the vertical direction, measured in radians.
-     * @param aspect {Number} The ratio of view width divided by view height.
-     * @param near {Number} The distance to the near field plane.
-     * @param far {Number} The distance to the far field plane.
-     */
-    Matrix4.prototype.perspective = function (fov, aspect, near, far) {
-        // We can leverage the frustum function, although technically the
-        // symmetry in this perspective transformation should reduce the amount
-        // of computation required.
-        var ymax = near * Math.tan(fov * 0.5); // top
-        var ymin = -ymax; // bottom
-        var xmin = ymin * aspect; // left
-        var xmax = ymax * aspect; // right
-        return this.frustum(xmin, xmax, ymin, ymax, near, far);
     };
     Matrix4.prototype.rotate = function (spinor) {
         var S = Matrix4.rotation(spinor);

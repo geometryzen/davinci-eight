@@ -4,9 +4,7 @@ import RenderingContextUser = require('../core/RenderingContextUser');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderAttribSetter = require('../core/ShaderAttribSetter');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
-import ShaderUniformSetter = require('../core/ShaderUniformSetter');
-import UniformDataInfo = require('../core/UniformDataInfo');
-import UniformDataInfos = require('../core/UniformDataInfos');
+import UniformDataVisitor = require('../core/UniformDataVisitor');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
@@ -15,7 +13,7 @@ import UniformMetaInfos = require('../core/UniformMetaInfos');
  * @class ShaderProgram
  * @extends RenderingContextUser
  */
-interface ShaderProgram extends RenderingContextUser {
+interface ShaderProgram extends RenderingContextUser, UniformDataVisitor {
   /**
    * @property program
    * @type WebGLProgram
@@ -46,22 +44,6 @@ interface ShaderProgram extends RenderingContextUser {
    */
   setAttributes(values: AttribDataInfos);
   /**
-   * Sets the uniforms provided into the appropriate locations.
-   * @param values {UniformDataInfos}
-   */
-  setUniforms(values: UniformDataInfos);
-  uniform1f(name: string, x: number, picky?: boolean);
-  uniform1fv(name: string, value: number[], picky?: boolean);
-  uniform2f(name: string, x: number, y: number, picky?: boolean);
-  uniform2fv(name: string, value: number[], picky?: boolean);
-  uniform3f(name: string, x: number, y: number, z: number, picky?: boolean);
-  uniform3fv(name: string, value: number[], picky?: boolean);
-  uniform4f(name: string, x: number, y: number, z: number, w: number, picky?: boolean);
-  uniform4fv(name: string, value: number[], picky?: boolean);
-  uniformMatrix2fv(name: string, transpose: boolean, matrix: Float32Array, picky?: boolean);
-  uniformMatrix3fv(name: string, transpose: boolean, matrix: Float32Array, picky?: boolean);
-  uniformMatrix4fv(name: string, transpose: boolean, matrix: Float32Array, picky?: boolean);
-  /**
    *
    */
   attributeLocations: { [name: string]: ShaderAttribLocation };
@@ -69,10 +51,6 @@ interface ShaderProgram extends RenderingContextUser {
    *
    */
   uniformLocations: { [name: string]: ShaderUniformLocation };
-  /**
-   *
-   */
-  uniformSetters: { [name: string]: ShaderUniformSetter };
 }
 
 export = ShaderProgram;

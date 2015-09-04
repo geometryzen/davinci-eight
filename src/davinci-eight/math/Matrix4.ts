@@ -2,6 +2,8 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+// TODO: Probably better not to couple this way.
+import frustumMatrix = require('../cameras/frustumMatrix');
 /**
  * 4x4 matrix integrating with WebGL.
  *
@@ -32,9 +34,6 @@ class Matrix4 {
   public static identity() {
     return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
   }
-  public static perspective(fov: number, aspect: number, near: number, far: number): Matrix4 {
-    return Matrix4.identity().perspective(fov, aspect, near, far);
-  }
   public static scaling(scale: Cartesian3): Matrix4 {
     return Matrix4.identity().scaling(scale);
   }
@@ -42,13 +41,7 @@ class Matrix4 {
     return Matrix4.identity().translation(vector);
   }
   public static rotation(spinor: Spinor3Coords): Matrix4 {
-    if (isDefined(spinor)) {
-      expectArg('spinor', spinor).toBeObject();
-      return Matrix4.identity().rotation(spinor);
-    }
-    else {
-      return;
-    }
+    return Matrix4.identity().rotation(spinor);
   }
   clone(): Matrix4 {
     return Matrix4.identity().copy(this);
@@ -209,6 +202,7 @@ class Matrix4 {
     Matrix4.mul(a.elements, b.elements, this.elements);
     return this;
   }
+  // TODO: This should not be here.
   static mul(ae: Float32Array, be: Float32Array, oe: Float32Array): Float32Array {
 
     let a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
@@ -242,27 +236,6 @@ class Matrix4 {
     oe[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 
     return oe;
-  }
-  /**
-   * Sets the elements of the target matrix to the perspective transformation.
-   * The perspective transformation maps homogeneous world coordinates into
-   * a cubic viewing volume such that an orthogonal projection of that viewing
-   * volume will give the correct linear perspective.
-   * @method perspective
-   * @param fov {Number} field of view in the vertical direction, measured in radians.
-   * @param aspect {Number} The ratio of view width divided by view height.
-   * @param near {Number} The distance to the near field plane.
-   * @param far {Number} The distance to the far field plane.
-   */
-  perspective(fov: number, aspect: number, near: number, far: number): Matrix4 {
-    // We can leverage the frustum function, although technically the
-    // symmetry in this perspective transformation should reduce the amount
-    // of computation required.
-    let ymax: number = near * Math.tan(fov * 0.5);   // top
-    let ymin: number = - ymax;                       // bottom
-    let xmin: number = ymin * aspect;                // left
-    let xmax: number = ymax * aspect;                // right
-    return this.frustum(xmin, xmax, ymin, ymax, near, far);
   }
   rotate(spinor: Spinor3Coords): Matrix4 {
     let S: Matrix4 = Matrix4.rotation(spinor);

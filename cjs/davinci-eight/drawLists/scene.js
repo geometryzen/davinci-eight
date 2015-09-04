@@ -95,76 +95,70 @@ var scene = function () {
                 throw new Error("drawable not found.");
             }
         },
-        setUniforms: function (values) {
+        uniform1f: function (name, x) {
             traversePrograms(function (program) {
                 program.use();
-                program.setUniforms(values);
+                program.uniform1f(name, x);
             });
         },
-        uniform1f: function (name, x, picky) {
+        uniform1fv: function (name, value) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform1f(name, x, picky);
+                program.uniform1fv(name, value);
             });
         },
-        uniform1fv: function (name, value, picky) {
+        uniform2f: function (name, x, y) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform1fv(name, value, picky);
+                program.uniform2f(name, x, y);
             });
         },
-        uniform2f: function (name, x, y, picky) {
+        uniform2fv: function (name, value) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform2f(name, x, y, picky);
+                program.uniform2fv(name, value);
             });
         },
-        uniform2fv: function (name, value, picky) {
+        uniform3f: function (name, x, y, z) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform2fv(name, value, picky);
+                program.uniform3f(name, x, y, z);
             });
         },
-        uniform3f: function (name, x, y, z, picky) {
+        uniform4f: function (name, x, y, z, w) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform3f(name, x, y, z, picky);
+                program.uniform4f(name, x, y, z, w);
             });
         },
-        uniform3fv: function (name, value, picky) {
+        uniform4fv: function (name, value) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform3fv(name, value, picky);
+                program.uniform4fv(name, value);
             });
         },
-        uniform4f: function (name, x, y, z, w, picky) {
+        uniformMatrix2: function (name, transpose, matrix) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform4f(name, x, y, z, w, picky);
+                program.uniformMatrix2(name, transpose, matrix);
             });
         },
-        uniform4fv: function (name, value, picky) {
+        uniformMatrix3: function (name, transpose, matrix) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniform4fv(name, value, picky);
+                program.uniformMatrix3(name, transpose, matrix);
             });
         },
-        uniformMatrix2fv: function (name, transpose, matrix, picky) {
+        uniformMatrix4: function (name, transpose, matrix) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniformMatrix2fv(name, transpose, matrix, picky);
+                program.uniformMatrix4(name, transpose, matrix);
             });
         },
-        uniformMatrix3fv: function (name, transpose, matrix, picky) {
+        uniformVector3: function (name, vector) {
             traversePrograms(function (program) {
                 program.use();
-                program.uniformMatrix3fv(name, transpose, matrix, picky);
-            });
-        },
-        uniformMatrix4fv: function (name, transpose, matrix, picky) {
-            traversePrograms(function (program) {
-                program.use();
-                program.uniformMatrix4fv(name, transpose, matrix, picky);
+                program.uniformVector3(name, vector);
             });
         },
         traverse: function (callback) {

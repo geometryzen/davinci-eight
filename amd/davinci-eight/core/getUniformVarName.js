@@ -1,6 +1,6 @@
 define(["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
     /**
-     * Policy for how an uniform variable name is determined.
+     * Policy for how a uniform variable name is determined.
      */
     function getUniformVarName(uniform, varName) {
         expectArg('uniform', uniform).toBeObject();

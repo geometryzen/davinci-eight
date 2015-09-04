@@ -8,7 +8,7 @@ function frustumMatrix(left, right, bottom, top, near, far, matrix) {
     expectArg('near', near).toBeNumber();
     expectArg('far', far).toBeNumber();
     var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-    expectArg('m', m).toSatisfy(m instanceof Float32Array, "elements must be a Float32Array").toSatisfy(m.length === 16, 'elements must have length 16');
+    expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
     var x = 2 * near / (right - left);
     var y = 2 * near / (top - bottom);
     var a = (right + left) / (right - left);

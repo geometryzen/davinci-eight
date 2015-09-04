@@ -1,9 +1,7 @@
-var expectArg = require('../checks/expectArg');
 var isDefined = require('../checks/isDefined');
 var uuid4 = require('../utils/uuid4');
 var ShaderAttribLocation = require('../core/ShaderAttribLocation');
 var ShaderUniformLocation = require('../core/ShaderUniformLocation');
-var setUniforms = require('../programs/setUniforms');
 var shaderProgram = function (vertexShader, fragmentShader, uuid) {
     if (uuid === void 0) { uuid = uuid4().generate(); }
     if (typeof vertexShader !== 'string') {
@@ -17,7 +15,6 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
     var $context;
     var attributeLocations = {};
     var uniformLocations = {};
-    var uniformSetters = {};
     var self = {
         get vertexShader() {
             return vertexShader;
@@ -30,9 +27,6 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         },
         get uniformLocations() {
             return uniformLocations;
-        },
-        get uniformSetters() {
-            return uniformSetters;
         },
         addRef: function () {
             refCount++;
@@ -84,10 +78,9 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
                     var activeInfo = context.getActiveUniform(program, u);
                     var name_2 = activeInfo.name;
                     if (!uniformLocations[name_2]) {
+                        // TODO: Since name MUST be part of Location, maybe should use an array?
                         // TODO: Seems like we should be able to make use of the size and type?
                         uniformLocations[name_2] = new ShaderUniformLocation(name_2);
-                        // TODO: Seems like create setter S/B redundant.
-                        uniformSetters[name_2] = uniformLocations[name_2].createSetter(context, activeInfo);
                     }
                 }
                 for (var aName in attributeLocations) {
@@ -136,128 +129,70 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
                 }
             }
         },
-        setUniforms: function (values) {
-            setUniforms(uniformSetters, values);
-        },
-        uniform1f: function (name, x, picky) {
+        uniform1f: function (name, x) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform1f(x);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniform1fv: function (name, data, picky) {
+        uniform1fv: function (name, data) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform1fv(data);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniform2f: function (name, x, y, picky) {
+        uniform2f: function (name, x, y) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform2f(x, y);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniform2fv: function (name, data, picky) {
+        uniform2fv: function (name, data) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform2fv(data);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniform3f: function (name, x, y, z, picky) {
+        uniform3f: function (name, x, y, z) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform3f(x, y, z);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniform3fv: function (name, data, picky) {
-            var uniformLoc = uniformLocations[name];
-            if (uniformLoc) {
-                uniformLoc.uniform3fv(data);
-            }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
-        },
-        uniform4f: function (name, x, y, z, w, picky) {
+        uniform4f: function (name, x, y, z, w) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform4f(x, y, z, w);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniform4fv: function (name, data, picky) {
+        uniform4fv: function (name, data) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
                 uniformLoc.uniform4fv(data);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
-            }
         },
-        uniformMatrix2fv: function (name, transpose, matrix, picky) {
+        uniformMatrix2: function (name, transpose, matrix) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
-                uniformLoc.uniformMatrix2fv(transpose, matrix);
-            }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
+                uniformLoc.uniformMatrix2(transpose, matrix);
             }
         },
-        uniformMatrix3fv: function (name, transpose, matrix, picky) {
+        uniformMatrix3: function (name, transpose, matrix) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
-                uniformLoc.uniformMatrix3fv(transpose, matrix);
-            }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
+                uniformLoc.uniformMatrix3(transpose, matrix);
             }
         },
-        uniformMatrix4fv: function (name, transpose, matrix, picky) {
+        uniformMatrix4: function (name, transpose, matrix) {
             var uniformLoc = uniformLocations[name];
             if (uniformLoc) {
-                uniformLoc.uniformMatrix4fv(transpose, matrix);
+                uniformLoc.uniformMatrix4(transpose, matrix);
             }
-            else {
-                if (picky) {
-                    expectArg('name', name).toSatisfy(false, name + " must be an active uniform");
-                }
+        },
+        uniformVector3: function (name, vector) {
+            var uniformLoc = uniformLocations[name];
+            if (uniformLoc) {
+                uniformLoc.uniformVector3(vector);
             }
         }
     };

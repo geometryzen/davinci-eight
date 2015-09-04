@@ -1,3 +1,4 @@
+import UniformDataVisitor = require('../core/UniformDataVisitor');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
@@ -5,8 +6,6 @@ import Spinor3 = require('../math/Spinor3');
 import Matrix4 = require('../math/Matrix4');
 import View = require('../cameras/View');
 import Symbolic = require('../core/Symbolic');
-import DefaultUniformProvider = require('../core/DefaultUniformProvider');
-import UniformMat4 = require('../uniforms/UniformMat4');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import isVariableName = require('../checks/isVariableName');
@@ -16,24 +15,13 @@ import computeViewMatrix = require('../cameras/viewMatrix');
  * @class view
  * @constructor
  */
-let view = function(options?: {viewMatrixName?: string}): View {
-
-  options = options || {};
+let view = function(options?: {viewMatrixName?: string;}): View {
 
   let eye: Vector3 = new Vector3();
   let look: Vector3 = new Vector3();
   let up: Vector3 = Vector3.e2;
   let viewMatrix: Matrix4 = Matrix4.identity();
-  let base = new UniformMat4(options.viewMatrixName, Symbolic.UNIFORM_VIEW_MATRIX);
-  base.callback = function(): {transpose: boolean; matrix4: Float32Array} {
-    if (eye.modified || look.modified || up.modified) {
-      computeViewMatrix(eye, look, up, viewMatrix.elements);
-      eye.modified = false;
-      look.modified = false;
-      up.modified = false;
-    }
-    return {transpose: false, matrix4: viewMatrix.elements};
-  }
+  let viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
 
   // Force an update of the view matrix.
   eye.modified = true;
@@ -81,32 +69,15 @@ let view = function(options?: {viewMatrixName?: string}): View {
         up.normalize();
         return self;
       },
-      getUniformFloat(name: string) {
-        return base.getUniformFloat(name);
-      },
-      getUniformMatrix2(name: string) {
-        return base.getUniformMatrix2(name);
-      },
-      getUniformMatrix3(name: string) {
-        return base.getUniformMatrix3(name);
-      },
-      getUniformMatrix4(name: string) {
-        return base.getUniformMatrix4(name);
-      },
-      getUniformVector2(name: string) {
-        return base.getUniformVector2(name);
-      },
-      getUniformVector3(name: string) {
-        return base.getUniformVector3(name);
-      },
-      getUniformVector4(name: string) {
-        return base.getUniformVector4(name);
-      },
-      getUniformMeta() {
-        return base.getUniformMeta();
-      },
-      getUniformData() {
-        return base.getUniformData();
+      accept(visitor: UniformDataVisitor) {
+        if (eye.modified || look.modified || up.modified) {
+          // TODO: view matrix would be better.
+          computeViewMatrix(eye, look, up, viewMatrix);
+          eye.modified = false;
+          look.modified = false;
+          up.modified = false;
+        }
+        visitor.uniformMatrix4(viewMatrixName, false, viewMatrix);
       }
   };
 

@@ -1,14 +1,37 @@
 import AttribProvider = require('../core/AttribProvider');
 import Drawable = require('../core/Drawable');
 import DrawableVisitor = require('../core/DrawableVisitor');
-import DefaultDrawableVisitor = require('../core/DefaultDrawableVisitor');
 import Renderer = require('../renderers/Renderer');
 import RendererParameters = require('../renderers/RendererParameters');
 import ShaderProgram = require('../core/ShaderProgram');
 import DrawList = require('../drawLists/DrawList');
-import UniformProvider = require('../core/UniformProvider');
+import UniformData = require('../core/UniformData');
 import expectArg = require('../checks/expectArg');
 import Color = require('../core/Color');
+
+class DefaultDrawableVisitor implements DrawableVisitor {
+  constructor() {
+  }
+  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformData) {
+    if (mesh.dynamic) {
+      mesh.update();
+    }
+
+    program.use();
+
+    model.accept(program);
+    program.setAttributes(mesh.getAttribData());
+
+    mesh.draw();
+
+    for (var name in program.attributeLocations) {
+      program.attributeLocations[name].disable();
+    }
+  }
+}
+
+// This visitor is completely stateless so we can create it here.
+let drawVisitor: DrawableVisitor = new DefaultDrawableVisitor();
 
 let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParameters): Renderer {
 
@@ -21,7 +44,6 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
   var autoClear: boolean = true;
   let clearColor: Color = Color.fromRGB(0, 0, 0);
   var clearAlpha: number = 0;
-  let drawVisitor: DrawableVisitor = new DefaultDrawableVisitor();
 
   function drawHandler(drawable: Drawable) {
     drawable.accept(drawVisitor);
