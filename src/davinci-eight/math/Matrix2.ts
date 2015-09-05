@@ -1,15 +1,12 @@
-import expectArg = require('../checks/expectArg');
-import isDefined = require('../checks/isDefined');
+import AbstractMatrix = require('../math/AbstractMatrix');
 
-class Matrix2 {
-  public elements: Float32Array;
+class Matrix2 extends AbstractMatrix {
   /**
-   * Constructs the Matrix4 by wrapping a Float32Array.
+   * Constructs a Matrix2 by wrapping a Float32Array.
    * @constructor
    */
-  constructor(elements: Float32Array) {
-    expectArg('elements', elements).toSatisfy(elements.length === 4, 'elements must have length 4');
-    this.elements = elements;
+  constructor(data: Float32Array) {
+    super(data, 4);
   }
 }
 

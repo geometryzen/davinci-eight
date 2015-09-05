@@ -103,12 +103,12 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
     this.z = a.z + b.z;
     return this;
   }
-  applyMatrix3(m: Matrix3 ) {
+  applyMatrix3(m: Matrix3): Vector3 {
     let x = this.x;
     let y = this.y;
     let z = this.z;
 
-    let e = m.elements;
+    let e = m.data;
 
     this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
     this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
@@ -129,7 +129,7 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
 
     var x = this.x, y = this.y, z = this.z;
 
-    var e = m.elements;
+    var e = m.data;
 
     this.x = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ]  * z + e[ 12 ];
     this.y = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ]  * z + e[ 13 ];

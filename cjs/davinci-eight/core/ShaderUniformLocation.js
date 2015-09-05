@@ -38,46 +38,32 @@ var ShaderUniformLocation = (function () {
     };
     /**
      * @method uniform1f
-     * @param x {number} Value to assign.
+     * @param x
      */
     ShaderUniformLocation.prototype.uniform1f = function (x) {
         this.context.uniform1f(this.location, x);
     };
     /**
-     * @method uniform1fv
-     * @param data {number[]}
-     */
-    ShaderUniformLocation.prototype.uniform1fv = function (data) {
-        this.context.uniform1fv(this.location, data);
-    };
-    /**
      * @method uniform2f
-     * @param x {number} Horizontal value to assign.
-     * @param y {number} Vertical number to assign.
+     * @param x {number}
+     * @param y {number}
      */
     ShaderUniformLocation.prototype.uniform2f = function (x, y) {
         this.context.uniform2f(this.location, x, y);
     };
     /**
-     * @method uniform2fv
-     * @param data {number[]}
-     */
-    ShaderUniformLocation.prototype.uniform2fv = function (data) {
-        this.context.uniform2fv(this.location, data);
-    };
-    /**
      * @method uniform3f
-     * @param x {number} Horizontal value to assign.
-     * @param y {number} Vertical number to assign.
+     * @param x {number}
+     * @param y {number}
      * @param z {number}
      */
     ShaderUniformLocation.prototype.uniform3f = function (x, y, z) {
         this.context.uniform3f(this.location, x, y, z);
     };
     /**
-     * @method uniform3f
-     * @param x {number} Horizontal value to assign.
-     * @param y {number} Vertical number to assign.
+     * @method uniform4f
+     * @param x {number}
+     * @param y {number}
      * @param z {number}
      * @param w {number}
      */
@@ -85,11 +71,12 @@ var ShaderUniformLocation = (function () {
         this.context.uniform4f(this.location, x, y, z, w);
     };
     /**
-     * @method uniform4fv
-     * @param data {number[]}
+     * @method uniformMatrix1
+     * @param transpose {boolean}
+     * @param matrix {Matrix1}
      */
-    ShaderUniformLocation.prototype.uniform4fv = function (data) {
-        this.context.uniform4fv(this.location, data);
+    ShaderUniformLocation.prototype.uniformMatrix1 = function (transpose, matrix) {
+        this.context.uniform1fv(this.location, matrix.data);
     };
     /**
      * @method uniformMatrix2
@@ -97,7 +84,7 @@ var ShaderUniformLocation = (function () {
      * @param matrix {Matrix2}
      */
     ShaderUniformLocation.prototype.uniformMatrix2 = function (transpose, matrix) {
-        this.context.uniformMatrix2fv(this.location, transpose, matrix.elements);
+        this.context.uniformMatrix2fv(this.location, transpose, matrix.data);
     };
     /**
      * @method uniformMatrix3
@@ -105,7 +92,7 @@ var ShaderUniformLocation = (function () {
      * @param matrix {Matrix3}
      */
     ShaderUniformLocation.prototype.uniformMatrix3 = function (transpose, matrix) {
-        this.context.uniformMatrix3fv(this.location, transpose, matrix.elements);
+        this.context.uniformMatrix3fv(this.location, transpose, matrix.data);
     };
     /**
      * @method uniformMatrix4
@@ -113,16 +100,35 @@ var ShaderUniformLocation = (function () {
      * @param matrix {Matrix4}
      */
     ShaderUniformLocation.prototype.uniformMatrix4 = function (transpose, matrix) {
-        this.context.uniformMatrix4fv(this.location, transpose, matrix.elements);
+        this.context.uniformMatrix4fv(this.location, transpose, matrix.data);
+    };
+    /**
+     * @method uniformVector1
+     * @param vector {Vector1}
+     */
+    ShaderUniformLocation.prototype.uniformVector1 = function (vector) {
+        this.context.uniform1fv(this.location, vector.data);
+    };
+    /**
+     * @method uniformVector2
+     * @param vector {Vector2}
+     */
+    ShaderUniformLocation.prototype.uniformVector2 = function (vector) {
+        this.context.uniform2fv(this.location, vector.data);
     };
     /**
      * @method uniformVector3
      * @param vector {Vector3}
      */
     ShaderUniformLocation.prototype.uniformVector3 = function (vector) {
-        // The v argument is either a number[] or a Float32Array.
-        // In our case we supply number[].
         this.context.uniform3fv(this.location, vector.data);
+    };
+    /**
+     * @method uniformVector4
+     * @param vector {Vector4}
+     */
+    ShaderUniformLocation.prototype.uniformVector4 = function (vector) {
+        this.context.uniform4fv(this.location, vector.data);
     };
     /**
      * @method toString

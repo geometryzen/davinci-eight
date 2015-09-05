@@ -1,3 +1,4 @@
+import AbstractMatrix = require('../math/AbstractMatrix');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
 /**
@@ -5,17 +6,12 @@ import Cartesian3 = require('../math/Cartesian3');
  *
  * @class Matrix4
  */
-declare class Matrix4 {
+declare class Matrix4 extends AbstractMatrix {
     /**
-     * @property elements
-     * @type Float32Array
-     */
-    elements: Float32Array;
-    /**
-     * Constructs the Matrix4 by wrapping a Float32Array.
+     * Constructs a Matrix4 by wrapping a Float32Array.
      * @constructor
      */
-    constructor(elements: Float32Array);
+    constructor(data: Float32Array);
     static identity(): Matrix4;
     static scaling(scale: Cartesian3): Matrix4;
     static translation(vector: Cartesian3): Matrix4;

@@ -100,22 +100,10 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                     program.uniform1f(name, x);
                 });
             },
-            uniform1fv: function (name, value) {
-                traversePrograms(function (program) {
-                    program.use();
-                    program.uniform1fv(name, value);
-                });
-            },
             uniform2f: function (name, x, y) {
                 traversePrograms(function (program) {
                     program.use();
                     program.uniform2f(name, x, y);
-                });
-            },
-            uniform2fv: function (name, value) {
-                traversePrograms(function (program) {
-                    program.use();
-                    program.uniform2fv(name, value);
                 });
             },
             uniform3f: function (name, x, y, z) {
@@ -130,10 +118,10 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                     program.uniform4f(name, x, y, z, w);
                 });
             },
-            uniform4fv: function (name, value) {
+            uniformMatrix1: function (name, transpose, matrix) {
                 traversePrograms(function (program) {
                     program.use();
-                    program.uniform4fv(name, value);
+                    program.uniformMatrix1(name, transpose, matrix);
                 });
             },
             uniformMatrix2: function (name, transpose, matrix) {
@@ -154,10 +142,28 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                     program.uniformMatrix4(name, transpose, matrix);
                 });
             },
+            uniformVector1: function (name, vector) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformVector1(name, vector);
+                });
+            },
+            uniformVector2: function (name, vector) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformVector2(name, vector);
+                });
+            },
             uniformVector3: function (name, vector) {
                 traversePrograms(function (program) {
                     program.use();
                     program.uniformVector3(name, vector);
+                });
+            },
+            uniformVector4: function (name, vector) {
+                traversePrograms(function (program) {
+                    program.use();
+                    program.uniformVector4(name, vector);
                 });
             },
             traverse: function (callback) {

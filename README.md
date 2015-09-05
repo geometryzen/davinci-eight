@@ -170,6 +170,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.66.0: 2015-09-03 uniforms
 * 2.67.0: 2015-09-03 DrawableVisitor
 * 2.68.0: 2015-09-04 API
+* 2.69.0: 2015-09-04 AbstractMatrix
 
 ## License
 Copyright (c) 2014-2015 David Holmes

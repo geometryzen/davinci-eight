@@ -1,16 +1,11 @@
-/// <reference path="../../../src/gl-matrix.d.ts" />
+import AbstractMatrix = require('../math/AbstractMatrix');
 import Matrix4 = require('./Matrix4');
-declare class Matrix3 {
+declare class Matrix3 extends AbstractMatrix {
     /**
-     * @property elements
-     * @type Float32Array
-     */
-    elements: Float32Array;
-    /**
-     * Constructs the Matrix4 by wrapping a Float32Array.
+     * Constructs a Matrix4 by wrapping a Float32Array.
      * @constructor
      */
-    constructor(elements: Float32Array);
+    constructor(data: Float32Array);
     static identity(): Matrix3;
     getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3;
     identity(): Matrix3;

@@ -126,18 +126,23 @@ class Mutable<T> {
   data: T;
   callback: () => T;
 }
+class Matrix1 {
+  public data: Float32Array;
+  constructor(data: Float32Array);
+}
+class Matrix2 {
+  public data: Float32Array;
+  constructor(data: Float32Array);
+}
 class Matrix3 {
-  public elements: number[];
-  constructor();
+  public data: Float32Array;
+  constructor(data: Float32Array);
   identity(): void;
   normalFromMatrix4(matrix: Matrix4): void;
 }
 class Matrix4 {
-  public elements: Float32Array;
-  /**
-   * Constructs a Matrix4 by wrapping an existing Float32Array.
-   */
-  constructor(elements: Float32Array);
+  public data: Float32Array;
+  constructor(data: Float32Array);
   /**
    * Generates a new identity matrix.
    */
@@ -187,6 +192,9 @@ class Matrix4 {
 interface Cartesian2 {
   x: number;
   y: number;
+}
+class Vector1 {
+
 }
 class Vector2 extends Mutable<number[]> implements Cartesian2 {
   public x: number;
@@ -284,6 +292,8 @@ class Vector3 extends Mutable<number[]> implements Cartesian3 {
   sub(v: Cartesian3): Vector3;
   subVectors(a: Cartesian3, b: Cartesian3): Vector3;
 }
+class Vector4 {
+}
 /**
  *
  */
@@ -300,16 +310,17 @@ interface UniformMetaInfos {
 
 interface UniformDataVisitor {
   uniform1f(name: string, x: number);
-  uniform1fv(name: string, value: number[]);
   uniform2f(name: string, x: number, y: number);
-  uniform2fv(name: string, value: number[]);
   uniform3f(name: string, x: number, y: number, z: number);
   uniform4f(name: string, x: number, y: number, z: number, w: number);
-  uniform4fv(name: string, value: number[]);
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1);
   uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2);
   uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3);
   uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4);
+  uniformVector1(name: string, vector: Vector1);
+  uniformVector2(name: string, vector: Vector2);
   uniformVector3(name: string, vector: Vector3);
+  uniformVector4(name: string, vector: Vector4);
 }
 
 interface UniformData {

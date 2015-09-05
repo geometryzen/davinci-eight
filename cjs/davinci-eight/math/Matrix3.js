@@ -1,14 +1,18 @@
-var expectArg = require('../checks/expectArg');
-var Matrix3 = (function () {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var AbstractMatrix = require('../math/AbstractMatrix');
+var Matrix3 = (function (_super) {
+    __extends(Matrix3, _super);
     /**
-     * Constructs the Matrix4 by wrapping a Float32Array.
+     * Constructs a Matrix4 by wrapping a Float32Array.
      * @constructor
      */
-    function Matrix3(elements) {
-        expectArg('elements', elements)
-            .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
-            .toSatisfy(elements.length === 9, 'elements must have length 9');
-        this.elements = elements;
+    function Matrix3(data) {
+        _super.call(this, data, 9);
     }
     Matrix3.identity = function () {
         return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
@@ -16,8 +20,8 @@ var Matrix3 = (function () {
     Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
         // input: THREE.Matrix4
         // ( based on http://code.google.com/p/webgl-mjs/ )
-        var me = matrix.elements;
-        var te = this.elements;
+        var me = matrix.data;
+        var te = this.data;
         te[0] = me[10] * me[5] - me[6] * me[9];
         te[1] = -me[10] * me[1] + me[2] * me[9];
         te[2] = me[6] * me[1] - me[2] * me[5];
@@ -47,7 +51,7 @@ var Matrix3 = (function () {
         return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
     };
     Matrix3.prototype.multiplyScalar = function (s) {
-        var m = this.elements;
+        var m = this.data;
         m[0] *= s;
         m[3] *= s;
         m[6] *= s;
@@ -63,7 +67,7 @@ var Matrix3 = (function () {
         this.getInverse(m).transpose();
     };
     Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
-        var te = this.elements;
+        var te = this.data;
         te[0] = n11;
         te[3] = n12;
         te[6] = n13;
@@ -77,7 +81,7 @@ var Matrix3 = (function () {
     };
     Matrix3.prototype.transpose = function () {
         var tmp;
-        var m = this.elements;
+        var m = this.data;
         tmp = m[1];
         m[1] = m[3];
         m[3] = tmp;
@@ -90,5 +94,5 @@ var Matrix3 = (function () {
         return this;
     };
     return Matrix3;
-})();
+})(AbstractMatrix);
 module.exports = Matrix3;

@@ -1,13 +1,19 @@
-var expectArg = require('../checks/expectArg');
-var Matrix2 = (function () {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var AbstractMatrix = require('../math/AbstractMatrix');
+var Matrix2 = (function (_super) {
+    __extends(Matrix2, _super);
     /**
-     * Constructs the Matrix4 by wrapping a Float32Array.
+     * Constructs a Matrix2 by wrapping a Float32Array.
      * @constructor
      */
-    function Matrix2(elements) {
-        expectArg('elements', elements).toSatisfy(elements.length === 4, 'elements must have length 4');
-        this.elements = elements;
+    function Matrix2(data) {
+        _super.call(this, data, 4);
     }
     return Matrix2;
-})();
+})(AbstractMatrix);
 module.exports = Matrix2;

@@ -4,6 +4,7 @@ import AttribMetaInfo = require('../core/AttribMetaInfo');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import fragmentShader = require('../programs/fragmentShader');
 import isDefined = require('../checks/isDefined');
+import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -12,7 +13,10 @@ import ShaderProgram = require('../core/ShaderProgram');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
+import Vector1 = require('../math/Vector1');
+import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
+import Vector4 = require('../math/Vector4');
 import vertexShader = require('../programs/vertexShader');
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
@@ -95,14 +99,8 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     uniform1f(name: string, x: number) {
       return innerProgram.uniform1f(name, x);
     },
-    uniform1fv(name: string, value: number[]) {
-      return innerProgram.uniform1fv(name, value);
-    },
     uniform2f(name: string, x: number, y: number) {
       return innerProgram.uniform2f(name, x, y);
-    },
-    uniform2fv(name: string, value: number[]) {
-      return innerProgram.uniform2fv(name, value);
     },
     uniform3f(name: string, x: number, y: number, z: number) {
       return innerProgram.uniform3f(name, x, y, z);
@@ -110,8 +108,8 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     uniform4f(name: string, x: number, y: number, z: number, w: number) {
       return innerProgram.uniform4f(name, x, y, z, w);
     },
-    uniform4fv(name: string, value: number[]) {
-      return innerProgram.uniform4fv(name, value);
+    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
+      return innerProgram.uniformMatrix1(name, transpose, matrix);
     },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
       return innerProgram.uniformMatrix2(name, transpose, matrix);
@@ -122,8 +120,17 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
       return innerProgram.uniformMatrix4(name, transpose, matrix);
     },
+    uniformVector1(name: string, vector: Vector1) {
+      return innerProgram.uniformVector1(name, vector);
+    },
+    uniformVector2(name: string, vector: Vector2) {
+      return innerProgram.uniformVector2(name, vector);
+    },
     uniformVector3(name: string, vector: Vector3) {
       return innerProgram.uniformVector3(name, vector);
+    },
+    uniformVector4(name: string, vector: Vector4) {
+      return innerProgram.uniformVector4(name, vector);
     }
   }
 

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.68.0</em>
+            <em>API Docs for: 2.69.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
+                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Color
                 WARNING: In many object-oriented designs, types representing values are completely immutable.
@@ -70,16 +71,16 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
@@ -96,6 +97,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -140,18 +142,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import isDefined = require(&#x27;../checks/isDefined&#x27;);
+import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
 
-class Matrix2 {
-  public elements: Float32Array;
+class Matrix2 extends AbstractMatrix {
   /**
-   * Constructs the Matrix4 by wrapping a Float32Array.
+   * Constructs a Matrix2 by wrapping a Float32Array.
    * @constructor
    */
-  constructor(elements: Float32Array) {
-    expectArg(&#x27;elements&#x27;, elements).toSatisfy(elements.length === 4, &#x27;elements must have length 4&#x27;);
-    this.elements = elements;
+  constructor(data: Float32Array) {
+    super(data, 4);
   }
 }
 

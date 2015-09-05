@@ -113,7 +113,7 @@ var Vector3 = (function () {
         var x = this.x;
         var y = this.y;
         var z = this.z;
-        var e = m.elements;
+        var e = m.data;
         this.x = e[0x0] * x + e[0x3] * y + e[0x6] * z;
         this.y = e[0x1] * x + e[0x4] * y + e[0x7] * z;
         this.z = e[0x2] * x + e[0x5] * y + e[0x8] * z;
@@ -130,7 +130,7 @@ var Vector3 = (function () {
      */
     Vector3.prototype.applyMatrix4 = function (m) {
         var x = this.x, y = this.y, z = this.z;
-        var e = m.elements;
+        var e = m.data;
         this.x = e[0] * x + e[4] * y + e[8] * z + e[12];
         this.y = e[1] * x + e[5] * y + e[9] * z + e[13];
         this.z = e[2] * x + e[6] * y + e[10] * z + e[14];

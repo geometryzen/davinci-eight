@@ -132,22 +132,10 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     uniformLoc.uniform1f(x);
                 }
             },
-            uniform1fv: function (name, data) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform1fv(data);
-                }
-            },
             uniform2f: function (name, x, y) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniform2f(x, y);
-                }
-            },
-            uniform2fv: function (name, data) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform2fv(data);
                 }
             },
             uniform3f: function (name, x, y, z) {
@@ -162,10 +150,10 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     uniformLoc.uniform4f(x, y, z, w);
                 }
             },
-            uniform4fv: function (name, data) {
+            uniformMatrix1: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniform4fv(data);
+                    uniformLoc.uniformMatrix1(transpose, matrix);
                 }
             },
             uniformMatrix2: function (name, transpose, matrix) {
@@ -186,10 +174,28 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     uniformLoc.uniformMatrix4(transpose, matrix);
                 }
             },
+            uniformVector1: function (name, vector) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformVector1(vector);
+                }
+            },
+            uniformVector2: function (name, vector) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformVector2(vector);
+                }
+            },
             uniformVector3: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
                     uniformLoc.uniformVector3(vector);
+                }
+            },
+            uniformVector4: function (name, vector) {
+                var uniformLoc = uniformLocations[name];
+                if (uniformLoc) {
+                    uniformLoc.uniformVector4(vector);
                 }
             }
         };

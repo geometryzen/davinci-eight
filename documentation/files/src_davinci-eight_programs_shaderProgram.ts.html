@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.68.0</em>
+            <em>API Docs for: 2.69.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
+                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Color
                 WARNING: In many object-oriented designs, types representing values are completely immutable.
@@ -70,16 +71,16 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
@@ -96,6 +97,7 @@
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -146,6 +148,7 @@ import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import ShaderAttribSetter   = require(&#x27;../core/ShaderAttribSetter&#x27;);
 import parse = require(&#x27;../glsl/parse&#x27;);
+import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
 import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
@@ -161,7 +164,10 @@ import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
 import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
+import Vector1 = require(&#x27;../math/Vector1&#x27;);
+import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
+import Vector4 = require(&#x27;../math/Vector4&#x27;);
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid: string = uuid4().generate()): ShaderProgram {
 
@@ -301,22 +307,10 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLoc.uniform1f(x);
       }
     },
-    uniform1fv(name: string, data: number[]) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.uniform1fv(data);
-      }
-    },
     uniform2f(name: string, x: number, y: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform2f(x, y);
-      }
-    },
-    uniform2fv(name: string, data: number[]) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.uniform2fv(data);
       }
     },
     uniform3f(name: string, x: number, y: number, z: number) {
@@ -331,10 +325,10 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLoc.uniform4f(x, y, z, w);
       }
     },
-    uniform4fv(name: string, data: number[]) {
+    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniform4fv(data);
+        uniformLoc.uniformMatrix1(transpose, matrix);
       }
     },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
@@ -355,10 +349,28 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLoc.uniformMatrix4(transpose, matrix);
       }
     },
+    uniformVector1(name: string, vector: Vector1) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector1(vector);
+      }
+    },
+    uniformVector2(name: string, vector: Vector2) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector2(vector);
+      }
+    },
     uniformVector3(name: string, vector: Vector3) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniformVector3(vector);
+      }
+    },
+    uniformVector4(name: string, vector: Vector4) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector4(vector);
       }
     }
   };

@@ -1,9 +1,9 @@
-declare class Matrix2 {
-    elements: Float32Array;
+import AbstractMatrix = require('../math/AbstractMatrix');
+declare class Matrix2 extends AbstractMatrix {
     /**
-     * Constructs the Matrix4 by wrapping a Float32Array.
+     * Constructs a Matrix2 by wrapping a Float32Array.
      * @constructor
      */
-    constructor(elements: Float32Array);
+    constructor(data: Float32Array);
 }
 export = Matrix2;

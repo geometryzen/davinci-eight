@@ -1,7 +1,9 @@
-import Spinor3Coords = require('../math/Spinor3Coords');
-import Cartesian3 = require('../math/Cartesian3');
+import AbstractMatrix = require('../math/AbstractMatrix');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+// TODO: Anything after this line hints of excessive coupling.
+import Spinor3Coords = require('../math/Spinor3Coords');
+import Cartesian3 = require('../math/Cartesian3');
 // TODO: Probably better not to couple this way.
 import frustumMatrix = require('../cameras/frustumMatrix');
 /**
@@ -9,27 +11,19 @@ import frustumMatrix = require('../cameras/frustumMatrix');
  *
  * @class Matrix4
  */
-class Matrix4 {
-// The correspondence between the elements property index and the matrix entries is...
+class Matrix4 extends AbstractMatrix {
+// The correspondence between the data property index and the matrix entries is...
 //
 //  0  4  8 12
 //  1  5  9 13
 //  2  6 10 14
 //  3  7 11 15
   /**
-   * @property elements
-   * @type Float32Array
-   */
-  public elements: Float32Array;
-  /**
-   * Constructs the Matrix4 by wrapping a Float32Array.
+   * Constructs a Matrix4 by wrapping a Float32Array.
    * @constructor
    */
-  constructor(elements: Float32Array) {
-    expectArg('elements', elements)
-    .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
-    .toSatisfy(elements.length === 16, 'elements must have length 16');
-    this.elements = elements;
+  constructor(data: Float32Array) {
+    super(data, 16);
   }
   public static identity() {
     return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
@@ -56,11 +50,11 @@ class Matrix4 {
     return this;
   }
   copy(m: Matrix4): Matrix4 {
-    this.elements.set(m.elements);
+    this.data.set(m.data);
     return this;
   }
   determinant(): number {
-    let te = this.elements;
+    let te = this.data;
 
     let n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
     let n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
@@ -90,8 +84,8 @@ class Matrix4 {
   invert(m: Matrix4, throwOnSingular: boolean = false): Matrix4 {
 
     // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-    var te = this.elements;
-    var me = m.elements;
+    var te = this.data;
+    var me = m.data;
 
     var n11 = me[ 0 ], n12 = me[ 4 ], n13 = me[ 8 ], n14 = me[ 12 ];
     var n21 = me[ 1 ], n22 = me[ 5 ], n23 = me[ 9 ], n24 = me[ 13 ];
@@ -136,7 +130,7 @@ class Matrix4 {
     return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
   multiplyScalar(s): Matrix4 {
-    let te = this.elements;
+    let te = this.data;
     te[ 0 ] *= s; te[ 4 ] *= s; te[ 8 ] *= s; te[ 12 ] *= s;
     te[ 1 ] *= s; te[ 5 ] *= s; te[ 9 ] *= s; te[ 13 ] *= s;
     te[ 2 ] *= s; te[ 6 ] *= s; te[ 10 ] *= s; te[ 14 ] *= s;
@@ -144,7 +138,7 @@ class Matrix4 {
     return this;
   }
   transpose(): Matrix4 {
-    let te: Float32Array = this.elements;
+    let te: Float32Array = this.data;
     var tmp: number;
 
     tmp = te[ 1 ]; te[ 1 ] = te[ 4 ]; te[ 4 ] = tmp;
@@ -161,7 +155,7 @@ class Matrix4 {
    *
    */
   frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4 {
-    let te = this.elements;
+    let te = this.data;
     let x = 2 * near / ( right - left );
     let y = 2 * near / ( top - bottom );
 
@@ -195,11 +189,11 @@ class Matrix4 {
     );
   }
   mul(m: Matrix4): Matrix4 {
-    Matrix4.mul(this.elements, m.elements, this.elements);
+    Matrix4.mul(this.data, m.data, this.data);
     return this;
   }
   multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4 {
-    Matrix4.mul(a.elements, b.elements, this.elements);
+    Matrix4.mul(a.data, b.data, this.data);
     return this;
   }
   // TODO: This should not be here.
@@ -239,7 +233,7 @@ class Matrix4 {
   }
   rotate(spinor: Spinor3Coords): Matrix4 {
     let S: Matrix4 = Matrix4.rotation(spinor);
-    Matrix4.mul(S.elements, this.elements, this.elements);
+    Matrix4.mul(S.data, this.data, this.data);
     return this;
   }
   /**
@@ -273,7 +267,7 @@ class Matrix4 {
    * @param i {number} the zero-based index of the row.
    */
   row(i: number): number[] {
-    let te = this.elements;
+    let te = this.data;
     return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
   }
   /**
@@ -292,7 +286,7 @@ class Matrix4 {
     // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
     // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
     let S: Matrix4 = Matrix4.scaling(scale);
-    Matrix4.mul(S.elements, this.elements, this.elements);
+    Matrix4.mul(S.data, this.data, this.data);
     return this;
   }
   scaling(scale: Cartesian3): Matrix4 {
@@ -316,7 +310,7 @@ class Matrix4 {
     n43: number,
     n44: number): Matrix4 {
 
-    var te = this.elements;
+    var te = this.data;
 
     te[ 0 ] = n11; te[ 4 ] = n12; te[ 8 ] = n13; te[ 12 ] = n14;
     te[ 1 ] = n21; te[ 5 ] = n22; te[ 9 ] = n23; te[ 13 ] = n24;
@@ -342,7 +336,7 @@ class Matrix4 {
   }
   translate(displacement: Cartesian3): Matrix4 {
     let T: Matrix4 = Matrix4.translation(displacement);
-    Matrix4.mul(T.elements, this.elements, this.elements);
+    Matrix4.mul(T.data, this.data, this.data);
     return this;
   }
   translation(displacement: Cartesian3): Matrix4 {

@@ -5,7 +5,7 @@ import viewArray = require('../cameras/viewArray');
 
 function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4): Matrix4 {
   let m: Matrix4 = isDefined(matrix) ? matrix : Matrix4.identity();
-  viewArray(eye, look, up, m.elements);
+  viewArray(eye, look, up, m.data);
   return m;
 }
 

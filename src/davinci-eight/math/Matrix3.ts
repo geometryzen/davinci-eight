@@ -1,25 +1,15 @@
-/// <reference path="../../../src/gl-matrix.d.ts" />
-/// <amd-dependency path="gl-matrix" name="glMatrix"/>
-import Matrix4 = require('./Matrix4');
+import AbstractMatrix = require('../math/AbstractMatrix');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
-declare var glMatrix: glMatrix;
+import Matrix4 = require('./Matrix4');
 
-class Matrix3 {
+class Matrix3 extends AbstractMatrix {
   /**
-   * @property elements
-   * @type Float32Array
-   */
-  public elements: Float32Array;
-  /**
-   * Constructs the Matrix4 by wrapping a Float32Array.
+   * Constructs a Matrix4 by wrapping a Float32Array.
    * @constructor
    */
-  constructor(elements: Float32Array) {
-    expectArg('elements', elements)
-    .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
-    .toSatisfy(elements.length === 9, 'elements must have length 9');
-    this.elements = elements;
+  constructor(data: Float32Array) {
+    super(data, 9);
   }
   public static identity() {
     return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
@@ -29,8 +19,8 @@ class Matrix3 {
     // input: THREE.Matrix4
     // ( based on http://code.google.com/p/webgl-mjs/ )
 
-    var me = matrix.elements;
-    var te = this.elements;
+    var me = matrix.data;
+    var te = this.data;
 
     te[ 0 ] =   me[ 10 ] * me[ 5 ] - me[ 6 ] * me[ 9 ];
     te[ 1 ] = - me[ 10 ] * me[ 1 ] + me[ 2 ] * me[ 9 ];
@@ -75,7 +65,7 @@ class Matrix3 {
     return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
   }
   multiplyScalar(s: number): Matrix3 {
-    let m = this.elements;
+    let m = this.data;
     m[0] *= s; m[3] *= s; m[6] *= s;
     m[1] *= s; m[4] *= s; m[7] *= s;
     m[2] *= s; m[5] *= s; m[8] *= s;
@@ -95,7 +85,7 @@ class Matrix3 {
     n32: number,
     n33: number): Matrix3 {
 
-    var te = this.elements;
+    var te = this.data;
 
     te[ 0 ] = n11; te[ 3 ] = n12; te[ 6 ] = n13;
     te[ 1 ] = n21; te[ 4 ] = n22; te[ 7 ] = n23;
@@ -105,7 +95,7 @@ class Matrix3 {
   }
   transpose(): Matrix3 {
     var tmp: number;
-    var m = this.elements;
+    var m = this.data;
 
     tmp = m[ 1 ]; m[ 1 ] = m[ 3 ]; m[ 3 ] = tmp;
     tmp = m[ 2 ]; m[ 2 ] = m[ 6 ]; m[ 6 ] = tmp;

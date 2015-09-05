@@ -2,11 +2,15 @@ import DrawList = require('../drawLists/DrawList');
 import Drawable = require('../core/Drawable');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import ShaderProgram = require('../core/ShaderProgram');
+import Vector1 = require('../math/Vector1');
+import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
+import Vector4 = require('../math/Vector4');
 
 class ProgramInfo {
   public program: ShaderProgram;
@@ -115,22 +119,10 @@ let scene = function(): DrawList {
         program.uniform1f(name, x);
       });
     },
-    uniform1fv(name: string, value: number[]) {
-      traversePrograms(function(program: ShaderProgram) {
-        program.use();
-        program.uniform1fv(name, value);
-      });
-    },
     uniform2f(name: string, x: number, y: number) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
         program.uniform2f(name, x, y);
-      });
-    },
-    uniform2fv(name: string, value: number[]) {
-      traversePrograms(function(program: ShaderProgram) {
-        program.use();
-        program.uniform2fv(name, value);
       });
     },
     uniform3f(name: string, x: number, y: number, z: number) {
@@ -145,10 +137,10 @@ let scene = function(): DrawList {
         program.uniform4f(name, x, y, z, w);
       });
     },
-    uniform4fv(name: string, value: number[]) {
+    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
-        program.uniform4fv(name, value);
+        program.uniformMatrix1(name, transpose, matrix);
       });
     },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
@@ -169,10 +161,28 @@ let scene = function(): DrawList {
         program.uniformMatrix4(name, transpose, matrix);
       });
     },
+    uniformVector1(name: string, vector: Vector1) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniformVector1(name, vector);
+      });
+    },
+    uniformVector2(name: string, vector: Vector2) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniformVector2(name, vector);
+      });
+    },
     uniformVector3(name: string, vector: Vector3) {
       traversePrograms(function(program: ShaderProgram) {
         program.use();
         program.uniformVector3(name, vector);
+      });
+    },
+    uniformVector4(name: string, vector: Vector4) {
+      traversePrograms(function(program: ShaderProgram) {
+        program.use();
+        program.uniformVector4(name, vector);
       });
     },
     traverse(callback: (value: Drawable, index: number, array: Drawable[]) => void) {

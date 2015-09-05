@@ -72,14 +72,8 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             uniform1f: function (name, x) {
                 return innerProgram.uniform1f(name, x);
             },
-            uniform1fv: function (name, value) {
-                return innerProgram.uniform1fv(name, value);
-            },
             uniform2f: function (name, x, y) {
                 return innerProgram.uniform2f(name, x, y);
-            },
-            uniform2fv: function (name, value) {
-                return innerProgram.uniform2fv(name, value);
             },
             uniform3f: function (name, x, y, z) {
                 return innerProgram.uniform3f(name, x, y, z);
@@ -87,8 +81,8 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             uniform4f: function (name, x, y, z, w) {
                 return innerProgram.uniform4f(name, x, y, z, w);
             },
-            uniform4fv: function (name, value) {
-                return innerProgram.uniform4fv(name, value);
+            uniformMatrix1: function (name, transpose, matrix) {
+                return innerProgram.uniformMatrix1(name, transpose, matrix);
             },
             uniformMatrix2: function (name, transpose, matrix) {
                 return innerProgram.uniformMatrix2(name, transpose, matrix);
@@ -99,8 +93,17 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             uniformMatrix4: function (name, transpose, matrix) {
                 return innerProgram.uniformMatrix4(name, transpose, matrix);
             },
+            uniformVector1: function (name, vector) {
+                return innerProgram.uniformVector1(name, vector);
+            },
+            uniformVector2: function (name, vector) {
+                return innerProgram.uniformVector2(name, vector);
+            },
             uniformVector3: function (name, vector) {
                 return innerProgram.uniformVector3(name, vector);
+            },
+            uniformVector4: function (name, vector) {
+                return innerProgram.uniformVector4(name, vector);
             }
         };
         return self;

@@ -1,19 +1,29 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '../checks/isDefined'], function (require, exports, AbstractMatrix, expectArg, isDefined) {
     /**
      * 4x4 matrix integrating with WebGL.
      *
      * @class Matrix4
      */
-    var Matrix4 = (function () {
+    var Matrix4 = (function (_super) {
+        __extends(Matrix4, _super);
+        // The correspondence between the data property index and the matrix entries is...
+        //
+        //  0  4  8 12
+        //  1  5  9 13
+        //  2  6 10 14
+        //  3  7 11 15
         /**
-         * Constructs the Matrix4 by wrapping a Float32Array.
+         * Constructs a Matrix4 by wrapping a Float32Array.
          * @constructor
          */
-        function Matrix4(elements) {
-            expectArg('elements', elements)
-                .toSatisfy(elements instanceof Float32Array, "elements must be a Float32Array")
-                .toSatisfy(elements.length === 16, 'elements must have length 16');
-            this.elements = elements;
+        function Matrix4(data) {
+            _super.call(this, data, 16);
         }
         Matrix4.identity = function () {
             return new Matrix4(new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
@@ -40,11 +50,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             return this;
         };
         Matrix4.prototype.copy = function (m) {
-            this.elements.set(m.elements);
+            this.data.set(m.data);
             return this;
         };
         Matrix4.prototype.determinant = function () {
-            var te = this.elements;
+            var te = this.data;
             var n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12];
             var n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13];
             var n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
@@ -70,8 +80,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         Matrix4.prototype.invert = function (m, throwOnSingular) {
             if (throwOnSingular === void 0) { throwOnSingular = false; }
             // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
-            var te = this.elements;
-            var me = m.elements;
+            var te = this.data;
+            var me = m.data;
             var n11 = me[0], n12 = me[4], n13 = me[8], n14 = me[12];
             var n21 = me[1], n22 = me[5], n23 = me[9], n24 = me[13];
             var n31 = me[2], n32 = me[6], n33 = me[10], n34 = me[14];
@@ -112,7 +122,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.multiplyScalar = function (s) {
-            var te = this.elements;
+            var te = this.data;
             te[0] *= s;
             te[4] *= s;
             te[8] *= s;
@@ -132,7 +142,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             return this;
         };
         Matrix4.prototype.transpose = function () {
-            var te = this.elements;
+            var te = this.data;
             var tmp;
             tmp = te[1];
             te[1] = te[4];
@@ -158,7 +168,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
          *
          */
         Matrix4.prototype.frustum = function (left, right, bottom, top, near, far) {
-            var te = this.elements;
+            var te = this.data;
             var x = 2 * near / (right - left);
             var y = 2 * near / (top - bottom);
             var a = (right + left) / (right - left);
@@ -193,11 +203,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             return this.set(tx * x + c, tx * y - s * z, tx * z + s * y, 0, tx * y + s * z, ty * y + c, ty * z - s * x, 0, tx * z - s * y, ty * z + s * x, t * z * z + c, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.mul = function (m) {
-            Matrix4.mul(this.elements, m.elements, this.elements);
+            Matrix4.mul(this.data, m.data, this.data);
             return this;
         };
         Matrix4.prototype.multiplyMatrices = function (a, b) {
-            Matrix4.mul(a.elements, b.elements, this.elements);
+            Matrix4.mul(a.data, b.data, this.data);
             return this;
         };
         // TODO: This should not be here.
@@ -230,7 +240,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         };
         Matrix4.prototype.rotate = function (spinor) {
             var S = Matrix4.rotation(spinor);
-            Matrix4.mul(S.elements, this.elements, this.elements);
+            Matrix4.mul(S.data, this.data, this.data);
             return this;
         };
         /**
@@ -256,7 +266,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
          * @param i {number} the zero-based index of the row.
          */
         Matrix4.prototype.row = function (i) {
-            var te = this.elements;
+            var te = this.data;
             return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
         };
         /**
@@ -274,14 +284,14 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
             // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
             var S = Matrix4.scaling(scale);
-            Matrix4.mul(S.elements, this.elements, this.elements);
+            Matrix4.mul(S.data, this.data, this.data);
             return this;
         };
         Matrix4.prototype.scaling = function (scale) {
             return this.set(scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1);
         };
         Matrix4.prototype.set = function (n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
-            var te = this.elements;
+            var te = this.data;
             te[0] = n11;
             te[4] = n12;
             te[8] = n13;
@@ -319,7 +329,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
         };
         Matrix4.prototype.translate = function (displacement) {
             var T = Matrix4.translation(displacement);
-            Matrix4.mul(T.elements, this.elements, this.elements);
+            Matrix4.mul(T.data, this.data, this.data);
             return this;
         };
         Matrix4.prototype.translation = function (displacement) {
@@ -342,6 +352,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             }
         };
         return Matrix4;
-    })();
+    })(AbstractMatrix);
     return Matrix4;
 });

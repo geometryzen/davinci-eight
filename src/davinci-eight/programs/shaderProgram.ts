@@ -4,6 +4,7 @@ import AttribProvider = require('../core/AttribProvider');
 import ShaderProgram = require('../core/ShaderProgram');
 import ShaderAttribSetter   = require('../core/ShaderAttribSetter');
 import parse = require('../glsl/parse');
+import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
@@ -19,7 +20,10 @@ import ShaderAttribLocation = require('../core/ShaderAttribLocation');
 import ShaderUniformLocation = require('../core/ShaderUniformLocation');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
+import Vector1 = require('../math/Vector1');
+import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
+import Vector4 = require('../math/Vector4');
 
 var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid: string = uuid4().generate()): ShaderProgram {
 
@@ -159,22 +163,10 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLoc.uniform1f(x);
       }
     },
-    uniform1fv(name: string, data: number[]) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.uniform1fv(data);
-      }
-    },
     uniform2f(name: string, x: number, y: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniform2f(x, y);
-      }
-    },
-    uniform2fv(name: string, data: number[]) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.uniform2fv(data);
       }
     },
     uniform3f(name: string, x: number, y: number, z: number) {
@@ -189,10 +181,10 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLoc.uniform4f(x, y, z, w);
       }
     },
-    uniform4fv(name: string, data: number[]) {
+    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniform4fv(data);
+        uniformLoc.uniformMatrix1(transpose, matrix);
       }
     },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
@@ -213,10 +205,28 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLoc.uniformMatrix4(transpose, matrix);
       }
     },
+    uniformVector1(name: string, vector: Vector1) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector1(vector);
+      }
+    },
+    uniformVector2(name: string, vector: Vector2) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector2(vector);
+      }
+    },
     uniformVector3(name: string, vector: Vector3) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
         uniformLoc.uniformVector3(vector);
+      }
+    },
+    uniformVector4(name: string, vector: Vector4) {
+      let uniformLoc = uniformLocations[name];
+      if (uniformLoc) {
+        uniformLoc.uniformVector4(vector);
       }
     }
   };
