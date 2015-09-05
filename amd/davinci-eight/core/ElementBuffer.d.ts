@@ -27,14 +27,14 @@ declare class ElementBuffer {
      */
     contextLoss(): void;
     /**
-     * @method bindBuffer
+     * @method bind
      */
-    bindBuffer(): void;
+    bind(): void;
     /**
-     * @method bufferData
+     * @method data
      * @param data {Uint16Array}
      * @param usage {number} Optional. Defaults to STREAM_DRAW.
      */
-    bufferData(data: Uint16Array, usage?: number): void;
+    data(data: Uint16Array, usage?: number): void;
 }
 export = ElementBuffer;

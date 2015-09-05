@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../core/Color'], function (require, exports, expectArg, Color) {
+define(["require", "exports", '../core/Color', '../checks/expectArg'], function (require, exports, Color, expectArg) {
     var DefaultDrawableVisitor = (function () {
         function DefaultDrawableVisitor() {
         }
@@ -8,10 +8,13 @@ define(["require", "exports", '../checks/expectArg', '../core/Color'], function 
             }
             program.use();
             model.accept(program);
+            // FIXME: attributes are implicitly being enabled, should be explicit.
             program.setAttributes(mesh.getAttribData());
             mesh.draw();
-            for (var name in program.attributeLocations) {
-                program.attributeLocations[name].disable();
+            // This implementation enables all the active attributes in the program.
+            var attributes = program.attributes;
+            for (var name in attributes) {
+                attributes[name].disable();
             }
         };
         return DefaultDrawableVisitor;

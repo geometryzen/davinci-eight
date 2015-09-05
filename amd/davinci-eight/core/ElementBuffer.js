@@ -49,28 +49,28 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
             this._context = void 0;
         };
         /**
-         * @method bindBuffer
+         * @method bind
          */
-        ElementBuffer.prototype.bindBuffer = function () {
+        ElementBuffer.prototype.bind = function () {
             if (this._context) {
                 this._context.bindBuffer(this._context.ELEMENT_ARRAY_BUFFER, this._buffer);
             }
             else {
-                console.warn("ElementBuffer.bindBuffer() missing WebGLRenderingContext");
+                console.warn("ElementBuffer.bind() missing WebGLRenderingContext");
             }
         };
         /**
-         * @method bufferData
+         * @method data
          * @param data {Uint16Array}
          * @param usage {number} Optional. Defaults to STREAM_DRAW.
          */
-        ElementBuffer.prototype.bufferData = function (data, usage) {
+        ElementBuffer.prototype.data = function (data, usage) {
             if (this._context) {
                 usage = isDefined(usage) ? usage : this._context.STREAM_DRAW;
                 this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, data, usage);
             }
             else {
-                console.warn("ElementBuffer.bindBuffer() missing WebGLRenderingContext");
+                console.warn("ElementBuffer.data() missing WebGLRenderingContext");
             }
         };
         return ElementBuffer;

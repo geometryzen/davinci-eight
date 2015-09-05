@@ -1,13 +1,13 @@
 import AttribProvider = require('../core/AttribProvider');
+import Color = require('../core/Color');
 import Drawable = require('../core/Drawable');
 import DrawableVisitor = require('../core/DrawableVisitor');
+import DrawList = require('../drawLists/DrawList');
+import expectArg = require('../checks/expectArg');
 import Renderer = require('../renderers/Renderer');
 import RendererParameters = require('../renderers/RendererParameters');
 import ShaderProgram = require('../core/ShaderProgram');
-import DrawList = require('../drawLists/DrawList');
 import UniformData = require('../core/UniformData');
-import expectArg = require('../checks/expectArg');
-import Color = require('../core/Color');
 
 class DefaultDrawableVisitor implements DrawableVisitor {
   constructor() {
@@ -20,12 +20,15 @@ class DefaultDrawableVisitor implements DrawableVisitor {
     program.use();
 
     model.accept(program);
+    // FIXME: attributes are implicitly being enabled, should be explicit.
     program.setAttributes(mesh.getAttribData());
 
     mesh.draw();
 
-    for (var name in program.attributeLocations) {
-      program.attributeLocations[name].disable();
+    // This implementation enables all the active attributes in the program.
+    let attributes = program.attributes;
+    for (var name in attributes) {
+      attributes[name].disable();
     }
   }
 }

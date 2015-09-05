@@ -1,5 +1,5 @@
-var expectArg = require('../checks/expectArg');
 var Color = require('../core/Color');
+var expectArg = require('../checks/expectArg');
 var DefaultDrawableVisitor = (function () {
     function DefaultDrawableVisitor() {
     }
@@ -9,10 +9,13 @@ var DefaultDrawableVisitor = (function () {
         }
         program.use();
         model.accept(program);
+        // FIXME: attributes are implicitly being enabled, should be explicit.
         program.setAttributes(mesh.getAttribData());
         mesh.draw();
-        for (var name in program.attributeLocations) {
-            program.attributeLocations[name].disable();
+        // This implementation enables all the active attributes in the program.
+        var attributes = program.attributes;
+        for (var name in attributes) {
+            attributes[name].disable();
         }
     };
     return DefaultDrawableVisitor;

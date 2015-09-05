@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, ArrayBuffer, ElementBuffer) {
+define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/VertexBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, VertexBuffer, ElementBuffer) {
     function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
         var attributes = {};
         attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };
@@ -42,10 +42,10 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
             this.indexBuffer = new ElementBuffer();
             this.indexBuffer.addRef();
             this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-            this.positionBuffer = new ArrayBuffer();
+            this.positionBuffer = new VertexBuffer();
             this.positionBuffer.addRef();
             this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-            this.normalBuffer = new ArrayBuffer();
+            this.normalBuffer = new VertexBuffer();
             this.normalBuffer.addRef();
             this.geometry = geometry;
             this.geometry.dynamic = false;
@@ -277,14 +277,14 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
                 }
             }
             this.elementArray = new Uint16Array(elements);
-            this.indexBuffer.bindBuffer();
-            this.indexBuffer.bufferData(this.elementArray);
+            this.indexBuffer.bind();
+            this.indexBuffer.data(this.elementArray);
             this.aVertexPositionArray = new Float32Array(vertices);
-            this.positionBuffer.bindBuffer();
-            this.positionBuffer.bufferData(this.aVertexPositionArray);
+            this.positionBuffer.bind();
+            this.positionBuffer.data(this.aVertexPositionArray);
             this.aVertexNormalArray = new Float32Array(normals);
-            this.normalBuffer.bindBuffer();
-            this.normalBuffer.bufferData(this.aVertexNormalArray);
+            this.normalBuffer.bind();
+            this.normalBuffer.data(this.aVertexNormalArray);
         };
         GeometryAdapter.prototype.computeLines = function () {
             var lines = this.lines;

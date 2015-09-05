@@ -13,7 +13,8 @@ import Face3 = require('davinci-eight/core/Face3');
 import Primitive = require('davinci-eight/core/Primitive');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformData = require('davinci-eight/core/UniformData');
-import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
+import VertexBuffer = require('davinci-eight/core/VertexBuffer');
+import AttribLocation = require('davinci-eight/core/AttribLocation');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import Geometry = require('davinci-eight/geometries/Geometry');
@@ -56,7 +57,7 @@ import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
-import RenderingContextMonitor = require('davinci-eight/utils/RenderingContextMonitor');
+import RenderingContextProxy = require('davinci-eight/utils/RenderingContextProxy');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
@@ -82,7 +83,7 @@ declare var eight: {
     viewMatrix: (eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4) => Matrix4;
     scene: () => DrawList;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
-    contextMonitor: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextMonitor;
+    webgl: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextProxy;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
@@ -99,7 +100,8 @@ declare var eight: {
     DefaultAttribProvider: typeof DefaultAttribProvider;
     primitive: <MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: ShaderProgram, model: MODEL) => Primitive<MESH, MODEL>;
     DrawMode: typeof DrawMode;
-    ShaderAttribLocation: typeof ShaderAttribLocation;
+    VertexBuffer: typeof VertexBuffer;
+    AttribLocation: typeof AttribLocation;
     UniformLocation: typeof UniformLocation;
     shaderProgram: (vertexShader: string, fragmentShader: string, uuid?: string) => ShaderProgram;
     smartProgram: (attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
@@ -144,6 +146,6 @@ declare var eight: {
     vortexMesh: (options?: {
         wireFrame?: boolean;
     }) => AttribProvider;
-    shaderProgramFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
+    programFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
 };
 export = eight;

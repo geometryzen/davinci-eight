@@ -51,28 +51,28 @@ class ElementBuffer {
     this._context = void 0;
   }
   /**
-   * @method bindBuffer
+   * @method bind
    */
-  bindBuffer() {
+  bind() {
     if (this._context) {
       this._context.bindBuffer(this._context.ELEMENT_ARRAY_BUFFER, this._buffer);
     }
     else {
-      console.warn("ElementBuffer.bindBuffer() missing WebGLRenderingContext");
+      console.warn("ElementBuffer.bind() missing WebGLRenderingContext");
     }
   }
   /**
-   * @method bufferData
+   * @method data
    * @param data {Uint16Array}
    * @param usage {number} Optional. Defaults to STREAM_DRAW.
    */
-  bufferData(data: Uint16Array, usage?: number) {
+  data(data: Uint16Array, usage?: number) {
     if (this._context) {
       usage = isDefined(usage) ? usage : this._context.STREAM_DRAW;
       this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, data, usage);
     }
     else {
-      console.warn("ElementBuffer.bindBuffer() missing WebGLRenderingContext");
+      console.warn("ElementBuffer.data() missing WebGLRenderingContext");
     }
   }
 }

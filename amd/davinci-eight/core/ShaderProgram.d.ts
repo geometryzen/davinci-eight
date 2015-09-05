@@ -1,6 +1,6 @@
 import AttribDataInfos = require('../core/AttribDataInfos');
 import RenderingContextUser = require('../core/RenderingContextUser');
-import ShaderAttribLocation = require('../core/ShaderAttribLocation');
+import AttribLocation = require('../core/AttribLocation');
 import UniformLocation = require('../core/UniformLocation');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 /**
@@ -40,13 +40,15 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor {
      */
     setAttributes(values: AttribDataInfos): any;
     /**
-     *
+     * @property attributeLocations
+     * @type { [name: string]: AttribLocation }
      */
-    attributeLocations: {
-        [name: string]: ShaderAttribLocation;
+    attributes: {
+        [name: string]: AttribLocation;
     };
     /**
-     *
+     * @property uniforms
+     * @type { [name: string]: UniformLocation }
      */
     uniforms: {
         [name: string]: UniformLocation;

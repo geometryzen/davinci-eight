@@ -15,7 +15,7 @@ import DefaultNodeEventHandler = require('../glsl/DefaultNodeEventHandler');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import uuid4 = require('../utils/uuid4');
-import ShaderAttribLocation = require('../core/ShaderAttribLocation');
+import AttribLocation = require('../core/AttribLocation');
 import UniformLocation = require('../core/UniformLocation');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
@@ -38,7 +38,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
   var program: WebGLProgram;
   var $context: WebGLRenderingContext;
 
-  var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
+  var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
   var self: ShaderProgram = {
@@ -48,7 +48,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     get fragmentShader() {
       return fragmentShader;
     },
-    get attributeLocations(): { [name: string]: ShaderAttribLocation } {
+    get attributes(): { [name: string]: AttribLocation } {
       return attributeLocations;
     },
     get uniforms(): { [name: string]: UniformLocation } {
@@ -97,7 +97,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
           let type: number = activeInfo.type;
           if (!attributeLocations[name]) {
             // TODO: Since name MUST be part of Location, maybe should use an array?
-            attributeLocations[name] = new ShaderAttribLocation(name, activeInfo.size, activeInfo.type);
+            attributeLocations[name] = new AttribLocation(name, activeInfo.size, activeInfo.type);
           }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -150,15 +150,14 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     },
     setAttributes(values: AttribDataInfos) {
       for (var name in attributeLocations) {
-        let slot = attributeLocations[name];
-        let data: AttribDataInfo = values[slot.name];
+        let attribLoc = attributeLocations[name];
+        let data: AttribDataInfo = values[name];
         if (data) {
-          data.buffer.bindBuffer();
-          slot.enable();
-          slot.vertexAttribPointer(data.numComponents, data.normalized, data.stride, data.offset);
+          data.buffer.bind();
+          attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
         }
         else {
-          throw new Error("The mesh does not support the attribute variable named " + slot.name);
+          throw new Error("The mesh does not support the attribute variable named " + name);
         }
       }
     },

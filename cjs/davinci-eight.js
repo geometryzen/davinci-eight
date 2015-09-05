@@ -13,7 +13,8 @@ var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
 var core = require('davinci-eight/core');
 var primitive = require('davinci-eight/objects/primitive');
-var ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
+var VertexBuffer = require('davinci-eight/core/VertexBuffer');
+var AttribLocation = require('davinci-eight/core/AttribLocation');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
@@ -40,7 +41,7 @@ var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 // programs
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
-var shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
+var programFromScripts = require('davinci-eight/programs/programFromScripts');
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
@@ -63,7 +64,7 @@ var vortexMesh = require('davinci-eight/mesh/vortexMesh');
 var Curve = require('davinci-eight/curves/Curve');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
 var renderer = require('davinci-eight/renderers/renderer');
-var contextMonitor = require('davinci-eight/utils/contextMonitor');
+var contextProxy = require('davinci-eight/utils/contextProxy');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
 /**
@@ -86,14 +87,15 @@ var eight = {
     get viewMatrix() { return viewMatrix; },
     get scene() { return scene; },
     get renderer() { return renderer; },
-    get contextMonitor() { return contextMonitor; },
+    get webgl() { return contextProxy; },
     workbench: workbench3D,
     animation: windowAnimationRunner,
     get DataUsage() { return DataUsage; },
     get DefaultAttribProvider() { return DefaultAttribProvider; },
     get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },
-    get ShaderAttribLocation() { return ShaderAttribLocation; },
+    get VertexBuffer() { return VertexBuffer; },
+    get AttribLocation() { return AttribLocation; },
     get UniformLocation() { return UniformLocation; },
     get shaderProgram() {
         return shaderProgram;
@@ -142,6 +144,6 @@ var eight = {
     get SphereBuilder() { return SphereBuilder; },
     get vortexMesh() { return vortexMesh; },
     // programs
-    get shaderProgramFromScripts() { return shaderProgramFromScripts; },
+    get programFromScripts() { return programFromScripts; },
 };
 module.exports = eight;

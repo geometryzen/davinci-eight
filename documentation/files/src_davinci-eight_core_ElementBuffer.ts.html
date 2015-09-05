@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.70.0</em>
+            <em>API Docs for: 2.71.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribLocation..html">AttribLocation.</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -84,8 +86,6 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
-                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -195,28 +195,28 @@ class ElementBuffer {
     this._context = void 0;
   }
   /**
-   * @method bindBuffer
+   * @method bind
    */
-  bindBuffer() {
+  bind() {
     if (this._context) {
       this._context.bindBuffer(this._context.ELEMENT_ARRAY_BUFFER, this._buffer);
     }
     else {
-      console.warn(&quot;ElementBuffer.bindBuffer() missing WebGLRenderingContext&quot;);
+      console.warn(&quot;ElementBuffer.bind() missing WebGLRenderingContext&quot;);
     }
   }
   /**
-   * @method bufferData
+   * @method data
    * @param data {Uint16Array}
    * @param usage {number} Optional. Defaults to STREAM_DRAW.
    */
-  bufferData(data: Uint16Array, usage?: number) {
+  data(data: Uint16Array, usage?: number) {
     if (this._context) {
       usage = isDefined(usage) ? usage : this._context.STREAM_DRAW;
       this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, data, usage);
     }
     else {
-      console.warn(&quot;ElementBuffer.bindBuffer() missing WebGLRenderingContext&quot;);
+      console.warn(&quot;ElementBuffer.data() missing WebGLRenderingContext&quot;);
     }
   }
 }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.70.0</em>
+            <em>API Docs for: 2.71.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribLocation..html">AttribLocation.</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -84,8 +86,6 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
-                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -155,14 +155,14 @@ import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import DefaultAttribProvider = require(&#x27;../core/DefaultAttribProvider&#x27;);
 import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
-import ArrayBuffer = require(&#x27;../core/ArrayBuffer&#x27;);
+import VertexBuffer = require(&#x27;../core/VertexBuffer&#x27;);
 import ElementBuffer = require(&#x27;../core/ElementBuffer&#x27;);
 
 function computeAttribData(
   positionVarName: string,
-  positionBuffer: ArrayBuffer,
+  positionBuffer: VertexBuffer,
   normalVarName: string,
-  normalBuffer: ArrayBuffer,
+  normalBuffer: VertexBuffer,
   drawMode: DrawMode): AttribDataInfos {
   var attributes: AttribDataInfos = {};
   attributes[positionVarName] = {buffer: positionBuffer, numComponents: 3};
@@ -193,8 +193,8 @@ class GeometryAdapter extends DefaultAttribProvider {
   private positionVarName: string;
   private normalVarName: string;
   private indexBuffer: ElementBuffer;
-  private positionBuffer: ArrayBuffer;
-  private normalBuffer: ArrayBuffer;
+  private positionBuffer: VertexBuffer;
+  private normalBuffer: VertexBuffer;
   private attributeDataInfos: AttribDataInfos;
   private _refCount: number = 0;
   /**
@@ -218,10 +218,10 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.indexBuffer = new ElementBuffer();
     this.indexBuffer.addRef();
     this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-    this.positionBuffer = new ArrayBuffer();
+    this.positionBuffer = new VertexBuffer();
     this.positionBuffer.addRef();
     this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-    this.normalBuffer = new ArrayBuffer();
+    this.normalBuffer = new VertexBuffer();
     this.normalBuffer.addRef();
     this.geometry = geometry;
     this.geometry.dynamic = false;
@@ -456,16 +456,16 @@ class GeometryAdapter extends DefaultAttribProvider {
       }
     }
     this.elementArray = new Uint16Array(elements);
-    this.indexBuffer.bindBuffer();
-    this.indexBuffer.bufferData(this.elementArray);
+    this.indexBuffer.bind();
+    this.indexBuffer.data(this.elementArray);
 
     this.aVertexPositionArray = new Float32Array(vertices);
-    this.positionBuffer.bindBuffer();
-    this.positionBuffer.bufferData(this.aVertexPositionArray);
+    this.positionBuffer.bind();
+    this.positionBuffer.data(this.aVertexPositionArray);
 
     this.aVertexNormalArray = new Float32Array(normals);
-    this.normalBuffer.bindBuffer();
-    this.normalBuffer.bufferData(this.aVertexNormalArray);
+    this.normalBuffer.bind();
+    this.normalBuffer.data(this.aVertexNormalArray);
   }
   private computeLines() {
     var lines = this.lines;

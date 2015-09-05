@@ -28,7 +28,8 @@ import primitive = require('davinci-eight/objects/primitive');
 import UniformProvider = require('davinci-eight/core/UniformProvider');
 import UniformData = require('davinci-eight/core/UniformData');
 import UniformDataVisitor = require('davinci-eight/core/UniformDataVisitor');
-import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
+import VertexBuffer = require('davinci-eight/core/VertexBuffer');
+import AttribLocation = require('davinci-eight/core/AttribLocation');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
@@ -56,7 +57,7 @@ import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 // programs
 import shaderProgram = require('davinci-eight/programs/shaderProgram');
 import smartProgram = require('davinci-eight/programs/smartProgram');
-import shaderProgramFromScripts = require('davinci-eight/programs/shaderProgramFromScripts');
+import programFromScripts = require('davinci-eight/programs/programFromScripts');
 // math
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -98,8 +99,8 @@ import renderer = require('davinci-eight/renderers/renderer');
 // uniforms
 
 // utils
-import RenderingContextMonitor    = require('davinci-eight/utils/RenderingContextMonitor');
-import contextMonitor             = require('davinci-eight/utils/contextMonitor');
+import RenderingContextProxy    = require('davinci-eight/utils/RenderingContextProxy');
+import contextProxy             = require('davinci-eight/utils/contextProxy');
 import workbench3D                = require('davinci-eight/utils/workbench3D');
 import WindowAnimationRunner      = require('davinci-eight/utils/WindowAnimationRunner');
 import windowAnimationRunner      = require('davinci-eight/utils/windowAnimationRunner');
@@ -124,14 +125,15 @@ var eight = {
   get viewMatrix() { return viewMatrix; },
   get scene() { return scene; },
   get renderer() { return renderer; },
-  get contextMonitor() {return contextMonitor;},
+  get webgl() {return contextProxy;},
   workbench: workbench3D,
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
-  get ShaderAttribLocation() { return ShaderAttribLocation; },
+  get VertexBuffer() { return VertexBuffer; },
+  get AttribLocation() { return AttribLocation; },
   get UniformLocation() { return UniformLocation; },
   get shaderProgram() {
     return shaderProgram;
@@ -184,6 +186,6 @@ var eight = {
 
   get vortexMesh() { return vortexMesh; },
   // programs
-  get shaderProgramFromScripts() { return shaderProgramFromScripts; },
+  get programFromScripts() { return programFromScripts; },
 };
 export = eight;

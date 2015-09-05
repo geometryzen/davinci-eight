@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.70.0</em>
+            <em>API Docs for: 2.71.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribLocation..html">AttribLocation.</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -84,8 +86,6 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
-                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -145,7 +145,7 @@
 import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import AttribDataInfos = require(&#x27;../core/AttribDataInfos&#x27;);
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
-import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
+import AttribLocation = require(&#x27;../core/AttribLocation&#x27;);
 import UniformLocation = require(&#x27;../core/UniformLocation&#x27;);
 import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;);
 /**
@@ -185,16 +185,14 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor {
    */
   setAttributes(values: AttribDataInfos);
   /**
-   *
+   * @property attributeLocations
+   * @type { [name: string]: AttribLocation }
    */
-  // TODO: Prbably should be an array b/c name already in value.
-  // Might then be an opportunity to bind to the index?
-  attributeLocations: { [name: string]: ShaderAttribLocation };
+  attributes: { [name: string]: AttribLocation };
   /**
-   *
+   * @property uniforms
+   * @type { [name: string]: UniformLocation }
    */
-  // TODO: Prbably should be an array b/c name already in value.
-  // Might then be an opportunity to bind to the index?
   uniforms: { [name: string]: UniformLocation };
   /**
    *

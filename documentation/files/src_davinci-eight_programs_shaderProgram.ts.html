@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.70.0</em>
+            <em>API Docs for: 2.71.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribLocation..html">AttribLocation.</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -84,8 +86,6 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
-                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -159,7 +159,7 @@ import DefaultNodeEventHandler = require(&#x27;../glsl/DefaultNodeEventHandler&#
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
-import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
+import AttribLocation = require(&#x27;../core/AttribLocation&#x27;);
 import UniformLocation = require(&#x27;../core/UniformLocation&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
@@ -182,7 +182,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
   var program: WebGLProgram;
   var $context: WebGLRenderingContext;
 
-  var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
+  var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
   var self: ShaderProgram = {
@@ -192,7 +192,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     get fragmentShader() {
       return fragmentShader;
     },
-    get attributeLocations(): { [name: string]: ShaderAttribLocation } {
+    get attributes(): { [name: string]: AttribLocation } {
       return attributeLocations;
     },
     get uniforms(): { [name: string]: UniformLocation } {
@@ -241,7 +241,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
           let type: number = activeInfo.type;
           if (!attributeLocations[name]) {
             // TODO: Since name MUST be part of Location, maybe should use an array?
-            attributeLocations[name] = new ShaderAttribLocation(name, activeInfo.size, activeInfo.type);
+            attributeLocations[name] = new AttribLocation(name, activeInfo.size, activeInfo.type);
           }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -294,15 +294,14 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     },
     setAttributes(values: AttribDataInfos) {
       for (var name in attributeLocations) {
-        let slot = attributeLocations[name];
-        let data: AttribDataInfo = values[slot.name];
+        let attribLoc = attributeLocations[name];
+        let data: AttribDataInfo = values[name];
         if (data) {
-          data.buffer.bindBuffer();
-          slot.enable();
-          slot.vertexAttribPointer(data.numComponents, data.normalized, data.stride, data.offset);
+          data.buffer.bind();
+          attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
         }
         else {
-          throw new Error(&quot;The mesh does not support the attribute variable named &quot; + slot.name);
+          throw new Error(&quot;The mesh does not support the attribute variable named &quot; + name);
         }
       }
     },

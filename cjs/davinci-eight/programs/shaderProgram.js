@@ -1,6 +1,6 @@
 var isDefined = require('../checks/isDefined');
 var uuid4 = require('../utils/uuid4');
-var ShaderAttribLocation = require('../core/ShaderAttribLocation');
+var AttribLocation = require('../core/AttribLocation');
 var UniformLocation = require('../core/UniformLocation');
 var shaderProgram = function (vertexShader, fragmentShader, uuid) {
     if (uuid === void 0) { uuid = uuid4().generate(); }
@@ -22,7 +22,7 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         get fragmentShader() {
             return fragmentShader;
         },
-        get attributeLocations() {
+        get attributes() {
             return attributeLocations;
         },
         get uniforms() {
@@ -70,7 +70,7 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
                     var type = activeInfo.type;
                     if (!attributeLocations[name_1]) {
                         // TODO: Since name MUST be part of Location, maybe should use an array?
-                        attributeLocations[name_1] = new ShaderAttribLocation(name_1, activeInfo.size, activeInfo.type);
+                        attributeLocations[name_1] = new AttribLocation(name_1, activeInfo.size, activeInfo.type);
                     }
                 }
                 var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -123,15 +123,14 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         },
         setAttributes: function (values) {
             for (var name in attributeLocations) {
-                var slot = attributeLocations[name];
-                var data = values[slot.name];
+                var attribLoc = attributeLocations[name];
+                var data = values[name];
                 if (data) {
-                    data.buffer.bindBuffer();
-                    slot.enable();
-                    slot.vertexAttribPointer(data.numComponents, data.normalized, data.stride, data.offset);
+                    data.buffer.bind();
+                    attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
                 }
                 else {
-                    throw new Error("The mesh does not support the attribute variable named " + slot.name);
+                    throw new Error("The mesh does not support the attribute variable named " + name);
                 }
             }
         },

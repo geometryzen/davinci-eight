@@ -33,8 +33,8 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             get programId() {
                 return innerProgram.programId;
             },
-            get attributeLocations() {
-                return innerProgram.attributeLocations;
+            get attributes() {
+                return innerProgram.attributes;
             },
             get uniforms() {
                 return innerProgram.uniforms;

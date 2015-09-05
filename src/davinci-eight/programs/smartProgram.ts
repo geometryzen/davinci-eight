@@ -2,6 +2,7 @@ import AttribDataInfo = require('../core/AttribDataInfo');
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
+import expectArg = require('../checks/expectArg');
 import fragmentShader = require('../programs/fragmentShader');
 import isDefined = require('../checks/isDefined');
 import Matrix1 = require('../math/Matrix1');
@@ -60,8 +61,8 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get programId() {
       return innerProgram.programId;
     },
-    get attributeLocations() {
-      return innerProgram.attributeLocations;
+    get attributes() {
+      return innerProgram.attributes;
     },
     get uniforms() {
       return innerProgram.uniforms;

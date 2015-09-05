@@ -96,16 +96,32 @@ interface DrawList extends RenderingContextUser, UniformDataVisitor
 /**
  * Manages the lifecycle of an attribute used in a vertex shader.
  */
-class ShaderAttribLocation {
-  constructor(name: string, glslType: string);
+class AttribLocation {
+  constructor(name: string, size: number, type: number);
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
-  enable();
-  disable();
-  dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
-  bufferData(data: AttribProvider);
+  enable(): void;
+  disable(): void;
+  vertexPointer(numComponents: number, normalized?: boolean, stride?: number, offset?: number): void;
 }
+/**
+ *
+ */
+class VertexBuffer implements RenderingContextUser {
+  constructor();
+  addRef();
+  release();
+  contextFree();
+  contextGain(context: WebGLRenderingContext);
+  contextLoss();
+  hasContext();
+  bind();
+  data(data: Float32Array, usage?: number);
+}
+/**
+ *
+ */
 class UniformLocation implements RenderingContextProgramUser {
   constructor(name: string);
   contextFree(): void;
@@ -648,9 +664,9 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor
    */
   setAttributes(values: AttribDataInfos);
   /**
-   *
+   * A map of attribute name to attribute location for active attributes.
    */
-  attributeLocations: { [name: string]: ShaderAttribLocation };
+  attributes: { [name: string]: AttribLocation };
   /**
    * A map of uniform name to uniform location for active uniforms.
    */
@@ -757,7 +773,7 @@ function shaderProgram(vertexShader: string, fragmentShader: string): ShaderProg
 /**
  * Constructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.
  */
-function shaderProgramFromScripts(vsId: string, fsId: string, $document?: Document): ShaderProgram;
+function programFromScripts(vsId: string, fsId: string, $document?: Document): ShaderProgram;
 /**
  * Constructs a ShaderProgram by introspecting a Geometry.
  */
@@ -1100,33 +1116,88 @@ function animation(
 /**
  *
  */
-interface RenderingContextMonitor extends ReferenceCounted
+interface RenderingContextProxy extends ReferenceCounted
 {
   /**
    * Starts the monitoring of the WebGL context.
    */
-  start(): RenderingContextMonitor;
+  start(): RenderingContextProxy;
   /**
    * Stops the monitoring of the WebGL context.
    */
-  stop(): RenderingContextMonitor;
+  stop(): RenderingContextProxy;
   /**
    *
    */
-  addContextUser(user: RenderingContextUser): RenderingContextMonitor;
+  addContextUser(user: RenderingContextUser): RenderingContextProxy;
   /**
    *
    */
-  removeContextUser(user: RenderingContextUser): RenderingContextMonitor;
+  removeContextUser(user: RenderingContextUser): RenderingContextProxy;
+  /**
+   *
+   */
+  clearColor(red: number, green: number, blue: number, alpha: number): void;
+  /**
+   *
+   */
+  clearDepth(depth: number): void;
+  /**
+   *
+   */
+  clear(mask: number): void;
+  /**
+   * Render geometric primitives from bound and enabled vertex data.
+   * mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.
+   * first [in] The first element to render in the array of vector points.
+   * count [in] The number of vector points to render. For example, a triangle would be 3.
+   */
+  drawArrays(mode: number, first: number, count: number): void;
+  /**
+   *
+   */
+  depthFunc(func: number): void;
+  /**
+   *
+   */
+  enable(capability: number): void;
   /**
    *
    */
   context: WebGLRenderingContext;
+  /**
+   *
+   */
+  COLOR_BUFFER_BIT: number;
+  /**
+   *
+   */
+  DEPTH_BUFFER_BIT: number;
+  /**
+   *
+   */
+  DEPTH_TEST: number;
+  /**
+   *
+   */
+  LEQUAL: number;
+  /**
+   * Draws a line between a pair of vertices. For example, 10 vertices produce 5 separate lines.
+   */
+  LINES: number;
+  /**
+   * Draws a single dot per vertex. For example, 10 vertices produce 10 dots.
+   */
+  POINTS: number;
+  /**
+   * Draws a triangle for each group of three consecutive vertices. For example, 12 vertices create 4 separate triangles.
+   */
+  TRIANGLES: number;
 }
 /**
- * Constructs and returns a RenderingContextMonitor.
+ * Constructs and returns a RenderingContextProxy.
  */
-function contextMonitor(
+function webgl(
   canvas: HTMLCanvasElement,
   attributes?: {
     alpha?: boolean,
@@ -1136,7 +1207,7 @@ function contextMonitor(
     preserveDrawingBuffer?: boolean,
     stencil?: boolean
   }
-  ): RenderingContextMonitor;
+  ): RenderingContextProxy;
 /**
  *
  */

@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/UniformLocation'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, UniformLocation) {
+define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation'], function (require, exports, isDefined, uuid4, AttribLocation, UniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -19,7 +19,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             get fragmentShader() {
                 return fragmentShader;
             },
-            get attributeLocations() {
+            get attributes() {
                 return attributeLocations;
             },
             get uniforms() {
@@ -67,7 +67,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                         var type = activeInfo.type;
                         if (!attributeLocations[name_1]) {
                             // TODO: Since name MUST be part of Location, maybe should use an array?
-                            attributeLocations[name_1] = new ShaderAttribLocation(name_1, activeInfo.size, activeInfo.type);
+                            attributeLocations[name_1] = new AttribLocation(name_1, activeInfo.size, activeInfo.type);
                         }
                     }
                     var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -120,15 +120,14 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             },
             setAttributes: function (values) {
                 for (var name in attributeLocations) {
-                    var slot = attributeLocations[name];
-                    var data = values[slot.name];
+                    var attribLoc = attributeLocations[name];
+                    var data = values[name];
                     if (data) {
-                        data.buffer.bindBuffer();
-                        slot.enable();
-                        slot.vertexAttribPointer(data.numComponents, data.normalized, data.stride, data.offset);
+                        data.buffer.bind();
+                        attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
                     }
                     else {
-                        throw new Error("The mesh does not support the attribute variable named " + slot.name);
+                        throw new Error("The mesh does not support the attribute variable named " + name);
                     }
                 }
             },

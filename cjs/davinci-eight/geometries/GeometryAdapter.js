@@ -10,7 +10,7 @@ var Symbolic = require('../core/Symbolic');
 var DefaultAttribProvider = require('../core/DefaultAttribProvider');
 var DataUsage = require('../core/DataUsage');
 var DrawMode = require('../core/DrawMode');
-var ArrayBuffer = require('../core/ArrayBuffer');
+var VertexBuffer = require('../core/VertexBuffer');
 var ElementBuffer = require('../core/ElementBuffer');
 function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
     var attributes = {};
@@ -49,10 +49,10 @@ var GeometryAdapter = (function (_super) {
         this.indexBuffer = new ElementBuffer();
         this.indexBuffer.addRef();
         this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-        this.positionBuffer = new ArrayBuffer();
+        this.positionBuffer = new VertexBuffer();
         this.positionBuffer.addRef();
         this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-        this.normalBuffer = new ArrayBuffer();
+        this.normalBuffer = new VertexBuffer();
         this.normalBuffer.addRef();
         this.geometry = geometry;
         this.geometry.dynamic = false;
@@ -284,14 +284,14 @@ var GeometryAdapter = (function (_super) {
             }
         }
         this.elementArray = new Uint16Array(elements);
-        this.indexBuffer.bindBuffer();
-        this.indexBuffer.bufferData(this.elementArray);
+        this.indexBuffer.bind();
+        this.indexBuffer.data(this.elementArray);
         this.aVertexPositionArray = new Float32Array(vertices);
-        this.positionBuffer.bindBuffer();
-        this.positionBuffer.bufferData(this.aVertexPositionArray);
+        this.positionBuffer.bind();
+        this.positionBuffer.data(this.aVertexPositionArray);
         this.aVertexNormalArray = new Float32Array(normals);
-        this.normalBuffer.bindBuffer();
-        this.normalBuffer.bufferData(this.aVertexNormalArray);
+        this.normalBuffer.bind();
+        this.normalBuffer.data(this.aVertexNormalArray);
     };
     GeometryAdapter.prototype.computeLines = function () {
         var lines = this.lines;

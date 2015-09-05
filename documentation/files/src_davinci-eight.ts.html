@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.70.0</em>
+            <em>API Docs for: 2.71.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribLocation..html">AttribLocation.</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -84,8 +86,6 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
-                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -172,7 +172,8 @@ import primitive = require(&#x27;davinci-eight/objects/primitive&#x27;);
 import UniformProvider = require(&#x27;davinci-eight/core/UniformProvider&#x27;);
 import UniformData = require(&#x27;davinci-eight/core/UniformData&#x27;);
 import UniformDataVisitor = require(&#x27;davinci-eight/core/UniformDataVisitor&#x27;);
-import ShaderAttribLocation = require(&#x27;davinci-eight/core/ShaderAttribLocation&#x27;);
+import VertexBuffer = require(&#x27;davinci-eight/core/VertexBuffer&#x27;);
+import AttribLocation = require(&#x27;davinci-eight/core/AttribLocation&#x27;);
 import UniformLocation = require(&#x27;davinci-eight/core/UniformLocation&#x27;);
 // drawLists
 import scene = require(&#x27;davinci-eight/drawLists/scene&#x27;);
@@ -200,7 +201,7 @@ import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x
 // programs
 import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
-import shaderProgramFromScripts = require(&#x27;davinci-eight/programs/shaderProgramFromScripts&#x27;);
+import programFromScripts = require(&#x27;davinci-eight/programs/programFromScripts&#x27;);
 // math
 import Cartesian3 = require(&#x27;davinci-eight/math/Cartesian3&#x27;);
 import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
@@ -242,8 +243,8 @@ import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
 // uniforms
 
 // utils
-import RenderingContextMonitor    = require(&#x27;davinci-eight/utils/RenderingContextMonitor&#x27;);
-import contextMonitor             = require(&#x27;davinci-eight/utils/contextMonitor&#x27;);
+import RenderingContextProxy    = require(&#x27;davinci-eight/utils/RenderingContextProxy&#x27;);
+import contextProxy             = require(&#x27;davinci-eight/utils/contextProxy&#x27;);
 import workbench3D                = require(&#x27;davinci-eight/utils/workbench3D&#x27;);
 import WindowAnimationRunner      = require(&#x27;davinci-eight/utils/WindowAnimationRunner&#x27;);
 import windowAnimationRunner      = require(&#x27;davinci-eight/utils/windowAnimationRunner&#x27;);
@@ -268,14 +269,15 @@ var eight = {
   get viewMatrix() { return viewMatrix; },
   get scene() { return scene; },
   get renderer() { return renderer; },
-  get contextMonitor() {return contextMonitor;},
+  get webgl() {return contextProxy;},
   workbench: workbench3D,
   animation: windowAnimationRunner,
   get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
-  get ShaderAttribLocation() { return ShaderAttribLocation; },
+  get VertexBuffer() { return VertexBuffer; },
+  get AttribLocation() { return AttribLocation; },
   get UniformLocation() { return UniformLocation; },
   get shaderProgram() {
     return shaderProgram;
@@ -328,7 +330,7 @@ var eight = {
 
   get vortexMesh() { return vortexMesh; },
   // programs
-  get shaderProgramFromScripts() { return shaderProgramFromScripts; },
+  get programFromScripts() { return programFromScripts; },
 };
 export = eight;
 

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.70.0</em>
+            <em>API Docs for: 2.71.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,6 +41,8 @@
                                 <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
                                 <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribLocation..html">AttribLocation.</a></li>
                                 <li><a href="../classes/AttribMetaInfo
                 TODO: AttribPointerInfo?.html">AttribMetaInfo
                 TODO: AttribPointerInfo?</a></li>
@@ -84,8 +86,6 @@
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
-                                <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -146,6 +146,7 @@ import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import AttribDataInfos = require(&#x27;../core/AttribDataInfos&#x27;);
 import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;);
 import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
+import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import fragmentShader = require(&#x27;../programs/fragmentShader&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
@@ -204,8 +205,8 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     get programId() {
       return innerProgram.programId;
     },
-    get attributeLocations() {
-      return innerProgram.attributeLocations;
+    get attributes() {
+      return innerProgram.attributes;
     },
     get uniforms() {
       return innerProgram.uniforms;

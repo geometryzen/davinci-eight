@@ -37,8 +37,8 @@ var smartProgram = function (attributes, uniformsList) {
         get programId() {
             return innerProgram.programId;
         },
-        get attributeLocations() {
-            return innerProgram.attributeLocations;
+        get attributes() {
+            return innerProgram.attributes;
         },
         get uniforms() {
             return innerProgram.uniforms;
