@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.69.0</em>
+            <em>API Docs for: 2.70.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,10 +87,10 @@
                                 <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
                                 <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
@@ -146,7 +146,6 @@ import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import AttribDataInfos = require(&#x27;../core/AttribDataInfos&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
-import ShaderAttribSetter   = require(&#x27;../core/ShaderAttribSetter&#x27;);
 import parse = require(&#x27;../glsl/parse&#x27;);
 import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
 import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
@@ -161,7 +160,7 @@ import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
-import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
+import UniformLocation = require(&#x27;../core/UniformLocation&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 import Vector1 = require(&#x27;../math/Vector1&#x27;);
@@ -184,7 +183,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
   var $context: WebGLRenderingContext;
 
   var attributeLocations: { [name: string]: ShaderAttribLocation } = {};
-  var uniformLocations: { [name: string]: ShaderUniformLocation } = {};
+  var uniformLocations: { [name: string]: UniformLocation } = {};
 
   var self: ShaderProgram = {
     get vertexShader() {
@@ -196,7 +195,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     get attributeLocations(): { [name: string]: ShaderAttribLocation } {
       return attributeLocations;
     },
-    get uniformLocations(): { [name: string]: ShaderUniformLocation } {
+    get uniforms(): { [name: string]: UniformLocation } {
       return uniformLocations;
     },
     addRef(): void {
@@ -252,7 +251,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
           if (!uniformLocations[name]) {
             // TODO: Since name MUST be part of Location, maybe should use an array?
             // TODO: Seems like we should be able to make use of the size and type?
-            uniformLocations[name] = new ShaderUniformLocation(name);
+            uniformLocations[name] = new UniformLocation(name);
           }
         }
         for(var aName in attributeLocations) {
@@ -286,6 +285,12 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         console.warn(&quot;shaderProgram.use() missing WebGLRenderingContext&quot;);
       }
       return self;
+    },
+    enableAttrib(name: string) {
+      let attribLoc = attributeLocations[name];
+      if (attribLoc) {
+        attribLoc.enable();
+      }
     },
     setAttributes(values: AttribDataInfos) {
       for (var name in attributeLocations) {
@@ -328,49 +333,49 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix1(transpose, matrix);
+        uniformLoc.matrix1(transpose, matrix);
       }
     },
     uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix2(transpose, matrix);
+        uniformLoc.matrix2(transpose, matrix);
       }
     },
     uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix3(transpose, matrix);
+        uniformLoc.matrix3(transpose, matrix);
       }
     },
     uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformMatrix4(transpose, matrix);
+        uniformLoc.matrix4(transpose, matrix);
       }
     },
     uniformVector1(name: string, vector: Vector1) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformVector1(vector);
+        uniformLoc.vector1(vector);
       }
     },
     uniformVector2(name: string, vector: Vector2) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformVector2(vector);
+        uniformLoc.vector2(vector);
       }
     },
     uniformVector3(name: string, vector: Vector3) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformVector3(vector);
+        uniformLoc.vector3(vector);
       }
     },
     uniformVector4(name: string, vector: Vector4) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
-        uniformLoc.uniformVector4(vector);
+        uniformLoc.vector4(vector);
       }
     }
   };

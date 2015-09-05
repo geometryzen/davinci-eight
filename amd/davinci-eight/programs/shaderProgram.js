@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
+define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/UniformLocation'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, UniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -22,7 +22,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             get attributeLocations() {
                 return attributeLocations;
             },
-            get uniformLocations() {
+            get uniforms() {
                 return uniformLocations;
             },
             addRef: function () {
@@ -77,7 +77,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                         if (!uniformLocations[name_2]) {
                             // TODO: Since name MUST be part of Location, maybe should use an array?
                             // TODO: Seems like we should be able to make use of the size and type?
-                            uniformLocations[name_2] = new ShaderUniformLocation(name_2);
+                            uniformLocations[name_2] = new UniformLocation(name_2);
                         }
                     }
                     for (var aName in attributeLocations) {
@@ -111,6 +111,12 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     console.warn("shaderProgram.use() missing WebGLRenderingContext");
                 }
                 return self;
+            },
+            enableAttrib: function (name) {
+                var attribLoc = attributeLocations[name];
+                if (attribLoc) {
+                    attribLoc.enable();
+                }
             },
             setAttributes: function (values) {
                 for (var name in attributeLocations) {
@@ -153,49 +159,49 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             uniformMatrix1: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix1(transpose, matrix);
+                    uniformLoc.matrix1(transpose, matrix);
                 }
             },
             uniformMatrix2: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix2(transpose, matrix);
+                    uniformLoc.matrix2(transpose, matrix);
                 }
             },
             uniformMatrix3: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix3(transpose, matrix);
+                    uniformLoc.matrix3(transpose, matrix);
                 }
             },
             uniformMatrix4: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix4(transpose, matrix);
+                    uniformLoc.matrix4(transpose, matrix);
                 }
             },
             uniformVector1: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector1(vector);
+                    uniformLoc.vector1(vector);
                 }
             },
             uniformVector2: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector2(vector);
+                    uniformLoc.vector2(vector);
                 }
             },
             uniformVector3: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector3(vector);
+                    uniformLoc.vector3(vector);
                 }
             },
             uniformVector4: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector4(vector);
+                    uniformLoc.vector4(vector);
                 }
             }
         };

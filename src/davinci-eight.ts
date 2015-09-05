@@ -29,7 +29,7 @@ import UniformProvider = require('davinci-eight/core/UniformProvider');
 import UniformData = require('davinci-eight/core/UniformData');
 import UniformDataVisitor = require('davinci-eight/core/UniformDataVisitor');
 import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
-import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
+import UniformLocation = require('davinci-eight/core/UniformLocation');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
@@ -132,7 +132,7 @@ var eight = {
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
-  get ShaderUniformLocation() { return ShaderUniformLocation; },
+  get UniformLocation() { return UniformLocation; },
   get shaderProgram() {
     return shaderProgram;
   },

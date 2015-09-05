@@ -14,7 +14,7 @@ import Primitive = require('davinci-eight/core/Primitive');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformData = require('davinci-eight/core/UniformData');
 import ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
-import ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
+import UniformLocation = require('davinci-eight/core/UniformLocation');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -100,7 +100,7 @@ declare var eight: {
     primitive: <MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: ShaderProgram, model: MODEL) => Primitive<MESH, MODEL>;
     DrawMode: typeof DrawMode;
     ShaderAttribLocation: typeof ShaderAttribLocation;
-    ShaderUniformLocation: typeof ShaderUniformLocation;
+    UniformLocation: typeof UniformLocation;
     shaderProgram: (vertexShader: string, fragmentShader: string, uuid?: string) => ShaderProgram;
     smartProgram: (attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
     Color: typeof Color;

@@ -2,11 +2,8 @@ import AttribDataInfo = require('../core/AttribDataInfo');
 import AttribDataInfos = require('../core/AttribDataInfos');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import ShaderAttribLocation = require('../core/ShaderAttribLocation');
-import ShaderAttribSetter = require('../core/ShaderAttribSetter');
-import ShaderUniformLocation = require('../core/ShaderUniformLocation');
+import UniformLocation = require('../core/UniformLocation');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
-import UniformMetaInfo = require('../core/UniformMetaInfo');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
 /**
  * The role of a ShaderProgram is to manage the WebGLProgram consisting of a vertex shader and fragment shader.
  * The ShaderProgram must be able to provide introspection information that describes the program.
@@ -46,11 +43,19 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor {
   /**
    *
    */
+  // TODO: Prbably should be an array b/c name already in value.
+  // Might then be an opportunity to bind to the index?
   attributeLocations: { [name: string]: ShaderAttribLocation };
   /**
    *
    */
-  uniformLocations: { [name: string]: ShaderUniformLocation };
+  // TODO: Prbably should be an array b/c name already in value.
+  // Might then be an opportunity to bind to the index?
+  uniforms: { [name: string]: UniformLocation };
+  /**
+   *
+   */
+  enableAttrib(name: string);
 }
 
 export = ShaderProgram;

@@ -40,8 +40,8 @@ var smartProgram = function (attributes, uniformsList) {
         get attributeLocations() {
             return innerProgram.attributeLocations;
         },
-        get uniformLocations() {
-            return innerProgram.uniformLocations;
+        get uniforms() {
+            return innerProgram.uniforms;
         },
         get vertexShader() {
             return innerProgram.vertexShader;
@@ -69,6 +69,9 @@ var smartProgram = function (attributes, uniformsList) {
         },
         use: function () {
             return innerProgram.use();
+        },
+        enableAttrib: function (name) {
+            return innerProgram.enableAttrib(name);
         },
         setAttributes: function (values) {
             return innerProgram.setAttributes(values);

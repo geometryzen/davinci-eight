@@ -36,8 +36,8 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             get attributeLocations() {
                 return innerProgram.attributeLocations;
             },
-            get uniformLocations() {
-                return innerProgram.uniformLocations;
+            get uniforms() {
+                return innerProgram.uniforms;
             },
             get vertexShader() {
                 return innerProgram.vertexShader;
@@ -65,6 +65,9 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             },
             use: function () {
                 return innerProgram.use();
+            },
+            enableAttrib: function (name) {
+                return innerProgram.enableAttrib(name);
             },
             setAttributes: function (values) {
                 return innerProgram.setAttributes(values);

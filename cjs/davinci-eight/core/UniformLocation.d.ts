@@ -9,14 +9,14 @@ import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 /**
  * Utility class for managing a shader uniform variable.
- * @class ShaderUniformLocation
+ * @class UniformLocation
  */
-declare class ShaderUniformLocation implements RenderingContextProgramUser {
-    name: string;
-    private context;
-    private location;
+declare class UniformLocation implements RenderingContextProgramUser {
+    private _name;
+    private _context;
+    private _location;
     /**
-     * @class ShaderUniformLocation
+     * @class UniformLocation
      * @constructor
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
@@ -62,52 +62,52 @@ declare class ShaderUniformLocation implements RenderingContextProgramUser {
      */
     uniform4f(x: number, y: number, z: number, w: number): void;
     /**
-     * @method uniformMatrix1
+     * @method matrix1
      * @param transpose {boolean}
      * @param matrix {Matrix1}
      */
-    uniformMatrix1(transpose: boolean, matrix: Matrix1): void;
+    matrix1(transpose: boolean, matrix: Matrix1): void;
     /**
-     * @method uniformMatrix2
+     * @method matrix2
      * @param transpose {boolean}
      * @param matrix {Matrix2}
      */
-    uniformMatrix2(transpose: boolean, matrix: Matrix2): void;
+    matrix2(transpose: boolean, matrix: Matrix2): void;
     /**
-     * @method uniformMatrix3
+     * @method matrix3
      * @param transpose {boolean}
      * @param matrix {Matrix3}
      */
-    uniformMatrix3(transpose: boolean, matrix: Matrix3): void;
+    matrix3(transpose: boolean, matrix: Matrix3): void;
     /**
-     * @method uniformMatrix4
+     * @method matrix4
      * @param transpose {boolean}
      * @param matrix {Matrix4}
      */
-    uniformMatrix4(transpose: boolean, matrix: Matrix4): void;
+    matrix4(transpose: boolean, matrix: Matrix4): void;
     /**
-     * @method uniformVector1
+     * @method vector1
      * @param vector {Vector1}
      */
-    uniformVector1(vector: Vector1): void;
+    vector1(vector: Vector1): void;
     /**
-     * @method uniformVector2
+     * @method vector2
      * @param vector {Vector2}
      */
-    uniformVector2(vector: Vector2): void;
+    vector2(vector: Vector2): void;
     /**
-     * @method uniformVector3
+     * @method vector3
      * @param vector {Vector3}
      */
-    uniformVector3(vector: Vector3): void;
+    vector3(vector: Vector3): void;
     /**
-     * @method uniformVector4
+     * @method vector4
      * @param vector {Vector4}
      */
-    uniformVector4(vector: Vector4): void;
+    vector4(vector: Vector4): void;
     /**
      * @method toString
      */
     toString(): string;
 }
-export = ShaderUniformLocation;
+export = UniformLocation;

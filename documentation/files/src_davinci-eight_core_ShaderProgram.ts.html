@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.69.0</em>
+            <em>API Docs for: 2.70.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,10 +87,10 @@
                                 <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
                                 <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
@@ -146,11 +146,8 @@ import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import AttribDataInfos = require(&#x27;../core/AttribDataInfos&#x27;);
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
 import ShaderAttribLocation = require(&#x27;../core/ShaderAttribLocation&#x27;);
-import ShaderAttribSetter = require(&#x27;../core/ShaderAttribSetter&#x27;);
-import ShaderUniformLocation = require(&#x27;../core/ShaderUniformLocation&#x27;);
+import UniformLocation = require(&#x27;../core/UniformLocation&#x27;);
 import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;);
-import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
-import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
 /**
  * The role of a ShaderProgram is to manage the WebGLProgram consisting of a vertex shader and fragment shader.
  * The ShaderProgram must be able to provide introspection information that describes the program.
@@ -190,11 +187,19 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor {
   /**
    *
    */
+  // TODO: Prbably should be an array b/c name already in value.
+  // Might then be an opportunity to bind to the index?
   attributeLocations: { [name: string]: ShaderAttribLocation };
   /**
    *
    */
-  uniformLocations: { [name: string]: ShaderUniformLocation };
+  // TODO: Prbably should be an array b/c name already in value.
+  // Might then be an opportunity to bind to the index?
+  uniforms: { [name: string]: UniformLocation };
+  /**
+   *
+   */
+  enableAttrib(name: string);
 }
 
 export = ShaderProgram;

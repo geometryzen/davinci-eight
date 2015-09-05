@@ -14,7 +14,7 @@ var Face3 = require('davinci-eight/core/Face3');
 var core = require('davinci-eight/core');
 var primitive = require('davinci-eight/objects/primitive');
 var ShaderAttribLocation = require('davinci-eight/core/ShaderAttribLocation');
-var ShaderUniformLocation = require('davinci-eight/core/ShaderUniformLocation');
+var UniformLocation = require('davinci-eight/core/UniformLocation');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
 // geometries
@@ -94,7 +94,7 @@ var eight = {
     get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },
     get ShaderAttribLocation() { return ShaderAttribLocation; },
-    get ShaderUniformLocation() { return ShaderUniformLocation; },
+    get UniformLocation() { return UniformLocation; },
     get shaderProgram() {
         return shaderProgram;
     },

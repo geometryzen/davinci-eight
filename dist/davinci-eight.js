@@ -2435,7 +2435,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.69.0'
+        VERSION: '2.70.0'
     };
     return core;
 });
@@ -2586,59 +2586,59 @@ define('davinci-eight/core/ShaderAttribLocation',["require", "exports"], functio
     return ShaderAttribLocation;
 });
 
-define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], function (require, exports) {
+define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     /**
      * Utility class for managing a shader uniform variable.
-     * @class ShaderUniformLocation
+     * @class UniformLocation
      */
-    var ShaderUniformLocation = (function () {
+    var UniformLocation = (function () {
         /**
-         * @class ShaderUniformLocation
+         * @class UniformLocation
          * @constructor
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
-        function ShaderUniformLocation(name) {
-            this.name = name;
+        function UniformLocation(name) {
+            this._name = expectArg('name', name).toBeString().value;
         }
         /**
          * @method contextFree
          */
-        ShaderUniformLocation.prototype.contextFree = function () {
-            this.location = void 0;
-            this.context = void 0;
+        UniformLocation.prototype.contextFree = function () {
+            this._location = void 0;
+            this._context = void 0;
         };
         /**
          * @method contextGain
          * @param context {WebGLRenderingContext}
          * @param program {WebGLProgram}
          */
-        ShaderUniformLocation.prototype.contextGain = function (context, program) {
-            if (this.context !== context) {
-                this.location = context.getUniformLocation(program, this.name);
-                this.context = context;
+        UniformLocation.prototype.contextGain = function (context, program) {
+            if (this._context !== context) {
+                this._location = context.getUniformLocation(program, this._name);
+                this._context = context;
             }
         };
         /**
          * @method contextLoss
          */
-        ShaderUniformLocation.prototype.contextLoss = function () {
-            this.location = void 0;
-            this.context = void 0;
+        UniformLocation.prototype.contextLoss = function () {
+            this._location = void 0;
+            this._context = void 0;
         };
         /**
          * @method uniform1f
          * @param x
          */
-        ShaderUniformLocation.prototype.uniform1f = function (x) {
-            this.context.uniform1f(this.location, x);
+        UniformLocation.prototype.uniform1f = function (x) {
+            return this._context.uniform1f(this._location, x);
         };
         /**
          * @method uniform2f
          * @param x {number}
          * @param y {number}
          */
-        ShaderUniformLocation.prototype.uniform2f = function (x, y) {
-            this.context.uniform2f(this.location, x, y);
+        UniformLocation.prototype.uniform2f = function (x, y) {
+            return this._context.uniform2f(this._location, x, y);
         };
         /**
          * @method uniform3f
@@ -2646,8 +2646,8 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
          * @param y {number}
          * @param z {number}
          */
-        ShaderUniformLocation.prototype.uniform3f = function (x, y, z) {
-            this.context.uniform3f(this.location, x, y, z);
+        UniformLocation.prototype.uniform3f = function (x, y, z) {
+            return this._context.uniform3f(this._location, x, y, z);
         };
         /**
          * @method uniform4f
@@ -2656,78 +2656,78 @@ define('davinci-eight/core/ShaderUniformLocation',["require", "exports"], functi
          * @param z {number}
          * @param w {number}
          */
-        ShaderUniformLocation.prototype.uniform4f = function (x, y, z, w) {
-            this.context.uniform4f(this.location, x, y, z, w);
+        UniformLocation.prototype.uniform4f = function (x, y, z, w) {
+            return this._context.uniform4f(this._location, x, y, z, w);
         };
         /**
-         * @method uniformMatrix1
+         * @method matrix1
          * @param transpose {boolean}
          * @param matrix {Matrix1}
          */
-        ShaderUniformLocation.prototype.uniformMatrix1 = function (transpose, matrix) {
-            this.context.uniform1fv(this.location, matrix.data);
+        UniformLocation.prototype.matrix1 = function (transpose, matrix) {
+            return this._context.uniform1fv(this._location, matrix.data);
         };
         /**
-         * @method uniformMatrix2
+         * @method matrix2
          * @param transpose {boolean}
          * @param matrix {Matrix2}
          */
-        ShaderUniformLocation.prototype.uniformMatrix2 = function (transpose, matrix) {
-            this.context.uniformMatrix2fv(this.location, transpose, matrix.data);
+        UniformLocation.prototype.matrix2 = function (transpose, matrix) {
+            return this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
         };
         /**
-         * @method uniformMatrix3
+         * @method matrix3
          * @param transpose {boolean}
          * @param matrix {Matrix3}
          */
-        ShaderUniformLocation.prototype.uniformMatrix3 = function (transpose, matrix) {
-            this.context.uniformMatrix3fv(this.location, transpose, matrix.data);
+        UniformLocation.prototype.matrix3 = function (transpose, matrix) {
+            return this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
         };
         /**
-         * @method uniformMatrix4
+         * @method matrix4
          * @param transpose {boolean}
          * @param matrix {Matrix4}
          */
-        ShaderUniformLocation.prototype.uniformMatrix4 = function (transpose, matrix) {
-            this.context.uniformMatrix4fv(this.location, transpose, matrix.data);
+        UniformLocation.prototype.matrix4 = function (transpose, matrix) {
+            return this._context.uniformMatrix4fv(this._location, transpose, matrix.data);
         };
         /**
-         * @method uniformVector1
+         * @method vector1
          * @param vector {Vector1}
          */
-        ShaderUniformLocation.prototype.uniformVector1 = function (vector) {
-            this.context.uniform1fv(this.location, vector.data);
+        UniformLocation.prototype.vector1 = function (vector) {
+            return this._context.uniform1fv(this._location, vector.data);
         };
         /**
-         * @method uniformVector2
+         * @method vector2
          * @param vector {Vector2}
          */
-        ShaderUniformLocation.prototype.uniformVector2 = function (vector) {
-            this.context.uniform2fv(this.location, vector.data);
+        UniformLocation.prototype.vector2 = function (vector) {
+            return this._context.uniform2fv(this._location, vector.data);
         };
         /**
-         * @method uniformVector3
+         * @method vector3
          * @param vector {Vector3}
          */
-        ShaderUniformLocation.prototype.uniformVector3 = function (vector) {
-            this.context.uniform3fv(this.location, vector.data);
+        UniformLocation.prototype.vector3 = function (vector) {
+            return this._context.uniform3fv(this._location, vector.data);
         };
         /**
-         * @method uniformVector4
+         * @method vector4
          * @param vector {Vector4}
          */
-        ShaderUniformLocation.prototype.uniformVector4 = function (vector) {
-            this.context.uniform4fv(this.location, vector.data);
+        UniformLocation.prototype.vector4 = function (vector) {
+            return this._context.uniform4fv(this._location, vector.data);
         };
         /**
          * @method toString
          */
-        ShaderUniformLocation.prototype.toString = function () {
-            return ["ShaderUniformLocation(", this.name, ")"].join('');
+        UniformLocation.prototype.toString = function () {
+            return ['uniform', this._name].join(' ');
         };
-        return ShaderUniformLocation;
+        return UniformLocation;
     })();
-    return ShaderUniformLocation;
+    return UniformLocation;
 });
 
 define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
@@ -7166,7 +7166,7 @@ define('davinci-eight/utils/uuid4',["require", "exports"], function (require, ex
     return uuid4;
 });
 
-define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/ShaderUniformLocation'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, ShaderUniformLocation) {
+define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/ShaderAttribLocation', '../core/UniformLocation'], function (require, exports, isDefined, uuid4, ShaderAttribLocation, UniformLocation) {
     var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         if (uuid === void 0) { uuid = uuid4().generate(); }
         if (typeof vertexShader !== 'string') {
@@ -7190,7 +7190,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
             get attributeLocations() {
                 return attributeLocations;
             },
-            get uniformLocations() {
+            get uniforms() {
                 return uniformLocations;
             },
             addRef: function () {
@@ -7245,7 +7245,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                         if (!uniformLocations[name_2]) {
                             // TODO: Since name MUST be part of Location, maybe should use an array?
                             // TODO: Seems like we should be able to make use of the size and type?
-                            uniformLocations[name_2] = new ShaderUniformLocation(name_2);
+                            uniformLocations[name_2] = new UniformLocation(name_2);
                         }
                     }
                     for (var aName in attributeLocations) {
@@ -7279,6 +7279,12 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                     console.warn("shaderProgram.use() missing WebGLRenderingContext");
                 }
                 return self;
+            },
+            enableAttrib: function (name) {
+                var attribLoc = attributeLocations[name];
+                if (attribLoc) {
+                    attribLoc.enable();
+                }
             },
             setAttributes: function (values) {
                 for (var name in attributeLocations) {
@@ -7321,49 +7327,49 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
             uniformMatrix1: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix1(transpose, matrix);
+                    uniformLoc.matrix1(transpose, matrix);
                 }
             },
             uniformMatrix2: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix2(transpose, matrix);
+                    uniformLoc.matrix2(transpose, matrix);
                 }
             },
             uniformMatrix3: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix3(transpose, matrix);
+                    uniformLoc.matrix3(transpose, matrix);
                 }
             },
             uniformMatrix4: function (name, transpose, matrix) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformMatrix4(transpose, matrix);
+                    uniformLoc.matrix4(transpose, matrix);
                 }
             },
             uniformVector1: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector1(vector);
+                    uniformLoc.vector1(vector);
                 }
             },
             uniformVector2: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector2(vector);
+                    uniformLoc.vector2(vector);
                 }
             },
             uniformVector3: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector3(vector);
+                    uniformLoc.vector3(vector);
                 }
             },
             uniformVector4: function (name, vector) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
-                    uniformLoc.uniformVector4(vector);
+                    uniformLoc.vector4(vector);
                 }
             }
         };
@@ -7640,8 +7646,8 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../programs
             get attributeLocations() {
                 return innerProgram.attributeLocations;
             },
-            get uniformLocations() {
-                return innerProgram.uniformLocations;
+            get uniforms() {
+                return innerProgram.uniforms;
             },
             get vertexShader() {
                 return innerProgram.vertexShader;
@@ -7669,6 +7675,9 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../programs
             },
             use: function () {
                 return innerProgram.use();
+            },
+            enableAttrib: function (name) {
+                return innerProgram.enableAttrib(name);
             },
             setAttributes: function (values) {
                 return innerProgram.setAttributes(values);
@@ -9552,7 +9561,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/ShaderUniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Node, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, ShaderAttribLocation, ShaderUniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, Curve, initWebGL, renderer, contextMonitor, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/ShaderAttribLocation', 'davinci-eight/core/UniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/shaderProgramFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextMonitor', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Node, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, ShaderAttribLocation, UniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, shaderProgramFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, Curve, initWebGL, renderer, contextMonitor, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -9581,7 +9590,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'dav
         get primitive() { return primitive; },
         get DrawMode() { return DrawMode; },
         get ShaderAttribLocation() { return ShaderAttribLocation; },
-        get ShaderUniformLocation() { return ShaderUniformLocation; },
+        get UniformLocation() { return UniformLocation; },
         get shaderProgram() {
             return shaderProgram;
         },

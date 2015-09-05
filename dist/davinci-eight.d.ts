@@ -60,7 +60,11 @@ interface RenderingContextUser extends ReferenceCounted {
 interface DrawableVisitor {
   primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformData);
 }
-
+interface RenderingContextProgramUser {
+  contextFree(): void;
+  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextLoss(): void;
+}
 interface Drawable extends RenderingContextUser {
   /**
    *
@@ -102,22 +106,23 @@ class ShaderAttribLocation {
   dataFormat(size: number, type?: number, normalized?: boolean, stride?: number, offset?: number);
   bufferData(data: AttribProvider);
 }
-class ShaderUniformLocation {
-  constructor(name: string, glslType: string);
+class UniformLocation implements RenderingContextProgramUser {
+  constructor(name: string);
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
-  uniform1f(x: number);
-  uniform1fv(data: number[]);
-  uniform2f(x: number, y: number);
-  uniform2fv(data: number[]);
-  uniform3f(x: number, y: number, z: number);
-  uniform4f(x: number, y: number, z: number, w: number);
-  uniform4fv(data: number[]);
-  uniformMatrix2(transpose: boolean, matrix: Matrix2);
-  uniformMatrix3(transpose: boolean, matrix: Matrix3);
-  uniformMatrix4(transpose: boolean, matrix: Matrix4);
-  uniformVector3(vector: Vector3);
+  uniform1f(x: number): void;
+  uniform2f(x: number, y: number): void;
+  uniform3f(x: number, y: number, z: number): void;
+  uniform4f(x: number, y: number, z: number, w: number): void;
+  matrix1(transpose: boolean, matrix: Matrix1): void;
+  matrix2(transpose: boolean, matrix: Matrix2): void;
+  matrix3(transpose: boolean, matrix: Matrix3): void;
+  matrix4(transpose: boolean, matrix: Matrix4): void;
+  vector1(vector: Vector1): void;
+  vector2(vector: Vector2): void;
+  vector3(vector: Vector3): void;
+  vector4(vector: Vector4): void;
 }
 /**
  *
@@ -647,9 +652,9 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor
    */
   attributeLocations: { [name: string]: ShaderAttribLocation };
   /**
-   *
+   * A map of uniform name to uniform location for active uniforms.
    */
-  uniformLocations: { [name: string]: ShaderUniformLocation };
+  uniforms: { [name: string]: UniformLocation };
 }
 /**
  *

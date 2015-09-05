@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.69.0</em>
+            <em>API Docs for: 2.70.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -87,10 +87,10 @@
                                 <li><a href="../classes/ShaderAttribLocation.html">ShaderAttribLocation</a></li>
                                 <li><a href="../classes/ShaderAttribLocation..html">ShaderAttribLocation.</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
-                                <li><a href="../classes/ShaderUniformLocation.html">ShaderUniformLocation</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/UniformMetaInfo.html">UniformMetaInfo</a></li>
                                 <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
                                 <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
@@ -173,7 +173,7 @@ import UniformProvider = require(&#x27;davinci-eight/core/UniformProvider&#x27;)
 import UniformData = require(&#x27;davinci-eight/core/UniformData&#x27;);
 import UniformDataVisitor = require(&#x27;davinci-eight/core/UniformDataVisitor&#x27;);
 import ShaderAttribLocation = require(&#x27;davinci-eight/core/ShaderAttribLocation&#x27;);
-import ShaderUniformLocation = require(&#x27;davinci-eight/core/ShaderUniformLocation&#x27;);
+import UniformLocation = require(&#x27;davinci-eight/core/UniformLocation&#x27;);
 // drawLists
 import scene = require(&#x27;davinci-eight/drawLists/scene&#x27;);
 import DrawList = require(&#x27;davinci-eight/drawLists/DrawList&#x27;);
@@ -276,7 +276,7 @@ var eight = {
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
   get ShaderAttribLocation() { return ShaderAttribLocation; },
-  get ShaderUniformLocation() { return ShaderUniformLocation; },
+  get UniformLocation() { return UniformLocation; },
   get shaderProgram() {
     return shaderProgram;
   },
