@@ -1,4 +1,4 @@
-define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], function (require, exports, initWebGL, expectArg) {
+define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg', '../resources/Texture'], function (require, exports, initWebGL, expectArg, Texture) {
     function contextProxy(canvas, attributes) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var users = [];
@@ -67,11 +67,6 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], 
                     }
                 }
             },
-            clear: function (mask) {
-                if (context) {
-                    return context.clear(mask);
-                }
-            },
             clearColor: function (red, green, blue, alpha) {
                 if (context) {
                     return context.clearColor(red, green, blue, alpha);
@@ -101,9 +96,14 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], 
                 if (context) {
                     return context.enable(capability);
                 }
+            },
+            createTexture: function () {
+                var texture = new Texture();
+                self.addContextUser(texture);
+                return texture;
             }
         };
-        return self.start();
+        return self;
     }
     ;
     return contextProxy;

@@ -12,7 +12,6 @@ var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
 var core = require('davinci-eight/core');
 var primitive = require('davinci-eight/objects/primitive');
-var VertexBuffer = require('davinci-eight/core/VertexBuffer');
 var AttribLocation = require('davinci-eight/core/AttribLocation');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
 // drawLists
@@ -41,6 +40,9 @@ var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
 var programFromScripts = require('davinci-eight/programs/programFromScripts');
+// resources
+var Texture = require('davinci-eight/resources/Texture');
+var VertexBuffer = require('davinci-eight/core/VertexBuffer');
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
@@ -92,7 +94,6 @@ var eight = {
     get DefaultAttribProvider() { return DefaultAttribProvider; },
     get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },
-    get VertexBuffer() { return VertexBuffer; },
     get AttribLocation() { return AttribLocation; },
     get UniformLocation() { return UniformLocation; },
     get shaderProgram() {
@@ -143,5 +144,8 @@ var eight = {
     get vortexMesh() { return vortexMesh; },
     // programs
     get programFromScripts() { return programFromScripts; },
+    // resources
+    get Texture() { return Texture; },
+    get VertexBuffer() { return VertexBuffer; },
 };
 module.exports = eight;

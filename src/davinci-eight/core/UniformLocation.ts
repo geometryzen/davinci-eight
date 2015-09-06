@@ -9,6 +9,25 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 
+function matrix4NE(a: number[], b: Float32Array): boolean {
+  return a[0x0] !== b[0x0]
+   || a[0x1] !== b[0x1]
+   || a[0x2] !== b[0x2]
+   || a[0x3] !== b[0x3]
+   || a[0x4] !== b[0x4]
+   || a[0x5] !== b[0x5]
+   || a[0x6] !== b[0x6]
+   || a[0x7] !== b[0x7]
+   || a[0x8] !== b[0x8]
+   || a[0x9] !== b[0x9]
+   || a[0xA] !== b[0xA]
+   || a[0xB] !== b[0xB]
+   || a[0xC] !== b[0xC]
+   || a[0xD] !== b[0xD]
+   || a[0xE] !== b[0xE]
+   || a[0xF] !== b[0xF];
+}
+
 /**
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
@@ -17,6 +36,12 @@ class UniformLocation implements RenderingContextProgramUser {
   private _name: string;
   private _context: WebGLRenderingContext;
   private _location: WebGLUniformLocation;
+  private _x: number = void 0;
+  private _y: number = void 0;
+  private _z: number = void 0;
+  private _w: number = void 0;
+  private _matrix4: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(() => {return void 0;});
+  private _transpose: boolean = void 0;
   /**
    * @class UniformLocation
    * @constructor
@@ -49,7 +74,10 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param x
    */
   uniform1f(x: number): void {
-    return this._context.uniform1f(this._location, x);
+    if (this._x !== x) {
+      this._context.uniform1f(this._location, x);
+      this._x = x;
+    }
   }
   /**
    * @method uniform2f
@@ -108,7 +136,29 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param matrix {Matrix4}
    */
   matrix4(transpose: boolean, matrix: Matrix4): void {
-    return this._context.uniformMatrix4fv(this._location, transpose, matrix.data);
+    let matrix4 = this._matrix4;
+    let data = matrix.data;
+    if (matrix4NE(matrix4, data) || this._transpose != transpose) {
+      this._context.uniformMatrix4fv(this._location, transpose, data);
+      // TODO: Use Matrix4.
+      matrix4[0x0] = data[0x0];
+      matrix4[0x1] = data[0x1];
+      matrix4[0x2] = data[0x2];
+      matrix4[0x3] = data[0x3];
+      matrix4[0x4] = data[0x4];
+      matrix4[0x5] = data[0x5];
+      matrix4[0x6] = data[0x6];
+      matrix4[0x7] = data[0x7];
+      matrix4[0x8] = data[0x8];
+      matrix4[0x9] = data[0x9];
+      matrix4[0xA] = data[0xA];
+      matrix4[0xB] = data[0xB];
+      matrix4[0xC] = data[0xC];
+      matrix4[0xD] = data[0xD];
+      matrix4[0xE] = data[0xE];
+      matrix4[0xF] = data[0xF];
+      this._transpose = transpose;
+    }
   }
   /**
    * @method vector1
@@ -129,7 +179,16 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param vector {Vector3}
    */
   vector3(vector: Vector3): void {
-    return this._context.uniform3fv(this._location, vector.data);
+    let data: number[] = vector.data;
+    let x = data[0];
+    let y = data[1];
+    let z = data[2];
+    if (this._x !== x || this._y !== y || this._z !== z) {
+      this._context.uniform3fv(this._location, data);
+      this._x = x;
+      this._y = y;
+      this._z = z;
+    }
   }
   /**
    * @method vector4

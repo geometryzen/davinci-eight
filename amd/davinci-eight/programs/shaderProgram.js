@@ -61,13 +61,8 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     for (var a = 0; a < activeAttributes; a++) {
                         var activeInfo = context.getActiveAttrib(program, a);
                         var name_1 = activeInfo.name;
-                        // The following properties don't correspond directly wuth those used.
-                        // If the attribute or uniform is an array, this will be the number of elements in the array. Otherwise, this will be 1.
-                        var size = activeInfo.size;
-                        var type = activeInfo.type;
                         if (!attributeLocations[name_1]) {
-                            // TODO: Since name MUST be part of Location, maybe should use an array?
-                            attributeLocations[name_1] = new AttribLocation(name_1, activeInfo.size, activeInfo.type);
+                            attributeLocations[name_1] = new AttribLocation(name_1);
                         }
                     }
                     var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -75,8 +70,6 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                         var activeInfo = context.getActiveUniform(program, u);
                         var name_2 = activeInfo.name;
                         if (!uniformLocations[name_2]) {
-                            // TODO: Since name MUST be part of Location, maybe should use an array?
-                            // TODO: Seems like we should be able to make use of the size and type?
                             uniformLocations[name_2] = new UniformLocation(name_2);
                         }
                     }

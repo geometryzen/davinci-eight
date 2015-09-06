@@ -16,13 +16,10 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @class AttribLocation
          * @constructor
          * @param name {string} The name of the variable as it appears in the GLSL program.
-         * @param size {number} The size of the variable as it appears in the GLSL program.
-         * @param type {number} The type of the variable as it appears in the GLSL program.
          */
-        function AttribLocation(name, size, type) {
+        function AttribLocation(name) {
+            this._enabled = void 0;
             this._name = expectArg('name', name).toBeString().value;
-            this._size = expectArg('size', size).toBeNumber().value;
-            this._type = expectArg('type', type).toBeNumber().value;
         }
         AttribLocation.prototype.contextFree = function () {
             this._location = void 0;
@@ -49,13 +46,19 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             if (normalized === void 0) { normalized = false; }
             if (stride === void 0) { stride = 0; }
             if (offset === void 0) { offset = 0; }
-            return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
+            this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
         };
         AttribLocation.prototype.enable = function () {
-            return this._context.enableVertexAttribArray(this._location);
+            if (this._enabled !== true) {
+                this._context.enableVertexAttribArray(this._location);
+                this._enabled = true;
+            }
         };
         AttribLocation.prototype.disable = function () {
-            return this._context.disableVertexAttribArray(this._location);
+            if (this._enabled !== false) {
+                this._context.disableVertexAttribArray(this._location);
+                this._enabled = false;
+            }
         };
         /**
          * @method toString

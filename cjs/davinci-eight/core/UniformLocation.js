@@ -1,4 +1,22 @@
 var expectArg = require('../checks/expectArg');
+function matrix4NE(a, b) {
+    return a[0x0] !== b[0x0]
+        || a[0x1] !== b[0x1]
+        || a[0x2] !== b[0x2]
+        || a[0x3] !== b[0x3]
+        || a[0x4] !== b[0x4]
+        || a[0x5] !== b[0x5]
+        || a[0x6] !== b[0x6]
+        || a[0x7] !== b[0x7]
+        || a[0x8] !== b[0x8]
+        || a[0x9] !== b[0x9]
+        || a[0xA] !== b[0xA]
+        || a[0xB] !== b[0xB]
+        || a[0xC] !== b[0xC]
+        || a[0xD] !== b[0xD]
+        || a[0xE] !== b[0xE]
+        || a[0xF] !== b[0xF];
+}
 /**
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
@@ -10,6 +28,12 @@ var UniformLocation = (function () {
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
     function UniformLocation(name) {
+        this._x = void 0;
+        this._y = void 0;
+        this._z = void 0;
+        this._w = void 0;
+        this._matrix4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(function () { return void 0; });
+        this._transpose = void 0;
         this._name = expectArg('name', name).toBeString().value;
     }
     /**
@@ -36,7 +60,10 @@ var UniformLocation = (function () {
      * @param x
      */
     UniformLocation.prototype.uniform1f = function (x) {
-        return this._context.uniform1f(this._location, x);
+        if (this._x !== x) {
+            this._context.uniform1f(this._location, x);
+            this._x = x;
+        }
     };
     /**
      * @method uniform2f
@@ -95,7 +122,29 @@ var UniformLocation = (function () {
      * @param matrix {Matrix4}
      */
     UniformLocation.prototype.matrix4 = function (transpose, matrix) {
-        return this._context.uniformMatrix4fv(this._location, transpose, matrix.data);
+        var matrix4 = this._matrix4;
+        var data = matrix.data;
+        if (matrix4NE(matrix4, data) || this._transpose != transpose) {
+            this._context.uniformMatrix4fv(this._location, transpose, data);
+            // TODO: Use Matrix4.
+            matrix4[0x0] = data[0x0];
+            matrix4[0x1] = data[0x1];
+            matrix4[0x2] = data[0x2];
+            matrix4[0x3] = data[0x3];
+            matrix4[0x4] = data[0x4];
+            matrix4[0x5] = data[0x5];
+            matrix4[0x6] = data[0x6];
+            matrix4[0x7] = data[0x7];
+            matrix4[0x8] = data[0x8];
+            matrix4[0x9] = data[0x9];
+            matrix4[0xA] = data[0xA];
+            matrix4[0xB] = data[0xB];
+            matrix4[0xC] = data[0xC];
+            matrix4[0xD] = data[0xD];
+            matrix4[0xE] = data[0xE];
+            matrix4[0xF] = data[0xF];
+            this._transpose = transpose;
+        }
     };
     /**
      * @method vector1
@@ -116,7 +165,16 @@ var UniformLocation = (function () {
      * @param vector {Vector3}
      */
     UniformLocation.prototype.vector3 = function (vector) {
-        return this._context.uniform3fv(this._location, vector.data);
+        var data = vector.data;
+        var x = data[0];
+        var y = data[1];
+        var z = data[2];
+        if (this._x !== x || this._y !== y || this._z !== z) {
+            this._context.uniform3fv(this._location, data);
+            this._x = x;
+            this._y = y;
+            this._z = z;
+        }
     };
     /**
      * @method vector4

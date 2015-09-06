@@ -132,6 +132,23 @@ class UniformLocation implements RenderingContextProgramUser {
 /**
  *
  */
+class Texture implements RenderingContextUser {
+  constructor();
+  addRef(): void;
+  release(): void;
+  contextFree(): void;
+  contextGain(context: WebGLRenderingContext): void;
+  contextLoss(): void;
+  /**
+   * Binds the Texture to a target.
+   * Parameters
+   *   type TEXTURE_2D or TEXTURE_CUBE_MAP
+   */
+  bind(target: number): void;
+}
+/**
+ *
+ */
 class Mutable<T> {
   data: T;
   callback: () => T;
@@ -669,21 +686,10 @@ interface Renderer extends RenderingContextUser
    */
   clearColor(red: number, green: number, blue: number, alpha: number): void;
   /**
-   * Clears buffers to preset values specified by clearColor(), clearDepth() and clearStencil().
-   * mask {number} A bitwise OR of masks that indicates the buffers to be cleared.
-   */
-  clear(mask: number): void;
-  /**
    * Render the contents of the drawList.
    * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.
    */
   render(drawList: DrawList): void;
-  /**
-   *
-   */
-  COLOR_BUFFER_BIT: number;
-  DEPTH_BUFFER_BIT: number;
-  STENCIL_BUFFER_BIT: number;
 }
 interface RendererParameters {
 }
@@ -1112,10 +1118,6 @@ interface RenderingContextProxy extends ReferenceCounted
    */
   clearDepth(depth: number): void;
   /**
-   *
-   */
-  clear(mask: number): void;
-  /**
    * Render geometric primitives from bound and enabled vertex data.
    *
    * Parameters
@@ -1145,6 +1147,12 @@ interface RenderingContextProxy extends ReferenceCounted
    *
    */
   context: WebGLRenderingContext;
+  /**
+   * Creates a new Texture instance.
+   * Images may be bound to a Texture.
+   * and adds it as a context user to the monitor.
+   */
+  createTexture(): Texture;
 }
 /**
  * Constructs and returns a RenderingContextProxy.

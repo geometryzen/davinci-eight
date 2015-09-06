@@ -2,6 +2,7 @@ import RenderingContextProxy = require('../utils/RenderingContextProxy');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import initWebGL = require('../renderers/initWebGL');
 import expectArg = require('../checks/expectArg');
+import Texture = require('../resources/Texture');
 
 function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): RenderingContextProxy {
 
@@ -76,11 +77,6 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
         }
       }
     },
-    clear(mask: number): void {
-      if (context) {
-        return context.clear(mask);
-      }
-    },
     clearColor(red: number, green: number, blue: number, alpha: number): void {
       if (context) {
         return context.clearColor(red, green, blue, alpha);
@@ -110,9 +106,14 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       if (context) {
         return context.enable(capability);
       }
+    },
+    createTexture(): Texture {
+      let texture = new Texture();
+      self.addContextUser(texture);
+      return texture;
     }
   };
-  return self.start();
+  return self;
 };
 
 export = contextProxy;

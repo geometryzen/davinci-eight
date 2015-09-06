@@ -15,6 +15,12 @@ declare class UniformLocation implements RenderingContextProgramUser {
     private _name;
     private _context;
     private _location;
+    private _x;
+    private _y;
+    private _z;
+    private _w;
+    private _matrix4;
+    private _transpose;
     /**
      * @class UniformLocation
      * @constructor

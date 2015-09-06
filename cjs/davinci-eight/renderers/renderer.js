@@ -85,30 +85,16 @@ var renderer = function (canvas, parameters) {
                 $context.clearColor(red, green, blue, alpha);
             }
         },
-        clear: function (mask) {
-            if ($context) {
-                $context.clear(mask);
-            }
-        },
         render: function (drawList) {
             if ($context) {
                 if (autoClear) {
-                    self.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
+                    $context.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
                 }
             }
             else {
                 console.warn("renderer is unable to clear because WebGLRenderingContext is missing");
             }
             drawList.traverse(drawHandler);
-        },
-        get COLOR_BUFFER_BIT() {
-            return !!$context ? $context.COLOR_BUFFER_BIT : 0;
-        },
-        get DEPTH_BUFFER_BIT() {
-            return !!$context ? $context.DEPTH_BUFFER_BIT : 0;
-        },
-        get STENCIL_BUFFER_BIT() {
-            return !!$context ? $context.STENCIL_BUFFER_BIT : 0;
         }
     };
     return self;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.73.0</em>
+            <em>API Docs for: 2.74.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -171,7 +171,6 @@ import primitive = require(&#x27;davinci-eight/objects/primitive&#x27;);
 import UniformProvider = require(&#x27;davinci-eight/core/UniformProvider&#x27;);
 import UniformData = require(&#x27;davinci-eight/core/UniformData&#x27;);
 import UniformDataVisitor = require(&#x27;davinci-eight/core/UniformDataVisitor&#x27;);
-import VertexBuffer = require(&#x27;davinci-eight/core/VertexBuffer&#x27;);
 import AttribLocation = require(&#x27;davinci-eight/core/AttribLocation&#x27;);
 import UniformLocation = require(&#x27;davinci-eight/core/UniformLocation&#x27;);
 // drawLists
@@ -201,6 +200,9 @@ import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x
 import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
 import programFromScripts = require(&#x27;davinci-eight/programs/programFromScripts&#x27;);
+// resources
+import Texture = require(&#x27;davinci-eight/resources/Texture&#x27;);
+import VertexBuffer = require(&#x27;davinci-eight/core/VertexBuffer&#x27;);
 // math
 import Cartesian3 = require(&#x27;davinci-eight/math/Cartesian3&#x27;);
 import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
@@ -274,7 +276,6 @@ var eight = {
   get DefaultAttribProvider() { return DefaultAttribProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },
-  get VertexBuffer() { return VertexBuffer; },
   get AttribLocation() { return AttribLocation; },
   get UniformLocation() { return UniformLocation; },
   get shaderProgram() {
@@ -329,6 +330,9 @@ var eight = {
   get vortexMesh() { return vortexMesh; },
   // programs
   get programFromScripts() { return programFromScripts; },
+  // resources
+  get Texture() { return Texture; },
+  get VertexBuffer() { return VertexBuffer; },
 };
 export = eight;
 

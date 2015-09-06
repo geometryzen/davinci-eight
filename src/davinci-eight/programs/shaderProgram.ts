@@ -91,13 +91,8 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         for (var a = 0; a < activeAttributes; a++) {
           let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
           let name: string = activeInfo.name;
-          // The following properties don't correspond directly wuth those used.
-          // If the attribute or uniform is an array, this will be the number of elements in the array. Otherwise, this will be 1.
-          let size: number = activeInfo.size;
-          let type: number = activeInfo.type;
           if (!attributeLocations[name]) {
-            // TODO: Since name MUST be part of Location, maybe should use an array?
-            attributeLocations[name] = new AttribLocation(name, activeInfo.size, activeInfo.type);
+            attributeLocations[name] = new AttribLocation(name);
           }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -105,8 +100,6 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
           let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
           let name: string = activeInfo.name;
           if (!uniformLocations[name]) {
-            // TODO: Since name MUST be part of Location, maybe should use an array?
-            // TODO: Seems like we should be able to make use of the size and type?
             uniformLocations[name] = new UniformLocation(name);
           }
         }

@@ -1,5 +1,6 @@
 var initWebGL = require('../renderers/initWebGL');
 var expectArg = require('../checks/expectArg');
+var Texture = require('../resources/Texture');
 function contextProxy(canvas, attributes) {
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     var users = [];
@@ -68,11 +69,6 @@ function contextProxy(canvas, attributes) {
                 }
             }
         },
-        clear: function (mask) {
-            if (context) {
-                return context.clear(mask);
-            }
-        },
         clearColor: function (red, green, blue, alpha) {
             if (context) {
                 return context.clearColor(red, green, blue, alpha);
@@ -102,9 +98,14 @@ function contextProxy(canvas, attributes) {
             if (context) {
                 return context.enable(capability);
             }
+        },
+        createTexture: function () {
+            var texture = new Texture();
+            self.addContextUser(texture);
+            return texture;
         }
     };
-    return self.start();
+    return self;
 }
 ;
 module.exports = contextProxy;
