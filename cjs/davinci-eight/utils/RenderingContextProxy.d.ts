@@ -17,7 +17,11 @@ interface RenderingContextProxy extends ReferenceCounted {
     DEPTH_TEST: number;
     LEQUAL: number;
     LINES: number;
+    LINE_LOOP: number;
+    LINE_STRIP: number;
     POINTS: number;
     TRIANGLES: number;
+    TRIANGLE_FAN: number;
+    TRIANGLE_STRIP: number;
 }
 export = RenderingContextProxy;

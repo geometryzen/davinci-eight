@@ -1148,9 +1148,16 @@ interface RenderingContextProxy extends ReferenceCounted
   clear(mask: number): void;
   /**
    * Render geometric primitives from bound and enabled vertex data.
-   * mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.
-   * first [in] The first element to render in the array of vector points.
-   * count [in] The number of vector points to render. For example, a triangle would be 3.
+   *
+   * Parameters
+   *   mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.
+   *   first [in] The first element to render in the array of vector points.
+   *   count [in] The number of vector points to render.
+   *              For example, N triangles would have count 3 * N using TRIANGLES mode.
+   * Return value
+   *   This method does not return a value.
+   * Remarks
+   *   None.
    */
   drawArrays(mode: number, first: number, count: number): void;
   /**
@@ -1182,17 +1189,40 @@ interface RenderingContextProxy extends ReferenceCounted
    */
   LEQUAL: number;
   /**
-   * Draws a line between a pair of vertices. For example, 10 vertices produce 5 separate lines.
+   * Draws a line between a pair of vertices.
+   * For example, 2 * N vertices produce N separate lines.
    */
   LINES: number;
   /**
-   * Draws a single dot per vertex. For example, 10 vertices produce 10 dots.
+   * Similar to LINE_STRIP, but connects the last vertex back to the first.
+   * For example, N vertices produce N straight lines.
+   */
+  LINE_LOOP: number;
+  /**
+   * Draws a line to the next vertex by a straight line.
+   * For example, N vertices produce N - 1 lines connected end to end.
+   */
+  LINE_STRIP: number;
+  /**
+   * Draws a single dot per vertex.
+   * For example, N vertices produce N dots.
    */
   POINTS: number;
   /**
-   * Draws a triangle for each group of three consecutive vertices. For example, 12 vertices create 4 separate triangles.
+   * Draws a triangle for each group of three consecutive vertices.
+   * For example, 3 * N vertices create N separate triangles.
    */
   TRIANGLES: number;
+  /**
+   * Similar to TRIANGLE_STRIP, but creates a fan shaped output.
+   * For example N vertices create N - 2 triangles.
+   */
+  TRIANGLE_FAN: number;
+  /**
+   * Creates a strip of triangles where each additional vertex creates an additional triangle once the first three vertices have been drawn.
+   * For example, N vertices create N - 2 triangles.
+   */
+  TRIANGLE_STRIP: number;
 }
 /**
  * Constructs and returns a RenderingContextProxy.

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.71.0",
+        "version": "2.72.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -4221,82 +4221,106 @@
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1149,
-            "description": "Render geometric primitives from bound and enabled vertex data.\nmode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\nfirst [in] The first element to render in the array of vector points.\ncount [in] The number of vector points to render. For example, a triangle would be 3.",
+            "description": "Render geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1156,
+            "line": 1163,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1160,
+            "line": 1167,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1164,
+            "line": 1171,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1168,
+            "line": 1175,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1172,
+            "line": 1179,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1176,
+            "line": 1183,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1180,
+            "line": 1187,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1184,
-            "description": "Draws a line between a pair of vertices. For example, 10 vertices produce 5 separate lines.",
+            "line": 1191,
+            "description": "Draws a line between a pair of vertices.\nFor example, 2 * N vertices produce N separate lines.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1188,
-            "description": "Draws a single dot per vertex. For example, 10 vertices produce 10 dots.",
+            "line": 1196,
+            "description": "Similar to LINE_STRIP, but connects the last vertex back to the first.\nFor example, N vertices produce N straight lines.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1192,
-            "description": "Draws a triangle for each group of three consecutive vertices. For example, 12 vertices create 4 separate triangles.",
+            "line": 1201,
+            "description": "Draws a line to the next vertex by a straight line.\nFor example, N vertices produce N - 1 lines connected end to end.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1197,
-            "description": "Constructs and returns a RenderingContextProxy.",
+            "line": 1206,
+            "description": "Draws a single dot per vertex.\nFor example, N vertices produce N dots.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1211,
+            "description": "Draws a triangle for each group of three consecutive vertices.\nFor example, 3 * N vertices create N separate triangles.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1219,
+            "line": 1216,
+            "description": "Similar to TRIANGLE_STRIP, but creates a fan shaped output.\nFor example N vertices create N - 2 triangles.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1221,
+            "description": "Creates a strip of triangles where each additional vertex creates an additional triangle once the first three vertices have been drawn.\nFor example, N vertices create N - 2 triangles.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1227,
+            "description": "Constructs and returns a RenderingContextProxy.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1241,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1249,
             "description": "Node implements UniformData required for manipulating a body.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1226,
+            "line": 1256,
             "description": "The version string of the davinci-eight module.",
             "class": "DrawMode"
         },
@@ -15199,64 +15223,80 @@
             "line": " src/modules/davinci-eight.d.ts:1145"
         },
         {
-            "message": "Missing item type\nRender geometric primitives from bound and enabled vertex data.\nmode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\nfirst [in] The first element to render in the array of vector points.\ncount [in] The number of vector points to render. For example, a triangle would be 3.",
+            "message": "Missing item type\nRender geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
             "line": " src/modules/davinci-eight.d.ts:1149"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1156"
+            "line": " src/modules/davinci-eight.d.ts:1163"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1160"
+            "line": " src/modules/davinci-eight.d.ts:1167"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1164"
+            "line": " src/modules/davinci-eight.d.ts:1171"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1168"
+            "line": " src/modules/davinci-eight.d.ts:1175"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1172"
+            "line": " src/modules/davinci-eight.d.ts:1179"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1176"
+            "line": " src/modules/davinci-eight.d.ts:1183"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1180"
+            "line": " src/modules/davinci-eight.d.ts:1187"
         },
         {
-            "message": "Missing item type\nDraws a line between a pair of vertices. For example, 10 vertices produce 5 separate lines.",
-            "line": " src/modules/davinci-eight.d.ts:1184"
+            "message": "Missing item type\nDraws a line between a pair of vertices.\nFor example, 2 * N vertices produce N separate lines.",
+            "line": " src/modules/davinci-eight.d.ts:1191"
         },
         {
-            "message": "Missing item type\nDraws a single dot per vertex. For example, 10 vertices produce 10 dots.",
-            "line": " src/modules/davinci-eight.d.ts:1188"
+            "message": "Missing item type\nSimilar to LINE_STRIP, but connects the last vertex back to the first.\nFor example, N vertices produce N straight lines.",
+            "line": " src/modules/davinci-eight.d.ts:1196"
         },
         {
-            "message": "Missing item type\nDraws a triangle for each group of three consecutive vertices. For example, 12 vertices create 4 separate triangles.",
-            "line": " src/modules/davinci-eight.d.ts:1192"
+            "message": "Missing item type\nDraws a line to the next vertex by a straight line.\nFor example, N vertices produce N - 1 lines connected end to end.",
+            "line": " src/modules/davinci-eight.d.ts:1201"
         },
         {
-            "message": "Missing item type\nConstructs and returns a RenderingContextProxy.",
-            "line": " src/modules/davinci-eight.d.ts:1197"
+            "message": "Missing item type\nDraws a single dot per vertex.\nFor example, N vertices produce N dots.",
+            "line": " src/modules/davinci-eight.d.ts:1206"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nDraws a triangle for each group of three consecutive vertices.\nFor example, 3 * N vertices create N separate triangles.",
             "line": " src/modules/davinci-eight.d.ts:1211"
         },
         {
+            "message": "Missing item type\nSimilar to TRIANGLE_STRIP, but creates a fan shaped output.\nFor example N vertices create N - 2 triangles.",
+            "line": " src/modules/davinci-eight.d.ts:1216"
+        },
+        {
+            "message": "Missing item type\nCreates a strip of triangles where each additional vertex creates an additional triangle once the first three vertices have been drawn.\nFor example, N vertices create N - 2 triangles.",
+            "line": " src/modules/davinci-eight.d.ts:1221"
+        },
+        {
+            "message": "Missing item type\nConstructs and returns a RenderingContextProxy.",
+            "line": " src/modules/davinci-eight.d.ts:1227"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1241"
+        },
+        {
             "message": "Missing item type\nNode implements UniformData required for manipulating a body.",
-            "line": " src/modules/davinci-eight.d.ts:1219"
+            "line": " src/modules/davinci-eight.d.ts:1249"
         },
         {
             "message": "Missing item type\nThe version string of the davinci-eight module.",
-            "line": " src/modules/davinci-eight.d.ts:1226"
+            "line": " src/modules/davinci-eight.d.ts:1256"
         },
         {
             "message": "Missing item type\nEvaluates JavaScript code and executes it.",

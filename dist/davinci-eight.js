@@ -2435,7 +2435,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.71.0'
+        VERSION: '2.72.0'
     };
     return core;
 });
@@ -9404,11 +9404,23 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../renderers/i
             get LINES() {
                 return context ? context.LINES : 0;
             },
+            get LINE_LOOP() {
+                return context ? context.LINE_LOOP : 0;
+            },
+            get LINE_STRIP() {
+                return context ? context.LINE_STRIP : 0;
+            },
             get POINTS() {
                 return context ? context.POINTS : 0;
             },
             get TRIANGLES() {
                 return context ? context.TRIANGLES : 0;
+            },
+            get TRIANGLE_FAN() {
+                return context ? context.TRIANGLE_FAN : 0;
+            },
+            get TRIANGLE_STRIP() {
+                return context ? context.TRIANGLE_STRIP : 0;
             }
         };
         return self.start();

@@ -121,11 +121,23 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     get LINES() {
       return context ? context.LINES : 0;
     },
+    get LINE_LOOP() {
+      return context ? context.LINE_LOOP : 0;
+    },
+    get LINE_STRIP() {
+      return context ? context.LINE_STRIP : 0;
+    },
     get POINTS() {
       return context ? context.POINTS : 0;
     },
     get TRIANGLES() {
       return context ? context.TRIANGLES : 0;
+    },
+    get TRIANGLE_FAN() {
+      return context ? context.TRIANGLE_FAN : 0;
+    },
+    get TRIANGLE_STRIP() {
+      return context ? context.TRIANGLE_STRIP : 0;
     }
   };
   return self.start();
