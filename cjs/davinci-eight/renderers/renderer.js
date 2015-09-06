@@ -9,11 +9,12 @@ var DefaultDrawableVisitor = (function () {
         }
         program.use();
         model.accept(program);
-        // FIXME: attributes are implicitly being enabled, should be explicit.
         program.setAttributes(mesh.getAttribData());
-        mesh.draw();
-        // This implementation enables all the active attributes in the program.
         var attributes = program.attributes;
+        for (var name in attributes) {
+            attributes[name].enable();
+        }
+        mesh.draw();
         for (var name in attributes) {
             attributes[name].disable();
         }
@@ -68,9 +69,6 @@ var renderer = function (canvas, parameters) {
         },
         contextLoss: function () {
             $context = void 0;
-        },
-        hasContext: function () {
-            return !!$context;
         },
         get autoClear() {
             return autoClear;

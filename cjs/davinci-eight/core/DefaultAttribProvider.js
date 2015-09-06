@@ -16,19 +16,10 @@ var DefaultAttribProvider = (function (_super) {
     DefaultAttribProvider.prototype.update = function () {
         return _super.prototype.update.call(this);
     };
-    DefaultAttribProvider.prototype.getAttribArray = function (name) {
-        return _super.prototype.getAttribArray.call(this, name);
-    };
     DefaultAttribProvider.prototype.getAttribMeta = function () {
         var attributes = _super.prototype.getAttribMeta.call(this);
         attributes[Symbolic.ATTRIBUTE_POSITION] = { glslType: 'vec3', size: 3 };
         return attributes;
-    };
-    DefaultAttribProvider.prototype.hasElementArray = function () {
-        return _super.prototype.hasElementArray.call(this);
-    };
-    DefaultAttribProvider.prototype.getElementArray = function () {
-        return _super.prototype.getElementArray.call(this);
     };
     return DefaultAttribProvider;
 })(IdentityAttribProvider);

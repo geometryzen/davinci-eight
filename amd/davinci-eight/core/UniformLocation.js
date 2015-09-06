@@ -16,8 +16,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @method contextFree
          */
         UniformLocation.prototype.contextFree = function () {
-            this._location = void 0;
-            this._context = void 0;
         };
         /**
          * @method contextGain
@@ -25,17 +23,13 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param program {WebGLProgram}
          */
         UniformLocation.prototype.contextGain = function (context, program) {
-            if (this._context !== context) {
-                this._location = context.getUniformLocation(program, this._name);
-                this._context = context;
-            }
+            this._location = context.getUniformLocation(program, this._name);
+            this._context = context;
         };
         /**
          * @method contextLoss
          */
         UniformLocation.prototype.contextLoss = function () {
-            this._location = void 0;
-            this._context = void 0;
         };
         /**
          * @method uniform1f

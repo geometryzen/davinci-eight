@@ -49,9 +49,6 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
                     program.contextLoss();
                 }
             },
-            hasContext: function () {
-                return !!$context;
-            },
             accept: function (visitor) {
                 visitor.primitive(mesh, program, model);
             }

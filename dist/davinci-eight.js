@@ -2191,9 +2191,6 @@ define('davinci-eight/core/IdentityAttribProvider',["require", "exports"], funct
         };
         IdentityAttribProvider.prototype.update = function () {
         };
-        IdentityAttribProvider.prototype.getAttribArray = function (name) {
-            return;
-        };
         IdentityAttribProvider.prototype.getAttribData = function () {
             var attributes = {};
             return attributes;
@@ -2201,12 +2198,6 @@ define('davinci-eight/core/IdentityAttribProvider',["require", "exports"], funct
         IdentityAttribProvider.prototype.getAttribMeta = function () {
             var attributes = {};
             return attributes;
-        };
-        IdentityAttribProvider.prototype.hasElementArray = function () {
-            return false;
-        };
-        IdentityAttribProvider.prototype.getElementArray = function () {
-            return;
         };
         IdentityAttribProvider.prototype.addRef = function () {
         };
@@ -2220,9 +2211,6 @@ define('davinci-eight/core/IdentityAttribProvider',["require", "exports"], funct
         };
         IdentityAttribProvider.prototype.contextLoss = function () {
             this._context = void 0;
-        };
-        IdentityAttribProvider.prototype.hasContext = function () {
-            return !!this._context;
         };
         return IdentityAttribProvider;
     })();
@@ -2246,19 +2234,10 @@ define('davinci-eight/core/DefaultAttribProvider',["require", "exports", '../cor
         DefaultAttribProvider.prototype.update = function () {
             return _super.prototype.update.call(this);
         };
-        DefaultAttribProvider.prototype.getAttribArray = function (name) {
-            return _super.prototype.getAttribArray.call(this, name);
-        };
         DefaultAttribProvider.prototype.getAttribMeta = function () {
             var attributes = _super.prototype.getAttribMeta.call(this);
             attributes[Symbolic.ATTRIBUTE_POSITION] = { glslType: 'vec3', size: 3 };
             return attributes;
-        };
-        DefaultAttribProvider.prototype.hasElementArray = function () {
-            return _super.prototype.hasElementArray.call(this);
-        };
-        DefaultAttribProvider.prototype.getElementArray = function () {
-            return _super.prototype.getElementArray.call(this);
         };
         return DefaultAttribProvider;
     })(IdentityAttribProvider);
@@ -2388,16 +2367,6 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
     return Color;
 });
 
-define('davinci-eight/core/DataUsage',["require", "exports"], function (require, exports) {
-    var DataUsage;
-    (function (DataUsage) {
-        DataUsage[DataUsage["STATIC_DRAW"] = 0] = "STATIC_DRAW";
-        DataUsage[DataUsage["DYNAMIC_DRAW"] = 1] = "DYNAMIC_DRAW";
-        DataUsage[DataUsage["STREAM_DRAW"] = 2] = "STREAM_DRAW";
-    })(DataUsage || (DataUsage = {}));
-    return DataUsage;
-});
-
 define('davinci-eight/core/DrawMode',["require", "exports"], function (require, exports) {
     var DrawMode;
     (function (DrawMode) {
@@ -2435,7 +2404,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.72.0'
+        VERSION: '2.73.0'
     };
     return core;
 });
@@ -2491,9 +2460,6 @@ define('davinci-eight/objects/primitive',["require", "exports", '../checks/isDef
                     program.contextLoss();
                 }
             },
-            hasContext: function () {
-                return !!$context;
-            },
             accept: function (visitor) {
                 visitor.primitive(mesh, program, model);
             }
@@ -2503,7 +2469,7 @@ define('davinci-eight/objects/primitive',["require", "exports", '../checks/isDef
     return primitive;
 });
 
-define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
+define('davinci-eight/core/VertexBuffer',["require", "exports"], function (require, exports) {
     var VertexBuffer = (function () {
         function VertexBuffer() {
             this._refCount = 0;
@@ -2536,9 +2502,6 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/isDef
             this._buffer = void 0;
             this._context = void 0;
         };
-        VertexBuffer.prototype.hasContext = function () {
-            return !!this._context;
-        };
         /**
          * @method bind
          */
@@ -2548,20 +2511,6 @@ define('davinci-eight/core/VertexBuffer',["require", "exports", '../checks/isDef
             }
             else {
                 console.warn("VertexBuffer.bind() missing WebGLRenderingContext.");
-            }
-        };
-        /**
-         * @method data
-         * @param data {Float32Array}
-         * @param usage {number} Optional. Defaults to DYNAMIC_DRAW.
-         */
-        VertexBuffer.prototype.data = function (data, usage) {
-            if (this._context) {
-                usage = isDefined(usage) ? usage : this._context.DYNAMIC_DRAW;
-                this._context.bufferData(this._context.ARRAY_BUFFER, data, usage);
-            }
-            else {
-                console.warn("VertexBuffer.data() missing WebGLRenderingContext.");
             }
         };
         return VertexBuffer;
@@ -2620,28 +2569,13 @@ define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/exp
             if (normalized === void 0) { normalized = false; }
             if (stride === void 0) { stride = 0; }
             if (offset === void 0) { offset = 0; }
-            if (this._context) {
-                return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
-            }
-            else {
-                console.warn("AttribLocation.vertexAttribPointer() missing WebGLRenderingContext");
-            }
+            return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
         };
         AttribLocation.prototype.enable = function () {
-            if (this._context) {
-                return this._context.enableVertexAttribArray(this._location);
-            }
-            else {
-                console.warn("AttribLocation.enable() missing WebGLRenderingContext");
-            }
+            return this._context.enableVertexAttribArray(this._location);
         };
         AttribLocation.prototype.disable = function () {
-            if (this._context) {
-                return this._context.disableVertexAttribArray(this._location);
-            }
-            else {
-                console.warn("AttribLocation.disable() missing WebGLRenderingContext");
-            }
+            return this._context.disableVertexAttribArray(this._location);
         };
         /**
          * @method toString
@@ -2672,8 +2606,6 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @method contextFree
          */
         UniformLocation.prototype.contextFree = function () {
-            this._location = void 0;
-            this._context = void 0;
         };
         /**
          * @method contextGain
@@ -2681,17 +2613,13 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param program {WebGLProgram}
          */
         UniformLocation.prototype.contextGain = function (context, program) {
-            if (this._context !== context) {
-                this._location = context.getUniformLocation(program, this._name);
-                this._context = context;
-            }
+            this._location = context.getUniformLocation(program, this._name);
+            this._context = context;
         };
         /**
          * @method contextLoss
          */
         UniformLocation.prototype.contextLoss = function () {
-            this._location = void 0;
-            this._context = void 0;
         };
         /**
          * @method uniform1f
@@ -2861,9 +2789,6 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
                     });
                 }
             },
-            hasContext: function () {
-                return isDefined($context);
-            },
             add: function (drawable) {
                 drawable.addRef();
                 var program = drawable.program;
@@ -2872,7 +2797,7 @@ define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectA
                     programs[programId] = new ProgramInfo(program);
                 }
                 programs[programId].drawables.push(drawable);
-                if (self.hasContext()) {
+                if ($context) {
                     program.contextGain($context);
                     drawable.contextGain($context);
                 }
@@ -3285,12 +3210,12 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/VertexBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, VertexBuffer, ElementBuffer) {
+define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DrawMode', '../core/VertexBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DrawMode, VertexBuffer, ElementBuffer) {
     function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
         var attributes = {};
-        attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };
+        attributes[positionVarName] = { buffer: positionBuffer, size: 3 };
         if (drawMode === DrawMode.TRIANGLES) {
-            attributes[normalVarName] = { buffer: normalBuffer, numComponents: 3 };
+            attributes[normalVarName] = { buffer: normalBuffer, size: 3 };
         }
         return attributes;
     }
@@ -3311,14 +3236,12 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
         function GeometryAdapter(geometry, options) {
             _super.call(this);
             this.$drawMode = DrawMode.TRIANGLES;
-            this.elementsUsage = DataUsage.STREAM_DRAW;
             this.grayScale = false;
             this.lines = [];
             this.points = [];
             this._refCount = 0;
             options = options || {};
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
-            options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
             // TODO: Sharing of buffers.
             this.indexBuffer = new ElementBuffer();
             this.indexBuffer.addRef();
@@ -3358,6 +3281,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
         };
         GeometryAdapter.prototype.contextGain = function (context) {
             _super.prototype.contextGain.call(this, context);
+            this.elementsUsage = typeof this.elementsUsage !== 'undefined' ? this.elementsUsage : context.STREAM_DRAW;
             this.indexBuffer.contextGain(context);
             this.positionBuffer.contextGain(context);
             this.normalBuffer.contextGain(context);
@@ -3368,9 +3292,6 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             this.positionBuffer.contextLoss();
             this.normalBuffer.contextLoss();
             _super.prototype.contextLoss.call(this);
-        };
-        GeometryAdapter.prototype.hasContext = function () {
-            return !!this._context;
         };
         Object.defineProperty(GeometryAdapter.prototype, "drawMode", {
             get: function () {
@@ -3419,31 +3340,6 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             enumerable: true,
             configurable: true
         });
-        GeometryAdapter.prototype.hasElementArray = function () {
-            return true;
-        };
-        GeometryAdapter.prototype.getElementArray = function () {
-            return { usage: this.elementsUsage, data: this.elementArray };
-        };
-        GeometryAdapter.prototype.getAttribArray = function (name) {
-            // FIXME: Need to inject usage for each array type.
-            switch (name) {
-                case this.positionVarName: {
-                    return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
-                }
-                case this.normalVarName: {
-                    if (this.$drawMode === DrawMode.TRIANGLES) {
-                        return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
-                    }
-                    else {
-                        return;
-                    }
-                }
-                default: {
-                    return;
-                }
-            }
-        };
         GeometryAdapter.prototype.getAttribData = function () {
             return this.attributeDataInfos;
         };
@@ -3559,13 +3455,13 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../cor
             }
             this.elementArray = new Uint16Array(elements);
             this.indexBuffer.bind();
-            this.indexBuffer.data(this.elementArray);
+            this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW);
             this.aVertexPositionArray = new Float32Array(vertices);
             this.positionBuffer.bind();
-            this.positionBuffer.data(this.aVertexPositionArray);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
             this.aVertexNormalArray = new Float32Array(normals);
             this.normalBuffer.bind();
-            this.normalBuffer.data(this.aVertexNormalArray);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
         };
         GeometryAdapter.prototype.computeLines = function () {
             var lines = this.lines;
@@ -7268,9 +7164,6 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                     uniformLocations[uName].contextLoss();
                 }
             },
-            hasContext: function () {
-                return !!$context;
-            },
             get program() { return program; },
             get programId() { return uuid; },
             use: function () {
@@ -7294,7 +7187,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                     var data = values[name];
                     if (data) {
                         data.buffer.bind();
-                        attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
+                        attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
                     }
                     else {
                         throw new Error("The mesh does not support the attribute variable named " + name);
@@ -7670,9 +7563,6 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../programs
             },
             contextLoss: function () {
                 return innerProgram.contextLoss();
-            },
-            hasContext: function () {
-                return innerProgram.hasContext();
             },
             use: function () {
                 return innerProgram.use();
@@ -8070,9 +7960,6 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
             update: function () {
                 return base.update();
             },
-            getAttribArray: function (name) {
-                return base.getAttribArray(name);
-            },
             getAttribData: function () {
                 return base.getAttribData();
             },
@@ -8087,12 +7974,6 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
             },
             get dynamic() {
                 return base.dynamic;
-            },
-            hasElementArray: function () {
-                return base.hasElementArray();
-            },
-            getElementArray: function () {
-                return base.getElementArray();
             },
             addRef: function () {
                 refCount++;
@@ -8111,9 +7992,6 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
             },
             contextLoss: function () {
                 return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
             }
         };
         return publicAPI;
@@ -8270,9 +8148,6 @@ define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/Geomet
             update: function () {
                 return base.update();
             },
-            getAttribArray: function (name) {
-                return base.getAttribArray(name);
-            },
             getAttribData: function () {
                 return base.getAttribData();
             },
@@ -8287,12 +8162,6 @@ define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/Geomet
             },
             get dynamic() {
                 return base.dynamic;
-            },
-            hasElementArray: function () {
-                return base.hasElementArray();
-            },
-            getElementArray: function () {
-                return base.getElementArray();
             },
             addRef: function () {
                 refCount++;
@@ -8312,9 +8181,6 @@ define('davinci-eight/mesh/boxMesh',["require", "exports", '../geometries/Geomet
             },
             contextLoss: function () {
                 return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
             }
         };
         return self;
@@ -8470,9 +8336,6 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
             update: function () {
                 return base.update();
             },
-            getAttribArray: function (name) {
-                return base.getAttribArray(name);
-            },
             getAttribData: function () {
                 return base.getAttribData();
             },
@@ -8487,12 +8350,6 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
             },
             get dynamic() {
                 return base.dynamic;
-            },
-            hasElementArray: function () {
-                return base.hasElementArray();
-            },
-            getElementArray: function () {
-                return base.getElementArray();
             },
             addRef: function () {
                 refCount++;
@@ -8511,9 +8368,6 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
             },
             contextLoss: function () {
                 return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
             }
         };
         return publicAPI;
@@ -8735,9 +8589,6 @@ define('davinci-eight/mesh/sphereMesh',["require", "exports", '../geometries/Geo
             update: function () {
                 return base.update();
             },
-            getAttribArray: function (name) {
-                return base.getAttribArray(name);
-            },
             getAttribData: function () {
                 return base.getAttribData();
             },
@@ -8752,12 +8603,6 @@ define('davinci-eight/mesh/sphereMesh',["require", "exports", '../geometries/Geo
             },
             get dynamic() {
                 return base.dynamic;
-            },
-            hasElementArray: function () {
-                return base.hasElementArray();
-            },
-            getElementArray: function () {
-                return base.getElementArray();
             },
             addRef: function () {
                 refCount++;
@@ -8776,9 +8621,6 @@ define('davinci-eight/mesh/sphereMesh',["require", "exports", '../geometries/Geo
             },
             contextLoss: function () {
                 return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
             }
         };
         return publicAPI;
@@ -8929,9 +8771,6 @@ define('davinci-eight/mesh/vortexMesh',["require", "exports", '../geometries/Geo
             update: function () {
                 return base.update();
             },
-            getAttribArray: function (name) {
-                return base.getAttribArray(name);
-            },
             getAttribData: function () {
                 return base.getAttribData();
             },
@@ -8946,12 +8785,6 @@ define('davinci-eight/mesh/vortexMesh',["require", "exports", '../geometries/Geo
             },
             get dynamic() {
                 return base.dynamic;
-            },
-            hasElementArray: function () {
-                return base.hasElementArray();
-            },
-            getElementArray: function () {
-                return base.getElementArray();
             },
             addRef: function () {
                 refCount++;
@@ -8971,9 +8804,6 @@ define('davinci-eight/mesh/vortexMesh',["require", "exports", '../geometries/Geo
             },
             contextLoss: function () {
                 return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
             }
         };
         return publicAPI;
@@ -9181,11 +9011,12 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Color'
             }
             program.use();
             model.accept(program);
-            // FIXME: attributes are implicitly being enabled, should be explicit.
             program.setAttributes(mesh.getAttribData());
-            mesh.draw();
-            // This implementation enables all the active attributes in the program.
             var attributes = program.attributes;
+            for (var name in attributes) {
+                attributes[name].enable();
+            }
+            mesh.draw();
             for (var name in attributes) {
                 attributes[name].disable();
             }
@@ -9240,9 +9071,6 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Color'
             },
             contextLoss: function () {
                 $context = void 0;
-            },
-            hasContext: function () {
-                return !!$context;
             },
             get autoClear() {
                 return autoClear;
@@ -9379,6 +9207,11 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../renderers/i
                     return context.drawArrays(mode, first, count);
                 }
             },
+            drawElements: function (mode, count, type, offset) {
+                if (context) {
+                    return context.drawElements(mode, count, type, offset);
+                }
+            },
             depthFunc: function (func) {
                 if (context) {
                     return context.depthFunc(func);
@@ -9388,39 +9221,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../renderers/i
                 if (context) {
                     return context.enable(capability);
                 }
-            },
-            get COLOR_BUFFER_BIT() {
-                return context ? context.COLOR_BUFFER_BIT : 0;
-            },
-            get DEPTH_BUFFER_BIT() {
-                return context ? context.DEPTH_BUFFER_BIT : 0;
-            },
-            get DEPTH_TEST() {
-                return context ? context.DEPTH_TEST : 0;
-            },
-            get LEQUAL() {
-                return context ? context.LEQUAL : 0;
-            },
-            get LINES() {
-                return context ? context.LINES : 0;
-            },
-            get LINE_LOOP() {
-                return context ? context.LINE_LOOP : 0;
-            },
-            get LINE_STRIP() {
-                return context ? context.LINE_STRIP : 0;
-            },
-            get POINTS() {
-                return context ? context.POINTS : 0;
-            },
-            get TRIANGLES() {
-                return context ? context.TRIANGLES : 0;
-            },
-            get TRIANGLE_FAN() {
-                return context ? context.TRIANGLE_FAN : 0;
-            },
-            get TRIANGLE_STRIP() {
-                return context ? context.TRIANGLE_STRIP : 0;
             }
         };
         return self.start();
@@ -9628,7 +9428,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DataUsage', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/VertexBuffer', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/UniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Node, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DataUsage, DrawMode, Face3, core, primitive, VertexBuffer, AttribLocation, UniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, Curve, initWebGL, renderer, contextProxy, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core', 'davinci-eight/objects/primitive', 'davinci-eight/core/VertexBuffer', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/UniformLocation', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/curves/Curve', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Node, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, DefaultAttribProvider, Color, DrawMode, Face3, core, primitive, VertexBuffer, AttribLocation, UniformLocation, scene, Geometry, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, Curve, initWebGL, renderer, contextProxy, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -9652,7 +9452,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/Node', 'dav
         get webgl() { return contextProxy; },
         workbench: workbench3D,
         animation: windowAnimationRunner,
-        get DataUsage() { return DataUsage; },
         get DefaultAttribProvider() { return DefaultAttribProvider; },
         get primitive() { return primitive; },
         get DrawMode() { return DrawMode; },

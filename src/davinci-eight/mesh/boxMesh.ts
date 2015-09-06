@@ -31,9 +31,6 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
     update() {
       return base.update();
     },
-    getAttribArray(name: string) {
-      return base.getAttribArray(name);
-    },
     getAttribData() {
       return base.getAttribData();
     },
@@ -48,12 +45,6 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
     },
     get dynamic() {
       return base.dynamic;
-    },
-    hasElementArray() {
-      return base.hasElementArray();
-    },
-    getElementArray() {
-      return base.getElementArray();
     },
     addRef() {
       refCount++;
@@ -73,9 +64,6 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
     },
     contextLoss() {
       return base.contextLoss();
-    },
-    hasContext() {
-      return base.hasContext();
     }
   };
   return self;

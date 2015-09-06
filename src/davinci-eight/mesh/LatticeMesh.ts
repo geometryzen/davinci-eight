@@ -40,29 +40,6 @@ class LatticeMesh extends DefaultAttribProvider {
       color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
     };
   }
-  hasElementArray(): boolean {
-    return true;
-  }
-  getElementArray(): Uint16Array {
-    return this.elements;
-  }
-  getAttribArray(name: string): Float32Array {
-    switch(name) {
-      case 'aVertexPosition': {
-        return this.vertices;
-      }
-      case 'aVertexColor': {
-        return this.vertexColors;
-      }
-      case 'aVertexNormal': {
-        return this.vertexNormals;
-      }
-      default: {
-        return;
-//      throw new Error(name);
-      }
-    }
-  }
   update(): void {
     var I = this.I;
     var J = this.J;

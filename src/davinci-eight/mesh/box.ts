@@ -69,29 +69,6 @@ var box = function(spec?): AttribProvider {
         normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
-    hasElementArray(): boolean {
-      return false;
-    },
-    getElementArray(): Uint16Array {
-      // We don't support element arrays (yet).
-      return;
-    },
-    getAttribArray(name: string) {
-      switch(name) {
-        case 'aVertexPosition': {
-          return aVertexPositionArray;
-        }
-        case 'aVertexColor': {
-          return aVertexColorArray;
-        }
-        case 'aVertexNormal': {
-          return aVertexNormalArray;
-        }
-        default: {
-          return;
-        }
-      }
-    },
     update(): void {
       let names: string[] = attributes.map(function(attribute){return attribute.name});
       let requirePosition: boolean = names.indexOf('aVertexPosition') >= 0;

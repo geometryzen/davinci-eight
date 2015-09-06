@@ -87,6 +87,11 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], 
                     return context.drawArrays(mode, first, count);
                 }
             },
+            drawElements: function (mode, count, type, offset) {
+                if (context) {
+                    return context.drawElements(mode, count, type, offset);
+                }
+            },
             depthFunc: function (func) {
                 if (context) {
                     return context.depthFunc(func);
@@ -96,39 +101,6 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg'], 
                 if (context) {
                     return context.enable(capability);
                 }
-            },
-            get COLOR_BUFFER_BIT() {
-                return context ? context.COLOR_BUFFER_BIT : 0;
-            },
-            get DEPTH_BUFFER_BIT() {
-                return context ? context.DEPTH_BUFFER_BIT : 0;
-            },
-            get DEPTH_TEST() {
-                return context ? context.DEPTH_TEST : 0;
-            },
-            get LEQUAL() {
-                return context ? context.LEQUAL : 0;
-            },
-            get LINES() {
-                return context ? context.LINES : 0;
-            },
-            get LINE_LOOP() {
-                return context ? context.LINE_LOOP : 0;
-            },
-            get LINE_STRIP() {
-                return context ? context.LINE_STRIP : 0;
-            },
-            get POINTS() {
-                return context ? context.POINTS : 0;
-            },
-            get TRIANGLES() {
-                return context ? context.TRIANGLES : 0;
-            },
-            get TRIANGLE_FAN() {
-                return context ? context.TRIANGLE_FAN : 0;
-            },
-            get TRIANGLE_STRIP() {
-                return context ? context.TRIANGLE_STRIP : 0;
             }
         };
         return self.start();

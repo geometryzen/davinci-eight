@@ -39,9 +39,6 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     update() {
       return base.update();
     },
-    getAttribArray(name: string) {
-      return base.getAttribArray(name);
-    },
     getAttribData() {
       return base.getAttribData();
     },
@@ -56,12 +53,6 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     },
     get dynamic() {
       return base.dynamic;
-    },
-    hasElementArray() {
-      return base.hasElementArray();
-    },
-    getElementArray() {
-      return base.getElementArray();
     },
     addRef() {
       refCount++;
@@ -80,9 +71,6 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     },
     contextLoss() {
       return base.contextLoss();
-    },
-    hasContext() {
-      return base.hasContext();
     }
   };
   return publicAPI;

@@ -61,9 +61,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                     });
                 }
             },
-            hasContext: function () {
-                return isDefined($context);
-            },
             add: function (drawable) {
                 drawable.addRef();
                 var program = drawable.program;
@@ -72,7 +69,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                     programs[programId] = new ProgramInfo(program);
                 }
                 programs[programId].drawables.push(drawable);
-                if (self.hasContext()) {
+                if ($context) {
                     program.contextGain($context);
                     drawable.contextGain($context);
                 }

@@ -98,9 +98,6 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     uniformLocations[uName].contextLoss();
                 }
             },
-            hasContext: function () {
-                return !!$context;
-            },
             get program() { return program; },
             get programId() { return uuid; },
             use: function () {
@@ -124,7 +121,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     var data = values[name];
                     if (data) {
                         data.buffer.bind();
-                        attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
+                        attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
                     }
                     else {
                         throw new Error("The mesh does not support the attribute variable named " + name);

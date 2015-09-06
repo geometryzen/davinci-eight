@@ -58,9 +58,6 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformData>
         program.contextLoss();
       }
     },
-    hasContext(): boolean {
-      return !!$context;
-    },
     accept(visitor: DrawableVisitor) {
       visitor.primitive(mesh, program, model);
     }

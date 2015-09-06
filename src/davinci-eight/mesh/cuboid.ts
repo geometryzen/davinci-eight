@@ -201,34 +201,6 @@ var cuboid = function(
       }
       return attribues;
     },
-    hasElementArray(): boolean {
-      return false;
-    },
-    getElementArray(): Uint16Array {
-      // We don't support element arrays (yet).
-      return;
-    },
-    getAttribArray(name: string) {
-      switch(name) {
-        case VERTEX_ATTRIBUTE_POSITION: {
-          return aVertexPositionArray;
-        }
-        case VERTEX_ATTRIBUTE_COLOR: {
-          if (!grayScale) {
-            return aVertexColorArray;
-          }
-          else {
-            throw new Error('color requested when not available');
-          }
-        }
-        case VERTEX_ATTRIBUTE_NORMAL: {
-          return aVertexNormalArray;
-        }
-        default: {
-          return;
-        }
-      }
-    },
     update(): void {
       function computeVertexList() {
         var vertexList: blade.Euclidean3[] =

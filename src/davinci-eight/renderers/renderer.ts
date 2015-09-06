@@ -20,13 +20,13 @@ class DefaultDrawableVisitor implements DrawableVisitor {
     program.use();
 
     model.accept(program);
-    // FIXME: attributes are implicitly being enabled, should be explicit.
     program.setAttributes(mesh.getAttribData());
 
-    mesh.draw();
-
-    // This implementation enables all the active attributes in the program.
     let attributes = program.attributes;
+    for (var name in attributes) {
+      attributes[name].enable();
+    }
+    mesh.draw();
     for (var name in attributes) {
       attributes[name].disable();
     }
@@ -87,9 +87,6 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
     },
     contextLoss() {
       $context = void 0;
-    },
-    hasContext() {
-      return !!$context;
     },
     get autoClear(): boolean {
       return autoClear;

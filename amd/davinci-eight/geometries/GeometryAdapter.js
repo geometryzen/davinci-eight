@@ -4,12 +4,12 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DataUsage', '../core/DrawMode', '../core/VertexBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DataUsage, DrawMode, VertexBuffer, ElementBuffer) {
+define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DrawMode', '../core/VertexBuffer', '../core/ElementBuffer'], function (require, exports, Line3, Point3, Symbolic, DefaultAttribProvider, DrawMode, VertexBuffer, ElementBuffer) {
     function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
         var attributes = {};
-        attributes[positionVarName] = { buffer: positionBuffer, numComponents: 3 };
+        attributes[positionVarName] = { buffer: positionBuffer, size: 3 };
         if (drawMode === DrawMode.TRIANGLES) {
-            attributes[normalVarName] = { buffer: normalBuffer, numComponents: 3 };
+            attributes[normalVarName] = { buffer: normalBuffer, size: 3 };
         }
         return attributes;
     }
@@ -30,14 +30,12 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
         function GeometryAdapter(geometry, options) {
             _super.call(this);
             this.$drawMode = DrawMode.TRIANGLES;
-            this.elementsUsage = DataUsage.STREAM_DRAW;
             this.grayScale = false;
             this.lines = [];
             this.points = [];
             this._refCount = 0;
             options = options || {};
             options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
-            options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
             // TODO: Sharing of buffers.
             this.indexBuffer = new ElementBuffer();
             this.indexBuffer.addRef();
@@ -77,6 +75,7 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
         };
         GeometryAdapter.prototype.contextGain = function (context) {
             _super.prototype.contextGain.call(this, context);
+            this.elementsUsage = typeof this.elementsUsage !== 'undefined' ? this.elementsUsage : context.STREAM_DRAW;
             this.indexBuffer.contextGain(context);
             this.positionBuffer.contextGain(context);
             this.normalBuffer.contextGain(context);
@@ -87,9 +86,6 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
             this.positionBuffer.contextLoss();
             this.normalBuffer.contextLoss();
             _super.prototype.contextLoss.call(this);
-        };
-        GeometryAdapter.prototype.hasContext = function () {
-            return !!this._context;
         };
         Object.defineProperty(GeometryAdapter.prototype, "drawMode", {
             get: function () {
@@ -138,31 +134,6 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
             enumerable: true,
             configurable: true
         });
-        GeometryAdapter.prototype.hasElementArray = function () {
-            return true;
-        };
-        GeometryAdapter.prototype.getElementArray = function () {
-            return { usage: this.elementsUsage, data: this.elementArray };
-        };
-        GeometryAdapter.prototype.getAttribArray = function (name) {
-            // FIXME: Need to inject usage for each array type.
-            switch (name) {
-                case this.positionVarName: {
-                    return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
-                }
-                case this.normalVarName: {
-                    if (this.$drawMode === DrawMode.TRIANGLES) {
-                        return { usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
-                    }
-                    else {
-                        return;
-                    }
-                }
-                default: {
-                    return;
-                }
-            }
-        };
         GeometryAdapter.prototype.getAttribData = function () {
             return this.attributeDataInfos;
         };
@@ -278,13 +249,13 @@ define(["require", "exports", '../core/Line3', '../core/Point3', '../core/Symbol
             }
             this.elementArray = new Uint16Array(elements);
             this.indexBuffer.bind();
-            this.indexBuffer.data(this.elementArray);
+            this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW);
             this.aVertexPositionArray = new Float32Array(vertices);
             this.positionBuffer.bind();
-            this.positionBuffer.data(this.aVertexPositionArray);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
             this.aVertexNormalArray = new Float32Array(normals);
             this.normalBuffer.bind();
-            this.normalBuffer.data(this.aVertexNormalArray);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
         };
         GeometryAdapter.prototype.computeLines = function () {
             var lines = this.lines;

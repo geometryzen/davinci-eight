@@ -9,7 +9,6 @@ import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
-import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 import VertexBuffer = require('../core/VertexBuffer');
 import ElementBuffer = require('../core/ElementBuffer');
@@ -21,9 +20,9 @@ function computeAttribData(
   normalBuffer: VertexBuffer,
   drawMode: DrawMode): AttribDataInfos {
   var attributes: AttribDataInfos = {};
-  attributes[positionVarName] = {buffer: positionBuffer, numComponents: 3};
+  attributes[positionVarName] = {buffer: positionBuffer, size: 3};
   if (drawMode === DrawMode.TRIANGLES) {
-    attributes[normalVarName] = {buffer: normalBuffer, numComponents: 3};
+    attributes[normalVarName] = {buffer: normalBuffer, size: 3};
   }
   return attributes;
 }
@@ -42,7 +41,7 @@ class GeometryAdapter extends DefaultAttribProvider {
   private aVertexPositionArray: Float32Array;
   private aVertexNormalArray: Float32Array;
   private $drawMode: DrawMode = DrawMode.TRIANGLES;
-  private elementsUsage: DataUsage = DataUsage.STREAM_DRAW;
+  private elementsUsage: number;
   public grayScale: boolean = false;
   private lines: Line3[] = [];
   private points: Point3[] = [];
@@ -62,14 +61,13 @@ class GeometryAdapter extends DefaultAttribProvider {
     geometry: Geometry,
     options?: {
       drawMode?: DrawMode;
-      elementsUsage?: DataUsage;
+      elementsUsage?: number;
       positionVarName?: string;
       normalVarName?: string;
     }) {
     super();
     options = options || {};
     options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
-    options.elementsUsage = typeof options.elementsUsage !== 'undefined' ? options.elementsUsage : DataUsage.STREAM_DRAW;
     // TODO: Sharing of buffers.
     this.indexBuffer = new ElementBuffer();
     this.indexBuffer.addRef();
@@ -109,6 +107,7 @@ class GeometryAdapter extends DefaultAttribProvider {
   }
   contextGain(context: WebGLRenderingContext) {
     super.contextGain(context);
+    this.elementsUsage = typeof this.elementsUsage !== 'undefined' ? this.elementsUsage : context.STREAM_DRAW;
     this.indexBuffer.contextGain(context);
     this.positionBuffer.contextGain(context);
     this.normalBuffer.contextGain(context);
@@ -119,9 +118,6 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.positionBuffer.contextLoss();
     this.normalBuffer.contextLoss();
     super.contextLoss();
-  }
-  hasContext(): boolean {
-    return !!this._context;
   }
   get drawMode(): DrawMode {
     return this.$drawMode;
@@ -158,31 +154,6 @@ class GeometryAdapter extends DefaultAttribProvider {
   }
   get dynamic(): boolean {
     return this.geometry.dynamic;
-  }
-  hasElementArray(): boolean {
-    return true;
-  }
-  getElementArray() {
-    return {usage: this.elementsUsage, data: this.elementArray};
-  }
-  getAttribArray(name: string) {
-    // FIXME: Need to inject usage for each array type.
-    switch(name) {
-      case this.positionVarName: {
-        return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexPositionArray };
-      }
-      case this.normalVarName: {
-        if (this.$drawMode === DrawMode.TRIANGLES) {
-          return {usage: DataUsage.DYNAMIC_DRAW, data: this.aVertexNormalArray };
-        }
-        else {
-          return;
-        }
-      }
-      default: {
-        return;
-      }
-    }
   }
   getAttribData(): AttribDataInfos {
     return this.attributeDataInfos;
@@ -313,15 +284,15 @@ class GeometryAdapter extends DefaultAttribProvider {
     }
     this.elementArray = new Uint16Array(elements);
     this.indexBuffer.bind();
-    this.indexBuffer.data(this.elementArray);
+    this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW)
 
     this.aVertexPositionArray = new Float32Array(vertices);
     this.positionBuffer.bind();
-    this.positionBuffer.data(this.aVertexPositionArray);
+    this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
 
     this.aVertexNormalArray = new Float32Array(normals);
     this.normalBuffer.bind();
-    this.normalBuffer.data(this.aVertexNormalArray);
+    this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
   }
   private computeLines() {
     var lines = this.lines;

@@ -1,6 +1,5 @@
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
-import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 import RenderingContextUser = require('../core/RenderingContextUser');
 /**
@@ -15,15 +14,6 @@ interface AttribProvider extends RenderingContextUser {
      * @method update
      */
     update(): void;
-    /**
-     * Provides the values required for vertex shader attributes.
-     * @method getAttributeData
-     * @return {Float32Array} The array of attribute values.
-     */
-    getAttribArray(name: string): {
-        usage: DataUsage;
-        data: Float32Array;
-    };
     /**
      * Provides the data information corresponsing to provided attribute values.
      * @method getAttribData
@@ -48,19 +38,5 @@ interface AttribProvider extends RenderingContextUser {
      * @type boolean
      */
     dynamic: boolean;
-    /**
-     * Determines whether this attribute provider uses vetex indexing.
-     * @method hasElementArray
-     * @return {Boolean} true if the provider uses vertex indexing.
-     */
-    hasElementArray(): boolean;
-    /**
-     * @method getElementArray
-     * @return {usage: DataUsage; data:Unit16Array} The array of vertex indices.
-     */
-    getElementArray(): {
-        usage: DataUsage;
-        data: Uint16Array;
-    };
 }
 export = AttribProvider;

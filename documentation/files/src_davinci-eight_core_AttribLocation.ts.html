@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.72.0</em>
+            <em>API Docs for: 2.73.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -144,8 +144,6 @@
     <pre class="code prettyprint linenums">
 import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
 import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
-import convertUsage = require(&#x27;../core/convertUsage&#x27;);
-import DataUsage = require(&#x27;../core/DataUsage&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import RenderingContextProgramUser = require(&#x27;../core/RenderingContextProgramUser&#x27;);
@@ -203,28 +201,13 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
    */
   vertexPointer(size: number, normalized: boolean = false, stride: number = 0, offset: number = 0): void {
-    if (this._context) {
-      return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
-    }
-    else {
-      console.warn(&quot;AttribLocation.vertexAttribPointer() missing WebGLRenderingContext&quot;);
-    }
+    return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
   }
   enable(): void {
-    if (this._context) {
-      return this._context.enableVertexAttribArray(this._location);
-    }
-    else {
-      console.warn(&quot;AttribLocation.enable() missing WebGLRenderingContext&quot;);
-    }
+    return this._context.enableVertexAttribArray(this._location);
   }
   disable(): void {
-    if (this._context) {
-      return this._context.disableVertexAttribArray(this._location);
-    }
-    else {
-      console.warn(&quot;AttribLocation.disable() missing WebGLRenderingContext&quot;);
-    }
+    return this._context.disableVertexAttribArray(this._location);
   }
   /**
    * @method toString

@@ -7,7 +7,7 @@ interface AttribDataInfo {
     /**
      * The number of components per vertex attribute.
      */
-    numComponents: number;
+    size: number;
     /**
      *
      */

@@ -1,7 +1,5 @@
 import AttribDataInfo = require('../core/AttribDataInfo');
 import AttribProvider = require('../core/AttribProvider');
-import convertUsage = require('../core/convertUsage');
-import DataUsage = require('../core/DataUsage');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
@@ -59,28 +57,13 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
    */
   vertexPointer(size: number, normalized: boolean = false, stride: number = 0, offset: number = 0): void {
-    if (this._context) {
-      return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
-    }
-    else {
-      console.warn("AttribLocation.vertexAttribPointer() missing WebGLRenderingContext");
-    }
+    return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
   }
   enable(): void {
-    if (this._context) {
-      return this._context.enableVertexAttribArray(this._location);
-    }
-    else {
-      console.warn("AttribLocation.enable() missing WebGLRenderingContext");
-    }
+    return this._context.enableVertexAttribArray(this._location);
   }
   disable(): void {
-    if (this._context) {
-      return this._context.disableVertexAttribArray(this._location);
-    }
-    else {
-      console.warn("AttribLocation.disable() missing WebGLRenderingContext");
-    }
+    return this._context.disableVertexAttribArray(this._location);
   }
   /**
    * @method toString

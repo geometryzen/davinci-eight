@@ -34,25 +34,6 @@ class CurveMesh implements AttribProvider {
       color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
     };
   }
-  hasElementArray(): boolean {
-    return true;
-  }
-  getElementArray(): Uint16Array {
-    return this.elements;
-  }
-  getAttribArray(name: string) {
-    switch(name) {
-      case 'aVertexPosition': {
-        return this.vertices;
-      }
-      case 'aVertexColor': {
-        return this.vertexColors;
-      }
-      default: {
-        return;
-      }
-    }
-  }
   update(): void {
     var n = this.n;
     var generator = this.generator;

@@ -8,7 +8,6 @@ var view = require('davinci-eight/cameras/view');
 var viewMatrix = require('davinci-eight/cameras/viewMatrix');
 var DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 var Color = require('davinci-eight/core/Color');
-var DataUsage = require('davinci-eight/core/DataUsage');
 var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
 var core = require('davinci-eight/core');
@@ -90,7 +89,6 @@ var eight = {
     get webgl() { return contextProxy; },
     workbench: workbench3D,
     animation: windowAnimationRunner,
-    get DataUsage() { return DataUsage; },
     get DefaultAttribProvider() { return DefaultAttribProvider; },
     get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.72.0</em>
+            <em>API Docs for: 2.73.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -173,8 +173,6 @@ class UniformLocation implements RenderingContextProgramUser {
    * @method contextFree
    */
   contextFree() {
-    this._location = void 0;
-    this._context = void 0;
   }
   /**
    * @method contextGain
@@ -182,17 +180,13 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param program {WebGLProgram}
    */
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
-    if (this._context !== context) {
-      this._location = context.getUniformLocation(program, this._name);
-      this._context = context;
-    }
+    this._location = context.getUniformLocation(program, this._name);
+    this._context = context;
   }
   /**
    * @method contextLoss
    */
   contextLoss() {
-    this._location = void 0;
-    this._context = void 0;
   }
   /**
    * @method uniform1f

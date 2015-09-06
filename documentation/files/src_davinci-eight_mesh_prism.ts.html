@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.72.0</em>
+            <em>API Docs for: 2.73.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -266,25 +266,7 @@ var prism = function(spec?): AttribProvider {
         normal:   { name: &#x27;aVertexNormal&#x27;,   glslType: &#x27;vec3&#x27;, size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
-    hasElementArray(): boolean {
-      return false;
-    },
-    getElementArray(): Uint16Array {
-      // We don&#x27;t support element arrays.
-      return null;
-    },
-    getAttribArray(name: string) {
-      switch(name) {
-        case &#x27;aVertexPosition&#x27;: {
-          return new Float32Array(vertices);
-        }
-        default: {
-          return;
-        }
-      }
-    },
     update(): void {
-
     }
   };
   return publicAPI;

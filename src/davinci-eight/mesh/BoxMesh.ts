@@ -40,15 +40,6 @@ class BoxMesh implements AttribProvider {
   get dynamic() {
     return this.cuboid.dynamic;
   }
-  hasElementArray() {
-    return this.cuboid.hasElementArray();
-  }
-  getElementArray() {
-    return this.cuboid.getElementArray();
-  }
-  getAttribArray(name: string) {
-    return this.cuboid.getAttribArray(name);
-  }
   getAttribMeta() {
     return this.cuboid.getAttribMeta();
   }

@@ -18,11 +18,6 @@ enum DrawMode {
   LINES,
   TRIANGLES
 }
-enum DataUsage {
-  STATIC_DRAW,
-  DYNAMIC_DRAW,
-  STREAM_DRAW
-}
 /**
  *
  */
@@ -51,10 +46,6 @@ interface RenderingContextUser extends ReferenceCounted {
    * This is a cue to rest to the initial state without attempting to dispose or free held resources.
    */
   contextLoss(): void;
-  /**
-   * Determines whether this context user has a valid WebGLRenderingContext.
-   */
-  hasContext(): boolean;
 }
 
 interface DrawableVisitor {
@@ -103,21 +94,19 @@ class AttribLocation {
   contextLoss(): void;
   enable(): void;
   disable(): void;
-  vertexPointer(numComponents: number, normalized?: boolean, stride?: number, offset?: number): void;
+  vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
 }
 /**
  *
  */
 class VertexBuffer implements RenderingContextUser {
   constructor();
-  addRef();
-  release();
-  contextFree();
-  contextGain(context: WebGLRenderingContext);
-  contextLoss();
-  hasContext();
+  addRef(): void;
+  release(): void;
+  contextFree(): void;
+  contextGain(context: WebGLRenderingContext): void;
+  contextLoss(): void;
   bind();
-  data(data: Float32Array, usage?: number);
 }
 /**
  *
@@ -362,10 +351,7 @@ class DefaultAttribProvider implements AttribProvider {
   constructor();
   draw(): void;
   update(): void;
-  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
   getAttribMeta(): AttribMetaInfos;
-  hasElementArray(): boolean;
-  getElementArray(): {usage: DataUsage; data: Uint16Array};
 }
 /**
  * Provides the uniform for the model to view coordinates transformation.
@@ -507,10 +493,6 @@ interface AttribProvider extends RenderingContextUser
    */
   dynamic: boolean;
   /**
-   * Returns the data when drawing using arrays. 
-   */
-  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
-  /**
    * Provides the data information corresponsing to provided attribute values. 
    * @method getAttribData
    * @return {AttribDataInfos} The data information corresponding to all attributes supported.
@@ -520,15 +502,6 @@ interface AttribProvider extends RenderingContextUser
    * Declares the vertex shader attributes the geometry can supply and information required for binding.
    */
   getAttribMeta(): AttribMetaInfos;
-  /**
-   * Determines whether this Geometry uses WebGL's drawElements() for rendering.
-   */
-  hasElementArray(): boolean;
-  /**
-   * Returns the elements used in an index buffer implementation.
-   * An implementation of Geometry is not required to support index buffers and may return undefined.
-   */
-  getElementArray(): {usage: DataUsage; data: Uint16Array};
   /**
    * Notifies the mesh that it should update its array buffers.
    */
@@ -592,16 +565,12 @@ class GeometryAdapter implements AttribProvider
   draw(): void;
   getAttribData(): AttribDataInfos;
   getAttribMeta(): AttribMetaInfos;
-  hasElementArray(): boolean;
-  getElementArray(): {usage: DataUsage; data: Uint16Array};
-  getAttribArray(name: string): {usage: DataUsage; data: Float32Array};
   update(): void;
   addRef(): void;
   release(): void;
   contextFree(): void;
   contextGain(context: WebGLRenderingContext): void;
   contextLoss(): void;
-  hasContext(): boolean;
 }
 class BarnGeometry extends Geometry {
   constructor();
@@ -1163,6 +1132,10 @@ interface RenderingContextProxy extends ReferenceCounted
   /**
    *
    */
+  drawElements(mode: number, count: number, type: number, offset: number): void;
+  /**
+   *
+   */
   depthFunc(func: number): void;
   /**
    *
@@ -1172,57 +1145,6 @@ interface RenderingContextProxy extends ReferenceCounted
    *
    */
   context: WebGLRenderingContext;
-  /**
-   *
-   */
-  COLOR_BUFFER_BIT: number;
-  /**
-   *
-   */
-  DEPTH_BUFFER_BIT: number;
-  /**
-   *
-   */
-  DEPTH_TEST: number;
-  /**
-   *
-   */
-  LEQUAL: number;
-  /**
-   * Draws a line between a pair of vertices.
-   * For example, 2 * N vertices produce N separate lines.
-   */
-  LINES: number;
-  /**
-   * Similar to LINE_STRIP, but connects the last vertex back to the first.
-   * For example, N vertices produce N straight lines.
-   */
-  LINE_LOOP: number;
-  /**
-   * Draws a line to the next vertex by a straight line.
-   * For example, N vertices produce N - 1 lines connected end to end.
-   */
-  LINE_STRIP: number;
-  /**
-   * Draws a single dot per vertex.
-   * For example, N vertices produce N dots.
-   */
-  POINTS: number;
-  /**
-   * Draws a triangle for each group of three consecutive vertices.
-   * For example, 3 * N vertices create N separate triangles.
-   */
-  TRIANGLES: number;
-  /**
-   * Similar to TRIANGLE_STRIP, but creates a fan shaped output.
-   * For example N vertices create N - 2 triangles.
-   */
-  TRIANGLE_FAN: number;
-  /**
-   * Creates a strip of triangles where each additional vertex creates an additional triangle once the first three vertices have been drawn.
-   * For example, N vertices create N - 2 triangles.
-   */
-  TRIANGLE_STRIP: number;
 }
 /**
  * Constructs and returns a RenderingContextProxy.

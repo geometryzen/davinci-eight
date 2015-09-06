@@ -80,9 +80,6 @@ let scene = function(): DrawList {
         });
       }
     },
-    hasContext() {
-      return isDefined($context);
-    },
     add(drawable: Drawable) {
       drawable.addRef();
       let program: ShaderProgram = drawable.program;
@@ -91,7 +88,7 @@ let scene = function(): DrawList {
         programs[programId] = new ProgramInfo(program);
       }
       programs[programId].drawables.push(drawable);
-      if (self.hasContext()) {
+      if ($context) {
         program.contextGain($context);
         drawable.contextGain($context);
       }

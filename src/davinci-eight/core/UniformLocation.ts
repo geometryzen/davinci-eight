@@ -29,8 +29,6 @@ class UniformLocation implements RenderingContextProgramUser {
    * @method contextFree
    */
   contextFree() {
-    this._location = void 0;
-    this._context = void 0;
   }
   /**
    * @method contextGain
@@ -38,17 +36,13 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param program {WebGLProgram}
    */
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
-    if (this._context !== context) {
-      this._location = context.getUniformLocation(program, this._name);
-      this._context = context;
-    }
+    this._location = context.getUniformLocation(program, this._name);
+    this._context = context;
   }
   /**
    * @method contextLoss
    */
   contextLoss() {
-    this._location = void 0;
-    this._context = void 0;
   }
   /**
    * @method uniform1f

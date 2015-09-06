@@ -17,7 +17,6 @@ import AttribProvider = require('davinci-eight/core/AttribProvider');
 import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 import Color = require('davinci-eight/core/Color');
 import Composite = require('davinci-eight/core/Composite');
-import DataUsage = require('davinci-eight/core/DataUsage');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
 import Primitive = require('davinci-eight/core/Primitive');
@@ -128,7 +127,6 @@ var eight = {
   get webgl() {return contextProxy;},
   workbench: workbench3D,
   animation: windowAnimationRunner,
-  get DataUsage() { return DataUsage; },
   get DefaultAttribProvider() { return DefaultAttribProvider; },
   get primitive() { return primitive; },
   get DrawMode() { return DrawMode; },

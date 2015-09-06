@@ -1,13 +1,12 @@
-import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 declare function adapterOptions(options?: {
     wireFrame?: boolean;
-    elementUsage?: DataUsage;
+    elementUsage?: number;
     positionVarName?: string;
     normalVarName?: string;
 }): {
     drawMode: DrawMode;
-    elementUsage: DataUsage;
+    elementUsage: number;
     positionVarName: string;
     normalVarName: string;
 };

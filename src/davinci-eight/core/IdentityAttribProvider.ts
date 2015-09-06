@@ -1,7 +1,6 @@
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import AttribProvider = require('../core/AttribProvider');
-import DataUsage = require('../core/DataUsage');
 
 class IdentityAttribProvider implements AttribProvider {
   public drawMode;
@@ -13,9 +12,6 @@ class IdentityAttribProvider implements AttribProvider {
   }
   update(): void {
   }
-  getAttribArray(name: string): {usage: DataUsage; data: Float32Array} {
-    return;
-  }
   getAttribData(): AttribDataInfos {
     var attributes: AttribDataInfos = {};
     return attributes;
@@ -23,12 +19,6 @@ class IdentityAttribProvider implements AttribProvider {
   getAttribMeta(): AttribMetaInfos {
     var attributes: AttribMetaInfos = {};
     return attributes;
-  }
-  hasElementArray(): boolean {
-    return false;
-  }
-  getElementArray(): {usage: DataUsage; data: Uint16Array} {
-    return;
   }
   addRef(): void {
   }
@@ -42,9 +32,6 @@ class IdentityAttribProvider implements AttribProvider {
   }
   contextLoss(): void {
     this._context = void 0;
-  }
-  hasContext(): boolean {
-    return !!this._context;
   }
 }
 

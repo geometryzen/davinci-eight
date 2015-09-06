@@ -32,10 +32,5 @@ interface RenderingContextUser extends ReferenceCounted {
      * @method contextLoss
      */
     contextLoss(): void;
-    /**
-     * Determines whether the context user has a context.
-     * @method hasContext
-     */
-    hasContext(): boolean;
 }
 export = RenderingContextUser;

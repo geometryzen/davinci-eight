@@ -7,7 +7,6 @@ import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
 import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 import Color = require('davinci-eight/core/Color');
-import DataUsage = require('davinci-eight/core/DataUsage');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
 import Primitive = require('davinci-eight/core/Primitive');
@@ -96,7 +95,6 @@ declare var eight: {
         terminate?: (time: number) => boolean;
         window?: Window;
     }) => WindowAnimationRunner;
-    DataUsage: typeof DataUsage;
     DefaultAttribProvider: typeof DefaultAttribProvider;
     primitive: <MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: ShaderProgram, model: MODEL) => Primitive<MESH, MODEL>;
     DrawMode: typeof DrawMode;

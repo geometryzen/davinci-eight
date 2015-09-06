@@ -49,28 +49,13 @@ var AttribLocation = (function () {
         if (normalized === void 0) { normalized = false; }
         if (stride === void 0) { stride = 0; }
         if (offset === void 0) { offset = 0; }
-        if (this._context) {
-            return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
-        }
-        else {
-            console.warn("AttribLocation.vertexAttribPointer() missing WebGLRenderingContext");
-        }
+        return this._context.vertexAttribPointer(this._location, size, this._context.FLOAT, normalized, stride, offset);
     };
     AttribLocation.prototype.enable = function () {
-        if (this._context) {
-            return this._context.enableVertexAttribArray(this._location);
-        }
-        else {
-            console.warn("AttribLocation.enable() missing WebGLRenderingContext");
-        }
+        return this._context.enableVertexAttribArray(this._location);
     };
     AttribLocation.prototype.disable = function () {
-        if (this._context) {
-            return this._context.disableVertexAttribArray(this._location);
-        }
-        else {
-            console.warn("AttribLocation.disable() missing WebGLRenderingContext");
-        }
+        return this._context.disableVertexAttribArray(this._location);
     };
     /**
      * @method toString

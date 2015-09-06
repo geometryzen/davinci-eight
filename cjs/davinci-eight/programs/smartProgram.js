@@ -64,9 +64,6 @@ var smartProgram = function (attributes, uniformsList) {
         contextLoss: function () {
             return innerProgram.contextLoss();
         },
-        hasContext: function () {
-            return innerProgram.hasContext();
-        },
         use: function () {
             return innerProgram.use();
         },

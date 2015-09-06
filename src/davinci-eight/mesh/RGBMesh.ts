@@ -21,25 +21,6 @@ class RGBMesh implements AttribProvider {
       color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
     };
   }
-  hasElementArray() {
-    return true;
-  }
-  getElementArray() {
-    return this.elements;
-  }
-  getAttribArray(name: string) {
-    switch(name) {
-      case 'aVertexPosition': {
-        return this.vertices;
-      }
-      case 'aVertexColor': {
-        return this.vertexColors;
-      }
-      default: {
-        return;
-      }
-    }
-  }
   update(): void {
     var vs: number[] = [
       0,0,1,

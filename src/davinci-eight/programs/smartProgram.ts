@@ -88,9 +88,6 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
     contextLoss() {
       return innerProgram.contextLoss();
     },
-    hasContext() {
-      return innerProgram.hasContext();
-    },
     use() {
       return innerProgram.use();
     },

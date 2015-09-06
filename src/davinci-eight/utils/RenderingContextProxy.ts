@@ -10,20 +10,10 @@ interface RenderingContextProxy extends ReferenceCounted {
   clearDepth(depth: number): void;
   clear(mask: number): void;
   drawArrays(mode: number, first: number, count: number): void;
+  drawElements(mode: number, count: number, type: number, offset: number): void;
   depthFunc(func: number): void;
   enable(capability: number): void;
   context: WebGLRenderingContext;
-  COLOR_BUFFER_BIT: number;
-  DEPTH_BUFFER_BIT: number;
-  DEPTH_TEST: number;
-  LEQUAL: number;
-  LINES: number;
-  LINE_LOOP: number;
-  LINE_STRIP: number;
-  POINTS: number;
-  TRIANGLES: number;
-  TRIANGLE_FAN: number;
-  TRIANGLE_STRIP: number;
 }
 
 export = RenderingContextProxy;

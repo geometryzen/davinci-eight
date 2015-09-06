@@ -62,9 +62,6 @@ var scene = function () {
                 });
             }
         },
-        hasContext: function () {
-            return isDefined($context);
-        },
         add: function (drawable) {
             drawable.addRef();
             var program = drawable.program;
@@ -73,7 +70,7 @@ var scene = function () {
                 programs[programId] = new ProgramInfo(program);
             }
             programs[programId].drawables.push(drawable);
-            if (self.hasContext()) {
+            if ($context) {
                 program.contextGain($context);
                 drawable.contextGain($context);
             }

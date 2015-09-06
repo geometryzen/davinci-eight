@@ -2,7 +2,6 @@ import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Geometry = require('../geometries/Geometry');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
-import DataUsage = require('../core/DataUsage');
 import DrawMode = require('../core/DrawMode');
 /**
  * Adapter from a Geometry to a AttribProvider.
@@ -35,7 +34,7 @@ declare class GeometryAdapter extends DefaultAttribProvider {
      */
     constructor(geometry: Geometry, options?: {
         drawMode?: DrawMode;
-        elementsUsage?: DataUsage;
+        elementsUsage?: number;
         positionVarName?: string;
         normalVarName?: string;
     });
@@ -44,19 +43,9 @@ declare class GeometryAdapter extends DefaultAttribProvider {
     contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
-    hasContext(): boolean;
     drawMode: DrawMode;
     draw(): void;
     dynamic: boolean;
-    hasElementArray(): boolean;
-    getElementArray(): {
-        usage: DataUsage;
-        data: Uint16Array;
-    };
-    getAttribArray(name: string): {
-        usage: DataUsage;
-        data: Float32Array;
-    };
     getAttribData(): AttribDataInfos;
     getAttribMeta(): AttribMetaInfos;
     update(): void;

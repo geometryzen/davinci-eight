@@ -174,6 +174,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.70.0: 2015-09-05 UniformLocation
 * 2.71.0: 2015-09-05 VertexBuffer
 * 2.72.0: 2015-09-05 drawArrays
+* 2.73.0: 2015-09-06 cleanup
 
 ## License
 Copyright (c) 2014-2015 David Holmes

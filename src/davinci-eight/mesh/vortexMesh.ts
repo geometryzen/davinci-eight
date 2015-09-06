@@ -27,9 +27,6 @@ function vortexMesh(
     update() {
       return base.update();
     },
-    getAttribArray(name: string) {
-      return base.getAttribArray(name);
-    },
     getAttribData() {
       return base.getAttribData();
     },
@@ -44,12 +41,6 @@ function vortexMesh(
     },
     get dynamic() {
       return base.dynamic;
-    },
-    hasElementArray() {
-      return base.hasElementArray();
-    },
-    getElementArray() {
-      return base.getElementArray();
     },
     addRef() {
       refCount++;
@@ -69,9 +60,6 @@ function vortexMesh(
     },
     contextLoss() {
       return base.contextLoss();
-    },
-    hasContext() {
-      return base.hasContext();
     }
   };
   return publicAPI;

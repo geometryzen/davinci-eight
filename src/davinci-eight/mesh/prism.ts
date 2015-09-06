@@ -122,25 +122,7 @@ var prism = function(spec?): AttribProvider {
         normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
-    hasElementArray(): boolean {
-      return false;
-    },
-    getElementArray(): Uint16Array {
-      // We don't support element arrays.
-      return null;
-    },
-    getAttribArray(name: string) {
-      switch(name) {
-        case 'aVertexPosition': {
-          return new Float32Array(vertices);
-        }
-        default: {
-          return;
-        }
-      }
-    },
     update(): void {
-
     }
   };
   return publicAPI;

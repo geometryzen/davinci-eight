@@ -128,9 +128,6 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLocations[uName].contextLoss();
       }
     },
-    hasContext: function(): boolean {
-      return !!$context;
-    },
     get program() { return program; },
     get programId() {return uuid;},
     use(): ShaderProgram {
@@ -154,7 +151,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         let data: AttribDataInfo = values[name];
         if (data) {
           data.buffer.bind();
-          attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
+          attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
         }
         else {
           throw new Error("The mesh does not support the attribute variable named " + name);

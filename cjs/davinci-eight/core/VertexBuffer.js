@@ -1,4 +1,3 @@
-var isDefined = require('../checks/isDefined');
 var VertexBuffer = (function () {
     function VertexBuffer() {
         this._refCount = 0;
@@ -31,9 +30,6 @@ var VertexBuffer = (function () {
         this._buffer = void 0;
         this._context = void 0;
     };
-    VertexBuffer.prototype.hasContext = function () {
-        return !!this._context;
-    };
     /**
      * @method bind
      */
@@ -43,20 +39,6 @@ var VertexBuffer = (function () {
         }
         else {
             console.warn("VertexBuffer.bind() missing WebGLRenderingContext.");
-        }
-    };
-    /**
-     * @method data
-     * @param data {Float32Array}
-     * @param usage {number} Optional. Defaults to DYNAMIC_DRAW.
-     */
-    VertexBuffer.prototype.data = function (data, usage) {
-        if (this._context) {
-            usage = isDefined(usage) ? usage : this._context.DYNAMIC_DRAW;
-            this._context.bufferData(this._context.ARRAY_BUFFER, data, usage);
-        }
-        else {
-            console.warn("VertexBuffer.data() missing WebGLRenderingContext.");
         }
     };
     return VertexBuffer;

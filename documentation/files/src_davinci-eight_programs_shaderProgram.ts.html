@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.72.0</em>
+            <em>API Docs for: 2.73.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -272,9 +272,6 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         uniformLocations[uName].contextLoss();
       }
     },
-    hasContext: function(): boolean {
-      return !!$context;
-    },
     get program() { return program; },
     get programId() {return uuid;},
     use(): ShaderProgram {
@@ -298,7 +295,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         let data: AttribDataInfo = values[name];
         if (data) {
           data.buffer.bind();
-          attribLoc.vertexPointer(data.numComponents, data.normalized, data.stride, data.offset);
+          attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
         }
         else {
           throw new Error(&quot;The mesh does not support the attribute variable named &quot; + name);

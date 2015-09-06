@@ -60,9 +60,6 @@ define(["require", "exports", '../programs/fragmentShader', '../checks/isDefined
             contextLoss: function () {
                 return innerProgram.contextLoss();
             },
-            hasContext: function () {
-                return innerProgram.hasContext();
-            },
             use: function () {
                 return innerProgram.use();
             },

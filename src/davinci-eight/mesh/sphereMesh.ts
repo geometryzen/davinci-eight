@@ -30,9 +30,6 @@ function sphereMesh(options?: SphereOptions) : AttribProvider {
     update() {
       return base.update();
     },
-    getAttribArray(name: string) {
-      return base.getAttribArray(name);
-    },
     getAttribData() {
       return base.getAttribData();
     },
@@ -47,12 +44,6 @@ function sphereMesh(options?: SphereOptions) : AttribProvider {
     },
     get dynamic() {
       return base.dynamic;
-    },
-    hasElementArray() {
-      return base.hasElementArray();
-    },
-    getElementArray() {
-      return base.getElementArray();
     },
     addRef() {
       refCount++;
@@ -71,9 +62,6 @@ function sphereMesh(options?: SphereOptions) : AttribProvider {
     },
     contextLoss() {
       return base.contextLoss();
-    },
-    hasContext() {
-      return base.hasContext();
     }
   };
   return publicAPI;

@@ -5,9 +5,6 @@ var IdentityAttribProvider = (function () {
     };
     IdentityAttribProvider.prototype.update = function () {
     };
-    IdentityAttribProvider.prototype.getAttribArray = function (name) {
-        return;
-    };
     IdentityAttribProvider.prototype.getAttribData = function () {
         var attributes = {};
         return attributes;
@@ -15,12 +12,6 @@ var IdentityAttribProvider = (function () {
     IdentityAttribProvider.prototype.getAttribMeta = function () {
         var attributes = {};
         return attributes;
-    };
-    IdentityAttribProvider.prototype.hasElementArray = function () {
-        return false;
-    };
-    IdentityAttribProvider.prototype.getElementArray = function () {
-        return;
     };
     IdentityAttribProvider.prototype.addRef = function () {
     };
@@ -34,9 +25,6 @@ var IdentityAttribProvider = (function () {
     };
     IdentityAttribProvider.prototype.contextLoss = function () {
         this._context = void 0;
-    };
-    IdentityAttribProvider.prototype.hasContext = function () {
-        return !!this._context;
     };
     return IdentityAttribProvider;
 })();

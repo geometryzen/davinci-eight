@@ -14,9 +14,6 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Bo
             update: function () {
                 return base.update();
             },
-            getAttribArray: function (name) {
-                return base.getAttribArray(name);
-            },
             getAttribData: function () {
                 return base.getAttribData();
             },
@@ -31,12 +28,6 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Bo
             },
             get dynamic() {
                 return base.dynamic;
-            },
-            hasElementArray: function () {
-                return base.hasElementArray();
-            },
-            getElementArray: function () {
-                return base.getElementArray();
             },
             addRef: function () {
                 refCount++;
@@ -56,9 +47,6 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Bo
             },
             contextLoss: function () {
                 return base.contextLoss();
-            },
-            hasContext: function () {
-                return base.hasContext();
             }
         };
         return self;
