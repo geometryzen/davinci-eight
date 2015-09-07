@@ -153,6 +153,17 @@ class Mutable<T> {
   data: T;
   callback: () => T;
 }
+interface LinearElement<I, M> {
+  add(element: I): M;
+  clone(): M;
+  copy(source: I): M;
+  divideScalar(scalar: number): M;
+  multiplyScalar(scalar: number): M;
+}
+interface GeometricElement<I, M> extends LinearElement<I, M> {
+  exp(): M;
+  multiply(element: I): M;
+}
 class Matrix1 {
   public data: Float32Array;
   constructor(data: Float32Array);
@@ -271,7 +282,7 @@ interface Spinor3Coords {
   xy: number;
   w: number;
 }
-class Spinor3 extends Mutable<number[]> implements Spinor3Coords {
+class Spinor3 extends Mutable<number[]> implements Spinor3Coords, GeometricElement<Spinor3Coords, Spinor3> {
   public yz: number;
   public zx: number;
   public xy: number;
@@ -280,8 +291,13 @@ class Spinor3 extends Mutable<number[]> implements Spinor3Coords {
   public callback: () => number[];
   public modified: boolean;
   constructor(spinor?: number[]);
+  add(rhs: Spinor3Coords): Spinor3;
   clone(): Spinor3;
   copy(spinor: Spinor3Coords): Spinor3;
+  divideScalar(scalar: number): Spinor3;
+  exp(): Spinor3;
+  multiply(rhs: Spinor3Coords): Spinor3;
+  multiplyScalar(scalar: number): Spinor3;
   toString(): string;
 }
 interface Cartesian3 {

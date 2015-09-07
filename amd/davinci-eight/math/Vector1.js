@@ -9,7 +9,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param data {number[]}
          */
         function Vector1(data) {
-            if (data === void 0) { data = [0, 0]; }
+            if (data === void 0) { data = [0]; }
             this.data = data;
             this.modified = false;
         }
@@ -99,6 +99,10 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this.x = a.x + b.x;
             return this;
         };
+        Vector1.prototype.exp = function () {
+            this.x = Math.exp(this.x);
+            return this;
+        };
         Vector1.prototype.sub = function (v) {
             this.x -= v.x;
             return this;
@@ -115,8 +119,8 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this.x *= v.x;
             return this;
         };
-        Vector1.prototype.multiplyScalar = function (s) {
-            this.x *= s;
+        Vector1.prototype.multiplyScalar = function (scalar) {
+            this.x *= scalar;
             return this;
         };
         Vector1.prototype.divide = function (v) {

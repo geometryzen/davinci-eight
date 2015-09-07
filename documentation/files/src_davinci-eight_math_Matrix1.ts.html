@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,14 +143,44 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
 
-class Matrix1 extends AbstractMatrix {
+class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Matrix1&gt; {
   /**
    * Constructs a Matrix1 by wrapping a Float32Array.
    * @constructor
    */
   constructor(data: Float32Array) {
     super(data, 1);
+  }
+  public static identity(): Matrix1 {
+    return new Matrix1(new Float32Array([1]));
+  }
+  add(element: Matrix1) {
+    return this;
+  }
+  clone() {
+    return Matrix1.identity().copy(this);
+  }
+  copy(m: Matrix1) {
+    this.data.set(m.data);
+    return this;
+  }
+  divideScalar(scalar: number) {
+    let data = this.data;
+    data[0] /= scalar;
+    return this;
+  }
+  exp() {
+    return this;
+  }
+  multiply(rhs: Matrix1) {
+    return this;
+  }
+  multiplyScalar(scalar: number) {
+    let data = this.data;
+    data[0] *= scalar;
+    return this;
   }
 }
 

@@ -22,7 +22,7 @@ class Texture implements RenderingContextUser {
   contextFree() {
     if (this._texture) {
       this._context.deleteTexture(this._texture);
-      console.log("WebGLTexture deleted");
+      // console.log("WebGLTexture deleted");
       this._texture = void 0;
     }
     this._context = void 0;
@@ -32,7 +32,7 @@ class Texture implements RenderingContextUser {
       this.contextFree();
       this._context = context;
       this._texture = context.createTexture();
-      console.log("WebGLTexture created");
+      // console.log("WebGLTexture created");
     }
   }
   contextLoss() {

@@ -1,7 +1,8 @@
 import Cartesian3 = require('../math/Cartesian3');
+import GeometricElement = require('../math/GeometricElement');
 import Matrix4 = require('../math/Matrix4');
 import Vector3 = require('../math/Vector3');
-declare class Quaternion {
+declare class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     private _x;
     private _y;
     private _z;
@@ -12,15 +13,19 @@ declare class Quaternion {
     y: number;
     z: number;
     w: number;
+    add(element: Quaternion): Quaternion;
     set(x: number, y: number, z: number, w: number): Quaternion;
     clone(): Quaternion;
     conjugate(): Quaternion;
     copy(quaternion: Quaternion): Quaternion;
+    divideScalar(scalar: number): Quaternion;
     dot(v: Quaternion): number;
+    exp(): Quaternion;
     inverse(): Quaternion;
     magnitude(): number;
     multiply(q: Quaternion): Quaternion;
     multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion;
+    multiplyScalar(scalar: number): Quaternion;
     normalize(): Quaternion;
     onChange(callback: () => void): Quaternion;
     quaditude(): number;

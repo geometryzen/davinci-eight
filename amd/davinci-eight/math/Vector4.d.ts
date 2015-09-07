@@ -1,9 +1,10 @@
 import Cartesian4 = require('../math/Cartesian4');
+import LinearElement = require('../math/LinearElement');
 import AbstractVector = require('../math/AbstractVector');
 /**
  * @class Vector4
  */
-declare class Vector4 extends AbstractVector implements Cartesian4 {
+declare class Vector4 extends AbstractVector implements Cartesian4, LinearElement<Cartesian4, Vector4> {
     /**
      * @class Vector4
      * @constructor
@@ -34,5 +35,10 @@ declare class Vector4 extends AbstractVector implements Cartesian4 {
      */
     w: number;
     setW(w: number): Vector4;
+    add(rhs: Cartesian4): Vector4;
+    clone(): Vector4;
+    copy(v: Cartesian4): Vector4;
+    divideScalar(scalar: number): Vector4;
+    multiplyScalar(scalar: number): Vector4;
 }
 export = Vector4;

@@ -14,6 +14,35 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         function Matrix1(data) {
             _super.call(this, data, 1);
         }
+        Matrix1.identity = function () {
+            return new Matrix1(new Float32Array([1]));
+        };
+        Matrix1.prototype.add = function (element) {
+            return this;
+        };
+        Matrix1.prototype.clone = function () {
+            return Matrix1.identity().copy(this);
+        };
+        Matrix1.prototype.copy = function (m) {
+            this.data.set(m.data);
+            return this;
+        };
+        Matrix1.prototype.divideScalar = function (scalar) {
+            var data = this.data;
+            data[0] /= scalar;
+            return this;
+        };
+        Matrix1.prototype.exp = function () {
+            return this;
+        };
+        Matrix1.prototype.multiply = function (rhs) {
+            return this;
+        };
+        Matrix1.prototype.multiplyScalar = function (scalar) {
+            var data = this.data;
+            data[0] *= scalar;
+            return this;
+        };
         return Matrix1;
     })(AbstractMatrix);
     return Matrix1;

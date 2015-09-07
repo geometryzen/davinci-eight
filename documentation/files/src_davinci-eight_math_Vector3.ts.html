@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -146,6 +146,7 @@
 // Only use Matrix4 in type positions.
 // Otherwise, create standalone functions.
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
+import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
@@ -155,7 +156,7 @@ import Mutable = require(&#x27;../math/Mutable&#x27;);
 /**
  * @class Vector3
  */
-class Vector3 implements Cartesian3, Mutable&lt;number[]&gt; {
+class Vector3 implements Cartesian3, Mutable&lt;number[]&gt;, LinearElement&lt;Cartesian3, Vector3&gt; {
   private $data: number[];
   private $callback: () =&gt; number[];
   public modified: boolean;
@@ -331,10 +332,10 @@ class Vector3 implements Cartesian3, Mutable&lt;number[]&gt; {
 
     return this;
   }
-  clone(): Vector3 {
+  clone() {
     return new Vector3([this.x, this.y, this.z]);
   }
-  copy(v: Cartesian3): Vector3 {
+  copy(v: Cartesian3) {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;

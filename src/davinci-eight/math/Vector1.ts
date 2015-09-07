@@ -1,11 +1,12 @@
 import Cartesian1 = require('../math/Cartesian1');
-import Mutable = require('../math/Mutable');
 import expectArg = require('../checks/expectArg');
+import LinearElement = require('../math/LinearElement');
+import Mutable = require('../math/Mutable');
 
 /**
  * @class Vector1
  */
-class Vector1 implements Cartesian1, Mutable<number[]> {
+class Vector1 implements Cartesian1, Mutable<number[]>, LinearElement<Cartesian1, Vector1> {
   private $data: number[];
   private $callback: () => number[];
   public modified: boolean;
@@ -14,7 +15,7 @@ class Vector1 implements Cartesian1, Mutable<number[]> {
    * @constructor
    * @param data {number[]}
    */
-  constructor(data: number[] = [0, 0]) {
+  constructor(data: number[] = [0]) {
     this.data = data;
     this.modified = false;
   }
@@ -90,6 +91,10 @@ class Vector1 implements Cartesian1, Mutable<number[]> {
     this.x = a.x + b.x;
     return this;
   }
+  exp() {
+    this.x = Math.exp(this.x);
+    return this;
+  }
   sub(v: Cartesian1) {
     this.x -= v.x;
     return this;
@@ -106,8 +111,8 @@ class Vector1 implements Cartesian1, Mutable<number[]> {
     this.x *= v.x;
     return this;
   }
-  multiplyScalar(s: number) {
-    this.x *= s;
+  multiplyScalar(scalar: number) {
+    this.x *= scalar;
     return this;
   }
   divide(v: Cartesian1) {
@@ -187,7 +192,7 @@ class Vector1 implements Cartesian1, Mutable<number[]> {
     return this;
   }
   lerpVectors(v1: Vector1, v2: Vector1, alpha: number) {
-    this.subVectors( v2, v1 ).multiplyScalar( alpha ).add( v1 );
+    this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
     return this;
   }
   equals(v: Cartesian1) {

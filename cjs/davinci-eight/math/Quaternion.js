@@ -56,6 +56,9 @@ var Quaternion = (function () {
         enumerable: true,
         configurable: true
     });
+    Quaternion.prototype.add = function (element) {
+        return this;
+    };
     Quaternion.prototype.set = function (x, y, z, w) {
         this._x = x;
         this._y = y;
@@ -82,8 +85,14 @@ var Quaternion = (function () {
         this.onChangeCallback();
         return this;
     };
+    Quaternion.prototype.divideScalar = function (scalar) {
+        return this;
+    };
     Quaternion.prototype.dot = function (v) {
         return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
+    };
+    Quaternion.prototype.exp = function () {
+        return this;
     };
     Quaternion.prototype.inverse = function () {
         this.conjugate().normalize();
@@ -104,6 +113,9 @@ var Quaternion = (function () {
         this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
         this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
         this.onChangeCallback();
+        return this;
+    };
+    Quaternion.prototype.multiplyScalar = function (scalar) {
         return this;
     };
     Quaternion.prototype.normalize = function () {

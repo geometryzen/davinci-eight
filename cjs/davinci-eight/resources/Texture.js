@@ -16,7 +16,7 @@ var Texture = (function () {
     Texture.prototype.contextFree = function () {
         if (this._texture) {
             this._context.deleteTexture(this._texture);
-            console.log("WebGLTexture deleted");
+            // console.log("WebGLTexture deleted");
             this._texture = void 0;
         }
         this._context = void 0;
@@ -26,7 +26,6 @@ var Texture = (function () {
             this.contextFree();
             this._context = context;
             this._texture = context.createTexture();
-            console.log("WebGLTexture created");
         }
     };
     Texture.prototype.contextLoss = function () {

@@ -1,9 +1,10 @@
 import Cartesian2 = require('../math/Cartesian2');
+import LinearElement = require('../math/LinearElement');
 import Mutable = require('../math/Mutable');
 /**
  * @class Vector2
  */
-declare class Vector2 implements Cartesian2, Mutable<number[]> {
+declare class Vector2 implements Cartesian2, Mutable<number[]>, LinearElement<Cartesian2, Vector2> {
     private $data;
     private $callback;
     modified: boolean;

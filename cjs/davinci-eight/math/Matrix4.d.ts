@@ -22,7 +22,7 @@ declare class Matrix4 extends AbstractMatrix {
     determinant(): number;
     invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
     identity(): Matrix4;
-    multiplyScalar(s: any): Matrix4;
+    multiplyScalar(s: number): Matrix4;
     transpose(): Matrix4;
     /**
      *

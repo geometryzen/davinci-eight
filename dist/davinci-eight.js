@@ -1036,49 +1036,68 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
     return Matrix4;
 });
 
-define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    /**
-     * @class Spinor3
-     */
-    var Spinor3 = (function () {
-        function Spinor3(data) {
-            if (data === void 0) { data = [0, 0, 0, 1]; }
-            this.data = data;
-            this.modified = false;
+define('davinci-eight/math/AbstractVector',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    var AbstractVector = (function () {
+        function AbstractVector(data, size, modified) {
+            if (modified === void 0) { modified = false; }
+            this._size = expectArg('size', size).toBeNumber().toSatisfy(size >= 0, "size must be positive").value;
+            this._data = expectArg('data', data).toBeObject().toSatisfy(data.length === size, "data length must be " + size).value;
+            this.modified = expectArg('modified', modified).toBeBoolean().value;
         }
-        Object.defineProperty(Spinor3.prototype, "data", {
+        Object.defineProperty(AbstractVector.prototype, "data", {
             get: function () {
-                if (this.$data) {
-                    return this.$data;
+                if (this._data) {
+                    return this._data;
                 }
-                else if (this.$callback) {
-                    var data = this.$callback();
-                    expectArg('callback()', data).toSatisfy(data.length === 4, "callback() length must be 4");
-                    return this.$callback();
+                else if (this._callback) {
+                    var data = this._callback();
+                    expectArg('callback()', data).toSatisfy(data.length === this._size, "callback() length must be " + this._size);
+                    return this._callback();
                 }
                 else {
-                    throw new Error("Vector3 is undefined.");
+                    throw new Error("Vector" + this._size + " is undefined.");
                 }
             },
             set: function (data) {
-                expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
-                this.$data = data;
-                this.$callback = void 0;
+                expectArg('data', data).toSatisfy(data.length === this._size, "data length must be " + this._size);
+                this._data = data;
+                this._callback = void 0;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Spinor3.prototype, "callback", {
+        Object.defineProperty(AbstractVector.prototype, "callback", {
             get: function () {
-                return this.$callback;
+                return this._callback;
             },
             set: function (reactTo) {
-                this.$callback = reactTo;
-                this.$data = void 0;
+                this._callback = reactTo;
+                this._data = void 0;
             },
             enumerable: true,
             configurable: true
         });
+        return AbstractVector;
+    })();
+    return AbstractVector;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+define('davinci-eight/math/Spinor3',["require", "exports", '../math/AbstractVector'], function (require, exports, AbstractVector) {
+    /**
+     * @class Spinor3
+     */
+    var Spinor3 = (function (_super) {
+        __extends(Spinor3, _super);
+        function Spinor3(data) {
+            if (data === void 0) { data = [0, 0, 0, 1]; }
+            _super.call(this, data, 4);
+        }
         Object.defineProperty(Spinor3.prototype, "yz", {
             /**
              * @property yz
@@ -1139,6 +1158,9 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'
             enumerable: true,
             configurable: true
         });
+        Spinor3.prototype.add = function (element) {
+            return this;
+        };
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
@@ -1149,6 +1171,38 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'
             this.w = spinor.w;
             return this;
         };
+        Spinor3.prototype.divideScalar = function (scalar) {
+            this.yz /= scalar;
+            this.zx /= scalar;
+            this.xy /= scalar;
+            this.w /= scalar;
+            return this;
+        };
+        Spinor3.prototype.exp = function () {
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            var expW = Math.exp(w);
+            var B = Math.sqrt(yz * yz + zx * zx + xy * xy);
+            var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
+            this.w = expW * Math.cos(B);
+            this.yz = yz * s;
+            this.zx = zx * s;
+            this.xy = xy * s;
+            return this;
+        };
+        Spinor3.prototype.multiply = function (rhs) {
+            var w = rhs.w;
+            return this;
+        };
+        Spinor3.prototype.multiplyScalar = function (scalar) {
+            this.yz *= scalar;
+            this.zx *= scalar;
+            this.xy *= scalar;
+            this.w *= scalar;
+            return this;
+        };
         /**
          * @method toString
          * @return {string} A non-normative string representation of the target.
@@ -1157,7 +1211,7 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../checks/expectArg'
             return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
         };
         return Spinor3;
-    })();
+    })(AbstractVector);
     return Spinor3;
 });
 
@@ -1678,7 +1732,7 @@ define('davinci-eight/math/Vector1',["require", "exports", '../checks/expectArg'
          * @param data {number[]}
          */
         function Vector1(data) {
-            if (data === void 0) { data = [0, 0]; }
+            if (data === void 0) { data = [0]; }
             this.data = data;
             this.modified = false;
         }
@@ -1768,6 +1822,10 @@ define('davinci-eight/math/Vector1',["require", "exports", '../checks/expectArg'
             this.x = a.x + b.x;
             return this;
         };
+        Vector1.prototype.exp = function () {
+            this.x = Math.exp(this.x);
+            return this;
+        };
         Vector1.prototype.sub = function (v) {
             this.x -= v.x;
             return this;
@@ -1784,8 +1842,8 @@ define('davinci-eight/math/Vector1',["require", "exports", '../checks/expectArg'
             this.x *= v.x;
             return this;
         };
-        Vector1.prototype.multiplyScalar = function (s) {
-            this.x *= s;
+        Vector1.prototype.multiplyScalar = function (scalar) {
+            this.x *= scalar;
             return this;
         };
         Vector1.prototype.divide = function (v) {
@@ -2411,7 +2469,7 @@ define('davinci-eight/core/Face3',["require", "exports"], function (require, exp
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.75.0'
+        VERSION: '2.76.0'
     };
     return core;
 });
@@ -7743,7 +7801,7 @@ define('davinci-eight/resources/Texture',["require", "exports"], function (requi
         Texture.prototype.contextFree = function () {
             if (this._texture) {
                 this._context.deleteTexture(this._texture);
-                console.log("WebGLTexture deleted");
+                // console.log("WebGLTexture deleted");
                 this._texture = void 0;
             }
             this._context = void 0;
@@ -7753,7 +7811,6 @@ define('davinci-eight/resources/Texture',["require", "exports"], function (requi
                 this.contextFree();
                 this._context = context;
                 this._texture = context.createTexture();
-                console.log("WebGLTexture created");
             }
         };
         Texture.prototype.contextLoss = function () {
@@ -7835,6 +7892,9 @@ define('davinci-eight/math/Quaternion',["require", "exports", '../math/Vector3']
             enumerable: true,
             configurable: true
         });
+        Quaternion.prototype.add = function (element) {
+            return this;
+        };
         Quaternion.prototype.set = function (x, y, z, w) {
             this._x = x;
             this._y = y;
@@ -7861,8 +7921,14 @@ define('davinci-eight/math/Quaternion',["require", "exports", '../math/Vector3']
             this.onChangeCallback();
             return this;
         };
+        Quaternion.prototype.divideScalar = function (scalar) {
+            return this;
+        };
         Quaternion.prototype.dot = function (v) {
             return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
+        };
+        Quaternion.prototype.exp = function () {
+            return this;
         };
         Quaternion.prototype.inverse = function () {
             this.conjugate().normalize();
@@ -7883,6 +7949,9 @@ define('davinci-eight/math/Quaternion',["require", "exports", '../math/Vector3']
             this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
             this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
             this.onChangeCallback();
+            return this;
+        };
+        Quaternion.prototype.multiplyScalar = function (scalar) {
             return this;
         };
         Quaternion.prototype.normalize = function () {

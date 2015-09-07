@@ -2,6 +2,7 @@
 // Only use Matrix4 in type positions.
 // Otherwise, create standalone functions.
 import Cartesian3 = require('../math/Cartesian3');
+import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
@@ -11,7 +12,7 @@ import Mutable = require('../math/Mutable');
 /**
  * @class Vector3
  */
-class Vector3 implements Cartesian3, Mutable<number[]> {
+class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Cartesian3, Vector3> {
   private $data: number[];
   private $callback: () => number[];
   public modified: boolean;
@@ -187,10 +188,10 @@ class Vector3 implements Cartesian3, Mutable<number[]> {
 
     return this;
   }
-  clone(): Vector3 {
+  clone() {
     return new Vector3([this.x, this.y, this.z]);
   }
-  copy(v: Cartesian3): Vector3 {
+  copy(v: Cartesian3) {
     this.x = v.x;
     this.y = v.y;
     this.z = v.z;

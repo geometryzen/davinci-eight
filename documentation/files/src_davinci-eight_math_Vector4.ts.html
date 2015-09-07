@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,6 +143,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Cartesian4 = require(&#x27;../math/Cartesian4&#x27;);
+import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 import Mutable = require(&#x27;../math/Mutable&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import AbstractVector = require(&#x27;../math/AbstractVector&#x27;);
@@ -150,7 +151,7 @@ import AbstractVector = require(&#x27;../math/AbstractVector&#x27;);
 /**
  * @class Vector4
  */
-class Vector4 extends AbstractVector implements Cartesian4 {
+class Vector4 extends AbstractVector implements Cartesian4, LinearElement&lt;Cartesian4, Vector4&gt; {
   /**
    * @class Vector4
    * @constructor
@@ -217,6 +218,33 @@ class Vector4 extends AbstractVector implements Cartesian4 {
   }
   setW(w: number) {
     this.w = w;
+    return this;
+  }
+  add(rhs: Cartesian4) {
+    return this;
+  }
+  clone() {
+    return new Vector4([this.x, this.y, this.z, this.w]);
+  }
+  copy(v: Cartesian4) {
+    this.x = v.x;
+    this.y = v.y;
+    this.z = v.z;
+    this.w = v.w;
+    return this;
+  }
+  divideScalar(scalar: number) {
+    this.x /= scalar;
+    this.y /= scalar;
+    this.z /= scalar;
+    this.w /= scalar;
+    return this;
+  }
+  multiplyScalar(scalar: number) {
+    this.x *= scalar;
+    this.y *= scalar;
+    this.z *= scalar;
+    this.w *= scalar;
     return this;
   }
 }

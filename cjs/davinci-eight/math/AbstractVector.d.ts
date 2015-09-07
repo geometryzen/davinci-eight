@@ -1,10 +1,10 @@
 import Mutable = require('../math/Mutable');
 declare class AbstractVector implements Mutable<number[]> {
+    private _size;
     private _data;
     private _callback;
-    private _size;
     modified: boolean;
-    constructor(data: number[], size: number);
+    constructor(data: number[], size: number, modified?: boolean);
     data: number[];
     callback: () => number[];
 }

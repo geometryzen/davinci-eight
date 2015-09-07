@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,13 +143,14 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;);
-import Mutable = require(&#x27;../math/Mutable&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import LinearElement = require(&#x27;../math/LinearElement&#x27;);
+import Mutable = require(&#x27;../math/Mutable&#x27;);
 
 /**
  * @class Vector1
  */
-class Vector1 implements Cartesian1, Mutable&lt;number[]&gt; {
+class Vector1 implements Cartesian1, Mutable&lt;number[]&gt;, LinearElement&lt;Cartesian1, Vector1&gt; {
   private $data: number[];
   private $callback: () =&gt; number[];
   public modified: boolean;
@@ -158,7 +159,7 @@ class Vector1 implements Cartesian1, Mutable&lt;number[]&gt; {
    * @constructor
    * @param data {number[]}
    */
-  constructor(data: number[] = [0, 0]) {
+  constructor(data: number[] = [0]) {
     this.data = data;
     this.modified = false;
   }
@@ -234,6 +235,10 @@ class Vector1 implements Cartesian1, Mutable&lt;number[]&gt; {
     this.x = a.x + b.x;
     return this;
   }
+  exp() {
+    this.x = Math.exp(this.x);
+    return this;
+  }
   sub(v: Cartesian1) {
     this.x -= v.x;
     return this;
@@ -250,8 +255,8 @@ class Vector1 implements Cartesian1, Mutable&lt;number[]&gt; {
     this.x *= v.x;
     return this;
   }
-  multiplyScalar(s: number) {
-    this.x *= s;
+  multiplyScalar(scalar: number) {
+    this.x *= scalar;
     return this;
   }
   divide(v: Cartesian1) {
@@ -331,7 +336,7 @@ class Vector1 implements Cartesian1, Mutable&lt;number[]&gt; {
     return this;
   }
   lerpVectors(v1: Vector1, v2: Vector1, alpha: number) {
-    this.subVectors( v2, v1 ).multiplyScalar( alpha ).add( v1 );
+    this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
     return this;
   }
   equals(v: Cartesian1) {

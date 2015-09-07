@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -145,6 +145,7 @@
 import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
 // TODO: Anything after this line hints of excessive coupling.
 import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
@@ -193,7 +194,7 @@ class Matrix4 extends AbstractMatrix {
     this.translate(position);
     return this;
   }
-  copy(m: Matrix4): Matrix4 {
+  copy(m: Matrix4) {
     this.data.set(m.data);
     return this;
   }
@@ -273,7 +274,7 @@ class Matrix4 extends AbstractMatrix {
   identity(): Matrix4 {
     return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
-  multiplyScalar(s): Matrix4 {
+  multiplyScalar(s: number) {
     let te = this.data;
     te[ 0 ] *= s; te[ 4 ] *= s; te[ 8 ] *= s; te[ 12 ] *= s;
     te[ 1 ] *= s; te[ 5 ] *= s; te[ 9 ] *= s; te[ 13 ] *= s;

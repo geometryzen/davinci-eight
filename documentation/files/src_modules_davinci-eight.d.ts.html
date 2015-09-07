@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -297,6 +297,17 @@ class Mutable&lt;T&gt; {
   data: T;
   callback: () =&gt; T;
 }
+interface LinearElement&lt;I, M&gt; {
+  add(element: I): M;
+  clone(): M;
+  copy(source: I): M;
+  divideScalar(scalar: number): M;
+  multiplyScalar(scalar: number): M;
+}
+interface GeometricElement&lt;I, M&gt; extends LinearElement&lt;I, M&gt; {
+  exp(): M;
+  multiply(element: I): M;
+}
 class Matrix1 {
   public data: Float32Array;
   constructor(data: Float32Array);
@@ -415,7 +426,7 @@ interface Spinor3Coords {
   xy: number;
   w: number;
 }
-class Spinor3 extends Mutable&lt;number[]&gt; implements Spinor3Coords {
+class Spinor3 extends Mutable&lt;number[]&gt; implements Spinor3Coords, GeometricElement&lt;Spinor3Coords, Spinor3&gt; {
   public yz: number;
   public zx: number;
   public xy: number;
@@ -424,8 +435,13 @@ class Spinor3 extends Mutable&lt;number[]&gt; implements Spinor3Coords {
   public callback: () =&gt; number[];
   public modified: boolean;
   constructor(spinor?: number[]);
+  add(rhs: Spinor3Coords): Spinor3;
   clone(): Spinor3;
   copy(spinor: Spinor3Coords): Spinor3;
+  divideScalar(scalar: number): Spinor3;
+  exp(): Spinor3;
+  multiply(rhs: Spinor3Coords): Spinor3;
+  multiplyScalar(scalar: number): Spinor3;
   toString(): string;
 }
 interface Cartesian3 {

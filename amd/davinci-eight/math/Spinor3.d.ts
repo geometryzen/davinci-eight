@@ -1,15 +1,12 @@
-import Spinor3Coords = require('../math/Spinor3Coords');
+import AbstractVector = require('../math/AbstractVector');
+import GeometricElement = require('../math/GeometricElement');
 import Mutable = require('../math/Mutable');
+import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class Spinor3
  */
-declare class Spinor3 implements Spinor3Coords, Mutable<number[]> {
-    private $data;
-    private $callback;
-    modified: boolean;
+declare class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3> {
     constructor(data?: number[]);
-    data: number[];
-    callback: () => number[];
     /**
      * @property yz
      * @type Number
@@ -30,8 +27,13 @@ declare class Spinor3 implements Spinor3Coords, Mutable<number[]> {
      * @type Number
      */
     w: number;
+    add(element: Spinor3Coords): Spinor3;
     clone(): Spinor3;
     copy(spinor: Spinor3Coords): Spinor3;
+    divideScalar(scalar: number): Spinor3;
+    exp(): Spinor3;
+    multiply(rhs: Spinor3Coords): Spinor3;
+    multiplyScalar(scalar: number): Spinor3;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

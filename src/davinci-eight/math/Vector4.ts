@@ -1,4 +1,5 @@
 import Cartesian4 = require('../math/Cartesian4');
+import LinearElement = require('../math/LinearElement');
 import Mutable = require('../math/Mutable');
 import expectArg = require('../checks/expectArg');
 import AbstractVector = require('../math/AbstractVector');
@@ -6,7 +7,7 @@ import AbstractVector = require('../math/AbstractVector');
 /**
  * @class Vector4
  */
-class Vector4 extends AbstractVector implements Cartesian4 {
+class Vector4 extends AbstractVector implements Cartesian4, LinearElement<Cartesian4, Vector4> {
   /**
    * @class Vector4
    * @constructor
@@ -73,6 +74,33 @@ class Vector4 extends AbstractVector implements Cartesian4 {
   }
   setW(w: number) {
     this.w = w;
+    return this;
+  }
+  add(rhs: Cartesian4) {
+    return this;
+  }
+  clone() {
+    return new Vector4([this.x, this.y, this.z, this.w]);
+  }
+  copy(v: Cartesian4) {
+    this.x = v.x;
+    this.y = v.y;
+    this.z = v.z;
+    this.w = v.w;
+    return this;
+  }
+  divideScalar(scalar: number) {
+    this.x /= scalar;
+    this.y /= scalar;
+    this.z /= scalar;
+    this.w /= scalar;
+    return this;
+  }
+  multiplyScalar(scalar: number) {
+    this.x *= scalar;
+    this.y *= scalar;
+    this.z *= scalar;
+    this.w *= scalar;
     return this;
   }
 }

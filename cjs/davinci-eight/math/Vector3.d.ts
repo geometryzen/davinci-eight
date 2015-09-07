@@ -1,4 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3');
+import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
@@ -6,7 +7,7 @@ import Mutable = require('../math/Mutable');
 /**
  * @class Vector3
  */
-declare class Vector3 implements Cartesian3, Mutable<number[]> {
+declare class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Cartesian3, Vector3> {
     private $data;
     private $callback;
     modified: boolean;

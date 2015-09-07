@@ -95,6 +95,33 @@ define(["require", "exports", '../math/AbstractVector'], function (require, expo
             this.w = w;
             return this;
         };
+        Vector4.prototype.add = function (rhs) {
+            return this;
+        };
+        Vector4.prototype.clone = function () {
+            return new Vector4([this.x, this.y, this.z, this.w]);
+        };
+        Vector4.prototype.copy = function (v) {
+            this.x = v.x;
+            this.y = v.y;
+            this.z = v.z;
+            this.w = v.w;
+            return this;
+        };
+        Vector4.prototype.divideScalar = function (scalar) {
+            this.x /= scalar;
+            this.y /= scalar;
+            this.z /= scalar;
+            this.w /= scalar;
+            return this;
+        };
+        Vector4.prototype.multiplyScalar = function (scalar) {
+            this.x *= scalar;
+            this.y *= scalar;
+            this.z *= scalar;
+            this.w *= scalar;
+            return this;
+        };
         return Vector4;
     })(AbstractVector);
     return Vector4;

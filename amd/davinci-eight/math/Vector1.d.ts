@@ -1,9 +1,10 @@
 import Cartesian1 = require('../math/Cartesian1');
+import LinearElement = require('../math/LinearElement');
 import Mutable = require('../math/Mutable');
 /**
  * @class Vector1
  */
-declare class Vector1 implements Cartesian1, Mutable<number[]> {
+declare class Vector1 implements Cartesian1, Mutable<number[]>, LinearElement<Cartesian1, Vector1> {
     private $data;
     private $callback;
     modified: boolean;
@@ -28,11 +29,12 @@ declare class Vector1 implements Cartesian1, Mutable<number[]> {
     add(v: Cartesian1): Vector1;
     addScalar(s: number): Vector1;
     addVectors(a: Cartesian1, b: Cartesian1): Vector1;
+    exp(): Vector1;
     sub(v: Cartesian1): Vector1;
     subScalar(s: number): Vector1;
     subVectors(a: Cartesian1, b: Cartesian1): Vector1;
     multiply(v: Cartesian1): Vector1;
-    multiplyScalar(s: number): Vector1;
+    multiplyScalar(scalar: number): Vector1;
     divide(v: Cartesian1): Vector1;
     divideScalar(scalar: number): Vector1;
     min(v: Cartesian1): Vector1;

@@ -1,42 +1,15 @@
-import Spinor3Coords = require('../math/Spinor3Coords');
-import Mutable = require('../math/Mutable');
+import AbstractVector = require('../math/AbstractVector');
 import expectArg = require('../checks/expectArg');
+import GeometricElement = require('../math/GeometricElement');
+import Mutable = require('../math/Mutable');
+import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class Spinor3
  */
-class Spinor3 implements Spinor3Coords, Mutable<number[]>
+class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3>
 {
-  private $data: number[];
-  private $callback: () => number[];
-  public modified: boolean;
   constructor(data: number[] = [0, 0, 0, 1]) {
-    this.data = data;
-    this.modified = false;
-  }
-  get data() {
-    if (this.$data) {
-      return this.$data;
-    }
-    else if (this.$callback) {
-      var data = this.$callback();
-      expectArg('callback()', data).toSatisfy(data.length === 4, "callback() length must be 4");
-      return this.$callback();
-    }
-    else {
-      throw new Error("Vector3 is undefined.");
-    }
-  }
-  set data(data: number[]) {
-    expectArg('data', data).toSatisfy(data.length === 4, "data length must be 4");
-    this.$data = data;
-    this.$callback = void 0;
-  }
-  get callback() {
-    return this.$callback;
-  }
-  set callback(reactTo: () => number[]) {
-    this.$callback = reactTo;
-    this.$data = void 0;
+    super(data, 4);
   }
   /**
    * @property yz
@@ -82,14 +55,49 @@ class Spinor3 implements Spinor3Coords, Mutable<number[]>
     this.modified = this.modified || this.w !== value;
     this.data[3] = value;
   }
-  clone(): Spinor3 {
+  add(element: Spinor3Coords) {
+    return this;
+  }
+  clone() {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
-  copy(spinor: Spinor3Coords): Spinor3 {
+  copy(spinor: Spinor3Coords) {
     this.yz = spinor.yz;
     this.zx = spinor.zx;
     this.xy = spinor.xy;
     this.w  = spinor.w;
+    return this;
+  }
+  divideScalar(scalar: number) {
+    this.yz /= scalar;
+    this.zx /= scalar;
+    this.xy /= scalar;
+    this.w  /= scalar;
+    return this;
+  }
+  exp() {
+    let w  = this.w;
+    let yz = this.yz;
+    let zx = this.zx;
+    let xy = this.xy;
+    let expW  = Math.exp(w);
+    let B  = Math.sqrt(yz * yz + zx * zx + xy * xy);
+    let s  = expW * (B !== 0 ? Math.sin(B) / B : 1);
+    this.w  = expW * Math.cos(B);
+    this.yz = yz * s;
+    this.zx = zx * s;
+    this.xy = xy * s;
+    return this;
+  }
+  multiply(rhs: Spinor3Coords) {
+    let w = rhs.w;
+    return this;
+  }
+  multiplyScalar(scalar: number) {
+    this.yz *= scalar;
+    this.zx *= scalar;
+    this.xy *= scalar;
+    this.w  *= scalar;
     return this;
   }
   /**

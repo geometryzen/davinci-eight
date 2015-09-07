@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -142,45 +142,18 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
-import Mutable = require(&#x27;../math/Mutable&#x27;);
+import AbstractVector = require(&#x27;../math/AbstractVector&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
+import Mutable = require(&#x27;../math/Mutable&#x27;);
+import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 /**
  * @class Spinor3
  */
-class Spinor3 implements Spinor3Coords, Mutable&lt;number[]&gt;
+class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable&lt;number[]&gt;, GeometricElement&lt;Spinor3Coords, Spinor3&gt;
 {
-  private $data: number[];
-  private $callback: () =&gt; number[];
-  public modified: boolean;
   constructor(data: number[] = [0, 0, 0, 1]) {
-    this.data = data;
-    this.modified = false;
-  }
-  get data() {
-    if (this.$data) {
-      return this.$data;
-    }
-    else if (this.$callback) {
-      var data = this.$callback();
-      expectArg(&#x27;callback()&#x27;, data).toSatisfy(data.length === 4, &quot;callback() length must be 4&quot;);
-      return this.$callback();
-    }
-    else {
-      throw new Error(&quot;Vector3 is undefined.&quot;);
-    }
-  }
-  set data(data: number[]) {
-    expectArg(&#x27;data&#x27;, data).toSatisfy(data.length === 4, &quot;data length must be 4&quot;);
-    this.$data = data;
-    this.$callback = void 0;
-  }
-  get callback() {
-    return this.$callback;
-  }
-  set callback(reactTo: () =&gt; number[]) {
-    this.$callback = reactTo;
-    this.$data = void 0;
+    super(data, 4);
   }
   /**
    * @property yz
@@ -226,14 +199,49 @@ class Spinor3 implements Spinor3Coords, Mutable&lt;number[]&gt;
     this.modified = this.modified || this.w !== value;
     this.data[3] = value;
   }
-  clone(): Spinor3 {
+  add(element: Spinor3Coords) {
+    return this;
+  }
+  clone() {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
-  copy(spinor: Spinor3Coords): Spinor3 {
+  copy(spinor: Spinor3Coords) {
     this.yz = spinor.yz;
     this.zx = spinor.zx;
     this.xy = spinor.xy;
     this.w  = spinor.w;
+    return this;
+  }
+  divideScalar(scalar: number) {
+    this.yz /= scalar;
+    this.zx /= scalar;
+    this.xy /= scalar;
+    this.w  /= scalar;
+    return this;
+  }
+  exp() {
+    let w  = this.w;
+    let yz = this.yz;
+    let zx = this.zx;
+    let xy = this.xy;
+    let expW  = Math.exp(w);
+    let B  = Math.sqrt(yz * yz + zx * zx + xy * xy);
+    let s  = expW * (B !== 0 ? Math.sin(B) / B : 1);
+    this.w  = expW * Math.cos(B);
+    this.yz = yz * s;
+    this.zx = zx * s;
+    this.xy = xy * s;
+    return this;
+  }
+  multiply(rhs: Spinor3Coords) {
+    let w = rhs.w;
+    return this;
+  }
+  multiplyScalar(scalar: number) {
+    this.yz *= scalar;
+    this.zx *= scalar;
+    this.xy *= scalar;
+    this.w  *= scalar;
     return this;
   }
   /**

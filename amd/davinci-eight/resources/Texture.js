@@ -17,7 +17,7 @@ define(["require", "exports"], function (require, exports) {
         Texture.prototype.contextFree = function () {
             if (this._texture) {
                 this._context.deleteTexture(this._texture);
-                console.log("WebGLTexture deleted");
+                // console.log("WebGLTexture deleted");
                 this._texture = void 0;
             }
             this._context = void 0;
@@ -27,7 +27,6 @@ define(["require", "exports"], function (require, exports) {
                 this.contextFree();
                 this._context = context;
                 this._texture = context.createTexture();
-                console.log("WebGLTexture created");
             }
         };
         Texture.prototype.contextLoss = function () {

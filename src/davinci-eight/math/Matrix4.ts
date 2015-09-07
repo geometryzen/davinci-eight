@@ -1,6 +1,7 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+import GeometricElement = require('../math/GeometricElement');
 // TODO: Anything after this line hints of excessive coupling.
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
@@ -49,7 +50,7 @@ class Matrix4 extends AbstractMatrix {
     this.translate(position);
     return this;
   }
-  copy(m: Matrix4): Matrix4 {
+  copy(m: Matrix4) {
     this.data.set(m.data);
     return this;
   }
@@ -129,7 +130,7 @@ class Matrix4 extends AbstractMatrix {
   identity(): Matrix4 {
     return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
-  multiplyScalar(s): Matrix4 {
+  multiplyScalar(s: number) {
     let te = this.data;
     te[ 0 ] *= s; te[ 4 ] *= s; te[ 8 ] *= s; te[ 12 ] *= s;
     te[ 1 ] *= s; te[ 5 ] *= s; te[ 9 ] *= s; te[ 13 ] *= s;

@@ -1,9 +1,10 @@
 define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     var AbstractVector = (function () {
-        function AbstractVector(data, size) {
-            this._data = data;
-            this._size = size;
-            this.modified = false;
+        function AbstractVector(data, size, modified) {
+            if (modified === void 0) { modified = false; }
+            this._size = expectArg('size', size).toBeNumber().toSatisfy(size >= 0, "size must be positive").value;
+            this._data = expectArg('data', data).toBeObject().toSatisfy(data.length === size, "data length must be " + size).value;
+            this.modified = expectArg('modified', modified).toBeBoolean().value;
         }
         Object.defineProperty(AbstractVector.prototype, "data", {
             get: function () {

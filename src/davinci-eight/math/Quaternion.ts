@@ -1,10 +1,11 @@
 import Cartesian3 = require('../math/Cartesian3');
+import GeometricElement = require('../math/GeometricElement');
 import Matrix4 = require('../math/Matrix4');
 import Vector3 = require('../math/Vector3');
 
 var EPS = 0.000001;
 
-class Quaternion {
+class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   private _x: number;
   private _y: number;
   private _z: number;
@@ -44,6 +45,9 @@ class Quaternion {
     this._w = value;
     this.onChangeCallback();
   }
+  add(element: Quaternion) {
+    return this;
+  }
   set(x: number, y: number, z: number, w: number) {
     this._x = x;
     this._y = y;
@@ -70,8 +74,14 @@ class Quaternion {
     this.onChangeCallback();
     return this;
   }
+  divideScalar(scalar: number) {
+    return this;
+  }
   dot(v: Quaternion): number {
     return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
+  }
+  exp() {
+    return this;
   }
   inverse(): Quaternion {
     this.conjugate().normalize();
@@ -92,6 +102,9 @@ class Quaternion {
     this._z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx;
     this._w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz;
     this.onChangeCallback();
+    return this;
+  }
+  multiplyScalar(scalar: number) {
     return this;
   }
   normalize(): Quaternion {

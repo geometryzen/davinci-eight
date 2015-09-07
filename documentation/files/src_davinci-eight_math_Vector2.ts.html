@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.75.0</em>
+            <em>API Docs for: 2.76.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,13 +143,14 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;);
+import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 import Mutable = require(&#x27;../math/Mutable&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
 /**
  * @class Vector2
  */
-class Vector2 implements Cartesian2, Mutable&lt;number[]&gt; {
+class Vector2 implements Cartesian2, Mutable&lt;number[]&gt;, LinearElement&lt;Cartesian2, Vector2&gt; {
   private $data: number[];
   private $callback: () =&gt; number[];
   public modified: boolean;
