@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.74.0</em>
+            <em>API Docs for: 2.75.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -178,7 +178,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     throw new Error(&quot;fragmentShader argument must be a string.&quot;);
   }
 
-  var refCount: number = 0;
+  var refCount: number = 1;
   var program: WebGLProgram;
   var $context: WebGLRenderingContext;
 
@@ -198,16 +198,18 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
     get uniforms(): { [name: string]: UniformLocation } {
       return uniformLocations;
     },
-    addRef(): void {
+    addRef(): number {
       refCount++;
       // console.log(&quot;shaderProgram.addRef() =&gt; &quot; + refCount);
+      return refCount;
     },
-    release(): void {
+    release(): number {
       refCount--;
       // console.log(&quot;shaderProgram.release() =&gt; &quot; + refCount);
       if (refCount === 0) {
         self.contextFree();
       }
+      return refCount;
     },
     contextFree() {
       if (isDefined($context)) {
@@ -409,7 +411,6 @@ function makeWebGLProgram(gl: WebGLRenderingContext, vertexShader: string, fragm
     gl.deleteShader(fs);
 
     gl.deleteProgram(program);
-    // console.log(&quot;WebGLProgram deleted&quot;);
 
     throw new Error(&quot;Error linking program: &quot; + message);
   }

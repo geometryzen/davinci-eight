@@ -7,7 +7,7 @@ function cylinderGeometry(options) {
 }
 function cylinderMesh(options) {
     var base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
-    var refCount = 0;
+    var refCount = 1;
     var publicAPI = {
         draw: function () {
             return base.draw();
@@ -32,12 +32,15 @@ function cylinderMesh(options) {
         },
         addRef: function () {
             refCount++;
+            return refCount;
         },
         release: function () {
             refCount--;
             if (refCount === 0) {
                 base.release();
+                base = void 0;
             }
+            return refCount;
         },
         contextFree: function () {
             return base.contextFree();

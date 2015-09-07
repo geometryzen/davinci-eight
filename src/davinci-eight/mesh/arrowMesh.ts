@@ -30,7 +30,7 @@ function arrowGeometry(options?: ArrowOptions): Geometry {
 function arrowMesh(options?: ArrowOptions) : AttribProvider {
 
   let base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
-  var refCount: number = 0;
+  var refCount: number = 1;
 
   let publicAPI: AttribProvider = {
     draw() {
@@ -54,14 +54,17 @@ function arrowMesh(options?: ArrowOptions) : AttribProvider {
     get dynamic() {
       return base.dynamic;
     },
-    addRef() {
+    addRef(): number {
       refCount++;
+      return refCount;
     },
-    release() {
+    release(): number {
       refCount--;
       if (refCount === 0) {
         base.release();
+        base = void 0;
       }
+      return refCount;
     },
     contextFree() {
       return base.contextFree();

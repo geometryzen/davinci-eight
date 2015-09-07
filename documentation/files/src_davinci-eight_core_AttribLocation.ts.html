@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.74.0</em>
+            <em>API Docs for: 2.75.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -175,18 +175,17 @@ class AttribLocation implements RenderingContextProgramUser {
     this._name = expectArg(&#x27;name&#x27;, name).toBeString().value;
   }
   contextFree(): void {
-    this._location = void 0;
-    this._context = void 0;
+    this.contextLoss();
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
-    if (this._context !== context) {
-      this._location = context.getAttribLocation(program, this._name);
-      this._context = context;
-    }
+    this.contextLoss();
+    this._location = context.getAttribLocation(program, this._name);
+    this._context  = context;
   }
   contextLoss(): void {
     this._location = void 0;
-    this._context = void 0;
+    this._context  = void 0;
+    this._enabled  = void 0;
   }
   /**
    * @method vertexPointer

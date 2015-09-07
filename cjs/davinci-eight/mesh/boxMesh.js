@@ -8,7 +8,7 @@ function boxGeometry(options) {
 function boxMesh(options) {
     var base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
     base.addRef();
-    var refCount = 0;
+    var refCount = 1;
     var self = {
         draw: function () {
             return base.draw();
@@ -33,6 +33,7 @@ function boxMesh(options) {
         },
         addRef: function () {
             refCount++;
+            return refCount;
         },
         release: function () {
             refCount--;
@@ -40,6 +41,7 @@ function boxMesh(options) {
                 base.release();
                 base = void 0;
             }
+            return refCount;
         },
         contextFree: function () {
             return base.contextFree();

@@ -22,7 +22,7 @@ function cylinderGeometry(options?: CylinderOptions): Geometry {
 function cylinderMesh(options?: CylinderOptions) : AttribProvider {
 
   let base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
-  var refCount: number = 0;
+  var refCount: number = 1;
 
   let publicAPI: AttribProvider = {
     draw() {
@@ -46,14 +46,17 @@ function cylinderMesh(options?: CylinderOptions) : AttribProvider {
     get dynamic() {
       return base.dynamic;
     },
-    addRef() {
+    addRef(): number {
       refCount++;
+      return refCount;
     },
-    release() {
+    release(): number {
       refCount--;
       if (refCount === 0) {
         base.release();
+        base = void 0;
       }
+      return refCount;
     },
     contextFree() {
       return base.contextFree();

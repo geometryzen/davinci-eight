@@ -31,18 +31,17 @@ class AttribLocation implements RenderingContextProgramUser {
     this._name = expectArg('name', name).toBeString().value;
   }
   contextFree(): void {
-    this._location = void 0;
-    this._context = void 0;
+    this.contextLoss();
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
-    if (this._context !== context) {
-      this._location = context.getAttribLocation(program, this._name);
-      this._context = context;
-    }
+    this.contextLoss();
+    this._location = context.getAttribLocation(program, this._name);
+    this._context  = context;
   }
   contextLoss(): void {
     this._location = void 0;
-    this._context = void 0;
+    this._context  = void 0;
+    this._enabled  = void 0;
   }
   /**
    * @method vertexPointer

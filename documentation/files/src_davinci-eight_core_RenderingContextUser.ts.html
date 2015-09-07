@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.74.0</em>
+            <em>API Docs for: 2.75.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -142,7 +142,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ReferenceCounted = require(&#x27;../core/ReferenceCounted&#x27;);
+import IUnknown = require(&#x27;../core/IUnknown&#x27;);
 /**
  * This interface standardizes the concept of an implementation being dependent upon
  * a WebGLRenderingContext. The notification methods for context gain, loss, and free
@@ -150,7 +150,7 @@ import ReferenceCounted = require(&#x27;../core/ReferenceCounted&#x27;);
  * whereupon a browser may reset its WebGLRenderingContext(s).
  * @class RenderingContextUser
  */
-interface RenderingContextUser extends ReferenceCounted {
+interface RenderingContextUser extends IUnknown {
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order

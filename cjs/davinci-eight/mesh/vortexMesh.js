@@ -33,6 +33,7 @@ function vortexMesh(options) {
         },
         addRef: function () {
             refCount++;
+            return refCount;
         },
         release: function () {
             refCount--;
@@ -40,6 +41,7 @@ function vortexMesh(options) {
                 base.release();
                 base = void 0;
             }
+            return refCount;
         },
         contextFree: function () {
             return base.contextFree();

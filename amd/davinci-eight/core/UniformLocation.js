@@ -40,6 +40,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @method contextFree
          */
         UniformLocation.prototype.contextFree = function () {
+            this.contextLoss();
         };
         /**
          * @method contextGain
@@ -47,6 +48,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param program {WebGLProgram}
          */
         UniformLocation.prototype.contextGain = function (context, program) {
+            this.contextLoss();
             this._location = context.getUniformLocation(program, this._name);
             this._context = context;
         };
@@ -54,6 +56,14 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @method contextLoss
          */
         UniformLocation.prototype.contextLoss = function () {
+            this._location = void 0;
+            this._context = void 0;
+            this._x = void 0;
+            this._y = void 0;
+            this._z = void 0;
+            this._w = void 0;
+            this._matrix4.map(function () { return void 0; });
+            this._transpose = void 0;
         };
         /**
          * @method uniform1f

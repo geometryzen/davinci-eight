@@ -1,15 +1,17 @@
 var Texture = (function () {
     function Texture() {
-        this._refCount = 0;
+        this._refCount = 1;
     }
     Texture.prototype.addRef = function () {
         this._refCount++;
+        return this._refCount;
     };
     Texture.prototype.release = function () {
         this._refCount--;
         if (this._refCount === 0) {
             this.contextFree();
         }
+        return this._refCount;
     };
     Texture.prototype.contextFree = function () {
         if (this._texture) {

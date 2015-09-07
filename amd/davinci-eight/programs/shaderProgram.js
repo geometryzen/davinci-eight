@@ -7,7 +7,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
         if (typeof fragmentShader !== 'string') {
             throw new Error("fragmentShader argument must be a string.");
         }
-        var refCount = 0;
+        var refCount = 1;
         var program;
         var $context;
         var attributeLocations = {};
@@ -28,6 +28,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             addRef: function () {
                 refCount++;
                 // console.log("shaderProgram.addRef() => " + refCount);
+                return refCount;
             },
             release: function () {
                 refCount--;
@@ -35,6 +36,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                 if (refCount === 0) {
                     self.contextFree();
                 }
+                return refCount;
             },
             contextFree: function () {
                 if (isDefined($context)) {
@@ -230,7 +232,6 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             gl.detachShader(program, fs);
             gl.deleteShader(fs);
             gl.deleteProgram(program);
-            // console.log("WebGLProgram deleted");
             throw new Error("Error linking program: " + message);
         }
     }

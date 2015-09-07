@@ -1,15 +1,19 @@
 var VertexBuffer = (function () {
     function VertexBuffer() {
-        this._refCount = 0;
+        this._refCount = 1;
     }
     VertexBuffer.prototype.addRef = function () {
         this._refCount++;
+        // console.log("VertexBuffer.addRef() => " + this._refCount);
+        return this._refCount;
     };
     VertexBuffer.prototype.release = function () {
         this._refCount--;
+        // console.log("VertexBuffer.release() => " + this._refCount);
         if (this._refCount === 0) {
             this.contextFree();
         }
+        return this._refCount;
     };
     VertexBuffer.prototype.contextFree = function () {
         if (this._buffer) {

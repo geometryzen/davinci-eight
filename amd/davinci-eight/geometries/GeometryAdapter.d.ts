@@ -26,7 +26,6 @@ declare class GeometryAdapter extends DefaultAttribProvider {
     private positionBuffer;
     private normalBuffer;
     private attributeDataInfos;
-    private _refCount;
     /**
      * @class GeometryAdapter
      * @constructor
@@ -38,8 +37,8 @@ declare class GeometryAdapter extends DefaultAttribProvider {
         positionVarName?: string;
         normalVarName?: string;
     });
-    addRef(): void;
-    release(): void;
+    addRef(): number;
+    release(): number;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;

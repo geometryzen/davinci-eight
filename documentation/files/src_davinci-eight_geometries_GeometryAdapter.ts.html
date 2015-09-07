@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.74.0</em>
+            <em>API Docs for: 2.75.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -195,7 +195,6 @@ class GeometryAdapter extends DefaultAttribProvider {
   private positionBuffer: VertexBuffer;
   private normalBuffer: VertexBuffer;
   private attributeDataInfos: AttribDataInfos;
-  private _refCount: number = 0;
   /**
    * @class GeometryAdapter
    * @constructor
@@ -227,11 +226,12 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.elementsUsage = options.elementsUsage;
     this.attributeDataInfos = computeAttribData(this.positionVarName, this.positionBuffer, this.normalVarName, this.normalBuffer, this.drawMode);
   }
-  addRef() {
+  addRef(): number {
     this._refCount++;
     // console.log(&quot;GeometryAdapter.addRef() =&gt; &quot; + this._refCount);
+    return this._refCount;
   }
-  release() {
+  release(): number {
     this._refCount--;
     // console.log(&quot;GeometryAdapter.release() =&gt; &quot; + this._refCount);
     if (this._refCount === 0) {
@@ -242,6 +242,7 @@ class GeometryAdapter extends DefaultAttribProvider {
       this.normalBuffer.release();
       this.normalBuffer = void 0;
     }
+    return this._refCount;
   }
   contextFree(): void {
     this.indexBuffer.contextFree();

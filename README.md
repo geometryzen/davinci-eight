@@ -176,6 +176,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.72.0: 2015-09-05 drawArrays
 * 2.73.0: 2015-09-06 cleanup
 * 2.74.0: 2015-09-06 memoize
+* 2.75.0: 2015-09-06 IUnknown
 
 ## License
 Copyright (c) 2014-2015 David Holmes

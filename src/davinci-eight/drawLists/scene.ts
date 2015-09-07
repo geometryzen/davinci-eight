@@ -23,7 +23,7 @@ class ProgramInfo {
 let scene = function(): DrawList {
 
   let programs: { [programId: string]: ProgramInfo } = {};
-  var refCount: number = 0;
+  var refCount: number = 1;
 
   var $context: WebGLRenderingContext;
 
@@ -40,11 +40,12 @@ let scene = function(): DrawList {
   }
 
   let self: DrawList = {
-    addRef() {
+    addRef(): number {
       refCount++;
       // console.log("scene.addRef() => " + refCount);
+      return refCount;
     },
-    release() {
+    release(): number {
       refCount--;
       // console.log("scene.release() => " + refCount);
       if (refCount === 0) {
@@ -52,6 +53,7 @@ let scene = function(): DrawList {
           drawable.release();
         });
       }
+      return refCount;
     },
     contextFree() {
       self.traverse(function(drawable: Drawable) {

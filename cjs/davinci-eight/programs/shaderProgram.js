@@ -10,7 +10,7 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
     if (typeof fragmentShader !== 'string') {
         throw new Error("fragmentShader argument must be a string.");
     }
-    var refCount = 0;
+    var refCount = 1;
     var program;
     var $context;
     var attributeLocations = {};
@@ -31,6 +31,7 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
         addRef: function () {
             refCount++;
             // console.log("shaderProgram.addRef() => " + refCount);
+            return refCount;
         },
         release: function () {
             refCount--;
@@ -38,6 +39,7 @@ var shaderProgram = function (vertexShader, fragmentShader, uuid) {
             if (refCount === 0) {
                 self.contextFree();
             }
+            return refCount;
         },
         contextFree: function () {
             if (isDefined($context)) {
@@ -233,7 +235,6 @@ function makeWebGLProgram(gl, vertexShader, fragmentShader) {
         gl.detachShader(program, fs);
         gl.deleteShader(fs);
         gl.deleteProgram(program);
-        // console.log("WebGLProgram deleted");
         throw new Error("Error linking program: " + message);
     }
 }

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.74.0",
+        "version": "2.75.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1220,7 +1220,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/GeometryAdapter.ts",
-            "line": 55,
+            "line": 54,
             "description": "Adapter from a Geometry to a AttribProvider.\nEnables the rapid construction of meshes starting from classes that extend Geometry.\nAutomatically uses elements (vertex indices).",
             "extends": "VertexAttributeProivider",
             "is_constructor": 1,
@@ -1904,7 +1904,7 @@
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 47,
+            "line": 46,
             "itemtype": "method",
             "name": "vertexPointer",
             "params": [
@@ -1933,7 +1933,7 @@
         },
         {
             "file": "src/davinci-eight/core/AttribLocation.ts",
-            "line": 69,
+            "line": 68,
             "itemtype": "method",
             "name": "toString",
             "class": "AttribLocation"
@@ -2282,7 +2282,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 58,
+            "line": 59,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -2301,14 +2301,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 67,
+            "line": 69,
             "itemtype": "method",
             "name": "contextLoss",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 72,
+            "line": 82,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -2321,7 +2321,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 82,
+            "line": 92,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -2340,7 +2340,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 90,
+            "line": 100,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -2364,7 +2364,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 99,
+            "line": 109,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -2393,7 +2393,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 109,
+            "line": 119,
             "itemtype": "method",
             "name": "matrix1",
             "params": [
@@ -2412,7 +2412,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 117,
+            "line": 127,
             "itemtype": "method",
             "name": "matrix2",
             "params": [
@@ -2431,7 +2431,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 125,
+            "line": 135,
             "itemtype": "method",
             "name": "matrix3",
             "params": [
@@ -2450,7 +2450,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 133,
+            "line": 143,
             "itemtype": "method",
             "name": "matrix4",
             "params": [
@@ -2469,7 +2469,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 163,
+            "line": 173,
             "itemtype": "method",
             "name": "vector1",
             "params": [
@@ -2483,7 +2483,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 170,
+            "line": 180,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -2497,7 +2497,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 177,
+            "line": 187,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -2511,7 +2511,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 193,
+            "line": 203,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -2525,7 +2525,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 200,
+            "line": 210,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation"
@@ -2555,7 +2555,7 @@
         },
         {
             "file": "src/davinci-eight/core/VertexBuffer.ts",
-            "line": 39,
+            "line": 43,
             "itemtype": "method",
             "name": "bind",
             "class": "BarnGeometry"
@@ -3136,7 +3136,7 @@
         },
         {
             "file": "src/davinci-eight/programs/shaderProgram.ts",
-            "line": 244,
+            "line": 246,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": "Renderer"
         },
@@ -3182,7 +3182,7 @@
         },
         {
             "file": "src/davinci-eight/resources/Texture.ts",
-            "line": 40,
+            "line": 42,
             "itemtype": "method",
             "name": "bind",
             "parameter": "target {number}",
@@ -14315,7 +14315,7 @@
     "warnings": [
         {
             "message": "unknown tag: parameter",
-            "line": " src/davinci-eight/resources/Texture.ts:40"
+            "line": " src/davinci-eight/resources/Texture.ts:42"
         },
         {
             "message": "Missing item type\nNode implements UniformData required for manipulating a body.",
@@ -14499,7 +14499,7 @@
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " src/davinci-eight/programs/shaderProgram.ts:244"
+            "line": " src/davinci-eight/programs/shaderProgram.ts:246"
         },
         {
             "message": "Missing item type",

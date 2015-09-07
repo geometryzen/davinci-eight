@@ -1,8 +1,8 @@
-import ReferenceCounted = require('../core/ReferenceCounted');
+import IUnknown = require('../core/IUnknown');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import Texture = require('../resources/Texture');
 
-interface RenderingContextProxy extends ReferenceCounted {
+interface RenderingContextProxy extends IUnknown {
   start(): RenderingContextProxy;
   stop(): RenderingContextProxy;
   addContextUser(user: RenderingContextUser): RenderingContextProxy;

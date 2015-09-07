@@ -22,18 +22,17 @@ var AttribLocation = (function () {
         this._name = expectArg('name', name).toBeString().value;
     }
     AttribLocation.prototype.contextFree = function () {
-        this._location = void 0;
-        this._context = void 0;
+        this.contextLoss();
     };
     AttribLocation.prototype.contextGain = function (context, program) {
-        if (this._context !== context) {
-            this._location = context.getAttribLocation(program, this._name);
-            this._context = context;
-        }
+        this.contextLoss();
+        this._location = context.getAttribLocation(program, this._name);
+        this._context = context;
     };
     AttribLocation.prototype.contextLoss = function () {
         this._location = void 0;
         this._context = void 0;
+        this._enabled = void 0;
     };
     /**
      * @method vertexPointer

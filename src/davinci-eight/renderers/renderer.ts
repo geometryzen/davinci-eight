@@ -43,7 +43,7 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
   parameters = parameters || {};
 
   var $context: WebGLRenderingContext = void 0;
-  var refCount: number = 0;
+  var refCount: number = 1;
   var autoClear: boolean = true;
   let clearColor: Color = Color.fromRGB(0, 0, 0);
   var clearAlpha: number = 0;
@@ -55,16 +55,18 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
   let self: Renderer = {
     get canvas() { return canvas; },
     get context(): WebGLRenderingContext { return $context;},
-    addRef() {
+    addRef(): number {
       refCount++;
       // console.log("renderer.addRef() => " + refCount);
+      return refCount;
     },
-    release() {
+    release(): number {
       refCount--;
       // console.log("renderer.release() => " + refCount);
       if (refCount === 0) {
         $context = void 0;
       }
+      return refCount;
     },
     contextFree() {
       $context = void 0;

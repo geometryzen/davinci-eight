@@ -6,6 +6,7 @@ class IdentityAttribProvider implements AttribProvider {
   public drawMode;
   public dynamic;
   protected _context: WebGLRenderingContext;
+  protected _refCount: number = 1;
   constructor() {
   }
   draw(): void {
@@ -20,9 +21,15 @@ class IdentityAttribProvider implements AttribProvider {
     var attributes: AttribMetaInfos = {};
     return attributes;
   }
-  addRef(): void {
+  addRef(): number {
+    this._refCount++;
+    return this._refCount;
   }
-  release(): void {
+  release(): number {
+    this._refCount--;
+    if (this._refCount === 0) {
+    }
+    return this._refCount;
   }
   contextFree(): void {
     this._context = void 0;

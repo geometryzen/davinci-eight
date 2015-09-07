@@ -1,7 +1,7 @@
 var isDefined = require('../checks/isDefined');
 var primitive = function (mesh, program, model) {
     var $context;
-    var refCount = 0;
+    var refCount = 1;
     mesh.addRef();
     program.addRef();
     var self = {
@@ -17,6 +17,7 @@ var primitive = function (mesh, program, model) {
         addRef: function () {
             refCount++;
             // console.log("primitive.addRef() => " + refCount);
+            return refCount;
         },
         release: function () {
             refCount--;
@@ -27,6 +28,7 @@ var primitive = function (mesh, program, model) {
                 program.release();
                 program = void 0;
             }
+            return refCount;
         },
         contextFree: function () {
             if (isDefined($context)) {

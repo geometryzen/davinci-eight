@@ -8,7 +8,7 @@ import UniformData = require('../core/UniformData');
 var primitive = function<MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: ShaderProgram, model: MODEL): Primitive<MESH, MODEL> {
 
   var $context: WebGLRenderingContext;
-  var refCount: number = 0;
+  var refCount: number = 1;
 
   mesh.addRef();
   program.addRef();
@@ -23,11 +23,12 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformData>
     get model(): MODEL {
       return model;
     },
-    addRef() {
+    addRef(): number {
       refCount++;
       // console.log("primitive.addRef() => " + refCount);
+      return refCount;
     },
-    release() {
+    release(): number {
       refCount--;
       // console.log("primitive.release() => " + refCount);
       if (refCount === 0) {
@@ -36,6 +37,7 @@ var primitive = function<MESH extends AttribProvider, MODEL extends UniformData>
         program.release();
         program = void 0;
       }
+      return refCount;
     },
     contextFree() {
       if (isDefined($context)) {

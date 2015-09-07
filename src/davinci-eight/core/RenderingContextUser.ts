@@ -1,4 +1,4 @@
-import ReferenceCounted = require('../core/ReferenceCounted');
+import IUnknown = require('../core/IUnknown');
 /**
  * This interface standardizes the concept of an implementation being dependent upon
  * a WebGLRenderingContext. The notification methods for context gain, loss, and free
@@ -6,7 +6,7 @@ import ReferenceCounted = require('../core/ReferenceCounted');
  * whereupon a browser may reset its WebGLRenderingContext(s).
  * @class RenderingContextUser
  */
-interface RenderingContextUser extends ReferenceCounted {
+interface RenderingContextUser extends IUnknown {
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order

@@ -5,7 +5,7 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Sp
     }
     function sphereMesh(options) {
         var base = new GeometryAdapter(sphereGeometry(options), adapterOptions(options));
-        var refCount = 0;
+        var refCount = 1;
         var publicAPI = {
             draw: function () {
                 return base.draw();
@@ -30,12 +30,15 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Sp
             },
             addRef: function () {
                 refCount++;
+                return refCount;
             },
             release: function () {
                 refCount--;
                 if (refCount === 0) {
                     base.release();
+                    base = void 0;
                 }
+                return refCount;
             },
             contextFree: function () {
                 return base.contextFree();

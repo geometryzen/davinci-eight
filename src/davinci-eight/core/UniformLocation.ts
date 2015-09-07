@@ -34,8 +34,8 @@ function matrix4NE(a: number[], b: Float32Array): boolean {
  */
 class UniformLocation implements RenderingContextProgramUser {
   private _name: string;
-  private _context: WebGLRenderingContext;
   private _location: WebGLUniformLocation;
+  private _context: WebGLRenderingContext;
   private _x: number = void 0;
   private _y: number = void 0;
   private _z: number = void 0;
@@ -54,6 +54,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @method contextFree
    */
   contextFree() {
+    this.contextLoss();
   }
   /**
    * @method contextGain
@@ -61,6 +62,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param program {WebGLProgram}
    */
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
+    this.contextLoss();
     this._location = context.getUniformLocation(program, this._name);
     this._context = context;
   }
@@ -68,6 +70,14 @@ class UniformLocation implements RenderingContextProgramUser {
    * @method contextLoss
    */
   contextLoss() {
+    this._location = void 0;
+    this._context  = void 0;
+    this._x = void 0;
+    this._y = void 0;
+    this._z = void 0;
+    this._w = void 0;
+    this._matrix4.map(() => {return void 0});
+    this._transpose = void 0;
   }
   /**
    * @method uniform1f

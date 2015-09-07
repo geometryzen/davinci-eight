@@ -1,7 +1,7 @@
 define(["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
     var primitive = function (mesh, program, model) {
         var $context;
-        var refCount = 0;
+        var refCount = 1;
         mesh.addRef();
         program.addRef();
         var self = {
@@ -17,6 +17,7 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
             addRef: function () {
                 refCount++;
                 // console.log("primitive.addRef() => " + refCount);
+                return refCount;
             },
             release: function () {
                 refCount--;
@@ -27,6 +28,7 @@ define(["require", "exports", '../checks/isDefined'], function (require, exports
                     program.release();
                     program = void 0;
                 }
+                return refCount;
             },
             contextFree: function () {
                 if (isDefined($context)) {

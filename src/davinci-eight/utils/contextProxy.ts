@@ -2,6 +2,7 @@ import RenderingContextProxy = require('../utils/RenderingContextProxy');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import initWebGL = require('../renderers/initWebGL');
 import expectArg = require('../checks/expectArg');
+import isDefined = require('../checks/isDefined');
 import Texture = require('../resources/Texture');
 
 function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): RenderingContextProxy {
@@ -10,7 +11,7 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
 
   let users: RenderingContextUser[] = [];
   var context: WebGLRenderingContext;
-  var refCount: number = 0;
+  var refCount: number = 1;
 
   let webGLContextLost = function(event: Event) {
     event.preventDefault();
@@ -62,20 +63,28 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       return self;
     },
     get context() {
-      return context;
+      if (isDefined(context)) {
+        return context;
+      }
+      else {
+        console.warn("property context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+        return void 0;
+      }
     },
-    addRef(): void {
+    addRef(): number {
       refCount++;
-      // console.log("monitor.addRef() => " + refCount);
+      console.log("monitor.addRef() => " + refCount);
+      return refCount;
     },
-    release(): void {
+    release(): number {
       refCount--;
-      // console.log("monitor.release() => " + refCount);
+      console.log("monitor.release() => " + refCount);
       if (refCount === 0) {
         while(users.length > 0) {
           users.pop().release();
         }
       }
+      return refCount;
     },
     clearColor(red: number, green: number, blue: number, alpha: number): void {
       if (context) {

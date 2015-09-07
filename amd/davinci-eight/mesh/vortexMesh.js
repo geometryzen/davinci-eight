@@ -30,6 +30,7 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Vo
             },
             addRef: function () {
                 refCount++;
+                return refCount;
             },
             release: function () {
                 refCount--;
@@ -37,6 +38,7 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Vo
                     base.release();
                     base = void 0;
                 }
+                return refCount;
             },
             contextFree: function () {
                 return base.contextFree();

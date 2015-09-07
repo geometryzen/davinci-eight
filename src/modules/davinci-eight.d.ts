@@ -26,15 +26,15 @@ function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttribute
 /**
  *
  */
-interface ReferenceCounted {
-  addRef(): void;
-  release(): void;
+interface IUnknown {
+  addRef(): number;
+  release(): number;
 }
 
 /**
  *
  */
-interface RenderingContextUser extends ReferenceCounted {
+interface RenderingContextUser extends IUnknown {
   contextFree(): void;
   /**
    * Notification of a new WebGLRenderingContext.
@@ -101,8 +101,8 @@ class AttribLocation {
  */
 class VertexBuffer implements RenderingContextUser {
   constructor();
-  addRef(): void;
-  release(): void;
+  addRef(): number;
+  release(): number;
   contextFree(): void;
   contextGain(context: WebGLRenderingContext): void;
   contextLoss(): void;
@@ -134,8 +134,8 @@ class UniformLocation implements RenderingContextProgramUser {
  */
 class Texture implements RenderingContextUser {
   constructor();
-  addRef(): void;
-  release(): void;
+  addRef(): number;
+  release(): number;
   contextFree(): void;
   contextGain(context: WebGLRenderingContext): void;
   contextLoss(): void;
@@ -583,8 +583,8 @@ class GeometryAdapter implements AttribProvider
   getAttribData(): AttribDataInfos;
   getAttribMeta(): AttribMetaInfos;
   update(): void;
-  addRef(): void;
-  release(): void;
+  addRef(): number;
+  release(): number;
   contextFree(): void;
   contextGain(context: WebGLRenderingContext): void;
   contextLoss(): void;
@@ -1091,7 +1091,7 @@ function animation(
 /**
  *
  */
-interface RenderingContextProxy extends ReferenceCounted
+interface RenderingContextProxy extends IUnknown
 {
   /**
    * Starts the monitoring of the WebGL context.

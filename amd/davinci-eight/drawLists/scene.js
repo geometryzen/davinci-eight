@@ -8,7 +8,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
     })();
     var scene = function () {
         var programs = {};
-        var refCount = 0;
+        var refCount = 1;
         var $context;
         function traversePrograms(callback) {
             Object.keys(programs).forEach(function (programId) {
@@ -24,6 +24,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
             addRef: function () {
                 refCount++;
                 // console.log("scene.addRef() => " + refCount);
+                return refCount;
             },
             release: function () {
                 refCount--;
@@ -33,6 +34,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined'], fun
                         drawable.release();
                     });
                 }
+                return refCount;
             },
             contextFree: function () {
                 self.traverse(function (drawable) {

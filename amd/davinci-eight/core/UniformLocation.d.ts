@@ -13,8 +13,8 @@ import Vector4 = require('../math/Vector4');
  */
 declare class UniformLocation implements RenderingContextProgramUser {
     private _name;
-    private _context;
     private _location;
+    private _context;
     private _x;
     private _y;
     private _z;

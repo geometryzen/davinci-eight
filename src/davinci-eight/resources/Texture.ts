@@ -5,17 +5,19 @@ import RenderingContextUser = require('../core/RenderingContextUser');
 class Texture implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _texture: WebGLTexture;
-  private _refCount: number = 0;
+  private _refCount: number = 1;
   constructor() {
   }
-  addRef() {
+  addRef(): number {
     this._refCount++;
+    return this._refCount;
   }
-  release() {
+  release(): number {
     this._refCount--;
     if (this._refCount === 0) {
       this.contextFree();
     }
+    return this._refCount;
   }
   contextFree() {
     if (this._texture) {

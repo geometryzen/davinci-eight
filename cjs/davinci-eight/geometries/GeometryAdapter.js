@@ -39,7 +39,6 @@ var GeometryAdapter = (function (_super) {
         this.grayScale = false;
         this.lines = [];
         this.points = [];
-        this._refCount = 0;
         options = options || {};
         options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
         // TODO: Sharing of buffers.
@@ -60,6 +59,7 @@ var GeometryAdapter = (function (_super) {
     GeometryAdapter.prototype.addRef = function () {
         this._refCount++;
         // console.log("GeometryAdapter.addRef() => " + this._refCount);
+        return this._refCount;
     };
     GeometryAdapter.prototype.release = function () {
         this._refCount--;
@@ -72,6 +72,7 @@ var GeometryAdapter = (function (_super) {
             this.normalBuffer.release();
             this.normalBuffer = void 0;
         }
+        return this._refCount;
     };
     GeometryAdapter.prototype.contextFree = function () {
         this.indexBuffer.contextFree();

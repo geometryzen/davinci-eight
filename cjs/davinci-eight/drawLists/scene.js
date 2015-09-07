@@ -9,7 +9,7 @@ var ProgramInfo = (function () {
 })();
 var scene = function () {
     var programs = {};
-    var refCount = 0;
+    var refCount = 1;
     var $context;
     function traversePrograms(callback) {
         Object.keys(programs).forEach(function (programId) {
@@ -25,6 +25,7 @@ var scene = function () {
         addRef: function () {
             refCount++;
             // console.log("scene.addRef() => " + refCount);
+            return refCount;
         },
         release: function () {
             refCount--;
@@ -34,6 +35,7 @@ var scene = function () {
                     drawable.release();
                 });
             }
+            return refCount;
         },
         contextFree: function () {
             self.traverse(function (drawable) {

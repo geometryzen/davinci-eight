@@ -27,7 +27,7 @@ var renderer = function (canvas, parameters) {
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     parameters = parameters || {};
     var $context = void 0;
-    var refCount = 0;
+    var refCount = 1;
     var autoClear = true;
     var clearColor = Color.fromRGB(0, 0, 0);
     var clearAlpha = 0;
@@ -40,6 +40,7 @@ var renderer = function (canvas, parameters) {
         addRef: function () {
             refCount++;
             // console.log("renderer.addRef() => " + refCount);
+            return refCount;
         },
         release: function () {
             refCount--;
@@ -47,6 +48,7 @@ var renderer = function (canvas, parameters) {
             if (refCount === 0) {
                 $context = void 0;
             }
+            return refCount;
         },
         contextFree: function () {
             $context = void 0;

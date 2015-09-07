@@ -4,8 +4,8 @@ declare class Texture implements RenderingContextUser {
     private _texture;
     private _refCount;
     constructor();
-    addRef(): void;
-    release(): void;
+    addRef(): number;
+    release(): number;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;

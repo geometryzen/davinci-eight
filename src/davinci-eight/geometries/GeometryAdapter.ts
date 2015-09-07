@@ -51,7 +51,6 @@ class GeometryAdapter extends DefaultAttribProvider {
   private positionBuffer: VertexBuffer;
   private normalBuffer: VertexBuffer;
   private attributeDataInfos: AttribDataInfos;
-  private _refCount: number = 0;
   /**
    * @class GeometryAdapter
    * @constructor
@@ -83,11 +82,12 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.elementsUsage = options.elementsUsage;
     this.attributeDataInfos = computeAttribData(this.positionVarName, this.positionBuffer, this.normalVarName, this.normalBuffer, this.drawMode);
   }
-  addRef() {
+  addRef(): number {
     this._refCount++;
     // console.log("GeometryAdapter.addRef() => " + this._refCount);
+    return this._refCount;
   }
-  release() {
+  release(): number {
     this._refCount--;
     // console.log("GeometryAdapter.release() => " + this._refCount);
     if (this._refCount === 0) {
@@ -98,6 +98,7 @@ class GeometryAdapter extends DefaultAttribProvider {
       this.normalBuffer.release();
       this.normalBuffer = void 0;
     }
+    return this._refCount;
   }
   contextFree(): void {
     this.indexBuffer.contextFree();

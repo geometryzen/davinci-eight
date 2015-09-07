@@ -4,17 +4,21 @@ import RenderingContextUser = require('../core/RenderingContextUser');
 class VertexBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _buffer: WebGLBuffer;
-  private _refCount: number = 0;
+  private _refCount: number = 1;
   constructor() {
   }
-  addRef() {
+  addRef(): number {
     this._refCount++;
+    // console.log("VertexBuffer.addRef() => " + this._refCount);
+    return this._refCount;
   }
-  release() {
+  release(): number {
     this._refCount--;
+    // console.log("VertexBuffer.release() => " + this._refCount);
     if (this._refCount === 0) {
       this.contextFree();
     }
+    return this._refCount;
   }
   contextFree() {
     if (this._buffer) {

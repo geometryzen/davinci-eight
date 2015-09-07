@@ -1,11 +1,12 @@
 var initWebGL = require('../renderers/initWebGL');
 var expectArg = require('../checks/expectArg');
+var isDefined = require('../checks/isDefined');
 var Texture = require('../resources/Texture');
 function contextProxy(canvas, attributes) {
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     var users = [];
     var context;
-    var refCount = 0;
+    var refCount = 1;
     var webGLContextLost = function (event) {
         event.preventDefault();
         context = void 0;
@@ -54,20 +55,28 @@ function contextProxy(canvas, attributes) {
             return self;
         },
         get context() {
-            return context;
+            if (isDefined(context)) {
+                return context;
+            }
+            else {
+                console.warn("property context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+                return void 0;
+            }
         },
         addRef: function () {
             refCount++;
-            // console.log("monitor.addRef() => " + refCount);
+            console.log("monitor.addRef() => " + refCount);
+            return refCount;
         },
         release: function () {
             refCount--;
-            // console.log("monitor.release() => " + refCount);
+            console.log("monitor.release() => " + refCount);
             if (refCount === 0) {
                 while (users.length > 0) {
                     users.pop().release();
                 }
             }
+            return refCount;
         },
         clearColor: function (red, green, blue, alpha) {
             if (context) {

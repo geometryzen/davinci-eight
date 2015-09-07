@@ -22,7 +22,7 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
 
   let base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
   base.addRef();
-  var refCount: number = 0;
+  var refCount: number = 1;
 
   let self: AttribProvider = {
     draw() {
@@ -46,15 +46,17 @@ function boxMesh(options?: BoxOptions) : AttribProvider {
     get dynamic() {
       return base.dynamic;
     },
-    addRef() {
+    addRef(): number {
       refCount++;
+      return refCount;
     },
-    release() {
+    release(): number {
       refCount--;
       if (refCount === 0) {
         base.release();
         base = void 0;
       }
+      return refCount;
     },
     contextFree() {
       return base.contextFree();

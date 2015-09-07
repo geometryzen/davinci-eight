@@ -5,13 +5,14 @@ declare class IdentityAttribProvider implements AttribProvider {
     drawMode: any;
     dynamic: any;
     protected _context: WebGLRenderingContext;
+    protected _refCount: number;
     constructor();
     draw(): void;
     update(): void;
     getAttribData(): AttribDataInfos;
     getAttribMeta(): AttribMetaInfos;
-    addRef(): void;
-    release(): void;
+    addRef(): number;
+    release(): number;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext): void;
     contextLoss(): void;
