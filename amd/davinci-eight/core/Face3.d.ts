@@ -1,4 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3');
+import ColorRGB = require('../core/ColorRGB');
 /**
  * @class Face3
  */
@@ -20,7 +21,12 @@ declare class Face3 {
      * length 1 implies a face normal.
      * length 0 implies
      */
-    normals: Cartesian3[];
+    vertexNormals: Cartesian3[];
+    vertexColors: ColorRGB[];
+    vertexTangents: Cartesian3[];
+    normal: Cartesian3;
+    color: ColorRGB;
+    materialIndex: number;
     /**
      * @class Face3
      * @constructor
@@ -29,6 +35,7 @@ declare class Face3 {
      * @param c {number}
      * @param normals {Cartesian3[]} The per-vertex normals for this face (3) or face normal (1).
      */
-    constructor(a: number, b: number, c: number, normals?: Cartesian3[]);
+    constructor(a: number, b: number, c: number, vertexNormals?: Cartesian3[]);
+    clone(): Face3;
 }
 export = Face3;

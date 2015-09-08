@@ -1,6 +1,7 @@
 import AttribProvider = require('../core/AttribProvider');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import Cartesian3 = require('../math/Cartesian3');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 /**
  * @class ArrowBuilder
  */
@@ -33,6 +34,6 @@ declare class ArrowBuilder {
     setDepthSegments(depthSegments: number): ArrowBuilder;
     setConeHeight(coneHeight: number): ArrowBuilder;
     setWireFrame(wireFrame: boolean): ArrowBuilder;
-    buildMesh(): AttribProvider;
+    buildMesh(monitor: RenderingContextMonitor): AttribProvider;
 }
 export = ArrowBuilder;

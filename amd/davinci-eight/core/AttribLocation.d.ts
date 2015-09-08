@@ -1,4 +1,5 @@
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
@@ -8,8 +9,9 @@ import RenderingContextProgramUser = require('../core/RenderingContextProgramUse
  */
 declare class AttribLocation implements RenderingContextProgramUser {
     private _name;
-    private _location;
+    private _index;
     private _context;
+    private _monitor;
     private _enabled;
     /**
      * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
@@ -18,7 +20,8 @@ declare class AttribLocation implements RenderingContextProgramUser {
      * @constructor
      * @param name {string} The name of the variable as it appears in the GLSL program.
      */
-    constructor(name: string);
+    constructor(monitor: RenderingContextMonitor, name: string);
+    index: number;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
     contextLoss(): void;

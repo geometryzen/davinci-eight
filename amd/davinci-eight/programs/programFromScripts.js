@@ -1,12 +1,13 @@
 define(["require", "exports", '../programs/shaderProgram', '../checks/expectArg'], function (require, exports, shaderProgram, expectArg) {
     /**
      * @method programFromScripts
+     * @param monitor {RenderingContextMonitor}
      * @param vsId {string} The vertex shader script element identifier.
      * @param fsId {string} The fragment shader script element identifier.
      * @param $document {Document} The document containing the script elements.
      */
-    function programFromScripts(vsId, fsId, $document) {
-        if ($document === void 0) { $document = document; }
+    function programFromScripts(monitor, vsId, fsId, $document, attribs) {
+        if (attribs === void 0) { attribs = []; }
         expectArg('vsId', vsId).toBeString();
         expectArg('fsId', fsId).toBeString();
         expectArg('$document', $document).toBeObject();
@@ -22,7 +23,7 @@ define(["require", "exports", '../programs/shaderProgram', '../checks/expectArg'
         }
         var vertexShader = $(vsId).textContent;
         var fragmentShader = $(fsId).textContent;
-        return shaderProgram(vertexShader, fragmentShader);
+        return shaderProgram(monitor, vertexShader, fragmentShader, attribs);
     }
     return programFromScripts;
 });

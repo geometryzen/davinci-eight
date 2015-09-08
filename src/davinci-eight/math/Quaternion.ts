@@ -48,6 +48,9 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   add(element: Quaternion) {
     return this;
   }
+  addVectors(a: Quaternion, b: Quaternion) {
+    return this;
+  }
   set(x: number, y: number, z: number, w: number) {
     this._x = x;
     this._y = y;
@@ -256,6 +259,9 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this._y = ( y * ratioA + this._y * ratioB );
     this._z = ( z * ratioA + this._z * ratioB );
     this.onChangeCallback();
+    return this;
+  }
+  sub(rhs: Quaternion) {
     return this;
   }
   equals(quaternion: Quaternion) {

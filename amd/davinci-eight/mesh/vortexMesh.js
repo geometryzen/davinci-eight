@@ -2,9 +2,9 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Vo
     function vortexGeometry(options) {
         return new VortexGeometry();
     }
-    function vortexMesh(options) {
+    function vortexMesh(monitor, options) {
         var checkedOptions = checkMeshArgs(options);
-        var base = new GeometryAdapter(vortexGeometry(checkedOptions), adapterOptions(checkedOptions));
+        var base = new GeometryAdapter(monitor, vortexGeometry(checkedOptions), adapterOptions(checkedOptions));
         var refCount = 1;
         var publicAPI = {
             draw: function () {

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -223,6 +223,9 @@ class Vector4 extends AbstractVector implements Cartesian4, LinearElement&lt;Car
   add(rhs: Cartesian4) {
     return this;
   }
+  addVectors(a: Cartesian4, b: Cartesian4) {
+    return this;
+  }
   clone() {
     return new Vector4([this.x, this.y, this.z, this.w]);
   }
@@ -245,6 +248,9 @@ class Vector4 extends AbstractVector implements Cartesian4, LinearElement&lt;Car
     this.y *= scalar;
     this.z *= scalar;
     this.w *= scalar;
+    return this;
+  }
+  sub(rhs: Cartesian4) {
     return this;
   }
 }

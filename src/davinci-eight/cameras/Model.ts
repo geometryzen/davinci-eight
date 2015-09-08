@@ -6,15 +6,15 @@ import UniformData = require('../core/UniformData');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Vector3 = require('../math/Vector3');
 /**
- * Node implements UniformData required for manipulating a body.
+ * Model implements UniformData required for manipulating a body.
  */ 
-class Node implements UniformData {
+class Model implements UniformData {
   public position: Vector3 = new Vector3();        // default is the origin.
   public attitude: Spinor3 = new Spinor3();        // default is unity.
   public scale: Vector3 = new Vector3([1, 1, 1]);  // default is to not scale.
   public color: Vector3 = new Vector3([1, 1, 1]);  // default is white.
   /**
-   * Node implements UniformData required for manipulating a body.
+   * Model implements UniformData required for manipulating a body.
    */ 
   constructor() {
     this.position.modified = true;
@@ -41,4 +41,4 @@ class Node implements UniformData {
   }
 }
 
-export = Node;
+export = Model;

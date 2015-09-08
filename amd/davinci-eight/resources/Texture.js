@@ -1,6 +1,6 @@
 define(["require", "exports"], function (require, exports) {
     var Texture = (function () {
-        function Texture() {
+        function Texture(monitor) {
             this._refCount = 1;
         }
         Texture.prototype.addRef = function () {

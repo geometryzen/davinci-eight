@@ -1,7 +1,7 @@
 var Sphere = require('../math/Sphere');
 var Vector3 = require('../math/Vector3');
 function updateFaceNormal(face, vertices) {
-    face.normals = [];
+    face.vertexNormals = [];
     var vA = vertices[face.a];
     var vB = vertices[face.b];
     var vC = vertices[face.c];
@@ -9,9 +9,9 @@ function updateFaceNormal(face, vertices) {
     var ab = new Vector3().subVectors(vA, vB);
     var normal = new Vector3().crossVectors(cb, ab).normalize();
     // TODO: I think we only need to push one normal here?
-    face.normals.push(normal);
-    face.normals.push(normal);
-    face.normals.push(normal);
+    face.vertexNormals.push(normal);
+    face.vertexNormals.push(normal);
+    face.vertexNormals.push(normal);
 }
 /**
  * @class Geometry
@@ -80,9 +80,9 @@ var Geometry = (function () {
         else {
             for (f = 0, fl = this.faces.length; f < fl; f++) {
                 face = this.faces[f];
-                vertexNormals[face.a].add(face.normals[0]);
-                vertexNormals[face.b].add(face.normals[0]);
-                vertexNormals[face.c].add(face.normals[0]);
+                vertexNormals[face.a].add(face.vertexNormals[0]);
+                vertexNormals[face.b].add(face.vertexNormals[0]);
+                vertexNormals[face.c].add(face.vertexNormals[0]);
             }
         }
         for (v = 0, vl = this.vertices.length; v < vl; v++) {
@@ -90,9 +90,9 @@ var Geometry = (function () {
         }
         for (f = 0, fl = this.faces.length; f < fl; f++) {
             face = this.faces[f];
-            face.normals[0] = vertexNormals[face.a].clone();
-            face.normals[1] = vertexNormals[face.b].clone();
-            face.normals[2] = vertexNormals[face.c].clone();
+            face.vertexNormals[0] = vertexNormals[face.a].clone();
+            face.vertexNormals[1] = vertexNormals[face.b].clone();
+            face.vertexNormals[2] = vertexNormals[face.c].clone();
         }
     };
     /**

@@ -23,8 +23,9 @@ import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid: string = uuid4().generate()): ShaderProgram {
+var shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs: string[]): ShaderProgram {
 
   if (typeof vertexShader !== 'string') {
     throw new Error("vertexShader argument must be a string.");
@@ -37,7 +38,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
   var refCount: number = 1;
   var program: WebGLProgram;
   var $context: WebGLRenderingContext;
-
+  let uuid: string = uuid4().generate()
   var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
@@ -87,14 +88,14 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
       if ($context !== context) {
         self.contextFree();
         $context = context;
-        program = makeWebGLProgram(context, vertexShader, fragmentShader);
+        program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
 
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
         for (var a = 0; a < activeAttributes; a++) {
           let activeInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
           let name: string = activeInfo.name;
           if (!attributeLocations[name]) {
-            attributeLocations[name] = new AttribLocation(name);
+            attributeLocations[name] = new AttribLocation(monitor, name);
           }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -102,7 +103,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
           let activeInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
           let name: string = activeInfo.name;
           if (!uniformLocations[name]) {
-            uniformLocations[name] = new UniformLocation(name);
+            uniformLocations[name] = new UniformLocation(monitor, name);
           }
         }
         for(var aName in attributeLocations) {
@@ -145,7 +146,7 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
         let attribLoc = attributeLocations[name];
         let data: AttribDataInfo = values[name];
         if (data) {
-          data.buffer.bind();
+          data.buffer.bind($context.ARRAY_BUFFER);
           attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
         }
         else {
@@ -229,44 +230,65 @@ var shaderProgram = function(vertexShader: string, fragmentShader: string, uuid:
   return self;
 };
 
-function makeWebGLShader(gl: WebGLRenderingContext, source: string, type: number): WebGLShader {
-  var shader: WebGLShader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
+  var shader: WebGLShader = ctx.createShader(type);
+  ctx.shaderSource(shader, source);
+  ctx.compileShader(shader);
+  let compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
+  if (compiled) {
     return shader;
   }
   else {
-    let message = gl.getShaderInfoLog(shader);
-    gl.deleteShader(shader);
-    throw new Error("Error compiling shader: " + message);
+    if (!ctx.isContextLost()) {
+      let message = ctx.getShaderInfoLog(shader);
+      ctx.deleteShader(shader);
+      throw new Error("Error compiling shader: " + message);
+    }
+    else {
+      throw new Error("Context lost while compiling shader");
+    }
   }
 }
 
 /**
  * Creates a WebGLProgram with compiled and linked shaders.
  */
-function makeWebGLProgram(gl: WebGLRenderingContext, vertexShader: string, fragmentShader: string): WebGLProgram {
-  let vs: WebGLShader = makeWebGLShader(gl, vertexShader, gl.VERTEX_SHADER);
-  let fs: WebGLShader = makeWebGLShader(gl, fragmentShader, gl.FRAGMENT_SHADER);
-  let program = gl.createProgram();
+function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, fragmentShader: string, attribs: string[]): WebGLProgram {
+  // create our shaders
+  let vs: WebGLShader = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
+  let fs: WebGLShader = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
+
+  // Create the program object.
+  let program = ctx.createProgram();
   // console.log("WebGLProgram created");
-  gl.attachShader(program, vs);
-  gl.attachShader(program, fs);
-  gl.linkProgram(program);
-  if (gl.getProgramParameter(program, gl.LINK_STATUS)) {
+
+  // Attach our two shaders to the program.
+  ctx.attachShader(program, vs);
+  ctx.attachShader(program, fs);
+
+  // Bind attributes allows us to specify the index that an attribute should be bound to.
+  for (var index = 0; index < attribs.length; ++index) {
+    ctx.bindAttribLocation(program, index, attribs[index]);
+  }
+
+  // Link the program.
+  ctx.linkProgram(program);
+
+  // Check the link status
+  let linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
+  if (linked || ctx.isContextLost()) {
     return program;
   }
   else {
-    let message: string = gl.getProgramInfoLog(program);
+    let message: string = ctx.getProgramInfoLog(program);
 
-    gl.detachShader(program, vs);
-    gl.deleteShader(vs);
+    ctx.detachShader(program, vs);
+    ctx.deleteShader(vs);
 
-    gl.detachShader(program, fs);
-    gl.deleteShader(fs);
+    ctx.detachShader(program, fs);
+    ctx.deleteShader(fs);
 
-    gl.deleteProgram(program);
+    ctx.deleteProgram(program);
 
     throw new Error("Error linking program: " + message);
   }

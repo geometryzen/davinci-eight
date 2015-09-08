@@ -1,9 +1,10 @@
-define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../resources/Texture'], function (require, exports, initWebGL, expectArg, isDefined, Texture) {
+define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../resources/Texture', '../core/ArrayBuffer'], function (require, exports, initWebGL, expectArg, isDefined, Texture, ArrayBuffer) {
     function contextProxy(canvas, attributes) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var users = [];
         var context;
         var refCount = 1;
+        var mirror = true;
         var webGLContextLost = function (event) {
             event.preventDefault();
             context = void 0;
@@ -62,12 +63,12 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg', '
             },
             addRef: function () {
                 refCount++;
-                console.log("monitor.addRef() => " + refCount);
+                // console.log("monitor.addRef() => " + refCount);
                 return refCount;
             },
             release: function () {
                 refCount--;
-                console.log("monitor.release() => " + refCount);
+                // console.log("monitor.release() => " + refCount);
                 if (refCount === 0) {
                     while (users.length > 0) {
                         users.pop().release();
@@ -105,10 +106,21 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg', '
                     return context.enable(capability);
                 }
             },
-            createTexture: function () {
-                var texture = new Texture();
+            texture: function () {
+                var texture = new Texture(self);
                 self.addContextUser(texture);
                 return texture;
+            },
+            vertexBuffer: function () {
+                var vbo = new ArrayBuffer(self);
+                self.addContextUser(vbo);
+                return vbo;
+            },
+            get mirror() {
+                return mirror;
+            },
+            set mirror(value) {
+                mirror = expectArg('mirror', value).toBeBoolean().value;
             }
         };
         return self;

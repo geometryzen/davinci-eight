@@ -1,4 +1,5 @@
 import AttribProvider = require('../core/AttribProvider');
 import CylinderOptions = require('../mesh/CylinderOptions');
-declare function cylinderMesh(options?: CylinderOptions): AttribProvider;
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+declare function cylinderMesh(monitor: RenderingContextMonitor, options?: CylinderOptions): AttribProvider;
 export = cylinderMesh;

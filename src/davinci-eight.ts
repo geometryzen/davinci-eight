@@ -2,33 +2,35 @@
 
 // cameras
 import Frustum = require('davinci-eight/cameras/Frustum');
-import Node = require('davinci-eight/cameras/Node');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
 import frustum = require('davinci-eight/cameras/frustum');
 import frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
-import perspective = require('davinci-eight/cameras/perspective');
-import perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
-import view = require('davinci-eight/cameras/view');
-import viewMatrix = require('davinci-eight/cameras/viewMatrix');
+import perspective             = require('davinci-eight/cameras/perspective');
+import perspectiveMatrix       = require('davinci-eight/cameras/perspectiveMatrix');
+import view                    = require('davinci-eight/cameras/view');
+import viewMatrix              = require('davinci-eight/cameras/viewMatrix');
 // core
-import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
-import AttribProvider = require('davinci-eight/core/AttribProvider');
-import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
-import Color = require('davinci-eight/core/Color');
-import Composite = require('davinci-eight/core/Composite');
-import DrawMode = require('davinci-eight/core/DrawMode');
-import Face3 = require('davinci-eight/core/Face3');
-import Primitive = require('davinci-eight/core/Primitive');
-import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
-import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
-import core = require('davinci-eight/core');
-import primitive = require('davinci-eight/objects/primitive');
-import UniformProvider = require('davinci-eight/core/UniformProvider');
-import UniformData = require('davinci-eight/core/UniformData');
-import UniformDataVisitor = require('davinci-eight/core/UniformDataVisitor');
-import AttribLocation = require('davinci-eight/core/AttribLocation');
-import UniformLocation = require('davinci-eight/core/UniformLocation');
+import AttribLocation          = require('davinci-eight/core/AttribLocation');
+import AttribMetaInfos         = require('davinci-eight/core/AttribMetaInfos');
+import AttribProvider          = require('davinci-eight/core/AttribProvider');
+import BufferAttribute         = require('davinci-eight/core/BufferAttribute');
+import BufferGeometry          = require('davinci-eight/core/BufferGeometry');
+import DefaultAttribProvider   = require('davinci-eight/core/DefaultAttribProvider');
+import Color                   = require('davinci-eight/core/Color');
+import Composite               = require('davinci-eight/core/Composite');
+import core                    = require('davinci-eight/core');
+import DrawMode                = require('davinci-eight/core/DrawMode');
+import Face3                   = require('davinci-eight/core/Face3');
+import Primitive               = require('davinci-eight/core/Primitive');
+import primitive               = require('davinci-eight/objects/primitive');
+import RenderingContextMonitor = require('davinci-eight/core/RenderingContextMonitor');
+import UniformData             = require('davinci-eight/core/UniformData');
+import UniformDataVisitor      = require('davinci-eight/core/UniformDataVisitor');
+import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo');
+import UniformMetaInfos        = require('davinci-eight/core/UniformMetaInfos');
+import UniformLocation         = require('davinci-eight/core/UniformLocation');
+import UniformProvider         = require('davinci-eight/core/UniformProvider');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
@@ -58,7 +60,7 @@ import smartProgram = require('davinci-eight/programs/smartProgram');
 import programFromScripts = require('davinci-eight/programs/programFromScripts');
 // resources
 import Texture = require('davinci-eight/resources/Texture');
-import VertexBuffer = require('davinci-eight/core/VertexBuffer');
+import ArrayBuffer = require('davinci-eight/core/ArrayBuffer');
 // math
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -100,8 +102,12 @@ import renderer = require('davinci-eight/renderers/renderer');
 // uniforms
 
 // utils
-import RenderingContextProxy    = require('davinci-eight/utils/RenderingContextProxy');
-import contextProxy             = require('davinci-eight/utils/contextProxy');
+import contextProxy               = require('davinci-eight/utils/contextProxy');
+import Framerate                  = require('davinci-eight/utils/Framerate');
+import loadImageTexture           = require('davinci-eight/utils/loadImageTexture');
+import makeBox                    = require('davinci-eight/utils/makeBox');
+import makeSphere                 = require('davinci-eight/utils/makeSphere');
+import Model                      = require('davinci-eight/utils/Model');
 import workbench3D                = require('davinci-eight/utils/workbench3D');
 import WindowAnimationRunner      = require('davinci-eight/utils/WindowAnimationRunner');
 import windowAnimationRunner      = require('davinci-eight/utils/windowAnimationRunner');
@@ -117,7 +123,7 @@ var eight = {
    */
   'VERSION': core.VERSION,
   get initWebGL() { return initWebGL; },
-  get Node() { return Node; },
+  get Model() { return Model; },
   get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
@@ -188,6 +194,6 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
-  get VertexBuffer() { return VertexBuffer; },
+  get ArrayBuffer() { return ArrayBuffer; },
 };
 export = eight;

@@ -1,22 +1,23 @@
-define(["require", "exports"], function (require, exports) {
-    var VertexBuffer = (function () {
-        function VertexBuffer() {
+define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    var ArrayBuffer = (function () {
+        function ArrayBuffer(monitor) {
             this._refCount = 1;
+            this._monitor = expectArg('montor', monitor).toBeObject().value;
         }
-        VertexBuffer.prototype.addRef = function () {
+        ArrayBuffer.prototype.addRef = function () {
             this._refCount++;
-            // console.log("VertexBuffer.addRef() => " + this._refCount);
+            // console.log("ArrayBuffer.addRef() => " + this._refCount);
             return this._refCount;
         };
-        VertexBuffer.prototype.release = function () {
+        ArrayBuffer.prototype.release = function () {
             this._refCount--;
-            // console.log("VertexBuffer.release() => " + this._refCount);
+            // console.log("ArrayBuffer.release() => " + this._refCount);
             if (this._refCount === 0) {
                 this.contextFree();
             }
             return this._refCount;
         };
-        VertexBuffer.prototype.contextFree = function () {
+        ArrayBuffer.prototype.contextFree = function () {
             if (this._buffer) {
                 this._context.deleteBuffer(this._buffer);
                 // console.log("WebGLBuffer deleted");
@@ -24,29 +25,29 @@ define(["require", "exports"], function (require, exports) {
             }
             this._context = void 0;
         };
-        VertexBuffer.prototype.contextGain = function (context) {
+        ArrayBuffer.prototype.contextGain = function (context) {
             if (this._context !== context) {
                 this.contextFree();
                 this._context = context;
                 this._buffer = context.createBuffer();
             }
         };
-        VertexBuffer.prototype.contextLoss = function () {
+        ArrayBuffer.prototype.contextLoss = function () {
             this._buffer = void 0;
             this._context = void 0;
         };
         /**
          * @method bind
          */
-        VertexBuffer.prototype.bind = function () {
+        ArrayBuffer.prototype.bind = function (target) {
             if (this._context) {
-                this._context.bindBuffer(this._context.ARRAY_BUFFER, this._buffer);
+                this._context.bindBuffer(target, this._buffer);
             }
             else {
-                console.warn("VertexBuffer.bind() missing WebGLRenderingContext.");
+                console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
             }
         };
-        return VertexBuffer;
+        return ArrayBuffer;
     })();
-    return VertexBuffer;
+    return ArrayBuffer;
 });

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -149,6 +149,7 @@ import arrowMesh = require(&#x27;../mesh/arrowMesh&#x27;);
 import ArrowOptions = require(&#x27;../mesh/ArrowOptions&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
+import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 
 /**
  * @class ArrowBuilder
@@ -246,8 +247,8 @@ class ArrowBuilder {
     this.$wireFrame = wireFrame;
     return this;
   }
-  buildMesh(): AttribProvider {
-    return arrowMesh(this);
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider {
+    return arrowMesh(monitor, this);
   }
 }
 

@@ -1,9 +1,11 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
-declare class VertexBuffer implements RenderingContextUser {
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+declare class ArrayBuffer implements RenderingContextUser {
     private _context;
+    private _monitor;
     private _buffer;
     private _refCount;
-    constructor();
+    constructor(monitor: RenderingContextMonitor);
     addRef(): number;
     release(): number;
     contextFree(): void;
@@ -12,6 +14,6 @@ declare class VertexBuffer implements RenderingContextUser {
     /**
      * @method bind
      */
-    bind(): void;
+    bind(target: number): void;
 }
-export = VertexBuffer;
+export = ArrayBuffer;

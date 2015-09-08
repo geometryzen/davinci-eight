@@ -1,20 +1,24 @@
+import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import RenderingContextUser = require('../core/RenderingContextUser');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-class VertexBuffer implements RenderingContextUser {
+class ArrayBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
+  private _monitor: RenderingContextMonitor;
   private _buffer: WebGLBuffer;
   private _refCount: number = 1;
-  constructor() {
+  constructor(monitor: RenderingContextMonitor) {
+    this._monitor = expectArg('montor', monitor).toBeObject().value;
   }
   addRef(): number {
     this._refCount++;
-    // console.log("VertexBuffer.addRef() => " + this._refCount);
+    // console.log("ArrayBuffer.addRef() => " + this._refCount);
     return this._refCount;
   }
   release(): number {
     this._refCount--;
-    // console.log("VertexBuffer.release() => " + this._refCount);
+    // console.log("ArrayBuffer.release() => " + this._refCount);
     if (this._refCount === 0) {
       this.contextFree();
     }
@@ -43,14 +47,14 @@ class VertexBuffer implements RenderingContextUser {
   /**
    * @method bind
    */
-  bind() {
+  bind(target: number) {
     if (this._context) {
-      this._context.bindBuffer(this._context.ARRAY_BUFFER, this._buffer);
+      this._context.bindBuffer(target, this._buffer);
     }
     else {
-      console.warn("VertexBuffer.bind() missing WebGLRenderingContext.");
+      console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
     }
   }
 }
 
-export = VertexBuffer;
+export = ArrayBuffer;

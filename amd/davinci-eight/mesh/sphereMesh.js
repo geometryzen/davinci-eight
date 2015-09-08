@@ -3,8 +3,8 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Sp
         options = options || {};
         return new SphereGeometry(options.radius, options.widthSegments, options.heightSegments, options.phiStart, options.phiLength, options.thetaStart, options.thetaLength);
     }
-    function sphereMesh(options) {
-        var base = new GeometryAdapter(sphereGeometry(options), adapterOptions(options));
+    function sphereMesh(monitor, options) {
+        var base = new GeometryAdapter(monitor, sphereGeometry(options), adapterOptions(options));
         var refCount = 1;
         var publicAPI = {
             draw: function () {

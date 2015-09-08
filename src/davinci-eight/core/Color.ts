@@ -23,36 +23,36 @@ class Color implements ColorRGB, Mutable<number[]> {
     expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
     this.data = data;
   }
-  get red(): number {
+  get r(): number {
     return this.data[0];
   }
-  set red(value: number) {
+  set r(value: number) {
     this.data[0] = value;
   }
-  get green(): number {
+  get g(): number {
     return this.data[1];
   }
-  set green(value: number) {
+  set g(value: number) {
     this.data[1] = value;
   }
-  get blue(): number {
+  get b(): number {
     return this.data[2];
   }
-  set blue(value: number) {
+  set b(value: number) {
     this.data[2] = value;
   }
   public clone() {
     return new Color([this.data[0], this.data[1], this.data[2]]);
   }
   public luminance(): number {
-    return Color.luminance(this.red, this.green, this.blue);
+    return Color.luminance(this.r, this.g, this.b);
   }
   public toString(): string {
-    return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")"
+    return "Color(" + this.r + ", " + this.g + ", " + this.b + ")"
   }
-  public static luminance(red: number, green: number, blue: number): number {
+  public static luminance(r: number, g: number, b: number): number {
     var gamma = 2.2;
-    return 0.2126 * Math.pow(red, gamma) + 0.7152 * Math.pow(green, gamma) + 0.0722 * Math.pow(blue, gamma);
+    return 0.2126 * Math.pow(r, gamma) + 0.7152 * Math.pow(g, gamma) + 0.0722 * Math.pow(b, gamma);
   }
   /**
    * Converts an angle, radius, height to a color on a color wheel.
@@ -106,7 +106,7 @@ class Color implements ColorRGB, Mutable<number[]> {
     return new Color([red, green, blue]);
   }
   public static copy(color: ColorRGB): Color {
-    return new Color([color.red, color.green, color.blue]);
+    return new Color([color.r, color.g, color.b]);
   }
 }
 

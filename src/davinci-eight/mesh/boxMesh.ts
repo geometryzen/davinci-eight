@@ -5,6 +5,7 @@ import GeometryAdapter = require('../geometries/GeometryAdapter');
 import BoxGeometry = require('../geometries/BoxGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import BoxOptions = require('../mesh/BoxOptions');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 function boxGeometry(options?: BoxOptions): Geometry {
   options = options || {};
@@ -18,9 +19,9 @@ function boxGeometry(options?: BoxOptions): Geometry {
     options.wireFrame);
 }
 
-function boxMesh(options?: BoxOptions) : AttribProvider {
+function boxMesh(monitor: RenderingContextMonitor, options?: BoxOptions) : AttribProvider {
 
-  let base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
+  let base = new GeometryAdapter(monitor, boxGeometry(options), adapterOptions(options));
   base.addRef();
   var refCount: number = 1;
 

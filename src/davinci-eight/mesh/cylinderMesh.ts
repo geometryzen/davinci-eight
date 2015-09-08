@@ -5,6 +5,7 @@ import GeometryAdapter = require('../geometries/GeometryAdapter');
 import CylinderGeometry = require('../geometries/CylinderGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import CylinderOptions = require('../mesh/CylinderOptions');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 function cylinderGeometry(options?: CylinderOptions): Geometry {
   options = options || {};
@@ -19,9 +20,9 @@ function cylinderGeometry(options?: CylinderOptions): Geometry {
     options.thetaLength);
 }
 
-function cylinderMesh(options?: CylinderOptions) : AttribProvider {
+function cylinderMesh(monitor: RenderingContextMonitor, options?: CylinderOptions) : AttribProvider {
 
-  let base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
+  let base = new GeometryAdapter(monitor, cylinderGeometry(options), adapterOptions(options));
   var refCount: number = 1;
 
   let publicAPI: AttribProvider = {

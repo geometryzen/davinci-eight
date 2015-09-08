@@ -7,6 +7,7 @@ import adapterOptions = require('../mesh/adapterOptions');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import Spinor3 = require('../math/Spinor3');
 import Cartesian3 = require('../math/Cartesian3');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 function arrowGeometry(options?: ArrowOptions): Geometry {
   options = options || {};
@@ -27,9 +28,9 @@ function arrowGeometry(options?: ArrowOptions): Geometry {
     options.axis);
 }
 
-function arrowMesh(options?: ArrowOptions) : AttribProvider {
+function arrowMesh(monitor: RenderingContextMonitor, options?: ArrowOptions) : AttribProvider {
 
-  let base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
+  let base = new GeometryAdapter(monitor, arrowGeometry(options), adapterOptions(options));
   var refCount: number = 1;
 
   let publicAPI: AttribProvider = {

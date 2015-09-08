@@ -1,12 +1,13 @@
 import IUnknown = require('../core/IUnknown');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import Texture = require('../resources/Texture');
+import ArrayBuffer = require('../core/ArrayBuffer');
 
-interface RenderingContextProxy extends IUnknown {
-  start(): RenderingContextProxy;
-  stop(): RenderingContextProxy;
-  addContextUser(user: RenderingContextUser): RenderingContextProxy;
-  removeContextUser(user: RenderingContextUser): RenderingContextProxy;
+interface RenderingContextMonitor extends IUnknown {
+  start(): RenderingContextMonitor;
+  stop(): RenderingContextMonitor;
+  addContextUser(user: RenderingContextUser): RenderingContextMonitor;
+  removeContextUser(user: RenderingContextUser): RenderingContextMonitor;
   clearColor(red: number, green: number, blue: number, alpha: number): void;
   clearDepth(depth: number): void;
   drawArrays(mode: number, first: number, count: number): void;
@@ -14,7 +15,9 @@ interface RenderingContextProxy extends IUnknown {
   depthFunc(func: number): void;
   enable(capability: number): void;
   context: WebGLRenderingContext;
-  createTexture(): Texture;
+  texture(): Texture;
+  vertexBuffer(): ArrayBuffer;
+  mirror: boolean;
 }
 
-export = RenderingContextProxy;
+export = RenderingContextMonitor;

@@ -123,8 +123,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             this.$wireFrame = wireFrame;
             return this;
         };
-        ArrowBuilder.prototype.buildMesh = function () {
-            return arrowMesh(this);
+        ArrowBuilder.prototype.buildMesh = function (monitor) {
+            return arrowMesh(monitor, this);
         };
         return ArrowBuilder;
     })();

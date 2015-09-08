@@ -62,7 +62,7 @@ define(["require", "exports", '../core/Color', '../checks/expectArg'], function 
                 //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
                 //console.log("stencil               => " + attributes.stencil);
                 $context = context;
-                context.clearColor(clearColor.red, clearColor.green, clearColor.blue, clearAlpha);
+                context.clearColor(clearColor.r, clearColor.g, clearColor.b, clearAlpha);
                 context.clearDepth(1.0);
                 context.enable($context.DEPTH_TEST);
                 context.depthFunc($context.LEQUAL);
@@ -78,9 +78,9 @@ define(["require", "exports", '../core/Color', '../checks/expectArg'], function 
                 autoClear = expectArg('autoClear', value).toBeBoolean().value;
             },
             clearColor: function (red, green, blue, alpha) {
-                clearColor.red = expectArg('red', red).toBeNumber().value;
-                clearColor.green = expectArg('green', green).toBeNumber().value;
-                clearColor.blue = expectArg('blue', blue).toBeNumber().value;
+                clearColor.r = expectArg('red', red).toBeNumber().value;
+                clearColor.g = expectArg('green', green).toBeNumber().value;
+                clearColor.b = expectArg('blue', blue).toBeNumber().value;
                 clearAlpha = expectArg('alpha', alpha).toBeNumber().value;
                 if ($context) {
                     $context.clearColor(red, green, blue, alpha);

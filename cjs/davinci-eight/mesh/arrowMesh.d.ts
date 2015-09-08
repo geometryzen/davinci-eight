@@ -1,4 +1,5 @@
 import AttribProvider = require('../core/AttribProvider');
 import ArrowOptions = require('../mesh/ArrowOptions');
-declare function arrowMesh(options?: ArrowOptions): AttribProvider;
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+declare function arrowMesh(monitor: RenderingContextMonitor, options?: ArrowOptions): AttribProvider;
 export = arrowMesh;

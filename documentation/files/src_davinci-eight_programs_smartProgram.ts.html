@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -163,6 +163,7 @@ import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Vector4 = require(&#x27;../math/Vector4&#x27;);
 import vertexShader = require(&#x27;../programs/vertexShader&#x27;);
+import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
@@ -174,7 +175,7 @@ function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos)
 /**
  *
  */
-var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram {
+var smartProgram = function(monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]): ShaderProgram {
 
   if (!isDefined(attributes)) {
     throw new Error(&quot;The attributes parameter is required for smartProgram.&quot;);
@@ -196,7 +197,7 @@ var smartProgram = function(attributes: AttribMetaInfos, uniformsList: UniformMe
   let vColor: boolean = vColorRequired(attributes, uniforms);
   let vLight: boolean = vLightRequired(uniforms);
 
-  let innerProgram: ShaderProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
+  let innerProgram: ShaderProgram = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
 
   let self: ShaderProgram = {
     get program() {

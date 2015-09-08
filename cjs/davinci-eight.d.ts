@@ -1,8 +1,8 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 import Frustum = require('davinci-eight/cameras/Frustum');
-import Node = require('davinci-eight/cameras/Node');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
+import AttribLocation = require('davinci-eight/core/AttribLocation');
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider = require('davinci-eight/core/AttribProvider');
 import DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
@@ -10,9 +10,9 @@ import Color = require('davinci-eight/core/Color');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
 import Primitive = require('davinci-eight/core/Primitive');
-import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
+import RenderingContextMonitor = require('davinci-eight/core/RenderingContextMonitor');
 import UniformData = require('davinci-eight/core/UniformData');
-import AttribLocation = require('davinci-eight/core/AttribLocation');
+import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import Geometry = require('davinci-eight/geometries/Geometry');
@@ -35,7 +35,7 @@ import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeomet
 import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import Texture = require('davinci-eight/resources/Texture');
-import VertexBuffer = require('davinci-eight/core/VertexBuffer');
+import ArrayBuffer = require('davinci-eight/core/ArrayBuffer');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
@@ -57,7 +57,7 @@ import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
-import RenderingContextProxy = require('davinci-eight/utils/RenderingContextProxy');
+import Model = require('davinci-eight/utils/Model');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
@@ -65,7 +65,7 @@ import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunne
 declare var eight: {
     'VERSION': string;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
-    Node: typeof Node;
+    Model: typeof Model;
     frustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
     frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
     perspective: (options?: {
@@ -83,7 +83,7 @@ declare var eight: {
     viewMatrix: (eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4) => Matrix4;
     scene: () => DrawList;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
-    webgl: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextProxy;
+    webgl: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextMonitor;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
@@ -101,8 +101,8 @@ declare var eight: {
     DrawMode: typeof DrawMode;
     AttribLocation: typeof AttribLocation;
     UniformLocation: typeof UniformLocation;
-    shaderProgram: (vertexShader: string, fragmentShader: string, uuid?: string) => ShaderProgram;
-    smartProgram: (attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]) => ShaderProgram;
+    shaderProgram: (monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs: string[]) => ShaderProgram;
+    smartProgram: (monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]) => ShaderProgram;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;
@@ -132,20 +132,20 @@ declare var eight: {
     Vector2: typeof Vector2;
     Vector3: typeof Vector3;
     Curve: typeof Curve;
-    arrowMesh: (options?: ArrowOptions) => AttribProvider;
+    arrowMesh: (monitor: RenderingContextMonitor, options?: ArrowOptions) => AttribProvider;
     ArrowBuilder: typeof ArrowBuilder;
-    boxMesh: (options?: BoxOptions) => AttribProvider;
+    boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
     CylinderArgs: typeof CylinderArgs;
-    cylinderMesh: (options?: CylinderOptions) => AttribProvider;
+    cylinderMesh: (monitor: RenderingContextMonitor, options?: CylinderOptions) => AttribProvider;
     CylinderMeshBuilder: typeof CylinderMeshBuilder;
-    sphereMesh: (options?: SphereOptions) => AttribProvider;
+    sphereMesh: (monitor: RenderingContextMonitor, options?: SphereOptions) => AttribProvider;
     SphereBuilder: typeof SphereBuilder;
-    vortexMesh: (options?: {
+    vortexMesh: (monitor: RenderingContextMonitor, options?: {
         wireFrame?: boolean;
     }) => AttribProvider;
-    programFromScripts: (vsId: string, fsId: string, $document?: Document) => ShaderProgram;
+    programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
     Texture: typeof Texture;
-    VertexBuffer: typeof VertexBuffer;
+    ArrayBuffer: typeof ArrayBuffer;
 };
 export = eight;

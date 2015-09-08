@@ -1,4 +1,7 @@
 import Cartesian3 = require('../math/Cartesian3');
+import Vector3 = require('../math/Vector3');
+import ColorRGB = require('../core/ColorRGB');
+import Color = require('../core/Color');
 /**
  * @class Face3
  */
@@ -20,7 +23,12 @@ class Face3 {
    * length 1 implies a face normal.
    * length 0 implies
    */
-  public normals: Cartesian3[];
+  public vertexNormals: Cartesian3[];
+  public vertexColors: ColorRGB[];
+  public vertexTangents: Cartesian3[];
+  public normal: Cartesian3 = new Vector3();
+  public color: ColorRGB = new Color();
+  public materialIndex: number;
   /**
    * @class Face3
    * @constructor
@@ -29,11 +37,32 @@ class Face3 {
    * @param c {number}
    * @param normals {Cartesian3[]} The per-vertex normals for this face (3) or face normal (1).
    */
-  constructor(a: number, b: number, c: number, normals: Cartesian3[] = []) {
+  constructor(a: number, b: number, c: number, vertexNormals: Cartesian3[] = []) {
     this.a = a;
     this.b = b;
     this.c = c;
-    this.normals = normals;
+    this.vertexNormals = vertexNormals;
+  }
+  clone() {
+    let face = new Face3(this.a, this.b, this.c);
+
+    face.normal = Vector3.copy(this.normal);
+    face.color = Color.copy(this.color);
+
+    face.materialIndex = this.materialIndex;
+
+    for ( var i = 0, il = this.vertexNormals.length; i < il; i ++ ) {
+      face.vertexNormals[ i ] = Vector3.copy(this.vertexNormals[i]);
+    }
+
+    for ( var i = 0, il = this.vertexColors.length; i < il; i ++ ) {
+      face.vertexColors[ i ] = Color.copy(this.vertexColors[i]);
+    }
+
+    for ( var i = 0, il = this.vertexTangents.length; i < il; i ++ ) {
+      face.vertexTangents[ i ] = Vector3.copy(this.vertexTangents[i]);
+    }
+    return face;
   }
 }
 

@@ -27,13 +27,17 @@ declare class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<n
      * @type Number
      */
     w: number;
-    add(element: Spinor3Coords): Spinor3;
+    add(rhs: Spinor3Coords): Spinor3;
+    addVectors(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     clone(): Spinor3;
     copy(spinor: Spinor3Coords): Spinor3;
     divideScalar(scalar: number): Spinor3;
     exp(): Spinor3;
+    magnitude(): number;
     multiply(rhs: Spinor3Coords): Spinor3;
     multiplyScalar(scalar: number): Spinor3;
+    quaditude(): number;
+    sub(rhs: Spinor3Coords): Spinor3;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

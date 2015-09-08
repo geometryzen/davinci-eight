@@ -74,7 +74,10 @@ var Spinor3 = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Spinor3.prototype.add = function (element) {
+    Spinor3.prototype.add = function (rhs) {
+        return this;
+    };
+    Spinor3.prototype.addVectors = function (a, b) {
         return this;
     };
     Spinor3.prototype.clone = function () {
@@ -108,8 +111,22 @@ var Spinor3 = (function (_super) {
         this.xy = xy * s;
         return this;
     };
+    Spinor3.prototype.magnitude = function () {
+        return Math.sqrt(this.quaditude());
+    };
     Spinor3.prototype.multiply = function (rhs) {
-        var w = rhs.w;
+        var a0 = this.w;
+        var a1 = this.yz;
+        var a2 = this.zx;
+        var a3 = this.xy;
+        var b0 = rhs.w;
+        var b1 = rhs.yz;
+        var b2 = rhs.zx;
+        var b3 = rhs.xy;
+        this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+        this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+        this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+        this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
         return this;
     };
     Spinor3.prototype.multiplyScalar = function (scalar) {
@@ -117,6 +134,16 @@ var Spinor3 = (function (_super) {
         this.zx *= scalar;
         this.xy *= scalar;
         this.w *= scalar;
+        return this;
+    };
+    Spinor3.prototype.quaditude = function () {
+        var w = this.w;
+        var yz = this.yz;
+        var zx = this.zx;
+        var xy = this.xy;
+        return w * w + yz * yz + zx * zx + xy * xy;
+    };
+    Spinor3.prototype.sub = function (rhs) {
         return this;
     };
     /**

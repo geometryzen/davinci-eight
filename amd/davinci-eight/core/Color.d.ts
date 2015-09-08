@@ -18,13 +18,13 @@ declare class Color implements ColorRGB, Mutable<number[]> {
      * @param data {number[]}
      */
     constructor(data?: number[]);
-    red: number;
-    green: number;
-    blue: number;
+    r: number;
+    g: number;
+    b: number;
     clone(): Color;
     luminance(): number;
     toString(): string;
-    static luminance(red: number, green: number, blue: number): number;
+    static luminance(r: number, g: number, b: number): number;
     /**
      * Converts an angle, radius, height to a color on a color wheel.
      */

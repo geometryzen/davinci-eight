@@ -1,18 +1,18 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-var Node = require('davinci-eight/cameras/Node');
 var frustum = require('davinci-eight/cameras/frustum');
 var frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
 var perspective = require('davinci-eight/cameras/perspective');
 var perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
 var view = require('davinci-eight/cameras/view');
 var viewMatrix = require('davinci-eight/cameras/viewMatrix');
+// core
+var AttribLocation = require('davinci-eight/core/AttribLocation');
 var DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 var Color = require('davinci-eight/core/Color');
+var core = require('davinci-eight/core');
 var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
-var core = require('davinci-eight/core');
 var primitive = require('davinci-eight/objects/primitive');
-var AttribLocation = require('davinci-eight/core/AttribLocation');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
@@ -42,7 +42,7 @@ var smartProgram = require('davinci-eight/programs/smartProgram');
 var programFromScripts = require('davinci-eight/programs/programFromScripts');
 // resources
 var Texture = require('davinci-eight/resources/Texture');
-var VertexBuffer = require('davinci-eight/core/VertexBuffer');
+var ArrayBuffer = require('davinci-eight/core/ArrayBuffer');
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
@@ -65,7 +65,10 @@ var vortexMesh = require('davinci-eight/mesh/vortexMesh');
 var Curve = require('davinci-eight/curves/Curve');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
 var renderer = require('davinci-eight/renderers/renderer');
+// uniforms
+// utils
 var contextProxy = require('davinci-eight/utils/contextProxy');
+var Model = require('davinci-eight/utils/Model');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
 /**
@@ -79,7 +82,7 @@ var eight = {
      */
     'VERSION': core.VERSION,
     get initWebGL() { return initWebGL; },
-    get Node() { return Node; },
+    get Model() { return Model; },
     get frustum() { return frustum; },
     get frustumMatrix() { return frustumMatrix; },
     get perspective() { return perspective; },
@@ -146,6 +149,6 @@ var eight = {
     get programFromScripts() { return programFromScripts; },
     // resources
     get Texture() { return Texture; },
-    get VertexBuffer() { return VertexBuffer; },
+    get ArrayBuffer() { return ArrayBuffer; },
 };
 module.exports = eight;

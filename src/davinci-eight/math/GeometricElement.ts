@@ -4,7 +4,9 @@ import LinearElement = require('../math/LinearElement');
  */
 interface GeometricElement<I, M> extends LinearElement<I, M> {
   exp(): M;
+  magnitude(): number;
   multiply(element: I): M;
+  quaditude(): number;
 }
 
 export = GeometricElement;

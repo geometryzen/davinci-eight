@@ -107,8 +107,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             this.$wireFrame = wireFrame;
             return this;
         };
-        SphereBuilder.prototype.buildMesh = function () {
-            return sphereMesh(this);
+        SphereBuilder.prototype.buildMesh = function (monitor) {
+            return sphereMesh(monitor, this);
         };
         return SphereBuilder;
     })();

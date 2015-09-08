@@ -5,6 +5,7 @@ import GeometryAdapter = require('../geometries/GeometryAdapter');
 import SphereGeometry = require('../geometries/SphereGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import SphereOptions = require('../mesh/SphereOptions');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 function sphereGeometry(options?: SphereOptions): Geometry {
   options = options || {};
@@ -18,9 +19,9 @@ function sphereGeometry(options?: SphereOptions): Geometry {
     options.thetaLength);
 }
 
-function sphereMesh(options?: SphereOptions) : AttribProvider {
+function sphereMesh(monitor: RenderingContextMonitor, options?: SphereOptions) : AttribProvider {
 
-  let base = new GeometryAdapter(sphereGeometry(options), adapterOptions(options));
+  let base = new GeometryAdapter(monitor, sphereGeometry(options), adapterOptions(options));
   var refCount: number = 1;
 
   let publicAPI: AttribProvider = {

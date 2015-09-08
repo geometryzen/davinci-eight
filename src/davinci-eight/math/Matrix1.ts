@@ -15,6 +15,9 @@ class Matrix1 extends AbstractMatrix implements GeometricElement<Matrix1, Matrix
   add(element: Matrix1) {
     return this;
   }
+  addVectors(a: Matrix1, b: Matrix1) {
+    return this;
+  }
   clone() {
     return Matrix1.identity().copy(this);
   }
@@ -30,12 +33,22 @@ class Matrix1 extends AbstractMatrix implements GeometricElement<Matrix1, Matrix
   exp() {
     return this;
   }
+  magnitude() {
+    return Math.abs(this.data[0]);
+  }
   multiply(rhs: Matrix1) {
     return this;
   }
   multiplyScalar(scalar: number) {
     let data = this.data;
     data[0] *= scalar;
+    return this;
+  }
+  quaditude() {
+    let x = this.data[0];
+    return x * x;
+  }
+  sub(element: Matrix1) {
     return this;
   }
 }

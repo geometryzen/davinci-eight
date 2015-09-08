@@ -1,5 +1,6 @@
 import AttribProvider = require('../core/AttribProvider');
-declare function vortexMesh(options?: {
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+declare function vortexMesh(monitor: RenderingContextMonitor, options?: {
     wireFrame?: boolean;
 }): AttribProvider;
 export = vortexMesh;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/cameras/Node.ts - davinci-eight</title>
+    <title>src/davinci-eight/cameras/Model.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -138,7 +138,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/cameras/Node.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/cameras/Model.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -150,15 +150,15 @@ import UniformData = require(&#x27;../core/UniformData&#x27;);
 import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 /**
- * Node implements UniformData required for manipulating a body.
+ * Model implements UniformData required for manipulating a body.
  */ 
-class Node implements UniformData {
+class Model implements UniformData {
   public position: Vector3 = new Vector3();        // default is the origin.
   public attitude: Spinor3 = new Spinor3();        // default is unity.
   public scale: Vector3 = new Vector3([1, 1, 1]);  // default is to not scale.
   public color: Vector3 = new Vector3([1, 1, 1]);  // default is white.
   /**
-   * Node implements UniformData required for manipulating a body.
+   * Model implements UniformData required for manipulating a body.
    */ 
   constructor() {
     this.position.modified = true;
@@ -185,7 +185,7 @@ class Node implements UniformData {
   }
 }
 
-export = Node;
+export = Model;
 
     </pre>
 </div>

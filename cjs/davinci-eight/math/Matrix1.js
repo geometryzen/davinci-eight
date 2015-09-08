@@ -20,6 +20,9 @@ var Matrix1 = (function (_super) {
     Matrix1.prototype.add = function (element) {
         return this;
     };
+    Matrix1.prototype.addVectors = function (a, b) {
+        return this;
+    };
     Matrix1.prototype.clone = function () {
         return Matrix1.identity().copy(this);
     };
@@ -35,12 +38,22 @@ var Matrix1 = (function (_super) {
     Matrix1.prototype.exp = function () {
         return this;
     };
+    Matrix1.prototype.magnitude = function () {
+        return Math.abs(this.data[0]);
+    };
     Matrix1.prototype.multiply = function (rhs) {
         return this;
     };
     Matrix1.prototype.multiplyScalar = function (scalar) {
         var data = this.data;
         data[0] *= scalar;
+        return this;
+    };
+    Matrix1.prototype.quaditude = function () {
+        var x = this.data[0];
+        return x * x;
+    };
+    Matrix1.prototype.sub = function (element) {
         return this;
     };
     return Matrix1;

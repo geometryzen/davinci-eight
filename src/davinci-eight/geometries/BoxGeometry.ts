@@ -82,13 +82,13 @@ class BoxGeometry extends Geometry {
           var uvd = new Vector2([( ix + 1 ) / gridX, 1 - iy / gridY]);
 
           var face = new Face3( a + offset, b + offset, d + offset );
-          face.normals.push(normal);
+          face.vertexNormals.push(normal);
 
           scope.faces.push( face );
           scope.faceVertexUvs[ 0 ].push( [ uva, uvb, uvd ] );
 
           face = new Face3( b + offset, c + offset, d + offset );
-          face.normals.push(normal);
+          face.vertexNormals.push(normal);
 
           scope.faces.push( face );
           scope.faceVertexUvs[ 0 ].push( [ uvb.clone(), uvc, uvd.clone() ] );

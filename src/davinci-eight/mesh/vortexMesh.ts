@@ -5,19 +5,21 @@ import GeometryAdapter = require('../geometries/GeometryAdapter');
 import VortexGeometry = require('../geometries/VortexGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import checkMeshArgs = require('../mesh/checkMeshArgs');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 function vortexGeometry(options: {wireFrame: boolean}): Geometry {
   return new VortexGeometry();
 }
 
 function vortexMesh(
+  monitor: RenderingContextMonitor,
   options?: {
     wireFrame?: boolean
   }) : AttribProvider {
 
   let checkedOptions = checkMeshArgs(options);
 
-  let base = new GeometryAdapter(vortexGeometry(checkedOptions), adapterOptions(checkedOptions));
+  let base = new GeometryAdapter(monitor, vortexGeometry(checkedOptions), adapterOptions(checkedOptions));
   var refCount = 1;
 
   let publicAPI: AttribProvider = {

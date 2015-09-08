@@ -1,4 +1,5 @@
 import AttribProvider = require('../core/AttribProvider');
 import BoxOptions = require('../mesh/BoxOptions');
-declare function boxMesh(options?: BoxOptions): AttribProvider;
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+declare function boxMesh(monitor: RenderingContextMonitor, options?: BoxOptions): AttribProvider;
 export = boxMesh;

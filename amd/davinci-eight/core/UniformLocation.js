@@ -25,15 +25,17 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         /**
          * @class UniformLocation
          * @constructor
+         * @param monitor {RenderingContextMonitor}
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
-        function UniformLocation(name) {
+        function UniformLocation(monitor, name) {
             this._x = void 0;
             this._y = void 0;
             this._z = void 0;
             this._w = void 0;
             this._matrix4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(function () { return void 0; });
             this._transpose = void 0;
+            this._monitor = expectArg('monitor', monitor).toBeObject().value;
             this._name = expectArg('name', name).toBeString().value;
         }
         /**
@@ -70,9 +72,15 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param x
          */
         UniformLocation.prototype.uniform1f = function (x) {
-            if (this._x !== x) {
+            if (this._monitor.mirror) {
+                if (this._x !== x) {
+                    this._context.uniform1f(this._location, x);
+                    this._x = x;
+                }
+            }
+            else {
                 this._context.uniform1f(this._location, x);
-                this._x = x;
+                this._x = void 0;
             }
         };
         /**

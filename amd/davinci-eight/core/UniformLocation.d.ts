@@ -3,6 +3,7 @@ import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -15,6 +16,7 @@ declare class UniformLocation implements RenderingContextProgramUser {
     private _name;
     private _location;
     private _context;
+    private _monitor;
     private _x;
     private _y;
     private _z;
@@ -24,9 +26,10 @@ declare class UniformLocation implements RenderingContextProgramUser {
     /**
      * @class UniformLocation
      * @constructor
+     * @param monitor {RenderingContextMonitor}
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
-    constructor(name: string);
+    constructor(monitor: RenderingContextMonitor, name: string);
     /**
      * @method contextFree
      */

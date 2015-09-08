@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -159,6 +159,9 @@ class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Mat
   add(element: Matrix1) {
     return this;
   }
+  addVectors(a: Matrix1, b: Matrix1) {
+    return this;
+  }
   clone() {
     return Matrix1.identity().copy(this);
   }
@@ -174,12 +177,22 @@ class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Mat
   exp() {
     return this;
   }
+  magnitude() {
+    return Math.abs(this.data[0]);
+  }
   multiply(rhs: Matrix1) {
     return this;
   }
   multiplyScalar(scalar: number) {
     let data = this.data;
     data[0] *= scalar;
+    return this;
+  }
+  quaditude() {
+    let x = this.data[0];
+    return x * x;
+  }
+  sub(element: Matrix1) {
     return this;
   }
 }

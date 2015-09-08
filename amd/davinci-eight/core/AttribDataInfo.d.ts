@@ -1,9 +1,9 @@
-import VertexBuffer = require('../core/VertexBuffer');
+import ArrayBuffer = require('../core/ArrayBuffer');
 interface AttribDataInfo {
     /**
      *
      */
-    buffer: VertexBuffer;
+    buffer: ArrayBuffer;
     /**
      * The number of components per vertex attribute.
      */

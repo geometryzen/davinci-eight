@@ -36,9 +36,11 @@ declare class Vector4 extends AbstractVector implements Cartesian4, LinearElemen
     w: number;
     setW(w: number): Vector4;
     add(rhs: Cartesian4): Vector4;
+    addVectors(a: Cartesian4, b: Cartesian4): Vector4;
     clone(): Vector4;
     copy(v: Cartesian4): Vector4;
     divideScalar(scalar: number): Vector4;
     multiplyScalar(scalar: number): Vector4;
+    sub(rhs: Cartesian4): Vector4;
 }
 export = Vector4;

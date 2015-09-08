@@ -19,7 +19,7 @@ var Color = (function () {
         expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
         this.data = data;
     }
-    Object.defineProperty(Color.prototype, "red", {
+    Object.defineProperty(Color.prototype, "r", {
         get: function () {
             return this.data[0];
         },
@@ -29,7 +29,7 @@ var Color = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Color.prototype, "green", {
+    Object.defineProperty(Color.prototype, "g", {
         get: function () {
             return this.data[1];
         },
@@ -39,7 +39,7 @@ var Color = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Color.prototype, "blue", {
+    Object.defineProperty(Color.prototype, "b", {
         get: function () {
             return this.data[2];
         },
@@ -53,14 +53,14 @@ var Color = (function () {
         return new Color([this.data[0], this.data[1], this.data[2]]);
     };
     Color.prototype.luminance = function () {
-        return Color.luminance(this.red, this.green, this.blue);
+        return Color.luminance(this.r, this.g, this.b);
     };
     Color.prototype.toString = function () {
-        return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
+        return "Color(" + this.r + ", " + this.g + ", " + this.b + ")";
     };
-    Color.luminance = function (red, green, blue) {
+    Color.luminance = function (r, g, b) {
         var gamma = 2.2;
-        return 0.2126 * Math.pow(red, gamma) + 0.7152 * Math.pow(green, gamma) + 0.0722 * Math.pow(blue, gamma);
+        return 0.2126 * Math.pow(r, gamma) + 0.7152 * Math.pow(g, gamma) + 0.0722 * Math.pow(b, gamma);
     };
     /**
      * Converts an angle, radius, height to a color on a color wheel.
@@ -114,7 +114,7 @@ var Color = (function () {
         return new Color([red, green, blue]);
     };
     Color.copy = function (color) {
-        return new Color([color.red, color.green, color.blue]);
+        return new Color([color.r, color.g, color.b]);
     };
     return Color;
 })();

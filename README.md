@@ -178,6 +178,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.74.0: 2015-09-06 memoize
 * 2.75.0: 2015-09-06 IUnknown
 * 2.76.0: 2015-09-07 Spinor3
+* 2.77.0: 2015-09-08 Buffer
 
 ## License
 Copyright (c) 2014-2015 David Holmes

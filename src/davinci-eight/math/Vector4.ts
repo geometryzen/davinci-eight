@@ -79,6 +79,9 @@ class Vector4 extends AbstractVector implements Cartesian4, LinearElement<Cartes
   add(rhs: Cartesian4) {
     return this;
   }
+  addVectors(a: Cartesian4, b: Cartesian4) {
+    return this;
+  }
   clone() {
     return new Vector4([this.x, this.y, this.z, this.w]);
   }
@@ -101,6 +104,9 @@ class Vector4 extends AbstractVector implements Cartesian4, LinearElement<Cartes
     this.y *= scalar;
     this.z *= scalar;
     this.w *= scalar;
+    return this;
+  }
+  sub(rhs: Cartesian4) {
     return this;
   }
 }

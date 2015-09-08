@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -148,7 +148,9 @@ import LinearElement = require(&#x27;../math/LinearElement&#x27;);
  */
 interface GeometricElement&lt;I, M&gt; extends LinearElement&lt;I, M&gt; {
   exp(): M;
+  magnitude(): number;
   multiply(element: I): M;
+  quaditude(): number;
 }
 
 export = GeometricElement;

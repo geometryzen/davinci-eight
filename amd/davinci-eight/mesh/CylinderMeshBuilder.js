@@ -46,8 +46,8 @@ define(["require", "exports", '../mesh/CylinderArgs', '../mesh/cylinderMesh'], f
             _super.prototype.setWireFrame.call(this, wireFrame);
             return this;
         };
-        CylinderMeshBuilder.prototype.buildMesh = function () {
-            return cylinderMesh(this);
+        CylinderMeshBuilder.prototype.buildMesh = function (monitor) {
+            return cylinderMesh(monitor, this);
         };
         return CylinderMeshBuilder;
     })(CylinderArgs);

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -146,14 +146,16 @@ import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import shaderProgram = require(&#x27;../programs/shaderProgram&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 
 /**
  * @method programFromScripts
+ * @param monitor {RenderingContextMonitor}
  * @param vsId {string} The vertex shader script element identifier.
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-function programFromScripts(vsId: string, fsId: string, $document: Document = document): ShaderProgram {
+function programFromScripts(monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs: string[] = []): ShaderProgram {
   expectArg(&#x27;vsId&#x27;, vsId).toBeString();
   expectArg(&#x27;fsId&#x27;, fsId).toBeString();
   expectArg(&#x27;$document&#x27;, $document).toBeObject();
@@ -170,7 +172,7 @@ function programFromScripts(vsId: string, fsId: string, $document: Document = do
   }
   let vertexShader: string = $(vsId).textContent;
   let fragmentShader: string = $(fsId).textContent;
-  return shaderProgram(vertexShader, fragmentShader);
+  return shaderProgram(monitor, vertexShader, fragmentShader, attribs);
 }
 
 export = programFromScripts;

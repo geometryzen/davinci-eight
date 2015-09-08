@@ -12,8 +12,8 @@ function arrowGeometry(options) {
     var radiusCone = 0.08;
     return new ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, options.coneHeight, options.axis);
 }
-function arrowMesh(options) {
-    var base = new GeometryAdapter(arrowGeometry(options), adapterOptions(options));
+function arrowMesh(monitor, options) {
+    var base = new GeometryAdapter(monitor, arrowGeometry(options), adapterOptions(options));
     var refCount = 1;
     var publicAPI = {
         draw: function () {

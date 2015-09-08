@@ -1,12 +1,14 @@
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import RenderingContextUser = require('../core/RenderingContextUser');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 class Texture implements RenderingContextUser {
   private _context: WebGLRenderingContext;
+  private _monitor: RenderingContextMonitor;
   private _texture: WebGLTexture;
   private _refCount: number = 1;
-  constructor() {
+  constructor(monitor: RenderingContextMonitor) {
   }
   addRef(): number {
     this._refCount++;

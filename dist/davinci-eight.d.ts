@@ -88,6 +88,7 @@ interface DrawList extends RenderingContextUser, UniformDataVisitor
  * Manages the lifecycle of an attribute used in a vertex shader.
  */
 class AttribLocation {
+  index: number;
   constructor(name: string, size: number, type: number);
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
@@ -99,20 +100,20 @@ class AttribLocation {
 /**
  *
  */
-class VertexBuffer implements RenderingContextUser {
-  constructor();
+class ArrayBuffer implements RenderingContextUser {
+//constructor(monitor: RenderingContextMonitor);
   addRef(): number;
   release(): number;
   contextFree(): void;
   contextGain(context: WebGLRenderingContext): void;
   contextLoss(): void;
-  bind();
+  bind(target: number);
 }
 /**
  *
  */
 class UniformLocation implements RenderingContextProgramUser {
-  constructor(name: string);
+  constructor(monitor: RenderingContextMonitor, name: string);
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
@@ -544,8 +545,8 @@ class Face3 {
   public a: number;
   public b: number;
   public c: number;
-  public normals: Cartesian3[];
-  constructor(a: number, b: number, c: number, normals?: Cartesian3[]);
+  public vertexNormals: Cartesian3[];
+  constructor(a: number, b: number, c: number, vertexNormals?: Cartesian3[]);
 }
 class Sphere {
   public center: Cartesian3;
@@ -594,7 +595,7 @@ class GeometryAdapter implements AttribProvider
 {
   drawMode: DrawMode;
   dynamic: boolean;
-  constructor(geometry: Geometry, options?: {drawMode?: DrawMode});
+  constructor(monitor: RenderingContextMonitor, geometry: Geometry, options?: {drawMode?: DrawMode});
   draw(): void;
   getAttribData(): AttribDataInfos;
   getAttribMeta(): AttribMetaInfos;
@@ -760,15 +761,15 @@ function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Rend
 /**
  * Constructs a ShaderProgram from the specified vertex and fragment shader codes.
  */
-function shaderProgram(vertexShader: string, fragmentShader: string): ShaderProgram;
+function shaderProgram(monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs?: string[]): ShaderProgram;
 /**
  * Constructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.
  */
-function programFromScripts(vsId: string, fsId: string, $document?: Document): ShaderProgram;
+function programFromScripts(monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]): ShaderProgram;
 /**
  * Constructs a ShaderProgram by introspecting a Geometry.
  */
-function smartProgram(attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[]): ShaderProgram;
+function smartProgram(monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs?: string[]): ShaderProgram;
 /**
  * Constructs a Drawable from the specified attribute provider and program.
  * @param geometry
@@ -797,12 +798,12 @@ class ArrowBuilder {
   setFlavor(flavor: number): ArrowBuilder;
   setConeHeight(coneHeight: number): ArrowBuilder;
   setWireFrame(wireFrame: boolean): ArrowBuilder;
-  buildMesh(): AttribProvider;
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
 }
 /**
  * Constructs and returns an arrow mesh.
  */
-function arrowMesh(options?: ArrowOptions): AttribProvider;
+function arrowMesh(monitor: RenderingContextMonitor, options?: ArrowOptions): AttribProvider;
 /**
  *
  */
@@ -838,12 +839,12 @@ class BoxBuilder {
   setDepthSegments(depthSegments: number): BoxBuilder;
   setWireFrame(wireFrame: boolean): BoxBuilder;
   setPositionVarName(positionVarName: string): BoxBuilder;
-  buildMesh(): AttribProvider;
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
 }
 /**
  * Constructs and returns a box mesh.
  */
-function boxMesh(options?: BoxOptions): AttribProvider;
+function boxMesh(monitor: RenderingContextMonitor, options?: BoxOptions): AttribProvider;
 /**
  *
  */
@@ -888,12 +889,12 @@ class CylinderMeshBuilder extends CylinderArgs {
   setThetaStart(thetaStart: number): CylinderMeshBuilder;
   setThetaLength(thetaLength: number): CylinderMeshBuilder;
   setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
-  buildMesh(): AttribProvider;
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
 }
 /**
  * Constructs and returns a cylinder mesh.
  */
-function cylinderMesh(options?: CylinderOptions): AttribProvider;
+function cylinderMesh(monitor: RenderingContextMonitor, options?: CylinderOptions): AttribProvider;
 /**
  *
  */
@@ -928,16 +929,16 @@ class SphereBuilder {
   setThetaStart(phiStart: number): SphereBuilder;
   setThetaLength(phiLength: number): SphereBuilder;
   setWireFrame(wireFrame: boolean): SphereBuilder;
-  buildMesh(): AttribProvider;
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
 }
 /**
  * Constructs and returns an vortex mesh.
  */
-function sphereMesh(options?: SphereOptions): AttribProvider;
+function sphereMesh(monitor: RenderingContextMonitor, options?: SphereOptions): AttribProvider;
 /**
  * Constructs and returns an vortex mesh.
  */
-function vortexMesh(options?: {wireFrame?: boolean}): AttribProvider;
+function vortexMesh(monitor: RenderingContextMonitor, options?: {wireFrame?: boolean}): AttribProvider;
 /**
  *
  */
@@ -1107,24 +1108,24 @@ function animation(
 /**
  *
  */
-interface RenderingContextProxy extends IUnknown
+interface RenderingContextMonitor extends IUnknown
 {
   /**
    * Starts the monitoring of the WebGL context.
    */
-  start(): RenderingContextProxy;
+  start(): RenderingContextMonitor;
   /**
    * Stops the monitoring of the WebGL context.
    */
-  stop(): RenderingContextProxy;
+  stop(): RenderingContextMonitor;
   /**
    *
    */
-  addContextUser(user: RenderingContextUser): RenderingContextProxy;
+  addContextUser(user: RenderingContextUser): RenderingContextMonitor;
   /**
    *
    */
-  removeContextUser(user: RenderingContextUser): RenderingContextProxy;
+  removeContextUser(user: RenderingContextUser): RenderingContextMonitor;
   /**
    *
    */
@@ -1168,10 +1169,18 @@ interface RenderingContextProxy extends IUnknown
    * Images may be bound to a Texture.
    * and adds it as a context user to the monitor.
    */
-  createTexture(): Texture;
+  texture(): Texture;
+  /**
+   * Creates a new ArrayBuffer instance.
+   */
+  vertexBuffer(): ArrayBuffer;
+  /**
+   * Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.
+   */
+  mirror: boolean;
 }
 /**
- * Constructs and returns a RenderingContextProxy.
+ * Constructs and returns a RenderingContextMonitor.
  */
 function webgl(
   canvas: HTMLCanvasElement,
@@ -1183,17 +1192,17 @@ function webgl(
     preserveDrawingBuffer?: boolean,
     stencil?: boolean
   }
-  ): RenderingContextProxy;
+  ): RenderingContextMonitor;
 /**
  *
  */
-class Node implements UniformData {
+class Model implements UniformData {
   public position: Vector3;
   public attitude: Spinor3;
   public scale: Vector3;
   public color: Vector3;
   /**
-   * Node implements UniformData required for manipulating a body.
+   * Model implements UniformData required for manipulating a body.
    */ 
   constructor();
   accept(visitor: UniformDataVisitor);

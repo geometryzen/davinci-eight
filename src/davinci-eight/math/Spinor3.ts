@@ -55,7 +55,10 @@ class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>
     this.modified = this.modified || this.w !== value;
     this.data[3] = value;
   }
-  add(element: Spinor3Coords) {
+  add(rhs: Spinor3Coords) {
+    return this;
+  }
+  addVectors(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
   clone() {
@@ -89,8 +92,22 @@ class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>
     this.xy = xy * s;
     return this;
   }
+  magnitude() {
+    return Math.sqrt(this.quaditude());
+  }
   multiply(rhs: Spinor3Coords) {
-    let w = rhs.w;
+    let a0 = this.w;
+    let a1 = this.yz;
+    let a2 = this.zx;
+    let a3 = this.xy;
+    let b0 = rhs.w;
+    let b1 = rhs.yz;
+    let b2 = rhs.zx;
+    let b3 = rhs.xy;
+    this.w  = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+    this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+    this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+    this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
     return this;
   }
   multiplyScalar(scalar: number) {
@@ -98,6 +115,16 @@ class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>
     this.zx *= scalar;
     this.xy *= scalar;
     this.w  *= scalar;
+    return this;
+  }
+  quaditude() {
+    let w  = this.w;
+    let yz = this.yz;
+    let zx = this.zx;
+    let xy = this.xy;
+    return w * w + yz * yz + zx * zx + xy * xy;
+  }
+  sub(rhs: Spinor3Coords) {
     return this;
   }
   /**

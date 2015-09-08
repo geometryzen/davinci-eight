@@ -5,6 +5,7 @@ import arrowMesh = require('../mesh/arrowMesh');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
 /**
  * @class ArrowBuilder
@@ -102,8 +103,8 @@ class ArrowBuilder {
     this.$wireFrame = wireFrame;
     return this;
   }
-  buildMesh(): AttribProvider {
-    return arrowMesh(this);
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider {
+    return arrowMesh(monitor, this);
   }
 }
 

@@ -98,6 +98,9 @@ define(["require", "exports", '../math/AbstractVector'], function (require, expo
         Vector4.prototype.add = function (rhs) {
             return this;
         };
+        Vector4.prototype.addVectors = function (a, b) {
+            return this;
+        };
         Vector4.prototype.clone = function () {
             return new Vector4([this.x, this.y, this.z, this.w]);
         };
@@ -120,6 +123,9 @@ define(["require", "exports", '../math/AbstractVector'], function (require, expo
             this.y *= scalar;
             this.z *= scalar;
             this.w *= scalar;
+            return this;
+        };
+        Vector4.prototype.sub = function (rhs) {
             return this;
         };
         return Vector4;

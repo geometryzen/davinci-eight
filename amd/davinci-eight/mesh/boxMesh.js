@@ -3,8 +3,8 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Bo
         options = options || {};
         return new BoxGeometry(options.width, options.height, options.depth, options.widthSegments, options.heightSegments, options.depthSegments, options.wireFrame);
     }
-    function boxMesh(options) {
-        var base = new GeometryAdapter(boxGeometry(options), adapterOptions(options));
+    function boxMesh(monitor, options) {
+        var base = new GeometryAdapter(monitor, boxGeometry(options), adapterOptions(options));
         base.addRef();
         var refCount = 1;
         var self = {

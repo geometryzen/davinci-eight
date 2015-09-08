@@ -1,6 +1,7 @@
 import AttribProvider = require('../core/AttribProvider');
 import CylinderArgs = require('../mesh/CylinderArgs');
 import CylinderOptions = require('../mesh/CylinderOptions');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 declare class CylinderMeshBuilder extends CylinderArgs {
     constructor(options?: CylinderOptions);
     setRadiusTop(radiusTop: number): CylinderMeshBuilder;
@@ -12,6 +13,6 @@ declare class CylinderMeshBuilder extends CylinderArgs {
     setThetaStart(thetaStart: number): CylinderMeshBuilder;
     setThetaLength(thetaLength: number): CylinderMeshBuilder;
     setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
-    buildMesh(): AttribProvider;
+    buildMesh(monitor: RenderingContextMonitor): AttribProvider;
 }
 export = CylinderMeshBuilder;

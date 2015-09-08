@@ -59,6 +59,9 @@ var Quaternion = (function () {
     Quaternion.prototype.add = function (element) {
         return this;
     };
+    Quaternion.prototype.addVectors = function (a, b) {
+        return this;
+    };
     Quaternion.prototype.set = function (x, y, z, w) {
         this._x = x;
         this._y = y;
@@ -252,6 +255,9 @@ var Quaternion = (function () {
         this._y = (y * ratioA + this._y * ratioB);
         this._z = (z * ratioA + this._z * ratioB);
         this.onChangeCallback();
+        return this;
+    };
+    Quaternion.prototype.sub = function (rhs) {
         return this;
     };
     Quaternion.prototype.equals = function (quaternion) {

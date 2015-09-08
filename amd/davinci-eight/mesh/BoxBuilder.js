@@ -123,8 +123,8 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             this.$normalVarName = normalVarName;
             return this;
         };
-        BoxBuilder.prototype.buildMesh = function () {
-            return boxMesh(this);
+        BoxBuilder.prototype.buildMesh = function (monitor) {
+            return boxMesh(monitor, this);
         };
         return BoxBuilder;
     })();

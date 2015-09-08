@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -146,11 +146,12 @@
  * A mutable element of a linear space.
  */
 interface LinearElement&lt;I, M&gt; {
-  add(element: I): M;
+  add(rhs: I): M;
   clone(): M;
   copy(source: I): M;
   divideScalar(scalar: number): M;
   multiplyScalar(scalar: number): M;
+  sub(rhs: I): M;
 }
 
 export = LinearElement;

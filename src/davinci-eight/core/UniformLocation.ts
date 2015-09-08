@@ -4,6 +4,7 @@ import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -36,6 +37,7 @@ class UniformLocation implements RenderingContextProgramUser {
   private _name: string;
   private _location: WebGLUniformLocation;
   private _context: WebGLRenderingContext;
+  private _monitor: RenderingContextMonitor;
   private _x: number = void 0;
   private _y: number = void 0;
   private _z: number = void 0;
@@ -45,9 +47,11 @@ class UniformLocation implements RenderingContextProgramUser {
   /**
    * @class UniformLocation
    * @constructor
+   * @param monitor {RenderingContextMonitor}
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
    */
-  constructor(name: string) {
+  constructor(monitor: RenderingContextMonitor, name: string) {
+    this._monitor = expectArg('monitor', monitor).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }
   /**
@@ -84,9 +88,15 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param x
    */
   uniform1f(x: number): void {
-    if (this._x !== x) {
+    if (this._monitor.mirror) {
+      if (this._x !== x) {
+        this._context.uniform1f(this._location, x);
+        this._x = x;
+      }
+    }
+    else {
       this._context.uniform1f(this._location, x);
-      this._x = x;
+      this._x = void 0;
     }
   }
   /**

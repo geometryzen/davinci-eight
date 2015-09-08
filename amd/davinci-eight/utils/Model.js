@@ -1,12 +1,12 @@
 define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Vector3) {
     /**
-     * Node implements UniformData required for manipulating a body.
+     * Model implements UniformData required for manipulating a body.
      */
-    var Node = (function () {
+    var Model = (function () {
         /**
-         * Node implements UniformData required for manipulating a body.
+         * Model implements UniformData required for manipulating a body.
          */
-        function Node() {
+        function Model() {
             this.position = new Vector3(); // default is the origin.
             this.attitude = new Spinor3(); // default is unity.
             this.scale = new Vector3([1, 1, 1]); // default is to not scale.
@@ -16,7 +16,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spi
             this.scale.modified = true;
             this.color.modified = true;
         }
-        Node.prototype.accept = function (visitor) {
+        Model.prototype.accept = function (visitor) {
             var S = Matrix4.identity();
             S.scaling(this.scale);
             var T = Matrix4.identity();
@@ -30,7 +30,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spi
             visitor.uniformMatrix3('uNormalMatrix', false, N);
             visitor.uniformVector3('uColor', this.color);
         };
-        return Node;
+        return Model;
     })();
-    return Node;
+    return Model;
 });

@@ -12,7 +12,7 @@ function vColorRequired(attributes, uniforms) {
 /**
  *
  */
-var smartProgram = function (attributes, uniformsList) {
+var smartProgram = function (monitor, attributes, uniformsList, attribs) {
     if (!isDefined(attributes)) {
         throw new Error("The attributes parameter is required for smartProgram.");
     }
@@ -29,7 +29,7 @@ var smartProgram = function (attributes, uniformsList) {
     });
     var vColor = vColorRequired(attributes, uniforms);
     var vLight = vLightRequired(uniforms);
-    var innerProgram = shaderProgram(vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight));
+    var innerProgram = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
     var self = {
         get program() {
             return innerProgram.program;

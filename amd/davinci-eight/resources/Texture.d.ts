@@ -1,9 +1,11 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 declare class Texture implements RenderingContextUser {
     private _context;
+    private _monitor;
     private _texture;
     private _refCount;
-    constructor();
+    constructor(monitor: RenderingContextMonitor);
     addRef(): number;
     release(): number;
     contextFree(): void;

@@ -1,3 +1,4 @@
 import ShaderProgram = require('../core/ShaderProgram');
-declare var shaderProgram: (vertexShader: string, fragmentShader: string, uuid?: string) => ShaderProgram;
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+declare var shaderProgram: (monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs: string[]) => ShaderProgram;
 export = shaderProgram;

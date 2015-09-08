@@ -7,7 +7,7 @@ import Vector3 = require('../math/Vector3');
 import isDefined = require('../checks/isDefined');
 
 function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
-  face.normals = [];
+  face.vertexNormals = [];
   let vA: Cartesian3 = vertices[face.a];
   let vB: Cartesian3 = vertices[face.b];
   let vC: Cartesian3 = vertices[face.c];
@@ -15,9 +15,9 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
   let ab = new Vector3().subVectors(vA, vB);
   let normal = new Vector3().crossVectors(cb, ab).normalize();
   // TODO: I think we only need to push one normal here?
-  face.normals.push(normal);
-  face.normals.push(normal);
-  face.normals.push(normal);
+  face.vertexNormals.push(normal);
+  face.vertexNormals.push(normal);
+  face.vertexNormals.push(normal);
 }
 
 /**
@@ -97,9 +97,9 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
 
       for ( f = 0, fl = this.faces.length; f < fl; f ++ ) {
         face = this.faces[ f ];
-        vertexNormals[face.a].add(face.normals[0]);
-        vertexNormals[face.b].add(face.normals[0]);
-        vertexNormals[face.c].add(face.normals[0]);
+        vertexNormals[face.a].add(face.vertexNormals[0]);
+        vertexNormals[face.b].add(face.vertexNormals[0]);
+        vertexNormals[face.c].add(face.vertexNormals[0]);
       }
 
     }
@@ -110,9 +110,9 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
 
     for ( f = 0, fl = this.faces.length; f < fl; f ++ ) {
       face = this.faces[ f ];
-      face.normals[0] = vertexNormals[face.a].clone();
-      face.normals[1] = vertexNormals[face.b].clone();
-      face.normals[2] = vertexNormals[face.c].clone();
+      face.vertexNormals[0] = vertexNormals[face.a].clone();
+      face.vertexNormals[1] = vertexNormals[face.b].clone();
+      face.vertexNormals[2] = vertexNormals[face.c].clone();
     }
   }
   /**

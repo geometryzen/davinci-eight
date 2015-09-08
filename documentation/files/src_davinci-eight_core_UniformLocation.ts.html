@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -148,6 +148,7 @@ import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import RenderingContextProgramUser = require(&#x27;../core/RenderingContextProgramUser&#x27;);
+import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 import Vector1 = require(&#x27;../math/Vector1&#x27;);
 import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
@@ -180,6 +181,7 @@ class UniformLocation implements RenderingContextProgramUser {
   private _name: string;
   private _location: WebGLUniformLocation;
   private _context: WebGLRenderingContext;
+  private _monitor: RenderingContextMonitor;
   private _x: number = void 0;
   private _y: number = void 0;
   private _z: number = void 0;
@@ -189,9 +191,11 @@ class UniformLocation implements RenderingContextProgramUser {
   /**
    * @class UniformLocation
    * @constructor
+   * @param monitor {RenderingContextMonitor}
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
    */
-  constructor(name: string) {
+  constructor(monitor: RenderingContextMonitor, name: string) {
+    this._monitor = expectArg(&#x27;monitor&#x27;, monitor).toBeObject().value;
     this._name = expectArg(&#x27;name&#x27;, name).toBeString().value;
   }
   /**
@@ -228,9 +232,15 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param x
    */
   uniform1f(x: number): void {
-    if (this._x !== x) {
+    if (this._monitor.mirror) {
+      if (this._x !== x) {
+        this._context.uniform1f(this._location, x);
+        this._x = x;
+      }
+    }
+    else {
       this._context.uniform1f(this._location, x);
-      this._x = x;
+      this._x = void 0;
     }
   }
   /**

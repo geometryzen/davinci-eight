@@ -3,8 +3,8 @@ define(["require", "exports", '../geometries/GeometryAdapter', '../geometries/Cy
         options = options || {};
         return new CylinderGeometry(options.radiusTop, options.radiusBottom, options.height, options.radialSegments, options.heightSegments, options.openEnded, options.thetaStart, options.thetaLength);
     }
-    function cylinderMesh(options) {
-        var base = new GeometryAdapter(cylinderGeometry(options), adapterOptions(options));
+    function cylinderMesh(monitor, options) {
+        var base = new GeometryAdapter(monitor, cylinderGeometry(options), adapterOptions(options));
         var refCount = 1;
         var publicAPI = {
             draw: function () {

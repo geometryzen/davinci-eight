@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.76.0</em>
+            <em>API Docs for: 2.77.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -148,6 +148,7 @@ import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
 import boxMesh = require(&#x27;../mesh/boxMesh&#x27;);
 import BoxOptions = require(&#x27;../mesh/BoxOptions&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 
 /**
  * @class BoxBuilder
@@ -246,8 +247,8 @@ class BoxBuilder {
     this.$normalVarName = normalVarName;
     return this;
   }
-  buildMesh(): AttribProvider {
-    return boxMesh(this);
+  buildMesh(monitor: RenderingContextMonitor): AttribProvider {
+    return boxMesh(monitor, this);
   }
 }
 

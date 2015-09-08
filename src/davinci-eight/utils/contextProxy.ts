@@ -1,17 +1,19 @@
-import RenderingContextProxy = require('../utils/RenderingContextProxy');
+import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import initWebGL = require('../renderers/initWebGL');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import Texture = require('../resources/Texture');
+import ArrayBuffer = require('../core/ArrayBuffer');
 
-function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): RenderingContextProxy {
+function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): RenderingContextMonitor {
 
   expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 
   let users: RenderingContextUser[] = [];
   var context: WebGLRenderingContext;
   var refCount: number = 1;
+  var mirror: boolean = true;
 
   let webGLContextLost = function(event: Event) {
     event.preventDefault();
@@ -29,22 +31,22 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     });
   };
 
-  var self: RenderingContextProxy = {
-    start(): RenderingContextProxy {
+  var self: RenderingContextMonitor = {
+    start(): RenderingContextMonitor {
       context = initWebGL(canvas, attributes);
       canvas.addEventListener('webglcontextlost', webGLContextLost, false);
       canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
       users.forEach(function(user: RenderingContextUser) {user.contextGain(context);});
       return self;
     },
-    stop(): RenderingContextProxy {
+    stop(): RenderingContextMonitor {
       context = void 0;
       users.forEach(function(user: RenderingContextUser) {user.contextFree();});
       canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
       canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
       return self;
     },
-    addContextUser(user: RenderingContextUser): RenderingContextProxy {
+    addContextUser(user: RenderingContextUser): RenderingContextMonitor {
       expectArg('user', user).toBeObject();
       user.addRef();
       users.push(user);
@@ -53,7 +55,7 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       }
       return self;
     },
-    removeContextUser(user: RenderingContextUser): RenderingContextProxy {
+    removeContextUser(user: RenderingContextUser): RenderingContextMonitor {
       expectArg('user', user).toBeObject();
       let index = users.indexOf(user);
       if (index >= 0) {
@@ -73,12 +75,12 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     },
     addRef(): number {
       refCount++;
-      console.log("monitor.addRef() => " + refCount);
+      // console.log("monitor.addRef() => " + refCount);
       return refCount;
     },
     release(): number {
       refCount--;
-      console.log("monitor.release() => " + refCount);
+      // console.log("monitor.release() => " + refCount);
       if (refCount === 0) {
         while(users.length > 0) {
           users.pop().release();
@@ -116,10 +118,21 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
         return context.enable(capability);
       }
     },
-    createTexture(): Texture {
-      let texture = new Texture();
+    texture(): Texture {
+      let texture = new Texture(self);
       self.addContextUser(texture);
       return texture;
+    },
+    vertexBuffer(): ArrayBuffer {
+      let vbo = new ArrayBuffer(self);
+      self.addContextUser(vbo);
+      return vbo;
+    },
+    get mirror() {
+      return mirror;
+    },
+    set mirror(value: boolean) {
+      mirror = expectArg('mirror', value).toBeBoolean().value;
     }
   };
   return self;
