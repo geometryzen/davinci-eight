@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.78.0</em>
+            <em>API Docs for: 2.79.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -173,11 +173,11 @@ let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = &quot;directionalLightCosineFactor
 function vertexShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean): string {
 
   var lines: string[] = [];
-  for (name in attributes) {
-    lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + getAttribVarName(attributes[name], name) + SEMICOLON);
+  for (var aName in attributes) {
+    lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
   }
-  for (name in uniforms) {
-    lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
+  for (var uName in uniforms) {
+    lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
   }
   if (vColor) {
     lines.push(&quot;varying highp vec4 vColor;&quot;);
@@ -219,7 +219,6 @@ function vertexShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, v
   lines.push(glPosition.join(&#x27;&#x27;));
 
   if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-    let vColorAssignLines: string[] = [];
     let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
     switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
       case &#x27;vec4&#x27;: {
@@ -234,10 +233,8 @@ function vertexShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, v
         throw new Error(&quot;Unexpected type for color attribute: &quot; + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
       }
     }
-    lines.push(vColorAssignLines.join(&#x27;&#x27;));
   }
   else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-    let vColorAssignLines: string[] = [];
     let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
     switch(uniforms[Symbolic.UNIFORM_COLOR].glslType) {
       case &#x27;vec4&#x27;: {
@@ -252,7 +249,6 @@ function vertexShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, v
         throw new Error(&quot;Unexpected type for color uniform: &quot; + uniforms[Symbolic.UNIFORM_COLOR].glslType);
       }
     }
-    lines.push(vColorAssignLines.join(&#x27;&#x27;));
   }
 
   if (vLight) {

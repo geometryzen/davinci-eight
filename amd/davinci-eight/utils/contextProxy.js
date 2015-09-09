@@ -125,6 +125,5 @@ define(["require", "exports", '../renderers/initWebGL', '../checks/expectArg', '
         };
         return self;
     }
-    ;
     return contextProxy;
 });

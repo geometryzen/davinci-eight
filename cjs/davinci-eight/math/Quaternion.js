@@ -264,8 +264,7 @@ var Quaternion = (function () {
         return (quaternion._x === this._x) && (quaternion._y === this._y) && (quaternion._z === this._z) && (quaternion._w === this._w);
     };
     Quaternion.prototype.fromArray = function (array, offset) {
-        if (offset === undefined)
-            offset = 0;
+        if (offset === void 0) { offset = 0; }
         this._x = array[offset];
         this._y = array[offset + 1];
         this._z = array[offset + 2];
@@ -274,10 +273,8 @@ var Quaternion = (function () {
         return this;
     };
     Quaternion.prototype.toArray = function (array, offset) {
-        if (array === undefined)
-            array = [];
-        if (offset === undefined)
-            offset = 0;
+        if (array === void 0) { array = []; }
+        if (offset === void 0) { offset = 0; }
         array[offset] = this._x;
         array[offset + 1] = this._y;
         array[offset + 2] = this._z;

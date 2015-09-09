@@ -83,6 +83,8 @@ import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector1 = require('davinci-eight/math/Vector1');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
+import Vector4 = require('davinci-eight/math/Vector4');
+import VectorN = require('davinci-eight/math/VectorN');
 // mesh
 import arrowMesh = require('davinci-eight/mesh/arrowMesh');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
@@ -188,6 +190,8 @@ var eight = {
   get Vector1() { return Vector1; },
   get Vector2() { return Vector2; },
   get Vector3() { return Vector3; },
+  get Vector4() { return Vector4; },
+  get VectorN() { return VectorN; },
   get Curve() { return Curve; },
   // mesh
   get arrowMesh() { return arrowMesh; },

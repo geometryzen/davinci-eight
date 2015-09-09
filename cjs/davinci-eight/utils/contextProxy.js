@@ -129,5 +129,4 @@ function contextProxy(canvas, attributes) {
     };
     return self;
 }
-;
 module.exports = contextProxy;

@@ -267,8 +267,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   equals(quaternion: Quaternion) {
     return (quaternion._x === this._x) && (quaternion._y === this._y) && ( quaternion._z === this._z ) && ( quaternion._w === this._w );
   }
-  fromArray(array: number[], offset: number): Quaternion {
-    if ( offset === undefined ) offset = 0;
+  fromArray(array: number[], offset: number = 0): Quaternion {
     this._x = array[ offset ];
     this._y = array[ offset + 1 ];
     this._z = array[ offset + 2 ];
@@ -276,9 +275,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.onChangeCallback();
     return this;
   }
-  toArray(array: number[], offset ): number[] {
-    if ( array === undefined ) array = [];
-    if ( offset === undefined ) offset = 0;
+  toArray(array: number[] = [], offset: number = 0): number[] {
     array[ offset ] = this._x;
     array[ offset + 1 ] = this._y;
     array[ offset + 2 ] = this._z;

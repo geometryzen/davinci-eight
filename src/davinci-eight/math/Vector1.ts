@@ -1,48 +1,19 @@
 import Cartesian1 = require('../math/Cartesian1');
 import expectArg = require('../checks/expectArg');
 import LinearElement = require('../math/LinearElement');
-import Mutable = require('../math/Mutable');
-
+import VectorN = require('../math/VectorN');
 /**
  * @class Vector1
  */
-class Vector1 implements Cartesian1, Mutable<number[]>, LinearElement<Cartesian1, Vector1> {
-  private $data: number[];
-  private $callback: () => number[];
-  public modified: boolean;
+class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, Vector1> {
   /**
    * @class Vector1
    * @constructor
-   * @param data {number[]}
+   * @param data {number[]} Default is [0].
+   * @param modified {boolean} Default is false.
    */
-  constructor(data: number[] = [0]) {
-    this.data = data;
-    this.modified = false;
-  }
-  get data() {
-    if (this.$data) {
-      return this.$data;
-    }
-    else if (this.$callback) {
-      var data = this.$callback();
-      expectArg('callback()', data).toSatisfy(data.length === 1, "callback() length must be 1");
-      return this.$callback();
-    }
-    else {
-      throw new Error("Vector1 is undefined.");
-    }
-  }
-  set data(data: number[]) {
-    expectArg('data', data).toSatisfy(data.length === 1, "data length must be 1");
-    this.$data = data;
-    this.$callback = void 0;
-  }
-  get callback() {
-    return this.$callback;
-  }
-  set callback(reactTo: () => number[]) {
-    this.$callback = reactTo;
-    this.$data = void 0;
+  constructor(data = [0], modified = false) {
+    super(data, modified, 1);
   }
   /**
    * @property x
@@ -62,18 +33,6 @@ class Vector1 implements Cartesian1, Mutable<number[]>, LinearElement<Cartesian1
   setX(x: number) {
     this.x = x;
     return this;
-  }
-  setComponent(index: number, value: number) {
-    switch ( index ) {
-      case 0: this.x = value; break;
-      default: throw new Error( 'index is out of range: ' + index );
-    }
-  }
-  getComponent(index: number) {
-    switch ( index ) {
-      case 0: return this.x;
-      default: throw new Error( 'index is out of range: ' + index );
-    }
   }
   copy(v: Cartesian1) {
     this.x = v.x;
@@ -198,19 +157,15 @@ class Vector1 implements Cartesian1, Mutable<number[]>, LinearElement<Cartesian1
   equals(v: Cartesian1) {
     return v.x === this.x;
   }
-  fromArray(array: number[], offset: number) {
-    if ( offset === undefined ) offset = 0;
+  fromArray(array: number[], offset: number = 0) {
     this.x = array[ offset ];
     return this;
   }
-  toArray(array: number[], offset: number) {
-    if ( array === undefined ) array = [];
-    if ( offset === undefined ) offset = 0;
+  toArray(array: number[] = [], offset: number = 0) {
     array[ offset ] = this.x;
     return array;
   }
-  fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number) {
-    if ( offset === undefined ) offset = 0;
+  fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number = 0) {
     index = index * attribute.itemSize + offset;
     this.x = attribute.array[ index ];
     return this;

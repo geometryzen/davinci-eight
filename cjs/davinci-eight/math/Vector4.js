@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var AbstractVector = require('../math/AbstractVector');
+var VectorN = require('../math/VectorN');
 /**
  * @class Vector4
  */
@@ -13,11 +13,13 @@ var Vector4 = (function (_super) {
     /**
      * @class Vector4
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0, 0, 0, 0].
+     * @param modified {boolean} Default is false.
      */
-    function Vector4(data) {
+    function Vector4(data, modified) {
         if (data === void 0) { data = [0, 0, 0, 0]; }
-        _super.call(this, data, 4);
+        if (modified === void 0) { modified = false; }
+        _super.call(this, data, modified, 4);
     }
     Object.defineProperty(Vector4.prototype, "x", {
         /**
@@ -129,5 +131,5 @@ var Vector4 = (function (_super) {
         return this;
     };
     return Vector4;
-})(AbstractVector);
+})(VectorN);
 module.exports = Vector4;

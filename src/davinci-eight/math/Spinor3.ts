@@ -1,4 +1,4 @@
-import AbstractVector = require('../math/AbstractVector');
+import VectorN = require('../math/VectorN');
 import expectArg = require('../checks/expectArg');
 import GeometricElement = require('../math/GeometricElement');
 import Mutable = require('../math/Mutable');
@@ -6,10 +6,10 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class Spinor3
  */
-class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3>
+class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3>
 {
-  constructor(data: number[] = [0, 0, 0, 1]) {
-    super(data, 4);
+  constructor(data: number[] = [0, 0, 0, 1], modified: boolean = false) {
+    super(data, modified, 4);
   }
   /**
    * @property yz

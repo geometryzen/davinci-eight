@@ -1,51 +1,26 @@
-var expectArg = require('../checks/expectArg');
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var VectorN = require('../math/VectorN');
 /**
  * @class Vector1
  */
-var Vector1 = (function () {
+var Vector1 = (function (_super) {
+    __extends(Vector1, _super);
     /**
      * @class Vector1
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0].
+     * @param modified {boolean} Default is false.
      */
-    function Vector1(data) {
+    function Vector1(data, modified) {
         if (data === void 0) { data = [0]; }
-        this.data = data;
-        this.modified = false;
+        if (modified === void 0) { modified = false; }
+        _super.call(this, data, modified, 1);
     }
-    Object.defineProperty(Vector1.prototype, "data", {
-        get: function () {
-            if (this.$data) {
-                return this.$data;
-            }
-            else if (this.$callback) {
-                var data = this.$callback();
-                expectArg('callback()', data).toSatisfy(data.length === 1, "callback() length must be 1");
-                return this.$callback();
-            }
-            else {
-                throw new Error("Vector1 is undefined.");
-            }
-        },
-        set: function (data) {
-            expectArg('data', data).toSatisfy(data.length === 1, "data length must be 1");
-            this.$data = data;
-            this.$callback = void 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Vector1.prototype, "callback", {
-        get: function () {
-            return this.$callback;
-        },
-        set: function (reactTo) {
-            this.$callback = reactTo;
-            this.$data = void 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Vector1.prototype, "x", {
         /**
          * @property x
@@ -68,20 +43,6 @@ var Vector1 = (function () {
     Vector1.prototype.setX = function (x) {
         this.x = x;
         return this;
-    };
-    Vector1.prototype.setComponent = function (index, value) {
-        switch (index) {
-            case 0:
-                this.x = value;
-                break;
-            default: throw new Error('index is out of range: ' + index);
-        }
-    };
-    Vector1.prototype.getComponent = function (index) {
-        switch (index) {
-            case 0: return this.x;
-            default: throw new Error('index is out of range: ' + index);
-        }
     };
     Vector1.prototype.copy = function (v) {
         this.x = v.x;
@@ -207,22 +168,18 @@ var Vector1 = (function () {
         return v.x === this.x;
     };
     Vector1.prototype.fromArray = function (array, offset) {
-        if (offset === undefined)
-            offset = 0;
+        if (offset === void 0) { offset = 0; }
         this.x = array[offset];
         return this;
     };
     Vector1.prototype.toArray = function (array, offset) {
-        if (array === undefined)
-            array = [];
-        if (offset === undefined)
-            offset = 0;
+        if (array === void 0) { array = []; }
+        if (offset === void 0) { offset = 0; }
         array[offset] = this.x;
         return array;
     };
     Vector1.prototype.fromAttribute = function (attribute, index, offset) {
-        if (offset === undefined)
-            offset = 0;
+        if (offset === void 0) { offset = 0; }
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         return this;
@@ -231,5 +188,5 @@ var Vector1 = (function () {
         return new Vector1([this.x]);
     };
     return Vector1;
-})();
+})(VectorN);
 module.exports = Vector1;

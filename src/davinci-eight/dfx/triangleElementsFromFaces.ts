@@ -4,6 +4,7 @@ import Elements = require('../dfx/Elements');
 import Face = require('../dfx/Face');
 import FaceVertex = require('../dfx/FaceVertex');
 import Vector3 = require('../math/Vector3');
+import VectorN = require('../math/VectorN');
 import stringFaceVertex = require('../dfx/stringFaceVertex');
 
 let VERTICES_PER_FACE = 3;
@@ -53,10 +54,12 @@ function triangleElementsFromFaces(faces: Face[]): Elements {
 
   var elements: { [key:string]: FaceVertex } = {};
 
+  // Although it is possible to use a VectorN here, working with number[] will
+  // be faster and will later allow us to fix the length of the VectorN.
   let indices: number[] = [];
-  var positions = numberList(uniques.length * COORDS_PER_POSITION, void 0);
-  var normals = numberList(uniques.length * COORDS_PER_NORMAL, void 0);
-  var coords = numberList(uniques.length * COORDS_PER_TEXTURE, void 0);
+  var positions: number[] = numberList(uniques.length * COORDS_PER_POSITION, void 0);
+  var normals: number[] = numberList(uniques.length * COORDS_PER_NORMAL, void 0);
+  var coords: number[] = numberList(uniques.length * COORDS_PER_TEXTURE, void 0);
 
   faces.forEach(function(face: Face, faceIndex: number) {
     let a: FaceVertex = face.a;
@@ -101,11 +104,12 @@ function triangleElementsFromFaces(faces: Face[]): Elements {
       coords[offset2y] = 0; 
     }
   });
-  var attributes: { [name: string]: number[] } = {};
-  attributes['positions'] = positions;
-  attributes['normals'] = normals;
-  attributes['coords'] = coords;
-  return new Elements(indices, attributes);
+  var attributes: { [name: string]: VectorN<number> } = {};
+  // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
+  attributes['positions'] = new VectorN<number>(positions, false, positions.length);
+  attributes['normals']   = new VectorN<number>(normals, false, normals.length);
+  attributes['coords']    = new VectorN<number>(coords, false, coords.length);
+  return new Elements(new VectorN<number>(indices, false, indices.length), attributes);
 }
 
 export = triangleElementsFromFaces;

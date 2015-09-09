@@ -136,6 +136,6 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     }
   };
   return self;
-};
+}
 
 export = contextProxy;

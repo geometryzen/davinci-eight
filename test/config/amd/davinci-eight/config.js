@@ -2,8 +2,7 @@
 // TODO: automate generation of this file.
 require([
     'davinci-blade/Rational',
-    'gl-matrix',
-    'davinci-eight/glsl/Scope'
+    'gl-matrix'
 ], function(){ require([
     'test/amd/Rational_test.js'
 ], function() {

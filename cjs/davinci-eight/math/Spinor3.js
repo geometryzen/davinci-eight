@@ -4,15 +4,16 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var AbstractVector = require('../math/AbstractVector');
+var VectorN = require('../math/VectorN');
 /**
  * @class Spinor3
  */
 var Spinor3 = (function (_super) {
     __extends(Spinor3, _super);
-    function Spinor3(data) {
+    function Spinor3(data, modified) {
         if (data === void 0) { data = [0, 0, 0, 1]; }
-        _super.call(this, data, 4);
+        if (modified === void 0) { modified = false; }
+        _super.call(this, data, modified, 4);
     }
     Object.defineProperty(Spinor3.prototype, "yz", {
         /**
@@ -154,5 +155,5 @@ var Spinor3 = (function (_super) {
         return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
     };
     return Spinor3;
-})(AbstractVector);
+})(VectorN);
 module.exports = Spinor3;

@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../dfx/Elements', '../dfx/stringFaceVertex'], function (require, exports, isDefined, expectArg, Elements, stringFaceVertex) {
+define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../dfx/Elements', '../math/VectorN', '../dfx/stringFaceVertex'], function (require, exports, isDefined, expectArg, Elements, VectorN, stringFaceVertex) {
     var VERTICES_PER_FACE = 3;
     var COORDS_PER_POSITION = 3;
     var COORDS_PER_NORMAL = 3;
@@ -38,6 +38,8 @@ define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../
         expectArg('faces', faces).toBeObject();
         var uniques = computeUniques(faces);
         var elements = {};
+        // Although it is possible to use a VectorN here, working with number[] will
+        // be faster and will later allow us to fix the length of the VectorN.
         var indices = [];
         var positions = numberList(uniques.length * COORDS_PER_POSITION, void 0);
         var normals = numberList(uniques.length * COORDS_PER_NORMAL, void 0);
@@ -77,10 +79,11 @@ define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../
             }
         });
         var attributes = {};
-        attributes['positions'] = positions;
-        attributes['normals'] = normals;
-        attributes['coords'] = coords;
-        return new Elements(indices, attributes);
+        // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
+        attributes['positions'] = new VectorN(positions, false, positions.length);
+        attributes['normals'] = new VectorN(normals, false, normals.length);
+        attributes['coords'] = new VectorN(coords, false, coords.length);
+        return new Elements(new VectorN(indices, false, indices.length), attributes);
     }
     return triangleElementsFromFaces;
 });

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.78.0</em>
+            <em>API Docs for: 2.79.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -154,15 +154,12 @@ import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
-import Mutable = require(&#x27;../math/Mutable&#x27;);
+import VectorN = require(&#x27;../math/VectorN&#x27;);
 
 /**
  * @class Vector3
  */
-class Vector3 implements Cartesian3, Mutable&lt;number[]&gt;, LinearElement&lt;Cartesian3, Vector3&gt; {
-  private $data: number[];
-  private $callback: () =&gt; number[];
-  public modified: boolean;
+class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement&lt;Cartesian3, Vector3&gt; {
   public static e1 = new Vector3([1, 0, 0]);
   public static e2 = new Vector3([0, 1, 0]);
   public static e3 = new Vector3([0, 0, 1]);
@@ -172,36 +169,11 @@ class Vector3 implements Cartesian3, Mutable&lt;number[]&gt;, LinearElement&lt;C
   /**
    * @class Vector3
    * @constructor
-   * @param data {number[]}
+   * @param data {number[]} Default is [0, 0, 0].
+   * @param modified {boolean} Default is false;
    */
-  constructor(data: number[] = [0, 0, 0]) {
-    this.data = data;
-    this.modified = false;
-  }
-  get data() {
-    if (this.$data) {
-      return this.$data;
-    }
-    else if (this.$callback) {
-      var data = this.$callback();
-      expectArg(&#x27;callback()&#x27;, data).toSatisfy(data.length === 3, &quot;callback() length must be 3&quot;);
-      return this.$callback();
-    }
-    else {
-      throw new Error(&quot;Vector3 is undefined.&quot;);
-    }
-  }
-  set data(data: number[]) {
-    expectArg(&#x27;data&#x27;, data).toSatisfy(data.length === 3, &quot;data length must be 3&quot;);
-    this.$data = data;
-    this.$callback = void 0;
-  }
-  get callback() {
-    return this.$callback;
-  }
-  set callback(reactTo: () =&gt; number[]) {
-    this.$callback = reactTo;
-    this.$data = void 0;
+  constructor(data: number[] = [0, 0, 0], modified = false) {
+    super(data, modified, 3);
   }
   /**
    * @property x

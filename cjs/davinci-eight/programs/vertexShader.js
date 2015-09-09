@@ -19,11 +19,11 @@ var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
  */
 function vertexShader(attributes, uniforms, vColor, vLight) {
     var lines = [];
-    for (name in attributes) {
-        lines.push(ATTRIBUTE + attributes[name].glslType + SPACE + getAttribVarName(attributes[name], name) + SEMICOLON);
+    for (var aName in attributes) {
+        lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
     }
-    for (name in uniforms) {
-        lines.push(UNIFORM + uniforms[name].glslType + SPACE + getUniformCodeName(uniforms, name) + SEMICOLON);
+    for (var uName in uniforms) {
+        lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
     }
     if (vColor) {
         lines.push("varying highp vec4 vColor;");
@@ -62,7 +62,6 @@ function vertexShader(attributes, uniforms, vColor, vLight) {
     glPosition.unshift('  ');
     lines.push(glPosition.join(''));
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-        var vColorAssignLines = [];
         var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
         switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
             case 'vec4':
@@ -79,10 +78,8 @@ function vertexShader(attributes, uniforms, vColor, vLight) {
                 throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
             }
         }
-        lines.push(vColorAssignLines.join(''));
     }
     else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-        var vColorAssignLines = [];
         var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
         switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
             case 'vec4':
@@ -99,7 +96,6 @@ function vertexShader(attributes, uniforms, vColor, vLight) {
                 throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
             }
         }
-        lines.push(vColorAssignLines.join(''));
     }
     if (vLight) {
         if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {

@@ -19,8 +19,11 @@ function makeSphere(ctx: WebGLRenderingContext, radius: number, lats: number, lo
     let texCoordData: number[] = [ ];
     let indexData: number[] = [ ];
 
-    for (var latNumber = 0; latNumber <= lats; ++latNumber) {
-        for (var longNumber = 0; longNumber <= longs; ++longNumber) {
+    var latNumber: number;
+    var longNumber: number;
+
+    for (latNumber = 0; latNumber <= lats; ++latNumber) {
+        for (longNumber = 0; longNumber <= longs; ++longNumber) {
             var theta = latNumber * Math.PI / lats;
             var phi = longNumber * 2 * Math.PI / longs;
             var sinTheta = Math.sin(theta);
@@ -45,8 +48,8 @@ function makeSphere(ctx: WebGLRenderingContext, radius: number, lats: number, lo
         }
     }
 
-    for (var latNumber = 0; latNumber < lats; ++latNumber) {
-        for (var longNumber = 0; longNumber < longs; ++longNumber) {
+    for (latNumber = 0; latNumber < lats; ++latNumber) {
+        for (longNumber = 0; longNumber < longs; ++longNumber) {
             var first = (latNumber * (longs+1)) + longNumber;
             var second = first + longs + 1;
             indexData.push(first);
@@ -59,6 +62,7 @@ function makeSphere(ctx: WebGLRenderingContext, radius: number, lats: number, lo
         }
     }
 
+    // FIXME: What I don't like about this is the coupling of the geometry to the WebGL buffering.
     let normalBuffer = ctx.createBuffer();
     ctx.bindBuffer(ctx.ARRAY_BUFFER, normalBuffer);
     ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array(normalData), ctx.STATIC_DRAW);

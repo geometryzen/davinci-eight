@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.78.0</em>
+            <em>API Docs for: 2.79.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -147,21 +147,21 @@
     <pre class="code prettyprint linenums">
 import Cartesian4 = require(&#x27;../math/Cartesian4&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
-import Mutable = require(&#x27;../math/Mutable&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import AbstractVector = require(&#x27;../math/AbstractVector&#x27;);
+import VectorN = require(&#x27;../math/VectorN&#x27;);
 
 /**
  * @class Vector4
  */
-class Vector4 extends AbstractVector implements Cartesian4, LinearElement&lt;Cartesian4, Vector4&gt; {
+class Vector4 extends VectorN&lt;number&gt; implements Cartesian4, LinearElement&lt;Cartesian4, Vector4&gt; {
   /**
    * @class Vector4
    * @constructor
-   * @param data {number[]}
+   * @param data {number[]} Default is [0, 0, 0, 0].
+   * @param modified {boolean} Default is false.
    */
-  constructor(data: number[] = [0, 0, 0, 0]) {
-    super(data, 4);
+  constructor(data = [0, 0, 0, 0], modified = false) {
+    super(data, modified, 4);
   }
   /**
    * @property x

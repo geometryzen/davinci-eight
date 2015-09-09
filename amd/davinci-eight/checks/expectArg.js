@@ -1,4 +1,7 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/isUndefined'], function (require, exports, isUndefined) {
+    function message(standard, override) {
+        return isUndefined(override) ? standard : override();
+    }
     function expectArg(name, value) {
         var arg = {
             toSatisfy: function (condition, message) {
@@ -7,19 +10,18 @@ define(["require", "exports"], function (require, exports) {
                 }
                 return arg;
             },
-            toBeBoolean: function () {
+            toBeBoolean: function (override) {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'boolean') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a boolean.";
-                    throw new Error(message);
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
                 }
                 return arg;
             },
             toBeDefined: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue === 'undefined') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
-                    throw new Error(message);
+                    var message_1 = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
+                    throw new Error(message_1);
                 }
                 return arg;
             },
@@ -28,54 +30,52 @@ define(["require", "exports"], function (require, exports) {
                     return arg;
                 }
                 else {
-                    var message = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
-                    throw new Error(message);
+                    var message_2 = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
+                    throw new Error(message_2);
                 }
             },
             toBeFunction: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'function') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
-                    throw new Error(message);
+                    var message_3 = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
+                    throw new Error(message_3);
                 }
                 return arg;
             },
-            toBeNumber: function () {
+            toBeNumber: function (override) {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'number') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a number.";
-                    throw new Error(message);
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a mumber.", override));
                 }
                 return arg;
             },
-            toBeObject: function () {
+            toBeObject: function (override) {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'object') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be an object.";
-                    throw new Error(message);
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
                 }
                 return arg;
             },
             toBeString: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'string') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
-                    throw new Error(message);
+                    var message_4 = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
+                    throw new Error(message_4);
                 }
                 return arg;
             },
             toBeUndefined: function () {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'undefined') {
-                    var message = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
-                    throw new Error(message);
+                    var message_5 = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
+                    throw new Error(message_5);
                 }
                 return arg;
             },
             toNotBeNull: function () {
                 if (value === null) {
-                    var message = "Expecting argument " + name + " to not be null.";
-                    throw new Error(message);
+                    var message_6 = "Expecting argument " + name + " to not be null.";
+                    throw new Error(message_6);
                 }
                 else {
                     return arg;

@@ -180,6 +180,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.76.0: 2015-09-07 Spinor3
 * 2.77.0: 2015-09-08 Buffer
 * 2.78.0: 2015-09-09 Face
+* 2.79.0: 2015-09-09 VectorN
 
 ## License
 Copyright (c) 2014-2015 David Holmes

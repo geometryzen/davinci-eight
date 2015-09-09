@@ -1,16 +1,17 @@
 import Cartesian4 = require('../math/Cartesian4');
 import LinearElement = require('../math/LinearElement');
-import AbstractVector = require('../math/AbstractVector');
+import VectorN = require('../math/VectorN');
 /**
  * @class Vector4
  */
-declare class Vector4 extends AbstractVector implements Cartesian4, LinearElement<Cartesian4, Vector4> {
+declare class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4> {
     /**
      * @class Vector4
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0, 0, 0, 0].
+     * @param modified {boolean} Default is false.
      */
-    constructor(data?: number[]);
+    constructor(data?: number[], modified?: boolean);
     /**
      * @property x
      * @type Number

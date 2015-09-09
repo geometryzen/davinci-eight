@@ -1,10 +1,11 @@
+import VectorN = require('../math/VectorN');
 declare class Elements {
-    indices: number[];
+    indices: VectorN<number>;
     attributes: {
-        [name: string]: number[];
+        [name: string]: VectorN<number>;
     };
-    constructor(indices: number[], attributes: {
-        [name: string]: number[];
+    constructor(indices: VectorN<number>, attributes: {
+        [name: string]: VectorN<number>;
     });
 }
 export = Elements;

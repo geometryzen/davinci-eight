@@ -1,12 +1,12 @@
-import AbstractVector = require('../math/AbstractVector');
+import VectorN = require('../math/VectorN');
 import GeometricElement = require('../math/GeometricElement');
 import Mutable = require('../math/Mutable');
 import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class Spinor3
  */
-declare class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3> {
-    constructor(data?: number[]);
+declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3> {
+    constructor(data?: number[], modified?: boolean);
     /**
      * @property yz
      * @type Number

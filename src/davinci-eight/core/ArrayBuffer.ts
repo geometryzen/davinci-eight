@@ -3,6 +3,7 @@ import isDefined = require('../checks/isDefined');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
+// TODO: Rename this to avoid jshint
 class ArrayBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _monitor: RenderingContextMonitor;

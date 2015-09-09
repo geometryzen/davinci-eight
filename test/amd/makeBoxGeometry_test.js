@@ -36,10 +36,10 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, makeBoxGeometry, 
       var faces = makeBoxGeometry();
 
       var elements = triangleElementsFromFaces(faces);
-      var indices = elements.indices;
-      var positions = elements.attributes['positions'];
-      var normals = elements.attributes['normals'];
-      var coords = elements.attributes['coords'];
+      var indices = elements.indices.data;
+      var positions = elements.attributes['positions'].data;
+      var normals = elements.attributes['normals'].data;
+      var coords = elements.attributes['coords'].data;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(faces.length * VERTICES_PER_TRIANGLE);

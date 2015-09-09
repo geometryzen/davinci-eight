@@ -11,13 +11,15 @@ var DefaultDrawableVisitor = (function () {
         model.accept(program);
         program.setAttributes(mesh.getAttribData());
         var attributes = program.attributes;
-        for (var name in attributes) {
-            attributes[name].enable();
-        }
+        // TODO: Would be nice to have a program shortcut...
+        Object.keys(attributes).forEach(function (key) {
+            attributes[key].enable();
+        });
         mesh.draw();
-        for (var name in attributes) {
-            attributes[name].disable();
-        }
+        // TODO: Would be nice to have a program shortcut...
+        Object.keys(attributes).forEach(function (key) {
+            attributes[key].disable();
+        });
     };
     return DefaultDrawableVisitor;
 })();

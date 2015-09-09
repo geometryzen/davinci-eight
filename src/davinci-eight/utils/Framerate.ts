@@ -18,26 +18,29 @@ class Framerate {
     setInterval(fr, this.framerateUpdateInterval);
   }
   updateFramerate() {
-    var tot = 0;
-    for (var i = 0; i < this.framerates.length; ++i)
-        tot += this.framerates[i];
-
-    var framerate = tot / this.framerates.length;
+    var tot: number = 0;
+    for (var i = 0; i < this.framerates.length; ++i) {
+      tot += this.framerates[i];
+    }
+    var framerate: number = tot / this.framerates.length;
     framerate = Math.round(framerate);
     document.getElementById(this.id).innerHTML = "Framerate:"+framerate+"fps";
   }
   snapshot() {
-    if (this.renderTime < 0)
-        this.renderTime = new Date().getTime();
+    if (this.renderTime < 0) {
+      this.renderTime = new Date().getTime();
+    }
     else {
-        var newTime = new Date().getTime();
-        var t = newTime - this.renderTime;
-        if (t == 0)
-            return;
-        var framerate = 1000/t;
+        var newTime: number = new Date().getTime();
+        var t: number = newTime - this.renderTime;
+        if (t === 0) {
+          return;
+        }
+        var framerate: number = 1000 / t;
         this.framerates.push(framerate);
-        while (this.framerates.length > this.numFramerates)
-            this.framerates.shift();
+        while (this.framerates.length > this.numFramerates) {
+          this.framerates.shift();
+        }
         this.renderTime = newTime;
     }  }
 }

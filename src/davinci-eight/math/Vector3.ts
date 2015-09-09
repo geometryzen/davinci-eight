@@ -7,15 +7,12 @@ import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
-import Mutable = require('../math/Mutable');
+import VectorN = require('../math/VectorN');
 
 /**
  * @class Vector3
  */
-class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Cartesian3, Vector3> {
-  private $data: number[];
-  private $callback: () => number[];
-  public modified: boolean;
+class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3> {
   public static e1 = new Vector3([1, 0, 0]);
   public static e2 = new Vector3([0, 1, 0]);
   public static e3 = new Vector3([0, 0, 1]);
@@ -25,36 +22,11 @@ class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Cartesian3
   /**
    * @class Vector3
    * @constructor
-   * @param data {number[]}
+   * @param data {number[]} Default is [0, 0, 0].
+   * @param modified {boolean} Default is false;
    */
-  constructor(data: number[] = [0, 0, 0]) {
-    this.data = data;
-    this.modified = false;
-  }
-  get data() {
-    if (this.$data) {
-      return this.$data;
-    }
-    else if (this.$callback) {
-      var data = this.$callback();
-      expectArg('callback()', data).toSatisfy(data.length === 3, "callback() length must be 3");
-      return this.$callback();
-    }
-    else {
-      throw new Error("Vector3 is undefined.");
-    }
-  }
-  set data(data: number[]) {
-    expectArg('data', data).toSatisfy(data.length === 3, "data length must be 3");
-    this.$data = data;
-    this.$callback = void 0;
-  }
-  get callback() {
-    return this.$callback;
-  }
-  set callback(reactTo: () => number[]) {
-    this.$callback = reactTo;
-    this.$data = void 0;
+  constructor(data: number[] = [0, 0, 0], modified = false) {
+    super(data, modified, 3);
   }
   /**
    * @property x

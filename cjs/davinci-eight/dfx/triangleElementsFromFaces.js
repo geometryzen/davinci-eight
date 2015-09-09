@@ -1,6 +1,7 @@
 var isDefined = require('../checks/isDefined');
 var expectArg = require('../checks/expectArg');
 var Elements = require('../dfx/Elements');
+var VectorN = require('../math/VectorN');
 var stringFaceVertex = require('../dfx/stringFaceVertex');
 var VERTICES_PER_FACE = 3;
 var COORDS_PER_POSITION = 3;
@@ -41,6 +42,8 @@ function triangleElementsFromFaces(faces) {
     expectArg('faces', faces).toBeObject();
     var uniques = computeUniques(faces);
     var elements = {};
+    // Although it is possible to use a VectorN here, working with number[] will
+    // be faster and will later allow us to fix the length of the VectorN.
     var indices = [];
     var positions = numberList(uniques.length * COORDS_PER_POSITION, void 0);
     var normals = numberList(uniques.length * COORDS_PER_NORMAL, void 0);
@@ -80,9 +83,10 @@ function triangleElementsFromFaces(faces) {
         }
     });
     var attributes = {};
-    attributes['positions'] = positions;
-    attributes['normals'] = normals;
-    attributes['coords'] = coords;
-    return new Elements(indices, attributes);
+    // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
+    attributes['positions'] = new VectorN(positions, false, positions.length);
+    attributes['normals'] = new VectorN(normals, false, normals.length);
+    attributes['coords'] = new VectorN(coords, false, coords.length);
+    return new Elements(new VectorN(indices, false, indices.length), attributes);
 }
 module.exports = triangleElementsFromFaces;

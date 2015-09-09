@@ -48,6 +48,8 @@ import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector1 = require('davinci-eight/math/Vector1');
 import Vector2 = require('davinci-eight/math/Vector2');
 import Vector3 = require('davinci-eight/math/Vector3');
+import Vector4 = require('davinci-eight/math/Vector4');
+import VectorN = require('davinci-eight/math/VectorN');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import ArrowOptions = require('davinci-eight/mesh/ArrowOptions');
 import BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
@@ -136,6 +138,8 @@ declare var eight: {
     Vector1: typeof Vector1;
     Vector2: typeof Vector2;
     Vector3: typeof Vector3;
+    Vector4: typeof Vector4;
+    VectorN: typeof VectorN;
     Curve: typeof Curve;
     arrowMesh: (monitor: RenderingContextMonitor, options?: ArrowOptions) => AttribProvider;
     ArrowBuilder: typeof ArrowBuilder;

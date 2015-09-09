@@ -17,8 +17,10 @@ define(["require", "exports"], function (require, exports) {
         var normalData = [];
         var texCoordData = [];
         var indexData = [];
-        for (var latNumber = 0; latNumber <= lats; ++latNumber) {
-            for (var longNumber = 0; longNumber <= longs; ++longNumber) {
+        var latNumber;
+        var longNumber;
+        for (latNumber = 0; latNumber <= lats; ++latNumber) {
+            for (longNumber = 0; longNumber <= longs; ++longNumber) {
                 var theta = latNumber * Math.PI / lats;
                 var phi = longNumber * 2 * Math.PI / longs;
                 var sinTheta = Math.sin(theta);
@@ -40,8 +42,8 @@ define(["require", "exports"], function (require, exports) {
                 geometryData.push(radius * z);
             }
         }
-        for (var latNumber = 0; latNumber < lats; ++latNumber) {
-            for (var longNumber = 0; longNumber < longs; ++longNumber) {
+        for (latNumber = 0; latNumber < lats; ++latNumber) {
+            for (longNumber = 0; longNumber < longs; ++longNumber) {
                 var first = (latNumber * (longs + 1)) + longNumber;
                 var second = first + longs + 1;
                 indexData.push(first);
@@ -52,6 +54,7 @@ define(["require", "exports"], function (require, exports) {
                 indexData.push(first + 1);
             }
         }
+        // FIXME: What I don't like about this is the coupling of the geometry to the WebGL buffering.
         var normalBuffer = ctx.createBuffer();
         ctx.bindBuffer(ctx.ARRAY_BUFFER, normalBuffer);
         ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array(normalData), ctx.STATIC_DRAW);

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.78.0</em>
+            <em>API Docs for: 2.79.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -147,49 +147,21 @@
     <pre class="code prettyprint linenums">
 import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
-import Mutable = require(&#x27;../math/Mutable&#x27;);
+import VectorN = require(&#x27;../math/VectorN&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
 /**
  * @class Vector2
  */
-class Vector2 implements Cartesian2, Mutable&lt;number[]&gt;, LinearElement&lt;Cartesian2, Vector2&gt; {
-  private $data: number[];
-  private $callback: () =&gt; number[];
-  public modified: boolean;
+class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement&lt;Cartesian2, Vector2&gt; {
   /**
    * @class Vector2
    * @constructor
-   * @param data {number[]}
+   * @param data {number[]} Default is [0, 0].
+   * @param modified {boolean} Default is false.
    */
-  constructor(data: number[] = [0, 0]) {
-    this.data = data;
-    this.modified = false;
-  }
-  get data() {
-    if (this.$data) {
-      return this.$data;
-    }
-    else if (this.$callback) {
-      var data = this.$callback();
-      expectArg(&#x27;callback()&#x27;, data).toSatisfy(data.length === 2, &quot;callback() length must be 2&quot;);
-      return this.$callback();
-    }
-    else {
-      throw new Error(&quot;Vector2 is undefined.&quot;);
-    }
-  }
-  set data(data: number[]) {
-    expectArg(&#x27;data&#x27;, data).toSatisfy(data.length === 2, &quot;data length must be 2&quot;);
-    this.$data = data;
-    this.$callback = void 0;
-  }
-  get callback() {
-    return this.$callback;
-  }
-  set callback(reactTo: () =&gt; number[]) {
-    this.$callback = reactTo;
-    this.$data = void 0;
+  constructor(data = [0, 0], modified = false) {
+    super(data, modified, 2);
   }
   /**
    * @property x
@@ -225,20 +197,6 @@ class Vector2 implements Cartesian2, Mutable&lt;number[]&gt;, LinearElement&lt;C
   setY(y: number) {
     this.y = y;
     return this;
-  }
-  setComponent(index: number, value: number) {
-    switch ( index ) {
-      case 0: this.x = value; break;
-      case 1: this.y = value; break;
-      default: throw new Error( &#x27;index is out of range: &#x27; + index );
-    }
-  }
-  getComponent(index: number) {
-    switch ( index ) {
-      case 0: return this.x;
-      case 1: return this.y;
-      default: throw new Error( &#x27;index is out of range: &#x27; + index );
-    }
   }
   copy(v: Cartesian2) {
     this.x = v.x;
@@ -384,21 +342,17 @@ class Vector2 implements Cartesian2, Mutable&lt;number[]&gt;, LinearElement&lt;C
   equals(v: Cartesian2) {
     return ( ( v.x === this.x ) &amp;&amp; ( v.y === this.y ) );
   }
-  fromArray(array: number[], offset: number) {
-    if ( offset === undefined ) offset = 0;
+  fromArray(array: number[], offset:number = 0) {
     this.x = array[ offset ];
     this.y = array[ offset + 1 ];
     return this;
   }
-  toArray(array: number[], offset: number) {
-    if ( array === undefined ) array = [];
-    if ( offset === undefined ) offset = 0;
+  toArray(array: number[] = [], offset: number = 0) {
     array[ offset ] = this.x;
     array[ offset + 1 ] = this.y;
     return array;
   }
-  fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number) {
-    if ( offset === undefined ) offset = 0;
+  fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number = 0) {
     index = index * attribute.itemSize + offset;
     this.x = attribute.array[ index ];
     this.y = attribute.array[ index + 1 ];

@@ -8,9 +8,9 @@
 declare module EIGHT {
 
 class Elements {
-  public indices: number[];
-  public attributes: {[name:string]:number[]} = {};
-  constructor(indices: number[], attributes: { [name: string]: number[] });
+  public indices: Vector<number>;
+  public attributes: {[name:string]:VectorN<number>} = {};
+  constructor(indices: number[], attributes: { [name: string]: VectorN<number> });
 }
 class Face {
   public a: FaceVertex;
@@ -172,7 +172,7 @@ class Texture implements RenderingContextUser {
 /**
  *
  */
-class Mutable<T> {
+interface Mutable<T> {
   data: T;
   callback: () => T;
 }
@@ -250,17 +250,33 @@ class Matrix4 {
   toString(): string;
   toFixed(digits?: number): string;
 }
+interface Cartesian1 {
+  x: number;
+}
 interface Cartesian2 {
   x: number;
   y: number;
 }
-class Vector1 {
-
+class VectorN<T> implements Mutable<T[]> {
+  public callback: () => T[];
+  public data: T[];
+  public modified: boolean;
+  constructor(data: T[], modified?: boolean, size?: number);
+  getComponent(index: number): T;
+  pop(): T;
+  push(value: T): number;
+  setComponent(index: number, value: T): void;
+  toLocaleString(): string;
+  toString(): string;
 }
-class Vector2 extends Mutable<number[]> implements Cartesian2 {
+class Vector1 extends VectorN<number> implements Cartesian1 {
+  public x: number;
+  constructor(data?: number[], modified?: boolean);
+}
+class Vector2 extends VectorN<number> implements Cartesian2 {
   public x: number;
   public y: number;
-  constructor(vector?: number[]);
+  constructor(data?: number[], modified?: boolean);
   add(v: Cartesian2): Vector2;
   addVectors(a: Cartesian2, b: Cartesian2): Vector2;
   copy(v: Cartesian2): Vector2;
@@ -305,15 +321,12 @@ interface Spinor3Coords {
   xy: number;
   w: number;
 }
-class Spinor3 extends Mutable<number[]> implements Spinor3Coords, GeometricElement<Spinor3Coords, Spinor3> {
+class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement<Spinor3Coords, Spinor3> {
   public yz: number;
   public zx: number;
   public xy: number;
   public w: number;
-  public data: number[];
-  public callback: () => number[];
-  public modified: boolean;
-  constructor(spinor?: number[]);
+  constructor(data?: number[], modified?: boolean);
   add(rhs: Spinor3Coords): Spinor3;
   clone(): Spinor3;
   copy(spinor: Spinor3Coords): Spinor3;
@@ -328,18 +341,15 @@ interface Cartesian3 {
   y: number;
   z: number;
 }
-class Vector3 extends Mutable<number[]> implements Cartesian3 {
+class Vector3 extends VectorN<number> implements Cartesian3 {
   public x: number;
   public y: number;
   public z: number;
-  public data: number[];
-  public callback: () => number[];
-  public modified: boolean;
   public static e1: Vector3;
   public static e2: Vector3;
   public static e3: Vector3;
   public static copy(vector: Cartesian3): Vector3;
-  constructor(vector?: number[]);
+  constructor(data?: number[], modified?: boolean);
   add(v: Cartesian3): Vector3;
   addVectors(a: Cartesian3, b: Cartesian3): Vector3;
   applyQuaternion(q: { x: number, y: number, z: number, w: number }): Vector3;
@@ -358,7 +368,18 @@ class Vector3 extends Mutable<number[]> implements Cartesian3 {
   sub(v: Cartesian3): Vector3;
   subVectors(a: Cartesian3, b: Cartesian3): Vector3;
 }
-class Vector4 {
+interface Cartesian4 {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
+}
+class Vector4 extends VectorN<number> implements Cartesian4 {
+  public x: number;
+  public y: number;
+  public z: number;
+  public w: number;
+  constructor(data?: number[], modified?: boolean);
 }
 /**
  *

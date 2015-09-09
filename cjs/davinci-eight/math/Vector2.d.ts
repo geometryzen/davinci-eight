@@ -1,21 +1,17 @@
 import Cartesian2 = require('../math/Cartesian2');
 import LinearElement = require('../math/LinearElement');
-import Mutable = require('../math/Mutable');
+import VectorN = require('../math/VectorN');
 /**
  * @class Vector2
  */
-declare class Vector2 implements Cartesian2, Mutable<number[]>, LinearElement<Cartesian2, Vector2> {
-    private $data;
-    private $callback;
-    modified: boolean;
+declare class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2> {
     /**
      * @class Vector2
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0, 0].
+     * @param modified {boolean} Default is false.
      */
-    constructor(data?: number[]);
-    data: number[];
-    callback: () => number[];
+    constructor(data?: number[], modified?: boolean);
     /**
      * @property x
      * @type Number
@@ -29,8 +25,6 @@ declare class Vector2 implements Cartesian2, Mutable<number[]>, LinearElement<Ca
     set(x: number, y: number): Vector2;
     setX(x: number): Vector2;
     setY(y: number): Vector2;
-    setComponent(index: number, value: number): void;
-    getComponent(index: number): number;
     copy(v: Cartesian2): Vector2;
     add(v: Cartesian2): Vector2;
     addScalar(s: number): Vector2;
@@ -59,12 +53,12 @@ declare class Vector2 implements Cartesian2, Mutable<number[]>, LinearElement<Ca
     lerp(v: Cartesian2, alpha: number): Vector2;
     lerpVectors(v1: Vector2, v2: Vector2, alpha: number): Vector2;
     equals(v: Cartesian2): boolean;
-    fromArray(array: number[], offset: number): Vector2;
-    toArray(array: number[], offset: number): number[];
+    fromArray(array: number[], offset?: number): Vector2;
+    toArray(array?: number[], offset?: number): number[];
     fromAttribute(attribute: {
         itemSize: number;
         array: number[];
-    }, index: number, offset: number): Vector2;
+    }, index: number, offset?: number): Vector2;
     clone(): Vector2;
 }
 export = Vector2;

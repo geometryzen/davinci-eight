@@ -1,54 +1,30 @@
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 var expectArg = require('../checks/expectArg');
+var VectorN = require('../math/VectorN');
 /**
  * @class Vector3
  */
-var Vector3 = (function () {
+var Vector3 = (function (_super) {
+    __extends(Vector3, _super);
     /**
      * @class Vector3
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0, 0, 0].
+     * @param modified {boolean} Default is false;
      */
-    function Vector3(data) {
+    function Vector3(data, modified) {
         if (data === void 0) { data = [0, 0, 0]; }
-        this.data = data;
-        this.modified = false;
+        if (modified === void 0) { modified = false; }
+        _super.call(this, data, modified, 3);
     }
     Vector3.dot = function (a, b) {
         return a.x * b.x + a.y * b.y + a.z * b.z;
     };
-    Object.defineProperty(Vector3.prototype, "data", {
-        get: function () {
-            if (this.$data) {
-                return this.$data;
-            }
-            else if (this.$callback) {
-                var data = this.$callback();
-                expectArg('callback()', data).toSatisfy(data.length === 3, "callback() length must be 3");
-                return this.$callback();
-            }
-            else {
-                throw new Error("Vector3 is undefined.");
-            }
-        },
-        set: function (data) {
-            expectArg('data', data).toSatisfy(data.length === 3, "data length must be 3");
-            this.$data = data;
-            this.$callback = void 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Vector3.prototype, "callback", {
-        get: function () {
-            return this.$callback;
-        },
-        set: function (reactTo) {
-            this.$callback = reactTo;
-            this.$data = void 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Vector3.prototype, "x", {
         /**
          * @property x
@@ -310,5 +286,5 @@ var Vector3 = (function () {
     Vector3.e2 = new Vector3([0, 1, 0]);
     Vector3.e3 = new Vector3([0, 0, 1]);
     return Vector3;
-})();
+})(VectorN);
 module.exports = Vector3;

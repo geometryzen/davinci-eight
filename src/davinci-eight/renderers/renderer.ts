@@ -23,13 +23,15 @@ class DefaultDrawableVisitor implements DrawableVisitor {
     program.setAttributes(mesh.getAttribData());
 
     let attributes = program.attributes;
-    for (var name in attributes) {
-      attributes[name].enable();
-    }
+    // TODO: Would be nice to have a program shortcut...
+    Object.keys(attributes).forEach(function(key: string){
+      attributes[key].enable();
+    });
     mesh.draw();
-    for (var name in attributes) {
-      attributes[name].disable();
-    }
+    // TODO: Would be nice to have a program shortcut...
+    Object.keys(attributes).forEach(function(key: string){
+      attributes[key].disable();
+    });
   }
 }
 

@@ -36,8 +36,8 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     slerp(qb: Quaternion, t: number): Quaternion;
     sub(rhs: Quaternion): Quaternion;
     equals(quaternion: Quaternion): boolean;
-    fromArray(array: number[], offset: number): Quaternion;
-    toArray(array: number[], offset: any): number[];
+    fromArray(array: number[], offset?: number): Quaternion;
+    toArray(array?: number[], offset?: number): number[];
     static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion;
 }
 export = Quaternion;

@@ -1,51 +1,26 @@
-var expectArg = require('../checks/expectArg');
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var VectorN = require('../math/VectorN');
 /**
  * @class Vector2
  */
-var Vector2 = (function () {
+var Vector2 = (function (_super) {
+    __extends(Vector2, _super);
     /**
      * @class Vector2
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0, 0].
+     * @param modified {boolean} Default is false.
      */
-    function Vector2(data) {
+    function Vector2(data, modified) {
         if (data === void 0) { data = [0, 0]; }
-        this.data = data;
-        this.modified = false;
+        if (modified === void 0) { modified = false; }
+        _super.call(this, data, modified, 2);
     }
-    Object.defineProperty(Vector2.prototype, "data", {
-        get: function () {
-            if (this.$data) {
-                return this.$data;
-            }
-            else if (this.$callback) {
-                var data = this.$callback();
-                expectArg('callback()', data).toSatisfy(data.length === 2, "callback() length must be 2");
-                return this.$callback();
-            }
-            else {
-                throw new Error("Vector2 is undefined.");
-            }
-        },
-        set: function (data) {
-            expectArg('data', data).toSatisfy(data.length === 2, "data length must be 2");
-            this.$data = data;
-            this.$callback = void 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Vector2.prototype, "callback", {
-        get: function () {
-            return this.$callback;
-        },
-        set: function (reactTo) {
-            this.$callback = reactTo;
-            this.$data = void 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Vector2.prototype, "x", {
         /**
          * @property x
@@ -88,24 +63,6 @@ var Vector2 = (function () {
     Vector2.prototype.setY = function (y) {
         this.y = y;
         return this;
-    };
-    Vector2.prototype.setComponent = function (index, value) {
-        switch (index) {
-            case 0:
-                this.x = value;
-                break;
-            case 1:
-                this.y = value;
-                break;
-            default: throw new Error('index is out of range: ' + index);
-        }
-    };
-    Vector2.prototype.getComponent = function (index) {
-        switch (index) {
-            case 0: return this.x;
-            case 1: return this.y;
-            default: throw new Error('index is out of range: ' + index);
-        }
     };
     Vector2.prototype.copy = function (v) {
         this.x = v.x;
@@ -252,24 +209,20 @@ var Vector2 = (function () {
         return ((v.x === this.x) && (v.y === this.y));
     };
     Vector2.prototype.fromArray = function (array, offset) {
-        if (offset === undefined)
-            offset = 0;
+        if (offset === void 0) { offset = 0; }
         this.x = array[offset];
         this.y = array[offset + 1];
         return this;
     };
     Vector2.prototype.toArray = function (array, offset) {
-        if (array === undefined)
-            array = [];
-        if (offset === undefined)
-            offset = 0;
+        if (array === void 0) { array = []; }
+        if (offset === void 0) { offset = 0; }
         array[offset] = this.x;
         array[offset + 1] = this.y;
         return array;
     };
     Vector2.prototype.fromAttribute = function (attribute, index, offset) {
-        if (offset === undefined)
-            offset = 0;
+        if (offset === void 0) { offset = 0; }
         index = index * attribute.itemSize + offset;
         this.x = attribute.array[index];
         this.y = attribute.array[index + 1];
@@ -279,5 +232,5 @@ var Vector2 = (function () {
         return new Vector2([this.x, this.y]);
     };
     return Vector2;
-})();
+})(VectorN);
 module.exports = Vector2;

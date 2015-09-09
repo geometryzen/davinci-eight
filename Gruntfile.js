@@ -210,6 +210,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
-  // Temporarily turn off jshint while fixing glsl parser. Maybe move to separate module?
-  grunt.registerTask('default', ['clean', 'buildAMD', 'buildCJS'/*, 'jshint'*/, 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('style', ['clean', 'buildAMD', 'buildCJS', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
+
+  grunt.registerTask('default', ['clean', 'buildAMD', 'buildCJS', 'docs', 'copy', 'requirejs', 'uglify']);
 };

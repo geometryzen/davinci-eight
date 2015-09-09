@@ -1,4 +1,5 @@
 define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    // TODO: Rename this to avoid jshint
     var ArrayBuffer = (function () {
         function ArrayBuffer(monitor) {
             this._refCount = 1;

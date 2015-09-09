@@ -3,14 +3,11 @@ import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
-import Mutable = require('../math/Mutable');
+import VectorN = require('../math/VectorN');
 /**
  * @class Vector3
  */
-declare class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Cartesian3, Vector3> {
-    private $data;
-    private $callback;
-    modified: boolean;
+declare class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3> {
     static e1: Vector3;
     static e2: Vector3;
     static e3: Vector3;
@@ -18,11 +15,10 @@ declare class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Ca
     /**
      * @class Vector3
      * @constructor
-     * @param data {number[]}
+     * @param data {number[]} Default is [0, 0, 0].
+     * @param modified {boolean} Default is false;
      */
-    constructor(data?: number[]);
-    data: number[];
-    callback: () => number[];
+    constructor(data?: number[], modified?: boolean);
     /**
      * @property x
      * @type Number

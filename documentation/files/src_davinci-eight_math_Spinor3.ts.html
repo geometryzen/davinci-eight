@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.78.0</em>
+            <em>API Docs for: 2.79.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -145,7 +145,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AbstractVector = require(&#x27;../math/AbstractVector&#x27;);
+import VectorN = require(&#x27;../math/VectorN&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
 import Mutable = require(&#x27;../math/Mutable&#x27;);
@@ -153,10 +153,10 @@ import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 /**
  * @class Spinor3
  */
-class Spinor3 extends AbstractVector implements Spinor3Coords, Mutable&lt;number[]&gt;, GeometricElement&lt;Spinor3Coords, Spinor3&gt;
+class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, Mutable&lt;number[]&gt;, GeometricElement&lt;Spinor3Coords, Spinor3&gt;
 {
-  constructor(data: number[] = [0, 0, 0, 1]) {
-    super(data, 4);
+  constructor(data: number[] = [0, 0, 0, 1], modified: boolean = false) {
+    super(data, modified, 4);
   }
   /**
    * @property yz

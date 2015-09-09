@@ -1,5 +1,9 @@
 import isUndefined = require('../checks/isUndefined');
 
+function message(standard: string, override: () => string): string {
+  return isUndefined(override) ? standard : override();
+}
+
 function expectArg<T>(name: string, value: T) {
   var arg = {
     toSatisfy(condition: boolean, message: string) {
@@ -8,11 +12,10 @@ function expectArg<T>(name: string, value: T) {
       }
       return arg;
     },
-    toBeBoolean() {
+    toBeBoolean(override?: () => string) {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'boolean') {
-        let message = "Expecting argument " + name + ": " + typeOfValue + " to be a boolean.";
-        throw new Error(message);
+        throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
       }
       return arg;
     },
@@ -41,19 +44,17 @@ function expectArg<T>(name: string, value: T) {
       }
       return arg;
     },
-    toBeNumber() {
+    toBeNumber(override?: () => string) {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'number') {
-        let message = "Expecting argument " + name + ": " + typeOfValue + " to be a number.";
-        throw new Error(message);
+        throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a mumber.", override));
       }
       return arg;
     },
-    toBeObject() {
+    toBeObject(override?: () => string) {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'object') {
-        let message = "Expecting argument " + name + ": " + typeOfValue + " to be an object.";
-        throw new Error(message);
+        throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
       }
       return arg;
     },
