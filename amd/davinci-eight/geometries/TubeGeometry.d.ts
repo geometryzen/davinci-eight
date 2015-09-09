@@ -1,7 +1,7 @@
 import Curve = require('../curves/Curve');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import Vector3 = require('../math/Vector3');
-declare class TubeGeometry extends Geometry {
+declare class TubeGeometry extends Geometry3 {
     static NoTaper: (u: number) => number;
     static SinusoidalTaper: (u: number) => number;
     tangents: Vector3[];

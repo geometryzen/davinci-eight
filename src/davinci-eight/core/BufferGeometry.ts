@@ -1,5 +1,5 @@
 import BufferAttribute = require('../core/BufferAttribute');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
 
@@ -7,7 +7,7 @@ let NoColors = 0;
 let FaceColors = 1;
 let VertexColors = 2;
 
-class BufferGeometry extends Geometry {
+class BufferGeometry extends Geometry3 {
   private attributes: { [name: string]: BufferAttribute } = {};
   public attributesKeys: string[] = [];
   public uuid: string;
@@ -27,7 +27,7 @@ class BufferGeometry extends Geometry {
   addDrawCall(start: number, count: number, indexOffset: number = 0) {
     this.drawcalls.push({start: start, count: count, index: indexOffset});
   }
-  fromGeometry(geometry: Geometry, settings) {
+  fromGeometry(geometry: Geometry3, settings) {
 
     settings = settings || { 'vertexColors': NoColors };
 

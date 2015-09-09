@@ -4,7 +4,7 @@ import expectArg = require('../checks/expectArg');
 import Face3 = require('../core/Face3');
 import Line3 = require('../core/Line3');
 import Point3 = require('../core/Point3');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
@@ -38,7 +38,7 @@ function computeAttribData(
  * @extends VertexAttributeProivider
  */
 class GeometryAdapter extends DefaultAttribProvider {
-  public geometry: Geometry;
+  public geometry: Geometry3;
   private elementArray: Uint16Array;
   private aVertexPositionArray: Float32Array;
   private aVertexNormalArray: Float32Array;
@@ -57,11 +57,11 @@ class GeometryAdapter extends DefaultAttribProvider {
    * @class GeometryAdapter
    * @constructor
    * @param monitor {RenderingContextMonitor}
-   * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
+   * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
    */
   constructor(
     monitor: RenderingContextMonitor,
-    geometry: Geometry,
+    geometry: Geometry3,
     options?: {
       drawMode?: DrawMode;
       elementsUsage?: number;

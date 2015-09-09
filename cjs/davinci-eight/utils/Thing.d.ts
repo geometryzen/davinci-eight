@@ -1,8 +1,8 @@
 interface Thing {
-    normalObject: WebGLBuffer;
-    texCoordObject: WebGLBuffer;
-    vertexObject: WebGLBuffer;
-    indexObject: WebGLBuffer;
+    normalBuffer: WebGLBuffer;
+    texCoordBuffer: WebGLBuffer;
+    vertexBuffer: WebGLBuffer;
+    indexBuffer: WebGLBuffer;
     numIndices: number;
 }
 export = Thing;

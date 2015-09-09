@@ -1,6 +1,6 @@
 import AttribProvider = require('../core/AttribProvider');
 import DrawMode = require('../core/DrawMode');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import ArrowGeometry = require('../geometries/ArrowGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
@@ -9,7 +9,7 @@ import Spinor3 = require('../math/Spinor3');
 import Cartesian3 = require('../math/Cartesian3');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-function arrowGeometry(options?: ArrowOptions): Geometry {
+function arrowGeometry(options?: ArrowOptions): Geometry3 {
   options = options || {};
   let scale = 1;
   let attitude = new Spinor3();

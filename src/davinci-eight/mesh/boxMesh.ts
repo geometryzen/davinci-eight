@@ -1,13 +1,13 @@
 import AttribProvider = require('../core/AttribProvider');
 import DrawMode = require('../core/DrawMode');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import BoxGeometry = require('../geometries/BoxGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import BoxOptions = require('../mesh/BoxOptions');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-function boxGeometry(options?: BoxOptions): Geometry {
+function boxGeometry(options?: BoxOptions): Geometry3 {
   options = options || {};
   return new BoxGeometry(
     options.width,

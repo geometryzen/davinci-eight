@@ -1,0 +1,4 @@
+interface DrawCall {
+}
+
+export = DrawCall;

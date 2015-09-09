@@ -5,8 +5,30 @@
 // These declarations are appropriate when using the library through the global
 // variable, 'EIGHT'.
 //
-declare module EIGHT
-{
+declare module EIGHT {
+
+class Elements {
+  public indices: number[];
+  public attributes: {[name:string]:number[]} = {};
+  constructor(indices: number[], attributes: { [name: string]: number[] });
+}
+class Face {
+  public a: FaceVertex;
+  public b: FaceVertex;
+  public c: FaceVertex;
+  public normal: Vector3;
+  constructor(a: Vector3, b: Vector3, c: Vector3);
+}
+class FaceVertex {
+  public parent: Face;
+  public position: Vector3;
+  public normal: Vector3;
+  public coords: Vector2;
+  public index: number;
+  constructor(position: Vector3, normal?: Vector3, coords?: Vector2);
+}
+function triangleElementsFromFaces(faces: Face[]): Elements;
+function boxFaces(): Face[];
 /**
  * @class DrawMode
  */
@@ -523,7 +545,7 @@ interface AttribProvider extends RenderingContextUser
    */
   drawMode: DrawMode;
   /**
-   * Determines whether this Geometry changes. If so, update may be called repeatedly.
+   * Determines whether this geometry changes. If so, update may be called repeatedly.
    */
   dynamic: boolean;
   /**
@@ -558,7 +580,7 @@ class Sphere {
  * Base class for geometries.
  * A geometry holds faces and vertices used to describe a 3D mesh.
  */
-class Geometry {
+class Geometry3 {
   public vertices: Cartesian3[];
   public faces: Face3[];
   public faceVertexUvs: Cartesian2[][][];
@@ -595,7 +617,7 @@ class GeometryAdapter implements AttribProvider
 {
   drawMode: DrawMode;
   dynamic: boolean;
-  constructor(monitor: RenderingContextMonitor, geometry: Geometry, options?: {drawMode?: DrawMode});
+  constructor(monitor: RenderingContextMonitor, geometry: Geometry3, options?: {drawMode?: DrawMode});
   draw(): void;
   getAttribData(): AttribDataInfos;
   getAttribMeta(): AttribMetaInfos;
@@ -606,10 +628,10 @@ class GeometryAdapter implements AttribProvider
   contextGain(context: WebGLRenderingContext): void;
   contextLoss(): void;
 }
-class BarnGeometry extends Geometry {
+class BarnGeometry extends Geometry3 {
   constructor();
 }
-class BoxGeometry extends Geometry {
+class BoxGeometry extends Geometry3 {
   constructor(
     width: number,
     height: number,
@@ -618,7 +640,7 @@ class BoxGeometry extends Geometry {
     heightSegments?:number,
     depthSegments?:number);
 }
-class CylinderGeometry extends Geometry {
+class CylinderGeometry extends Geometry3 {
   constructor(
     radiusTop?: number,
     radiusBottom?: number,
@@ -629,7 +651,7 @@ class CylinderGeometry extends Geometry {
     thetaStart?: number,
     thetaLength?: number);
 }
-class EllipticalCylinderGeometry extends Geometry {
+class EllipticalCylinderGeometry extends Geometry3 {
   constructor();
 }
 /**
@@ -767,7 +789,7 @@ function shaderProgram(monitor: RenderingContextMonitor, vertexShader: string, f
  */
 function programFromScripts(monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]): ShaderProgram;
 /**
- * Constructs a ShaderProgram by introspecting a Geometry.
+ * Constructs a ShaderProgram by introspecting a geometry.
  */
 function smartProgram(monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs?: string[]): ShaderProgram;
 /**
@@ -1022,13 +1044,13 @@ interface EllipsoidMesh extends AttribProvider {
    */
   phiLength: number;
 }
-class ArrowGeometry extends Geometry {
+class ArrowGeometry extends Geometry3 {
   constructor();
 }
-class VortexGeometry extends Geometry {
+class VortexGeometry extends Geometry3 {
   constructor();
 }
-class PolyhedronGeometry extends Geometry {
+class PolyhedronGeometry extends Geometry3 {
   constructor(vertices: number[], indices: number[], radius?:  number, detail?: number);
 }
 class DodecahedronGeometry extends PolyhedronGeometry {
@@ -1046,7 +1068,7 @@ class MobiusStripGeometry extends SurfaceGeometry {
 class OctahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
-class SurfaceGeometry extends Geometry {
+class SurfaceGeometry extends Geometry3 {
   /**
    * Constructs a parametric surface geometry from a function.
    * parametricFunction The function that determines a 3D point corresponding to the two parameters.
@@ -1055,7 +1077,7 @@ class SurfaceGeometry extends Geometry {
    */
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
 }
-class SphereGeometry extends Geometry {
+class SphereGeometry extends Geometry3 {
   constructor(
     radius?: number,
     widthSegments?: number,
@@ -1068,7 +1090,7 @@ class SphereGeometry extends Geometry {
 class TetrahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
-class TubeGeometry extends Geometry {
+class TubeGeometry extends Geometry3 {
   constructor(
     path: Curve,
     segments?: number,

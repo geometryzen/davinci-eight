@@ -3,9 +3,9 @@ import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
 import Sphere = require('../math/Sphere');
 /**
- * @class Geometry
+ * @class Geometry3
  */
-declare class Geometry {
+declare class Geometry3 {
     vertices: Cartesian3[];
     faces: Face3[];
     faceVertexUvs: Cartesian2[][][];
@@ -31,4 +31,4 @@ declare class Geometry {
      */
     protected mergeVertices(precisionPoints?: number): number;
 }
-export = Geometry;
+export = Geometry3;

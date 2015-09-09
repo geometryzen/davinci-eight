@@ -5,11 +5,11 @@
 // Sphere has vertices, normals and texCoords. Create VBOs for each as well as the index array.
 // Return an object with the following properties:
 //
-//  normalObject        WebGLBuffer object for normals
-//  texCoordObject      WebGLBuffer object for texCoords
-//  vertexObject        WebGLBuffer object for vertices
-//  indexObject         WebGLBuffer object for indices
-//  numIndices          The number of indices in the indexObject
+//  normalBuffer        WebGLBuffer object for normals
+//  texCoordBuffer      WebGLBuffer object for texCoords
+//  vertexBuffer        WebGLBuffer object for vertices
+//  indexBuffer         WebGLBuffer object for indices
+//  numIndices          The number of indices in the indexBuffer
 //
 function makeSphere(ctx, radius, lats, longs) {
     var geometryData = [];
@@ -51,31 +51,31 @@ function makeSphere(ctx, radius, lats, longs) {
             indexData.push(first + 1);
         }
     }
-    var normalObject = ctx.createBuffer();
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, normalObject);
+    var normalBuffer = ctx.createBuffer();
+    ctx.bindBuffer(ctx.ARRAY_BUFFER, normalBuffer);
     ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array(normalData), ctx.STATIC_DRAW);
-    var texCoordObject = ctx.createBuffer();
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, texCoordObject);
+    var texCoordBuffer = ctx.createBuffer();
+    ctx.bindBuffer(ctx.ARRAY_BUFFER, texCoordBuffer);
     ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array(texCoordData), ctx.STATIC_DRAW);
-    var vertexObject = ctx.createBuffer();
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, vertexObject);
+    var vertexBuffer = ctx.createBuffer();
+    ctx.bindBuffer(ctx.ARRAY_BUFFER, vertexBuffer);
     ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array(geometryData), ctx.STATIC_DRAW);
     var numIndices = indexData.length;
-    var indexObject = ctx.createBuffer();
-    ctx.bindBuffer(ctx.ELEMENT_ARRAY_BUFFER, indexObject);
+    var indexBuffer = ctx.createBuffer();
+    ctx.bindBuffer(ctx.ELEMENT_ARRAY_BUFFER, indexBuffer);
     ctx.bufferData(ctx.ELEMENT_ARRAY_BUFFER, new Uint16Array(indexData), ctx.STREAM_DRAW);
     var self = {
-        get normalObject() {
-            return normalObject;
+        get normalBuffer() {
+            return normalBuffer;
         },
-        get texCoordObject() {
-            return texCoordObject;
+        get texCoordBuffer() {
+            return texCoordBuffer;
         },
-        get vertexObject() {
-            return vertexObject;
+        get vertexBuffer() {
+            return vertexBuffer;
         },
-        get indexObject() {
-            return indexObject;
+        get indexBuffer() {
+            return indexBuffer;
         },
         get numIndices() {
             return numIndices;

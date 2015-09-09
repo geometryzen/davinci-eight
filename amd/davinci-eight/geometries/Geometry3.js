@@ -13,10 +13,10 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
         face.vertexNormals.push(normal);
     }
     /**
-     * @class Geometry
+     * @class Geometry3
      */
-    var Geometry = (function () {
-        function Geometry() {
+    var Geometry3 = (function () {
+        function Geometry3() {
             this.vertices = [];
             this.faces = [];
             this.faceVertexUvs = [[]];
@@ -26,7 +26,7 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             this.uvsNeedUpdate = false;
             this.boundingSphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
         }
-        Geometry.prototype.computeBoundingSphere = function () {
+        Geometry3.prototype.computeBoundingSphere = function () {
             this.boundingSphere.setFromPoints(this.vertices);
         };
         /**
@@ -37,13 +37,13 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
          */
         // TODO: What would happen if we computed unit tangent spinors?
         // Would such elements of the geometry be better behaved than pseudo vectors?
-        Geometry.prototype.computeFaceNormals = function () {
+        Geometry3.prototype.computeFaceNormals = function () {
             // Avoid the this pointer in forEach callback function.
             var vertices = this.vertices;
             var updateFaceNormalCallback = function (face) { return updateFaceNormal(face, vertices); };
             this.faces.forEach(updateFaceNormalCallback);
         };
-        Geometry.prototype.computeVertexNormals = function (areaWeighted) {
+        Geometry3.prototype.computeVertexNormals = function (areaWeighted) {
             var v;
             var vl = this.vertices.length;
             var f;
@@ -99,7 +99,7 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
          * @method mergeVertices
          * @param precisionPoints {number} number of decimal points, eg. 4 for epsilon of 0.0001
          */
-        Geometry.prototype.mergeVertices = function (precisionPoints) {
+        Geometry3.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }
             /**
              * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
@@ -163,7 +163,7 @@ define(["require", "exports", '../math/Sphere', '../math/Vector3'], function (re
             this.vertices = unique;
             return diff;
         };
-        return Geometry;
+        return Geometry3;
     })();
-    return Geometry;
+    return Geometry3;
 });

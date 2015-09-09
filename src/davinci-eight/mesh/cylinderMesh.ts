@@ -1,13 +1,13 @@
 import AttribProvider = require('../core/AttribProvider');
 import DrawMode = require('../core/DrawMode');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import CylinderGeometry = require('../geometries/CylinderGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import CylinderOptions = require('../mesh/CylinderOptions');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-function cylinderGeometry(options?: CylinderOptions): Geometry {
+function cylinderGeometry(options?: CylinderOptions): Geometry3 {
   options = options || {};
   return new CylinderGeometry(
     options.radiusTop,

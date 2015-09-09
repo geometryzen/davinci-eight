@@ -21,9 +21,9 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
 }
 
 /**
- * @class Geometry
+ * @class Geometry3
  */
- class Geometry {
+class Geometry3 {
   public vertices: Cartesian3[] = [];
   public faces: Face3[] = [];
   public faceVertexUvs: Cartesian2[][][] = [[]];
@@ -207,4 +207,4 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
   }
 }
 
-export = Geometry;
+export = Geometry3;

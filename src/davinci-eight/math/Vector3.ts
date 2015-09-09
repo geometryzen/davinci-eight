@@ -2,11 +2,11 @@
 // Only use Matrix4 in type positions.
 // Otherwise, create standalone functions.
 import Cartesian3 = require('../math/Cartesian3');
+import expectArg = require('../checks/expectArg');
 import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
-import expectArg = require('../checks/expectArg');
 import Mutable = require('../math/Mutable');
 
 /**
@@ -269,9 +269,9 @@ class Vector3 implements Cartesian3, Mutable<number[]>, LinearElement<Cartesian3
     return this;
   }
   set(x: number, y: number, z: number): Vector3 {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    this.x = expectArg('x', x).toBeNumber().value;
+    this.y = expectArg('y', y).toBeNumber().value;
+    this.z = expectArg('z', z).toBeNumber().value;
     return this;
   }
   setMagnitude(magnitude: number): Vector3 {

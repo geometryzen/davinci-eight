@@ -1,6 +1,6 @@
 import BufferAttribute = require('../core/BufferAttribute');
-import Geometry = require('../geometries/Geometry');
-declare class BufferGeometry extends Geometry {
+import Geometry3 = require('../geometries/Geometry3');
+declare class BufferGeometry extends Geometry3 {
     private attributes;
     attributesKeys: string[];
     uuid: string;
@@ -15,6 +15,6 @@ declare class BufferGeometry extends Geometry {
     addAttribute(name: string, attribute: BufferAttribute): void;
     getAttribute(name: string): BufferAttribute;
     addDrawCall(start: number, count: number, indexOffset?: number): void;
-    fromGeometry(geometry: Geometry, settings: any): BufferGeometry;
+    fromGeometry(geometry: Geometry3, settings: any): BufferGeometry;
 }
 export = BufferGeometry;

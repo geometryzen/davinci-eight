@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/BufferAttribute', '../geometries/Geometry'], function (require, exports, BufferAttribute, Geometry) {
+define(["require", "exports", '../core/BufferAttribute', '../geometries/Geometry3'], function (require, exports, BufferAttribute, Geometry3) {
     var NoColors = 0;
     var FaceColors = 1;
     var VertexColors = 2;
@@ -129,6 +129,6 @@ define(["require", "exports", '../core/BufferAttribute', '../geometries/Geometry
             return this;
         };
         return BufferGeometry;
-    })(Geometry);
+    })(Geometry3);
     return BufferGeometry;
 });

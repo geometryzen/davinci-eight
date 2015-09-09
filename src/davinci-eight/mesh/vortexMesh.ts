@@ -1,13 +1,13 @@
 import AttribProvider = require('../core/AttribProvider');
 import DrawMode = require('../core/DrawMode');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import VortexGeometry = require('../geometries/VortexGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import checkMeshArgs = require('../mesh/checkMeshArgs');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-function vortexGeometry(options: {wireFrame: boolean}): Geometry {
+function vortexGeometry(options: {wireFrame: boolean}): Geometry3 {
   return new VortexGeometry();
 }
 

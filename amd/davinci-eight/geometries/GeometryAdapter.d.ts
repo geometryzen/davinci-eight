@@ -1,6 +1,6 @@
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import DrawMode = require('../core/DrawMode');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
@@ -12,7 +12,7 @@ import RenderingContextMonitor = require('../core/RenderingContextMonitor');
  * @extends VertexAttributeProivider
  */
 declare class GeometryAdapter extends DefaultAttribProvider {
-    geometry: Geometry;
+    geometry: Geometry3;
     private elementArray;
     private aVertexPositionArray;
     private aVertexNormalArray;
@@ -31,9 +31,9 @@ declare class GeometryAdapter extends DefaultAttribProvider {
      * @class GeometryAdapter
      * @constructor
      * @param monitor {RenderingContextMonitor}
-     * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
+     * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
      */
-    constructor(monitor: RenderingContextMonitor, geometry: Geometry, options?: {
+    constructor(monitor: RenderingContextMonitor, geometry: Geometry3, options?: {
         drawMode?: DrawMode;
         elementsUsage?: number;
         positionVarName?: string;

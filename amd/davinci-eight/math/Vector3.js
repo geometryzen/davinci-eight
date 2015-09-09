@@ -251,9 +251,9 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             return this;
         };
         Vector3.prototype.set = function (x, y, z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
+            this.x = expectArg('x', x).toBeNumber().value;
+            this.y = expectArg('y', y).toBeNumber().value;
+            this.z = expectArg('z', z).toBeNumber().value;
             return this;
         };
         Vector3.prototype.setMagnitude = function (magnitude) {

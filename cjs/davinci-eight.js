@@ -14,10 +14,17 @@ var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
 var primitive = require('davinci-eight/objects/primitive');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
+// curves
+var Curve = require('davinci-eight/curves/Curve');
+var Elements = require('davinci-eight/dfx/Elements');
+var Face = require('davinci-eight/dfx/Face');
+var FaceVertex = require('davinci-eight/dfx/FaceVertex');
+var makeBoxGeometry = require('davinci-eight/dfx/makeBoxGeometry');
+var triangleElementsFromFaces = require('davinci-eight/dfx/triangleElementsFromFaces');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
 // geometries
-var Geometry = require('davinci-eight/geometries/Geometry');
+var Geometry3 = require('davinci-eight/geometries/Geometry3');
 var GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
 var ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 var BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
@@ -61,8 +68,6 @@ var CylinderMeshBuilder = require('davinci-eight/mesh/CylinderMeshBuilder');
 var sphereMesh = require('davinci-eight/mesh/sphereMesh');
 var SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 var vortexMesh = require('davinci-eight/mesh/vortexMesh');
-// curves
-var Curve = require('davinci-eight/curves/Curve');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
 var renderer = require('davinci-eight/renderers/renderer');
 // uniforms
@@ -81,8 +86,11 @@ var eight = {
      * @type String
      */
     'VERSION': core.VERSION,
+    // TODO: Arrange in alphabetical order in order to assess width of API.
     get initWebGL() { return initWebGL; },
     get Model() { return Model; },
+    get Face() { return Face; },
+    get FaceVertex() { return FaceVertex; },
     get frustum() { return frustum; },
     get frustumMatrix() { return frustumMatrix; },
     get perspective() { return perspective; },
@@ -107,7 +115,7 @@ var eight = {
     },
     get Color() { return Color; },
     get Face3() { return Face3; },
-    get Geometry() { return Geometry; },
+    get Geometry3() { return Geometry3; },
     get GeometryAdapter() { return GeometryAdapter; },
     get ArrowGeometry() { return ArrowGeometry; },
     get BarnGeometry() { return BarnGeometry; },
@@ -139,6 +147,7 @@ var eight = {
     get ArrowBuilder() { return ArrowBuilder; },
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
+    get boxFaces() { return makeBoxGeometry; },
     get CylinderArgs() { return CylinderArgs; },
     get cylinderMesh() { return cylinderMesh; },
     get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -149,6 +158,8 @@ var eight = {
     get programFromScripts() { return programFromScripts; },
     // resources
     get Texture() { return Texture; },
+    get triangleElementsFromFaces() { return triangleElementsFromFaces; },
     get ArrayBuffer() { return ArrayBuffer; },
+    get Elements() { return Elements; }
 };
 module.exports = eight;

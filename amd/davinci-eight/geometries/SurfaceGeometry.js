@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, expectArg) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry3, Vector2, expectArg) {
     /**
      * @author zz85 / https://github.com/zz85
      * Parametric Surfaces Geometry
@@ -62,6 +62,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             this.computeVertexNormals();
         }
         return SurfaceGeometry;
-    })(Geometry);
+    })(Geometry3);
     return SurfaceGeometry;
 });

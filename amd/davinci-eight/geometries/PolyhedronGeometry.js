@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Sphere, Vector2, Vector3) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry3, Sphere, Vector2, Vector3) {
     var PolyhedronGeometry = (function (_super) {
         __extends(PolyhedronGeometry, _super);
         function PolyhedronGeometry(vertices, indices, radius, detail) {
@@ -137,6 +137,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             }
         }
         return PolyhedronGeometry;
-    })(Geometry);
+    })(Geometry3);
     return PolyhedronGeometry;
 });

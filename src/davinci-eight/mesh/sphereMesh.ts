@@ -1,13 +1,13 @@
 import AttribProvider = require('../core/AttribProvider');
 import DrawMode = require('../core/DrawMode');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import GeometryAdapter = require('../geometries/GeometryAdapter');
 import SphereGeometry = require('../geometries/SphereGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import SphereOptions = require('../mesh/SphereOptions');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
-function sphereGeometry(options?: SphereOptions): Geometry {
+function sphereGeometry(options?: SphereOptions): Geometry3 {
   options = options || {};
   return new SphereGeometry(
     options.radius,

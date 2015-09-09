@@ -33,7 +33,7 @@ var GeometryAdapter = (function (_super) {
      * @class GeometryAdapter
      * @constructor
      * @param monitor {RenderingContextMonitor}
-     * @param geometry {Geometry} The geometry that must be adapted to a AttribProvider.
+     * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
      */
     function GeometryAdapter(monitor, geometry, options) {
         _super.call(this);

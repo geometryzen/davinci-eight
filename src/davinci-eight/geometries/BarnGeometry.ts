@@ -1,4 +1,4 @@
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import Face3 = require('../core/Face3');
 import Vector3 = require('../math/Vector3');
 
@@ -6,7 +6,7 @@ import Vector3 = require('../math/Vector3');
  * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
  * @class BarnGeometry
  */
-class BarnGeometry extends Geometry {
+class BarnGeometry extends Geometry3 {
   constructor() {
     super();
     let vertexList = this.vertices;

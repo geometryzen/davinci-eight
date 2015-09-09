@@ -14,8 +14,12 @@ import RenderingContextMonitor = require('davinci-eight/core/RenderingContextMon
 import UniformData = require('davinci-eight/core/UniformData');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
+import Curve = require('davinci-eight/curves/Curve');
+import Elements = require('davinci-eight/dfx/Elements');
+import Face = require('davinci-eight/dfx/Face');
+import FaceVertex = require('davinci-eight/dfx/FaceVertex');
 import DrawList = require('davinci-eight/drawLists/DrawList');
-import Geometry = require('davinci-eight/geometries/Geometry');
+import Geometry3 = require('davinci-eight/geometries/Geometry3');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
@@ -53,7 +57,6 @@ import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
 import CylinderMeshBuilder = require('davinci-eight/mesh/CylinderMeshBuilder');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
-import Curve = require('davinci-eight/curves/Curve');
 import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
@@ -66,6 +69,8 @@ declare var eight: {
     'VERSION': string;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
     Model: typeof Model;
+    Face: typeof Face;
+    FaceVertex: typeof FaceVertex;
     frustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
     frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
     perspective: (options?: {
@@ -105,7 +110,7 @@ declare var eight: {
     smartProgram: (monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]) => ShaderProgram;
     Color: typeof Color;
     Face3: typeof Face3;
-    Geometry: typeof Geometry;
+    Geometry3: typeof Geometry3;
     GeometryAdapter: typeof GeometryAdapter;
     ArrowGeometry: typeof ArrowGeometry;
     BarnGeometry: typeof BarnGeometry;
@@ -136,6 +141,7 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
+    boxFaces: () => Face[];
     CylinderArgs: typeof CylinderArgs;
     cylinderMesh: (monitor: RenderingContextMonitor, options?: CylinderOptions) => AttribProvider;
     CylinderMeshBuilder: typeof CylinderMeshBuilder;
@@ -146,6 +152,8 @@ declare var eight: {
     }) => AttribProvider;
     programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
     Texture: typeof Texture;
+    triangleElementsFromFaces: (faces: Face[]) => Elements;
     ArrayBuffer: typeof ArrayBuffer;
+    Elements: typeof Elements;
 };
 export = eight;

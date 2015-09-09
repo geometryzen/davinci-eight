@@ -1,9 +1,9 @@
 import Face3 = require('../core/Face3');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class BoxGeometry extends Geometry {
+class BoxGeometry extends Geometry3 {
   constructor(
     width: number = 1,
     height: number = 1,

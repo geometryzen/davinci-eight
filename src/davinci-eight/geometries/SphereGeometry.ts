@@ -1,10 +1,10 @@
 import Face3 = require('../core/Face3');
-import Geometry = require('../geometries/Geometry');
+import Geometry3 = require('../geometries/Geometry3');
 import Sphere = require('../math/Sphere');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class SphereGeometry extends Geometry {
+class SphereGeometry extends Geometry3 {
   constructor(
     radius: number = 1,
     widthSegments: number = 16,

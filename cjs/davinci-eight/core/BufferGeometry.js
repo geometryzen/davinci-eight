@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var BufferAttribute = require('../core/BufferAttribute');
-var Geometry = require('../geometries/Geometry');
+var Geometry3 = require('../geometries/Geometry3');
 var NoColors = 0;
 var FaceColors = 1;
 var VertexColors = 2;
@@ -130,5 +130,5 @@ var BufferGeometry = (function (_super) {
         return this;
     };
     return BufferGeometry;
-})(Geometry);
+})(Geometry3);
 module.exports = BufferGeometry;

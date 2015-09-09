@@ -19,7 +19,7 @@ var __extends = this.__extends || function (d, b) {
  */
 var clamp = require('../math/clamp');
 var Face3 = require('../core/Face3');
-var Geometry = require('../geometries/Geometry');
+var Geometry3 = require('../geometries/Geometry3');
 var Matrix4 = require('../math/Matrix4');
 var Vector2 = require('../math/Vector2');
 var Vector3 = require('../math/Vector3');
@@ -112,7 +112,7 @@ var TubeGeometry = (function (_super) {
     TubeGeometry.NoTaper = function (u) { return 1; };
     TubeGeometry.SinusoidalTaper = function (u) { return Math.sin(Math.PI * u); };
     return TubeGeometry;
-})(Geometry);
+})(Geometry3);
 // For computing of Frenet frames, exposing the tangents, normals and binormals the spline
 var FrenetFrames = (function () {
     function FrenetFrames(path, segments, closed) {

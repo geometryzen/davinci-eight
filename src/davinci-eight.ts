@@ -31,11 +31,24 @@ import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo');
 import UniformMetaInfos        = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation         = require('davinci-eight/core/UniformLocation');
 import UniformProvider         = require('davinci-eight/core/UniformProvider');
+// curves
+import Curve = require('davinci-eight/curves/Curve');
+// dfx
+import DrawTriangleElementsCall = require('davinci-eight/dfx/DrawTriangleElementsCall');
+import Elements = require('davinci-eight/dfx/Elements');
+import Face = require('davinci-eight/dfx/Face');
+import FaceVertex = require('davinci-eight/dfx/FaceVertex');
+import Face3Geometry = require('davinci-eight/dfx/Face3Geometry');
+import Line3Geometry = require('davinci-eight/dfx/Line3Geometry');
+import Point3Geometry = require('davinci-eight/dfx/Point3Geometry');
+import makeBoxGeometry = require('davinci-eight/dfx/makeBoxGeometry');
+import makeSingularity = require('davinci-eight/dfx/makeSingularity');
+import triangleElementsFromFaces = require('davinci-eight/dfx/triangleElementsFromFaces');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 // geometries
-import Geometry = require('davinci-eight/geometries/Geometry');
+import Geometry3 = require('davinci-eight/geometries/Geometry3');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
@@ -90,8 +103,6 @@ import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 
 import vortexMesh = require('davinci-eight/mesh/vortexMesh');
 
-// curves
-import Curve = require('davinci-eight/curves/Curve');
 // programs
 import ShaderProgram = require('davinci-eight/core/ShaderProgram');
 // renderers
@@ -122,8 +133,11 @@ var eight = {
    * @type String
    */
   'VERSION': core.VERSION,
+  // TODO: Arrange in alphabetical order in order to assess width of API.
   get initWebGL() { return initWebGL; },
   get Model() { return Model; },
+  get Face() { return Face; },
+  get FaceVertex() { return FaceVertex; },
   get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
@@ -148,7 +162,7 @@ var eight = {
   },
   get Color() { return Color; },
   get Face3() { return Face3; },
-  get Geometry() { return Geometry; },
+  get Geometry3() { return Geometry3; },
   get GeometryAdapter() { return GeometryAdapter; },
   get ArrowGeometry() { return ArrowGeometry; },
   get BarnGeometry() { return BarnGeometry; },
@@ -181,7 +195,7 @@ var eight = {
   
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
-  
+  get boxFaces() { return makeBoxGeometry; },
   get CylinderArgs() { return CylinderArgs; },
   get cylinderMesh() { return cylinderMesh; },
   get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -194,6 +208,8 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
+  get triangleElementsFromFaces() { return triangleElementsFromFaces; },
   get ArrayBuffer() { return ArrayBuffer; },
+  get Elements() { return Elements; }
 };
 export = eight;
