@@ -670,6 +670,16 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
             data[index] = value;
             this.data = data;
         };
+        VectorN.prototype.toArray = function (array, offset) {
+            if (array === void 0) { array = []; }
+            if (offset === void 0) { offset = 0; }
+            var data = this.data;
+            var length = data.length;
+            for (var i = 0; i < length; i++) {
+                array[offset + i] = data[i];
+            }
+            return array;
+        };
         VectorN.prototype.toLocaleString = function () {
             return this.data.toLocaleString();
         };
@@ -2273,7 +2283,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.80.0'
+        VERSION: '2.81.0'
     };
     return core;
 });
@@ -2764,6 +2774,9 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
 });
 
 define('davinci-eight/dfx/Elements',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
+    // The use of VectorN rather than number[] points to a possible reactive implementation.
+    // If the manager holds on to the Elements then with notifications we get dynamic updating?
+    // How can we get 2-way binding?
     var Elements = (function () {
         function Elements(indices, attributes) {
             this.attributes = {};
@@ -2778,12 +2791,15 @@ define('davinci-eight/dfx/Elements',["require", "exports", '../checks/expectArg'
 });
 
 define('davinci-eight/dfx/makeFaceNormalCallback',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
+    /**
+     * This only works if the position property has dimensionality 3.
+     */
     function makeFaceNormalCallback(face) {
         return function () {
-            var vA = face.a.position;
-            var vB = face.b.position;
-            var vC = face.c.position;
             // TODO: rework this so that it does not create any temporary objects, other than the final number[].
+            var vA = new Vector3(face.a.position.data);
+            var vB = new Vector3(face.b.position.data);
+            var vC = new Vector3(face.c.position.data);
             var cb = new Vector3().subVectors(vC, vB);
             var ab = new Vector3().subVectors(vA, vB);
             var normal = new Vector3().crossVectors(cb, ab).normalize();
@@ -2793,15 +2809,13 @@ define('davinci-eight/dfx/makeFaceNormalCallback',["require", "exports", '../mat
     return makeFaceNormalCallback;
 });
 
-define('davinci-eight/dfx/FaceVertex',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3', '../dfx/makeFaceNormalCallback'], function (require, exports, expectArg, isUndefined, Vector3, makeFaceNormalCallback) {
-    function expectArgVector3(name, vector) {
-        return expectArg(name, vector).toSatisfy(vector instanceof Vector3, name + ' must be a Vector3').value;
-    }
+define('davinci-eight/dfx/FaceVertex',["require", "exports", '../checks/isUndefined', '../math/Vector3', '../dfx/makeFaceNormalCallback'], function (require, exports, isUndefined, Vector3, makeFaceNormalCallback) {
+    // Remark: If positions are defined as VectorN (as they may be), then normals must be custom.
     var FaceVertex = (function () {
-        function FaceVertex(position, normal, coords) {
-            this.position = expectArgVector3('position', position);
+        function FaceVertex(position, normal) {
+            this.attributes = {};
+            this.position = position;
             this.normal = normal;
-            this.coords = coords;
         }
         Object.defineProperty(FaceVertex.prototype, "parent", {
             get: function () {
@@ -2810,6 +2824,7 @@ define('davinci-eight/dfx/FaceVertex',["require", "exports", '../checks/expectAr
             set: function (value) {
                 this._parent = value;
                 if (isUndefined(this.normal)) {
+                    // Interesting how we start out as a Vector3.
                     this.normal = new Vector3();
                     this.normal.callback = makeFaceNormalCallback(this._parent);
                 }
@@ -2851,6 +2866,7 @@ define('davinci-eight/dfx/Face',["require", "exports", '../checks/expectArg', '.
             enumerable: true,
             configurable: true
         });
+        Face.indices = function (face) { return [face.a.index, face.b.index, face.c.index]; };
         return Face;
     })();
     return Face;
@@ -3090,13 +3106,6 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
             this.y = array[offset + 1];
             return this;
         };
-        Vector2.prototype.toArray = function (array, offset) {
-            if (array === void 0) { array = []; }
-            if (offset === void 0) { offset = 0; }
-            array[offset] = this.x;
-            array[offset + 1] = this.y;
-            return array;
-        };
         Vector2.prototype.fromAttribute = function (attribute, index, offset) {
             if (offset === void 0) { offset = 0; }
             index = index * attribute.itemSize + offset;
@@ -3112,19 +3121,19 @@ define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], f
     return Vector2;
 });
 
-define('davinci-eight/dfx/makeBoxGeometry',["require", "exports", '../dfx/Face3Geometry', '../dfx/Face', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3Geometry, Face, Vector2, Vector3) {
+define('davinci-eight/dfx/makeBoxGeometry',["require", "exports", '../dfx/Face3Geometry', '../dfx/Face', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3Geometry, Face, Symbolic, Vector2, Vector3) {
     function square(vecs, geometry, coords) {
         var faces = new Array();
         var f012 = new Face(vecs[0], vecs[1], vecs[2]);
-        f012.a.coords = coords[0];
-        f012.b.coords = coords[1];
-        f012.c.coords = coords[2];
+        f012.a.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[0];
+        f012.b.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[1];
+        f012.c.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[2];
         geometry.addFace(f012);
         faces.push(f012);
         var f023 = new Face(vecs[0], vecs[2], vecs[3]);
-        f023.a.coords = f012.a.coords;
-        f023.b.coords = f012.c.coords;
-        f023.c.coords = coords[3];
+        f023.a.attributes[Symbolic.ATTRIBUTE_TEXTURE] = f012.a.attributes[Symbolic.ATTRIBUTE_TEXTURE];
+        f023.b.attributes[Symbolic.ATTRIBUTE_TEXTURE] = f012.c.attributes[Symbolic.ATTRIBUTE_TEXTURE];
+        f023.c.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[3];
         geometry.addFace(f023);
         faces.push(f023);
         return faces;
@@ -3165,29 +3174,39 @@ define('davinci-eight/dfx/makeBoxGeometry',["require", "exports", '../dfx/Face3G
     return makeBoxGeometry;
 });
 
+define('davinci-eight/dfx/ElementsAttribute',["require", "exports"], function (require, exports) {
+    var ElementsAttribute = (function () {
+        function ElementsAttribute(vector, size) {
+            this.vector = vector;
+            this.size = size;
+        }
+        return ElementsAttribute;
+    })();
+    return ElementsAttribute;
+});
+
 define('davinci-eight/dfx/stringFaceVertex',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    function stringVector3(name, vector) {
-        return name + vector.x + " " + vector.y + " " + vector.z;
-    }
-    function stringVector2(name, vector) {
+    function stringVectorN(name, vector) {
         if (isDefined(vector)) {
-            return name + vector.x + " " + vector.y;
+            return name + vector.toString();
         }
         else {
             return name;
         }
     }
     function stringFaceVertex(faceVertex) {
-        return stringVector3('P', faceVertex.position) + stringVector3('N', faceVertex.normal) + stringVector2('T', faceVertex.coords);
+        var attributes = faceVertex.attributes;
+        var attribsKey = Object.keys(attributes).map(function (name) {
+            var vector = attributes[name];
+            return stringVectorN(name, vector);
+        }).join(' ');
+        return stringVectorN('P', faceVertex.position) + stringVectorN('N', faceVertex.normal) + attribsKey;
     }
     return stringFaceVertex;
 });
 
-define('davinci-eight/dfx/triangleElementsFromFaces',["require", "exports", '../dfx/Elements', '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined', '../math/VectorN', '../dfx/stringFaceVertex', '../core/Symbolic'], function (require, exports, Elements, expectArg, isDefined, isUndefined, VectorN, stringFaceVertex, Symbolic) {
+define('davinci-eight/dfx/triangleElementsFromFaces',["require", "exports", '../dfx/Elements', '../checks/expectArg', '../dfx/Face', '../checks/isDefined', '../dfx/ElementsAttribute', '../math/VectorN', '../dfx/stringFaceVertex', '../core/Symbolic'], function (require, exports, Elements, expectArg, Face, isDefined, ElementsAttribute, VectorN, stringFaceVertex, Symbolic) {
     var VERTICES_PER_FACE = 3;
-    var COORDS_PER_POSITION = 3;
-    var COORDS_PER_NORMAL = 3;
-    var COORDS_PER_TEXTURE = 2;
     // This function has the important side-effect of setting the index property.
     // TODO: It would be better to copy the Face structure?
     function computeUniques(faces) {
@@ -3220,63 +3239,87 @@ define('davinci-eight/dfx/triangleElementsFromFaces',["require", "exports", '../
         return data;
     }
     function attribName(name, attribMap) {
-        if (isUndefined(attribMap)) {
-            return name;
-        }
-        else {
-            var alias = attribMap[name];
+        expectArg('name', name).toBeString();
+        expectArg('attribMap', attribMap).toBeObject();
+        var meta = attribMap[name];
+        if (isDefined(meta)) {
+            var alias = meta.name;
             return isDefined(alias) ? alias : name;
         }
+        else {
+            throw new Error("Unable to compute name; missing attribute specification for " + name);
+        }
+    }
+    function attribSize(key, attribMap) {
+        expectArg('key', key).toBeString();
+        expectArg('attribMap', attribMap).toBeObject();
+        var meta = attribMap[key];
+        if (isDefined(meta)) {
+            var size = meta.size;
+            // TODO: Override the message...
+            expectArg('size', size).toBeNumber();
+            return meta.size;
+        }
+        else {
+            throw new Error("Unable to compute size; missing attribute specification for " + key);
+        }
+    }
+    function concat(a, b) {
+        return a.concat(b);
+    }
+    function missingSpecificationForPosition() {
+        return "missing specification for " + Symbolic.ATTRIBUTE_POSITION;
+    }
+    function missingSpecificationForNormal() {
+        return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
     }
     function triangleElementsFromFaces(faces, attribMap) {
         expectArg('faces', faces).toBeObject();
+        expectArg('attribMap', attribMap).toBeObject();
         var uniques = computeUniques(faces);
         var elements = {};
-        // Although it is possible to use a VectorN here, working with number[] will
-        // be faster and will later allow us to fix the length of the VectorN.
-        var indices = [];
-        var positions = numberList(uniques.length * COORDS_PER_POSITION, void 0);
-        var normals = numberList(uniques.length * COORDS_PER_NORMAL, void 0);
-        var coords = numberList(uniques.length * COORDS_PER_TEXTURE, void 0);
-        faces.forEach(function (face, faceIndex) {
-            var a = face.a;
-            var b = face.b;
-            var c = face.c;
-            var offset = faceIndex * 3;
-            indices.push(a.index);
-            indices.push(b.index);
-            indices.push(c.index);
+        // Initialize the output arrays for all the attributes specified.
+        var outputs = {};
+        Object.keys(attribMap).forEach(function (key) {
+            outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
         });
+        // Cache the special cases (for now).
+        var positions = outputs[Symbolic.ATTRIBUTE_POSITION];
+        expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
+        var normals = outputs[Symbolic.ATTRIBUTE_NORMAL];
+        expectArg(Symbolic.ATTRIBUTE_NORMAL, normals).toBeObject(missingSpecificationForNormal);
+        // Each face produces three indices.
+        var indices = faces.map(Face.indices).reduce(concat, []);
         uniques.forEach(function (unique) {
             var position = unique.position;
             var normal = unique.normal;
-            var uvs = unique.coords;
             var index = unique.index;
-            var offset2x = index * COORDS_PER_TEXTURE;
-            var offset2y = offset2x + 1;
-            var offset3x = index * COORDS_PER_POSITION;
-            var offset3y = offset3x + 1;
-            var offset3z = offset3y + 1;
-            positions[offset3x] = position.x;
-            positions[offset3y] = position.y;
-            positions[offset3z] = position.z;
-            normals[offset3x] = normal.x;
-            normals[offset3y] = normal.y;
-            normals[offset3z] = normal.z;
-            if (isDefined(uvs)) {
-                coords[offset2x] = uvs.x;
-                coords[offset2y] = uvs.y;
-            }
-            else {
-                coords[offset2x] = 0;
-                coords[offset2y] = 0;
-            }
+            // TODO: cache the size for position
+            position.toArray(positions, index * attribSize(Symbolic.ATTRIBUTE_POSITION, attribMap));
+            // TODO: cache the size for position.
+            normal.toArray(normals, index * attribSize(Symbolic.ATTRIBUTE_NORMAL, attribMap));
+            // TODO: Need string[] of custom keys... to avoid the test within the loop.
+            Object.keys(attribMap).forEach(function (key) {
+                var output = outputs[key];
+                // TODO: We've already looked up the output, why not cache the size there?
+                // FIXME: attribMap also contains a spec for positions and normal. Hmm.
+                // The separation of custom and standard creates an issue.
+                var data = unique.attributes[key];
+                if (isDefined(data)) {
+                    unique.attributes[key].toArray(output, index * attribSize(key, attribMap));
+                }
+            });
         });
         var attributes = {};
         // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
-        attributes[attribName(Symbolic.ATTRIBUTE_POSITION, attribMap)] = new VectorN(positions, false, positions.length);
-        attributes[attribName(Symbolic.ATTRIBUTE_NORMAL, attribMap)] = new VectorN(normals, false, normals.length);
-        attributes[attribName(Symbolic.ATTRIBUTE_TEXTURE, attribMap)] = new VectorN(coords, false, coords.length);
+        // TODO: Use map
+        Object.keys(attribMap).forEach(function (key) {
+            var output = outputs[key];
+            var data = outputs[key];
+            // TODO: We've already looked up output. Why not cache the output name and use the size?
+            var vector = new VectorN(data, false, data.length);
+            attributes[attribName(key, attribMap)] = new ElementsAttribute(vector, attribSize(key, attribMap));
+        });
         return new Elements(new VectorN(indices, false, indices.length), attributes);
     }
     return triangleElementsFromFaces;
@@ -9754,16 +9797,39 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Color'
     return renderer;
 });
 
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayBuffer', '../dfx/Elements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined', '../core/Symbolic', '../resources/Texture'], function (require, exports, ArrayBuffer, Elements, initWebGL, expectArg, isDefined, isUndefined, Symbolic, Texture) {
-    var ElementBlob = (function () {
-        function ElementBlob(elements, indices, positions, drawMode, drawType) {
-            this.elements = elements;
-            this.indices = indices;
-            this.positions = positions;
-            this.drawMode = drawMode;
-            this.drawType = drawType;
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayBuffer', '../dfx/Elements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined', '../resources/Texture'], function (require, exports, ArrayBuffer, Elements, initWebGL, expectArg, isDefined, isUndefined, Texture) {
+    /**
+     * This could become an encapsulated call?
+     */
+    var DrawElementsCommand = (function () {
+        function DrawElementsCommand(mode, count, type, offset) {
+            this.mode = mode;
+            this.count = count;
+            this.type = type;
+            this.offset = offset;
         }
-        return ElementBlob;
+        DrawElementsCommand.prototype.execute = function (context) {
+            context.drawElements(this.mode, this.count, this.type, this.offset);
+        };
+        return DrawElementsCommand;
+    })();
+    var ElementsBlock = (function () {
+        function ElementsBlock(indices, attributes, drawCommand) {
+            this.indices = indices;
+            this.attributes = attributes;
+            this.drawCommand = drawCommand;
+        }
+        return ElementsBlock;
+    })();
+    var ElementsBlockAttrib = (function () {
+        function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
+            this.buffer = buffer;
+            this.size = size;
+            this.normalized = normalized;
+            this.stride = stride;
+            this.offset = offset;
+        }
+        return ElementsBlockAttrib;
     })();
     function isDrawMode(mode, context) {
         expectArg('mode', mode).toBeNumber();
@@ -9826,6 +9892,9 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             });
         };
         var self = {
+            /**
+             *
+             */
             checkIn: function (elements, mode, usage) {
                 expectArg('elements', elements).toSatisfy(elements instanceof Elements, "elements must be an instance of Elements");
                 expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
@@ -9836,20 +9905,27 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                     usage = context.STATIC_DRAW;
                 }
                 var token = Math.random().toString();
-                // indices
-                var indices = self.vertexBuffer();
-                indices.bind(context.ELEMENT_ARRAY_BUFFER);
+                var indexBuffer = self.vertexBuffer();
+                indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
                 context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
                 context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
                 // attributes
-                var positions = self.vertexBuffer();
-                positions.bind(context.ARRAY_BUFFER);
-                // TODO: Here we are looking for the attribute in a specific location, but later data-driven.
-                context.bufferData(context.ARRAY_BUFFER, new Float32Array(elements.attributes[Symbolic.ATTRIBUTE_POSITION].data), usage);
-                context.bindBuffer(context.ARRAY_BUFFER, null);
+                var attributes = {};
+                Object.keys(elements.attributes).forEach(function (name) {
+                    var buffer = self.vertexBuffer();
+                    buffer.bind(context.ARRAY_BUFFER);
+                    var vertexAttrib = elements.attributes[name];
+                    var data = vertexAttrib.vector.data;
+                    context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+                    context.bindBuffer(context.ARRAY_BUFFER, null);
+                    // normalized, stride and offset in future may not be zero.
+                    attributes[name] = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+                });
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                tokenMap[token] = new ElementBlob(elements, indices, positions, mode, context.UNSIGNED_SHORT);
+                var offset = 0; // Later we may set this differently if we reuse buffers.
+                var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, offset);
+                tokenMap[token] = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 return token;
             },
             setUp: function (token, program, attribMap) {
@@ -9858,18 +9934,19 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                     if (isDefined(program)) {
                         var indices = blob.indices;
                         indices.bind(context.ELEMENT_ARRAY_BUFFER);
-                        var positions = blob.positions;
-                        positions.bind(context.ARRAY_BUFFER);
-                        // TODO: This hard coded name should vanish.
-                        var aName = attribName(Symbolic.ATTRIBUTE_POSITION, attribMap);
-                        var posLocation = program.attributes[aName];
-                        if (isDefined(posLocation)) {
-                            posLocation.vertexPointer(3);
-                        }
-                        else {
-                            throw new Error(aName + " is not a valid program attribute");
-                        }
-                        context.bindBuffer(context.ARRAY_BUFFER, null);
+                        // FIXME: Probably better to work from the program attributes?
+                        Object.keys(blob.attributes).forEach(function (key) {
+                            var aName = attribName(key, attribMap);
+                            var aLocation = program.attributes[aName];
+                            if (isDefined(aLocation)) {
+                                var attribute = blob.attributes[key];
+                                attribute.buffer.bind(context.ARRAY_BUFFER);
+                                aLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+                                context.bindBuffer(context.ARRAY_BUFFER, null);
+                            }
+                            else {
+                            }
+                        });
                     }
                     else {
                         assertProgram('program', program);
@@ -9882,8 +9959,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             draw: function (token) {
                 var blob = tokenMap[token];
                 if (isDefined(blob)) {
-                    var elements = blob.elements;
-                    context.drawElements(blob.drawMode, elements.indices.length, blob.drawType, 0);
+                    blob.drawCommand.execute(context);
                 }
                 else {
                     throw new Error(messageUnrecognizedToken(token));
@@ -9903,9 +9979,12 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 if (isDefined(blob)) {
                     var indices = blob.indices;
                     self.removeContextUser(indices);
-                    // Do the same for the attributes.
+                    Object.keys(blob.attributes).forEach(function (key) {
+                        var attribute = blob.attributes[key];
+                        var buffer = attribute.buffer;
+                        self.removeContextUser(buffer);
+                    });
                     delete tokenMap[token];
-                    return blob.elements;
                 }
                 else {
                     throw new Error(messageUnrecognizedToken(token));

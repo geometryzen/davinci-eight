@@ -1,12 +1,10 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3', '../dfx/makeFaceNormalCallback'], function (require, exports, expectArg, isUndefined, Vector3, makeFaceNormalCallback) {
-    function expectArgVector3(name, vector) {
-        return expectArg(name, vector).toSatisfy(vector instanceof Vector3, name + ' must be a Vector3').value;
-    }
+define(["require", "exports", '../checks/isUndefined', '../math/Vector3', '../dfx/makeFaceNormalCallback'], function (require, exports, isUndefined, Vector3, makeFaceNormalCallback) {
+    // Remark: If positions are defined as VectorN (as they may be), then normals must be custom.
     var FaceVertex = (function () {
-        function FaceVertex(position, normal, coords) {
-            this.position = expectArgVector3('position', position);
+        function FaceVertex(position, normal) {
+            this.attributes = {};
+            this.position = position;
             this.normal = normal;
-            this.coords = coords;
         }
         Object.defineProperty(FaceVertex.prototype, "parent", {
             get: function () {
@@ -15,6 +13,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             set: function (value) {
                 this._parent = value;
                 if (isUndefined(this.normal)) {
+                    // Interesting how we start out as a Vector3.
                     this.normal = new Vector3();
                     this.normal.callback = makeFaceNormalCallback(this._parent);
                 }

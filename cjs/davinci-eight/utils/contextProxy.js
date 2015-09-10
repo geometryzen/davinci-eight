@@ -4,17 +4,39 @@ var initWebGL = require('../renderers/initWebGL');
 var expectArg = require('../checks/expectArg');
 var isDefined = require('../checks/isDefined');
 var isUndefined = require('../checks/isUndefined');
-var Symbolic = require('../core/Symbolic');
 var Texture = require('../resources/Texture');
-var ElementBlob = (function () {
-    function ElementBlob(elements, indices, positions, drawMode, drawType) {
-        this.elements = elements;
-        this.indices = indices;
-        this.positions = positions;
-        this.drawMode = drawMode;
-        this.drawType = drawType;
+/**
+ * This could become an encapsulated call?
+ */
+var DrawElementsCommand = (function () {
+    function DrawElementsCommand(mode, count, type, offset) {
+        this.mode = mode;
+        this.count = count;
+        this.type = type;
+        this.offset = offset;
     }
-    return ElementBlob;
+    DrawElementsCommand.prototype.execute = function (context) {
+        context.drawElements(this.mode, this.count, this.type, this.offset);
+    };
+    return DrawElementsCommand;
+})();
+var ElementsBlock = (function () {
+    function ElementsBlock(indices, attributes, drawCommand) {
+        this.indices = indices;
+        this.attributes = attributes;
+        this.drawCommand = drawCommand;
+    }
+    return ElementsBlock;
+})();
+var ElementsBlockAttrib = (function () {
+    function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
+        this.buffer = buffer;
+        this.size = size;
+        this.normalized = normalized;
+        this.stride = stride;
+        this.offset = offset;
+    }
+    return ElementsBlockAttrib;
 })();
 function isDrawMode(mode, context) {
     expectArg('mode', mode).toBeNumber();
@@ -77,6 +99,9 @@ function contextProxy(canvas, attributes) {
         });
     };
     var self = {
+        /**
+         *
+         */
         checkIn: function (elements, mode, usage) {
             expectArg('elements', elements).toSatisfy(elements instanceof Elements, "elements must be an instance of Elements");
             expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
@@ -87,20 +112,27 @@ function contextProxy(canvas, attributes) {
                 usage = context.STATIC_DRAW;
             }
             var token = Math.random().toString();
-            // indices
-            var indices = self.vertexBuffer();
-            indices.bind(context.ELEMENT_ARRAY_BUFFER);
+            var indexBuffer = self.vertexBuffer();
+            indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
             context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
             context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
             // attributes
-            var positions = self.vertexBuffer();
-            positions.bind(context.ARRAY_BUFFER);
-            // TODO: Here we are looking for the attribute in a specific location, but later data-driven.
-            context.bufferData(context.ARRAY_BUFFER, new Float32Array(elements.attributes[Symbolic.ATTRIBUTE_POSITION].data), usage);
-            context.bindBuffer(context.ARRAY_BUFFER, null);
+            var attributes = {};
+            Object.keys(elements.attributes).forEach(function (name) {
+                var buffer = self.vertexBuffer();
+                buffer.bind(context.ARRAY_BUFFER);
+                var vertexAttrib = elements.attributes[name];
+                var data = vertexAttrib.vector.data;
+                context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+                context.bindBuffer(context.ARRAY_BUFFER, null);
+                // normalized, stride and offset in future may not be zero.
+                attributes[name] = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+            });
             // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
             // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-            tokenMap[token] = new ElementBlob(elements, indices, positions, mode, context.UNSIGNED_SHORT);
+            var offset = 0; // Later we may set this differently if we reuse buffers.
+            var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, offset);
+            tokenMap[token] = new ElementsBlock(indexBuffer, attributes, drawCommand);
             return token;
         },
         setUp: function (token, program, attribMap) {
@@ -109,18 +141,19 @@ function contextProxy(canvas, attributes) {
                 if (isDefined(program)) {
                     var indices = blob.indices;
                     indices.bind(context.ELEMENT_ARRAY_BUFFER);
-                    var positions = blob.positions;
-                    positions.bind(context.ARRAY_BUFFER);
-                    // TODO: This hard coded name should vanish.
-                    var aName = attribName(Symbolic.ATTRIBUTE_POSITION, attribMap);
-                    var posLocation = program.attributes[aName];
-                    if (isDefined(posLocation)) {
-                        posLocation.vertexPointer(3);
-                    }
-                    else {
-                        throw new Error(aName + " is not a valid program attribute");
-                    }
-                    context.bindBuffer(context.ARRAY_BUFFER, null);
+                    // FIXME: Probably better to work from the program attributes?
+                    Object.keys(blob.attributes).forEach(function (key) {
+                        var aName = attribName(key, attribMap);
+                        var aLocation = program.attributes[aName];
+                        if (isDefined(aLocation)) {
+                            var attribute = blob.attributes[key];
+                            attribute.buffer.bind(context.ARRAY_BUFFER);
+                            aLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+                            context.bindBuffer(context.ARRAY_BUFFER, null);
+                        }
+                        else {
+                        }
+                    });
                 }
                 else {
                     assertProgram('program', program);
@@ -133,8 +166,7 @@ function contextProxy(canvas, attributes) {
         draw: function (token) {
             var blob = tokenMap[token];
             if (isDefined(blob)) {
-                var elements = blob.elements;
-                context.drawElements(blob.drawMode, elements.indices.length, blob.drawType, 0);
+                blob.drawCommand.execute(context);
             }
             else {
                 throw new Error(messageUnrecognizedToken(token));
@@ -154,9 +186,12 @@ function contextProxy(canvas, attributes) {
             if (isDefined(blob)) {
                 var indices = blob.indices;
                 self.removeContextUser(indices);
-                // Do the same for the attributes.
+                Object.keys(blob.attributes).forEach(function (key) {
+                    var attribute = blob.attributes[key];
+                    var buffer = attribute.buffer;
+                    self.removeContextUser(buffer);
+                });
                 delete tokenMap[token];
-                return blob.elements;
             }
             else {
                 throw new Error(messageUnrecognizedToken(token));

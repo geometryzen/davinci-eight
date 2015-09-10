@@ -14,5 +14,6 @@ declare class Face {
      */
     constructor(a: Vector3, b: Vector3, c: Vector3);
     normal: Vector3;
+    static indices(face: Face): number[];
 }
 export = Face;

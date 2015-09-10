@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.80.0</em>
+            <em>API Docs for: 2.81.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -156,8 +156,13 @@ declare module EIGHT {
 
 class Elements {
   public indices: VectorN&lt;number&gt;;
-  public attributes: {[name:string]:VectorN&lt;number&gt;} = {};
-  constructor(indices: VectorN&lt;number&gt;, attributes: { [name: string]: VectorN&lt;number&gt; });
+  public attributes: {[name: string]: ElementsAttribute} = {};
+  constructor(indices: VectorN&lt;number&gt;, attributes: {[name: string]: ElementsAttribute});
+}
+class ElementsAttribute {
+  public vector: VectorN&lt;number&gt;;
+  public size: number;
+  constructor(vector: VectorN&lt;number&gt;, size: number);
 }
 class Face {
   public a: FaceVertex;
@@ -168,16 +173,16 @@ class Face {
 }
 class FaceVertex {
   public parent: Face;
-  public position: Vector3;
-  public normal: Vector3;
-  public coords: Vector2;
+  public position: VectorN&lt;number&gt;;
+  public normal: VectorN&lt;number&gt;;
+  public attributes: {[name:string]: VectorN&lt;number&gt;} = {}
   public index: number;
-  constructor(position: Vector3, normal?: Vector3, coords?: Vector2);
+  constructor(position: VectorN&lt;number&gt;, normal?: VectorN&lt;number&gt;);
 }
 /**
  *
  */
-function triangleElementsFromFaces(faces: Face[], attribMap?: {[name:string]:string}): Elements;
+function triangleElementsFromFaces(faces: Face[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
 function boxFaces(): Face[];
 /**
  * @class DrawMode
@@ -416,6 +421,7 @@ class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
   pop(): T;
   push(value: T): number;
   setComponent(index: number, value: T): void;
+  toArray(array?: T[], offset?: number): T[];
   toLocaleString(): string;
   toString(): string;
 }
@@ -1375,7 +1381,7 @@ interface RenderingContextMonitor extends IUnknown
   setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void;
   draw(token: string): void;
   tearDown(token: string, program: ShaderProgram): void;
-  checkOut(token: string): Elements;
+  checkOut(token: string): void;
 }
 /**
  * Constructs and returns a RenderingContextMonitor.

@@ -3,23 +3,19 @@ import isUndefined = require('../checks/isUndefined');
 import Face = require('../dfx/Face');
 import Vertex = require('../dfx/Vertex');
 import Vector3 = require('../math/Vector3');
-import Vector2 = require('../math/Vector2');
+import VectorN = require('../math/VectorN');
 import makeFaceNormalCallback = require('../dfx/makeFaceNormalCallback');
 
-function expectArgVector3(name: string, vector: Vector3): Vector3 {
-  return expectArg(name, vector).toSatisfy(vector instanceof Vector3, name + ' must be a Vector3').value;
-}
-
+// Remark: If positions are defined as VectorN (as they may be), then normals must be custom.
 class FaceVertex {
   private _parent: Face;
-  public position: Vector3;
-  public normal: Vector3;
-  public coords: Vector2;
+  public position: VectorN<number>;
+  public normal: VectorN<number>;
+  public attributes: {[name:string]: VectorN<number>} = {}
   public index: number;
-  constructor(position: Vector3, normal?: Vector3, coords?: Vector2) {
-    this.position = expectArgVector3('position', position);
+  constructor(position: VectorN<number>, normal?: VectorN<number>) {
+    this.position = position;
     this.normal = normal;
-    this.coords = coords;
   }
   get parent() {
     return this._parent;
@@ -27,6 +23,7 @@ class FaceVertex {
   set parent(value) {
     this._parent = value;
     if (isUndefined(this.normal)) {
+      // Interesting how we start out as a Vector3.
       this.normal = new Vector3();
       this.normal.callback = makeFaceNormalCallback(this._parent);
     }

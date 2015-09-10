@@ -25,6 +25,6 @@ interface RenderingContextMonitor extends IUnknown {
     }): void;
     draw(token: string): void;
     tearDown(token: string, program: ShaderProgram): void;
-    checkOut(token: string): Elements;
+    checkOut(token: string): void;
 }
 export = RenderingContextMonitor;

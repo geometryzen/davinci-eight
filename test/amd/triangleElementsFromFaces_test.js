@@ -18,7 +18,10 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements, Symboli
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
         var faces = [];
-        var elements = triangleElementsFromFaces(faces);
+        var attribMap = {};
+        attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
+        attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
+        var elements = triangleElementsFromFaces(faces, attribMap);
         var indices = elements.indices.data;
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -33,9 +36,12 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements, Symboli
       var c = f.c;
       var faces = [];
       faces.push(f);
-      var elements = triangleElementsFromFaces(faces);
+      var attribMap = {};
+      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
+      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
+      var elements = triangleElementsFromFaces(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -89,9 +95,12 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements, Symboli
       var faces = [];
       faces.push(f012);
       faces.push(f023);
-      var elements = triangleElementsFromFaces(faces);
+      var attribMap = {};
+      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
+      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
+      var elements = triangleElementsFromFaces(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -168,9 +177,12 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements, Symboli
       faces.push(f013);
       faces.push(f032);
       faces.push(f021);
-      var elements = triangleElementsFromFaces(faces);
+      var attribMap = {};
+      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
+      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
+      var elements = triangleElementsFromFaces(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });

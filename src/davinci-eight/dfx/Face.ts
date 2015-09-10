@@ -31,6 +31,7 @@ class Face {
   get normal() {
     return this._normal;
   }
+  public static indices(face: Face): number[] {return [face.a.index, face.b.index, face.c.index];}
 }
 
 export = Face;

@@ -9,8 +9,13 @@ declare module EIGHT {
 
 class Elements {
   public indices: VectorN<number>;
-  public attributes: {[name:string]:VectorN<number>} = {};
-  constructor(indices: VectorN<number>, attributes: { [name: string]: VectorN<number> });
+  public attributes: {[name: string]: ElementsAttribute} = {};
+  constructor(indices: VectorN<number>, attributes: {[name: string]: ElementsAttribute});
+}
+class ElementsAttribute {
+  public vector: VectorN<number>;
+  public size: number;
+  constructor(vector: VectorN<number>, size: number);
 }
 class Face {
   public a: FaceVertex;
@@ -21,16 +26,16 @@ class Face {
 }
 class FaceVertex {
   public parent: Face;
-  public position: Vector3;
-  public normal: Vector3;
-  public coords: Vector2;
+  public position: VectorN<number>;
+  public normal: VectorN<number>;
+  public attributes: {[name:string]: VectorN<number>} = {}
   public index: number;
-  constructor(position: Vector3, normal?: Vector3, coords?: Vector2);
+  constructor(position: VectorN<number>, normal?: VectorN<number>);
 }
 /**
  *
  */
-function triangleElementsFromFaces(faces: Face[], attribMap?: {[name:string]:string}): Elements;
+function triangleElementsFromFaces(faces: Face[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
 function boxFaces(): Face[];
 /**
  * @class DrawMode
@@ -269,6 +274,7 @@ class VectorN<T> implements Mutable<T[]> {
   pop(): T;
   push(value: T): number;
   setComponent(index: number, value: T): void;
+  toArray(array?: T[], offset?: number): T[];
   toLocaleString(): string;
   toString(): string;
 }
@@ -1228,7 +1234,7 @@ interface RenderingContextMonitor extends IUnknown
   setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void;
   draw(token: string): void;
   tearDown(token: string, program: ShaderProgram): void;
-  checkOut(token: string): Elements;
+  checkOut(token: string): void;
 }
 /**
  * Constructs and returns a RenderingContextMonitor.

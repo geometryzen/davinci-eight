@@ -214,13 +214,6 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y = array[offset + 1];
             return this;
         };
-        Vector2.prototype.toArray = function (array, offset) {
-            if (array === void 0) { array = []; }
-            if (offset === void 0) { offset = 0; }
-            array[offset] = this.x;
-            array[offset + 1] = this.y;
-            return array;
-        };
         Vector2.prototype.fromAttribute = function (attribute, index, offset) {
             if (offset === void 0) { offset = 0; }
             index = index * attribute.itemSize + offset;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.80.0</em>
+            <em>API Docs for: 2.81.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -346,11 +346,6 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement
     this.x = array[ offset ];
     this.y = array[ offset + 1 ];
     return this;
-  }
-  toArray(array: number[] = [], offset: number = 0) {
-    array[ offset ] = this.x;
-    array[ offset + 1 ] = this.y;
-    return array;
   }
   fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number = 0) {
     index = index * attribute.itemSize + offset;

@@ -54,7 +54,6 @@ declare class Vector2 extends VectorN<number> implements Cartesian2, LinearEleme
     lerpVectors(v1: Vector2, v2: Vector2, alpha: number): Vector2;
     equals(v: Cartesian2): boolean;
     fromArray(array: number[], offset?: number): Vector2;
-    toArray(array?: number[], offset?: number): number[];
     fromAttribute(attribute: {
         itemSize: number;
         array: number[];

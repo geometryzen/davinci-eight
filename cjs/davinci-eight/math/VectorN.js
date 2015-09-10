@@ -125,6 +125,16 @@ var VectorN = (function () {
         data[index] = value;
         this.data = data;
     };
+    VectorN.prototype.toArray = function (array, offset) {
+        if (array === void 0) { array = []; }
+        if (offset === void 0) { offset = 0; }
+        var data = this.data;
+        var length = data.length;
+        for (var i = 0; i < length; i++) {
+            array[offset + i] = data[i];
+        }
+        return array;
+    };
     VectorN.prototype.toLocaleString = function () {
         return this.data.toLocaleString();
     };

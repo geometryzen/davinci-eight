@@ -1,19 +1,20 @@
 var Face3Geometry = require('../dfx/Face3Geometry');
 var Face = require('../dfx/Face');
+var Symbolic = require('../core/Symbolic');
 var Vector2 = require('../math/Vector2');
 var Vector3 = require('../math/Vector3');
 function square(vecs, geometry, coords) {
     var faces = new Array();
     var f012 = new Face(vecs[0], vecs[1], vecs[2]);
-    f012.a.coords = coords[0];
-    f012.b.coords = coords[1];
-    f012.c.coords = coords[2];
+    f012.a.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[0];
+    f012.b.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[1];
+    f012.c.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[2];
     geometry.addFace(f012);
     faces.push(f012);
     var f023 = new Face(vecs[0], vecs[2], vecs[3]);
-    f023.a.coords = f012.a.coords;
-    f023.b.coords = f012.c.coords;
-    f023.c.coords = coords[3];
+    f023.a.attributes[Symbolic.ATTRIBUTE_TEXTURE] = f012.a.attributes[Symbolic.ATTRIBUTE_TEXTURE];
+    f023.b.attributes[Symbolic.ATTRIBUTE_TEXTURE] = f012.c.attributes[Symbolic.ATTRIBUTE_TEXTURE];
+    f023.c.attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[3];
     geometry.addFace(f023);
     faces.push(f023);
     return faces;

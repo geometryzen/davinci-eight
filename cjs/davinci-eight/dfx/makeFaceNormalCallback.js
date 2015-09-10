@@ -1,10 +1,13 @@
 var Vector3 = require('../math/Vector3');
+/**
+ * This only works if the position property has dimensionality 3.
+ */
 function makeFaceNormalCallback(face) {
     return function () {
-        var vA = face.a.position;
-        var vB = face.b.position;
-        var vC = face.c.position;
         // TODO: rework this so that it does not create any temporary objects, other than the final number[].
+        var vA = new Vector3(face.a.position.data);
+        var vB = new Vector3(face.b.position.data);
+        var vC = new Vector3(face.c.position.data);
         var cb = new Vector3().subVectors(vC, vB);
         var ab = new Vector3().subVectors(vA, vB);
         var normal = new Vector3().crossVectors(cb, ab).normalize();

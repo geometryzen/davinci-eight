@@ -1,13 +1,14 @@
 import Face = require('../dfx/Face');
-import Vector3 = require('../math/Vector3');
-import Vector2 = require('../math/Vector2');
+import VectorN = require('../math/VectorN');
 declare class FaceVertex {
     private _parent;
-    position: Vector3;
-    normal: Vector3;
-    coords: Vector2;
+    position: VectorN<number>;
+    normal: VectorN<number>;
+    attributes: {
+        [name: string]: VectorN<number>;
+    };
     index: number;
-    constructor(position: Vector3, normal?: Vector3, coords?: Vector2);
+    constructor(position: VectorN<number>, normal?: VectorN<number>);
     parent: Face;
 }
 export = FaceVertex;

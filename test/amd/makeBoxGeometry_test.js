@@ -28,12 +28,15 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, makeBoxGeometry, 
   describe("makeBoxGeometry", function() {
     describe("everyting", function() {
       var faces = makeBoxGeometry();
-
-      var elements = triangleElementsFromFaces(faces);
+      var attribMap = {};
+      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
+      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
+      attribMap[Symbolic.ATTRIBUTE_TEXTURE] = {size: 2};
+      var elements = triangleElementsFromFaces(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
-      var normals = elements.attributes[Symbolic.ATTRIBUTE_NORMAL].data;
-      var coords = elements.attributes[Symbolic.ATTRIBUTE_TEXTURE].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
+      var normals = elements.attributes[Symbolic.ATTRIBUTE_NORMAL].vector.data;
+      var coords = elements.attributes[Symbolic.ATTRIBUTE_TEXTURE].vector.data;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(faces.length * VERTICES_PER_TRIANGLE);

@@ -4,15 +4,13 @@ import Face = require('../dfx/Face');
 import FaceVertex = require('../dfx/FaceVertex');
 import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
+import ElementsAttribute = require('../dfx/ElementsAttribute');
 import Vector3 = require('../math/Vector3');
 import VectorN = require('../math/VectorN');
 import stringFaceVertex = require('../dfx/stringFaceVertex');
 import Symbolic = require('../core/Symbolic');
 
 let VERTICES_PER_FACE = 3;
-let COORDS_PER_POSITION = 3;
-let COORDS_PER_NORMAL = 3;
-let COORDS_PER_TEXTURE = 2;
 
 // This function has the important side-effect of setting the index property.
 // TODO: It would be better to copy the Face structure?
@@ -49,78 +47,99 @@ function numberList(size: number, value: number): number[] {
   return data;
 }
 
-function attribName(name: string, attribMap?: {[name:string]:string}): string {
-  if (isUndefined(attribMap)) {
-    return name;
+function attribName(name: string, attribMap?: { [name: string]: {name?:string}}): string {
+  expectArg('name', name).toBeString();
+  expectArg('attribMap', attribMap).toBeObject();
+  let meta = attribMap[name];
+  if (isDefined(meta)) {
+    let alias = meta.name;
+    return isDefined(alias) ? alias : name;
   }
   else {
-    let alias = attribMap[name];
-    return isDefined(alias) ? alias : name;
+    throw new Error("Unable to compute name; missing attribute specification for " + name);
   }
 }
 
-function triangleElementsFromFaces(faces: Face[], attribMap?: {[name:string]:string}): Elements {
+function attribSize(key: string, attribMap?: { [key: string]: {size:number}}): number {
+  expectArg('key', key).toBeString();
+  expectArg('attribMap', attribMap).toBeObject();
+  let meta = attribMap[key];
+  if (isDefined(meta)) {
+    let size = meta.size;
+    // TODO: Override the message...
+    expectArg('size', size).toBeNumber();
+    return meta.size;
+  }
+  else {
+    throw new Error("Unable to compute size; missing attribute specification for " + key);
+  }
+}
+
+function concat(a: number[], b: number[]): number[] {
+  return a.concat(b);
+}
+
+function missingSpecificationForPosition() {
+  return "missing specification for " + Symbolic.ATTRIBUTE_POSITION;
+}
+
+function missingSpecificationForNormal() {
+  return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
+}
+
+function triangleElementsFromFaces(faces: Face[], attribMap: { [name: string]: { name?: string; size: number}}): Elements {
   expectArg('faces', faces).toBeObject();
+  expectArg('attribMap', attribMap).toBeObject();
 
   let uniques: FaceVertex[] = computeUniques(faces);
-
-  var elements: { [key:string]: FaceVertex } = {};
-
-  // Although it is possible to use a VectorN here, working with number[] will
-  // be faster and will later allow us to fix the length of the VectorN.
-  let indices: number[] = [];
-  var positions: number[] = numberList(uniques.length * COORDS_PER_POSITION, void 0);
-  var normals: number[] = numberList(uniques.length * COORDS_PER_NORMAL, void 0);
-  var coords: number[] = numberList(uniques.length * COORDS_PER_TEXTURE, void 0);
-
-  faces.forEach(function(face: Face, faceIndex: number) {
-    let a: FaceVertex = face.a;
-    let b: FaceVertex = face.b;
-    let c: FaceVertex = face.c;
-
-    let offset = faceIndex * 3
-
-    indices.push(a.index);
-    indices.push(b.index);
-    indices.push(c.index);
+  let elements: { [key:string]: FaceVertex } = {};
+  // Initialize the output arrays for all the attributes specified.
+  let outputs: { [key: string]: number[] } = {};
+  Object.keys(attribMap).forEach(function(key: string) {
+    outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
   });
+  // Cache the special cases (for now).
+  let positions: number[] = outputs[Symbolic.ATTRIBUTE_POSITION];
+  expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
+  let normals: number[] = outputs[Symbolic.ATTRIBUTE_NORMAL];
+  expectArg(Symbolic.ATTRIBUTE_NORMAL, normals).toBeObject(missingSpecificationForNormal);
+
+  // Each face produces three indices.
+  let indices: number[] = faces.map(Face.indices).reduce(concat, []);
 
   uniques.forEach(function(unique: FaceVertex){
-    let position = unique.position;
-    let normal = unique.normal;
-    let uvs = unique.coords;
+    let position: VectorN<number> = unique.position;
+    let normal: VectorN<number> = unique.normal;
 
     let index   = unique.index;
 
-    let offset2x = index * COORDS_PER_TEXTURE;
-    let offset2y = offset2x + 1;
+    // TODO: cache the size for position
+    position.toArray(positions, index * attribSize(Symbolic.ATTRIBUTE_POSITION, attribMap));
+    // TODO: cache the size for position.
+    normal.toArray(normals, index * attribSize(Symbolic.ATTRIBUTE_NORMAL, attribMap));
 
-    let offset3x = index * COORDS_PER_POSITION;
-    let offset3y = offset3x + 1;
-    let offset3z = offset3y + 1;
-
-    positions[offset3x] = position.x; 
-    positions[offset3y] = position.y; 
-    positions[offset3z] = position.z; 
-
-    normals[offset3x] = normal.x; 
-    normals[offset3y] = normal.y; 
-    normals[offset3z] = normal.z; 
-
-    if (isDefined(uvs)) {
-      coords[offset2x] = uvs.x; 
-      coords[offset2y] = uvs.y; 
-    }
-    else {
-      coords[offset2x] = 0; 
-      coords[offset2y] = 0; 
-    }
+    // TODO: Need string[] of custom keys... to avoid the test within the loop.
+    Object.keys(attribMap).forEach(function(key: string) {
+      let output = outputs[key];
+      // TODO: We've already looked up the output, why not cache the size there?
+      // FIXME: attribMap also contains a spec for positions and normal. Hmm.
+      // The separation of custom and standard creates an issue.
+      let data: VectorN<number> = unique.attributes[key];
+      if (isDefined(data)) {
+        unique.attributes[key].toArray(output, index * attribSize(key, attribMap));
+      }
+    });
   });
-  var attributes: { [name: string]: VectorN<number> } = {};
+  var attributes: { [name: string]: ElementsAttribute } = {};
   // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
-  attributes[attribName(Symbolic.ATTRIBUTE_POSITION, attribMap)] = new VectorN<number>(positions, false, positions.length);
-  attributes[attribName(Symbolic.ATTRIBUTE_NORMAL, attribMap)]   = new VectorN<number>(normals, false, normals.length);
-  attributes[attribName(Symbolic.ATTRIBUTE_TEXTURE, attribMap)]  = new VectorN<number>(coords, false, coords.length);
+  // TODO: Use map
+  Object.keys(attribMap).forEach(function(key: string) {
+    let output: number[] = outputs[key];
+    let data = outputs[key];
+    // TODO: We've already looked up output. Why not cache the output name and use the size?
+    let vector = new VectorN<number>(data, false, data.length);
+    attributes[attribName(key, attribMap)] = new ElementsAttribute(vector, attribSize(key, attribMap));
+  });
   return new Elements(new VectorN<number>(indices, false, indices.length), attributes);
 }
 

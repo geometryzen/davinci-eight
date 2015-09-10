@@ -200,11 +200,6 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
     this.y = array[ offset + 1 ];
     return this;
   }
-  toArray(array: number[] = [], offset: number = 0) {
-    array[ offset ] = this.x;
-    array[ offset + 1 ] = this.y;
-    return array;
-  }
   fromAttribute(attribute: {itemSize: number, array: number[]}, index: number, offset: number = 0) {
     index = index * attribute.itemSize + offset;
     this.x = attribute.array[ index ];

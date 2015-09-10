@@ -130,6 +130,14 @@ class VectorN<T> implements Mutable<T[]> {
     data[index] = value;
     this.data = data;
   }
+  toArray(array: T[] = [], offset: number = 0): T[] {
+    let data = this.data;
+    let length = data.length;
+    for (var i = 0; i < length; i++) {
+      array[offset + i] = data[i];
+    }
+    return array;
+  }
   toLocaleString(): string {
     return this.data.toLocaleString();
   }

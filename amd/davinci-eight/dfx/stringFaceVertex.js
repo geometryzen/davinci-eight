@@ -1,17 +1,19 @@
 define(["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    function stringVector3(name, vector) {
-        return name + vector.x + " " + vector.y + " " + vector.z;
-    }
-    function stringVector2(name, vector) {
+    function stringVectorN(name, vector) {
         if (isDefined(vector)) {
-            return name + vector.x + " " + vector.y;
+            return name + vector.toString();
         }
         else {
             return name;
         }
     }
     function stringFaceVertex(faceVertex) {
-        return stringVector3('P', faceVertex.position) + stringVector3('N', faceVertex.normal) + stringVector2('T', faceVertex.coords);
+        var attributes = faceVertex.attributes;
+        var attribsKey = Object.keys(attributes).map(function (name) {
+            var vector = attributes[name];
+            return stringVectorN(name, vector);
+        }).join(' ');
+        return stringVectorN('P', faceVertex.position) + stringVectorN('N', faceVertex.normal) + attribsKey;
     }
     return stringFaceVertex;
 });

@@ -30,6 +30,7 @@ var Face = (function () {
         enumerable: true,
         configurable: true
     });
+    Face.indices = function (face) { return [face.a.index, face.b.index, face.c.index]; };
     return Face;
 })();
 module.exports = Face;

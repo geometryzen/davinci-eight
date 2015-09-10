@@ -1,4 +1,7 @@
 define(["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
+    // The use of VectorN rather than number[] points to a possible reactive implementation.
+    // If the manager holds on to the Elements then with notifications we get dynamic updating?
+    // How can we get 2-way binding?
     var Elements = (function () {
         function Elements(indices, attributes) {
             this.attributes = {};

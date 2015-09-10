@@ -9,19 +9,49 @@ import isUndefined = require('../checks/isUndefined');
 import ShaderProgram = require('../core/ShaderProgram');
 import Symbolic = require('../core/Symbolic');
 import Texture = require('../resources/Texture');
+import VectorN = require('../math/VectorN');
 
-class ElementBlob {
-  public elements: Elements;
+/**
+ * This could become an encapsulated call?
+ */
+class DrawElementsCommand {
+  private mode: number;
+  private count: number;
+  private type: number;
+  private offset: number;
+  constructor(mode: number, count: number, type: number, offset: number) {
+    this.mode = mode;
+    this.count = count;
+    this.type = type;
+    this.offset = offset;
+  }
+  execute(context: WebGLRenderingContext) {
+    context.drawElements(this.mode, this.count, this.type, this.offset);
+  }
+}
+
+class ElementsBlock {
+  public attributes: { [key: string]: ElementsBlockAttrib };
   public indices: ArrayBuffer;
-  public positions: ArrayBuffer;
-  public drawMode: number;
-  public drawType: number;
-  constructor(elements: Elements, indices: ArrayBuffer, positions: ArrayBuffer, drawMode: number, drawType: number) {
-    this.elements = elements;
+  public drawCommand: DrawElementsCommand;
+  constructor(indices: ArrayBuffer, attributes: { [key: string]: ElementsBlockAttrib }, drawCommand: DrawElementsCommand) {
     this.indices = indices;
-    this.positions = positions;
-    this.drawMode = drawMode;
-    this.drawType = drawType;
+    this.attributes = attributes;
+    this.drawCommand = drawCommand;
+  }
+}
+class ElementsBlockAttrib {
+  public buffer: ArrayBuffer;
+  public size: number;
+  public normalized: boolean;
+  public stride: number;
+  public offset: number;
+  constructor(buffer: ArrayBuffer, size: number, normalized: boolean, stride: number, offset: number) {
+    this.buffer = buffer;
+    this.size = size;
+    this.normalized = normalized;
+    this.stride = stride;
+    this.offset = offset;
   }
 }
 
@@ -76,7 +106,7 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
   var context: WebGLRenderingContext;
   var refCount: number = 1;
   var mirror: boolean = true;
-  let tokenMap: {[name:string]:ElementBlob} = {};
+  let tokenMap: {[name:string]:ElementsBlock} = {};
   let tokenArg = expectArg('token', "");
 
   let webGLContextLost = function(event: Event) {
@@ -96,6 +126,9 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
   };
 
   var self: RenderingContextMonitor = {
+    /**
+     *
+     */
     checkIn(elements: Elements, mode: number, usage?: number): string {
       expectArg('elements', elements).toSatisfy(elements instanceof Elements, "elements must be an instance of Elements");
       expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
@@ -106,20 +139,27 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
         usage = context.STATIC_DRAW;
       }
       let token: string = Math.random().toString();
-      // indices
-      let indices = self.vertexBuffer();
-      indices.bind(context.ELEMENT_ARRAY_BUFFER);
+      let indexBuffer = self.vertexBuffer();
+      indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
       context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
       context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
       // attributes
-      let positions = self.vertexBuffer();
-      positions.bind(context.ARRAY_BUFFER);
-      // TODO: Here we are looking for the attribute in a specific location, but later data-driven.
-      context.bufferData(context.ARRAY_BUFFER, new Float32Array(elements.attributes[Symbolic.ATTRIBUTE_POSITION].data), usage);
-      context.bindBuffer(context.ARRAY_BUFFER, null);
+      let attributes: { [name: string]: ElementsBlockAttrib } = {};
+      Object.keys(elements.attributes).forEach(function(name: string) {
+        let buffer = self.vertexBuffer();
+        buffer.bind(context.ARRAY_BUFFER);
+        let vertexAttrib = elements.attributes[name];
+        let data: number[] = vertexAttrib.vector.data;
+        context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+        context.bindBuffer(context.ARRAY_BUFFER, null);
+        // normalized, stride and offset in future may not be zero.
+        attributes[name] = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+      });
       // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
       // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-      tokenMap[token] = new ElementBlob(elements, indices, positions, mode, context.UNSIGNED_SHORT);
+      let offset = 0; // Later we may set this differently if we reuse buffers.
+      let drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, offset);
+      tokenMap[token] = new ElementsBlock(indexBuffer, attributes, drawCommand);
       return token;
     },
     setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void {
@@ -129,18 +169,22 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
           let indices = blob.indices;
           indices.bind(context.ELEMENT_ARRAY_BUFFER);
 
-          let positions = blob.positions;
-          positions.bind(context.ARRAY_BUFFER);
-          // TODO: This hard coded name should vanish.
-          let aName: string = attribName(Symbolic.ATTRIBUTE_POSITION, attribMap);
-          let posLocation = program.attributes[aName];
-          if (isDefined(posLocation)) {
-            posLocation.vertexPointer(3);
-          }
-          else {
-            throw new Error(aName + " is not a valid program attribute");
-          }
-          context.bindBuffer(context.ARRAY_BUFFER, null);
+          // FIXME: Probably better to work from the program attributes?
+          Object.keys(blob.attributes).forEach(function(key: string) {
+            let aName: string = attribName(key, attribMap);
+            let aLocation = program.attributes[aName];
+            if (isDefined(aLocation)) {
+              let attribute: ElementsBlockAttrib = blob.attributes[key];
+              attribute.buffer.bind(context.ARRAY_BUFFER);
+              aLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+              context.bindBuffer(context.ARRAY_BUFFER, null);
+            }
+            else {
+              // The attribute available may not be required by the program.
+              // TODO: (1) Named programs, (2) disable warning by attribute.
+              // console.warn("attribute " + aName + " is not being used by the program");
+            }
+          });
         }
         else {
           assertProgram('program', program);
@@ -153,8 +197,7 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     draw(token: string): void {
       let blob = tokenMap[token];
       if (isDefined(blob)) {
-        let elements = blob.elements;
-        context.drawElements(blob.drawMode, elements.indices.length, blob.drawType, 0);
+        blob.drawCommand.execute(context);
       }
       else {
         throw new Error(messageUnrecognizedToken(token));
@@ -169,14 +212,17 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
         throw new Error(messageUnrecognizedToken(token));
       }
     },
-    checkOut(token: string): Elements {
+    checkOut(token: string): void {
       let blob = tokenMap[token];
       if (isDefined(blob)) {
         let indices = blob.indices;
         self.removeContextUser(indices);
-        // Do the same for the attributes.
+        Object.keys(blob.attributes).forEach(function(key:string) {
+          let attribute = blob.attributes[key];
+          let buffer = attribute.buffer;
+          self.removeContextUser(buffer);
+        });
         delete tokenMap[token];
-        return blob.elements;
       }
       else {
         throw new Error(messageUnrecognizedToken(token));

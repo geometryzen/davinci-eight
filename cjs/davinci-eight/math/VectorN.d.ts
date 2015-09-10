@@ -12,6 +12,7 @@ declare class VectorN<T> implements Mutable<T[]> {
     pop(): T;
     push(value: T): number;
     setComponent(index: number, value: T): void;
+    toArray(array?: T[], offset?: number): T[];
     toLocaleString(): string;
     toString(): string;
 }

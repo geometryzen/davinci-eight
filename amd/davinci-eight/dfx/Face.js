@@ -27,6 +27,7 @@ define(["require", "exports", '../checks/expectArg', '../dfx/FaceVertex', '../ma
             enumerable: true,
             configurable: true
         });
+        Face.indices = function (face) { return [face.a.index, face.b.index, face.c.index]; };
         return Face;
     })();
     return Face;

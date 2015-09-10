@@ -1,15 +1,10 @@
 import isDefined = require('../checks/isDefined');
 import FaceVertex = require('../dfx/FaceVertex');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import VectorN = require('../math/VectorN');
 
-function stringVector3(name: string, vector: Vector3): string {
-  return name + vector.x + " " + vector.y + " " + vector.z;
-}
-
-function stringVector2(name: string, vector: Vector2): string {
+function stringVectorN(name: string, vector: VectorN<number>): string {
   if (isDefined(vector)) {
-    return name + vector.x + " " + vector.y;
+    return name + vector.toString();
   }
   else {
     return name;
@@ -17,7 +12,12 @@ function stringVector2(name: string, vector: Vector2): string {
 }
 
 function stringFaceVertex(faceVertex: FaceVertex): string {
-  return stringVector3('P', faceVertex.position) + stringVector3('N', faceVertex.normal) + stringVector2('T', faceVertex.coords);
+  let attributes: {[name:string]: VectorN<number>} = faceVertex.attributes;
+  let attribsKey = Object.keys(attributes).map(function(name:string) {
+      let vector: VectorN<number> = attributes[name];
+      return stringVectorN(name, vector);
+  }).join(' ');
+  return stringVectorN('P', faceVertex.position) + stringVectorN('N', faceVertex.normal) + attribsKey;
 }
 
 export = stringFaceVertex;
