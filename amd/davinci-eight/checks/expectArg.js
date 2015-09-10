@@ -5,6 +5,12 @@ define(["require", "exports", '../checks/isUndefined'], function (require, expor
     function expectArg(name, value) {
         var arg = {
             toSatisfy: function (condition, message) {
+                if (isUndefined(condition)) {
+                    throw new Error("condition must be specified");
+                }
+                if (isUndefined(message)) {
+                    throw new Error("message must be specified");
+                }
                 if (!condition) {
                     throw new Error(message);
                 }
@@ -45,7 +51,7 @@ define(["require", "exports", '../checks/isUndefined'], function (require, expor
             toBeNumber: function (override) {
                 var typeOfValue = typeof value;
                 if (typeOfValue !== 'number') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a mumber.", override));
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
                 }
                 return arg;
             },

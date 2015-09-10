@@ -7,6 +7,7 @@ declare class Symbolic {
     static ATTRIBUTE_COLOR: string;
     static ATTRIBUTE_NORMAL: string;
     static ATTRIBUTE_POSITION: string;
+    static ATTRIBUTE_TEXTURE: string;
     static UNIFORM_AMBIENT_LIGHT: string;
     static UNIFORM_COLOR: string;
     static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;

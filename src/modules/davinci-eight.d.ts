@@ -8,9 +8,9 @@
 declare module EIGHT {
 
 class Elements {
-  public indices: Vector<number>;
+  public indices: VectorN<number>;
   public attributes: {[name:string]:VectorN<number>} = {};
-  constructor(indices: number[], attributes: { [name: string]: VectorN<number> });
+  constructor(indices: VectorN<number>, attributes: { [name: string]: VectorN<number> });
 }
 class Face {
   public a: FaceVertex;
@@ -27,7 +27,10 @@ class FaceVertex {
   public index: number;
   constructor(position: Vector3, normal?: Vector3, coords?: Vector2);
 }
-function triangleElementsFromFaces(faces: Face[]): Elements;
+/**
+ *
+ */
+function triangleElementsFromFaces(faces: Face[], attribMap?: {[name:string]:string}): Elements;
 function boxFaces(): Face[];
 /**
  * @class DrawMode
@@ -1221,6 +1224,11 @@ interface RenderingContextMonitor extends IUnknown
    * Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.
    */
   mirror: boolean;
+  checkIn(elements: Elements, mode: number, usage?: number): string;
+  setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void;
+  draw(token: string): void;
+  tearDown(token: string, program: ShaderProgram): void;
+  checkOut(token: string): Elements;
 }
 /**
  * Constructs and returns a RenderingContextMonitor.

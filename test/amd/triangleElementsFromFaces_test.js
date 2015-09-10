@@ -4,9 +4,10 @@ define(
   'davinci-eight/dfx/FaceVertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/dfx/triangleElementsFromFaces',
-  'davinci-eight/dfx/Elements'
+  'davinci-eight/dfx/Elements',
+  'davinci-eight/core/Symbolic'
 ],
-function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements)
+function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements, Symbolic)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
@@ -34,7 +35,7 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements)
       faces.push(f);
       var elements = triangleElementsFromFaces(faces);
       var indices = elements.indices.data;
-      var positions = elements.attributes['positions'].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -90,7 +91,7 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements)
       faces.push(f023);
       var elements = triangleElementsFromFaces(faces);
       var indices = elements.indices.data;
-      var positions = elements.attributes['positions'].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -169,7 +170,7 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, Elements)
       faces.push(f021);
       var elements = triangleElementsFromFaces(faces);
       var indices = elements.indices.data;
-      var positions = elements.attributes['positions'].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });

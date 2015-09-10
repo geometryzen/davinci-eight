@@ -7,6 +7,7 @@ class Symbolic {
   public static ATTRIBUTE_COLOR    = 'aVertexColor';
   public static ATTRIBUTE_NORMAL   = 'aVertexNormal';
   public static ATTRIBUTE_POSITION = 'aVertexPosition';
+  public static ATTRIBUTE_TEXTURE  = 'aTexCoord';
 
   public static UNIFORM_AMBIENT_LIGHT               = 'uAmbientLight';
   public static UNIFORM_COLOR                       = 'uColor';

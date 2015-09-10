@@ -5,8 +5,14 @@ function message(standard: string, override: () => string): string {
 }
 
 function expectArg<T>(name: string, value: T) {
-  var arg = {
+  let arg = {
     toSatisfy(condition: boolean, message: string) {
+      if (isUndefined(condition)) {
+        throw new Error("condition must be specified");
+      }
+      if (isUndefined(message)) {
+        throw new Error("message must be specified");
+      }
       if (!condition) {
         throw new Error(message);
       }
@@ -47,7 +53,7 @@ function expectArg<T>(name: string, value: T) {
     toBeNumber(override?: () => string) {
       let typeOfValue: string = typeof value;
       if (typeOfValue !== 'number') {
-        throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a mumber.", override));
+        throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
       }
       return arg;
     },
@@ -84,7 +90,7 @@ function expectArg<T>(name: string, value: T) {
       }
     },
     get value(): T {
-        return value;
+      return value;
     }
   };
   return arg;

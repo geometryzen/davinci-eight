@@ -10,6 +10,7 @@ define(["require", "exports"], function (require, exports) {
         Symbolic.ATTRIBUTE_COLOR = 'aVertexColor';
         Symbolic.ATTRIBUTE_NORMAL = 'aVertexNormal';
         Symbolic.ATTRIBUTE_POSITION = 'aVertexPosition';
+        Symbolic.ATTRIBUTE_TEXTURE = 'aTexCoord';
         Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
         Symbolic.UNIFORM_COLOR = 'uColor';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';

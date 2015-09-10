@@ -1,4 +1,4 @@
 var core = {
-    VERSION: '2.79.0'
+    VERSION: '2.80.0'
 };
 module.exports = core;

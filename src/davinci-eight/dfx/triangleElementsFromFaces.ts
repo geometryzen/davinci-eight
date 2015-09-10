@@ -1,11 +1,13 @@
-import isDefined = require('../checks/isDefined');
-import expectArg = require('../checks/expectArg');
 import Elements = require('../dfx/Elements');
+import expectArg = require('../checks/expectArg');
 import Face = require('../dfx/Face');
 import FaceVertex = require('../dfx/FaceVertex');
+import isDefined = require('../checks/isDefined');
+import isUndefined = require('../checks/isUndefined');
 import Vector3 = require('../math/Vector3');
 import VectorN = require('../math/VectorN');
 import stringFaceVertex = require('../dfx/stringFaceVertex');
+import Symbolic = require('../core/Symbolic');
 
 let VERTICES_PER_FACE = 3;
 let COORDS_PER_POSITION = 3;
@@ -47,7 +49,17 @@ function numberList(size: number, value: number): number[] {
   return data;
 }
 
-function triangleElementsFromFaces(faces: Face[]): Elements {
+function attribName(name: string, attribMap?: {[name:string]:string}): string {
+  if (isUndefined(attribMap)) {
+    return name;
+  }
+  else {
+    let alias = attribMap[name];
+    return isDefined(alias) ? alias : name;
+  }
+}
+
+function triangleElementsFromFaces(faces: Face[], attribMap?: {[name:string]:string}): Elements {
   expectArg('faces', faces).toBeObject();
 
   let uniques: FaceVertex[] = computeUniques(faces);
@@ -106,9 +118,9 @@ function triangleElementsFromFaces(faces: Face[]): Elements {
   });
   var attributes: { [name: string]: VectorN<number> } = {};
   // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
-  attributes['positions'] = new VectorN<number>(positions, false, positions.length);
-  attributes['normals']   = new VectorN<number>(normals, false, normals.length);
-  attributes['coords']    = new VectorN<number>(coords, false, coords.length);
+  attributes[attribName(Symbolic.ATTRIBUTE_POSITION, attribMap)] = new VectorN<number>(positions, false, positions.length);
+  attributes[attribName(Symbolic.ATTRIBUTE_NORMAL, attribMap)]   = new VectorN<number>(normals, false, normals.length);
+  attributes[attribName(Symbolic.ATTRIBUTE_TEXTURE, attribMap)]  = new VectorN<number>(coords, false, coords.length);
   return new Elements(new VectorN<number>(indices, false, indices.length), attributes);
 }
 

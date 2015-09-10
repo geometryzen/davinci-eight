@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../dfx/Elements', '../math/VectorN', '../dfx/stringFaceVertex'], function (require, exports, isDefined, expectArg, Elements, VectorN, stringFaceVertex) {
+define(["require", "exports", '../dfx/Elements', '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined', '../math/VectorN', '../dfx/stringFaceVertex', '../core/Symbolic'], function (require, exports, Elements, expectArg, isDefined, isUndefined, VectorN, stringFaceVertex, Symbolic) {
     var VERTICES_PER_FACE = 3;
     var COORDS_PER_POSITION = 3;
     var COORDS_PER_NORMAL = 3;
@@ -34,7 +34,16 @@ define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../
         }
         return data;
     }
-    function triangleElementsFromFaces(faces) {
+    function attribName(name, attribMap) {
+        if (isUndefined(attribMap)) {
+            return name;
+        }
+        else {
+            var alias = attribMap[name];
+            return isDefined(alias) ? alias : name;
+        }
+    }
+    function triangleElementsFromFaces(faces, attribMap) {
         expectArg('faces', faces).toBeObject();
         var uniques = computeUniques(faces);
         var elements = {};
@@ -80,9 +89,9 @@ define(["require", "exports", '../checks/isDefined', '../checks/expectArg', '../
         });
         var attributes = {};
         // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
-        attributes['positions'] = new VectorN(positions, false, positions.length);
-        attributes['normals'] = new VectorN(normals, false, normals.length);
-        attributes['coords'] = new VectorN(coords, false, coords.length);
+        attributes[attribName(Symbolic.ATTRIBUTE_POSITION, attribMap)] = new VectorN(positions, false, positions.length);
+        attributes[attribName(Symbolic.ATTRIBUTE_NORMAL, attribMap)] = new VectorN(normals, false, normals.length);
+        attributes[attribName(Symbolic.ATTRIBUTE_TEXTURE, attribMap)] = new VectorN(coords, false, coords.length);
         return new Elements(new VectorN(indices, false, indices.length), attributes);
     }
     return triangleElementsFromFaces;

@@ -5,9 +5,10 @@ define(
   'davinci-eight/math/Vector3',
   'davinci-eight/dfx/triangleElementsFromFaces',
   'davinci-eight/dfx/makeBoxGeometry',
-  'davinci-eight/dfx/Elements'
+  'davinci-eight/dfx/Elements',
+  'davinci-eight/core/Symbolic'
 ],
-function(Face, FaceVertex, Vector3, triangleElementsFromFaces, makeBoxGeometry, Elements)
+function(Face, FaceVertex, Vector3, triangleElementsFromFaces, makeBoxGeometry, Elements, Symbolic)
 {
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;
@@ -24,22 +25,15 @@ function(Face, FaceVertex, Vector3, triangleElementsFromFaces, makeBoxGeometry, 
     //  | |v7---|-|v4
     //  |/      |/
     //  v2------v3
-// coords
-//           0, 1,   0, 0,   1, 0,   1, 1,    // v0-v3-v4-v5 right
-//           1, 0,   1, 1,   0, 1,   0, 0,    // v0-v5-v6-v1 top
-//           1, 1,   0, 1,   0, 0,   1, 0,    // v1-v6-v7-v2 left
-//           0, 0,   1, 0,   1, 1,   0, 1,    // v7-v4-v3-v2 bottom
-//           0, 0,   1, 0,   1, 1,   0, 1 ]   // v4-v7-v6-v5 back
-
   describe("makeBoxGeometry", function() {
     describe("everyting", function() {
       var faces = makeBoxGeometry();
 
       var elements = triangleElementsFromFaces(faces);
       var indices = elements.indices.data;
-      var positions = elements.attributes['positions'].data;
-      var normals = elements.attributes['normals'].data;
-      var coords = elements.attributes['coords'].data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].data;
+      var normals = elements.attributes[Symbolic.ATTRIBUTE_NORMAL].data;
+      var coords = elements.attributes[Symbolic.ATTRIBUTE_TEXTURE].data;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(faces.length * VERTICES_PER_TRIANGLE);

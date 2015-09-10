@@ -156,7 +156,9 @@ declare var eight: {
     }) => AttribProvider;
     programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
     Texture: typeof Texture;
-    triangleElementsFromFaces: (faces: Face[]) => Elements;
+    triangleElementsFromFaces: (faces: Face[], attribMap?: {
+        [name: string]: string;
+    }) => Elements;
     ArrayBuffer: typeof ArrayBuffer;
     Elements: typeof Elements;
 };
