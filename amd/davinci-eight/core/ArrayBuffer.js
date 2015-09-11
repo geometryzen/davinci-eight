@@ -1,4 +1,8 @@
 define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
+    /**
+     *
+     */
+    // TODO: Probably should embed the target because unlikely we will change target.
     var ArrayBuffer = (function () {
         function ArrayBuffer(monitor) {
             this._refCount = 1;
@@ -46,6 +50,18 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
             }
             else {
                 console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
+            }
+        };
+        /**
+         * @method unbind
+         */
+        ArrayBuffer.prototype.unbind = function (target) {
+            // Remark: Having unbind may allow us to do some accounting in future.
+            if (this._context) {
+                this._context.bindBuffer(target, null);
+            }
+            else {
+                console.warn("ArrayBuffer.unbind() missing WebGLRenderingContext.");
             }
         };
         return ArrayBuffer;

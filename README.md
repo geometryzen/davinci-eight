@@ -184,6 +184,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.80.0: 2015-09-09 checkIn,setUp,tearDown,checkOut
 * 2.81.0: 2015-09-10 token
 * 2.82.0: 2015-09-11 Mesh
+* 2.83.0: 2015-09-11 IUnknownMap
 
 ## License
 Copyright (c) 2014-2015 David Holmes

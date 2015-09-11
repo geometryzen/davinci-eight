@@ -1,5 +1,8 @@
 import RenderingContextUser = require('../core/RenderingContextUser');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+/**
+ *
+ */
 declare class ArrayBuffer implements RenderingContextUser {
     private _context;
     private _monitor;
@@ -16,5 +19,9 @@ declare class ArrayBuffer implements RenderingContextUser {
      * @method bind
      */
     bind(target: number): void;
+    /**
+     * @method unbind
+     */
+    unbind(target: number): void;
 }
 export = ArrayBuffer;

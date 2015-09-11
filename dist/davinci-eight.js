@@ -2295,7 +2295,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.82.0'
+        VERSION: '2.83.0'
     };
     return core;
 });
@@ -3920,6 +3920,10 @@ define('davinci-eight/utils/uuid4',["require", "exports"], function (require, ex
 });
 
 define('davinci-eight/core/ArrayBuffer',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
+    /**
+     *
+     */
+    // TODO: Probably should embed the target because unlikely we will change target.
     var ArrayBuffer = (function () {
         function ArrayBuffer(monitor) {
             this._refCount = 1;
@@ -3967,6 +3971,18 @@ define('davinci-eight/core/ArrayBuffer',["require", "exports", '../checks/expect
             }
             else {
                 console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
+            }
+        };
+        /**
+         * @method unbind
+         */
+        ArrayBuffer.prototype.unbind = function (target) {
+            // Remark: Having unbind may allow us to do some accounting in future.
+            if (this._context) {
+                this._context.bindBuffer(target, null);
+            }
+            else {
+                console.warn("ArrayBuffer.unbind() missing WebGLRenderingContext.");
             }
         };
         return ArrayBuffer;
@@ -9917,6 +9933,99 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Color'
     return renderer;
 });
 
+define('davinci-eight/utils/IUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
+    var CLASSNAME_IUNKNOWN_MAP = 'IUnknownMap';
+    var IUnknownMap = (function () {
+        function IUnknownMap() {
+            this._refCount = 1;
+            this._elements = {};
+            this._uuid = uuid4().generate();
+            refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+        }
+        IUnknownMap.prototype.addRef = function () {
+            refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+            this._refCount++;
+            return this._refCount;
+        };
+        IUnknownMap.prototype.release = function () {
+            refChange(this._uuid, -1, CLASSNAME_IUNKNOWN_MAP);
+            this._refCount--;
+            if (this._refCount === 0) {
+                var self_1 = this;
+                this.forEach(function (key) {
+                    self_1.put(key, void 0);
+                });
+                this._elements = void 0;
+            }
+            return this._refCount;
+        };
+        IUnknownMap.prototype.exists = function (key) {
+            var element = this._elements[key];
+            return element ? true : false;
+        };
+        IUnknownMap.prototype.get = function (key) {
+            var element = this._elements[key];
+            if (element) {
+                element.addRef();
+                return element;
+            }
+            else {
+                return void 0;
+            }
+        };
+        IUnknownMap.prototype.put = function (key, value) {
+            var existing = this._elements[key];
+            if (existing) {
+                if (value) {
+                    if (existing === value) {
+                    }
+                    else {
+                        existing.release();
+                        value.addRef();
+                        this._elements[key] = value;
+                    }
+                }
+                else {
+                    existing.release();
+                    this._elements[key] = void 0;
+                }
+            }
+            else {
+                // There is no entry at the key specified.
+                if (value) {
+                    value.addRef();
+                    this._elements[key] = value;
+                }
+                else {
+                }
+            }
+        };
+        IUnknownMap.prototype.forEach = function (callback) {
+            var keys = this.keys;
+            var i;
+            var length = keys.length;
+            for (i = 0; i < length; i++) {
+                var key = keys[i];
+                callback(key);
+            }
+        };
+        Object.defineProperty(IUnknownMap.prototype, "keys", {
+            get: function () {
+                // TODO: memoize
+                return Object.keys(this._elements);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        IUnknownMap.prototype.remove = function (key) {
+            this.put(key, void 0);
+            delete this._elements[key];
+        };
+        return IUnknownMap;
+    })();
+    return IUnknownMap;
+});
+
 define('davinci-eight/utils/RefCount',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     var RefCount = (function () {
         function RefCount(callback) {
@@ -9947,7 +10056,7 @@ define('davinci-eight/utils/RefCount',["require", "exports", '../checks/expectAr
     return RefCount;
 });
 
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayBuffer', '../dfx/Elements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined', '../utils/RefCount', '../utils/refChange', '../resources/Texture', '../utils/uuid4'], function (require, exports, ArrayBuffer, Elements, initWebGL, expectArg, isDefined, isUndefined, RefCount, refChange, Texture, uuid4) {
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayBuffer', '../dfx/Elements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../utils/IUnknownMap', '../utils/RefCount', '../utils/refChange', '../resources/Texture', '../utils/uuid4'], function (require, exports, ArrayBuffer, Elements, initWebGL, expectArg, isDefined, IUnknownMap, RefCount, refChange, Texture, uuid4) {
     /**
      * This could become an encapsulated call?
      */
@@ -9970,9 +10079,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             this._indexBuffer = indexBuffer;
             this._indexBuffer.addRef();
             this._attributes = attributes;
-            Object.keys(attributes).forEach(function (key) {
-                attributes[key].addRef();
-            });
+            this._attributes.addRef();
             this.drawCommand = drawCommand;
             refChange(this._uuid, +1, 'ElementsBlock');
         }
@@ -9985,33 +10092,22 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             configurable: true
         });
         ElementsBlock.prototype.addRef = function () {
-            refChange(this._uuid, +1, 'ElementsBlock');
             this._refCount++;
+            refChange(this._uuid, +1, 'ElementsBlock');
             return this._refCount;
         };
         ElementsBlock.prototype.release = function () {
-            refChange(this._uuid, -1, 'ElementsBlock');
             this._refCount--;
+            refChange(this._uuid, -1, 'ElementsBlock');
             if (this._refCount === 0) {
-                var attributes = this._attributes;
-                Object.keys(attributes).forEach(function (key) {
-                    attributes[key].release();
-                });
-                this._attributes = void 0;
+                this._attributes.release();
                 this._indexBuffer.release();
-                this._indexBuffer = void 0;
-                this.drawCommand = void 0;
-                this._uuid = void 0;
-                var refCount = this._refCount;
-                this._refCount = 0;
-                return refCount;
             }
-            else {
-                return this._refCount;
-            }
+            return this._refCount;
         };
         Object.defineProperty(ElementsBlock.prototype, "attributes", {
             get: function () {
+                this._attributes.addRef();
                 return this._attributes;
             },
             enumerable: true,
@@ -10041,12 +10137,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             this._refCount--;
             if (this._refCount === 0) {
                 this._buffer.release();
-                this._buffer = void 0;
-                this.size = void 0;
-                this.normalized = void 0;
-                this.stride = void 0;
-                this.offset = void 0;
-                this._uuid = void 0;
             }
             return this._refCount;
         };
@@ -10082,26 +10172,23 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             }
         }
     }
-    function messageUnrecognizedToken(token) {
-        expectArg('token', token).toBeString();
-        return token + " is not a recognized token";
-    }
-    function assertProgram(argName, program) {
-        expectArg(argName, program).toBeObject();
+    function messageUnrecognizedMesh(meshUUID) {
+        expectArg('meshUUID', meshUUID).toBeString();
+        return meshUUID + " is not a recognized mesh uuid";
     }
     function attribKey(aName, aNameToKeyName) {
-        if (isUndefined(aNameToKeyName)) {
-            return aName;
+        if (aNameToKeyName) {
+            var key = aNameToKeyName[aName];
+            return key ? key : aName;
         }
         else {
-            var key = aNameToKeyName[aName];
-            return isDefined(key) ? key : aName;
+            return aName;
         }
     }
     function contextProxy(canvas, attributes) {
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var uuid = uuid4().generate();
-        var tokenMap = {};
+        var blocks = new IUnknownMap();
         var users = [];
         function addContextUser(user) {
             expectArg('user', user).toBeObject();
@@ -10121,35 +10208,18 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 });
             }
         }
-        function drawTokenDelete(uuid) {
+        function meshRemover(blockUUID) {
             return function () {
-                var blob = tokenMap[uuid];
-                if (isDefined(blob)) {
-                    var indexBuffer = blob.indexBuffer;
-                    removeContextUser(indexBuffer);
-                    indexBuffer.release();
-                    indexBuffer = void 0;
-                    Object.keys(blob.attributes).forEach(function (key) {
-                        var attribute = blob.attributes[key];
-                        var buffer = attribute.buffer;
-                        try {
-                            removeContextUser(buffer);
-                        }
-                        finally {
-                            buffer.release();
-                            buffer = void 0;
-                        }
-                    });
-                    blob.release();
-                    delete tokenMap[uuid];
+                if (blocks.exists(blockUUID)) {
+                    blocks.remove(blockUUID);
                 }
                 else {
-                    throw new Error(messageUnrecognizedToken(uuid));
+                    console.warn("[System Error] " + messageUnrecognizedMesh(blockUUID));
                 }
             };
         }
-        function drawToken(uuid) {
-            var refCount = new RefCount(drawTokenDelete(uuid));
+        function createMesh(uuid) {
+            var refCount = new RefCount(meshRemover(uuid));
             var _program = void 0;
             var self = {
                 addRef: function () {
@@ -10168,79 +10238,79 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                         if (_program) {
                             self.unbind();
                         }
-                        var blob = tokenMap[uuid];
-                        if (isDefined(blob)) {
-                            if (isDefined(program)) {
-                                var indexBuffer = blob.indexBuffer;
+                        var block = blocks.get(uuid);
+                        if (block) {
+                            if (program) {
+                                _program = program;
+                                _program.addRef();
+                                var indexBuffer = block.indexBuffer;
                                 indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
                                 indexBuffer.release();
-                                indexBuffer = void 0;
-                                // FIXME: We're doing a lot of string-based lookup!
-                                Object.keys(program.attributes).forEach(function (aName) {
+                                var aNames = Object.keys(program.attributes);
+                                var aNamesLength = aNames.length;
+                                var aNamesIndex;
+                                for (aNamesIndex = 0; aNamesIndex < aNamesLength; aNamesIndex++) {
+                                    var aName = aNames[aNamesIndex];
                                     var key = attribKey(aName, aNameToKeyName);
-                                    var attribute = blob.attributes[key];
-                                    if (isDefined(attribute)) {
+                                    var attributes_1 = block.attributes;
+                                    var attribute = attributes_1.get(key);
+                                    if (attribute) {
                                         // Associate the attribute buffer with the attribute location.
                                         var buffer = attribute.buffer;
-                                        try {
-                                            buffer.bind(context.ARRAY_BUFFER);
-                                            try {
-                                                var attributeLocation = program.attributes[aName];
-                                                attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-                                                attributeLocation.enable();
-                                            }
-                                            finally {
-                                                context.bindBuffer(context.ARRAY_BUFFER, null);
-                                            }
-                                        }
-                                        finally {
-                                            buffer.release();
-                                            buffer = void 0;
-                                        }
+                                        buffer.bind(context.ARRAY_BUFFER);
+                                        var attributeLocation = program.attributes[aName];
+                                        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+                                        buffer.unbind(context.ARRAY_BUFFER);
+                                        attributeLocation.enable();
+                                        buffer.release();
+                                        attribute.release();
                                     }
                                     else {
                                         // The attribute available may not be required by the program.
                                         // TODO: (1) Named programs, (2) disable warning by attribute?
                                         // Do not allow Attribute 0 to be disabled.
-                                        console.warn("program attribute " + aName + " is not satisfied by the token");
+                                        console.warn("program attribute " + aName + " is not satisfied by the mesh");
                                     }
-                                });
+                                    attributes_1.release();
+                                }
                             }
                             else {
-                                assertProgram('program', program);
+                                expectArg('program', program).toBeObject();
                             }
+                            block.release();
                         }
                         else {
-                            throw new Error(messageUnrecognizedToken(uuid));
+                            throw new Error(messageUnrecognizedMesh(uuid));
                         }
-                        _program = program;
-                        _program.addRef();
                     }
                 },
                 draw: function () {
-                    var blob = tokenMap[uuid];
-                    if (isDefined(blob)) {
-                        blob.drawCommand.execute(context);
+                    var block = blocks.get(uuid);
+                    if (block) {
+                        block.drawCommand.execute(context);
+                        block.release();
                     }
                     else {
-                        throw new Error(messageUnrecognizedToken(uuid));
+                        throw new Error(messageUnrecognizedMesh(uuid));
                     }
                 },
                 unbind: function () {
                     if (_program) {
-                        var blob = tokenMap[uuid];
-                        if (isDefined(blob)) {
-                            context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+                        var block = blocks.get(uuid);
+                        if (block) {
+                            var indexBuffer = block.indexBuffer;
+                            indexBuffer.unbind(context.ELEMENT_ARRAY_BUFFER);
+                            indexBuffer.release();
                             Object.keys(_program.attributes).forEach(function (aName) {
-                                var aLocation = _program.attributes[aName];
-                                // Disable the attribute location.
-                                aLocation.disable();
+                                _program.attributes[aName].disable();
                             });
+                            block.release();
                         }
                         else {
-                            throw new Error(messageUnrecognizedToken(uuid));
+                            throw new Error(messageUnrecognizedMesh(uuid));
                         }
                         _program.release();
+                        // Important! The existence of _program indicates the binding state.
                         _program = void 0;
                     }
                 }
@@ -10279,50 +10349,36 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 else {
                     usage = context.STATIC_DRAW;
                 }
-                var token = drawToken(uuid4().generate());
+                var token = createMesh(uuid4().generate());
                 var indexBuffer = self.vertexBuffer();
-                try {
-                    indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
-                    context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
-                    context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
-                    // attributes
-                    var attributes_1 = {};
-                    try {
-                        Object.keys(elements.attributes).forEach(function (name) {
-                            var buffer = self.vertexBuffer();
-                            try {
-                                buffer.bind(context.ARRAY_BUFFER);
-                                try {
-                                    var vertexAttrib = elements.attributes[name];
-                                    var data = vertexAttrib.vector.data;
-                                    context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
-                                    attributes_1[name] = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                                }
-                                finally {
-                                    context.bindBuffer(context.ARRAY_BUFFER, null);
-                                }
-                            }
-                            finally {
-                                buffer.release();
-                                buffer = void 0;
-                            }
-                        });
-                        // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
-                        // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                        var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
-                        tokenMap[token.uuid] = new ElementsBlock(indexBuffer, attributes_1, drawCommand);
-                    }
-                    finally {
-                        Object.keys(attributes_1).forEach(function (key) {
-                            var attribute = attributes_1[key];
-                            attribute.release();
-                        });
-                    }
+                indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+                context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+                context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+                var attributes = new IUnknownMap();
+                var names = Object.keys(elements.attributes);
+                var namesLength = names.length;
+                var i;
+                for (i = 0; i < namesLength; i++) {
+                    var name_1 = names[i];
+                    var buffer = self.vertexBuffer();
+                    buffer.bind(context.ARRAY_BUFFER);
+                    var vertexAttrib = elements.attributes[name_1];
+                    var data = vertexAttrib.vector.data;
+                    context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+                    attributes.put(name_1, attribute);
+                    attribute.release();
+                    buffer.unbind(context.ARRAY_BUFFER);
+                    buffer.release();
                 }
-                finally {
-                    indexBuffer.release();
-                    indexBuffer = void 0;
-                }
+                // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
+                // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
+                var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
+                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
+                blocks.put(token.uuid, block);
+                block.release();
+                attributes.release();
+                indexBuffer.release();
                 return token;
             },
             start: function () {
@@ -10365,6 +10421,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 refChange(uuid, -1, 'RenderingContextMonitor');
                 refCount--;
                 if (refCount === 0) {
+                    blocks.release();
+                    // TODO: users should be an IUnknownArray
                     while (users.length > 0) {
                         var user = users.pop();
                         user.release();

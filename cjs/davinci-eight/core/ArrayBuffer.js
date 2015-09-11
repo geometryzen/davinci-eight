@@ -1,6 +1,10 @@
 var expectArg = require('../checks/expectArg');
 var refChange = require('../utils/refChange');
 var uuid4 = require('../utils/uuid4');
+/**
+ *
+ */
+// TODO: Probably should embed the target because unlikely we will change target.
 var ArrayBuffer = (function () {
     function ArrayBuffer(monitor) {
         this._refCount = 1;
@@ -48,6 +52,18 @@ var ArrayBuffer = (function () {
         }
         else {
             console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
+        }
+    };
+    /**
+     * @method unbind
+     */
+    ArrayBuffer.prototype.unbind = function (target) {
+        // Remark: Having unbind may allow us to do some accounting in future.
+        if (this._context) {
+            this._context.bindBuffer(target, null);
+        }
+        else {
+            console.warn("ArrayBuffer.unbind() missing WebGLRenderingContext.");
         }
     };
     return ArrayBuffer;

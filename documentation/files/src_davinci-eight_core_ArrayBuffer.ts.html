@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.82.0</em>
+            <em>API Docs for: 2.83.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -152,6 +152,10 @@ import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
 import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 
+/**
+ * 
+ */
+// TODO: Probably should embed the target because unlikely we will change target.
 class ArrayBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _monitor: RenderingContextMonitor;
@@ -203,6 +207,19 @@ class ArrayBuffer implements RenderingContextUser {
     else {
       console.warn(&quot;ArrayBuffer.bind() missing WebGLRenderingContext.&quot;);
     }
+  }
+  /**
+   * @method unbind
+   */
+  unbind(target: number) {
+    // Remark: Having unbind may allow us to do some accounting in future.
+    if (this._context) {
+      this._context.bindBuffer(target, null);
+    }
+    else {
+      console.warn(&quot;ArrayBuffer.unbind() missing WebGLRenderingContext.&quot;);
+    }
+
   }
 }
 

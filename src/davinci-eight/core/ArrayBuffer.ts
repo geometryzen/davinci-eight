@@ -5,6 +5,10 @@ import RenderingContextUser = require('../core/RenderingContextUser');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 import uuid4 = require('../utils/uuid4');
 
+/**
+ * 
+ */
+// TODO: Probably should embed the target because unlikely we will change target.
 class ArrayBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _monitor: RenderingContextMonitor;
@@ -56,6 +60,19 @@ class ArrayBuffer implements RenderingContextUser {
     else {
       console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
     }
+  }
+  /**
+   * @method unbind
+   */
+  unbind(target: number) {
+    // Remark: Having unbind may allow us to do some accounting in future.
+    if (this._context) {
+      this._context.bindBuffer(target, null);
+    }
+    else {
+      console.warn("ArrayBuffer.unbind() missing WebGLRenderingContext.");
+    }
+
   }
 }
 

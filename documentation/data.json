@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.82.0",
+        "version": "2.83.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -2055,9 +2055,21 @@
         },
         {
             "file": "src/davinci-eight/core/ArrayBuffer.ts",
-            "line": 49,
+            "line": 8,
+            "class": "AttribDataInfos"
+        },
+        {
+            "file": "src/davinci-eight/core/ArrayBuffer.ts",
+            "line": 53,
             "itemtype": "method",
             "name": "bind",
+            "class": "AttribDataInfos"
+        },
+        {
+            "file": "src/davinci-eight/core/ArrayBuffer.ts",
+            "line": 64,
+            "itemtype": "method",
+            "name": "unbind",
             "class": "AttribDataInfos"
         },
         {
@@ -3472,13 +3484,13 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 19,
+            "line": 20,
             "description": "This could become an encapsulated call?",
             "class": "DrawMode"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 367,
+            "line": 321,
             "class": "DrawMode"
         },
         {
@@ -14612,6 +14624,10 @@
         },
         {
             "message": "Missing item type",
+            "line": " src/davinci-eight/core/ArrayBuffer.ts:8"
+        },
+        {
+            "message": "Missing item type",
             "line": " src/davinci-eight/core/AttribDataInfo.ts:4"
         },
         {
@@ -14832,11 +14848,11 @@
         },
         {
             "message": "Missing item type\nThis could become an encapsulated call?",
-            "line": " src/davinci-eight/utils/contextProxy.ts:19"
+            "line": " src/davinci-eight/utils/contextProxy.ts:20"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:367"
+            "line": " src/davinci-eight/utils/contextProxy.ts:321"
         },
         {
             "message": "Missing item type\nRecords reference count changes in a system-wide data structure.\nA change is normally either +1 or -1.\na change of 0 is interpreted as a command in the uuid parameter and a context in the name.\nCommands are:\n'dump'\n'reset'\n'skip'\n'trace'",
