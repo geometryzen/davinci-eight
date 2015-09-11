@@ -23,6 +23,7 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     dot(v: Quaternion): number;
     exp(): Quaternion;
     inverse(): Quaternion;
+    lerp(target: Quaternion, alpha: number): Quaternion;
     magnitude(): number;
     multiply(q: Quaternion): Quaternion;
     multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion;

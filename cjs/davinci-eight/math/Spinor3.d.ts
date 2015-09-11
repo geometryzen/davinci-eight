@@ -33,6 +33,7 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
     copy(spinor: Spinor3Coords): Spinor3;
     divideScalar(scalar: number): Spinor3;
     exp(): Spinor3;
+    lerp(target: Spinor3Coords, alpha: number): Spinor3;
     magnitude(): number;
     multiply(rhs: Spinor3Coords): Spinor3;
     multiplyScalar(scalar: number): Spinor3;

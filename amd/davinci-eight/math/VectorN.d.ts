@@ -8,6 +8,7 @@ declare class VectorN<T> implements Mutable<T[]> {
     data: T[];
     callback: () => T[];
     length: number;
+    clone(): VectorN<T>;
     getComponent(index: number): T;
     pop(): T;
     push(value: T): number;

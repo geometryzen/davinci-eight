@@ -97,6 +97,9 @@ var VectorN = (function () {
         enumerable: true,
         configurable: true
     });
+    VectorN.prototype.clone = function () {
+        return new VectorN(this._data, this.modified, this._size);
+    };
     VectorN.prototype.getComponent = function (index) {
         return this.data[index];
     };

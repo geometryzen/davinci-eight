@@ -99,6 +99,13 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
     this.w /= scalar;
     return this;
   }
+  lerp(target: Cartesian4, alpha: number) {
+    this.x += ( target.x - this.x ) * alpha;
+    this.y += ( target.y - this.y ) * alpha;
+    this.z += ( target.z - this.z ) * alpha;
+    this.w += ( target.w - this.w ) * alpha;
+    return this;
+  }
   multiplyScalar(scalar: number) {
     this.x *= scalar;
     this.y *= scalar;

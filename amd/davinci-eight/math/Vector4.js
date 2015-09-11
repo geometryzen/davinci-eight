@@ -120,6 +120,13 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w /= scalar;
             return this;
         };
+        Vector4.prototype.lerp = function (target, alpha) {
+            this.x += (target.x - this.x) * alpha;
+            this.y += (target.y - this.y) * alpha;
+            this.z += (target.z - this.z) * alpha;
+            this.w += (target.w - this.w) * alpha;
+            return this;
+        };
         Vector4.prototype.multiplyScalar = function (scalar) {
             this.x *= scalar;
             this.y *= scalar;

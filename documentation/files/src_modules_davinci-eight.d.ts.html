@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.83.0</em>
+            <em>API Docs for: 2.84.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -72,10 +72,9 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
-                                <li><a href="../classes/Face.html">Face</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -91,6 +90,7 @@
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
+                                <li><a href="../classes/Simplex3.html">Simplex3</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -101,8 +101,8 @@
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -185,26 +185,28 @@ class ElementsAttribute {
   public size: number;
   constructor(vector: VectorN&lt;number&gt;, size: number);
 }
-class Face {
-  public a: FaceVertex;
-  public b: FaceVertex;
-  public c: FaceVertex;
+class Simplex3 {
+  public a: Simplex3Vertex;
+  public b: Simplex3Vertex;
+  public c: Simplex3Vertex;
   public normal: Vector3;
   constructor(a: Vector3, b: Vector3, c: Vector3);
+  public static indices(face: Simplex3): number[];
+  public static subdivide(faces: Simplex3[]): Simplex3[];
 }
-class FaceVertex {
-  public parent: Face;
-  public position: VectorN&lt;number&gt;;
-  public normal: VectorN&lt;number&gt;;
+class Simplex3Vertex {
+  public parent: Simplex3;
+  public position: Vector3;
+  public normal: Vector3;
   public attributes: { [name: string]: VectorN&lt;number&gt; };
   public index: number;
-  constructor(position: VectorN&lt;number&gt;, normal?: VectorN&lt;number&gt;);
+  constructor(position: Vector3, normal?: Vector3);
 }
 /**
  *
  */
-function triangleElementsFromFaces(faces: Face[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
-function boxFaces(): Face[];
+function triangleElementsFromSimplex3s(faces: Simplex3[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function boxSimplex3s(): Simplex3[];
 /**
  * @class DrawMode
  */
@@ -349,6 +351,7 @@ interface LinearElement&lt;I, M&gt; {
   clone(): M;
   copy(source: I): M;
   divideScalar(scalar: number): M;
+  lerp(target: I, alpha: number): M;
   multiplyScalar(scalar: number): M;
 }
 interface GeometricElement&lt;I, M&gt; extends LinearElement&lt;I, M&gt; {
@@ -430,6 +433,7 @@ class VectorN&lt;T&gt; implements Mutable&lt;T[]&gt; {
   public data: T[];
   public modified: boolean;
   constructor(data: T[], modified?: boolean, size?: number);
+  clone(): VectorN&lt;T&gt;;
   getComponent(index: number): T;
   pop(): T;
   push(value: T): number;
@@ -510,7 +514,7 @@ interface Cartesian3 {
   y: number;
   z: number;
 }
-class Vector3 extends VectorN&lt;number&gt; implements Cartesian3 {
+class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement&lt;Cartesian3, Vector3&gt; {
   public x: number;
   public y: number;
   public z: number;
@@ -527,7 +531,9 @@ class Vector3 extends VectorN&lt;number&gt; implements Cartesian3 {
   cross(v: Cartesian3): Vector3;
   crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
   distanceTo(position: Cartesian3): number;
+  divideScalar(s: number): Vector3;
   magnitude(): number;
+  lerp(target: Cartesian3, alpha: number): Vector3;
   multiplyScalar(s: number): Vector3;
   normalize(): Vector3;
   quaditude(): number;

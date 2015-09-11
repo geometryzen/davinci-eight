@@ -38,26 +38,28 @@ class ElementsAttribute {
   public size: number;
   constructor(vector: VectorN<number>, size: number);
 }
-class Face {
-  public a: FaceVertex;
-  public b: FaceVertex;
-  public c: FaceVertex;
+class Simplex3 {
+  public a: Simplex3Vertex;
+  public b: Simplex3Vertex;
+  public c: Simplex3Vertex;
   public normal: Vector3;
   constructor(a: Vector3, b: Vector3, c: Vector3);
+  public static indices(face: Simplex3): number[];
+  public static subdivide(faces: Simplex3[]): Simplex3[];
 }
-class FaceVertex {
-  public parent: Face;
-  public position: VectorN<number>;
-  public normal: VectorN<number>;
+class Simplex3Vertex {
+  public parent: Simplex3;
+  public position: Vector3;
+  public normal: Vector3;
   public attributes: { [name: string]: VectorN<number> };
   public index: number;
-  constructor(position: VectorN<number>, normal?: VectorN<number>);
+  constructor(position: Vector3, normal?: Vector3);
 }
 /**
  *
  */
-function triangleElementsFromFaces(faces: Face[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
-function boxFaces(): Face[];
+function triangleElementsFromSimplex3s(faces: Simplex3[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function boxSimplex3s(): Simplex3[];
 /**
  * @class DrawMode
  */
@@ -202,6 +204,7 @@ interface LinearElement<I, M> {
   clone(): M;
   copy(source: I): M;
   divideScalar(scalar: number): M;
+  lerp(target: I, alpha: number): M;
   multiplyScalar(scalar: number): M;
 }
 interface GeometricElement<I, M> extends LinearElement<I, M> {
@@ -283,6 +286,7 @@ class VectorN<T> implements Mutable<T[]> {
   public data: T[];
   public modified: boolean;
   constructor(data: T[], modified?: boolean, size?: number);
+  clone(): VectorN<T>;
   getComponent(index: number): T;
   pop(): T;
   push(value: T): number;
@@ -363,7 +367,7 @@ interface Cartesian3 {
   y: number;
   z: number;
 }
-class Vector3 extends VectorN<number> implements Cartesian3 {
+class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3> {
   public x: number;
   public y: number;
   public z: number;
@@ -380,7 +384,9 @@ class Vector3 extends VectorN<number> implements Cartesian3 {
   cross(v: Cartesian3): Vector3;
   crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
   distanceTo(position: Cartesian3): number;
+  divideScalar(s: number): Vector3;
   magnitude(): number;
+  lerp(target: Cartesian3, alpha: number): Vector3;
   multiplyScalar(s: number): Vector3;
   normalize(): Vector3;
   quaditude(): number;

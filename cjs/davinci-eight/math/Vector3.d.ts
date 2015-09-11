@@ -70,7 +70,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
     dot(v: Cartesian3): number;
     magnitude(): number;
     quaditude(): number;
-    lerp(v: Cartesian3, alpha: number): Vector3;
+    lerp(target: Cartesian3, alpha: number): Vector3;
     normalize(): Vector3;
     multiply(v: Cartesian3): Vector3;
     multiplyScalar(scalar: number): Vector3;

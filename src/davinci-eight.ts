@@ -36,14 +36,14 @@ import Curve = require('davinci-eight/curves/Curve');
 // dfx
 import DrawTriangleElementsCall = require('davinci-eight/dfx/DrawTriangleElementsCall');
 import Elements = require('davinci-eight/dfx/Elements');
-import Face = require('davinci-eight/dfx/Face');
-import FaceVertex = require('davinci-eight/dfx/FaceVertex');
-import Face3Geometry = require('davinci-eight/dfx/Face3Geometry');
+import Simplex3 = require('davinci-eight/dfx/Simplex3');
+import Simplex3Vertex = require('davinci-eight/dfx/Simplex3Vertex');
+import Simplex3Geometry = require('davinci-eight/dfx/Simplex3Geometry');
 import Line3Geometry = require('davinci-eight/dfx/Line3Geometry');
 import Point3Geometry = require('davinci-eight/dfx/Point3Geometry');
-import makeBoxGeometry = require('davinci-eight/dfx/makeBoxGeometry');
+import boxSimplex3s = require('davinci-eight/dfx/boxSimplex3s');
 import makeSingularity = require('davinci-eight/dfx/makeSingularity');
-import triangleElementsFromFaces = require('davinci-eight/dfx/triangleElementsFromFaces');
+import triangleElementsFromSimplex3s = require('davinci-eight/dfx/triangleElementsFromSimplex3s');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
@@ -139,8 +139,8 @@ var eight = {
   // TODO: Arrange in alphabetical order in order to assess width of API.
   get initWebGL() { return initWebGL; },
   get Model() { return Model; },
-  get Face() { return Face; },
-  get FaceVertex() { return FaceVertex; },
+  get Simplex3() { return Simplex3; },
+  get Simplex3Vertex() { return Simplex3Vertex; },
   get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
@@ -200,7 +200,7 @@ var eight = {
   
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
-  get boxFaces() { return makeBoxGeometry; },
+  get boxSimplex3s() { return boxSimplex3s; },
   get CylinderArgs() { return CylinderArgs; },
   get cylinderMesh() { return cylinderMesh; },
   get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -213,7 +213,7 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
-  get triangleElementsFromFaces() { return triangleElementsFromFaces; },
+  get triangleElementsFromSimplex3s() { return triangleElementsFromSimplex3s; },
   get ArrayBuffer() { return ArrayBuffer; },
   get Elements() { return Elements; },
   // utils

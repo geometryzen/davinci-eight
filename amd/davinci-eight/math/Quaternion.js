@@ -101,6 +101,13 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.conjugate().normalize();
             return this;
         };
+        Quaternion.prototype.lerp = function (target, alpha) {
+            this.x += (target.x - this.x) * alpha;
+            this.y += (target.y - this.y) * alpha;
+            this.z += (target.z - this.z) * alpha;
+            this.w += (target.w - this.w) * alpha;
+            return this;
+        };
         Quaternion.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };

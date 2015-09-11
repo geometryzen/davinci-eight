@@ -41,6 +41,7 @@ declare class Vector4 extends VectorN<number> implements Cartesian4, LinearEleme
     clone(): Vector4;
     copy(v: Cartesian4): Vector4;
     divideScalar(scalar: number): Vector4;
+    lerp(target: Cartesian4, alpha: number): Vector4;
     multiplyScalar(scalar: number): Vector4;
     sub(rhs: Cartesian4): Vector4;
 }

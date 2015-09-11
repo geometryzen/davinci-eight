@@ -112,6 +112,13 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.xy = xy * s;
             return this;
         };
+        Spinor3.prototype.lerp = function (target, alpha) {
+            this.xy += (target.xy - this.xy) * alpha;
+            this.yz += (target.yz - this.yz) * alpha;
+            this.zx += (target.zx - this.zx) * alpha;
+            this.w += (target.w - this.w) * alpha;
+            return this;
+        };
         Spinor3.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };

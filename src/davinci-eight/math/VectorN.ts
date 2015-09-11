@@ -2,6 +2,7 @@ import Mutable = require('../math/Mutable');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import isUndefined = require('../checks/isUndefined');
+import LinearElement = require('../math/LinearElement');
 
 function constructorString(T: string): string {
   return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
@@ -101,6 +102,9 @@ class VectorN<T> implements Mutable<T[]> {
   }
   get length() {
     return this.data.length;
+  }
+  clone(): VectorN<T> {
+    return new VectorN<T>(this._data, this.modified, this._size);
   }
   getComponent(index: number): T {
     return this.data[index];

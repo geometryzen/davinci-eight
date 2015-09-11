@@ -13,6 +13,7 @@ declare class Matrix1 extends AbstractMatrix implements GeometricElement<Matrix1
     copy(m: Matrix1): Matrix1;
     divideScalar(scalar: number): Matrix1;
     exp(): Matrix1;
+    lerp(target: Matrix1, alpha: number): Matrix1;
     magnitude(): number;
     multiply(rhs: Matrix1): Matrix1;
     multiplyScalar(scalar: number): Matrix1;

@@ -90,6 +90,13 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.conjugate().normalize();
     return this;
   }
+  lerp(target: Quaternion, alpha: number): Quaternion {
+    this.x += ( target.x - this.x ) * alpha;
+    this.y += ( target.y - this.y ) * alpha;
+    this.z += ( target.z - this.z ) * alpha;
+    this.w += ( target.w - this.w ) * alpha;
+    return this;
+  }
   magnitude(): number {
     return Math.sqrt(this.quaditude());
   }

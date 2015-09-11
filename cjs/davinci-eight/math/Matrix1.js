@@ -38,6 +38,9 @@ var Matrix1 = (function (_super) {
     Matrix1.prototype.exp = function () {
         return this;
     };
+    Matrix1.prototype.lerp = function (target, alpha) {
+        return this;
+    };
     Matrix1.prototype.magnitude = function () {
         return Math.abs(this.data[0]);
     };

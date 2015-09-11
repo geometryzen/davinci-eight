@@ -33,6 +33,9 @@ class Matrix1 extends AbstractMatrix implements GeometricElement<Matrix1, Matrix
   exp() {
     return this;
   }
+  lerp(target: Matrix1, alpha: number): Matrix1 {
+    return this;
+  }
   magnitude() {
     return Math.abs(this.data[0]);
   }

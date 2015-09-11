@@ -6,6 +6,7 @@ interface LinearElement<I, M> {
   clone(): M;
   copy(source: I): M;
   divideScalar(scalar: number): M;
+  lerp(target: I, alpha: number): M;
   multiplyScalar(scalar: number): M;
   sub(rhs: I): M;
 }

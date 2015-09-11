@@ -16,8 +16,8 @@ import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
 import Curve = require('davinci-eight/curves/Curve');
 import Elements = require('davinci-eight/dfx/Elements');
-import Face = require('davinci-eight/dfx/Face');
-import FaceVertex = require('davinci-eight/dfx/FaceVertex');
+import Simplex3 = require('davinci-eight/dfx/Simplex3');
+import Simplex3Vertex = require('davinci-eight/dfx/Simplex3Vertex');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import Geometry3 = require('davinci-eight/geometries/Geometry3');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -71,8 +71,8 @@ declare var eight: {
     'VERSION': string;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
     Model: typeof Model;
-    Face: typeof Face;
-    FaceVertex: typeof FaceVertex;
+    Simplex3: typeof Simplex3;
+    Simplex3Vertex: typeof Simplex3Vertex;
     frustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
     frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
     perspective: (options?: {
@@ -145,7 +145,7 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
-    boxFaces: () => Face[];
+    boxSimplex3s: () => Simplex3[];
     CylinderArgs: typeof CylinderArgs;
     cylinderMesh: (monitor: RenderingContextMonitor, options?: CylinderOptions) => AttribProvider;
     CylinderMeshBuilder: typeof CylinderMeshBuilder;
@@ -156,7 +156,7 @@ declare var eight: {
     }) => AttribProvider;
     programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
     Texture: typeof Texture;
-    triangleElementsFromFaces: (faces: Face[], attribMap: {
+    triangleElementsFromSimplex3s: (faces: Simplex3[], attribMap: {
         [name: string]: {
             name?: string;
             size: number;

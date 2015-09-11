@@ -92,6 +92,13 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.xy = xy * s;
     return this;
   }
+  lerp(target: Spinor3Coords, alpha: number): Spinor3 {
+    this.xy += ( target.xy - this.xy ) * alpha;
+    this.yz += ( target.yz - this.yz ) * alpha;
+    this.zx += ( target.zx - this.zx ) * alpha;
+    this.w += ( target.w - this.w ) * alpha;
+    return this;
+  }
   magnitude() {
     return Math.sqrt(this.quaditude());
   }

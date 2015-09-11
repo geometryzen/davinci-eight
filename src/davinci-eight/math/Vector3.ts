@@ -218,12 +218,11 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     let z = this.z;
     return x * x + y * y + z * z;
   }
-  lerp(v: Cartesian3, alpha: number): Vector3 {
-    this.x += ( v.x - this.x ) * alpha;
-    this.y += ( v.y - this.y ) * alpha;
-    this.z += ( v.z - this.z ) * alpha;
+  lerp(target: Cartesian3, alpha: number): Vector3 {
+    this.x += ( target.x - this.x ) * alpha;
+    this.y += ( target.y - this.y ) * alpha;
+    this.z += ( target.z - this.z ) * alpha;
     return this;
-
   }
   normalize(): Vector3 {
     return this.divideScalar(this.magnitude());
