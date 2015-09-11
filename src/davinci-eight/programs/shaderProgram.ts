@@ -18,6 +18,7 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import refChange = require('../utils/refChange');
 
 function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
   var shader: WebGLShader = ctx.createShader(type);
@@ -114,13 +115,13 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
       return uniformLocations;
     },
     addRef(): number {
+      refChange(uuid, +1, 'ShaderProgram');
       refCount++;
-      // console.log("shaderProgram.addRef() => " + refCount);
       return refCount;
     },
     release(): number {
+      refChange(uuid, -1, 'ShaderProgram');
       refCount--;
-      // console.log("shaderProgram.release() => " + refCount);
       if (refCount === 0) {
         self.contextFree();
       }
@@ -129,7 +130,6 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
     contextFree() {
       if (isDefined($context)) {
         if (program) {
-          // console.log("WebGLProgram deleted");
           $context.deleteProgram(program);
           program = void 0;
         }
@@ -285,6 +285,7 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
       }
     }
   };
+  refChange(uuid, +1, 'ShaderProgram');
   return self;
 };
 

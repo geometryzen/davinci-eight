@@ -6,12 +6,33 @@
 // variable, 'EIGHT'.
 //
 declare module EIGHT {
-
+/**
+ *
+ */
+interface IUnknown {
+  addRef(): number;
+  release(): number;
+}
+/**
+ *
+ */
+interface Mesh extends IUnknown {
+  uuid: string;
+  bind(program: ShaderProgram, aNameToKeyName?: {[name: string]: string}): void;
+  draw(): void;
+  unbind(): void;
+}
+/**
+ *
+ */
 class Elements {
   public indices: VectorN<number>;
-  public attributes: {[name: string]: ElementsAttribute} = {};
+  public attributes: {[name: string]: ElementsAttribute};
   constructor(indices: VectorN<number>, attributes: {[name: string]: ElementsAttribute});
 }
+/**
+ *
+ */
 class ElementsAttribute {
   public vector: VectorN<number>;
   public size: number;
@@ -28,7 +49,7 @@ class FaceVertex {
   public parent: Face;
   public position: VectorN<number>;
   public normal: VectorN<number>;
-  public attributes: {[name:string]: VectorN<number>} = {}
+  public attributes: { [name: string]: VectorN<number> };
   public index: number;
   constructor(position: VectorN<number>, normal?: VectorN<number>);
 }
@@ -52,14 +73,6 @@ enum DrawMode {
  *
  */
 function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): WebGLRenderingContext;
-
-/**
- *
- */
-interface IUnknown {
-  addRef(): number;
-  release(): number;
-}
 
 /**
  *
@@ -1230,11 +1243,10 @@ interface RenderingContextMonitor extends IUnknown
    * Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.
    */
   mirror: boolean;
-  checkIn(elements: Elements, mode: number, usage?: number): string;
-  setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void;
-  draw(token: string): void;
-  tearDown(token: string, program: ShaderProgram): void;
-  checkOut(token: string): void;
+  /**
+   *
+   */
+  createMesh(elements: Elements, mode: number, usage?: number): Mesh;
 }
 /**
  * Constructs and returns a RenderingContextMonitor.
@@ -1269,6 +1281,11 @@ class Model implements UniformData {
  * The version string of the davinci-eight module.
  */
 var VERSION: string;
+/**
+ *
+ */
+function refChange(uuid: string, change: number, name: string): void;
+
 }
 
 declare module 'EIGHT'

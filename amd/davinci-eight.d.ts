@@ -164,5 +164,6 @@ declare var eight: {
     }) => Elements;
     ArrayBuffer: typeof ArrayBuffer;
     Elements: typeof Elements;
+    refChange: (uuid: string, change: number, name?: string) => void;
 };
 export = eight;

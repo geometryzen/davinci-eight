@@ -76,6 +76,7 @@ var renderer = require('davinci-eight/renderers/renderer');
 // utils
 var contextProxy = require('davinci-eight/utils/contextProxy');
 var Model = require('davinci-eight/utils/Model');
+var refChange = require('davinci-eight/utils/refChange');
 var workbench3D = require('davinci-eight/utils/workbench3D');
 var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner');
 /**
@@ -164,6 +165,8 @@ var eight = {
     get Texture() { return Texture; },
     get triangleElementsFromFaces() { return triangleElementsFromFaces; },
     get ArrayBuffer() { return ArrayBuffer; },
-    get Elements() { return Elements; }
+    get Elements() { return Elements; },
+    // utils
+    get refChange() { return refChange; }
 };
 module.exports = eight;

@@ -1,18 +1,19 @@
-define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    // TODO: Rename this to avoid jshint
+define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
     var ArrayBuffer = (function () {
         function ArrayBuffer(monitor) {
             this._refCount = 1;
+            this._uuid = uuid4().generate();
             this._monitor = expectArg('montor', monitor).toBeObject().value;
+            refChange(this._uuid, +1, 'ArrayBuffer');
         }
         ArrayBuffer.prototype.addRef = function () {
+            refChange(this._uuid, +1, 'ArrayBuffer');
             this._refCount++;
-            // console.log("ArrayBuffer.addRef() => " + this._refCount);
             return this._refCount;
         };
         ArrayBuffer.prototype.release = function () {
+            refChange(this._uuid, -1, 'ArrayBuffer');
             this._refCount--;
-            // console.log("ArrayBuffer.release() => " + this._refCount);
             if (this._refCount === 0) {
                 this.contextFree();
             }
@@ -21,7 +22,6 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         ArrayBuffer.prototype.contextFree = function () {
             if (this._buffer) {
                 this._context.deleteBuffer(this._buffer);
-                // console.log("WebGLBuffer deleted");
                 this._buffer = void 0;
             }
             this._context = void 0;

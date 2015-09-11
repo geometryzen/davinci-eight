@@ -33,7 +33,13 @@ declare class AttribLocation implements RenderingContextProgramUser {
      * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
      */
     vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
+    /**
+     * @method enable
+     */
     enable(): void;
+    /**
+     * @method disable
+     */
     disable(): void;
     /**
      * @method toString

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.81.0</em>
+            <em>API Docs for: 2.82.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -165,6 +165,7 @@ import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Vector4 = require(&#x27;../math/Vector4&#x27;);
 import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
+import refChange = require(&#x27;../utils/refChange&#x27;);
 
 function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
   var shader: WebGLShader = ctx.createShader(type);
@@ -261,13 +262,13 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
       return uniformLocations;
     },
     addRef(): number {
+      refChange(uuid, +1, &#x27;ShaderProgram&#x27;);
       refCount++;
-      // console.log(&quot;shaderProgram.addRef() =&gt; &quot; + refCount);
       return refCount;
     },
     release(): number {
+      refChange(uuid, -1, &#x27;ShaderProgram&#x27;);
       refCount--;
-      // console.log(&quot;shaderProgram.release() =&gt; &quot; + refCount);
       if (refCount === 0) {
         self.contextFree();
       }
@@ -276,7 +277,6 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
     contextFree() {
       if (isDefined($context)) {
         if (program) {
-          // console.log(&quot;WebGLProgram deleted&quot;);
           $context.deleteProgram(program);
           program = void 0;
         }
@@ -432,6 +432,7 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
       }
     }
   };
+  refChange(uuid, +1, &#x27;ShaderProgram&#x27;);
   return self;
 };
 

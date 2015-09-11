@@ -57,14 +57,26 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
    */
   vertexPointer(size: number, normalized: boolean = false, stride: number = 0, offset: number = 0): void {
+    // mirroring may not be possible and would require knowing the ARRAY_BUFFER contents.
     this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
   }
+  /**
+   * @method enable
+   */
   enable(): void {
-    if (this._enabled !== true) {
+    if (this._monitor.mirror) {
+      if (this._enabled !== true) {
+        this._context.enableVertexAttribArray(this._index);
+        this._enabled = true;
+      }
+    }
+    else {
       this._context.enableVertexAttribArray(this._index);
-      this._enabled = true;
     }
   }
+  /**
+   * @method disable
+   */
   disable(): void {
     if (this._enabled !== false) {
       this._context.disableVertexAttribArray(this._index);

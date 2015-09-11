@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation'], function (require, exports, isDefined, uuid4, AttribLocation, UniformLocation) {
+define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation', '../utils/refChange'], function (require, exports, isDefined, uuid4, AttribLocation, UniformLocation, refChange) {
     function makeWebGLShader(ctx, source, type) {
         var shader = ctx.createShader(type);
         ctx.shaderSource(shader, source);
@@ -79,13 +79,13 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                 return uniformLocations;
             },
             addRef: function () {
+                refChange(uuid, +1, 'ShaderProgram');
                 refCount++;
-                // console.log("shaderProgram.addRef() => " + refCount);
                 return refCount;
             },
             release: function () {
+                refChange(uuid, -1, 'ShaderProgram');
                 refCount--;
-                // console.log("shaderProgram.release() => " + refCount);
                 if (refCount === 0) {
                     self.contextFree();
                 }
@@ -94,7 +94,6 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
             contextFree: function () {
                 if (isDefined($context)) {
                     if (program) {
-                        // console.log("WebGLProgram deleted");
                         $context.deleteProgram(program);
                         program = void 0;
                     }
@@ -249,6 +248,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                 }
             }
         };
+        refChange(uuid, +1, 'ShaderProgram');
         return self;
     };
     return shaderProgram;

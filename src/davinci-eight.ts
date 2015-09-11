@@ -121,6 +121,7 @@ import loadImageTexture           = require('davinci-eight/utils/loadImageTextur
 import makeBox                    = require('davinci-eight/utils/makeBox');
 import makeSphere                 = require('davinci-eight/utils/makeSphere');
 import Model                      = require('davinci-eight/utils/Model');
+import refChange                  = require('davinci-eight/utils/refChange');
 import workbench3D                = require('davinci-eight/utils/workbench3D');
 import WindowAnimationRunner      = require('davinci-eight/utils/WindowAnimationRunner');
 import windowAnimationRunner      = require('davinci-eight/utils/windowAnimationRunner');
@@ -214,6 +215,8 @@ var eight = {
   get Texture() { return Texture; },
   get triangleElementsFromFaces() { return triangleElementsFromFaces; },
   get ArrayBuffer() { return ArrayBuffer; },
-  get Elements() { return Elements; }
+  get Elements() { return Elements; },
+  // utils
+  get refChange() { return refChange; }
 };
 export = eight;

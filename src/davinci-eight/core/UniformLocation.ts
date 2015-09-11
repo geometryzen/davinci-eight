@@ -19,10 +19,11 @@ function matrix4NE(a: number[], b: Float32Array): boolean {
  * @class UniformLocation
  */
 class UniformLocation implements RenderingContextProgramUser {
-  private _name: string;
-  private _location: WebGLUniformLocation;
   private _context: WebGLRenderingContext;
+  private _location: WebGLUniformLocation;
   private _monitor: RenderingContextMonitor;
+  private _name: string;
+  private _program: WebGLProgram;
   private _x: number = void 0;
   private _y: number = void 0;
   private _z: number = void 0;
@@ -52,15 +53,17 @@ class UniformLocation implements RenderingContextProgramUser {
    */
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
     this.contextLoss();
-    this._location = context.getUniformLocation(program, this._name);
     this._context = context;
+    this._location = context.getUniformLocation(program, this._name);
+    this._program = program;
   }
   /**
    * @method contextLoss
    */
   contextLoss() {
-    this._location = void 0;
     this._context  = void 0;
+    this._location = void 0;
+    this._program  = void 0;
     this._x = void 0;
     this._y = void 0;
     this._z = void 0;
@@ -73,6 +76,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param x
    */
   uniform1f(x: number): void {
+    this._context.useProgram(this._program);
     if (this._monitor.mirror) {
       if (this._x !== x) {
         this._context.uniform1f(this._location, x);
@@ -90,6 +94,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param y {number}
    */
   uniform2f(x: number, y: number): void {
+    this._context.useProgram(this._program);
     return this._context.uniform2f(this._location, x, y);
   }
   /**
@@ -99,6 +104,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param z {number}
    */
   uniform3f(x: number, y: number, z: number): void {
+    this._context.useProgram(this._program);
     return this._context.uniform3f(this._location, x, y, z);
   }
   /**
@@ -109,6 +115,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param w {number}
    */
   uniform4f(x: number, y: number, z: number, w: number): void {
+    this._context.useProgram(this._program);
     return this._context.uniform4f(this._location, x, y, z, w);
   }
   /**
@@ -117,6 +124,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param matrix {Matrix1}
    */
   matrix1(transpose: boolean, matrix: Matrix1): void {
+    this._context.useProgram(this._program);
     return this._context.uniform1fv(this._location, matrix.data);
   }
   /**
@@ -125,6 +133,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param matrix {Matrix2}
    */
   matrix2(transpose: boolean, matrix: Matrix2): void {
+    this._context.useProgram(this._program);
     return this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
   }
   /**
@@ -133,6 +142,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param matrix {Matrix3}
    */
   matrix3(transpose: boolean, matrix: Matrix3): void {
+    this._context.useProgram(this._program);
     return this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
   }
   /**
@@ -141,6 +151,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param matrix {Matrix4}
    */
   matrix4(transpose: boolean, matrix: Matrix4): void {
+    this._context.useProgram(this._program);
     let matrix4 = this._matrix4;
     let data = matrix.data;
     if (matrix4NE(matrix4, data) || this._transpose != transpose) {
@@ -170,6 +181,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param vector {Vector1}
    */
   vector1(vector: Vector1): void {
+    this._context.useProgram(this._program);
     return this._context.uniform1fv(this._location, vector.data);
   }
   /**
@@ -177,6 +189,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param vector {Vector2}
    */
   vector2(vector: Vector2): void {
+    this._context.useProgram(this._program);
     return this._context.uniform2fv(this._location, vector.data);
   }
   /**
@@ -184,6 +197,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param vector {Vector3}
    */
   vector3(vector: Vector3): void {
+    this._context.useProgram(this._program);
     let data: number[] = vector.data;
     let x = data[0];
     let y = data[1];
@@ -200,6 +214,7 @@ class UniformLocation implements RenderingContextProgramUser {
    * @param vector {Vector4}
    */
   vector4(vector: Vector4): void {
+    this._context.useProgram(this._program);
     return this._context.uniform4fv(this._location, vector.data);
   }
   /**

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.81.0</em>
+            <em>API Docs for: 2.82.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -268,6 +268,7 @@ import loadImageTexture           = require(&#x27;davinci-eight/utils/loadImageT
 import makeBox                    = require(&#x27;davinci-eight/utils/makeBox&#x27;);
 import makeSphere                 = require(&#x27;davinci-eight/utils/makeSphere&#x27;);
 import Model                      = require(&#x27;davinci-eight/utils/Model&#x27;);
+import refChange                  = require(&#x27;davinci-eight/utils/refChange&#x27;);
 import workbench3D                = require(&#x27;davinci-eight/utils/workbench3D&#x27;);
 import WindowAnimationRunner      = require(&#x27;davinci-eight/utils/WindowAnimationRunner&#x27;);
 import windowAnimationRunner      = require(&#x27;davinci-eight/utils/windowAnimationRunner&#x27;);
@@ -361,7 +362,9 @@ var eight = {
   get Texture() { return Texture; },
   get triangleElementsFromFaces() { return triangleElementsFromFaces; },
   get ArrayBuffer() { return ArrayBuffer; },
-  get Elements() { return Elements; }
+  get Elements() { return Elements; },
+  // utils
+  get refChange() { return refChange; }
 };
 export = eight;
 

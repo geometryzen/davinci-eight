@@ -36,15 +36,17 @@ var UniformLocation = (function () {
      */
     UniformLocation.prototype.contextGain = function (context, program) {
         this.contextLoss();
-        this._location = context.getUniformLocation(program, this._name);
         this._context = context;
+        this._location = context.getUniformLocation(program, this._name);
+        this._program = program;
     };
     /**
      * @method contextLoss
      */
     UniformLocation.prototype.contextLoss = function () {
-        this._location = void 0;
         this._context = void 0;
+        this._location = void 0;
+        this._program = void 0;
         this._x = void 0;
         this._y = void 0;
         this._z = void 0;
@@ -57,6 +59,7 @@ var UniformLocation = (function () {
      * @param x
      */
     UniformLocation.prototype.uniform1f = function (x) {
+        this._context.useProgram(this._program);
         if (this._monitor.mirror) {
             if (this._x !== x) {
                 this._context.uniform1f(this._location, x);
@@ -74,6 +77,7 @@ var UniformLocation = (function () {
      * @param y {number}
      */
     UniformLocation.prototype.uniform2f = function (x, y) {
+        this._context.useProgram(this._program);
         return this._context.uniform2f(this._location, x, y);
     };
     /**
@@ -83,6 +87,7 @@ var UniformLocation = (function () {
      * @param z {number}
      */
     UniformLocation.prototype.uniform3f = function (x, y, z) {
+        this._context.useProgram(this._program);
         return this._context.uniform3f(this._location, x, y, z);
     };
     /**
@@ -93,6 +98,7 @@ var UniformLocation = (function () {
      * @param w {number}
      */
     UniformLocation.prototype.uniform4f = function (x, y, z, w) {
+        this._context.useProgram(this._program);
         return this._context.uniform4f(this._location, x, y, z, w);
     };
     /**
@@ -101,6 +107,7 @@ var UniformLocation = (function () {
      * @param matrix {Matrix1}
      */
     UniformLocation.prototype.matrix1 = function (transpose, matrix) {
+        this._context.useProgram(this._program);
         return this._context.uniform1fv(this._location, matrix.data);
     };
     /**
@@ -109,6 +116,7 @@ var UniformLocation = (function () {
      * @param matrix {Matrix2}
      */
     UniformLocation.prototype.matrix2 = function (transpose, matrix) {
+        this._context.useProgram(this._program);
         return this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
     };
     /**
@@ -117,6 +125,7 @@ var UniformLocation = (function () {
      * @param matrix {Matrix3}
      */
     UniformLocation.prototype.matrix3 = function (transpose, matrix) {
+        this._context.useProgram(this._program);
         return this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
     };
     /**
@@ -125,6 +134,7 @@ var UniformLocation = (function () {
      * @param matrix {Matrix4}
      */
     UniformLocation.prototype.matrix4 = function (transpose, matrix) {
+        this._context.useProgram(this._program);
         var matrix4 = this._matrix4;
         var data = matrix.data;
         if (matrix4NE(matrix4, data) || this._transpose != transpose) {
@@ -154,6 +164,7 @@ var UniformLocation = (function () {
      * @param vector {Vector1}
      */
     UniformLocation.prototype.vector1 = function (vector) {
+        this._context.useProgram(this._program);
         return this._context.uniform1fv(this._location, vector.data);
     };
     /**
@@ -161,6 +172,7 @@ var UniformLocation = (function () {
      * @param vector {Vector2}
      */
     UniformLocation.prototype.vector2 = function (vector) {
+        this._context.useProgram(this._program);
         return this._context.uniform2fv(this._location, vector.data);
     };
     /**
@@ -168,6 +180,7 @@ var UniformLocation = (function () {
      * @param vector {Vector3}
      */
     UniformLocation.prototype.vector3 = function (vector) {
+        this._context.useProgram(this._program);
         var data = vector.data;
         var x = data[0];
         var y = data[1];
@@ -184,6 +197,7 @@ var UniformLocation = (function () {
      * @param vector {Vector4}
      */
     UniformLocation.prototype.vector4 = function (vector) {
+        this._context.useProgram(this._program);
         return this._context.uniform4fv(this._location, vector.data);
     };
     /**

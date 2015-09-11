@@ -1,25 +1,28 @@
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+import refChange = require('../utils/refChange');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import uuid4 = require('../utils/uuid4');
 
-// TODO: Rename this to avoid jshint
 class ArrayBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _monitor: RenderingContextMonitor;
   private _buffer: WebGLBuffer;
   private _refCount: number = 1;
+  private _uuid: string = uuid4().generate();
   constructor(monitor: RenderingContextMonitor) {
     this._monitor = expectArg('montor', monitor).toBeObject().value;
+    refChange(this._uuid, +1, 'ArrayBuffer');
   }
   addRef(): number {
+    refChange(this._uuid, +1, 'ArrayBuffer');
     this._refCount++;
-    // console.log("ArrayBuffer.addRef() => " + this._refCount);
     return this._refCount;
   }
   release(): number {
+    refChange(this._uuid, -1, 'ArrayBuffer');
     this._refCount--;
-    // console.log("ArrayBuffer.release() => " + this._refCount);
     if (this._refCount === 0) {
       this.contextFree();
     }
@@ -28,7 +31,6 @@ class ArrayBuffer implements RenderingContextUser {
   contextFree() {
     if (this._buffer) {
       this._context.deleteBuffer(this._buffer);
-      // console.log("WebGLBuffer deleted");
       this._buffer = void 0;
     }
     this._context = void 0;
@@ -38,7 +40,6 @@ class ArrayBuffer implements RenderingContextUser {
       this.contextFree();
       this._context = context;
       this._buffer = context.createBuffer();
-      // console.log("WebGLBuffer created");
     }
   }
   contextLoss() {

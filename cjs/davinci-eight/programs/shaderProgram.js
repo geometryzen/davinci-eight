@@ -2,6 +2,7 @@ var isDefined = require('../checks/isDefined');
 var uuid4 = require('../utils/uuid4');
 var AttribLocation = require('../core/AttribLocation');
 var UniformLocation = require('../core/UniformLocation');
+var refChange = require('../utils/refChange');
 function makeWebGLShader(ctx, source, type) {
     var shader = ctx.createShader(type);
     ctx.shaderSource(shader, source);
@@ -82,13 +83,13 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
             return uniformLocations;
         },
         addRef: function () {
+            refChange(uuid, +1, 'ShaderProgram');
             refCount++;
-            // console.log("shaderProgram.addRef() => " + refCount);
             return refCount;
         },
         release: function () {
+            refChange(uuid, -1, 'ShaderProgram');
             refCount--;
-            // console.log("shaderProgram.release() => " + refCount);
             if (refCount === 0) {
                 self.contextFree();
             }
@@ -97,7 +98,6 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
         contextFree: function () {
             if (isDefined($context)) {
                 if (program) {
-                    // console.log("WebGLProgram deleted");
                     $context.deleteProgram(program);
                     program = void 0;
                 }
@@ -252,6 +252,7 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
             }
         }
     };
+    refChange(uuid, +1, 'ShaderProgram');
     return self;
 };
 module.exports = shaderProgram;

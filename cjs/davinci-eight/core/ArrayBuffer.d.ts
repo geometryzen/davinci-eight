@@ -5,6 +5,7 @@ declare class ArrayBuffer implements RenderingContextUser {
     private _monitor;
     private _buffer;
     private _refCount;
+    private _uuid;
     constructor(monitor: RenderingContextMonitor);
     addRef(): number;
     release(): number;

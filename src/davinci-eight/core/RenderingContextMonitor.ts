@@ -2,6 +2,7 @@ import IUnknown = require('../core/IUnknown');
 import RenderingContextUser = require('../core/RenderingContextUser');
 import Texture = require('../resources/Texture');
 import ArrayBuffer = require('../core/ArrayBuffer');
+import Mesh = require('../dfx/Mesh');
 import Elements = require('../dfx/Elements');
 import ShaderProgram = require('../core/ShaderProgram');
 
@@ -20,11 +21,7 @@ interface RenderingContextMonitor extends IUnknown {
   texture(): Texture;
   vertexBuffer(): ArrayBuffer;
   mirror: boolean;
-  checkIn(elements: Elements, mode: number, usage?: number): string;
-  setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void;
-  draw(token: string): void;
-  tearDown(token: string, program: ShaderProgram): void;
-  checkOut(token: string): void;
+  createMesh(elements: Elements, mode: number, usage?: number): Mesh;
 }
 
 export = RenderingContextMonitor;

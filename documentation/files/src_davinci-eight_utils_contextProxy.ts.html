@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.81.0</em>
+            <em>API Docs for: 2.82.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -146,17 +146,22 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import ArrayBuffer = require(&#x27;../core/ArrayBuffer&#x27;);
+import Mesh = require(&#x27;../dfx/Mesh&#x27;);
 import Elements = require(&#x27;../dfx/Elements&#x27;);
 import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
 import initWebGL = require(&#x27;../renderers/initWebGL&#x27;);
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
+import RefCount = require(&#x27;../utils/RefCount&#x27;);
+import refChange = require(&#x27;../utils/refChange&#x27;);
 import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import Texture = require(&#x27;../resources/Texture&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
+import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 
 /**
  * This could become an encapsulated call?
@@ -177,28 +182,103 @@ class DrawElementsCommand {
   }
 }
 
-class ElementsBlock {
-  public attributes: { [key: string]: ElementsBlockAttrib };
-  public indices: ArrayBuffer;
+class ElementsBlock implements IUnknown {
+  private _attributes: { [key: string]: ElementsBlockAttrib };
+  private _indexBuffer: ArrayBuffer;
   public drawCommand: DrawElementsCommand;
-  constructor(indices: ArrayBuffer, attributes: { [key: string]: ElementsBlockAttrib }, drawCommand: DrawElementsCommand) {
-    this.indices = indices;
-    this.attributes = attributes;
+  private _refCount = 1;
+  private _uuid: string = uuid4().generate();
+  constructor(indexBuffer: ArrayBuffer, attributes: { [key: string]: ElementsBlockAttrib }, drawCommand: DrawElementsCommand) {
+
+    this._indexBuffer = indexBuffer;
+    this._indexBuffer.addRef();
+
+    this._attributes = attributes;
+    Object.keys(attributes).forEach(function(key: string) {
+      attributes[key].addRef();
+    });
+
     this.drawCommand = drawCommand;
+
+    refChange(this._uuid, +1, &#x27;ElementsBlock&#x27;);
+  }
+  get indexBuffer() {
+    this._indexBuffer.addRef();
+    return this._indexBuffer;
+  }
+  addRef(): number {
+    refChange(this._uuid, +1, &#x27;ElementsBlock&#x27;);
+    this._refCount++;
+    return this._refCount;
+  }
+  release(): number {
+    refChange(this._uuid, -1, &#x27;ElementsBlock&#x27;);
+    this._refCount--;
+    if (this._refCount === 0) {
+
+      let attributes = this._attributes;
+      Object.keys(attributes).forEach(function(key: string) {
+        attributes[key].release();
+      });
+      this._attributes = void 0;
+
+      this._indexBuffer.release();
+      this._indexBuffer = void 0;
+
+      this.drawCommand = void 0;
+      this._uuid = void 0;
+
+      let refCount = this._refCount;
+      this._refCount = 0;
+      return refCount;
+    }
+    else {
+      return this._refCount;
+    }
+  }
+  get attributes() {
+    return this._attributes;
   }
 }
-class ElementsBlockAttrib {
-  public buffer: ArrayBuffer;
+class ElementsBlockAttrib implements IUnknown {
+  private _buffer: ArrayBuffer;
   public size: number;
   public normalized: boolean;
   public stride: number;
   public offset: number;
+  private _refCount = 1;
+  private _uuid: string = uuid4().generate();
   constructor(buffer: ArrayBuffer, size: number, normalized: boolean, stride: number, offset: number) {
-    this.buffer = buffer;
+    this._buffer = buffer;
+    this._buffer.addRef();
     this.size = size;
     this.normalized = normalized;
     this.stride = stride;
     this.offset = offset;
+    refChange(this._uuid, +1, &#x27;ElementsBlockAttrib&#x27;);
+  }
+  addRef(): number {
+    refChange(this._uuid, +1, &#x27;ElementsBlockAttrib&#x27;);
+    this._refCount++;
+    return this._refCount;
+  }
+  release(): number {
+    refChange(this._uuid, -1, &#x27;ElementsBlockAttrib&#x27;);
+    this._refCount--;
+    if (this._refCount === 0) {
+      this._buffer.release();
+      this._buffer = void 0;
+      this.size = void 0;
+      this.normalized = void 0;
+      this.stride = void 0;
+      this.offset = void 0;
+      this._uuid = void 0;
+    }
+    return this._refCount;
+  }
+  get buffer() {
+    this._buffer.addRef();
+    return this._buffer;
   }
 }
 
@@ -235,25 +315,183 @@ function assertProgram(argName: string, program: ShaderProgram): void {
   expectArg(argName, program).toBeObject();
 }
 
-function attribName(name: string, attribMap?: {[name:string]:string}): string {
-  if (isUndefined(attribMap)) {
-    return name;
+function attribKey(aName: string, aNameToKeyName?: {[aName: string]: string}): string {
+  if (isUndefined(aNameToKeyName)) {
+    return aName;
   }
   else {
-    let alias = attribMap[name];
-    return isDefined(alias) ? alias : name;
+    let key = aNameToKeyName[aName];
+    return isDefined(key) ? key : aName;
   }
 }
 
 function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): RenderingContextMonitor {
 
   expectArg(&#x27;canvas&#x27;, canvas).toSatisfy(canvas instanceof HTMLCanvasElement, &quot;canvas argument must be an HTMLCanvasElement&quot;);
-
+  let uuid: string = uuid4().generate();
+  let tokenMap: {[name:string]:ElementsBlock} = {};
   let users: RenderingContextUser[] = [];
+
+  function addContextUser(user: RenderingContextUser): void {
+    expectArg(&#x27;user&#x27;, user).toBeObject();
+    users.push(user);
+    user.addRef();
+    if (context) {
+      user.contextGain(context);
+    }
+  }
+
+  function removeContextUser(user: RenderingContextUser): void {
+    expectArg(&#x27;user&#x27;, user).toBeObject();
+    let index = users.indexOf(user);
+    if (index &gt;= 0) {
+      let removals = users.splice(index, 1);
+      removals.forEach(function(user){
+        user.release();
+      });
+    }
+  }
+
+  function drawTokenDelete(uuid: string) {
+    return function() {
+      let blob = tokenMap[uuid];
+      if (isDefined(blob)) {
+
+        let indexBuffer = blob.indexBuffer;
+        removeContextUser(indexBuffer);
+        indexBuffer.release();
+        indexBuffer = void 0;
+
+        Object.keys(blob.attributes).forEach(function(key:string) {
+          let attribute = blob.attributes[key];
+
+          let buffer = attribute.buffer;
+          try {
+            removeContextUser(buffer);
+          }
+          finally {
+            buffer.release();
+            buffer = void 0;
+          }
+        });
+        blob.release();
+        delete tokenMap[uuid];
+      }
+      else {
+        throw new Error(messageUnrecognizedToken(uuid));
+      }
+    }
+  }
+
+  function drawToken(uuid: string): Mesh {
+
+    let refCount = new RefCount(drawTokenDelete(uuid));
+    let _program: ShaderProgram = void 0;
+    let self: Mesh = {
+      addRef(): number {
+        refChange(uuid, +1, &#x27;Mesh&#x27;);
+        return refCount.addRef();
+      },
+      release(): number {
+        refChange(uuid, -1, &#x27;Mesh&#x27;);
+        return refCount.release();
+      },
+      get uuid() {
+        return uuid;
+      },
+      bind(program: ShaderProgram, aNameToKeyName?: {[name: string]: string}): void {
+        if (_program !== program) {
+          if (_program) {
+            self.unbind();
+          }
+          let blob = tokenMap[uuid];
+          if (isDefined(blob)) {
+            if (isDefined(program)) {
+
+              let indexBuffer = blob.indexBuffer;
+              indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+              indexBuffer.release();
+              indexBuffer = void 0;
+
+              // FIXME: We&#x27;re doing a lot of string-based lookup!
+              Object.keys(program.attributes).forEach(function(aName: string) {
+                let key: string = attribKey(aName, aNameToKeyName);
+                let attribute: ElementsBlockAttrib = blob.attributes[key];
+                if (isDefined(attribute)) {
+                  // Associate the attribute buffer with the attribute location.
+                  let buffer = attribute.buffer;
+                  try {
+                    buffer.bind(context.ARRAY_BUFFER);
+                    try {
+                      let attributeLocation = program.attributes[aName];
+                      attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+
+                      attributeLocation.enable();
+                    }
+                    finally {
+                      context.bindBuffer(context.ARRAY_BUFFER, null);
+                    }
+                  }
+                  finally {
+                    buffer.release();
+                    buffer = void 0;
+                  }
+                }
+                else {
+                  // The attribute available may not be required by the program.
+                  // TODO: (1) Named programs, (2) disable warning by attribute?
+                  // Do not allow Attribute 0 to be disabled.
+                  console.warn(&quot;program attribute &quot; + aName + &quot; is not satisfied by the token&quot;);
+                }
+              });
+            }
+            else {
+              assertProgram(&#x27;program&#x27;, program);
+            }
+          }
+          else {
+            throw new Error(messageUnrecognizedToken(uuid));
+          }
+          _program = program;
+          _program.addRef();
+        }
+      },
+      draw(): void {
+        let blob = tokenMap[uuid];
+        if (isDefined(blob)) {
+          blob.drawCommand.execute(context);
+        }
+        else {
+          throw new Error(messageUnrecognizedToken(uuid));
+        }
+      },
+      unbind(): void {
+        if (_program) {
+          let blob = tokenMap[uuid];
+          if (isDefined(blob)) {
+            context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+
+            Object.keys(_program.attributes).forEach(function(aName: string) {
+              let aLocation = _program.attributes[aName];
+              // Disable the attribute location.
+              aLocation.disable();
+            });
+          }
+          else {
+            throw new Error(messageUnrecognizedToken(uuid));
+          }
+          _program.release();
+          _program = void 0;
+        }
+      }
+    };
+    refChange(uuid, +1, &#x27;Mesh&#x27;);
+    return self;
+  }
+
   var context: WebGLRenderingContext;
   var refCount: number = 1;
   var mirror: boolean = true;
-  let tokenMap: {[name:string]:ElementsBlock} = {};
   let tokenArg = expectArg(&#x27;token&#x27;, &quot;&quot;);
 
   let webGLContextLost = function(event: Event) {
@@ -272,11 +510,11 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     });
   };
 
-  var self: RenderingContextMonitor = {
+  let self: RenderingContextMonitor = {
     /**
      *
      */
-    checkIn(elements: Elements, mode: number, usage?: number): string {
+    createMesh(elements: Elements, mode: number, usage?: number): Mesh {
       expectArg(&#x27;elements&#x27;, elements).toSatisfy(elements instanceof Elements, &quot;elements must be an instance of Elements&quot;);
       expectArg(&#x27;mode&#x27;, mode).toSatisfy(isDrawMode(mode, context), &quot;mode must be one of TRIANGLES, ...&quot;);
       if (isDefined(usage)) {
@@ -285,95 +523,54 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       else {
         usage = context.STATIC_DRAW;
       }
-      let token: string = Math.random().toString();
-      let indexBuffer = self.vertexBuffer();
-      indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
-      context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
-      context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
-      // attributes
-      let attributes: { [name: string]: ElementsBlockAttrib } = {};
-      Object.keys(elements.attributes).forEach(function(name: string) {
-        let buffer = self.vertexBuffer();
-        buffer.bind(context.ARRAY_BUFFER);
-        let vertexAttrib = elements.attributes[name];
-        let data: number[] = vertexAttrib.vector.data;
-        context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
-        context.bindBuffer(context.ARRAY_BUFFER, null);
-        // normalized, stride and offset in future may not be zero.
-        attributes[name] = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-      });
-      // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
-      // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-      let offset = 0; // Later we may set this differently if we reuse buffers.
-      let drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, offset);
-      tokenMap[token] = new ElementsBlock(indexBuffer, attributes, drawCommand);
-      return token;
-    },
-    setUp(token: string, program: ShaderProgram, attribMap?: {[name:string]:string}): void {
-      let blob = tokenMap[token];
-      if (isDefined(blob)) {
-        if (isDefined(program)) {
-          let indices = blob.indices;
-          indices.bind(context.ELEMENT_ARRAY_BUFFER);
 
-          // FIXME: Probably better to work from the program attributes?
-          Object.keys(blob.attributes).forEach(function(key: string) {
-            let aName: string = attribName(key, attribMap);
-            let aLocation = program.attributes[aName];
-            if (isDefined(aLocation)) {
-              let attribute: ElementsBlockAttrib = blob.attributes[key];
-              attribute.buffer.bind(context.ARRAY_BUFFER);
-              aLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-              context.bindBuffer(context.ARRAY_BUFFER, null);
+      let token: Mesh = drawToken(uuid4().generate());
+
+      let indexBuffer = self.vertexBuffer();
+      try {
+        indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+        context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+        context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+
+        // attributes
+        let attributes: { [name: string]: ElementsBlockAttrib } = {};
+        try {
+          Object.keys(elements.attributes).forEach(function(name: string) {
+            let buffer = self.vertexBuffer();
+            try {
+              buffer.bind(context.ARRAY_BUFFER);
+              try {
+                let vertexAttrib = elements.attributes[name];
+                let data: number[] = vertexAttrib.vector.data;
+                context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+                attributes[name] = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+              }
+              finally {
+                context.bindBuffer(context.ARRAY_BUFFER, null);
+              }
             }
-            else {
-              // The attribute available may not be required by the program.
-              // TODO: (1) Named programs, (2) disable warning by attribute.
-              // console.warn(&quot;attribute &quot; + aName + &quot; is not being used by the program&quot;);
+            finally {
+              buffer.release();
+              buffer = void 0;
             }
           });
+          // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
+          // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
+          let drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
+          tokenMap[token.uuid] = new ElementsBlock(indexBuffer, attributes, drawCommand);
         }
-        else {
-          assertProgram(&#x27;program&#x27;, program);
+        finally {
+          Object.keys(attributes).forEach(function(key: string){
+            let attribute: ElementsBlockAttrib = attributes[key];
+            attribute.release();
+          });
         }
       }
-      else {
-        throw new Error(messageUnrecognizedToken(token));
+      finally {
+        indexBuffer.release();
+        indexBuffer = void 0;
       }
-    },
-    draw(token: string): void {
-      let blob = tokenMap[token];
-      if (isDefined(blob)) {
-        blob.drawCommand.execute(context);
-      }
-      else {
-        throw new Error(messageUnrecognizedToken(token));
-      }
-    },
-    tearDown(token: string, program: ShaderProgram): void {
-      let blob = tokenMap[token];
-      if (isDefined(blob)) {
-        context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
-      }
-      else {
-        throw new Error(messageUnrecognizedToken(token));
-      }
-    },
-    checkOut(token: string): void {
-      let blob = tokenMap[token];
-      if (isDefined(blob)) {
-        let indices = blob.indices;
-        self.removeContextUser(indices);
-        Object.keys(blob.attributes).forEach(function(key:string) {
-          let attribute = blob.attributes[key];
-          let buffer = attribute.buffer;
-          self.removeContextUser(buffer);
-        });
-        delete tokenMap[token];
-      }
-      else {
-        throw new Error(messageUnrecognizedToken(token));
-      }
+      return token;
     },
     start(): RenderingContextMonitor {
       context = initWebGL(canvas, attributes);
@@ -390,21 +587,11 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       return self;
     },
     addContextUser(user: RenderingContextUser): RenderingContextMonitor {
-      expectArg(&#x27;user&#x27;, user).toBeObject();
-      user.addRef();
-      users.push(user);
-      if (context) {
-        user.contextGain(context)
-      }
+      addContextUser(user);
       return self;
     },
     removeContextUser(user: RenderingContextUser): RenderingContextMonitor {
-      expectArg(&#x27;user&#x27;, user).toBeObject();
-      let index = users.indexOf(user);
-      if (index &gt;= 0) {
-        users.splice(index, 1);
-        user.release();
-      }
+      removeContextUser(user);
       return self;
     },
     get context() {
@@ -417,16 +604,17 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       }
     },
     addRef(): number {
+      refChange(uuid, +1, &#x27;RenderingContextMonitor&#x27;);
       refCount++;
-      // console.log(&quot;monitor.addRef() =&gt; &quot; + refCount);
       return refCount;
     },
     release(): number {
+      refChange(uuid, -1, &#x27;RenderingContextMonitor&#x27;);
       refCount--;
-      // console.log(&quot;monitor.release() =&gt; &quot; + refCount);
       if (refCount === 0) {
         while(users.length &gt; 0) {
-          users.pop().release();
+          let user = users.pop();
+          user.release();
         }
       }
       return refCount;
@@ -478,6 +666,7 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       mirror = expectArg(&#x27;mirror&#x27;, value).toBeBoolean().value;
     }
   };
+  refChange(uuid, +1, &#x27;RenderingContextMonitor&#x27;);
   return self;
 }
 

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.81.0</em>
+            <em>API Docs for: 2.82.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -147,26 +147,29 @@
     <pre class="code prettyprint linenums">
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
+import refChange = require(&#x27;../utils/refChange&#x27;);
 import RenderingContextUser = require(&#x27;../core/RenderingContextUser&#x27;);
 import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
+import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 
-// TODO: Rename this to avoid jshint
 class ArrayBuffer implements RenderingContextUser {
   private _context: WebGLRenderingContext;
   private _monitor: RenderingContextMonitor;
   private _buffer: WebGLBuffer;
   private _refCount: number = 1;
+  private _uuid: string = uuid4().generate();
   constructor(monitor: RenderingContextMonitor) {
     this._monitor = expectArg(&#x27;montor&#x27;, monitor).toBeObject().value;
+    refChange(this._uuid, +1, &#x27;ArrayBuffer&#x27;);
   }
   addRef(): number {
+    refChange(this._uuid, +1, &#x27;ArrayBuffer&#x27;);
     this._refCount++;
-    // console.log(&quot;ArrayBuffer.addRef() =&gt; &quot; + this._refCount);
     return this._refCount;
   }
   release(): number {
+    refChange(this._uuid, -1, &#x27;ArrayBuffer&#x27;);
     this._refCount--;
-    // console.log(&quot;ArrayBuffer.release() =&gt; &quot; + this._refCount);
     if (this._refCount === 0) {
       this.contextFree();
     }
@@ -175,7 +178,6 @@ class ArrayBuffer implements RenderingContextUser {
   contextFree() {
     if (this._buffer) {
       this._context.deleteBuffer(this._buffer);
-      // console.log(&quot;WebGLBuffer deleted&quot;);
       this._buffer = void 0;
     }
     this._context = void 0;
@@ -185,7 +187,6 @@ class ArrayBuffer implements RenderingContextUser {
       this.contextFree();
       this._context = context;
       this._buffer = context.createBuffer();
-      // console.log(&quot;WebGLBuffer created&quot;);
     }
   }
   contextLoss() {
