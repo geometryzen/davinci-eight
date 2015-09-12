@@ -16,11 +16,14 @@ var primitive = require('davinci-eight/objects/primitive');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
 // curves
 var Curve = require('davinci-eight/curves/Curve');
+// dfx
 var Elements = require('davinci-eight/dfx/Elements');
-var Simplex3 = require('davinci-eight/dfx/Simplex3');
-var Simplex3Vertex = require('davinci-eight/dfx/Simplex3Vertex');
-var boxSimplex3s = require('davinci-eight/dfx/boxSimplex3s');
-var triangleElementsFromSimplex3s = require('davinci-eight/dfx/triangleElementsFromSimplex3s');
+var Simplex = require('davinci-eight/dfx/Simplex');
+var Vertex = require('davinci-eight/dfx/Vertex');
+var cube = require('davinci-eight/dfx/cube');
+var quad = require('davinci-eight/dfx/quad');
+var square = require('davinci-eight/dfx/square');
+var trianglesFromSimplex3 = require('davinci-eight/dfx/trianglesFromSimplex3');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
 // geometries
@@ -92,8 +95,8 @@ var eight = {
     // TODO: Arrange in alphabetical order in order to assess width of API.
     get initWebGL() { return initWebGL; },
     get Model() { return Model; },
-    get Simplex3() { return Simplex3; },
-    get Simplex3Vertex() { return Simplex3Vertex; },
+    get Simplex() { return Simplex; },
+    get Vertex() { return Vertex; },
     get frustum() { return frustum; },
     get frustumMatrix() { return frustumMatrix; },
     get perspective() { return perspective; },
@@ -152,7 +155,9 @@ var eight = {
     get ArrowBuilder() { return ArrowBuilder; },
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
-    get boxSimplex3s() { return boxSimplex3s; },
+    get cube() { return cube; },
+    get quad() { return quad; },
+    get square() { return square; },
     get CylinderArgs() { return CylinderArgs; },
     get cylinderMesh() { return cylinderMesh; },
     get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -163,7 +168,7 @@ var eight = {
     get programFromScripts() { return programFromScripts; },
     // resources
     get Texture() { return Texture; },
-    get triangleElementsFromSimplex3s() { return triangleElementsFromSimplex3s; },
+    get trianglesFromSimplex3() { return trianglesFromSimplex3; },
     get ArrayBuffer() { return ArrayBuffer; },
     get Elements() { return Elements; },
     // utils

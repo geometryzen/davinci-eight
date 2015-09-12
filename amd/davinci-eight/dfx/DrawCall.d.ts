@@ -1,3 +1,0 @@
-interface DrawCall {
-}
-export = DrawCall;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.84.0</em>
+            <em>API Docs for: 2.85.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,19 +78,17 @@
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
-                                <li><a href="../classes/Line.html">Line</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
-                                <li><a href="../classes/Point.html">Point</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
-                                <li><a href="../classes/Simplex3.html">Simplex3</a></li>
+                                <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -101,8 +99,8 @@
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -185,28 +183,26 @@ class ElementsAttribute {
   public size: number;
   constructor(vector: VectorN&lt;number&gt;, size: number);
 }
-class Simplex3 {
-  public a: Simplex3Vertex;
-  public b: Simplex3Vertex;
-  public c: Simplex3Vertex;
-  public normal: Vector3;
-  constructor(a: Vector3, b: Vector3, c: Vector3);
-  public static indices(face: Simplex3): number[];
-  public static subdivide(faces: Simplex3[]): Simplex3[];
+class Simplex {
+  public vertices: Vertex[];
+  constructor(points: Vector3[]);
+  public static computeFaceNormals(simplex: Simplex, name: string);
+  public static indices(face: Simplex): number[];
+  public static subdivide(faces: Simplex[]): Simplex[];
 }
-class Simplex3Vertex {
-  public parent: Simplex3;
+class Vertex {
+  public parent: Simplex;
   public position: Vector3;
-  public normal: Vector3;
   public attributes: { [name: string]: VectorN&lt;number&gt; };
   public index: number;
-  constructor(position: Vector3, normal?: Vector3);
+  constructor(position: Vector3);
 }
 /**
  *
  */
-function triangleElementsFromSimplex3s(faces: Simplex3[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
-function boxSimplex3s(): Simplex3[];
+function trianglesFromSimplex3(s3s: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function cube(): Simplex[];
+function square(): Simplex[];
 /**
  * @class DrawMode
  */

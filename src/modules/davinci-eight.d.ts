@@ -38,28 +38,26 @@ class ElementsAttribute {
   public size: number;
   constructor(vector: VectorN<number>, size: number);
 }
-class Simplex3 {
-  public a: Simplex3Vertex;
-  public b: Simplex3Vertex;
-  public c: Simplex3Vertex;
-  public normal: Vector3;
-  constructor(a: Vector3, b: Vector3, c: Vector3);
-  public static indices(face: Simplex3): number[];
-  public static subdivide(faces: Simplex3[]): Simplex3[];
+class Simplex {
+  public vertices: Vertex[];
+  constructor(points: Vector3[]);
+  public static computeFaceNormals(simplex: Simplex, name: string);
+  public static indices(face: Simplex): number[];
+  public static subdivide(faces: Simplex[]): Simplex[];
 }
-class Simplex3Vertex {
-  public parent: Simplex3;
+class Vertex {
+  public parent: Simplex;
   public position: Vector3;
-  public normal: Vector3;
   public attributes: { [name: string]: VectorN<number> };
   public index: number;
-  constructor(position: Vector3, normal?: Vector3);
+  constructor(position: Vector3);
 }
 /**
  *
  */
-function triangleElementsFromSimplex3s(faces: Simplex3[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
-function boxSimplex3s(): Simplex3[];
+function trianglesFromSimplex3(s3s: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function cube(): Simplex[];
+function square(): Simplex[];
 /**
  * @class DrawMode
  */

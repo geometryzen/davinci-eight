@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.84.0</em>
+            <em>API Docs for: 2.85.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,19 +78,17 @@
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
-                                <li><a href="../classes/Line.html">Line</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
-                                <li><a href="../classes/Point.html">Point</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
                                 <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
                                 <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
-                                <li><a href="../classes/Simplex3.html">Simplex3</a></li>
+                                <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -101,8 +99,8 @@
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -181,16 +179,13 @@ import UniformProvider         = require(&#x27;davinci-eight/core/UniformProvide
 // curves
 import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
 // dfx
-import DrawTriangleElementsCall = require(&#x27;davinci-eight/dfx/DrawTriangleElementsCall&#x27;);
 import Elements = require(&#x27;davinci-eight/dfx/Elements&#x27;);
-import Simplex3 = require(&#x27;davinci-eight/dfx/Simplex3&#x27;);
-import Simplex3Vertex = require(&#x27;davinci-eight/dfx/Simplex3Vertex&#x27;);
-import Simplex3Geometry = require(&#x27;davinci-eight/dfx/Simplex3Geometry&#x27;);
-import Line3Geometry = require(&#x27;davinci-eight/dfx/Line3Geometry&#x27;);
-import Point3Geometry = require(&#x27;davinci-eight/dfx/Point3Geometry&#x27;);
-import boxSimplex3s = require(&#x27;davinci-eight/dfx/boxSimplex3s&#x27;);
-import makeSingularity = require(&#x27;davinci-eight/dfx/makeSingularity&#x27;);
-import triangleElementsFromSimplex3s = require(&#x27;davinci-eight/dfx/triangleElementsFromSimplex3s&#x27;);
+import Simplex = require(&#x27;davinci-eight/dfx/Simplex&#x27;);
+import Vertex = require(&#x27;davinci-eight/dfx/Vertex&#x27;);
+import cube = require(&#x27;davinci-eight/dfx/cube&#x27;);
+import quad = require(&#x27;davinci-eight/dfx/quad&#x27;);
+import square = require(&#x27;davinci-eight/dfx/square&#x27;);
+import trianglesFromSimplex3 = require(&#x27;davinci-eight/dfx/trianglesFromSimplex3&#x27;);
 // drawLists
 import scene = require(&#x27;davinci-eight/drawLists/scene&#x27;);
 import DrawList = require(&#x27;davinci-eight/drawLists/DrawList&#x27;);
@@ -286,8 +281,8 @@ var eight = {
   // TODO: Arrange in alphabetical order in order to assess width of API.
   get initWebGL() { return initWebGL; },
   get Model() { return Model; },
-  get Simplex3() { return Simplex3; },
-  get Simplex3Vertex() { return Simplex3Vertex; },
+  get Simplex() { return Simplex; },
+  get Vertex() { return Vertex; },
   get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
   get perspective() { return perspective; },
@@ -347,7 +342,9 @@ var eight = {
   
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
-  get boxSimplex3s() { return boxSimplex3s; },
+  get cube() { return cube; },
+  get quad() { return quad; },
+  get square() { return square; },
   get CylinderArgs() { return CylinderArgs; },
   get cylinderMesh() { return cylinderMesh; },
   get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -360,7 +357,7 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
-  get triangleElementsFromSimplex3s() { return triangleElementsFromSimplex3s; },
+  get trianglesFromSimplex3() { return trianglesFromSimplex3; },
   get ArrayBuffer() { return ArrayBuffer; },
   get Elements() { return Elements; },
   // utils
