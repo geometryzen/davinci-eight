@@ -11,5 +11,8 @@ declare class Simplex {
     static indices(simplex: Simplex): number[];
     private static subdivideOne(simplex);
     static subdivide(faces: Simplex[]): Simplex[];
+    static setAttributeValues(attributes: {
+        [name: string]: VectorN<number>[];
+    }, simplex: Simplex): void;
 }
 export = Simplex;

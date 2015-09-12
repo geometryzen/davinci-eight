@@ -78,6 +78,21 @@ var Simplex = (function () {
     Simplex.subdivide = function (faces) {
         return faces.map(Simplex.subdivideOne).reduce(function (a, b) { return a.concat(b); }, []);
     };
+    // TODO: This function destined to be part of Simplex constructor.
+    Simplex.setAttributeValues = function (attributes, simplex) {
+        var names = Object.keys(attributes);
+        var attribsLength = names.length;
+        var attribIndex;
+        for (attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
+            var name_1 = names[attribIndex];
+            var values = attributes[name_1];
+            var valuesLength = values.length;
+            var valueIndex = void 0;
+            for (valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
+                simplex.vertices[valueIndex].attributes[name_1] = values[valueIndex];
+            }
+        }
+    };
     return Simplex;
 })();
 module.exports = Simplex;

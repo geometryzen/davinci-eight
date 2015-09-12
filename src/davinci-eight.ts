@@ -41,6 +41,7 @@ import computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 import cube = require('davinci-eight/dfx/cube');
 import quad = require('davinci-eight/dfx/quad');
 import square = require('davinci-eight/dfx/square');
+import triangle = require('davinci-eight/dfx/triangle');
 import triangles = require('davinci-eight/dfx/triangles');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
@@ -202,6 +203,8 @@ var eight = {
   get cube() { return cube; },
   get quad() { return quad; },
   get square() { return square; },
+  get triangle() { return triangle; },
+  get triangles() { return triangles; },
   get CylinderArgs() { return CylinderArgs; },
   get cylinderMesh() { return cylinderMesh; },
   get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -214,7 +217,6 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
-  get triangles() { return triangles; },
   get ArrayBuffer() { return ArrayBuffer; },
   get Elements() { return Elements; },
   // utils

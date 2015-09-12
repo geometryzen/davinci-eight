@@ -146,9 +146,20 @@ declare var eight: {
     boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
     computeFaceNormals: (simplex: Simplex) => void;
-    cube: () => Simplex[];
-    quad: (vecs: Vector3[], coords: Vector2[]) => Simplex[];
-    square: () => Simplex[];
+    cube: (size?: number) => Simplex[];
+    quad: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
+        [name: string]: VectorN<number>[];
+    }, triangles?: Simplex[]) => Simplex[];
+    square: (size?: number) => Simplex[];
+    triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
+        [name: string]: VectorN<number>[];
+    }, triangles?: Simplex[]) => Simplex[];
+    triangles: (faces: Simplex[], attribMap: {
+        [name: string]: {
+            name?: string;
+            size: number;
+        };
+    }) => Elements;
     CylinderArgs: typeof CylinderArgs;
     cylinderMesh: (monitor: RenderingContextMonitor, options?: CylinderOptions) => AttribProvider;
     CylinderMeshBuilder: typeof CylinderMeshBuilder;
@@ -159,12 +170,6 @@ declare var eight: {
     }) => AttribProvider;
     programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
     Texture: typeof Texture;
-    triangles: (faces: Simplex[], attribMap: {
-        [name: string]: {
-            name?: string;
-            size: number;
-        };
-    }) => Elements;
     ArrayBuffer: typeof ArrayBuffer;
     Elements: typeof Elements;
     refChange: (uuid: string, change: number, name?: string) => void;

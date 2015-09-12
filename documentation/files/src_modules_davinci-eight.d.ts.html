@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.86.0</em>
+            <em>API Docs for: 2.88.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -201,8 +201,25 @@ class Vertex {
  *
  */
 function computeFaceNormals(simplex: Simplex): void;
-function cube(): Simplex[];
-function square(): Simplex[];
+/**
+ * cube as Simplex[]
+ */
+function cube(size?: number): Simplex[];
+/**
+ * quad as Simplex[]
+ */
+function quad(vecs: VectorN&lt;number&gt;[], attributes?: { [name: string]: VectorN&lt;number&gt;[] }, triangles?: Simplex[]): Simplex[]
+/**
+ * square as Simplex[]
+ */
+function square(size?: number): Simplex[];
+/**
+ * triangle as Simplex[]
+ */
+function triangle(a: VectorN&lt;number&gt;, b: VectorN&lt;number&gt;, c: VectorN&lt;number&gt;, attributes?: { [name: string]: VectorN&lt;number&gt;[] }, triangles?: Simplex[]): Simplex[];
+/**
+ * Simplex[] =&gt; Elements (gl.TRIANGLES) conversion.
+ */
 function triangles(faces: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
 /**
  * @class DrawMode

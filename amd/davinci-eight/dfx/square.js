@@ -1,22 +1,27 @@
-define(["require", "exports", '../dfx/quad', '../math/Vector2', '../math/Vector3'], function (require, exports, quad, Vector2, Vector3) {
+define(["require", "exports", '../dfx/quad', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quad, Symbolic, Vector2, Vector3) {
     // square
-    //  v1------v0
+    //
+    //  b-------a
     //  |       | 
     //  |       |
     //  |       |
-    //  v2------v3
+    //  c-------d
     //
-    function square() {
-        var vec0 = new Vector3([+1, +1, 0]);
-        var vec1 = new Vector3([-1, +1, 0]);
-        var vec2 = new Vector3([-1, -1, 0]);
-        var vec3 = new Vector3([+1, -1, 0]);
+    function square(size) {
+        if (size === void 0) { size = 1; }
+        var s = size / 2;
+        var vec0 = new Vector3([+s, +s, 0]);
+        var vec1 = new Vector3([-s, +s, 0]);
+        var vec2 = new Vector3([-s, -s, 0]);
+        var vec3 = new Vector3([+s, -s, 0]);
         var c00 = new Vector2([0, 0]);
         var c01 = new Vector2([0, 1]);
         var c10 = new Vector2([1, 0]);
         var c11 = new Vector2([1, 1]);
         var coords = [c11, c01, c00, c10];
-        return quad([vec0, vec1, vec2, vec3], coords);
+        var attributes = {};
+        attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
+        return quad(vec0, vec1, vec2, vec3, attributes);
     }
     return square;
 });

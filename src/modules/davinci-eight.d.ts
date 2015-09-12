@@ -56,8 +56,25 @@ class Vertex {
  *
  */
 function computeFaceNormals(simplex: Simplex): void;
-function cube(): Simplex[];
-function square(): Simplex[];
+/**
+ * cube as Simplex[]
+ */
+function cube(size?: number): Simplex[];
+/**
+ * quad as Simplex[]
+ */
+function quad(vecs: VectorN<number>[], attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[]
+/**
+ * square as Simplex[]
+ */
+function square(size?: number): Simplex[];
+/**
+ * triangle as Simplex[]
+ */
+function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
+/**
+ * Simplex[] => Elements (gl.TRIANGLES) conversion.
+ */
 function triangles(faces: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
 /**
  * @class DrawMode

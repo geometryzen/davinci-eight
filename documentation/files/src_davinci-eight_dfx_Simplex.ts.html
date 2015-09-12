@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.86.0</em>
+            <em>API Docs for: 2.88.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -231,6 +231,21 @@ class Simplex {
   }
   public static subdivide(faces: Simplex[]): Simplex[] {
     return faces.map(Simplex.subdivideOne).reduce(function(a: Simplex[], b: Simplex[]) {return a.concat(b);},[]);
+  }
+  // TODO: This function destined to be part of Simplex constructor.
+  public static setAttributeValues(attributes: {[name: string]: VectorN&lt;number&gt;[]}, simplex: Simplex) {
+    let names: string[] = Object.keys(attributes);
+    let attribsLength = names.length;
+    let attribIndex;
+    for (attribIndex = 0; attribIndex &lt; attribsLength; attribIndex++) {
+      let name = names[attribIndex];
+      let values: VectorN&lt;number&gt;[] = attributes[name];
+      let valuesLength = values.length;
+      let valueIndex;
+      for (valueIndex = 0; valueIndex &lt; valuesLength; valueIndex++) {
+        simplex.vertices[valueIndex].attributes[name] = values[valueIndex];
+      }
+    }
   }
 }
 

@@ -188,8 +188,9 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.84.0: 2015-09-11 Simplex
 * 2.85.0: 2015-09-12 Vertex
 * 2.86.0: 2015-09-12 triangles
+* 2.87.0: 2015-09-12 triangle
+* 2.88.0: 2015-09-12 cube
 
 ## License
 Copyright (c) 2014-2015 David Holmes
 Licensed under the MIT license.
-

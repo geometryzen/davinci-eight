@@ -20,7 +20,7 @@ function(Simplex, Vertex, Vector3, triangles, cube, Elements, Symbolic)
 
   describe("cube", function() {
     describe("everyting", function() {
-      var faces = cube();
+      var faces = cube(2);
       var attribMap = {};
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};

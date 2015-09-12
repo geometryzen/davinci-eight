@@ -24,6 +24,7 @@ var computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 var cube = require('davinci-eight/dfx/cube');
 var quad = require('davinci-eight/dfx/quad');
 var square = require('davinci-eight/dfx/square');
+var triangle = require('davinci-eight/dfx/triangle');
 var triangles = require('davinci-eight/dfx/triangles');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
@@ -160,6 +161,8 @@ var eight = {
     get cube() { return cube; },
     get quad() { return quad; },
     get square() { return square; },
+    get triangle() { return triangle; },
+    get triangles() { return triangles; },
     get CylinderArgs() { return CylinderArgs; },
     get cylinderMesh() { return cylinderMesh; },
     get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -170,7 +173,6 @@ var eight = {
     get programFromScripts() { return programFromScripts; },
     // resources
     get Texture() { return Texture; },
-    get triangles() { return triangles; },
     get ArrayBuffer() { return ArrayBuffer; },
     get Elements() { return Elements; },
     // utils

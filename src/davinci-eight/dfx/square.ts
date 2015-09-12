@@ -3,29 +3,37 @@ import quad = require('../dfx/quad');
 import Symbolic = require('../core/Symbolic');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
+import VectorN = require('../math/VectorN');
 
 // square
-//  v1------v0
+//
+//  b-------a
 //  |       | 
 //  |       |
 //  |       |
-//  v2------v3
+//  c-------d
 //
-function square(): Simplex[] {
+function square(size: number = 1): Simplex[] {
 
-    let vec0 = new Vector3([+1, +1, 0]);
-    let vec1 = new Vector3([-1, +1, 0]);
-    let vec2 = new Vector3([-1, -1, 0]);
-    let vec3 = new Vector3([+1, -1, 0]);
+  let s = size / 2;
 
-    let c00 = new Vector2([0, 0]);
-    let c01 = new Vector2([0, 1]);
-    let c10 = new Vector2([1, 0]);
-    let c11 = new Vector2([1, 1]);
+  let vec0 = new Vector3([+s, +s, 0]);
+  let vec1 = new Vector3([-s, +s, 0]);
+  let vec2 = new Vector3([-s, -s, 0]);
+  let vec3 = new Vector3([+s, -s, 0]);
 
-    let coords: Vector2[] = [c11, c01, c00, c10];
-    
-    return quad([vec0,vec1,vec2,vec3], coords);
+  let c00 = new Vector2([0, 0]);
+  let c01 = new Vector2([0, 1]);
+  let c10 = new Vector2([1, 0]);
+  let c11 = new Vector2([1, 1]);
+
+  let coords: Vector2[] = [c11, c01, c00, c10];
+
+  let attributes: { [name: string]: VectorN<number>[] } = {};
+
+  attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
+
+  return quad(vec0, vec1, vec2, vec3, attributes);
 }
 
 export = square;

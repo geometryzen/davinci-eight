@@ -87,6 +87,21 @@ class Simplex {
   public static subdivide(faces: Simplex[]): Simplex[] {
     return faces.map(Simplex.subdivideOne).reduce(function(a: Simplex[], b: Simplex[]) {return a.concat(b);},[]);
   }
+  // TODO: This function destined to be part of Simplex constructor.
+  public static setAttributeValues(attributes: {[name: string]: VectorN<number>[]}, simplex: Simplex) {
+    let names: string[] = Object.keys(attributes);
+    let attribsLength = names.length;
+    let attribIndex;
+    for (attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
+      let name = names[attribIndex];
+      let values: VectorN<number>[] = attributes[name];
+      let valuesLength = values.length;
+      let valueIndex;
+      for (valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
+        simplex.vertices[valueIndex].attributes[name] = values[valueIndex];
+      }
+    }
+  }
 }
 
 export = Simplex;
