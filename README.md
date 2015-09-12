@@ -190,6 +190,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.86.0: 2015-09-12 triangles
 * 2.87.0: 2015-09-12 triangle
 * 2.88.0: 2015-09-12 cube
+* 2.89.0: 2015-09-12 refactor
 
 ## License
 Copyright (c) 2014-2015 David Holmes

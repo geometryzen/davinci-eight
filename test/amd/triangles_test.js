@@ -59,31 +59,31 @@ function(Simplex, Vertex, Vector3, triangles, Elements, Symbolic, computeFaceNor
         expect(positions.length).toBe(9);
       });
       it("position[0]", function() {
-        expect(positions[0]).toBe(a.position.x);
+        expect(positions[0]).toBe(a.attributes[Symbolic.ATTRIBUTE_POSITION].x);
       });
       it("position[1]", function() {
-        expect(positions[1]).toBe(a.position.y);
+        expect(positions[1]).toBe(a.attributes[Symbolic.ATTRIBUTE_POSITION].y);
       });
       it("position[2]", function() {
-        expect(positions[2]).toBe(a.position.z);
+        expect(positions[2]).toBe(a.attributes[Symbolic.ATTRIBUTE_POSITION].z);
       });
       it("position[3]", function() {
-        expect(positions[3]).toBe(b.position.x);
+        expect(positions[3]).toBe(b.attributes[Symbolic.ATTRIBUTE_POSITION].x);
       });
       it("position[4]", function() {
-        expect(positions[4]).toBe(b.position.y);
+        expect(positions[4]).toBe(b.attributes[Symbolic.ATTRIBUTE_POSITION].y);
       });
       it("position[5]", function() {
-        expect(positions[5]).toBe(b.position.z);
+        expect(positions[5]).toBe(b.attributes[Symbolic.ATTRIBUTE_POSITION].z);
       });
       it("position[6]", function() {
-        expect(positions[6]).toBe(c.position.x);
+        expect(positions[6]).toBe(c.attributes[Symbolic.ATTRIBUTE_POSITION].x);
       });
       it("position[7]", function() {
-        expect(positions[7]).toBe(c.position.y);
+        expect(positions[7]).toBe(c.attributes[Symbolic.ATTRIBUTE_POSITION].y);
       });
       it("position[8]", function() {
-        expect(positions[8]).toBe(c.position.z);
+        expect(positions[8]).toBe(c.attributes[Symbolic.ATTRIBUTE_POSITION].z);
       });
     });
     describe("two triangles with one common edge", function() {

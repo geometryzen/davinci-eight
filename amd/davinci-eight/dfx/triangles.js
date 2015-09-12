@@ -1,4 +1,4 @@
-define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../core/Symbolic', '../dfx/uniqueVertices', '../math/VectorN'], function (require, exports, Elements, ElementsAttribute, expectArg, Simplex, Symbolic, uniqueVertices, VectorN) {
+define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../dfx/uniqueVertices', '../math/VectorN'], function (require, exports, Elements, ElementsAttribute, expectArg, Simplex, uniqueVertices, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -35,12 +35,6 @@ define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '..
     function concat(a, b) {
         return a.concat(b);
     }
-    function missingSpecificationForPosition() {
-        return "missing specification for " + Symbolic.ATTRIBUTE_POSITION;
-    }
-    function missingSpecificationForNormal() {
-        return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
-    }
     function triangles(faces, attribMap) {
         expectArg('faces', faces).toBeObject();
         expectArg('attribMap', attribMap).toBeObject();
@@ -51,16 +45,10 @@ define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '..
         Object.keys(attribMap).forEach(function (key) {
             outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
         });
-        // Cache the special cases (for now).
-        var positions = outputs[Symbolic.ATTRIBUTE_POSITION];
-        expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
-        // Each face produces three indices.
+        // Each simplex produces three indices.
         var indices = faces.map(Simplex.indices).reduce(concat, []);
         uniques.forEach(function (unique) {
-            var position = unique.position;
             var index = unique.index;
-            // TODO: cache the size for position
-            position.toArray(positions, index * attribSize(Symbolic.ATTRIBUTE_POSITION, attribMap));
             // TODO: Need string[] of custom keys... to avoid the test within the loop.
             Object.keys(attribMap).forEach(function (key) {
                 var output = outputs[key];
@@ -69,7 +57,7 @@ define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '..
                 // The separation of custom and standard creates an issue.
                 var data = unique.attributes[key];
                 if (data) {
-                    unique.attributes[key].toArray(output, index * attribSize(key, attribMap));
+                    data.toArray(output, index * attribSize(key, attribMap));
                 }
             });
         });

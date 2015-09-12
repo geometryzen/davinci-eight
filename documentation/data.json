@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.88.0",
+        "version": "2.89.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1252,7 +1252,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/dfx/Simplex.ts",
-            "line": 22,
+            "line": 23,
             "is_constructor": 1,
             "params": [
                 {
@@ -2732,7 +2732,7 @@
         },
         {
             "file": "src/davinci-eight/dfx/Vertex.ts",
-            "line": 27,
+            "line": 29,
             "description": "The index property is used when computing elements.",
             "class": "BarnGeometry"
         },
@@ -14663,7 +14663,7 @@
         },
         {
             "message": "Missing item type\nThe index property is used when computing elements.",
-            "line": " src/davinci-eight/dfx/Vertex.ts:27"
+            "line": " src/davinci-eight/dfx/Vertex.ts:29"
         },
         {
             "message": "Missing item type\nHashmap for looking up vertice by position coordinates (and making sure they are unique).\nkey is constructed from coordinates, value is index in vertices array.",

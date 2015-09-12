@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.88.0</em>
+            <em>API Docs for: 2.89.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -145,6 +145,7 @@
     <pre class="code prettyprint linenums">
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import Simplex = require(&#x27;../dfx/Simplex&#x27;);
+import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 
 function stringVectorN(name: string, vector: VectorN&lt;number&gt;): string {
@@ -162,12 +163,13 @@ function stringifyVertex(vertex: Vertex): string {
       let vector: VectorN&lt;number&gt; = attributes[name];
       return stringVectorN(name, vector);
   }).join(&#x27; &#x27;);
-  return stringVectorN(&#x27;P&#x27;, vertex.position) + attribsKey;
+//  return stringVectorN(&#x27;P&#x27;, vertex.position) + attribsKey;
+  return attribsKey;
 }
 
 class Vertex {
   public parent: Simplex;
-  public position: VectorN&lt;number&gt;;
+//  public position: VectorN&lt;number&gt;;
   public attributes: { [name: string]: VectorN&lt;number&gt; } = {};
   /**
    * The index property is used when computing elements.
@@ -175,7 +177,8 @@ class Vertex {
   public index: number;
   constructor(position: VectorN&lt;number&gt;) {
     expectArg(&#x27;position&#x27;, position).toBeObject();
-    this.position = position;
+    this.attributes[Symbolic.ATTRIBUTE_POSITION] = position;
+//  this.position = position;
   }
   toString(): string {
     return stringifyVertex(this);

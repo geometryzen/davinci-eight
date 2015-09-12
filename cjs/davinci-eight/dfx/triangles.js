@@ -2,7 +2,6 @@ var Elements = require('../dfx/Elements');
 var ElementsAttribute = require('../dfx/ElementsAttribute');
 var expectArg = require('../checks/expectArg');
 var Simplex = require('../dfx/Simplex');
-var Symbolic = require('../core/Symbolic');
 var uniqueVertices = require('../dfx/uniqueVertices');
 var VectorN = require('../math/VectorN');
 function numberList(size, value) {
@@ -41,12 +40,6 @@ function attribSize(key, attribMap) {
 function concat(a, b) {
     return a.concat(b);
 }
-function missingSpecificationForPosition() {
-    return "missing specification for " + Symbolic.ATTRIBUTE_POSITION;
-}
-function missingSpecificationForNormal() {
-    return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
-}
 function triangles(faces, attribMap) {
     expectArg('faces', faces).toBeObject();
     expectArg('attribMap', attribMap).toBeObject();
@@ -57,16 +50,10 @@ function triangles(faces, attribMap) {
     Object.keys(attribMap).forEach(function (key) {
         outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
     });
-    // Cache the special cases (for now).
-    var positions = outputs[Symbolic.ATTRIBUTE_POSITION];
-    expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
-    // Each face produces three indices.
+    // Each simplex produces three indices.
     var indices = faces.map(Simplex.indices).reduce(concat, []);
     uniques.forEach(function (unique) {
-        var position = unique.position;
         var index = unique.index;
-        // TODO: cache the size for position
-        position.toArray(positions, index * attribSize(Symbolic.ATTRIBUTE_POSITION, attribMap));
         // TODO: Need string[] of custom keys... to avoid the test within the loop.
         Object.keys(attribMap).forEach(function (key) {
             var output = outputs[key];
@@ -75,7 +62,7 @@ function triangles(faces, attribMap) {
             // The separation of custom and standard creates an issue.
             var data = unique.attributes[key];
             if (data) {
-                unique.attributes[key].toArray(output, index * attribSize(key, attribMap));
+                data.toArray(output, index * attribSize(key, attribMap));
             }
         });
     });

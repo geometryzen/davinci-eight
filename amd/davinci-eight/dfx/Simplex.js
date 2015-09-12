@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, Vertex, VectorN) {
+define(["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, Symbolic, Vertex, VectorN) {
     function expectArgVectorN(name, vector) {
         return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
     }
@@ -38,9 +38,11 @@ define(["require", "exports", '../checks/expectArg', '../dfx/Vertex', '../math/V
             var vertices = simplex.vertices;
             var k = vertices.length;
             if (k === 3) {
-                var a = vertices[0].position;
-                var b = vertices[1].position;
-                var c = vertices[2].position;
+                // TODO: Need to lerp all attributes? YES! See below.
+                // FIXME: This should not be special.
+                var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
+                var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
+                var c = vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION];
                 var m1 = new VectorN(lerp(a.data, b.data, 0.5));
                 var m2 = new VectorN(lerp(b.data, c.data, 0.5));
                 var m3 = new VectorN(lerp(c.data, a.data, 0.5));
@@ -48,14 +50,15 @@ define(["require", "exports", '../checks/expectArg', '../dfx/Vertex', '../math/V
                 var face2 = new Simplex([a, m1, m3]);
                 var face3 = new Simplex([b, m2, m1]);
                 var face4 = new Simplex([m1, m2, m3]);
+                // TODO: subdivision is losing attributes.
                 divs.push(face1);
                 divs.push(face2);
                 divs.push(face3);
                 divs.push(face4);
             }
             else if (k === 2) {
-                var a = vertices[0].position;
-                var b = vertices[1].position;
+                var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
+                var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
                 var m = new VectorN(lerp(a.data, b.data, 0.5));
                 var line1 = new Simplex([a, m]);
                 var line2 = new Simplex([m, b]);

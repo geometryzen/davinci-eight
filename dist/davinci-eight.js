@@ -2298,7 +2298,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.88.0'
+        VERSION: '2.89.0'
     };
     return core;
 });
@@ -2816,7 +2816,7 @@ define('davinci-eight/dfx/Elements',["require", "exports", '../checks/expectArg'
     return Elements;
 });
 
-define('davinci-eight/dfx/Vertex',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+define('davinci-eight/dfx/Vertex',["require", "exports", '../checks/expectArg', '../core/Symbolic'], function (require, exports, expectArg, Symbolic) {
     function stringVectorN(name, vector) {
         if (vector) {
             return name + vector.toString();
@@ -2831,13 +2831,16 @@ define('davinci-eight/dfx/Vertex',["require", "exports", '../checks/expectArg'],
             var vector = attributes[name];
             return stringVectorN(name, vector);
         }).join(' ');
-        return stringVectorN('P', vertex.position) + attribsKey;
+        //  return stringVectorN('P', vertex.position) + attribsKey;
+        return attribsKey;
     }
     var Vertex = (function () {
         function Vertex(position) {
+            //  public position: VectorN<number>;
             this.attributes = {};
             expectArg('position', position).toBeObject();
-            this.position = position;
+            this.attributes[Symbolic.ATTRIBUTE_POSITION] = position;
+            //  this.position = position;
         }
         Vertex.prototype.toString = function () {
             return stringifyVertex(this);
@@ -2847,7 +2850,7 @@ define('davinci-eight/dfx/Vertex',["require", "exports", '../checks/expectArg'],
     return Vertex;
 });
 
-define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, Vertex, VectorN) {
+define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, Symbolic, Vertex, VectorN) {
     function expectArgVectorN(name, vector) {
         return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
     }
@@ -2887,9 +2890,11 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
             var vertices = simplex.vertices;
             var k = vertices.length;
             if (k === 3) {
-                var a = vertices[0].position;
-                var b = vertices[1].position;
-                var c = vertices[2].position;
+                // TODO: Need to lerp all attributes? YES! See below.
+                // FIXME: This should not be special.
+                var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
+                var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
+                var c = vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION];
                 var m1 = new VectorN(lerp(a.data, b.data, 0.5));
                 var m2 = new VectorN(lerp(b.data, c.data, 0.5));
                 var m3 = new VectorN(lerp(c.data, a.data, 0.5));
@@ -2897,14 +2902,15 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
                 var face2 = new Simplex([a, m1, m3]);
                 var face3 = new Simplex([b, m2, m1]);
                 var face4 = new Simplex([m1, m2, m3]);
+                // TODO: subdivision is losing attributes.
                 divs.push(face1);
                 divs.push(face2);
                 divs.push(face3);
                 divs.push(face4);
             }
             else if (k === 2) {
-                var a = vertices[0].position;
-                var b = vertices[1].position;
+                var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
+                var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
                 var m = new VectorN(lerp(a.data, b.data, 0.5));
                 var line1 = new Simplex([a, m]);
                 var line2 = new Simplex([m, b]);
@@ -2947,20 +2953,22 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
 
 define('davinci-eight/dfx/computeFaceNormals',["require", "exports", '../checks/expectArg', '../core/Symbolic', '../math/Vector3'], function (require, exports, expectArg, Symbolic, Vector3) {
     function computeFaceNormals(simplex) {
+        // TODO: Optimize so that we don't create temporaries.
+        // Use static functions on Vector3 to compute cross product by component.
         expectArg('simplex', simplex).toBeObject();
         expectArg('name', name).toBeString();
-        var vertex0 = simplex.vertices[0];
-        var vertex1 = simplex.vertices[1];
-        var vertex2 = simplex.vertices[2];
-        var vA = new Vector3(vertex0.position.data);
-        var vB = new Vector3(vertex1.position.data);
-        var vC = new Vector3(vertex2.position.data);
+        var vertex0 = simplex.vertices[0].attributes;
+        var vertex1 = simplex.vertices[1].attributes;
+        var vertex2 = simplex.vertices[2].attributes;
+        var vA = new Vector3(vertex0[Symbolic.ATTRIBUTE_POSITION].data);
+        var vB = new Vector3(vertex1[Symbolic.ATTRIBUTE_POSITION].data);
+        var vC = new Vector3(vertex2[Symbolic.ATTRIBUTE_POSITION].data);
         var cb = new Vector3().subVectors(vC, vB);
         var ab = new Vector3().subVectors(vA, vB);
         var normal = new Vector3().crossVectors(cb, ab).normalize();
-        vertex0.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        vertex1.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        vertex2.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex0[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex1[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex2[Symbolic.ATTRIBUTE_NORMAL] = normal;
     }
     return computeFaceNormals;
 });
@@ -3360,7 +3368,7 @@ define('davinci-eight/dfx/uniqueVertices',["require", "exports"], function (requ
     return uniqueVertices;
 });
 
-define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../core/Symbolic', '../dfx/uniqueVertices', '../math/VectorN'], function (require, exports, Elements, ElementsAttribute, expectArg, Simplex, Symbolic, uniqueVertices, VectorN) {
+define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../dfx/uniqueVertices', '../math/VectorN'], function (require, exports, Elements, ElementsAttribute, expectArg, Simplex, uniqueVertices, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -3397,12 +3405,6 @@ define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/Elements', '
     function concat(a, b) {
         return a.concat(b);
     }
-    function missingSpecificationForPosition() {
-        return "missing specification for " + Symbolic.ATTRIBUTE_POSITION;
-    }
-    function missingSpecificationForNormal() {
-        return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
-    }
     function triangles(faces, attribMap) {
         expectArg('faces', faces).toBeObject();
         expectArg('attribMap', attribMap).toBeObject();
@@ -3413,16 +3415,10 @@ define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/Elements', '
         Object.keys(attribMap).forEach(function (key) {
             outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
         });
-        // Cache the special cases (for now).
-        var positions = outputs[Symbolic.ATTRIBUTE_POSITION];
-        expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
-        // Each face produces three indices.
+        // Each simplex produces three indices.
         var indices = faces.map(Simplex.indices).reduce(concat, []);
         uniques.forEach(function (unique) {
-            var position = unique.position;
             var index = unique.index;
-            // TODO: cache the size for position
-            position.toArray(positions, index * attribSize(Symbolic.ATTRIBUTE_POSITION, attribMap));
             // TODO: Need string[] of custom keys... to avoid the test within the loop.
             Object.keys(attribMap).forEach(function (key) {
                 var output = outputs[key];
@@ -3431,7 +3427,7 @@ define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/Elements', '
                 // The separation of custom and standard creates an issue.
                 var data = unique.attributes[key];
                 if (data) {
-                    unique.attributes[key].toArray(output, index * attribSize(key, attribMap));
+                    data.toArray(output, index * attribSize(key, attribMap));
                 }
             });
         });

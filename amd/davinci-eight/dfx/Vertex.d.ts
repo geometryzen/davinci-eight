@@ -2,7 +2,6 @@ import Simplex = require('../dfx/Simplex');
 import VectorN = require('../math/VectorN');
 declare class Vertex {
     parent: Simplex;
-    position: VectorN<number>;
     attributes: {
         [name: string]: VectorN<number>;
     };

@@ -1,5 +1,6 @@
 import expectArg = require('../checks/expectArg');
 import Simplex = require('../dfx/Simplex');
+import Symbolic = require('../core/Symbolic');
 import VectorN = require('../math/VectorN');
 
 function stringVectorN(name: string, vector: VectorN<number>): string {
@@ -17,12 +18,13 @@ function stringifyVertex(vertex: Vertex): string {
       let vector: VectorN<number> = attributes[name];
       return stringVectorN(name, vector);
   }).join(' ');
-  return stringVectorN('P', vertex.position) + attribsKey;
+//  return stringVectorN('P', vertex.position) + attribsKey;
+  return attribsKey;
 }
 
 class Vertex {
   public parent: Simplex;
-  public position: VectorN<number>;
+//  public position: VectorN<number>;
   public attributes: { [name: string]: VectorN<number> } = {};
   /**
    * The index property is used when computing elements.
@@ -30,7 +32,8 @@ class Vertex {
   public index: number;
   constructor(position: VectorN<number>) {
     expectArg('position', position).toBeObject();
-    this.position = position;
+    this.attributes[Symbolic.ATTRIBUTE_POSITION] = position;
+//  this.position = position;
   }
   toString(): string {
     return stringifyVertex(this);

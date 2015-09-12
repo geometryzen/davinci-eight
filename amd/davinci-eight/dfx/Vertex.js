@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+define(["require", "exports", '../checks/expectArg', '../core/Symbolic'], function (require, exports, expectArg, Symbolic) {
     function stringVectorN(name, vector) {
         if (vector) {
             return name + vector.toString();
@@ -13,13 +13,16 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             var vector = attributes[name];
             return stringVectorN(name, vector);
         }).join(' ');
-        return stringVectorN('P', vertex.position) + attribsKey;
+        //  return stringVectorN('P', vertex.position) + attribsKey;
+        return attribsKey;
     }
     var Vertex = (function () {
         function Vertex(position) {
+            //  public position: VectorN<number>;
             this.attributes = {};
             expectArg('position', position).toBeObject();
-            this.position = position;
+            this.attributes[Symbolic.ATTRIBUTE_POSITION] = position;
+            //  this.position = position;
         }
         Vertex.prototype.toString = function () {
             return stringifyVertex(this);

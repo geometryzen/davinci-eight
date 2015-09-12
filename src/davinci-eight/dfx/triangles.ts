@@ -2,9 +2,7 @@ import Elements = require('../dfx/Elements');
 import ElementsAttribute = require('../dfx/ElementsAttribute');
 import expectArg = require('../checks/expectArg');
 import Simplex = require('../dfx/Simplex');
-import Symbolic = require('../core/Symbolic');
 import uniqueVertices = require('../dfx/uniqueVertices');
-import Vector3 = require('../math/Vector3');
 import VectorN = require('../math/VectorN');
 import Vertex = require('../dfx/Vertex');
 
@@ -46,14 +44,6 @@ function concat(a: number[], b: number[]): number[] {
   return a.concat(b);
 }
 
-function missingSpecificationForPosition() {
-  return "missing specification for " + Symbolic.ATTRIBUTE_POSITION;
-}
-
-function missingSpecificationForNormal() {
-  return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
-}
-
 function triangles(faces: Simplex[], attribMap: { [name: string]: { name?: string; size: number}}): Elements {
   expectArg('faces', faces).toBeObject();
   expectArg('attribMap', attribMap).toBeObject();
@@ -65,20 +55,12 @@ function triangles(faces: Simplex[], attribMap: { [name: string]: { name?: strin
   Object.keys(attribMap).forEach(function(key: string) {
     outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
   });
-  // Cache the special cases (for now).
-  let positions: number[] = outputs[Symbolic.ATTRIBUTE_POSITION];
-  expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
 
-  // Each face produces three indices.
+  // Each simplex produces three indices.
   let indices: number[] = faces.map(Simplex.indices).reduce(concat, []);
 
   uniques.forEach(function(unique: Vertex){
-    let position: VectorN<number> = unique.position;
-
     let index   = unique.index;
-
-    // TODO: cache the size for position
-    position.toArray(positions, index * attribSize(Symbolic.ATTRIBUTE_POSITION, attribMap));
 
     // TODO: Need string[] of custom keys... to avoid the test within the loop.
     Object.keys(attribMap).forEach(function(key: string) {
@@ -86,9 +68,9 @@ function triangles(faces: Simplex[], attribMap: { [name: string]: { name?: strin
       // TODO: We've already looked up the output, why not cache the size there?
       // FIXME: attribMap also contains a spec for positions and normal. Hmm.
       // The separation of custom and standard creates an issue.
-      let data: VectorN<number> = unique.attributes[key];
+      let data = unique.attributes[key];
       if (data) {
-        unique.attributes[key].toArray(output, index * attribSize(key, attribMap));
+        data.toArray(output, index * attribSize(key, attribMap));
       }
     });
   });

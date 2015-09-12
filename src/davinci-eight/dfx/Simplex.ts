@@ -1,4 +1,5 @@
 import expectArg = require('../checks/expectArg');
+import Symbolic = require('../core/Symbolic');
 import Vertex = require('../dfx/Vertex');
 import VectorN = require('../math/VectorN');
 
@@ -42,9 +43,11 @@ class Simplex {
     let vertices = simplex.vertices;
     let k = vertices.length;
     if (k === 3) {
-      let a = vertices[0].position;
-      let b = vertices[1].position;
-      let c = vertices[2].position;
+      // TODO: Need to lerp all attributes? YES! See below.
+      // FIXME: This should not be special.
+      let a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
+      let b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
+      let c = vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION];
 
       let m1 = new VectorN<number>(lerp(a.data, b.data, 0.5));
       let m2 = new VectorN<number>(lerp(b.data, c.data, 0.5));
@@ -54,15 +57,15 @@ class Simplex {
       let face2 = new Simplex([a, m1, m3]);
       let face3 = new Simplex([b, m2, m1]);
       let face4 = new Simplex([m1, m2, m3]);
-      
+      // TODO: subdivision is losing attributes.
       divs.push(face1);
       divs.push(face2);
       divs.push(face3);
       divs.push(face4);
     }
     else if (k === 2) {
-      let a = vertices[0].position;
-      let b = vertices[1].position;
+      let a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
+      let b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
 
       let m = new VectorN<number>(lerp(a.data, b.data, 0.5));
 
