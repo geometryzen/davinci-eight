@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.85.0</em>
+            <em>API Docs for: 2.86.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -144,13 +144,22 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import Vertex = require(&#x27;../dfx/Vertex&#x27;);
-import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 
-function expectArgVector3(name: string, vector: Vector3): Vector3 {
-  return expectArg(name, vector).toSatisfy(vector instanceof Vector3, name + &#x27; must be a Vector3&#x27;).value;
+function expectArgVectorN(name: string, vector: VectorN&lt;number&gt;): VectorN&lt;number&gt; {
+  return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + &#x27; must be a VectorN&#x27;).value;
+}
+
+function lerp(a: number[], b: number[], alpha: number, data: number[] = []): number[] {
+  expectArg(&#x27;b&#x27;, b).toSatisfy(a.length === b.length, &quot;a must be the same length as b&quot;);
+  let dims = a.length;
+  var i: number;
+  let beta = 1 - alpha;
+  for (i = 0; i &lt; dims; i++) {
+    data.push(beta * a[i] + alpha * b[i]);
+  }
+  return data;
 }
 
 class Simplex {
@@ -158,30 +167,16 @@ class Simplex {
   /**
    * @class Simplex
    * @constructor
-   * @param points {Vector3[]}
+   * @param points {VectorN&lt;number&gt;[]}
    */
-  constructor(points: Vector3[]) {
+  constructor(points: VectorN&lt;number&gt;[]) {
     this.vertices = points.map(function(point, index){
-      return new Vertex(expectArgVector3(&#x27;point&#x27;, point));
+      return new Vertex(expectArgVectorN(&#x27;point&#x27;, point));
     });
     let parent = this;
     this.vertices.forEach(function(vertex) {
       vertex.parent = parent;
     });
-  }
-  public static computeFaceNormals(simplex: Simplex): void {
-    expectArg(&#x27;simplex&#x27;, simplex).toBeObject();
-    expectArg(&#x27;name&#x27;, name).toBeString();
-    let k = simplex.vertices.length;
-    let vA: Vector3 = new Vector3(simplex.vertices[0].position.data);
-    let vB: Vector3 = new Vector3(simplex.vertices[1].position.data);
-    let vC: Vector3 = new Vector3(simplex.vertices[2].position.data);
-    let cb = new Vector3().subVectors(vC, vB);
-    let ab = new Vector3().subVectors(vA, vB);
-    let normal = new Vector3().crossVectors(cb, ab).normalize();
-    simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-    simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-    simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
   }
   public static indices(simplex: Simplex): number[] {
     return simplex.vertices.map(function(vertex) { return vertex.index; });
@@ -189,16 +184,17 @@ class Simplex {
   private static subdivideOne(simplex: Simplex): Simplex[] {
     expectArg(&#x27;simplex&#x27;, simplex).toBeObject();
     let divs = new Array&lt;Simplex&gt;();
-    let k = simplex.vertices.length;
+    let vertices = simplex.vertices;
+    let k = vertices.length;
     if (k === 3) {
-      let a = simplex.vertices[0].position;
-      let b = simplex.vertices[1].position;
-      let c = simplex.vertices[2].position;
+      let a = vertices[0].position;
+      let b = vertices[1].position;
+      let c = vertices[2].position;
 
-      let m1 = a.clone().lerp(b, 0.5);
-      let m2 = b.clone().lerp(c, 0.5);
-      let m3 = c.clone().lerp(a, 0.5);
-      
+      let m1 = new VectorN&lt;number&gt;(lerp(a.data, b.data, 0.5));
+      let m2 = new VectorN&lt;number&gt;(lerp(b.data, c.data, 0.5));
+      let m3 = new VectorN&lt;number&gt;(lerp(c.data, a.data, 0.5));
+
       let face1 = new Simplex([c, m3, m2]);
       let face2 = new Simplex([a, m1, m3]);
       let face3 = new Simplex([b, m2, m1]);
@@ -210,13 +206,25 @@ class Simplex {
       divs.push(face4);
     }
     else if (k === 2) {
+      let a = vertices[0].position;
+      let b = vertices[1].position;
 
+      let m = new VectorN&lt;number&gt;(lerp(a.data, b.data, 0.5));
+
+      let line1 = new Simplex([a, m]);
+      let line2 = new Simplex([m, b]);
+      
+      divs.push(line1);
+      divs.push(line2);
     }
     else if (k === 1) {
       divs.push(simplex);
     }
+    else if (k === 0) {
+      divs.push(simplex);
+    }
     else {
-
+      throw new Error(k + &quot;-simplex is not supported&quot;);
     }
 
     return divs;

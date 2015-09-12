@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.85.0</em>
+            <em>API Docs for: 2.86.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -185,24 +185,25 @@ class ElementsAttribute {
 }
 class Simplex {
   public vertices: Vertex[];
-  constructor(points: Vector3[]);
+  constructor(points: VectorN&lt;number&gt;[]);
   public static computeFaceNormals(simplex: Simplex, name: string);
   public static indices(face: Simplex): number[];
   public static subdivide(faces: Simplex[]): Simplex[];
 }
 class Vertex {
   public parent: Simplex;
-  public position: Vector3;
+  public position: VectorN&lt;number&gt;;
   public attributes: { [name: string]: VectorN&lt;number&gt; };
   public index: number;
-  constructor(position: Vector3);
+  constructor(position: VectorN&lt;number&gt;);
 }
 /**
  *
  */
-function trianglesFromSimplex3(s3s: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function computeFaceNormals(simplex: Simplex): void;
 function cube(): Simplex[];
 function square(): Simplex[];
+function triangles(faces: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
 /**
  * @class DrawMode
  */

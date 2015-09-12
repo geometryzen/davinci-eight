@@ -1,54 +1,51 @@
 var expectArg = require('../checks/expectArg');
-var Symbolic = require('../core/Symbolic');
 var Vertex = require('../dfx/Vertex');
-var Vector3 = require('../math/Vector3');
-function expectArgVector3(name, vector) {
-    return expectArg(name, vector).toSatisfy(vector instanceof Vector3, name + ' must be a Vector3').value;
+var VectorN = require('../math/VectorN');
+function expectArgVectorN(name, vector) {
+    return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
+}
+function lerp(a, b, alpha, data) {
+    if (data === void 0) { data = []; }
+    expectArg('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
+    var dims = a.length;
+    var i;
+    var beta = 1 - alpha;
+    for (i = 0; i < dims; i++) {
+        data.push(beta * a[i] + alpha * b[i]);
+    }
+    return data;
 }
 var Simplex = (function () {
     /**
      * @class Simplex
      * @constructor
-     * @param points {Vector3[]}
+     * @param points {VectorN<number>[]}
      */
     function Simplex(points) {
         this.vertices = [];
         this.vertices = points.map(function (point, index) {
-            return new Vertex(expectArgVector3('point', point));
+            return new Vertex(expectArgVectorN('point', point));
         });
         var parent = this;
         this.vertices.forEach(function (vertex) {
             vertex.parent = parent;
         });
     }
-    Simplex.computeFaceNormals = function (simplex) {
-        expectArg('simplex', simplex).toBeObject();
-        expectArg('name', name).toBeString();
-        var k = simplex.vertices.length;
-        var vA = new Vector3(simplex.vertices[0].position.data);
-        var vB = new Vector3(simplex.vertices[1].position.data);
-        var vC = new Vector3(simplex.vertices[2].position.data);
-        var cb = new Vector3().subVectors(vC, vB);
-        var ab = new Vector3().subVectors(vA, vB);
-        var normal = new Vector3().crossVectors(cb, ab).normalize();
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-    };
     Simplex.indices = function (simplex) {
         return simplex.vertices.map(function (vertex) { return vertex.index; });
     };
     Simplex.subdivideOne = function (simplex) {
         expectArg('simplex', simplex).toBeObject();
         var divs = new Array();
-        var k = simplex.vertices.length;
+        var vertices = simplex.vertices;
+        var k = vertices.length;
         if (k === 3) {
-            var a = simplex.vertices[0].position;
-            var b = simplex.vertices[1].position;
-            var c = simplex.vertices[2].position;
-            var m1 = a.clone().lerp(b, 0.5);
-            var m2 = b.clone().lerp(c, 0.5);
-            var m3 = c.clone().lerp(a, 0.5);
+            var a = vertices[0].position;
+            var b = vertices[1].position;
+            var c = vertices[2].position;
+            var m1 = new VectorN(lerp(a.data, b.data, 0.5));
+            var m2 = new VectorN(lerp(b.data, c.data, 0.5));
+            var m3 = new VectorN(lerp(c.data, a.data, 0.5));
             var face1 = new Simplex([c, m3, m2]);
             var face2 = new Simplex([a, m1, m3]);
             var face3 = new Simplex([b, m2, m1]);
@@ -59,11 +56,22 @@ var Simplex = (function () {
             divs.push(face4);
         }
         else if (k === 2) {
+            var a = vertices[0].position;
+            var b = vertices[1].position;
+            var m = new VectorN(lerp(a.data, b.data, 0.5));
+            var line1 = new Simplex([a, m]);
+            var line2 = new Simplex([m, b]);
+            divs.push(line1);
+            divs.push(line2);
         }
         else if (k === 1) {
             divs.push(simplex);
         }
+        else if (k === 0) {
+            divs.push(simplex);
+        }
         else {
+            throw new Error(k + "-simplex is not supported");
         }
         return divs;
     };

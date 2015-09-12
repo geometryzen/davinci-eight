@@ -41,10 +41,10 @@ define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '..
     function missingSpecificationForNormal() {
         return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
     }
-    function trianglesFromSimplex3(simplices, attribMap) {
-        expectArg('simplices', simplices).toBeObject();
+    function triangles(faces, attribMap) {
+        expectArg('faces', faces).toBeObject();
         expectArg('attribMap', attribMap).toBeObject();
-        var uniques = uniqueVertices(simplices);
+        var uniques = uniqueVertices(faces);
         var elements = {};
         // Initialize the output arrays for all the attributes specified.
         var outputs = {};
@@ -55,7 +55,7 @@ define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '..
         var positions = outputs[Symbolic.ATTRIBUTE_POSITION];
         expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
         // Each face produces three indices.
-        var indices = simplices.map(Simplex.indices).reduce(concat, []);
+        var indices = faces.map(Simplex.indices).reduce(concat, []);
         uniques.forEach(function (unique) {
             var position = unique.position;
             var index = unique.index;
@@ -85,5 +85,5 @@ define(["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '..
         });
         return new Elements(new VectorN(indices, false, indices.length), attributes);
     }
-    return trianglesFromSimplex3;
+    return triangles;
 });

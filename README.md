@@ -187,6 +187,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.83.0: 2015-09-11 IUnknownMap
 * 2.84.0: 2015-09-11 Simplex
 * 2.85.0: 2015-09-12 Vertex
+* 2.86.0: 2015-09-12 triangles
 
 ## License
 Copyright (c) 2014-2015 David Holmes

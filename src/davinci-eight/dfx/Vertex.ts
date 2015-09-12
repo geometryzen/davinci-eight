@@ -1,6 +1,5 @@
 import expectArg = require('../checks/expectArg');
 import Simplex = require('../dfx/Simplex');
-import Vector3 = require('../math/Vector3');
 import VectorN = require('../math/VectorN');
 
 function stringVectorN(name: string, vector: VectorN<number>): string {
@@ -23,13 +22,13 @@ function stringifyVertex(vertex: Vertex): string {
 
 class Vertex {
   public parent: Simplex;
-  public position: Vector3;
+  public position: VectorN<number>;
   public attributes: { [name: string]: VectorN<number> } = {};
   /**
    * The index property is used when computing elements.
    */
   public index: number;
-  constructor(position: Vector3) {
+  constructor(position: VectorN<number>) {
     expectArg('position', position).toBeObject();
     this.position = position;
   }

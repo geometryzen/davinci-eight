@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.85.0</em>
+            <em>API Docs for: 2.86.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -182,10 +182,11 @@ import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
 import Elements = require(&#x27;davinci-eight/dfx/Elements&#x27;);
 import Simplex = require(&#x27;davinci-eight/dfx/Simplex&#x27;);
 import Vertex = require(&#x27;davinci-eight/dfx/Vertex&#x27;);
+import computeFaceNormals = require(&#x27;davinci-eight/dfx/computeFaceNormals&#x27;);
 import cube = require(&#x27;davinci-eight/dfx/cube&#x27;);
 import quad = require(&#x27;davinci-eight/dfx/quad&#x27;);
 import square = require(&#x27;davinci-eight/dfx/square&#x27;);
-import trianglesFromSimplex3 = require(&#x27;davinci-eight/dfx/trianglesFromSimplex3&#x27;);
+import triangles = require(&#x27;davinci-eight/dfx/triangles&#x27;);
 // drawLists
 import scene = require(&#x27;davinci-eight/drawLists/scene&#x27;);
 import DrawList = require(&#x27;davinci-eight/drawLists/DrawList&#x27;);
@@ -342,6 +343,7 @@ var eight = {
   
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
+  get computeFaceNormals() { return computeFaceNormals; },
   get cube() { return cube; },
   get quad() { return quad; },
   get square() { return square; },
@@ -357,7 +359,7 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
-  get trianglesFromSimplex3() { return trianglesFromSimplex3; },
+  get triangles() { return triangles; },
   get ArrayBuffer() { return ArrayBuffer; },
   get Elements() { return Elements; },
   // utils

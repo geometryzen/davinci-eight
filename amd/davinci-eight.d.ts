@@ -145,6 +145,7 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
+    computeFaceNormals: (simplex: Simplex) => void;
     cube: () => Simplex[];
     quad: (vecs: Vector3[], coords: Vector2[]) => Simplex[];
     square: () => Simplex[];
@@ -158,7 +159,7 @@ declare var eight: {
     }) => AttribProvider;
     programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
     Texture: typeof Texture;
-    trianglesFromSimplex3: (simplices: Simplex[], attribMap: {
+    triangles: (faces: Simplex[], attribMap: {
         [name: string]: {
             name?: string;
             size: number;

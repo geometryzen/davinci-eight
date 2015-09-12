@@ -54,11 +54,11 @@ function missingSpecificationForNormal() {
   return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
 }
 
-function trianglesFromSimplex3(simplices: Simplex[], attribMap: { [name: string]: { name?: string; size: number}}): Elements {
-  expectArg('simplices', simplices).toBeObject();
+function triangles(faces: Simplex[], attribMap: { [name: string]: { name?: string; size: number}}): Elements {
+  expectArg('faces', faces).toBeObject();
   expectArg('attribMap', attribMap).toBeObject();
 
-  let uniques: Vertex[] = uniqueVertices(simplices);
+  let uniques: Vertex[] = uniqueVertices(faces);
   let elements: { [key:string]: Vertex } = {};
   // Initialize the output arrays for all the attributes specified.
   let outputs: { [key: string]: number[] } = {};
@@ -70,7 +70,7 @@ function trianglesFromSimplex3(simplices: Simplex[], attribMap: { [name: string]
   expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
 
   // Each face produces three indices.
-  let indices: number[] = simplices.map(Simplex.indices).reduce(concat, []);
+  let indices: number[] = faces.map(Simplex.indices).reduce(concat, []);
 
   uniques.forEach(function(unique: Vertex){
     let position: VectorN<number> = unique.position;
@@ -105,4 +105,4 @@ function trianglesFromSimplex3(simplices: Simplex[], attribMap: { [name: string]
   return new Elements(new VectorN<number>(indices, false, indices.length), attributes);
 }
 
-export = trianglesFromSimplex3;
+export = triangles;

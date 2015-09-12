@@ -20,10 +20,11 @@ var Curve = require('davinci-eight/curves/Curve');
 var Elements = require('davinci-eight/dfx/Elements');
 var Simplex = require('davinci-eight/dfx/Simplex');
 var Vertex = require('davinci-eight/dfx/Vertex');
+var computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 var cube = require('davinci-eight/dfx/cube');
 var quad = require('davinci-eight/dfx/quad');
 var square = require('davinci-eight/dfx/square');
-var trianglesFromSimplex3 = require('davinci-eight/dfx/trianglesFromSimplex3');
+var triangles = require('davinci-eight/dfx/triangles');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
 // geometries
@@ -155,6 +156,7 @@ var eight = {
     get ArrowBuilder() { return ArrowBuilder; },
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
+    get computeFaceNormals() { return computeFaceNormals; },
     get cube() { return cube; },
     get quad() { return quad; },
     get square() { return square; },
@@ -168,7 +170,7 @@ var eight = {
     get programFromScripts() { return programFromScripts; },
     // resources
     get Texture() { return Texture; },
-    get trianglesFromSimplex3() { return trianglesFromSimplex3; },
+    get triangles() { return triangles; },
     get ArrayBuffer() { return ArrayBuffer; },
     get Elements() { return Elements; },
     // utils

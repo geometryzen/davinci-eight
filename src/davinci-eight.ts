@@ -37,10 +37,11 @@ import Curve = require('davinci-eight/curves/Curve');
 import Elements = require('davinci-eight/dfx/Elements');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
+import computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 import cube = require('davinci-eight/dfx/cube');
 import quad = require('davinci-eight/dfx/quad');
 import square = require('davinci-eight/dfx/square');
-import trianglesFromSimplex3 = require('davinci-eight/dfx/trianglesFromSimplex3');
+import triangles = require('davinci-eight/dfx/triangles');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
@@ -197,6 +198,7 @@ var eight = {
   
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
+  get computeFaceNormals() { return computeFaceNormals; },
   get cube() { return cube; },
   get quad() { return quad; },
   get square() { return square; },
@@ -212,7 +214,7 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   // resources
   get Texture() { return Texture; },
-  get trianglesFromSimplex3() { return trianglesFromSimplex3; },
+  get triangles() { return triangles; },
   get ArrayBuffer() { return ArrayBuffer; },
   get Elements() { return Elements; },
   // utils

@@ -3,12 +3,12 @@ define(
   'davinci-eight/dfx/Simplex',
   'davinci-eight/dfx/Vertex',
   'davinci-eight/math/Vector3',
-  'davinci-eight/dfx/trianglesFromSimplex3',
+  'davinci-eight/dfx/triangles',
   'davinci-eight/dfx/cube',
   'davinci-eight/dfx/Elements',
   'davinci-eight/core/Symbolic'
 ],
-function(Simplex, Vertex, Vector3, trianglesFromSimplex3, cube, Elements, Symbolic)
+function(Simplex, Vertex, Vector3, triangles, cube, Elements, Symbolic)
 {
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;
@@ -25,7 +25,7 @@ function(Simplex, Vertex, Vector3, trianglesFromSimplex3, cube, Elements, Symbol
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_TEXTURE] = {size: 2};
-      var elements = trianglesFromSimplex3(faces, attribMap);
+      var elements = triangles(faces, attribMap);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
       var normals = elements.attributes[Symbolic.ATTRIBUTE_NORMAL].vector.data;

@@ -1,9 +1,8 @@
 import Simplex = require('../dfx/Simplex');
-import Vector3 = require('../math/Vector3');
 import VectorN = require('../math/VectorN');
 declare class Vertex {
     parent: Simplex;
-    position: Vector3;
+    position: VectorN<number>;
     attributes: {
         [name: string]: VectorN<number>;
     };
@@ -11,7 +10,7 @@ declare class Vertex {
      * The index property is used when computing elements.
      */
     index: number;
-    constructor(position: Vector3);
+    constructor(position: VectorN<number>);
     toString(): string;
 }
 export = Vertex;

@@ -40,24 +40,25 @@ class ElementsAttribute {
 }
 class Simplex {
   public vertices: Vertex[];
-  constructor(points: Vector3[]);
+  constructor(points: VectorN<number>[]);
   public static computeFaceNormals(simplex: Simplex, name: string);
   public static indices(face: Simplex): number[];
   public static subdivide(faces: Simplex[]): Simplex[];
 }
 class Vertex {
   public parent: Simplex;
-  public position: Vector3;
+  public position: VectorN<number>;
   public attributes: { [name: string]: VectorN<number> };
   public index: number;
-  constructor(position: Vector3);
+  constructor(position: VectorN<number>);
 }
 /**
  *
  */
-function trianglesFromSimplex3(s3s: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function computeFaceNormals(simplex: Simplex): void;
 function cube(): Simplex[];
 function square(): Simplex[];
+function triangles(faces: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
 /**
  * @class DrawMode
  */

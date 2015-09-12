@@ -2298,7 +2298,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.85.0'
+        VERSION: '2.86.0'
     };
     return core;
 });
@@ -2847,54 +2847,52 @@ define('davinci-eight/dfx/Vertex',["require", "exports", '../checks/expectArg'],
     return Vertex;
 });
 
-define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx/Vertex', '../math/Vector3'], function (require, exports, expectArg, Symbolic, Vertex, Vector3) {
-    function expectArgVector3(name, vector) {
-        return expectArg(name, vector).toSatisfy(vector instanceof Vector3, name + ' must be a Vector3').value;
+define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, Vertex, VectorN) {
+    function expectArgVectorN(name, vector) {
+        return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
+    }
+    function lerp(a, b, alpha, data) {
+        if (data === void 0) { data = []; }
+        expectArg('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
+        var dims = a.length;
+        var i;
+        var beta = 1 - alpha;
+        for (i = 0; i < dims; i++) {
+            data.push(beta * a[i] + alpha * b[i]);
+        }
+        return data;
     }
     var Simplex = (function () {
         /**
          * @class Simplex
          * @constructor
-         * @param points {Vector3[]}
+         * @param points {VectorN<number>[]}
          */
         function Simplex(points) {
             this.vertices = [];
             this.vertices = points.map(function (point, index) {
-                return new Vertex(expectArgVector3('point', point));
+                return new Vertex(expectArgVectorN('point', point));
             });
             var parent = this;
             this.vertices.forEach(function (vertex) {
                 vertex.parent = parent;
             });
         }
-        Simplex.computeFaceNormals = function (simplex) {
-            expectArg('simplex', simplex).toBeObject();
-            expectArg('name', name).toBeString();
-            var k = simplex.vertices.length;
-            var vA = new Vector3(simplex.vertices[0].position.data);
-            var vB = new Vector3(simplex.vertices[1].position.data);
-            var vC = new Vector3(simplex.vertices[2].position.data);
-            var cb = new Vector3().subVectors(vC, vB);
-            var ab = new Vector3().subVectors(vA, vB);
-            var normal = new Vector3().crossVectors(cb, ab).normalize();
-            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-            simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-            simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        };
         Simplex.indices = function (simplex) {
             return simplex.vertices.map(function (vertex) { return vertex.index; });
         };
         Simplex.subdivideOne = function (simplex) {
             expectArg('simplex', simplex).toBeObject();
             var divs = new Array();
-            var k = simplex.vertices.length;
+            var vertices = simplex.vertices;
+            var k = vertices.length;
             if (k === 3) {
-                var a = simplex.vertices[0].position;
-                var b = simplex.vertices[1].position;
-                var c = simplex.vertices[2].position;
-                var m1 = a.clone().lerp(b, 0.5);
-                var m2 = b.clone().lerp(c, 0.5);
-                var m3 = c.clone().lerp(a, 0.5);
+                var a = vertices[0].position;
+                var b = vertices[1].position;
+                var c = vertices[2].position;
+                var m1 = new VectorN(lerp(a.data, b.data, 0.5));
+                var m2 = new VectorN(lerp(b.data, c.data, 0.5));
+                var m3 = new VectorN(lerp(c.data, a.data, 0.5));
                 var face1 = new Simplex([c, m3, m2]);
                 var face2 = new Simplex([a, m1, m3]);
                 var face3 = new Simplex([b, m2, m1]);
@@ -2905,11 +2903,22 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
                 divs.push(face4);
             }
             else if (k === 2) {
+                var a = vertices[0].position;
+                var b = vertices[1].position;
+                var m = new VectorN(lerp(a.data, b.data, 0.5));
+                var line1 = new Simplex([a, m]);
+                var line2 = new Simplex([m, b]);
+                divs.push(line1);
+                divs.push(line2);
             }
             else if (k === 1) {
                 divs.push(simplex);
             }
+            else if (k === 0) {
+                divs.push(simplex);
+            }
             else {
+                throw new Error(k + "-simplex is not supported");
             }
             return divs;
         };
@@ -2921,19 +2930,39 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
     return Simplex;
 });
 
-define('davinci-eight/dfx/quad',["require", "exports", '../checks/expectArg', '../dfx/Simplex', '../core/Symbolic'], function (require, exports, expectArg, Simplex, Symbolic) {
+define('davinci-eight/dfx/computeFaceNormals',["require", "exports", '../checks/expectArg', '../core/Symbolic', '../math/Vector3'], function (require, exports, expectArg, Symbolic, Vector3) {
+    function computeFaceNormals(simplex) {
+        expectArg('simplex', simplex).toBeObject();
+        expectArg('name', name).toBeString();
+        var vertex0 = simplex.vertices[0];
+        var vertex1 = simplex.vertices[1];
+        var vertex2 = simplex.vertices[2];
+        var vA = new Vector3(vertex0.position.data);
+        var vB = new Vector3(vertex1.position.data);
+        var vC = new Vector3(vertex2.position.data);
+        var cb = new Vector3().subVectors(vC, vB);
+        var ab = new Vector3().subVectors(vA, vB);
+        var normal = new Vector3().crossVectors(cb, ab).normalize();
+        vertex0.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex1.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex2.attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+    }
+    return computeFaceNormals;
+});
+
+define('davinci-eight/dfx/quad',["require", "exports", '../dfx/computeFaceNormals', '../checks/expectArg', '../dfx/Simplex', '../core/Symbolic'], function (require, exports, computeFaceNormals, expectArg, Simplex, Symbolic) {
     function quad(vecs, coords) {
         expectArg('vecs', vecs).toBeObject().toSatisfy(vecs.length === 4, "");
         expectArg('coords', coords).toBeObject().toSatisfy(coords.length === 4, "");
         var triangles = new Array();
         var t012 = new Simplex([vecs[0], vecs[1], vecs[2]]);
-        Simplex.computeFaceNormals(t012);
+        computeFaceNormals(t012);
         t012.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[0];
         t012.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[1];
         t012.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[2];
         triangles.push(t012);
         var t023 = new Simplex([vecs[0], vecs[2], vecs[3]]);
-        Simplex.computeFaceNormals(t023);
+        computeFaceNormals(t023);
         t023.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE] = t012.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE];
         t023.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE] = t012.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE];
         t023.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords[3];
@@ -3271,7 +3300,7 @@ define('davinci-eight/dfx/uniqueVertices',["require", "exports"], function (requ
     return uniqueVertices;
 });
 
-define('davinci-eight/dfx/trianglesFromSimplex3',["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../core/Symbolic', '../dfx/uniqueVertices', '../math/VectorN'], function (require, exports, Elements, ElementsAttribute, expectArg, Simplex, Symbolic, uniqueVertices, VectorN) {
+define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../core/Symbolic', '../dfx/uniqueVertices', '../math/VectorN'], function (require, exports, Elements, ElementsAttribute, expectArg, Simplex, Symbolic, uniqueVertices, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -3314,10 +3343,10 @@ define('davinci-eight/dfx/trianglesFromSimplex3',["require", "exports", '../dfx/
     function missingSpecificationForNormal() {
         return "missing specification for " + Symbolic.ATTRIBUTE_NORMAL;
     }
-    function trianglesFromSimplex3(simplices, attribMap) {
-        expectArg('simplices', simplices).toBeObject();
+    function triangles(faces, attribMap) {
+        expectArg('faces', faces).toBeObject();
         expectArg('attribMap', attribMap).toBeObject();
-        var uniques = uniqueVertices(simplices);
+        var uniques = uniqueVertices(faces);
         var elements = {};
         // Initialize the output arrays for all the attributes specified.
         var outputs = {};
@@ -3328,7 +3357,7 @@ define('davinci-eight/dfx/trianglesFromSimplex3',["require", "exports", '../dfx/
         var positions = outputs[Symbolic.ATTRIBUTE_POSITION];
         expectArg(Symbolic.ATTRIBUTE_POSITION, positions).toBeObject(missingSpecificationForPosition);
         // Each face produces three indices.
-        var indices = simplices.map(Simplex.indices).reduce(concat, []);
+        var indices = faces.map(Simplex.indices).reduce(concat, []);
         uniques.forEach(function (unique) {
             var position = unique.position;
             var index = unique.index;
@@ -3358,7 +3387,7 @@ define('davinci-eight/dfx/trianglesFromSimplex3',["require", "exports", '../dfx/
         });
         return new Elements(new VectorN(indices, false, indices.length), attributes);
     }
-    return trianglesFromSimplex3;
+    return triangles;
 });
 
 define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
@@ -10750,7 +10779,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/objects/primitive', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/Elements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quad', 'davinci-eight/dfx/square', 'davinci-eight/dfx/trianglesFromSimplex3', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry3', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/resources/Texture', 'davinci-eight/core/ArrayBuffer', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, DefaultAttribProvider, Color, core, DrawMode, Face3, primitive, UniformLocation, Curve, Elements, Simplex, Vertex, cube, quad, square, trianglesFromSimplex3, scene, Geometry3, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Texture, ArrayBuffer, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/objects/primitive', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/Elements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quad', 'davinci-eight/dfx/square', 'davinci-eight/dfx/triangles', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry3', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/resources/Texture', 'davinci-eight/core/ArrayBuffer', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, DefaultAttribProvider, Color, core, DrawMode, Face3, primitive, UniformLocation, Curve, Elements, Simplex, Vertex, computeFaceNormals, cube, quad, square, triangles, scene, Geometry3, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Texture, ArrayBuffer, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -10824,6 +10853,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get ArrowBuilder() { return ArrowBuilder; },
         get boxMesh() { return boxMesh; },
         get BoxBuilder() { return BoxBuilder; },
+        get computeFaceNormals() { return computeFaceNormals; },
         get cube() { return cube; },
         get quad() { return quad; },
         get square() { return square; },
@@ -10837,7 +10867,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get programFromScripts() { return programFromScripts; },
         // resources
         get Texture() { return Texture; },
-        get trianglesFromSimplex3() { return trianglesFromSimplex3; },
+        get triangles() { return triangles; },
         get ArrayBuffer() { return ArrayBuffer; },
         get Elements() { return Elements; },
         // utils
