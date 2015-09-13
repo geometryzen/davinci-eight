@@ -5,6 +5,9 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var VectorN = require('../math/VectorN');
+var wedgeXY = require('../math/wedgeXY');
+var wedgeYZ = require('../math/wedgeYZ');
+var wedgeZX = require('../math/wedgeZX');
 /**
  * @class Spinor3
  */
@@ -123,14 +126,17 @@ var Spinor3 = (function (_super) {
         return Math.sqrt(this.quaditude());
     };
     Spinor3.prototype.multiply = function (rhs) {
-        var a0 = this.w;
-        var a1 = this.yz;
-        var a2 = this.zx;
-        var a3 = this.xy;
-        var b0 = rhs.w;
-        var b1 = rhs.yz;
-        var b2 = rhs.zx;
-        var b3 = rhs.xy;
+        return this.multiplySpinors(this, rhs);
+    };
+    Spinor3.prototype.multiplySpinors = function (a, b) {
+        var a0 = a.w;
+        var a1 = a.yz;
+        var a2 = a.zx;
+        var a3 = a.xy;
+        var b0 = b.w;
+        var b1 = b.yz;
+        var b2 = b.zx;
+        var b3 = b.xy;
         this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
         this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
         this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
@@ -151,7 +157,22 @@ var Spinor3 = (function (_super) {
         var xy = this.xy;
         return w * w + yz * yz + zx * zx + xy * xy;
     };
+    Spinor3.prototype.reverse = function () {
+        this.yz *= -1;
+        this.zx *= -1;
+        this.xy *= -1;
+        return this;
+    };
     Spinor3.prototype.sub = function (rhs) {
+        return this;
+    };
+    Spinor3.prototype.wedgeVectors = function (a, b) {
+        var ax = a.x, ay = a.y, az = a.z;
+        var bx = b.x, by = b.y, bz = b.z;
+        this.w = 0;
+        this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
+        this.zx = wedgeZX(ax, ay, az, bx, by, bz);
+        this.xy = wedgeXY(ax, ay, az, bx, by, bz);
         return this;
     };
     /**

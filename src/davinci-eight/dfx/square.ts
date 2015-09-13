@@ -1,5 +1,5 @@
 import Simplex = require('../dfx/Simplex');
-import quad = require('../dfx/quad');
+import quadrilateral = require('../dfx/quadrilateral');
 import Symbolic = require('../core/Symbolic');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -33,7 +33,7 @@ function square(size: number = 1): Simplex[] {
 
   attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
 
-  return quad(vec0, vec1, vec2, vec3, attributes);
+  return quadrilateral(vec0, vec1, vec2, vec3, attributes);
 }
 
 export = square;

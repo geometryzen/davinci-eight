@@ -2,6 +2,10 @@ import Cartesian3 = require('../math/Cartesian3');
 import GeometricElement = require('../math/GeometricElement');
 import Matrix4 = require('../math/Matrix4');
 import Vector3 = require('../math/Vector3');
+/**
+ * Quaternion is retained for reference only.
+ * Quaternion should not be exposed.
+ */
 declare class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     private _x;
     private _y;

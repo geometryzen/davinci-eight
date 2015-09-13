@@ -17,13 +17,14 @@ define(["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx
         /**
          * @class Simplex
          * @constructor
-         * @param points {VectorN<number>[]}
+         * @param k {number} The initial number of vertices in the simplex.
          */
-        function Simplex(points) {
+        function Simplex(k) {
             this.vertices = [];
-            this.vertices = points.map(function (point, index) {
-                return new Vertex(expectArgVectorN('point', point));
-            });
+            expectArg('k', k).toBeNumber();
+            for (var i = 0; i < k; i++) {
+                this.vertices.push(new Vertex());
+            }
             var parent = this;
             this.vertices.forEach(function (vertex) {
                 vertex.parent = parent;
@@ -46,10 +47,22 @@ define(["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx
                 var m1 = new VectorN(lerp(a.data, b.data, 0.5));
                 var m2 = new VectorN(lerp(b.data, c.data, 0.5));
                 var m3 = new VectorN(lerp(c.data, a.data, 0.5));
-                var face1 = new Simplex([c, m3, m2]);
-                var face2 = new Simplex([a, m1, m3]);
-                var face3 = new Simplex([b, m2, m1]);
-                var face4 = new Simplex([m1, m2, m3]);
+                var face1 = new Simplex(k); //c, m3, m2
+                face1.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
+                face1.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
+                face1.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
+                var face2 = new Simplex(k); // a, m1, m3
+                face2.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
+                face2.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
+                face2.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
+                var face3 = new Simplex(k); // b, m2, m1
+                face3.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
+                face3.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
+                face3.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
+                var face4 = new Simplex(k); // m1, m2, m3
+                face4.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
+                face4.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
+                face4.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
                 // TODO: subdivision is losing attributes.
                 divs.push(face1);
                 divs.push(face2);
@@ -60,8 +73,12 @@ define(["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx
                 var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
                 var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
                 var m = new VectorN(lerp(a.data, b.data, 0.5));
-                var line1 = new Simplex([a, m]);
-                var line2 = new Simplex([m, b]);
+                var line1 = new Simplex(k); // a, m
+                line1.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
+                line1.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m;
+                var line2 = new Simplex(k); // m, b 
+                line2.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = m;
+                line2.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
                 divs.push(line1);
                 divs.push(line2);
             }

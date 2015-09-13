@@ -18,8 +18,7 @@ var AttribLocation = (function () {
      * @param name {string} The name of the variable as it appears in the GLSL program.
      */
     function AttribLocation(monitor, name) {
-        this._enabled = void 0;
-        this._monitor = expectArg('monitor', monitor).toBeObject().value;
+        expectArg('monitor', monitor).toBeObject().value;
         this._name = expectArg('name', name).toBeString().value;
     }
     Object.defineProperty(AttribLocation.prototype, "index", {
@@ -40,7 +39,6 @@ var AttribLocation = (function () {
     AttribLocation.prototype.contextLoss = function () {
         this._index = void 0;
         this._context = void 0;
-        this._enabled = void 0;
     };
     /**
      * @method vertexPointer
@@ -53,31 +51,19 @@ var AttribLocation = (function () {
         if (normalized === void 0) { normalized = false; }
         if (stride === void 0) { stride = 0; }
         if (offset === void 0) { offset = 0; }
-        // mirroring may not be possible and would require knowing the ARRAY_BUFFER contents.
         this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
     };
     /**
      * @method enable
      */
     AttribLocation.prototype.enable = function () {
-        if (this._monitor.mirror) {
-            if (this._enabled !== true) {
-                this._context.enableVertexAttribArray(this._index);
-                this._enabled = true;
-            }
-        }
-        else {
-            this._context.enableVertexAttribArray(this._index);
-        }
+        this._context.enableVertexAttribArray(this._index);
     };
     /**
      * @method disable
      */
     AttribLocation.prototype.disable = function () {
-        if (this._enabled !== false) {
-            this._context.disableVertexAttribArray(this._index);
-            this._enabled = false;
-        }
+        this._context.disableVertexAttribArray(this._index);
     };
     /**
      * @method toString

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.89.0</em>
+            <em>API Docs for: 2.90.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -443,7 +443,7 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
 
   var context: WebGLRenderingContext;
   var refCount: number = 1;
-  var mirror: boolean = true;
+  var mirror: boolean = false;
   let tokenArg = expectArg(&#x27;token&#x27;, &quot;&quot;);
 
   let webGLContextLost = function(event: Event) {

@@ -271,7 +271,7 @@ function contextProxy(canvas, attributes) {
     }
     var context;
     var refCount = 1;
-    var mirror = true;
+    var mirror = false;
     var tokenArg = expectArg('token', "");
     var webGLContextLost = function (event) {
         event.preventDefault();

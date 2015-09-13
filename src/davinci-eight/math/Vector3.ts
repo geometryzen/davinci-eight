@@ -1,13 +1,13 @@
-// Be careful not to create circularity.
-// Only use Matrix4 in type positions.
-// Otherwise, create standalone functions.
 import Cartesian3 = require('../math/Cartesian3');
 import expectArg = require('../checks/expectArg');
 import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import Spinor3 = require('../math/Spinor3');
+import Spinor3Coords = require('../math/Spinor3Coords');
 import VectorN = require('../math/VectorN');
+import wedgeXY = require('../math/wedgeXY');
+import wedgeYZ = require('../math/wedgeYZ');
+import wedgeZX = require('../math/wedgeZX');
 
 /**
  * @class Vector3
@@ -135,7 +135,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
 
     return this;
   }
-  applySpinor(spinor: Spinor3): Vector3 {
+  applySpinor(spinor: Spinor3Coords): Vector3 {
     let x = this.x;
     let y = this.y;
     let z = this.z;
@@ -173,16 +173,18 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     return this.crossVectors(this, v);
   }
   crossVectors(a: Cartesian3, b: Cartesian3): Vector3 {
-    var ax = a.x, ay = a.y, az = a.z;
-    var bx = b.x, by = b.y, bz = b.z;
 
-    this.x = ay * bz - az * by;
-    this.y = az * bx - ax * bz;
-    this.z = ax * by - ay * bx;
+    let ax = a.x, ay = a.y, az = a.z;
+    let bx = b.x, by = b.y, bz = b.z;
+
+    let x = wedgeYZ(ax, ay, az, bx, by, bz);
+    let y = wedgeZX(ax, ay, az, bx, by, bz);
+    let z = wedgeXY(ax, ay, az, bx, by, bz);
+
+    this.set(x, y, z);
 
     return this;
   }
-
   distanceTo(position: Cartesian3): number {
     return Math.sqrt(this.quadranceTo(position));
   }

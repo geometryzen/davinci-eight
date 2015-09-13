@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.89.0</em>
+            <em>API Docs for: 2.90.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -185,7 +185,7 @@ class ElementsAttribute {
 }
 class Simplex {
   public vertices: Vertex[];
-  constructor(points: VectorN&lt;number&gt;[]);
+  constructor(k: number);
   public static computeFaceNormals(simplex: Simplex, name: string);
   public static indices(face: Simplex): number[];
   public static subdivide(faces: Simplex[]): Simplex[];
@@ -195,32 +195,82 @@ class Vertex {
   public position: VectorN&lt;number&gt;;
   public attributes: { [name: string]: VectorN&lt;number&gt; };
   public index: number;
-  constructor(position: VectorN&lt;number&gt;);
+  constructor();
 }
+
+/**
+ * Computes the mapping from attribute name to size.
+ * Reports inconsistencies in the geometry by throwing exceptions.
+ */
+function checkGeometry(geometry: Simplex[]): { [name: string]: { size: number } };
+
 /**
  *
  */
 function computeFaceNormals(simplex: Simplex): void;
+
 /**
- * cube as Simplex[]
+ *
+ * Creates a cube of the specified side length.
+ *
+ *    6------ 5
+ *   /|      /|
+ *  1-------0 |
+ *  | |     | |
+ *  | 7-----|-4
+ *  |/      |/
+ *  2-------3
+ *
+ * The triangle simplices are:
+ * 1-2-0, 3-0-2, ...
  */
 function cube(size?: number): Simplex[];
+
 /**
- * quad as Simplex[]
+ * quadrilateral as Simplex[]
+ *
+ *  b-------a
+ *  |       | 
+ *  |       |
+ *  |       |
+ *  c-------d
+ *
+ * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a &quot;Z&quot;.
+ * The zeroth vertex for each triangle is opposite the other triangle.
  */
-function quad(vecs: VectorN&lt;number&gt;[], attributes?: { [name: string]: VectorN&lt;number&gt;[] }, triangles?: Simplex[]): Simplex[]
+function quadrilateral(a: VectorN&lt;number&gt;, b: VectorN&lt;number&gt;, c: vectorN&lt;number&gt;, d: VectorN&lt;number&gt;, attributes?: { [name: string]: VectorN&lt;number&gt;[] }, triangles?: Simplex[]): Simplex[];
+
 /**
- * square as Simplex[]
+ * square(size) as Simplex[]
+ *
+ *  b-------a
+ *  |       | 
+ *  |       |
+ *  |       |
+ *  c-------d
+ *
+ * The square is split into two triangles: b-c-a and d-a-c, like a &quot;Z&quot;.
+ * The zeroth vertex for each triangle is opposite the other triangle.
  */
 function square(size?: number): Simplex[];
+
 /**
- * triangle as Simplex[]
+ * terahedron(a, b, c, d) as Simplex[]
+ *
+ * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
+ */
+function tetrahedron(a: VectorN&lt;number&gt;, b: VectorN&lt;number&gt;, c: VectorN&lt;number&gt;, d: VectorN&lt;number&gt;, attributes: { [name: string]: VectorN&lt;number&gt;[] } = {}, triangles: Simplex[] = []): Simplex[];
+
+/**
+ * triangle(a, b, c) as Simplex[]
  */
 function triangle(a: VectorN&lt;number&gt;, b: VectorN&lt;number&gt;, c: VectorN&lt;number&gt;, attributes?: { [name: string]: VectorN&lt;number&gt;[] }, triangles?: Simplex[]): Simplex[];
+
 /**
  * Simplex[] =&gt; Elements (gl.TRIANGLES) conversion.
  */
-function triangles(faces: Simplex[], attribMap: { [name: string]: {name?: string; size: number} }): Elements;
+function triangles(geometry: Simplex[], attribMap?: { [name: string]: {name?: string; size: number} }): Elements;
+
 /**
  * @class DrawMode
  */
@@ -474,40 +524,15 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2 {
   sub(v: Cartesian2): Vector2;
   subVectors(a: Cartesian2, b: Cartesian2): Vector2;
 }
-class Quaternion {
-  public x: number;
-  public y: number;
-  public z: number;
-  public w: number;
-  public onChangeCallback: () =&gt; void;
-  constructor(x?: number, y?: number, z?: number, w?: number);
-  set(x: number, y: number, z: number, w: number);
-  clone(): Quaternion;
-  conjugate(): Quaternion;
-  copy(quaternion: Quaternion): Quaternion;
-  dot(v: Quaternion): number;
-  inverse(): Quaternion;
-  magnitude(): number;
-  multiply(q: Quaternion): Quaternion;
-  multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion;
-  normalize(): Quaternion;
-  onChange(callback: () =&gt; void): Quaternion;
-  quaditude(): number;
-  setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion;
-  setFromRotationMatrix(m: Matrix4): Quaternion;
-  setFromUnitVectors(vFrom: Vector3, vTo: Vector3);
-  slerp(qb: Quaternion, t: number): Quaternion;
-  equals(quaternion: Quaternion);
-  fromArray(array: number[], offset: number): Quaternion;
-  toArray(array: number[], offset): number[];
-  public static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion;
-}
 interface Spinor3Coords {
   yz: number;
   zx: number;
   xy: number;
   w: number;
 }
+/**
+ *
+ */
 class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, GeometricElement&lt;Spinor3Coords, Spinor3&gt; {
   public yz: number;
   public zx: number;
@@ -520,8 +545,14 @@ class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, GeometricE
   divideScalar(scalar: number): Spinor3;
   exp(): Spinor3;
   multiply(rhs: Spinor3Coords): Spinor3;
+  multiplySpinors(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
   multiplyScalar(scalar: number): Spinor3;
+  reverse(): Spinor3;
   toString(): string;
+  /**
+   * Sets this Spinor3 to the outer product of the vectors a and b, a ^ b.
+   */
+  wedgeVectors(a: Cartesian3, b: Cartesian3) Spinor3;
 }
 interface Cartesian3 {
   x: number;

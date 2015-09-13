@@ -3,12 +3,13 @@ define(
   'davinci-eight/dfx/Simplex',
   'davinci-eight/dfx/Vertex',
   'davinci-eight/math/Vector3',
+  'davinci-eight/dfx/triangle',
   'davinci-eight/dfx/triangles',
   'davinci-eight/dfx/Elements',
   'davinci-eight/core/Symbolic',
   'davinci-eight/dfx/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangles, Elements, Symbolic, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, triangles, Elements, Symbolic, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
@@ -31,12 +32,10 @@ function(Simplex, Vertex, Vector3, triangles, Elements, Symbolic, computeFaceNor
       var A = new Vector3([0.0, 0.0, 0.0]);
       var B = new Vector3([0.1, 0.0, 0.0]);
       var C = new Vector3([0.0, 0.1, 0.0]);
-      var f = new Simplex([A, B, C]);
-      var a = f.vertices[0];
-      var b = f.vertices[1];
-      var c = f.vertices[2];
-      var faces = [];
-      faces.push(f);
+      var faces = triangle(A, B, C);
+      var a = faces[0].vertices[0];
+      var b = faces[0].vertices[1];
+      var c = faces[0].vertices[2];
       var attribMap = {};
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
@@ -91,8 +90,8 @@ function(Simplex, Vertex, Vector3, triangles, Elements, Symbolic, computeFaceNor
       var vec1 = new Vector3([0.0, 0.0, 0.0]);
       var vec2 = new Vector3([0.0, 0.2, 0.0]);
       var vec3 = new Vector3([0.2, 0.2, 0.0]);
-      var f012 = new Simplex([vec0, vec1, vec2]);
-      var f023 = new Simplex([vec0, vec2, vec3]);
+      var f012 = triangle(vec0, vec1, vec2)[0];
+      var f023 = triangle(vec0, vec2, vec3)[0];
       var faces = [];
       faces.push(f012);
       faces.push(f023);
@@ -169,14 +168,10 @@ function(Simplex, Vertex, Vector3, triangles, Elements, Symbolic, computeFaceNor
       vecs.push(new Vector3([1, 0, 0]));
       vecs.push(new Vector3([0, 1, 0]));
       vecs.push(new Vector3([0, 0, 1]));
-      var f123 = new Simplex([vecs[1], vecs[2], vecs[3]]);
-      computeFaceNormals(f123);
-      var f013 = new Simplex([vecs[0], vecs[1], vecs[3]]);
-      computeFaceNormals(f013);
-      var f032 = new Simplex([vecs[0], vecs[3], vecs[2]]);
-      computeFaceNormals(f032);
-      var f021 = new Simplex([vecs[0], vecs[2], vecs[1]]);
-      computeFaceNormals(f021);
+      var f123 = triangle(vecs[1], vecs[2], vecs[3])[0];
+      var f013 = triangle(vecs[0], vecs[1], vecs[3])[0];
+      var f032 = triangle(vecs[0], vecs[3], vecs[2])[0];
+      var f021 = triangle(vecs[0], vecs[2], vecs[1])[0];
       var faces = [];
       faces.push(f123);
       faces.push(f013);

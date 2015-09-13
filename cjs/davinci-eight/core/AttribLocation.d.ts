@@ -11,8 +11,6 @@ declare class AttribLocation implements RenderingContextProgramUser {
     private _name;
     private _index;
     private _context;
-    private _monitor;
-    private _enabled;
     /**
      * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
      * In particular, this class manages buffer allocation, location caching, and data binding.

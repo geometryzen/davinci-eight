@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
+define(["require", "exports", '../checks/expectArg', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, expectArg, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class Vector3
      */
@@ -164,9 +164,10 @@ define(["require", "exports", '../checks/expectArg', '../math/VectorN'], functio
         Vector3.prototype.crossVectors = function (a, b) {
             var ax = a.x, ay = a.y, az = a.z;
             var bx = b.x, by = b.y, bz = b.z;
-            this.x = ay * bz - az * by;
-            this.y = az * bx - ax * bz;
-            this.z = ax * by - ay * bx;
+            var x = wedgeYZ(ax, ay, az, bx, by, bz);
+            var y = wedgeZX(ax, ay, az, bx, by, bz);
+            var z = wedgeXY(ax, ay, az, bx, by, bz);
+            this.set(x, y, z);
             return this;
         };
         Vector3.prototype.distanceTo = function (position) {

@@ -23,12 +23,13 @@ class Simplex {
   /**
    * @class Simplex
    * @constructor
-   * @param points {VectorN<number>[]}
+   * @param k {number} The initial number of vertices in the simplex.
    */
-  constructor(points: VectorN<number>[]) {
-    this.vertices = points.map(function(point, index){
-      return new Vertex(expectArgVectorN('point', point));
-    });
+  constructor(k: number) {
+    expectArg('k', k).toBeNumber();
+    for (var i = 0; i < k; i++) {
+      this.vertices.push(new Vertex());
+    }
     let parent = this;
     this.vertices.forEach(function(vertex) {
       vertex.parent = parent;
@@ -53,10 +54,22 @@ class Simplex {
       let m2 = new VectorN<number>(lerp(b.data, c.data, 0.5));
       let m3 = new VectorN<number>(lerp(c.data, a.data, 0.5));
 
-      let face1 = new Simplex([c, m3, m2]);
-      let face2 = new Simplex([a, m1, m3]);
-      let face3 = new Simplex([b, m2, m1]);
-      let face4 = new Simplex([m1, m2, m3]);
+      let face1 = new Simplex(k); //c, m3, m2
+      face1.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
+      face1.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
+      face1.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
+      let face2 = new Simplex(k); // a, m1, m3
+      face2.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
+      face2.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
+      face2.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
+      let face3 = new Simplex(k); // b, m2, m1
+      face3.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
+      face3.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
+      face3.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
+      let face4 = new Simplex(k); // m1, m2, m3
+      face4.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
+      face4.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
+      face4.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
       // TODO: subdivision is losing attributes.
       divs.push(face1);
       divs.push(face2);
@@ -69,9 +82,13 @@ class Simplex {
 
       let m = new VectorN<number>(lerp(a.data, b.data, 0.5));
 
-      let line1 = new Simplex([a, m]);
-      let line2 = new Simplex([m, b]);
-      
+      let line1 = new Simplex(k); // a, m
+      line1.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
+      line1.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m;
+      let line2 = new Simplex(k); // m, b 
+      line2.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = m;
+      line2.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
+
       divs.push(line1);
       divs.push(line2);
     }

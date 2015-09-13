@@ -1,4 +1,4 @@
-var quad = require('../dfx/quad');
+var quadrilateral = require('../dfx/quadrilateral');
 var Symbolic = require('../core/Symbolic');
 var Vector2 = require('../math/Vector2');
 var Vector3 = require('../math/Vector3');
@@ -24,6 +24,6 @@ function square(size) {
     var coords = [c11, c01, c00, c10];
     var attributes = {};
     attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
-    return quad(vec0, vec1, vec2, vec3, attributes);
+    return quadrilateral(vec0, vec1, vec2, vec3, attributes);
 }
 module.exports = square;

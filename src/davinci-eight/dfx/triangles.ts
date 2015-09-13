@@ -1,8 +1,9 @@
+import checkGeometry = require('../dfx/checkGeometry');
+import computeUniqueVertices = require('../dfx/computeUniqueVertices');
 import Elements = require('../dfx/Elements');
 import ElementsAttribute = require('../dfx/ElementsAttribute');
 import expectArg = require('../checks/expectArg');
 import Simplex = require('../dfx/Simplex');
-import uniqueVertices = require('../dfx/uniqueVertices');
 import VectorN = require('../math/VectorN');
 import Vertex = require('../dfx/Vertex');
 
@@ -44,46 +45,67 @@ function concat(a: number[], b: number[]): number[] {
   return a.concat(b);
 }
 
-function triangles(faces: Simplex[], attribMap: { [name: string]: { name?: string; size: number}}): Elements {
-  expectArg('faces', faces).toBeObject();
-  expectArg('attribMap', attribMap).toBeObject();
+function triangles(geometry: Simplex[], attribMap?: { [name: string]: { name?: string; size: number}}): Elements {
+  expectArg('geometry', geometry).toBeObject();
 
-  let uniques: Vertex[] = uniqueVertices(faces);
-  let elements: { [key:string]: Vertex } = {};
-  // Initialize the output arrays for all the attributes specified.
-  let outputs: { [key: string]: number[] } = {};
-  Object.keys(attribMap).forEach(function(key: string) {
-    outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
-  });
+  var actuals = checkGeometry(geometry);
 
-  // Each simplex produces three indices.
-  let indices: number[] = faces.map(Simplex.indices).reduce(concat, []);
+  if (attribMap) {
+    expectArg('attribMap', attribMap).toBeObject();
+  }
+  else {
+    attribMap = actuals;
+  }
 
-  uniques.forEach(function(unique: Vertex){
-    let index   = unique.index;
+  // Cache the keys and keys.length of the specified attributes and declare a loop index.
+  let keys = Object.keys(attribMap);
+  let keysLen = keys.length;
+  var k: number;
 
-    // TODO: Need string[] of custom keys... to avoid the test within the loop.
-    Object.keys(attribMap).forEach(function(key: string) {
-      let output = outputs[key];
-      // TODO: We've already looked up the output, why not cache the size there?
-      // FIXME: attribMap also contains a spec for positions and normal. Hmm.
-      // The separation of custom and standard creates an issue.
-      let data = unique.attributes[key];
-      if (data) {
-        data.toArray(output, index * attribSize(key, attribMap));
+  // Side effect is to set the index property, but it will be be the same as the array index. 
+  let vertices: Vertex[] = computeUniqueVertices(geometry);
+  let vsLength = vertices.length;
+  var i: number;
+  // Each simplex produces as many indices as vertices.
+  // This is why we need the Vertex to have an temporary index property.
+  let indices: number[] = geometry.map(Simplex.indices).reduce(concat, []);
+
+  // Create intermediate data structures for output and to cache dimensions and name.
+  // For performance an an array will be used whose index is the key index.
+  let outputs: { data: number[]; dimensions: number; name: string }[] = [];
+  for (k = 0; k < keysLen; k++) {
+    let key = keys[k];
+    let dims = attribSize(key, attribMap);
+    let data = numberList(vsLength * dims, void 0);
+    outputs.push({ data: data, dimensions: dims, name: attribName(key, attribMap) });
+  }
+
+  // Accumulate attribute data in intermediate data structures.
+  for (i = 0; i < vsLength; i++) {
+    let vertex = vertices[i];
+    let vertexAttribs = vertex.attributes;
+    if (vertex.index !== i) {
+      expectArg('vertex.index', i).toSatisfy(false, "vertex.index must equal loop index, i");
+    }
+    for (k = 0; k < keysLen; k++) {
+      let output = outputs[k];
+      let size = output.dimensions;
+      let data: VectorN<number> = vertexAttribs[keys[k]];
+      if (!data) {
+        data = new VectorN<number>(numberList(size, 0), false, size);
       }
-    });
-  });
+      data.toArray(output.data, i * output.dimensions);
+    }
+  }
+
+  // Copy accumulated attribute arrays to output data structure.
   var attributes: { [name: string]: ElementsAttribute } = {};
-  // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
-  // TODO: Use map
-  Object.keys(attribMap).forEach(function(key: string) {
-    let output: number[] = outputs[key];
-    let data = outputs[key];
-    // TODO: We've already looked up output. Why not cache the output name and use the size?
+  for (k = 0; k < keysLen; k++) {
+    let output = outputs[k];
+    let data = output.data;
     let vector = new VectorN<number>(data, false, data.length);
-    attributes[attribName(key, attribMap)] = new ElementsAttribute(vector, attribSize(key, attribMap));
-  });
+    attributes[output.name] = new ElementsAttribute(vector, output.dimensions);
+  }
   return new Elements(new VectorN<number>(indices, false, indices.length), attributes);
 }
 

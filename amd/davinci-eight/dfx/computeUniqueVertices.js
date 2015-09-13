@@ -1,8 +1,8 @@
 define(["require", "exports"], function (require, exports) {
     // This function has the important side-effect of setting the vertex index property.
-    function uniqueVertices(simplices) {
+    function computeUniqueVertices(geometry) {
         var map = {};
-        var uniques = [];
+        var vertices = [];
         function munge(vertex) {
             var key = vertex.toString();
             if (map[key]) {
@@ -10,17 +10,17 @@ define(["require", "exports"], function (require, exports) {
                 vertex.index = existing.index;
             }
             else {
-                vertex.index = uniques.length;
-                uniques.push(vertex);
+                vertex.index = vertices.length;
+                vertices.push(vertex);
                 map[key] = vertex;
             }
         }
-        simplices.forEach(function (simplex) {
+        geometry.forEach(function (simplex) {
             simplex.vertices.forEach(function (vertex) {
                 munge(vertex);
             });
         });
-        return uniques;
+        return vertices;
     }
-    return uniqueVertices;
+    return computeUniqueVertices;
 });

@@ -20,10 +20,12 @@ var Curve = require('davinci-eight/curves/Curve');
 var Elements = require('davinci-eight/dfx/Elements');
 var Simplex = require('davinci-eight/dfx/Simplex');
 var Vertex = require('davinci-eight/dfx/Vertex');
+var checkGeometry = require('davinci-eight/dfx/checkGeometry');
 var computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 var cube = require('davinci-eight/dfx/cube');
-var quad = require('davinci-eight/dfx/quad');
+var quadrilateral = require('davinci-eight/dfx/quadrilateral');
 var square = require('davinci-eight/dfx/square');
+var tetrahedron = require('davinci-eight/dfx/tetrahedron');
 var triangle = require('davinci-eight/dfx/triangle');
 var triangles = require('davinci-eight/dfx/triangles');
 // drawLists
@@ -157,10 +159,12 @@ var eight = {
     get ArrowBuilder() { return ArrowBuilder; },
     get boxMesh() { return boxMesh; },
     get BoxBuilder() { return BoxBuilder; },
+    get checkGeometry() { return checkGeometry; },
     get computeFaceNormals() { return computeFaceNormals; },
     get cube() { return cube; },
-    get quad() { return quad; },
+    get quadrilateral() { return quadrilateral; },
     get square() { return square; },
+    get tetrahedron() { return tetrahedron; },
     get triangle() { return triangle; },
     get triangles() { return triangles; },
     get CylinderArgs() { return CylinderArgs; },

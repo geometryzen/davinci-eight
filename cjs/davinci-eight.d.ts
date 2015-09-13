@@ -145,16 +145,24 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
+    checkGeometry: (geometry: Simplex[]) => {
+        [key: string]: {
+            size: number;
+        };
+    };
     computeFaceNormals: (simplex: Simplex) => void;
     cube: (size?: number) => Simplex[];
-    quad: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
+    quadrilateral: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
     square: (size?: number) => Simplex[];
+    tetrahedron: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
+        [name: string]: VectorN<number>[];
+    }, triangles?: Simplex[]) => Simplex[];
     triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
-    triangles: (faces: Simplex[], attribMap: {
+    triangles: (geometry: Simplex[], attribMap?: {
         [name: string]: {
             name?: string;
             size: number;

@@ -6,6 +6,9 @@ var __extends = this.__extends || function (d, b) {
 };
 var expectArg = require('../checks/expectArg');
 var VectorN = require('../math/VectorN');
+var wedgeXY = require('../math/wedgeXY');
+var wedgeYZ = require('../math/wedgeYZ');
+var wedgeZX = require('../math/wedgeZX');
 /**
  * @class Vector3
  */
@@ -165,9 +168,10 @@ var Vector3 = (function (_super) {
     Vector3.prototype.crossVectors = function (a, b) {
         var ax = a.x, ay = a.y, az = a.z;
         var bx = b.x, by = b.y, bz = b.z;
-        this.x = ay * bz - az * by;
-        this.y = az * bx - ax * bz;
-        this.z = ax * by - ay * bx;
+        var x = wedgeYZ(ax, ay, az, bx, by, bz);
+        var y = wedgeZX(ax, ay, az, bx, by, bz);
+        var z = wedgeXY(ax, ay, az, bx, by, bz);
+        this.set(x, y, z);
         return this;
     };
     Vector3.prototype.distanceTo = function (position) {

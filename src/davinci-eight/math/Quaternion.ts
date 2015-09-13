@@ -4,7 +4,10 @@ import Matrix4 = require('../math/Matrix4');
 import Vector3 = require('../math/Vector3');
 
 var EPS = 0.000001;
-
+/**
+ * Quaternion is retained for reference only.
+ * Quaternion should not be exposed.
+ */
 class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   private _x: number;
   private _y: number;

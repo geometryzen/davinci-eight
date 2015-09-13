@@ -11,15 +11,19 @@ define(["require", "exports", '../checks/expectArg', '../dfx/triangle', '../math
             target[name] = which.map(function (index) { return values[index]; });
         }
     }
-    // quad
-    //
-    //  b-------a
-    //  |       | 
-    //  |       |
-    //  |       |
-    //  c-------d
-    //
-    function quad(a, b, c, d, attributes, triangles) {
+    /**
+     * quadrilateral
+     *
+     *  b-------a
+     *  |       |
+     *  |       |
+     *  |       |
+     *  c-------d
+     *
+     * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
+     * The zeroth vertex for each triangle is opposite the other triangle.
+     */
+    function quadrilateral(a, b, c, d, attributes, triangles) {
         if (attributes === void 0) { attributes = {}; }
         if (triangles === void 0) { triangles = []; }
         expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
@@ -27,12 +31,15 @@ define(["require", "exports", '../checks/expectArg', '../dfx/triangle', '../math
         expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
         expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
         var triatts = {};
-        setAttributes([0, 1, 2], attributes, triatts);
-        triangle(a, b, c, triatts, triangles);
-        setAttributes([0, 2, 3], attributes, triatts);
-        // For symmetry this would be nice to be c-d-a and 2-3-0
-        triangle(a, c, d, triatts, triangles);
+        setAttributes([1, 2, 0], attributes, triatts);
+        triangle(b, c, a, triatts, triangles);
+        var face1 = triangles[triangles.length - 1];
+        setAttributes([3, 0, 2], attributes, triatts);
+        triangle(d, a, c, triatts, triangles);
+        var face2 = triangles[triangles.length - 1];
+        face1.vertices[0].opposing.push(face2);
+        face2.vertices[0].opposing.push(face1);
         return triangles;
     }
-    return quad;
+    return quadrilateral;
 });

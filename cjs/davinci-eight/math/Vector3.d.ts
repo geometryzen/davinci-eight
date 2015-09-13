@@ -2,7 +2,7 @@ import Cartesian3 = require('../math/Cartesian3');
 import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import Spinor3 = require('../math/Spinor3');
+import Spinor3Coords = require('../math/Spinor3Coords');
 import VectorN = require('../math/VectorN');
 /**
  * @class Vector3
@@ -59,7 +59,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
         z: number;
         w: number;
     }): Vector3;
-    applySpinor(spinor: Spinor3): Vector3;
+    applySpinor(spinor: Spinor3Coords): Vector3;
     clone(): Vector3;
     copy(v: Cartesian3): Vector3;
     cross(v: Cartesian3): Vector3;

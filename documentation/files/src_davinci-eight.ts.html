@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.89.0</em>
+            <em>API Docs for: 2.90.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -182,10 +182,12 @@ import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
 import Elements = require(&#x27;davinci-eight/dfx/Elements&#x27;);
 import Simplex = require(&#x27;davinci-eight/dfx/Simplex&#x27;);
 import Vertex = require(&#x27;davinci-eight/dfx/Vertex&#x27;);
+import checkGeometry = require(&#x27;davinci-eight/dfx/checkGeometry&#x27;);
 import computeFaceNormals = require(&#x27;davinci-eight/dfx/computeFaceNormals&#x27;);
 import cube = require(&#x27;davinci-eight/dfx/cube&#x27;);
-import quad = require(&#x27;davinci-eight/dfx/quad&#x27;);
+import quadrilateral = require(&#x27;davinci-eight/dfx/quadrilateral&#x27;);
 import square = require(&#x27;davinci-eight/dfx/square&#x27;);
+import tetrahedron = require(&#x27;davinci-eight/dfx/tetrahedron&#x27;);
 import triangle = require(&#x27;davinci-eight/dfx/triangle&#x27;);
 import triangles = require(&#x27;davinci-eight/dfx/triangles&#x27;);
 // drawLists
@@ -344,10 +346,12 @@ var eight = {
   
   get boxMesh() { return boxMesh; },
   get BoxBuilder() { return BoxBuilder; },
+  get checkGeometry() { return checkGeometry; },
   get computeFaceNormals() { return computeFaceNormals; },
   get cube() { return cube; },
-  get quad() { return quad; },
+  get quadrilateral() { return quadrilateral; },
   get square() { return square; },
+  get tetrahedron() { return tetrahedron; },
   get triangle() { return triangle; },
   get triangles() { return triangles; },
   get CylinderArgs() { return CylinderArgs; },

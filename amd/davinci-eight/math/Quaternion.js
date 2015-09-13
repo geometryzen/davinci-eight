@@ -1,5 +1,9 @@
 define(["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
     var EPS = 0.000001;
+    /**
+     * Quaternion is retained for reference only.
+     * Quaternion should not be exposed.
+     */
     var Quaternion = (function () {
         function Quaternion(x, y, z, w) {
             if (x === void 0) { x = 0; }

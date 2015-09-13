@@ -1,8 +1,9 @@
+var checkGeometry = require('../dfx/checkGeometry');
+var computeUniqueVertices = require('../dfx/computeUniqueVertices');
 var Elements = require('../dfx/Elements');
 var ElementsAttribute = require('../dfx/ElementsAttribute');
 var expectArg = require('../checks/expectArg');
 var Simplex = require('../dfx/Simplex');
-var uniqueVertices = require('../dfx/uniqueVertices');
 var VectorN = require('../math/VectorN');
 function numberList(size, value) {
     var data = [];
@@ -40,42 +41,60 @@ function attribSize(key, attribMap) {
 function concat(a, b) {
     return a.concat(b);
 }
-function triangles(faces, attribMap) {
-    expectArg('faces', faces).toBeObject();
-    expectArg('attribMap', attribMap).toBeObject();
-    var uniques = uniqueVertices(faces);
-    var elements = {};
-    // Initialize the output arrays for all the attributes specified.
-    var outputs = {};
-    Object.keys(attribMap).forEach(function (key) {
-        outputs[key] = numberList(uniques.length * attribSize(key, attribMap), void 0);
-    });
-    // Each simplex produces three indices.
-    var indices = faces.map(Simplex.indices).reduce(concat, []);
-    uniques.forEach(function (unique) {
-        var index = unique.index;
-        // TODO: Need string[] of custom keys... to avoid the test within the loop.
-        Object.keys(attribMap).forEach(function (key) {
-            var output = outputs[key];
-            // TODO: We've already looked up the output, why not cache the size there?
-            // FIXME: attribMap also contains a spec for positions and normal. Hmm.
-            // The separation of custom and standard creates an issue.
-            var data = unique.attributes[key];
-            if (data) {
-                data.toArray(output, index * attribSize(key, attribMap));
+function triangles(geometry, attribMap) {
+    expectArg('geometry', geometry).toBeObject();
+    var actuals = checkGeometry(geometry);
+    if (attribMap) {
+        expectArg('attribMap', attribMap).toBeObject();
+    }
+    else {
+        attribMap = actuals;
+    }
+    // Cache the keys and keys.length of the specified attributes and declare a loop index.
+    var keys = Object.keys(attribMap);
+    var keysLen = keys.length;
+    var k;
+    // Side effect is to set the index property, but it will be be the same as the array index. 
+    var vertices = computeUniqueVertices(geometry);
+    var vsLength = vertices.length;
+    var i;
+    // Each simplex produces as many indices as vertices.
+    // This is why we need the Vertex to have an temporary index property.
+    var indices = geometry.map(Simplex.indices).reduce(concat, []);
+    // Create intermediate data structures for output and to cache dimensions and name.
+    // For performance an an array will be used whose index is the key index.
+    var outputs = [];
+    for (k = 0; k < keysLen; k++) {
+        var key = keys[k];
+        var dims = attribSize(key, attribMap);
+        var data = numberList(vsLength * dims, void 0);
+        outputs.push({ data: data, dimensions: dims, name: attribName(key, attribMap) });
+    }
+    // Accumulate attribute data in intermediate data structures.
+    for (i = 0; i < vsLength; i++) {
+        var vertex = vertices[i];
+        var vertexAttribs = vertex.attributes;
+        if (vertex.index !== i) {
+            expectArg('vertex.index', i).toSatisfy(false, "vertex.index must equal loop index, i");
+        }
+        for (k = 0; k < keysLen; k++) {
+            var output = outputs[k];
+            var size = output.dimensions;
+            var data = vertexAttribs[keys[k]];
+            if (!data) {
+                data = new VectorN(numberList(size, 0), false, size);
             }
-        });
-    });
+            data.toArray(output.data, i * output.dimensions);
+        }
+    }
+    // Copy accumulated attribute arrays to output data structure.
     var attributes = {};
-    // Specifying the size fixes the length of the VectorN, disabling push and pop, etc.
-    // TODO: Use map
-    Object.keys(attribMap).forEach(function (key) {
-        var output = outputs[key];
-        var data = outputs[key];
-        // TODO: We've already looked up output. Why not cache the output name and use the size?
+    for (k = 0; k < keysLen; k++) {
+        var output = outputs[k];
+        var data = output.data;
         var vector = new VectorN(data, false, data.length);
-        attributes[attribName(key, attribMap)] = new ElementsAttribute(vector, attribSize(key, attribMap));
-    });
+        attributes[output.name] = new ElementsAttribute(vector, output.dimensions);
+    }
     return new Elements(new VectorN(indices, false, indices.length), attributes);
 }
 module.exports = triangles;

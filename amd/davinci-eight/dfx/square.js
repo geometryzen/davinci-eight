@@ -1,4 +1,4 @@
-define(["require", "exports", '../dfx/quad', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quad, Symbolic, Vector2, Vector3) {
+define(["require", "exports", '../dfx/quadrilateral', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quadrilateral, Symbolic, Vector2, Vector3) {
     // square
     //
     //  b-------a
@@ -21,7 +21,7 @@ define(["require", "exports", '../dfx/quad', '../core/Symbolic', '../math/Vector
         var coords = [c11, c01, c00, c10];
         var attributes = {};
         attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
-        return quad(vec0, vec1, vec2, vec3, attributes);
+        return quadrilateral(vec0, vec1, vec2, vec3, attributes);
     }
     return square;
 });

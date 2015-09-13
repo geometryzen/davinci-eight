@@ -1,7 +1,4 @@
-import AttribDataInfo = require('../core/AttribDataInfo');
-import AttribProvider = require('../core/AttribProvider');
 import expectArg = require('../checks/expectArg');
-import isDefined = require('../checks/isDefined');
 import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
 import RenderingContextMonitor = require('../core/RenderingContextMonitor');
 
@@ -20,8 +17,6 @@ class AttribLocation implements RenderingContextProgramUser {
   private _name: string;
   private _index: number;
   private _context: WebGLRenderingContext;
-  private _monitor: RenderingContextMonitor;
-  private _enabled: boolean = void 0;
   /**
    * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
    * In particular, this class manages buffer allocation, location caching, and data binding.
@@ -30,7 +25,7 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param name {string} The name of the variable as it appears in the GLSL program.
    */
   constructor(monitor: RenderingContextMonitor, name: string) {
-    this._monitor = expectArg('monitor', monitor).toBeObject().value;
+    expectArg('monitor', monitor).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }
   get index(): number {
@@ -47,7 +42,6 @@ class AttribLocation implements RenderingContextProgramUser {
   contextLoss(): void {
     this._index = void 0;
     this._context  = void 0;
-    this._enabled  = void 0;
   }
   /**
    * @method vertexPointer
@@ -57,31 +51,19 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
    */
   vertexPointer(size: number, normalized: boolean = false, stride: number = 0, offset: number = 0): void {
-    // mirroring may not be possible and would require knowing the ARRAY_BUFFER contents.
     this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
   }
   /**
    * @method enable
    */
   enable(): void {
-    if (this._monitor.mirror) {
-      if (this._enabled !== true) {
-        this._context.enableVertexAttribArray(this._index);
-        this._enabled = true;
-      }
-    }
-    else {
-      this._context.enableVertexAttribArray(this._index);
-    }
+    this._context.enableVertexAttribArray(this._index);
   }
   /**
    * @method disable
    */
   disable(): void {
-    if (this._enabled !== false) {
-      this._context.disableVertexAttribArray(this._index);
-      this._enabled = false;
-    }
+    this._context.disableVertexAttribArray(this._index);
   }
   /**
    * @method toString

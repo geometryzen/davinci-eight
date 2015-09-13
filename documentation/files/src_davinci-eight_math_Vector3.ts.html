@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.89.0</em>
+            <em>API Docs for: 2.90.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,16 +143,16 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-// Be careful not to create circularity.
-// Only use Matrix4 in type positions.
-// Otherwise, create standalone functions.
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
-import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
+import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
+import wedgeXY = require(&#x27;../math/wedgeXY&#x27;);
+import wedgeYZ = require(&#x27;../math/wedgeYZ&#x27;);
+import wedgeZX = require(&#x27;../math/wedgeZX&#x27;);
 
 /**
  * @class Vector3
@@ -280,7 +280,7 @@ class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement
 
     return this;
   }
-  applySpinor(spinor: Spinor3): Vector3 {
+  applySpinor(spinor: Spinor3Coords): Vector3 {
     let x = this.x;
     let y = this.y;
     let z = this.z;
@@ -318,16 +318,18 @@ class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement
     return this.crossVectors(this, v);
   }
   crossVectors(a: Cartesian3, b: Cartesian3): Vector3 {
-    var ax = a.x, ay = a.y, az = a.z;
-    var bx = b.x, by = b.y, bz = b.z;
 
-    this.x = ay * bz - az * by;
-    this.y = az * bx - ax * bz;
-    this.z = ax * by - ay * bx;
+    let ax = a.x, ay = a.y, az = a.z;
+    let bx = b.x, by = b.y, bz = b.z;
+
+    let x = wedgeYZ(ax, ay, az, bx, by, bz);
+    let y = wedgeZX(ax, ay, az, bx, by, bz);
+    let z = wedgeXY(ax, ay, az, bx, by, bz);
+
+    this.set(x, y, z);
 
     return this;
   }
-
   distanceTo(position: Cartesian3): number {
     return Math.sqrt(this.quadranceTo(position));
   }

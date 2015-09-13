@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.89.0</em>
+            <em>API Docs for: 2.90.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -143,10 +143,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AttribDataInfo = require(&#x27;../core/AttribDataInfo&#x27;);
-import AttribProvider = require(&#x27;../core/AttribProvider&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import RenderingContextProgramUser = require(&#x27;../core/RenderingContextProgramUser&#x27;);
 import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
 
@@ -165,8 +162,6 @@ class AttribLocation implements RenderingContextProgramUser {
   private _name: string;
   private _index: number;
   private _context: WebGLRenderingContext;
-  private _monitor: RenderingContextMonitor;
-  private _enabled: boolean = void 0;
   /**
    * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
    * In particular, this class manages buffer allocation, location caching, and data binding.
@@ -175,7 +170,7 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param name {string} The name of the variable as it appears in the GLSL program.
    */
   constructor(monitor: RenderingContextMonitor, name: string) {
-    this._monitor = expectArg(&#x27;monitor&#x27;, monitor).toBeObject().value;
+    expectArg(&#x27;monitor&#x27;, monitor).toBeObject().value;
     this._name = expectArg(&#x27;name&#x27;, name).toBeString().value;
   }
   get index(): number {
@@ -192,7 +187,6 @@ class AttribLocation implements RenderingContextProgramUser {
   contextLoss(): void {
     this._index = void 0;
     this._context  = void 0;
-    this._enabled  = void 0;
   }
   /**
    * @method vertexPointer
@@ -202,31 +196,19 @@ class AttribLocation implements RenderingContextProgramUser {
    * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
    */
   vertexPointer(size: number, normalized: boolean = false, stride: number = 0, offset: number = 0): void {
-    // mirroring may not be possible and would require knowing the ARRAY_BUFFER contents.
     this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
   }
   /**
    * @method enable
    */
   enable(): void {
-    if (this._monitor.mirror) {
-      if (this._enabled !== true) {
-        this._context.enableVertexAttribArray(this._index);
-        this._enabled = true;
-      }
-    }
-    else {
-      this._context.enableVertexAttribArray(this._index);
-    }
+    this._context.enableVertexAttribArray(this._index);
   }
   /**
    * @method disable
    */
   disable(): void {
-    if (this._enabled !== false) {
-      this._context.disableVertexAttribArray(this._index);
-      this._enabled = false;
-    }
+    this._context.disableVertexAttribArray(this._index);
   }
   /**
    * @method toString

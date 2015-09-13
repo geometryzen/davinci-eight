@@ -16,15 +16,19 @@ function setAttributes(which: number[], source: { [name: string]: VectorN<number
   }
 }
 
-// quad
-//
-//  b-------a
-//  |       | 
-//  |       |
-//  |       |
-//  c-------d
-//
-function quad(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
+/**
+ * quadrilateral
+ *
+ *  b-------a
+ *  |       | 
+ *  |       |
+ *  |       |
+ *  c-------d
+ *
+ * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
+ * The zeroth vertex for each triangle is opposite the other triangle.
+ */
+function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[] {
 
   expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
   expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
@@ -33,14 +37,18 @@ function quad(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: Vec
 
   let triatts: { [name: string]: VectorN<number>[] } = {};
 
-  setAttributes([0, 1, 2], attributes, triatts);
-  triangle(a, b, c, triatts, triangles);
+  setAttributes([1, 2, 0], attributes, triatts);
+  triangle(b, c, a, triatts, triangles);
+  let face1 = triangles[triangles.length - 1];
 
-  setAttributes([0, 2, 3], attributes, triatts);
-  // For symmetry this would be nice to be c-d-a and 2-3-0
-  triangle(a, c, d, triatts, triangles);
+  setAttributes([3, 0, 2], attributes, triatts);
+  triangle(d, a, c, triatts, triangles);
+  let face2 = triangles[triangles.length - 1];
+
+  face1.vertices[0].opposing.push(face2);
+  face2.vertices[0].opposing.push(face1);
 
   return triangles;
 }
 
-export = quad;
+export = quadrilateral;

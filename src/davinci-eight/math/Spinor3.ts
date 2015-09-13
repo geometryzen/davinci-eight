@@ -1,8 +1,12 @@
+import Cartesian3 = require('../math/Cartesian3');
 import VectorN = require('../math/VectorN');
 import expectArg = require('../checks/expectArg');
 import GeometricElement = require('../math/GeometricElement');
 import Mutable = require('../math/Mutable');
 import Spinor3Coords = require('../math/Spinor3Coords');
+import wedgeXY = require('../math/wedgeXY');
+import wedgeYZ = require('../math/wedgeYZ');
+import wedgeZX = require('../math/wedgeZX');
 /**
  * @class Spinor3
  */
@@ -102,15 +106,18 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   magnitude() {
     return Math.sqrt(this.quaditude());
   }
-  multiply(rhs: Spinor3Coords) {
-    let a0 = this.w;
-    let a1 = this.yz;
-    let a2 = this.zx;
-    let a3 = this.xy;
-    let b0 = rhs.w;
-    let b1 = rhs.yz;
-    let b2 = rhs.zx;
-    let b3 = rhs.xy;
+  multiply(rhs: Spinor3Coords): Spinor3 {
+    return this.multiplySpinors(this, rhs);
+  }
+  multiplySpinors(a: Spinor3Coords, b: Spinor3Coords): Spinor3 {
+    let a0 = a.w;
+    let a1 = a.yz;
+    let a2 = a.zx;
+    let a3 = a.xy;
+    let b0 = b.w;
+    let b1 = b.yz;
+    let b2 = b.zx;
+    let b3 = b.xy;
     this.w  = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
     this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
     this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
@@ -131,7 +138,24 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     let xy = this.xy;
     return w * w + yz * yz + zx * zx + xy * xy;
   }
+  reverse() {
+    this.yz *= - 1;
+    this.zx *= - 1;
+    this.xy *= - 1;
+    return this;
+  }
   sub(rhs: Spinor3Coords) {
+    return this;
+  }
+  wedgeVectors(a: Cartesian3, b: Cartesian3) {
+    let ax = a.x, ay = a.y, az = a.z;
+    let bx = b.x, by = b.y, bz = b.z;
+
+    this.w = 0;
+    this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
+    this.zx = wedgeZX(ax, ay, az, bx, by, bz);
+    this.xy = wedgeXY(ax, ay, az, bx, by, bz);
+
     return this;
   }
   /**

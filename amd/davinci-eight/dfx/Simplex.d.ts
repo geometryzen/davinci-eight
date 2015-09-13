@@ -5,9 +5,9 @@ declare class Simplex {
     /**
      * @class Simplex
      * @constructor
-     * @param points {VectorN<number>[]}
+     * @param k {number} The initial number of vertices in the simplex.
      */
-    constructor(points: VectorN<number>[]);
+    constructor(k: number);
     static indices(simplex: Simplex): number[];
     private static subdivideOne(simplex);
     static subdivide(faces: Simplex[]): Simplex[];
