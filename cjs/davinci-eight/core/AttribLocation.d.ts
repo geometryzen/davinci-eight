@@ -1,13 +1,13 @@
-import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextProgramListener = require('../core/ContextProgramListener');
+import ContextManager = require('../core/ContextManager');
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
- * to use the AttribLocation instances managed by the ShaderProgram because
+ * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
  * @class AttribLocation.
  */
-declare class AttribLocation implements RenderingContextProgramUser {
+declare class AttribLocation implements ContextProgramListener {
     private _name;
     private _index;
     private _context;
@@ -18,7 +18,7 @@ declare class AttribLocation implements RenderingContextProgramUser {
      * @constructor
      * @param name {string} The name of the variable as it appears in the GLSL program.
      */
-    constructor(monitor: RenderingContextMonitor, name: string);
+    constructor(monitor: ContextManager, name: string);
     index: number;
     contextFree(): void;
     contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;

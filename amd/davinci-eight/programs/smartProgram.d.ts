@@ -1,9 +1,9 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 /**
  *
  */
-declare var smartProgram: (monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]) => ShaderProgram;
+declare var smartProgram: (monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]) => Program;
 export = smartProgram;

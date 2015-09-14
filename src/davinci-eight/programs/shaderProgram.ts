@@ -1,13 +1,12 @@
 import AttribDataInfo = require('../core/AttribDataInfo');
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribProvider = require('../core/AttribProvider');
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import expectArg = require('../checks/expectArg');
-import isDefined = require('../checks/isDefined');
 import uuid4 = require('../utils/uuid4');
 import AttribLocation = require('../core/AttribLocation');
 import UniformLocation = require('../core/UniformLocation');
@@ -17,8 +16,13 @@ import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 import refChange = require('../utils/refChange');
+
+/**
+ * Name used for reference count monitoring and logging.
+ */
+let LOGGING_NAME_SHAFER_PROGRAM = 'Program';
 
 function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
   var shader: WebGLShader = ctx.createShader(type);
@@ -84,7 +88,7 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
   }
 }
 
-let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs: string[]): ShaderProgram {
+let shaderProgram = function(monitor: ContextManager, vertexShader: string, fragmentShader: string, attribs: string[]): Program {
 
   if (typeof vertexShader !== 'string') {
     throw new Error("vertexShader argument must be a string.");
@@ -101,7 +105,7 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
   var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
-  var self: ShaderProgram = {
+  var self: Program = {
     get vertexShader() {
       return vertexShader;
     },
@@ -115,20 +119,21 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
       return uniformLocations;
     },
     addRef(): number {
-      refChange(uuid, +1, 'ShaderProgram');
+      refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
       refCount++;
       return refCount;
     },
     release(): number {
-      refChange(uuid, -1, 'ShaderProgram');
+      refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, -1);
       refCount--;
       if (refCount === 0) {
+        monitor.removeContextListener(self);
         self.contextFree();
       }
       return refCount;
     },
     contextFree() {
-      if (isDefined($context)) {
+      if ($context) {
         if (program) {
           $context.deleteProgram(program);
           program = void 0;
@@ -184,12 +189,12 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
     },
     get program() { return program; },
     get programId() {return uuid;},
-    use(): ShaderProgram {
+    use(): Program {
       if ($context) {
         $context.useProgram(program);
       }
       else {
-        console.warn("shaderProgram.use() missing WebGLRenderingContext");
+        console.warn(LOGGING_NAME_SHAFER_PROGRAM + " use() missing WebGLRenderingContext");
       }
       return self;
     },
@@ -204,7 +209,7 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
         let attribLoc = attributeLocations[name];
         let data: AttribDataInfo = values[name];
         if (data) {
-          data.buffer.bind($context.ARRAY_BUFFER);
+          data.buffer.bind();
           attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
         }
         else {
@@ -285,7 +290,8 @@ let shaderProgram = function(monitor: RenderingContextMonitor, vertexShader: str
       }
     }
   };
-  refChange(uuid, +1, 'ShaderProgram');
+  refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
+  monitor.addContextListener(self);
   return self;
 };
 

@@ -14,8 +14,6 @@ import viewMatrix              = require('davinci-eight/cameras/viewMatrix');
 import AttribLocation          = require('davinci-eight/core/AttribLocation');
 import AttribMetaInfos         = require('davinci-eight/core/AttribMetaInfos');
 import AttribProvider          = require('davinci-eight/core/AttribProvider');
-import BufferAttribute         = require('davinci-eight/core/BufferAttribute');
-import BufferGeometry          = require('davinci-eight/core/BufferGeometry');
 import DefaultAttribProvider   = require('davinci-eight/core/DefaultAttribProvider');
 import Color                   = require('davinci-eight/core/Color');
 import Composite               = require('davinci-eight/core/Composite');
@@ -24,7 +22,7 @@ import DrawMode                = require('davinci-eight/core/DrawMode');
 import Face3                   = require('davinci-eight/core/Face3');
 import Primitive               = require('davinci-eight/core/Primitive');
 import primitive               = require('davinci-eight/objects/primitive');
-import RenderingContextMonitor = require('davinci-eight/core/RenderingContextMonitor');
+import ContextManager = require('davinci-eight/core/ContextManager');
 import UniformData             = require('davinci-eight/core/UniformData');
 import UniformDataVisitor      = require('davinci-eight/core/UniformDataVisitor');
 import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo');
@@ -34,7 +32,8 @@ import UniformProvider         = require('davinci-eight/core/UniformProvider');
 // curves
 import Curve = require('davinci-eight/curves/Curve');
 // dfx
-import Elements = require('davinci-eight/dfx/Elements');
+import DrawAttribute = require('davinci-eight/dfx/DrawAttribute');
+import DrawElements = require('davinci-eight/dfx/DrawElements');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
 import checkGeometry = require('davinci-eight/dfx/checkGeometry');
@@ -43,8 +42,8 @@ import cube = require('davinci-eight/dfx/cube');
 import quadrilateral = require('davinci-eight/dfx/quadrilateral');
 import square = require('davinci-eight/dfx/square');
 import tetrahedron = require('davinci-eight/dfx/tetrahedron');
+import toDrawElements = require('davinci-eight/dfx/toDrawElements');
 import triangle = require('davinci-eight/dfx/triangle');
-import triangles = require('davinci-eight/dfx/triangles');
 // drawLists
 import scene = require('davinci-eight/drawLists/scene');
 import DrawList = require('davinci-eight/drawLists/DrawList');
@@ -72,9 +71,6 @@ import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import shaderProgram = require('davinci-eight/programs/shaderProgram');
 import smartProgram = require('davinci-eight/programs/smartProgram');
 import programFromScripts = require('davinci-eight/programs/programFromScripts');
-// resources
-import Texture = require('davinci-eight/resources/Texture');
-import ArrayBuffer = require('davinci-eight/core/ArrayBuffer');
 // math
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -107,7 +103,7 @@ import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 import vortexMesh = require('davinci-eight/mesh/vortexMesh');
 
 // programs
-import ShaderProgram = require('davinci-eight/core/ShaderProgram');
+import Program = require('davinci-eight/core/Program');
 // renderers
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
@@ -208,7 +204,7 @@ var eight = {
   get square() { return square; },
   get tetrahedron() { return tetrahedron; },
   get triangle() { return triangle; },
-  get triangles() { return triangles; },
+  get toDrawElements() { return toDrawElements; },
   get CylinderArgs() { return CylinderArgs; },
   get cylinderMesh() { return cylinderMesh; },
   get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -219,10 +215,8 @@ var eight = {
   get vortexMesh() { return vortexMesh; },
   // programs
   get programFromScripts() { return programFromScripts; },
-  // resources
-  get Texture() { return Texture; },
-  get ArrayBuffer() { return ArrayBuffer; },
-  get Elements() { return Elements; },
+  get DrawAttribute() { return DrawAttribute; },
+  get DrawElements() { return DrawElements; },
   // utils
   get refChange() { return refChange; }
 };

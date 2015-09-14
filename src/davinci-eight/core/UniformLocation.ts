@@ -3,8 +3,8 @@ import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextProgramListener = require('../core/ContextProgramListener');
+import ContextManager = require('../core/ContextManager');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -18,10 +18,10 @@ function matrix4NE(a: number[], b: Float32Array): boolean {
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
  */
-class UniformLocation implements RenderingContextProgramUser {
+class UniformLocation implements ContextProgramListener {
   private _context: WebGLRenderingContext;
   private _location: WebGLUniformLocation;
-  private _monitor: RenderingContextMonitor;
+  private _monitor: ContextManager;
   private _name: string;
   private _program: WebGLProgram;
   private _x: number = void 0;
@@ -33,10 +33,10 @@ class UniformLocation implements RenderingContextProgramUser {
   /**
    * @class UniformLocation
    * @constructor
-   * @param monitor {RenderingContextMonitor}
+   * @param monitor {ContextManager}
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
    */
-  constructor(monitor: RenderingContextMonitor, name: string) {
+  constructor(monitor: ContextManager, name: string) {
     this._monitor = expectArg('monitor', monitor).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }

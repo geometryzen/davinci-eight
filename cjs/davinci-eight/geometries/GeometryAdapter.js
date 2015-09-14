@@ -10,7 +10,6 @@ var Point3 = require('../core/Point3');
 var Symbolic = require('../core/Symbolic');
 var DefaultAttribProvider = require('../core/DefaultAttribProvider');
 var DrawMode = require('../core/DrawMode');
-var ArrayBuffer = require('../core/ArrayBuffer');
 var ElementBuffer = require('../core/ElementBuffer');
 function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
     var attributes = {};
@@ -32,7 +31,7 @@ var GeometryAdapter = (function (_super) {
     /**
      * @class GeometryAdapter
      * @constructor
-     * @param monitor {RenderingContextMonitor}
+     * @param monitor {ContextManager}
      * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
      */
     function GeometryAdapter(monitor, geometry, options) {
@@ -49,11 +48,9 @@ var GeometryAdapter = (function (_super) {
         this.indexBuffer = new ElementBuffer();
         this.indexBuffer.addRef();
         this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-        this.positionBuffer = new ArrayBuffer(monitor);
-        this.positionBuffer.addRef();
+        this.positionBuffer = monitor.createArrayBuffer();
         this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-        this.normalBuffer = new ArrayBuffer(monitor);
-        this.normalBuffer.addRef();
+        this.normalBuffer = monitor.createArrayBuffer();
         this.geometry = geometry;
         this.geometry.dynamic = false;
         this.$drawMode = options.drawMode;
@@ -262,10 +259,10 @@ var GeometryAdapter = (function (_super) {
         this.indexBuffer.bind();
         this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW);
         this.aVertexPositionArray = new Float32Array(vertices);
-        this.positionBuffer.bind(this._context.ARRAY_BUFFER);
+        this.positionBuffer.bind();
         this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
         this.aVertexNormalArray = new Float32Array(normals);
-        this.normalBuffer.bind(this._context.ARRAY_BUFFER);
+        this.normalBuffer.bind();
         this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
     };
     GeometryAdapter.prototype.computeLines = function () {

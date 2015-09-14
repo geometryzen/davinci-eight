@@ -1,13 +1,25 @@
-var ArrayBuffer = require('../core/ArrayBuffer');
-var Elements = require('../dfx/Elements');
+var BufferResource = require('../core/BufferResource');
+var DrawElements = require('../dfx/DrawElements');
 var initWebGL = require('../renderers/initWebGL');
 var expectArg = require('../checks/expectArg');
 var isDefined = require('../checks/isDefined');
 var IUnknownMap = require('../utils/IUnknownMap');
 var RefCount = require('../utils/RefCount');
 var refChange = require('../utils/refChange');
-var Texture = require('../resources/Texture');
+var TextureResource = require('../resources/TextureResource');
 var uuid4 = require('../utils/uuid4');
+var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
+var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
+var LOGGING_NAME_MESH = 'Mesh';
+var LOGGING_NAME_MANAGER = 'ContextManager';
+function mustBeContext(context, method) {
+    if (context) {
+        return context;
+    }
+    else {
+        throw new Error(method + ": context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+    }
+}
 /**
  * This could become an encapsulated call?
  */
@@ -32,7 +44,7 @@ var ElementsBlock = (function () {
         this._attributes = attributes;
         this._attributes.addRef();
         this.drawCommand = drawCommand;
-        refChange(this._uuid, +1, 'ElementsBlock');
+        refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
     }
     Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
         get: function () {
@@ -44,12 +56,12 @@ var ElementsBlock = (function () {
     });
     ElementsBlock.prototype.addRef = function () {
         this._refCount++;
-        refChange(this._uuid, +1, 'ElementsBlock');
+        refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
         return this._refCount;
     };
     ElementsBlock.prototype.release = function () {
         this._refCount--;
-        refChange(this._uuid, -1, 'ElementsBlock');
+        refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, -1);
         if (this._refCount === 0) {
             this._attributes.release();
             this._indexBuffer.release();
@@ -76,15 +88,15 @@ var ElementsBlockAttrib = (function () {
         this.normalized = normalized;
         this.stride = stride;
         this.offset = offset;
-        refChange(this._uuid, +1, 'ElementsBlockAttrib');
+        refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
     }
     ElementsBlockAttrib.prototype.addRef = function () {
-        refChange(this._uuid, +1, 'ElementsBlockAttrib');
+        refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
         this._refCount++;
         return this._refCount;
     };
     ElementsBlockAttrib.prototype.release = function () {
-        refChange(this._uuid, -1, 'ElementsBlockAttrib');
+        refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, -1);
         this._refCount--;
         if (this._refCount === 0) {
             this._buffer.release();
@@ -140,22 +152,23 @@ function contextProxy(canvas, attributes) {
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     var uuid = uuid4().generate();
     var blocks = new IUnknownMap();
+    // Remark: We only hold weak references to users so that the lifetime of resource
+    // objects is not affected by the fact that they are listening for context events.
+    // Users should automatically add themselves upon construction and remove upon release.
     var users = [];
-    function addContextUser(user) {
+    function addContextListener(user) {
         expectArg('user', user).toBeObject();
         users.push(user);
-        user.addRef();
         if (context) {
             user.contextGain(context);
         }
     }
-    function removeContextUser(user) {
+    function removeContextListener(user) {
         expectArg('user', user).toBeObject();
         var index = users.indexOf(user);
         if (index >= 0) {
             var removals = users.splice(index, 1);
             removals.forEach(function (user) {
-                user.release();
             });
         }
     }
@@ -169,16 +182,16 @@ function contextProxy(canvas, attributes) {
             }
         };
     }
-    function createMesh(uuid) {
+    function createDrawElementsMesh(uuid) {
         var refCount = new RefCount(meshRemover(uuid));
         var _program = void 0;
-        var self = {
+        var mesh = {
             addRef: function () {
-                refChange(uuid, +1, 'Mesh');
+                refChange(uuid, LOGGING_NAME_MESH, +1);
                 return refCount.addRef();
             },
             release: function () {
-                refChange(uuid, -1, 'Mesh');
+                refChange(uuid, LOGGING_NAME_MESH, -1);
                 return refCount.release();
             },
             get uuid() {
@@ -187,7 +200,7 @@ function contextProxy(canvas, attributes) {
             bind: function (program, aNameToKeyName) {
                 if (_program !== program) {
                     if (_program) {
-                        self.unbind();
+                        mesh.unbind();
                     }
                     var block = blocks.get(uuid);
                     if (block) {
@@ -195,7 +208,7 @@ function contextProxy(canvas, attributes) {
                             _program = program;
                             _program.addRef();
                             var indexBuffer = block.indexBuffer;
-                            indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+                            indexBuffer.bind();
                             indexBuffer.release();
                             var aNames = Object.keys(program.attributes);
                             var aNamesLength = aNames.length;
@@ -208,10 +221,10 @@ function contextProxy(canvas, attributes) {
                                 if (attribute) {
                                     // Associate the attribute buffer with the attribute location.
                                     var buffer = attribute.buffer;
-                                    buffer.bind(context.ARRAY_BUFFER);
+                                    buffer.bind();
                                     var attributeLocation = program.attributes[aName];
                                     attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-                                    buffer.unbind(context.ARRAY_BUFFER);
+                                    buffer.unbind();
                                     attributeLocation.enable();
                                     buffer.release();
                                     attribute.release();
@@ -250,7 +263,7 @@ function contextProxy(canvas, attributes) {
                     var block = blocks.get(uuid);
                     if (block) {
                         var indexBuffer = block.indexBuffer;
-                        indexBuffer.unbind(context.ELEMENT_ARRAY_BUFFER);
+                        indexBuffer.unbind();
                         indexBuffer.release();
                         Object.keys(_program.attributes).forEach(function (aName) {
                             _program.attributes[aName].disable();
@@ -266,8 +279,8 @@ function contextProxy(canvas, attributes) {
                 }
             }
         };
-        refChange(uuid, +1, 'Mesh');
-        return self;
+        refChange(uuid, LOGGING_NAME_MESH, +1);
+        return mesh;
     }
     var context;
     var refCount = 1;
@@ -287,12 +300,12 @@ function contextProxy(canvas, attributes) {
             user.contextGain(context);
         });
     };
-    var self = {
+    var monitor = {
         /**
          *
          */
-        createMesh: function (elements, mode, usage) {
-            expectArg('elements', elements).toSatisfy(elements instanceof Elements, "elements must be an instance of Elements");
+        createDrawElementsMesh: function (elements, mode, usage) {
+            expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
             expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
             if (isDefined(usage)) {
                 expectArg('usage', usage).toSatisfy(isBufferUsage(usage, context), "usage must be on of STATIC_DRAW, ...");
@@ -300,26 +313,26 @@ function contextProxy(canvas, attributes) {
             else {
                 usage = context.STATIC_DRAW;
             }
-            var token = createMesh(uuid4().generate());
-            var indexBuffer = self.vertexBuffer();
-            indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+            var token = createDrawElementsMesh(uuid4().generate());
+            var indexBuffer = monitor.createElementArrayBuffer();
+            indexBuffer.bind();
             context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
-            context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+            indexBuffer.unbind();
             var attributes = new IUnknownMap();
             var names = Object.keys(elements.attributes);
             var namesLength = names.length;
             var i;
             for (i = 0; i < namesLength; i++) {
                 var name_1 = names[i];
-                var buffer = self.vertexBuffer();
-                buffer.bind(context.ARRAY_BUFFER);
+                var buffer = monitor.createArrayBuffer();
+                buffer.bind();
                 var vertexAttrib = elements.attributes[name_1];
-                var data = vertexAttrib.vector.data;
+                var data = vertexAttrib.values.data;
                 context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
                 var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
                 attributes.put(name_1, attribute);
                 attribute.release();
-                buffer.unbind(context.ARRAY_BUFFER);
+                buffer.unbind();
                 buffer.release();
             }
             // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
@@ -337,25 +350,25 @@ function contextProxy(canvas, attributes) {
             canvas.addEventListener('webglcontextlost', webGLContextLost, false);
             canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
             users.forEach(function (user) { user.contextGain(context); });
-            return self;
+            return monitor;
         },
         stop: function () {
             context = void 0;
             users.forEach(function (user) { user.contextFree(); });
             canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
             canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
-            return self;
+            return monitor;
         },
-        addContextUser: function (user) {
-            addContextUser(user);
-            return self;
+        addContextListener: function (user) {
+            addContextListener(user);
+            return monitor;
         },
-        removeContextUser: function (user) {
-            removeContextUser(user);
-            return self;
+        removeContextListener: function (user) {
+            removeContextListener(user);
+            return monitor;
         },
         get context() {
-            if (isDefined(context)) {
+            if (context) {
                 return context;
             }
             else {
@@ -364,19 +377,17 @@ function contextProxy(canvas, attributes) {
             }
         },
         addRef: function () {
-            refChange(uuid, +1, 'RenderingContextMonitor');
+            refChange(uuid, LOGGING_NAME_MANAGER, +1);
             refCount++;
             return refCount;
         },
         release: function () {
-            refChange(uuid, -1, 'RenderingContextMonitor');
+            refChange(uuid, LOGGING_NAME_MANAGER, -1);
             refCount--;
             if (refCount === 0) {
                 blocks.release();
-                // TODO: users should be an IUnknownArray
                 while (users.length > 0) {
                     var user = users.pop();
-                    user.release();
                 }
             }
             return refCount;
@@ -411,15 +422,21 @@ function contextProxy(canvas, attributes) {
                 return context.enable(capability);
             }
         },
-        texture: function () {
-            var texture = new Texture(self);
-            self.addContextUser(texture);
-            return texture;
+        createArrayBuffer: function () {
+            // TODO: Replace with functional constructor pattern.
+            return new BufferResource(monitor, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
         },
-        vertexBuffer: function () {
-            var vbo = new ArrayBuffer(self);
-            self.addContextUser(vbo);
-            return vbo;
+        createElementArrayBuffer: function () {
+            // TODO: Replace with functional constructor pattern.
+            return new BufferResource(monitor, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+        },
+        createTexture2D: function () {
+            // TODO: Replace with functional constructor pattern.
+            return new TextureResource(monitor, mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
+        },
+        createTextureCubeMap: function () {
+            // TODO: Replace with functional constructor pattern.
+            return new TextureResource(monitor, mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
         },
         get mirror() {
             return mirror;
@@ -428,7 +445,7 @@ function contextProxy(canvas, attributes) {
             mirror = expectArg('mirror', value).toBeBoolean().value;
         }
     };
-    refChange(uuid, +1, 'RenderingContextMonitor');
-    return self;
+    refChange(uuid, LOGGING_NAME_MANAGER, +1);
+    return monitor;
 }
 module.exports = contextProxy;

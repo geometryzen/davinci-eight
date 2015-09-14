@@ -4,7 +4,7 @@ import isUndefined = require('../checks/isUndefined');
 import boxMesh = require('../mesh/boxMesh');
 import BoxOptions = require('../mesh/BoxOptions');
 import Symbolic = require('../core/Symbolic');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 
 /**
  * @class BoxBuilder
@@ -103,7 +103,7 @@ class BoxBuilder {
     this.$normalVarName = normalVarName;
     return this;
   }
-  buildMesh(monitor: RenderingContextMonitor): AttribProvider {
+  buildMesh(monitor: ContextManager): AttribProvider {
     return boxMesh(monitor, this);
   }
 }

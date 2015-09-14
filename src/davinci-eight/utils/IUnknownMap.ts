@@ -2,22 +2,22 @@ import IUnknown = require('../core/IUnknown');
 import refChange = require('../utils/refChange');
 import uuid4 = require('../utils/uuid4');
 
-let CLASSNAME_IUNKNOWN_MAP = 'IUnknownMap';
+let LOGGING_NAME_IUNKNOWN_MAP = 'IUnknownMap';
 
 class IUnknownMap<V extends IUnknown> implements IUnknown {
   private _refCount = 1;
   private _elements: { [key: string]: V } = {};
   private _uuid = uuid4().generate();
   constructor() {
-    refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
   }
   addRef() {
-    refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
     this._refCount++;
     return this._refCount;
   }
   release() {
-    refChange(this._uuid, -1, CLASSNAME_IUNKNOWN_MAP);
+    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
     this._refCount--;
     if (this._refCount === 0) {
       let self = this;

@@ -4,26 +4,26 @@ define(
   'davinci-eight/dfx/Vertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/dfx/triangle',
-  'davinci-eight/dfx/triangles',
-  'davinci-eight/dfx/Elements',
+  'davinci-eight/dfx/toDrawElements',
+  'davinci-eight/dfx/DrawElements',
   'davinci-eight/core/Symbolic',
   'davinci-eight/dfx/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangle, triangles, Elements, Symbolic, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbolic, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
   var COORDS_PER_NORMAL = 3;
   var COORDS_PER_TEXTURE = 2;
 
-  describe("triangles", function() {
+  describe("toDrawElements", function() {
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
         var faces = [];
         var attribMap = {};
         attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
         attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-        var elements = triangles(faces, attribMap);
+        var elements = toDrawElements(faces, attribMap);
         var indices = elements.indices.data;
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -39,9 +39,9 @@ function(Simplex, Vertex, Vector3, triangle, triangles, Elements, Symbolic, comp
       var attribMap = {};
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      var elements = triangles(faces, attribMap);
+      var elements = toDrawElements(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -98,9 +98,9 @@ function(Simplex, Vertex, Vector3, triangle, triangles, Elements, Symbolic, comp
       var attribMap = {};
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      var elements = triangles(faces, attribMap);
+      var elements = toDrawElements(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });
@@ -180,9 +180,9 @@ function(Simplex, Vertex, Vector3, triangle, triangles, Elements, Symbolic, comp
       var attribMap = {};
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      var elements = triangles(faces, attribMap);
+      var elements = toDrawElements(faces, attribMap);
       var indices = elements.indices.data;
-      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].vector.data;
+      var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
         expect(indices.length).toBe(faces.length * 3);
       });

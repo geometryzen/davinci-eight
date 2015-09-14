@@ -5,14 +5,14 @@ import GeometryAdapter = require('../geometries/GeometryAdapter');
 import VortexGeometry = require('../geometries/VortexGeometry');
 import adapterOptions = require('../mesh/adapterOptions');
 import checkMeshArgs = require('../mesh/checkMeshArgs');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 
 function vortexGeometry(options: {wireFrame: boolean}): Geometry3 {
   return new VortexGeometry();
 }
 
 function vortexMesh(
-  monitor: RenderingContextMonitor,
+  monitor: ContextManager,
   options?: {
     wireFrame?: boolean
   }) : AttribProvider {

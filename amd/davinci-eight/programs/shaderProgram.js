@@ -1,4 +1,8 @@
-define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation', '../utils/refChange'], function (require, exports, isDefined, uuid4, AttribLocation, UniformLocation, refChange) {
+define(["require", "exports", '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation', '../utils/refChange'], function (require, exports, uuid4, AttribLocation, UniformLocation, refChange) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME_SHAFER_PROGRAM = 'Program';
     function makeWebGLShader(ctx, source, type) {
         var shader = ctx.createShader(type);
         ctx.shaderSource(shader, source);
@@ -79,20 +83,21 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                 return uniformLocations;
             },
             addRef: function () {
-                refChange(uuid, +1, 'ShaderProgram');
+                refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
                 refCount++;
                 return refCount;
             },
             release: function () {
-                refChange(uuid, -1, 'ShaderProgram');
+                refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, -1);
                 refCount--;
                 if (refCount === 0) {
+                    monitor.removeContextListener(self);
                     self.contextFree();
                 }
                 return refCount;
             },
             contextFree: function () {
-                if (isDefined($context)) {
+                if ($context) {
                     if (program) {
                         $context.deleteProgram(program);
                         program = void 0;
@@ -152,7 +157,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     $context.useProgram(program);
                 }
                 else {
-                    console.warn("shaderProgram.use() missing WebGLRenderingContext");
+                    console.warn(LOGGING_NAME_SHAFER_PROGRAM + " use() missing WebGLRenderingContext");
                 }
                 return self;
             },
@@ -167,7 +172,7 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                     var attribLoc = attributeLocations[name];
                     var data = values[name];
                     if (data) {
-                        data.buffer.bind($context.ARRAY_BUFFER);
+                        data.buffer.bind();
                         attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
                     }
                     else {
@@ -248,7 +253,8 @@ define(["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/
                 }
             }
         };
-        refChange(uuid, +1, 'ShaderProgram');
+        refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
+        monitor.addContextListener(self);
         return self;
     };
     return shaderProgram;

@@ -1,7 +1,7 @@
 import Composite = require('../core/Composite');
 import AttribProvider = require('../core/AttribProvider');
 import UniformData = require('../core/UniformData');
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 
 /**
  * A design in which a Drawable is factored into a Geometry and a Material.

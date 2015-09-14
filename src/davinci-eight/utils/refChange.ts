@@ -1,60 +1,89 @@
-let elements: { [uuid: string]: { refCount: number; name: string; zombie: boolean } } = {};
+let statistics: { [uuid: string]: { refCount: number; name: string; zombie: boolean } } = {};
 let skip = true;
 let trace: boolean = false;
 let traceName: string = void 0;
 
+let LOGGING_NAME_REF_CHANGE = 'refChange';
+
+function prefix(message: string): string {
+  return LOGGING_NAME_REF_CHANGE + ": " + message;
+}
+
+function log(message: string) {
+  return console.log(prefix(message));
+}
+
+function warn(message: string) {
+  return console.warn(prefix(message));
+}
+
 function garbageCollect() {
-  let uuids: string[] = Object.keys(elements);
+  let uuids: string[] = Object.keys(statistics);
   uuids.forEach(function(uuid: string) {
-    let element = elements[uuid];
+    let element = statistics[uuid];
     if (element.refCount === 0) {
-      delete elements[uuid];
+      delete statistics[uuid];
     }
   });
 }
 
-function dump() {
+function computeOutstanding(): number {
+  let uuids = Object.keys(statistics);
+  let uuidsLength = uuids.length;
+  var i: number;
+  var total = 0;
+  for (i = 0; i < uuidsLength; i++) {
+    let uuid = uuids[i];
+    let statistic = statistics[uuid];
+    total += statistic.refCount;
+  }
+  return total;
+}
+
+function stop(): number {
   if (skip) {
-    console.warn("Nothing to see because skip mode is " + skip);
+    warn("Nothing to see because skip mode is " + skip);
   }
   garbageCollect();
-  console.log(JSON.stringify(elements, null, 2));
+  return  computeOutstanding();
 }
-/**
- * Records reference count changes in a system-wide data structure.
- * A change is normally either +1 or -1.
- * a change of 0 is interpreted as a command in the uuid parameter and a context in the name.
- * Commands are:
- * 'dump'
- * 'reset'
- * 'skip'
- * 'trace'
- */
-function refChange(uuid: string, change: number, name?: string) {
+
+function dump(): number {
+  let outstanding: number = stop();
+  if (outstanding > 0) {
+    warn(JSON.stringify(statistics, null, 2));
+  }
+  else {
+    log("There are " + outstanding + " outstanding reference counts.");
+  }
+  return outstanding;
+}
+
+function refChange(uuid: string, name?: string, change: number = 0): number {
   if (change !== 0 && skip) {
     return;
   }
   if (trace) {
     if (traceName) {
       if (name === traceName) {
-        console.log(change + " on " + uuid + " @ " + name);
+        log(change + " on " + uuid + " @ " + name);
       }
     }
     else {
       // trace everything
-      console.log(change + " on " + uuid + " @ " + name);
+      log(change + " on " + uuid + " @ " + name);
     }
   }
   if (change === +1) {
-    var element = elements[uuid];
+    var element = statistics[uuid];
     if (!element) {
       element = { refCount: 0, name: name, zombie: false };
-      elements[uuid] = element;
+      statistics[uuid] = element;
     }
     element.refCount += change;
   }
   else if (change === -1) {
-    var element = elements[uuid];
+    var element = statistics[uuid];
     element.refCount += change;
     if (element.refCount === 0) {
       element.zombie = true;
@@ -62,17 +91,19 @@ function refChange(uuid: string, change: number, name?: string) {
   }
   else if (change === 0) {
     let message = "" + uuid + " @ " + name;
-    console.log(message);
-    if (uuid === 'dump') {
-      dump();
+    log(message);
+    if (uuid === 'stop') {
+      return stop();
     }
-    else if (uuid === 'reset') {
-      elements = {};
+    if (uuid === 'dump') {
+      return dump();
+    }
+    else if (uuid === 'start') {
       skip = false;
       trace = false;
     }
-    else if (uuid === 'skip') {
-      elements = {};
+    else if (uuid === 'reset') {
+      statistics = {};
       skip = true;
       trace = false;
       traceName = void 0;
@@ -83,11 +114,11 @@ function refChange(uuid: string, change: number, name?: string) {
       traceName = name;
     }
     else {
-      throw new Error("Unexpected command " + message);
+      throw new Error(prefix("Unexpected command " + message));
     }
   }
   else {
-    throw new Error("change must be +1 or -1 for normal recording, or 0 for logging to the console.");
+    throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
   }
 }
 

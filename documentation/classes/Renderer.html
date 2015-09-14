@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.90.0</em>
+            <em>API Docs for: 2.91.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,6 +65,7 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -73,8 +74,8 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -84,9 +85,8 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/Program.html">Program</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
-                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -143,7 +143,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends <a href="../classes/RenderingContextUser.html" class="crosslink">RenderingContextUser</a>
+            Extends <a href="../classes/ContextListener.html" class="crosslink">ContextListener</a>
         </div>
 
         <div class="foundat">
@@ -228,8 +228,8 @@ Defines whether the renderer should automatically clear its output before render
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/RenderingContextUser.html#method_contextFree">RenderingContextUser</a>:
-        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:10</code></a>
+                <a href="../classes/ContextListener.html#method_contextFree">ContextListener</a>:
+        <a href="../files/src_davinci-eight_core_ContextListener.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextListener.ts:9</code></a>
         </p>
 
 
@@ -269,8 +269,8 @@ cases the dependent must be idempotent and respond only to the first request.</p
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/RenderingContextUser.html#method_contextGain">RenderingContextUser</a>:
-        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:19</code></a>
+                <a href="../classes/ContextListener.html#method_contextGain">ContextListener</a>:
+        <a href="../files/src_davinci-eight_core_ContextListener.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextListener.ts:18</code></a>
         </p>
 
 
@@ -319,8 +319,8 @@ received the same context.</p>
 
     <div class="meta">
                 <p>Inherited from
-                <a href="../classes/RenderingContextUser.html#method_contextLoss">RenderingContextUser</a>:
-        <a href="../files/src_davinci-eight_core_RenderingContextUser.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;RenderingContextUser.ts:27</code></a>
+                <a href="../classes/ContextListener.html#method_contextLoss">ContextListener</a>:
+        <a href="../files/src_davinci-eight_core_ContextListener.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextListener.ts:26</code></a>
         </p>
 
 
@@ -386,7 +386,7 @@ The dependent should reset its state to that for which there is no context.</p>
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">monitor</code>
-                        <span class="type">RenderingContextMonitor</span>
+                        <span class="type">ContextManager</span>
 
 
                     <div class="param-description">

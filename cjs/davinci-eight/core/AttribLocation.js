@@ -5,7 +5,7 @@ function existsLocation(location) {
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
- * to use the AttribLocation instances managed by the ShaderProgram because
+ * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
  * @class AttribLocation.
  */

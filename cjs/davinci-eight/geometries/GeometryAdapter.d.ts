@@ -3,7 +3,7 @@ import AttribMetaInfos = require('../core/AttribMetaInfos');
 import Geometry3 = require('../geometries/Geometry3');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import DrawMode = require('../core/DrawMode');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 /**
  * Adapter from a Geometry to a AttribProvider.
  * Enables the rapid construction of meshes starting from classes that extend Geometry.
@@ -30,10 +30,10 @@ declare class GeometryAdapter extends DefaultAttribProvider {
     /**
      * @class GeometryAdapter
      * @constructor
-     * @param monitor {RenderingContextMonitor}
+     * @param monitor {ContextManager}
      * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
      */
-    constructor(monitor: RenderingContextMonitor, geometry: Geometry3, options?: {
+    constructor(monitor: ContextManager, geometry: Geometry3, options?: {
         drawMode?: DrawMode;
         elementsUsage?: number;
         positionVarName?: string;

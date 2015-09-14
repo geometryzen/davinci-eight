@@ -2051,7 +2051,7 @@ define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/exp
     /**
      * Utility class for managing a shader attribute variable.
      * While this class may be created directly by the user, it is preferable
-     * to use the AttribLocation instances managed by the ShaderProgram because
+     * to use the AttribLocation instances managed by the Program because
      * there will be improved integrity and context loss management.
      * @class AttribLocation.
      */
@@ -2315,7 +2315,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.90.0'
+        VERSION: '2.91.0'
     };
     return core;
 });
@@ -2447,7 +2447,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
         /**
          * @class UniformLocation
          * @constructor
-         * @param monitor {RenderingContextMonitor}
+         * @param monitor {ContextManager}
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
         function UniformLocation(monitor, name) {
@@ -2819,18 +2819,57 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
     return Curve;
 });
 
-define('davinci-eight/dfx/Elements',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
-    var Elements = (function () {
-        function Elements(indices, attributes) {
+define('davinci-eight/dfx/DrawAttribute',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+    function isVectorN(values) {
+        return values instanceof VectorN;
+    }
+    function checkValues(values) {
+        if (!isVectorN(values)) {
+            throw new Error("values must be a VectorN");
+        }
+        return values;
+    }
+    function isExactMultipleOf(numer, denom) {
+        return numer % denom === 0;
+    }
+    function checkSize(size, values) {
+        if (typeof size === 'number') {
+            if (!isExactMultipleOf(values.length, size)) {
+                throw new Error("values.length must be an exact multiple of size");
+            }
+        }
+        else {
+            throw new Error("size must be a number");
+        }
+        return size;
+    }
+    /**
+     * Holds all the values of a particular attribute.
+     * The size property describes how to break up the values.
+     * The length of the values should be an integer multiple of the size.
+     */
+    var DrawAttribute = (function () {
+        function DrawAttribute(values, size) {
+            this.values = checkValues(values);
+            this.size = checkSize(size, values);
+        }
+        return DrawAttribute;
+    })();
+    return DrawAttribute;
+});
+
+define('davinci-eight/dfx/DrawElements',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
+    var DrawElements = (function () {
+        function DrawElements(indices, attributes) {
             this.attributes = {};
             expectArg('indices', indices).toBeObject().toSatisfy(indices instanceof VectorN, "indices must be a VectorN<number>");
             expectArg('attributes', attributes).toBeObject();
             this.indices = indices;
             this.attributes = attributes;
         }
-        return Elements;
+        return DrawElements;
     })();
-    return Elements;
+    return DrawElements;
 });
 
 define('davinci-eight/dfx/Vertex',["require", "exports"], function (require, exports) {
@@ -3492,18 +3531,7 @@ define('davinci-eight/dfx/computeUniqueVertices',["require", "exports"], functio
     return computeUniqueVertices;
 });
 
-define('davinci-eight/dfx/ElementsAttribute',["require", "exports"], function (require, exports) {
-    var ElementsAttribute = (function () {
-        function ElementsAttribute(vector, size) {
-            this.vector = vector;
-            this.size = size;
-        }
-        return ElementsAttribute;
-    })();
-    return ElementsAttribute;
-});
-
-define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/checkGeometry', '../dfx/computeUniqueVertices', '../dfx/Elements', '../dfx/ElementsAttribute', '../checks/expectArg', '../dfx/Simplex', '../math/VectorN'], function (require, exports, checkGeometry, computeUniqueVertices, Elements, ElementsAttribute, expectArg, Simplex, VectorN) {
+define('davinci-eight/dfx/toDrawElements',["require", "exports", '../dfx/checkGeometry', '../dfx/computeUniqueVertices', '../dfx/DrawElements', '../dfx/DrawAttribute', '../checks/expectArg', '../dfx/Simplex', '../math/VectorN'], function (require, exports, checkGeometry, computeUniqueVertices, DrawElements, DrawAttribute, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -3540,7 +3568,7 @@ define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/checkGeometr
     function concat(a, b) {
         return a.concat(b);
     }
-    function triangles(geometry, attribMap) {
+    function toDrawElements(geometry, attribMap) {
         expectArg('geometry', geometry).toBeObject();
         var actuals = checkGeometry(geometry);
         if (attribMap) {
@@ -3592,11 +3620,11 @@ define('davinci-eight/dfx/triangles',["require", "exports", '../dfx/checkGeometr
             var output = outputs[k];
             var data = output.data;
             var vector = new VectorN(data, false, data.length);
-            attributes[output.name] = new ElementsAttribute(vector, output.dimensions);
+            attributes[output.name] = new DrawAttribute(vector, output.dimensions);
         }
-        return new Elements(new VectorN(indices, false, indices.length), attributes);
+        return new DrawElements(new VectorN(indices, false, indices.length), attributes);
     }
-    return triangles;
+    return toDrawElements;
 });
 
 define('davinci-eight/drawLists/scene',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
@@ -3999,245 +4027,6 @@ define('davinci-eight/core/Point3',["require", "exports"], function (require, ex
     return Point3;
 });
 
-define('davinci-eight/utils/refChange',["require", "exports"], function (require, exports) {
-    var elements = {};
-    var skip = true;
-    var trace = false;
-    var traceName = void 0;
-    function garbageCollect() {
-        var uuids = Object.keys(elements);
-        uuids.forEach(function (uuid) {
-            var element = elements[uuid];
-            if (element.refCount === 0) {
-                delete elements[uuid];
-            }
-        });
-    }
-    function dump() {
-        if (skip) {
-            console.warn("Nothing to see because skip mode is " + skip);
-        }
-        garbageCollect();
-        console.log(JSON.stringify(elements, null, 2));
-    }
-    /**
-     * Records reference count changes in a system-wide data structure.
-     * A change is normally either +1 or -1.
-     * a change of 0 is interpreted as a command in the uuid parameter and a context in the name.
-     * Commands are:
-     * 'dump'
-     * 'reset'
-     * 'skip'
-     * 'trace'
-     */
-    function refChange(uuid, change, name) {
-        if (change !== 0 && skip) {
-            return;
-        }
-        if (trace) {
-            if (traceName) {
-                if (name === traceName) {
-                    console.log(change + " on " + uuid + " @ " + name);
-                }
-            }
-            else {
-                // trace everything
-                console.log(change + " on " + uuid + " @ " + name);
-            }
-        }
-        if (change === +1) {
-            var element = elements[uuid];
-            if (!element) {
-                element = { refCount: 0, name: name, zombie: false };
-                elements[uuid] = element;
-            }
-            element.refCount += change;
-        }
-        else if (change === -1) {
-            var element = elements[uuid];
-            element.refCount += change;
-            if (element.refCount === 0) {
-                element.zombie = true;
-            }
-        }
-        else if (change === 0) {
-            var message = "" + uuid + " @ " + name;
-            console.log(message);
-            if (uuid === 'dump') {
-                dump();
-            }
-            else if (uuid === 'reset') {
-                elements = {};
-                skip = false;
-                trace = false;
-            }
-            else if (uuid === 'skip') {
-                elements = {};
-                skip = true;
-                trace = false;
-                traceName = void 0;
-            }
-            else if (uuid === 'trace') {
-                skip = false;
-                trace = true;
-                traceName = name;
-            }
-            else {
-                throw new Error("Unexpected command " + message);
-            }
-        }
-        else {
-            throw new Error("change must be +1 or -1 for normal recording, or 0 for logging to the console.");
-        }
-    }
-    return refChange;
-});
-
-define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
-    function uuid4() {
-        var maxFromBits = function (bits) {
-            return Math.pow(2, bits);
-        };
-        var limitUI04 = maxFromBits(4);
-        var limitUI06 = maxFromBits(6);
-        var limitUI08 = maxFromBits(8);
-        var limitUI12 = maxFromBits(12);
-        var limitUI14 = maxFromBits(14);
-        var limitUI16 = maxFromBits(16);
-        var limitUI32 = maxFromBits(32);
-        var limitUI40 = maxFromBits(40);
-        var limitUI48 = maxFromBits(48);
-        var getRandomInt = function (min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
-        var randomUI06 = function () {
-            return getRandomInt(0, limitUI06 - 1);
-        };
-        var randomUI08 = function () {
-            return getRandomInt(0, limitUI08 - 1);
-        };
-        var randomUI12 = function () {
-            return getRandomInt(0, limitUI12 - 1);
-        };
-        var randomUI16 = function () {
-            return getRandomInt(0, limitUI16 - 1);
-        };
-        var randomUI32 = function () {
-            return getRandomInt(0, limitUI32 - 1);
-        };
-        var randomUI48 = function () {
-            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
-        };
-        var paddedString = function (str, length, z) {
-            str = String(str);
-            z = (!z) ? '0' : z;
-            var i = length - str.length;
-            for (; i > 0; i >>>= 1, z += z) {
-                if (i & 1) {
-                    str = z + str;
-                }
-            }
-            return str;
-        };
-        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
-            var hex = paddedString(timeLow.toString(16), 8) +
-                '-' +
-                paddedString(timeMid.toString(16), 4) +
-                '-' +
-                paddedString(timeHiAndVersion.toString(16), 4) +
-                '-' +
-                paddedString(clockSeqHiAndReserved.toString(16), 2) +
-                paddedString(clockSeqLow.toString(16), 2) +
-                '-' +
-                paddedString(node.toString(16), 12);
-            return hex;
-        };
-        return {
-            generate: function () {
-                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
-            },
-            // addition by Ka-Jan to test for validity
-            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
-            validate: function (uuid) {
-                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-                return testPattern.test(uuid);
-            }
-        };
-    }
-    return uuid4;
-});
-
-define('davinci-eight/core/ArrayBuffer',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
-    /**
-     *
-     */
-    // TODO: Probably should embed the target because unlikely we will change target.
-    var ArrayBuffer = (function () {
-        function ArrayBuffer(monitor) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
-            this._monitor = expectArg('montor', monitor).toBeObject().value;
-            refChange(this._uuid, +1, 'ArrayBuffer');
-        }
-        ArrayBuffer.prototype.addRef = function () {
-            refChange(this._uuid, +1, 'ArrayBuffer');
-            this._refCount++;
-            return this._refCount;
-        };
-        ArrayBuffer.prototype.release = function () {
-            refChange(this._uuid, -1, 'ArrayBuffer');
-            this._refCount--;
-            if (this._refCount === 0) {
-                this.contextFree();
-            }
-            return this._refCount;
-        };
-        ArrayBuffer.prototype.contextFree = function () {
-            if (this._buffer) {
-                this._context.deleteBuffer(this._buffer);
-                this._buffer = void 0;
-            }
-            this._context = void 0;
-        };
-        ArrayBuffer.prototype.contextGain = function (context) {
-            if (this._context !== context) {
-                this.contextFree();
-                this._context = context;
-                this._buffer = context.createBuffer();
-            }
-        };
-        ArrayBuffer.prototype.contextLoss = function () {
-            this._buffer = void 0;
-            this._context = void 0;
-        };
-        /**
-         * @method bind
-         */
-        ArrayBuffer.prototype.bind = function (target) {
-            if (this._context) {
-                this._context.bindBuffer(target, this._buffer);
-            }
-            else {
-                console.warn("ArrayBuffer.bind() missing WebGLRenderingContext.");
-            }
-        };
-        /**
-         * @method unbind
-         */
-        ArrayBuffer.prototype.unbind = function (target) {
-            // Remark: Having unbind may allow us to do some accounting in future.
-            if (this._context) {
-                this._context.bindBuffer(target, null);
-            }
-            else {
-                console.warn("ArrayBuffer.unbind() missing WebGLRenderingContext.");
-            }
-        };
-        return ArrayBuffer;
-    })();
-    return ArrayBuffer;
-});
-
 define('davinci-eight/core/ElementBuffer',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
     /**
      * Manages the WebGLBuffer used to support gl.drawElements().
@@ -4324,7 +4113,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../checks/expectArg', '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DrawMode', '../core/ArrayBuffer', '../core/ElementBuffer'], function (require, exports, expectArg, Line3, Point3, Symbolic, DefaultAttribProvider, DrawMode, ArrayBuffer, ElementBuffer) {
+define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../checks/expectArg', '../core/Line3', '../core/Point3', '../core/Symbolic', '../core/DefaultAttribProvider', '../core/DrawMode', '../core/ElementBuffer'], function (require, exports, expectArg, Line3, Point3, Symbolic, DefaultAttribProvider, DrawMode, ElementBuffer) {
     function computeAttribData(positionVarName, positionBuffer, normalVarName, normalBuffer, drawMode) {
         var attributes = {};
         attributes[positionVarName] = { buffer: positionBuffer, size: 3 };
@@ -4345,7 +4134,7 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../che
         /**
          * @class GeometryAdapter
          * @constructor
-         * @param monitor {RenderingContextMonitor}
+         * @param monitor {ContextManager}
          * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
          */
         function GeometryAdapter(monitor, geometry, options) {
@@ -4362,11 +4151,9 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../che
             this.indexBuffer = new ElementBuffer();
             this.indexBuffer.addRef();
             this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-            this.positionBuffer = new ArrayBuffer(monitor);
-            this.positionBuffer.addRef();
+            this.positionBuffer = monitor.createArrayBuffer();
             this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-            this.normalBuffer = new ArrayBuffer(monitor);
-            this.normalBuffer.addRef();
+            this.normalBuffer = monitor.createArrayBuffer();
             this.geometry = geometry;
             this.geometry.dynamic = false;
             this.$drawMode = options.drawMode;
@@ -4575,10 +4362,10 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../che
             this.indexBuffer.bind();
             this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW);
             this.aVertexPositionArray = new Float32Array(vertices);
-            this.positionBuffer.bind(this._context.ARRAY_BUFFER);
+            this.positionBuffer.bind();
             this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
             this.aVertexNormalArray = new Float32Array(normals);
-            this.normalBuffer.bind(this._context.ARRAY_BUFFER);
+            this.normalBuffer.bind();
             this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
         };
         GeometryAdapter.prototype.computeLines = function () {
@@ -8009,7 +7796,204 @@ define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../core
     return VortexGeometry;
 });
 
-define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/isDefined', '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation', '../utils/refChange'], function (require, exports, isDefined, uuid4, AttribLocation, UniformLocation, refChange) {
+define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
+    function uuid4() {
+        var maxFromBits = function (bits) {
+            return Math.pow(2, bits);
+        };
+        var limitUI04 = maxFromBits(4);
+        var limitUI06 = maxFromBits(6);
+        var limitUI08 = maxFromBits(8);
+        var limitUI12 = maxFromBits(12);
+        var limitUI14 = maxFromBits(14);
+        var limitUI16 = maxFromBits(16);
+        var limitUI32 = maxFromBits(32);
+        var limitUI40 = maxFromBits(40);
+        var limitUI48 = maxFromBits(48);
+        var getRandomInt = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+        var randomUI06 = function () {
+            return getRandomInt(0, limitUI06 - 1);
+        };
+        var randomUI08 = function () {
+            return getRandomInt(0, limitUI08 - 1);
+        };
+        var randomUI12 = function () {
+            return getRandomInt(0, limitUI12 - 1);
+        };
+        var randomUI16 = function () {
+            return getRandomInt(0, limitUI16 - 1);
+        };
+        var randomUI32 = function () {
+            return getRandomInt(0, limitUI32 - 1);
+        };
+        var randomUI48 = function () {
+            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
+        };
+        var paddedString = function (str, length, z) {
+            str = String(str);
+            z = (!z) ? '0' : z;
+            var i = length - str.length;
+            for (; i > 0; i >>>= 1, z += z) {
+                if (i & 1) {
+                    str = z + str;
+                }
+            }
+            return str;
+        };
+        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
+            var hex = paddedString(timeLow.toString(16), 8) +
+                '-' +
+                paddedString(timeMid.toString(16), 4) +
+                '-' +
+                paddedString(timeHiAndVersion.toString(16), 4) +
+                '-' +
+                paddedString(clockSeqHiAndReserved.toString(16), 2) +
+                paddedString(clockSeqLow.toString(16), 2) +
+                '-' +
+                paddedString(node.toString(16), 12);
+            return hex;
+        };
+        return {
+            generate: function () {
+                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
+            },
+            // addition by Ka-Jan to test for validity
+            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
+            validate: function (uuid) {
+                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                return testPattern.test(uuid);
+            }
+        };
+    }
+    return uuid4;
+});
+
+define('davinci-eight/utils/refChange',["require", "exports"], function (require, exports) {
+    var statistics = {};
+    var skip = true;
+    var trace = false;
+    var traceName = void 0;
+    var LOGGING_NAME_REF_CHANGE = 'refChange';
+    function prefix(message) {
+        return LOGGING_NAME_REF_CHANGE + ": " + message;
+    }
+    function log(message) {
+        return console.log(prefix(message));
+    }
+    function warn(message) {
+        return console.warn(prefix(message));
+    }
+    function garbageCollect() {
+        var uuids = Object.keys(statistics);
+        uuids.forEach(function (uuid) {
+            var element = statistics[uuid];
+            if (element.refCount === 0) {
+                delete statistics[uuid];
+            }
+        });
+    }
+    function computeOutstanding() {
+        var uuids = Object.keys(statistics);
+        var uuidsLength = uuids.length;
+        var i;
+        var total = 0;
+        for (i = 0; i < uuidsLength; i++) {
+            var uuid = uuids[i];
+            var statistic = statistics[uuid];
+            total += statistic.refCount;
+        }
+        return total;
+    }
+    function stop() {
+        if (skip) {
+            warn("Nothing to see because skip mode is " + skip);
+        }
+        garbageCollect();
+        return computeOutstanding();
+    }
+    function dump() {
+        var outstanding = stop();
+        if (outstanding > 0) {
+            warn(JSON.stringify(statistics, null, 2));
+        }
+        else {
+            log("There are " + outstanding + " outstanding reference counts.");
+        }
+        return outstanding;
+    }
+    function refChange(uuid, name, change) {
+        if (change === void 0) { change = 0; }
+        if (change !== 0 && skip) {
+            return;
+        }
+        if (trace) {
+            if (traceName) {
+                if (name === traceName) {
+                    log(change + " on " + uuid + " @ " + name);
+                }
+            }
+            else {
+                // trace everything
+                log(change + " on " + uuid + " @ " + name);
+            }
+        }
+        if (change === +1) {
+            var element = statistics[uuid];
+            if (!element) {
+                element = { refCount: 0, name: name, zombie: false };
+                statistics[uuid] = element;
+            }
+            element.refCount += change;
+        }
+        else if (change === -1) {
+            var element = statistics[uuid];
+            element.refCount += change;
+            if (element.refCount === 0) {
+                element.zombie = true;
+            }
+        }
+        else if (change === 0) {
+            var message = "" + uuid + " @ " + name;
+            log(message);
+            if (uuid === 'stop') {
+                return stop();
+            }
+            if (uuid === 'dump') {
+                return dump();
+            }
+            else if (uuid === 'start') {
+                skip = false;
+                trace = false;
+            }
+            else if (uuid === 'reset') {
+                statistics = {};
+                skip = true;
+                trace = false;
+                traceName = void 0;
+            }
+            else if (uuid === 'trace') {
+                skip = false;
+                trace = true;
+                traceName = name;
+            }
+            else {
+                throw new Error(prefix("Unexpected command " + message));
+            }
+        }
+        else {
+            throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
+        }
+    }
+    return refChange;
+});
+
+define('davinci-eight/programs/shaderProgram',["require", "exports", '../utils/uuid4', '../core/AttribLocation', '../core/UniformLocation', '../utils/refChange'], function (require, exports, uuid4, AttribLocation, UniformLocation, refChange) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME_SHAFER_PROGRAM = 'Program';
     function makeWebGLShader(ctx, source, type) {
         var shader = ctx.createShader(type);
         ctx.shaderSource(shader, source);
@@ -8090,20 +8074,21 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                 return uniformLocations;
             },
             addRef: function () {
-                refChange(uuid, +1, 'ShaderProgram');
+                refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
                 refCount++;
                 return refCount;
             },
             release: function () {
-                refChange(uuid, -1, 'ShaderProgram');
+                refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, -1);
                 refCount--;
                 if (refCount === 0) {
+                    monitor.removeContextListener(self);
                     self.contextFree();
                 }
                 return refCount;
             },
             contextFree: function () {
-                if (isDefined($context)) {
+                if ($context) {
                     if (program) {
                         $context.deleteProgram(program);
                         program = void 0;
@@ -8163,7 +8148,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                     $context.useProgram(program);
                 }
                 else {
-                    console.warn("shaderProgram.use() missing WebGLRenderingContext");
+                    console.warn(LOGGING_NAME_SHAFER_PROGRAM + " use() missing WebGLRenderingContext");
                 }
                 return self;
             },
@@ -8178,7 +8163,7 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                     var attribLoc = attributeLocations[name];
                     var data = values[name];
                     if (data) {
-                        data.buffer.bind($context.ARRAY_BUFFER);
+                        data.buffer.bind();
                         attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
                     }
                     else {
@@ -8259,7 +8244,8 @@ define('davinci-eight/programs/shaderProgram',["require", "exports", '../checks/
                 }
             }
         };
-        refChange(uuid, +1, 'ShaderProgram');
+        refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
+        monitor.addContextListener(self);
         return self;
     };
     return shaderProgram;
@@ -8569,7 +8555,7 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../programs
 define('davinci-eight/programs/programFromScripts',["require", "exports", '../programs/shaderProgram', '../checks/expectArg'], function (require, exports, shaderProgram, expectArg) {
     /**
      * @method programFromScripts
-     * @param monitor {RenderingContextMonitor}
+     * @param monitor {ContextManager}
      * @param vsId {string} The vertex shader script element identifier.
      * @param fsId {string} The fragment shader script element identifier.
      * @param $document {Document} The document containing the script elements.
@@ -8594,58 +8580,6 @@ define('davinci-eight/programs/programFromScripts',["require", "exports", '../pr
         return shaderProgram(monitor, vertexShader, fragmentShader, attribs);
     }
     return programFromScripts;
-});
-
-define('davinci-eight/resources/Texture',["require", "exports"], function (require, exports) {
-    var Texture = (function () {
-        function Texture(monitor) {
-            this._refCount = 1;
-        }
-        Texture.prototype.addRef = function () {
-            this._refCount++;
-            return this._refCount;
-        };
-        Texture.prototype.release = function () {
-            this._refCount--;
-            if (this._refCount === 0) {
-                this.contextFree();
-            }
-            return this._refCount;
-        };
-        Texture.prototype.contextFree = function () {
-            if (this._texture) {
-                this._context.deleteTexture(this._texture);
-                // console.log("WebGLTexture deleted");
-                this._texture = void 0;
-            }
-            this._context = void 0;
-        };
-        Texture.prototype.contextGain = function (context) {
-            if (this._context !== context) {
-                this.contextFree();
-                this._context = context;
-                this._texture = context.createTexture();
-            }
-        };
-        Texture.prototype.contextLoss = function () {
-            this._texture = void 0;
-            this._context = void 0;
-        };
-        /**
-         * @method bind
-         * @parameter target {number}
-         */
-        Texture.prototype.bind = function (target) {
-            if (this._context) {
-                this._context.bindTexture(target, this._texture);
-            }
-            else {
-                console.warn("Texture.bind(target) missing WebGLRenderingContext.");
-            }
-        };
-        return Texture;
-    })();
-    return Texture;
 });
 
 var __extends = this.__extends || function (d, b) {
@@ -10224,22 +10158,99 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core/Color'
     return renderer;
 });
 
+define('davinci-eight/core/BufferResource',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME_BUFFER = 'Buffer';
+    function checkTarget(target) {
+        return target;
+    }
+    // TODO: Replace this with a functional constructor to prevent tinkering.
+    var BufferResource = (function () {
+        function BufferResource(monitor, target) {
+            this._refCount = 1;
+            this._uuid = uuid4().generate();
+            this._monitor = expectArg('montor', monitor).toBeObject().value;
+            this._target = checkTarget(target);
+            refChange(this._uuid, LOGGING_NAME_BUFFER, +1);
+            monitor.addContextListener(this);
+        }
+        BufferResource.prototype.addRef = function () {
+            this._refCount++;
+            refChange(this._uuid, LOGGING_NAME_BUFFER, +1);
+            return this._refCount;
+        };
+        BufferResource.prototype.release = function () {
+            this._refCount--;
+            refChange(this._uuid, LOGGING_NAME_BUFFER, -1);
+            if (this._refCount === 0) {
+                this._monitor.removeContextListener(this);
+                this.contextFree();
+            }
+            return this._refCount;
+        };
+        BufferResource.prototype.contextFree = function () {
+            if (this._buffer) {
+                this._context.deleteBuffer(this._buffer);
+                this._buffer = void 0;
+            }
+            this._context = void 0;
+        };
+        BufferResource.prototype.contextGain = function (context) {
+            if (this._context !== context) {
+                this.contextFree();
+                this._context = context;
+                this._buffer = context.createBuffer();
+            }
+        };
+        BufferResource.prototype.contextLoss = function () {
+            this._buffer = void 0;
+            this._context = void 0;
+        };
+        /**
+         * @method bind
+         */
+        BufferResource.prototype.bind = function () {
+            if (this._context) {
+                this._context.bindBuffer(this._target, this._buffer);
+            }
+            else {
+                console.warn(LOGGING_NAME_BUFFER + " bind() missing WebGLRenderingContext.");
+            }
+        };
+        /**
+         * @method unbind
+         */
+        BufferResource.prototype.unbind = function () {
+            if (this._context) {
+                this._context.bindBuffer(this._target, null);
+            }
+            else {
+                console.warn(LOGGING_NAME_BUFFER + " unbind() missing WebGLRenderingContext.");
+            }
+        };
+        return BufferResource;
+    })();
+    return BufferResource;
+});
+
 define('davinci-eight/utils/IUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
-    var CLASSNAME_IUNKNOWN_MAP = 'IUnknownMap';
+    var LOGGING_NAME_IUNKNOWN_MAP = 'IUnknownMap';
     var IUnknownMap = (function () {
         function IUnknownMap() {
             this._refCount = 1;
             this._elements = {};
             this._uuid = uuid4().generate();
-            refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
         }
         IUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
             this._refCount++;
             return this._refCount;
         };
         IUnknownMap.prototype.release = function () {
-            refChange(this._uuid, -1, CLASSNAME_IUNKNOWN_MAP);
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
             this._refCount--;
             if (this._refCount === 0) {
                 var self_1 = this;
@@ -10347,7 +10358,92 @@ define('davinci-eight/utils/RefCount',["require", "exports", '../checks/expectAr
     return RefCount;
 });
 
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayBuffer', '../dfx/Elements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../utils/IUnknownMap', '../utils/RefCount', '../utils/refChange', '../resources/Texture', '../utils/uuid4'], function (require, exports, ArrayBuffer, Elements, initWebGL, expectArg, isDefined, IUnknownMap, RefCount, refChange, Texture, uuid4) {
+define('davinci-eight/resources/TextureResource',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME_TEXTURE = 'Texture';
+    var TextureResource = (function () {
+        function TextureResource(monitor, target) {
+            this._refCount = 1;
+            this._uuid = uuid4().generate();
+            this._monitor = expectArg('montor', monitor).toBeObject().value;
+            this._target = target;
+            refChange(this._uuid, LOGGING_NAME_TEXTURE, +1);
+            monitor.addContextListener(this);
+        }
+        TextureResource.prototype.addRef = function () {
+            this._refCount++;
+            refChange(this._uuid, LOGGING_NAME_TEXTURE, +1);
+            return this._refCount;
+        };
+        TextureResource.prototype.release = function () {
+            this._refCount--;
+            refChange(this._uuid, LOGGING_NAME_TEXTURE, -1);
+            if (this._refCount === 0) {
+                this._monitor.removeContextListener(this);
+                this.contextFree();
+            }
+            return this._refCount;
+        };
+        TextureResource.prototype.contextFree = function () {
+            if (this._texture) {
+                this._context.deleteTexture(this._texture);
+                this._texture = void 0;
+            }
+            this._context = void 0;
+        };
+        TextureResource.prototype.contextGain = function (context) {
+            if (this._context !== context) {
+                this.contextFree();
+                this._context = context;
+                this._texture = context.createTexture();
+            }
+        };
+        TextureResource.prototype.contextLoss = function () {
+            this._texture = void 0;
+            this._context = void 0;
+        };
+        /**
+         * @method bind
+         */
+        TextureResource.prototype.bind = function () {
+            if (this._context) {
+                this._context.bindTexture(this._target, this._texture);
+            }
+            else {
+                console.warn(LOGGING_NAME_TEXTURE + " bind(target) missing WebGLRenderingContext.");
+            }
+        };
+        /**
+         * @method unbind
+         */
+        TextureResource.prototype.unbind = function () {
+            if (this._context) {
+                this._context.bindTexture(this._target, null);
+            }
+            else {
+                console.warn(LOGGING_NAME_TEXTURE + " unbind(target) missing WebGLRenderingContext.");
+            }
+        };
+        return TextureResource;
+    })();
+    return TextureResource;
+});
+
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../utils/IUnknownMap', '../utils/RefCount', '../utils/refChange', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, initWebGL, expectArg, isDefined, IUnknownMap, RefCount, refChange, TextureResource, uuid4) {
+    var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
+    var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
+    var LOGGING_NAME_MESH = 'Mesh';
+    var LOGGING_NAME_MANAGER = 'ContextManager';
+    function mustBeContext(context, method) {
+        if (context) {
+            return context;
+        }
+        else {
+            throw new Error(method + ": context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+        }
+    }
     /**
      * This could become an encapsulated call?
      */
@@ -10372,7 +10468,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             this._attributes = attributes;
             this._attributes.addRef();
             this.drawCommand = drawCommand;
-            refChange(this._uuid, +1, 'ElementsBlock');
+            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
         }
         Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
             get: function () {
@@ -10384,12 +10480,12 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
         });
         ElementsBlock.prototype.addRef = function () {
             this._refCount++;
-            refChange(this._uuid, +1, 'ElementsBlock');
+            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
             return this._refCount;
         };
         ElementsBlock.prototype.release = function () {
             this._refCount--;
-            refChange(this._uuid, -1, 'ElementsBlock');
+            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, -1);
             if (this._refCount === 0) {
                 this._attributes.release();
                 this._indexBuffer.release();
@@ -10416,15 +10512,15 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
             this.normalized = normalized;
             this.stride = stride;
             this.offset = offset;
-            refChange(this._uuid, +1, 'ElementsBlockAttrib');
+            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
         }
         ElementsBlockAttrib.prototype.addRef = function () {
-            refChange(this._uuid, +1, 'ElementsBlockAttrib');
+            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
             this._refCount++;
             return this._refCount;
         };
         ElementsBlockAttrib.prototype.release = function () {
-            refChange(this._uuid, -1, 'ElementsBlockAttrib');
+            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, -1);
             this._refCount--;
             if (this._refCount === 0) {
                 this._buffer.release();
@@ -10480,22 +10576,23 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         var uuid = uuid4().generate();
         var blocks = new IUnknownMap();
+        // Remark: We only hold weak references to users so that the lifetime of resource
+        // objects is not affected by the fact that they are listening for context events.
+        // Users should automatically add themselves upon construction and remove upon release.
         var users = [];
-        function addContextUser(user) {
+        function addContextListener(user) {
             expectArg('user', user).toBeObject();
             users.push(user);
-            user.addRef();
             if (context) {
                 user.contextGain(context);
             }
         }
-        function removeContextUser(user) {
+        function removeContextListener(user) {
             expectArg('user', user).toBeObject();
             var index = users.indexOf(user);
             if (index >= 0) {
                 var removals = users.splice(index, 1);
                 removals.forEach(function (user) {
-                    user.release();
                 });
             }
         }
@@ -10509,16 +10606,16 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 }
             };
         }
-        function createMesh(uuid) {
+        function createDrawElementsMesh(uuid) {
             var refCount = new RefCount(meshRemover(uuid));
             var _program = void 0;
-            var self = {
+            var mesh = {
                 addRef: function () {
-                    refChange(uuid, +1, 'Mesh');
+                    refChange(uuid, LOGGING_NAME_MESH, +1);
                     return refCount.addRef();
                 },
                 release: function () {
-                    refChange(uuid, -1, 'Mesh');
+                    refChange(uuid, LOGGING_NAME_MESH, -1);
                     return refCount.release();
                 },
                 get uuid() {
@@ -10527,7 +10624,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 bind: function (program, aNameToKeyName) {
                     if (_program !== program) {
                         if (_program) {
-                            self.unbind();
+                            mesh.unbind();
                         }
                         var block = blocks.get(uuid);
                         if (block) {
@@ -10535,7 +10632,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                                 _program = program;
                                 _program.addRef();
                                 var indexBuffer = block.indexBuffer;
-                                indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+                                indexBuffer.bind();
                                 indexBuffer.release();
                                 var aNames = Object.keys(program.attributes);
                                 var aNamesLength = aNames.length;
@@ -10548,10 +10645,10 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                                     if (attribute) {
                                         // Associate the attribute buffer with the attribute location.
                                         var buffer = attribute.buffer;
-                                        buffer.bind(context.ARRAY_BUFFER);
+                                        buffer.bind();
                                         var attributeLocation = program.attributes[aName];
                                         attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-                                        buffer.unbind(context.ARRAY_BUFFER);
+                                        buffer.unbind();
                                         attributeLocation.enable();
                                         buffer.release();
                                         attribute.release();
@@ -10590,7 +10687,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                         var block = blocks.get(uuid);
                         if (block) {
                             var indexBuffer = block.indexBuffer;
-                            indexBuffer.unbind(context.ELEMENT_ARRAY_BUFFER);
+                            indexBuffer.unbind();
                             indexBuffer.release();
                             Object.keys(_program.attributes).forEach(function (aName) {
                                 _program.attributes[aName].disable();
@@ -10606,8 +10703,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                     }
                 }
             };
-            refChange(uuid, +1, 'Mesh');
-            return self;
+            refChange(uuid, LOGGING_NAME_MESH, +1);
+            return mesh;
         }
         var context;
         var refCount = 1;
@@ -10627,12 +10724,12 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 user.contextGain(context);
             });
         };
-        var self = {
+        var monitor = {
             /**
              *
              */
-            createMesh: function (elements, mode, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof Elements, "elements must be an instance of Elements");
+            createDrawElementsMesh: function (elements, mode, usage) {
+                expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
                 expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage, context), "usage must be on of STATIC_DRAW, ...");
@@ -10640,26 +10737,26 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 else {
                     usage = context.STATIC_DRAW;
                 }
-                var token = createMesh(uuid4().generate());
-                var indexBuffer = self.vertexBuffer();
-                indexBuffer.bind(context.ELEMENT_ARRAY_BUFFER);
+                var token = createDrawElementsMesh(uuid4().generate());
+                var indexBuffer = monitor.createElementArrayBuffer();
+                indexBuffer.bind();
                 context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
-                context.bindBuffer(context.ELEMENT_ARRAY_BUFFER, null);
+                indexBuffer.unbind();
                 var attributes = new IUnknownMap();
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
                 var i;
                 for (i = 0; i < namesLength; i++) {
                     var name_1 = names[i];
-                    var buffer = self.vertexBuffer();
-                    buffer.bind(context.ARRAY_BUFFER);
+                    var buffer = monitor.createArrayBuffer();
+                    buffer.bind();
                     var vertexAttrib = elements.attributes[name_1];
-                    var data = vertexAttrib.vector.data;
+                    var data = vertexAttrib.values.data;
                     context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
-                    buffer.unbind(context.ARRAY_BUFFER);
+                    buffer.unbind();
                     buffer.release();
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
@@ -10677,25 +10774,25 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 canvas.addEventListener('webglcontextlost', webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
                 users.forEach(function (user) { user.contextGain(context); });
-                return self;
+                return monitor;
             },
             stop: function () {
                 context = void 0;
                 users.forEach(function (user) { user.contextFree(); });
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
-                return self;
+                return monitor;
             },
-            addContextUser: function (user) {
-                addContextUser(user);
-                return self;
+            addContextListener: function (user) {
+                addContextListener(user);
+                return monitor;
             },
-            removeContextUser: function (user) {
-                removeContextUser(user);
-                return self;
+            removeContextListener: function (user) {
+                removeContextListener(user);
+                return monitor;
             },
             get context() {
-                if (isDefined(context)) {
+                if (context) {
                     return context;
                 }
                 else {
@@ -10704,19 +10801,17 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 }
             },
             addRef: function () {
-                refChange(uuid, +1, 'RenderingContextMonitor');
+                refChange(uuid, LOGGING_NAME_MANAGER, +1);
                 refCount++;
                 return refCount;
             },
             release: function () {
-                refChange(uuid, -1, 'RenderingContextMonitor');
+                refChange(uuid, LOGGING_NAME_MANAGER, -1);
                 refCount--;
                 if (refCount === 0) {
                     blocks.release();
-                    // TODO: users should be an IUnknownArray
                     while (users.length > 0) {
                         var user = users.pop();
-                        user.release();
                     }
                 }
                 return refCount;
@@ -10751,15 +10846,21 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                     return context.enable(capability);
                 }
             },
-            texture: function () {
-                var texture = new Texture(self);
-                self.addContextUser(texture);
-                return texture;
+            createArrayBuffer: function () {
+                // TODO: Replace with functional constructor pattern.
+                return new BufferResource(monitor, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
             },
-            vertexBuffer: function () {
-                var vbo = new ArrayBuffer(self);
-                self.addContextUser(vbo);
-                return vbo;
+            createElementArrayBuffer: function () {
+                // TODO: Replace with functional constructor pattern.
+                return new BufferResource(monitor, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+            },
+            createTexture2D: function () {
+                // TODO: Replace with functional constructor pattern.
+                return new TextureResource(monitor, mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
+            },
+            createTextureCubeMap: function () {
+                // TODO: Replace with functional constructor pattern.
+                return new TextureResource(monitor, mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
             },
             get mirror() {
                 return mirror;
@@ -10768,8 +10869,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/ArrayB
                 mirror = expectArg('mirror', value).toBeBoolean().value;
             }
         };
-        refChange(uuid, +1, 'RenderingContextMonitor');
-        return self;
+        refChange(uuid, LOGGING_NAME_MANAGER, +1);
+        return monitor;
     }
     return contextProxy;
 });
@@ -11010,7 +11111,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/objects/primitive', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/Elements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/checkGeometry', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/triangle', 'davinci-eight/dfx/triangles', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry3', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/resources/Texture', 'davinci-eight/core/ArrayBuffer', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, DefaultAttribProvider, Color, core, DrawMode, Face3, primitive, UniformLocation, Curve, Elements, Simplex, Vertex, checkGeometry, computeFaceNormals, cube, quadrilateral, square, tetrahedron, triangle, triangles, scene, Geometry3, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Texture, ArrayBuffer, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/objects/primitive', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/DrawElements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/checkGeometry', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toDrawElements', 'davinci-eight/dfx/triangle', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry3', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, DefaultAttribProvider, Color, core, DrawMode, Face3, primitive, UniformLocation, Curve, DrawAttribute, DrawElements, Simplex, Vertex, checkGeometry, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toDrawElements, triangle, scene, Geometry3, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -11091,7 +11192,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get square() { return square; },
         get tetrahedron() { return tetrahedron; },
         get triangle() { return triangle; },
-        get triangles() { return triangles; },
+        get toDrawElements() { return toDrawElements; },
         get CylinderArgs() { return CylinderArgs; },
         get cylinderMesh() { return cylinderMesh; },
         get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -11100,10 +11201,8 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get vortexMesh() { return vortexMesh; },
         // programs
         get programFromScripts() { return programFromScripts; },
-        // resources
-        get Texture() { return Texture; },
-        get ArrayBuffer() { return ArrayBuffer; },
-        get Elements() { return Elements; },
+        get DrawAttribute() { return DrawAttribute; },
+        get DrawElements() { return DrawElements; },
         // utils
         get refChange() { return refChange; }
     };

@@ -1,19 +1,19 @@
 define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
-    var CLASSNAME_IUNKNOWN_MAP = 'IUnknownMap';
+    var LOGGING_NAME_IUNKNOWN_MAP = 'IUnknownMap';
     var IUnknownMap = (function () {
         function IUnknownMap() {
             this._refCount = 1;
             this._elements = {};
             this._uuid = uuid4().generate();
-            refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
         }
         IUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, +1, CLASSNAME_IUNKNOWN_MAP);
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
             this._refCount++;
             return this._refCount;
         };
         IUnknownMap.prototype.release = function () {
-            refChange(this._uuid, -1, CLASSNAME_IUNKNOWN_MAP);
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
             this._refCount--;
             if (this._refCount === 0) {
                 var self_1 = this;

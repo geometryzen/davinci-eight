@@ -1,11 +1,11 @@
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import DrawMode = require('../core/DrawMode');
-import RenderingContextUser = require('../core/RenderingContextUser');
+import Resource = require('../core/Resource');
 /**
  * @class AttribProvider
  */
-interface AttribProvider extends RenderingContextUser {
+interface AttribProvider extends Resource {
     /**
      * @method draw
      */

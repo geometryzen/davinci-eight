@@ -10,7 +10,7 @@ import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import shaderProgram = require('./shaderProgram');
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
@@ -19,7 +19,7 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 import vertexShader = require('../programs/vertexShader');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
@@ -31,7 +31,7 @@ function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos)
 /**
  *
  */
-var smartProgram = function(monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]): ShaderProgram {
+var smartProgram = function(monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]): Program {
 
   if (!isDefined(attributes)) {
     throw new Error("The attributes parameter is required for smartProgram.");
@@ -53,9 +53,9 @@ var smartProgram = function(monitor: RenderingContextMonitor, attributes: Attrib
   let vColor: boolean = vColorRequired(attributes, uniforms);
   let vLight: boolean = vLightRequired(uniforms);
 
-  let innerProgram: ShaderProgram = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
+  let innerProgram: Program = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
 
-  let self: ShaderProgram = {
+  let self: Program = {
     get program() {
       return innerProgram.program;
     },

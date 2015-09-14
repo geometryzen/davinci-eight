@@ -2,7 +2,7 @@ var shaderProgram = require('../programs/shaderProgram');
 var expectArg = require('../checks/expectArg');
 /**
  * @method programFromScripts
- * @param monitor {RenderingContextMonitor}
+ * @param monitor {ContextManager}
  * @param vsId {string} The vertex shader script element identifier.
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.

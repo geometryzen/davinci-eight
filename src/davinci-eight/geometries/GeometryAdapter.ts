@@ -11,15 +11,15 @@ import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
 import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import DrawMode = require('../core/DrawMode');
-import ArrayBuffer = require('../core/ArrayBuffer');
+import Buffer = require('../core/Buffer');
 import ElementBuffer = require('../core/ElementBuffer');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 
 function computeAttribData(
   positionVarName: string,
-  positionBuffer: ArrayBuffer,
+  positionBuffer: Buffer,
   normalVarName: string,
-  normalBuffer: ArrayBuffer,
+  normalBuffer: Buffer,
   drawMode: DrawMode): AttribDataInfos {
   var attributes: AttribDataInfos = {};
   attributes[positionVarName] = {buffer: positionBuffer, size: 3};
@@ -50,17 +50,17 @@ class GeometryAdapter extends DefaultAttribProvider {
   private positionVarName: string;
   private normalVarName: string;
   private indexBuffer: ElementBuffer;
-  private positionBuffer: ArrayBuffer;
-  private normalBuffer: ArrayBuffer;
+  private positionBuffer: Buffer;
+  private normalBuffer: Buffer;
   private attributeDataInfos: AttribDataInfos;
   /**
    * @class GeometryAdapter
    * @constructor
-   * @param monitor {RenderingContextMonitor}
+   * @param monitor {ContextManager}
    * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
    */
   constructor(
-    monitor: RenderingContextMonitor,
+    monitor: ContextManager,
     geometry: Geometry3,
     options?: {
       drawMode?: DrawMode;
@@ -77,11 +77,9 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.indexBuffer = new ElementBuffer();
     this.indexBuffer.addRef();
     this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-    this.positionBuffer = new ArrayBuffer(monitor);
-    this.positionBuffer.addRef();
+    this.positionBuffer = monitor.createArrayBuffer();
     this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-    this.normalBuffer = new ArrayBuffer(monitor);
-    this.normalBuffer.addRef();
+    this.normalBuffer = monitor.createArrayBuffer();
     this.geometry = geometry;
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
@@ -294,11 +292,11 @@ class GeometryAdapter extends DefaultAttribProvider {
     this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW)
 
     this.aVertexPositionArray = new Float32Array(vertices);
-    this.positionBuffer.bind(this._context.ARRAY_BUFFER);
+    this.positionBuffer.bind();
     this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
 
     this.aVertexNormalArray = new Float32Array(normals);
-    this.normalBuffer.bind(this._context.ARRAY_BUFFER);
+    this.normalBuffer.bind();
     this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
   }
   private computeLines() {

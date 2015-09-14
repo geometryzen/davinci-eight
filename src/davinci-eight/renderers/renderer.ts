@@ -6,13 +6,13 @@ import DrawList = require('../drawLists/DrawList');
 import expectArg = require('../checks/expectArg');
 import Renderer = require('../renderers/Renderer');
 import RendererParameters = require('../renderers/RendererParameters');
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 import UniformData = require('../core/UniformData');
 
 class DefaultDrawableVisitor implements DrawableVisitor {
   constructor() {
   }
-  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformData) {
+  primitive(mesh: AttribProvider, program: Program, model: UniformData) {
     if (mesh.dynamic) {
       mesh.update();
     }

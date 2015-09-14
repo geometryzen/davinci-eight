@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.90.0</em>
+            <em>API Docs for: 2.91.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,6 +65,7 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -73,8 +74,8 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -84,9 +85,8 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/Program.html">Program</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
-                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -155,7 +155,7 @@ import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import shaderProgram = require(&#x27;./shaderProgram&#x27;);
-import ShaderProgram = require(&#x27;../core/ShaderProgram&#x27;);
+import Program = require(&#x27;../core/Program&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
@@ -164,7 +164,7 @@ import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Vector4 = require(&#x27;../math/Vector4&#x27;);
 import vertexShader = require(&#x27;../programs/vertexShader&#x27;);
-import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
+import ContextManager = require(&#x27;../core/ContextManager&#x27;);
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
@@ -176,7 +176,7 @@ function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos)
 /**
  *
  */
-var smartProgram = function(monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]): ShaderProgram {
+var smartProgram = function(monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]): Program {
 
   if (!isDefined(attributes)) {
     throw new Error(&quot;The attributes parameter is required for smartProgram.&quot;);
@@ -198,9 +198,9 @@ var smartProgram = function(monitor: RenderingContextMonitor, attributes: Attrib
   let vColor: boolean = vColorRequired(attributes, uniforms);
   let vLight: boolean = vLightRequired(uniforms);
 
-  let innerProgram: ShaderProgram = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
+  let innerProgram: Program = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
 
-  let self: ShaderProgram = {
+  let self: Program = {
     get program() {
       return innerProgram.program;
     },

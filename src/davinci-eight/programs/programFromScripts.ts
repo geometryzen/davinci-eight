@@ -1,17 +1,17 @@
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 import shaderProgram = require('../programs/shaderProgram');
 import isDefined = require('../checks/isDefined');
 import expectArg = require('../checks/expectArg');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 
 /**
  * @method programFromScripts
- * @param monitor {RenderingContextMonitor}
+ * @param monitor {ContextManager}
  * @param vsId {string} The vertex shader script element identifier.
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-function programFromScripts(monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs: string[] = []): ShaderProgram {
+function programFromScripts(monitor: ContextManager, vsId: string, fsId: string, $document: Document, attribs: string[] = []): Program {
   expectArg('vsId', vsId).toBeString();
   expectArg('fsId', fsId).toBeString();
   expectArg('$document', $document).toBeObject();

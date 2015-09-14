@@ -3,7 +3,7 @@ import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import sphereMesh = require('../mesh/sphereMesh');
 import SphereOptions = require('../mesh/SphereOptions');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 
 class SphereBuilder {
   private $radius: number;
@@ -89,7 +89,7 @@ class SphereBuilder {
     this.$wireFrame = wireFrame;
     return this;
   }
-  buildMesh(monitor: RenderingContextMonitor): AttribProvider {
+  buildMesh(monitor: ContextManager): AttribProvider {
     return sphereMesh(monitor, this);
   }
 }

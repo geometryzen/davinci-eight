@@ -13,31 +13,70 @@ interface IUnknown {
   addRef(): number;
   release(): number;
 }
+
+/**
+ *
+ */
+interface ContextListener extends IUnknown {
+  /**
+   * Called to request the dependent to free any WebGL resources acquired and owned.
+   * The dependent may assume that its cached context is still valid in order
+   * to properly dispose of any cached resources. In the case of shared objects, this
+   * method may be called multiple times for what is logically the same context. In such
+   * cases the dependent must be idempotent and respond only to the first request.
+   * @method contextFree
+   */
+  contextFree(): void;
+  /**
+   * Called to inform the dependent of a new WebGLRenderingContext.
+   * The implementation should ignore the notification if it has already
+   * received the same context.
+   * @method contextGain
+   * @param context {WebGLRenderingContext} The WebGL rendering context.
+   */
+  contextGain(context: WebGLRenderingContext): void;
+  /**
+   * Called to inform the dependent of a loss of WebGLRenderingContext.
+   * The dependent must assume that any cached context is invalid.
+   * The dependent must not try to use and cached context to free resources.
+   * The dependent should reset its state to that for which there is no context.
+   * @method contextLoss
+   */
+  contextLoss(): void;
+}
+
+interface Resource extends IUnknown, ContextListener {
+
+}
+
 /**
  *
  */
 interface Mesh extends IUnknown {
   uuid: string;
-  bind(program: ShaderProgram, aNameToKeyName?: {[name: string]: string}): void;
+  bind(program: Program, aNameToKeyName?: {[name: string]: string}): void;
   draw(): void;
   unbind(): void;
 }
+
 /**
  *
  */
-class Elements {
+class DrawElements {
   public indices: VectorN<number>;
-  public attributes: {[name: string]: ElementsAttribute};
-  constructor(indices: VectorN<number>, attributes: {[name: string]: ElementsAttribute});
+  public attributes: {[name: string]: DrawAttribute};
+  constructor(indices: VectorN<number>, attributes: {[name: string]: DrawAttribute});
 }
+
 /**
  *
  */
-class ElementsAttribute {
-  public vector: VectorN<number>;
+class DrawAttribute {
+  public values: VectorN<number>;
   public size: number;
-  constructor(vector: VectorN<number>, size: number);
+  constructor(values: VectorN<number>, size: number);
 }
+
 class Simplex {
   public vertices: Vertex[];
   constructor(k: number);
@@ -122,9 +161,9 @@ function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>,
 function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
 /**
- * Simplex[] => Elements (gl.TRIANGLES) conversion.
+ * Simplex[] => DrawElements conversion.
  */
-function triangles(geometry: Simplex[], attribMap?: { [name: string]: {name?: string; size: number} }): Elements;
+function toDrawElements(geometry: Simplex[], attribMap?: { [name: string]: {name?: string; size: number} }): DrawElements;
 
 /**
  * @class DrawMode
@@ -142,36 +181,19 @@ enum DrawMode {
  */
 function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): WebGLRenderingContext;
 
-/**
- *
- */
-interface RenderingContextUser extends IUnknown {
-  contextFree(): void;
-  /**
-   * Notification of a new WebGLRenderingContext.
-   * @param context The WebGLRenderingContext.
-   */
-  contextGain(context: WebGLRenderingContext): void;
-  /**
-   * Notification that any WebGL resources cached are invalid because the WebGLContext has been lost.
-   * This is a cue to rest to the initial state without attempting to dispose or free held resources.
-   */
-  contextLoss(): void;
-}
-
 interface DrawableVisitor {
-  primitive(mesh: AttribProvider, program: ShaderProgram, model: UniformData);
+  primitive(mesh: AttribProvider, program: Program, model: UniformData);
 }
-interface RenderingContextProgramUser {
+interface ContextProgramListener {
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
 }
-interface Drawable extends RenderingContextUser {
+interface Drawable extends Resource {
   /**
    *
    */
-  program: ShaderProgram;
+  program: Program;
   /**
    *
    */
@@ -180,7 +202,7 @@ interface Drawable extends RenderingContextUser {
 /**
  *
  */
-interface DrawList extends RenderingContextUser, UniformDataVisitor
+interface DrawList extends ContextListener, UniformDataVisitor
 {
   /**
    * Add a drawable to the DrawList.
@@ -208,23 +230,20 @@ class AttribLocation {
   disable(): void;
   vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
 }
+
 /**
  *
  */
-class ArrayBuffer implements RenderingContextUser {
-//constructor(monitor: RenderingContextMonitor);
-  addRef(): number;
-  release(): number;
-  contextFree(): void;
-  contextGain(context: WebGLRenderingContext): void;
-  contextLoss(): void;
+interface Buffer extends Resource {
   bind(target: number);
+  unbind(target: number);
 }
+
 /**
  *
  */
-class UniformLocation implements RenderingContextProgramUser {
-  constructor(monitor: RenderingContextMonitor, name: string);
+class UniformLocation implements ContextProgramListener {
+  constructor(monitor: ContextManager, name: string);
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
@@ -241,23 +260,29 @@ class UniformLocation implements RenderingContextProgramUser {
   vector3(vector: Vector3): void;
   vector4(vector: Vector4): void;
 }
+
 /**
  *
  */
-class Texture implements RenderingContextUser {
-  constructor();
-  addRef(): number;
-  release(): number;
-  contextFree(): void;
-  contextGain(context: WebGLRenderingContext): void;
-  contextLoss(): void;
-  /**
-   * Binds the Texture to a target.
-   * Parameters
-   *   type TEXTURE_2D or TEXTURE_CUBE_MAP
-   */
-  bind(target: number): void;
+interface Texture extends Resource {
+  bind(): void;
+  unbind(): void;
 }
+
+/**
+ *
+ */
+interface Texture2D extends Texture {
+
+}
+
+/**
+ *
+ */
+interface TextureCubeMap extends Texture {
+
+}
+
 /**
  *
  */
@@ -633,7 +658,7 @@ interface AttribMetaInfos {
  * The generator of calls to drawArrays or drawElements and a source of attribute data.
  * This interface must be implemented in order to define a mesh.
  */
-interface AttribProvider extends RenderingContextUser
+interface AttribProvider extends Resource
 {
   draw(): void;
   /**
@@ -713,7 +738,7 @@ class GeometryAdapter implements AttribProvider
 {
   drawMode: DrawMode;
   dynamic: boolean;
-  constructor(monitor: RenderingContextMonitor, geometry: Geometry3, options?: {drawMode?: DrawMode});
+  constructor(monitor: ContextManager, geometry: Geometry3, options?: {drawMode?: DrawMode});
   draw(): void;
   getAttribData(): AttribDataInfos;
   getAttribMeta(): AttribMetaInfos;
@@ -753,7 +778,7 @@ class EllipticalCylinderGeometry extends Geometry3 {
 /**
  * A vertex shader and a fragment shader combined into a program.
  */
-interface ShaderProgram extends RenderingContextUser, UniformDataVisitor
+interface Program extends Resource, UniformDataVisitor
 {
   /**
    * @property program
@@ -776,10 +801,10 @@ interface ShaderProgram extends RenderingContextUser, UniformDataVisitor
    */
   fragmentShader: string;
   /**
-   * Makes the ShaderProgram the current program for WebGL.
+   * Makes the Program the current program for WebGL.
    * @method use
    */
-  use(): ShaderProgram;
+  use(): Program;
   /**
    * Sets the attributes provided into the appropriate locations.
    */
@@ -806,7 +831,7 @@ interface Primitive<MESH extends AttribProvider, MODEL extends UniformData> exte
 {
   mesh: MESH;
 }
-interface Renderer extends RenderingContextUser
+interface Renderer extends ContextListener
 {
   /**
    * The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.
@@ -877,23 +902,23 @@ function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: 
  */
 function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
 /**
- * Constructs a ShaderProgram from the specified vertex and fragment shader codes.
+ * Constructs a Program from the specified vertex and fragment shader codes.
  */
-function shaderProgram(monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs?: string[]): ShaderProgram;
+function shaderProgram(monitor: ContextManager, vertexShader: string, fragmentShader: string, attribs?: string[]): Program;
 /**
- * Constructs a ShaderProgram from the specified vertex and fragment shader script element identifiers.
+ * Constructs a Program from the specified vertex and fragment shader script element identifiers.
  */
-function programFromScripts(monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]): ShaderProgram;
+function programFromScripts(monitor: ContextManager, vsId: string, fsId: string, $document: Document, attribs?: string[]): Program;
 /**
- * Constructs a ShaderProgram by introspecting a geometry.
+ * Constructs a Program by introspecting a geometry.
  */
-function smartProgram(monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs?: string[]): ShaderProgram;
+function smartProgram(monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs?: string[]): Program;
 /**
  * Constructs a Drawable from the specified attribute provider and program.
  * @param geometry
  * @param shaderProgram
  */
-function primitive<MESH extends AttribProvider, MODEL extends UniformData>(attributes: MESH, program: ShaderProgram, uniforms: MODEL): Primitive<MESH, MODEL>;
+function primitive<MESH extends AttribProvider, MODEL extends UniformData>(attributes: MESH, program: Program, uniforms: MODEL): Primitive<MESH, MODEL>;
 /**
  *
  */
@@ -916,12 +941,12 @@ class ArrowBuilder {
   setFlavor(flavor: number): ArrowBuilder;
   setConeHeight(coneHeight: number): ArrowBuilder;
   setWireFrame(wireFrame: boolean): ArrowBuilder;
-  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
+  buildMesh(monitor: ContextManager): AttribProvider;
 }
 /**
  * Constructs and returns an arrow mesh.
  */
-function arrowMesh(monitor: RenderingContextMonitor, options?: ArrowOptions): AttribProvider;
+function arrowMesh(monitor: ContextManager, options?: ArrowOptions): AttribProvider;
 /**
  *
  */
@@ -957,12 +982,12 @@ class BoxBuilder {
   setDepthSegments(depthSegments: number): BoxBuilder;
   setWireFrame(wireFrame: boolean): BoxBuilder;
   setPositionVarName(positionVarName: string): BoxBuilder;
-  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
+  buildMesh(monitor: ContextManager): AttribProvider;
 }
 /**
  * Constructs and returns a box mesh.
  */
-function boxMesh(monitor: RenderingContextMonitor, options?: BoxOptions): AttribProvider;
+function boxMesh(monitor: ContextManager, options?: BoxOptions): AttribProvider;
 /**
  *
  */
@@ -1007,12 +1032,12 @@ class CylinderMeshBuilder extends CylinderArgs {
   setThetaStart(thetaStart: number): CylinderMeshBuilder;
   setThetaLength(thetaLength: number): CylinderMeshBuilder;
   setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
-  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
+  buildMesh(monitor: ContextManager): AttribProvider;
 }
 /**
  * Constructs and returns a cylinder mesh.
  */
-function cylinderMesh(monitor: RenderingContextMonitor, options?: CylinderOptions): AttribProvider;
+function cylinderMesh(monitor: ContextManager, options?: CylinderOptions): AttribProvider;
 /**
  *
  */
@@ -1047,16 +1072,16 @@ class SphereBuilder {
   setThetaStart(phiStart: number): SphereBuilder;
   setThetaLength(phiLength: number): SphereBuilder;
   setWireFrame(wireFrame: boolean): SphereBuilder;
-  buildMesh(monitor: RenderingContextMonitor): AttribProvider;
+  buildMesh(monitor: ContextManager): AttribProvider;
 }
 /**
  * Constructs and returns an vortex mesh.
  */
-function sphereMesh(monitor: RenderingContextMonitor, options?: SphereOptions): AttribProvider;
+function sphereMesh(monitor: ContextManager, options?: SphereOptions): AttribProvider;
 /**
  * Constructs and returns an vortex mesh.
  */
-function vortexMesh(monitor: RenderingContextMonitor, options?: {wireFrame?: boolean}): AttribProvider;
+function vortexMesh(monitor: ContextManager, options?: {wireFrame?: boolean}): AttribProvider;
 /**
  *
  */
@@ -1226,24 +1251,24 @@ function animation(
 /**
  *
  */
-interface RenderingContextMonitor extends IUnknown
+interface ContextManager extends IUnknown
 {
   /**
    * Starts the monitoring of the WebGL context.
    */
-  start(): RenderingContextMonitor;
+  start(): ContextManager;
   /**
    * Stops the monitoring of the WebGL context.
    */
-  stop(): RenderingContextMonitor;
+  stop(): ContextManager;
   /**
    *
    */
-  addContextUser(user: RenderingContextUser): RenderingContextMonitor;
+  addContextListener(user: ContextListener): ContextManager;
   /**
    *
    */
-  removeContextUser(user: RenderingContextUser): RenderingContextMonitor;
+  removeContextListener(user: ContextListener): ContextManager;
   /**
    *
    */
@@ -1252,6 +1277,29 @@ interface RenderingContextMonitor extends IUnknown
    *
    */
   clearDepth(depth: number): void;
+  /**
+   * Creates a new Buffer instance that binds to the ARRAY_BUFFER target.
+   */
+  createArrayBuffer(): Buffer;
+  /**
+   * Creates a new Buffer instance that binds to the ELEMENT_ARRAY_BUFFER target.
+   */
+  createElementArrayBuffer(): Buffer;
+  /**
+   * Creates a new Mesh instance from a DrawElements data structure.
+   * @param elements {DrawElements} The elements to be drawn.
+   * @param mode {number} The draw mode e.g. TRIANGLES, LINES, POINTS, ...
+   * @param usage {number} A hint about how the underlying buffers will be used.
+   */
+  createDrawElementsMesh(elements: DrawElements, mode: number, usage?: number): Mesh;
+  /**
+   * Creates a new Texture2D instance that binds to the TEXTURE_2D target.
+   */
+  createTexture2D(): Texture2D;
+  /**
+   * Creates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.
+   */
+  createTextureCubeMap(): TextureCubeMap;
   /**
    * Render geometric primitives from bound and enabled vertex data.
    *
@@ -1283,26 +1331,12 @@ interface RenderingContextMonitor extends IUnknown
    */
   context: WebGLRenderingContext;
   /**
-   * Creates a new Texture instance.
-   * Images may be bound to a Texture.
-   * and adds it as a context user to the monitor.
-   */
-  texture(): Texture;
-  /**
-   * Creates a new ArrayBuffer instance.
-   */
-  vertexBuffer(): ArrayBuffer;
-  /**
    * Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.
    */
   mirror: boolean;
-  /**
-   *
-   */
-  createMesh(elements: Elements, mode: number, usage?: number): Mesh;
 }
 /**
- * Constructs and returns a RenderingContextMonitor.
+ * Constructs and returns a ContextManager.
  */
 function webgl(
   canvas: HTMLCanvasElement,
@@ -1314,7 +1348,7 @@ function webgl(
     preserveDrawingBuffer?: boolean,
     stencil?: boolean
   }
-  ): RenderingContextMonitor;
+  ): ContextManager;
 /**
  *
  */
@@ -1334,10 +1368,38 @@ class Model implements UniformData {
  * The version string of the davinci-eight module.
  */
 var VERSION: string;
+
 /**
+ * Record reference count changes and debug reference counts.
  *
+ * Instrumenting reference counting:
+ *   constructor():
+ *     refChange(uuid, 'YourClassName',+1);
+ *   addRef():
+ *     refChange(uuid, 'YourClassName',+1);
+ *   release():
+ *     refChange(uuid, 'YourClassName',-1);
+ *
+ * Debugging reference counts:
+ *   Start tracking reference counts:
+ *     refChange('start'[, 'where']);
+ *     The system will record reference count changes.
+ *   Stop tracking reference counts:
+ *     refChange('stop'[, 'where']);
+ *     The system will compute the total outstanding number of reference counts.
+ *   Dump tracking reference counts:
+ *     refChange('dump'[, 'where']);
+ *     The system will log net reference count changes to the console.
+ *   Don't track reference counts (default):
+ *     refChange('reset'[, 'where']);
+ *     The system will clear statistics and enter will not record changes.
+ *   Trace reference counts for a particular class:
+ *     refChange('trace', 'YourClassName');
+ *     The system will report reference count changes on the specified class.
+ *
+ * Returns the number of outstanding reference counts for the 'stop' command.
  */
-function refChange(uuid: string, change: number, name: string): void;
+function refChange(uuid: string, name?: string, change?: number): number;
 
 }
 

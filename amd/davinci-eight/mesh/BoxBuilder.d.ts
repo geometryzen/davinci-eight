@@ -1,6 +1,6 @@
 import AttribProvider = require('../core/AttribProvider');
 import BoxOptions = require('../mesh/BoxOptions');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 /**
  * @class BoxBuilder
  */
@@ -33,6 +33,6 @@ declare class BoxBuilder {
     setWireFrame(wireFrame: boolean): BoxBuilder;
     setPositionVarName(positionVarName: string): BoxBuilder;
     setNormalVarName(normalVarName: string): BoxBuilder;
-    buildMesh(monitor: RenderingContextMonitor): AttribProvider;
+    buildMesh(monitor: ContextManager): AttribProvider;
 }
 export = BoxBuilder;

@@ -1,3 +1,3 @@
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
-declare function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): RenderingContextMonitor;
+import ContextManager = require('../core/ContextManager');
+declare function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): ContextManager;
 export = contextProxy;

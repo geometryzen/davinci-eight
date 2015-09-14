@@ -1,10 +1,10 @@
-import RenderingContextUser = require('../core/RenderingContextUser');
+import ContextListener = require('../core/ContextListener');
 import DrawList = require('../drawLists/DrawList');
 /**
  * @class Renderer
- * @extends RenderingContextUser
+ * @extends ContextListener
  */
-interface Renderer extends RenderingContextUser {
+interface Renderer extends ContextListener {
     /**
      * The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.
      */

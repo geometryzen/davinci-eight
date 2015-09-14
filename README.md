@@ -192,6 +192,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.88.0: 2015-09-12 cube
 * 2.89.0: 2015-09-12 refactor
 * 2.90.0: 2015-09-13 checkGeometry
+* 2.91.0: 2015-09-13 DrawElements
 
 ## License
 Copyright (c) 2014-2015 David Holmes

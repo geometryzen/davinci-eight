@@ -10,7 +10,7 @@ var UniformLocation = (function () {
     /**
      * @class UniformLocation
      * @constructor
-     * @param monitor {RenderingContextMonitor}
+     * @param monitor {ContextManager}
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
     function UniformLocation(monitor, name) {

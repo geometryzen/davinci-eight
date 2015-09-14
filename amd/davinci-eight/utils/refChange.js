@@ -1,59 +1,82 @@
 define(["require", "exports"], function (require, exports) {
-    var elements = {};
+    var statistics = {};
     var skip = true;
     var trace = false;
     var traceName = void 0;
+    var LOGGING_NAME_REF_CHANGE = 'refChange';
+    function prefix(message) {
+        return LOGGING_NAME_REF_CHANGE + ": " + message;
+    }
+    function log(message) {
+        return console.log(prefix(message));
+    }
+    function warn(message) {
+        return console.warn(prefix(message));
+    }
     function garbageCollect() {
-        var uuids = Object.keys(elements);
+        var uuids = Object.keys(statistics);
         uuids.forEach(function (uuid) {
-            var element = elements[uuid];
+            var element = statistics[uuid];
             if (element.refCount === 0) {
-                delete elements[uuid];
+                delete statistics[uuid];
             }
         });
     }
-    function dump() {
+    function computeOutstanding() {
+        var uuids = Object.keys(statistics);
+        var uuidsLength = uuids.length;
+        var i;
+        var total = 0;
+        for (i = 0; i < uuidsLength; i++) {
+            var uuid = uuids[i];
+            var statistic = statistics[uuid];
+            total += statistic.refCount;
+        }
+        return total;
+    }
+    function stop() {
         if (skip) {
-            console.warn("Nothing to see because skip mode is " + skip);
+            warn("Nothing to see because skip mode is " + skip);
         }
         garbageCollect();
-        console.log(JSON.stringify(elements, null, 2));
+        return computeOutstanding();
     }
-    /**
-     * Records reference count changes in a system-wide data structure.
-     * A change is normally either +1 or -1.
-     * a change of 0 is interpreted as a command in the uuid parameter and a context in the name.
-     * Commands are:
-     * 'dump'
-     * 'reset'
-     * 'skip'
-     * 'trace'
-     */
-    function refChange(uuid, change, name) {
+    function dump() {
+        var outstanding = stop();
+        if (outstanding > 0) {
+            warn(JSON.stringify(statistics, null, 2));
+        }
+        else {
+            log("There are " + outstanding + " outstanding reference counts.");
+        }
+        return outstanding;
+    }
+    function refChange(uuid, name, change) {
+        if (change === void 0) { change = 0; }
         if (change !== 0 && skip) {
             return;
         }
         if (trace) {
             if (traceName) {
                 if (name === traceName) {
-                    console.log(change + " on " + uuid + " @ " + name);
+                    log(change + " on " + uuid + " @ " + name);
                 }
             }
             else {
                 // trace everything
-                console.log(change + " on " + uuid + " @ " + name);
+                log(change + " on " + uuid + " @ " + name);
             }
         }
         if (change === +1) {
-            var element = elements[uuid];
+            var element = statistics[uuid];
             if (!element) {
                 element = { refCount: 0, name: name, zombie: false };
-                elements[uuid] = element;
+                statistics[uuid] = element;
             }
             element.refCount += change;
         }
         else if (change === -1) {
-            var element = elements[uuid];
+            var element = statistics[uuid];
             element.refCount += change;
             if (element.refCount === 0) {
                 element.zombie = true;
@@ -61,17 +84,19 @@ define(["require", "exports"], function (require, exports) {
         }
         else if (change === 0) {
             var message = "" + uuid + " @ " + name;
-            console.log(message);
-            if (uuid === 'dump') {
-                dump();
+            log(message);
+            if (uuid === 'stop') {
+                return stop();
             }
-            else if (uuid === 'reset') {
-                elements = {};
+            if (uuid === 'dump') {
+                return dump();
+            }
+            else if (uuid === 'start') {
                 skip = false;
                 trace = false;
             }
-            else if (uuid === 'skip') {
-                elements = {};
+            else if (uuid === 'reset') {
+                statistics = {};
                 skip = true;
                 trace = false;
                 traceName = void 0;
@@ -82,11 +107,11 @@ define(["require", "exports"], function (require, exports) {
                 traceName = name;
             }
             else {
-                throw new Error("Unexpected command " + message);
+                throw new Error(prefix("Unexpected command " + message));
             }
         }
         else {
-            throw new Error("change must be +1 or -1 for normal recording, or 0 for logging to the console.");
+            throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
         }
     }
     return refChange;

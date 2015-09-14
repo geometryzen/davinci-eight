@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.90.0</em>
+            <em>API Docs for: 2.91.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,6 +65,7 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -73,8 +74,8 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -84,9 +85,8 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/Program.html">Program</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
-                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -144,7 +144,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_modules_davinci-eight.d.ts.html#l129"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:129</code></a>
+            Defined in: <a href="../files/src_modules_davinci-eight.d.ts.html#l168"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:168</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -173,6 +173,18 @@
                     <h3>Methods</h3>
 
                     <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextLoss">contextLoss</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_getAttribData">getAttribData</a>
 
@@ -221,6 +233,131 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_contextFree" class="method item">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l21"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:21</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to request the dependent to free any WebGL resources acquired and owned.
+The dependent may assume that its cached context is still valid in order
+to properly dispose of any cached resources. In the case of shared objects, this
+method may be called multiple times for what is logically the same context. In such
+cases the dependent must be idempotent and respond only to the first request.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_contextGain" class="method item">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>context</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l30"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:30</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to inform the dependent of a new WebGLRenderingContext.
+The implementation should ignore the notification if it has already
+received the same context.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">context</code>
+                        <span class="type">WebGLRenderingContext</span>
+
+
+                    <div class="param-description">
+                        <p>The WebGL rendering context.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_contextLoss" class="method item">
+    <h3 class="name"><code>contextLoss</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l38"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:38</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to inform the dependent of a loss of WebGLRenderingContext.
+The dependent must assume that any cached context is invalid.
+The dependent must not try to use and cached context to free resources.
+The dependent should reset its state to that for which there is no context.</p>
+
+    </div>
+
+
+
+
+</div>
 <div id="method_getAttribData" class="method item">
     <h3 class="name"><code>getAttribData</code></h3>
 
@@ -239,7 +376,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_modules_davinci-eight.d.ts.html#l647"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:647</code></a>
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l672"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:672</code></a>
         </p>
 
 
@@ -279,7 +416,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_modules_davinci-eight.d.ts.html#l778"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:778</code></a>
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l803"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:803</code></a>
         </p>
 
 
@@ -287,7 +424,7 @@
     </div>
 
     <div class="description">
-        <p>Makes the ShaderProgram the current program for WebGL.</p>
+        <p>Makes the Program the current program for WebGL.</p>
 
     </div>
 
@@ -361,7 +498,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_modules_davinci-eight.d.ts.html#l773"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:773</code></a>
+                            <a href="../files/src_modules_davinci-eight.d.ts.html#l798"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:798</code></a>
                             </p>
                     
                     
@@ -385,7 +522,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_modules_davinci-eight.d.ts.html#l758"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:758</code></a>
+                            <a href="../files/src_modules_davinci-eight.d.ts.html#l783"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:783</code></a>
                             </p>
                     
                     
@@ -409,7 +546,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_modules_davinci-eight.d.ts.html#l763"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:763</code></a>
+                            <a href="../files/src_modules_davinci-eight.d.ts.html#l788"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:788</code></a>
                             </p>
                     
                     
@@ -433,7 +570,7 @@
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_modules_davinci-eight.d.ts.html#l768"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:768</code></a>
+                            <a href="../files/src_modules_davinci-eight.d.ts.html#l793"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:793</code></a>
                             </p>
                     
                     

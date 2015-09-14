@@ -10,12 +10,13 @@ import Color = require('davinci-eight/core/Color');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
 import Primitive = require('davinci-eight/core/Primitive');
-import RenderingContextMonitor = require('davinci-eight/core/RenderingContextMonitor');
+import ContextManager = require('davinci-eight/core/ContextManager');
 import UniformData = require('davinci-eight/core/UniformData');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
 import Curve = require('davinci-eight/curves/Curve');
-import Elements = require('davinci-eight/dfx/Elements');
+import DrawAttribute = require('davinci-eight/dfx/DrawAttribute');
+import DrawElements = require('davinci-eight/dfx/DrawElements');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
 import DrawList = require('davinci-eight/drawLists/DrawList');
@@ -38,8 +39,6 @@ import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
-import Texture = require('davinci-eight/resources/Texture');
-import ArrayBuffer = require('davinci-eight/core/ArrayBuffer');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
@@ -59,7 +58,7 @@ import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
 import CylinderMeshBuilder = require('davinci-eight/mesh/CylinderMeshBuilder');
 import SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
-import ShaderProgram = require('davinci-eight/core/ShaderProgram');
+import Program = require('davinci-eight/core/Program');
 import Renderer = require('davinci-eight/renderers/Renderer');
 import RendererParameters = require('davinci-eight/renderers/RendererParameters');
 import Model = require('davinci-eight/utils/Model');
@@ -90,7 +89,7 @@ declare var eight: {
     viewMatrix: (eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4) => Matrix4;
     scene: () => DrawList;
     renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
-    webgl: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => RenderingContextMonitor;
+    webgl: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => ContextManager;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
@@ -104,12 +103,12 @@ declare var eight: {
         window?: Window;
     }) => WindowAnimationRunner;
     DefaultAttribProvider: typeof DefaultAttribProvider;
-    primitive: <MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: ShaderProgram, model: MODEL) => Primitive<MESH, MODEL>;
+    primitive: <MESH extends AttribProvider, MODEL extends UniformData>(mesh: MESH, program: Program, model: MODEL) => Primitive<MESH, MODEL>;
     DrawMode: typeof DrawMode;
     AttribLocation: typeof AttribLocation;
     UniformLocation: typeof UniformLocation;
-    shaderProgram: (monitor: RenderingContextMonitor, vertexShader: string, fragmentShader: string, attribs: string[]) => ShaderProgram;
-    smartProgram: (monitor: RenderingContextMonitor, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]) => ShaderProgram;
+    shaderProgram: (monitor: ContextManager, vertexShader: string, fragmentShader: string, attribs: string[]) => Program;
+    smartProgram: (monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]) => Program;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry3: typeof Geometry3;
@@ -141,9 +140,9 @@ declare var eight: {
     Vector4: typeof Vector4;
     VectorN: typeof VectorN;
     Curve: typeof Curve;
-    arrowMesh: (monitor: RenderingContextMonitor, options?: ArrowOptions) => AttribProvider;
+    arrowMesh: (monitor: ContextManager, options?: ArrowOptions) => AttribProvider;
     ArrowBuilder: typeof ArrowBuilder;
-    boxMesh: (monitor: RenderingContextMonitor, options?: BoxOptions) => AttribProvider;
+    boxMesh: (monitor: ContextManager, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
     checkGeometry: (geometry: Simplex[]) => {
         [key: string]: {
@@ -162,24 +161,23 @@ declare var eight: {
     triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
-    triangles: (geometry: Simplex[], attribMap?: {
+    toDrawElements: (geometry: Simplex[], attribMap?: {
         [name: string]: {
             name?: string;
             size: number;
         };
-    }) => Elements;
+    }) => DrawElements;
     CylinderArgs: typeof CylinderArgs;
-    cylinderMesh: (monitor: RenderingContextMonitor, options?: CylinderOptions) => AttribProvider;
+    cylinderMesh: (monitor: ContextManager, options?: CylinderOptions) => AttribProvider;
     CylinderMeshBuilder: typeof CylinderMeshBuilder;
-    sphereMesh: (monitor: RenderingContextMonitor, options?: SphereOptions) => AttribProvider;
+    sphereMesh: (monitor: ContextManager, options?: SphereOptions) => AttribProvider;
     SphereBuilder: typeof SphereBuilder;
-    vortexMesh: (monitor: RenderingContextMonitor, options?: {
+    vortexMesh: (monitor: ContextManager, options?: {
         wireFrame?: boolean;
     }) => AttribProvider;
-    programFromScripts: (monitor: RenderingContextMonitor, vsId: string, fsId: string, $document: Document, attribs?: string[]) => ShaderProgram;
-    Texture: typeof Texture;
-    ArrayBuffer: typeof ArrayBuffer;
-    Elements: typeof Elements;
-    refChange: (uuid: string, change: number, name?: string) => void;
+    programFromScripts: (monitor: ContextManager, vsId: string, fsId: string, $document: Document, attribs?: string[]) => Program;
+    DrawAttribute: typeof DrawAttribute;
+    DrawElements: typeof DrawElements;
+    refChange: (uuid: string, name?: string, change?: number) => number;
 };
 export = eight;

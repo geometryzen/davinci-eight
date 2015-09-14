@@ -1,5 +1,5 @@
 import AttribProvider = require('../core/AttribProvider');
 import SphereOptions = require('../mesh/SphereOptions');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
-declare function sphereMesh(monitor: RenderingContextMonitor, options?: SphereOptions): AttribProvider;
+import ContextManager = require('../core/ContextManager');
+declare function sphereMesh(monitor: ContextManager, options?: SphereOptions): AttribProvider;
 export = sphereMesh;

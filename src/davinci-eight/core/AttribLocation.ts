@@ -1,6 +1,6 @@
 import expectArg = require('../checks/expectArg');
-import RenderingContextProgramUser = require('../core/RenderingContextProgramUser');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextProgramListener = require('../core/ContextProgramListener');
+import ContextManager = require('../core/ContextManager');
 
 function existsLocation(location: number): boolean {
   return location >= 0;
@@ -9,11 +9,11 @@ function existsLocation(location: number): boolean {
 /**
  * Utility class for managing a shader attribute variable.
  * While this class may be created directly by the user, it is preferable
- * to use the AttribLocation instances managed by the ShaderProgram because
+ * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
  * @class AttribLocation.
  */
-class AttribLocation implements RenderingContextProgramUser {
+class AttribLocation implements ContextProgramListener {
   private _name: string;
   private _index: number;
   private _context: WebGLRenderingContext;
@@ -24,7 +24,7 @@ class AttribLocation implements RenderingContextProgramUser {
    * @constructor
    * @param name {string} The name of the variable as it appears in the GLSL program.
    */
-  constructor(monitor: RenderingContextMonitor, name: string) {
+  constructor(monitor: ContextManager, name: string) {
     expectArg('monitor', monitor).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }

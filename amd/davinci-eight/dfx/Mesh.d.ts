@@ -1,8 +1,8 @@
-import ShaderProgram = require('../core/ShaderProgram');
+import Program = require('../core/Program');
 import IUnknown = require('../core/IUnknown');
 interface Mesh extends IUnknown {
     uuid: string;
-    bind(program: ShaderProgram, aNameToKeyName?: {
+    bind(program: Program, aNameToKeyName?: {
         [name: string]: string;
     }): void;
     draw(): void;

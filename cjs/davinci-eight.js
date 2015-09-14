@@ -17,7 +17,8 @@ var UniformLocation = require('davinci-eight/core/UniformLocation');
 // curves
 var Curve = require('davinci-eight/curves/Curve');
 // dfx
-var Elements = require('davinci-eight/dfx/Elements');
+var DrawAttribute = require('davinci-eight/dfx/DrawAttribute');
+var DrawElements = require('davinci-eight/dfx/DrawElements');
 var Simplex = require('davinci-eight/dfx/Simplex');
 var Vertex = require('davinci-eight/dfx/Vertex');
 var checkGeometry = require('davinci-eight/dfx/checkGeometry');
@@ -26,8 +27,8 @@ var cube = require('davinci-eight/dfx/cube');
 var quadrilateral = require('davinci-eight/dfx/quadrilateral');
 var square = require('davinci-eight/dfx/square');
 var tetrahedron = require('davinci-eight/dfx/tetrahedron');
+var toDrawElements = require('davinci-eight/dfx/toDrawElements');
 var triangle = require('davinci-eight/dfx/triangle');
-var triangles = require('davinci-eight/dfx/triangles');
 // drawLists
 var scene = require('davinci-eight/drawLists/scene');
 // geometries
@@ -54,9 +55,6 @@ var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
 var programFromScripts = require('davinci-eight/programs/programFromScripts');
-// resources
-var Texture = require('davinci-eight/resources/Texture');
-var ArrayBuffer = require('davinci-eight/core/ArrayBuffer');
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
@@ -166,7 +164,7 @@ var eight = {
     get square() { return square; },
     get tetrahedron() { return tetrahedron; },
     get triangle() { return triangle; },
-    get triangles() { return triangles; },
+    get toDrawElements() { return toDrawElements; },
     get CylinderArgs() { return CylinderArgs; },
     get cylinderMesh() { return cylinderMesh; },
     get CylinderMeshBuilder() { return CylinderMeshBuilder; },
@@ -175,10 +173,8 @@ var eight = {
     get vortexMesh() { return vortexMesh; },
     // programs
     get programFromScripts() { return programFromScripts; },
-    // resources
-    get Texture() { return Texture; },
-    get ArrayBuffer() { return ArrayBuffer; },
-    get Elements() { return Elements; },
+    get DrawAttribute() { return DrawAttribute; },
+    get DrawElements() { return DrawElements; },
     // utils
     get refChange() { return refChange; }
 };

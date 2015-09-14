@@ -1,6 +1,6 @@
 import AttribProvider = require('../core/AttribProvider');
 import SphereOptions = require('../mesh/SphereOptions');
-import RenderingContextMonitor = require('../core/RenderingContextMonitor');
+import ContextManager = require('../core/ContextManager');
 declare class SphereBuilder {
     private $radius;
     private $phiStart;
@@ -27,6 +27,6 @@ declare class SphereBuilder {
     setWidthSegments(widthSegments: number): SphereBuilder;
     setHeightSegments(heightSegments: number): SphereBuilder;
     setWireFrame(wireFrame: boolean): SphereBuilder;
-    buildMesh(monitor: RenderingContextMonitor): AttribProvider;
+    buildMesh(monitor: ContextManager): AttribProvider;
 }
 export = SphereBuilder;

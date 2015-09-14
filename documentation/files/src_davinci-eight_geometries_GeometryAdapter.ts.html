@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.90.0</em>
+            <em>API Docs for: 2.91.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -65,6 +65,7 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Drawable.html">Drawable</a></li>
@@ -73,8 +74,8 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry3.html">Geometry3</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -84,9 +85,8 @@
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/Program.html">Program</a></li>
                                 <li><a href="../classes/Renderer.html">Renderer</a></li>
-                                <li><a href="../classes/RenderingContextUser.html">RenderingContextUser</a></li>
-                                <li><a href="../classes/ShaderProgram.html">ShaderProgram</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
@@ -156,15 +156,15 @@ import Color = require(&#x27;../core/Color&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import DefaultAttribProvider = require(&#x27;../core/DefaultAttribProvider&#x27;);
 import DrawMode = require(&#x27;../core/DrawMode&#x27;);
-import ArrayBuffer = require(&#x27;../core/ArrayBuffer&#x27;);
+import Buffer = require(&#x27;../core/Buffer&#x27;);
 import ElementBuffer = require(&#x27;../core/ElementBuffer&#x27;);
-import RenderingContextMonitor = require(&#x27;../core/RenderingContextMonitor&#x27;);
+import ContextManager = require(&#x27;../core/ContextManager&#x27;);
 
 function computeAttribData(
   positionVarName: string,
-  positionBuffer: ArrayBuffer,
+  positionBuffer: Buffer,
   normalVarName: string,
-  normalBuffer: ArrayBuffer,
+  normalBuffer: Buffer,
   drawMode: DrawMode): AttribDataInfos {
   var attributes: AttribDataInfos = {};
   attributes[positionVarName] = {buffer: positionBuffer, size: 3};
@@ -195,17 +195,17 @@ class GeometryAdapter extends DefaultAttribProvider {
   private positionVarName: string;
   private normalVarName: string;
   private indexBuffer: ElementBuffer;
-  private positionBuffer: ArrayBuffer;
-  private normalBuffer: ArrayBuffer;
+  private positionBuffer: Buffer;
+  private normalBuffer: Buffer;
   private attributeDataInfos: AttribDataInfos;
   /**
    * @class GeometryAdapter
    * @constructor
-   * @param monitor {RenderingContextMonitor}
+   * @param monitor {ContextManager}
    * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
    */
   constructor(
-    monitor: RenderingContextMonitor,
+    monitor: ContextManager,
     geometry: Geometry3,
     options?: {
       drawMode?: DrawMode;
@@ -222,11 +222,9 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.indexBuffer = new ElementBuffer();
     this.indexBuffer.addRef();
     this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-    this.positionBuffer = new ArrayBuffer(monitor);
-    this.positionBuffer.addRef();
+    this.positionBuffer = monitor.createArrayBuffer();
     this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-    this.normalBuffer = new ArrayBuffer(monitor);
-    this.normalBuffer.addRef();
+    this.normalBuffer = monitor.createArrayBuffer();
     this.geometry = geometry;
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
@@ -439,11 +437,11 @@ class GeometryAdapter extends DefaultAttribProvider {
     this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW)
 
     this.aVertexPositionArray = new Float32Array(vertices);
-    this.positionBuffer.bind(this._context.ARRAY_BUFFER);
+    this.positionBuffer.bind();
     this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
 
     this.aVertexNormalArray = new Float32Array(normals);
-    this.normalBuffer.bind(this._context.ARRAY_BUFFER);
+    this.normalBuffer.bind();
     this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
   }
   private computeLines() {
