@@ -100,7 +100,7 @@ var Vector4 = (function (_super) {
     Vector4.prototype.add = function (rhs) {
         return this;
     };
-    Vector4.prototype.addVectors = function (a, b) {
+    Vector4.prototype.sum = function (a, b) {
         return this;
     };
     Vector4.prototype.clone = function () {
@@ -134,7 +134,13 @@ var Vector4 = (function (_super) {
         this.w *= scalar;
         return this;
     };
+    Vector4.prototype.rotate = function (rotor) {
+        return this;
+    };
     Vector4.prototype.sub = function (rhs) {
+        return this;
+    };
+    Vector4.prototype.difference = function (a, b) {
         return this;
     };
     return Vector4;

@@ -7,7 +7,7 @@ import VectorN = require('../math/VectorN');
 /**
  * @class Vector3
  */
-declare class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3> {
+declare class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
     static e1: Vector3;
     static e2: Vector3;
     static e3: Vector3;
@@ -41,7 +41,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      * @param v {Vector3} The vector to add to this vector.
      */
     add(v: Cartesian3): Vector3;
-    addVectors(a: Cartesian3, b: Cartesian3): Vector3;
+    sum(a: Cartesian3, b: Cartesian3): Vector3;
     applyMatrix3(m: Matrix3): Vector3;
     /**
      * Pre-multiplies the column vector corresponding to this vector by the matrix.
@@ -53,13 +53,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      * @param m The 4x4 matrix that pre-multiplies this column vector.
      */
     applyMatrix4(m: Matrix4): Vector3;
-    applyQuaternion(q: {
-        x: number;
-        y: number;
-        z: number;
-        w: number;
-    }): Vector3;
-    applySpinor(spinor: Spinor3Coords): Vector3;
+    rotate(spinor: Spinor3Coords): Vector3;
     clone(): Vector3;
     copy(v: Cartesian3): Vector3;
     cross(v: Cartesian3): Vector3;
@@ -80,7 +74,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
     setY(y: number): Vector3;
     setZ(z: number): Vector3;
     sub(v: Cartesian3): Vector3;
-    subVectors(a: Cartesian3, b: Cartesian3): Vector3;
+    difference(a: Cartesian3, b: Cartesian3): Vector3;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

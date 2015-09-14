@@ -123,8 +123,12 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
         };
         VectorN.prototype.setComponent = function (index, value) {
             var data = this.data;
-            data[index] = value;
-            this.data = data;
+            var existing = data[index];
+            if (value !== existing) {
+                data[index] = value;
+                this.data = data;
+                this.modified = true;
+            }
         };
         VectorN.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -145,13 +146,14 @@
     <pre class="code prettyprint linenums">
 import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
+import Spinor2Coords = require(&#x27;../math/Spinor2Coords&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 
 /**
  * @class Vector2
  */
-class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement&lt;Cartesian2, Vector2&gt; {
+class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement&lt;Cartesian2, Vector2, Spinor2Coords&gt; {
   /**
    * @class Vector2
    * @constructor
@@ -211,7 +213,7 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement
     this.y += s;
     return this;
   }
-  addVectors(a: Cartesian2, b: Cartesian2) {
+  sum(a: Cartesian2, b: Cartesian2) {
     this.x = a.x + b.x;
     this.y = a.y + b.y;
     return this;
@@ -226,7 +228,7 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement
     this.y -= s;
     return this;
   }
-  subVectors(a: Cartesian2, b: Cartesian2) {
+  difference(a: Cartesian2, b: Cartesian2) {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
     return this;
@@ -321,6 +323,9 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement
     let dy = this.y - position.y;
     return dx * dx + dy * dy;
   }
+  rotate(rotor: Spinor2Coords): Vector2 {
+    return this;
+  }
   setMagnitude(l: number) {
     var oldLength = this.magnitude();
     if ( oldLength !== 0 &amp;&amp; l !== oldLength ) {
@@ -334,7 +339,7 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2, LinearElement
     return this;
   }
   lerpVectors(v1: Vector2, v2: Vector2, alpha: number) {
-    this.subVectors( v2, v1 ).multiplyScalar( alpha ).add( v1 );
+    this.difference( v2, v1 ).multiplyScalar( alpha ).add( v1 );
     return this;
   }
   equals(v: Cartesian2) {

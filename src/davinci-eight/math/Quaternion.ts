@@ -51,7 +51,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   add(element: Quaternion) {
     return this;
   }
-  addVectors(a: Quaternion, b: Quaternion) {
+  sum(a: Quaternion, b: Quaternion) {
     return this;
   }
   set(x: number, y: number, z: number, w: number) {
@@ -104,9 +104,9 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     return Math.sqrt(this.quaditude());
   }
   multiply(q: Quaternion): Quaternion {
-    return this.multiplyQuaternions(this, q);
+    return this.product(this, q);
   }
-  multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion {
+  product(a: Quaternion, b: Quaternion): Quaternion {
     // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
     let qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
     let qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -144,6 +144,10 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   }
   quaditude(): number {
     return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
+  }
+  rotate(rotor: Quaternion): Quaternion {
+    // TODO: This would require creating a temporary so we fall back to components.
+    return this.product(rotor, this);
   }
   setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion {
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
@@ -272,6 +276,9 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     return this;
   }
   sub(rhs: Quaternion) {
+    return this;
+  }
+  difference(a: Quaternion, b: Quaternion) {
     return this;
   }
   equals(quaternion: Quaternion) {

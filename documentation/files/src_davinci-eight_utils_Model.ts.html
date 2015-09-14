@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -146,6 +147,8 @@
 import Color = require(&#x27;../core/Color&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
+import rotor3 = require(&#x27;../math/rotor3&#x27;);
+import Rotor3 = require(&#x27;../math/Rotor3&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformData = require(&#x27;../core/UniformData&#x27;);
@@ -155,13 +158,15 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
  * Model implements UniformData required for manipulating a body.
  */ 
 class Model implements UniformData {
-  public position: Vector3 = new Vector3();        // default is the origin.
-  public attitude: Spinor3 = new Spinor3();        // default is unity.
-  public scale: Vector3 = new Vector3([1, 1, 1]);  // default is to not scale.
-  public color: Vector3 = new Vector3([1, 1, 1]);  // default is white.
-  /**
-   * Model implements UniformData required for manipulating a body.
-   */ 
+  public position = new Vector3();
+  public attitude = rotor3();
+  public scale: Vector3 = new Vector3([1, 1, 1]);
+  public color: Vector3 = new Vector3([1, 1, 1]);
+  private M = Matrix4.identity();
+  private N = Matrix3.identity();
+  private R = Matrix4.identity();
+  private S = Matrix4.identity();
+  private T = Matrix4.identity();
   constructor() {
     this.position.modified = true;
     this.attitude.modified = true;
@@ -169,20 +174,24 @@ class Model implements UniformData {
     this.color.modified = true;
   }
   accept(visitor: UniformDataVisitor) {
-    var S = Matrix4.identity();
-    S.scaling(this.scale);
-    var T = Matrix4.identity();
-    T.translation(this.position);
-    var R = Matrix4.identity();
-    R.rotation(this.attitude);
+    if (this.position.modified) {
+      this.T.translation(this.position);
+      this.position.modified = false;
+    }
+    if (this.attitude.modified) {
+        this.R.rotation(this.attitude);
+        this.attitude.modified = false;
+    }
+    if (this.scale.modified) {
+      this.S.scaling(this.scale);
+      this.scale.modified = false;
+    }
+    this.M.copy(this.T).multiply(this.R).multiply(this.S);
 
-    let M = T.mul(R.mul(S));
-    
-    let N: Matrix3 = Matrix3.identity();
-    N.normalFromMatrix4(M);
+    this.N.normalFromMatrix4(this.M)
 
-    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
-    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M);
+    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N);
     visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
   }
 }

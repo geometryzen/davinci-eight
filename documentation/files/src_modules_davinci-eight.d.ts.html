@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -436,17 +437,33 @@ interface Mutable&lt;T&gt; {
   data: T;
   callback: () =&gt; T;
 }
-interface LinearElement&lt;I, M&gt; {
-  add(element: I): M;
+
+/**
+ *
+ */
+interface LinearElement&lt;I, M, S&gt; {
+  add(rhs: I): M;
   clone(): M;
   copy(source: I): M;
+  difference(a: I, b: I): M;
   divideScalar(scalar: number): M;
   lerp(target: I, alpha: number): M;
   multiplyScalar(scalar: number): M;
+//reflect(vector: I): M;
+  rotate(rotor: S): M;
+  sub(rhs: I): M;
+  sum(a: I, b: I): M;
 }
-interface GeometricElement&lt;I, M&gt; extends LinearElement&lt;I, M&gt; {
+
+/**
+ *
+ */
+interface GeometricElement&lt;I, M&gt; extends LinearElement&lt;I, M, I&gt; {
   exp(): M;
+  magnitude(): number;
   multiply(element: I): M;
+  product(a: I, b: I): M;
+  quaditude(): number;
 }
 class Matrix1 {
   public data: Float32Array;
@@ -459,7 +476,17 @@ class Matrix2 {
 class Matrix3 {
   public data: Float32Array;
   constructor(data: Float32Array);
-  identity(): void;
+  /**
+   * Generates a new identity matrix.
+   */
+  static identity(): Matrix3;
+  /**
+   *
+   */
+  identity(): Matrix4;
+  /**
+   *
+   */
   normalFromMatrix4(matrix: Matrix4): void;
 }
 class Matrix4 {
@@ -484,11 +511,6 @@ class Matrix4 {
   /**
    *
    */
-  // TODO: This should not be here (or should change API).
-  static mul(a: Float32Array, b: Float32Array, out: Float32Array): Float32Array
-  /**
-   *
-   */
   copy(matrix: Matrix4): Matrix4;
   /**
    *
@@ -499,8 +521,8 @@ class Matrix4 {
    */
   identity(): Matrix4;
   invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
-  mul(matrix: Matrix4): Matrix4;
-  multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4;
+  multiply(matrix: Matrix4): Matrix4;
+  product(a: Matrix4, b: Matrix4): Matrix4;
   rotate(spinor: Spinor3Coords): void;
   rotation(spinor: Spinor3Coords): void;
   scale(scale: Cartesian3): void;
@@ -541,15 +563,39 @@ class Vector2 extends VectorN&lt;number&gt; implements Cartesian2 {
   public y: number;
   constructor(data?: number[], modified?: boolean);
   add(v: Cartesian2): Vector2;
-  addVectors(a: Cartesian2, b: Cartesian2): Vector2;
+  sum(a: Cartesian2, b: Cartesian2): Vector2;
   copy(v: Cartesian2): Vector2;
   magnitude(): number;
   multiplyScalar(s: number): Vector2;
   quaditude(): number;
   set(x: number, y: number): Vector2;
   sub(v: Cartesian2): Vector2;
-  subVectors(a: Cartesian2, b: Cartesian2): Vector2;
+  difference(a: Cartesian2, b: Cartesian2): Vector2;
 }
+
+/**
+ * R = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1
+ *
+ * The magnitude constraint means that a Rotor3 can be implemented with a unit scale,
+ * leaving only 3 parameters. This should improve computational efficiency.
+ */
+interface Rotor3 extends Spinor3Coords {
+  modified: boolean;
+  copy(spinor: Spinor3Coords): Rotor3;
+  exp(): Rotor3;
+  multiply(spinor: Spinor3Coords): Rotor3;
+  multiplyScalar(s: number): Rotor3;
+  product(a: Spinor3Coords, b: Spinor3Coords): Rotor3;
+  reverse(): Rotor3;
+  toString(): string;
+  wedgeVectors(m: Cartesian3, n: Cartesian3): Rotor3;
+}
+
+/**
+ *
+ */
+function rotor3(): Rotor3;
+
 interface Spinor3Coords {
   yz: number;
   zx: number;
@@ -571,9 +617,13 @@ class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, GeometricE
   divideScalar(scalar: number): Spinor3;
   exp(): Spinor3;
   multiply(rhs: Spinor3Coords): Spinor3;
-  multiplySpinors(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
   multiplyScalar(scalar: number): Spinor3;
+  /**
+   * Sets this Spinor3 to the geometric product of the vectors a and b, a * b.
+   */
+  product(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
   reverse(): Spinor3;
+  rotate(rotor: Spinor3Coords): Spinor3;
   toString(): string;
   /**
    * Sets this Spinor3 to the outer product of the vectors a and b, a ^ b.
@@ -585,7 +635,7 @@ interface Cartesian3 {
   y: number;
   z: number;
 }
-class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement&lt;Cartesian3, Vector3&gt; {
+class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement&lt;Cartesian3, Vector3, Spinor3Coords&gt; {
   public x: number;
   public y: number;
   public z: number;
@@ -594,25 +644,25 @@ class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement
   public static e3: Vector3;
   public static copy(vector: Cartesian3): Vector3;
   constructor(data?: number[], modified?: boolean);
-  add(v: Cartesian3): Vector3;
-  addVectors(a: Cartesian3, b: Cartesian3): Vector3;
-  applyQuaternion(q: { x: number, y: number, z: number, w: number }): Vector3;
+  add(rhs: Cartesian3): Vector3;
   clone(): Vector3;
   copy(v: Cartesian3): Vector3;
   cross(v: Cartesian3): Vector3;
   crossVectors(a: Cartesian3, b: Cartesian3): Vector3;
+  difference(a: Cartesian3, b: Cartesian3): Vector3;
   distanceTo(position: Cartesian3): number;
-  divideScalar(s: number): Vector3;
+  divideScalar(rhs: number): Vector3;
   magnitude(): number;
   lerp(target: Cartesian3, alpha: number): Vector3;
-  multiplyScalar(s: number): Vector3;
+  multiplyScalar(rhs: number): Vector3;
   normalize(): Vector3;
   quaditude(): number;
   quadranceTo(position: Cartesian3): number;
+  rotate(rotor: Spinor3Coords): Vector3;
   set(x: number, y: number, z: number): Vector3;
   setMagnitude(magnitude: number): Vector3;
-  sub(v: Cartesian3): Vector3;
-  subVectors(a: Cartesian3, b: Cartesian3): Vector3;
+  sub(rhs: Cartesian3): Vector3;
+  sum(a: Cartesian3, b: Cartesian3): Vector3;
 }
 interface Cartesian4 {
   x: number;

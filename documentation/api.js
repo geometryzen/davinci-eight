@@ -33,6 +33,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "KleinBottleGeometry",
         "Line3",
         "Matrix4",
+        "Matrix<M>",
         "Mutable",
         "Perspective",
         "Point3",

@@ -62,7 +62,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   add(rhs: Spinor3Coords) {
     return this;
   }
-  addVectors(a: Spinor3Coords, b: Spinor3Coords) {
+  sum(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
   clone() {
@@ -107,9 +107,9 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     return Math.sqrt(this.quaditude());
   }
   multiply(rhs: Spinor3Coords): Spinor3 {
-    return this.multiplySpinors(this, rhs);
+    return this.product(this, rhs);
   }
-  multiplySpinors(a: Spinor3Coords, b: Spinor3Coords): Spinor3 {
+  product(a: Spinor3Coords, b: Spinor3Coords): Spinor3 {
     let a0 = a.w;
     let a1 = a.yz;
     let a2 = a.zx;
@@ -144,7 +144,13 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.xy *= - 1;
     return this;
   }
+  rotate(rotor: Spinor3Coords): Spinor3 {
+    return this;
+  }
   sub(rhs: Spinor3Coords) {
+    return this;
+  }
+  difference(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
   wedgeVectors(a: Cartesian3, b: Cartesian3) {

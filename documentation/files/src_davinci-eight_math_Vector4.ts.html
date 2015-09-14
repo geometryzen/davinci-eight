@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -146,12 +147,13 @@
 import Cartesian4 = require(&#x27;../math/Cartesian4&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import Spinor4Coords = require(&#x27;../math/Spinor4Coords&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 
 /**
  * @class Vector4
  */
-class Vector4 extends VectorN&lt;number&gt; implements Cartesian4, LinearElement&lt;Cartesian4, Vector4&gt; {
+class Vector4 extends VectorN&lt;number&gt; implements Cartesian4, LinearElement&lt;Cartesian4, Vector4, Spinor4Coords&gt; {
   /**
    * @class Vector4
    * @constructor
@@ -224,7 +226,7 @@ class Vector4 extends VectorN&lt;number&gt; implements Cartesian4, LinearElement
   add(rhs: Cartesian4) {
     return this;
   }
-  addVectors(a: Cartesian4, b: Cartesian4) {
+  sum(a: Cartesian4, b: Cartesian4) {
     return this;
   }
   clone() {
@@ -258,7 +260,13 @@ class Vector4 extends VectorN&lt;number&gt; implements Cartesian4, LinearElement
     this.w *= scalar;
     return this;
   }
+  rotate(rotor: Spinor4Coords) {
+    return this;
+  }
   sub(rhs: Cartesian4) {
+    return this;
+  }
+  difference(a: Cartesian4, b: Cartesian4) {
     return this;
   }
 }

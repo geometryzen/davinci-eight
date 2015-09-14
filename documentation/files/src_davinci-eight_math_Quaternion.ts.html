@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -196,7 +197,7 @@ class Quaternion implements GeometricElement&lt;Quaternion, Quaternion&gt; {
   add(element: Quaternion) {
     return this;
   }
-  addVectors(a: Quaternion, b: Quaternion) {
+  sum(a: Quaternion, b: Quaternion) {
     return this;
   }
   set(x: number, y: number, z: number, w: number) {
@@ -249,9 +250,9 @@ class Quaternion implements GeometricElement&lt;Quaternion, Quaternion&gt; {
     return Math.sqrt(this.quaditude());
   }
   multiply(q: Quaternion): Quaternion {
-    return this.multiplyQuaternions(this, q);
+    return this.product(this, q);
   }
-  multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion {
+  product(a: Quaternion, b: Quaternion): Quaternion {
     // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
     let qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
     let qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -289,6 +290,10 @@ class Quaternion implements GeometricElement&lt;Quaternion, Quaternion&gt; {
   }
   quaditude(): number {
     return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
+  }
+  rotate(rotor: Quaternion): Quaternion {
+    // TODO: This would require creating a temporary so we fall back to components.
+    return this.product(rotor, this);
   }
   setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion {
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
@@ -417,6 +422,9 @@ class Quaternion implements GeometricElement&lt;Quaternion, Quaternion&gt; {
     return this;
   }
   sub(rhs: Quaternion) {
+    return this;
+  }
+  difference(a: Quaternion, b: Quaternion) {
     return this;
   }
   equals(quaternion: Quaternion) {

@@ -131,8 +131,12 @@ class VectorN<T> implements Mutable<T[]> {
   }
   setComponent(index: number, value: T): void {
     let data: T[] = this.data;
-    data[index] = value;
-    this.data = data;
+    let existing = data[index];
+    if (value !== existing) {
+      data[index] = value;
+      this.data = data;
+      this.modified = true;
+    }
   }
   toArray(array: T[] = [], offset: number = 0): T[] {
     let data = this.data;

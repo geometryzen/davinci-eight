@@ -17,6 +17,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix3.identity = function () {
             return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
         };
+        Matrix3.prototype.determinant = function () {
+            return 1;
+        };
         Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
             // input: THREE.Matrix4
             // ( based on http://code.google.com/p/webgl-mjs/ )
@@ -50,6 +53,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix3.prototype.identity = function () {
             return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
         };
+        Matrix3.prototype.multiply = function (rhs) {
+            return this.product(this, rhs);
+        };
         Matrix3.prototype.multiplyScalar = function (s) {
             var m = this.data;
             m[0] *= s;
@@ -61,6 +67,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             m[2] *= s;
             m[5] *= s;
             m[8] *= s;
+            return this;
+        };
+        Matrix3.prototype.product = function (a, b) {
             return this;
         };
         Matrix3.prototype.normalFromMatrix4 = function (m) {

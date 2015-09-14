@@ -63,7 +63,7 @@ var Quaternion = (function () {
     Quaternion.prototype.add = function (element) {
         return this;
     };
-    Quaternion.prototype.addVectors = function (a, b) {
+    Quaternion.prototype.sum = function (a, b) {
         return this;
     };
     Quaternion.prototype.set = function (x, y, z, w) {
@@ -116,9 +116,9 @@ var Quaternion = (function () {
         return Math.sqrt(this.quaditude());
     };
     Quaternion.prototype.multiply = function (q) {
-        return this.multiplyQuaternions(this, q);
+        return this.product(this, q);
     };
-    Quaternion.prototype.multiplyQuaternions = function (a, b) {
+    Quaternion.prototype.product = function (a, b) {
         // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
         var qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
         var qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -156,6 +156,10 @@ var Quaternion = (function () {
     };
     Quaternion.prototype.quaditude = function () {
         return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
+    };
+    Quaternion.prototype.rotate = function (rotor) {
+        // TODO: This would require creating a temporary so we fall back to components.
+        return this.product(rotor, this);
     };
     Quaternion.prototype.setFromAxisAngle = function (axis, angle) {
         // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
@@ -269,6 +273,9 @@ var Quaternion = (function () {
         return this;
     };
     Quaternion.prototype.sub = function (rhs) {
+        return this;
+    };
+    Quaternion.prototype.difference = function (a, b) {
         return this;
     };
     Quaternion.prototype.equals = function (quaternion) {

@@ -2,6 +2,9 @@ import AbstractMatrix = require('../math/AbstractMatrix');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import GeometricElement = require('../math/GeometricElement');
+import Matrix = require('../math/Matrix');
+import _M4_x_M4_ = require('../math/_M4_x_M4_');
+
 // TODO: Anything after this line hints of excessive coupling.
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
@@ -12,7 +15,7 @@ import frustumMatrix = require('../cameras/frustumMatrix');
  *
  * @class Matrix4
  */
-class Matrix4 extends AbstractMatrix {
+class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
 // The correspondence between the data property index and the matrix entries is...
 //
 //  0  4  8 12
@@ -189,52 +192,17 @@ class Matrix4 extends AbstractMatrix {
       0, 0, 0, 1
     );
   }
-  mul(m: Matrix4): Matrix4 {
-    Matrix4.mul(this.data, m.data, this.data);
-    return this;
+  multiply(rhs: Matrix4): Matrix4 {
+    return this.product(this, rhs);
   }
-  multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4 {
-    Matrix4.mul(a.data, b.data, this.data);
+  product(a: Matrix4, b: Matrix4): Matrix4 {
+    _M4_x_M4_(a.data, b.data, this.data);
     return this;
   }
   // TODO: This should not be here.
-  static mul(ae: Float32Array, be: Float32Array, oe: Float32Array): Float32Array {
-
-    let a11 = ae[0x0], a12 = ae[0x4], a13 = ae[0x8], a14 = ae[0xC];
-    let a21 = ae[0x1], a22 = ae[0x5], a23 = ae[0x9], a24 = ae[0xD];
-    let a31 = ae[0x2], a32 = ae[0x6], a33 = ae[0xA], a34 = ae[0xE];
-    let a41 = ae[0x3], a42 = ae[0x7], a43 = ae[0xB], a44 = ae[0xF];
-
-    let b11 = be[ 0 ], b12 = be[ 4 ], b13 = be[ 8 ], b14 = be[ 12 ];
-    let b21 = be[ 1 ], b22 = be[ 5 ], b23 = be[ 9 ], b24 = be[ 13 ];
-    let b31 = be[ 2 ], b32 = be[ 6 ], b33 = be[ 10 ], b34 = be[ 14 ];
-    let b41 = be[ 3 ], b42 = be[ 7 ], b43 = be[ 11 ], b44 = be[ 15 ];
-
-    oe[ 0 ] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
-    oe[ 4 ] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
-    oe[ 8 ] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
-    oe[ 12 ] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
-
-    oe[ 1 ] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
-    oe[ 5 ] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
-    oe[ 9 ] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
-    oe[ 13 ] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
-
-    oe[ 2 ] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
-    oe[ 6 ] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
-    oe[ 10 ] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
-    oe[ 14 ] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
-
-    oe[ 3 ] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
-    oe[ 7 ] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
-    oe[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
-    oe[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
-
-    return oe;
-  }
   rotate(spinor: Spinor3Coords): Matrix4 {
     let S: Matrix4 = Matrix4.rotation(spinor);
-    Matrix4.mul(S.data, this.data, this.data);
+    _M4_x_M4_(S.data, this.data, this.data);
     return this;
   }
   /**
@@ -287,7 +255,7 @@ class Matrix4 extends AbstractMatrix {
     // |m[2] m[6] m[A] m[E]|   |0 0 z 0|   |x * m[2] y * m[6] z * m[A]     m[E]|
     // |m[3] m[7] m[B] m[F]|   |0 0 0 1|   |x * m[3] y * m[7] z * m[B]     m[F]|
     let S: Matrix4 = Matrix4.scaling(scale);
-    Matrix4.mul(S.data, this.data, this.data);
+    _M4_x_M4_(S.data, this.data, this.data);
     return this;
   }
   scaling(scale: Cartesian3): Matrix4 {
@@ -337,7 +305,7 @@ class Matrix4 extends AbstractMatrix {
   }
   translate(displacement: Cartesian3): Matrix4 {
     let T: Matrix4 = Matrix4.translation(displacement);
-    Matrix4.mul(T.data, this.data, this.data);
+    _M4_x_M4_(T.data, this.data, this.data);
     return this;
   }
   translation(displacement: Cartesian3): Matrix4 {
@@ -345,7 +313,7 @@ class Matrix4 extends AbstractMatrix {
   }
   __mul__(other: any): Matrix4 {
     if (other instanceof Matrix4) {
-      return Matrix4.identity().multiplyMatrices(this, other);
+      return Matrix4.identity().product(this, other);
     }
     else if (typeof other === 'number') {
       return this.clone().multiplyScalar(other);
@@ -353,7 +321,7 @@ class Matrix4 extends AbstractMatrix {
   }
   __rmul__(other: any): Matrix4 {
     if (other instanceof Matrix4) {
-      return Matrix4.identity().multiplyMatrices(other, this);
+      return Matrix4.identity().product(other, this);
     }
     else if (typeof other === 'number') {
       return this.clone().multiplyScalar(other);

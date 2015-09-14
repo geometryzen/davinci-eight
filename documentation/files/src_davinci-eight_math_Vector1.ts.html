@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -146,11 +147,12 @@
 import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import LinearElement = require(&#x27;../math/LinearElement&#x27;);
+import Spinor1Coords = require(&#x27;../math/Spinor1Coords&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
 /**
  * @class Vector1
  */
-class Vector1 extends VectorN&lt;number&gt; implements Cartesian1, LinearElement&lt;Cartesian1, Vector1&gt; {
+class Vector1 extends VectorN&lt;number&gt; implements Cartesian1, LinearElement&lt;Cartesian1, Vector1, Spinor1Coords&gt; {
   /**
    * @class Vector1
    * @constructor
@@ -191,7 +193,7 @@ class Vector1 extends VectorN&lt;number&gt; implements Cartesian1, LinearElement
     this.x += s;
     return this;
   }
-  addVectors(a: Cartesian1, b: Cartesian1) {
+  sum(a: Cartesian1, b: Cartesian1) {
     this.x = a.x + b.x;
     return this;
   }
@@ -207,7 +209,7 @@ class Vector1 extends VectorN&lt;number&gt; implements Cartesian1, LinearElement
     this.x -= s;
     return this;
   }
-  subVectors(a: Cartesian1, b: Cartesian1) {
+  difference(a: Cartesian1, b: Cartesian1) {
     this.x = a.x - b.x;
     return this;
   }
@@ -284,6 +286,9 @@ class Vector1 extends VectorN&lt;number&gt; implements Cartesian1, LinearElement
     let dx = this.x - position.x;
     return dx * dx;
   }
+  rotate(rotor: Spinor1Coords): Vector1 {
+    return this;
+  }
   setMagnitude(l: number) {
     var oldLength = this.magnitude();
     if ( oldLength !== 0 &amp;&amp; l !== oldLength ) {
@@ -296,7 +301,7 @@ class Vector1 extends VectorN&lt;number&gt; implements Cartesian1, LinearElement
     return this;
   }
   lerpVectors(v1: Vector1, v2: Vector1, alpha: number) {
-    this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
+    this.difference(v2, v1).multiplyScalar(alpha).add(v1);
     return this;
   }
   equals(v: Cartesian1) {

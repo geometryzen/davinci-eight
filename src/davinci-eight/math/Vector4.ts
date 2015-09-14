@@ -1,12 +1,13 @@
 import Cartesian4 = require('../math/Cartesian4');
 import LinearElement = require('../math/LinearElement');
 import expectArg = require('../checks/expectArg');
+import Spinor4Coords = require('../math/Spinor4Coords');
 import VectorN = require('../math/VectorN');
 
 /**
  * @class Vector4
  */
-class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4> {
+class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4, Spinor4Coords> {
   /**
    * @class Vector4
    * @constructor
@@ -79,7 +80,7 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
   add(rhs: Cartesian4) {
     return this;
   }
-  addVectors(a: Cartesian4, b: Cartesian4) {
+  sum(a: Cartesian4, b: Cartesian4) {
     return this;
   }
   clone() {
@@ -113,7 +114,13 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
     this.w *= scalar;
     return this;
   }
+  rotate(rotor: Spinor4Coords) {
+    return this;
+  }
   sub(rhs: Cartesian4) {
+    return this;
+  }
+  difference(a: Cartesian4, b: Cartesian4) {
     return this;
   }
 }

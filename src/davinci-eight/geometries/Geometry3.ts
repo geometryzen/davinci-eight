@@ -11,8 +11,8 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
   let vA: Cartesian3 = vertices[face.a];
   let vB: Cartesian3 = vertices[face.b];
   let vC: Cartesian3 = vertices[face.c];
-  let cb = new Vector3().subVectors(vC, vB);
-  let ab = new Vector3().subVectors(vA, vB);
+  let cb = new Vector3().difference(vC, vB);
+  let ab = new Vector3().difference(vA, vB);
   let normal = new Vector3().crossVectors(cb, ab).normalize();
   // TODO: I think we only need to push one normal here?
   face.vertexNormals.push(normal);
@@ -83,8 +83,8 @@ class Geometry3 {
         vB = this.vertices[ face.b ];
         vC = this.vertices[ face.c ];
 
-        cb.subVectors( vC, vB );
-        ab.subVectors( vA, vB );
+        cb.difference( vC, vB );
+        ab.difference( vA, vB );
         cb.cross( ab );
 
         vertexNormals[face.a].add( cb );

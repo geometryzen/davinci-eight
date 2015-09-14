@@ -4,7 +4,7 @@ var isDefined = require('../checks/isDefined');
 function viewArray(eye, look, up, matrix) {
     var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
-    var n = new Vector3().subVectors(eye, look);
+    var n = new Vector3().difference(eye, look);
     if (n.x === 0 && n.y === 0 && n.z === 0) {
         // View direction is ambiguous.
         n.z = 1;

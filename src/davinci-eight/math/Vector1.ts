@@ -1,11 +1,12 @@
 import Cartesian1 = require('../math/Cartesian1');
 import expectArg = require('../checks/expectArg');
 import LinearElement = require('../math/LinearElement');
+import Spinor1Coords = require('../math/Spinor1Coords');
 import VectorN = require('../math/VectorN');
 /**
  * @class Vector1
  */
-class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, Vector1> {
+class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, Vector1, Spinor1Coords> {
   /**
    * @class Vector1
    * @constructor
@@ -46,7 +47,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     this.x += s;
     return this;
   }
-  addVectors(a: Cartesian1, b: Cartesian1) {
+  sum(a: Cartesian1, b: Cartesian1) {
     this.x = a.x + b.x;
     return this;
   }
@@ -62,7 +63,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     this.x -= s;
     return this;
   }
-  subVectors(a: Cartesian1, b: Cartesian1) {
+  difference(a: Cartesian1, b: Cartesian1) {
     this.x = a.x - b.x;
     return this;
   }
@@ -139,6 +140,9 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     let dx = this.x - position.x;
     return dx * dx;
   }
+  rotate(rotor: Spinor1Coords): Vector1 {
+    return this;
+  }
   setMagnitude(l: number) {
     var oldLength = this.magnitude();
     if ( oldLength !== 0 && l !== oldLength ) {
@@ -151,7 +155,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     return this;
   }
   lerpVectors(v1: Vector1, v2: Vector1, alpha: number) {
-    this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
+    this.difference(v2, v1).multiplyScalar(alpha).add(v1);
     return this;
   }
   equals(v: Cartesian1) {

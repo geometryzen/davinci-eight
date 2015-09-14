@@ -56,7 +56,7 @@ var Vector1 = (function (_super) {
         this.x += s;
         return this;
     };
-    Vector1.prototype.addVectors = function (a, b) {
+    Vector1.prototype.sum = function (a, b) {
         this.x = a.x + b.x;
         return this;
     };
@@ -72,7 +72,7 @@ var Vector1 = (function (_super) {
         this.x -= s;
         return this;
     };
-    Vector1.prototype.subVectors = function (a, b) {
+    Vector1.prototype.difference = function (a, b) {
         this.x = a.x - b.x;
         return this;
     };
@@ -149,6 +149,9 @@ var Vector1 = (function (_super) {
         var dx = this.x - position.x;
         return dx * dx;
     };
+    Vector1.prototype.rotate = function (rotor) {
+        return this;
+    };
     Vector1.prototype.setMagnitude = function (l) {
         var oldLength = this.magnitude();
         if (oldLength !== 0 && l !== oldLength) {
@@ -161,7 +164,7 @@ var Vector1 = (function (_super) {
         return this;
     };
     Vector1.prototype.lerpVectors = function (v1, v2, alpha) {
-        this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
+        this.difference(v2, v1).multiplyScalar(alpha).add(v1);
         return this;
     };
     Vector1.prototype.equals = function (v) {

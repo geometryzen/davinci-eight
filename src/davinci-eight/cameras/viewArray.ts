@@ -9,7 +9,7 @@ function viewArray(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: F
 
   expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
 
-  let n = new Vector3().subVectors(eye, look);
+  let n = new Vector3().difference(eye, look);
   if (n.x === 0 && n.y === 0 && n.z === 0) {
     // View direction is ambiguous.
     n.z = 1;

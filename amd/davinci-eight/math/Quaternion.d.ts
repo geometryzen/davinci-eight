@@ -18,7 +18,7 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     z: number;
     w: number;
     add(element: Quaternion): Quaternion;
-    addVectors(a: Quaternion, b: Quaternion): Quaternion;
+    sum(a: Quaternion, b: Quaternion): Quaternion;
     set(x: number, y: number, z: number, w: number): Quaternion;
     clone(): Quaternion;
     conjugate(): Quaternion;
@@ -30,16 +30,18 @@ declare class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     lerp(target: Quaternion, alpha: number): Quaternion;
     magnitude(): number;
     multiply(q: Quaternion): Quaternion;
-    multiplyQuaternions(a: Quaternion, b: Quaternion): Quaternion;
+    product(a: Quaternion, b: Quaternion): Quaternion;
     multiplyScalar(scalar: number): Quaternion;
     normalize(): Quaternion;
     onChange(callback: () => void): Quaternion;
     quaditude(): number;
+    rotate(rotor: Quaternion): Quaternion;
     setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion;
     setFromRotationMatrix(m: Matrix4): Quaternion;
     setFromUnitVectors(vFrom: Vector3, vTo: Vector3): Quaternion;
     slerp(qb: Quaternion, t: number): Quaternion;
     sub(rhs: Quaternion): Quaternion;
+    difference(a: Quaternion, b: Quaternion): Quaternion;
     equals(quaternion: Quaternion): boolean;
     fromArray(array: number[], offset?: number): Quaternion;
     toArray(array?: number[], offset?: number): number[];

@@ -5,8 +5,8 @@ function updateFaceNormal(face, vertices) {
     var vA = vertices[face.a];
     var vB = vertices[face.b];
     var vC = vertices[face.c];
-    var cb = new Vector3().subVectors(vC, vB);
-    var ab = new Vector3().subVectors(vA, vB);
+    var cb = new Vector3().difference(vC, vB);
+    var ab = new Vector3().difference(vA, vB);
     var normal = new Vector3().crossVectors(cb, ab).normalize();
     // TODO: I think we only need to push one normal here?
     face.vertexNormals.push(normal);
@@ -69,8 +69,8 @@ var Geometry3 = (function () {
                 vA = this.vertices[face.a];
                 vB = this.vertices[face.b];
                 vC = this.vertices[face.c];
-                cb.subVectors(vC, vB);
-                ab.subVectors(vA, vB);
+                cb.difference(vC, vB);
+                ab.difference(vA, vB);
                 cb.cross(ab);
                 vertexNormals[face.a].add(cb);
                 vertexNormals[face.b].add(cb);

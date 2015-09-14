@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/cameras/Model.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/Matrix.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -139,56 +140,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/cameras/Model.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/Matrix.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Color = require(&#x27;../core/Color&#x27;);
-import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
-import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
-import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
-import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import UniformData = require(&#x27;../core/UniformData&#x27;);
-import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;);
-import Vector3 = require(&#x27;../math/Vector3&#x27;);
 /**
- * Model implements UniformData required for manipulating a body.
- */ 
-class Model implements UniformData {
-  public position: Vector3 = new Vector3();        // default is the origin.
-  public attitude: Spinor3 = new Spinor3();        // default is unity.
-  public scale: Vector3 = new Vector3([1, 1, 1]);  // default is to not scale.
-  public color: Vector3 = new Vector3([1, 1, 1]);  // default is white.
-  /**
-   * Model implements UniformData required for manipulating a body.
-   */ 
-  constructor() {
-    this.position.modified = true;
-    this.attitude.modified = true;
-    this.scale.modified = true;
-    this.color.modified = true;
-  }
-  accept(visitor: UniformDataVisitor) {
-    var S = Matrix4.identity();
-    S.scaling(this.scale);
-    var T = Matrix4.identity();
-    T.translation(this.position);
-    var R = Matrix4.identity();
-    R.rotation(this.attitude);
-
-    let M = T.mul(R.mul(S));
-    
-    let N: Matrix3 = Matrix3.identity();
-    N.normalFromMatrix4(M);
-
-    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
-    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
-    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
-  }
+ * @class Matrix&lt;M&gt;
+ */
+interface Matrix&lt;M&gt; {
+  determinant(): number;
+  identity(): M;
+  multiply(rhs: M): M;
+  product(a: M, b: M): M;
 }
 
-export = Model;
-
+export = Matrix;
     </pre>
 </div>
                     </div>

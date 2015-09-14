@@ -20,7 +20,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix1.prototype.add = function (element) {
             return this;
         };
-        Matrix1.prototype.addVectors = function (a, b) {
+        Matrix1.prototype.sum = function (a, b) {
             return this;
         };
         Matrix1.prototype.clone = function () {
@@ -30,12 +30,19 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             this.data.set(m.data);
             return this;
         };
+        Matrix1.prototype.determinant = function () {
+            return this.data[0];
+        };
         Matrix1.prototype.divideScalar = function (scalar) {
             var data = this.data;
             data[0] /= scalar;
             return this;
         };
         Matrix1.prototype.exp = function () {
+            return this;
+        };
+        Matrix1.prototype.identity = function () {
+            this.data[0] = 1;
             return this;
         };
         Matrix1.prototype.lerp = function (target, alpha) {
@@ -45,18 +52,27 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             return Math.abs(this.data[0]);
         };
         Matrix1.prototype.multiply = function (rhs) {
-            return this;
+            return this.product(this, rhs);
         };
         Matrix1.prototype.multiplyScalar = function (scalar) {
             var data = this.data;
             data[0] *= scalar;
             return this;
         };
+        Matrix1.prototype.product = function (a, b) {
+            return this;
+        };
         Matrix1.prototype.quaditude = function () {
             var x = this.data[0];
             return x * x;
         };
+        Matrix1.prototype.rotate = function (rotor) {
+            return this;
+        };
         Matrix1.prototype.sub = function (element) {
+            return this;
+        };
+        Matrix1.prototype.difference = function (a, b) {
             return this;
         };
         return Matrix1;

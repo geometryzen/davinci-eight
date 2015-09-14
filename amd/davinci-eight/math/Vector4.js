@@ -100,7 +100,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         Vector4.prototype.add = function (rhs) {
             return this;
         };
-        Vector4.prototype.addVectors = function (a, b) {
+        Vector4.prototype.sum = function (a, b) {
             return this;
         };
         Vector4.prototype.clone = function () {
@@ -134,7 +134,13 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w *= scalar;
             return this;
         };
+        Vector4.prototype.rotate = function (rotor) {
+            return this;
+        };
         Vector4.prototype.sub = function (rhs) {
+            return this;
+        };
+        Vector4.prototype.difference = function (a, b) {
             return this;
         };
         return Vector4;

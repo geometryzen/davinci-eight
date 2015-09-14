@@ -1,4 +1,5 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
+import Matrix = require('../math/Matrix');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import Cartesian3 = require('../math/Cartesian3');
 /**
@@ -6,7 +7,7 @@ import Cartesian3 = require('../math/Cartesian3');
  *
  * @class Matrix4
  */
-declare class Matrix4 extends AbstractMatrix {
+declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     /**
      * Constructs a Matrix4 by wrapping a Float32Array.
      * @constructor
@@ -29,9 +30,8 @@ declare class Matrix4 extends AbstractMatrix {
      */
     frustum(left: number, right: number, bottom: number, top: number, near: number, far: number): Matrix4;
     rotationAxis(axis: Cartesian3, angle: number): Matrix4;
-    mul(m: Matrix4): Matrix4;
-    multiplyMatrices(a: Matrix4, b: Matrix4): Matrix4;
-    static mul(ae: Float32Array, be: Float32Array, oe: Float32Array): Float32Array;
+    multiply(rhs: Matrix4): Matrix4;
+    product(a: Matrix4, b: Matrix4): Matrix4;
     rotate(spinor: Spinor3Coords): Matrix4;
     /**
      * @method rotate

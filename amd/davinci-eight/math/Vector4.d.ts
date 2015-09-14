@@ -1,10 +1,11 @@
 import Cartesian4 = require('../math/Cartesian4');
 import LinearElement = require('../math/LinearElement');
+import Spinor4Coords = require('../math/Spinor4Coords');
 import VectorN = require('../math/VectorN');
 /**
  * @class Vector4
  */
-declare class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4> {
+declare class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4, Spinor4Coords> {
     /**
      * @class Vector4
      * @constructor
@@ -37,12 +38,14 @@ declare class Vector4 extends VectorN<number> implements Cartesian4, LinearEleme
     w: number;
     setW(w: number): Vector4;
     add(rhs: Cartesian4): Vector4;
-    addVectors(a: Cartesian4, b: Cartesian4): Vector4;
+    sum(a: Cartesian4, b: Cartesian4): Vector4;
     clone(): Vector4;
     copy(v: Cartesian4): Vector4;
     divideScalar(scalar: number): Vector4;
     lerp(target: Cartesian4, alpha: number): Vector4;
     multiplyScalar(scalar: number): Vector4;
+    rotate(rotor: Spinor4Coords): Vector4;
     sub(rhs: Cartesian4): Vector4;
+    difference(a: Cartesian4, b: Cartesian4): Vector4;
 }
 export = Vector4;

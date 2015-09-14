@@ -14,6 +14,18 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         function Matrix2(data) {
             _super.call(this, data, 4);
         }
+        Matrix2.prototype.determinant = function () {
+            return 1;
+        };
+        Matrix2.prototype.identity = function () {
+            return this;
+        };
+        Matrix2.prototype.multiply = function (rhs) {
+            return this.product(this, rhs);
+        };
+        Matrix2.prototype.product = function (a, b) {
+            return this;
+        };
         return Matrix2;
     })(AbstractMatrix);
     return Matrix2;

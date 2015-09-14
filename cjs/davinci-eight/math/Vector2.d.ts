@@ -1,10 +1,11 @@
 import Cartesian2 = require('../math/Cartesian2');
 import LinearElement = require('../math/LinearElement');
+import Spinor2Coords = require('../math/Spinor2Coords');
 import VectorN = require('../math/VectorN');
 /**
  * @class Vector2
  */
-declare class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2> {
+declare class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2, Spinor2Coords> {
     /**
      * @class Vector2
      * @constructor
@@ -28,10 +29,10 @@ declare class Vector2 extends VectorN<number> implements Cartesian2, LinearEleme
     copy(v: Cartesian2): Vector2;
     add(v: Cartesian2): Vector2;
     addScalar(s: number): Vector2;
-    addVectors(a: Cartesian2, b: Cartesian2): Vector2;
+    sum(a: Cartesian2, b: Cartesian2): Vector2;
     sub(v: Cartesian2): Vector2;
     subScalar(s: number): Vector2;
-    subVectors(a: Cartesian2, b: Cartesian2): Vector2;
+    difference(a: Cartesian2, b: Cartesian2): Vector2;
     multiply(v: Cartesian2): Vector2;
     multiplyScalar(s: number): Vector2;
     divide(v: Cartesian2): Vector2;
@@ -49,6 +50,7 @@ declare class Vector2 extends VectorN<number> implements Cartesian2, LinearEleme
     normalize(): Vector2;
     quaditude(): number;
     quadranceTo(position: Cartesian2): number;
+    rotate(rotor: Spinor2Coords): Vector2;
     setMagnitude(l: number): Vector2;
     lerp(v: Cartesian2, alpha: number): Vector2;
     lerpVectors(v1: Vector2, v2: Vector2, alpha: number): Vector2;

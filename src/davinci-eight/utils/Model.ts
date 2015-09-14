@@ -1,6 +1,8 @@
 import Color = require('../core/Color');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
+import rotor3 = require('../math/rotor3');
+import Rotor3 = require('../math/Rotor3');
 import Spinor3 = require('../math/Spinor3');
 import Symbolic = require('../core/Symbolic');
 import UniformData = require('../core/UniformData');
@@ -10,13 +12,15 @@ import Vector3 = require('../math/Vector3');
  * Model implements UniformData required for manipulating a body.
  */ 
 class Model implements UniformData {
-  public position: Vector3 = new Vector3();        // default is the origin.
-  public attitude: Spinor3 = new Spinor3();        // default is unity.
-  public scale: Vector3 = new Vector3([1, 1, 1]);  // default is to not scale.
-  public color: Vector3 = new Vector3([1, 1, 1]);  // default is white.
-  /**
-   * Model implements UniformData required for manipulating a body.
-   */ 
+  public position = new Vector3();
+  public attitude = rotor3();
+  public scale: Vector3 = new Vector3([1, 1, 1]);
+  public color: Vector3 = new Vector3([1, 1, 1]);
+  private M = Matrix4.identity();
+  private N = Matrix3.identity();
+  private R = Matrix4.identity();
+  private S = Matrix4.identity();
+  private T = Matrix4.identity();
   constructor() {
     this.position.modified = true;
     this.attitude.modified = true;
@@ -24,20 +28,24 @@ class Model implements UniformData {
     this.color.modified = true;
   }
   accept(visitor: UniformDataVisitor) {
-    var S = Matrix4.identity();
-    S.scaling(this.scale);
-    var T = Matrix4.identity();
-    T.translation(this.position);
-    var R = Matrix4.identity();
-    R.rotation(this.attitude);
+    if (this.position.modified) {
+      this.T.translation(this.position);
+      this.position.modified = false;
+    }
+    if (this.attitude.modified) {
+        this.R.rotation(this.attitude);
+        this.attitude.modified = false;
+    }
+    if (this.scale.modified) {
+      this.S.scaling(this.scale);
+      this.scale.modified = false;
+    }
+    this.M.copy(this.T).multiply(this.R).multiply(this.S);
 
-    let M = T.mul(R.mul(S));
-    
-    let N: Matrix3 = Matrix3.identity();
-    N.normalFromMatrix4(M);
+    this.N.normalFromMatrix4(this.M)
 
-    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
-    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M);
+    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N);
     visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
   }
 }

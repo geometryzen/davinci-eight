@@ -12,7 +12,7 @@ import wedgeZX = require('../math/wedgeZX');
 /**
  * @class Vector3
  */
-class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3> {
+class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
   public static e1 = new Vector3([1, 0, 0]);
   public static e2 = new Vector3([0, 1, 0]);
   public static e3 = new Vector3([0, 0, 1]);
@@ -68,9 +68,9 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
    * @param v {Vector3} The vector to add to this vector.
    */
   add(v: Cartesian3): Vector3 {
-    return this.addVectors(this, v);
+    return this.sum(this, v);
   }
-  addVectors(a: Cartesian3, b: Cartesian3): Vector3 {
+  sum(a: Cartesian3, b: Cartesian3): Vector3 {
     this.x = a.x + b.x;
     this.y = a.y + b.y;
     this.z = a.z + b.z;
@@ -110,53 +110,24 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
 
     return this;
   }
-  applyQuaternion(q: {x: number, y: number, z: number, w: number}): Vector3 {
+  rotate(spinor: Spinor3Coords) {
     let x = this.x;
     let y = this.y;
     let z = this.z;
 
-    let qx = q.x;
-    let qy = q.y;
-    let qz = q.z;
-    let qw = q.w;
+    let a = spinor.xy;
+    let b = spinor.yz;
+    let c = spinor.zx;
+    let w = spinor.w;
 
-    // calculate quat * vector
+    let ix = w * x - c * z + a * y;
+    let iy = w * y - a * x + b * z;
+    let iz = w * z - b * y + c * x;
+    let iw = b * x + c * y + a * z;
 
-    let ix =  qw * x + qy * z - qz * y;
-    let iy =  qw * y + qz * x - qx * z;
-    let iz =  qw * z + qx * y - qy * x;
-    let iw = - qx * x - qy * y - qz * z;
-
-    // calculate (quat * vector) * inverse quat
-
-    this.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
-    this.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
-    this.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
-
-    return this;
-  }
-  applySpinor(spinor: Spinor3Coords): Vector3 {
-    let x = this.x;
-    let y = this.y;
-    let z = this.z;
-
-    let qx = spinor.yz;
-    let qy = spinor.zx;
-    let qz = spinor.xy;
-    let qw = spinor.w;
-
-    // calculate quat * vector
-
-    let ix =  qw * x + qy * z - qz * y;
-    let iy =  qw * y + qz * x - qx * z;
-    let iz =  qw * z + qx * y - qy * x;
-    let iw = - qx * x - qy * y - qz * z;
-
-    // calculate (quat * vector) * inverse quat
-
-    this.x = ix * qw + iw * - qx + iy * - qz - iz * - qy;
-    this.y = iy * qw + iw * - qy + iz * - qx - ix * - qz;
-    this.z = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+    this.x = ix * w + iw * b + iy * a - iz * c;
+    this.y = iy * w + iw * c + iz * b - ix * a;
+    this.z = iz * w + iw * a + ix * c - iy * b;
 
     return this;
   }
@@ -275,9 +246,9 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     return this;
   }
   sub(v: Cartesian3): Vector3 {
-    return this.subVectors(this, v);
+    return this.difference(this, v);
   }
-  subVectors(a: Cartesian3, b: Cartesian3): Vector3 {
+  difference(a: Cartesian3, b: Cartesian3): Vector3 {
     this.x = a.x - b.x;
     this.y = a.y - b.y;
     this.z = a.z - b.z;

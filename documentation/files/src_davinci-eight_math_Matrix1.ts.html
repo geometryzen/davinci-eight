@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.92.0</em>
+            <em>API Docs for: 2.93.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -81,6 +81,7 @@
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
@@ -145,8 +146,9 @@
     <pre class="code prettyprint linenums">
 import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
 import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
+import Matrix = require(&#x27;../math/Matrix&#x27;);
 
-class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Matrix1&gt; {
+class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, GeometricElement&lt;Matrix1, Matrix1&gt; {
   /**
    * Constructs a Matrix1 by wrapping a Float32Array.
    * @constructor
@@ -160,7 +162,7 @@ class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Mat
   add(element: Matrix1) {
     return this;
   }
-  addVectors(a: Matrix1, b: Matrix1) {
+  sum(a: Matrix1, b: Matrix1) {
     return this;
   }
   clone() {
@@ -170,12 +172,19 @@ class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Mat
     this.data.set(m.data);
     return this;
   }
+  determinant(): number {
+    return this.data[0];
+  }
   divideScalar(scalar: number) {
     let data = this.data;
     data[0] /= scalar;
     return this;
   }
   exp() {
+    return this;
+  }
+  identity() {
+    this.data[0] = 1;
     return this;
   }
   lerp(target: Matrix1, alpha: number): Matrix1 {
@@ -185,18 +194,27 @@ class Matrix1 extends AbstractMatrix implements GeometricElement&lt;Matrix1, Mat
     return Math.abs(this.data[0]);
   }
   multiply(rhs: Matrix1) {
-    return this;
+    return this.product(this, rhs);
   }
   multiplyScalar(scalar: number) {
     let data = this.data;
     data[0] *= scalar;
     return this;
   }
+  product(a: Matrix1, b: Matrix1) {
+    return this;
+  }
   quaditude() {
     let x = this.data[0];
     return x * x;
   }
+  rotate(rotor: Matrix1): Matrix1 {
+    return this;
+  }
   sub(element: Matrix1) {
+    return this;
+  }
+  difference(a: Matrix1, b: Matrix1) {
     return this;
   }
 }

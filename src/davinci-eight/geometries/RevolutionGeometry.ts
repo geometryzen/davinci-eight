@@ -49,11 +49,11 @@ class RevolutionGeometry extends Geometry3
         var vertex = points[j].clone();
 
         // The generator tells us how to rotate the points.
-        vertex.applySpinor(rotor);
+        vertex.rotate(rotor);
 
         // The attitude tells us where we want the symmetry axis to be.
         if (attitude) {
-          vertex.applySpinor(attitude);
+          vertex.rotate(attitude);
         }
 
         this.vertices.push( vertex );

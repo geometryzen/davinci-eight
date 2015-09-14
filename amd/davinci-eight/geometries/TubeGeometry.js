@@ -138,7 +138,7 @@ define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/G
             function initialNormal2() {
               // This uses the Frenet-Serret formula for deriving binormal
               var t2 = path.getTangentAt( epsilon );
-              normals[ 0 ] = new THREE.Vector3().subVectors( t2, tangents[ 0 ] ).normalize();
+              normals[ 0 ] = new THREE.Vector3().difference( t2, tangents[ 0 ] ).normalize();
               binormals[ 0 ] = new THREE.Vector3().crossVectors( tangents[ 0 ], normals[ 0 ] );
               normals[ 0 ].crossVectors( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
               binormals[ 0 ].crossVectors( tangents[ 0 ], normals[ 0 ] ).normalize();

@@ -59,6 +59,7 @@ var programFromScripts = require('davinci-eight/programs/programFromScripts');
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
+var rotor3 = require('davinci-eight/math/rotor3');
 var Spinor3 = require('davinci-eight/math/Spinor3');
 var Vector1 = require('davinci-eight/math/Vector1');
 var Vector2 = require('davinci-eight/math/Vector2');
@@ -145,6 +146,7 @@ var eight = {
     get VortexGeometry() { return VortexGeometry; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
+    get rotor3() { return rotor3; },
     get Spinor3() { return Spinor3; },
     get Quaternion() { return Quaternion; },
     get Vector1() { return Vector1; },

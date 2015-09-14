@@ -76,9 +76,9 @@ define(["require", "exports", '../checks/expectArg', '../math/VectorN', '../math
          * @param v {Vector3} The vector to add to this vector.
          */
         Vector3.prototype.add = function (v) {
-            return this.addVectors(this, v);
+            return this.sum(this, v);
         };
-        Vector3.prototype.addVectors = function (a, b) {
+        Vector3.prototype.sum = function (a, b) {
             this.x = a.x + b.x;
             this.y = a.y + b.y;
             this.z = a.z + b.z;
@@ -111,42 +111,21 @@ define(["require", "exports", '../checks/expectArg', '../math/VectorN', '../math
             this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
             return this;
         };
-        Vector3.prototype.applyQuaternion = function (q) {
+        Vector3.prototype.rotate = function (spinor) {
             var x = this.x;
             var y = this.y;
             var z = this.z;
-            var qx = q.x;
-            var qy = q.y;
-            var qz = q.z;
-            var qw = q.w;
-            // calculate quat * vector
-            var ix = qw * x + qy * z - qz * y;
-            var iy = qw * y + qz * x - qx * z;
-            var iz = qw * z + qx * y - qy * x;
-            var iw = -qx * x - qy * y - qz * z;
-            // calculate (quat * vector) * inverse quat
-            this.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-            this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-            this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-            return this;
-        };
-        Vector3.prototype.applySpinor = function (spinor) {
-            var x = this.x;
-            var y = this.y;
-            var z = this.z;
-            var qx = spinor.yz;
-            var qy = spinor.zx;
-            var qz = spinor.xy;
-            var qw = spinor.w;
-            // calculate quat * vector
-            var ix = qw * x + qy * z - qz * y;
-            var iy = qw * y + qz * x - qx * z;
-            var iz = qw * z + qx * y - qy * x;
-            var iw = -qx * x - qy * y - qz * z;
-            // calculate (quat * vector) * inverse quat
-            this.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-            this.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-            this.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+            var a = spinor.xy;
+            var b = spinor.yz;
+            var c = spinor.zx;
+            var w = spinor.w;
+            var ix = w * x - c * z + a * y;
+            var iy = w * y - a * x + b * z;
+            var iz = w * z - b * y + c * x;
+            var iw = b * x + c * y + a * z;
+            this.x = ix * w + iw * b + iy * a - iz * c;
+            this.y = iy * w + iw * c + iz * b - ix * a;
+            this.z = iz * w + iw * a + ix * c - iy * b;
             return this;
         };
         Vector3.prototype.clone = function () {
@@ -260,9 +239,9 @@ define(["require", "exports", '../checks/expectArg', '../math/VectorN', '../math
             return this;
         };
         Vector3.prototype.sub = function (v) {
-            return this.subVectors(this, v);
+            return this.difference(this, v);
         };
-        Vector3.prototype.subVectors = function (a, b) {
+        Vector3.prototype.difference = function (a, b) {
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             this.z = a.z - b.z;

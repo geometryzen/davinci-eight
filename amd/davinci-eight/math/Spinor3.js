@@ -78,7 +78,7 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.add = function (rhs) {
             return this;
         };
-        Spinor3.prototype.addVectors = function (a, b) {
+        Spinor3.prototype.sum = function (a, b) {
             return this;
         };
         Spinor3.prototype.clone = function () {
@@ -123,9 +123,9 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             return Math.sqrt(this.quaditude());
         };
         Spinor3.prototype.multiply = function (rhs) {
-            return this.multiplySpinors(this, rhs);
+            return this.product(this, rhs);
         };
-        Spinor3.prototype.multiplySpinors = function (a, b) {
+        Spinor3.prototype.product = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
             var a2 = a.zx;
@@ -160,7 +160,13 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.xy *= -1;
             return this;
         };
+        Spinor3.prototype.rotate = function (rotor) {
+            return this;
+        };
         Spinor3.prototype.sub = function (rhs) {
+            return this;
+        };
+        Spinor3.prototype.difference = function (a, b) {
             return this;
         };
         Spinor3.prototype.wedgeVectors = function (a, b) {

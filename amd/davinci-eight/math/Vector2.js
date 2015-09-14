@@ -79,7 +79,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y += s;
             return this;
         };
-        Vector2.prototype.addVectors = function (a, b) {
+        Vector2.prototype.sum = function (a, b) {
             this.x = a.x + b.x;
             this.y = a.y + b.y;
             return this;
@@ -94,7 +94,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.y -= s;
             return this;
         };
-        Vector2.prototype.subVectors = function (a, b) {
+        Vector2.prototype.difference = function (a, b) {
             this.x = a.x - b.x;
             this.y = a.y - b.y;
             return this;
@@ -189,6 +189,9 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             var dy = this.y - position.y;
             return dx * dx + dy * dy;
         };
+        Vector2.prototype.rotate = function (rotor) {
+            return this;
+        };
         Vector2.prototype.setMagnitude = function (l) {
             var oldLength = this.magnitude();
             if (oldLength !== 0 && l !== oldLength) {
@@ -202,7 +205,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.subVectors(v2, v1).multiplyScalar(alpha).add(v1);
+            this.difference(v2, v1).multiplyScalar(alpha).add(v1);
             return this;
         };
         Vector2.prototype.equals = function (v) {

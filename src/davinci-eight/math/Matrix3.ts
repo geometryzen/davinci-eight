@@ -1,9 +1,10 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+import Matrix = require('../math/Matrix');
 import Matrix4 = require('./Matrix4');
 
-class Matrix3 extends AbstractMatrix {
+class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
   /**
    * Constructs a Matrix4 by wrapping a Float32Array.
    * @constructor
@@ -13,6 +14,9 @@ class Matrix3 extends AbstractMatrix {
   }
   public static identity() {
     return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+  }
+  determinant(): number {
+    return 1;
   }
   getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3 {
 
@@ -64,11 +68,17 @@ class Matrix3 extends AbstractMatrix {
   identity(): Matrix3 {
     return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
   }
-  multiplyScalar(s: number): Matrix3 {
+  multiply(rhs: Matrix3) {
+    return this.product(this, rhs);
+  }
+  multiplyScalar(s: number) {
     let m = this.data;
     m[0] *= s; m[3] *= s; m[6] *= s;
     m[1] *= s; m[4] *= s; m[7] *= s;
     m[2] *= s; m[5] *= s; m[8] *= s;
+    return this;
+  }
+  product(a: Matrix3, b: Matrix3) {
     return this;
   }
   normalFromMatrix4(m: Matrix4): void {
