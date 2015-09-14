@@ -1429,20 +1429,20 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
     var Symbolic = (function () {
         function Symbolic() {
         }
-        Symbolic.ATTRIBUTE_COLOR = 'aVertexColor';
-        Symbolic.ATTRIBUTE_NORMAL = 'aVertexNormal';
-        Symbolic.ATTRIBUTE_POSITION = 'aVertexPosition';
-        Symbolic.ATTRIBUTE_TEXTURE = 'aTexCoord';
+        Symbolic.ATTRIBUTE_COLOR = 'aColor';
+        Symbolic.ATTRIBUTE_NORMAL = 'aNormal';
+        Symbolic.ATTRIBUTE_POSITION = 'aPosition';
+        Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';
         Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
         Symbolic.UNIFORM_COLOR = 'uColor';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
         Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
         Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
-        Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjectionMatrix';
-        Symbolic.UNIFORM_MODEL_MATRIX = 'uModelMatrix';
-        Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormalMatrix';
-        Symbolic.UNIFORM_VIEW_MATRIX = 'uViewMatrix';
+        Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
+        Symbolic.UNIFORM_MODEL_MATRIX = 'uModel';
+        Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormal';
+        Symbolic.UNIFORM_VIEW_MATRIX = 'uView';
         Symbolic.VARYING_COLOR = 'vColor';
         Symbolic.VARYING_LIGHT = 'vLight';
         return Symbolic;
@@ -1930,7 +1930,6 @@ define('davinci-eight/cameras/perspectiveMatrix',["require", "exports", '../chec
 });
 
 define('davinci-eight/cameras/perspective',["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, view, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
-    //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     /**
      * @class perspective
      * @constructor
@@ -2315,7 +2314,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.91.0'
+        VERSION: '2.92.0'
     };
     return core;
 });
@@ -3053,20 +3052,16 @@ define('davinci-eight/dfx/checkGeometry',["require", "exports", '../checks/expec
     return checkGeometry;
 });
 
-define('davinci-eight/dfx/computeFaceNormals',["require", "exports", '../checks/expectArg', '../core/Symbolic', '../math/Vector3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, expectArg, Symbolic, Vector3, wedgeXY, wedgeYZ, wedgeZX) {
-    function computeFaceNormals(simplex) {
-        // TODO: Optimize so that we don't create temporaries.
-        // Use static functions on Vector3 to compute cross product by component.
-        expectArg('simplex', simplex).toBeObject();
-        expectArg('name', name).toBeString();
-        // We're going to create a single Vector3 and share it across all vertices
-        // so we create it now in order to to make use of the mutators.
+define('davinci-eight/dfx/computeFaceNormals',["require", "exports", '../core/Symbolic', '../math/Vector3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, Vector3, wedgeXY, wedgeYZ, wedgeZX) {
+    function computeFaceNormals(simplex, positionName, normalName) {
+        if (positionName === void 0) { positionName = Symbolic.ATTRIBUTE_POSITION; }
+        if (normalName === void 0) { normalName = Symbolic.ATTRIBUTE_NORMAL; }
         var vertex0 = simplex.vertices[0].attributes;
         var vertex1 = simplex.vertices[1].attributes;
         var vertex2 = simplex.vertices[2].attributes;
-        var pos0 = vertex0[Symbolic.ATTRIBUTE_POSITION];
-        var pos1 = vertex1[Symbolic.ATTRIBUTE_POSITION];
-        var pos2 = vertex2[Symbolic.ATTRIBUTE_POSITION];
+        var pos0 = vertex0[positionName];
+        var pos1 = vertex1[positionName];
+        var pos2 = vertex2[positionName];
         var x0 = pos0.getComponent(0);
         var y0 = pos0.getComponent(1);
         var z0 = pos0.getComponent(2);
@@ -3086,9 +3081,9 @@ define('davinci-eight/dfx/computeFaceNormals',["require", "exports", '../checks/
         var y = wedgeZX(ax, ay, az, bx, by, bz);
         var z = wedgeXY(ax, ay, az, bx, by, bz);
         var normal = new Vector3([x, y, z]).normalize();
-        vertex0[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        vertex1[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        vertex2[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex0[normalName] = normal;
+        vertex1[normalName] = normal;
+        vertex2[normalName] = normal;
     }
     return computeFaceNormals;
 });
@@ -3104,7 +3099,7 @@ define('davinci-eight/dfx/triangle',["require", "exports", '../dfx/computeFaceNo
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
-        computeFaceNormals(simplex);
+        computeFaceNormals(simplex, Symbolic.ATTRIBUTE_POSITION, Symbolic.ATTRIBUTE_NORMAL);
         Simplex.setAttributeValues(attributes, simplex);
         triangles.push(simplex);
         return triangles;
@@ -3420,7 +3415,7 @@ define('davinci-eight/dfx/cube',["require", "exports", '../dfx/quadrilateral', '
         var c10 = new Vector2([1, 0]);
         var c11 = new Vector2([1, 1]);
         var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE] = [c11, c01, c00, c10];
+        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
         // We currently call quadrilateral rather than square because of the arguments.
         var front = quadrilateral(vec0, vec1, vec2, vec3, attributes);
         var right = quadrilateral(vec0, vec3, vec4, vec5, attributes);
@@ -3457,7 +3452,7 @@ define('davinci-eight/dfx/square',["require", "exports", '../dfx/quadrilateral',
         var c11 = new Vector2([1, 1]);
         var coords = [c11, c01, c00, c10];
         var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
+        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
         return quadrilateral(vec0, vec1, vec2, vec3, attributes);
     }
     return square;
@@ -4361,12 +4356,12 @@ define('davinci-eight/geometries/GeometryAdapter',["require", "exports", '../che
             this.elementArray = new Uint16Array(elements);
             this.indexBuffer.bind();
             this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW);
-            this.aVertexPositionArray = new Float32Array(vertices);
+            this.positionArray = new Float32Array(vertices);
             this.positionBuffer.bind();
-            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
-            this.aVertexNormalArray = new Float32Array(normals);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.positionArray, this._context.DYNAMIC_DRAW);
+            this.normalArray = new Float32Array(normals);
             this.normalBuffer.bind();
-            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.normalArray, this._context.DYNAMIC_DRAW);
         };
         GeometryAdapter.prototype.computeLines = function () {
             var lines = this.lines;
@@ -9210,14 +9205,14 @@ define('davinci-eight/mesh/arrowMesh',["require", "exports", '../geometries/Geom
     return arrowMesh;
 });
 
-define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/arrowMesh', '../math/Vector3'], function (require, exports, expectArg, isUndefined, arrowMesh, Vector3) {
+define('davinci-eight/mesh/ArrowBuilder',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/arrowMesh', '../math/Vector3', '../core/Symbolic'], function (require, exports, expectArg, isUndefined, arrowMesh, Vector3, Symbolic) {
     /**
      * @class ArrowBuilder
      */
     var ArrowBuilder = (function () {
         function ArrowBuilder(options) {
             this.$axis = Vector3.e3.clone();
-            options = options || { modelMatrix: 'uModelMatrix' };
+            options = options || { modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX };
             //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
             //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
             //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);
@@ -9591,14 +9586,14 @@ define('davinci-eight/mesh/cylinderMesh',["require", "exports", '../geometries/G
     return cylinderMesh;
 });
 
-define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
+define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3', '../core/Symbolic'], function (require, exports, expectArg, isUndefined, Vector3, Symbolic) {
     /**
      * @class CylinderArgs
      */
     var CylinderArgs = (function () {
         function CylinderArgs(options) {
             this.$axis = Vector3.e3.clone();
-            options = options || { modelMatrix: 'uModelMatrix' };
+            options = options || { modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX };
             this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
             this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
             this.setHeight(isUndefined(options.height) ? 1 : options.height);
@@ -10875,7 +10870,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
     return contextProxy;
 });
 
-define('davinci-eight/utils/Model',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Vector3) {
+define('davinci-eight/utils/Model',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Symbolic, Vector3) {
     /**
      * Model implements UniformData required for manipulating a body.
      */
@@ -10903,9 +10898,9 @@ define('davinci-eight/utils/Model',["require", "exports", '../math/Matrix3', '..
             var M = T.mul(R.mul(S));
             var N = Matrix3.identity();
             N.normalFromMatrix4(M);
-            visitor.uniformMatrix4('uModelMatrix', false, M);
-            visitor.uniformMatrix3('uNormalMatrix', false, N);
-            visitor.uniformVector3('uColor', this.color);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
         };
         return Model;
     })();
@@ -11111,7 +11106,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/objects/primitive', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/DrawElements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/checkGeometry', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toDrawElements', 'davinci-eight/dfx/triangle', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry3', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, DefaultAttribProvider, Color, core, DrawMode, Face3, primitive, UniformLocation, Curve, DrawAttribute, DrawElements, Simplex, Vertex, checkGeometry, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toDrawElements, triangle, scene, Geometry3, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/DefaultAttribProvider', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/objects/primitive', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/DrawElements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/checkGeometry', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toDrawElements', 'davinci-eight/dfx/triangle', 'davinci-eight/drawLists/scene', 'davinci-eight/geometries/Geometry3', 'davinci-eight/geometries/GeometryAdapter', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/arrowMesh', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/boxMesh', 'davinci-eight/mesh/BoxBuilder', 'davinci-eight/mesh/cylinderMesh', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/mesh/CylinderMeshBuilder', 'davinci-eight/mesh/sphereMesh', 'davinci-eight/mesh/SphereBuilder', 'davinci-eight/mesh/vortexMesh', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, DefaultAttribProvider, Color, core, DrawMode, Face3, primitive, Symbolic, UniformLocation, Curve, DrawAttribute, DrawElements, Simplex, Vertex, checkGeometry, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toDrawElements, triangle, scene, Geometry3, GeometryAdapter, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, arrowMesh, ArrowBuilder, boxMesh, BoxBuilder, cylinderMesh, CylinderArgs, CylinderMeshBuilder, sphereMesh, SphereBuilder, vortexMesh, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -11198,6 +11193,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get CylinderMeshBuilder() { return CylinderMeshBuilder; },
         get sphereMesh() { return sphereMesh; },
         get SphereBuilder() { return SphereBuilder; },
+        get Symbolic() { return Symbolic; },
         get vortexMesh() { return vortexMesh; },
         // programs
         get programFromScripts() { return programFromScripts; },

@@ -29,7 +29,7 @@ define(["require", "exports", '../dfx/quadrilateral', '../core/Symbolic', '../ma
         var c10 = new Vector2([1, 0]);
         var c11 = new Vector2([1, 1]);
         var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE] = [c11, c01, c00, c10];
+        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
         // We currently call quadrilateral rather than square because of the arguments.
         var front = quadrilateral(vec0, vec1, vec2, vec3, attributes);
         var right = quadrilateral(vec0, vec3, vec4, vec5, attributes);

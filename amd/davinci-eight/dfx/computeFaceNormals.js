@@ -1,17 +1,13 @@
-define(["require", "exports", '../checks/expectArg', '../core/Symbolic', '../math/Vector3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, expectArg, Symbolic, Vector3, wedgeXY, wedgeYZ, wedgeZX) {
-    function computeFaceNormals(simplex) {
-        // TODO: Optimize so that we don't create temporaries.
-        // Use static functions on Vector3 to compute cross product by component.
-        expectArg('simplex', simplex).toBeObject();
-        expectArg('name', name).toBeString();
-        // We're going to create a single Vector3 and share it across all vertices
-        // so we create it now in order to to make use of the mutators.
+define(["require", "exports", '../core/Symbolic', '../math/Vector3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, Vector3, wedgeXY, wedgeYZ, wedgeZX) {
+    function computeFaceNormals(simplex, positionName, normalName) {
+        if (positionName === void 0) { positionName = Symbolic.ATTRIBUTE_POSITION; }
+        if (normalName === void 0) { normalName = Symbolic.ATTRIBUTE_NORMAL; }
         var vertex0 = simplex.vertices[0].attributes;
         var vertex1 = simplex.vertices[1].attributes;
         var vertex2 = simplex.vertices[2].attributes;
-        var pos0 = vertex0[Symbolic.ATTRIBUTE_POSITION];
-        var pos1 = vertex1[Symbolic.ATTRIBUTE_POSITION];
-        var pos2 = vertex2[Symbolic.ATTRIBUTE_POSITION];
+        var pos0 = vertex0[positionName];
+        var pos1 = vertex1[positionName];
+        var pos2 = vertex2[positionName];
         var x0 = pos0.getComponent(0);
         var y0 = pos0.getComponent(1);
         var z0 = pos0.getComponent(2);
@@ -31,9 +27,9 @@ define(["require", "exports", '../checks/expectArg', '../core/Symbolic', '../mat
         var y = wedgeZX(ax, ay, az, bx, by, bz);
         var z = wedgeXY(ax, ay, az, bx, by, bz);
         var normal = new Vector3([x, y, z]).normalize();
-        vertex0[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        vertex1[Symbolic.ATTRIBUTE_NORMAL] = normal;
-        vertex2[Symbolic.ATTRIBUTE_NORMAL] = normal;
+        vertex0[normalName] = normal;
+        vertex1[normalName] = normal;
+        vertex2[normalName] = normal;
     }
     return computeFaceNormals;
 });

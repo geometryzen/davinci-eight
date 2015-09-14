@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.91.0</em>
+            <em>API Docs for: 2.92.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -185,7 +185,7 @@ function cube(size: number = 1): Simplex[] {
 
   let attributes: { [name: string]: VectorN&lt;number&gt;[] } = {};
 
-  attributes[Symbolic.ATTRIBUTE_TEXTURE] = [c11, c01, c00, c10];
+  attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
 
   // We currently call quadrilateral rather than square because of the arguments.
   let front  = quadrilateral(vec0, vec1, vec2, vec3, attributes);

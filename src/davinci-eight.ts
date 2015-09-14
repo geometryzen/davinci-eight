@@ -23,6 +23,7 @@ import Face3                   = require('davinci-eight/core/Face3');
 import Primitive               = require('davinci-eight/core/Primitive');
 import primitive               = require('davinci-eight/objects/primitive');
 import ContextManager = require('davinci-eight/core/ContextManager');
+import Symbolic                = require('davinci-eight/core/Symbolic');
 import UniformData             = require('davinci-eight/core/UniformData');
 import UniformDataVisitor      = require('davinci-eight/core/UniformDataVisitor');
 import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo');
@@ -211,6 +212,7 @@ var eight = {
 
   get sphereMesh() { return sphereMesh; },
   get SphereBuilder() { return SphereBuilder; },
+  get Symbolic() { return Symbolic; },
 
   get vortexMesh() { return vortexMesh; },
   // programs

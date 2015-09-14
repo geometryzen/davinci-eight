@@ -20,7 +20,7 @@ define(["require", "exports", '../dfx/quadrilateral', '../core/Symbolic', '../ma
         var c11 = new Vector2([1, 1]);
         var coords = [c11, c01, c00, c10];
         var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
+        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
         return quadrilateral(vec0, vec1, vec2, vec3, attributes);
     }
     return square;

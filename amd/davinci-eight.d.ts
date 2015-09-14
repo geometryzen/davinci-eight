@@ -11,6 +11,7 @@ import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
 import Primitive = require('davinci-eight/core/Primitive');
 import ContextManager = require('davinci-eight/core/ContextManager');
+import Symbolic = require('davinci-eight/core/Symbolic');
 import UniformData = require('davinci-eight/core/UniformData');
 import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
@@ -147,9 +148,10 @@ declare var eight: {
     checkGeometry: (geometry: Simplex[]) => {
         [key: string]: {
             size: number;
+            name?: string;
         };
     };
-    computeFaceNormals: (simplex: Simplex) => void;
+    computeFaceNormals: (simplex: Simplex, positionName?: string, normalName?: string) => void;
     cube: (size?: number) => Simplex[];
     quadrilateral: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
@@ -172,6 +174,7 @@ declare var eight: {
     CylinderMeshBuilder: typeof CylinderMeshBuilder;
     sphereMesh: (monitor: ContextManager, options?: SphereOptions) => AttribProvider;
     SphereBuilder: typeof SphereBuilder;
+    Symbolic: typeof Symbolic;
     vortexMesh: (monitor: ContextManager, options?: {
         wireFrame?: boolean;
     }) => AttribProvider;

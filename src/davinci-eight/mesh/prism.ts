@@ -117,9 +117,9 @@ var prism = function(spec?): AttribProvider {
     get dynamic(): boolean {return false;},
     getAttribMeta(): AttribMetaInfos {
       return {
-        position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+        position: { name: 'aPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        color:    { name: 'aColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        normal:   { name: 'aNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
     update(): void {

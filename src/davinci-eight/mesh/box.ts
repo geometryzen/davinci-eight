@@ -47,9 +47,9 @@ var box = function(spec?): AttribProvider {
 
   var elements: number[] = [];
 
-  var aVertexPositionArray: Float32Array;
-  var aVertexColorArray: Float32Array;
-  var aVertexNormalArray: Float32Array;
+  var positionArray: Float32Array;
+  var colorArray: Float32Array;
+  var normalArray: Float32Array;
   var drawMode: number = 2;
 
   var publicAPI: AttribProvider = {
@@ -64,21 +64,19 @@ var box = function(spec?): AttribProvider {
     },
     getAttribMeta(): AttribMetaInfos {
       return {
-        position: { name: 'aVertexPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        color:    { name: 'aVertexColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        normal:   { name: 'aVertexNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+        position: { name: 'aPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        color:    { name: 'aColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+        normal:   { name: 'aNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
       };
     },
     update(): void {
       let names: string[] = attributes.map(function(attribute){return attribute.name});
-      let requirePosition: boolean = names.indexOf('aVertexPosition') >= 0;
-      let requireColor: boolean = names.indexOf('aVertexColor') >= 0;
-      let requireNormal: boolean = names.indexOf('aVertexNormal') >= 0;
+      let requirePosition: boolean = names.indexOf('aPosition') >= 0;
+      let requireColor: boolean = names.indexOf('aColor') >= 0;
+      let requireNormal: boolean = names.indexOf('aNormal') >= 0;
 
-      // Insist that things won't work without aVertexPosition.
-      // We just degrade gracefully if the other attribute arrays are not required.
       if (!requirePosition) {
-        throw new Error("box is expecting to provide aVertexPosition");
+        throw new Error("box is expecting to provide aPosition");
       }
   
       let vertices: number[] = [];
@@ -135,13 +133,13 @@ var box = function(spec?): AttribProvider {
         }
       });
       if (requirePosition) {
-        aVertexPositionArray = new Float32Array(vertices);
+        positionArray = new Float32Array(vertices);
       }
       if (requireColor) {
-        aVertexColorArray = new Float32Array(colors);
+        colorArray = new Float32Array(colors);
       }
       if (requireNormal) {
-        aVertexNormalArray = new Float32Array(normals);
+        normalArray = new Float32Array(normals);
       }
     }
   };

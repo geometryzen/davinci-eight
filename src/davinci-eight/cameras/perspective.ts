@@ -17,8 +17,6 @@ import isUndefined = require('../checks/isUndefined');
 import expectArg = require('../checks/expectArg');
 import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
 
-//let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
-
 /**
  * @class perspective
  * @constructor

@@ -6,6 +6,7 @@ import ArrowOptions = require('../mesh/ArrowOptions');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
 import ContextManager = require('../core/ContextManager');
+import Symbolic = require('../core/Symbolic');
 
 /**
  * @class ArrowBuilder
@@ -21,7 +22,7 @@ class ArrowBuilder {
   private $coneHeight: number;
   private $wireFrame: boolean;
   constructor(options?: ArrowOptions) {
-    options = options || {modelMatrix: 'uModelMatrix'};
+    options = options || {modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX};
 //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
 //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
 //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);

@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Vector3) {
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Symbolic, Vector3) {
     /**
      * Model implements UniformData required for manipulating a body.
      */
@@ -26,9 +26,9 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spi
             var M = T.mul(R.mul(S));
             var N = Matrix3.identity();
             N.normalFromMatrix4(M);
-            visitor.uniformMatrix4('uModelMatrix', false, M);
-            visitor.uniformMatrix3('uNormalMatrix', false, N);
-            visitor.uniformVector3('uColor', this.color);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
         };
         return Model;
     })();

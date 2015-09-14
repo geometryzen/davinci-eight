@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.91.0</em>
+            <em>API Docs for: 2.92.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -150,6 +150,7 @@ import cylinderMesh = require(&#x27;../mesh/cylinderMesh&#x27;);
 import CylinderOptions = require(&#x27;../mesh/CylinderOptions&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
+import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 
 /**
  * @class CylinderArgs
@@ -166,7 +167,7 @@ class CylinderArgs {
   private $wireFrame: boolean;
   private $axis: Vector3 = Vector3.e3.clone();
   constructor(options?: CylinderOptions) {
-    options = options || {modelMatrix: &#x27;uModelMatrix&#x27;};
+    options = options || {modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX};
     this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
     this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
     this.setHeight(isUndefined(options.height) ? 1 : options.height);

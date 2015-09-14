@@ -1,6 +1,7 @@
 var Matrix3 = require('../math/Matrix3');
 var Matrix4 = require('../math/Matrix4');
 var Spinor3 = require('../math/Spinor3');
+var Symbolic = require('../core/Symbolic');
 var Vector3 = require('../math/Vector3');
 /**
  * Model implements UniformData required for manipulating a body.
@@ -29,9 +30,9 @@ var Model = (function () {
         var M = T.mul(R.mul(S));
         var N = Matrix3.identity();
         N.normalFromMatrix4(M);
-        visitor.uniformMatrix4('uModelMatrix', false, M);
-        visitor.uniformMatrix3('uNormalMatrix', false, N);
-        visitor.uniformVector3('uColor', this.color);
+        visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
+        visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+        visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
     };
     return Model;
 })();

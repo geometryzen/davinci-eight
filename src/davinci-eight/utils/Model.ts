@@ -2,6 +2,7 @@ import Color = require('../core/Color');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import Spinor3 = require('../math/Spinor3');
+import Symbolic = require('../core/Symbolic');
 import UniformData = require('../core/UniformData');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Vector3 = require('../math/Vector3');
@@ -35,9 +36,9 @@ class Model implements UniformData {
     let N: Matrix3 = Matrix3.identity();
     N.normalFromMatrix4(M);
 
-    visitor.uniformMatrix4('uModelMatrix', false, M);
-    visitor.uniformMatrix3('uNormalMatrix', false, N);
-    visitor.uniformVector3('uColor', this.color);
+    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
+    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
   }
 }
 

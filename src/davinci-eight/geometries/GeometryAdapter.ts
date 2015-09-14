@@ -40,8 +40,8 @@ function computeAttribData(
 class GeometryAdapter extends DefaultAttribProvider {
   public geometry: Geometry3;
   private elementArray: Uint16Array;
-  private aVertexPositionArray: Float32Array;
-  private aVertexNormalArray: Float32Array;
+  private positionArray: Float32Array;
+  private normalArray: Float32Array;
   private $drawMode: DrawMode = DrawMode.TRIANGLES;
   private elementsUsage: number;
   public grayScale: boolean = false;
@@ -291,13 +291,13 @@ class GeometryAdapter extends DefaultAttribProvider {
     this.indexBuffer.bind();
     this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW)
 
-    this.aVertexPositionArray = new Float32Array(vertices);
+    this.positionArray = new Float32Array(vertices);
     this.positionBuffer.bind();
-    this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
+    this._context.bufferData(this._context.ARRAY_BUFFER, this.positionArray, this._context.DYNAMIC_DRAW);
 
-    this.aVertexNormalArray = new Float32Array(normals);
+    this.normalArray = new Float32Array(normals);
     this.normalBuffer.bind();
-    this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
+    this._context.bufferData(this._context.ARRAY_BUFFER, this.normalArray, this._context.DYNAMIC_DRAW);
   }
   private computeLines() {
     var lines = this.lines;

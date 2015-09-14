@@ -1,5 +1,4 @@
 define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, view, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
-    //let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
     /**
      * @class perspective
      * @constructor

@@ -14,8 +14,8 @@ import ContextManager = require('../core/ContextManager');
 declare class GeometryAdapter extends DefaultAttribProvider {
     geometry: Geometry3;
     private elementArray;
-    private aVertexPositionArray;
-    private aVertexNormalArray;
+    private positionArray;
+    private normalArray;
     private $drawMode;
     private elementsUsage;
     grayScale: boolean;

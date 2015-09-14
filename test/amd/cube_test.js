@@ -24,12 +24,12 @@ function(Simplex, Vertex, Vector3, toDrawElements, cube, DrawElements, Symbolic)
       var attribMap = {};
       attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
       attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      attribMap[Symbolic.ATTRIBUTE_TEXTURE] = {size: 2};
+      attribMap[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = {size: 2};
       var elements = toDrawElements(faces, attribMap);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       var normals = elements.attributes[Symbolic.ATTRIBUTE_NORMAL].values.data;
-      var coords = elements.attributes[Symbolic.ATTRIBUTE_TEXTURE].values.data;
+      var coords = elements.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS].values.data;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(faces.length * VERTICES_PER_TRIANGLE);

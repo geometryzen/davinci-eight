@@ -6,20 +6,20 @@
 var Symbolic = (function () {
     function Symbolic() {
     }
-    Symbolic.ATTRIBUTE_COLOR = 'aVertexColor';
-    Symbolic.ATTRIBUTE_NORMAL = 'aVertexNormal';
-    Symbolic.ATTRIBUTE_POSITION = 'aVertexPosition';
-    Symbolic.ATTRIBUTE_TEXTURE = 'aTexCoord';
+    Symbolic.ATTRIBUTE_COLOR = 'aColor';
+    Symbolic.ATTRIBUTE_NORMAL = 'aNormal';
+    Symbolic.ATTRIBUTE_POSITION = 'aPosition';
+    Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';
     Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
     Symbolic.UNIFORM_COLOR = 'uColor';
     Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
     Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
     Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
     Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
-    Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjectionMatrix';
-    Symbolic.UNIFORM_MODEL_MATRIX = 'uModelMatrix';
-    Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormalMatrix';
-    Symbolic.UNIFORM_VIEW_MATRIX = 'uViewMatrix';
+    Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
+    Symbolic.UNIFORM_MODEL_MATRIX = 'uModel';
+    Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormal';
+    Symbolic.UNIFORM_VIEW_MATRIX = 'uView';
     Symbolic.VARYING_COLOR = 'vColor';
     Symbolic.VARYING_LIGHT = 'vLight';
     return Symbolic;

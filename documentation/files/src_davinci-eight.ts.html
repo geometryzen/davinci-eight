@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.91.0</em>
+            <em>API Docs for: 2.92.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -168,6 +168,7 @@ import Face3                   = require(&#x27;davinci-eight/core/Face3&#x27;);
 import Primitive               = require(&#x27;davinci-eight/core/Primitive&#x27;);
 import primitive               = require(&#x27;davinci-eight/objects/primitive&#x27;);
 import ContextManager = require(&#x27;davinci-eight/core/ContextManager&#x27;);
+import Symbolic                = require(&#x27;davinci-eight/core/Symbolic&#x27;);
 import UniformData             = require(&#x27;davinci-eight/core/UniformData&#x27;);
 import UniformDataVisitor      = require(&#x27;davinci-eight/core/UniformDataVisitor&#x27;);
 import UniformMetaInfo         = require(&#x27;davinci-eight/core/UniformMetaInfo&#x27;);
@@ -356,6 +357,7 @@ var eight = {
 
   get sphereMesh() { return sphereMesh; },
   get SphereBuilder() { return SphereBuilder; },
+  get Symbolic() { return Symbolic; },
 
   get vortexMesh() { return vortexMesh; },
   // programs

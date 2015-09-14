@@ -17,7 +17,7 @@ interface IUnknown {
 /**
  *
  */
-interface ContextListener extends IUnknown {
+interface ContextListener {
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order
@@ -95,13 +95,14 @@ class Vertex {
 /**
  * Computes the mapping from attribute name to size.
  * Reports inconsistencies in the geometry by throwing exceptions.
+ * When used with toDrawElements(), allows names and sizes to be mapped.
  */
-function checkGeometry(geometry: Simplex[]): { [name: string]: { size: number } };
+function checkGeometry(geometry: Simplex[]): { [name: string]: { size: number; name?: string } };
 
 /**
  *
  */
-function computeFaceNormals(simplex: Simplex): void;
+function computeFaceNormals(simplex: Simplex, positionName?: string, normalName?: string): void;
 
 /**
  *
@@ -1400,8 +1401,32 @@ var VERSION: string;
  * Returns the number of outstanding reference counts for the 'stop' command.
  */
 function refChange(uuid: string, name?: string, change?: number): number;
+/**
+ * Canonical variable names, which also act as semantic identifiers for name overrides.
+ * These names must be stable to avoid breaking custom vertex and fragment shaders.
+ */
+class Symbolic {
+  public static ATTRIBUTE_COLOR: string;
+  public static ATTRIBUTE_NORMAL: string;
+  public static ATTRIBUTE_POSITION: string;
+  public static ATTRIBUTE_TEXTURE_COORDS:string;
 
+  public static UNIFORM_AMBIENT_LIGHT: string;
+  public static UNIFORM_COLOR: string;
+  public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
+  public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
+  public static UNIFORM_POINT_LIGHT_COLOR: string;
+  public static UNIFORM_POINT_LIGHT_POSITION: string;
+  public static UNIFORM_PROJECTION_MATRIX: string;
+  public static UNIFORM_MODEL_MATRIX: string;
+  public static UNIFORM_NORMAL_MATRIX: string;
+  public static UNIFORM_VIEW_MATRIX: string;
+
+  public static VARYING_COLOR: string;
+  public static VARYING_LIGHT: string;
 }
+
+} // end of module
 
 declare module 'EIGHT'
 {

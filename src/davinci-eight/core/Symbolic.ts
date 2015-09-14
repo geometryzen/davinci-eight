@@ -4,24 +4,24 @@
  * @class Symbolic
  */
 class Symbolic {
-  public static ATTRIBUTE_COLOR    = 'aVertexColor';
-  public static ATTRIBUTE_NORMAL   = 'aVertexNormal';
-  public static ATTRIBUTE_POSITION = 'aVertexPosition';
-  public static ATTRIBUTE_TEXTURE  = 'aTexCoord';
+  public static ATTRIBUTE_COLOR: string                     = 'aColor';
+  public static ATTRIBUTE_NORMAL: string                    = 'aNormal';
+  public static ATTRIBUTE_POSITION: string                  = 'aPosition';
+  public static ATTRIBUTE_TEXTURE_COORDS: string            = 'aTextureCoords';
 
-  public static UNIFORM_AMBIENT_LIGHT               = 'uAmbientLight';
-  public static UNIFORM_COLOR                       = 'uColor';
-  public static UNIFORM_DIRECTIONAL_LIGHT_COLOR     = 'uDirectionalLightColor';
-  public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
-  public static UNIFORM_POINT_LIGHT_COLOR           = 'uPointLightColor';
-  public static UNIFORM_POINT_LIGHT_POSITION        = 'uPointLightPosition';
-  public static UNIFORM_PROJECTION_MATRIX           = 'uProjectionMatrix';
-  public static UNIFORM_MODEL_MATRIX                = 'uModelMatrix';
-  public static UNIFORM_NORMAL_MATRIX               = 'uNormalMatrix';
-  public static UNIFORM_VIEW_MATRIX                 = 'uViewMatrix';
+  public static UNIFORM_AMBIENT_LIGHT: string               = 'uAmbientLight';
+  public static UNIFORM_COLOR: string                       = 'uColor';
+  public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string     = 'uDirectionalLightColor';
+  public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
+  public static UNIFORM_POINT_LIGHT_COLOR: string           = 'uPointLightColor';
+  public static UNIFORM_POINT_LIGHT_POSITION: string        = 'uPointLightPosition';
+  public static UNIFORM_PROJECTION_MATRIX: string           = 'uProjection';
+  public static UNIFORM_MODEL_MATRIX: string                = 'uModel';
+  public static UNIFORM_NORMAL_MATRIX: string               = 'uNormal';
+  public static UNIFORM_VIEW_MATRIX: string                 = 'uView';
 
-  public static VARYING_COLOR                       = 'vColor';
-  public static VARYING_LIGHT                       = 'vLight';
+  public static VARYING_COLOR: string                       = 'vColor';
+  public static VARYING_LIGHT: string                       = 'vLight';
 }
 
 export = Symbolic;

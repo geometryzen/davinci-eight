@@ -252,12 +252,12 @@ define(["require", "exports", '../checks/expectArg', '../core/Line3', '../core/P
             this.elementArray = new Uint16Array(elements);
             this.indexBuffer.bind();
             this._context.bufferData(this._context.ELEMENT_ARRAY_BUFFER, this.elementArray, this._context.DYNAMIC_DRAW);
-            this.aVertexPositionArray = new Float32Array(vertices);
+            this.positionArray = new Float32Array(vertices);
             this.positionBuffer.bind();
-            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexPositionArray, this._context.DYNAMIC_DRAW);
-            this.aVertexNormalArray = new Float32Array(normals);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.positionArray, this._context.DYNAMIC_DRAW);
+            this.normalArray = new Float32Array(normals);
             this.normalBuffer.bind();
-            this._context.bufferData(this._context.ARRAY_BUFFER, this.aVertexNormalArray, this._context.DYNAMIC_DRAW);
+            this._context.bufferData(this._context.ARRAY_BUFFER, this.normalArray, this._context.DYNAMIC_DRAW);
         };
         GeometryAdapter.prototype.computeLines = function () {
             var lines = this.lines;

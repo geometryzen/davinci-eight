@@ -1,4 +1,3 @@
-import expectArg = require('../checks/expectArg');
 import Simplex = require('../dfx/Simplex');
 import Symbolic = require('../core/Symbolic');
 import Vector3 = require('../math/Vector3');
@@ -7,22 +6,14 @@ import wedgeXY = require('../math/wedgeXY');
 import wedgeYZ = require('../math/wedgeYZ');
 import wedgeZX = require('../math/wedgeZX');
 
-function computeFaceNormals(simplex: Simplex): void {
-  // TODO: Optimize so that we don't create temporaries.
-  // Use static functions on Vector3 to compute cross product by component.
-  expectArg('simplex', simplex).toBeObject();
-  expectArg('name', name).toBeString();
-
-  // We're going to create a single Vector3 and share it across all vertices
-  // so we create it now in order to to make use of the mutators.
-
+function computeFaceNormals(simplex: Simplex, positionName = Symbolic.ATTRIBUTE_POSITION, normalName = Symbolic.ATTRIBUTE_NORMAL): void {
   let vertex0 = simplex.vertices[0].attributes;
   let vertex1 = simplex.vertices[1].attributes;
   let vertex2 = simplex.vertices[2].attributes;
 
-  let pos0: VectorN<number> = vertex0[Symbolic.ATTRIBUTE_POSITION];
-  let pos1: VectorN<number> = vertex1[Symbolic.ATTRIBUTE_POSITION];
-  let pos2: VectorN<number> = vertex2[Symbolic.ATTRIBUTE_POSITION];
+  let pos0: VectorN<number> = vertex0[positionName];
+  let pos1: VectorN<number> = vertex1[positionName];
+  let pos2: VectorN<number> = vertex2[positionName];
 
   let x0: number = pos0.getComponent(0);
   let y0: number = pos0.getComponent(1);
@@ -50,9 +41,9 @@ function computeFaceNormals(simplex: Simplex): void {
 
   let normal = new Vector3([x, y, z]).normalize();
 
-  vertex0[Symbolic.ATTRIBUTE_NORMAL] = normal;
-  vertex1[Symbolic.ATTRIBUTE_NORMAL] = normal;
-  vertex2[Symbolic.ATTRIBUTE_NORMAL] = normal;
+  vertex0[normalName] = normal;
+  vertex1[normalName] = normal;
+  vertex2[normalName] = normal;
 }
 
 export = computeFaceNormals;

@@ -1,11 +1,11 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
+define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3', '../core/Symbolic'], function (require, exports, expectArg, isUndefined, Vector3, Symbolic) {
     /**
      * @class CylinderArgs
      */
     var CylinderArgs = (function () {
         function CylinderArgs(options) {
             this.$axis = Vector3.e3.clone();
-            options = options || { modelMatrix: 'uModelMatrix' };
+            options = options || { modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX };
             this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
             this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
             this.setHeight(isUndefined(options.height) ? 1 : options.height);

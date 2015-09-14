@@ -5,7 +5,6 @@ var Vector1 = require('../math/Vector1');
 var isUndefined = require('../checks/isUndefined');
 var expectArg = require('../checks/expectArg');
 var computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
-//let UNIFORM_PROJECTION_MATRIX_NAME = 'uProjectionMatrix';
 /**
  * @class perspective
  * @constructor

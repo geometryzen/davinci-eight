@@ -4,7 +4,7 @@ import Simplex = require('../dfx/Simplex');
 import Vertex = require('../dfx/Vertex');
 import VectorN = require('../math/VectorN');
 
-function checkGeometry(geometry: Simplex[]): { [key: string]: { size: number } } {
+function checkGeometry(geometry: Simplex[]): { [key: string]: { size: number; name?: string } } {
   let knowns: { [key: string]: { size: number } } = {};
   let geometryLen = geometry.length;
   for (var i = 0; i < geometryLen; i++) {

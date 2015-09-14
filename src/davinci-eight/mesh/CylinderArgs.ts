@@ -5,6 +5,7 @@ import cylinderMesh = require('../mesh/cylinderMesh');
 import CylinderOptions = require('../mesh/CylinderOptions');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
+import Symbolic = require('../core/Symbolic');
 
 /**
  * @class CylinderArgs
@@ -21,7 +22,7 @@ class CylinderArgs {
   private $wireFrame: boolean;
   private $axis: Vector3 = Vector3.e3.clone();
   constructor(options?: CylinderOptions) {
-    options = options || {modelMatrix: 'uModelMatrix'};
+    options = options || {modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX};
     this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
     this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
     this.setHeight(isUndefined(options.height) ? 1 : options.height);

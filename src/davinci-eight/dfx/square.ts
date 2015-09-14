@@ -31,7 +31,7 @@ function square(size: number = 1): Simplex[] {
 
   let attributes: { [name: string]: VectorN<number>[] } = {};
 
-  attributes[Symbolic.ATTRIBUTE_TEXTURE] = coords;
+  attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
 
   return quadrilateral(vec0, vec1, vec2, vec3, attributes);
 }

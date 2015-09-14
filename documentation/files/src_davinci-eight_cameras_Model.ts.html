@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.91.0</em>
+            <em>API Docs for: 2.92.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -147,6 +147,7 @@ import Color = require(&#x27;../core/Color&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
+import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformData = require(&#x27;../core/UniformData&#x27;);
 import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
@@ -180,9 +181,9 @@ class Model implements UniformData {
     let N: Matrix3 = Matrix3.identity();
     N.normalFromMatrix4(M);
 
-    visitor.uniformMatrix4(&#x27;uModelMatrix&#x27;, false, M);
-    visitor.uniformMatrix3(&#x27;uNormalMatrix&#x27;, false, N);
-    visitor.uniformVector3(&#x27;uColor&#x27;, this.color);
+    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, M);
+    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, N);
+    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
   }
 }
 

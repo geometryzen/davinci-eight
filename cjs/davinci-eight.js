@@ -13,6 +13,7 @@ var core = require('davinci-eight/core');
 var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
 var primitive = require('davinci-eight/objects/primitive');
+var Symbolic = require('davinci-eight/core/Symbolic');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
 // curves
 var Curve = require('davinci-eight/curves/Curve');
@@ -170,6 +171,7 @@ var eight = {
     get CylinderMeshBuilder() { return CylinderMeshBuilder; },
     get sphereMesh() { return sphereMesh; },
     get SphereBuilder() { return SphereBuilder; },
+    get Symbolic() { return Symbolic; },
     get vortexMesh() { return vortexMesh; },
     // programs
     get programFromScripts() { return programFromScripts; },

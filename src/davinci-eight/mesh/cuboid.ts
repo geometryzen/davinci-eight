@@ -61,10 +61,10 @@ var triangles: number[][] =
 ];
 
 // TODO: We'd like to be able to use anything here and have some adapter fix the names.
-let DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aVertexPosition';
-let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = 'aVertexColor';
+let DEFAULT_VERTEX_ATTRIBUTE_POSITION_NAME = 'aPosition';
+let DEFAULT_VERTEX_ATTRIBUTE_COLOR_NAME    = 'aColor';
 let DEFAULT_VERTEX_ATTRIBUTE_COLOR_VALUE   = new Color(1.0, 1.0, 1.0, 1.0);
-let DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME   = 'aVertexNormal';
+let DEFAULT_VERTEX_ATTRIBUTE_NORMAL_NAME   = 'aNormal';
 
 var cuboid = function(
   options?: {
@@ -106,9 +106,9 @@ var cuboid = function(
 
   var elements: number[] = [];
 
-  var aVertexPositionArray: Float32Array;
-  var aVertexColorArray: Float32Array;
-  var aVertexNormalArray: Float32Array;
+  var positionArray: Float32Array;
+  var colorArray: Float32Array;
+  var normalArray: Float32Array;
   let drawMode: number = options.drawMode;
 
   var publicAPI: CuboidMesh = {
@@ -224,8 +224,6 @@ var cuboid = function(
       let requireColor: boolean = names.indexOf(VERTEX_ATTRIBUTE_COLOR) >= 0;
       let requireNormal: boolean = names.indexOf(VERTEX_ATTRIBUTE_NORMAL) >= 0;
 
-      // Insist that things won't work without aVertexPosition.
-      // We just degrade gracefully if the other attribute arrays are not required.
       if (!requirePosition) {
         throw new Error("cuboid is expecting to provide " + VERTEX_ATTRIBUTE_POSITION);
       }
@@ -349,13 +347,13 @@ var cuboid = function(
       }
 
       if (requirePosition) {
-        aVertexPositionArray = new Float32Array(vertices);
+        positionArray = new Float32Array(vertices);
       }
       if (requireColor) {
-        aVertexColorArray = new Float32Array(colors);
+        colorArray = new Float32Array(colors);
       }
       if (requireNormal) {
-        aVertexNormalArray = new Float32Array(normals);
+        normalArray = new Float32Array(normals);
       }
     }
   };

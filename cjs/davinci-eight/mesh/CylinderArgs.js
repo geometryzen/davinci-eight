@@ -1,13 +1,14 @@
 var expectArg = require('../checks/expectArg');
 var isUndefined = require('../checks/isUndefined');
 var Vector3 = require('../math/Vector3');
+var Symbolic = require('../core/Symbolic');
 /**
  * @class CylinderArgs
  */
 var CylinderArgs = (function () {
     function CylinderArgs(options) {
         this.$axis = Vector3.e3.clone();
-        options = options || { modelMatrix: 'uModelMatrix' };
+        options = options || { modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX };
         this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
         this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
         this.setHeight(isUndefined(options.height) ? 1 : options.height);

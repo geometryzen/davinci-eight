@@ -36,8 +36,8 @@ class LatticeMesh extends DefaultAttribProvider {
   }
   getAttribMeta(): AttribMetaInfos {
     return {
-      position: { name: 'aVertexPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-      color:    { name: 'aVertexColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
+      position: { name: 'aPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
+      color:    { name: 'aColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
     };
   }
   update(): void {
