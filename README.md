@@ -195,6 +195,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.91.0: 2015-09-13 DrawElements
 * 2.92.0: 2015-09-13 Symbolic
 * 2.93.0: 2015-09-14 Rotor3
+* 2.94.0: 2015-09-15 k-simplex
 
 ## License
 Copyright (c) 2014-2015 David Holmes

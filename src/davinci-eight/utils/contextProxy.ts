@@ -8,11 +8,13 @@ import initWebGL = require('../renderers/initWebGL');
 import IUnknown = require('../core/IUnknown')
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
+import isNumber = require('../checks/isNumber');
 import isUndefined = require('../checks/isUndefined');
 import IUnknownMap = require('../utils/IUnknownMap');
 import RefCount = require('../utils/RefCount');
 import refChange = require('../utils/refChange');
 import Program = require('../core/Program');
+import Simplex = require('../dfx/Simplex');
 import Symbolic = require('../core/Symbolic');
 import Texture = require('../core/Texture');
 import TextureResource = require('../resources/TextureResource');
@@ -129,10 +131,40 @@ class ElementsBlockAttrib implements IUnknown {
   }
 }
 
+// TODO: If mode provided, check consistent with elements.k.
+// expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
+function drawMode(k: number, mode: number, context: WebGLRenderingContext): number {
+  switch(k) {
+    case Simplex.K_FOR_TRIANGLE: {
+      return context.TRIANGLES;
+    }
+    case Simplex.K_FOR_LINE_SEGMENT: {
+      return context.LINES;
+    }
+    case Simplex.K_FOR_POINT: {
+      return context.POINTS;
+    }
+    case Simplex.K_FOR_EMPTY: {
+      return void 0;
+    }
+    default: {
+      throw new Error("Unexpected k-simplex dimension, k => " + k);
+    }
+  }
+}
+
 function isDrawMode(mode: number, context: WebGLRenderingContext): boolean {
-  expectArg('mode', mode).toBeNumber();
+  if (!isNumber(mode)) {
+    expectArg('mode', mode).toBeNumber();
+  }
   switch(mode) {
     case context.TRIANGLES: {
+      return true;
+    }
+    case context.LINES: {
+      return true;
+    }
+    case context.POINTS: {
       return true;
     }
     default: {
@@ -338,9 +370,15 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
     /**
      *
      */
-    createDrawElementsMesh(elements: DrawElements, mode: number, usage?: number): Mesh {
+    createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): Mesh {
       expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
-      expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
+      mode = drawMode(elements.k, mode, context);
+      if (!isDefined(mode)) {
+        // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
+        // something that can't be drawn (no mode) and it is invisible anyway.
+        // In such a case we choose not to allocate any buffers. What would be the usage?
+        return void 0;
+      }
       if (isDefined(usage)) {
         expectArg('usage', usage).toSatisfy(isBufferUsage(usage, context), "usage must be on of STATIC_DRAW, ...");
       }
@@ -374,6 +412,9 @@ function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttrib
       }
       // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
       // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
+      switch(elements.k) {
+
+      }
       let drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
       let block = new ElementsBlock(indexBuffer, attributes, drawCommand);
       blocks.put(token.uuid, block);

@@ -38,6 +38,7 @@ import DrawElements = require('davinci-eight/dfx/DrawElements');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
 import checkGeometry = require('davinci-eight/dfx/checkGeometry');
+import GeometryInfo = require('davinci-eight/dfx/GeometryInfo');
 import computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 import cube = require('davinci-eight/dfx/cube');
 import quadrilateral = require('davinci-eight/dfx/quadrilateral');

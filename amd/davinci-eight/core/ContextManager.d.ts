@@ -14,7 +14,7 @@ interface ContextManager extends IUnknown {
     clearDepth(depth: number): void;
     createArrayBuffer(): Buffer;
     createElementArrayBuffer(): Buffer;
-    createDrawElementsMesh(elements: DrawElements, mode: number, usage?: number): Mesh;
+    createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): Mesh;
     createTexture2D(): Texture2D;
     createTextureCubeMap(): TextureCubeMap;
     drawArrays(mode: number, first: number, count: number): void;

@@ -4,11 +4,12 @@ define(
   'davinci-eight/dfx/Vertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/dfx/toDrawElements',
+  'davinci-eight/dfx/checkGeometry',
   'davinci-eight/dfx/cube',
   'davinci-eight/dfx/DrawElements',
   'davinci-eight/core/Symbolic'
 ],
-function(Simplex, Vertex, Vector3, toDrawElements, cube, DrawElements, Symbolic)
+function(Simplex, Vertex, Vector3, toDrawElements, checkGeometry, cube, DrawElements, Symbolic)
 {
   var SQUARES_PER_CUBE = 6;
   var TRIANGLES_PER_SQUARE = 2;
@@ -20,19 +21,16 @@ function(Simplex, Vertex, Vector3, toDrawElements, cube, DrawElements, Symbolic)
 
   describe("cube", function() {
     describe("everyting", function() {
-      var faces = cube(2);
-      var attribMap = {};
-      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
-      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      attribMap[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = {size: 2};
-      var elements = toDrawElements(faces, attribMap);
+      var geometry = cube(2);
+      var geoInfo = checkGeometry(geometry);
+      var elements = toDrawElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       var normals = elements.attributes[Symbolic.ATTRIBUTE_NORMAL].values.data;
       var coords = elements.attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS].values.data;
       it("indices.length", function() {
         expect(indices.length).toBe(SQUARES_PER_CUBE * TRIANGLES_PER_SQUARE * VERTICES_PER_TRIANGLE);
-        expect(indices.length).toBe(faces.length * VERTICES_PER_TRIANGLE);
+        expect(indices.length).toBe(geometry.length * VERTICES_PER_TRIANGLE);
         expect(indices.length).toBe(36);
       });
       it("indices[0]", function() {

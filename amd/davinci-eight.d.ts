@@ -20,6 +20,7 @@ import DrawAttribute = require('davinci-eight/dfx/DrawAttribute');
 import DrawElements = require('davinci-eight/dfx/DrawElements');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
+import GeometryInfo = require('davinci-eight/dfx/GeometryInfo');
 import DrawList = require('davinci-eight/drawLists/DrawList');
 import Geometry3 = require('davinci-eight/geometries/Geometry3');
 import GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
@@ -147,12 +148,7 @@ declare var eight: {
     ArrowBuilder: typeof ArrowBuilder;
     boxMesh: (monitor: ContextManager, options?: BoxOptions) => AttribProvider;
     BoxBuilder: typeof BoxBuilder;
-    checkGeometry: (geometry: Simplex[]) => {
-        [key: string]: {
-            size: number;
-            name?: string;
-        };
-    };
+    checkGeometry: (geometry: Simplex[]) => GeometryInfo;
     computeFaceNormals: (simplex: Simplex, positionName?: string, normalName?: string) => void;
     cube: (size?: number) => Simplex[];
     quadrilateral: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
@@ -165,12 +161,7 @@ declare var eight: {
     triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
-    toDrawElements: (geometry: Simplex[], attribMap?: {
-        [name: string]: {
-            name?: string;
-            size: number;
-        };
-    }) => DrawElements;
+    toDrawElements: (geometry: Simplex[], geometryInfo?: GeometryInfo) => DrawElements;
     CylinderArgs: typeof CylinderArgs;
     cylinderMesh: (monitor: ContextManager, options?: CylinderOptions) => AttribProvider;
     CylinderMeshBuilder: typeof CylinderMeshBuilder;

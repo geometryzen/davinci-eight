@@ -10,7 +10,7 @@ function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, at
   expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
   expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
 
-  let simplex = new Simplex(3);
+  let simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
 
   simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
   simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;

@@ -2303,7 +2303,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.93.0'
+        VERSION: '2.94.0'
     };
     return core;
 });
@@ -2848,16 +2848,34 @@ define('davinci-eight/dfx/DrawAttribute',["require", "exports", '../math/VectorN
 
 define('davinci-eight/dfx/DrawElements',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
     var DrawElements = (function () {
-        function DrawElements(indices, attributes) {
+        function DrawElements(k, indices, attributes) {
+            // TODO: Looks like a DrawAttributeMap here (implementation only)
             this.attributes = {};
             expectArg('indices', indices).toBeObject().toSatisfy(indices instanceof VectorN, "indices must be a VectorN<number>");
             expectArg('attributes', attributes).toBeObject();
+            this.k = k;
             this.indices = indices;
             this.attributes = attributes;
         }
         return DrawElements;
     })();
     return DrawElements;
+});
+
+define('davinci-eight/checks/isNumber',["require", "exports"], function (require, exports) {
+    function isNumber(arg) {
+        return (typeof arg === 'number');
+    }
+    return isNumber;
+});
+
+define('davinci-eight/checks/isInteger',["require", "exports", '../checks/isNumber'], function (require, exports, isNumber) {
+    function isInteger(x) {
+        // % coerces its operand to numbers so a type-check first is required.
+        // Not ethat ECMAScript 6 provides Number.isInteger().
+        return isNumber(x) && x % 1 === 0;
+    }
+    return isInteger;
 });
 
 define('davinci-eight/dfx/Vertex',["require", "exports"], function (require, exports) {
@@ -2890,7 +2908,23 @@ define('davinci-eight/dfx/Vertex',["require", "exports"], function (require, exp
     return Vertex;
 });
 
-define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg', '../core/Symbolic', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, Symbolic, Vertex, VectorN) {
+define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg', '../checks/isInteger', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, isInteger, Vertex, VectorN) {
+    // TODO; Make this checkIntegerArg with a range.
+    function checkIntegerArg(name, n, min, max) {
+        if (isInteger(n) && n >= min && n <= max) {
+            return n;
+        }
+        // TODO: I don't suppose we can go backwards with a negative count? Hmmm...
+        // expectArg(name, n).toBeInClosedInterval(min, max);
+        expectArg(name, n).toSatisfy(false, name + " must be an integer in the range [" + min + "," + max + "]");
+    }
+    function checkCountArg(count) {
+        // TODO: The count range should depend upon the k value of the simplex.
+        return checkIntegerArg('count', count, 0, 7);
+    }
+    function concatReduce(a, b) {
+        return a.concat(b);
+    }
     function expectArgVectorN(name, vector) {
         return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
     }
@@ -2905,16 +2939,38 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
         }
         return data;
     }
+    function lerpVertexAttributeMap(a, b, alpha) {
+        var attribMap = {};
+        var keys = Object.keys(a);
+        var keysLength = keys.length;
+        for (var k = 0; k < keysLength; k++) {
+            var key = keys[k];
+            attribMap[key] = lerpVectorN(a[key], b[key], alpha);
+        }
+        return attribMap;
+    }
+    // TODO: Looks like a static of VectorN or a common function.
+    function lerpVectorN(a, b, alpha) {
+        return new VectorN(lerp(a.data, b.data, alpha));
+    }
+    /**
+     * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+     * A k-simplex is the convex hull of its k + 1 vertices.
+     */
     var Simplex = (function () {
         /**
          * @class Simplex
          * @constructor
-         * @param k {number} The initial number of vertices in the simplex.
+         * @param k {number} The initial number of vertices in the simplex is k + 1.
          */
         function Simplex(k) {
+            // TODO: Could use a VectorN<Vertex here?>
             this.vertices = [];
-            expectArg('k', k).toBeNumber();
-            for (var i = 0; i < k; i++) {
+            if (!isInteger(k)) {
+                expectArg('k', k).toBeNumber();
+            }
+            var numVertices = k + 1;
+            for (var i = 0; i < numVertices; i++) {
                 this.vertices.push(new Vertex());
             }
             var parent = this;
@@ -2922,71 +2978,137 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
                 vertex.parent = parent;
             });
         }
+        Object.defineProperty(Simplex.prototype, "k", {
+            get: function () {
+                return this.vertices.length - 1;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         *
+         */
         Simplex.indices = function (simplex) {
             return simplex.vertices.map(function (vertex) { return vertex.index; });
         };
-        Simplex.subdivideOne = function (simplex) {
-            expectArg('simplex', simplex).toBeObject();
-            var divs = new Array();
+        /**
+         * Computes the boundary of the simplex.
+         */
+        Simplex.boundaryMap = function (simplex) {
             var vertices = simplex.vertices;
-            var k = vertices.length;
-            if (k === 3) {
+            var k = simplex.k;
+            if (k === Simplex.K_FOR_TRIANGLE) {
+                var line01 = new Simplex(k - 1);
+                line01.vertices[0].parent = line01;
+                line01.vertices[0].attributes = simplex.vertices[0].attributes;
+                line01.vertices[1].parent = line01;
+                line01.vertices[1].attributes = simplex.vertices[1].attributes;
+                var line12 = new Simplex(k - 1);
+                line12.vertices[0].parent = line12;
+                line12.vertices[0].attributes = simplex.vertices[1].attributes;
+                line12.vertices[1].parent = line12;
+                line12.vertices[1].attributes = simplex.vertices[2].attributes;
+                var line20 = new Simplex(k - 1);
+                line20.vertices[0].parent = line20;
+                line20.vertices[0].attributes = simplex.vertices[2].attributes;
+                line20.vertices[1].parent = line20;
+                line20.vertices[1].attributes = simplex.vertices[0].attributes;
+                return [line01, line12, line20];
+            }
+            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
+                var point0 = new Simplex(k - 1);
+                point0.vertices[0].parent = point0;
+                point0.vertices[0].attributes = simplex.vertices[0].attributes;
+                var point1 = new Simplex(k - 1);
+                point1.vertices[0].parent = point1;
+                point1.vertices[0].attributes = simplex.vertices[1].attributes;
+                return [point0, point1];
+            }
+            else if (k === Simplex.K_FOR_POINT) {
+                // For consistency, we get one empty simplex rather than an empty list.
+                return [new Simplex(k - 1)];
+            }
+            else if (k === Simplex.K_FOR_EMPTY) {
+                return [];
+            }
+            else {
+                // TODO: Handle the TETRAHEDRON and general cases.
+                throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
+            }
+        };
+        Simplex.subdivideMap = function (simplex) {
+            expectArg('simplex', simplex).toBeObject();
+            var divs = [];
+            var vertices = simplex.vertices;
+            var k = simplex.k;
+            if (k === Simplex.K_FOR_TRIANGLE) {
                 // TODO: Need to lerp all attributes? YES! See below.
                 // FIXME: This should not be special.
-                var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
-                var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
-                var c = vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION];
-                var m1 = new VectorN(lerp(a.data, b.data, 0.5));
-                var m2 = new VectorN(lerp(b.data, c.data, 0.5));
-                var m3 = new VectorN(lerp(c.data, a.data, 0.5));
-                var face1 = new Simplex(k); //c, m3, m2
-                face1.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
-                face1.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
-                face1.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
-                var face2 = new Simplex(k); // a, m1, m3
-                face2.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
-                face2.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
-                face2.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
-                var face3 = new Simplex(k); // b, m2, m1
-                face3.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
-                face3.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
-                face3.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
-                var face4 = new Simplex(k); // m1, m2, m3
-                face4.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = m1;
-                face4.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m2;
-                face4.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = m3;
-                // TODO: subdivision is losing attributes.
+                var a = vertices[0].attributes;
+                var b = vertices[1].attributes;
+                var c = vertices[2].attributes;
+                var m1 = lerpVertexAttributeMap(a, b, 0.5);
+                var m2 = lerpVertexAttributeMap(b, c, 0.5);
+                var m3 = lerpVertexAttributeMap(c, a, 0.5);
+                var face1 = new Simplex(k);
+                face1.vertices[0].attributes = c;
+                face1.vertices[1].attributes = m3;
+                face1.vertices[2].attributes = m2;
+                var face2 = new Simplex(k);
+                face2.vertices[0].attributes = a;
+                face2.vertices[1].attributes = m1;
+                face2.vertices[2].attributes = m3;
+                var face3 = new Simplex(k);
+                face3.vertices[0].attributes = b;
+                face3.vertices[1].attributes = m2;
+                face3.vertices[2].attributes = m1;
+                var face4 = new Simplex(k);
+                face4.vertices[0].attributes = m1;
+                face4.vertices[1].attributes = m2;
+                face4.vertices[2].attributes = m3;
                 divs.push(face1);
                 divs.push(face2);
                 divs.push(face3);
                 divs.push(face4);
             }
-            else if (k === 2) {
-                var a = vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION];
-                var b = vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION];
-                var m = new VectorN(lerp(a.data, b.data, 0.5));
-                var line1 = new Simplex(k); // a, m
-                line1.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
-                line1.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = m;
-                var line2 = new Simplex(k); // m, b 
-                line2.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = m;
-                line2.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
+            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
+                var a = vertices[0].attributes;
+                var b = vertices[1].attributes;
+                var m = lerpVertexAttributeMap(a, b, 0.5);
+                var line1 = new Simplex(k);
+                line1.vertices[0].attributes = a;
+                line1.vertices[1].attributes = m;
+                var line2 = new Simplex(k);
+                line2.vertices[0].attributes = m;
+                line2.vertices[1].attributes = b;
                 divs.push(line1);
                 divs.push(line2);
             }
-            else if (k === 1) {
+            else if (k === Simplex.K_FOR_POINT) {
                 divs.push(simplex);
             }
-            else if (k === 0) {
-                divs.push(simplex);
+            else if (k === Simplex.K_FOR_EMPTY) {
             }
             else {
                 throw new Error(k + "-simplex is not supported");
             }
             return divs;
         };
-        Simplex.subdivide = function (faces) {
-            return faces.map(Simplex.subdivideOne).reduce(function (a, b) { return a.concat(b); }, []);
+        Simplex.boundary = function (geometry, count) {
+            if (count === void 0) { count = 1; }
+            checkCountArg(count);
+            for (var i = 0; i < count; i++) {
+                geometry = geometry.map(Simplex.boundaryMap).reduce(concatReduce, []);
+            }
+            return geometry;
+        };
+        Simplex.subdivide = function (geometry, count) {
+            if (count === void 0) { count = 1; }
+            checkCountArg(count);
+            for (var i = 0; i < count; i++) {
+                geometry = geometry.map(Simplex.subdivideMap).reduce(concatReduce, []);
+            }
+            return geometry;
         };
         // TODO: This function destined to be part of Simplex constructor.
         Simplex.setAttributeValues = function (attributes, simplex) {
@@ -3003,19 +3125,68 @@ define('davinci-eight/dfx/Simplex',["require", "exports", '../checks/expectArg',
                 }
             }
         };
+        // These symbolic constants represent the correct k values for various low-dimesional simplices. 
+        // The number of vertices in a k-simplex is k + 1.
+        /**
+         * An empty set can be consired to be a -1 simplex (algebraic topology).
+         */
+        Simplex.K_FOR_EMPTY = -1;
+        /**
+         * A single point may be considered a 0-simplex.
+         */
+        Simplex.K_FOR_POINT = 0;
+        /**
+         * A line segment may be considered a 1-simplex.
+         */
+        Simplex.K_FOR_LINE_SEGMENT = 1;
+        /**
+         * A 2-simplex is a triangle.
+         */
+        Simplex.K_FOR_TRIANGLE = 2;
+        /**
+         * A 3-simplex is a tetrahedron.
+         */
+        Simplex.K_FOR_TETRAHEDRON = 3;
+        /**
+         * A 4-simplex is a 5-cell.
+         */
+        Simplex.K_FOR_FIVE_CELL = 4;
         return Simplex;
     })();
     return Simplex;
 });
 
-define('davinci-eight/dfx/checkGeometry',["require", "exports", '../checks/expectArg', '../dfx/Simplex'], function (require, exports, expectArg, Simplex) {
+define('davinci-eight/dfx/checkGeometry',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../dfx/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
+    function stringify(thing, space) {
+        var cache = [];
+        return JSON.stringify(thing, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // Circular reference found, discard key
+                    return;
+                }
+                // Store value in our collection
+                cache.push(value);
+            }
+            return value;
+        }, space);
+        cache = null; // Enable garbage collection  
+    }
+    /**
+     * Returns undefined (void 0) for an empty geometry.
+     */
     function checkGeometry(geometry) {
+        var kValueOfSimplex = void 0;
         var knowns = {};
         var geometryLen = geometry.length;
         for (var i = 0; i < geometryLen; i++) {
             var simplex = geometry[i];
-            expectArg('simplex', simplex).toSatisfy(simplex instanceof Simplex, "Every element must be a Simplex");
+            if (!(simplex instanceof Simplex)) {
+                expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ checkGeometry(). Found " + stringify(simplex, 2));
+            }
             var vertices = simplex.vertices;
+            // TODO: Check consistency of k-values.
+            kValueOfSimplex = simplex.k;
             for (var j = 0, vsLen = vertices.length; j < vsLen; j++) {
                 var vertex = vertices[j];
                 var attributes = vertex.attributes;
@@ -3036,7 +3207,21 @@ define('davinci-eight/dfx/checkGeometry',["require", "exports", '../checks/expec
                 }
             }
         }
-        return knowns;
+        // isDefined is necessary because k = -1, 0, 1, 2, 3, ... are legal and 0 is falsey.
+        if (isDefined(kValueOfSimplex)) {
+            var info = {
+                get attributes() {
+                    return knowns;
+                },
+                get k() {
+                    return kValueOfSimplex;
+                }
+            };
+            return info;
+        }
+        else {
+            return void 0;
+        }
     }
     return checkGeometry;
 });
@@ -3084,7 +3269,7 @@ define('davinci-eight/dfx/triangle',["require", "exports", '../dfx/computeFaceNo
         expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
         expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
         expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        var simplex = new Simplex(3);
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
@@ -3555,15 +3740,16 @@ define('davinci-eight/dfx/toDrawElements',["require", "exports", '../dfx/checkGe
     function concat(a, b) {
         return a.concat(b);
     }
-    function toDrawElements(geometry, attribMap) {
+    function toDrawElements(geometry, geometryInfo) {
         expectArg('geometry', geometry).toBeObject();
         var actuals = checkGeometry(geometry);
-        if (attribMap) {
-            expectArg('attribMap', attribMap).toBeObject();
+        if (geometryInfo) {
+            expectArg('geometryInfo', geometryInfo).toBeObject();
         }
         else {
-            attribMap = actuals;
+            geometryInfo = actuals;
         }
+        var attribMap = geometryInfo.attributes;
         // Cache the keys and keys.length of the specified attributes and declare a loop index.
         var keys = Object.keys(attribMap);
         var keysLen = keys.length;
@@ -3609,7 +3795,7 @@ define('davinci-eight/dfx/toDrawElements',["require", "exports", '../dfx/checkGe
             var vector = new VectorN(data, false, data.length);
             attributes[output.name] = new DrawAttribute(vector, output.dimensions);
         }
-        return new DrawElements(new VectorN(indices, false, indices.length), attributes);
+        return new DrawElements(geometryInfo.k, new VectorN(indices, false, indices.length), attributes);
     }
     return toDrawElements;
 });
@@ -10577,7 +10763,7 @@ define('davinci-eight/resources/TextureResource',["require", "exports", '../chec
     return TextureResource;
 });
 
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../utils/IUnknownMap', '../utils/RefCount', '../utils/refChange', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, initWebGL, expectArg, isDefined, IUnknownMap, RefCount, refChange, TextureResource, uuid4) {
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../checks/isNumber', '../utils/IUnknownMap', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, initWebGL, expectArg, isDefined, isNumber, IUnknownMap, RefCount, refChange, Simplex, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Mesh';
@@ -10683,10 +10869,39 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         });
         return ElementsBlockAttrib;
     })();
+    // TODO: If mode provided, check consistent with elements.k.
+    // expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
+    function drawMode(k, mode, context) {
+        switch (k) {
+            case Simplex.K_FOR_TRIANGLE: {
+                return context.TRIANGLES;
+            }
+            case Simplex.K_FOR_LINE_SEGMENT: {
+                return context.LINES;
+            }
+            case Simplex.K_FOR_POINT: {
+                return context.POINTS;
+            }
+            case Simplex.K_FOR_EMPTY: {
+                return void 0;
+            }
+            default: {
+                throw new Error("Unexpected k-simplex dimension, k => " + k);
+            }
+        }
+    }
     function isDrawMode(mode, context) {
-        expectArg('mode', mode).toBeNumber();
+        if (!isNumber(mode)) {
+            expectArg('mode', mode).toBeNumber();
+        }
         switch (mode) {
             case context.TRIANGLES: {
+                return true;
+            }
+            case context.LINES: {
+                return true;
+            }
+            case context.POINTS: {
                 return true;
             }
             default: {
@@ -10876,7 +11091,13 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
              */
             createDrawElementsMesh: function (elements, mode, usage) {
                 expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
-                expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
+                mode = drawMode(elements.k, mode, context);
+                if (!isDefined(mode)) {
+                    // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
+                    // something that can't be drawn (no mode) and it is invisible anyway.
+                    // In such a case we choose not to allocate any buffers. What would be the usage?
+                    return void 0;
+                }
                 if (isDefined(usage)) {
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage, context), "usage must be on of STATIC_DRAW, ...");
                 }
@@ -10907,6 +11128,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 }
                 // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
+                switch (elements.k) {
+                }
                 var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 blocks.put(token.uuid, block);

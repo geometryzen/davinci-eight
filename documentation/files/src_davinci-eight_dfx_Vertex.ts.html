@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.93.0</em>
+            <em>API Docs for: 2.94.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -144,10 +144,9 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import Simplex = require(&#x27;../dfx/Simplex&#x27;);
-import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import VectorN = require(&#x27;../math/VectorN&#x27;);
+import VertexAttributeMap = require(&#x27;../dfx/VertexAttributeMap&#x27;);
 
 function stringVectorN(name: string, vector: VectorN&lt;number&gt;): string {
   if (vector) {
@@ -159,7 +158,7 @@ function stringVectorN(name: string, vector: VectorN&lt;number&gt;): string {
 }
 
 function stringifyVertex(vertex: Vertex): string {
-  let attributes: {[name:string]: VectorN&lt;number&gt;} = vertex.attributes;
+  let attributes: VertexAttributeMap = vertex.attributes;
   let attribsKey = Object.keys(attributes).map(function(name:string) {
       let vector: VectorN&lt;number&gt; = attributes[name];
       return stringVectorN(name, vector);
@@ -170,9 +169,10 @@ function stringifyVertex(vertex: Vertex): string {
 class Vertex {
   public parent: Simplex;
   public opposing: Simplex[] = [];
-  public attributes: { [name: string]: VectorN&lt;number&gt; } = {};
+  public attributes: VertexAttributeMap = {};
   /**
    * The index property is used when computing elements.
+   * @deprecated
    */
   public index: number;
   constructor() {

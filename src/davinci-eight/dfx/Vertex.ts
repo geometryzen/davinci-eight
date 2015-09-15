@@ -1,7 +1,6 @@
-import expectArg = require('../checks/expectArg');
 import Simplex = require('../dfx/Simplex');
-import Symbolic = require('../core/Symbolic');
 import VectorN = require('../math/VectorN');
+import VertexAttributeMap = require('../dfx/VertexAttributeMap');
 
 function stringVectorN(name: string, vector: VectorN<number>): string {
   if (vector) {
@@ -13,7 +12,7 @@ function stringVectorN(name: string, vector: VectorN<number>): string {
 }
 
 function stringifyVertex(vertex: Vertex): string {
-  let attributes: {[name:string]: VectorN<number>} = vertex.attributes;
+  let attributes: VertexAttributeMap = vertex.attributes;
   let attribsKey = Object.keys(attributes).map(function(name:string) {
       let vector: VectorN<number> = attributes[name];
       return stringVectorN(name, vector);
@@ -24,9 +23,10 @@ function stringifyVertex(vertex: Vertex): string {
 class Vertex {
   public parent: Simplex;
   public opposing: Simplex[] = [];
-  public attributes: { [name: string]: VectorN<number> } = {};
+  public attributes: VertexAttributeMap = {};
   /**
    * The index property is used when computing elements.
+   * @deprecated
    */
   public index: number;
   constructor() {

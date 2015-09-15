@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.93.0",
+        "version": "2.94.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -291,17 +291,36 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/dfx/DrawElements.ts": {
+            "name": "src/davinci-eight/dfx/DrawElements.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/dfx/Simplex.ts": {
             "name": "src/davinci-eight/dfx/Simplex.ts",
             "modules": {},
-            "classes": {
-                "Simplex": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
         "src/davinci-eight/dfx/Vertex.ts": {
             "name": "src/davinci-eight/dfx/Vertex.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/dfx/VertexAttributeMap.ts": {
+            "name": "src/davinci-eight/dfx/VertexAttributeMap.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/dfx/checkGeometry.ts": {
+            "name": "src/davinci-eight/dfx/checkGeometry.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -753,6 +772,7 @@
             "name": "src/modules/davinci-eight.d.ts",
             "modules": {},
             "classes": {
+                "Simplex": 1,
                 "DrawMode": 1
             },
             "fors": {},
@@ -847,7 +867,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 169
+            "line": 222
         }
     },
     "classes": {
@@ -1317,13 +1337,13 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
-            "file": "src/davinci-eight/dfx/Simplex.ts",
-            "line": 23,
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 87,
             "is_constructor": 1,
             "params": [
                 {
                     "name": "k",
-                    "description": "The initial number of vertices in the simplex.",
+                    "description": "The initial number of vertices in the simplex is k + 1.",
                     "type": "Number"
                 }
             ]
@@ -1741,7 +1761,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 169
+            "line": 222
         }
     },
     "classitems": [
@@ -2816,9 +2836,81 @@
             "class": "Simplex"
         },
         {
+            "file": "src/davinci-eight/dfx/DrawElements.ts",
+            "line": 6,
+            "description": "0 => POINTS, 1 => LINES, 2 => TRIANGLES",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 58,
+            "description": "A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.\nA k-simplex is the convex hull of its k + 1 vertices.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 88,
+            "description": "An empty set can be consired to be a -1 simplex (algebraic topology).",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 92,
+            "description": "A single point may be considered a 0-simplex.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 96,
+            "description": "A line segment may be considered a 1-simplex.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 100,
+            "description": "A 2-simplex is a triangle.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 104,
+            "description": "A 3-simplex is a tetrahedron.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 108,
+            "description": "A 4-simplex is a 5-cell.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 112,
+            "class": "Simplex"
+        },
+        {
+            "file": "src/davinci-eight/dfx/Simplex.ts",
+            "line": 118,
+            "description": "Computes the boundary of the simplex.",
+            "class": "Simplex"
+        },
+        {
             "file": "src/davinci-eight/dfx/Vertex.ts",
-            "line": 28,
+            "line": 27,
             "description": "The index property is used when computing elements.",
+            "deprecated": true,
+            "class": "BarnGeometry"
+        },
+        {
+            "file": "src/davinci-eight/dfx/VertexAttributeMap.ts",
+            "line": 2,
+            "description": "Defined for implementation convenience.",
+            "class": "BarnGeometry"
+        },
+        {
+            "file": "src/davinci-eight/dfx/checkGeometry.ts",
+            "line": 25,
+            "description": "Returns undefined (void 0) for an empty geometry.",
             "class": "BarnGeometry"
         },
         {
@@ -3560,14 +3652,14 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 36,
+            "line": 38,
             "description": "This could become an encapsulated call?",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 338,
-            "class": "DrawMode"
+            "line": 370,
+            "class": "Simplex"
         },
         {
             "file": "src/davinci-eight/utils/windowAnimationRunner.ts",
@@ -3596,7 +3688,7 @@
                     "type": "Window"
                 }
             ],
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/davinci-eight/utils/workbench3D.ts",
@@ -3605,7 +3697,7 @@
             "name": "",
             "final": "",
             "type": "{string}",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/davinci-eight/utils/workbench3D.ts",
@@ -3614,7 +3706,7 @@
             "name": "",
             "final": "",
             "type": "{string}",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/davinci-eight/utils/workbench3D.ts",
@@ -3626,17 +3718,17 @@
                     "description": "An HTML canvas element to be inserted.\nTODO: We should remove the camera as being too opinionated, replace with a callback providing"
                 }
             ],
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 9,
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 17,
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
@@ -3644,7 +3736,7 @@
             "description": "Called to request the dependent to free any WebGL resources acquired and owned.\nThe dependent may assume that its cached context is still valid in order\nto properly dispose of any cached resources. In the case of shared objects, this\nmethod may be called multiple times for what is logically the same context. In such\ncases the dependent must be idempotent and respond only to the first request.",
             "itemtype": "method",
             "name": "contextFree",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
@@ -3659,7 +3751,7 @@
                     "type": "WebGLRenderingContext"
                 }
             ],
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
@@ -3667,198 +3759,221 @@
             "description": "Called to inform the dependent of a loss of WebGLRenderingContext.\nThe dependent must assume that any cached context is invalid.\nThe dependent must not try to use and cached context to free resources.\nThe dependent should reset its state to that for which there is no context.",
             "itemtype": "method",
             "name": "contextLoss",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 52,
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 62,
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 71,
-            "class": "DrawMode"
+            "line": 72,
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 95,
+            "line": 81,
+            "description": "A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.\nA k-simplex is the convex hull of its k + 1 vertices.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 93,
+            "description": "An empty set can be consired to be a -1 simplex (algebraic topology).",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 97,
+            "description": "A single point may be considered a 0-simplex.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 101,
+            "description": "A line segment may be considered a 1-simplex.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 105,
+            "description": "A 2-simplex is a triangle.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 109,
+            "description": "A 3-simplex is a tetrahedron.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 113,
+            "description": "A 4-simplex is a 5-cell.",
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 119,
+            "description": "Applies the boundary operation n times.",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "The number of times to apply the boundary operation.\ntriangles are converted into three lines.\nlines are converted into two points.\npoints are converted into the empty geometry.",
+                    "type": "Number"
+                }
+            ],
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 127,
+            "description": "Applies the subdivide operation n times.",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "The number of times to apply the subdivide operation.\nThe subdivide operation computes the midpoint of all pairs of vertices\nand then uses the original points and midpoints to create new simplices\nthat span the original simplex.",
+                    "type": "Number"
+                }
+            ],
+            "class": "Simplex"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 148,
             "description": "Computes the mapping from attribute name to size.\nReports inconsistencies in the geometry by throwing exceptions.\nWhen used with toDrawElements(), allows names and sizes to be mapped.",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 102,
-            "class": "DrawMode"
+            "line": 155,
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 107,
+            "line": 160,
             "description": "Creates a cube of the specified side length.\n   6------ 5\n   /|      /|\n  1-------0 |\n  | |     | |\n  | 7-----|-4\n  |/      |/\n  2-------3\nThe triangle simplices are:\n 1-2-0, 3-0-2, ...",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 124,
+            "line": 177,
             "description": "quadrilateral as Simplex[]\n\n b-------a\n |       | \n |       |\n |       |\n c-------d\n\nThe quadrilateral is split into two triangles: b-c-a and d-a-c, like a \"Z\".\nThe zeroth vertex for each triangle is opposite the other triangle.",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 138,
+            "line": 191,
             "description": "square(size) as Simplex[]\n\n b-------a\n |       | \n |       |\n |       |\n c-------d\n\nThe square is split into two triangles: b-c-a and d-a-c, like a \"Z\".\nThe zeroth vertex for each triangle is opposite the other triangle.",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 152,
+            "line": 205,
             "description": "terahedron(a, b, c, d) as Simplex[]\n\nThe tetrahedron is composed of four triangles: abc, bdc, cda, dba.",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 159,
+            "line": 212,
             "description": "triangle(a, b, c) as Simplex[]",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 164,
+            "line": 217,
             "description": "Simplex[] => DrawElements conversion.",
-            "class": "DrawMode"
+            "class": "Simplex"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 173,
+            "line": 226,
             "description": "POINTS",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 180,
+            "line": 233,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 194,
+            "line": 247,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 198,
+            "line": 251,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 203,
+            "line": 256,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 208,
+            "line": 261,
             "description": "Add a drawable to the DrawList.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 212,
+            "line": 265,
             "description": "Removes a drawable from the DrawList.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 216,
+            "line": 269,
             "description": "Traverse the drawables in the DrawList.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 221,
+            "line": 274,
             "description": "Manages the lifecycle of an attribute used in a vertex shader.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 235,
+            "line": 288,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 243,
+            "line": 296,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 265,
+            "line": 318,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 273,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 280,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 287,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 295,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 312,
+            "line": 326,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 333,
-            "description": "Generates a new identity matrix.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 337,
+            "line": 340,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 341,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 349,
-            "description": "Generates a new identity matrix.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 353,
-            "description": "Generates a new scaling matrix.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 357,
-            "description": "Generates a new translation matrix.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 361,
-            "description": "Generates a new rotation matrix.",
+            "line": 348,
             "class": "DrawMode"
         },
         {
@@ -3868,223 +3983,268 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 369,
+            "line": 386,
+            "description": "Generates a new identity matrix.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 373,
+            "line": 390,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 430,
+            "line": 394,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 402,
+            "description": "Generates a new identity matrix.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 406,
+            "description": "Generates a new scaling matrix.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 410,
+            "description": "Generates a new translation matrix.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 414,
+            "description": "Generates a new rotation matrix.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 418,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 422,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 426,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 483,
             "description": "R = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 448,
+            "line": 501,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 459,
+            "line": 512,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 475,
+            "line": 528,
             "description": "Sets this Spinor3 to the geometric product of the vectors a and b, a * b.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 482,
+            "line": 535,
             "description": "Sets this Spinor3 to the outer product of the vectors a and b, a ^ b.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 534,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 538,
-            "description": "An optional override of the name that appears as the key in UniformMetaInfos.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 566,
-            "description": "Provides the runtime and design time data required to use a uniform in a vertex shader.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 572,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 583,
-            "description": "Provides the uniform for the model to view coordinates transformation.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
             "line": 587,
-            "description": "The position of the view reference point, VRP.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 591,
+            "description": "An optional override of the name that appears as the key in UniformMetaInfos.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 619,
+            "description": "Provides the runtime and design time data required to use a uniform in a vertex shader.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 625,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 636,
+            "description": "Provides the uniform for the model to view coordinates transformation.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 640,
+            "description": "The position of the view reference point, VRP.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 644,
             "description": "A special point in the world coordinates that defines the viewplane normal, VPN or n.\nn = eye - look, normalized to unity.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 596,
+            "line": 649,
             "description": "A unit vector used to determine the view horizontal direction, u.\nu = cross(up, n), and\nv = cross(n, u).",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 602,
+            "line": 655,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 606,
+            "line": 659,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 610,
+            "line": 663,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 622,
+            "line": 675,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 626,
+            "line": 679,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 630,
+            "line": 683,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 635,
+            "line": 688,
             "description": "A transformation from the 3D world coordinates or view volume to the canonical view volume.\nThe canonical view volume is the cube that extends from -1 to +1\nin all cartesian directions.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 641,
+            "line": 694,
             "description": "field of view angle in the view volume vertical plane, measured in radians.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 645,
+            "line": 698,
             "description": "ratio of width divided by height of the view volume.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 649,
+            "line": 702,
             "description": "distance to the near plane of the view volume from the view reference point.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 653,
+            "line": 706,
             "description": "distance to the far plane of the view volume from the view reference point.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 657,
+            "line": 710,
             "description": "Convenience method for setting the fov property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 661,
+            "line": 714,
             "description": "Convenience method for setting the aspect property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 665,
+            "line": 718,
             "description": "Convenience method for setting the near property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 669,
+            "line": 722,
             "description": "Convenience method for setting the far property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 673,
+            "line": 726,
             "description": "Convenience method for setting the eye property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 677,
+            "line": 730,
             "description": "Convenience method for setting the look property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 681,
+            "line": 734,
             "description": "Convenience method for setting the up property allowing chainable method calls.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 695,
+            "line": 748,
             "description": "An optional override of the name that appers as the key in AttributeMetaInfos.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 707,
+            "line": 760,
             "description": "The generator of calls to drawArrays or drawElements and a source of attribute data.\nThis interface must be implemented in order to define a mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 714,
+            "line": 767,
             "description": "Determines how the thing will be drawn.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 718,
+            "line": 771,
             "description": "Determines whether this geometry changes. If so, update may be called repeatedly.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 722,
+            "line": 775,
             "description": "Provides the data information corresponsing to provided attribute values.",
             "itemtype": "method",
             "name": "getAttribData",
@@ -4096,49 +4256,49 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 728,
+            "line": 781,
             "description": "Declares the vertex shader attributes the geometry can supply and information required for binding.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 732,
+            "line": 785,
             "description": "Notifies the mesh that it should update its array buffers.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 750,
+            "line": 803,
             "description": "Base class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 763,
+            "line": 816,
             "description": "Updates the normals property of each face by creating a per-face normal.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 767,
+            "line": 820,
             "description": "Updates the normals property of each face by creating per-vertex normals averaged over adjacent faces.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 771,
+            "line": 824,
             "description": "Merges vertices which are separated by less than the specified quadrance.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 828,
+            "line": 881,
             "description": "A vertex shader and a fragment shader combined into a program.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 833,
+            "line": 886,
             "itemtype": "property",
             "name": "program",
             "type": "WebGLProgram",
@@ -4146,7 +4306,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 838,
+            "line": 891,
             "itemtype": "property",
             "name": "programId",
             "type": "string",
@@ -4154,7 +4314,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 843,
+            "line": 896,
             "itemtype": "property",
             "name": "vertexShader",
             "type": "string",
@@ -4162,7 +4322,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 848,
+            "line": 901,
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "string",
@@ -4170,7 +4330,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 853,
+            "line": 906,
             "description": "Makes the Program the current program for WebGL.",
             "itemtype": "method",
             "name": "use",
@@ -4178,102 +4338,102 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 858,
+            "line": 911,
             "description": "Sets the attributes provided into the appropriate locations.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 862,
+            "line": 915,
             "description": "A map of attribute name to attribute location for active attributes.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 866,
+            "line": 919,
             "description": "A map of uniform name to uniform location for active uniforms.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 871,
+            "line": 924,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 877,
+            "line": 930,
             "description": "The combination of a geometry, model and a program.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 886,
+            "line": 939,
             "description": "The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 890,
+            "line": 943,
             "description": "Defines whether the renderer should automatically clear its output before rendering.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 894,
+            "line": 947,
             "description": "Specify the clear values for the color buffers.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 898,
+            "line": 951,
             "description": "Render the contents of the drawList.\nThis is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 921,
+            "line": 974,
             "description": "Constructs and returns a DrawList.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 925,
+            "line": 978,
             "description": "Constructs and returns a Frustum.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 929,
+            "line": 982,
             "description": "Computes a frustum matrix.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 933,
+            "line": 986,
             "description": "Constructs and returns a Perspective.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 937,
+            "line": 990,
             "description": "Computes a perspective matrix.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 941,
+            "line": 994,
             "description": "Constructs and returns a View.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 945,
+            "line": 998,
             "description": "Computes a view matrix.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 949,
+            "line": 1002,
             "description": "Constructs and returns a Renderer.",
             "params": [
                 {
@@ -4285,25 +4445,25 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 954,
+            "line": 1007,
             "description": "Constructs a Program from the specified vertex and fragment shader codes.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 958,
+            "line": 1011,
             "description": "Constructs a Program from the specified vertex and fragment shader script element identifiers.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 962,
+            "line": 1015,
             "description": "Constructs a Program by introspecting a geometry.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 966,
+            "line": 1019,
             "description": "Constructs a Drawable from the specified attribute provider and program.",
             "params": [
                 {
@@ -4319,303 +4479,230 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 972,
+            "line": 1025,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 981,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 996,
-            "description": "Constructs and returns an arrow mesh.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1000,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1014,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1037,
-            "description": "Constructs and returns a box mesh.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1041,
+            "line": 1034,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1049,
+            "description": "Constructs and returns an arrow mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1071,
+            "line": 1053,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1087,
+            "line": 1067,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1090,
+            "description": "Constructs and returns a box mesh.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1094,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1102,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1124,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1140,
             "description": "Constructs and returns a cylinder mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1091,
+            "line": 1144,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1104,
+            "line": 1157,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1127,
+            "line": 1180,
             "description": "Constructs and returns an vortex mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1131,
+            "line": 1184,
             "description": "Constructs and returns an vortex mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1135,
+            "line": 1188,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1139,
+            "line": 1192,
             "description": "The axis corresponding to e1.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1143,
+            "line": 1196,
             "description": "The axis corresponding to e2.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1147,
+            "line": 1200,
             "description": "The axis corresponding to e3.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1151,
+            "line": 1204,
             "description": "The color of the cuboid.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1155,
+            "line": 1208,
             "description": "The cuboid should be rendered using a gray scale.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1160,
+            "line": 1213,
             "description": "Constructs and returns a cuboid mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1175,
+            "line": 1228,
             "description": "A surface generated by the parametric equation:\na * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),\nwhere phi and theta are the conventional spherical coordinates.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1181,
+            "line": 1234,
             "description": "The axis corresponding to (theta, phi) = (PI/2,0).",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1185,
+            "line": 1238,
             "description": "The axis corresponding to theta = 0.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1189,
+            "line": 1242,
             "description": "The axis corresponding to (theta, phi) = (PI/2,PI/2).",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1193,
+            "line": 1246,
             "description": "The number of segments in the theta parameter.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1197,
+            "line": 1250,
             "description": "The theta starting angle in radians.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1201,
+            "line": 1254,
             "description": "The theta sweep angle in radians.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1205,
+            "line": 1258,
             "description": "The number of segments in the phi parameter.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1209,
+            "line": 1262,
             "description": "The phi starting angle in radians.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1213,
+            "line": 1266,
             "description": "The phi sweep angle in radians.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1243,
+            "line": 1296,
             "description": "Constructs a parametric surface geometry from a function.\nparametricFunction The function that determines a 3D point corresponding to the two parameters.\nuSegments The number of segments for the u parameter.\nvSegments The number of segments for the v parameter.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1273,
+            "line": 1326,
             "description": "Constructs and returns an ellipsoid mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1277,
+            "line": 1330,
             "description": "Constructs and returns a prism mesh.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1281,
+            "line": 1334,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1287,
+            "line": 1340,
             "description": "Constructs and returns a new Workbench3D.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1291,
+            "line": 1344,
             "description": "Constructs and returns a WindowAnimationRunner.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1301,
+            "line": 1354,
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1306,
+            "line": 1359,
             "description": "Starts the monitoring of the WebGL context.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1310,
+            "line": 1363,
             "description": "Stops the monitoring of the WebGL context.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1314,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1318,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1322,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1326,
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1330,
-            "description": "Creates a new Buffer instance that binds to the ARRAY_BUFFER target.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1334,
-            "description": "Creates a new Buffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1338,
-            "description": "Creates a new Mesh instance from a DrawElements data structure.",
-            "params": [
-                {
-                    "name": "elements",
-                    "description": "The elements to be drawn.",
-                    "type": "DrawElements"
-                },
-                {
-                    "name": "mode",
-                    "description": "The draw mode e.g. TRIANGLES, LINES, POINTS, ...",
-                    "type": "Number"
-                },
-                {
-                    "name": "usage",
-                    "description": "A hint about how the underlying buffers will be used.",
-                    "type": "Number"
-                }
-            ],
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1345,
-            "description": "Creates a new Texture2D instance that binds to the TEXTURE_2D target.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1349,
-            "description": "Creates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.",
-            "class": "DrawMode"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1353,
-            "description": "Render geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
             "class": "DrawMode"
         },
         {
@@ -4641,41 +4728,114 @@
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1383,
-            "description": "Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
+            "description": "Creates a new Buffer instance that binds to the ARRAY_BUFFER target.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1388,
-            "description": "Constructs and returns a ContextManager.",
+            "line": 1387,
+            "description": "Creates a new Buffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1391,
+            "description": "Creates a new Mesh instance from a DrawElements data structure.",
+            "params": [
+                {
+                    "name": "elements",
+                    "description": "The elements to be drawn.",
+                    "type": "DrawElements"
+                },
+                {
+                    "name": "mode",
+                    "description": "The mode to be used for drawing. Ust be consistent with elements.k property.",
+                    "type": "Number"
+                },
+                {
+                    "name": "usage",
+                    "description": "A hint about how the underlying buffers will be used.",
+                    "type": "Number"
+                }
+            ],
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1398,
+            "description": "Creates a new Texture2D instance that binds to the TEXTURE_2D target.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1402,
+            "description": "Creates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1410,
+            "line": 1406,
+            "description": "Render geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1420,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1424,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1428,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1432,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1436,
+            "description": "Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1441,
+            "description": "Constructs and returns a ContextManager.",
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1455,
+            "class": "DrawMode"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1463,
             "description": "Model implements UniformData required for manipulating a body.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1417,
+            "line": 1470,
             "description": "The version string of the davinci-eight module.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1422,
+            "line": 1475,
             "description": "Record reference count changes and debug reference counts.\n\nInstrumenting reference counting:\n  constructor():\n    refChange(uuid, 'YourClassName',+1);\n  addRef():\n    refChange(uuid, 'YourClassName',+1);\n  release():\n    refChange(uuid, 'YourClassName',-1);\n\nDebugging reference counts:\n  Start tracking reference counts:\n    refChange('start'[, 'where']);\n    The system will record reference count changes.\n  Stop tracking reference counts:\n    refChange('stop'[, 'where']);\n    The system will compute the total outstanding number of reference counts.\n  Dump tracking reference counts:\n    refChange('dump'[, 'where']);\n    The system will log net reference count changes to the console.\n  Don't track reference counts (default):\n    refChange('reset'[, 'where']);\n    The system will clear statistics and enter will not record changes.\n  Trace reference counts for a particular class:\n    refChange('trace', 'YourClassName');\n    The system will report reference count changes on the specified class.\n\nReturns the number of outstanding reference counts for the 'stop' command.",
             "class": "DrawMode"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1453,
+            "line": 1506,
             "description": "Canonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.",
             "class": "DrawMode"
         },
@@ -14789,7 +14949,7 @@
         },
         {
             "file": "src/davinci-eight.ts",
-            "line": 133,
+            "line": 134,
             "description": "The semantic version of the library.",
             "itemtype": "property",
             "name": "VERSION",
@@ -14922,8 +15082,56 @@
             "line": " src/davinci-eight/dfx/DrawAttribute.ts:41"
         },
         {
+            "message": "Missing item type\n0 => POINTS, 1 => LINES, 2 => TRIANGLES",
+            "line": " src/davinci-eight/dfx/DrawElements.ts:6"
+        },
+        {
+            "message": "Missing item type\nA simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.\nA k-simplex is the convex hull of its k + 1 vertices.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:58"
+        },
+        {
+            "message": "Missing item type\nAn empty set can be consired to be a -1 simplex (algebraic topology).",
+            "line": " src/davinci-eight/dfx/Simplex.ts:88"
+        },
+        {
+            "message": "Missing item type\nA single point may be considered a 0-simplex.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:92"
+        },
+        {
+            "message": "Missing item type\nA line segment may be considered a 1-simplex.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:96"
+        },
+        {
+            "message": "Missing item type\nA 2-simplex is a triangle.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:100"
+        },
+        {
+            "message": "Missing item type\nA 3-simplex is a tetrahedron.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:104"
+        },
+        {
+            "message": "Missing item type\nA 4-simplex is a 5-cell.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:108"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/dfx/Simplex.ts:112"
+        },
+        {
+            "message": "Missing item type\nComputes the boundary of the simplex.",
+            "line": " src/davinci-eight/dfx/Simplex.ts:118"
+        },
+        {
             "message": "Missing item type\nThe index property is used when computing elements.",
-            "line": " src/davinci-eight/dfx/Vertex.ts:28"
+            "line": " src/davinci-eight/dfx/Vertex.ts:27"
+        },
+        {
+            "message": "Missing item type\nDefined for implementation convenience.",
+            "line": " src/davinci-eight/dfx/VertexAttributeMap.ts:2"
+        },
+        {
+            "message": "Missing item type\nReturns undefined (void 0) for an empty geometry.",
+            "line": " src/davinci-eight/dfx/checkGeometry.ts:25"
         },
         {
             "message": "Missing item type\ncube as Simplex[]\n\n   v6----- v5\n  /|      /|\n v1------v0|\n | |     | |\n | |v7---|-|v4\n |/      |/\n v2------v3",
@@ -15103,11 +15311,11 @@
         },
         {
             "message": "Missing item type\nThis could become an encapsulated call?",
-            "line": " src/davinci-eight/utils/contextProxy.ts:36"
+            "line": " src/davinci-eight/utils/contextProxy.ts:38"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:338"
+            "line": " src/davinci-eight/utils/contextProxy.ts:370"
         },
         {
             "message": "Missing item type\nCreates an object implementing a stopwatch API that makes callbacks to user-supplied functions.",
@@ -15135,599 +15343,595 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:71"
+            "line": " src/modules/davinci-eight.d.ts:72"
+        },
+        {
+            "message": "Missing item type\nA simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.\nA k-simplex is the convex hull of its k + 1 vertices.",
+            "line": " src/modules/davinci-eight.d.ts:81"
+        },
+        {
+            "message": "Missing item type\nAn empty set can be consired to be a -1 simplex (algebraic topology).",
+            "line": " src/modules/davinci-eight.d.ts:93"
+        },
+        {
+            "message": "Missing item type\nA single point may be considered a 0-simplex.",
+            "line": " src/modules/davinci-eight.d.ts:97"
+        },
+        {
+            "message": "Missing item type\nA line segment may be considered a 1-simplex.",
+            "line": " src/modules/davinci-eight.d.ts:101"
+        },
+        {
+            "message": "Missing item type\nA 2-simplex is a triangle.",
+            "line": " src/modules/davinci-eight.d.ts:105"
+        },
+        {
+            "message": "Missing item type\nA 3-simplex is a tetrahedron.",
+            "line": " src/modules/davinci-eight.d.ts:109"
+        },
+        {
+            "message": "Missing item type\nA 4-simplex is a 5-cell.",
+            "line": " src/modules/davinci-eight.d.ts:113"
+        },
+        {
+            "message": "Missing item type\nApplies the boundary operation n times.",
+            "line": " src/modules/davinci-eight.d.ts:119"
+        },
+        {
+            "message": "Missing item type\nApplies the subdivide operation n times.",
+            "line": " src/modules/davinci-eight.d.ts:127"
         },
         {
             "message": "Missing item type\nComputes the mapping from attribute name to size.\nReports inconsistencies in the geometry by throwing exceptions.\nWhen used with toDrawElements(), allows names and sizes to be mapped.",
-            "line": " src/modules/davinci-eight.d.ts:95"
+            "line": " src/modules/davinci-eight.d.ts:148"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:102"
+            "line": " src/modules/davinci-eight.d.ts:155"
         },
         {
             "message": "Missing item type\nCreates a cube of the specified side length.\n   6------ 5\n   /|      /|\n  1-------0 |\n  | |     | |\n  | 7-----|-4\n  |/      |/\n  2-------3\nThe triangle simplices are:\n 1-2-0, 3-0-2, ...",
-            "line": " src/modules/davinci-eight.d.ts:107"
+            "line": " src/modules/davinci-eight.d.ts:160"
         },
         {
             "message": "Missing item type\nquadrilateral as Simplex[]\n\n b-------a\n |       | \n |       |\n |       |\n c-------d\n\nThe quadrilateral is split into two triangles: b-c-a and d-a-c, like a \"Z\".\nThe zeroth vertex for each triangle is opposite the other triangle.",
-            "line": " src/modules/davinci-eight.d.ts:124"
+            "line": " src/modules/davinci-eight.d.ts:177"
         },
         {
             "message": "Missing item type\nsquare(size) as Simplex[]\n\n b-------a\n |       | \n |       |\n |       |\n c-------d\n\nThe square is split into two triangles: b-c-a and d-a-c, like a \"Z\".\nThe zeroth vertex for each triangle is opposite the other triangle.",
-            "line": " src/modules/davinci-eight.d.ts:138"
+            "line": " src/modules/davinci-eight.d.ts:191"
         },
         {
             "message": "Missing item type\nterahedron(a, b, c, d) as Simplex[]\n\nThe tetrahedron is composed of four triangles: abc, bdc, cda, dba.",
-            "line": " src/modules/davinci-eight.d.ts:152"
+            "line": " src/modules/davinci-eight.d.ts:205"
         },
         {
             "message": "Missing item type\ntriangle(a, b, c) as Simplex[]",
-            "line": " src/modules/davinci-eight.d.ts:159"
-        },
-        {
-            "message": "Missing item type\nSimplex[] => DrawElements conversion.",
-            "line": " src/modules/davinci-eight.d.ts:164"
-        },
-        {
-            "message": "Missing item type\nPOINTS",
-            "line": " src/modules/davinci-eight.d.ts:173"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:180"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:194"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:198"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:203"
-        },
-        {
-            "message": "Missing item type\nAdd a drawable to the DrawList.",
-            "line": " src/modules/davinci-eight.d.ts:208"
-        },
-        {
-            "message": "Missing item type\nRemoves a drawable from the DrawList.",
             "line": " src/modules/davinci-eight.d.ts:212"
         },
         {
-            "message": "Missing item type\nTraverse the drawables in the DrawList.",
-            "line": " src/modules/davinci-eight.d.ts:216"
+            "message": "Missing item type\nSimplex[] => DrawElements conversion.",
+            "line": " src/modules/davinci-eight.d.ts:217"
         },
         {
-            "message": "Missing item type\nManages the lifecycle of an attribute used in a vertex shader.",
-            "line": " src/modules/davinci-eight.d.ts:221"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:235"
+            "message": "Missing item type\nPOINTS",
+            "line": " src/modules/davinci-eight.d.ts:226"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:243"
+            "line": " src/modules/davinci-eight.d.ts:233"
         },
         {
             "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:247"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:251"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:256"
+        },
+        {
+            "message": "Missing item type\nAdd a drawable to the DrawList.",
+            "line": " src/modules/davinci-eight.d.ts:261"
+        },
+        {
+            "message": "Missing item type\nRemoves a drawable from the DrawList.",
             "line": " src/modules/davinci-eight.d.ts:265"
         },
         {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:273"
+            "message": "Missing item type\nTraverse the drawables in the DrawList.",
+            "line": " src/modules/davinci-eight.d.ts:269"
+        },
+        {
+            "message": "Missing item type\nManages the lifecycle of an attribute used in a vertex shader.",
+            "line": " src/modules/davinci-eight.d.ts:274"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:280"
+            "line": " src/modules/davinci-eight.d.ts:288"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:287"
+            "line": " src/modules/davinci-eight.d.ts:296"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:295"
+            "line": " src/modules/davinci-eight.d.ts:318"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:312"
+            "line": " src/modules/davinci-eight.d.ts:326"
         },
         {
-            "message": "Missing item type\nGenerates a new identity matrix.",
+            "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:333"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:337"
+            "line": " src/modules/davinci-eight.d.ts:340"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:341"
-        },
-        {
-            "message": "Missing item type\nGenerates a new identity matrix.",
-            "line": " src/modules/davinci-eight.d.ts:349"
-        },
-        {
-            "message": "Missing item type\nGenerates a new scaling matrix.",
-            "line": " src/modules/davinci-eight.d.ts:353"
-        },
-        {
-            "message": "Missing item type\nGenerates a new translation matrix.",
-            "line": " src/modules/davinci-eight.d.ts:357"
-        },
-        {
-            "message": "Missing item type\nGenerates a new rotation matrix.",
-            "line": " src/modules/davinci-eight.d.ts:361"
+            "line": " src/modules/davinci-eight.d.ts:348"
         },
         {
             "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:365"
         },
         {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:369"
+            "message": "Missing item type\nGenerates a new identity matrix.",
+            "line": " src/modules/davinci-eight.d.ts:386"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:373"
+            "line": " src/modules/davinci-eight.d.ts:390"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:394"
+        },
+        {
+            "message": "Missing item type\nGenerates a new identity matrix.",
+            "line": " src/modules/davinci-eight.d.ts:402"
+        },
+        {
+            "message": "Missing item type\nGenerates a new scaling matrix.",
+            "line": " src/modules/davinci-eight.d.ts:406"
+        },
+        {
+            "message": "Missing item type\nGenerates a new translation matrix.",
+            "line": " src/modules/davinci-eight.d.ts:410"
+        },
+        {
+            "message": "Missing item type\nGenerates a new rotation matrix.",
+            "line": " src/modules/davinci-eight.d.ts:414"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:418"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:422"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:426"
         },
         {
             "message": "Missing item type\nR = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",
-            "line": " src/modules/davinci-eight.d.ts:430"
+            "line": " src/modules/davinci-eight.d.ts:483"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:448"
+            "line": " src/modules/davinci-eight.d.ts:501"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:459"
+            "line": " src/modules/davinci-eight.d.ts:512"
         },
         {
             "message": "Missing item type\nSets this Spinor3 to the geometric product of the vectors a and b, a * b.",
-            "line": " src/modules/davinci-eight.d.ts:475"
+            "line": " src/modules/davinci-eight.d.ts:528"
         },
         {
             "message": "Missing item type\nSets this Spinor3 to the outer product of the vectors a and b, a ^ b.",
-            "line": " src/modules/davinci-eight.d.ts:482"
+            "line": " src/modules/davinci-eight.d.ts:535"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:534"
-        },
-        {
-            "message": "Missing item type\nAn optional override of the name that appears as the key in UniformMetaInfos.",
-            "line": " src/modules/davinci-eight.d.ts:538"
-        },
-        {
-            "message": "Missing item type\nProvides the runtime and design time data required to use a uniform in a vertex shader.",
-            "line": " src/modules/davinci-eight.d.ts:566"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:572"
-        },
-        {
-            "message": "Missing item type\nProvides the uniform for the model to view coordinates transformation.",
-            "line": " src/modules/davinci-eight.d.ts:583"
-        },
-        {
-            "message": "Missing item type\nThe position of the view reference point, VRP.",
             "line": " src/modules/davinci-eight.d.ts:587"
         },
         {
-            "message": "Missing item type\nA special point in the world coordinates that defines the viewplane normal, VPN or n.\nn = eye - look, normalized to unity.",
+            "message": "Missing item type\nAn optional override of the name that appears as the key in UniformMetaInfos.",
             "line": " src/modules/davinci-eight.d.ts:591"
         },
         {
+            "message": "Missing item type\nProvides the runtime and design time data required to use a uniform in a vertex shader.",
+            "line": " src/modules/davinci-eight.d.ts:619"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:625"
+        },
+        {
+            "message": "Missing item type\nProvides the uniform for the model to view coordinates transformation.",
+            "line": " src/modules/davinci-eight.d.ts:636"
+        },
+        {
+            "message": "Missing item type\nThe position of the view reference point, VRP.",
+            "line": " src/modules/davinci-eight.d.ts:640"
+        },
+        {
+            "message": "Missing item type\nA special point in the world coordinates that defines the viewplane normal, VPN or n.\nn = eye - look, normalized to unity.",
+            "line": " src/modules/davinci-eight.d.ts:644"
+        },
+        {
             "message": "Missing item type\nA unit vector used to determine the view horizontal direction, u.\nu = cross(up, n), and\nv = cross(n, u).",
-            "line": " src/modules/davinci-eight.d.ts:596"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the eye property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:602"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the look property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:606"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the up property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:610"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the eye property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:622"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the look property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:626"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the up property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:630"
-        },
-        {
-            "message": "Missing item type\nA transformation from the 3D world coordinates or view volume to the canonical view volume.\nThe canonical view volume is the cube that extends from -1 to +1\nin all cartesian directions.",
-            "line": " src/modules/davinci-eight.d.ts:635"
-        },
-        {
-            "message": "Missing item type\nfield of view angle in the view volume vertical plane, measured in radians.",
-            "line": " src/modules/davinci-eight.d.ts:641"
-        },
-        {
-            "message": "Missing item type\nratio of width divided by height of the view volume.",
-            "line": " src/modules/davinci-eight.d.ts:645"
-        },
-        {
-            "message": "Missing item type\ndistance to the near plane of the view volume from the view reference point.",
             "line": " src/modules/davinci-eight.d.ts:649"
         },
         {
-            "message": "Missing item type\ndistance to the far plane of the view volume from the view reference point.",
-            "line": " src/modules/davinci-eight.d.ts:653"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the fov property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:657"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the aspect property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:661"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the near property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:665"
-        },
-        {
-            "message": "Missing item type\nConvenience method for setting the far property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:669"
-        },
-        {
             "message": "Missing item type\nConvenience method for setting the eye property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:673"
+            "line": " src/modules/davinci-eight.d.ts:655"
         },
         {
             "message": "Missing item type\nConvenience method for setting the look property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:677"
+            "line": " src/modules/davinci-eight.d.ts:659"
         },
         {
             "message": "Missing item type\nConvenience method for setting the up property allowing chainable method calls.",
-            "line": " src/modules/davinci-eight.d.ts:681"
+            "line": " src/modules/davinci-eight.d.ts:663"
         },
         {
-            "message": "Missing item type\nAn optional override of the name that appers as the key in AttributeMetaInfos.",
-            "line": " src/modules/davinci-eight.d.ts:695"
+            "message": "Missing item type\nConvenience method for setting the eye property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:675"
         },
         {
-            "message": "Missing item type\nThe generator of calls to drawArrays or drawElements and a source of attribute data.\nThis interface must be implemented in order to define a mesh.",
-            "line": " src/modules/davinci-eight.d.ts:707"
+            "message": "Missing item type\nConvenience method for setting the look property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:679"
         },
         {
-            "message": "Missing item type\nDetermines how the thing will be drawn.",
+            "message": "Missing item type\nConvenience method for setting the up property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:683"
+        },
+        {
+            "message": "Missing item type\nA transformation from the 3D world coordinates or view volume to the canonical view volume.\nThe canonical view volume is the cube that extends from -1 to +1\nin all cartesian directions.",
+            "line": " src/modules/davinci-eight.d.ts:688"
+        },
+        {
+            "message": "Missing item type\nfield of view angle in the view volume vertical plane, measured in radians.",
+            "line": " src/modules/davinci-eight.d.ts:694"
+        },
+        {
+            "message": "Missing item type\nratio of width divided by height of the view volume.",
+            "line": " src/modules/davinci-eight.d.ts:698"
+        },
+        {
+            "message": "Missing item type\ndistance to the near plane of the view volume from the view reference point.",
+            "line": " src/modules/davinci-eight.d.ts:702"
+        },
+        {
+            "message": "Missing item type\ndistance to the far plane of the view volume from the view reference point.",
+            "line": " src/modules/davinci-eight.d.ts:706"
+        },
+        {
+            "message": "Missing item type\nConvenience method for setting the fov property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:710"
+        },
+        {
+            "message": "Missing item type\nConvenience method for setting the aspect property allowing chainable method calls.",
             "line": " src/modules/davinci-eight.d.ts:714"
         },
         {
-            "message": "Missing item type\nDetermines whether this geometry changes. If so, update may be called repeatedly.",
+            "message": "Missing item type\nConvenience method for setting the near property allowing chainable method calls.",
             "line": " src/modules/davinci-eight.d.ts:718"
         },
         {
-            "message": "Missing item type\nDeclares the vertex shader attributes the geometry can supply and information required for binding.",
-            "line": " src/modules/davinci-eight.d.ts:728"
+            "message": "Missing item type\nConvenience method for setting the far property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:722"
         },
         {
-            "message": "Missing item type\nNotifies the mesh that it should update its array buffers.",
-            "line": " src/modules/davinci-eight.d.ts:732"
+            "message": "Missing item type\nConvenience method for setting the eye property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:726"
         },
         {
-            "message": "Missing item type\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
-            "line": " src/modules/davinci-eight.d.ts:750"
+            "message": "Missing item type\nConvenience method for setting the look property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:730"
         },
         {
-            "message": "Missing item type\nUpdates the normals property of each face by creating a per-face normal.",
-            "line": " src/modules/davinci-eight.d.ts:763"
+            "message": "Missing item type\nConvenience method for setting the up property allowing chainable method calls.",
+            "line": " src/modules/davinci-eight.d.ts:734"
         },
         {
-            "message": "Missing item type\nUpdates the normals property of each face by creating per-vertex normals averaged over adjacent faces.",
+            "message": "Missing item type\nAn optional override of the name that appers as the key in AttributeMetaInfos.",
+            "line": " src/modules/davinci-eight.d.ts:748"
+        },
+        {
+            "message": "Missing item type\nThe generator of calls to drawArrays or drawElements and a source of attribute data.\nThis interface must be implemented in order to define a mesh.",
+            "line": " src/modules/davinci-eight.d.ts:760"
+        },
+        {
+            "message": "Missing item type\nDetermines how the thing will be drawn.",
             "line": " src/modules/davinci-eight.d.ts:767"
         },
         {
-            "message": "Missing item type\nMerges vertices which are separated by less than the specified quadrance.",
+            "message": "Missing item type\nDetermines whether this geometry changes. If so, update may be called repeatedly.",
             "line": " src/modules/davinci-eight.d.ts:771"
         },
         {
+            "message": "Missing item type\nDeclares the vertex shader attributes the geometry can supply and information required for binding.",
+            "line": " src/modules/davinci-eight.d.ts:781"
+        },
+        {
+            "message": "Missing item type\nNotifies the mesh that it should update its array buffers.",
+            "line": " src/modules/davinci-eight.d.ts:785"
+        },
+        {
+            "message": "Missing item type\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+            "line": " src/modules/davinci-eight.d.ts:803"
+        },
+        {
+            "message": "Missing item type\nUpdates the normals property of each face by creating a per-face normal.",
+            "line": " src/modules/davinci-eight.d.ts:816"
+        },
+        {
+            "message": "Missing item type\nUpdates the normals property of each face by creating per-vertex normals averaged over adjacent faces.",
+            "line": " src/modules/davinci-eight.d.ts:820"
+        },
+        {
+            "message": "Missing item type\nMerges vertices which are separated by less than the specified quadrance.",
+            "line": " src/modules/davinci-eight.d.ts:824"
+        },
+        {
             "message": "Missing item type\nA vertex shader and a fragment shader combined into a program.",
-            "line": " src/modules/davinci-eight.d.ts:828"
+            "line": " src/modules/davinci-eight.d.ts:881"
         },
         {
             "message": "Missing item type\nSets the attributes provided into the appropriate locations.",
-            "line": " src/modules/davinci-eight.d.ts:858"
+            "line": " src/modules/davinci-eight.d.ts:911"
         },
         {
             "message": "Missing item type\nA map of attribute name to attribute location for active attributes.",
-            "line": " src/modules/davinci-eight.d.ts:862"
+            "line": " src/modules/davinci-eight.d.ts:915"
         },
         {
             "message": "Missing item type\nA map of uniform name to uniform location for active uniforms.",
-            "line": " src/modules/davinci-eight.d.ts:866"
+            "line": " src/modules/davinci-eight.d.ts:919"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:871"
+            "line": " src/modules/davinci-eight.d.ts:924"
         },
         {
             "message": "Missing item type\nThe combination of a geometry, model and a program.",
-            "line": " src/modules/davinci-eight.d.ts:877"
+            "line": " src/modules/davinci-eight.d.ts:930"
         },
         {
             "message": "Missing item type\nThe (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.",
-            "line": " src/modules/davinci-eight.d.ts:886"
+            "line": " src/modules/davinci-eight.d.ts:939"
         },
         {
             "message": "Missing item type\nDefines whether the renderer should automatically clear its output before rendering.",
-            "line": " src/modules/davinci-eight.d.ts:890"
+            "line": " src/modules/davinci-eight.d.ts:943"
         },
         {
             "message": "Missing item type\nSpecify the clear values for the color buffers.",
-            "line": " src/modules/davinci-eight.d.ts:894"
+            "line": " src/modules/davinci-eight.d.ts:947"
         },
         {
             "message": "Missing item type\nRender the contents of the drawList.\nThis is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.",
-            "line": " src/modules/davinci-eight.d.ts:898"
+            "line": " src/modules/davinci-eight.d.ts:951"
         },
         {
             "message": "Missing item type\nConstructs and returns a DrawList.",
-            "line": " src/modules/davinci-eight.d.ts:921"
+            "line": " src/modules/davinci-eight.d.ts:974"
         },
         {
             "message": "Missing item type\nConstructs and returns a Frustum.",
-            "line": " src/modules/davinci-eight.d.ts:925"
+            "line": " src/modules/davinci-eight.d.ts:978"
         },
         {
             "message": "Missing item type\nComputes a frustum matrix.",
-            "line": " src/modules/davinci-eight.d.ts:929"
+            "line": " src/modules/davinci-eight.d.ts:982"
         },
         {
             "message": "Missing item type\nConstructs and returns a Perspective.",
-            "line": " src/modules/davinci-eight.d.ts:933"
+            "line": " src/modules/davinci-eight.d.ts:986"
         },
         {
             "message": "Missing item type\nComputes a perspective matrix.",
-            "line": " src/modules/davinci-eight.d.ts:937"
+            "line": " src/modules/davinci-eight.d.ts:990"
         },
         {
             "message": "Missing item type\nConstructs and returns a View.",
-            "line": " src/modules/davinci-eight.d.ts:941"
+            "line": " src/modules/davinci-eight.d.ts:994"
         },
         {
             "message": "Missing item type\nComputes a view matrix.",
-            "line": " src/modules/davinci-eight.d.ts:945"
+            "line": " src/modules/davinci-eight.d.ts:998"
         },
         {
             "message": "Missing item type\nConstructs and returns a Renderer.",
-            "line": " src/modules/davinci-eight.d.ts:949"
+            "line": " src/modules/davinci-eight.d.ts:1002"
         },
         {
             "message": "Missing item type\nConstructs a Program from the specified vertex and fragment shader codes.",
-            "line": " src/modules/davinci-eight.d.ts:954"
+            "line": " src/modules/davinci-eight.d.ts:1007"
         },
         {
             "message": "Missing item type\nConstructs a Program from the specified vertex and fragment shader script element identifiers.",
-            "line": " src/modules/davinci-eight.d.ts:958"
+            "line": " src/modules/davinci-eight.d.ts:1011"
         },
         {
             "message": "Missing item type\nConstructs a Program by introspecting a geometry.",
-            "line": " src/modules/davinci-eight.d.ts:962"
+            "line": " src/modules/davinci-eight.d.ts:1015"
         },
         {
             "message": "Missing item type\nConstructs a Drawable from the specified attribute provider and program.",
-            "line": " src/modules/davinci-eight.d.ts:966"
+            "line": " src/modules/davinci-eight.d.ts:1019"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:972"
+            "line": " src/modules/davinci-eight.d.ts:1025"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:981"
+            "line": " src/modules/davinci-eight.d.ts:1034"
         },
         {
             "message": "Missing item type\nConstructs and returns an arrow mesh.",
-            "line": " src/modules/davinci-eight.d.ts:996"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1000"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1014"
-        },
-        {
-            "message": "Missing item type\nConstructs and returns a box mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1037"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1041"
-        },
-        {
-            "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:1049"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1071"
+            "line": " src/modules/davinci-eight.d.ts:1053"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1067"
+        },
+        {
+            "message": "Missing item type\nConstructs and returns a box mesh.",
+            "line": " src/modules/davinci-eight.d.ts:1090"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1094"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1102"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1124"
         },
         {
             "message": "Missing item type\nConstructs and returns a cylinder mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1087"
+            "line": " src/modules/davinci-eight.d.ts:1140"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1091"
+            "line": " src/modules/davinci-eight.d.ts:1144"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1104"
+            "line": " src/modules/davinci-eight.d.ts:1157"
         },
         {
             "message": "Missing item type\nConstructs and returns an vortex mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1127"
+            "line": " src/modules/davinci-eight.d.ts:1180"
         },
         {
             "message": "Missing item type\nConstructs and returns an vortex mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1131"
+            "line": " src/modules/davinci-eight.d.ts:1184"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1135"
+            "line": " src/modules/davinci-eight.d.ts:1188"
         },
         {
             "message": "Missing item type\nThe axis corresponding to e1.",
-            "line": " src/modules/davinci-eight.d.ts:1139"
+            "line": " src/modules/davinci-eight.d.ts:1192"
         },
         {
             "message": "Missing item type\nThe axis corresponding to e2.",
-            "line": " src/modules/davinci-eight.d.ts:1143"
+            "line": " src/modules/davinci-eight.d.ts:1196"
         },
         {
             "message": "Missing item type\nThe axis corresponding to e3.",
-            "line": " src/modules/davinci-eight.d.ts:1147"
+            "line": " src/modules/davinci-eight.d.ts:1200"
         },
         {
             "message": "Missing item type\nThe color of the cuboid.",
-            "line": " src/modules/davinci-eight.d.ts:1151"
+            "line": " src/modules/davinci-eight.d.ts:1204"
         },
         {
             "message": "Missing item type\nThe cuboid should be rendered using a gray scale.",
-            "line": " src/modules/davinci-eight.d.ts:1155"
+            "line": " src/modules/davinci-eight.d.ts:1208"
         },
         {
             "message": "Missing item type\nConstructs and returns a cuboid mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1160"
-        },
-        {
-            "message": "Missing item type\nA surface generated by the parametric equation:\na * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),\nwhere phi and theta are the conventional spherical coordinates.",
-            "line": " src/modules/davinci-eight.d.ts:1175"
-        },
-        {
-            "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,0).",
-            "line": " src/modules/davinci-eight.d.ts:1181"
-        },
-        {
-            "message": "Missing item type\nThe axis corresponding to theta = 0.",
-            "line": " src/modules/davinci-eight.d.ts:1185"
-        },
-        {
-            "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,PI/2).",
-            "line": " src/modules/davinci-eight.d.ts:1189"
-        },
-        {
-            "message": "Missing item type\nThe number of segments in the theta parameter.",
-            "line": " src/modules/davinci-eight.d.ts:1193"
-        },
-        {
-            "message": "Missing item type\nThe theta starting angle in radians.",
-            "line": " src/modules/davinci-eight.d.ts:1197"
-        },
-        {
-            "message": "Missing item type\nThe theta sweep angle in radians.",
-            "line": " src/modules/davinci-eight.d.ts:1201"
-        },
-        {
-            "message": "Missing item type\nThe number of segments in the phi parameter.",
-            "line": " src/modules/davinci-eight.d.ts:1205"
-        },
-        {
-            "message": "Missing item type\nThe phi starting angle in radians.",
-            "line": " src/modules/davinci-eight.d.ts:1209"
-        },
-        {
-            "message": "Missing item type\nThe phi sweep angle in radians.",
             "line": " src/modules/davinci-eight.d.ts:1213"
         },
         {
+            "message": "Missing item type\nA surface generated by the parametric equation:\na * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),\nwhere phi and theta are the conventional spherical coordinates.",
+            "line": " src/modules/davinci-eight.d.ts:1228"
+        },
+        {
+            "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,0).",
+            "line": " src/modules/davinci-eight.d.ts:1234"
+        },
+        {
+            "message": "Missing item type\nThe axis corresponding to theta = 0.",
+            "line": " src/modules/davinci-eight.d.ts:1238"
+        },
+        {
+            "message": "Missing item type\nThe axis corresponding to (theta, phi) = (PI/2,PI/2).",
+            "line": " src/modules/davinci-eight.d.ts:1242"
+        },
+        {
+            "message": "Missing item type\nThe number of segments in the theta parameter.",
+            "line": " src/modules/davinci-eight.d.ts:1246"
+        },
+        {
+            "message": "Missing item type\nThe theta starting angle in radians.",
+            "line": " src/modules/davinci-eight.d.ts:1250"
+        },
+        {
+            "message": "Missing item type\nThe theta sweep angle in radians.",
+            "line": " src/modules/davinci-eight.d.ts:1254"
+        },
+        {
+            "message": "Missing item type\nThe number of segments in the phi parameter.",
+            "line": " src/modules/davinci-eight.d.ts:1258"
+        },
+        {
+            "message": "Missing item type\nThe phi starting angle in radians.",
+            "line": " src/modules/davinci-eight.d.ts:1262"
+        },
+        {
+            "message": "Missing item type\nThe phi sweep angle in radians.",
+            "line": " src/modules/davinci-eight.d.ts:1266"
+        },
+        {
             "message": "Missing item type\nConstructs a parametric surface geometry from a function.\nparametricFunction The function that determines a 3D point corresponding to the two parameters.\nuSegments The number of segments for the u parameter.\nvSegments The number of segments for the v parameter.",
-            "line": " src/modules/davinci-eight.d.ts:1243"
+            "line": " src/modules/davinci-eight.d.ts:1296"
         },
         {
             "message": "Missing item type\nConstructs and returns an ellipsoid mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1273"
-        },
-        {
-            "message": "Missing item type\nConstructs and returns a prism mesh.",
-            "line": " src/modules/davinci-eight.d.ts:1277"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1281"
-        },
-        {
-            "message": "Missing item type\nConstructs and returns a new Workbench3D.",
-            "line": " src/modules/davinci-eight.d.ts:1287"
-        },
-        {
-            "message": "Missing item type\nConstructs and returns a WindowAnimationRunner.",
-            "line": " src/modules/davinci-eight.d.ts:1291"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1301"
-        },
-        {
-            "message": "Missing item type\nStarts the monitoring of the WebGL context.",
-            "line": " src/modules/davinci-eight.d.ts:1306"
-        },
-        {
-            "message": "Missing item type\nStops the monitoring of the WebGL context.",
-            "line": " src/modules/davinci-eight.d.ts:1310"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1314"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1318"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1322"
-        },
-        {
-            "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:1326"
         },
         {
-            "message": "Missing item type\nCreates a new Buffer instance that binds to the ARRAY_BUFFER target.",
+            "message": "Missing item type\nConstructs and returns a prism mesh.",
             "line": " src/modules/davinci-eight.d.ts:1330"
         },
         {
-            "message": "Missing item type\nCreates a new Buffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
+            "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:1334"
         },
         {
-            "message": "Missing item type\nCreates a new Mesh instance from a DrawElements data structure.",
-            "line": " src/modules/davinci-eight.d.ts:1338"
+            "message": "Missing item type\nConstructs and returns a new Workbench3D.",
+            "line": " src/modules/davinci-eight.d.ts:1340"
         },
         {
-            "message": "Missing item type\nCreates a new Texture2D instance that binds to the TEXTURE_2D target.",
-            "line": " src/modules/davinci-eight.d.ts:1345"
+            "message": "Missing item type\nConstructs and returns a WindowAnimationRunner.",
+            "line": " src/modules/davinci-eight.d.ts:1344"
         },
         {
-            "message": "Missing item type\nCreates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.",
-            "line": " src/modules/davinci-eight.d.ts:1349"
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1354"
         },
         {
-            "message": "Missing item type\nRender geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
-            "line": " src/modules/davinci-eight.d.ts:1353"
+            "message": "Missing item type\nStarts the monitoring of the WebGL context.",
+            "line": " src/modules/davinci-eight.d.ts:1359"
+        },
+        {
+            "message": "Missing item type\nStops the monitoring of the WebGL context.",
+            "line": " src/modules/davinci-eight.d.ts:1363"
         },
         {
             "message": "Missing item type",
@@ -15746,32 +15950,72 @@
             "line": " src/modules/davinci-eight.d.ts:1379"
         },
         {
-            "message": "Missing item type\nDetermines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
+            "message": "Missing item type\nCreates a new Buffer instance that binds to the ARRAY_BUFFER target.",
             "line": " src/modules/davinci-eight.d.ts:1383"
         },
         {
-            "message": "Missing item type\nConstructs and returns a ContextManager.",
-            "line": " src/modules/davinci-eight.d.ts:1388"
+            "message": "Missing item type\nCreates a new Buffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
+            "line": " src/modules/davinci-eight.d.ts:1387"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nCreates a new Mesh instance from a DrawElements data structure.",
+            "line": " src/modules/davinci-eight.d.ts:1391"
+        },
+        {
+            "message": "Missing item type\nCreates a new Texture2D instance that binds to the TEXTURE_2D target.",
+            "line": " src/modules/davinci-eight.d.ts:1398"
+        },
+        {
+            "message": "Missing item type\nCreates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.",
             "line": " src/modules/davinci-eight.d.ts:1402"
         },
         {
+            "message": "Missing item type\nRender geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
+            "line": " src/modules/davinci-eight.d.ts:1406"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1420"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1424"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1428"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1432"
+        },
+        {
+            "message": "Missing item type\nDetermines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
+            "line": " src/modules/davinci-eight.d.ts:1436"
+        },
+        {
+            "message": "Missing item type\nConstructs and returns a ContextManager.",
+            "line": " src/modules/davinci-eight.d.ts:1441"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1455"
+        },
+        {
             "message": "Missing item type\nModel implements UniformData required for manipulating a body.",
-            "line": " src/modules/davinci-eight.d.ts:1410"
+            "line": " src/modules/davinci-eight.d.ts:1463"
         },
         {
             "message": "Missing item type\nThe version string of the davinci-eight module.",
-            "line": " src/modules/davinci-eight.d.ts:1417"
+            "line": " src/modules/davinci-eight.d.ts:1470"
         },
         {
             "message": "Missing item type\nRecord reference count changes and debug reference counts.\n\nInstrumenting reference counting:\n  constructor():\n    refChange(uuid, 'YourClassName',+1);\n  addRef():\n    refChange(uuid, 'YourClassName',+1);\n  release():\n    refChange(uuid, 'YourClassName',-1);\n\nDebugging reference counts:\n  Start tracking reference counts:\n    refChange('start'[, 'where']);\n    The system will record reference count changes.\n  Stop tracking reference counts:\n    refChange('stop'[, 'where']);\n    The system will compute the total outstanding number of reference counts.\n  Dump tracking reference counts:\n    refChange('dump'[, 'where']);\n    The system will log net reference count changes to the console.\n  Don't track reference counts (default):\n    refChange('reset'[, 'where']);\n    The system will clear statistics and enter will not record changes.\n  Trace reference counts for a particular class:\n    refChange('trace', 'YourClassName');\n    The system will report reference count changes on the specified class.\n\nReturns the number of outstanding reference counts for the 'stop' command.",
-            "line": " src/modules/davinci-eight.d.ts:1422"
+            "line": " src/modules/davinci-eight.d.ts:1475"
         },
         {
             "message": "Missing item type\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.",
-            "line": " src/modules/davinci-eight.d.ts:1453"
+            "line": " src/modules/davinci-eight.d.ts:1506"
         },
         {
             "message": "Missing item type\nEvaluates JavaScript code and executes it.",

@@ -5,7 +5,7 @@ define(["require", "exports", '../dfx/computeFaceNormals', '../checks/expectArg'
         expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
         expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
         expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        var simplex = new Simplex(3);
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
         simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
         simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
         simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = c;

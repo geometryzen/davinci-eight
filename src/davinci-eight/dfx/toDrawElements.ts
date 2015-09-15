@@ -3,6 +3,7 @@ import computeUniqueVertices = require('../dfx/computeUniqueVertices');
 import DrawElements = require('../dfx/DrawElements');
 import DrawAttribute = require('../dfx/DrawAttribute');
 import expectArg = require('../checks/expectArg');
+import GeometryInfo = require('../dfx/GeometryInfo');
 import Simplex = require('../dfx/Simplex');
 import VectorN = require('../math/VectorN');
 import Vertex = require('../dfx/Vertex');
@@ -45,17 +46,19 @@ function concat(a: number[], b: number[]): number[] {
   return a.concat(b);
 }
 
-function toDrawElements(geometry: Simplex[], attribMap?: { [name: string]: { name?: string; size: number}}): DrawElements {
+function toDrawElements(geometry: Simplex[], geometryInfo?: GeometryInfo): DrawElements {
   expectArg('geometry', geometry).toBeObject();
 
-  var actuals = checkGeometry(geometry);
+  var actuals: GeometryInfo = checkGeometry(geometry);
 
-  if (attribMap) {
-    expectArg('attribMap', attribMap).toBeObject();
+  if (geometryInfo) {
+    expectArg('geometryInfo', geometryInfo).toBeObject();
   }
   else {
-    attribMap = actuals;
+    geometryInfo = actuals;
   }
+
+  let attribMap = geometryInfo.attributes;
 
   // Cache the keys and keys.length of the specified attributes and declare a loop index.
   let keys = Object.keys(attribMap);
@@ -106,7 +109,7 @@ function toDrawElements(geometry: Simplex[], attribMap?: { [name: string]: { nam
     let vector = new VectorN<number>(data, false, data.length);
     attributes[output.name] = new DrawAttribute(vector, output.dimensions);
   }
-  return new DrawElements(new VectorN<number>(indices, false, indices.length), attributes);
+  return new DrawElements(geometryInfo.k, new VectorN<number>(indices, false, indices.length), attributes);
 }
 
 export = toDrawElements;

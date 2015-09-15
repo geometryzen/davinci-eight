@@ -1,9 +1,5 @@
 import DrawElements = require('../dfx/DrawElements');
+import GeometryInfo = require('../dfx/GeometryInfo');
 import Simplex = require('../dfx/Simplex');
-declare function toDrawElements(geometry: Simplex[], attribMap?: {
-    [name: string]: {
-        name?: string;
-        size: number;
-    };
-}): DrawElements;
+declare function toDrawElements(geometry: Simplex[], geometryInfo?: GeometryInfo): DrawElements;
 export = toDrawElements;

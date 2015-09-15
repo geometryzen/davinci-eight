@@ -63,9 +63,10 @@ interface Mesh extends IUnknown {
  *
  */
 class DrawElements {
+  public k: number;
   public indices: VectorN<number>;
   public attributes: {[name: string]: DrawAttribute};
-  constructor(indices: VectorN<number>, attributes: {[name: string]: DrawAttribute});
+  constructor(k: number, indices: VectorN<number>, attributes: {[name: string]: DrawAttribute});
 }
 
 /**
@@ -77,19 +78,71 @@ class DrawAttribute {
   constructor(values: VectorN<number>, size: number);
 }
 
+/**
+ * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+ * A k-simplex is the convex hull of its k + 1 vertices.
+ */
 class Simplex {
   public vertices: Vertex[];
+  /**
+   * @class Simplex
+   * @constructor
+   * @param k {number} The initial number of vertices in the simplex is k + 1.
+   */
   constructor(k: number);
+  /**
+   * An empty set can be consired to be a -1 simplex (algebraic topology).
+   */
+  public static K_FOR_EMPTY = -1;
+  /**
+   * A single point may be considered a 0-simplex.
+   */
+  public static K_FOR_POINT = 0;
+  /**
+   * A line segment may be considered a 1-simplex.
+   */
+  public static K_FOR_LINE_SEGMENT = 1;
+  /**
+   * A 2-simplex is a triangle.
+   */
+  public static K_FOR_TRIANGLE = 2;
+  /**
+   * A 3-simplex is a tetrahedron.
+   */
+  public static K_FOR_TETRAHEDRON = 3;
+  /**
+   * A 4-simplex is a 5-cell.
+   */
+  public static K_FOR_FIVE_CELL = 4;
   public static computeFaceNormals(simplex: Simplex, name: string);
-  public static indices(face: Simplex): number[];
-  public static subdivide(faces: Simplex[]): Simplex[];
+  public static indices(simplex: Simplex): number[];
+  /**
+   * Applies the boundary operation n times.
+   * @param n {number} The number of times to apply the boundary operation.
+   * triangles are converted into three lines.
+   * lines are converted into two points.
+   * points are converted into the empty geometry.
+   */
+  public static boundary(geometry: Simplex[], n?: number): Simplex[];
+  /**
+   * Applies the subdivide operation n times.
+   * @param n {number} The number of times to apply the subdivide operation.
+   * The subdivide operation computes the midpoint of all pairs of vertices
+   * and then uses the original points and midpoints to create new simplices
+   * that span the original simplex. 
+   */
+  public static subdivide(geometry: Simplex[], n?: number): Simplex[];
 }
 class Vertex {
-  public parent: Simplex;
-  public position: VectorN<number>;
   public attributes: { [name: string]: VectorN<number> };
-  public index: number;
+  public opposing: Simplex[] = [];
+  public parent: Simplex;
   constructor();
+}
+
+interface GeometryInfo {
+  k: number;
+  attributes: { [key: string]: { size: number; name?: string } };
 }
 
 /**
@@ -97,7 +150,7 @@ class Vertex {
  * Reports inconsistencies in the geometry by throwing exceptions.
  * When used with toDrawElements(), allows names and sizes to be mapped.
  */
-function checkGeometry(geometry: Simplex[]): { [name: string]: { size: number; name?: string } };
+function checkGeometry(geometry: Simplex[]): GeometryInfo;
 
 /**
  *
@@ -164,7 +217,7 @@ function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, at
 /**
  * Simplex[] => DrawElements conversion.
  */
-function toDrawElements(geometry: Simplex[], attribMap?: { [name: string]: {name?: string; size: number} }): DrawElements;
+function toDrawElements(geometry: Simplex[], geometryInfo?: GeometryInfo): DrawElements;
 
 /**
  * @class DrawMode
@@ -1338,10 +1391,10 @@ interface ContextManager extends IUnknown
   /**
    * Creates a new Mesh instance from a DrawElements data structure.
    * @param elements {DrawElements} The elements to be drawn.
-   * @param mode {number} The draw mode e.g. TRIANGLES, LINES, POINTS, ...
+   * @param mode {number} The mode to be used for drawing. Ust be consistent with elements.k property.
    * @param usage {number} A hint about how the underlying buffers will be used.
    */
-  createDrawElementsMesh(elements: DrawElements, mode: number, usage?: number): Mesh;
+  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): Mesh;
   /**
    * Creates a new Texture2D instance that binds to the TEXTURE_2D target.
    */

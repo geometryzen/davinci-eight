@@ -1,13 +1,12 @@
 import Simplex = require('../dfx/Simplex');
-import VectorN = require('../math/VectorN');
+import VertexAttributeMap = require('../dfx/VertexAttributeMap');
 declare class Vertex {
     parent: Simplex;
     opposing: Simplex[];
-    attributes: {
-        [name: string]: VectorN<number>;
-    };
+    attributes: VertexAttributeMap;
     /**
      * The index property is used when computing elements.
+     * @deprecated
      */
     index: number;
     constructor();

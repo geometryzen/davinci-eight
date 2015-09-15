@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.93.0</em>
+            <em>API Docs for: 2.94.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -145,7 +145,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:23</code></a>
+            Defined in: <a href="../files/src_modules_davinci-eight.d.ts.html#l87"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:87</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -180,7 +180,7 @@
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:23</code></a>
+                <a href="../files/src_modules_davinci-eight.d.ts.html#l87"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:87</code></a>
                 </p>
         
         
@@ -201,7 +201,7 @@
         
         
                             <div class="param-description">
-                                <p>The initial number of vertices in the simplex.</p>
+                                <p>The initial number of vertices in the simplex is k + 1.</p>
         
                             </div>
         
@@ -218,18 +218,235 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_contextFree">contextFree</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextGain">contextGain</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_contextLoss">contextLoss</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_"></a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_"></a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
+<div id="method_contextFree" class="method item">
+    <h3 class="name"><code>contextFree</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l21"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:21</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to request the dependent to free any WebGL resources acquired and owned.
+The dependent may assume that its cached context is still valid in order
+to properly dispose of any cached resources. In the case of shared objects, this
+method may be called multiple times for what is logically the same context. In such
+cases the dependent must be idempotent and respond only to the first request.</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_contextGain" class="method item">
+    <h3 class="name"><code>contextGain</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>context</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l30"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:30</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to inform the dependent of a new WebGLRenderingContext.
+The implementation should ignore the notification if it has already
+received the same context.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">context</code>
+                        <span class="type">WebGLRenderingContext</span>
+
+
+                    <div class="param-description">
+                        <p>The WebGL rendering context.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_contextLoss" class="method item">
+    <h3 class="name"><code>contextLoss</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_modules_davinci-eight.d.ts.html#l38"><code>src&#x2F;modules&#x2F;davinci-eight.d.ts:38</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Called to inform the dependent of a loss of WebGLRenderingContext.
+The dependent must assume that any cached context is invalid.
+The dependent must not try to use and cached context to free resources.
+The dependent should reset its state to that for which there is no context.</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+                    <div id="property_" class="property item">
+                        <h3 class="name"><code></code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_utils_workbench3D.ts.html#l1"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;workbench3D.ts:1</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_" class="property item">
+                        <h3 class="name"><code></code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_utils_workbench3D.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;workbench3D.ts:7</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            
+                        </div>
+                    
+                    
+                    
+                    </div>
+            </div>
 
 
     </div>

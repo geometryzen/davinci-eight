@@ -7,9 +7,10 @@ define(
   'davinci-eight/dfx/toDrawElements',
   'davinci-eight/dfx/DrawElements',
   'davinci-eight/core/Symbolic',
+  'davinci-eight/dfx/checkGeometry',
   'davinci-eight/dfx/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbolic, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbolic, checkGeometry, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
@@ -19,31 +20,25 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
   describe("toDrawElements", function() {
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
-        var faces = [];
-        var attribMap = {};
-        attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
-        attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-        var elements = toDrawElements(faces, attribMap);
-        var indices = elements.indices.data;
-        expect(indices.length).toBe(faces.length * 3);
+        var geometry = [];
+        var geoInfo = checkGeometry(geometry);
+        expect(typeof geoInfo).toBe('undefined');
       });
     });
     describe("one triangle", function() {
       var A = new Vector3([0.0, 0.0, 0.0]);
       var B = new Vector3([0.1, 0.0, 0.0]);
       var C = new Vector3([0.0, 0.1, 0.0]);
-      var faces = triangle(A, B, C);
-      var a = faces[0].vertices[0];
-      var b = faces[0].vertices[1];
-      var c = faces[0].vertices[2];
-      var attribMap = {};
-      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
-      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      var elements = toDrawElements(faces, attribMap);
+      var geometry = triangle(A, B, C);
+      var a = geometry[0].vertices[0];
+      var b = geometry[0].vertices[1];
+      var c = geometry[0].vertices[2];
+      var geoInfo = checkGeometry(geometry);
+      var elements = toDrawElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
-        expect(indices.length).toBe(faces.length * 3);
+        expect(indices.length).toBe(geometry.length * 3);
       });
       it("indices[0]", function() {
         expect(indices[0]).toBe(0);
@@ -92,17 +87,15 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
       var vec3 = new Vector3([0.2, 0.2, 0.0]);
       var f012 = triangle(vec0, vec1, vec2)[0];
       var f023 = triangle(vec0, vec2, vec3)[0];
-      var faces = [];
-      faces.push(f012);
-      faces.push(f023);
-      var attribMap = {};
-      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
-      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      var elements = toDrawElements(faces, attribMap);
+      var geometry = [];
+      geometry.push(f012);
+      geometry.push(f023);
+      var geoInfo = checkGeometry(geometry);
+      var elements = toDrawElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
-        expect(indices.length).toBe(faces.length * 3);
+        expect(indices.length).toBe(geometry.length * 3);
       });
       it("indices[0]", function() {
         expect(indices[0]).toBe(0);
@@ -172,19 +165,17 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
       var f013 = triangle(vecs[0], vecs[1], vecs[3])[0];
       var f032 = triangle(vecs[0], vecs[3], vecs[2])[0];
       var f021 = triangle(vecs[0], vecs[2], vecs[1])[0];
-      var faces = [];
-      faces.push(f123);
-      faces.push(f013);
-      faces.push(f032);
-      faces.push(f021);
-      var attribMap = {};
-      attribMap[Symbolic.ATTRIBUTE_POSITION] = {size: 3};
-      attribMap[Symbolic.ATTRIBUTE_NORMAL] = {size: 3};
-      var elements = toDrawElements(faces, attribMap);
+      var geometry = [];
+      geometry.push(f123);
+      geometry.push(f013);
+      geometry.push(f032);
+      geometry.push(f021);
+      var geoInfo = checkGeometry(geometry);
+      var elements = toDrawElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
-        expect(indices.length).toBe(faces.length * 3);
+        expect(indices.length).toBe(geometry.length * 3);
       });
       it("indices[0]", function() {
         expect(indices[0]).toBe(0);
@@ -223,7 +214,7 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
         expect(indices[11]).toBe(11);
       });
       it("positions.length", function() {
-        expect(positions.length).toBe(faces.length * VERTICES_PER_FACE * COORDS_PER_POSITION);
+        expect(positions.length).toBe(geometry.length * VERTICES_PER_FACE * COORDS_PER_POSITION);
       });
       it("position[0]", function() {
         expect(positions[0]).toBe(vecs[1].x);

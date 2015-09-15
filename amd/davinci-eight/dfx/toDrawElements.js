@@ -35,15 +35,16 @@ define(["require", "exports", '../dfx/checkGeometry', '../dfx/computeUniqueVerti
     function concat(a, b) {
         return a.concat(b);
     }
-    function toDrawElements(geometry, attribMap) {
+    function toDrawElements(geometry, geometryInfo) {
         expectArg('geometry', geometry).toBeObject();
         var actuals = checkGeometry(geometry);
-        if (attribMap) {
-            expectArg('attribMap', attribMap).toBeObject();
+        if (geometryInfo) {
+            expectArg('geometryInfo', geometryInfo).toBeObject();
         }
         else {
-            attribMap = actuals;
+            geometryInfo = actuals;
         }
+        var attribMap = geometryInfo.attributes;
         // Cache the keys and keys.length of the specified attributes and declare a loop index.
         var keys = Object.keys(attribMap);
         var keysLen = keys.length;
@@ -89,7 +90,7 @@ define(["require", "exports", '../dfx/checkGeometry', '../dfx/computeUniqueVerti
             var vector = new VectorN(data, false, data.length);
             attributes[output.name] = new DrawAttribute(vector, output.dimensions);
         }
-        return new DrawElements(new VectorN(indices, false, indices.length), attributes);
+        return new DrawElements(geometryInfo.k, new VectorN(indices, false, indices.length), attributes);
     }
     return toDrawElements;
 });
