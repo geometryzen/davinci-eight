@@ -2,6 +2,7 @@ define(["require", "exports", '../checks/isUndefined'], function (require, expor
     function message(standard, override) {
         return isUndefined(override) ? standard : override();
     }
+    // FIXME: This plays havok with the TypeScript compiler stack and encourages temporary object creation.
     function expectArg(name, value) {
         var arg = {
             toSatisfy: function (condition, message) {

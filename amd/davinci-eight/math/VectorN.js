@@ -109,7 +109,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 throw new Error(verbotenPop());
             }
         };
-        // FIXME: How to prototype this as ...items: T[]
+        // TODO: How to prototype this as ...items: T[]
         VectorN.prototype.push = function (value) {
             if (isUndefined(this._size)) {
                 var data = this.data;

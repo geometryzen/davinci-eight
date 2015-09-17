@@ -1,19 +1,24 @@
 var BufferResource = require('../core/BufferResource');
 var DrawElements = require('../dfx/DrawElements');
-var initWebGL = require('../renderers/initWebGL');
 var expectArg = require('../checks/expectArg');
+var initWebGL = require('../renderers/initWebGL');
 var isDefined = require('../checks/isDefined');
 var isNumber = require('../checks/isNumber');
-var IUnknownMap = require('../utils/IUnknownMap');
+var mustBeInteger = require('../checks/mustBeInteger');
 var RefCount = require('../utils/RefCount');
 var refChange = require('../utils/refChange');
 var Simplex = require('../dfx/Simplex');
+var StringIUnknownMap = require('../utils/StringIUnknownMap');
 var TextureResource = require('../resources/TextureResource');
 var uuid4 = require('../utils/uuid4');
 var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
 var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
 var LOGGING_NAME_MESH = 'Mesh';
-var LOGGING_NAME_MANAGER = 'ContextManager';
+var LOGGING_NAME_KAHUNA = 'ContextKahuna';
+function webglFunctionalConstructorContextBuilder() {
+    // The following string represents how this API is exposed.
+    return "webgl functional constructor";
+}
 function mustBeContext(context, method) {
     if (context) {
         return context;
@@ -80,6 +85,9 @@ var ElementsBlock = (function () {
     });
     return ElementsBlock;
 })();
+/**
+ *
+ */
 var ElementsBlockAttrib = (function () {
     function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
         this._refCount = 1;
@@ -179,10 +187,12 @@ function attribKey(aName, aNameToKeyName) {
         return aName;
     }
 }
-function contextProxy(canvas, attributes) {
-    expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+function webgl(canvas, canvasId, attributes) {
+    if (canvasId === void 0) { canvasId = 0; }
+    expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement @ webgl function");
+    mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
     var uuid = uuid4().generate();
-    var blocks = new IUnknownMap();
+    var blocks = new StringIUnknownMap();
     // Remark: We only hold weak references to users so that the lifetime of resource
     // objects is not affected by the fact that they are listening for context events.
     // Users should automatically add themselves upon construction and remove upon release.
@@ -191,7 +201,7 @@ function contextProxy(canvas, attributes) {
         expectArg('user', user).toBeObject();
         users.push(user);
         if (context) {
-            user.contextGain(context);
+            user.contextGain(kahuna);
         }
     }
     function removeContextListener(user) {
@@ -200,6 +210,7 @@ function contextProxy(canvas, attributes) {
         if (index >= 0) {
             var removals = users.splice(index, 1);
             removals.forEach(function (user) {
+                // What's going on here?
             });
         }
     }
@@ -321,17 +332,20 @@ function contextProxy(canvas, attributes) {
         event.preventDefault();
         context = void 0;
         users.forEach(function (user) {
-            user.contextLoss();
+            user.contextLoss(canvasId);
         });
     };
     var webGLContextRestored = function (event) {
         event.preventDefault();
         context = initWebGL(canvas, attributes);
         users.forEach(function (user) {
-            user.contextGain(context);
+            user.contextGain(kahuna);
         });
     };
-    var monitor = {
+    var kahuna = {
+        get canvasId() {
+            return canvasId;
+        },
         /**
          *
          */
@@ -350,18 +364,18 @@ function contextProxy(canvas, attributes) {
             else {
                 usage = context.STATIC_DRAW;
             }
-            var token = createDrawElementsMesh(uuid4().generate());
-            var indexBuffer = monitor.createElementArrayBuffer();
+            var mesh = createDrawElementsMesh(uuid4().generate());
+            var indexBuffer = kahuna.createElementArrayBuffer();
             indexBuffer.bind();
             context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
             indexBuffer.unbind();
-            var attributes = new IUnknownMap();
+            var attributes = new StringIUnknownMap();
             var names = Object.keys(elements.attributes);
             var namesLength = names.length;
             var i;
             for (i = 0; i < namesLength; i++) {
                 var name_1 = names[i];
-                var buffer = monitor.createArrayBuffer();
+                var buffer = kahuna.createArrayBuffer();
                 buffer.bind();
                 var vertexAttrib = elements.attributes[name_1];
                 var data = vertexAttrib.values.data;
@@ -378,33 +392,29 @@ function contextProxy(canvas, attributes) {
             }
             var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
             var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-            blocks.put(token.uuid, block);
+            blocks.put(mesh.uuid, block);
             block.release();
             attributes.release();
             indexBuffer.release();
-            return token;
+            return mesh;
         },
         start: function () {
             context = initWebGL(canvas, attributes);
             canvas.addEventListener('webglcontextlost', webGLContextLost, false);
             canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-            users.forEach(function (user) { user.contextGain(context); });
-            return monitor;
+            users.forEach(function (user) { user.contextGain(kahuna); });
         },
         stop: function () {
             context = void 0;
-            users.forEach(function (user) { user.contextFree(); });
+            users.forEach(function (user) { user.contextFree(canvasId); });
             canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
             canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
-            return monitor;
         },
         addContextListener: function (user) {
             addContextListener(user);
-            return monitor;
         },
         removeContextListener: function (user) {
             removeContextListener(user);
-            return monitor;
         },
         get context() {
             if (context) {
@@ -416,12 +426,12 @@ function contextProxy(canvas, attributes) {
             }
         },
         addRef: function () {
-            refChange(uuid, LOGGING_NAME_MANAGER, +1);
+            refChange(uuid, LOGGING_NAME_KAHUNA, +1);
             refCount++;
             return refCount;
         },
         release: function () {
-            refChange(uuid, LOGGING_NAME_MANAGER, -1);
+            refChange(uuid, LOGGING_NAME_KAHUNA, -1);
             refCount--;
             if (refCount === 0) {
                 blocks.release();
@@ -463,19 +473,20 @@ function contextProxy(canvas, attributes) {
         },
         createArrayBuffer: function () {
             // TODO: Replace with functional constructor pattern.
-            return new BufferResource(monitor, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
+            return new BufferResource(kahuna, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
         },
         createElementArrayBuffer: function () {
             // TODO: Replace with functional constructor pattern.
-            return new BufferResource(monitor, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+            return new BufferResource(kahuna, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
         },
         createTexture2D: function () {
             // TODO: Replace with functional constructor pattern.
-            return new TextureResource(monitor, mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
+            // FIXME Does this mean that Texture only has one ContextMonitor?
+            return new TextureResource([kahuna], mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
         },
         createTextureCubeMap: function () {
             // TODO: Replace with functional constructor pattern.
-            return new TextureResource(monitor, mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
+            return new TextureResource([kahuna], mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
         },
         get mirror() {
             return mirror;
@@ -484,7 +495,7 @@ function contextProxy(canvas, attributes) {
             mirror = expectArg('mirror', value).toBeBoolean().value;
         }
     };
-    refChange(uuid, LOGGING_NAME_MANAGER, +1);
-    return monitor;
+    refChange(uuid, LOGGING_NAME_KAHUNA, +1);
+    return kahuna;
 }
-module.exports = contextProxy;
+module.exports = webgl;

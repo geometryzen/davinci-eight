@@ -5,9 +5,14 @@
 // These declarations are appropriate when using the library through the global
 // variable, 'EIGHT'.
 //
-declare module EIGHT {
 /**
- *
+ * @module EIGHT
+ */
+declare module EIGHT {
+
+/**
+ * @module EIGHT
+ * @interface IUnknown
  */
 interface IUnknown {
   addRef(): number;
@@ -15,7 +20,8 @@ interface IUnknown {
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface ContextListener
  */
 interface ContextListener {
   /**
@@ -25,42 +31,50 @@ interface ContextListener {
    * method may be called multiple times for what is logically the same context. In such
    * cases the dependent must be idempotent and respond only to the first request.
    * @method contextFree
+   * @param canvasId {number} Determines the context for which resources are being freed.
    */
-  contextFree(): void;
+  contextFree(canvasId: number): void;
   /**
    * Called to inform the dependent of a new WebGLRenderingContext.
    * The implementation should ignore the notification if it has already
    * received the same context.
    * @method contextGain
-   * @param context {WebGLRenderingContext} The WebGL rendering context.
+   * @param manager {ContextManager} If there's something strange in your neighborhood.
    */
-  contextGain(context: WebGLRenderingContext): void;
+  contextGain(manager: ContextManager): void;
   /**
    * Called to inform the dependent of a loss of WebGLRenderingContext.
    * The dependent must assume that any cached context is invalid.
    * The dependent must not try to use and cached context to free resources.
    * The dependent should reset its state to that for which there is no context.
    * @method contextLoss
+   * @param canvasId {number} Determines the context for which resources are being lost.
    */
-  contextLoss(): void;
+  contextLoss(canvasId: number): void;
 }
 
-interface Resource extends IUnknown, ContextListener {
+/**
+ * @module EIGHT
+ * @interface IResource
+ */
+interface IResource extends IUnknown, ContextListener {
 
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface IMesh
  */
-interface Mesh extends IUnknown {
+interface IMesh extends IUnknown {
   uuid: string;
-  bind(program: Program, aNameToKeyName?: {[name: string]: string}): void;
+  bind(program: IProgram, aNameToKeyName?: {[name: string]: string}): void;
   draw(): void;
   unbind(): void;
 }
 
 /**
- *
+ * @module EIGHT
+ * @class DrawElements
  */
 class DrawElements {
   public k: number;
@@ -70,7 +84,8 @@ class DrawElements {
 }
 
 /**
- *
+ * @module EIGHT
+ * @class DrawAttribute
  */
 class DrawAttribute {
   public values: VectorN<number>;
@@ -79,6 +94,8 @@ class DrawAttribute {
 }
 
 /**
+ * @module EIGHT
+ * @class Simplex
  * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
  * A k-simplex is the convex hull of its k + 1 vertices.
  */
@@ -133,19 +150,30 @@ class Simplex {
    */
   public static subdivide(geometry: Simplex[], n?: number): Simplex[];
 }
-class Vertex {
+
+/**
+ * @module EIGHT
+ * @class Vertex
+ */
+ class Vertex {
   public attributes: { [name: string]: VectorN<number> };
   public opposing: Simplex[] = [];
   public parent: Simplex;
   constructor();
 }
 
+/**
+ * @module EIGHT
+ * @interface GeometryInfo
+ */
 interface GeometryInfo {
   k: number;
   attributes: { [key: string]: { size: number; name?: string } };
 }
 
 /**
+ * @module EIGHT
+ * @function checkGeometry
  * Computes the mapping from attribute name to size.
  * Reports inconsistencies in the geometry by throwing exceptions.
  * When used with toDrawElements(), allows names and sizes to be mapped.
@@ -153,12 +181,14 @@ interface GeometryInfo {
 function checkGeometry(geometry: Simplex[]): GeometryInfo;
 
 /**
- *
+ * @module EIGHT
+ * @function computeFaceNormales
  */
 function computeFaceNormals(simplex: Simplex, positionName?: string, normalName?: string): void;
 
 /**
- *
+ * @module EIGHT
+ * @function cube
  * Creates a cube of the specified side length.
  *
  *    6------ 5
@@ -175,7 +205,8 @@ function computeFaceNormals(simplex: Simplex, positionName?: string, normalName?
 function cube(size?: number): Simplex[];
 
 /**
- * quadrilateral as Simplex[]
+ * @module EIGHT
+ * @function quadrilateral
  *
  *  b-------a
  *  |       | 
@@ -189,7 +220,8 @@ function cube(size?: number): Simplex[];
 function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: vectorN<number>, d: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
 /**
- * square(size) as Simplex[]
+ * @module EIGHT
+ * @function square
  *
  *  b-------a
  *  |       | 
@@ -203,78 +235,43 @@ function quadrilateral(a: VectorN<number>, b: VectorN<number>, c: vectorN<number
 function square(size?: number): Simplex[];
 
 /**
- * terahedron(a, b, c, d) as Simplex[]
+ * @module EIGHT
+ * @function terahedron
  *
  * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
  */
 function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes: { [name: string]: VectorN<number>[] } = {}, triangles: Simplex[] = []): Simplex[];
 
 /**
- * triangle(a, b, c) as Simplex[]
+ * @module EIGHT
+ * @function triangle
  */
 function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
 /**
- * Simplex[] => DrawElements conversion.
+ * @module EIGHT
+ * @function toDrawElements
+ * geometry to DrawElements conversion.
  */
 function toDrawElements(geometry: Simplex[], geometryInfo?: GeometryInfo): DrawElements;
 
 /**
- * @class DrawMode
+ * @module EIGHT
+ * @interface ContextProgramListener
  */
-enum DrawMode {
-  /**
-   * POINTS
-   */
-  POINTS,
-  LINES,
-  TRIANGLES
-}
-/**
- *
- */
-function initWebGL(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): WebGLRenderingContext;
-
-interface DrawableVisitor {
-  primitive(mesh: AttribProvider, program: Program, model: UniformData);
-}
 interface ContextProgramListener {
   contextFree(): void;
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
 }
-interface Drawable extends Resource {
-  /**
-   *
-   */
-  program: Program;
-  /**
-   *
-   */
-  accept(visitor: DrawableVisitor);
-}
+
 /**
- *
- */
-interface DrawList extends ContextListener, UniformDataVisitor
-{
-  /**
-   * Add a drawable to the DrawList.
-   */
-  add(drawable: Drawable): void;
-  /**
-   * Removes a drawable from the DrawList.
-   */
-  remove(drawable: Drawable): void;
-  /**
-   * Traverse the drawables in the DrawList.
-   */
-  traverse(callback: (value: Drawable) => void): void;
-}
-/**
+ * @module EIGHT
+ * @class AttribLocation
+ * @implements ContextProgramListener
  * Manages the lifecycle of an attribute used in a vertex shader.
  */
-class AttribLocation {
+class AttribLocation implements ContextProgramListener {
   index: number;
   constructor(name: string, size: number, type: number);
   contextFree(): void;
@@ -286,15 +283,23 @@ class AttribLocation {
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface IBuffer
  */
-interface Buffer extends Resource {
-  bind(target: number);
-  unbind(target: number);
+interface IBuffer extends IResource {
+  /**
+   * @method bind
+   */
+  bind();
+  /**
+   * @method unbind
+   */
+  unbind();
 }
 
 /**
- *
+ * @module EIGHT
+ * @class UniformLocation
  */
 class UniformLocation implements ContextProgramListener {
   constructor(monitor: ContextManager, name: string);
@@ -316,29 +321,33 @@ class UniformLocation implements ContextProgramListener {
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface ITexture
  */
-interface Texture extends Resource {
+interface ITexture extends IResource {
   bind(): void;
   unbind(): void;
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface ITexture2D
  */
-interface Texture2D extends Texture {
+interface ITexture2D extends ITexture {
 
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface ITextureCubeMap
  */
-interface TextureCubeMap extends Texture {
+interface ITextureCubeMap extends ITexture {
 
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface Mutable
  */
 interface Mutable<T> {
   data: T;
@@ -346,7 +355,8 @@ interface Mutable<T> {
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface LinearElement
  */
 interface LinearElement<I, M, S> {
   add(rhs: I): M;
@@ -363,7 +373,8 @@ interface LinearElement<I, M, S> {
 }
 
 /**
- *
+ * @module EIGHT
+ * @interface GeometricElement
  */
 interface GeometricElement<I, M> extends LinearElement<I, M, I> {
   exp(): M;
@@ -372,14 +383,29 @@ interface GeometricElement<I, M> extends LinearElement<I, M, I> {
   product(a: I, b: I): M;
   quaditude(): number;
 }
+
+/**
+ * @module EIGHT
+ * @class Matrix1
+ */
 class Matrix1 {
   public data: Float32Array;
   constructor(data: Float32Array);
 }
+
+/**
+ * @module EIGHT
+ * @class Matrix2
+ */
 class Matrix2 {
   public data: Float32Array;
   constructor(data: Float32Array);
 }
+
+/**
+ * @module EIGHT
+ * @class Matrix3
+ */
 class Matrix3 {
   public data: Float32Array;
   constructor(data: Float32Array);
@@ -396,6 +422,11 @@ class Matrix3 {
    */
   normalFromMatrix4(matrix: Matrix4): void;
 }
+
+/**
+ * @module EIGHT
+ * @class Matrix4
+ */
 class Matrix4 {
   public data: Float32Array;
   constructor(data: Float32Array);
@@ -440,13 +471,28 @@ class Matrix4 {
   toString(): string;
   toFixed(digits?: number): string;
 }
+
+/**
+ * @module EIGHT
+ * @interface Cartesian1
+ */
 interface Cartesian1 {
   x: number;
 }
+
+/**
+ * @module EIGHT
+ * @interface Cartesian2
+ */
 interface Cartesian2 {
   x: number;
   y: number;
 }
+
+/**
+ * @module EIGHT
+ * @class VectorN
+ */
 class VectorN<T> implements Mutable<T[]> {
   public callback: () => T[];
   public data: T[];
@@ -461,10 +507,20 @@ class VectorN<T> implements Mutable<T[]> {
   toLocaleString(): string;
   toString(): string;
 }
+
+/**
+ * @module EIGHT
+ * @class Vector1
+ */
 class Vector1 extends VectorN<number> implements Cartesian1 {
   public x: number;
   constructor(data?: number[], modified?: boolean);
 }
+
+/**
+ * @module EIGHT
+ * @class Vector2
+ */
 class Vector2 extends VectorN<number> implements Cartesian2 {
   public x: number;
   public y: number;
@@ -481,6 +537,8 @@ class Vector2 extends VectorN<number> implements Cartesian2 {
 }
 
 /**
+ * @module EIGHT
+ * @interface Rotor3
  * R = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1
  *
  * The magnitude constraint means that a Rotor3 can be implemented with a unit scale,
@@ -499,18 +557,25 @@ interface Rotor3 extends Spinor3Coords {
 }
 
 /**
- *
+ * @module EIGHT
+ * @function rotor3
  */
 function rotor3(): Rotor3;
 
+/**
+ * @module EIGHT
+ * @interface Spinor3Coords
+ */
 interface Spinor3Coords {
   yz: number;
   zx: number;
   xy: number;
   w: number;
 }
+
 /**
- *
+ * @module EIGHT
+ * @class Spinor3
  */
 class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement<Spinor3Coords, Spinor3> {
   public yz: number;
@@ -537,12 +602,22 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement
    */
   wedgeVectors(a: Cartesian3, b: Cartesian3) Spinor3;
 }
+
+/**
+ * @module EIGHT
+ * @interface Cartesian3
+ */
 interface Cartesian3 {
   x: number;
   y: number;
   z: number;
 }
-class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
+
+/**
+ * @module EIGHT
+ * @class Vector3
+ */
+ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
   public x: number;
   public y: number;
   public z: number;
@@ -571,12 +646,22 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
   sub(rhs: Cartesian3): Vector3;
   sum(a: Cartesian3, b: Cartesian3): Vector3;
 }
+
+/**
+ * @module EIGHT
+ * @interface Cartesian4
+ */
 interface Cartesian4 {
   x: number;
   y: number;
   z: number;
   w: number;
 }
+
+/**
+ * @module EIGHT
+ * @class Vector4
+ */
 class Vector4 extends VectorN<number> implements Cartesian4 {
   public x: number;
   public y: number;
@@ -584,20 +669,11 @@ class Vector4 extends VectorN<number> implements Cartesian4 {
   public w: number;
   constructor(data?: number[], modified?: boolean);
 }
-/**
- *
- */
-interface UniformMetaInfo {
-  /**
-   * An optional override of the name that appears as the key in UniformMetaInfos.
-   */
-  name?: string;
-  glslType: string;
-}
-interface UniformMetaInfos {
-  [name: string]: UniformMetaInfo
-}
 
+/**
+ * @module EIGHT
+ * @interface UniformDataVisitor
+ */
 interface UniformDataVisitor {
   uniform1f(name: string, x: number);
   uniform2f(name: string, x: number, y: number);
@@ -613,27 +689,17 @@ interface UniformDataVisitor {
   uniformVector4(name: string, vector: Vector4);
 }
 
+/**
+ * @module EIGHT
+ * @interface UniformData
+ */
 interface UniformData {
   accept(visitor: UniformDataVisitor);
 }
+
 /**
- * Provides the runtime and design time data required to use a uniform in a vertex shader.
- */
-interface UniformProvider extends UniformData {
-  getUniformMeta(): UniformMetaInfos;
-}
-/**
- *
- */
-class DefaultAttribProvider implements AttribProvider {
-  public drawMode: DrawMode;
-  public dynamic: boolean;
-  constructor();
-  draw(): void;
-  update(): void;
-  getAttribMeta(): AttribMetaInfos;
-}
-/**
+ * @module EIGHT
+ * @interface View
  * Provides the uniform for the model to view coordinates transformation.
  */
 interface View extends UniformData {
@@ -665,7 +731,12 @@ interface View extends UniformData {
    */
   setUp(up: Cartesian3): View;
 }
-interface Frustum extends View {
+
+/**
+ * @module EIGHT
+ * @interface Frustum
+ */
+ interface Frustum extends View {
   left: number;
   right: number;
   bottom: number;
@@ -685,7 +756,10 @@ interface Frustum extends View {
    */
   setUp(up: Cartesian3): Frustum;
 }
+
 /**
+ * @module EIGHT
+ * @interface Perspective
  * A transformation from the 3D world coordinates or view volume to the canonical view volume.
  * The canonical view volume is the cube that extends from -1 to +1
  * in all cartesian directions. 
@@ -736,57 +810,11 @@ interface Perspective extends View {
    */
   setUp(up: Cartesian3): Perspective;
 }
-interface AttribDataInfo {
 
-}
-interface AttribDataInfos {
-  [name: string]: AttribDataInfo;
-}
-interface AttribMetaInfo {
-  glslType: string,
-  size: number,
-  /**
-   * An optional override of the name that appers as the key in AttributeMetaInfos.
-   */
-  name?: string,
-  type?: number,
-  normalized?: boolean,
-  stride?: number,
-  offset?: number
-}
-interface AttribMetaInfos {
-  [name: string]: AttribMetaInfo;
-}
 /**
- * The generator of calls to drawArrays or drawElements and a source of attribute data.
- * This interface must be implemented in order to define a mesh.
+ * @module THREE
+ * @class Face3
  */
-interface AttribProvider extends Resource
-{
-  draw(): void;
-  /**
-   * Determines how the thing will be drawn.
-   */
-  drawMode: DrawMode;
-  /**
-   * Determines whether this geometry changes. If so, update may be called repeatedly.
-   */
-  dynamic: boolean;
-  /**
-   * Provides the data information corresponsing to provided attribute values. 
-   * @method getAttribData
-   * @return {AttribDataInfos} The data information corresponding to all attributes supported.
-   */
-  getAttribData(): AttribDataInfos;
-  /**
-   * Declares the vertex shader attributes the geometry can supply and information required for binding.
-   */
-  getAttribMeta(): AttribMetaInfos;
-  /**
-   * Notifies the mesh that it should update its array buffers.
-   */
-  update(): void;
-}
 class Face3 {
   public a: number;
   public b: number;
@@ -794,17 +822,24 @@ class Face3 {
   public vertexNormals: Cartesian3[];
   constructor(a: number, b: number, c: number, vertexNormals?: Cartesian3[]);
 }
-class Sphere {
+
+/**
+ * @module THREE
+ * @class Sphere
+ */
+ class Sphere {
   public center: Cartesian3;
   public radius: number;
   constructor(center?: Cartesian3, radius?: number);
   setFromPoints(points: Cartesian3[]);
 }
 /**
+ * @module THREE
+ * @class Geometry
  * Base class for geometries.
  * A geometry holds faces and vertices used to describe a 3D mesh.
  */
-class Geometry3 {
+class Geometry {
   public vertices: Cartesian3[];
   public faces: Face3[];
   public faceVertexUvs: Cartesian2[][][];
@@ -826,7 +861,13 @@ class Geometry3 {
    */
   public mergeVertices(precisionPoints?: number): void;
 }
-class Color
+
+
+/**
+ * @module EIGHT
+ * @class Color
+ */
+ class Color
 {
   public red: number;
   public green: number;
@@ -837,51 +878,13 @@ class Color
   public static fromHSL(H: number, S: number, L: number): Color;
   public static fromRGB(red: number, green: number, blue: number): Color;
 }
-class GeometryAdapter implements AttribProvider
-{
-  drawMode: DrawMode;
-  dynamic: boolean;
-  constructor(monitor: ContextManager, geometry: Geometry3, options?: {drawMode?: DrawMode});
-  draw(): void;
-  getAttribData(): AttribDataInfos;
-  getAttribMeta(): AttribMetaInfos;
-  update(): void;
-  addRef(): number;
-  release(): number;
-  contextFree(): void;
-  contextGain(context: WebGLRenderingContext): void;
-  contextLoss(): void;
-}
-class BarnGeometry extends Geometry3 {
-  constructor();
-}
-class BoxGeometry extends Geometry3 {
-  constructor(
-    width: number,
-    height: number,
-    depth: number,
-    widthSegments?:number,
-    heightSegments?:number,
-    depthSegments?:number);
-}
-class CylinderGeometry extends Geometry3 {
-  constructor(
-    radiusTop?: number,
-    radiusBottom?: number,
-    height?: number,
-    radialSegments?: number,
-    heightSegments?: number,
-    openEnded?: boolean,
-    thetaStart?: number,
-    thetaLength?: number);
-}
-class EllipticalCylinderGeometry extends Geometry3 {
-  constructor();
-}
+
 /**
+ * @module EIGHT
+ * @interface IProgram
  * A vertex shader and a fragment shader combined into a program.
  */
-interface Program extends Resource, UniformDataVisitor
+interface IProgram extends IResource, UniformDataVisitor
 {
   /**
    * @property program
@@ -904,14 +907,11 @@ interface Program extends Resource, UniformDataVisitor
    */
   fragmentShader: string;
   /**
-   * Makes the Program the current program for WebGL.
+   * Makes the program the current program for WebGL.
    * @method use
+   * @param canvasId {number} Determines which WebGLProgram to use.
    */
-  use(): Program;
-  /**
-   * Sets the attributes provided into the appropriate locations.
-   */
-  setAttributes(values: AttribDataInfos);
+  use(canvasId: number): void;
   /**
    * A map of attribute name to attribute location for active attributes.
    */
@@ -921,41 +921,11 @@ interface Program extends Resource, UniformDataVisitor
    */
   uniforms: { [name: string]: UniformLocation };
 }
+
 /**
- *
+ * @module EIGHT
+ * @interface WindowAnimationRunner
  */
-interface Composite<M> extends Drawable {
-  model: M;
-}
-/**
- * The combination of a geometry, model and a program.
- */
-interface Primitive<MESH extends AttribProvider, MODEL extends UniformData> extends Composite<MODEL>
-{
-  mesh: MESH;
-}
-interface Renderer extends ContextListener
-{
-  /**
-   * The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.
-   */
-  context: WebGLRenderingContext;
-  /**
-   * Defines whether the renderer should automatically clear its output before rendering.
-   */
-  autoClear: boolean;
-  /**
-   * Specify the clear values for the color buffers.
-   */
-  clearColor(red: number, green: number, blue: number, alpha: number): void;
-  /**
-   * Render the contents of the drawList.
-   * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.
-   */
-  render(drawList: DrawList): void;
-}
-interface RendererParameters {
-}
 interface WindowAnimationRunner
 {
   start(): void;
@@ -966,333 +936,170 @@ interface WindowAnimationRunner
   isRunning: boolean;
   isPaused: boolean;
 }
-interface Workbench3D
-{
-  setUp(): void;
-  tearDown(): void;
-}
+
 /**
- * Constructs and returns a DrawList.
- */
-function scene(): DrawList;
-/**
+ * @module EIGHT
+ * @function frustum
  * Constructs and returns a Frustum.
  */
 function frustum(left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number): Frustum;
+
 /**
+ * @module EIGHT
+ * @function frustumMatrix
  * Computes a frustum matrix.
  */
 function frustumMatrix(left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array): Float32Array;
+
 /**
+ * @module EIGHT
+ * @function perspective
  * Constructs and returns a Perspective.
  */
 function perspective(options?: {fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string}): Perspective;
+
 /**
+ * @module EIGHT
+ * @function perspectiveMatrix
  * Computes a perspective matrix.
  */
 function perspectiveMatrix(fov: number, aspect: number, near: number, far: number, matrix?: Matrix4): Matrix4;
+
 /**
+ * @module EIGHT
+ * @function view
  * Constructs and returns a View.
  */
 function view(): View;
+
 /**
+ * @module EIGHT
+ * @function viewMatrix
  * Computes a view matrix.
  */
 function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4): Matrix4;
+
 /**
- * Constructs and returns a Renderer.
- * @param options Optional parameters for modifying the WebGL context.
+ * @module EIGHT
+ * @function shaderProgram
+ * @param monitors {ContextMonitor[]}
+ * Constructs a program from the specified vertex and fragment shader codes.
  */
-function renderer(canvas: HTMLCanvasElement, options?: RendererParameters): Renderer;
+function shaderProgram(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IProgram;
+
 /**
- * Constructs a Program from the specified vertex and fragment shader codes.
+ * @module EIGHT
+ * @function programFromScripts
+ * @param monitors {ContextMonitor[]}
+ * Constructs a program from the specified vertex and fragment shader script element identifiers.
  */
-function shaderProgram(monitor: ContextManager, vertexShader: string, fragmentShader: string, attribs?: string[]): Program;
+function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, bindings?: string[]): IProgram;
+
 /**
- * Constructs a Program from the specified vertex and fragment shader script element identifiers.
+ * @class AttribMetaInfo
  */
-function programFromScripts(monitor: ContextManager, vsId: string, fsId: string, $document: Document, attribs?: string[]): Program;
-/**
- * Constructs a Program by introspecting a geometry.
- */
-function smartProgram(monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs?: string[]): Program;
-/**
- * Constructs a Drawable from the specified attribute provider and program.
- * @param geometry
- * @param shaderProgram
- */
-function primitive<MESH extends AttribProvider, MODEL extends UniformData>(attributes: MESH, program: Program, uniforms: MODEL): Primitive<MESH, MODEL>;
-/**
- *
- */
-interface ArrowOptions {
-  axis?: Cartesian3;
-  flavor?: number;
-  coneHeight?: number;
-  wireFrame?: boolean;
+interface AttribMetaInfo {
+  /**
+   * @property glslType {string} The type keyword as it appears in the GLSL shader program.
+   * This property is used for program generation.
+   */
+  glslType: string,
 }
+
 /**
- *
+ * @interface UniformMetaInfo
  */
-class ArrowBuilder {
-  axis: Cartesian3;
-  flavor: number;
-  coneHeight: number;
-  wireFrame: boolean;
-  constructor(options?: ArrowOptions);
-  setAxis(axis: Cartesian3): ArrowBuilder;
-  setFlavor(flavor: number): ArrowBuilder;
-  setConeHeight(coneHeight: number): ArrowBuilder;
-  setWireFrame(wireFrame: boolean): ArrowBuilder;
-  buildMesh(monitor: ContextManager): AttribProvider;
+interface UniformMetaInfo {
+  /**
+   * @property name {string} Specifies an optional override of the name used as a key in UniformMetaInfos.
+   */
+  name?: string;
+  /**
+   * @property glslType {string} The type keyword as it appears in the GLSL shader program.
+   */
+  glslType: string;
 }
+
 /**
- * Constructs and returns an arrow mesh.
+ * @module EIGHT
+ * @function smartProgram
+ * @param monitors {ContextMonitor[]}
+ * @param attributes
+ * @param uniformsList
+ * @param bindings Used for setting indices.
+ * Constructs a program by introspecting a geometry.
  */
-function arrowMesh(monitor: ContextManager, options?: ArrowOptions): AttribProvider;
+function smartProgram(monitors: ContextMonitor[], attributes: {[name:string]:AttribMetaInfo}, uniforms: {[name:string]:UniformMetaInfo}, bindings?: string[]): IProgram;
+
 /**
- *
+ * @module THREE
+ * @class ArrowGeometry
  */
-interface BoxOptions {
-  width?: number;
-  height?: number;
-  number?: number;
-  widthSegments?: number;
-  heightSegments?: number;
-  numberSegments?: number;
-  wireFrame?: boolean;
-  positionVarName?: string;
-  normalVarName?: string;
-}
-/**
- *
- */
-class BoxBuilder {
-  width: number;
-  height: number;
-  number: number;
-  widthSegments: number;
-  heightSegments: number;
-  numberSegments: number;
-  wireFrame: boolean;
-  positionVarName: string;
-  constructor(options?: BoxOptions);
-  setWidth(width: number): BoxBuilder;
-  setHeight(height: number): BoxBuilder;
-  setDepth(depth: number): BoxBuilder;
-  setWidthSegments(widthSegments: number): BoxBuilder;
-  setHeightSegments(heightSegments: number): BoxBuilder;
-  setDepthSegments(depthSegments: number): BoxBuilder;
-  setWireFrame(wireFrame: boolean): BoxBuilder;
-  setPositionVarName(positionVarName: string): BoxBuilder;
-  buildMesh(monitor: ContextManager): AttribProvider;
-}
-/**
- * Constructs and returns a box mesh.
- */
-function boxMesh(monitor: ContextManager, options?: BoxOptions): AttribProvider;
-/**
- *
- */
-interface CylinderOptions {
-  radiusTop?: number;
-  radiusBottom?: number;
-  height?: number;
-}
-/**
- *
- */
-class CylinderArgs {
-  radiusTop: number;
-  radiusBottom: number;
-  height: number;
-  radialSegments: number;
-  heightSegments: number;
-  openEnded: boolean;
-  wireFrame: boolean;
-  constructor(options?: CylinderOptions);
-  setRadiusTop(radiusTop: number): CylinderArgs;
-  setRadiusBottom(radiusBottom: number): CylinderArgs;
-  setHeight(height: number): CylinderArgs;
-  setRadialSegments(radialSegments: number): CylinderArgs;
-  setHeightSegments(heightSegments: number): CylinderArgs;
-  setOpenEnded(openEnded: boolean): CylinderArgs;
-  setThetaStart(thetaStart: number): CylinderArgs;
-  setThetaLength(thetaLength: number): CylinderArgs;
-  setWireFrame(wireFrame: boolean): CylinderArgs;
-}
-/**
- *
- */
-class CylinderMeshBuilder extends CylinderArgs {
-  constructor(options?: CylinderOptions);
-  setRadiusTop(radiusTop: number): CylinderMeshBuilder;
-  setRadiusBottom(radiusBottom: number): CylinderMeshBuilder;
-  setHeight(height: number): CylinderMeshBuilder;
-  setRadialSegments(radialSegments: number): CylinderMeshBuilder;
-  setHeightSegments(heightSegments: number): CylinderMeshBuilder;
-  setOpenEnded(openEnded: boolean): CylinderMeshBuilder;
-  setThetaStart(thetaStart: number): CylinderMeshBuilder;
-  setThetaLength(thetaLength: number): CylinderMeshBuilder;
-  setWireFrame(wireFrame: boolean): CylinderMeshBuilder;
-  buildMesh(monitor: ContextManager): AttribProvider;
-}
-/**
- * Constructs and returns a cylinder mesh.
- */
-function cylinderMesh(monitor: ContextManager, options?: CylinderOptions): AttribProvider;
-/**
- *
- */
-interface SphereOptions {
-  radius?: number;
-  widthSegments?: number;
-  heightSegments?: number;
-  phiStart?: number;
-  phiLength?: number;
-  thetaStart?: number;
-  thetaLength?: number;
-  wireFrame?: boolean;
-}
-/**
- *
- */
-class SphereBuilder {
-  radius: number;
-  widthSegments: number;
-  heightSegments: number;
-  phiStart: number;
-  phiLength: number;
-  thetaStart: number;
-  thetaLength: number;
-  wireFrame: boolean;
-  constructor(options?: SphereOptions);
-  setRadius(radius: number): SphereBuilder;
-  setWidthSegments(widthSegments: number): SphereBuilder;
-  setHeightSegments(heightSegments: number): SphereBuilder;
-  setPhiStart(phiStart: number): SphereBuilder;
-  setPhiLength(phiLength: number): SphereBuilder;
-  setThetaStart(phiStart: number): SphereBuilder;
-  setThetaLength(phiLength: number): SphereBuilder;
-  setWireFrame(wireFrame: boolean): SphereBuilder;
-  buildMesh(monitor: ContextManager): AttribProvider;
-}
-/**
- * Constructs and returns an vortex mesh.
- */
-function sphereMesh(monitor: ContextManager, options?: SphereOptions): AttribProvider;
-/**
- * Constructs and returns an vortex mesh.
- */
-function vortexMesh(monitor: ContextManager, options?: {wireFrame?: boolean}): AttribProvider;
-/**
- *
- */
-interface CuboidMesh extends AttribProvider {
-  /**
-   * The axis corresponding to e1.
-   */
-  a: Vector3;
-  /**
-   * The axis corresponding to e2.
-   */
-  b: Vector3;
-  /**
-   * The axis corresponding to e3.
-   */
-  c: Vector3;
-  /**
-   * The color of the cuboid.
-   */
-  color: Color;
-  /**
-   * The cuboid should be rendered using a gray scale.
-   */
-  grayScale: boolean;
-}
-/**
- * Constructs and returns a cuboid mesh.
- */
-function cuboid(spec?: {
-  position?:{
-    name?:string
-  },
-  color?:{
-    name?:string,
-    value?:Color
-  }
-  normal?:{
-    name?:string
-  }
-}): CuboidMesh;
-/**
- * A surface generated by the parametric equation:
- * a * cos(phi) * sin(theta) + b * cos(theta) + c * sin(phi) * sin(theta),
- * where phi and theta are the conventional spherical coordinates.
- */
-interface EllipsoidMesh extends AttribProvider {
-  /**
-   * The axis corresponding to (theta, phi) = (PI/2,0).
-   */
-  a: Vector3;
-  /**
-   * The axis corresponding to theta = 0.
-   */
-  b: Vector3;
-  /**
-   * The axis corresponding to (theta, phi) = (PI/2,PI/2).
-   */
-  c: Vector3;
-  /**
-   * The number of segments in the theta parameter.
-   */
-  thetaSegments: number;
-  /**
-   * The theta starting angle in radians.
-   */
-  thetaStart: number;
-  /**
-   * The theta sweep angle in radians.
-   */
-  thetaLength: number;
-  /**
-   * The number of segments in the phi parameter.
-   */
-  phiSegments: number;
-  /**
-   * The phi starting angle in radians.
-   */
-  phiStart: number;
-  /**
-   * The phi sweep angle in radians.
-   */
-  phiLength: number;
-}
-class ArrowGeometry extends Geometry3 {
+class ArrowGeometry extends Geometry {
   constructor();
 }
-class VortexGeometry extends Geometry3 {
+
+/**
+ * @module THREE
+ * @class VortexGeometry
+ */
+class VortexGeometry extends Geometry {
   constructor();
 }
-class PolyhedronGeometry extends Geometry3 {
+
+/**
+ * @module THREE
+ * @class PolyhedronGeometry
+ */
+class PolyhedronGeometry extends Geometry {
   constructor(vertices: number[], indices: number[], radius?:  number, detail?: number);
 }
+
+/**
+ * @module THREE
+ * @class DodecahedronGeometry
+ */
 class DodecahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
+
+/**
+ * @module THREE
+ * @class IcosahedronGeometry
+ */
 class IcosahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
+
+/**
+ * @module THREE
+ * @class KleinBottleGeometry
+ */
 class KleinBottleGeometry extends SurfaceGeometry {
   constructor(uSegments: number, vSegments: number);
 }
+
+/**
+ * @module THREE
+ * @class MobiusStripGeometry
+ */
 class MobiusStripGeometry extends SurfaceGeometry {
   constructor(uSegments: number, vSegments: number);
 }
+
+/**
+ * @module THREE
+ * @class OctahedronGeometry
+ */
 class OctahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
-class SurfaceGeometry extends Geometry3 {
+
+/**
+ * @module THREE
+ * @class SurfaceGeometry
+ */
+class SurfaceGeometry extends Geometry {
   /**
    * Constructs a parametric surface geometry from a function.
    * parametricFunction The function that determines a 3D point corresponding to the two parameters.
@@ -1301,7 +1108,12 @@ class SurfaceGeometry extends Geometry3 {
    */
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
 }
-class SphereGeometry extends Geometry3 {
+
+/**
+ * @module THREE
+ * @class SphereGeometry
+ */
+class SphereGeometry extends Geometry {
   constructor(
     radius?: number,
     widthSegments?: number,
@@ -1311,10 +1123,20 @@ class SphereGeometry extends Geometry3 {
     thetaStart?: number,
     thetaLength?: number);
 }
+
+/**
+ * @module THREE
+ * @class TetrahedronGeometry
+ */
 class TetrahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }
-class TubeGeometry extends Geometry3 {
+
+/**
+ * @module THREE
+ * @class TubeGeometry
+ */
+class TubeGeometry extends Geometry {
   constructor(
     path: Curve,
     segments?: number,
@@ -1323,25 +1145,18 @@ class TubeGeometry extends Geometry3 {
     closed?: boolean,
     taper?: (u: number)=>number);
 }
+
 /**
- * Constructs and returns an ellipsoid mesh.
- */
-function ellipsoid(): EllipsoidMesh;
-/**
- * Constructs and returns a prism mesh.
- */
-function prism(): AttribProvider;
-/**
- *
+ * @module THREE
+ * @class Curve
  */
 class Curve {
   constructor();
 }
+
 /**
- * Constructs and returns a new Workbench3D.
- */
-function workbench(canvas: HTMLCanvasElement, viewport: Viewport, view: View, window: Window): Workbench3D;
-/**
+ * @module EIGHT
+ * @function animation
  * Constructs and returns a WindowAnimationRunner.
  */
 function animation(
@@ -1351,19 +1166,36 @@ function animation(
     tearDown?: { (animateException): void; };
     terminate?: (time: number) => boolean;
     window?: Window}): WindowAnimationRunner;
+
 /**
- *
+ * @module EIGHT
+ * @interface ContextMonitor
  */
-interface ContextManager extends IUnknown
+interface ContextMonitor {
+  /**
+   *
+   */
+  addContextListener(user: ContextListener): void;
+  /**
+   *
+   */
+  removeContextListener(user: ContextListener): void;
+}
+
+/**
+ * @module EIGHT
+ * @interface ContextManager
+ */
+interface ContextManager extends IUnknown, ContextMonitor
 {
   /**
    * Starts the monitoring of the WebGL context.
    */
-  start(): ContextManager;
+  start(): void;
   /**
    * Stops the monitoring of the WebGL context.
    */
-  stop(): ContextManager;
+  stop(): void;
   /**
    *
    */
@@ -1381,20 +1213,20 @@ interface ContextManager extends IUnknown
    */
   clearDepth(depth: number): void;
   /**
-   * Creates a new Buffer instance that binds to the ARRAY_BUFFER target.
+   * Creates a new IBuffer instance that binds to the ARRAY_BUFFER target.
    */
-  createArrayBuffer(): Buffer;
+  createArrayBuffer(): IBuffer;
   /**
-   * Creates a new Buffer instance that binds to the ELEMENT_ARRAY_BUFFER target.
+   * Creates a new IBuffer instance that binds to the ELEMENT_ARRAY_BUFFER target.
    */
-  createElementArrayBuffer(): Buffer;
+  createElementArrayBuffer(): IBuffer;
   /**
-   * Creates a new Mesh instance from a DrawElements data structure.
+   * Creates a new IMesh instance from a DrawElements data structure.
    * @param elements {DrawElements} The elements to be drawn.
    * @param mode {number} The mode to be used for drawing. Ust be consistent with elements.k property.
    * @param usage {number} A hint about how the underlying buffers will be used.
    */
-  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): Mesh;
+  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
   /**
    * Creates a new Texture2D instance that binds to the TEXTURE_2D target.
    */
@@ -1438,22 +1270,18 @@ interface ContextManager extends IUnknown
    */
   mirror: boolean;
 }
+
 /**
+ * @function webgl
  * Constructs and returns a ContextManager.
+ * @param canvas {HTMLCanvasElement} The HTML5 Canvas to be used for WebGL rendering.
+ * @param canvasId {number} The optional user-defined integer identifier for the canvas. Default is zero (0).
+ * @param attributes {WebGLContextAttributes} Optional attributes for initializing the context.
  */
-function webgl(
-  canvas: HTMLCanvasElement,
-  attributes?: {
-    alpha?: boolean,
-    antialias?: boolean,
-    depth?: boolean,
-    premultipliedAlpha?: boolean,
-    preserveDrawingBuffer?: boolean,
-    stencil?: boolean
-  }
-  ): ContextManager;
+function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): ContextManager;
+
 /**
- *
+ * @class Model
  */
 class Model implements UniformData {
   public position: Vector3;
@@ -1468,11 +1296,15 @@ class Model implements UniformData {
 }
 
 /**
+ * @module EIGHT
+ * @var VERSION
  * The version string of the davinci-eight module.
  */
 var VERSION: string;
 
 /**
+ * @module EIGHT
+ * @function refChange
  * Record reference count changes and debug reference counts.
  *
  * Instrumenting reference counting:
@@ -1503,29 +1335,289 @@ var VERSION: string;
  * Returns the number of outstanding reference counts for the 'stop' command.
  */
 function refChange(uuid: string, name?: string, change?: number): number;
+
 /**
+ * @module EIGHT
+ * @class Symbolic
  * Canonical variable names, which also act as semantic identifiers for name overrides.
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
  */
 class Symbolic {
-  public static ATTRIBUTE_COLOR: string;
-  public static ATTRIBUTE_NORMAL: string;
-  public static ATTRIBUTE_POSITION: string;
-  public static ATTRIBUTE_TEXTURE_COORDS:string;
+  static ATTRIBUTE_COLOR: string;
+  static ATTRIBUTE_NORMAL: string;
+  static ATTRIBUTE_POSITION: string;
+  static ATTRIBUTE_TEXTURE_COORDS:string;
 
-  public static UNIFORM_AMBIENT_LIGHT: string;
-  public static UNIFORM_COLOR: string;
-  public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
-  public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
-  public static UNIFORM_POINT_LIGHT_COLOR: string;
-  public static UNIFORM_POINT_LIGHT_POSITION: string;
-  public static UNIFORM_PROJECTION_MATRIX: string;
-  public static UNIFORM_MODEL_MATRIX: string;
-  public static UNIFORM_NORMAL_MATRIX: string;
-  public static UNIFORM_VIEW_MATRIX: string;
+  static UNIFORM_AMBIENT_LIGHT: string;
+  static UNIFORM_COLOR: string;
+  static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string;
+  static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
+  static UNIFORM_POINT_LIGHT_COLOR: string;
+  static UNIFORM_POINT_LIGHT_POSITION: string;
+  static UNIFORM_PROJECTION_MATRIX: string;
+  static UNIFORM_MODEL_MATRIX: string;
+  static UNIFORM_NORMAL_MATRIX: string;
+  static UNIFORM_VIEW_MATRIX: string;
 
-  public static VARYING_COLOR: string;
-  public static VARYING_LIGHT: string;
+  static VARYING_COLOR: string;
+  static VARYING_LIGHT: string;
+}
+////////////////////////////////////////////////////////
+// scene
+///////////////////////////////////////////////////////
+
+/**
+ * @interface ContextUnique
+ */
+interface ContextUnique {
+  /**
+   * The identifier of a canvas must be unique and stable.
+   * For speed we assume a low cardinality number.
+   */
+  canvasId: number;
+}
+
+/**
+ * @interface ContextController
+ */
+interface ContextController {
+  start(): void;
+  stop(): void;
+  // FIXME: kill
+  // kill(): void;
+}
+
+/**
+ * @interface ContextKahuna
+ * @extends ContextController
+ * @extends ContextManager
+ * @extends ContextMonitor
+ * @extends ContextUnique
+ */
+interface ContextKahuna extends ContextController, ContextManager, ContextMonitor, ContextUnique {
+
+}
+
+/**
+ * @interface ContextController
+ */
+interface ContextController {
+  start(): void;
+  stop(): void;
+  // FIXME: kill
+  // kill(): void;
+}
+
+/**
+ * The Drawable interface indicates that the implementation can make a call
+ * to either drawArrays or drawElements on the WebGLRenderingContext.
+ * @interface IDrawable
+ * @extends IResource
+ */
+interface IDrawable extends IResource {
+  /**
+   * @property material
+   * Implementations returning this property should call addRef() on the program prior to returning it.
+   */
+  material: IProgram;
+  /**
+   * @method draw
+   */
+  draw(): void;
+}
+
+/**
+ * @interface IComposite
+ */
+
+/**
+ * @module EIGHT
+ * @class Object3D
+ */
+class Object3D {
+  constructor();
+}
+
+/**
+ * @interface IDrawList
+ * @extends ContextListener
+ * @extends IUnknown
+ * @extends UniformDataVisitor
+ *
+ * ContextListener because it prefers a WebGLRenderingContext outside the animation loop.
+ * IUnknown because it is responsible for holding references to the drawables.
+ * UniformDataVisitor because... FIXME 
+ */
+interface IDrawList extends ContextListener, IUnknown, UniformDataVisitor {
+  add(drawable: IDrawable): void;
+  addRef(): number;
+  release(): number;
+  remove(drawable: IDrawable): void;
+  traverse(callback: (drawable: IDrawable) => void): void;
+}
+
+// FIXME: Bit confusing right now that IDrawList does not actually extend IUnknown.
+// It should: the only thing stopping the drawables from going zombie is the Scene.
+// It remains unclear as to what ContextManager should do.
+
+/**
+ * @module EIGHT
+ * @class Scene
+ * @implements IDrawList
+ */
+class Scene implements IDrawList {
+  constructor(monitors: ContextMonitor[]);
+  add(drawable: IDrawable): void;
+  addRef(): number;
+  contextFree(canvasId: number): void;
+  contextGain(manager: ContextManager): void;
+  contextLoss(canvasId: number): void;
+  release(): number;
+  remove(drawable: IDrawable): void;
+  traverse(callback: (drawable: IDrawable) => void): void;
+  uniform1f(name: string, x: number);
+  uniform2f(name: string, x: number, y: number);
+  uniform3f(name: string, x: number, y: number, z: number);
+  uniform4f(name: string, x: number, y: number, z: number, w: number);
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1);
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2);
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3);
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4);
+  uniformVector1(name: string, vector: Vector1);
+  uniformVector2(name: string, vector: Vector2);
+  uniformVector3(name: string, vector: Vector3);
+  uniformVector4(name: string, vector: Vector4);
+}
+
+/**
+ * @module EIGHT
+ * @interface ICamera
+ * @extends IDrawable
+ */
+interface ICamera extends IDrawable {
+}
+
+/**
+ * @module EIGHT
+ * @class PerspectiveCamera
+ * @implements ICamera
+ * @implements UniformData
+ */
+class PerspectiveCamera implements ICamera, UniformData {
+  position: Vector3;
+  /**
+   * @property material
+   * @type {IProgram}
+   * Just in case the camera becomes visible.
+   */
+  material: IProgram;
+  constructor(fov?: number, aspect?: number, near?: number, far?: number);
+  addRef(): number;
+  accept(visitor: UniformDataVisitor): void;
+  contextFree(canvasId: number): void;
+  contextGain(manager: ContextManager): void;
+  contextLoss(canvasId: number): void;
+  draw(): void;
+  release(): number;
+}
+
+/**
+ * @module EIGHT
+ * @class WebGLRenderer
+ */
+class WebGLRenderer implements ContextController, ContextMonitor {
+  canvasId: number;
+  context: WebGLRenderingContext;
+  domElement: HTMLCanvasElement;
+  /**
+   * @constructor
+   * @param canvas {HTMLCanvasElement}
+   * @param canvasId {number}
+   * @param attributes {WebGLContextAttributes}
+   */
+  constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
+  addContextListener(user: ContextListener): void;
+  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
+  removeContextListener(user: ContextListener): void;
+  render(scene: Scene, ambiends: UniformData): void;
+  setClearColor(color: number, alpha?: number): void;
+  setSize(width: number, height: number, updateStyle?: boolean): void;
+  start(): void;
+  stop(): void;
+}
+
+/**
+ * @module EIGHT
+ * @class BoxGeometry
+ */
+class BoxGeometry extends Geometry {
+  constructor(width: number, height: number, depth: number);
+}
+
+/**
+ * @module EIGHT
+ * @class Material
+ * @implements IProgram
+ */
+class Material implements IProgram {
+  program: WebGLProgram;
+  programId: string;
+  vertexShader: string;
+  fragmentShader: string;
+  attributes: { [name: string]: AttribLocation };
+  uniforms: { [name: string]: UniformLocation };
+  constructor(monitors: ContextMonitor[], name: string);
+  addRef(): number;
+  release(): number;
+  use(canvasId: number): void;
+  enableAttrib(name: string): void;
+  disableAttrib(name: string): void;
+  contextFree(canvasId: number): void;
+  contextGain(manager: ContextManager): void;
+  contextLoss(canvasId: number): void;
+  uniform1f(name: string, x: number): void;
+  uniform2f(name: string, x: number, y: number): void;
+  uniform3f(name: string, x: number, y: number, z: number): void;
+  uniform4f(name: string, x: number, y: number, z: number, w: number): void;
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1): void;
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void;
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3): void;
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void;
+  uniformVector1(name: string, vector: Vector1): void;
+  uniformVector2(name: string, vector: Vector2): void;
+  uniformVector3(name: string, vector: Vector3): void;
+  uniformVector4(name: string, vector: Vector4): void;
+}
+
+/**
+ * @module EIGHT
+ * @class Mesh
+ * @implements IDrawable
+ */
+class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implements IDrawable {
+  geometry: G;
+  material: M;
+  model: U;
+  constructor(geometry: G, material: M, model: U);
+  addRef(): number;
+  release(): number;
+  draw(): void;
+  contextFree(): void;
+  contextGain(manager: ContextManager): void;
+  contextLoss(): void;
+}
+
+/**
+ * @module EIGHT
+ * @class MeshNormalMaterial
+ * @extends Material
+ */
+class MeshNormalMaterial extends Material {
+  /**
+   * @constructor
+   * @param monitors {ContextMonitor[]} The contexts that this material must support.
+   */
+  constructor(monitors: ContextMonitor[]);
 }
 
 } // end of module

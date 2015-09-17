@@ -1,7 +1,6 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
-import AttribProvider = require('../core/AttribProvider');
 
-class RGBMesh implements AttribProvider {
+class RGBMesh {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;

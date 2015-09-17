@@ -7,12 +7,10 @@ var view = require('davinci-eight/cameras/view');
 var viewMatrix = require('davinci-eight/cameras/viewMatrix');
 // core
 var AttribLocation = require('davinci-eight/core/AttribLocation');
-var DefaultAttribProvider = require('davinci-eight/core/DefaultAttribProvider');
 var Color = require('davinci-eight/core/Color');
 var core = require('davinci-eight/core');
 var DrawMode = require('davinci-eight/core/DrawMode');
 var Face3 = require('davinci-eight/core/Face3');
-var primitive = require('davinci-eight/objects/primitive');
 var Symbolic = require('davinci-eight/core/Symbolic');
 var UniformLocation = require('davinci-eight/core/UniformLocation');
 // curves
@@ -30,11 +28,16 @@ var square = require('davinci-eight/dfx/square');
 var tetrahedron = require('davinci-eight/dfx/tetrahedron');
 var toDrawElements = require('davinci-eight/dfx/toDrawElements');
 var triangle = require('davinci-eight/dfx/triangle');
-// drawLists
-var scene = require('davinci-eight/drawLists/scene');
+// scene
+var createDrawList = require('davinci-eight/scene/createDrawList');
+var Material = require('davinci-eight/scene/Material');
+var Mesh = require('davinci-eight/scene/Mesh');
+var MeshNormalMaterial = require('davinci-eight/scene/MeshNormalMaterial');
+var PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
+var Scene = require('davinci-eight/scene/Scene');
+var WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 // geometries
-var Geometry3 = require('davinci-eight/geometries/Geometry3');
-var GeometryAdapter = require('davinci-eight/geometries/GeometryAdapter');
+var Geometry = require('davinci-eight/geometries/Geometry');
 var ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 var BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
@@ -67,16 +70,8 @@ var Vector3 = require('davinci-eight/math/Vector3');
 var Vector4 = require('davinci-eight/math/Vector4');
 var VectorN = require('davinci-eight/math/VectorN');
 // mesh
-var arrowMesh = require('davinci-eight/mesh/arrowMesh');
 var ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
-var boxMesh = require('davinci-eight/mesh/boxMesh');
-var BoxBuilder = require('davinci-eight/mesh/BoxBuilder');
-var cylinderMesh = require('davinci-eight/mesh/cylinderMesh');
 var CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
-var CylinderMeshBuilder = require('davinci-eight/mesh/CylinderMeshBuilder');
-var sphereMesh = require('davinci-eight/mesh/sphereMesh');
-var SphereBuilder = require('davinci-eight/mesh/SphereBuilder');
-var vortexMesh = require('davinci-eight/mesh/vortexMesh');
 var initWebGL = require('davinci-eight/renderers/initWebGL');
 var renderer = require('davinci-eight/renderers/renderer');
 // uniforms
@@ -107,13 +102,17 @@ var eight = {
     get perspectiveMatrix() { return perspectiveMatrix; },
     get view() { return view; },
     get viewMatrix() { return viewMatrix; },
-    get scene() { return scene; },
+    get Scene() { return Scene; },
+    get Material() { return Material; },
+    get Mesh() { return Mesh; },
+    get MeshNormalMaterial() { return MeshNormalMaterial; },
+    get PerspectiveCamera() { return PerspectiveCamera; },
+    get WebGLRenderer() { return WebGLRenderer; },
+    get createDrawList() { return createDrawList; },
     get renderer() { return renderer; },
     get webgl() { return contextProxy; },
     workbench: workbench3D,
     animation: windowAnimationRunner,
-    get DefaultAttribProvider() { return DefaultAttribProvider; },
-    get primitive() { return primitive; },
     get DrawMode() { return DrawMode; },
     get AttribLocation() { return AttribLocation; },
     get UniformLocation() { return UniformLocation; },
@@ -125,8 +124,7 @@ var eight = {
     },
     get Color() { return Color; },
     get Face3() { return Face3; },
-    get Geometry3() { return Geometry3; },
-    get GeometryAdapter() { return GeometryAdapter; },
+    get Geometry() { return Geometry; },
     get ArrowGeometry() { return ArrowGeometry; },
     get BarnGeometry() { return BarnGeometry; },
     get BoxGeometry() { return BoxGeometry; },
@@ -156,10 +154,7 @@ var eight = {
     get VectorN() { return VectorN; },
     get Curve() { return Curve; },
     // mesh
-    get arrowMesh() { return arrowMesh; },
     get ArrowBuilder() { return ArrowBuilder; },
-    get boxMesh() { return boxMesh; },
-    get BoxBuilder() { return BoxBuilder; },
     get checkGeometry() { return checkGeometry; },
     get computeFaceNormals() { return computeFaceNormals; },
     get cube() { return cube; },
@@ -169,12 +164,7 @@ var eight = {
     get triangle() { return triangle; },
     get toDrawElements() { return toDrawElements; },
     get CylinderArgs() { return CylinderArgs; },
-    get cylinderMesh() { return cylinderMesh; },
-    get CylinderMeshBuilder() { return CylinderMeshBuilder; },
-    get sphereMesh() { return sphereMesh; },
-    get SphereBuilder() { return SphereBuilder; },
     get Symbolic() { return Symbolic; },
-    get vortexMesh() { return vortexMesh; },
     // programs
     get programFromScripts() { return programFromScripts; },
     get DrawAttribute() { return DrawAttribute; },

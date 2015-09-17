@@ -2,6 +2,8 @@ var statistics = {};
 var skip = true;
 var trace = false;
 var traceName = void 0;
+// TODO: Very first time refChange is called, check count is +1
+// FIXME: Use a better sentinel for command mode.
 var LOGGING_NAME_REF_CHANGE = 'refChange';
 function prefix(message) {
     return LOGGING_NAME_REF_CHANGE + ": " + message;

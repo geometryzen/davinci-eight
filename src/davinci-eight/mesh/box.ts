@@ -2,10 +2,8 @@
 // box.ts
 //
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttribMetaInfos = require('../core/AttribMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import AttribProvider = require('../core/AttribProvider');
-
+i
 var vertexList: blade.Euclidean3[] =
 [
   // front (+z) face (labelled 0, 1, 2, 3 from lower left counterclockwise from front)
@@ -43,7 +41,7 @@ var triangles: number[][] =
   [0, 4, 5]
 ];
 
-var box = function(spec?): AttribProvider {
+var box = function(spec?) {
 
   var elements: number[] = [];
 
@@ -52,7 +50,7 @@ var box = function(spec?): AttribProvider {
   var normalArray: Float32Array;
   var drawMode: number = 2;
 
-  var publicAPI: AttribProvider = {
+  var publicAPI = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
@@ -61,13 +59,6 @@ var box = function(spec?): AttribProvider {
     },
     get dynamic(): boolean {
       return false;
-    },
-    getAttribMeta(): AttribMetaInfos {
-      return {
-        position: { name: 'aPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        color:    { name: 'aColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        normal:   { name: 'aNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
-      };
     },
     update(): void {
       let names: string[] = attributes.map(function(attribute){return attribute.name});

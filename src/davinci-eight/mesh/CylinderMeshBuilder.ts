@@ -1,8 +1,6 @@
-import AttribProvider = require('../core/AttribProvider');
+import ContextMonitor = require('../core/ContextMonitor');
 import CylinderArgs = require('../mesh/CylinderArgs');
 import CylinderOptions = require('../mesh/CylinderOptions');
-import cylinderMesh = require('../mesh/cylinderMesh');
-import ContextManager = require('../core/ContextManager');
 
 class CylinderMeshBuilder extends CylinderArgs {
   constructor(options?: CylinderOptions) {
@@ -43,9 +41,6 @@ class CylinderMeshBuilder extends CylinderArgs {
   setWireFrame(wireFrame: boolean): CylinderMeshBuilder {
     super.setWireFrame(wireFrame);
     return this;
-  }
-  buildMesh(monitor: ContextManager): AttribProvider {
-    return cylinderMesh(monitor, this);
   }
 }
 

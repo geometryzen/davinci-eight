@@ -2,9 +2,7 @@
 // prism.ts
 //
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttribMetaInfos = require('../core/AttribMetaInfos');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
-import AttribProvider = require('../core/AttribProvider');
 
 // The numbering of the front face, seen from the front is
 //   5
@@ -70,7 +68,7 @@ var triangles =
 /**
  * Constructs and returns a prism mesh.
  */
-var prism = function(spec?): AttribProvider {
+var prism = function(spec?) {
 
   var elements: number[] = [];
   var vertices: number[] = [];
@@ -107,7 +105,7 @@ var prism = function(spec?): AttribProvider {
     }
   });
 
-  var publicAPI: AttribProvider = {
+  var publicAPI = {
     draw(context: WebGLRenderingContext) {
       context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
     },
@@ -115,13 +113,6 @@ var prism = function(spec?): AttribProvider {
       return drawMode;
     },
     get dynamic(): boolean {return false;},
-    getAttribMeta(): AttribMetaInfos {
-      return {
-        position: { name: 'aPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        color:    { name: 'aColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        normal:   { name: 'aNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
-      };
-    },
     update(): void {
     }
   };

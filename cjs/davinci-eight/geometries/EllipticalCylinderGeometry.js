@@ -14,7 +14,7 @@ var __extends = this.__extends || function (d, b) {
 /// <amd-dependency path="davinci-blade/e3ga/bivectorE3" name="bivectorE3"/>
 /// <amd-dependency path="davinci-blade/e3ga/pseudoscalarE3" name="pseudoscalarE3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-var Geometry3 = require('../geometries/Geometry3');
+var Geometry = require('../geometries/Geometry');
 var EllipticalCylinderGeometry = (function (_super) {
     __extends(EllipticalCylinderGeometry, _super);
     function EllipticalCylinderGeometry() {
@@ -31,5 +31,5 @@ var EllipticalCylinderGeometry = (function (_super) {
         console.log("I: " + I);
     }
     return EllipticalCylinderGeometry;
-})(Geometry3);
+})(Geometry);
 module.exports = EllipticalCylinderGeometry;

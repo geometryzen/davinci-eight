@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/Geometry3', '../math/Matrix4', '../math/Vector2', '../math/Vector3'], function (require, exports, clamp, Face3, Geometry3, Matrix4, Vector2, Vector3) {
+define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/Geometry', '../math/Matrix4', '../math/Vector2', '../math/Vector3'], function (require, exports, clamp, Face3, Geometry, Matrix4, Vector2, Vector3) {
     var TubeGeometry = (function (_super) {
         __extends(TubeGeometry, _super);
         function TubeGeometry(path, segments, radius, radialSegments, closed, taper) {
@@ -94,7 +94,7 @@ define(["require", "exports", '../math/clamp', '../core/Face3', '../geometries/G
         TubeGeometry.NoTaper = function (u) { return 1; };
         TubeGeometry.SinusoidalTaper = function (u) { return Math.sin(Math.PI * u); };
         return TubeGeometry;
-    })(Geometry3);
+    })(Geometry);
     // For computing of Frenet frames, exposing the tangents, normals and binormals the spline
     var FrenetFrames = (function () {
         function FrenetFrames(path, segments, closed) {

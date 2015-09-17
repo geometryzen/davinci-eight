@@ -1,4 +1,3 @@
 import Renderer = require('../renderers/Renderer');
-import RendererParameters = require('../renderers/RendererParameters');
-declare let renderer: (canvas: HTMLCanvasElement, parameters?: RendererParameters) => Renderer;
+declare let renderer: (canvas: HTMLCanvasElement) => Renderer;
 export = renderer;

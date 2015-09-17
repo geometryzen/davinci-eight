@@ -1,7 +1,8 @@
-import AttribDataInfo = require('../core/AttribDataInfo');
-import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
+import ContextManager = require('../core/ContextManager');
+import ContextMonitor = require('../core/ContextMonitor');
+import MonitorList = require('../scene/MonitorList');
 import expectArg = require('../checks/expectArg');
 import fragmentShader = require('../programs/fragmentShader');
 import isDefined = require('../checks/isDefined');
@@ -10,7 +11,7 @@ import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import shaderProgram = require('./shaderProgram');
-import Program = require('../core/Program');
+import IProgram = require('../core/IProgram');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
@@ -19,7 +20,6 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 import vertexShader = require('../programs/vertexShader');
-import ContextManager = require('../core/ContextManager');
 
 function vLightRequired(uniforms: UniformMetaInfos): boolean {
   return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
@@ -28,34 +28,27 @@ function vLightRequired(uniforms: UniformMetaInfos): boolean {
 function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos): boolean {
   return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
 }
+
 /**
  *
  */
-var smartProgram = function(monitor: ContextManager, attributes: AttribMetaInfos, uniformsList: UniformMetaInfos[], attribs: string[]): Program {
+var smartProgram = function(monitors: ContextMonitor[], attributes: AttribMetaInfos, uniforms: UniformMetaInfos, bindings: string[]): IProgram {
+  MonitorList.verify('monitors', monitors, () => { return "smartProgram"; });
 
-  if (!isDefined(attributes)) {
+  if (!attributes) {
     throw new Error("The attributes parameter is required for smartProgram.");
   }
 
-  if (uniformsList) {
-  }
-  else {
+  if (!uniforms) {
     throw new Error("The uniformsList parameter is required for smartProgram.");
   }
-
-  var uniforms: UniformMetaInfos = {};
-  uniformsList.forEach(function(uniformsElement) {
-    for (var name in uniformsElement) {
-      uniforms[name] = uniformsElement[name];
-    }
-  });
 
   let vColor: boolean = vColorRequired(attributes, uniforms);
   let vLight: boolean = vLightRequired(uniforms);
 
-  let innerProgram: Program = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
+  let innerProgram: IProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
-  let self: Program = {
+  let self: IProgram = {
     get program() {
       return innerProgram.program;
     },
@@ -80,23 +73,23 @@ var smartProgram = function(monitor: ContextManager, attributes: AttribMetaInfos
     release() {
       return innerProgram.release();
     },
-    contextFree() {
-      return innerProgram.contextFree();
+    contextFree(canvasId: number) {
+      return innerProgram.contextFree(canvasId);
     },
-    contextGain(context: WebGLRenderingContext) {
-      return innerProgram.contextGain(context);
+    contextGain(manager: ContextManager) {
+      return innerProgram.contextGain(manager);
     },
-    contextLoss() {
-      return innerProgram.contextLoss();
+    contextLoss(canvasId: number) {
+      return innerProgram.contextLoss(canvasId);
     },
-    use() {
-      return innerProgram.use();
+    use(canvasId: number) {
+      return innerProgram.use(canvasId);
     },
     enableAttrib(name: string) {
       return innerProgram.enableAttrib(name);
     },
-    setAttributes(values: AttribDataInfos) {
-      return innerProgram.setAttributes(values);
+    disableAttrib(name: string) {
+      return innerProgram.disableAttrib(name);
     },
     uniform1f(name: string, x: number) {
       return innerProgram.uniform1f(name, x);

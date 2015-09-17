@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry3, Vector2, Vector3) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
     var CylinderGeometry = (function (_super) {
         __extends(CylinderGeometry, _super);
         function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
@@ -113,6 +113,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../ma
             //    this.computeVertexNormals();
         }
         return CylinderGeometry;
-    })(Geometry3);
+    })(Geometry);
     return CylinderGeometry;
 });

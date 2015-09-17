@@ -1,10 +1,9 @@
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttribProvider = require('../core/AttribProvider');
 
 /**
  * @class EllipsoidMesh
  */
-interface EllipsoidMesh extends AttribProvider {
+interface EllipsoidMesh {
   a: blade.Euclidean3;
   b: blade.Euclidean3;
   c: blade.Euclidean3;

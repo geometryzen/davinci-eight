@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../geometries/Geometry3', '../core/Face3', '../math/Vector3'], function (require, exports, Geometry3, Face3, Vector3) {
+define(["require", "exports", '../geometries/Geometry', '../core/Face3', '../math/Vector3'], function (require, exports, Geometry, Face3, Vector3) {
     /**
      * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
      * @class BarnGeometry
@@ -46,6 +46,6 @@ define(["require", "exports", '../geometries/Geometry3', '../core/Face3', '../ma
             this.computeFaceNormals();
         }
         return BarnGeometry;
-    })(Geometry3);
+    })(Geometry);
     return BarnGeometry;
 });

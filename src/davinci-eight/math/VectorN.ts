@@ -117,7 +117,7 @@ class VectorN<T> implements Mutable<T[]> {
       throw new Error(verbotenPop());
     }
   }
-  // FIXME: How to prototype this as ...items: T[]
+  // TODO: How to prototype this as ...items: T[]
   push(value: T): number {
     if (isUndefined(this._size)) {
       let data = this.data;

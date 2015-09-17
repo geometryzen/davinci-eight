@@ -3,6 +3,9 @@ let skip = true;
 let trace: boolean = false;
 let traceName: string = void 0;
 
+// TODO: Very first time refChange is called, check count is +1
+// FIXME: Use a better sentinel for command mode.
+
 let LOGGING_NAME_REF_CHANGE = 'refChange';
 
 function prefix(message: string): string {

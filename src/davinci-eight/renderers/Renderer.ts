@@ -1,7 +1,8 @@
 import ContextListener = require('../core/ContextListener');
-import DrawList = require('../drawLists/DrawList'); 
+import IDrawList = require('../scene/IDrawList');
+import UniformData = require('../core/UniformData'); 
 /**
- * @class Renderer
+ * @interface Renderer
  * @extends ContextListener
  */
 interface Renderer extends ContextListener {
@@ -22,7 +23,7 @@ interface Renderer extends ContextListener {
    * Render the contents of the drawList.
    * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.
    */
-  render(drawList: DrawList): void;
+  render(drawList: IDrawList, ambients: UniformData): void;
 }
 
 export = Renderer;

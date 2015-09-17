@@ -1,8 +1,12 @@
-define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../renderers/initWebGL', '../checks/expectArg', '../checks/isDefined', '../checks/isNumber', '../utils/IUnknownMap', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, initWebGL, expectArg, isDefined, isNumber, IUnknownMap, RefCount, refChange, Simplex, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeInteger', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, expectArg, initWebGL, isDefined, isNumber, mustBeInteger, RefCount, refChange, Simplex, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Mesh';
-    var LOGGING_NAME_MANAGER = 'ContextManager';
+    var LOGGING_NAME_KAHUNA = 'ContextKahuna';
+    function webglFunctionalConstructorContextBuilder() {
+        // The following string represents how this API is exposed.
+        return "webgl functional constructor";
+    }
     function mustBeContext(context, method) {
         if (context) {
             return context;
@@ -69,6 +73,9 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
         });
         return ElementsBlock;
     })();
+    /**
+     *
+     */
     var ElementsBlockAttrib = (function () {
         function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
             this._refCount = 1;
@@ -168,10 +175,12 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             return aName;
         }
     }
-    function contextProxy(canvas, attributes) {
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+    function webgl(canvas, canvasId, attributes) {
+        if (canvasId === void 0) { canvasId = 0; }
+        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement @ webgl function");
+        mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
-        var blocks = new IUnknownMap();
+        var blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for context events.
         // Users should automatically add themselves upon construction and remove upon release.
@@ -180,7 +189,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             expectArg('user', user).toBeObject();
             users.push(user);
             if (context) {
-                user.contextGain(context);
+                user.contextGain(kahuna);
             }
         }
         function removeContextListener(user) {
@@ -189,6 +198,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             if (index >= 0) {
                 var removals = users.splice(index, 1);
                 removals.forEach(function (user) {
+                    // What's going on here?
                 });
             }
         }
@@ -310,17 +320,20 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             event.preventDefault();
             context = void 0;
             users.forEach(function (user) {
-                user.contextLoss();
+                user.contextLoss(canvasId);
             });
         };
         var webGLContextRestored = function (event) {
             event.preventDefault();
             context = initWebGL(canvas, attributes);
             users.forEach(function (user) {
-                user.contextGain(context);
+                user.contextGain(kahuna);
             });
         };
-        var monitor = {
+        var kahuna = {
+            get canvasId() {
+                return canvasId;
+            },
             /**
              *
              */
@@ -339,18 +352,18 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 else {
                     usage = context.STATIC_DRAW;
                 }
-                var token = createDrawElementsMesh(uuid4().generate());
-                var indexBuffer = monitor.createElementArrayBuffer();
+                var mesh = createDrawElementsMesh(uuid4().generate());
+                var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
                 indexBuffer.unbind();
-                var attributes = new IUnknownMap();
+                var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
                 var i;
                 for (i = 0; i < namesLength; i++) {
                     var name_1 = names[i];
-                    var buffer = monitor.createArrayBuffer();
+                    var buffer = kahuna.createArrayBuffer();
                     buffer.bind();
                     var vertexAttrib = elements.attributes[name_1];
                     var data = vertexAttrib.values.data;
@@ -367,33 +380,29 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 }
                 var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-                blocks.put(token.uuid, block);
+                blocks.put(mesh.uuid, block);
                 block.release();
                 attributes.release();
                 indexBuffer.release();
-                return token;
+                return mesh;
             },
             start: function () {
                 context = initWebGL(canvas, attributes);
                 canvas.addEventListener('webglcontextlost', webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-                users.forEach(function (user) { user.contextGain(context); });
-                return monitor;
+                users.forEach(function (user) { user.contextGain(kahuna); });
             },
             stop: function () {
                 context = void 0;
-                users.forEach(function (user) { user.contextFree(); });
+                users.forEach(function (user) { user.contextFree(canvasId); });
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
-                return monitor;
             },
             addContextListener: function (user) {
                 addContextListener(user);
-                return monitor;
             },
             removeContextListener: function (user) {
                 removeContextListener(user);
-                return monitor;
             },
             get context() {
                 if (context) {
@@ -405,12 +414,12 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 }
             },
             addRef: function () {
-                refChange(uuid, LOGGING_NAME_MANAGER, +1);
+                refChange(uuid, LOGGING_NAME_KAHUNA, +1);
                 refCount++;
                 return refCount;
             },
             release: function () {
-                refChange(uuid, LOGGING_NAME_MANAGER, -1);
+                refChange(uuid, LOGGING_NAME_KAHUNA, -1);
                 refCount--;
                 if (refCount === 0) {
                     blocks.release();
@@ -452,19 +461,20 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             },
             createArrayBuffer: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new BufferResource(monitor, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
+                return new BufferResource(kahuna, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
             },
             createElementArrayBuffer: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new BufferResource(monitor, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+                return new BufferResource(kahuna, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
             },
             createTexture2D: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new TextureResource(monitor, mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
+                // FIXME Does this mean that Texture only has one ContextMonitor?
+                return new TextureResource([kahuna], mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
             },
             createTextureCubeMap: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new TextureResource(monitor, mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
+                return new TextureResource([kahuna], mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
             },
             get mirror() {
                 return mirror;
@@ -473,8 +483,8 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 mirror = expectArg('mirror', value).toBeBoolean().value;
             }
         };
-        refChange(uuid, LOGGING_NAME_MANAGER, +1);
-        return monitor;
+        refChange(uuid, LOGGING_NAME_KAHUNA, +1);
+        return kahuna;
     }
-    return contextProxy;
+    return webgl;
 });

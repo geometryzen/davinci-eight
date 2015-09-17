@@ -10,17 +10,17 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         /**
          * @class UniformLocation
          * @constructor
-         * @param monitor {ContextManager}
+         * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
-        function UniformLocation(monitor, name) {
+        function UniformLocation(manager, name) {
             this._x = void 0;
             this._y = void 0;
             this._z = void 0;
             this._w = void 0;
             this._matrix4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(function () { return void 0; });
             this._transpose = void 0;
-            this._monitor = expectArg('monitor', monitor).toBeObject().value;
+            expectArg('manager', manager).toBeObject().value;
             this._name = expectArg('name', name).toBeString().value;
         }
         /**
@@ -37,6 +37,8 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         UniformLocation.prototype.contextGain = function (context, program) {
             this.contextLoss();
             this._context = context;
+            // FIXME: Uniform locations are created for a specific program,
+            // which means that locations cannot be shared.
             this._location = context.getUniformLocation(program, this._name);
             this._program = program;
         };
@@ -60,16 +62,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.uniform1f = function (x) {
             this._context.useProgram(this._program);
-            if (this._monitor.mirror) {
-                if (this._x !== x) {
-                    this._context.uniform1f(this._location, x);
-                    this._x = x;
-                }
-            }
-            else {
-                this._context.uniform1f(this._location, x);
-                this._x = void 0;
-            }
+            this._context.uniform1f(this._location, x);
         };
         /**
          * @method uniform2f
@@ -78,7 +71,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.uniform2f = function (x, y) {
             this._context.useProgram(this._program);
-            return this._context.uniform2f(this._location, x, y);
+            this._context.uniform2f(this._location, x, y);
         };
         /**
          * @method uniform3f
@@ -88,7 +81,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.uniform3f = function (x, y, z) {
             this._context.useProgram(this._program);
-            return this._context.uniform3f(this._location, x, y, z);
+            this._context.uniform3f(this._location, x, y, z);
         };
         /**
          * @method uniform4f
@@ -99,7 +92,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.uniform4f = function (x, y, z, w) {
             this._context.useProgram(this._program);
-            return this._context.uniform4f(this._location, x, y, z, w);
+            this._context.uniform4f(this._location, x, y, z, w);
         };
         /**
          * @method matrix1
@@ -108,7 +101,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.matrix1 = function (transpose, matrix) {
             this._context.useProgram(this._program);
-            return this._context.uniform1fv(this._location, matrix.data);
+            this._context.uniform1fv(this._location, matrix.data);
         };
         /**
          * @method matrix2
@@ -117,7 +110,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.matrix2 = function (transpose, matrix) {
             this._context.useProgram(this._program);
-            return this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
+            this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
         };
         /**
          * @method matrix3
@@ -126,7 +119,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.matrix3 = function (transpose, matrix) {
             this._context.useProgram(this._program);
-            return this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
+            this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
         };
         /**
          * @method matrix4
@@ -165,7 +158,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.vector1 = function (vector) {
             this._context.useProgram(this._program);
-            return this._context.uniform1fv(this._location, vector.data);
+            this._context.uniform1fv(this._location, vector.data);
         };
         /**
          * @method vector2
@@ -173,7 +166,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.vector2 = function (vector) {
             this._context.useProgram(this._program);
-            return this._context.uniform2fv(this._location, vector.data);
+            this._context.uniform2fv(this._location, vector.data);
         };
         /**
          * @method vector3
@@ -198,7 +191,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          */
         UniformLocation.prototype.vector4 = function (vector) {
             this._context.useProgram(this._program);
-            return this._context.uniform4fv(this._location, vector.data);
+            this._context.uniform4fv(this._location, vector.data);
         };
         /**
          * @method toString

@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var Face3 = require('../core/Face3');
-var Geometry3 = require('../geometries/Geometry3');
+var Geometry = require('../geometries/Geometry');
 var Spinor3 = require('../math/Spinor3');
 var Vector2 = require('../math/Vector2');
 var RevolutionGeometry = (function (_super) {
@@ -76,5 +76,5 @@ var RevolutionGeometry = (function (_super) {
         this.computeVertexNormals();
     }
     return RevolutionGeometry;
-})(Geometry3);
+})(Geometry);
 module.exports = RevolutionGeometry;

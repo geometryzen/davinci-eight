@@ -1,4 +1,0 @@
-interface RendererParameters {
-}
-
-export = RendererParameters;

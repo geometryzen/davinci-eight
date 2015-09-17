@@ -1,11 +1,12 @@
-var uuid4 = require('../utils/uuid4');
 var AttribLocation = require('../core/AttribLocation');
+var MonitorList = require('../scene/MonitorList');
+var uuid4 = require('../utils/uuid4');
 var UniformLocation = require('../core/UniformLocation');
 var refChange = require('../utils/refChange');
 /**
  * Name used for reference count monitoring and logging.
  */
-var LOGGING_NAME_SHAFER_PROGRAM = 'Program';
+var LOGGING_NAME_IPROGRAM = 'IProgram';
 function makeWebGLShader(ctx, source, type) {
     var shader = ctx.createShader(type);
     ctx.shaderSource(shader, source);
@@ -59,7 +60,11 @@ function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
         throw new Error("Error linking program: " + message);
     }
 }
-var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
+// FIXME: Rename to program or createProgram
+// FIXME: Handle list of shaders? Else createSimpleProgram
+var shaderProgram = function (monitors, vertexShader, fragmentShader, attribs) {
+    MonitorList.verify('monitors', monitors, function () { return "shaderProgram"; });
+    // FIXME multi-context
     if (typeof vertexShader !== 'string') {
         throw new Error("vertexShader argument must be a string.");
     }
@@ -67,8 +72,15 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
         throw new Error("fragmentShader argument must be a string.");
     }
     var refCount = 1;
-    var program;
-    var $context;
+    /**
+     * Because we are multi-canvas aware, programs are tracked by the canvas id.
+     */
+    var programs = {};
+    /**
+     * Because we are multi-canvas aware, contexts are tracked by the canvas id.
+     * We need to hold onto a WebGLRenderingContext so that we can delete programs.
+     */
+    var contexts = {};
     var uuid = uuid4().generate();
     var attributeLocations = {};
     var uniformLocations = {};
@@ -86,26 +98,33 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
             return uniformLocations;
         },
         addRef: function () {
-            refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
+            refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
             refCount++;
             return refCount;
         },
         release: function () {
-            refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, -1);
+            refChange(uuid, LOGGING_NAME_IPROGRAM, -1);
             refCount--;
             if (refCount === 0) {
-                monitor.removeContextListener(self);
-                self.contextFree();
+                MonitorList.removeContextListener(self, monitors);
+                var keys = Object.keys(contexts).map(function (key) { return parseInt(key); });
+                var keysLength = keys.length;
+                for (var k = 0; k < keysLength; k++) {
+                    var canvasId = keys[k];
+                    self.contextFree(canvasId);
+                }
             }
             return refCount;
         },
-        contextFree: function () {
+        contextFree: function (canvasId) {
+            var $context = contexts[canvasId];
             if ($context) {
+                var program = programs[canvasId];
                 if (program) {
                     $context.deleteProgram(program);
-                    program = void 0;
+                    programs[canvasId] = void 0;
                 }
-                $context = void 0;
+                contexts[canvasId] = void 0;
                 for (var aName in attributeLocations) {
                     attributeLocations[aName].contextFree();
                 }
@@ -114,17 +133,21 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
                 }
             }
         },
-        contextGain: function (context) {
-            if ($context !== context) {
-                self.contextFree();
-                $context = context;
-                program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
+        contextGain: function (manager) {
+            // FIXME: multi-canvas
+            var canvasId = manager.canvasId;
+            if (contexts[canvasId] !== manager.context) {
+                self.contextFree(canvasId);
+                contexts[canvasId] = manager.context;
+                var context = manager.context;
+                var program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
+                programs[manager.canvasId] = program;
                 var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
                 for (var a = 0; a < activeAttributes; a++) {
                     var activeAttribInfo = context.getActiveAttrib(program, a);
                     var name_1 = activeAttribInfo.name;
                     if (!attributeLocations[name_1]) {
-                        attributeLocations[name_1] = new AttribLocation(monitor, name_1);
+                        attributeLocations[name_1] = new AttribLocation(manager, name_1);
                     }
                 }
                 var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -132,7 +155,7 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
                     var activeUniformInfo = context.getActiveUniform(program, u);
                     var name_2 = activeUniformInfo.name;
                     if (!uniformLocations[name_2]) {
-                        uniformLocations[name_2] = new UniformLocation(monitor, name_2);
+                        uniformLocations[name_2] = new UniformLocation(manager, name_2);
                     }
                 }
                 for (var aName in attributeLocations) {
@@ -143,9 +166,9 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
                 }
             }
         },
-        contextLoss: function () {
-            program = void 0;
-            $context = void 0;
+        contextLoss: function (canvasId) {
+            programs[canvasId] = void 0;
+            contexts[canvasId] = void 0;
             for (var aName in attributeLocations) {
                 attributeLocations[aName].contextLoss();
             }
@@ -153,14 +176,23 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
                 uniformLocations[uName].contextLoss();
             }
         },
-        get program() { return program; },
-        get programId() { return uuid; },
-        use: function () {
-            if ($context) {
-                $context.useProgram(program);
+        get program() {
+            console.warn("shaderProgram program property is assuming canvas id = 0");
+            var canvasId = 0;
+            var program = programs[canvasId];
+            // It's a WebGLProgram, no reference count management required.
+            return program;
+        },
+        get programId() {
+            return uuid;
+        },
+        use: function (canvasId) {
+            var context = contexts[canvasId];
+            if (context) {
+                context.useProgram(programs[canvasId]);
             }
             else {
-                console.warn(LOGGING_NAME_SHAFER_PROGRAM + " use() missing WebGLRenderingContext");
+                console.warn(LOGGING_NAME_IPROGRAM + " use() missing WebGLRenderingContext");
             }
             return self;
         },
@@ -170,17 +202,10 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
                 attribLoc.enable();
             }
         },
-        setAttributes: function (values) {
-            for (var name in attributeLocations) {
-                var attribLoc = attributeLocations[name];
-                var data = values[name];
-                if (data) {
-                    data.buffer.bind();
-                    attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
-                }
-                else {
-                    throw new Error("The mesh does not support the attribute variable named " + name);
-                }
+        disableAttrib: function (name) {
+            var attribLoc = attributeLocations[name];
+            if (attribLoc) {
+                attribLoc.disable();
             }
         },
         uniform1f: function (name, x) {
@@ -256,8 +281,8 @@ var shaderProgram = function (monitor, vertexShader, fragmentShader, attribs) {
             }
         }
     };
-    refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
-    monitor.addContextListener(self);
+    MonitorList.addContextListener(self, monitors);
+    refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
     return self;
 };
 module.exports = shaderProgram;

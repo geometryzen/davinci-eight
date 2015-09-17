@@ -1,5 +1,4 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
-import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 
 function makeArray(length: number) {
   var xs: number[] = [];
@@ -11,7 +10,7 @@ function makeArray(length: number) {
   return xs;
 }
 
-class LatticeMesh extends DefaultAttribProvider {
+class LatticeMesh {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;
@@ -22,7 +21,6 @@ class LatticeMesh extends DefaultAttribProvider {
   private generator: (i: number, j: number, k: number) => { x: number; y: number; z: number };
   public drawMode: number = 0;
   constructor(I: number, J: number, K: number, generator: (i: number, j: number, k: number) => {x:number;y:number;z:number}) {
-    super();
     this.I = I;
     this.J = J;
     this.K = K;

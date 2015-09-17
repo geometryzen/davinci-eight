@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry3, Sphere, Vector2, Vector3) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Sphere, Vector2, Vector3) {
     var SphereGeometry = (function (_super) {
         __extends(SphereGeometry, _super);
         function SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength) {
@@ -72,6 +72,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../ma
             this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
         }
         return SphereGeometry;
-    })(Geometry3);
+    })(Geometry);
     return SphereGeometry;
 });

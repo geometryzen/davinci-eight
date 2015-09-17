@@ -1,17 +1,18 @@
-import Texture = require('../core/Texture');
+import ITexture = require('../core/ITexture');
 import ContextManager = require('../core/ContextManager');
-declare class TextureResource implements Texture {
+import ContextMonitor = require('../core/ContextMonitor');
+declare class TextureResource implements ITexture {
     private _context;
     private _monitor;
     private _texture;
     private _refCount;
     private _uuid;
     private _target;
-    constructor(monitor: ContextManager, target: number);
+    constructor(monitors: ContextMonitor[], target: number);
     addRef(): number;
     release(): number;
     contextFree(): void;
-    contextGain(context: WebGLRenderingContext): void;
+    contextGain(manager: ContextManager): void;
     contextLoss(): void;
     /**
      * @method bind

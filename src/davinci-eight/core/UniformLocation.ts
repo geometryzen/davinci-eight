@@ -21,7 +21,6 @@ function matrix4NE(a: number[], b: Float32Array): boolean {
 class UniformLocation implements ContextProgramListener {
   private _context: WebGLRenderingContext;
   private _location: WebGLUniformLocation;
-  private _monitor: ContextManager;
   private _name: string;
   private _program: WebGLProgram;
   private _x: number = void 0;
@@ -33,11 +32,11 @@ class UniformLocation implements ContextProgramListener {
   /**
    * @class UniformLocation
    * @constructor
-   * @param monitor {ContextManager}
+   * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
    */
-  constructor(monitor: ContextManager, name: string) {
-    this._monitor = expectArg('monitor', monitor).toBeObject().value;
+  constructor(manager: ContextManager, name: string) {
+    expectArg('manager', manager).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }
   /**
@@ -54,6 +53,8 @@ class UniformLocation implements ContextProgramListener {
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
     this.contextLoss();
     this._context = context;
+    // FIXME: Uniform locations are created for a specific program,
+    // which means that locations cannot be shared.
     this._location = context.getUniformLocation(program, this._name);
     this._program = program;
   }
@@ -77,16 +78,7 @@ class UniformLocation implements ContextProgramListener {
    */
   uniform1f(x: number): void {
     this._context.useProgram(this._program);
-    if (this._monitor.mirror) {
-      if (this._x !== x) {
-        this._context.uniform1f(this._location, x);
-        this._x = x;
-      }
-    }
-    else {
-      this._context.uniform1f(this._location, x);
-      this._x = void 0;
-    }
+    this._context.uniform1f(this._location, x);
   }
   /**
    * @method uniform2f
@@ -95,7 +87,7 @@ class UniformLocation implements ContextProgramListener {
    */
   uniform2f(x: number, y: number): void {
     this._context.useProgram(this._program);
-    return this._context.uniform2f(this._location, x, y);
+    this._context.uniform2f(this._location, x, y);
   }
   /**
    * @method uniform3f
@@ -105,7 +97,7 @@ class UniformLocation implements ContextProgramListener {
    */
   uniform3f(x: number, y: number, z: number): void {
     this._context.useProgram(this._program);
-    return this._context.uniform3f(this._location, x, y, z);
+    this._context.uniform3f(this._location, x, y, z);
   }
   /**
    * @method uniform4f
@@ -116,7 +108,7 @@ class UniformLocation implements ContextProgramListener {
    */
   uniform4f(x: number, y: number, z: number, w: number): void {
     this._context.useProgram(this._program);
-    return this._context.uniform4f(this._location, x, y, z, w);
+    this._context.uniform4f(this._location, x, y, z, w);
   }
   /**
    * @method matrix1
@@ -125,7 +117,7 @@ class UniformLocation implements ContextProgramListener {
    */
   matrix1(transpose: boolean, matrix: Matrix1): void {
     this._context.useProgram(this._program);
-    return this._context.uniform1fv(this._location, matrix.data);
+    this._context.uniform1fv(this._location, matrix.data);
   }
   /**
    * @method matrix2
@@ -134,7 +126,7 @@ class UniformLocation implements ContextProgramListener {
    */
   matrix2(transpose: boolean, matrix: Matrix2): void {
     this._context.useProgram(this._program);
-    return this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
+    this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
   }
   /**
    * @method matrix3
@@ -143,7 +135,7 @@ class UniformLocation implements ContextProgramListener {
    */
   matrix3(transpose: boolean, matrix: Matrix3): void {
     this._context.useProgram(this._program);
-    return this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
+    this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
   }
   /**
    * @method matrix4
@@ -182,7 +174,7 @@ class UniformLocation implements ContextProgramListener {
    */
   vector1(vector: Vector1): void {
     this._context.useProgram(this._program);
-    return this._context.uniform1fv(this._location, vector.data);
+    this._context.uniform1fv(this._location, vector.data);
   }
   /**
    * @method vector2
@@ -190,7 +182,7 @@ class UniformLocation implements ContextProgramListener {
    */
   vector2(vector: Vector2): void {
     this._context.useProgram(this._program);
-    return this._context.uniform2fv(this._location, vector.data);
+    this._context.uniform2fv(this._location, vector.data);
   }
   /**
    * @method vector3
@@ -215,7 +207,7 @@ class UniformLocation implements ContextProgramListener {
    */
   vector4(vector: Vector4): void {
     this._context.useProgram(this._program);
-    return this._context.uniform4fv(this._location, vector.data);
+    this._context.uniform4fv(this._location, vector.data);
   }
   /**
    * @method toString

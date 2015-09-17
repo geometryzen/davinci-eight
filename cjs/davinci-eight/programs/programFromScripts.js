@@ -1,14 +1,18 @@
 var shaderProgram = require('../programs/shaderProgram');
 var expectArg = require('../checks/expectArg');
+var MonitorList = require('../scene/MonitorList');
+// FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
+// FIXME: Temporary rename simpleProgramFromScripts?
 /**
  * @method programFromScripts
- * @param monitor {ContextManager}
+ * @param monitors {ContextMonitor[]}
  * @param vsId {string} The vertex shader script element identifier.
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-function programFromScripts(monitor, vsId, fsId, $document, attribs) {
+function programFromScripts(monitors, vsId, fsId, $document, attribs) {
     if (attribs === void 0) { attribs = []; }
+    MonitorList.verify('monitors', monitors, function () { return "programFromScripts"; });
     expectArg('vsId', vsId).toBeString();
     expectArg('fsId', fsId).toBeString();
     expectArg('$document', $document).toBeObject();
@@ -24,6 +28,6 @@ function programFromScripts(monitor, vsId, fsId, $document, attribs) {
     }
     var vertexShader = $(vsId).textContent;
     var fragmentShader = $(fsId).textContent;
-    return shaderProgram(monitor, vertexShader, fragmentShader, attribs);
+    return shaderProgram(monitors, vertexShader, fragmentShader, attribs);
 }
 module.exports = programFromScripts;

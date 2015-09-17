@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var Face3 = require('../core/Face3');
-var Geometry3 = require('../geometries/Geometry3');
+var Geometry = require('../geometries/Geometry');
 var Vector2 = require('../math/Vector2');
 var expectArg = require('../checks/expectArg');
 /**
@@ -65,5 +65,5 @@ var SurfaceGeometry = (function (_super) {
         this.computeVertexNormals();
     }
     return SurfaceGeometry;
-})(Geometry3);
+})(Geometry);
 module.exports = SurfaceGeometry;

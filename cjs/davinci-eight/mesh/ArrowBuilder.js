@@ -1,6 +1,5 @@
 var expectArg = require('../checks/expectArg');
 var isUndefined = require('../checks/isUndefined');
-var arrowMesh = require('../mesh/arrowMesh');
 var Vector3 = require('../math/Vector3');
 var Symbolic = require('../core/Symbolic');
 /**
@@ -126,9 +125,6 @@ var ArrowBuilder = (function () {
         expectArg('wireFrame', wireFrame).toBeBoolean();
         this.$wireFrame = wireFrame;
         return this;
-    };
-    ArrowBuilder.prototype.buildMesh = function (monitor) {
-        return arrowMesh(monitor, this);
     };
     return ArrowBuilder;
 })();

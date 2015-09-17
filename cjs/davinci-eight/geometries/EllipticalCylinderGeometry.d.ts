@@ -1,6 +1,6 @@
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import Geometry3 = require('../geometries/Geometry3');
-declare class EllipticalCylinderGeometry extends Geometry3 {
+import Geometry = require('../geometries/Geometry');
+declare class EllipticalCylinderGeometry extends Geometry {
     constructor();
 }
 export = EllipticalCylinderGeometry;

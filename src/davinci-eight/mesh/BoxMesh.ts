@@ -1,12 +1,11 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
 import cuboid = require('../mesh/cuboid');
 import CuboidMesh = require('../mesh/CuboidMesh');
-import AttribProvider = require('../core/AttribProvider');
 
 /**
  * @class BoxMesh
  */
-class BoxMesh implements AttribProvider {
+class BoxMesh {
   private cuboid: CuboidMesh;
   /**
    * @class BoxMesh

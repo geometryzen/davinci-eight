@@ -9,14 +9,14 @@
 /// <amd-dependency path="davinci-blade/e3ga/bivectorE3" name="bivectorE3"/>
 /// <amd-dependency path="davinci-blade/e3ga/pseudoscalarE3" name="pseudoscalarE3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 declare var Euclidean3: any;
 declare var scalarE3: (w: number, uom?: blade.Unit) => blade.Euclidean3;
 declare var vectorE3: (x: number, y: number, z: number, uom?: blade.Unit) => blade.Euclidean3;
 declare var bivectorE3: (xy: number, yz: number, zx: number, uom?: blade.Unit) => blade.Euclidean3;
 declare var pseudoscalarE3: (xyz: number, uom?: blade.Unit) => blade.Euclidean3;
 
-class EllipticalCylinderGeometry extends Geometry3 {
+class EllipticalCylinderGeometry extends Geometry {
   constructor() {
     super();
     var s: blade.Euclidean3 = scalarE3(1);

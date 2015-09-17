@@ -1,11 +1,10 @@
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttribProvider = require('../core/AttribProvider');
 import Color = require('../core/Color');
 
 /**
  * @class CuboidMesh
  */
-interface CuboidMesh extends AttribProvider {
+interface CuboidMesh {
   /**
    * @property a
    */

@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../mesh/arrowMesh', '../math/Vector3', '../core/Symbolic'], function (require, exports, expectArg, isUndefined, arrowMesh, Vector3, Symbolic) {
+define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3', '../core/Symbolic'], function (require, exports, expectArg, isUndefined, Vector3, Symbolic) {
     /**
      * @class ArrowBuilder
      */
@@ -122,9 +122,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '.
             expectArg('wireFrame', wireFrame).toBeBoolean();
             this.$wireFrame = wireFrame;
             return this;
-        };
-        ArrowBuilder.prototype.buildMesh = function (monitor) {
-            return arrowMesh(monitor, this);
         };
         return ArrowBuilder;
     })();

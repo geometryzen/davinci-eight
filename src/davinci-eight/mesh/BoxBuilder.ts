@@ -1,10 +1,9 @@
-import AttribProvider = require('../core/AttribProvider');
+import ContextManager = require('../core/ContextManager');
+import ContextMonitor = require('../core/ContextMonitor');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
-import boxMesh = require('../mesh/boxMesh');
 import BoxOptions = require('../mesh/BoxOptions');
 import Symbolic = require('../core/Symbolic');
-import ContextManager = require('../core/ContextManager');
 
 /**
  * @class BoxBuilder
@@ -102,9 +101,6 @@ class BoxBuilder {
     expectArg('normalVarName', normalVarName).toBeString();
     this.$normalVarName = normalVarName;
     return this;
-  }
-  buildMesh(monitor: ContextManager): AttribProvider {
-    return boxMesh(monitor, this);
   }
 }
 

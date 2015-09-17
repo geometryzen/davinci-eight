@@ -1,5 +1,5 @@
 /**
- * @class UniformMetaInfo
+ * @interface UniformMetaInfo
  */
 interface UniformMetaInfo {
   /**

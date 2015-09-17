@@ -8,7 +8,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", "davinci-blade/e3ga/Euclidean3", "davinci-blade/e3ga/scalarE3", "davinci-blade/e3ga/vectorE3", "davinci-blade/e3ga/bivectorE3", "davinci-blade/e3ga/pseudoscalarE3", '../geometries/Geometry3'], function (require, exports, Euclidean3, scalarE3, vectorE3, bivectorE3, pseudoscalarE3, Geometry3) {
+define(["require", "exports", "davinci-blade/e3ga/Euclidean3", "davinci-blade/e3ga/scalarE3", "davinci-blade/e3ga/vectorE3", "davinci-blade/e3ga/bivectorE3", "davinci-blade/e3ga/pseudoscalarE3", '../geometries/Geometry'], function (require, exports, Euclidean3, scalarE3, vectorE3, bivectorE3, pseudoscalarE3, Geometry) {
     var EllipticalCylinderGeometry = (function (_super) {
         __extends(EllipticalCylinderGeometry, _super);
         function EllipticalCylinderGeometry() {
@@ -25,6 +25,6 @@ define(["require", "exports", "davinci-blade/e3ga/Euclidean3", "davinci-blade/e3
             console.log("I: " + I);
         }
         return EllipticalCylinderGeometry;
-    })(Geometry3);
+    })(Geometry);
     return EllipticalCylinderGeometry;
 });

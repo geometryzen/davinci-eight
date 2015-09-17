@@ -1,14 +1,15 @@
-import AttribDataInfo = require('../core/AttribDataInfo');
-import AttribDataInfos = require('../core/AttribDataInfos');
-import AttribProvider = require('../core/AttribProvider');
-import Program = require('../core/Program');
+import AttribLocation = require('../core/AttribLocation');
+import ContextManager = require('../core/ContextManager');
+import ContextMonitor = require('../core/ContextMonitor');
+import IProgram = require('../core/IProgram');
 import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
+import MonitorList = require('../scene/MonitorList');
+import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import expectArg = require('../checks/expectArg');
 import uuid4 = require('../utils/uuid4');
-import AttribLocation = require('../core/AttribLocation');
 import UniformLocation = require('../core/UniformLocation');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import UniformMetaInfos = require('../core/UniformMetaInfos');
@@ -16,13 +17,12 @@ import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
-import ContextManager = require('../core/ContextManager');
 import refChange = require('../utils/refChange');
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_SHAFER_PROGRAM = 'Program';
+let LOGGING_NAME_IPROGRAM = 'IProgram';
 
 function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
   var shader: WebGLShader = ctx.createShader(type);
@@ -88,8 +88,12 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
   }
 }
 
-let shaderProgram = function(monitor: ContextManager, vertexShader: string, fragmentShader: string, attribs: string[]): Program {
+// FIXME: Rename to program or createProgram
+// FIXME: Handle list of shaders? Else createSimpleProgram
 
+let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IProgram {
+  MonitorList.verify('monitors', monitors, () => { return "shaderProgram";});
+  // FIXME multi-context
   if (typeof vertexShader !== 'string') {
     throw new Error("vertexShader argument must be a string.");
   }
@@ -99,13 +103,21 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
   }
 
   var refCount: number = 1;
-  var program: WebGLProgram;
-  var $context: WebGLRenderingContext;
+  /**
+   * Because we are multi-canvas aware, programs are tracked by the canvas id.
+   */
+  var programs: { [id: number]: WebGLProgram } = {};
+  /**
+   * Because we are multi-canvas aware, contexts are tracked by the canvas id.
+   * We need to hold onto a WebGLRenderingContext so that we can delete programs.
+   */
+  var contexts: { [id: number]: WebGLRenderingContext } = {};
+
   let uuid: string = uuid4().generate()
   var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
-  var self: Program = {
+  var self: IProgram = {
     get vertexShader() {
       return vertexShader;
     },
@@ -119,26 +131,33 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
       return uniformLocations;
     },
     addRef(): number {
-      refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
+      refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
       refCount++;
       return refCount;
     },
     release(): number {
-      refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, -1);
+      refChange(uuid, LOGGING_NAME_IPROGRAM, -1);
       refCount--;
       if (refCount === 0) {
-        monitor.removeContextListener(self);
-        self.contextFree();
+        MonitorList.removeContextListener(self, monitors);
+        let keys: number[] = Object.keys(contexts).map(function(key: string) {return parseInt(key)});
+        let keysLength = keys.length;
+        for (var k = 0; k < keysLength; k++) {
+          let canvasId = keys[k];
+          self.contextFree(canvasId);
+        }
       }
       return refCount;
     },
-    contextFree() {
+    contextFree(canvasId: number) {
+      let $context = contexts[canvasId];
       if ($context) {
+        let program = programs[canvasId];
         if (program) {
           $context.deleteProgram(program);
-          program = void 0;
+          programs[canvasId] = void 0;
         }
-        $context = void 0;
+        contexts[canvasId] = void 0;
         for(var aName in attributeLocations) {
           attributeLocations[aName].contextFree();
         }
@@ -147,18 +166,22 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
         }
       }
     },
-    contextGain(context: WebGLRenderingContext): void {
-      if ($context !== context) {
-        self.contextFree();
-        $context = context;
-        program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
+    contextGain(manager: ContextManager): void {
+      // FIXME: multi-canvas
+      let canvasId = manager.canvasId;
+      if (contexts[canvasId] !== manager.context) {
+        self.contextFree(canvasId);
+        contexts[canvasId] = manager.context;
+        let context = manager.context;
+        let program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
+        programs[manager.canvasId] = program;
 
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
         for (var a = 0; a < activeAttributes; a++) {
           let activeAttribInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
           let name: string = activeAttribInfo.name;
           if (!attributeLocations[name]) {
-            attributeLocations[name] = new AttribLocation(monitor, name);
+            attributeLocations[name] = new AttribLocation(manager, name);
           }
         }
         let activeUniforms: number = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
@@ -166,7 +189,7 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
           let activeUniformInfo: WebGLActiveInfo = context.getActiveUniform(program, u);
           let name: string = activeUniformInfo.name;
           if (!uniformLocations[name]) {
-            uniformLocations[name] = new UniformLocation(monitor, name);
+            uniformLocations[name] = new UniformLocation(manager, name);
           }
         }
         for(var aName in attributeLocations) {
@@ -177,9 +200,9 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
         }
       }
     },
-    contextLoss() {
-      program = void 0;
-      $context = void 0;
+    contextLoss(canvasId: number) {
+      programs[canvasId] = void 0;
+      contexts[canvasId] = void 0;
       for(var aName in attributeLocations) {
         attributeLocations[aName].contextLoss();
       }
@@ -187,14 +210,23 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
         uniformLocations[uName].contextLoss();
       }
     },
-    get program() { return program; },
-    get programId() {return uuid;},
-    use(): Program {
-      if ($context) {
-        $context.useProgram(program);
+    get program() {
+      console.warn("shaderProgram program property is assuming canvas id = 0");
+      let canvasId = 0;
+      let program: WebGLProgram = programs[canvasId];
+      // It's a WebGLProgram, no reference count management required.
+      return program;
+    },
+    get programId() {
+      return uuid;
+    },
+    use(canvasId: number): IProgram {
+      let context = contexts[canvasId];
+      if (context) {
+        context.useProgram(programs[canvasId]);
       }
       else {
-        console.warn(LOGGING_NAME_SHAFER_PROGRAM + " use() missing WebGLRenderingContext");
+        console.warn(LOGGING_NAME_IPROGRAM + " use() missing WebGLRenderingContext");
       }
       return self;
     },
@@ -204,17 +236,10 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
         attribLoc.enable();
       }
     },
-    setAttributes(values: AttribDataInfos) {
-      for (var name in attributeLocations) {
-        let attribLoc = attributeLocations[name];
-        let data: AttribDataInfo = values[name];
-        if (data) {
-          data.buffer.bind();
-          attribLoc.vertexPointer(data.size, data.normalized, data.stride, data.offset);
-        }
-        else {
-          throw new Error("The mesh does not support the attribute variable named " + name);
-        }
+    disableAttrib(name: string) {
+      let attribLoc = attributeLocations[name];
+      if (attribLoc) {
+        attribLoc.disable();
       }
     },
     uniform1f(name: string, x: number) {
@@ -290,8 +315,8 @@ let shaderProgram = function(monitor: ContextManager, vertexShader: string, frag
       }
     }
   };
-  refChange(uuid, LOGGING_NAME_SHAFER_PROGRAM, +1);
-  monitor.addContextListener(self);
+  MonitorList.addContextListener(self, monitors);
+  refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
   return self;
 };
 

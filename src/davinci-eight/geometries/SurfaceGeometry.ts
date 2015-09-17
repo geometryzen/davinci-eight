@@ -1,7 +1,7 @@
 import Cartesian2 = require('../math/Cartesian2');
 import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import expectArg = require('../checks/expectArg');
@@ -12,7 +12,7 @@ import expectArg = require('../checks/expectArg');
  *
  * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
  */
-class SurfaceGeometry extends Geometry3 {
+class SurfaceGeometry extends Geometry {
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number) {
     super();
     expectArg('parametricFunction', parametricFunction).toBeFunction();

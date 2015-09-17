@@ -1,11 +1,11 @@
-import Program = require('../core/Program');
-import ContextManager = require('../core/ContextManager');
+import IProgram = require('../core/IProgram');
+import ContextMonitor = require('../core/ContextMonitor');
 /**
  * @method programFromScripts
- * @param monitor {ContextManager}
+ * @param monitors {ContextMonitor[]}
  * @param vsId {string} The vertex shader script element identifier.
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-declare function programFromScripts(monitor: ContextManager, vsId: string, fsId: string, $document: Document, attribs?: string[]): Program;
+declare function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]): IProgram;
 export = programFromScripts;

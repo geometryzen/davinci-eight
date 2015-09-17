@@ -1,3 +1,3 @@
-import ContextManager = require('../core/ContextManager');
-declare function contextProxy(canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes): ContextManager;
-export = contextProxy;
+import ContextKahuna = require('../core/ContextKahuna');
+declare function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): ContextKahuna;
+export = webgl;

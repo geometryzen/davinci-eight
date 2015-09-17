@@ -14,12 +14,12 @@
 import clamp = require('../math/clamp');
 import Curve = require('../curves/Curve');
 import Face3 = require('../core/Face3');
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 import Matrix4 = require('../math/Matrix4');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class TubeGeometry extends Geometry3 {
+class TubeGeometry extends Geometry {
   public static NoTaper = function (u: number): number {return 1;};
   public static SinusoidalTaper = function (u: number): number {return Math.sin(Math.PI * u);};
   public tangents: Vector3[];

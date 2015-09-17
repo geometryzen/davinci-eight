@@ -1,5 +1,5 @@
-import Geometry3 = require('../geometries/Geometry3');
-declare class VortexGeometry extends Geometry3 {
+import Geometry = require('../geometries/Geometry');
+declare class VortexGeometry extends Geometry {
     constructor(radius?: number, radiusCone?: number, radiusShaft?: number, lengthCone?: number, lengthShaft?: number, arrowSegments?: number, radialSegments?: number);
 }
 export = VortexGeometry;

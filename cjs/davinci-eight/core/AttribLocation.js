@@ -7,7 +7,8 @@ function existsLocation(location) {
  * While this class may be created directly by the user, it is preferable
  * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
- * @class AttribLocation.
+ * @class AttribLocation
+ * @implements ContextProgramListener
  */
 var AttribLocation = (function () {
     /**
@@ -15,10 +16,11 @@ var AttribLocation = (function () {
      * In particular, this class manages buffer allocation, location caching, and data binding.
      * @class AttribLocation
      * @constructor
+     * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
      * @param name {string} The name of the variable as it appears in the GLSL program.
      */
-    function AttribLocation(monitor, name) {
-        expectArg('monitor', monitor).toBeObject().value;
+    function AttribLocation(manager, name) {
+        expectArg('manager', manager).toBeObject().value;
         this._name = expectArg('name', name).toBeString().value;
     }
     Object.defineProperty(AttribLocation.prototype, "index", {

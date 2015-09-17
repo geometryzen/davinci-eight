@@ -1,7 +1,5 @@
-import AttribProvider = require('../core/AttribProvider');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
-import cylinderMesh = require('../mesh/cylinderMesh');
 import CylinderOptions = require('../mesh/CylinderOptions');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');

@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry3, Vector2, Vector3) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
     var VortexGeometry = (function (_super) {
         __extends(VortexGeometry, _super);
         function VortexGeometry(radius, radiusCone, radiusShaft, lengthCone, lengthShaft, arrowSegments, radialSegments) {
@@ -91,6 +91,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../ma
             }
         }
         return VortexGeometry;
-    })(Geometry3);
+    })(Geometry);
     return VortexGeometry;
 });

@@ -1,4 +1,4 @@
-import Program = require('../core/Program');
-import ContextManager = require('../core/ContextManager');
-declare let shaderProgram: (monitor: ContextManager, vertexShader: string, fragmentShader: string, attribs: string[]) => Program;
+import ContextMonitor = require('../core/ContextMonitor');
+import IProgram = require('../core/IProgram');
+declare let shaderProgram: (monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]) => IProgram;
 export = shaderProgram;

@@ -169,8 +169,6 @@ class Simplex {
     let vertices = simplex.vertices;
     let k = simplex.k;
     if (k === Simplex.K_FOR_TRIANGLE) {
-      // TODO: Need to lerp all attributes? YES! See below.
-      // FIXME: This should not be special.
       let a = vertices[0].attributes;
       let b = vertices[1].attributes;
       let c = vertices[2].attributes;

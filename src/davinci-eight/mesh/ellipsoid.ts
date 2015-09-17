@@ -3,7 +3,6 @@
 //
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttribMetaInfos = require('../core/AttribMetaInfos');
 import EllipsoidMesh = require('../mesh/EllipsoidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 
@@ -144,14 +143,6 @@ var ellipsoid = function(spec?): EllipsoidMesh {
     },
     get dynamic(): boolean {
       return false;
-    },
-    getAttribMeta(): AttribMetaInfos {
-      // TODO: Use the defaults.
-      return {
-        position: { name: 'aPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        color:    { name: 'aColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-        normal:   { name: 'aNormal',   glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
-      };
     },
     update(): void {
       // This function depends on how the vertexList is computed.

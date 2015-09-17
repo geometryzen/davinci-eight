@@ -15,7 +15,6 @@ import Vector4 = require('../math/Vector4');
 declare class UniformLocation implements ContextProgramListener {
     private _context;
     private _location;
-    private _monitor;
     private _name;
     private _program;
     private _x;
@@ -27,10 +26,10 @@ declare class UniformLocation implements ContextProgramListener {
     /**
      * @class UniformLocation
      * @constructor
-     * @param monitor {ContextManager}
+     * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
      * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
      */
-    constructor(monitor: ContextManager, name: string);
+    constructor(manager: ContextManager, name: string);
     /**
      * @method contextFree
      */

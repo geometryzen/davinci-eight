@@ -132,8 +132,6 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             var vertices = simplex.vertices;
             var k = simplex.k;
             if (k === Simplex.K_FOR_TRIANGLE) {
-                // TODO: Need to lerp all attributes? YES! See below.
-                // FIXME: This should not be special.
                 var a = vertices[0].attributes;
                 var b = vertices[1].attributes;
                 var c = vertices[2].attributes;

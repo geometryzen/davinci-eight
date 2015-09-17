@@ -1,4 +1,9 @@
 import isDefined = require('../checks/isDefined');
+import ContextManager = require('../core/ContextManager');
+import ContextMonitor = require('../core/ContextMonitor');
+
+
+// FIXME: Dead code or not doing refChange?
 /**
  * Manages the WebGLBuffer used to support gl.drawElements().
  * @class ElementBuffer
@@ -11,7 +16,8 @@ class ElementBuffer {
    * @class ElementArray
    * @constructor
    */
-  constructor() {
+  constructor(monitors: ContextMonitor[]) {
+    // FIXME: Support multi-canvas.
   }
   addRef() {
     this._refCount++;
@@ -22,9 +28,6 @@ class ElementBuffer {
       this.contextFree();
     }
   }
-  /**
-   * @method contextFree
-   */
   contextFree() {
     if (this._buffer) {
       this._context.deleteBuffer(this._buffer);
@@ -32,20 +35,15 @@ class ElementBuffer {
     }
     this._context = void 0;
   }
-  /**
-   * @method contextGain
-   * @param context {WebGLRenderingContext}
-   */
-  contextGain(context: WebGLRenderingContext) {
+  contextGain(manager: ContextManager) {
+    // FIXME Support multiple
+    let context = manager.context;
     if (this._context !== context) {
       this.contextFree();
       this._context = context;
       this._buffer = context.createBuffer();
     }
   }
-  /**
-   * @method contextLoss
-   */
   contextLoss() {
     this._buffer = void 0;
     this._context = void 0;

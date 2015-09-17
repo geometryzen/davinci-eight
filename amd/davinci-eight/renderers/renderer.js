@@ -1,39 +1,17 @@
 define(["require", "exports", '../core/Color', '../checks/expectArg'], function (require, exports, Color, expectArg) {
-    var DefaultDrawableVisitor = (function () {
-        function DefaultDrawableVisitor() {
-        }
-        DefaultDrawableVisitor.prototype.primitive = function (mesh, program, model) {
-            if (mesh.dynamic) {
-                mesh.update();
-            }
-            program.use();
-            model.accept(program);
-            program.setAttributes(mesh.getAttribData());
-            var attributes = program.attributes;
-            // TODO: Would be nice to have a program shortcut...
-            Object.keys(attributes).forEach(function (key) {
-                attributes[key].enable();
-            });
-            mesh.draw();
-            // TODO: Would be nice to have a program shortcut...
-            Object.keys(attributes).forEach(function (key) {
-                attributes[key].disable();
-            });
-        };
-        return DefaultDrawableVisitor;
-    })();
-    // This visitor is completely stateless so we can create it here.
-    var drawVisitor = new DefaultDrawableVisitor();
-    var renderer = function (canvas, parameters) {
+    // FIXME: refChange for the renderer.
+    // FIXME: multi-context monitors: etc
+    // FIXME; Remove attributes
+    var renderer = function (canvas) {
+        // FIXME: Replace.
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        parameters = parameters || {};
         var $context = void 0;
         var refCount = 1;
         var autoClear = true;
         var clearColor = Color.fromRGB(0, 0, 0);
         var clearAlpha = 0;
         function drawHandler(drawable) {
-            drawable.accept(drawVisitor);
+            drawable.draw();
         }
         var self = {
             get canvas() { return canvas; },
@@ -54,7 +32,9 @@ define(["require", "exports", '../core/Color', '../checks/expectArg'], function 
             contextFree: function () {
                 $context = void 0;
             },
-            contextGain: function (context) {
+            contextGain: function (manager) {
+                // FIXME: multi-context
+                var context = manager.context;
                 //let attributes: WebGLContextAttributes = context.getContextAttributes();
                 //console.log(context.getParameter(context.VERSION));
                 //console.log("alpha                 => " + attributes.alpha);

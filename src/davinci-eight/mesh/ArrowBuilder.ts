@@ -1,11 +1,9 @@
-import AttribProvider = require('../core/AttribProvider');
+import ContextMonitor = require('../core/ContextMonitor');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
-import arrowMesh = require('../mesh/arrowMesh');
 import ArrowOptions = require('../mesh/ArrowOptions');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
-import ContextManager = require('../core/ContextManager');
 import Symbolic = require('../core/Symbolic');
 
 /**
@@ -103,9 +101,6 @@ class ArrowBuilder {
     expectArg('wireFrame', wireFrame).toBeBoolean();
     this.$wireFrame = wireFrame;
     return this;
-  }
-  buildMesh(monitor: ContextManager): AttribProvider {
-    return arrowMesh(monitor, this);
   }
 }
 

@@ -1,17 +1,18 @@
-import Buffer = require('../core/Buffer');
+import IBuffer = require('../core/IBuffer');
 import ContextManager = require('../core/ContextManager');
-declare class BufferResource implements Buffer {
+import ContextMonitor = require('../core/ContextMonitor');
+declare class BufferResource implements IBuffer {
     private _context;
     private _monitor;
     private _buffer;
     private _refCount;
     private _uuid;
     private _target;
-    constructor(monitor: ContextManager, target: number);
+    constructor(monitor: ContextMonitor, target: number);
     addRef(): number;
     release(): number;
     contextFree(): void;
-    contextGain(context: WebGLRenderingContext): void;
+    contextGain(manager: ContextManager): void;
     contextLoss(): void;
     /**
      * @method bind

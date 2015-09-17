@@ -1,9 +1,9 @@
 import Face3 = require('../core/Face3');
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class CylinderGeometry extends Geometry3 {
+class CylinderGeometry extends Geometry {
   constructor(
     radiusTop: number = 1,
     radiusBottom: number = 1,

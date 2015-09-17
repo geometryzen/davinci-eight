@@ -4,7 +4,7 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../math/Spinor3', '../math/Vector2'], function (require, exports, Face3, Geometry3, Spinor3, Vector2) {
+define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, Face3, Geometry, Spinor3, Vector2) {
     var RevolutionGeometry = (function (_super) {
         __extends(RevolutionGeometry, _super);
         function RevolutionGeometry(points, generator, segments, phiStart, phiLength, attitude) {
@@ -73,6 +73,6 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry3', '../ma
             this.computeVertexNormals();
         }
         return RevolutionGeometry;
-    })(Geometry3);
+    })(Geometry);
     return RevolutionGeometry;
 });

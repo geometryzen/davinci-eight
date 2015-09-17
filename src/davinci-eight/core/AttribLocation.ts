@@ -11,7 +11,8 @@ function existsLocation(location: number): boolean {
  * While this class may be created directly by the user, it is preferable
  * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
- * @class AttribLocation.
+ * @class AttribLocation
+ * @implements ContextProgramListener
  */
 class AttribLocation implements ContextProgramListener {
   private _name: string;
@@ -22,10 +23,11 @@ class AttribLocation implements ContextProgramListener {
    * In particular, this class manages buffer allocation, location caching, and data binding.
    * @class AttribLocation
    * @constructor
+   * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
    * @param name {string} The name of the variable as it appears in the GLSL program.
    */
-  constructor(monitor: ContextManager, name: string) {
-    expectArg('monitor', monitor).toBeObject().value;
+  constructor(manager: ContextManager, name: string) {
+    expectArg('manager', manager).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }
   get index(): number {

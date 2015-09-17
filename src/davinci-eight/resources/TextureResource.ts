@@ -1,36 +1,44 @@
 import expectArg = require('../checks/expectArg');
 import refChange = require('../utils/refChange');
-import Texture = require('../core/Texture');
+import ITexture = require('../core/ITexture');
 import ContextListener = require('../core/ContextListener');
 import ContextManager = require('../core/ContextManager');
+import ContextMonitor = require('../core/ContextMonitor');
 import uuid4 = require('../utils/uuid4');
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_TEXTURE = 'Texture';
+let LOGGING_NAME_ITEXTURE = 'ITexture';
 
-class TextureResource implements Texture {
+let ms = new Array<ContextMonitor>();
+let os: ContextMonitor[] = [];
+// What is the difference?
+
+class TextureResource implements ITexture {
   private _context: WebGLRenderingContext;
-  private _monitor: ContextManager;
+  // FIXME: Support multiple monitors, defensive copy the array.
+  private _monitor: ContextMonitor;
   private _texture: WebGLTexture;
   private _refCount: number = 1;
   private _uuid: string = uuid4().generate();
   private _target: number;
-  constructor(monitor: ContextManager, target: number) {
+  constructor(monitors: ContextMonitor[], target: number) {
+    // FIXME: Supprt multiple canvas.
+    let monitor = monitors[0];
     this._monitor = expectArg('montor', monitor).toBeObject().value;
     this._target = target;
-    refChange(this._uuid, LOGGING_NAME_TEXTURE, +1);
+    refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
     monitor.addContextListener(this);
   }
   addRef(): number {
     this._refCount++;
-    refChange(this._uuid, LOGGING_NAME_TEXTURE, +1);
+    refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
     return this._refCount;
   }
   release(): number {
     this._refCount--;
-    refChange(this._uuid, LOGGING_NAME_TEXTURE, -1);
+    refChange(this._uuid, LOGGING_NAME_ITEXTURE, -1);
     if (this._refCount === 0) {
       this._monitor.removeContextListener(this);
       this.contextFree();
@@ -38,20 +46,27 @@ class TextureResource implements Texture {
     return this._refCount;
   }
   contextFree() {
+    // FIXME: I need to know which context.
     if (this._texture) {
       this._context.deleteTexture(this._texture);
       this._texture = void 0;
     }
     this._context = void 0;
   }
-  contextGain(context: WebGLRenderingContext) {
+  contextGain(manager: ContextManager) {
+    // FIXME: Support multiple canvas.
+    let context = manager.context;
     if (this._context !== context) {
       this.contextFree();
       this._context = context;
+      // I must create a texture for each monitor.
+      // But I only get context events one at a time.
+
       this._texture = context.createTexture();
     }
   }
   contextLoss() {
+    // FIXME: I need to know which context.
     this._texture = void 0;
     this._context = void 0;
   }
@@ -63,7 +78,7 @@ class TextureResource implements Texture {
       this._context.bindTexture(this._target, this._texture);
     }
     else {
-      console.warn(LOGGING_NAME_TEXTURE + " bind(target) missing WebGLRenderingContext.");
+      console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGLRenderingContext.");
     }
   }
   /**
@@ -74,7 +89,7 @@ class TextureResource implements Texture {
       this._context.bindTexture(this._target, null);
     }
     else {
-      console.warn(LOGGING_NAME_TEXTURE + " unbind(target) missing WebGLRenderingContext.");
+      console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGLRenderingContext.");
     }
   }
 }

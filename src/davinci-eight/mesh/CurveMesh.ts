@@ -1,5 +1,4 @@
 import AttribMetaInfos = require('../core/AttribMetaInfos');
-import AttribProvider = require('../core/AttribProvider');
 
 function makeArray(length: number) {
   var xs: number[] = [];
@@ -11,7 +10,7 @@ function makeArray(length: number) {
   return xs;
 }
 
-class CurveMesh implements AttribProvider {
+class CurveMesh {
   private elements: Uint16Array;
   private vertices: Float32Array;
   private vertexColors: Float32Array;

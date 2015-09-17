@@ -1,12 +1,12 @@
 import Cartesian2 = require('../math/Cartesian2');
 import Cartesian3 = require('../math/Cartesian3');
 import Face3 = require('../core/Face3');
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 import Sphere = require('../math/Sphere');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class PolyhedronGeometry extends Geometry3 {
+class PolyhedronGeometry extends Geometry {
   constructor(vertices: number[], indices: number[], radius: number = 1, detail: number = 0) {
     super();
 

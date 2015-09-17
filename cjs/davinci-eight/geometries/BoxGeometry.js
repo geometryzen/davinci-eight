@@ -5,7 +5,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 var Face3 = require('../core/Face3');
-var Geometry3 = require('../geometries/Geometry3');
+var Geometry = require('../geometries/Geometry');
 var Vector2 = require('../math/Vector2');
 var Vector3 = require('../math/Vector3');
 var BoxGeometry = (function (_super) {
@@ -83,5 +83,5 @@ var BoxGeometry = (function (_super) {
         this.mergeVertices();
     }
     return BoxGeometry;
-})(Geometry3);
+})(Geometry);
 module.exports = BoxGeometry;

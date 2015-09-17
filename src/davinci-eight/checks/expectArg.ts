@@ -3,7 +3,7 @@ import isUndefined = require('../checks/isUndefined');
 function message(standard: string, override: () => string): string {
   return isUndefined(override) ? standard : override();
 }
-
+// FIXME: This plays havok with the TypeScript compiler stack and encourages temporary object creation.
 function expectArg<T>(name: string, value: T) {
   let arg = {
     toSatisfy(condition: boolean, message: string) {

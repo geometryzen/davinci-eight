@@ -1,5 +1,5 @@
+var MonitorList = require('../scene/MonitorList');
 var fragmentShader = require('../programs/fragmentShader');
-var isDefined = require('../checks/isDefined');
 var shaderProgram = require('./shaderProgram');
 var Symbolic = require('../core/Symbolic');
 var vertexShader = require('../programs/vertexShader');
@@ -12,24 +12,17 @@ function vColorRequired(attributes, uniforms) {
 /**
  *
  */
-var smartProgram = function (monitor, attributes, uniformsList, attribs) {
-    if (!isDefined(attributes)) {
+var smartProgram = function (monitors, attributes, uniforms, bindings) {
+    MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
+    if (!attributes) {
         throw new Error("The attributes parameter is required for smartProgram.");
     }
-    if (uniformsList) {
-    }
-    else {
+    if (!uniforms) {
         throw new Error("The uniformsList parameter is required for smartProgram.");
     }
-    var uniforms = {};
-    uniformsList.forEach(function (uniformsElement) {
-        for (var name in uniformsElement) {
-            uniforms[name] = uniformsElement[name];
-        }
-    });
     var vColor = vColorRequired(attributes, uniforms);
     var vLight = vLightRequired(uniforms);
-    var innerProgram = shaderProgram(monitor, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), attribs);
+    var innerProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
     var self = {
         get program() {
             return innerProgram.program;
@@ -55,23 +48,23 @@ var smartProgram = function (monitor, attributes, uniformsList, attribs) {
         release: function () {
             return innerProgram.release();
         },
-        contextFree: function () {
-            return innerProgram.contextFree();
+        contextFree: function (canvasId) {
+            return innerProgram.contextFree(canvasId);
         },
-        contextGain: function (context) {
-            return innerProgram.contextGain(context);
+        contextGain: function (manager) {
+            return innerProgram.contextGain(manager);
         },
-        contextLoss: function () {
-            return innerProgram.contextLoss();
+        contextLoss: function (canvasId) {
+            return innerProgram.contextLoss(canvasId);
         },
-        use: function () {
-            return innerProgram.use();
+        use: function (canvasId) {
+            return innerProgram.use(canvasId);
         },
         enableAttrib: function (name) {
             return innerProgram.enableAttrib(name);
         },
-        setAttributes: function (values) {
-            return innerProgram.setAttributes(values);
+        disableAttrib: function (name) {
+            return innerProgram.disableAttrib(name);
         },
         uniform1f: function (name, x) {
             return innerProgram.uniform1f(name, x);

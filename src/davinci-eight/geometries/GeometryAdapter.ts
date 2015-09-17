@@ -1,25 +1,27 @@
 import AttribDataInfos = require('../core/AttribDataInfos');
 import AttribMetaInfos = require('../core/AttribMetaInfos');
+import ContextManager = require('../core/ContextManager');
+import ContextMonitor = require('../core/ContextMonitor');
 import expectArg = require('../checks/expectArg');
 import Face3 = require('../core/Face3');
 import Line3 = require('../core/Line3');
 import Point3 = require('../core/Point3');
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
 import Color = require('../core/Color');
 import Symbolic = require('../core/Symbolic');
-import DefaultAttribProvider = require('../core/DefaultAttribProvider');
 import DrawMode = require('../core/DrawMode');
-import Buffer = require('../core/Buffer');
+import IBuffer = require('../core/IBuffer');
 import ElementBuffer = require('../core/ElementBuffer');
-import ContextManager = require('../core/ContextManager');
+
+// FIXME: GeometryAdapter should be delegating to the ContextManager. Maverick!
 
 function computeAttribData(
   positionVarName: string,
-  positionBuffer: Buffer,
+  positionBuffer: IBuffer,
   normalVarName: string,
-  normalBuffer: Buffer,
+  normalBuffer: IBuffer,
   drawMode: DrawMode): AttribDataInfos {
   var attributes: AttribDataInfos = {};
   attributes[positionVarName] = {buffer: positionBuffer, size: 3};
@@ -31,14 +33,13 @@ function computeAttribData(
 
 
 /**
- * Adapter from a Geometry to a AttribProvider.
+ * Adapter from a Geometry to a ...
  * Enables the rapid construction of meshes starting from classes that extend Geometry.
  * Automatically uses elements (vertex indices).
  * @class GeometryAdapter
- * @extends VertexAttributeProivider
  */
-class GeometryAdapter extends DefaultAttribProvider {
-  public geometry: Geometry3;
+class GeometryAdapter {
+  public geometry: Geometry;
   private elementArray: Uint16Array;
   private positionArray: Float32Array;
   private normalArray: Float32Array;
@@ -50,18 +51,19 @@ class GeometryAdapter extends DefaultAttribProvider {
   private positionVarName: string;
   private normalVarName: string;
   private indexBuffer: ElementBuffer;
-  private positionBuffer: Buffer;
-  private normalBuffer: Buffer;
+  private positionBuffer: IBuffer;
+  private normalBuffer: IBuffer;
   private attributeDataInfos: AttribDataInfos;
   /**
    * @class GeometryAdapter
    * @constructor
    * @param monitor {ContextManager}
-   * @param geometry {Geometry3} The geometry that must be adapted to a AttribProvider.
+   * @param geometry {Geometry} The geometry that must be adapted to a ...
    */
   constructor(
-    monitor: ContextManager,
-    geometry: Geometry3,
+    // FIXME: Support multiple contexts.
+    monitors: ContextMonitor[],
+    geometry: Geometry,
     options?: {
       drawMode?: DrawMode;
       elementsUsage?: number;
@@ -69,17 +71,17 @@ class GeometryAdapter extends DefaultAttribProvider {
       normalVarName?: string;
     }) {
     super();
+    // FIXME: Support multi-canvas.
+    let monitor = monitors[0];
     expectArg('monitor', monitor).toBeObject();
     expectArg('geometry', geometry).toBeObject();
     options = options || {};
     options.drawMode = typeof options.drawMode !== 'undefined' ? options.drawMode : DrawMode.TRIANGLES;
     // TODO: Sharing of buffers.
-    this.indexBuffer = new ElementBuffer();
+    this.indexBuffer = new ElementBuffer(monitors);
     this.indexBuffer.addRef();
     this.positionVarName = options.positionVarName || Symbolic.ATTRIBUTE_POSITION;
-    this.positionBuffer = monitor.createArrayBuffer();
     this.normalVarName = options.normalVarName || Symbolic.ATTRIBUTE_NORMAL;
-    this.normalBuffer = monitor.createArrayBuffer();
     this.geometry = geometry;
     this.geometry.dynamic = false;
     this.$drawMode = options.drawMode;
@@ -104,18 +106,24 @@ class GeometryAdapter extends DefaultAttribProvider {
     }
     return this._refCount;
   }
-  contextFree(): void {
+  contextFree(canvasId: number): void {
     this.indexBuffer.contextFree();
-    this.positionBuffer.contextFree();
-    this.normalBuffer.contextFree();
+    this.positionBuffer.contextFree(canvasId);
+    this.normalBuffer.contextFree(canvasId);
     super.contextFree();
   }
-  contextGain(context: WebGLRenderingContext) {
-    super.contextGain(context);
-    this.elementsUsage = typeof this.elementsUsage !== 'undefined' ? this.elementsUsage : context.STREAM_DRAW;
-    this.indexBuffer.contextGain(context);
-    this.positionBuffer.contextGain(context);
-    this.normalBuffer.contextGain(context);
+  contextGain(manager: ContextManager) {
+    // FIXME: Support for multiple contexts.
+    super.contextGain(manager);
+    if (!this.positionBuffer) {
+      // FIXME: wierd.
+      this.positionBuffer = manager.createArrayBuffer();
+      this.normalBuffer = manager.createArrayBuffer();
+    }
+    this.elementsUsage = typeof this.elementsUsage !== 'undefined' ? this.elementsUsage : manager.context.STREAM_DRAW;
+    this.indexBuffer.contextGain(manager);
+    this.positionBuffer.contextGain(manager);
+    this.normalBuffer.contextGain(manager);
     this.update();
   }
   contextLoss(): void {

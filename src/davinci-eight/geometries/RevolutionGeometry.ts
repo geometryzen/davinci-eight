@@ -1,10 +1,10 @@
 import Face3 = require('../core/Face3');
-import Geometry3 = require('../geometries/Geometry3');
+import Geometry = require('../geometries/Geometry');
 import Spinor3 = require('../math/Spinor3');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
-class RevolutionGeometry extends Geometry3
+class RevolutionGeometry extends Geometry
 {
   constructor(
     points: Vector3[],

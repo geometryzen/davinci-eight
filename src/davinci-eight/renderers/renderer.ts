@@ -1,48 +1,19 @@
-import AttribProvider = require('../core/AttribProvider');
 import Color = require('../core/Color');
-import Drawable = require('../core/Drawable');
-import DrawableVisitor = require('../core/DrawableVisitor');
-import DrawList = require('../drawLists/DrawList');
 import expectArg = require('../checks/expectArg');
+import ContextManager = require('../core/ContextManager');
+import IDrawable = require('../core/IDrawable');
+import IDrawList = require('../scene/IDrawList');
+import IMesh = require('../dfx/IMesh');
+import IProgram = require('../core/IProgram');
 import Renderer = require('../renderers/Renderer');
-import RendererParameters = require('../renderers/RendererParameters');
-import Program = require('../core/Program');
 import UniformData = require('../core/UniformData');
+// FIXME: refChange for the renderer.
 
-class DefaultDrawableVisitor implements DrawableVisitor {
-  constructor() {
-  }
-  primitive(mesh: AttribProvider, program: Program, model: UniformData) {
-    if (mesh.dynamic) {
-      mesh.update();
-    }
-
-    program.use();
-
-    model.accept(program);
-    program.setAttributes(mesh.getAttribData());
-
-    let attributes = program.attributes;
-    // TODO: Would be nice to have a program shortcut...
-    Object.keys(attributes).forEach(function(key: string){
-      attributes[key].enable();
-    });
-    mesh.draw();
-    // TODO: Would be nice to have a program shortcut...
-    Object.keys(attributes).forEach(function(key: string){
-      attributes[key].disable();
-    });
-  }
-}
-
-// This visitor is completely stateless so we can create it here.
-let drawVisitor: DrawableVisitor = new DefaultDrawableVisitor();
-
-let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParameters): Renderer {
-
+// FIXME: multi-context monitors: etc
+// FIXME; Remove attributes
+let renderer = function(canvas: HTMLCanvasElement): Renderer {
+  // FIXME: Replace.
   expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-
-  parameters = parameters || {};
 
   var $context: WebGLRenderingContext = void 0;
   var refCount: number = 1;
@@ -50,8 +21,8 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
   let clearColor: Color = Color.fromRGB(0, 0, 0);
   var clearAlpha: number = 0;
 
-  function drawHandler(drawable: Drawable) {
-    drawable.accept(drawVisitor);
+  function drawHandler(drawable: IDrawable) {
+    drawable.draw();
   }
 
   let self: Renderer = {
@@ -73,7 +44,9 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
     contextFree() {
       $context = void 0;
     },
-    contextGain(context: WebGLRenderingContext) {
+    contextGain(manager: ContextManager) {
+      // FIXME: multi-context
+      let context = manager.context;
       //let attributes: WebGLContextAttributes = context.getContextAttributes();
       //console.log(context.getParameter(context.VERSION));
       //console.log("alpha                 => " + attributes.alpha);
@@ -107,7 +80,7 @@ let renderer = function(canvas: HTMLCanvasElement, parameters?: RendererParamete
         $context.clearColor(red, green, blue, alpha);
       }
     },
-    render(drawList: DrawList) {
+    render(drawList: IDrawList) {
       if ($context) {
         if (autoClear) {
           $context.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
