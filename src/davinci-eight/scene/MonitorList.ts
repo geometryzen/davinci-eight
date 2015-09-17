@@ -40,6 +40,9 @@ class MonitorList {
       monitor.removeContextListener(user);
     });
   }
+  toArray(): ContextMonitor[] {
+    return this.monitors.map(identity);
+  }
   public static copy(monitors: ContextMonitor[]): MonitorList {
     return new MonitorList(monitors);
   }
@@ -55,7 +58,7 @@ class MonitorList {
       throw new Error()
     }
   }
-  public static verify(name: string, monitors: ContextMonitor[], contextBuilder: () => string): ContextMonitor[] {
+  public static verify(name: string, monitors: ContextMonitor[], contextBuilder?: () => string): ContextMonitor[] {
     mustSatisfy(name, isInteger(monitors['length']), beContextMonitorArray, contextBuilder);
     let monitorsLength: number = monitors.length;
     for (var i = 0; i < monitorsLength; i++) {

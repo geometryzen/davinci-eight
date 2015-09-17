@@ -60,7 +60,13 @@ function refChange(uuid, name, change) {
     if (trace) {
         if (traceName) {
             if (name === traceName) {
-                log(change + " on " + uuid + " @ " + name);
+                var element = statistics[uuid];
+                if (element) {
+                    log(change + " on " + uuid + " @ " + name);
+                }
+                else {
+                    log(change + " on " + uuid + " @ " + name);
+                }
             }
         }
         else {

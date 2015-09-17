@@ -19,14 +19,15 @@ import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
 import GeometryInfo = require('davinci-eight/dfx/GeometryInfo');
 import IDrawList = require('davinci-eight/scene/IDrawList');
-import Material = require('davinci-eight/scene/Material');
 import Mesh = require('davinci-eight/scene/Mesh');
-import MeshNormalMaterial = require('davinci-eight/scene/MeshNormalMaterial');
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
 import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 import Geometry = require('davinci-eight/geometries/Geometry');
-import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
+import BoxComplex = require('davinci-eight/geometries/BoxComplex');
+import Material = require('davinci-eight/materials/Material');
+import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
+import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
@@ -41,14 +42,18 @@ import VectorN = require('davinci-eight/math/VectorN');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import IProgram = require('davinci-eight/core/IProgram');
-import Renderer = require('davinci-eight/renderers/Renderer');
+import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
 import Model = require('davinci-eight/utils/Model');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
  */
 declare var eight: {
-    'VERSION': string;
+    LAST_AUTHORED_DATE: string;
+    VERSION: string;
+    HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
+    Material: typeof Material;
+    MeshNormalMaterial: typeof MeshNormalMaterial;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
     Model: typeof Model;
     Simplex: typeof Simplex;
@@ -69,13 +74,11 @@ declare var eight: {
     }) => View;
     viewMatrix: (eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4) => Matrix4;
     Scene: typeof Scene;
-    Material: typeof Material;
     Mesh: typeof Mesh;
-    MeshNormalMaterial: typeof MeshNormalMaterial;
     PerspectiveCamera: typeof PerspectiveCamera;
     WebGLRenderer: typeof WebGLRenderer;
     createDrawList: () => IDrawList;
-    renderer: (canvas: HTMLCanvasElement) => Renderer;
+    renderer: (canvas: HTMLCanvasElement) => ContextRenderer;
     webgl: (canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes) => ContextKahuna;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
@@ -97,7 +100,7 @@ declare var eight: {
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;
-    BoxGeometry: typeof BoxGeometry;
+    BoxComplex: typeof BoxComplex;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     rotor3: () => Rotor3;

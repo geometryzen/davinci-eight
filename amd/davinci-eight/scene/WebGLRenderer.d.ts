@@ -3,19 +3,24 @@ import ContextMonitor = require('../core/ContextMonitor');
 import ContextListener = require('../core/ContextListener');
 import DrawElements = require('../dfx/DrawElements');
 import IMesh = require('../dfx/IMesh');
+import IUnknown = require('../core/IUnknown');
 import Scene = require('../scene/Scene');
 import UniformData = require('../core/UniformData');
-declare class WebGLRenderer implements ContextController, ContextMonitor {
+declare class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
     private _canvas;
     private _kahuna;
     private _renderer;
     private _canvasId;
+    private _refCount;
+    private _uuid;
     constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
     addContextListener(user: ContextListener): void;
+    addRef(): number;
     canvasId: number;
-    context: WebGLRenderingContext;
+    gl: WebGLRenderingContext;
     createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
-    domElement: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
+    release(): number;
     removeContextListener(user: ContextListener): void;
     render(scene: Scene, ambients: UniformData): void;
     setClearColor(color: number, alpha?: number): void;

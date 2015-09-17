@@ -1,4 +1,4 @@
-function isNumber(arg) {
-    return (typeof arg === 'number');
+function isNumber(x) {
+    return (typeof x === 'number');
 }
 module.exports = isNumber;

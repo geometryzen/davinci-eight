@@ -16,7 +16,7 @@ let os: ContextMonitor[] = [];
 // What is the difference?
 
 class TextureResource implements ITexture {
-  private _context: WebGLRenderingContext;
+  private _gl: WebGLRenderingContext;
   // FIXME: Support multiple monitors, defensive copy the array.
   private _monitor: ContextMonitor;
   private _texture: WebGLTexture;
@@ -48,34 +48,34 @@ class TextureResource implements ITexture {
   contextFree() {
     // FIXME: I need to know which context.
     if (this._texture) {
-      this._context.deleteTexture(this._texture);
+      this._gl.deleteTexture(this._texture);
       this._texture = void 0;
     }
-    this._context = void 0;
+    this._gl = void 0;
   }
   contextGain(manager: ContextManager) {
     // FIXME: Support multiple canvas.
-    let context = manager.context;
-    if (this._context !== context) {
+    let gl = manager.gl;
+    if (this._gl !== gl) {
       this.contextFree();
-      this._context = context;
+      this._gl = gl;
       // I must create a texture for each monitor.
-      // But I only get context events one at a time.
+      // But I only get gl events one at a time.
 
-      this._texture = context.createTexture();
+      this._texture = gl.createTexture();
     }
   }
   contextLoss() {
     // FIXME: I need to know which context.
     this._texture = void 0;
-    this._context = void 0;
+    this._gl = void 0;
   }
   /**
    * @method bind
    */
   bind() {
-    if (this._context) {
-      this._context.bindTexture(this._target, this._texture);
+    if (this._gl) {
+      this._gl.bindTexture(this._target, this._texture);
     }
     else {
       console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGLRenderingContext.");
@@ -85,8 +85,8 @@ class TextureResource implements ITexture {
    * @method unbind
    */
   unbind() {
-    if (this._context) {
-      this._context.bindTexture(this._target, null);
+    if (this._gl) {
+      this._gl.bindTexture(this._target, null);
     }
     else {
       console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGLRenderingContext.");

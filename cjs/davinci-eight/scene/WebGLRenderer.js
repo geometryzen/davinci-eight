@@ -2,6 +2,8 @@ var contextProxy = require('../utils/contextProxy');
 var createRenderer = require('../renderers/renderer');
 var mustBeInteger = require('../checks/mustBeInteger');
 var mustSatisfy = require('../checks/mustSatisfy');
+var refChange = require('../utils/refChange');
+var uuid4 = require('../utils/uuid4');
 var LOGGING_NAME = 'WebGLRenderer';
 // FIXME: ContextManger may be reference counted so this class may need to be too.
 function ctorContext() {
@@ -13,6 +15,8 @@ function beHTMLCanvasElement() {
 var WebGLRenderer = (function () {
     function WebGLRenderer(canvas, canvasId, attributes) {
         if (canvasId === void 0) { canvasId = 0; }
+        this._refCount = 1;
+        this._uuid = uuid4().generate();
         if (canvas) {
             mustSatisfy('canvas', canvas instanceof HTMLCanvasElement, beHTMLCanvasElement, ctorContext);
             this._canvas = canvas;
@@ -27,9 +31,15 @@ var WebGLRenderer = (function () {
         this._renderer = createRenderer(this._canvas);
         // Provide the manager with access to the WebGLRenderingContext.
         this._kahuna.addContextListener(this._renderer);
+        refChange(this._uuid, LOGGING_NAME, +1);
     }
     WebGLRenderer.prototype.addContextListener = function (user) {
         this._kahuna.addContextListener(user);
+    };
+    WebGLRenderer.prototype.addRef = function () {
+        this._refCount++;
+        refChange(this._uuid, LOGGING_NAME, +1);
+        return this._refCount;
     };
     Object.defineProperty(WebGLRenderer.prototype, "canvasId", {
         get: function () {
@@ -38,9 +48,10 @@ var WebGLRenderer = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(WebGLRenderer.prototype, "context", {
+    Object.defineProperty(WebGLRenderer.prototype, "gl", {
+        // FIXME: Rename this property to gl, which is the normal usage.
         get: function () {
-            return this._kahuna.context;
+            return this._kahuna.gl;
         },
         enumerable: true,
         configurable: true
@@ -48,13 +59,29 @@ var WebGLRenderer = (function () {
     WebGLRenderer.prototype.createDrawElementsMesh = function (elements, mode, usage) {
         return this._kahuna.createDrawElementsMesh(elements, mode, usage);
     };
-    Object.defineProperty(WebGLRenderer.prototype, "domElement", {
+    Object.defineProperty(WebGLRenderer.prototype, "canvas", {
         get: function () {
             return this._canvas;
         },
         enumerable: true,
         configurable: true
     });
+    WebGLRenderer.prototype.release = function () {
+        this._refCount--;
+        refChange(this._uuid, LOGGING_NAME, -1);
+        if (this._refCount === 0) {
+            this._kahuna.release();
+            this._canvas = void 0;
+            this._canvasId = void 0;
+            this._kahuna = void 0;
+            this._refCount = void 0;
+            this._renderer = void 0;
+            return 0;
+        }
+        else {
+            return this._refCount;
+        }
+    };
     WebGLRenderer.prototype.removeContextListener = function (user) {
         this._kahuna.removeContextListener(user);
     };

@@ -32,6 +32,9 @@ var MonitorList = (function () {
             monitor.removeContextListener(user);
         });
     };
+    MonitorList.prototype.toArray = function () {
+        return this.monitors.map(identity);
+    };
     MonitorList.copy = function (monitors) {
         return new MonitorList(monitors);
     };

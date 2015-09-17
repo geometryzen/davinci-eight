@@ -1,2 +1,2 @@
-declare function isNumber(arg: number): boolean;
+declare function isNumber(x: any): boolean;
 export = isNumber;

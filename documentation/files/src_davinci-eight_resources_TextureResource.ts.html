@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.96.0</em>
+            <em>API Docs for: 2.97.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,7 +47,7 @@
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
+                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -63,6 +63,12 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh..html">Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
@@ -79,10 +85,11 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/Geometry
                 Base class for geometries.
-                A geometry holds faces and vertices used to describe a 3D mesh..html">Geometry
+                A complex holds the instructions for rendering a 3D mesh..html">Geometry
                 Base class for geometries.
-                A geometry holds faces and vertices used to describe a 3D mesh.</a></li>
+                A complex holds the instructions for rendering a 3D mesh.</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -99,8 +106,8 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Object3D.html">Object3D</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
@@ -198,7 +205,7 @@ let os: ContextMonitor[] = [];
 // What is the difference?
 
 class TextureResource implements ITexture {
-  private _context: WebGLRenderingContext;
+  private _gl: WebGLRenderingContext;
   // FIXME: Support multiple monitors, defensive copy the array.
   private _monitor: ContextMonitor;
   private _texture: WebGLTexture;
@@ -230,34 +237,34 @@ class TextureResource implements ITexture {
   contextFree() {
     // FIXME: I need to know which context.
     if (this._texture) {
-      this._context.deleteTexture(this._texture);
+      this._gl.deleteTexture(this._texture);
       this._texture = void 0;
     }
-    this._context = void 0;
+    this._gl = void 0;
   }
   contextGain(manager: ContextManager) {
     // FIXME: Support multiple canvas.
-    let context = manager.context;
-    if (this._context !== context) {
+    let gl = manager.gl;
+    if (this._gl !== gl) {
       this.contextFree();
-      this._context = context;
+      this._gl = gl;
       // I must create a texture for each monitor.
-      // But I only get context events one at a time.
+      // But I only get gl events one at a time.
 
-      this._texture = context.createTexture();
+      this._texture = gl.createTexture();
     }
   }
   contextLoss() {
     // FIXME: I need to know which context.
     this._texture = void 0;
-    this._context = void 0;
+    this._gl = void 0;
   }
   /**
    * @method bind
    */
   bind() {
-    if (this._context) {
-      this._context.bindTexture(this._target, this._texture);
+    if (this._gl) {
+      this._gl.bindTexture(this._target, this._texture);
     }
     else {
       console.warn(LOGGING_NAME_ITEXTURE + &quot; bind() missing WebGLRenderingContext.&quot;);
@@ -267,8 +274,8 @@ class TextureResource implements ITexture {
    * @method unbind
    */
   unbind() {
-    if (this._context) {
-      this._context.bindTexture(this._target, null);
+    if (this._gl) {
+      this._gl.bindTexture(this._target, null);
     }
     else {
       console.warn(LOGGING_NAME_ITEXTURE + &quot; unbind() missing WebGLRenderingContext.&quot;);

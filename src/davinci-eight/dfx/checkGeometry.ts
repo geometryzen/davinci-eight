@@ -1,6 +1,6 @@
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
-import isInteger = require('../checks/isInteger');
+//import isInteger = require('../checks/isInteger');
 import GeometryInfo = require('../dfx/GeometryInfo');
 import Simplex = require('../dfx/Simplex');
 import Vertex = require('../dfx/Vertex');

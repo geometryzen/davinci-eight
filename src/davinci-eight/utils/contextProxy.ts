@@ -34,12 +34,12 @@ function webglFunctionalConstructorContextBuilder(): string {
   return "webgl functional constructor";
 }
 
-function mustBeContext(context: WebGLRenderingContext, method: string): WebGLRenderingContext {
-  if (context) {
-    return context;
+function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderingContext {
+  if (gl) {
+    return gl;
   }
   else {
-    throw new Error(method + ": context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+    throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
   }
 }
 
@@ -57,12 +57,14 @@ class DrawElementsCommand {
     this.type = type;
     this.offset = offset;
   }
-  execute(context: WebGLRenderingContext) {
-    context.drawElements(this.mode, this.count, this.type, this.offset);
+  execute(gl: WebGLRenderingContext) {
+    gl.drawElements(this.mode, this.count, this.type, this.offset);
   }
 }
 
 class ElementsBlock implements IUnknown {
+  // FIXME: Need to convert thi into a IUnknownArray
+  // Can we know our IProgram(s)?
   private _attributes: StringIUnknownMap<ElementsBlockAttrib>;
   private _indexBuffer: IBuffer;
   public drawCommand: DrawElementsCommand;
@@ -144,17 +146,17 @@ class ElementsBlockAttrib implements IUnknown {
 }
 
 // TODO: If mode provided, check consistent with elements.k.
-// expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
-function drawMode(k: number, mode: number, context: WebGLRenderingContext): number {
+// expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
+function drawMode(k: number, mode: number, gl: WebGLRenderingContext): number {
   switch(k) {
     case Simplex.K_FOR_TRIANGLE: {
-      return context.TRIANGLES;
+      return gl.TRIANGLES;
     }
     case Simplex.K_FOR_LINE_SEGMENT: {
-      return context.LINES;
+      return gl.LINES;
     }
     case Simplex.K_FOR_POINT: {
-      return context.POINTS;
+      return gl.POINTS;
     }
     case Simplex.K_FOR_EMPTY: {
       return void 0;
@@ -165,18 +167,18 @@ function drawMode(k: number, mode: number, context: WebGLRenderingContext): numb
   }
 }
 
-function isDrawMode(mode: number, context: WebGLRenderingContext): boolean {
+function isDrawMode(mode: number, gl: WebGLRenderingContext): boolean {
   if (!isNumber(mode)) {
     expectArg('mode', mode).toBeNumber();
   }
   switch(mode) {
-    case context.TRIANGLES: {
+    case gl.TRIANGLES: {
       return true;
     }
-    case context.LINES: {
+    case gl.LINES: {
       return true;
     }
-    case context.POINTS: {
+    case gl.POINTS: {
       return true;
     }
     default: {
@@ -185,10 +187,10 @@ function isDrawMode(mode: number, context: WebGLRenderingContext): boolean {
   }
 }
 
-function isBufferUsage(usage: number, context: WebGLRenderingContext): boolean {
+function isBufferUsage(usage: number, gl: WebGLRenderingContext): boolean {
   expectArg('usage', usage).toBeNumber();
   switch(usage) {
-    case context.STATIC_DRAW: {
+    case gl.STATIC_DRAW: {
       return true;
     }
     default: {
@@ -211,6 +213,66 @@ function attribKey(aName: string, aNameToKeyName?: {[aName: string]: string}): s
     return aName;
   }
 }
+// FIXME: Use this function pair to replace BEGIN..END
+/**
+ *
+ */
+function bindProgramAttribLocations(program: IProgram, block: ElementsBlock, aNameToKeyName?: {[name: string]: string}) {
+  // FIXME: This is where we get the IProgram attributes property.
+  // FIXME: Can we invert this?
+  // What are we offering to the program:
+  // block.attributes (reference counted)
+  // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
+  // in order to get the name -> index correct.
+  // Then attribute setting shoul go much faster
+  let attribLocations = program.attributes;
+  if (attribLocations) {
+    let aNames = Object.keys(attribLocations);
+    let aNamesLength = aNames.length;
+    var i: number;
+    for (i = 0; i < aNamesLength; i++) {
+      let aName = aNames[i];
+      let key: string = attribKey(aName, aNameToKeyName);
+      let attributes = block.attributes;
+      let attribute = attributes.get(key);
+      if (attribute) {
+        // Associate the attribute buffer with the attribute location.
+        let buffer = attribute.buffer;
+        buffer.bind();
+        let attributeLocation = attribLocations[aName];
+        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+        buffer.unbind();
+
+        attributeLocation.enable();
+        buffer.release();
+        attribute.release();
+      }
+      else {
+        // The attribute available may not be required by the program.
+        // TODO: (1) Named programs, (2) disable warning by attribute?
+        // Do not allow Attribute 0 to be disabled.
+        console.warn("program attribute " + aName + " is not satisfied by the mesh");
+      }
+      attributes.release();
+    }
+  }
+  else {
+    console.warn("unbindProgramAttribLocations: program.attributes is falsey.")
+  }
+}
+
+function unbindProgramAttribLocations(program: IProgram) {
+  // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
+  let attribLocations = program.attributes;
+  if (attribLocations) {
+    Object.keys(attribLocations).forEach(function(aName: string) {
+      attribLocations[aName].disable();
+    });
+  }
+  else {
+    console.warn("unbindProgramAttribLocations: program.attributes is falsey.")
+  }
+}
 
 function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: WebGLContextAttributes): ContextKahuna {
   expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement @ webgl function");
@@ -218,14 +280,14 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
   let uuid: string = uuid4().generate();
   let blocks = new StringIUnknownMap<ElementsBlock>();
   // Remark: We only hold weak references to users so that the lifetime of resource
-  // objects is not affected by the fact that they are listening for context events.
+  // objects is not affected by the fact that they are listening for gl events.
   // Users should automatically add themselves upon construction and remove upon release.
   let users: ContextListener[] = [];
 
   function addContextListener(user: ContextListener): void {
     expectArg('user', user).toBeObject();
     users.push(user);
-    if (context) {
+    if (gl) {
       user.contextGain(kahuna);
     }
   }
@@ -283,34 +345,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
               indexBuffer.bind();
               indexBuffer.release();
 
-              let aNames = Object.keys(program.attributes);
-              let aNamesLength = aNames.length;
-              var aNamesIndex: number;
-              for (aNamesIndex = 0; aNamesIndex < aNamesLength; aNamesIndex++) {
-                let aName = aNames[aNamesIndex];
-                let key: string = attribKey(aName, aNameToKeyName);
-                let attributes = block.attributes;
-                let attribute = attributes.get(key);
-                if (attribute) {
-                  // Associate the attribute buffer with the attribute location.
-                  let buffer = attribute.buffer;
-                  buffer.bind();
-                  let attributeLocation = program.attributes[aName];
-                  attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-                  buffer.unbind();
-
-                  attributeLocation.enable();
-                  buffer.release();
-                  attribute.release();
-                }
-                else {
-                  // The attribute available may not be required by the program.
-                  // TODO: (1) Named programs, (2) disable warning by attribute?
-                  // Do not allow Attribute 0 to be disabled.
-                  console.warn("program attribute " + aName + " is not satisfied by the mesh");
-                }
-                attributes.release();
-              }
+              bindProgramAttribLocations(_program, block, aNameToKeyName);
             }
             else {
               expectArg('program', program).toBeObject();
@@ -325,7 +360,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       draw(): void {
         let block = blocks.get(uuid);
         if (block) {
-          block.drawCommand.execute(context);
+          block.drawCommand.execute(gl);
           block.release();
         }
         else {
@@ -339,15 +374,13 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
             let indexBuffer = block.indexBuffer;
             indexBuffer.unbind();
             indexBuffer.release();
-
-            Object.keys(_program.attributes).forEach(function(aName: string) {
-              _program.attributes[aName].disable();
-            });
+            unbindProgramAttribLocations(_program);
             block.release();
           }
           else {
             throw new Error(messageUnrecognizedMesh(uuid));
           }
+          // We bumped up the reference count during bind. Now we are done.
           _program.release();
           // Important! The existence of _program indicates the binding state.
           _program = void 0;
@@ -358,14 +391,15 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
     return mesh;
   }
 
-  var context: WebGLRenderingContext;
+  // FIXME Rename to gl
+  var gl: WebGLRenderingContext;
   var refCount: number = 1;
   var mirror: boolean = false;
   let tokenArg = expectArg('token', "");
 
   let webGLContextLost = function(event: Event) {
     event.preventDefault();
-    context = void 0;
+    gl = void 0;
     users.forEach(function(user: ContextListener) {
       user.contextLoss(canvasId);
     });
@@ -373,7 +407,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
 
   let webGLContextRestored = function(event: Event) {
     event.preventDefault();
-    context = initWebGL(canvas, attributes);
+    gl = initWebGL(canvas, attributes);
     users.forEach(function(user: ContextListener) {
       user.contextGain(kahuna);
     });
@@ -388,7 +422,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
      */
     createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh {
       expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
-      mode = drawMode(elements.k, mode, context);
+      mode = drawMode(elements.k, mode, gl);
       if (!isDefined(mode)) {
         // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
         // something that can't be drawn (no mode) and it is invisible anyway.
@@ -396,17 +430,17 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
         return void 0;
       }
       if (isDefined(usage)) {
-        expectArg('usage', usage).toSatisfy(isBufferUsage(usage, context), "usage must be on of STATIC_DRAW, ...");
+        expectArg('usage', usage).toSatisfy(isBufferUsage(usage, gl), "usage must be on of STATIC_DRAW, ...");
       }
       else {
-        usage = context.STATIC_DRAW;
+        usage = gl.STATIC_DRAW;
       }
 
       let mesh: IMesh = createDrawElementsMesh(uuid4().generate());
 
       let indexBuffer = kahuna.createElementArrayBuffer();
       indexBuffer.bind();
-      context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
       indexBuffer.unbind();
 
       let attributes = new StringIUnknownMap<ElementsBlockAttrib>();
@@ -419,7 +453,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
         buffer.bind();
         let vertexAttrib = elements.attributes[name];
         let data: number[] = vertexAttrib.values.data;
-        context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
         let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
         attributes.put(name, attribute);
         attribute.release();
@@ -431,7 +465,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       switch(elements.k) {
 
       }
-      let drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
+      let drawCommand = new DrawElementsCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
       let block = new ElementsBlock(indexBuffer, attributes, drawCommand);
       blocks.put(mesh.uuid, block);
       block.release();
@@ -440,13 +474,13 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       return mesh;
     },
     start(): void {
-      context = initWebGL(canvas, attributes);
+      gl = initWebGL(canvas, attributes);
       canvas.addEventListener('webglcontextlost', webGLContextLost, false);
       canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
       users.forEach(function(user: ContextListener) {user.contextGain(kahuna);});
     },
     stop(): void {
-      context = void 0;
+      gl = void 0;
       users.forEach(function(user: ContextListener) {user.contextFree(canvasId);});
       canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
       canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
@@ -457,23 +491,23 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
     removeContextListener(user: ContextListener): void {
       removeContextListener(user);
     },
-    get context() {
-      if (context) {
-        return context;
+    get gl(): WebGLRenderingContext {
+      if (gl) {
+        return gl;
       }
       else {
-        console.warn("property context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+        console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
         return void 0;
       }
     },
     addRef(): number {
-      refChange(uuid, LOGGING_NAME_KAHUNA, +1);
       refCount++;
+      refChange(uuid, LOGGING_NAME_KAHUNA, +1);
       return refCount;
     },
     release(): number {
-      refChange(uuid, LOGGING_NAME_KAHUNA, -1);
       refCount--;
+      refChange(uuid, LOGGING_NAME_KAHUNA, -1);
       if (refCount === 0) {
         blocks.release();
         while(users.length > 0) {
@@ -483,51 +517,51 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       return refCount;
     },
     clearColor(red: number, green: number, blue: number, alpha: number): void {
-      if (context) {
-        return context.clearColor(red, green, blue, alpha);
+      if (gl) {
+        return gl.clearColor(red, green, blue, alpha);
       }
     },
     clearDepth(depth: number): void {
-      if (context) {
-        return context.clearDepth(depth);
+      if (gl) {
+        return gl.clearDepth(depth);
       }
     },
     drawArrays(mode: number, first: number, count: number): void {
-      if (context) {
-        return context.drawArrays(mode, first, count);
+      if (gl) {
+        return gl.drawArrays(mode, first, count);
       }
     },
     drawElements(mode: number, count: number, type: number, offset: number): void {
-      if (context) {
-        return context.drawElements(mode, count, type, offset);
+      if (gl) {
+        return gl.drawElements(mode, count, type, offset);
       }
     },
     depthFunc(func: number): void {
-      if (context) {
-        return context.depthFunc(func);
+      if (gl) {
+        return gl.depthFunc(func);
       }
     },
     enable(capability: number): void {
-      if (context) {
-        return context.enable(capability);
+      if (gl) {
+        return gl.enable(capability);
       }
     },
     createArrayBuffer(): IBuffer {
       // TODO: Replace with functional constructor pattern.
-      return new BufferResource(kahuna, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
+      return new BufferResource(kahuna, mustBeContext(gl, 'createArrayBuffer()').ARRAY_BUFFER);
     },
     createElementArrayBuffer(): IBuffer {
       // TODO: Replace with functional constructor pattern.
-      return new BufferResource(kahuna, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+      return new BufferResource(kahuna, mustBeContext(gl, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
     },
     createTexture2D(): ITexture {
       // TODO: Replace with functional constructor pattern.
       // FIXME Does this mean that Texture only has one ContextMonitor?
-      return new TextureResource([kahuna], mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
+      return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
     },
     createTextureCubeMap(): ITexture {
       // TODO: Replace with functional constructor pattern.
-      return new TextureResource([kahuna], mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
+      return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
     },
     get mirror() {
       return mirror;

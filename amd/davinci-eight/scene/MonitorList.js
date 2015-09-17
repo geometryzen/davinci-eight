@@ -31,6 +31,9 @@ define(["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], f
                 monitor.removeContextListener(user);
             });
         };
+        MonitorList.prototype.toArray = function () {
+            return this.monitors.map(identity);
+        };
         MonitorList.copy = function (monitors) {
             return new MonitorList(monitors);
         };

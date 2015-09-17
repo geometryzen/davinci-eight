@@ -73,10 +73,10 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
          */
         var programs = {};
         /**
-         * Because we are multi-canvas aware, contexts are tracked by the canvas id.
+         * Because we are multi-canvas aware, gls are tracked by the canvas id.
          * We need to hold onto a WebGLRenderingContext so that we can delete programs.
          */
-        var contexts = {};
+        var gls = {};
         var uuid = uuid4().generate();
         var attributeLocations = {};
         var uniformLocations = {};
@@ -103,7 +103,7 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                 refCount--;
                 if (refCount === 0) {
                     MonitorList.removeContextListener(self, monitors);
-                    var keys = Object.keys(contexts).map(function (key) { return parseInt(key); });
+                    var keys = Object.keys(gls).map(function (key) { return parseInt(key); });
                     var keysLength = keys.length;
                     for (var k = 0; k < keysLength; k++) {
                         var canvasId = keys[k];
@@ -113,14 +113,14 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                 return refCount;
             },
             contextFree: function (canvasId) {
-                var $context = contexts[canvasId];
+                var $context = gls[canvasId];
                 if ($context) {
                     var program = programs[canvasId];
                     if (program) {
                         $context.deleteProgram(program);
                         programs[canvasId] = void 0;
                     }
-                    contexts[canvasId] = void 0;
+                    gls[canvasId] = void 0;
                     for (var aName in attributeLocations) {
                         attributeLocations[aName].contextFree();
                     }
@@ -132,10 +132,10 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
             contextGain: function (manager) {
                 // FIXME: multi-canvas
                 var canvasId = manager.canvasId;
-                if (contexts[canvasId] !== manager.context) {
+                if (gls[canvasId] !== manager.gl) {
                     self.contextFree(canvasId);
-                    contexts[canvasId] = manager.context;
-                    var context = manager.context;
+                    gls[canvasId] = manager.gl;
+                    var context = manager.gl;
                     var program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
                     programs[manager.canvasId] = program;
                     var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
@@ -164,7 +164,7 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
             },
             contextLoss: function (canvasId) {
                 programs[canvasId] = void 0;
-                contexts[canvasId] = void 0;
+                gls[canvasId] = void 0;
                 for (var aName in attributeLocations) {
                     attributeLocations[aName].contextLoss();
                 }
@@ -183,7 +183,7 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                 return uuid;
             },
             use: function (canvasId) {
-                var context = contexts[canvasId];
+                var context = gls[canvasId];
                 if (context) {
                     context.useProgram(programs[canvasId]);
                 }

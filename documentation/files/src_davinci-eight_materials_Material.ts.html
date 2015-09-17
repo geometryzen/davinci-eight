@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/davinci-eight/materials/Material.ts - davinci-eight</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 2.97.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
+                                <li><a href="../classes/ArrowGeometry.html">ArrowGeometry</a></li>
+                                <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
+                                <li><a href="../classes/AttribDataInfos.html">AttribDataInfos</a></li>
+                                <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
+                                <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
+                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
+                                <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
+                                <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
+                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
+                                <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
+                                <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
+                                <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
+                                <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/Color
+                WARNING: In many object-oriented designs, types representing values are completely immutable.
+                In a graphics library where data changes rapidly and garbage collection might become an issue,
+                it is common to use reference types, such as in this design. This mutability can lead to
+                difficult bugs because it is hard to reason about where a color may have changed..html">Color
+                WARNING: In many object-oriented designs, types representing values are completely immutable.
+                In a graphics library where data changes rapidly and garbage collection might become an issue,
+                it is common to use reference types, such as in this design. This mutability can lead to
+                difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh..html">Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.</a></li>
+                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/Curve.html">Curve</a></li>
+                                <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DodecahedronGeometry.html">DodecahedronGeometry</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
+                                <li><a href="../classes/DrawElements.html">DrawElements</a></li>
+                                <li><a href="../classes/ElementArray.html">ElementArray</a></li>
+                                <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
+                                <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/Face3.html">Face3</a></li>
+                                <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
+                                <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/Geometry
+                Base class for geometries.
+                A complex holds the instructions for rendering a 3D mesh..html">Geometry
+                Base class for geometries.
+                A complex holds the instructions for rendering a 3D mesh.</a></li>
+                                <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
+                                <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
+                                <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/Material.html">Material</a></li>
+                                <li><a href="../classes/Matrix1.html">Matrix1</a></li>
+                                <li><a href="../classes/Matrix2.html">Matrix2</a></li>
+                                <li><a href="../classes/Matrix3.html">Matrix3</a></li>
+                                <li><a href="../classes/Matrix4.html">Matrix4</a></li>
+                                <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
+                                <li><a href="../classes/Mesh.html">Mesh</a></li>
+                                <li><a href="../classes/MeshNormalMaterial.html">MeshNormalMaterial</a></li>
+                                <li><a href="../classes/MobiusStripGeometry.html">MobiusStripGeometry</a></li>
+                                <li><a href="../classes/Model.html">Model</a></li>
+                                <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/Object3D.html">Object3D</a></li>
+                                <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
+                                <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
+                                <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
+                                <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
+                                <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
+                                <li><a href="../classes/Simplex.html">Simplex</a></li>
+                                <li><a href="../classes/Simplex
+                A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+                A k-simplex is the convex hull of its k + 1 vertices..html">Simplex
+                A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+                A k-simplex is the convex hull of its k + 1 vertices.</a></li>
+                                <li><a href="../classes/Sphere.html">Sphere</a></li>
+                                <li><a href="../classes/SphereGeometry.html">SphereGeometry</a></li>
+                                <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
+                                <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/Symbolic
+                Canonical variable names, which also act as semantic identifiers for name overrides.
+                These names must be stable to avoid breaking custom vertex and fragment shaders..html">Symbolic
+                Canonical variable names, which also act as semantic identifiers for name overrides.
+                These names must be stable to avoid breaking custom vertex and fragment shaders.</a></li>
+                                <li><a href="../classes/TetrahedronGeometry.html">TetrahedronGeometry</a></li>
+                                <li><a href="../classes/TubeGeometry.html">TubeGeometry</a></li>
+                                <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
+                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
+                                <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
+                                <li><a href="../classes/Vector1.html">Vector1</a></li>
+                                <li><a href="../classes/Vector2.html">Vector2</a></li>
+                                <li><a href="../classes/Vector3.html">Vector3</a></li>
+                                <li><a href="../classes/Vector4.html">Vector4</a></li>
+                                <li><a href="../classes/VectorN.html">VectorN</a></li>
+                                <li><a href="../classes/Vertex.html">Vertex</a></li>
+                                <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
+                                <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
+                                <li><a href="../modules/THREE.html">THREE</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/davinci-eight/materials/Material.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import AttribLocation = require(&#x27;../core/AttribLocation&#x27;);
+import ContextManager = require(&#x27;../core/ContextManager&#x27;);
+import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;);
+import core = require(&#x27;../core&#x27;);
+import MonitorList = require(&#x27;../scene/MonitorList&#x27;);
+import IProgram = require(&#x27;../core/IProgram&#x27;);
+import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
+import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
+import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
+import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;);
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;);
+import refChange = require(&#x27;../utils/refChange&#x27;);
+import UniformLocation = require(&#x27;../core/UniformLocation&#x27;);
+import uuid4 = require(&#x27;../utils/uuid4&#x27;);
+import Vector1 = require(&#x27;../math/Vector1&#x27;);
+import Vector2 = require(&#x27;../math/Vector2&#x27;);
+import Vector3 = require(&#x27;../math/Vector3&#x27;);
+import Vector4 = require(&#x27;../math/Vector4&#x27;);
+
+function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string) {
+  console.warn(clazz + &quot; dropped uniform&quot; + suffix + &quot; &quot; + name);
+}
+
+/**
+ * @module EIGHT
+ * @class Material
+ * @implements IProgram
+ */
+class Material implements IProgram {
+  // FIXME: Hide this but use a virtual method to set it.
+  private inner: IProgram;
+  private readyPending: boolean = false;
+  public programId: string = uuid4().generate();
+  // FIXME get from shaders?
+  public vertexShader: string;
+  public fragmentShader: string;
+  private _refCount: number = 1;
+  private _monitors: MonitorList;
+  private type: string;
+  /**
+   * @constructor
+   * @param contexts {ContextMonitor[]}
+   * @param type {string} The class name, used for logging and serialization.
+   */
+  constructor(contexts: ContextMonitor[], type: string) {
+    MonitorList.verify(&#x27;contexts&#x27;, contexts);
+    mustBeString(&#x27;type&#x27;, type);
+    this._monitors = MonitorList.copy(contexts);
+    // FIXME multi-context support.
+
+    this.type = type;
+    refChange(this.programId, this.type, this._refCount);
+  }
+  private makeReady(async: boolean): void {
+    if (!this.readyPending) {
+      this.readyPending = true;
+      this._monitors.addContextListener(this);
+    }
+  }
+  get monitors(): ContextMonitor[] {
+    return this._monitors.toArray();
+  }
+  addRef(): number {
+    this._refCount++;
+    refChange(this.programId, this.type, +1);
+    return this._refCount;
+  }
+  release(): number {
+    this._refCount--;
+    refChange(this.programId, this.type, -1);
+    if (this._refCount === 0) {
+      this._monitors.removeContextListener(this);
+      if (this.inner) {
+        this.inner.release();
+        this.inner = void 0;
+      }
+    }
+    return this._refCount;
+  }
+  // FIXME; I&#x27;m going to need to know which monitor.
+  use(canvasId: number): void {
+    if (core.ASSERTIVE) {
+      mustBeInteger(&#x27;canvasid&#x27;, canvasId);
+    }
+    if (this.inner) {
+      return this.inner.use(canvasId);
+    }
+    else {
+      let async = false;
+      this.makeReady(async);
+      if (this.inner) {
+        return this.inner.use(canvasId);
+      }
+      else {
+        console.warn(this.type + &quot; use()&quot;);
+      }
+    }
+  }
+  get attributes(): {[name: string]: AttribLocation} {
+    // FIXME: Why is this called.
+    // FIXME: The map should be protected but that is slow
+    // FIXME Clear need for performant solution.
+    if (this.inner) {
+      return this.inner.attributes;
+    }
+    else {
+      let async = false;
+      this.makeReady(async);
+      if (this.inner) {
+        return this.inner.attributes;
+      }
+      else {
+        return void 0;
+      }
+    }
+  }
+  get uniforms(): {[name: string]: UniformLocation} {
+    if (this.inner) {
+      return this.inner.uniforms;
+    }
+    else {
+      let async = false;
+      this.makeReady(async);
+      if (this.inner) {
+        return this.inner.uniforms;
+      }
+      else {
+        return void 0;
+      }
+    }
+  }
+  enableAttrib(name: string) {
+    if (this.inner) {
+      return this.inner.enableAttrib(name);
+    }
+    else {
+      let async = false;
+      this.makeReady(async);
+      if (this.inner) {
+        return this.inner.enableAttrib(name);
+      }
+      else {
+        console.warn(this.type + &quot; enableAttrib()&quot;);
+      }
+    }
+  }
+  disableAttrib(name: string) {
+    if (this.inner) {
+      return this.inner.disableAttrib(name);
+    }
+    else {
+      let async = false;
+      this.makeReady(async);
+      if (this.inner) {
+        return this.inner.disableAttrib(name);
+      }
+      else {
+        console.warn(this.type + &quot; disableAttrib()&quot;);
+      }
+    }
+  }
+  contextFree(canvasId: number) {
+    if (this.inner) {
+      this.inner.contextFree(canvasId);
+    }
+  }
+  contextGain(manager: ContextManager) {
+    this.inner = this.createProgram();
+  }
+  contextLoss(canvasId: number) {
+    if (this.inner) {
+      this.inner.contextLoss(canvasId);
+    }
+  }
+  protected createProgram(): IProgram {
+    // FIXME; Since we get contextGain by canvas, expect canvasId to be an argument?
+    // FIXME: We just delegate contextGain to the program.
+    console.warn(&quot;Material createProgram method is virtual and should be implemented by &quot; + this.type);
+    return void 0;
+  }
+  uniform1f(name: string, x: number): void {
+    if (this.inner) {
+      this.inner.uniform1f(name, x);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniform1f(name, x);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;1f&#x27;, name);
+        }
+      }
+    }
+  }
+  uniform2f(name: string, x: number, y: number): void {
+    if (this.inner) {
+      this.inner.uniform2f(name, x, y);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniform2f(name, x, y);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;2f&#x27;, name);
+        }
+      }
+    }
+  }
+  uniform3f(name: string, x: number, y: number, z: number): void {
+    if (this.inner) {
+      this.inner.uniform3f(name, x, y, z);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniform3f(name, x, y, z);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;3f&#x27;, name);
+        }
+      }
+    }
+  }
+  uniform4f(name: string, x: number, y: number, z: number, w: number): void {
+    if (this.inner) {
+      this.inner.uniform4f(name, x, y, z, w);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniform4f(name, x, y, z, w);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;4f&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1): void {
+    if (this.inner) {
+      this.inner.uniformMatrix1(name, transpose, matrix);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformMatrix1(name, transpose, matrix);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Matrix1&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void {
+    if (this.inner) {
+      this.inner.uniformMatrix2(name, transpose, matrix);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformMatrix2(name, transpose, matrix);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Matrix2&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3): void {
+    if (this.inner) {
+      this.inner.uniformMatrix3(name, transpose, matrix);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformMatrix3(name, transpose, matrix);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Matrix3&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void {
+    if (this.inner) {
+      this.inner.uniformMatrix4(name, transpose, matrix);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformMatrix4(name, transpose, matrix);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Matrix4&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformVector1(name: string, vector: Vector1): void {
+    if (this.inner) {
+      this.inner.uniformVector1(name, vector);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformVector1(name, vector);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Vector1&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformVector2(name: string, vector: Vector2): void {
+    if (this.inner) {
+      this.inner.uniformVector2(name, vector);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformVector2(name, vector);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Vector2&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformVector3(name: string, vector: Vector3): void {
+    if (this.inner) {
+      this.inner.uniformVector3(name, vector);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformVector3(name, vector);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Vector3&#x27;, name);
+        }
+      }
+    }
+  }
+  uniformVector4(name: string, vector: Vector4): void {
+    if (this.inner) {
+      this.inner.uniformVector4(name, vector);
+    }
+    else {
+      let async = false;
+      let readyPending = this.readyPending;
+      this.makeReady(async);
+      if (this.inner) {
+        this.inner.uniformVector4(name, vector);
+      }
+      else {
+        if (!readyPending) {
+          consoleWarnDroppedUniform(this.type, &#x27;Vector4&#x27;, name);
+        }
+      }
+    }
+  }
+}
+
+export = Material;
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

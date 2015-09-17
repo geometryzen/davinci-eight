@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.96.0</em>
+            <em>API Docs for: 2.97.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,7 +47,7 @@
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
+                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -63,6 +63,12 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh..html">Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
@@ -79,10 +85,11 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/Geometry
                 Base class for geometries.
-                A geometry holds faces and vertices used to describe a 3D mesh..html">Geometry
+                A complex holds the instructions for rendering a 3D mesh..html">Geometry
                 Base class for geometries.
-                A geometry holds faces and vertices used to describe a 3D mesh.</a></li>
+                A complex holds the instructions for rendering a 3D mesh.</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -99,8 +106,8 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Object3D.html">Object3D</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
@@ -443,7 +450,7 @@ function toDrawElements(geometry: Simplex[], geometryInfo?: GeometryInfo): DrawE
  */
 interface ContextProgramListener {
   contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
 }
 
@@ -457,7 +464,7 @@ class AttribLocation implements ContextProgramListener {
   index: number;
   constructor(name: string, size: number, type: number);
   contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
   enable(): void;
   disable(): void;
@@ -486,7 +493,7 @@ interface IBuffer extends IResource {
 class UniformLocation implements ContextProgramListener {
   constructor(monitor: ContextManager, name: string);
   contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
   uniform1f(x: number): void;
   uniform2f(x: number, y: number): void;
@@ -1015,13 +1022,13 @@ class Face3 {
   constructor(center?: Cartesian3, radius?: number);
   setFromPoints(points: Cartesian3[]);
 }
+
 /**
- * @module THREE
- * @class Geometry
- * Base class for geometries.
- * A geometry holds faces and vertices used to describe a 3D mesh.
+ * @class Complex
+ * Base class for complexes.
+ * A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.
  */
-class Geometry {
+class Complex {
   public simplices: Simplex[];
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
@@ -1057,6 +1064,15 @@ class Geometry {
   public subdivide(count?: number): void;
 }
 
+/**
+ * @class Geometry
+ * Base class for geometries.
+ * A complex holds the instructions for rendering a 3D mesh.
+ */
+class Geometry {
+
+}
+
 
 /**
  * @module EIGHT
@@ -1075,17 +1091,12 @@ class Geometry {
 }
 
 /**
- * @module EIGHT
- * @interface IProgram
- * A vertex shader and a fragment shader combined into a program.
+ * A collection of WebGLProgram(s), one for each canvas in which the program is used.
+ * extends IResource
+ * extends UniformDataVisitor
  */
 interface IProgram extends IResource, UniformDataVisitor
 {
-  /**
-   * @property program
-   * @type WebGLProgram
-   */
-  program: WebGLProgram;
   /**
    * @property programId
    * @type string
@@ -1181,14 +1192,6 @@ function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: 
  * Constructs a program from the specified vertex and fragment shader codes.
  */
 function shaderProgram(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IProgram;
-
-/**
- * @module EIGHT
- * @function programFromScripts
- * @param monitors {ContextMonitor[]}
- * Constructs a program from the specified vertex and fragment shader script element identifiers.
- */
-function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, bindings?: string[]): IProgram;
 
 /**
  * @class AttribMetaInfo
@@ -1491,7 +1494,11 @@ class Model implements UniformData {
 }
 
 /**
- * @module EIGHT
+ * @var LAST_AUTHORED_DATE
+ * The publish date of the latest version of the library.
+ */
+var LAST_AUTHORED_DATE: string
+/**
  * @var VERSION
  * The version string of the davinci-eight module.
  */
@@ -1735,11 +1742,14 @@ class PerspectiveCamera implements ICamera, UniformData {
 /**
  * @module EIGHT
  * @class WebGLRenderer
+ * @implements ContextController
+ * @implements ContextMonitor
+ * @implements IUnknown
  */
-class WebGLRenderer implements ContextController, ContextMonitor {
+class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
   canvasId: number;
-  context: WebGLRenderingContext;
-  domElement: HTMLCanvasElement;
+  gl: WebGLRenderingContext;
+  canvas: HTMLCanvasElement;
   /**
    * @constructor
    * @param canvas {HTMLCanvasElement}
@@ -1748,7 +1758,9 @@ class WebGLRenderer implements ContextController, ContextMonitor {
    */
   constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
   addContextListener(user: ContextListener): void;
+  addRef(): number;
   createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
+  release(): number;
   removeContextListener(user: ContextListener): void;
   render(scene: Scene, ambiends: UniformData): void;
   setClearColor(color: number, alpha?: number): void;
@@ -1758,10 +1770,10 @@ class WebGLRenderer implements ContextController, ContextMonitor {
 }
 
 /**
- * @class BoxGeometry
- * @extends Geometry
+ * @class BoxComplex
+ * @extends Complex
  */
-class BoxGeometry extends Geometry {
+class BoxComplex extends Complex {
   /**
    * @constructor
    * width: The side length in the x-axis direction.
@@ -1826,6 +1838,21 @@ class Mesh&lt;G extends Geometry, M extends IProgram, U extends UniformData&gt; 
   contextFree(): void;
   contextGain(manager: ContextManager): void;
   contextLoss(): void;
+}
+
+/**
+ * @module EIGHT
+ * @class HTMLScriptsMaterial
+ * @extends Material
+ */
+class HTMLScriptsMaterial extends Material {
+  /**
+   * @constructor
+   * contexts:  The contexts that this material must support.
+   * scriptIds: The id properties of the script elements. Defaults to [].
+   * dom:       The document object model. Defaults to document.
+   */
+  constructor(contexts: ContextMonitor[], scriptIds?: string[], dom?: Document);
 }
 
 /**

@@ -36,33 +36,33 @@ var TextureResource = (function () {
     TextureResource.prototype.contextFree = function () {
         // FIXME: I need to know which context.
         if (this._texture) {
-            this._context.deleteTexture(this._texture);
+            this._gl.deleteTexture(this._texture);
             this._texture = void 0;
         }
-        this._context = void 0;
+        this._gl = void 0;
     };
     TextureResource.prototype.contextGain = function (manager) {
         // FIXME: Support multiple canvas.
-        var context = manager.context;
-        if (this._context !== context) {
+        var gl = manager.gl;
+        if (this._gl !== gl) {
             this.contextFree();
-            this._context = context;
+            this._gl = gl;
             // I must create a texture for each monitor.
-            // But I only get context events one at a time.
-            this._texture = context.createTexture();
+            // But I only get gl events one at a time.
+            this._texture = gl.createTexture();
         }
     };
     TextureResource.prototype.contextLoss = function () {
         // FIXME: I need to know which context.
         this._texture = void 0;
-        this._context = void 0;
+        this._gl = void 0;
     };
     /**
      * @method bind
      */
     TextureResource.prototype.bind = function () {
-        if (this._context) {
-            this._context.bindTexture(this._target, this._texture);
+        if (this._gl) {
+            this._gl.bindTexture(this._target, this._texture);
         }
         else {
             console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGLRenderingContext.");
@@ -72,8 +72,8 @@ var TextureResource = (function () {
      * @method unbind
      */
     TextureResource.prototype.unbind = function () {
-        if (this._context) {
-            this._context.bindTexture(this._target, null);
+        if (this._gl) {
+            this._gl.bindTexture(this._target, null);
         }
         else {
             console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGLRenderingContext.");

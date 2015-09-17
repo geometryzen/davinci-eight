@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.96.0</em>
+            <em>API Docs for: 2.97.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,7 +47,7 @@
                                 <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
+                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -63,6 +63,12 @@
                 In a graphics library where data changes rapidly and garbage collection might become an issue,
                 it is common to use reference types, such as in this design. This mutability can lead to
                 difficult bugs because it is hard to reason about where a color may have changed.</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
+                                <li><a href="../classes/Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh..html">Complex
+                Base class for complexes.
+                A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/Curve.html">Curve</a></li>
@@ -79,10 +85,11 @@
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/Geometry
                 Base class for geometries.
-                A geometry holds faces and vertices used to describe a 3D mesh..html">Geometry
+                A complex holds the instructions for rendering a 3D mesh..html">Geometry
                 Base class for geometries.
-                A geometry holds faces and vertices used to describe a 3D mesh.</a></li>
+                A complex holds the instructions for rendering a 3D mesh.</a></li>
                                 <li><a href="../classes/GeometryAdapter.html">GeometryAdapter</a></li>
+                                <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IcosahedronGeometry.html">IcosahedronGeometry</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -99,8 +106,8 @@
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
                                 <li><a href="../classes/Object3D.html">Object3D</a></li>
                                 <li><a href="../classes/OctahedronGeometry.html">OctahedronGeometry</a></li>
-                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/perspective.html">perspective</a></li>
+                                <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PolyhedronGeometry.html">PolyhedronGeometry</a></li>
@@ -226,13 +233,12 @@ import square = require(&#x27;davinci-eight/dfx/square&#x27;);
 import tetrahedron = require(&#x27;davinci-eight/dfx/tetrahedron&#x27;);
 import toDrawElements = require(&#x27;davinci-eight/dfx/toDrawElements&#x27;);
 import triangle = require(&#x27;davinci-eight/dfx/triangle&#x27;);
+
 // scene
 import createDrawList     = require(&#x27;davinci-eight/scene/createDrawList&#x27;);
 import ICamera            = require(&#x27;davinci-eight/scene/ICamera&#x27;);
 import IDrawList          = require(&#x27;davinci-eight/scene/IDrawList&#x27;);
-import Material           = require(&#x27;davinci-eight/scene/Material&#x27;);
 import Mesh               = require(&#x27;davinci-eight/scene/Mesh&#x27;);
-import MeshNormalMaterial = require(&#x27;davinci-eight/scene/MeshNormalMaterial&#x27;);
 import PerspectiveCamera = require(&#x27;davinci-eight/scene/PerspectiveCamera&#x27;);
 import Scene = require(&#x27;davinci-eight/scene/Scene&#x27;);
 import WebGLRenderer = require(&#x27;davinci-eight/scene/WebGLRenderer&#x27;);
@@ -240,7 +246,7 @@ import WebGLRenderer = require(&#x27;davinci-eight/scene/WebGLRenderer&#x27;);
 import Geometry = require(&#x27;davinci-eight/geometries/Geometry&#x27;);
 //import ArrowGeometry = require(&#x27;davinci-eight/geometries/ArrowGeometry&#x27;);
 //import BarnGeometry = require(&#x27;davinci-eight/geometries/BarnGeometry&#x27;);
-import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
+import BoxComplex = require(&#x27;davinci-eight/geometries/BoxComplex&#x27;);
 //import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
 //import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
 //import EllipticalCylinderGeometry = require(&#x27;davinci-eight/geometries/EllipticalCylinderGeometry&#x27;);
@@ -259,6 +265,12 @@ import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
 import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
 import programFromScripts = require(&#x27;davinci-eight/programs/programFromScripts&#x27;);
+
+// materials
+import Material            = require(&#x27;davinci-eight/materials/Material&#x27;);
+import HTMLScriptsMaterial = require(&#x27;davinci-eight/materials/HTMLScriptsMaterial&#x27;);
+import MeshNormalMaterial  = require(&#x27;davinci-eight/materials/MeshNormalMaterial&#x27;);
+
 // math
 import Cartesian3 = require(&#x27;davinci-eight/math/Cartesian3&#x27;);
 import Matrix3 = require(&#x27;davinci-eight/math/Matrix3&#x27;);
@@ -283,7 +295,7 @@ import SphereOptions = require(&#x27;davinci-eight/mesh/SphereOptions&#x27;);
 // programs
 import IProgram = require(&#x27;davinci-eight/core/IProgram&#x27;);
 // renderers
-import Renderer = require(&#x27;davinci-eight/renderers/Renderer&#x27;);
+import ContextRenderer = require(&#x27;davinci-eight/renderers/ContextRenderer&#x27;);
 import initWebGL = require(&#x27;davinci-eight/renderers/initWebGL&#x27;);
 import renderer = require(&#x27;davinci-eight/renderers/renderer&#x27;);
 // uniforms
@@ -305,12 +317,23 @@ import windowAnimationRunner      = require(&#x27;davinci-eight/utils/windowAnim
  */
 var eight = {
   /**
+   * The publish date of the latest version of the library.
+   * @property LAST_AUTHORED_DATE
+   * @type string
+   */
+  get LAST_AUTHORED_DATE() { return core.LAST_AUTHORED_DATE; },
+  /**
    * The semantic version of the library.
    * @property VERSION
-   * @type String
+   * @type string
    */
-  &#x27;VERSION&#x27;: core.VERSION,
+  get VERSION() { return core.VERSION; },
   // TODO: Arrange in alphabetical order in order to assess width of API.
+  // materials
+  get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },
+  get Material() { return Material; },
+  get MeshNormalMaterial() { return MeshNormalMaterial; },
+
   get initWebGL() { return initWebGL; },
   get Model() { return Model; },
   get Simplex() { return Simplex; },
@@ -322,9 +345,7 @@ var eight = {
   get view() { return view; },
   get viewMatrix() { return viewMatrix; },
   get Scene() { return Scene; },
-  get Material() { return Material; },
   get Mesh() { return Mesh; },
-  get MeshNormalMaterial() { return MeshNormalMaterial; },
   get PerspectiveCamera() { return PerspectiveCamera; },
   get WebGLRenderer() { return WebGLRenderer; },
   get createDrawList() { return createDrawList; },
@@ -346,7 +367,7 @@ var eight = {
   get Geometry() { return Geometry; },
 //  get ArrowGeometry() { return ArrowGeometry; },
 //  get BarnGeometry() { return BarnGeometry; },
-  get BoxGeometry() { return BoxGeometry; },
+  get BoxComplex() { return BoxComplex; },
 //  get CylinderGeometry() { return CylinderGeometry; },
 //  get DodecahedronGeometry() { return DodecahedronGeometry; },
 //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },

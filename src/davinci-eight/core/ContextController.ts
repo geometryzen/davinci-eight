@@ -2,9 +2,15 @@
  * @interface ContextController
  */
 interface ContextController {
+  /**
+   * @method start
+   */
   start(): void;
+  /**
+   * @method stop
+   */
   stop(): void;
-  // FIXME: kill
+  // FIXME: kill: You won't be seeing me again.
   // kill(): void;
 }
 

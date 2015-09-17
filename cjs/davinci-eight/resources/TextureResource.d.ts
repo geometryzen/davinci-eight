@@ -2,7 +2,7 @@ import ITexture = require('../core/ITexture');
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
 declare class TextureResource implements ITexture {
-    private _context;
+    private _gl;
     private _monitor;
     private _texture;
     private _refCount;

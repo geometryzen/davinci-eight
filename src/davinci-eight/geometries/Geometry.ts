@@ -4,7 +4,7 @@ import Simplex = require('../dfx/Simplex');
  * @class Geometry
  */
 class Geometry {
-  public simplices: Simplex[] = [];
+  //public simplices: Simplex[] = [];
   public dynamic = true;
   public verticesNeedUpdate = false;
   public elementsNeedUpdate = false;
@@ -14,12 +14,6 @@ class Geometry {
   }
   protected mergeVertices(precisionPoints: number = 4) {
     console.warn("Geometry.mergeVertices not yet implemented");
-  }
-  public boundary(count?: number) {
-    this.simplices = Simplex.boundary(this.simplices, count);
-  }
-  public subdivide(count?: number) {
-    this.simplices = Simplex.subdivide(this.simplices, count);
   }
 }
 

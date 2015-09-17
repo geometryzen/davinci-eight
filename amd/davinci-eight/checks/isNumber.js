@@ -1,6 +1,6 @@
 define(["require", "exports"], function (require, exports) {
-    function isNumber(arg) {
-        return (typeof arg === 'number');
+    function isNumber(x) {
+        return (typeof x === 'number');
     }
     return isNumber;
 });

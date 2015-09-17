@@ -1,8 +1,25 @@
-function mustSatisfy(name: string, condition: boolean, messageBuilder: () => string, contextBuilder: () => string) {
+function mustSatisfy(name: string, condition: boolean, messageBuilder: () => string, contextBuilder?: () => string) {
   if (!condition) {
-    let message: string = messageBuilder();
-    let context: string = contextBuilder();
-    throw new Error(name + " must " + message + " in " + context + ".");
+    if (messageBuilder) {
+      let message: string = messageBuilder();
+      if (contextBuilder) {
+        let context: string = contextBuilder();
+        throw new Error(name + " must " + message + " in " + context + ".");
+      }
+      else {
+        throw new Error(name + " must " + message + ".");
+      }
+    }
+    else {
+      let message = "satisfy some condition";
+      if (contextBuilder) {
+        let context: string = contextBuilder();
+        throw new Error(name + " must " + message + " in " + context + ".");
+      }
+      else {
+        throw new Error(name + " must " + message + ".");
+      }
+    }
   }
 }
 

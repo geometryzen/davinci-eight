@@ -20,9 +20,6 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
         var vLight = vLightRequired(uniforms);
         var innerProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
         var self = {
-            get program() {
-                return innerProgram.program;
-            },
             get programId() {
                 return innerProgram.programId;
             },

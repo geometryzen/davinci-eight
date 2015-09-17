@@ -14,12 +14,6 @@ import UniformDataVisitor = require('../core/UniformDataVisitor');
  */
 interface IProgram extends IResource, UniformDataVisitor {
   /**
-   * @property program
-   * @type WebGLProgram
-   * FIXME: This will neet to be a getWebGLProgram(canvasId).
-   */
-  program: WebGLProgram;
-  /**
    * @property programId
    * @type string
    */

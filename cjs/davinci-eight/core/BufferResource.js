@@ -18,6 +18,18 @@ var BufferResource = (function () {
         refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
         monitor.addContextListener(this);
     }
+    BufferResource.prototype.destructor = function () {
+        if (this._buffer) {
+            this._gl.deleteBuffer(this._buffer);
+            this._buffer = void 0;
+        }
+        this._gl = void 0;
+        this._monitor.removeContextListener(this);
+        this._monitor = void 0;
+        this._refCount = void 0;
+        this._target = void 0;
+        this._uuid = void 0;
+    };
     BufferResource.prototype.addRef = function () {
         this._refCount++;
         refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
@@ -27,17 +39,19 @@ var BufferResource = (function () {
         this._refCount--;
         refChange(this._uuid, LOGGING_NAME_IBUFFER, -1);
         if (this._refCount === 0) {
-            this._monitor.removeContextListener(this);
-            this.contextFree();
+            this.destructor();
+            return 0;
         }
-        return this._refCount;
+        else {
+            return this._refCount;
+        }
     };
     BufferResource.prototype.contextFree = function () {
         if (this._buffer) {
-            this._context.deleteBuffer(this._buffer);
+            this._gl.deleteBuffer(this._buffer);
             this._buffer = void 0;
         }
-        this._context = void 0;
+        this._gl = void 0;
     };
     BufferResource.prototype.contextGain = function (manager) {
         // FIXME: Support for multiple contexts. Do I need multiple buffers?
@@ -46,23 +60,23 @@ var BufferResource = (function () {
         // Answer, I can detect this condition by looking a canvasId.
         // But can I prevent it in the API?
         // I don't think so. That would require typed contexts.
-        var context = manager.context;
-        if (this._context !== context) {
+        var gl = manager.gl;
+        if (this._gl !== gl) {
             this.contextFree();
-            this._context = context;
-            this._buffer = context.createBuffer();
+            this._gl = gl;
+            this._buffer = gl.createBuffer();
         }
     };
     BufferResource.prototype.contextLoss = function () {
         this._buffer = void 0;
-        this._context = void 0;
+        this._gl = void 0;
     };
     /**
      * @method bind
      */
     BufferResource.prototype.bind = function () {
-        if (this._context) {
-            this._context.bindBuffer(this._target, this._buffer);
+        if (this._gl) {
+            this._gl.bindBuffer(this._target, this._buffer);
         }
         else {
             console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGLRenderingContext.");
@@ -72,8 +86,8 @@ var BufferResource = (function () {
      * @method unbind
      */
     BufferResource.prototype.unbind = function () {
-        if (this._context) {
-            this._context.bindBuffer(this._target, null);
+        if (this._gl) {
+            this._gl.bindBuffer(this._target, null);
         }
         else {
             console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGLRenderingContext.");

@@ -61,7 +61,13 @@ define(["require", "exports"], function (require, exports) {
         if (trace) {
             if (traceName) {
                 if (name === traceName) {
-                    log(change + " on " + uuid + " @ " + name);
+                    var element = statistics[uuid];
+                    if (element) {
+                        log(change + " on " + uuid + " @ " + name);
+                    }
+                    else {
+                        log(change + " on " + uuid + " @ " + name);
+                    }
                 }
             }
             else {

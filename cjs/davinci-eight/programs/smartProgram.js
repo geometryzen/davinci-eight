@@ -24,9 +24,6 @@ var smartProgram = function (monitors, attributes, uniforms, bindings) {
     var vLight = vLightRequired(uniforms);
     var innerProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
     var self = {
-        get program() {
-            return innerProgram.program;
-        },
         get programId() {
             return innerProgram.programId;
         },

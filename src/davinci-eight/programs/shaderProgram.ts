@@ -108,10 +108,10 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
    */
   var programs: { [id: number]: WebGLProgram } = {};
   /**
-   * Because we are multi-canvas aware, contexts are tracked by the canvas id.
+   * Because we are multi-canvas aware, gls are tracked by the canvas id.
    * We need to hold onto a WebGLRenderingContext so that we can delete programs.
    */
-  var contexts: { [id: number]: WebGLRenderingContext } = {};
+  var gls: { [id: number]: WebGLRenderingContext } = {};
 
   let uuid: string = uuid4().generate()
   var attributeLocations: { [name: string]: AttribLocation } = {};
@@ -140,7 +140,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
       refCount--;
       if (refCount === 0) {
         MonitorList.removeContextListener(self, monitors);
-        let keys: number[] = Object.keys(contexts).map(function(key: string) {return parseInt(key)});
+        let keys: number[] = Object.keys(gls).map(function(key: string) {return parseInt(key)});
         let keysLength = keys.length;
         for (var k = 0; k < keysLength; k++) {
           let canvasId = keys[k];
@@ -150,14 +150,14 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
       return refCount;
     },
     contextFree(canvasId: number) {
-      let $context = contexts[canvasId];
+      let $context = gls[canvasId];
       if ($context) {
         let program = programs[canvasId];
         if (program) {
           $context.deleteProgram(program);
           programs[canvasId] = void 0;
         }
-        contexts[canvasId] = void 0;
+        gls[canvasId] = void 0;
         for(var aName in attributeLocations) {
           attributeLocations[aName].contextFree();
         }
@@ -169,10 +169,10 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
     contextGain(manager: ContextManager): void {
       // FIXME: multi-canvas
       let canvasId = manager.canvasId;
-      if (contexts[canvasId] !== manager.context) {
+      if (gls[canvasId] !== manager.gl) {
         self.contextFree(canvasId);
-        contexts[canvasId] = manager.context;
-        let context = manager.context;
+        gls[canvasId] = manager.gl;
+        let context = manager.gl;
         let program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
         programs[manager.canvasId] = program;
 
@@ -202,7 +202,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
     },
     contextLoss(canvasId: number) {
       programs[canvasId] = void 0;
-      contexts[canvasId] = void 0;
+      gls[canvasId] = void 0;
       for(var aName in attributeLocations) {
         attributeLocations[aName].contextLoss();
       }
@@ -221,7 +221,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
       return uuid;
     },
     use(canvasId: number): IProgram {
-      let context = contexts[canvasId];
+      let context = gls[canvasId];
       if (context) {
         context.useProgram(programs[canvasId]);
       }

@@ -30,9 +30,7 @@ var toDrawElements = require('davinci-eight/dfx/toDrawElements');
 var triangle = require('davinci-eight/dfx/triangle');
 // scene
 var createDrawList = require('davinci-eight/scene/createDrawList');
-var Material = require('davinci-eight/scene/Material');
 var Mesh = require('davinci-eight/scene/Mesh');
-var MeshNormalMaterial = require('davinci-eight/scene/MeshNormalMaterial');
 var PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 var Scene = require('davinci-eight/scene/Scene');
 var WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
@@ -40,7 +38,7 @@ var WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 var Geometry = require('davinci-eight/geometries/Geometry');
 //import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 //import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
-var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
+var BoxComplex = require('davinci-eight/geometries/BoxComplex');
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 //import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
 //import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
@@ -59,6 +57,10 @@ var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
 var programFromScripts = require('davinci-eight/programs/programFromScripts');
+// materials
+var Material = require('davinci-eight/materials/Material');
+var HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
+var MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
 var Matrix3 = require('davinci-eight/math/Matrix3');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Quaternion = require('davinci-eight/math/Quaternion');
@@ -86,12 +88,22 @@ var windowAnimationRunner = require('davinci-eight/utils/windowAnimationRunner')
  */
 var eight = {
     /**
+     * The publish date of the latest version of the library.
+     * @property LAST_AUTHORED_DATE
+     * @type string
+     */
+    get LAST_AUTHORED_DATE() { return core.LAST_AUTHORED_DATE; },
+    /**
      * The semantic version of the library.
      * @property VERSION
-     * @type String
+     * @type string
      */
-    'VERSION': core.VERSION,
+    get VERSION() { return core.VERSION; },
     // TODO: Arrange in alphabetical order in order to assess width of API.
+    // materials
+    get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },
+    get Material() { return Material; },
+    get MeshNormalMaterial() { return MeshNormalMaterial; },
     get initWebGL() { return initWebGL; },
     get Model() { return Model; },
     get Simplex() { return Simplex; },
@@ -103,9 +115,7 @@ var eight = {
     get view() { return view; },
     get viewMatrix() { return viewMatrix; },
     get Scene() { return Scene; },
-    get Material() { return Material; },
     get Mesh() { return Mesh; },
-    get MeshNormalMaterial() { return MeshNormalMaterial; },
     get PerspectiveCamera() { return PerspectiveCamera; },
     get WebGLRenderer() { return WebGLRenderer; },
     get createDrawList() { return createDrawList; },
@@ -127,7 +137,7 @@ var eight = {
     get Geometry() { return Geometry; },
     //  get ArrowGeometry() { return ArrowGeometry; },
     //  get BarnGeometry() { return BarnGeometry; },
-    get BoxGeometry() { return BoxGeometry; },
+    get BoxComplex() { return BoxComplex; },
     //  get CylinderGeometry() { return CylinderGeometry; },
     //  get DodecahedronGeometry() { return DodecahedronGeometry; },
     //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },

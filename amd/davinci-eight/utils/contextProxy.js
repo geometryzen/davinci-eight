@@ -7,12 +7,12 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
         // The following string represents how this API is exposed.
         return "webgl functional constructor";
     }
-    function mustBeContext(context, method) {
-        if (context) {
-            return context;
+    function mustBeContext(gl, method) {
+        if (gl) {
+            return gl;
         }
         else {
-            throw new Error(method + ": context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+            throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
         }
     }
     /**
@@ -25,8 +25,8 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             this.type = type;
             this.offset = offset;
         }
-        DrawElementsCommand.prototype.execute = function (context) {
-            context.drawElements(this.mode, this.count, this.type, this.offset);
+        DrawElementsCommand.prototype.execute = function (gl) {
+            gl.drawElements(this.mode, this.count, this.type, this.offset);
         };
         return DrawElementsCommand;
     })();
@@ -112,17 +112,17 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
         return ElementsBlockAttrib;
     })();
     // TODO: If mode provided, check consistent with elements.k.
-    // expectArg('mode', mode).toSatisfy(isDrawMode(mode, context), "mode must be one of TRIANGLES, ...");
-    function drawMode(k, mode, context) {
+    // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
+    function drawMode(k, mode, gl) {
         switch (k) {
             case Simplex.K_FOR_TRIANGLE: {
-                return context.TRIANGLES;
+                return gl.TRIANGLES;
             }
             case Simplex.K_FOR_LINE_SEGMENT: {
-                return context.LINES;
+                return gl.LINES;
             }
             case Simplex.K_FOR_POINT: {
-                return context.POINTS;
+                return gl.POINTS;
             }
             case Simplex.K_FOR_EMPTY: {
                 return void 0;
@@ -132,18 +132,18 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             }
         }
     }
-    function isDrawMode(mode, context) {
+    function isDrawMode(mode, gl) {
         if (!isNumber(mode)) {
             expectArg('mode', mode).toBeNumber();
         }
         switch (mode) {
-            case context.TRIANGLES: {
+            case gl.TRIANGLES: {
                 return true;
             }
-            case context.LINES: {
+            case gl.LINES: {
                 return true;
             }
-            case context.POINTS: {
+            case gl.POINTS: {
                 return true;
             }
             default: {
@@ -151,10 +151,10 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             }
         }
     }
-    function isBufferUsage(usage, context) {
+    function isBufferUsage(usage, gl) {
         expectArg('usage', usage).toBeNumber();
         switch (usage) {
-            case context.STATIC_DRAW: {
+            case gl.STATIC_DRAW: {
                 return true;
             }
             default: {
@@ -175,6 +175,64 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             return aName;
         }
     }
+    // FIXME: Use this function pair to replace BEGIN..END
+    /**
+     *
+     */
+    function bindProgramAttribLocations(program, block, aNameToKeyName) {
+        // FIXME: This is where we get the IProgram attributes property.
+        // FIXME: Can we invert this?
+        // What are we offering to the program:
+        // block.attributes (reference counted)
+        // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
+        // in order to get the name -> index correct.
+        // Then attribute setting shoul go much faster
+        var attribLocations = program.attributes;
+        if (attribLocations) {
+            var aNames = Object.keys(attribLocations);
+            var aNamesLength = aNames.length;
+            var i;
+            for (i = 0; i < aNamesLength; i++) {
+                var aName = aNames[i];
+                var key = attribKey(aName, aNameToKeyName);
+                var attributes = block.attributes;
+                var attribute = attributes.get(key);
+                if (attribute) {
+                    // Associate the attribute buffer with the attribute location.
+                    var buffer = attribute.buffer;
+                    buffer.bind();
+                    var attributeLocation = attribLocations[aName];
+                    attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+                    buffer.unbind();
+                    attributeLocation.enable();
+                    buffer.release();
+                    attribute.release();
+                }
+                else {
+                    // The attribute available may not be required by the program.
+                    // TODO: (1) Named programs, (2) disable warning by attribute?
+                    // Do not allow Attribute 0 to be disabled.
+                    console.warn("program attribute " + aName + " is not satisfied by the mesh");
+                }
+                attributes.release();
+            }
+        }
+        else {
+            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
+        }
+    }
+    function unbindProgramAttribLocations(program) {
+        // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
+        var attribLocations = program.attributes;
+        if (attribLocations) {
+            Object.keys(attribLocations).forEach(function (aName) {
+                attribLocations[aName].disable();
+            });
+        }
+        else {
+            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
+        }
+    }
     function webgl(canvas, canvasId, attributes) {
         if (canvasId === void 0) { canvasId = 0; }
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement @ webgl function");
@@ -182,13 +240,13 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
         var uuid = uuid4().generate();
         var blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
-        // objects is not affected by the fact that they are listening for context events.
+        // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
         var users = [];
         function addContextListener(user) {
             expectArg('user', user).toBeObject();
             users.push(user);
-            if (context) {
+            if (gl) {
                 user.contextGain(kahuna);
             }
         }
@@ -240,33 +298,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                                 var indexBuffer = block.indexBuffer;
                                 indexBuffer.bind();
                                 indexBuffer.release();
-                                var aNames = Object.keys(program.attributes);
-                                var aNamesLength = aNames.length;
-                                var aNamesIndex;
-                                for (aNamesIndex = 0; aNamesIndex < aNamesLength; aNamesIndex++) {
-                                    var aName = aNames[aNamesIndex];
-                                    var key = attribKey(aName, aNameToKeyName);
-                                    var attributes_1 = block.attributes;
-                                    var attribute = attributes_1.get(key);
-                                    if (attribute) {
-                                        // Associate the attribute buffer with the attribute location.
-                                        var buffer = attribute.buffer;
-                                        buffer.bind();
-                                        var attributeLocation = program.attributes[aName];
-                                        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-                                        buffer.unbind();
-                                        attributeLocation.enable();
-                                        buffer.release();
-                                        attribute.release();
-                                    }
-                                    else {
-                                        // The attribute available may not be required by the program.
-                                        // TODO: (1) Named programs, (2) disable warning by attribute?
-                                        // Do not allow Attribute 0 to be disabled.
-                                        console.warn("program attribute " + aName + " is not satisfied by the mesh");
-                                    }
-                                    attributes_1.release();
-                                }
+                                bindProgramAttribLocations(_program, block, aNameToKeyName);
                             }
                             else {
                                 expectArg('program', program).toBeObject();
@@ -281,7 +313,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 draw: function () {
                     var block = blocks.get(uuid);
                     if (block) {
-                        block.drawCommand.execute(context);
+                        block.drawCommand.execute(gl);
                         block.release();
                     }
                     else {
@@ -295,14 +327,13 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                             var indexBuffer = block.indexBuffer;
                             indexBuffer.unbind();
                             indexBuffer.release();
-                            Object.keys(_program.attributes).forEach(function (aName) {
-                                _program.attributes[aName].disable();
-                            });
+                            unbindProgramAttribLocations(_program);
                             block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
                         }
+                        // We bumped up the reference count during bind. Now we are done.
                         _program.release();
                         // Important! The existence of _program indicates the binding state.
                         _program = void 0;
@@ -312,20 +343,21 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             refChange(uuid, LOGGING_NAME_MESH, +1);
             return mesh;
         }
-        var context;
+        // FIXME Rename to gl
+        var gl;
         var refCount = 1;
         var mirror = false;
         var tokenArg = expectArg('token', "");
         var webGLContextLost = function (event) {
             event.preventDefault();
-            context = void 0;
+            gl = void 0;
             users.forEach(function (user) {
                 user.contextLoss(canvasId);
             });
         };
         var webGLContextRestored = function (event) {
             event.preventDefault();
-            context = initWebGL(canvas, attributes);
+            gl = initWebGL(canvas, attributes);
             users.forEach(function (user) {
                 user.contextGain(kahuna);
             });
@@ -339,7 +371,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
              */
             createDrawElementsMesh: function (elements, mode, usage) {
                 expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
-                mode = drawMode(elements.k, mode, context);
+                mode = drawMode(elements.k, mode, gl);
                 if (!isDefined(mode)) {
                     // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
                     // something that can't be drawn (no mode) and it is invisible anyway.
@@ -347,15 +379,15 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                     return void 0;
                 }
                 if (isDefined(usage)) {
-                    expectArg('usage', usage).toSatisfy(isBufferUsage(usage, context), "usage must be on of STATIC_DRAW, ...");
+                    expectArg('usage', usage).toSatisfy(isBufferUsage(usage, gl), "usage must be on of STATIC_DRAW, ...");
                 }
                 else {
-                    usage = context.STATIC_DRAW;
+                    usage = gl.STATIC_DRAW;
                 }
                 var mesh = createDrawElementsMesh(uuid4().generate());
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
-                context.bufferData(context.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
                 indexBuffer.unbind();
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
@@ -367,7 +399,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                     buffer.bind();
                     var vertexAttrib = elements.attributes[name_1];
                     var data = vertexAttrib.values.data;
-                    context.bufferData(context.ARRAY_BUFFER, new Float32Array(data), usage);
+                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
                     attributes.put(name_1, attribute);
                     attribute.release();
@@ -378,7 +410,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
                 switch (elements.k) {
                 }
-                var drawCommand = new DrawElementsCommand(mode, elements.indices.length, context.UNSIGNED_SHORT, 0);
+                var drawCommand = new DrawElementsCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 blocks.put(mesh.uuid, block);
                 block.release();
@@ -387,13 +419,13 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 return mesh;
             },
             start: function () {
-                context = initWebGL(canvas, attributes);
+                gl = initWebGL(canvas, attributes);
                 canvas.addEventListener('webglcontextlost', webGLContextLost, false);
                 canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
                 users.forEach(function (user) { user.contextGain(kahuna); });
             },
             stop: function () {
-                context = void 0;
+                gl = void 0;
                 users.forEach(function (user) { user.contextFree(canvasId); });
                 canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
                 canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
@@ -404,23 +436,23 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             removeContextListener: function (user) {
                 removeContextListener(user);
             },
-            get context() {
-                if (context) {
-                    return context;
+            get gl() {
+                if (gl) {
+                    return gl;
                 }
                 else {
-                    console.warn("property context: WebGLRenderingContext is not defined. Either context has been lost or start() not called.");
+                    console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
                     return void 0;
                 }
             },
             addRef: function () {
-                refChange(uuid, LOGGING_NAME_KAHUNA, +1);
                 refCount++;
+                refChange(uuid, LOGGING_NAME_KAHUNA, +1);
                 return refCount;
             },
             release: function () {
-                refChange(uuid, LOGGING_NAME_KAHUNA, -1);
                 refCount--;
+                refChange(uuid, LOGGING_NAME_KAHUNA, -1);
                 if (refCount === 0) {
                     blocks.release();
                     while (users.length > 0) {
@@ -430,51 +462,51 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 return refCount;
             },
             clearColor: function (red, green, blue, alpha) {
-                if (context) {
-                    return context.clearColor(red, green, blue, alpha);
+                if (gl) {
+                    return gl.clearColor(red, green, blue, alpha);
                 }
             },
             clearDepth: function (depth) {
-                if (context) {
-                    return context.clearDepth(depth);
+                if (gl) {
+                    return gl.clearDepth(depth);
                 }
             },
             drawArrays: function (mode, first, count) {
-                if (context) {
-                    return context.drawArrays(mode, first, count);
+                if (gl) {
+                    return gl.drawArrays(mode, first, count);
                 }
             },
             drawElements: function (mode, count, type, offset) {
-                if (context) {
-                    return context.drawElements(mode, count, type, offset);
+                if (gl) {
+                    return gl.drawElements(mode, count, type, offset);
                 }
             },
             depthFunc: function (func) {
-                if (context) {
-                    return context.depthFunc(func);
+                if (gl) {
+                    return gl.depthFunc(func);
                 }
             },
             enable: function (capability) {
-                if (context) {
-                    return context.enable(capability);
+                if (gl) {
+                    return gl.enable(capability);
                 }
             },
             createArrayBuffer: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new BufferResource(kahuna, mustBeContext(context, 'createArrayBuffer()').ARRAY_BUFFER);
+                return new BufferResource(kahuna, mustBeContext(gl, 'createArrayBuffer()').ARRAY_BUFFER);
             },
             createElementArrayBuffer: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new BufferResource(kahuna, mustBeContext(context, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+                return new BufferResource(kahuna, mustBeContext(gl, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
             },
             createTexture2D: function () {
                 // TODO: Replace with functional constructor pattern.
                 // FIXME Does this mean that Texture only has one ContextMonitor?
-                return new TextureResource([kahuna], mustBeContext(context, 'createTexture2D()').TEXTURE_2D);
+                return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
             },
             createTextureCubeMap: function () {
                 // TODO: Replace with functional constructor pattern.
-                return new TextureResource([kahuna], mustBeContext(context, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
+                return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
             },
             get mirror() {
                 return mirror;

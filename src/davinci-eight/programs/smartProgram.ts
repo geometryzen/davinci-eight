@@ -49,9 +49,6 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: AttribMetaIn
   let innerProgram: IProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
   let self: IProgram = {
-    get program() {
-      return innerProgram.program;
-    },
     get programId() {
       return innerProgram.programId;
     },

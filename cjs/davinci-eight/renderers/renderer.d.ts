@@ -1,3 +1,6 @@
-import Renderer = require('../renderers/Renderer');
-declare let renderer: (canvas: HTMLCanvasElement) => Renderer;
+import ContextRenderer = require('../renderers/ContextRenderer');
+/**
+ *
+ */
+declare let renderer: (canvas: HTMLCanvasElement) => ContextRenderer;
 export = renderer;

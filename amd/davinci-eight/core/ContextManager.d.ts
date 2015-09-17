@@ -22,7 +22,7 @@ interface ContextManager extends ContextUnique, IUnknown {
     drawElements(mode: number, count: number, type: number, offset: number): void;
     depthFunc(func: number): void;
     enable(capability: number): void;
-    context: WebGLRenderingContext;
+    gl: WebGLRenderingContext;
     mirror: boolean;
 }
 export = ContextManager;

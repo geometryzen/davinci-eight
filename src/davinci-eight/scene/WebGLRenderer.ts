@@ -7,11 +7,14 @@ import contextProxy = require('../utils/contextProxy');
 import createRenderer = require('../renderers/renderer');
 import DrawElements = require('../dfx/DrawElements');
 import IMesh = require('../dfx/IMesh');
+import IUnknown = require('../core/IUnknown');
 import mustBeInteger = require('../checks/mustBeInteger');
 import mustSatisfy = require('../checks/mustSatisfy');
-import Renderer = require('../renderers/Renderer');
+import refChange = require('../utils/refChange');
+import ContextRenderer = require('../renderers/ContextRenderer');
 import Scene = require('../scene/Scene');
 import UniformData = require('../core/UniformData');
+import uuid4 = require('../utils/uuid4');
 
 let LOGGING_NAME = 'WebGLRenderer';
 // FIXME: ContextManger may be reference counted so this class may need to be too.
@@ -24,11 +27,13 @@ function beHTMLCanvasElement(): string {
   return "be an HTMLCanvasElement";
 }
 
-class WebGLRenderer implements ContextController, ContextMonitor {
+class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
   private _canvas: HTMLCanvasElement;
   private _kahuna: ContextKahuna;
-  private _renderer: Renderer;
+  private _renderer: ContextRenderer;
   private _canvasId: number;
+  private _refCount = 1;
+  private _uuid: string = uuid4().generate();
   constructor(canvas?: HTMLCanvasElement, canvasId: number = 0, attributes?: WebGLContextAttributes) {
     if (canvas) {
       mustSatisfy('canvas', canvas instanceof HTMLCanvasElement, beHTMLCanvasElement, ctorContext);
@@ -44,21 +49,44 @@ class WebGLRenderer implements ContextController, ContextMonitor {
     this._renderer = createRenderer(this._canvas);
     // Provide the manager with access to the WebGLRenderingContext.
     this._kahuna.addContextListener(this._renderer);
+    refChange(this._uuid, LOGGING_NAME, +1);
   }
   addContextListener(user: ContextListener): void {
     this._kahuna.addContextListener(user);
   }
+  addRef(): number {
+    this._refCount++;
+    refChange(this._uuid, LOGGING_NAME, +1);
+    return this._refCount;
+  }
   get canvasId(): number {
     return this._canvasId;
   }
-  get context(): WebGLRenderingContext {
-    return this._kahuna.context;
+  // FIXME: Rename this property to gl, which is the normal usage.
+  get gl(): WebGLRenderingContext {
+    return this._kahuna.gl;
   }
   createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh {
     return this._kahuna.createDrawElementsMesh(elements, mode, usage);
   }
-  get domElement(): HTMLCanvasElement {
+  get canvas(): HTMLCanvasElement {
     return this._canvas;
+  }
+  release(): number {
+    this._refCount--;
+    refChange(this._uuid, LOGGING_NAME, -1);
+    if (this._refCount === 0) {
+      this._kahuna.release();
+      this._canvas = void 0;
+      this._canvasId = void 0;
+      this._kahuna = void 0;
+      this._refCount = void 0;
+      this._renderer = void 0;
+      return 0;
+    }
+    else {
+      return this._refCount;
+    }
   }
   removeContextListener(user: ContextListener): void {
     this._kahuna.removeContextListener(user);

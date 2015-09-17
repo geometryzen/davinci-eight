@@ -261,7 +261,7 @@ function toDrawElements(geometry: Simplex[], geometryInfo?: GeometryInfo): DrawE
  */
 interface ContextProgramListener {
   contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
 }
 
@@ -275,7 +275,7 @@ class AttribLocation implements ContextProgramListener {
   index: number;
   constructor(name: string, size: number, type: number);
   contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
   enable(): void;
   disable(): void;
@@ -304,7 +304,7 @@ interface IBuffer extends IResource {
 class UniformLocation implements ContextProgramListener {
   constructor(monitor: ContextManager, name: string);
   contextFree(): void;
-  contextGain(context: WebGLRenderingContext, program: WebGLProgram): void;
+  contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
   contextLoss(): void;
   uniform1f(x: number): void;
   uniform2f(x: number, y: number): void;
@@ -833,13 +833,13 @@ class Face3 {
   constructor(center?: Cartesian3, radius?: number);
   setFromPoints(points: Cartesian3[]);
 }
+
 /**
- * @module THREE
- * @class Geometry
- * Base class for geometries.
- * A geometry holds faces and vertices used to describe a 3D mesh.
+ * @class Complex
+ * Base class for complexes.
+ * A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.
  */
-class Geometry {
+class Complex {
   public simplices: Simplex[];
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
@@ -875,6 +875,15 @@ class Geometry {
   public subdivide(count?: number): void;
 }
 
+/**
+ * @class Geometry
+ * Base class for geometries.
+ * A complex holds the instructions for rendering a 3D mesh.
+ */
+class Geometry {
+
+}
+
 
 /**
  * @module EIGHT
@@ -893,17 +902,12 @@ class Geometry {
 }
 
 /**
- * @module EIGHT
- * @interface IProgram
- * A vertex shader and a fragment shader combined into a program.
+ * A collection of WebGLProgram(s), one for each canvas in which the program is used.
+ * extends IResource
+ * extends UniformDataVisitor
  */
 interface IProgram extends IResource, UniformDataVisitor
 {
-  /**
-   * @property program
-   * @type WebGLProgram
-   */
-  program: WebGLProgram;
   /**
    * @property programId
    * @type string
@@ -999,14 +1003,6 @@ function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: 
  * Constructs a program from the specified vertex and fragment shader codes.
  */
 function shaderProgram(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IProgram;
-
-/**
- * @module EIGHT
- * @function programFromScripts
- * @param monitors {ContextMonitor[]}
- * Constructs a program from the specified vertex and fragment shader script element identifiers.
- */
-function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, bindings?: string[]): IProgram;
 
 /**
  * @class AttribMetaInfo
@@ -1309,7 +1305,11 @@ class Model implements UniformData {
 }
 
 /**
- * @module EIGHT
+ * @var LAST_AUTHORED_DATE
+ * The publish date of the latest version of the library.
+ */
+var LAST_AUTHORED_DATE: string
+/**
  * @var VERSION
  * The version string of the davinci-eight module.
  */
@@ -1553,11 +1553,14 @@ class PerspectiveCamera implements ICamera, UniformData {
 /**
  * @module EIGHT
  * @class WebGLRenderer
+ * @implements ContextController
+ * @implements ContextMonitor
+ * @implements IUnknown
  */
-class WebGLRenderer implements ContextController, ContextMonitor {
+class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
   canvasId: number;
-  context: WebGLRenderingContext;
-  domElement: HTMLCanvasElement;
+  gl: WebGLRenderingContext;
+  canvas: HTMLCanvasElement;
   /**
    * @constructor
    * @param canvas {HTMLCanvasElement}
@@ -1566,7 +1569,9 @@ class WebGLRenderer implements ContextController, ContextMonitor {
    */
   constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
   addContextListener(user: ContextListener): void;
+  addRef(): number;
   createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
+  release(): number;
   removeContextListener(user: ContextListener): void;
   render(scene: Scene, ambiends: UniformData): void;
   setClearColor(color: number, alpha?: number): void;
@@ -1576,10 +1581,10 @@ class WebGLRenderer implements ContextController, ContextMonitor {
 }
 
 /**
- * @class BoxGeometry
- * @extends Geometry
+ * @class BoxComplex
+ * @extends Complex
  */
-class BoxGeometry extends Geometry {
+class BoxComplex extends Complex {
   /**
    * @constructor
    * width: The side length in the x-axis direction.
@@ -1644,6 +1649,21 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
   contextFree(): void;
   contextGain(manager: ContextManager): void;
   contextLoss(): void;
+}
+
+/**
+ * @module EIGHT
+ * @class HTMLScriptsMaterial
+ * @extends Material
+ */
+class HTMLScriptsMaterial extends Material {
+  /**
+   * @constructor
+   * contexts:  The contexts that this material must support.
+   * scriptIds: The id properties of the script elements. Defaults to [].
+   * dom:       The document object model. Defaults to document.
+   */
+  constructor(contexts: ContextMonitor[], scriptIds?: string[], dom?: Document);
 }
 
 /**

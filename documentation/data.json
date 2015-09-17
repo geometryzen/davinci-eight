@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.96.0",
+        "version": "2.97.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -308,6 +308,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/dfx/Complex.ts": {
+            "name": "src/davinci-eight/dfx/Complex.ts",
+            "modules": {},
+            "classes": {
+                "Complex": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/dfx/DrawAttribute.ts": {
             "name": "src/davinci-eight/dfx/DrawAttribute.ts",
             "modules": {},
@@ -387,8 +396,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/BoxGeometry.ts": {
-            "name": "src/davinci-eight/geometries/BoxGeometry.ts",
+        "src/davinci-eight/geometries/BoxComplex.ts": {
+            "name": "src/davinci-eight/geometries/BoxComplex.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -456,6 +465,27 @@
         },
         "src/davinci-eight/glsl/expr.ts": {
             "name": "src/davinci-eight/glsl/expr.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/HTMLScriptsMaterial.ts": {
+            "name": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/Material.ts": {
+            "name": "src/davinci-eight/materials/Material.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/materials/MeshNormalMaterial.ts": {
+            "name": "src/davinci-eight/materials/MeshNormalMaterial.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -739,6 +769,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/renderers/ContextRenderer.ts": {
+            "name": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/renderers/FrameworkDrawContext.ts": {
             "name": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
             "modules": {},
@@ -746,8 +783,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/renderers/Renderer.ts": {
-            "name": "src/davinci-eight/renderers/Renderer.ts",
+        "src/davinci-eight/renderers/renderer.ts": {
+            "name": "src/davinci-eight/renderers/renderer.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -781,22 +818,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/scene/Material.ts": {
-            "name": "src/davinci-eight/scene/Material.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/scene/Mesh.ts": {
             "name": "src/davinci-eight/scene/Mesh.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/scene/MeshNormalMaterial.ts": {
-            "name": "src/davinci-eight/scene/MeshNormalMaterial.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -873,17 +896,18 @@
                 "Face3": 1,
                 "UniformLocation": 1,
                 "Simplex": 1,
-                "BoxGeometry": 1,
+                "BoxComplex": 1,
                 "KleinBottleGeometry": 1,
+                "HTMLScriptsMaterial": 1,
+                "Material": 1,
+                "MeshNormalMaterial": 1,
                 "Matrix4": 1,
                 "Spinor3": 1,
                 "Vector1": 1,
                 "Vector2": 1,
                 "Vector3": 1,
                 "Vector4": 1,
-                "Material": 1,
                 "Mesh": 1,
-                "MeshNormalMaterial": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
                 "DrawElements": 1,
@@ -895,7 +919,8 @@
                 "Matrix3": 1,
                 "VectorN": 1,
                 "Sphere": 1,
-                "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.": 1,
+                "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.": 1,
+                "Geometry\nBase class for geometries.\nA complex holds the instructions for rendering a 3D mesh.": 1,
                 "ArrowGeometry": 1,
                 "VortexGeometry": 1,
                 "PolyhedronGeometry": 1,
@@ -945,7 +970,7 @@
                 "undefined": 1
             },
             "classes": {
-                "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.": 1,
+                "Geometry\nBase class for geometries.\nA complex holds the instructions for rendering a 3D mesh.": 1,
                 "Curve": 1,
                 "Frustum": 1,
                 "Perspective": 1,
@@ -968,11 +993,15 @@
                 "UniformLocation": 1,
                 "UniformMetaInfos": 1,
                 "UniformProvider": 1,
+                "Complex": 1,
                 "Simplex": 1,
                 "BarnGeometry": 1,
-                "BoxGeometry": 1,
+                "BoxComplex": 1,
                 "Geometry": 1,
                 "GeometryAdapter": 1,
+                "HTMLScriptsMaterial": 1,
+                "Material": 1,
+                "MeshNormalMaterial": 1,
                 "Cartesian1": 1,
                 "Cartesian2": 1,
                 "Cartesian3": 1,
@@ -991,9 +1020,7 @@
                 "CuboidMesh": 1,
                 "CylinderArgs": 1,
                 "EllipsoidMesh": 1,
-                "Material": 1,
                 "Mesh": 1,
-                "MeshNormalMaterial": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
                 "WindowAnimationRunner": 1,
@@ -1015,8 +1042,8 @@
             "tag": "module",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1553,
-            "implements": "IProgram",
             "extends": "Material",
+            "implements": "IProgram",
             "interface": "IUnknown",
             "itemtype": "method",
             "params": [
@@ -1025,8 +1052,7 @@
                     "description": "\nConstructs a program from the specified vertex and fragment shader codes.",
                     "type": "ContextMonitor[]"
                 }
-            ],
-            "var": "VERSION\nThe version string of the davinci-eight module."
+            ]
         },
         "THREE": {
             "name": "THREE",
@@ -1037,6 +1063,7 @@
                 "KleinBottleGeometry": 1,
                 "Vector4": 1,
                 "Sphere": 1,
+                "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.": 1,
                 "ArrowGeometry": 1,
                 "VortexGeometry": 1,
                 "PolyhedronGeometry": 1,
@@ -1053,7 +1080,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1148
+            "line": 1144
         }
     },
     "classes": {
@@ -1213,7 +1240,7 @@
             "extension_for": [],
             "module": "THREE",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1011
+            "line": 1007
         },
         "AttribMetaInfos": {
             "name": "AttribMetaInfos",
@@ -1250,7 +1277,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 879,
+            "line": 888,
             "is_constructor": 1,
             "params": [
                 {
@@ -1455,6 +1482,18 @@
             "line": 3,
             "description": "Provides the runtime and design time data required to use a uniform in a vertex shader."
         },
+        "Complex": {
+            "name": "Complex",
+            "shortname": "Complex",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/dfx/Complex.ts",
+            "line": 3
+        },
         "Simplex": {
             "name": "Simplex",
             "shortname": "Simplex",
@@ -1488,9 +1527,9 @@
             "line": 5,
             "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly."
         },
-        "BoxGeometry": {
-            "name": "BoxGeometry",
-            "shortname": "BoxGeometry",
+        "BoxComplex": {
+            "name": "BoxComplex",
+            "shortname": "BoxComplex",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1498,8 +1537,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1578,
-            "extends": "Geometry"
+            "line": 1583,
+            "extends": "Complex"
         },
         "Geometry": {
             "name": "Geometry",
@@ -1549,7 +1588,7 @@
             "extension_for": [],
             "module": "THREE",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1087,
+            "line": 1083,
             "description": "By connecting the edge of a Mobius Strip we get a Klein Bottle.\nhttp://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html",
             "extends": "SurfaceGeometry",
             "is_constructor": 1,
@@ -1566,6 +1605,45 @@
                 }
             ]
         },
+        "HTMLScriptsMaterial": {
+            "name": "HTMLScriptsMaterial",
+            "shortname": "HTMLScriptsMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1654
+        },
+        "Material": {
+            "name": "Material",
+            "shortname": "Material",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1601
+        },
+        "MeshNormalMaterial": {
+            "name": "MeshNormalMaterial",
+            "shortname": "MeshNormalMaterial",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1669
+        },
         "Cartesian1": {
             "name": "Cartesian1",
             "shortname": "Cartesian1",
@@ -1575,6 +1653,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/math/Cartesian1.ts",
             "line": 1
         },
@@ -1587,6 +1666,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/math/Cartesian2.ts",
             "line": 1
         },
@@ -1599,6 +1679,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/math/Cartesian3.ts",
             "line": 1
         },
@@ -1611,6 +1692,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/math/Cartesian4.ts",
             "line": 1
         },
@@ -1623,6 +1705,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/math/Matrix.ts",
             "line": 1
         },
@@ -1635,6 +1718,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 426,
             "description": "4x4 matrix integrating with WebGL."
@@ -1648,6 +1732,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/math/Mutable.ts",
             "line": 1
         },
@@ -1660,6 +1745,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 576
         },
@@ -1672,6 +1758,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 511,
             "is_constructor": 1,
@@ -1697,6 +1784,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 520,
             "is_constructor": 1,
@@ -1722,6 +1810,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 616,
             "is_constructor": 1,
@@ -1747,6 +1836,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "THREE",
+            "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
             "line": 661,
             "is_constructor": 1,
@@ -1772,6 +1862,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/ArrowBuilder.ts",
             "line": 9
         },
@@ -1784,6 +1875,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/ArrowOptions.ts",
             "line": 3
         },
@@ -1796,6 +1888,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/BoxBuilder.ts",
             "line": 8
         },
@@ -1808,6 +1901,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/BoxMesh.ts",
             "line": 10,
             "is_constructor": 1,
@@ -1838,6 +1932,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/CuboidMesh.ts",
             "line": 4
         },
@@ -1850,6 +1945,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/CylinderArgs.ts",
             "line": 8
         },
@@ -1862,21 +1958,9 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "EIGHT",
+            "namespace": "",
             "file": "src/davinci-eight/mesh/EllipsoidMesh.ts",
             "line": 3
-        },
-        "Material": {
-            "name": "Material",
-            "shortname": "Material",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1596
         },
         "Mesh": {
             "name": "Mesh",
@@ -1889,21 +1973,8 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1631,
+            "line": 1636,
             "implements": "IDrawable"
-        },
-        "MeshNormalMaterial": {
-            "name": "MeshNormalMaterial",
-            "shortname": "MeshNormalMaterial",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1649
         },
         "PerspectiveCamera": {
             "name": "PerspectiveCamera",
@@ -2061,9 +2132,22 @@
             "file": "src/modules/davinci-eight.d.ts",
             "line": 826
         },
-        "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.": {
-            "name": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
-            "shortname": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+        "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.": {
+            "name": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
+            "shortname": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "THREE",
+            "namespace": "",
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 837
+        },
+        "Geometry\nBase class for geometries.\nA complex holds the instructions for rendering a 3D mesh.": {
+            "name": "Geometry\nBase class for geometries.\nA complex holds the instructions for rendering a 3D mesh.",
+            "shortname": "Geometry\nBase class for geometries.\nA complex holds the instructions for rendering a 3D mesh.",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2072,7 +2156,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 836
+            "line": 878
         },
         "ArrowGeometry": {
             "name": "ArrowGeometry",
@@ -2085,7 +2169,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1047
+            "line": 1043
         },
         "VortexGeometry": {
             "name": "VortexGeometry",
@@ -2098,7 +2182,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1055
+            "line": 1051
         },
         "PolyhedronGeometry": {
             "name": "PolyhedronGeometry",
@@ -2111,7 +2195,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1063
+            "line": 1059
         },
         "DodecahedronGeometry": {
             "name": "DodecahedronGeometry",
@@ -2124,7 +2208,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1071
+            "line": 1067
         },
         "IcosahedronGeometry": {
             "name": "IcosahedronGeometry",
@@ -2137,7 +2221,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1079
+            "line": 1075
         },
         "MobiusStripGeometry": {
             "name": "MobiusStripGeometry",
@@ -2150,7 +2234,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1095
+            "line": 1091
         },
         "OctahedronGeometry": {
             "name": "OctahedronGeometry",
@@ -2163,7 +2247,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1103
+            "line": 1099
         },
         "SurfaceGeometry": {
             "name": "SurfaceGeometry",
@@ -2176,7 +2260,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1111
+            "line": 1107
         },
         "SphereGeometry": {
             "name": "SphereGeometry",
@@ -2189,7 +2273,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1125
+            "line": 1121
         },
         "TetrahedronGeometry": {
             "name": "TetrahedronGeometry",
@@ -2202,7 +2286,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1140
+            "line": 1136
         },
         "TubeGeometry": {
             "name": "TubeGeometry",
@@ -2215,7 +2299,7 @@
             "module": "THREE",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1148
+            "line": 1144
         },
         "Curve": {
             "name": "Curve",
@@ -2228,7 +2312,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1162
+            "line": 1158
         },
         "Model": {
             "name": "Model",
@@ -2241,7 +2325,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1296
+            "line": 1292
         },
         "Symbolic\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.": {
             "name": "Symbolic\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.",
@@ -2681,14 +2765,14 @@
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 72,
+            "line": 86,
             "itemtype": "method",
             "name": "bind",
             "class": "Color\nWARNING: In many object-oriented designs, types representing values are completely immutable.\nIn a graphics library where data changes rapidly and garbage collection might become an issue,\nit is common to use reference types, such as in this design. This mutability can lead to\ndifficult bugs because it is hard to reason about where a color may have changed."
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 83,
+            "line": 97,
             "itemtype": "method",
             "name": "unbind",
             "class": "Color\nWARNING: In many object-oriented designs, types representing values are completely immutable.\nIn a graphics library where data changes rapidly and garbage collection might become an issue,\nit is common to use reference types, such as in this design. This mutability can lead to\ndifficult bugs because it is hard to reason about where a color may have changed."
@@ -2703,6 +2787,20 @@
             "file": "src/davinci-eight/core/ContextController.ts",
             "line": 1,
             "interface": "ContextController",
+            "class": "ContextListener"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextController.ts",
+            "line": 5,
+            "itemtype": "method",
+            "name": "start",
+            "class": "ContextListener"
+        },
+        {
+            "file": "src/davinci-eight/core/ContextController.ts",
+            "line": 9,
+            "itemtype": "method",
+            "name": "stop",
             "class": "ContextListener"
         },
         {
@@ -2901,21 +2999,13 @@
             "file": "src/davinci-eight/core/IProgram.ts",
             "line": 16,
             "itemtype": "property",
-            "name": "program",
-            "type": "WebGLProgram\nFIXME: This will neet to be a getWebGLProgram(canvasId).",
-            "class": "Line3"
-        },
-        {
-            "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 22,
-            "itemtype": "property",
             "name": "programId",
             "type": "string",
             "class": "Line3"
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 27,
+            "line": 21,
             "itemtype": "property",
             "name": "vertexShader",
             "type": "string",
@@ -2923,7 +3013,7 @@
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 32,
+            "line": 26,
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "string",
@@ -2931,7 +3021,7 @@
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 37,
+            "line": 31,
             "description": "Makes the Program the current program for WebGL.",
             "itemtype": "method",
             "name": "use",
@@ -2946,7 +3036,7 @@
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 43,
+            "line": 37,
             "itemtype": "property",
             "name": "attributeLocations",
             "type": "{ [name: string]: AttribLocation }",
@@ -2954,7 +3044,7 @@
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 48,
+            "line": 42,
             "itemtype": "property",
             "name": "uniforms",
             "type": "{ [name: string]: UniformLocation }",
@@ -2962,12 +3052,12 @@
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 53,
+            "line": 47,
             "class": "Line3"
         },
         {
             "file": "src/davinci-eight/core/IProgram.ts",
-            "line": 57,
+            "line": 51,
             "class": "Line3"
         },
         {
@@ -3293,43 +3383,43 @@
             "file": "src/davinci-eight/core/getAttribVarName.ts",
             "line": 4,
             "description": "Policy for how an attribute variable name is determined.",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/core/getUniformVarName.ts",
             "line": 5,
             "description": "Policy for how a uniform variable name is determined.",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 2,
             "author": "zz85 / http://www.lab4games.net/zz85/blog\nExtensible curve object\n\nSome common of Curve methods\n.getPoint(t), getTangent(t)\n.getPointAt(u), getTagentAt(u)\n.getPoints(), .getSpacedPoints()\n.getLength()\n.updateArcLengths()\n\nThis following classes subclasses Curve:\n\nLineCurve\nQuadraticBezierCurve\nCubicBezierCurve\nSplineCurve\nArcCurve\nEllipseCurve\nClosedSplineCurve",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 30,
             "description": "Virtual base class method to overwrite and implement in subclasses\nt belongs to [0, 1]",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 37,
             "description": "Get point at relative position in curve according to arc length",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 113,
             "description": "Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 195,
             "description": "Returns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
-            "class": "Simplex"
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/dfx/DrawAttribute.ts",
@@ -3503,49 +3593,49 @@
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 10,
             "description": "radius",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 14,
             "description": "half-width",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 28,
             "description": "http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/geometries/SurfaceGeometry.ts",
             "line": 8,
             "author": "zz85 / https://github.com/zz85\nParametric Surfaces Geometry\nbased on the brilliant article by @prideout http://prideout.net/blog/?p=44\n\nnew SurfaceGeometry( parametricFunction, uSegments, vSegments );",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/geometries/TubeGeometry.ts",
             "line": 1,
             "author": "jonobr1 / https://github.com/jonobr1\n\nModified from the TorusKnotGeometry by @oosmoxiecode\n\nCreates a tube which extrudes along a 3d spline\n\nUses parallel transport frames as described in\nhttp://www.cs.indiana.edu/pub/techreports/TR425.pdf",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/Token.d.ts",
             "line": 3,
             "description": "Every token inherits from a symbol (Pratt).",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/expr.ts",
             "line": 10,
             "description": "The current token.",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/expr.ts",
             "line": 21,
             "description": "The prototype for all other symbols. Its method will usually be overridden.",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/expr.ts",
@@ -3561,7 +3651,7 @@
                     "description": "Binding Power. Optional. Defaults to zero."
                 }
             ],
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/expr.ts",
@@ -3573,19 +3663,75 @@
                     "description": "Right Binding Power."
                 }
             ],
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/expr.ts",
             "line": 256,
             "description": "Make a new token from the next simple object in the array and assign to the token variable",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
         },
         {
             "file": "src/davinci-eight/glsl/expr.ts",
             "line": 263,
             "description": "Symbol obtained from the symbol lookup table.",
-            "class": "Cartesian1"
+            "class": "HTMLScriptsMaterial"
+        },
+        {
+            "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
+            "line": 9,
+            "description": "Name used for reference count monitoring and logging.",
+            "class": "HTMLScriptsMaterial"
+        },
+        {
+            "file": "src/davinci-eight/materials/HTMLScriptsMaterial.ts",
+            "line": 27,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "contexts",
+                    "description": "",
+                    "type": "ContextMonitor[]"
+                },
+                {
+                    "name": "scriptIds",
+                    "description": "",
+                    "type": "String[]"
+                },
+                {
+                    "name": "dom",
+                    "description": "",
+                    "type": "Document"
+                }
+            ],
+            "class": "HTMLScriptsMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/Material.ts",
+            "line": 41,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "contexts",
+                    "description": "",
+                    "type": "ContextMonitor[]"
+                },
+                {
+                    "name": "type",
+                    "description": "The class name, used for logging and serialization.",
+                    "type": "String"
+                }
+            ],
+            "class": "Material",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/materials/MeshNormalMaterial.ts",
+            "line": 6,
+            "description": "Name used for reference count monitoring and logging.",
+            "class": "MeshNormalMaterial",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian1.ts",
@@ -3593,7 +3739,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "number",
-            "class": "Cartesian1"
+            "class": "Cartesian1",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian2.ts",
@@ -3601,7 +3748,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "number",
-            "class": "Cartesian2"
+            "class": "Cartesian2",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian2.ts",
@@ -3609,7 +3757,8 @@
             "itemtype": "property",
             "name": "y",
             "type": "number",
-            "class": "Cartesian2"
+            "class": "Cartesian2",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian3.ts",
@@ -3617,7 +3766,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "number",
-            "class": "Cartesian3"
+            "class": "Cartesian3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian3.ts",
@@ -3625,7 +3775,8 @@
             "itemtype": "property",
             "name": "y",
             "type": "number",
-            "class": "Cartesian3"
+            "class": "Cartesian3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian3.ts",
@@ -3633,7 +3784,8 @@
             "itemtype": "property",
             "name": "z",
             "type": "number",
-            "class": "Cartesian3"
+            "class": "Cartesian3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian4.ts",
@@ -3641,7 +3793,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "number",
-            "class": "Cartesian4"
+            "class": "Cartesian4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian4.ts",
@@ -3649,7 +3802,8 @@
             "itemtype": "property",
             "name": "y",
             "type": "number",
-            "class": "Cartesian4"
+            "class": "Cartesian4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian4.ts",
@@ -3657,7 +3811,8 @@
             "itemtype": "property",
             "name": "z",
             "type": "number",
-            "class": "Cartesian4"
+            "class": "Cartesian4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Cartesian4.ts",
@@ -3665,52 +3820,60 @@
             "itemtype": "property",
             "name": "w",
             "type": "number",
-            "class": "Cartesian4"
+            "class": "Cartesian4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 2,
             "description": "A mutable element of a geometric space.",
-            "class": "Matrix<M>"
+            "class": "Matrix<M>",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/LinearElement.ts",
             "line": 1,
             "description": "A mutable element of a linear space.",
-            "class": "Matrix<M>"
+            "class": "Matrix<M>",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix1.ts",
             "line": 6,
             "description": "Constructs a Matrix1 by wrapping a Float32Array.",
             "is_constructor": 1,
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
             "line": 5,
             "description": "Constructs a Matrix2 by wrapping a Float32Array.",
             "is_constructor": 1,
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix3.ts",
             "line": 8,
             "description": "Constructs a Matrix4 by wrapping a Float32Array.",
             "is_constructor": 1,
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
             "line": 25,
             "description": "Constructs a Matrix4 by wrapping a Float32Array.",
             "is_constructor": 1,
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
             "line": 158,
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
@@ -3723,7 +3886,8 @@
                     "description": "The spinor from which the rotation will be computed."
                 }
             ],
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
@@ -3737,12 +3901,14 @@
                     "type": "Number"
                 }
             ],
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
             "line": 242,
-            "class": "Matrix4"
+            "class": "Matrix4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Mutable.ts",
@@ -3750,7 +3916,8 @@
             "itemtype": "property",
             "name": "data",
             "type": "T",
-            "class": "Mutable"
+            "class": "Mutable",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Mutable.ts",
@@ -3758,19 +3925,22 @@
             "itemtype": "property",
             "name": "callback",
             "type": "() => T",
-            "class": "Mutable"
+            "class": "Mutable",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Quaternion.ts",
             "line": 7,
             "description": "Quaternion is retained for reference only.\nQuaternion should not be exposed.",
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Rotor3.ts",
             "line": 3,
             "description": "R = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
@@ -3778,7 +3948,8 @@
             "itemtype": "property",
             "name": "yz",
             "type": "Number",
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
@@ -3786,7 +3957,8 @@
             "itemtype": "property",
             "name": "zx",
             "type": "Number",
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
@@ -3794,7 +3966,8 @@
             "itemtype": "property",
             "name": "xy",
             "type": "Number",
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
@@ -3802,7 +3975,8 @@
             "itemtype": "property",
             "name": "w",
             "type": "Number",
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
@@ -3813,7 +3987,8 @@
                 "description": "A non-normative string representation of the target.",
                 "type": "String"
             },
-            "class": "Spinor3"
+            "class": "Spinor3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector1.ts",
@@ -3821,7 +3996,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "Number",
-            "class": "Vector1"
+            "class": "Vector1",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector2.ts",
@@ -3829,7 +4005,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "Number",
-            "class": "Vector2"
+            "class": "Vector2",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector2.ts",
@@ -3837,7 +4014,8 @@
             "itemtype": "property",
             "name": "y",
             "type": "Number",
-            "class": "Vector2"
+            "class": "Vector2",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
@@ -3845,7 +4023,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "Number",
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
@@ -3853,7 +4032,8 @@
             "itemtype": "property",
             "name": "y",
             "type": "Number",
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
@@ -3861,7 +4041,8 @@
             "itemtype": "property",
             "name": "z",
             "type": "Number",
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
@@ -3876,7 +4057,8 @@
                     "type": "Vector3"
                 }
             ],
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
@@ -3890,7 +4072,8 @@
                     "description": "The 4x4 matrix that pre-multiplies this column vector."
                 }
             ],
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
@@ -3901,14 +4084,16 @@
                 "description": "A non-normative string representation of the target.",
                 "type": "String"
             },
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector3.ts",
             "line": 264,
             "itemtype": "method",
             "name": "copy\nCopy constructor.",
-            "class": "Vector3"
+            "class": "Vector3",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector4.ts",
@@ -3916,7 +4101,8 @@
             "itemtype": "property",
             "name": "x",
             "type": "Number",
-            "class": "Vector4"
+            "class": "Vector4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector4.ts",
@@ -3924,7 +4110,8 @@
             "itemtype": "property",
             "name": "y",
             "type": "Number",
-            "class": "Vector4"
+            "class": "Vector4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector4.ts",
@@ -3932,7 +4119,8 @@
             "itemtype": "property",
             "name": "z",
             "type": "Number",
-            "class": "Vector4"
+            "class": "Vector4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Vector4.ts",
@@ -3940,31 +4128,36 @@
             "itemtype": "property",
             "name": "w",
             "type": "Number",
-            "class": "Vector4"
+            "class": "Vector4",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/rotor3.ts",
             "line": 16,
             "description": "Functional constructor for producing a Rotor3.\nThe function is named so as to avoid case-insensitive collisions with Rotor3.\nThis will be exposed as `rotor3`.\nWe only need 2 parameters because the sum of the squares of the components is 1.\nPerhaps we should think of the third as being part of a cache?\nExtending this idea, what if",
-            "class": "ArrowBuilder"
+            "class": "ArrowBuilder",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeXY.ts",
             "line": 1,
             "description": "Computes the z component of the cross-product of Cartesian vector components.",
-            "class": "ArrowBuilder"
+            "class": "ArrowBuilder",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeYZ.ts",
             "line": 1,
             "description": "Computes the x component of the cross-product of Cartesian vector components.",
-            "class": "ArrowBuilder"
+            "class": "ArrowBuilder",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/wedgeZX.ts",
             "line": 1,
             "description": "Computes the y component of the cross-product of Cartesian vector components.",
-            "class": "ArrowBuilder"
+            "class": "ArrowBuilder",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/mesh/ArrowOptions.ts",
@@ -3972,28 +4165,32 @@
             "itemtype": "property",
             "name": "axis",
             "type": "Cartesian3",
-            "class": "ArrowOptions"
+            "class": "ArrowOptions",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/mesh/CuboidMesh.ts",
             "line": 8,
             "itemtype": "property",
             "name": "a",
-            "class": "CuboidMesh"
+            "class": "CuboidMesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/mesh/CuboidMesh.ts",
             "line": 12,
             "itemtype": "property",
             "name": "b",
-            "class": "CuboidMesh"
+            "class": "CuboidMesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/mesh/CuboidMesh.ts",
             "line": 16,
             "itemtype": "property",
             "name": "c",
-            "class": "CuboidMesh"
+            "class": "CuboidMesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/mesh/CuboidMesh.ts",
@@ -4001,18 +4198,21 @@
             "itemtype": "property",
             "name": "color",
             "type": "Color",
-            "class": "CuboidMesh"
+            "class": "CuboidMesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/mesh/prism.ts",
             "line": 68,
             "description": "Constructs and returns a prism mesh.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/fragmentShader.ts",
             "line": 5,
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/programFromScripts.ts",
@@ -4041,118 +4241,143 @@
                     "type": "Document"
                 }
             ],
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/shaderProgram.ts",
             "line": 22,
             "description": "Name used for reference count monitoring and logging.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/shaderProgram.ts",
             "line": 47,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/shaderProgram.ts",
             "line": 106,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/shaderProgram.ts",
             "line": 110,
-            "description": "Because we are multi-canvas aware, contexts are tracked by the canvas id.\nWe need to hold onto a WebGLRenderingContext so that we can delete programs.",
-            "class": "Material"
+            "description": "Because we are multi-canvas aware, gls are tracked by the canvas id.\nWe need to hold onto a WebGLRenderingContext so that we can delete programs.",
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/smartProgram.ts",
             "line": 32,
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/programs/vertexShader.ts",
             "line": 23,
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "line": 4,
+            "interface": "ContextRenderer",
+            "extends": "ContextListener",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "line": 9,
+            "description": "The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "line": 13,
+            "itemtype": "property",
+            "name": "autoClear\nDefines whether the renderer should automatically clear its output before rendering.",
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "line": 18,
+            "class": "Mesh",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/renderers/ContextRenderer.ts",
+            "line": 22,
+            "description": "Render the contents of the drawList.\nThis is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.",
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
             "line": 2,
             "description": "TODO: Undecided as to whether this should be used.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/renderers/Renderer.ts",
-            "line": 4,
-            "interface": "Renderer",
-            "extends": "ContextListener",
-            "class": "Material"
-        },
-        {
-            "file": "src/davinci-eight/renderers/Renderer.ts",
-            "line": 9,
-            "description": "The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.",
-            "class": "Material"
-        },
-        {
-            "file": "src/davinci-eight/renderers/Renderer.ts",
-            "line": 13,
-            "itemtype": "property",
-            "name": "autoClear\nDefines whether the renderer should automatically clear its output before rendering.",
-            "class": "Material"
-        },
-        {
-            "file": "src/davinci-eight/renderers/Renderer.ts",
-            "line": 18,
-            "class": "Material"
-        },
-        {
-            "file": "src/davinci-eight/renderers/Renderer.ts",
-            "line": 22,
-            "description": "Render the contents of the drawList.\nThis is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.",
-            "class": "Material"
+            "file": "src/davinci-eight/renderers/renderer.ts",
+            "line": 17,
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 9,
             "description": "Name used for reference count monitoring and logging.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 73,
             "itemtype": "method",
             "name": "bind",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 84,
             "itemtype": "method",
             "name": "unbind",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/ICamera.ts",
             "line": 2,
             "interface": "ICamera",
             "extends": "IDrawable\n\nSupports IDrawable so that all cameras can be added to the scene graph.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
             "line": 11,
             "interface": "IDrawList",
             "extends": "UniformDataVisitor\n\nContextListener because it prefers a WebGLRenderingContext outside the animation loop.\nIUnknown because it is responsible for holding references to the drawables.\nUniformDataVisitor because... FIXME",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/KahunaList.ts",
             "line": 11,
             "description": "Implementation Only.",
-            "class": "Material"
+            "class": "Mesh",
+            "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Mesh.ts",
@@ -4167,13 +4392,6 @@
             "itemtype": "property",
             "name": "material\n\nProvides a reference counted reference to the material.",
             "class": "Mesh",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/MeshNormalMaterial.ts",
-            "line": 6,
-            "description": "Name used for reference count monitoring and logging.",
-            "class": "MeshNormalMaterial",
             "module": "EIGHT"
         },
         {
@@ -4269,13 +4487,19 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 107,
+            "line": 109,
             "class": "DrawElements",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 386,
+            "line": 217,
+            "class": "DrawElements",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 420,
             "class": "DrawElements",
             "module": "EIGHT"
         },
@@ -4699,49 +4923,47 @@
             "file": "src/modules/davinci-eight.d.ts",
             "line": 849,
             "description": "Applies the boundary operation to the geometry.\nTetrahedrons become Triangles.\nTriangles become Line Segments.\nLine Segments become Points.\nPoints become an empty simplex.\nAn empty simplex vanishes.\ncount: The number of times to apply the boundary operation. Default is one (1).",
-            "class": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+            "class": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
             "module": "THREE"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 859,
             "description": "Updates the normals property of each face by creating a per-face normal.",
-            "class": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+            "class": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
             "module": "THREE"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 863,
             "description": "Updates the normals property of each face by creating per-vertex normals averaged over adjacent faces.",
-            "class": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+            "class": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
             "module": "THREE"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 867,
             "description": "Merges vertices which are separated by less than the specified quadrance.",
-            "class": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+            "class": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
             "module": "THREE"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 871,
             "description": "Subdivides the simplices of the geometry to produce finer detail.\ncount: The number of times to subdivide. Default is one (1).",
-            "class": "Geometry\nBase class for geometries.\nA geometry holds faces and vertices used to describe a 3D mesh.",
+            "class": "Complex\nBase class for complexes.\nA complex holds the faces and vertices (as simplices) used to describe a 3D mesh.",
             "module": "THREE"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 902,
-            "itemtype": "property",
-            "name": "program",
-            "type": "WebGLProgram",
+            "line": 904,
+            "description": "A collection of WebGLProgram(s), one for each canvas in which the program is used.\nextends IResource\nextends UniformDataVisitor",
             "class": "Color",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 907,
+            "line": 911,
             "itemtype": "property",
             "name": "programId",
             "type": "string",
@@ -4750,7 +4972,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 912,
+            "line": 916,
             "itemtype": "property",
             "name": "vertexShader",
             "type": "string",
@@ -4759,7 +4981,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 917,
+            "line": 921,
             "itemtype": "property",
             "name": "fragmentShader",
             "type": "string",
@@ -4768,7 +4990,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 922,
+            "line": 926,
             "description": "Makes the program the current program for WebGL.",
             "itemtype": "method",
             "name": "use",
@@ -4784,21 +5006,21 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 928,
+            "line": 932,
             "description": "A map of attribute name to attribute location for active attributes.",
             "class": "Color",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 932,
+            "line": 936,
             "description": "A map of uniform name to uniform location for active uniforms.",
             "class": "Color",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1015,
+            "line": 1011,
             "itemtype": "property",
             "name": "glslType  The type keyword as it appears in the GLSL shader program.!~YUIDOC_LINE~!This property is used for program generation.",
             "type": "String",
@@ -4807,14 +5029,14 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1022,
+            "line": 1018,
             "interface": "UniformMetaInfo",
             "class": "AttribMetaInfo",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1026,
+            "line": 1022,
             "itemtype": "property",
             "name": "name  Specifies an optional override of the name used as a key in UniformMetaInfos.",
             "type": "String",
@@ -4823,7 +5045,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1030,
+            "line": 1026,
             "itemtype": "property",
             "name": "glslType  The type keyword as it appears in the GLSL shader program.",
             "type": "String",
@@ -4832,10 +5054,16 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1116,
+            "line": 1112,
             "description": "Constructs a parametric surface geometry from a function.\nparametricFunction The function that determines a 3D point corresponding to the two parameters.\nuSegments The number of segments for the u parameter.\nvSegments The number of segments for the v parameter.",
             "class": "SurfaceGeometry",
             "module": "THREE"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1184,
+            "class": "Curve",
+            "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
@@ -4845,21 +5073,21 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1192,
-            "class": "Curve",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1204,
+            "line": 1200,
             "description": "Starts the monitoring of the WebGL context.",
             "class": "Curve",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1208,
+            "line": 1204,
             "description": "Stops the monitoring of the WebGL context.",
+            "class": "Curve",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1208,
             "class": "Curve",
             "module": "EIGHT"
         },
@@ -4884,26 +5112,20 @@
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1224,
-            "class": "Curve",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1228,
             "description": "Creates a new IBuffer instance that binds to the ARRAY_BUFFER target.",
             "class": "Curve",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1232,
+            "line": 1228,
             "description": "Creates a new IBuffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
             "class": "Curve",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1236,
+            "line": 1232,
             "description": "Creates a new IMesh instance from a DrawElements data structure.",
             "params": [
                 {
@@ -4927,22 +5149,28 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1243,
+            "line": 1239,
             "description": "Creates a new Texture2D instance that binds to the TEXTURE_2D target.",
             "class": "Curve",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1247,
+            "line": 1243,
             "description": "Creates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.",
             "class": "Curve",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1251,
+            "line": 1247,
             "description": "Render geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
+            "class": "Curve",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1261,
             "class": "Curve",
             "module": "EIGHT"
         },
@@ -4967,19 +5195,13 @@
         {
             "file": "src/modules/davinci-eight.d.ts",
             "line": 1277,
-            "class": "Curve",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/modules/davinci-eight.d.ts",
-            "line": 1281,
             "description": "Determines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
             "class": "Curve",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1287,
+            "line": 1283,
             "itemtype": "method",
             "name": "webgl\nConstructs and returns a ContextManager.",
             "params": [
@@ -5004,8 +5226,22 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1304,
+            "line": 1300,
             "description": "Model implements UniformData required for manipulating a body.",
+            "class": "Model",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1307,
+            "var": "LAST_AUTHORED_DATE\nThe publish date of the latest version of the library.",
+            "class": "Model",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1312,
+            "var": "VERSION\nThe version string of the davinci-eight module.",
             "class": "Model",
             "module": "EIGHT"
         },
@@ -5131,7 +5367,7 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1561,
+            "line": 1564,
             "is_constructor": 1,
             "params": [
                 {
@@ -5155,14 +5391,21 @@
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1583,
+            "line": 1588,
             "is_constructor": 1,
-            "class": "BoxGeometry",
+            "class": "BoxComplex",
             "module": "EIGHT"
         },
         {
             "file": "src/modules/davinci-eight.d.ts",
-            "line": 1655,
+            "line": 1660,
+            "is_constructor": 1,
+            "class": "HTMLScriptsMaterial",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/modules/davinci-eight.d.ts",
+            "line": 1675,
             "is_constructor": 1,
             "params": [
                 {
@@ -16392,11 +16635,21 @@
         },
         {
             "file": "src/davinci-eight.ts",
-            "line": 125,
+            "line": 130,
+            "description": "The publish date of the latest version of the library.",
+            "itemtype": "property",
+            "name": "LAST_AUTHORED_DATE",
+            "type": "string",
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight.ts",
+            "line": 136,
             "description": "The semantic version of the library.",
             "itemtype": "property",
             "name": "VERSION",
-            "type": "String",
+            "type": "string",
             "class": "",
             "module": "EIGHT"
         },
@@ -16481,8 +16734,12 @@
             "line": " src/davinci-eight/dfx/IMesh.ts:8"
         },
         {
+            "message": "unknown tag: implements",
+            "line": " src/davinci-eight/materials/Material.ts:25"
+        },
+        {
             "message": "unknown tag: interface",
-            "line": " src/davinci-eight/renderers/Renderer.ts:4"
+            "line": " src/davinci-eight/renderers/ContextRenderer.ts:4"
         },
         {
             "message": "unknown tag: interface",
@@ -16491,10 +16748,6 @@
         {
             "message": "unknown tag: interface",
             "line": " src/davinci-eight/scene/IDrawList.ts:11"
-        },
-        {
-            "message": "unknown tag: implements",
-            "line": " src/davinci-eight/scene/Material.ts:24"
         },
         {
             "message": "unknown tag: implements",
@@ -16650,71 +16903,67 @@
         },
         {
             "message": "unknown tag: interface",
-            "line": " src/modules/davinci-eight.d.ts:895"
+            "line": " src/modules/davinci-eight.d.ts:942"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:957"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:964"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:971"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:978"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:985"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:992"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " src/modules/davinci-eight.d.ts:999"
         },
         {
             "message": "unknown tag: interface",
-            "line": " src/modules/davinci-eight.d.ts:938"
+            "line": " src/modules/davinci-eight.d.ts:1018"
         },
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:953"
+            "line": " src/modules/davinci-eight.d.ts:1032"
         },
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:960"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:967"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:974"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:981"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:988"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:995"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:1003"
+            "line": " src/modules/davinci-eight.d.ts:1166"
         },
         {
             "message": "unknown tag: interface",
-            "line": " src/modules/davinci-eight.d.ts:1022"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:1036"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:1170"
+            "line": " src/modules/davinci-eight.d.ts:1179"
         },
         {
             "message": "unknown tag: interface",
-            "line": " src/modules/davinci-eight.d.ts:1183"
-        },
-        {
-            "message": "unknown tag: interface",
-            "line": " src/modules/davinci-eight.d.ts:1198"
+            "line": " src/modules/davinci-eight.d.ts:1194"
         },
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " src/modules/davinci-eight.d.ts:1287"
+            "line": " src/modules/davinci-eight.d.ts:1283"
         },
         {
             "message": "unknown tag: var",
-            "line": " src/modules/davinci-eight.d.ts:1311"
+            "line": " src/modules/davinci-eight.d.ts:1307"
+        },
+        {
+            "message": "unknown tag: var",
+            "line": " src/modules/davinci-eight.d.ts:1312"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -16766,11 +17015,23 @@
         },
         {
             "message": "unknown tag: implements",
-            "line": " src/modules/davinci-eight.d.ts:1596"
+            "line": " src/modules/davinci-eight.d.ts:1553"
         },
         {
             "message": "unknown tag: implements",
-            "line": " src/modules/davinci-eight.d.ts:1631"
+            "line": " src/modules/davinci-eight.d.ts:1553"
+        },
+        {
+            "message": "unknown tag: implements",
+            "line": " src/modules/davinci-eight.d.ts:1553"
+        },
+        {
+            "message": "unknown tag: implements",
+            "line": " src/modules/davinci-eight.d.ts:1601"
+        },
+        {
+            "message": "unknown tag: implements",
+            "line": " src/modules/davinci-eight.d.ts:1636"
         },
         {
             "message": "Missing item type",
@@ -16858,11 +17119,11 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/IProgram.ts:53"
+            "line": " src/davinci-eight/core/IProgram.ts:47"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/IProgram.ts:57"
+            "line": " src/davinci-eight/core/IProgram.ts:51"
         },
         {
             "message": "Missing item type",
@@ -17045,6 +17306,22 @@
             "line": " src/davinci-eight/glsl/expr.ts:263"
         },
         {
+            "message": "Missing item type\nName used for reference count monitoring and logging.",
+            "line": " src/davinci-eight/materials/HTMLScriptsMaterial.ts:9"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/materials/HTMLScriptsMaterial.ts:27"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/materials/Material.ts:41"
+        },
+        {
+            "message": "Missing item type\nName used for reference count monitoring and logging.",
+            "line": " src/davinci-eight/materials/MeshNormalMaterial.ts:6"
+        },
+        {
             "message": "Missing item type\nA mutable element of a geometric space.",
             "line": " src/davinci-eight/math/GeometricElement.ts:2"
         },
@@ -17121,7 +17398,7 @@
             "line": " src/davinci-eight/programs/shaderProgram.ts:106"
         },
         {
-            "message": "Missing item type\nBecause we are multi-canvas aware, contexts are tracked by the canvas id.\nWe need to hold onto a WebGLRenderingContext so that we can delete programs.",
+            "message": "Missing item type\nBecause we are multi-canvas aware, gls are tracked by the canvas id.\nWe need to hold onto a WebGLRenderingContext so that we can delete programs.",
             "line": " src/davinci-eight/programs/shaderProgram.ts:110"
         },
         {
@@ -17133,24 +17410,28 @@
             "line": " src/davinci-eight/programs/vertexShader.ts:23"
         },
         {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/renderers/ContextRenderer.ts:4"
+        },
+        {
+            "message": "Missing item type\nThe (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.",
+            "line": " src/davinci-eight/renderers/ContextRenderer.ts:9"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/renderers/ContextRenderer.ts:18"
+        },
+        {
+            "message": "Missing item type\nRender the contents of the drawList.\nThis is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.",
+            "line": " src/davinci-eight/renderers/ContextRenderer.ts:22"
+        },
+        {
             "message": "Missing item type\nTODO: Undecided as to whether this should be used.",
             "line": " src/davinci-eight/renderers/FrameworkDrawContext.ts:2"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/renderers/Renderer.ts:4"
-        },
-        {
-            "message": "Missing item type\nThe (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.",
-            "line": " src/davinci-eight/renderers/Renderer.ts:9"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/renderers/Renderer.ts:18"
-        },
-        {
-            "message": "Missing item type\nRender the contents of the drawList.\nThis is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.",
-            "line": " src/davinci-eight/renderers/Renderer.ts:22"
+            "line": " src/davinci-eight/renderers/renderer.ts:17"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
@@ -17173,10 +17454,6 @@
             "line": " src/davinci-eight/scene/Mesh.ts:18"
         },
         {
-            "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/scene/MeshNormalMaterial.ts:6"
-        },
-        {
             "message": "Missing item type\nImplementation Only.",
             "line": " src/davinci-eight/scene/MonitorList.ts:22"
         },
@@ -17194,11 +17471,15 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:107"
+            "line": " src/davinci-eight/utils/contextProxy.ts:109"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:386"
+            "line": " src/davinci-eight/utils/contextProxy.ts:217"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/utils/contextProxy.ts:420"
         },
         {
             "message": "Missing item type\nCreates an object implementing a stopwatch API that makes callbacks to user-supplied functions.",
@@ -17389,35 +17670,43 @@
             "line": " src/modules/davinci-eight.d.ts:871"
         },
         {
-            "message": "Missing item type\nA map of attribute name to attribute location for active attributes.",
-            "line": " src/modules/davinci-eight.d.ts:928"
+            "message": "Missing item type\nA collection of WebGLProgram(s), one for each canvas in which the program is used.\nextends IResource\nextends UniformDataVisitor",
+            "line": " src/modules/davinci-eight.d.ts:904"
         },
         {
-            "message": "Missing item type\nA map of uniform name to uniform location for active uniforms.",
+            "message": "Missing item type\nA map of attribute name to attribute location for active attributes.",
             "line": " src/modules/davinci-eight.d.ts:932"
         },
         {
+            "message": "Missing item type\nA map of uniform name to uniform location for active uniforms.",
+            "line": " src/modules/davinci-eight.d.ts:936"
+        },
+        {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1022"
+            "line": " src/modules/davinci-eight.d.ts:1018"
         },
         {
             "message": "Missing item type\nConstructs a parametric surface geometry from a function.\nparametricFunction The function that determines a 3D point corresponding to the two parameters.\nuSegments The number of segments for the u parameter.\nvSegments The number of segments for the v parameter.",
-            "line": " src/modules/davinci-eight.d.ts:1116"
+            "line": " src/modules/davinci-eight.d.ts:1112"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1184"
         },
         {
             "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:1188"
         },
         {
-            "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1192"
-        },
-        {
             "message": "Missing item type\nStarts the monitoring of the WebGL context.",
-            "line": " src/modules/davinci-eight.d.ts:1204"
+            "line": " src/modules/davinci-eight.d.ts:1200"
         },
         {
             "message": "Missing item type\nStops the monitoring of the WebGL context.",
+            "line": " src/modules/davinci-eight.d.ts:1204"
+        },
+        {
+            "message": "Missing item type",
             "line": " src/modules/davinci-eight.d.ts:1208"
         },
         {
@@ -17433,32 +17722,32 @@
             "line": " src/modules/davinci-eight.d.ts:1220"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nCreates a new IBuffer instance that binds to the ARRAY_BUFFER target.",
             "line": " src/modules/davinci-eight.d.ts:1224"
         },
         {
-            "message": "Missing item type\nCreates a new IBuffer instance that binds to the ARRAY_BUFFER target.",
+            "message": "Missing item type\nCreates a new IBuffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
             "line": " src/modules/davinci-eight.d.ts:1228"
         },
         {
-            "message": "Missing item type\nCreates a new IBuffer instance that binds to the ELEMENT_ARRAY_BUFFER target.",
+            "message": "Missing item type\nCreates a new IMesh instance from a DrawElements data structure.",
             "line": " src/modules/davinci-eight.d.ts:1232"
         },
         {
-            "message": "Missing item type\nCreates a new IMesh instance from a DrawElements data structure.",
-            "line": " src/modules/davinci-eight.d.ts:1236"
-        },
-        {
             "message": "Missing item type\nCreates a new Texture2D instance that binds to the TEXTURE_2D target.",
-            "line": " src/modules/davinci-eight.d.ts:1243"
+            "line": " src/modules/davinci-eight.d.ts:1239"
         },
         {
             "message": "Missing item type\nCreates a new TextureCubeMap instance that binds to the TEXTURE_CUBE_MAP target.",
-            "line": " src/modules/davinci-eight.d.ts:1247"
+            "line": " src/modules/davinci-eight.d.ts:1243"
         },
         {
             "message": "Missing item type\nRender geometric primitives from bound and enabled vertex data.\n\nParameters\n  mode [in] Specifies the kind of geometric primitives to render from a given set of vertex attributes.\n  first [in] The first element to render in the array of vector points.\n  count [in] The number of vector points to render.\n             For example, N triangles would have count 3 * N using TRIANGLES mode.\nReturn value\n  This method does not return a value.\nRemarks\n  None.",
-            "line": " src/modules/davinci-eight.d.ts:1251"
+            "line": " src/modules/davinci-eight.d.ts:1247"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1261"
         },
         {
             "message": "Missing item type",
@@ -17473,16 +17762,20 @@
             "line": " src/modules/davinci-eight.d.ts:1273"
         },
         {
-            "message": "Missing item type",
+            "message": "Missing item type\nDetermines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
             "line": " src/modules/davinci-eight.d.ts:1277"
         },
         {
-            "message": "Missing item type\nDetermines whether the framework mirrors the WebGL state machine in order to optimize redundant calls.",
-            "line": " src/modules/davinci-eight.d.ts:1281"
+            "message": "Missing item type\nModel implements UniformData required for manipulating a body.",
+            "line": " src/modules/davinci-eight.d.ts:1300"
         },
         {
-            "message": "Missing item type\nModel implements UniformData required for manipulating a body.",
-            "line": " src/modules/davinci-eight.d.ts:1304"
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1307"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1312"
         },
         {
             "message": "Missing item type\n'aColor'",
@@ -17538,15 +17831,19 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1561"
+            "line": " src/modules/davinci-eight.d.ts:1564"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1583"
+            "line": " src/modules/davinci-eight.d.ts:1588"
         },
         {
             "message": "Missing item type",
-            "line": " src/modules/davinci-eight.d.ts:1655"
+            "line": " src/modules/davinci-eight.d.ts:1660"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/modules/davinci-eight.d.ts:1675"
         },
         {
             "message": "Missing item type\nEvaluates JavaScript code and executes it.",

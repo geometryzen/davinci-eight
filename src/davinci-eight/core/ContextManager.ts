@@ -18,6 +18,7 @@ import IUnknown = require('../core/IUnknown');
  * @extends ContextUnique
  * @extends IUnknown
  */
+ // FIXME Try commenting out IUnknown
 interface ContextManager extends ContextUnique, IUnknown {
   clearColor(red: number, green: number, blue: number, alpha: number): void;
   clearDepth(depth: number): void;
@@ -30,7 +31,7 @@ interface ContextManager extends ContextUnique, IUnknown {
   drawElements(mode: number, count: number, type: number, offset: number): void;
   depthFunc(func: number): void;
   enable(capability: number): void;
-  context: WebGLRenderingContext;
+  gl: WebGLRenderingContext;
   mirror: boolean;
 }
 

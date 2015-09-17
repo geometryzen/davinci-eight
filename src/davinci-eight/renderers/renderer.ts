@@ -1,69 +1,67 @@
+import core = require('../core');
 import Color = require('../core/Color');
 import expectArg = require('../checks/expectArg');
 import ContextManager = require('../core/ContextManager');
+import ContextRenderer = require('../renderers/ContextRenderer');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IMesh = require('../dfx/IMesh');
 import IProgram = require('../core/IProgram');
-import Renderer = require('../renderers/Renderer');
 import UniformData = require('../core/UniformData');
-// FIXME: refChange for the renderer.
+import uuid4 = require('../utils/uuid4');
+
+let CLASS_NAME = "ContextRenderer"
 
 // FIXME: multi-context monitors: etc
 // FIXME; Remove attributes
-let renderer = function(canvas: HTMLCanvasElement): Renderer {
+/**
+ *
+ */
+let renderer = function(canvas: HTMLCanvasElement): ContextRenderer {
   // FIXME: Replace.
   expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 
-  var $context: WebGLRenderingContext = void 0;
-  var refCount: number = 1;
+  // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
+  var gl: WebGLRenderingContext = void 0;
   var autoClear: boolean = true;
   let clearColor: Color = Color.fromRGB(0, 0, 0);
   var clearAlpha: number = 0;
+  let uuid = uuid4().generate();
 
   function drawHandler(drawable: IDrawable) {
     drawable.draw();
   }
 
-  let self: Renderer = {
+  let self: ContextRenderer = {
     get canvas() { return canvas; },
-    get context(): WebGLRenderingContext { return $context;},
-    addRef(): number {
-      refCount++;
-      // console.log("renderer.addRef() => " + refCount);
-      return refCount;
-    },
-    release(): number {
-      refCount--;
-      // console.log("renderer.release() => " + refCount);
-      if (refCount === 0) {
-        $context = void 0;
-      }
-      return refCount;
-    },
+    get gl(): WebGLRenderingContext { return gl;},
     contextFree() {
-      $context = void 0;
+      gl = void 0;
     },
     contextGain(manager: ContextManager) {
       // FIXME: multi-context
-      let context = manager.context;
-      //let attributes: WebGLContextAttributes = context.getContextAttributes();
-      //console.log(context.getParameter(context.VERSION));
-      //console.log("alpha                 => " + attributes.alpha);
-      //console.log("antialias             => " + attributes.antialias);
-      //console.log("depth                 => " + attributes.depth);
-      //console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-      //console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-      //console.log("stencil               => " + attributes.stencil);
-      $context = context;
-      context.clearColor(clearColor.r, clearColor.g, clearColor.b, clearAlpha);
-      context.clearDepth(1.0); 
-      context.enable($context.DEPTH_TEST);
-      context.depthFunc($context.LEQUAL);
-      context.viewport(0, 0, canvas.width, canvas.height);
+      gl = manager.gl;
+      console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_AUTHORED_DATE);
+      if (core.LOG_WEBGL_VERSION) {
+        console.log(gl.getParameter(gl.VERSION));
+      }
+      if (core.LOG_WEBGL_CONTEXT_ATTRIBUTES) {
+        let attributes: WebGLContextAttributes = gl.getContextAttributes();
+        console.log("alpha                 => " + attributes.alpha);
+        console.log("antialias             => " + attributes.antialias);
+        console.log("depth                 => " + attributes.depth);
+        console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
+        console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
+        console.log("stencil               => " + attributes.stencil);
+      }
+      gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearAlpha);
+      gl.clearDepth(1.0); 
+      gl.enable(gl.DEPTH_TEST);
+      gl.depthFunc(gl.LEQUAL);
+      gl.viewport(0, 0, canvas.width, canvas.height);
     },
     contextLoss() {
-      $context = void 0;
+      gl = void 0;
     },
     get autoClear(): boolean {
       return autoClear;
@@ -76,14 +74,14 @@ let renderer = function(canvas: HTMLCanvasElement): Renderer {
       clearColor.g = expectArg('green', green).toBeNumber().value;
       clearColor.b = expectArg('blue',  blue ).toBeNumber().value;
       clearAlpha   = expectArg('alpha', alpha).toBeNumber().value;
-      if ($context) {
-        $context.clearColor(red, green, blue, alpha);
+      if (gl) {
+        gl.clearColor(red, green, blue, alpha);
       }
     },
     render(drawList: IDrawList) {
-      if ($context) {
+      if (gl) {
         if (autoClear) {
-          $context.clear($context.COLOR_BUFFER_BIT | $context.DEPTH_BUFFER_BIT);
+          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         }
       }
       else {

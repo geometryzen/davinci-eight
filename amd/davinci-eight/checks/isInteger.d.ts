@@ -1,2 +1,2 @@
-declare function isInteger(x: number): boolean;
+declare function isInteger(x: any): boolean;
 export = isInteger;

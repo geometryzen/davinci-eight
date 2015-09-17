@@ -18,17 +18,29 @@ function checkTarget(target: number): number {
 
 // TODO: Replace this with a functional constructor to prevent tinkering.
 class BufferResource implements IBuffer {
-  private _context: WebGLRenderingContext;
-  private _monitor: ContextMonitor;
   private _buffer: WebGLBuffer;
+  private _gl: WebGLRenderingContext;
+  private _monitor: ContextMonitor;
   private _refCount: number = 1;
-  private _uuid: string = uuid4().generate();
   private _target: number;
+  private _uuid: string = uuid4().generate();
   constructor(monitor: ContextMonitor, target: number) {
     this._monitor = expectArg('montor', monitor).toBeObject().value;
     this._target = checkTarget(target);
     refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
     monitor.addContextListener(this);
+  }
+  private destructor() {
+    if (this._buffer) {
+      this._gl.deleteBuffer(this._buffer);
+      this._buffer = void 0;
+    }
+    this._gl = void 0;
+    this._monitor.removeContextListener(this);
+    this._monitor = void 0;
+    this._refCount = void 0;
+    this._target = void 0;
+    this._uuid = void 0;
   }
   addRef(): number {
     this._refCount++;
@@ -39,17 +51,19 @@ class BufferResource implements IBuffer {
     this._refCount--;
     refChange(this._uuid, LOGGING_NAME_IBUFFER, -1);
     if (this._refCount === 0) {
-      this._monitor.removeContextListener(this);
-      this.contextFree();
+      this.destructor();
+      return 0;
     }
-    return this._refCount;
+    else {
+      return this._refCount;
+    }
   }
   contextFree() {
     if (this._buffer) {
-      this._context.deleteBuffer(this._buffer);
+      this._gl.deleteBuffer(this._buffer);
       this._buffer = void 0;
     }
-    this._context = void 0;
+    this._gl = void 0;
   }
   contextGain(manager: ContextManager) {
     // FIXME: Support for multiple contexts. Do I need multiple buffers?
@@ -58,23 +72,23 @@ class BufferResource implements IBuffer {
     // Answer, I can detect this condition by looking a canvasId.
     // But can I prevent it in the API?
     // I don't think so. That would require typed contexts.
-    let context = manager.context;
-    if (this._context !== context) {
+    let gl = manager.gl;
+    if (this._gl !== gl) {
       this.contextFree();
-      this._context = context;
-      this._buffer = context.createBuffer();
+      this._gl = gl;
+      this._buffer = gl.createBuffer();
     }
   }
   contextLoss() {
     this._buffer = void 0;
-    this._context = void 0;
+    this._gl = void 0;
   }
   /**
    * @method bind
    */
   bind(): void {
-    if (this._context) {
-      this._context.bindBuffer(this._target, this._buffer);
+    if (this._gl) {
+      this._gl.bindBuffer(this._target, this._buffer);
     }
     else {
       console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGLRenderingContext.");
@@ -84,8 +98,8 @@ class BufferResource implements IBuffer {
    * @method unbind
    */
   unbind() {
-    if (this._context) {
-      this._context.bindBuffer(this._target, null);
+    if (this._gl) {
+      this._gl.bindBuffer(this._target, null);
     }
     else {
       console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGLRenderingContext.");
