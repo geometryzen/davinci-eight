@@ -38,23 +38,23 @@ var Scene = require('davinci-eight/scene/Scene');
 var WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 // geometries
 var Geometry = require('davinci-eight/geometries/Geometry');
-var ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
-var BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
+//import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
+//import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 var BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
-var CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
-var DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
-var EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
-var IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
-var KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
-var MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
-var OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
-var SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry');
-var PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
-var RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
-var SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
-var TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
-var TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
-var VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
+//import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
+//import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
+//import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
+//import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry');
+//import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry');
+//import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry');
+//import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
+//import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry');
+//import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
+//import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
+//import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
+//import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
+//import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
+//import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 // programs
 var shaderProgram = require('davinci-eight/programs/shaderProgram');
 var smartProgram = require('davinci-eight/programs/smartProgram');
@@ -125,23 +125,23 @@ var eight = {
     get Color() { return Color; },
     get Face3() { return Face3; },
     get Geometry() { return Geometry; },
-    get ArrowGeometry() { return ArrowGeometry; },
-    get BarnGeometry() { return BarnGeometry; },
+    //  get ArrowGeometry() { return ArrowGeometry; },
+    //  get BarnGeometry() { return BarnGeometry; },
     get BoxGeometry() { return BoxGeometry; },
-    get CylinderGeometry() { return CylinderGeometry; },
-    get DodecahedronGeometry() { return DodecahedronGeometry; },
-    get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
-    get IcosahedronGeometry() { return IcosahedronGeometry; },
-    get KleinBottleGeometry() { return KleinBottleGeometry; },
-    get MobiusStripGeometry() { return MobiusStripGeometry; },
-    get OctahedronGeometry() { return OctahedronGeometry; },
-    get SurfaceGeometry() { return SurfaceGeometry; },
-    get PolyhedronGeometry() { return PolyhedronGeometry; },
-    get RevolutionGeometry() { return RevolutionGeometry; },
-    get SphereGeometry() { return SphereGeometry; },
-    get TetrahedronGeometry() { return TetrahedronGeometry; },
-    get TubeGeometry() { return TubeGeometry; },
-    get VortexGeometry() { return VortexGeometry; },
+    //  get CylinderGeometry() { return CylinderGeometry; },
+    //  get DodecahedronGeometry() { return DodecahedronGeometry; },
+    //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
+    //  get IcosahedronGeometry() { return IcosahedronGeometry; },
+    //  get KleinBottleGeometry() { return KleinBottleGeometry; },
+    //  get MobiusStripGeometry() { return MobiusStripGeometry; },
+    //  get OctahedronGeometry() { return OctahedronGeometry; },
+    //  get SurfaceGeometry() { return SurfaceGeometry; },
+    //  get PolyhedronGeometry() { return PolyhedronGeometry; },
+    //  get RevolutionGeometry() { return RevolutionGeometry; },
+    //  get SphereGeometry() { return SphereGeometry; },
+    //  get TetrahedronGeometry() { return TetrahedronGeometry; },
+    //  get TubeGeometry() { return TubeGeometry; },
+    //  get VortexGeometry() { return VortexGeometry; },
     get Matrix3() { return Matrix3; },
     get Matrix4() { return Matrix4; },
     get rotor3() { return rotor3; },

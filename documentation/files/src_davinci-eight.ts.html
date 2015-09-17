@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.95.0</em>
+            <em>API Docs for: 2.96.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,8 +74,8 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/Geometry
                 Base class for geometries.
@@ -133,8 +133,8 @@
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -238,23 +238,23 @@ import Scene = require(&#x27;davinci-eight/scene/Scene&#x27;);
 import WebGLRenderer = require(&#x27;davinci-eight/scene/WebGLRenderer&#x27;);
 // geometries
 import Geometry = require(&#x27;davinci-eight/geometries/Geometry&#x27;);
-import ArrowGeometry = require(&#x27;davinci-eight/geometries/ArrowGeometry&#x27;);
-import BarnGeometry = require(&#x27;davinci-eight/geometries/BarnGeometry&#x27;);
+//import ArrowGeometry = require(&#x27;davinci-eight/geometries/ArrowGeometry&#x27;);
+//import BarnGeometry = require(&#x27;davinci-eight/geometries/BarnGeometry&#x27;);
 import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
-import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
-import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
-import EllipticalCylinderGeometry = require(&#x27;davinci-eight/geometries/EllipticalCylinderGeometry&#x27;);
-import IcosahedronGeometry = require(&#x27;davinci-eight/geometries/IcosahedronGeometry&#x27;);
-import KleinBottleGeometry = require(&#x27;davinci-eight/geometries/KleinBottleGeometry&#x27;);
-import MobiusStripGeometry = require(&#x27;davinci-eight/geometries/MobiusStripGeometry&#x27;);
-import OctahedronGeometry = require(&#x27;davinci-eight/geometries/OctahedronGeometry&#x27;);
-import SurfaceGeometry = require(&#x27;davinci-eight/geometries/SurfaceGeometry&#x27;);
-import PolyhedronGeometry = require(&#x27;davinci-eight/geometries/PolyhedronGeometry&#x27;);
-import RevolutionGeometry = require(&#x27;davinci-eight/geometries/RevolutionGeometry&#x27;);
-import SphereGeometry = require(&#x27;davinci-eight/geometries/SphereGeometry&#x27;);
-import TetrahedronGeometry = require(&#x27;davinci-eight/geometries/TetrahedronGeometry&#x27;);
-import TubeGeometry = require(&#x27;davinci-eight/geometries/TubeGeometry&#x27;);
-import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x27;);
+//import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
+//import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
+//import EllipticalCylinderGeometry = require(&#x27;davinci-eight/geometries/EllipticalCylinderGeometry&#x27;);
+//import IcosahedronGeometry = require(&#x27;davinci-eight/geometries/IcosahedronGeometry&#x27;);
+//import KleinBottleGeometry = require(&#x27;davinci-eight/geometries/KleinBottleGeometry&#x27;);
+//import MobiusStripGeometry = require(&#x27;davinci-eight/geometries/MobiusStripGeometry&#x27;);
+//import OctahedronGeometry = require(&#x27;davinci-eight/geometries/OctahedronGeometry&#x27;);
+//import SurfaceGeometry = require(&#x27;davinci-eight/geometries/SurfaceGeometry&#x27;);
+//import PolyhedronGeometry = require(&#x27;davinci-eight/geometries/PolyhedronGeometry&#x27;);
+//import RevolutionGeometry = require(&#x27;davinci-eight/geometries/RevolutionGeometry&#x27;);
+//import SphereGeometry = require(&#x27;davinci-eight/geometries/SphereGeometry&#x27;);
+//import TetrahedronGeometry = require(&#x27;davinci-eight/geometries/TetrahedronGeometry&#x27;);
+//import TubeGeometry = require(&#x27;davinci-eight/geometries/TubeGeometry&#x27;);
+//import VortexGeometry = require(&#x27;davinci-eight/geometries/VortexGeometry&#x27;);
 // programs
 import shaderProgram = require(&#x27;davinci-eight/programs/shaderProgram&#x27;);
 import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
@@ -344,23 +344,23 @@ var eight = {
   get Color() { return Color; },
   get Face3() { return Face3; },
   get Geometry() { return Geometry; },
-  get ArrowGeometry() { return ArrowGeometry; },
-  get BarnGeometry() { return BarnGeometry; },
+//  get ArrowGeometry() { return ArrowGeometry; },
+//  get BarnGeometry() { return BarnGeometry; },
   get BoxGeometry() { return BoxGeometry; },
-  get CylinderGeometry() { return CylinderGeometry; },
-  get DodecahedronGeometry() { return DodecahedronGeometry; },
-  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
-  get IcosahedronGeometry() { return IcosahedronGeometry; },
-  get KleinBottleGeometry() { return KleinBottleGeometry; },
-  get MobiusStripGeometry() { return MobiusStripGeometry; },
-  get OctahedronGeometry() { return OctahedronGeometry; },
-  get SurfaceGeometry() { return SurfaceGeometry; },
-  get PolyhedronGeometry() { return PolyhedronGeometry; },
-  get RevolutionGeometry() { return RevolutionGeometry; },
-  get SphereGeometry() { return SphereGeometry; },
-  get TetrahedronGeometry() { return TetrahedronGeometry; },
-  get TubeGeometry() { return TubeGeometry; },
-  get VortexGeometry() { return VortexGeometry; },
+//  get CylinderGeometry() { return CylinderGeometry; },
+//  get DodecahedronGeometry() { return DodecahedronGeometry; },
+//  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
+//  get IcosahedronGeometry() { return IcosahedronGeometry; },
+//  get KleinBottleGeometry() { return KleinBottleGeometry; },
+//  get MobiusStripGeometry() { return MobiusStripGeometry; },
+//  get OctahedronGeometry() { return OctahedronGeometry; },
+//  get SurfaceGeometry() { return SurfaceGeometry; },
+//  get PolyhedronGeometry() { return PolyhedronGeometry; },
+//  get RevolutionGeometry() { return RevolutionGeometry; },
+//  get SphereGeometry() { return SphereGeometry; },
+//  get TetrahedronGeometry() { return TetrahedronGeometry; },
+//  get TubeGeometry() { return TubeGeometry; },
+//  get VortexGeometry() { return VortexGeometry; },
   get Matrix3() { return Matrix3; },
   get Matrix4() { return Matrix4; },
   get rotor3() { return rotor3; },

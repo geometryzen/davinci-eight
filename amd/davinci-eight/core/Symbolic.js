@@ -8,6 +8,7 @@ define(["require", "exports"], function (require, exports) {
         function Symbolic() {
         }
         Symbolic.ATTRIBUTE_COLOR = 'aColor';
+        Symbolic.ATTRIBUTE_MATERIAL_INDEX = 'aMaterialIndex';
         Symbolic.ATTRIBUTE_NORMAL = 'aNormal';
         Symbolic.ATTRIBUTE_POSITION = 'aPosition';
         Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';

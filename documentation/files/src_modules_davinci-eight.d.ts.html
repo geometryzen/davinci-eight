@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.95.0</em>
+            <em>API Docs for: 2.96.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,8 +74,8 @@
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
-                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
+                                <li><a href="../classes/frustum.html">frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
                                 <li><a href="../classes/Geometry
                 Base class for geometries.
@@ -133,8 +133,8 @@
                                 <li><a href="../classes/Vector4.html">Vector4</a></li>
                                 <li><a href="../classes/VectorN.html">VectorN</a></li>
                                 <li><a href="../classes/Vertex.html">Vertex</a></li>
-                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/view.html">view</a></li>
+                                <li><a href="../classes/View.html">View</a></li>
                                 <li><a href="../classes/VortexGeometry.html">VortexGeometry</a></li>
                                 <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
@@ -1022,14 +1022,22 @@ class Face3 {
  * A geometry holds faces and vertices used to describe a 3D mesh.
  */
 class Geometry {
-  public vertices: Cartesian3[];
-  public faces: Face3[];
-  public faceVertexUvs: Cartesian2[][][];
+  public simplices: Simplex[];
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
   public elementsNeedUpdate: boolean;
   public uvsNeedUpdate: boolean;
   constructor();
+  /**
+   * Applies the boundary operation to the geometry.
+   * Tetrahedrons become Triangles.
+   * Triangles become Line Segments.
+   * Line Segments become Points.
+   * Points become an empty simplex.
+   * An empty simplex vanishes.
+   * count: The number of times to apply the boundary operation. Default is one (1).
+   */
+  public boundary(count?: number): void;
   /**
    * Updates the normals property of each face by creating a per-face normal.
    */
@@ -1042,6 +1050,11 @@ class Geometry {
    * Merges vertices which are separated by less than the specified quadrance.
    */
   public mergeVertices(precisionPoints?: number): void;
+  /**
+   * Subdivides the simplices of the geometry to produce finer detail.
+   * count: The number of times to subdivide. Default is one (1).
+   */
+  public subdivide(count?: number): void;
 }
 
 
@@ -1525,9 +1538,25 @@ function refChange(uuid: string, name?: string, change?: number): number;
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
  */
 class Symbolic {
+  /**
+   * &#x27;aColor&#x27;
+   */
   static ATTRIBUTE_COLOR: string;
+  /**
+   * &#x27;aMaterialIndex&#x27;
+   */
+  static ATTRIBUTE_MATERIAL_INDEX: string;
+  /**
+   * &#x27;aNormal&#x27;
+   */
   static ATTRIBUTE_NORMAL: string;
+  /**
+   * &#x27;aPosition&#x27;
+   */
   static ATTRIBUTE_POSITION: string;
+  /**
+   * &#x27;aTextureCoords&#x27;
+   */
   static ATTRIBUTE_TEXTURE_COORDS:string;
 
   static UNIFORM_AMBIENT_LIGHT: string;
@@ -1729,11 +1758,21 @@ class WebGLRenderer implements ContextController, ContextMonitor {
 }
 
 /**
- * @module EIGHT
  * @class BoxGeometry
+ * @extends Geometry
  */
 class BoxGeometry extends Geometry {
-  constructor(width: number, height: number, depth: number);
+  /**
+   * @constructor
+   * width: The side length in the x-axis direction.
+   * height: The side length in the y-axis direction.
+   * depth: The side length in the z-axis direction.
+   * widthSegments: The number of line segments in the x-axis direction.
+   * heightSegments: The number of line segments in the y-axis direction.
+   * depthSegments: The number of line segments in the z-axis direction.
+   * wireFrame determines whether the geometry computes line segments or triangles.
+   */
+  constructor(width?: number, height?: number, depth?: number, widthSegments?: number, heightSegments?: number, depthSegments?: number, wireFrame?: boolean);
 }
 
 /**

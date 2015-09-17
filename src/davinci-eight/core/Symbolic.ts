@@ -5,6 +5,7 @@
  */
 class Symbolic {
   public static ATTRIBUTE_COLOR: string                     = 'aColor';
+  public static ATTRIBUTE_MATERIAL_INDEX: string            = 'aMaterialIndex';
   public static ATTRIBUTE_NORMAL: string                    = 'aNormal';
   public static ATTRIBUTE_POSITION: string                  = 'aPosition';
   public static ATTRIBUTE_TEXTURE_COORDS: string            = 'aTextureCoords';

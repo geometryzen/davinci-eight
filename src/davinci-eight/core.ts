@@ -1,6 +1,6 @@
 var core =
 {
-    VERSION: '2.95.0'
+    VERSION: '2.96.0'
 };
 
 export = core;

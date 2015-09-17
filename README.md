@@ -197,6 +197,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.93.0: 2015-09-14 Rotor3
 * 2.94.0: 2015-09-15 k-simplex
 * 2.95.0: 2015-09-16 multi-canvas
+* 2.96.0: 2015-09-16 BoxGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes

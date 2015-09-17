@@ -4,7 +4,14 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
+define(["require", "exports", '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeNumber', '../dfx/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, mustBeInteger, mustBeNumber, Simplex, Symbolic, Vector1, Vector2, Vector3) {
+    function boxCtor() {
+        return "BoxGeometry constructor";
+    }
+    /**
+     * @class BoxGeometry
+     * @extends Geometry
+     */
     var BoxGeometry = (function (_super) {
         __extends(BoxGeometry, _super);
         function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments, wireFrame) {
@@ -16,16 +23,29 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
             if (depthSegments === void 0) { depthSegments = 1; }
             if (wireFrame === void 0) { wireFrame = false; }
             _super.call(this);
+            mustBeNumber('width', width, boxCtor);
+            mustBeNumber('height', height, boxCtor);
+            mustBeNumber('depth', depth, boxCtor);
+            mustBeInteger('widthSegments', widthSegments, boxCtor);
+            mustBeInteger('heightSegments', heightSegments, boxCtor);
+            mustBeInteger('depthSegments', depthSegments, boxCtor);
+            // Temporary storage for points.
+            // The approach is:
+            // 1. Compute the points first.
+            // 2. Compute the faces and have them reference the points.
+            // 3. Throw away the temporary storage of points. 
+            var points = [];
+            var geometry = this;
             var width_half = width / 2;
             var height_half = height / 2;
             var depth_half = depth / 2;
-            buildPlane('z', 'y', -1, -1, depth, height, +width_half, 0, this); // px
-            buildPlane('z', 'y', +1, -1, depth, height, -width_half, 1, this); // nx
-            buildPlane('x', 'z', +1, +1, width, depth, +height_half, 2, this); // py
-            buildPlane('x', 'z', +1, -1, width, depth, -height_half, 3, this); // ny
-            buildPlane('x', 'y', +1, -1, width, height, +depth_half, 4, this); // pz
-            buildPlane('x', 'y', -1, -1, width, height, -depth_half, 5, this); // nz
-            function buildPlane(u, v, udir, vdir, width, height, depth, unused, scope) {
+            buildPlane('z', 'y', -1, -1, depth, height, +width_half, new Vector1([0])); // positive-x
+            buildPlane('z', 'y', +1, -1, depth, height, -width_half, new Vector1([1])); // negative-x
+            buildPlane('x', 'z', +1, +1, width, depth, +height_half, new Vector1([2])); // positive-y
+            buildPlane('x', 'z', +1, -1, width, depth, -height_half, new Vector1([3])); // negative-y
+            buildPlane('x', 'y', +1, -1, width, height, +depth_half, new Vector1([4])); // positive-z
+            buildPlane('x', 'y', -1, -1, width, height, -depth_half, new Vector1([5])); // negative-z
+            function buildPlane(u, v, udir, vdir, width, height, depth, materialIndex) {
                 var w;
                 var ix;
                 var iy;
@@ -33,7 +53,7 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                 var gridY = heightSegments;
                 var width_half = width / 2;
                 var height_half = height / 2;
-                var offset = scope.vertices.length;
+                var offset = points.length;
                 if ((u === 'x' && v === 'y') || (u === 'y' && v === 'x')) {
                     w = 'z';
                 }
@@ -45,17 +65,26 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                     w = 'x';
                     gridX = depthSegments;
                 }
-                var gridX1 = gridX + 1, gridY1 = gridY + 1, segment_width = width / gridX, segment_height = height / gridY, normal = new Vector3();
+                var gridX1 = gridX + 1;
+                var gridY1 = gridY + 1;
+                var segment_width = width / gridX;
+                var segment_height = height / gridY;
+                // The normal starts out as all zeros.
+                var normal = new Vector3();
+                // This bit of code sets the appropriate coordinate in the normal vector.
                 normal[w] = depth > 0 ? 1 : -1;
+                // Compute the points.
                 for (iy = 0; iy < gridY1; iy++) {
                     for (ix = 0; ix < gridX1; ix++) {
-                        var vector = new Vector3();
-                        vector[u] = (ix * segment_width - width_half) * udir;
-                        vector[v] = (iy * segment_height - height_half) * vdir;
-                        vector[w] = depth;
-                        scope.vertices.push(vector);
+                        var point = new Vector3();
+                        // This bit of code sets the appropriate coordinate in the position vector.
+                        point[u] = (ix * segment_width - width_half) * udir;
+                        point[v] = (iy * segment_height - height_half) * vdir;
+                        point[w] = depth;
+                        points.push(point);
                     }
                 }
+                // Compute the triangular faces using the pre-computed points.
                 for (iy = 0; iy < gridY; iy++) {
                     for (ix = 0; ix < gridX; ix++) {
                         var a = ix + gridX1 * iy;
@@ -66,17 +95,41 @@ define(["require", "exports", '../core/Face3', '../geometries/Geometry', '../mat
                         var uvb = new Vector2([ix / gridX, 1 - (iy + 1) / gridY]);
                         var uvc = new Vector2([(ix + 1) / gridX, 1 - (iy + 1) / gridY]);
                         var uvd = new Vector2([(ix + 1) / gridX, 1 - iy / gridY]);
-                        var face = new Face3(a + offset, b + offset, d + offset);
-                        face.vertexNormals.push(normal);
-                        scope.faces.push(face);
-                        scope.faceVertexUvs[0].push([uva, uvb, uvd]);
-                        face = new Face3(b + offset, c + offset, d + offset);
-                        face.vertexNormals.push(normal);
-                        scope.faces.push(face);
-                        scope.faceVertexUvs[0].push([uvb.clone(), uvc, uvd.clone()]);
+                        var face = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a + offset];
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        geometry.simplices.push(face);
+                        face = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c + offset];
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        geometry.simplices.push(face);
                     }
                 }
             }
+            if (wireFrame) {
+                this.boundary();
+            }
+            // This construction duplicates vertices along the edges of the cube.
             this.mergeVertices();
         }
         return BoxGeometry;

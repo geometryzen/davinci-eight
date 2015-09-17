@@ -5,6 +5,7 @@
  */
 declare class Symbolic {
     static ATTRIBUTE_COLOR: string;
+    static ATTRIBUTE_MATERIAL_INDEX: string;
     static ATTRIBUTE_NORMAL: string;
     static ATTRIBUTE_POSITION: string;
     static ATTRIBUTE_TEXTURE_COORDS: string;

@@ -840,14 +840,22 @@ class Face3 {
  * A geometry holds faces and vertices used to describe a 3D mesh.
  */
 class Geometry {
-  public vertices: Cartesian3[];
-  public faces: Face3[];
-  public faceVertexUvs: Cartesian2[][][];
+  public simplices: Simplex[];
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
   public elementsNeedUpdate: boolean;
   public uvsNeedUpdate: boolean;
   constructor();
+  /**
+   * Applies the boundary operation to the geometry.
+   * Tetrahedrons become Triangles.
+   * Triangles become Line Segments.
+   * Line Segments become Points.
+   * Points become an empty simplex.
+   * An empty simplex vanishes.
+   * count: The number of times to apply the boundary operation. Default is one (1).
+   */
+  public boundary(count?: number): void;
   /**
    * Updates the normals property of each face by creating a per-face normal.
    */
@@ -860,6 +868,11 @@ class Geometry {
    * Merges vertices which are separated by less than the specified quadrance.
    */
   public mergeVertices(precisionPoints?: number): void;
+  /**
+   * Subdivides the simplices of the geometry to produce finer detail.
+   * count: The number of times to subdivide. Default is one (1).
+   */
+  public subdivide(count?: number): void;
 }
 
 
@@ -1343,9 +1356,25 @@ function refChange(uuid: string, name?: string, change?: number): number;
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
  */
 class Symbolic {
+  /**
+   * 'aColor'
+   */
   static ATTRIBUTE_COLOR: string;
+  /**
+   * 'aMaterialIndex'
+   */
+  static ATTRIBUTE_MATERIAL_INDEX: string;
+  /**
+   * 'aNormal'
+   */
   static ATTRIBUTE_NORMAL: string;
+  /**
+   * 'aPosition'
+   */
   static ATTRIBUTE_POSITION: string;
+  /**
+   * 'aTextureCoords'
+   */
   static ATTRIBUTE_TEXTURE_COORDS:string;
 
   static UNIFORM_AMBIENT_LIGHT: string;
@@ -1547,11 +1576,21 @@ class WebGLRenderer implements ContextController, ContextMonitor {
 }
 
 /**
- * @module EIGHT
  * @class BoxGeometry
+ * @extends Geometry
  */
 class BoxGeometry extends Geometry {
-  constructor(width: number, height: number, depth: number);
+  /**
+   * @constructor
+   * width: The side length in the x-axis direction.
+   * height: The side length in the y-axis direction.
+   * depth: The side length in the z-axis direction.
+   * widthSegments: The number of line segments in the x-axis direction.
+   * heightSegments: The number of line segments in the y-axis direction.
+   * depthSegments: The number of line segments in the z-axis direction.
+   * wireFrame determines whether the geometry computes line segments or triangles.
+   */
+  constructor(width?: number, height?: number, depth?: number, widthSegments?: number, heightSegments?: number, depthSegments?: number, wireFrame?: boolean);
 }
 
 /**

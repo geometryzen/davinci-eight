@@ -1417,6 +1417,7 @@ define('davinci-eight/core/Symbolic',["require", "exports"], function (require, 
         function Symbolic() {
         }
         Symbolic.ATTRIBUTE_COLOR = 'aColor';
+        Symbolic.ATTRIBUTE_MATERIAL_INDEX = 'aMaterialIndex';
         Symbolic.ATTRIBUTE_NORMAL = 'aNormal';
         Symbolic.ATTRIBUTE_POSITION = 'aPosition';
         Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';
@@ -2238,7 +2239,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     var core = {
-        VERSION: '2.95.0'
+        VERSION: '2.96.0'
     };
     return core;
 });
@@ -5615,612 +5616,59 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../utils/cont
     return WebGLRenderer;
 });
 
-define('davinci-eight/math/Sphere',["require", "exports"], function (require, exports) {
-    var Sphere = (function () {
-        function Sphere(center, radius) {
-            this.center = (center !== undefined) ? center : { x: 0, y: 0, z: 0 };
-            this.radius = (radius !== undefined) ? radius : 0;
-        }
-        Sphere.prototype.setFromPoints = function (points) {
-            throw new Error("Not Implemented: Sphere.setFromPoints");
-        };
-        return Sphere;
-    })();
-    return Sphere;
-});
-
-define('davinci-eight/geometries/Geometry',["require", "exports", '../math/Sphere', '../math/Vector3'], function (require, exports, Sphere, Vector3) {
-    function updateFaceNormal(face, vertices) {
-        face.vertexNormals = [];
-        var vA = vertices[face.a];
-        var vB = vertices[face.b];
-        var vC = vertices[face.c];
-        var cb = new Vector3().difference(vC, vB);
-        var ab = new Vector3().difference(vA, vB);
-        var normal = new Vector3().crossVectors(cb, ab).normalize();
-        // TODO: I think we only need to push one normal here?
-        face.vertexNormals.push(normal);
-        face.vertexNormals.push(normal);
-        face.vertexNormals.push(normal);
-    }
+define('davinci-eight/geometries/Geometry',["require", "exports", '../dfx/Simplex'], function (require, exports, Simplex) {
     /**
      * @class Geometry
      */
     var Geometry = (function () {
+        //public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
         function Geometry() {
-            // faces and vertices will be combined into Simplex[]
-            this.faces = [];
-            this.vertices = [];
-            // faceVertexUvs should be an attribute. Why the triple?
-            this.faceVertexUvs = [[]];
-            // Everything else is hints
+            this.simplices = [];
             this.dynamic = true;
             this.verticesNeedUpdate = false;
             this.elementsNeedUpdate = false;
             this.uvsNeedUpdate = false;
-            this.boundingSphere = new Sphere({ x: 0, y: 0, z: 0 }, Infinity);
         }
-        Geometry.prototype.computeBoundingSphere = function () {
-            this.boundingSphere.setFromPoints(this.vertices);
-        };
-        /**
-         * Ensures that the normal property of each face is assigned
-         * a value equal to the normalized cross product of two edge vectors
-         * taken counter-clockwise. This pseudo vector is then taken to face outwards by convention.
-         * @method computeFaceNormals
-         */
-        // TODO: What would happen if we computed unit tangent spinors?
-        // Would such elements of the geometry be better behaved than pseudo vectors?
-        Geometry.prototype.computeFaceNormals = function () {
-            // Avoid the this pointer in forEach callback function.
-            var vertices = this.vertices;
-            var updateFaceNormalCallback = function (face) { return updateFaceNormal(face, vertices); };
-            this.faces.forEach(updateFaceNormalCallback);
-        };
-        Geometry.prototype.computeVertexNormals = function (areaWeighted) {
-            var v;
-            var vl = this.vertices.length;
-            var f;
-            var fl;
-            var face;
-            // For each vertex, we will compute a vertexNormal.
-            // Store the results in an Array<Vector3>
-            var vertexNormals = new Array(this.vertices.length);
-            for (v = 0, vl = this.vertices.length; v < vl; v++) {
-                vertexNormals[v] = new Vector3();
-            }
-            if (areaWeighted) {
-                // vertex normals weighted by triangle areas
-                // http://www.iquilezles.org/www/articles/normals/normals.htm
-                var vA;
-                var vB;
-                var vC;
-                var cb = new Vector3();
-                var ab = new Vector3();
-                for (f = 0, fl = this.faces.length; f < fl; f++) {
-                    face = this.faces[f];
-                    vA = this.vertices[face.a];
-                    vB = this.vertices[face.b];
-                    vC = this.vertices[face.c];
-                    cb.difference(vC, vB);
-                    ab.difference(vA, vB);
-                    cb.cross(ab);
-                    vertexNormals[face.a].add(cb);
-                    vertexNormals[face.b].add(cb);
-                    vertexNormals[face.c].add(cb);
-                }
-            }
-            else {
-                for (f = 0, fl = this.faces.length; f < fl; f++) {
-                    face = this.faces[f];
-                    vertexNormals[face.a].add(face.vertexNormals[0]);
-                    vertexNormals[face.b].add(face.vertexNormals[0]);
-                    vertexNormals[face.c].add(face.vertexNormals[0]);
-                }
-            }
-            for (v = 0, vl = this.vertices.length; v < vl; v++) {
-                vertexNormals[v].normalize();
-            }
-            for (f = 0, fl = this.faces.length; f < fl; f++) {
-                face = this.faces[f];
-                face.vertexNormals[0] = vertexNormals[face.a].clone();
-                face.vertexNormals[1] = vertexNormals[face.b].clone();
-                face.vertexNormals[2] = vertexNormals[face.c].clone();
-            }
-        };
-        /**
-         * Updates the geometry by merging closely separated vertices.
-         * @method mergeVertices
-         * @param precisionPoints {number} number of decimal points, eg. 4 for epsilon of 0.0001
-         */
         Geometry.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }
-            /**
-             * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
-             * key is constructed from coordinates, value is index in vertices array.
-             */
-            var verticesMap = {};
-            /**
-             * The list of unique vertices.
-             */
-            var unique = [];
-            /**
-             * Index is original index in vertices. Entry is index in unique array.
-             */
-            var changes = [];
-            var precision = Math.pow(10, precisionPoints);
-            var i;
-            var il;
-            var indices, j, jl;
-            for (i = 0, il = this.vertices.length; i < il; i++) {
-                var v = this.vertices[i];
-                var key = Math.round(v.x * precision) + '_' + Math.round(v.y * precision) + '_' + Math.round(v.z * precision);
-                if (verticesMap[key] === void 0) {
-                    verticesMap[key] = i;
-                    unique.push(this.vertices[i]);
-                    changes[i] = unique.length - 1;
-                }
-                else {
-                    changes[i] = changes[verticesMap[key]];
-                }
-            }
-            // if faces are completely degenerate after merging vertices, we
-            // have to remove them.
-            var faceIndicesToRemove = [];
-            // Update the faces to use the unique indices.
-            for (i = 0, il = this.faces.length; i < il; i++) {
-                var face = this.faces[i];
-                face.a = changes[face.a];
-                face.b = changes[face.b];
-                face.c = changes[face.c];
-                indices = [face.a, face.b, face.c];
-                var dupIndex = -1;
-                // if any duplicate vertices are found in a Face3
-                // we have to remove the face as nothing can be saved
-                for (var n = 0; n < 3; n++) {
-                    if (indices[n] == indices[(n + 1) % 3]) {
-                        dupIndex = n;
-                        faceIndicesToRemove.push(i);
-                        break;
-                    }
-                }
-            }
-            for (i = faceIndicesToRemove.length - 1; i >= 0; i--) {
-                var idx = faceIndicesToRemove[i];
-                this.faces.splice(idx, 1);
-                for (j = 0, jl = this.faceVertexUvs.length; j < jl; j++) {
-                    this.faceVertexUvs[j].splice(idx, 1);
-                }
-            }
-            // Use unique set of vertices
-            var diff = this.vertices.length - unique.length;
-            this.vertices = unique;
-            return diff;
+            console.warn("Geometry.mergeVertices not yet implemented");
+        };
+        Geometry.prototype.boundary = function (count) {
+            this.simplices = Simplex.boundary(this.simplices, count);
+        };
+        Geometry.prototype.subdivide = function (count) {
+            this.simplices = Simplex.subdivide(this.simplices, count);
         };
         return Geometry;
     })();
     return Geometry;
 });
 
+define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy, isNumber) {
+    function beANumber() {
+        return "be a number";
+    }
+    function mustBeInteger(name, value, contextBuilder) {
+        mustSatisfy(name, isNumber(value), beANumber, contextBuilder);
+        return value;
+    }
+    return mustBeInteger;
+});
+
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeNumber', '../dfx/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, mustBeInteger, mustBeNumber, Simplex, Symbolic, Vector1, Vector2, Vector3) {
+    function boxCtor() {
+        return "BoxGeometry constructor";
+    }
     /**
-     * @class Spinor3
+     * @class BoxGeometry
+     * @extends Geometry
      */
-    var Spinor3 = (function (_super) {
-        __extends(Spinor3, _super);
-        function Spinor3(data, modified) {
-            if (data === void 0) { data = [0, 0, 0, 1]; }
-            if (modified === void 0) { modified = false; }
-            _super.call(this, data, modified, 4);
-        }
-        Object.defineProperty(Spinor3.prototype, "yz", {
-            /**
-             * @property yz
-             * @type Number
-             */
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.yz !== value;
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "zx", {
-            /**
-             * @property zx
-             * @type Number
-             */
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.zx !== value;
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "xy", {
-            /**
-             * @property xy
-             * @type Number
-             */
-            get: function () {
-                return this.data[2];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.xy !== value;
-                this.data[2] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "w", {
-            /**
-             * @property w
-             * @type Number
-             */
-            get: function () {
-                return this.data[3];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Spinor3.prototype.add = function (rhs) {
-            return this;
-        };
-        Spinor3.prototype.sum = function (a, b) {
-            return this;
-        };
-        Spinor3.prototype.clone = function () {
-            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
-        };
-        Spinor3.prototype.copy = function (spinor) {
-            this.yz = spinor.yz;
-            this.zx = spinor.zx;
-            this.xy = spinor.xy;
-            this.w = spinor.w;
-            return this;
-        };
-        Spinor3.prototype.divideScalar = function (scalar) {
-            this.yz /= scalar;
-            this.zx /= scalar;
-            this.xy /= scalar;
-            this.w /= scalar;
-            return this;
-        };
-        Spinor3.prototype.exp = function () {
-            var w = this.w;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            var expW = Math.exp(w);
-            var B = Math.sqrt(yz * yz + zx * zx + xy * xy);
-            var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
-            this.w = expW * Math.cos(B);
-            this.yz = yz * s;
-            this.zx = zx * s;
-            this.xy = xy * s;
-            return this;
-        };
-        Spinor3.prototype.lerp = function (target, alpha) {
-            this.xy += (target.xy - this.xy) * alpha;
-            this.yz += (target.yz - this.yz) * alpha;
-            this.zx += (target.zx - this.zx) * alpha;
-            this.w += (target.w - this.w) * alpha;
-            return this;
-        };
-        Spinor3.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
-        };
-        Spinor3.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
-        };
-        Spinor3.prototype.product = function (a, b) {
-            var a0 = a.w;
-            var a1 = a.yz;
-            var a2 = a.zx;
-            var a3 = a.xy;
-            var b0 = b.w;
-            var b1 = b.yz;
-            var b2 = b.zx;
-            var b3 = b.xy;
-            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-            return this;
-        };
-        Spinor3.prototype.multiplyScalar = function (scalar) {
-            this.yz *= scalar;
-            this.zx *= scalar;
-            this.xy *= scalar;
-            this.w *= scalar;
-            return this;
-        };
-        Spinor3.prototype.quaditude = function () {
-            var w = this.w;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            return w * w + yz * yz + zx * zx + xy * xy;
-        };
-        Spinor3.prototype.reverse = function () {
-            this.yz *= -1;
-            this.zx *= -1;
-            this.xy *= -1;
-            return this;
-        };
-        Spinor3.prototype.rotate = function (rotor) {
-            return this;
-        };
-        Spinor3.prototype.sub = function (rhs) {
-            return this;
-        };
-        Spinor3.prototype.difference = function (a, b) {
-            return this;
-        };
-        Spinor3.prototype.wedgeVectors = function (a, b) {
-            var ax = a.x, ay = a.y, az = a.z;
-            var bx = b.x, by = b.y, bz = b.z;
-            this.w = 0;
-            this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
-            this.zx = wedgeZX(ax, ay, az, bx, by, bz);
-            this.xy = wedgeXY(ax, ay, az, bx, by, bz);
-            return this;
-        };
-        /**
-         * @method toString
-         * @return {string} A non-normative string representation of the target.
-         */
-        Spinor3.prototype.toString = function () {
-            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
-        };
-        return Spinor3;
-    })(VectorN);
-    return Spinor3;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Spinor3', '../math/Vector2'], function (require, exports, Face3, Geometry, Spinor3, Vector2) {
-    var RevolutionGeometry = (function (_super) {
-        __extends(RevolutionGeometry, _super);
-        function RevolutionGeometry(points, generator, segments, phiStart, phiLength, attitude) {
-            _super.call(this);
-            segments = segments || 12;
-            phiStart = phiStart || 0;
-            phiLength = phiLength || 2 * Math.PI;
-            // Determine heuristically whether the user intended to make a complete revolution.
-            var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
-            // The number of vertical half planes (phi constant).
-            var halfPlanes = isClosed ? segments : segments + 1;
-            var inverseSegments = 1.0 / segments;
-            var phiStep = (phiLength - phiStart) * inverseSegments;
-            var i;
-            var j;
-            var il;
-            var jl;
-            for (i = 0, il = halfPlanes; i < il; i++) {
-                var phi = phiStart + i * phiStep;
-                var halfAngle = phi / 2;
-                var cosHA = Math.cos(halfAngle);
-                var sinHA = Math.sin(halfAngle);
-                // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-                var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
-                for (j = 0, jl = points.length; j < jl; j++) {
-                    var vertex = points[j].clone();
-                    // The generator tells us how to rotate the points.
-                    vertex.rotate(rotor);
-                    // The attitude tells us where we want the symmetry axis to be.
-                    if (attitude) {
-                        vertex.rotate(attitude);
-                    }
-                    this.vertices.push(vertex);
-                }
-            }
-            var inversePointLength = 1.0 / (points.length - 1);
-            var np = points.length;
-            // The denominator for modulo index arithmetic.
-            var wrap = np * halfPlanes;
-            for (i = 0, il = segments; i < il; i++) {
-                for (j = 0, jl = points.length - 1; j < jl; j++) {
-                    var base = j + np * i;
-                    var a = base % wrap;
-                    var b = (base + np) % wrap;
-                    var c = (base + 1 + np) % wrap;
-                    var d = (base + 1) % wrap;
-                    var u0 = i * inverseSegments;
-                    var v0 = j * inversePointLength;
-                    var u1 = u0 + inverseSegments;
-                    var v1 = v0 + inversePointLength;
-                    this.faces.push(new Face3(d, b, a));
-                    this.faceVertexUvs[0].push([
-                        new Vector2([u0, v0]),
-                        new Vector2([u1, v0]),
-                        new Vector2([u0, v1])
-                    ]);
-                    this.faces.push(new Face3(d, c, b));
-                    this.faceVertexUvs[0].push([
-                        new Vector2([u1, v0]),
-                        new Vector2([u1, v1]),
-                        new Vector2([u0, v1])
-                    ]);
-                }
-            }
-            this.computeFaceNormals();
-            this.computeVertexNormals();
-        }
-        return RevolutionGeometry;
-    })(Geometry);
-    return RevolutionGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geometries/RevolutionGeometry', '../math/Spinor3', '../math/Vector3'], function (require, exports, RevolutionGeometry, Spinor3, Vector3) {
-    var ArrowGeometry = (function (_super) {
-        __extends(ArrowGeometry, _super);
-        function ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis) {
-            if (scale === void 0) { scale = 1; }
-            if (attitude === void 0) { attitude = new Spinor3(); }
-            if (segments === void 0) { segments = 12; }
-            if (length === void 0) { length = 1; }
-            if (radiusShaft === void 0) { radiusShaft = 0.01; }
-            if (radiusCone === void 0) { radiusCone = 0.08; }
-            if (lengthCone === void 0) { lengthCone = 0.20; }
-            if (axis === void 0) { axis = Vector3.e3.clone(); }
-            scale = scale || 1;
-            attitude = attitude || new Spinor3();
-            length = (length || 1) * scale;
-            radiusShaft = (radiusShaft || 0.01) * scale;
-            radiusCone = (radiusCone || 0.08) * scale;
-            lengthCone = (lengthCone || 0.20) * scale;
-            axis = axis || Vector3.e3.clone();
-            var lengthShaft = length - lengthCone;
-            var halfLength = length / 2;
-            var permutation = function (direction) {
-                if (direction.x) {
-                    return 2;
-                }
-                else if (direction.y) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            };
-            var orientation = function (direction) {
-                if (direction.x > 0) {
-                    return +1;
-                }
-                else if (direction.x < 0) {
-                    return -1;
-                }
-                else if (direction.y > 0) {
-                    return +1;
-                }
-                else if (direction.y < 0) {
-                    return -1;
-                }
-                else if (direction.z > 0) {
-                    return +1;
-                }
-                else if (direction.z < 0) {
-                    return -1;
-                }
-                else {
-                    return 0;
-                }
-            };
-            var computeArrow = function (direction) {
-                var cycle = permutation(direction);
-                var sign = orientation(direction);
-                var i = (cycle + 0) % 3;
-                var j = (cycle + 1) % 3;
-                var k = (cycle + 2) % 3;
-                var shL = halfLength * sign;
-                var data = [
-                    [0, 0, halfLength * sign],
-                    [radiusCone, 0, (lengthShaft - halfLength) * sign],
-                    [radiusShaft, 0, (lengthShaft - halfLength) * sign],
-                    [radiusShaft, 0, (-halfLength) * sign],
-                    [0, 0, (-halfLength) * sign]
-                ];
-                var points = data.map(function (point) {
-                    return new Vector3([point[i], point[j], point[k]]);
-                });
-                var generator = new Spinor3([direction.x, direction.y, direction.z, 0]);
-                return { "points": points, "generator": generator };
-            };
-            var arrow = computeArrow(axis);
-            _super.call(this, arrow.points, arrow.generator, segments, 0, 2 * Math.PI, attitude);
-        }
-        return ArrowGeometry;
-    })(RevolutionGeometry);
-    return ArrowGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geometries/Geometry', '../core/Face3', '../math/Vector3'], function (require, exports, Geometry, Face3, Vector3) {
-    /**
-     * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
-     * @class BarnGeometry
-     */
-    var BarnGeometry = (function (_super) {
-        __extends(BarnGeometry, _super);
-        function BarnGeometry() {
-            _super.call(this);
-            var vertexList = this.vertices;
-            function vertex(x, y, z) {
-                vertexList.push(new Vector3([x, y, z]));
-            }
-            vertex(-0.5, 0.0, -1.0);
-            this.vertices.push(new Vector3([0.5, 0.0, -1.0]));
-            this.vertices.push(new Vector3([0.5, 1.0, -1.0]));
-            this.vertices.push(new Vector3([0.0, 1.5, -1.0]));
-            this.vertices.push(new Vector3([-0.5, 1.0, -1.0]));
-            this.vertices.push(new Vector3([-0.5, 0.0, 1.0]));
-            this.vertices.push(new Vector3([0.5, 0.0, 1.0]));
-            this.vertices.push(new Vector3([0.5, 1.0, 1.0]));
-            this.vertices.push(new Vector3([0.0, 1.5, 1.0]));
-            this.vertices.push(new Vector3([-0.5, 1.0, 1.0]));
-            this.faces.push(new Face3(1, 0, 2));
-            this.faces.push(new Face3(2, 0, 4));
-            this.faces.push(new Face3(2, 4, 3));
-            this.faces.push(new Face3(5, 6, 7));
-            this.faces.push(new Face3(5, 7, 9));
-            this.faces.push(new Face3(9, 7, 8));
-            this.faces.push(new Face3(6, 1, 2));
-            this.faces.push(new Face3(6, 2, 7));
-            this.faces.push(new Face3(9, 0, 5));
-            this.faces.push(new Face3(9, 4, 0));
-            this.faces.push(new Face3(8, 3, 4));
-            this.faces.push(new Face3(8, 4, 9));
-            this.faces.push(new Face3(7, 2, 3));
-            this.faces.push(new Face3(7, 3, 8));
-            this.faces.push(new Face3(5, 0, 1));
-            this.faces.push(new Face3(5, 1, 6));
-            this.computeFaceNormals();
-        }
-        return BarnGeometry;
-    })(Geometry);
-    return BarnGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
     var BoxGeometry = (function (_super) {
         __extends(BoxGeometry, _super);
         function BoxGeometry(width, height, depth, widthSegments, heightSegments, depthSegments, wireFrame) {
@@ -6232,16 +5680,29 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Fa
             if (depthSegments === void 0) { depthSegments = 1; }
             if (wireFrame === void 0) { wireFrame = false; }
             _super.call(this);
+            mustBeNumber('width', width, boxCtor);
+            mustBeNumber('height', height, boxCtor);
+            mustBeNumber('depth', depth, boxCtor);
+            mustBeInteger('widthSegments', widthSegments, boxCtor);
+            mustBeInteger('heightSegments', heightSegments, boxCtor);
+            mustBeInteger('depthSegments', depthSegments, boxCtor);
+            // Temporary storage for points.
+            // The approach is:
+            // 1. Compute the points first.
+            // 2. Compute the faces and have them reference the points.
+            // 3. Throw away the temporary storage of points. 
+            var points = [];
+            var geometry = this;
             var width_half = width / 2;
             var height_half = height / 2;
             var depth_half = depth / 2;
-            buildPlane('z', 'y', -1, -1, depth, height, +width_half, 0, this); // px
-            buildPlane('z', 'y', +1, -1, depth, height, -width_half, 1, this); // nx
-            buildPlane('x', 'z', +1, +1, width, depth, +height_half, 2, this); // py
-            buildPlane('x', 'z', +1, -1, width, depth, -height_half, 3, this); // ny
-            buildPlane('x', 'y', +1, -1, width, height, +depth_half, 4, this); // pz
-            buildPlane('x', 'y', -1, -1, width, height, -depth_half, 5, this); // nz
-            function buildPlane(u, v, udir, vdir, width, height, depth, unused, scope) {
+            buildPlane('z', 'y', -1, -1, depth, height, +width_half, new Vector1([0])); // positive-x
+            buildPlane('z', 'y', +1, -1, depth, height, -width_half, new Vector1([1])); // negative-x
+            buildPlane('x', 'z', +1, +1, width, depth, +height_half, new Vector1([2])); // positive-y
+            buildPlane('x', 'z', +1, -1, width, depth, -height_half, new Vector1([3])); // negative-y
+            buildPlane('x', 'y', +1, -1, width, height, +depth_half, new Vector1([4])); // positive-z
+            buildPlane('x', 'y', -1, -1, width, height, -depth_half, new Vector1([5])); // negative-z
+            function buildPlane(u, v, udir, vdir, width, height, depth, materialIndex) {
                 var w;
                 var ix;
                 var iy;
@@ -6249,7 +5710,7 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Fa
                 var gridY = heightSegments;
                 var width_half = width / 2;
                 var height_half = height / 2;
-                var offset = scope.vertices.length;
+                var offset = points.length;
                 if ((u === 'x' && v === 'y') || (u === 'y' && v === 'x')) {
                     w = 'z';
                 }
@@ -6261,17 +5722,26 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Fa
                     w = 'x';
                     gridX = depthSegments;
                 }
-                var gridX1 = gridX + 1, gridY1 = gridY + 1, segment_width = width / gridX, segment_height = height / gridY, normal = new Vector3();
+                var gridX1 = gridX + 1;
+                var gridY1 = gridY + 1;
+                var segment_width = width / gridX;
+                var segment_height = height / gridY;
+                // The normal starts out as all zeros.
+                var normal = new Vector3();
+                // This bit of code sets the appropriate coordinate in the normal vector.
                 normal[w] = depth > 0 ? 1 : -1;
+                // Compute the points.
                 for (iy = 0; iy < gridY1; iy++) {
                     for (ix = 0; ix < gridX1; ix++) {
-                        var vector = new Vector3();
-                        vector[u] = (ix * segment_width - width_half) * udir;
-                        vector[v] = (iy * segment_height - height_half) * vdir;
-                        vector[w] = depth;
-                        scope.vertices.push(vector);
+                        var point = new Vector3();
+                        // This bit of code sets the appropriate coordinate in the position vector.
+                        point[u] = (ix * segment_width - width_half) * udir;
+                        point[v] = (iy * segment_height - height_half) * vdir;
+                        point[w] = depth;
+                        points.push(point);
                     }
                 }
+                // Compute the triangular faces using the pre-computed points.
                 for (iy = 0; iy < gridY; iy++) {
                     for (ix = 0; ix < gridX; ix++) {
                         var a = ix + gridX1 * iy;
@@ -6282,2937 +5752,46 @@ define('davinci-eight/geometries/BoxGeometry',["require", "exports", '../core/Fa
                         var uvb = new Vector2([ix / gridX, 1 - (iy + 1) / gridY]);
                         var uvc = new Vector2([(ix + 1) / gridX, 1 - (iy + 1) / gridY]);
                         var uvd = new Vector2([(ix + 1) / gridX, 1 - iy / gridY]);
-                        var face = new Face3(a + offset, b + offset, d + offset);
-                        face.vertexNormals.push(normal);
-                        scope.faces.push(face);
-                        scope.faceVertexUvs[0].push([uva, uvb, uvd]);
-                        face = new Face3(b + offset, c + offset, d + offset);
-                        face.vertexNormals.push(normal);
-                        scope.faces.push(face);
-                        scope.faceVertexUvs[0].push([uvb.clone(), uvc, uvd.clone()]);
+                        var face = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a + offset];
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        geometry.simplices.push(face);
+                        face = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
+                        face.vertices[0].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c + offset];
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc;
+                        face.vertices[1].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
+                        face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                        geometry.simplices.push(face);
                     }
                 }
             }
+            if (wireFrame) {
+                this.boundary();
+            }
+            // This construction duplicates vertices along the edges of the cube.
             this.mergeVertices();
         }
         return BoxGeometry;
     })(Geometry);
     return BoxGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/CylinderGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
-    var CylinderGeometry = (function (_super) {
-        __extends(CylinderGeometry, _super);
-        function CylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
-            if (radiusTop === void 0) { radiusTop = 1; }
-            if (radiusBottom === void 0) { radiusBottom = 1; }
-            if (height === void 0) { height = 1; }
-            if (radialSegments === void 0) { radialSegments = 16; }
-            if (heightSegments === void 0) { heightSegments = 1; }
-            if (openEnded === void 0) { openEnded = false; }
-            if (thetaStart === void 0) { thetaStart = 0; }
-            if (thetaLength === void 0) { thetaLength = 2 * Math.PI; }
-            radialSegments = Math.max(radialSegments, 3);
-            heightSegments = Math.max(heightSegments, 1);
-            _super.call(this);
-            var heightHalf = height / 2;
-            var x;
-            var y;
-            var vertices = [];
-            var uvs = [];
-            for (y = 0; y <= heightSegments; y++) {
-                var verticesRow = [];
-                var uvsRow = [];
-                var v = y / heightSegments;
-                var radius = v * (radiusBottom - radiusTop) + radiusTop;
-                for (x = 0; x <= radialSegments; x++) {
-                    var u = x / radialSegments;
-                    var vertex = new Vector3();
-                    vertex.x = radius * Math.sin(u * thetaLength + thetaStart);
-                    vertex.y = -v * height + heightHalf;
-                    vertex.z = radius * Math.cos(u * thetaLength + thetaStart);
-                    this.vertices.push(vertex);
-                    verticesRow.push(this.vertices.length - 1);
-                    uvsRow.push(new Vector2([u, 1 - v]));
-                }
-                vertices.push(verticesRow);
-                uvs.push(uvsRow);
-            }
-            var tanTheta = (radiusBottom - radiusTop) / height;
-            var na;
-            var nb;
-            for (x = 0; x < radialSegments; x++) {
-                if (radiusTop !== 0) {
-                    na = Vector3.copy(this.vertices[vertices[0][x]]);
-                    nb = Vector3.copy(this.vertices[vertices[0][x + 1]]);
-                }
-                else {
-                    na = Vector3.copy(this.vertices[vertices[1][x]]);
-                    nb = Vector3.copy(this.vertices[vertices[1][x + 1]]);
-                }
-                na.setY(Math.sqrt(na.x * na.x + na.z * na.z) * tanTheta).normalize();
-                nb.setY(Math.sqrt(nb.x * nb.x + nb.z * nb.z) * tanTheta).normalize();
-                for (y = 0; y < heightSegments; y++) {
-                    var v1 = vertices[y][x];
-                    var v2 = vertices[y + 1][x];
-                    var v3 = vertices[y + 1][x + 1];
-                    var v4 = vertices[y][x + 1];
-                    var n1 = na.clone();
-                    var n2 = na.clone();
-                    var n3 = nb.clone();
-                    var n4 = nb.clone();
-                    var uv1 = uvs[y][x].clone();
-                    var uv2 = uvs[y + 1][x].clone();
-                    var uv3 = uvs[y + 1][x + 1].clone();
-                    var uv4 = uvs[y][x + 1].clone();
-                    this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
-                    this.faceVertexUvs[0].push([uv1, uv2, uv4]);
-                    this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
-                    this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
-                }
-            }
-            // top cap
-            if (!openEnded && radiusTop > 0) {
-                this.vertices.push(Vector3.e2.clone().multiplyScalar(heightHalf));
-                for (x = 0; x < radialSegments; x++) {
-                    var v1 = vertices[0][x];
-                    var v2 = vertices[0][x + 1];
-                    var v3 = this.vertices.length - 1;
-                    var n1 = Vector3.e2.clone();
-                    var n2 = Vector3.e2.clone();
-                    var n3 = Vector3.e2.clone();
-                    var uv1 = uvs[0][x].clone();
-                    var uv2 = uvs[0][x + 1].clone();
-                    var uv3 = new Vector2([uv2.x, 0]);
-                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
-                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
-                }
-            }
-            // bottom cap
-            if (!openEnded && radiusBottom > 0) {
-                this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
-                for (x = 0; x < radialSegments; x++) {
-                    var v1 = vertices[heightSegments][x + 1];
-                    var v2 = vertices[heightSegments][x];
-                    var v3 = this.vertices.length - 1;
-                    var n1 = Vector3.e2.clone().multiplyScalar(-1);
-                    var n2 = Vector3.e2.clone().multiplyScalar(-1);
-                    var n3 = Vector3.e2.clone().multiplyScalar(-1);
-                    var uv1 = uvs[heightSegments][x + 1].clone();
-                    var uv2 = uvs[heightSegments][x].clone();
-                    var uv3 = new Vector2([uv2.x, 1]);
-                    this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
-                    this.faceVertexUvs[0].push([uv1, uv2, uv3]);
-                }
-            }
-            //    this.computeFaceNormals();
-            //    this.computeVertexNormals();
-        }
-        return CylinderGeometry;
-    })(Geometry);
-    return CylinderGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/PolyhedronGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Sphere, Vector2, Vector3) {
-    var PolyhedronGeometry = (function (_super) {
-        __extends(PolyhedronGeometry, _super);
-        function PolyhedronGeometry(vertices, indices, radius, detail) {
-            if (radius === void 0) { radius = 1; }
-            if (detail === void 0) { detail = 0; }
-            _super.call(this);
-            var that = this;
-            for (var i = 0, l = vertices.length; i < l; i += 3) {
-                prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]));
-            }
-            var p = this.vertices;
-            var faces = [];
-            for (var i = 0, j = 0, l = indices.length; i < l; i += 3, j++) {
-                var v1 = p[indices[i]];
-                var v2 = p[indices[i + 1]];
-                var v3 = p[indices[i + 2]];
-                // FIXME: Using some modifications of the data structures given.
-                // TODO: Optimize vector copies.
-                faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
-            }
-            for (var i = 0, facesLength = faces.length; i < facesLength; i++) {
-                subdivide(faces[i], detail);
-            }
-            // Handle case when face straddles the seam
-            for (var i = 0, faceVertexUvsZeroLength = this.faceVertexUvs[0].length; i < faceVertexUvsZeroLength; i++) {
-                var uvs = this.faceVertexUvs[0][i];
-                var x0 = uvs[0].x;
-                var x1 = uvs[1].x;
-                var x2 = uvs[2].x;
-                var max = Math.max(x0, Math.max(x1, x2));
-                var min = Math.min(x0, Math.min(x1, x2));
-                if (max > 0.9 && min < 0.1) {
-                    if (x0 < 0.2)
-                        uvs[0].x += 1;
-                    if (x1 < 0.2)
-                        uvs[1].x += 1;
-                    if (x2 < 0.2)
-                        uvs[2].x += 1;
-                }
-            }
-            // Apply radius
-            for (var i = 0, verticesLength = this.vertices.length; i < verticesLength; i++) {
-                this.vertices[i].x *= radius;
-                this.vertices[i].y *= radius;
-                this.vertices[i].z *= radius;
-            }
-            // Merge vertices
-            this.mergeVertices();
-            this.computeFaceNormals();
-            this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
-            /*
-             * Project vector onto sphere's surface
-             */
-            function prepare(vector) {
-                var vertex = Vector3.copy(vector).normalize();
-                vertex['index'] = that.vertices.push(vertex) - 1;
-                // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
-                var u = azimuth(vector) / 2 / Math.PI + 0.5;
-                var v = inclination(vector) / Math.PI + 0.5;
-                vertex['uv'] = new Vector2([u, 1 - v]);
-                return vertex;
-            }
-            function centroid(v1, v2, v3) {
-                var x = (v1.x + v2.x + v3.x) / 3;
-                var y = (v1.y + v2.y + v3.y) / 3;
-                var z = (v1.z + v2.z + v3.z) / 3;
-                return { x: x, y: y, z: z };
-            }
-            // Approximate a curved face with recursively sub-divided triangles.
-            function make(v1, v2, v3) {
-                var face = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
-                that.faces.push(face);
-                var azi = azimuth(centroid(v1, v2, v3));
-                that.faceVertexUvs[0].push([
-                    correctUV(v1['uv'], v1, azi),
-                    correctUV(v2['uv'], v2, azi),
-                    correctUV(v3['uv'], v3, azi)
-                ]);
-            }
-            // Analytically subdivide a face to the required detail level.
-            function subdivide(face, detail) {
-                var cols = Math.pow(2, detail);
-                var a = prepare(that.vertices[face.a]);
-                var b = prepare(that.vertices[face.b]);
-                var c = prepare(that.vertices[face.c]);
-                var v = [];
-                // Construct all of the vertices for this subdivision.
-                for (var i = 0; i <= cols; i++) {
-                    v[i] = [];
-                    var aj = prepare(Vector3.copy(a).lerp(c, i / cols));
-                    var bj = prepare(Vector3.copy(b).lerp(c, i / cols));
-                    var rows = cols - i;
-                    for (var j = 0; j <= rows; j++) {
-                        if (j == 0 && i == cols) {
-                            v[i][j] = aj;
-                        }
-                        else {
-                            v[i][j] = prepare(Vector3.copy(aj).lerp(bj, j / rows));
-                        }
-                    }
-                }
-                // Construct all of the faces.
-                for (var i = 0; i < cols; i++) {
-                    for (var j = 0; j < 2 * (cols - i) - 1; j++) {
-                        var k = Math.floor(j / 2);
-                        if (j % 2 == 0) {
-                            make(v[i][k + 1], v[i + 1][k], v[i][k]);
-                        }
-                        else {
-                            make(v[i][k + 1], v[i + 1][k + 1], v[i + 1][k]);
-                        }
-                    }
-                }
-            }
-            // Angle around the Y axis, counter-clockwise when looking from above.
-            function azimuth(vector) {
-                return Math.atan2(vector.z, -vector.x);
-            }
-            // Angle above the XZ plane.
-            function inclination(pos) {
-                return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
-            }
-            // Texture fixing helper. Spheres have some odd behaviours.
-            function correctUV(uv, vector, azimuth) {
-                if ((azimuth < 0) && (uv.x === 1))
-                    uv = new Vector2([uv.x - 1, uv.y]);
-                if ((vector.x === 0) && (vector.z === 0))
-                    uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
-                return uv.clone();
-            }
-        }
-        return PolyhedronGeometry;
-    })(Geometry);
-    return PolyhedronGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/DodecahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
-    var t = (1 + Math.sqrt(5)) / 2;
-    var r = 1 / t;
-    var vertices = [
-        // (±1, ±1, ±1)
-        -1, -1, -1, -1, -1, 1,
-        -1, 1, -1, -1, 1, 1,
-        1, -1, -1, 1, -1, 1,
-        1, 1, -1, 1, 1, 1,
-        // (0, ±1/φ, ±φ)
-        0, -r, -t, 0, -r, t,
-        0, r, -t, 0, r, t,
-        // (±1/φ, ±φ, 0)
-        -r, -t, 0, -r, t, 0,
-        r, -t, 0, r, t, 0,
-        // (±φ, 0, ±1/φ)
-        -t, 0, -r, t, 0, -r,
-        -t, 0, r, t, 0, r
-    ];
-    var indices = [
-        3, 11, 7, 3, 7, 15, 3, 15, 13,
-        7, 19, 17, 7, 17, 6, 7, 6, 15,
-        17, 4, 8, 17, 8, 10, 17, 10, 6,
-        8, 0, 16, 8, 16, 2, 8, 2, 10,
-        0, 12, 1, 0, 1, 18, 0, 18, 16,
-        6, 10, 2, 6, 2, 13, 6, 13, 15,
-        2, 16, 18, 2, 18, 3, 2, 3, 13,
-        18, 1, 9, 18, 9, 11, 18, 11, 3,
-        4, 14, 12, 4, 12, 0, 4, 0, 8,
-        11, 9, 5, 11, 5, 19, 11, 19, 7,
-        19, 5, 14, 19, 14, 4, 19, 4, 17,
-        1, 12, 14, 1, 14, 5, 1, 5, 9
-    ];
-    var DodecahedronGeometry = (function (_super) {
-        __extends(DodecahedronGeometry, _super);
-        function DodecahedronGeometry(radius, detail) {
-            _super.call(this, vertices, indices, radius, detail);
-        }
-        return DodecahedronGeometry;
-    })(PolyhedronGeometry);
-    return DodecahedronGeometry;
-});
-
-define('davinci-blade/NotImplementedError',["require", "exports"], function (require, exports) {
-    function NotImplementedError(message) {
-        this.name = 'NotImplementedError';
-        this.message = (message || "");
-    }
-    NotImplementedError.prototype = new Error();
-    return NotImplementedError;
-});
-
-define('davinci-blade/Rational',["require", "exports", 'davinci-blade/Unit'], function (require, exports, Unit) {
-    function RationalError(message) {
-        this.name = 'RationalError';
-        this.message = (message || "");
-    }
-    RationalError.prototype = new Error();
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new RationalError("Argument '" + name + "' must be a number");
-        }
-    }
-    function assertArgRational(name, arg) {
-        if (arg instanceof Rational) {
-            return arg;
-        }
-        else {
-            throw new RationalError("Argument '" + arg + "' must be a Rational");
-        }
-    }
-    function assertArgUnitOrUndefined(name, uom) {
-        if (typeof uom === 'undefined' || uom instanceof Unit) {
-            return uom;
-        }
-        else {
-            throw new RationalError("Argument '" + uom + "' must be a Unit or undefined");
-        }
-    }
-    var Rational = (function () {
-        /**
-         * The Rational class represents a rational number.
-         *
-         * @class Rational
-         * @extends Field
-         * @constructor
-         * @param {number} n The numerator.
-         * @param {number} d The denominator.
-         */
-        function Rational(n, d) {
-            assertArgNumber('n', n);
-            assertArgNumber('d', d);
-            var g;
-            var gcd = function (a, b) {
-                assertArgNumber('a', a);
-                assertArgNumber('b', b);
-                var temp;
-                if (a < 0) {
-                    a = -a;
-                }
-                if (b < 0) {
-                    b = -b;
-                }
-                if (b > a) {
-                    temp = a;
-                    a = b;
-                    b = temp;
-                }
-                while (true) {
-                    a %= b;
-                    if (a === 0) {
-                        return b;
-                    }
-                    b %= a;
-                    if (b === 0) {
-                        return a;
-                    }
-                }
-            };
-            if (d === 0) {
-                throw new Error("denominator must not be zero");
-            }
-            if (n === 0) {
-                g = 1;
-            }
-            else {
-                g = gcd(Math.abs(n), Math.abs(d));
-            }
-            if (d < 0) {
-                n = -n;
-                d = -d;
-            }
-            this._numer = n / g;
-            this._denom = d / g;
-        }
-        Object.defineProperty(Rational.prototype, "numer", {
-            get: function () {
-                return this._numer;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Rational.prototype, "denom", {
-            get: function () {
-                return this._denom;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Rational.prototype.add = function (rhs) {
-            assertArgRational('rhs', rhs);
-            return new Rational(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
-        };
-        Rational.prototype.sub = function (rhs) {
-            assertArgRational('rhs', rhs);
-            return new Rational(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
-        };
-        Rational.prototype.mul = function (rhs) {
-            assertArgRational('rhs', rhs);
-            return new Rational(this._numer * rhs._numer, this._denom * rhs._denom);
-        };
-        // TODO: div testing
-        Rational.prototype.div = function (rhs) {
-            if (typeof rhs === 'number') {
-                return new Rational(this._numer, this._denom * rhs);
-            }
-            else {
-                return new Rational(this._numer * rhs._denom, this._denom * rhs._numer);
-            }
-        };
-        Rational.prototype.isZero = function () {
-            return this._numer === 0;
-        };
-        Rational.prototype.negative = function () {
-            return new Rational(-this._numer, this._denom);
-        };
-        Rational.prototype.equals = function (other) {
-            if (other instanceof Rational) {
-                return this._numer * other._denom === this._denom * other._numer;
-            }
-            else {
-                return false;
-            }
-        };
-        Rational.prototype.toString = function () {
-            return "" + this._numer + "/" + this._denom;
-        };
-        Rational.ONE = new Rational(1, 1);
-        Rational.TWO = new Rational(2, 1);
-        Rational.MINUS_ONE = new Rational(-1, 1);
-        Rational.ZERO = new Rational(0, 1);
-        return Rational;
-    })();
-    return Rational;
-});
-
-define('davinci-blade/Dimensions',["require", "exports", 'davinci-blade/Rational'], function (require, exports, Rational) {
-    function DimensionError(message) {
-        this.name = 'DimensionError';
-        this.message = (message || "");
-    }
-    DimensionError.prototype = new Error();
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new DimensionError("Argument '" + name + "' must be a number");
-        }
-    }
-    function assertArgDimensions(name, arg) {
-        if (arg instanceof Dimensions) {
-            return arg;
-        }
-        else {
-            throw new DimensionError("Argument '" + arg + "' must be a Dimensions");
-        }
-    }
-    function assertArgRational(name, arg) {
-        if (arg instanceof Rational) {
-            return arg;
-        }
-        else {
-            throw new DimensionError("Argument '" + arg + "' must be a Rational");
-        }
-    }
-    var Dimensions = (function () {
-        /**
-         * The Dimensions class captures the physical dimensions associated with a unit of measure.
-         *
-         * @class Dimensions
-         * @constructor
-         * @param {Rational} mass The mass component of the dimensions object.
-         * @param {Rational} length The length component of the dimensions object.
-         * @param {Rational} time The time component of the dimensions object.
-         * @param {Rational} charge The charge component of the dimensions object.
-         * @param {Rational} temperature The temperature component of the dimensions object.
-         * @param {Rational} amount The amount component of the dimensions object.
-         * @param {Rational} intensity The intensity component of the dimensions object.
-         */
-        function Dimensions(theMass, L, T, Q, temperature, amount, intensity) {
-            this.L = L;
-            this.T = T;
-            this.Q = Q;
-            this.temperature = temperature;
-            this.amount = amount;
-            this.intensity = intensity;
-            var length = L;
-            var time = T;
-            var charge = Q;
-            if (arguments.length !== 7) {
-                throw {
-                    name: "DimensionError",
-                    message: "Expecting 7 arguments"
-                };
-            }
-            if (typeof theMass === 'number') {
-                this._mass = new Rational(theMass, 1);
-            }
-            else if (theMass instanceof Rational) {
-                this._mass = theMass;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "mass must be a Rational or number"
-                };
-            }
-            if (typeof length === 'number') {
-                this.L = new Rational(length, 1);
-            }
-            else if (length instanceof Rational) {
-                this.L = length;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "length must be a Rational or number"
-                };
-            }
-            if (typeof time === 'number') {
-                this.T = new Rational(time, 1);
-            }
-            else if (time instanceof Rational) {
-                this.T = time;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "time must be a Rational or number"
-                };
-            }
-            if (typeof charge === 'number') {
-                this.Q = new Rational(charge, 1);
-            }
-            else if (charge instanceof Rational) {
-                this.Q = charge;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "charge must be a Rational or number"
-                };
-            }
-            if (typeof temperature === 'number') {
-                this.temperature = new Rational(temperature, 1);
-            }
-            else if (temperature instanceof Rational) {
-                this.temperature = temperature;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "(thermodynamic) temperature must be a Rational or number"
-                };
-            }
-            if (typeof amount === 'number') {
-                this.amount = new Rational(amount, 1);
-            }
-            else if (amount instanceof Rational) {
-                this.amount = amount;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "amount (of substance) must be a Rational or number"
-                };
-            }
-            if (typeof intensity === 'number') {
-                this.intensity = new Rational(intensity, 1);
-            }
-            else if (intensity instanceof Rational) {
-                this.intensity = intensity;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "(luminous) intensity must be a Rational or number"
-                };
-            }
-        }
-        Object.defineProperty(Dimensions.prototype, "M", {
-            /**
-            * The <em>mass</em> component of this dimensions instance.
-            *
-            * @property M
-            * @type {Rational}
-            */
-            get: function () {
-                return this._mass;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Dimensions.prototype.compatible = function (rhs) {
-            if (this._mass.equals(rhs._mass) && this.L.equals(rhs.L) && this.T.equals(rhs.T) && this.Q.equals(rhs.Q) && this.temperature.equals(rhs.temperature) && this.amount.equals(rhs.amount) && this.intensity.equals(rhs.intensity)) {
-                return this;
-            }
-            else {
-                throw new DimensionError("Dimensions must be equal (" + this + ", " + rhs + ")");
-            }
-        };
-        Dimensions.prototype.mul = function (rhs) {
-            return new Dimensions(this._mass.add(rhs._mass), this.L.add(rhs.L), this.T.add(rhs.T), this.Q.add(rhs.Q), this.temperature.add(rhs.temperature), this.amount.add(rhs.amount), this.intensity.add(rhs.intensity));
-        };
-        Dimensions.prototype.div = function (rhs) {
-            return new Dimensions(this._mass.sub(rhs._mass), this.L.sub(rhs.L), this.T.sub(rhs.T), this.Q.sub(rhs.Q), this.temperature.sub(rhs.temperature), this.amount.sub(rhs.amount), this.intensity.sub(rhs.intensity));
-        };
-        Dimensions.prototype.pow = function (exponent) {
-            return new Dimensions(this._mass.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
-        };
-        Dimensions.prototype.sqrt = function () {
-            return new Dimensions(this._mass.div(Rational.TWO), this.L.div(Rational.TWO), this.T.div(Rational.TWO), this.Q.div(Rational.TWO), this.temperature.div(Rational.TWO), this.amount.div(Rational.TWO), this.intensity.div(Rational.TWO));
-        };
-        Dimensions.prototype.dimensionless = function () {
-            return this._mass.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
-        };
-        /**
-        * Determines whether all the components of the Dimensions instance are zero.
-        *
-        * @method isZero
-        * @return {boolean} <code>true</code> if all the components are zero, otherwise <code>false</code>.
-        */
-        Dimensions.prototype.isZero = function () {
-            return this._mass.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
-        };
-        Dimensions.prototype.negative = function () {
-            return new Dimensions(this._mass.negative(), this.L.negative(), this.T.negative(), this.Q.negative(), this.temperature.negative(), this.amount.negative(), this.intensity.negative());
-        };
-        Dimensions.prototype.toString = function () {
-            var stringify = function (rational, label) {
-                if (rational.numer === 0) {
-                    return null;
-                }
-                else if (rational.denom === 1) {
-                    if (rational.numer === 1) {
-                        return "" + label;
-                    }
-                    else {
-                        return "" + label + " ** " + rational.numer;
-                    }
-                }
-                return "" + label + " ** " + rational;
-            };
-            return [stringify(this._mass, 'mass'), stringify(this.L, 'length'), stringify(this.T, 'time'), stringify(this.Q, 'charge'), stringify(this.temperature, 'thermodynamic temperature'), stringify(this.amount, 'amount of substance'), stringify(this.intensity, 'luminous intensity')].filter(function (x) {
-                return typeof x === 'string';
-            }).join(" * ");
-        };
-        return Dimensions;
-    })();
-    return Dimensions;
-});
-
-define('davinci-blade/Unit',["require", "exports", 'davinci-blade/Dimensions', 'davinci-blade/Rational'], function (require, exports, Dimensions, Rational) {
-    function UnitError(message) {
-        this.name = 'UnitError';
-        this.message = (message || "");
-    }
-    UnitError.prototype = new Error();
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new UnitError("Argument '" + name + "' must be a number");
-        }
-    }
-    function assertArgDimensions(name, arg) {
-        if (arg instanceof Dimensions) {
-            return arg;
-        }
-        else {
-            throw new UnitError("Argument '" + arg + "' must be a Dimensions");
-        }
-    }
-    function assertArgRational(name, arg) {
-        if (arg instanceof Rational) {
-            return arg;
-        }
-        else {
-            throw new UnitError("Argument '" + arg + "' must be a Rational");
-        }
-    }
-    function assertArgUnit(name, arg) {
-        if (arg instanceof Unit) {
-            return arg;
-        }
-        else {
-            throw new UnitError("Argument '" + arg + "' must be a Unit");
-        }
-    }
-    function assertArgUnitOrUndefined(name, arg) {
-        if (typeof arg === 'undefined') {
-            return arg;
-        }
-        else {
-            return assertArgUnit(name, arg);
-        }
-    }
-    var dumbString = function (scale, dimensions, labels) {
-        assertArgNumber('scale', scale);
-        assertArgDimensions('dimensions', dimensions);
-        var operatorStr;
-        var scaleString;
-        var unitsString;
-        var stringify = function (rational, label) {
-            if (rational.numer === 0) {
-                return null;
-            }
-            else if (rational.denom === 1) {
-                if (rational.numer === 1) {
-                    return "" + label;
-                }
-                else {
-                    return "" + label + " ** " + rational.numer;
-                }
-            }
-            return "" + label + " ** " + rational;
-        };
-        operatorStr = scale === 1 || dimensions.isZero() ? "" : " ";
-        scaleString = scale === 1 ? "" : "" + scale;
-        unitsString = [stringify(dimensions.M, labels[0]), stringify(dimensions.L, labels[1]), stringify(dimensions.T, labels[2]), stringify(dimensions.Q, labels[3]), stringify(dimensions.temperature, labels[4]), stringify(dimensions.amount, labels[5]), stringify(dimensions.intensity, labels[6])].filter(function (x) {
-            return typeof x === 'string';
-        }).join(" ");
-        return "" + scaleString + operatorStr + unitsString;
-    };
-    var unitString = function (scale, dimensions, labels) {
-        var patterns = [
-            [-1, 1, -3, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, -2, 1, 2, 1, 2, 1, 0, 1, 0, 1, 0, 1],
-            [-1, 1, 3, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 0, 1, -1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [0, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 0, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -3, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 1, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [0, 1, 2, 1, -2, 1, 0, 1, -1, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, -1, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, -1, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -3, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -2, 1, -1, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, 0, 1, -2, 1, 0, 1, 0, 1, 0, 1],
-            [1, 1, 2, 1, -1, 1, -1, 1, 0, 1, 0, 1, 0, 1]
-        ];
-        var decodes = [
-            ["F/m"],
-            ["S"],
-            ["F"],
-            ["N·m ** 2/kg ** 2"],
-            ["Hz"],
-            ["A"],
-            ["m/s ** 2"],
-            ["m/s"],
-            ["kg·m/s"],
-            ["Pa"],
-            ["Pa·s"],
-            ["W/m ** 2"],
-            ["N/m"],
-            ["T"],
-            ["W/(m·K)"],
-            ["V/m"],
-            ["N"],
-            ["H/m"],
-            ["J/K"],
-            ["J/(kg·K)"],
-            ["J/(mol·K)"],
-            ["J/mol"],
-            ["J"],
-            ["J·s"],
-            ["W"],
-            ["V"],
-            ["Ω"],
-            ["H"],
-            ["Wb"]
-        ];
-        var M = dimensions.M;
-        var L = dimensions.L;
-        var T = dimensions.T;
-        var Q = dimensions.Q;
-        var temperature = dimensions.temperature;
-        var amount = dimensions.amount;
-        var intensity = dimensions.intensity;
-        for (var i = 0, len = patterns.length; i < len; i++) {
-            var pattern = patterns[i];
-            if (M.numer === pattern[0] && M.denom === pattern[1] && L.numer === pattern[2] && L.denom === pattern[3] && T.numer === pattern[4] && T.denom === pattern[5] && Q.numer === pattern[6] && Q.denom === pattern[7] && temperature.numer === pattern[8] && temperature.denom === pattern[9] && amount.numer === pattern[10] && amount.denom === pattern[11] && intensity.numer === pattern[12] && intensity.denom === pattern[13]) {
-                if (scale !== 1) {
-                    return scale + " * " + decodes[i][0];
-                }
-                else {
-                    return decodes[i][0];
-                }
-            }
-        }
-        return dumbString(scale, dimensions, labels);
-    };
-    function add(lhs, rhs) {
-        return new Unit(lhs.scale + rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
-    }
-    function sub(lhs, rhs) {
-        return new Unit(lhs.scale - rhs.scale, lhs.dimensions.compatible(rhs.dimensions), lhs.labels);
-    }
-    function mul(lhs, rhs) {
-        return new Unit(lhs.scale * rhs.scale, lhs.dimensions.mul(rhs.dimensions), lhs.labels);
-    }
-    function scalarMultiply(alpha, unit) {
-        return new Unit(alpha * unit.scale, unit.dimensions, unit.labels);
-    }
-    function div(lhs, rhs) {
-        return new Unit(lhs.scale / rhs.scale, lhs.dimensions.div(rhs.dimensions), lhs.labels);
-    }
-    var Unit = (function () {
-        /**
-         * The Unit class represents the units for a measure.
-         *
-         * @class Unit
-         * @constructor
-         * @param {number} scale
-         * @param {Dimensions} dimensions
-         * @param {string[]} labels The label strings to use for each dimension.
-         */
-        function Unit(scale, dimensions, labels) {
-            this.scale = scale;
-            this.dimensions = dimensions;
-            this.labels = labels;
-            if (labels.length !== 7) {
-                throw new Error("Expecting 7 elements in the labels array.");
-            }
-            this.scale = scale;
-            this.dimensions = dimensions;
-            this.labels = labels;
-        }
-        Unit.prototype.compatible = function (rhs) {
-            if (rhs instanceof Unit) {
-                this.dimensions.compatible(rhs.dimensions);
-                return this;
-            }
-            else {
-                throw new Error("Illegal Argument for Unit.compatible: " + rhs);
-            }
-        };
-        Unit.prototype.add = function (rhs) {
-            assertArgUnit('rhs', rhs);
-            return add(this, rhs);
-        };
-        Unit.prototype.__add__ = function (other) {
-            if (other instanceof Unit) {
-                return add(this, other);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.__radd__ = function (other) {
-            if (other instanceof Unit) {
-                return add(other, this);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.sub = function (rhs) {
-            assertArgUnit('rhs', rhs);
-            return sub(this, rhs);
-        };
-        Unit.prototype.__sub__ = function (other) {
-            if (other instanceof Unit) {
-                return sub(this, other);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.__rsub__ = function (other) {
-            if (other instanceof Unit) {
-                return sub(other, this);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.mul = function (rhs) {
-            assertArgUnit('rhs', rhs);
-            return mul(this, rhs);
-        };
-        Unit.prototype.__mul__ = function (other) {
-            if (other instanceof Unit) {
-                return mul(this, other);
-            }
-            else if (typeof other === 'number') {
-                return scalarMultiply(other, this);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.__rmul__ = function (other) {
-            if (other instanceof Unit) {
-                return mul(other, this);
-            }
-            else if (typeof other === 'number') {
-                return scalarMultiply(other, this);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.div = function (rhs) {
-            assertArgUnit('rhs', rhs);
-            return div(this, rhs);
-        };
-        Unit.prototype.__div__ = function (other) {
-            if (other instanceof Unit) {
-                return div(this, other);
-            }
-            else if (typeof other === 'number') {
-                return new Unit(this.scale / other, this.dimensions, this.labels);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.__rdiv__ = function (other) {
-            if (other instanceof Unit) {
-                return div(other, this);
-            }
-            else if (typeof other === 'number') {
-                return new Unit(other / this.scale, this.dimensions.negative(), this.labels);
-            }
-            else {
-                return;
-            }
-        };
-        Unit.prototype.pow = function (exponent) {
-            assertArgRational('exponent', exponent);
-            return new Unit(Math.pow(this.scale, exponent.numer / exponent.denom), this.dimensions.pow(exponent), this.labels);
-        };
-        Unit.prototype.inverse = function () {
-            return new Unit(1 / this.scale, this.dimensions.negative(), this.labels);
-        };
-        Unit.prototype.isUnity = function () {
-            return this.dimensions.dimensionless() && (this.scale === 1);
-        };
-        Unit.prototype.norm = function () {
-            return new Unit(Math.abs(this.scale), this.dimensions, this.labels);
-        };
-        Unit.prototype.quad = function () {
-            return new Unit(this.scale * this.scale, this.dimensions.mul(this.dimensions), this.labels);
-        };
-        Unit.prototype.toString = function () {
-            return unitString(this.scale, this.dimensions, this.labels);
-        };
-        Unit.isUnity = function (uom) {
-            if (typeof uom === 'undefined') {
-                return true;
-            }
-            else if (uom instanceof Unit) {
-                return uom.isUnity();
-            }
-            else {
-                throw new Error("isUnity argument must be a Unit or undefined.");
-            }
-        };
-        Unit.assertDimensionless = function (uom) {
-            if (!Unit.isUnity(uom)) {
-                throw new UnitError("uom must be dimensionless.");
-            }
-        };
-        Unit.compatible = function (lhs, rhs) {
-            assertArgUnitOrUndefined('lhs', lhs);
-            assertArgUnitOrUndefined('rhs', rhs);
-            if (lhs) {
-                if (rhs) {
-                    return lhs.compatible(rhs);
-                }
-                else {
-                    if (lhs.isUnity()) {
-                        return void 0;
-                    }
-                    else {
-                        throw new UnitError(lhs + " is incompatible with 1");
-                    }
-                }
-            }
-            else {
-                if (rhs) {
-                    if (rhs.isUnity()) {
-                        return void 0;
-                    }
-                    else {
-                        throw new UnitError("1 is incompatible with " + rhs);
-                    }
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        Unit.mul = function (lhs, rhs) {
-            if (lhs instanceof Unit) {
-                if (rhs instanceof Unit) {
-                    return lhs.mul(rhs);
-                }
-                else if (Unit.isUnity(rhs)) {
-                    return lhs;
-                }
-                else {
-                    return void 0;
-                }
-            }
-            else if (Unit.isUnity(lhs)) {
-                return rhs;
-            }
-            else {
-                return void 0;
-            }
-        };
-        Unit.div = function (lhs, rhs) {
-            if (lhs instanceof Unit) {
-                if (rhs instanceof Unit) {
-                    return lhs.div(rhs);
-                }
-                else {
-                    return lhs;
-                }
-            }
-            else {
-                if (rhs instanceof Unit) {
-                    return rhs.inverse();
-                }
-                else {
-                    return void 0;
-                }
-            }
-        };
-        Unit.sqrt = function (uom) {
-            if (typeof uom !== 'undefined') {
-                assertArgUnit('uom', uom);
-                if (!uom.isUnity()) {
-                    return new Unit(Math.sqrt(uom.scale), uom.dimensions.sqrt(), uom.labels);
-                }
-                else {
-                    return void 0;
-                }
-            }
-            else {
-                return void 0;
-            }
-        };
-        return Unit;
-    })();
-    return Unit;
-});
-
-define('davinci-blade/core',["require", "exports"], function (require, exports) {
-    /**
-     * Determines whether a property name is callable on an object.
-     */
-    function isCallableMethod(x, name) {
-        return (x !== null) && (typeof x === 'object') && (typeof x[name] === 'function');
-    }
-    function makeUnaryUniversalFunction(methodName, primitiveFunction) {
-        return function (x) {
-            if (isCallableMethod(x, methodName)) {
-                return x[methodName]();
-            }
-            else if (typeof x === 'number') {
-                var something = x;
-                var n = something;
-                var thing = primitiveFunction(n);
-                return thing;
-            }
-            else {
-                throw new TypeError("x must support " + methodName + "(x)");
-            }
-        };
-    }
-    function cosh(x) {
-        return (Math.exp(x) + Math.exp(-x)) / 2;
-    }
-    function sinh(x) {
-        return (Math.exp(x) - Math.exp(-x)) / 2;
-    }
-    var core = {
-        VERSION: '1.7.2',
-        cos: makeUnaryUniversalFunction('cos', Math.cos),
-        cosh: makeUnaryUniversalFunction('cosh', cosh),
-        exp: makeUnaryUniversalFunction('exp', Math.exp),
-        norm: makeUnaryUniversalFunction('norm', function (x) {
-            return Math.abs(x);
-        }),
-        quad: makeUnaryUniversalFunction('quad', function (x) {
-            return x * x;
-        }),
-        sin: makeUnaryUniversalFunction('sin', Math.sin),
-        sinh: makeUnaryUniversalFunction('sinh', sinh),
-        sqrt: makeUnaryUniversalFunction('sqrt', Math.sqrt),
-        unit: makeUnaryUniversalFunction('unit', function (x) {
-            return x / Math.abs(x);
-        }),
-        Math: {
-            cosh: cosh,
-            sinh: sinh
-        }
-    };
-    return core;
-});
-
-define('davinci-blade/e3ga/Euclidean3',["require", "exports", 'davinci-blade/NotImplementedError', 'davinci-blade/Unit', 'davinci-blade/core'], function (require, exports, NotImplementedError, Unit, core) {
-    var cos = Math.cos;
-    var cosh = core.Math.cosh;
-    var exp = Math.exp;
-    var sin = Math.sin;
-    var sinh = core.Math.sinh;
-    function Euclidean3Error(message) {
-        this.name = 'Euclidean3Error';
-        this.message = (message || "");
-    }
-    Euclidean3Error.prototype = new Error();
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new Euclidean3Error("Argument '" + name + "' must be a number");
-        }
-    }
-    function assertArgEuclidean3(name, arg) {
-        if (arg instanceof Euclidean3) {
-            return arg;
-        }
-        else {
-            throw new Euclidean3Error("Argument '" + arg + "' must be a Euclidean3");
-        }
-    }
-    function assertArgUnitOrUndefined(name, uom) {
-        if (typeof uom === 'undefined' || uom instanceof Unit) {
-            return uom;
-        }
-        else {
-            throw new Euclidean3Error("Argument '" + uom + "' must be a Unit or undefined");
-        }
-    }
-    function compute(f, a, b, coord, pack, uom) {
-        var a0 = coord(a, 0);
-        var a1 = coord(a, 1);
-        var a2 = coord(a, 2);
-        var a3 = coord(a, 3);
-        var a4 = coord(a, 4);
-        var a5 = coord(a, 5);
-        var a6 = coord(a, 6);
-        var a7 = coord(a, 7);
-        var b0 = coord(b, 0);
-        var b1 = coord(b, 1);
-        var b2 = coord(b, 2);
-        var b3 = coord(b, 3);
-        var b4 = coord(b, 4);
-        var b5 = coord(b, 5);
-        var b6 = coord(b, 6);
-        var b7 = coord(b, 7);
-        var x0 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 0);
-        var x1 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 1);
-        var x2 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 2);
-        var x3 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 3);
-        var x4 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 4);
-        var x5 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 5);
-        var x6 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 6);
-        var x7 = f(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, 7);
-        return pack(x0, x1, x2, x3, x4, x5, x6, x7, uom);
-    }
-    function addE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 + b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 + b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 + b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 + b3);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a4 + b4);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a5 + b5);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a6 + b6);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a7 + b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function subE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 - b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a1 - b1);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a2 - b2);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a3 - b3);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a4 - b4);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a5 - b5);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a6 - b6);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a7 - b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    /**
-     *
-     */
-    function mulE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0 - a2 * b4 + a3 * b6 + a4 * b2 - a5 * b7 - a6 * b3 - a7 * b5);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b4 + a2 * b0 - a3 * b5 - a4 * b1 + a5 * b3 - a6 * b7 - a7 * b6);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 + a3 * b0 - a4 * b7 - a5 * b2 + a6 * b1 - a7 * b4);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a3 * b7 + a4 * b0 - a5 * b6 + a6 * b5 + a7 * b3);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a1 * b7 + a2 * b3 - a3 * b2 + a4 * b6 + a5 * b0 - a6 * b4 + a7 * b1);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 - a1 * b3 + a2 * b7 + a3 * b1 - a4 * b5 + a5 * b4 + a6 * b0 + a7 * b2);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function scpE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = 0;
-                }
-                break;
-            case 2:
-                {
-                    x = 0;
-                }
-                break;
-            case 3:
-                {
-                    x = 0;
-                }
-                break;
-            case 4:
-                {
-                    x = 0;
-                }
-                break;
-            case 5:
-                {
-                    x = 0;
-                }
-                break;
-            case 6:
-                {
-                    x = 0;
-                }
-                break;
-            case 7:
-                {
-                    x = 0;
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function extE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 + a1 * b0);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a2 * b0);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 + a3 * b0);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a1 * b2 - a2 * b1 + a4 * b0);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a2 * b3 - a3 * b2 + a5 * b0);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 - a1 * b3 + a3 * b1 + a6 * b0);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7 + a1 * b5 + a2 * b6 + a3 * b4 + a4 * b3 + a5 * b1 + a6 * b2 + a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function lcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(a0 * b1 - a2 * b4 + a3 * b6 - a5 * b7);
-                }
-                break;
-            case 2:
-                {
-                    x = +(a0 * b2 + a1 * b4 - a3 * b5 - a6 * b7);
-                }
-                break;
-            case 3:
-                {
-                    x = +(a0 * b3 - a1 * b6 + a2 * b5 - a4 * b7);
-                }
-                break;
-            case 4:
-                {
-                    x = +(a0 * b4 + a3 * b7);
-                }
-                break;
-            case 5:
-                {
-                    x = +(a0 * b5 + a1 * b7);
-                }
-                break;
-            case 6:
-                {
-                    x = +(a0 * b6 + a2 * b7);
-                }
-                break;
-            case 7:
-                {
-                    x = +(a0 * b7);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    function rcoE3(a0, a1, a2, a3, a4, a5, a6, a7, b0, b1, b2, b3, b4, b5, b6, b7, index) {
-        a0 = +a0;
-        a1 = +a1;
-        a2 = +a2;
-        a3 = +a3;
-        a4 = +a4;
-        a5 = +a5;
-        a6 = +a6;
-        a7 = +a7;
-        b0 = +b0;
-        b1 = +b1;
-        b2 = +b2;
-        b3 = +b3;
-        b4 = +b4;
-        b5 = +b5;
-        b6 = +b6;
-        b7 = +b7;
-        index = index | 0;
-        var x = 0.0;
-        switch (~(~index)) {
-            case 0:
-                {
-                    x = +(a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3 - a4 * b4 - a5 * b5 - a6 * b6 - a7 * b7);
-                }
-                break;
-            case 1:
-                {
-                    x = +(+a1 * b0 + a4 * b2 - a6 * b3 - a7 * b5);
-                }
-                break;
-            case 2:
-                {
-                    x = +(+a2 * b0 - a4 * b1 + a5 * b3 - a7 * b6);
-                }
-                break;
-            case 3:
-                {
-                    x = +(+a3 * b0 - a5 * b2 + a6 * b1 - a7 * b4);
-                }
-                break;
-            case 4:
-                {
-                    x = +(+a4 * b0 + a7 * b3);
-                }
-                break;
-            case 5:
-                {
-                    x = +(+a5 * b0 + a7 * b1);
-                }
-                break;
-            case 6:
-                {
-                    x = +(+a6 * b0 + a7 * b2);
-                }
-                break;
-            case 7:
-                {
-                    x = +(+a7 * b0);
-                }
-                break;
-            default: {
-                throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        }
-        return +x;
-    }
-    var divide = function (a000, a001, a010, a011, a100, a101, a110, a111, b000, b001, b010, b011, b100, b101, b110, b111, uom, dst) {
-        var c000, c001, c010, c011, c100, c101, c110, c111, i000, i001, i010, i011, i100, i101, i110, i111, k000, m000, m001, m010, m011, m100, m101, m110, m111, r000, r001, r010, r011, r100, r101, r110, r111, s000, s001, s010, s011, s100, s101, s110, s111, w, x, x000, x001, x010, x011, x100, x101, x110, x111, xy, xyz, y, yz, z, zx;
-        r000 = +b000;
-        r001 = +b001;
-        r010 = +b010;
-        r011 = -b011;
-        r100 = +b100;
-        r101 = -b101;
-        r110 = -b110;
-        r111 = -b111;
-        m000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 0);
-        m001 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 1);
-        m010 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 2);
-        m011 = 0;
-        m100 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, r000, r001, r010, r100, r011, r110, -r101, r111, 3);
-        m101 = 0;
-        m110 = 0;
-        m111 = 0;
-        c000 = +m000;
-        c001 = -m001;
-        c010 = -m010;
-        c011 = -m011;
-        c100 = -m100;
-        c101 = -m101;
-        c110 = -m110;
-        c111 = +m111;
-        s000 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 0);
-        s001 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 1);
-        s010 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 2);
-        s011 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 4);
-        s100 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 3);
-        s101 = -mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 6);
-        s110 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 5);
-        s111 = mulE3(r000, r001, r010, r100, r011, r110, -r101, r111, c000, c001, c010, c100, c011, c110, -c101, c111, 7);
-        k000 = mulE3(b000, b001, b010, b100, b011, b110, -b101, b111, s000, s001, s010, s100, s011, s110, -s101, s111, 0);
-        i000 = s000 / k000;
-        i001 = s001 / k000;
-        i010 = s010 / k000;
-        i011 = s011 / k000;
-        i100 = s100 / k000;
-        i101 = s101 / k000;
-        i110 = s110 / k000;
-        i111 = s111 / k000;
-        x000 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 0);
-        x001 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 1);
-        x010 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 2);
-        x011 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 4);
-        x100 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 3);
-        x101 = -mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 6);
-        x110 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 5);
-        x111 = mulE3(a000, a001, a010, a100, a011, a110, -a101, a111, i000, i001, i010, i100, i011, i110, -i101, i111, 7);
-        w = x000;
-        x = x001;
-        y = x010;
-        z = x100;
-        xy = x011;
-        yz = x110;
-        zx = -x101;
-        xyz = x111;
-        if (typeof dst !== 'undefined') {
-            dst.w = w;
-            dst.x = x;
-            dst.y = y;
-            dst.z = z;
-            dst.xy = xy;
-            dst.yz = yz;
-            dst.zx = zx;
-            dst.xyz = xyz;
-            dst.uom = uom;
-        }
-        else {
-            return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
-        }
-    };
-    function stringFromCoordinates(coordinates, numberToString, labels) {
-        var i, _i, _ref;
-        var str;
-        var sb = [];
-        var append = function (coord, label) {
-            var n;
-            if (coord !== 0) {
-                if (coord >= 0) {
-                    if (sb.length > 0) {
-                        sb.push("+");
-                    }
-                }
-                else {
-                    sb.push("-");
-                }
-                n = Math.abs(coord);
-                if (n === 1) {
-                    sb.push(label);
-                }
-                else {
-                    sb.push(numberToString(n));
-                    if (label !== "1") {
-                        sb.push("*");
-                        sb.push(label);
-                    }
-                }
-            }
-        };
-        for (i = _i = 0, _ref = coordinates.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-            append(coordinates[i], labels[i]);
-        }
-        if (sb.length > 0) {
-            str = sb.join("");
-        }
-        else {
-            str = "0";
-        }
-        return str;
-    }
-    /**
-     * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
-     * @class Euclidean3
-     */
-    var Euclidean3 = (function () {
-        /**
-         * Constructs a Euclidean3 from its coordinates.
-         * @constructor
-         * @param {number} w The scalar part of the multivector.
-         * @param {number} x The vector component of the multivector in the x-direction.
-         * @param {number} y The vector component of the multivector in the y-direction.
-         * @param {number} z The vector component of the multivector in the z-direction.
-         * @param {number} xy The bivector component of the multivector in the xy-plane.
-         * @param {number} yz The bivector component of the multivector in the yz-plane.
-         * @param {number} zx The bivector component of the multivector in the zx-plane.
-         * @param {number} xyz The pseudoscalar part of the multivector.
-         * @param uom The optional unit of measure.
-         */
-        function Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom) {
-            this.w = assertArgNumber('w', w);
-            this.x = assertArgNumber('x', x);
-            this.y = assertArgNumber('y', y);
-            this.z = assertArgNumber('z', z);
-            this.xy = assertArgNumber('xy', xy);
-            this.yz = assertArgNumber('yz', yz);
-            this.zx = assertArgNumber('zx', zx);
-            this.xyz = assertArgNumber('xyz', xyz);
-            this.uom = assertArgUnitOrUndefined('uom', uom);
-            if (this.uom && this.uom.scale !== 1) {
-                var scale = this.uom.scale;
-                this.w *= scale;
-                this.x *= scale;
-                this.y *= scale;
-                this.z *= scale;
-                this.xy *= scale;
-                this.yz *= scale;
-                this.zx *= scale;
-                this.xyz *= scale;
-                this.uom = new Unit(1, uom.dimensions, uom.labels);
-            }
-        }
-        Euclidean3.fromCartesian = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-            assertArgNumber('w', w);
-            assertArgNumber('x', x);
-            assertArgNumber('y', y);
-            assertArgNumber('z', z);
-            assertArgNumber('xy', xy);
-            assertArgNumber('yz', yz);
-            assertArgNumber('zx', zx);
-            assertArgNumber('xyz', xyz);
-            assertArgUnitOrUndefined('uom', uom);
-            return new Euclidean3(w, x, y, z, xy, yz, zx, xyz, uom);
-        };
-        Euclidean3.prototype.coordinates = function () {
-            return [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz];
-        };
-        Euclidean3.prototype.coordinate = function (index) {
-            assertArgNumber('index', index);
-            switch (index) {
-                case 0:
-                    return this.w;
-                case 1:
-                    return this.x;
-                case 2:
-                    return this.y;
-                case 3:
-                    return this.z;
-                case 4:
-                    return this.xy;
-                case 5:
-                    return this.yz;
-                case 6:
-                    return this.zx;
-                case 7:
-                    return this.xyz;
-                default:
-                    throw new Euclidean3Error("index must be in the range [0..7]");
-            }
-        };
-        /**
-         * Computes the sum of this Euclidean3 and another considered to be the rhs of the binary addition, `+`, operator.
-         * This method does not change this Euclidean3.
-         * @method add
-         * @param rhs {Euclidean3}
-         * @return {Euclidean3} This Euclidean3 plus rhs.
-         */
-        Euclidean3.prototype.add = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(addE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__add__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.add(other);
-            }
-            else if (typeof other === 'number') {
-                return this.add(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__radd__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.add(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).add(this);
-            }
-        };
-        /**
-         * Computes the difference of this Euclidean3 and another considered to be the rhs of the binary subtraction, `-`, operator.
-         * This method does not change this Euclidean3.
-         * @method sub
-         * @param rhs {Euclidean3}
-         * @return {Euclidean3} This Euclidean3 minus rhs.
-         */
-        Euclidean3.prototype.sub = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(subE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.compatible(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__sub__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.sub(other);
-            }
-            else if (typeof other === 'number') {
-                return this.sub(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rsub__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.sub(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).sub(this);
-            }
-        };
-        Euclidean3.prototype.mul = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(mulE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__mul__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.mul(other);
-            }
-            else if (typeof other === 'number') {
-                return this.mul(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rmul__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.mul(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).mul(this);
-            }
-        };
-        Euclidean3.prototype.scalarMultiply = function (rhs) {
-            return new Euclidean3(this.w * rhs, this.x * rhs, this.y * rhs, this.z * rhs, this.xy * rhs, this.yz * rhs, this.zx * rhs, this.xyz * rhs, this.uom);
-        };
-        Euclidean3.prototype.div = function (rhs) {
-            assertArgEuclidean3('rhs', rhs);
-            return divide(this.w, this.x, this.y, this.xy, this.z, -this.zx, this.yz, this.xyz, rhs.w, rhs.x, rhs.y, rhs.xy, rhs.z, -rhs.zx, rhs.yz, rhs.xyz, Unit.div(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__div__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.div(other);
-            }
-            else if (typeof other === 'number') {
-                return this.div(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rdiv__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.div(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).div(this);
-            }
-        };
-        Euclidean3.prototype.splat = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(scpE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.wedge = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(extE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__vbar__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.splat(other);
-            }
-            else if (typeof other === 'number') {
-                return this.splat(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rvbar__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.splat(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).splat(this);
-            }
-        };
-        Euclidean3.prototype.__wedge__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.wedge(other);
-            }
-            else if (typeof other === 'number') {
-                return this.wedge(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rwedge__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.wedge(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).wedge(this);
-            }
-        };
-        Euclidean3.prototype.lshift = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(lcoE3, this.coordinates(), rhs.coordinates(), coord, pack, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__lshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.lshift(other);
-            }
-            else if (typeof other === 'number') {
-                return this.lshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rlshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.lshift(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).lshift(this);
-            }
-        };
-        Euclidean3.prototype.rshift = function (rhs) {
-            var coord = function (x, n) {
-                return x[n];
-            };
-            var pack = function (w, x, y, z, xy, yz, zx, xyz, uom) {
-                return Euclidean3.fromCartesian(w, x, y, z, xy, yz, zx, xyz, uom);
-            };
-            return compute(rcoE3, [this.w, this.x, this.y, this.z, this.xy, this.yz, this.zx, this.xyz], [rhs.w, rhs.x, rhs.y, rhs.z, rhs.xy, rhs.yz, rhs.zx, rhs.xyz], coord, pack, Unit.mul(this.uom, rhs.uom));
-        };
-        Euclidean3.prototype.__rshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return this.rshift(other);
-            }
-            else if (typeof other === 'number') {
-                return this.rshift(new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0));
-            }
-        };
-        Euclidean3.prototype.__rrshift__ = function (other) {
-            if (other instanceof Euclidean3) {
-                return other.rshift(this);
-            }
-            else if (typeof other === 'number') {
-                return new Euclidean3(other, 0, 0, 0, 0, 0, 0, 0, void 0).rshift(this);
-            }
-        };
-        Euclidean3.prototype.pow = function (exponent) {
-            throw new Euclidean3Error('pow');
-        };
-        Euclidean3.prototype.__pos__ = function () {
-            return this;
-        };
-        Euclidean3.prototype.__neg__ = function () {
-            return new Euclidean3(-this.w, -this.x, -this.y, -this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
-        };
-        /**
-         * ~ (tilde) produces reversion.
-         */
-        Euclidean3.prototype.__tilde__ = function () {
-            return new Euclidean3(this.w, this.x, this.y, this.z, -this.xy, -this.yz, -this.zx, -this.xyz, this.uom);
-        };
-        Euclidean3.prototype.grade = function (index) {
-            assertArgNumber('index', index);
-            switch (index) {
-                case 0:
-                    return Euclidean3.fromCartesian(this.w, 0, 0, 0, 0, 0, 0, 0, this.uom);
-                case 1:
-                    return Euclidean3.fromCartesian(0, this.x, this.y, this.z, 0, 0, 0, 0, this.uom);
-                case 2:
-                    return Euclidean3.fromCartesian(0, 0, 0, 0, this.xy, this.yz, this.zx, 0, this.uom);
-                case 3:
-                    return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, this.xyz, this.uom);
-                default:
-                    return Euclidean3.fromCartesian(0, 0, 0, 0, 0, 0, 0, 0, this.uom);
-            }
-        };
-        // FIXME: This should return a Euclidean3
-        Euclidean3.prototype.dot = function (vector) {
-            return this.x * vector.x + this.y * vector.y + this.z * vector.z;
-        };
-        Euclidean3.prototype.cross = function (vector) {
-            var x, x1, x2, y, y1, y2, z, z1, z2;
-            x1 = this.x;
-            y1 = this.y;
-            z1 = this.z;
-            x2 = vector.x;
-            y2 = vector.y;
-            z2 = vector.z;
-            x = y1 * z2 - z1 * y2;
-            y = z1 * x2 - x1 * z2;
-            z = x1 * y2 - y1 * x2;
-            return new Euclidean3(0, x, y, z, 0, 0, 0, 0, Unit.mul(this.uom, vector.uom));
-        };
-        Euclidean3.prototype.isZero = function () {
-            return (this.w === 0) && (this.x === 0) && (this.y === 0) && (this.z === 0) && (this.yz === 0) && (this.zx === 0) && (this.xy === 0) && (this.xyz === 0);
-        };
-        Euclidean3.prototype.length = function () {
-            return Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz);
-        };
-        Euclidean3.prototype.cos = function () {
-            // TODO: Generalize to full multivector.
-            Unit.assertDimensionless(this.uom);
-            var cosW = cos(this.w);
-            return new Euclidean3(cosW, 0, 0, 0, 0, 0, 0, 0, void 0);
-        };
-        Euclidean3.prototype.cosh = function () {
-            throw new NotImplementedError('cosh(Euclidean3)');
-        };
-        Euclidean3.prototype.exp = function () {
-            Unit.assertDimensionless(this.uom);
-            var bivector = this.grade(2);
-            var a = bivector.norm();
-            if (!a.isZero()) {
-                var c = a.cos();
-                var s = a.sin();
-                var B = bivector.unit();
-                return c.add(B.mul(s));
-            }
-            else {
-                return new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, this.uom);
-            }
-        };
-        /**
-         * Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.
-         */
-        Euclidean3.prototype.norm = function () {
-            return new Euclidean3(Math.sqrt(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz), 0, 0, 0, 0, 0, 0, 0, this.uom);
-        };
-        /**
-         * Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.
-         */
-        Euclidean3.prototype.quad = function () {
-            return new Euclidean3(this.w * this.w + this.x * this.x + this.y * this.y + this.z * this.z + this.xy * this.xy + this.yz * this.yz + this.zx * this.zx + this.xyz * this.xyz, 0, 0, 0, 0, 0, 0, 0, Unit.mul(this.uom, this.uom));
-        };
-        Euclidean3.prototype.sin = function () {
-            // TODO: Generalize to full multivector.
-            Unit.assertDimensionless(this.uom);
-            var sinW = sin(this.w);
-            return new Euclidean3(sinW, 0, 0, 0, 0, 0, 0, 0, void 0);
-        };
-        Euclidean3.prototype.sinh = function () {
-            throw new Euclidean3Error('sinh');
-        };
-        Euclidean3.prototype.unit = function () {
-            return this.div(this.norm());
-        };
-        Euclidean3.prototype.scalar = function () {
-            return this.w;
-        };
-        Euclidean3.prototype.sqrt = function () {
-            return new Euclidean3(Math.sqrt(this.w), 0, 0, 0, 0, 0, 0, 0, Unit.sqrt(this.uom));
-        };
-        Euclidean3.prototype.toStringCustom = function (coordToString, labels) {
-            var quantityString = stringFromCoordinates(this.coordinates(), coordToString, labels);
-            if (this.uom) {
-                var unitString = this.uom.toString().trim();
-                if (unitString) {
-                    return quantityString + ' ' + unitString;
-                }
-                else {
-                    return quantityString;
-                }
-            }
-            else {
-                return quantityString;
-            }
-        };
-        Euclidean3.prototype.toExponential = function () {
-            var coordToString = function (coord) {
-                return coord.toExponential();
-            };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
-        };
-        Euclidean3.prototype.toFixed = function (digits) {
-            assertArgNumber('digits', digits);
-            var coordToString = function (coord) {
-                return coord.toFixed(digits);
-            };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
-        };
-        Euclidean3.prototype.toString = function () {
-            var coordToString = function (coord) {
-                return coord.toString();
-            };
-            return this.toStringCustom(coordToString, ["1", "e1", "e2", "e3", "e12", "e23", "e31", "e123"]);
-        };
-        Euclidean3.prototype.toStringIJK = function () {
-            var coordToString = function (coord) {
-                return coord.toString();
-            };
-            return this.toStringCustom(coordToString, ["1", "i", "j", "k", "ij", "jk", "ki", "I"]);
-        };
-        Euclidean3.prototype.toStringLATEX = function () {
-            var coordToString = function (coord) {
-                return coord.toString();
-            };
-            return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
-        };
-        return Euclidean3;
-    })();
-    return Euclidean3;
-});
-
-define('davinci-blade/e3ga/scalarE3',["require", "exports", 'davinci-blade/e3ga/Euclidean3'], function (require, exports, Euclidean3) {
-    var scalarE3 = function (w, uom) {
-        return new Euclidean3(w, 0, 0, 0, 0, 0, 0, 0, uom);
-    };
-    return scalarE3;
-});
-
-define('davinci-blade/e3ga/vectorE3',["require", "exports", 'davinci-blade/e3ga/Euclidean3'], function (require, exports, Euclidean3) {
-    var vectorE3 = function (x, y, z, uom) {
-        return new Euclidean3(0, x, y, z, 0, 0, 0, 0, uom);
-    };
-    return vectorE3;
-});
-
-define('davinci-blade/e3ga/bivectorE3',["require", "exports", 'davinci-blade/e3ga/Euclidean3'], function (require, exports, Euclidean3) {
-    var bivectorE3 = function (xy, yz, zx, uom) {
-        return new Euclidean3(0, 0, 0, 0, xy, yz, zx, 0, uom);
-    };
-    return bivectorE3;
-});
-
-define('davinci-blade/e3ga/pseudoscalarE3',["require", "exports", 'davinci-blade/e3ga/Euclidean3'], function (require, exports, Euclidean3) {
-    var pseudoscalarE3 = function (xyz, uom) {
-        return new Euclidean3(0, 0, 0, 0, 0, 0, 0, xyz, uom);
-    };
-    return pseudoscalarE3;
-});
-
-// When using amd-dependency, you must know the file structure of the library being used.
-// You must declare a variable for each dependency.
-// You may type your variables.
-// Be careful to only use the type declarations in type positions that will be erased.
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/EllipticalCylinderGeometry',["require", "exports", "davinci-blade/e3ga/Euclidean3", "davinci-blade/e3ga/scalarE3", "davinci-blade/e3ga/vectorE3", "davinci-blade/e3ga/bivectorE3", "davinci-blade/e3ga/pseudoscalarE3", '../geometries/Geometry'], function (require, exports, Euclidean3, scalarE3, vectorE3, bivectorE3, pseudoscalarE3, Geometry) {
-    var EllipticalCylinderGeometry = (function (_super) {
-        __extends(EllipticalCylinderGeometry, _super);
-        function EllipticalCylinderGeometry() {
-            _super.call(this);
-            var s = scalarE3(1);
-            console.log("s: " + s);
-            var m = new Euclidean3(1, 2, 3, 4, 5, 6, 7, 8);
-            console.log("m: " + m);
-            var v = vectorE3(1, 2, 3);
-            console.log("v: " + v);
-            var B = bivectorE3(3, 4, 5);
-            console.log("B: " + B);
-            var I = pseudoscalarE3(6);
-            console.log("I: " + I);
-        }
-        return EllipticalCylinderGeometry;
-    })(Geometry);
-    return EllipticalCylinderGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/IcosahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
-    var t = (1 + Math.sqrt(5)) / 2;
-    var vertices = [
-        -1, t, 0, 1, t, 0, -1, -t, 0, 1, -t, 0,
-        0, -1, t, 0, 1, t, 0, -1, -t, 0, 1, -t,
-        t, 0, -1, t, 0, 1, -t, 0, -1, -t, 0, 1
-    ];
-    var indices = [
-        0, 11, 5, 0, 5, 1, 0, 1, 7, 0, 7, 10, 0, 10, 11,
-        1, 5, 9, 5, 11, 4, 11, 10, 2, 10, 7, 6, 7, 1, 8,
-        3, 9, 4, 3, 4, 2, 3, 2, 6, 3, 6, 8, 3, 8, 9,
-        4, 9, 5, 2, 4, 11, 6, 2, 10, 8, 6, 7, 9, 8, 1
-    ];
-    var IcosahedronGeometry = (function (_super) {
-        __extends(IcosahedronGeometry, _super);
-        function IcosahedronGeometry(radius, detail) {
-            _super.call(this, vertices, indices, radius, detail);
-            this.type = 'IcosahedronGeometry';
-        }
-        return IcosahedronGeometry;
-    })(PolyhedronGeometry);
-    return IcosahedronGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/SurfaceGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../checks/expectArg'], function (require, exports, Face3, Geometry, Vector2, expectArg) {
-    /**
-     * @author zz85 / https://github.com/zz85
-     * Parametric Surfaces Geometry
-     * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
-     *
-     * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
-     */
-    var SurfaceGeometry = (function (_super) {
-        __extends(SurfaceGeometry, _super);
-        function SurfaceGeometry(parametricFunction, uSegments, vSegments) {
-            _super.call(this);
-            expectArg('parametricFunction', parametricFunction).toBeFunction();
-            expectArg('uSegments', uSegments).toBeNumber();
-            expectArg('vSegments', vSegments).toBeNumber();
-            var vertices = this.vertices;
-            var faces = this.faces;
-            var uvs = this.faceVertexUvs[0];
-            var i;
-            var j;
-            var sliceCount = uSegments + 1;
-            for (i = 0; i <= vSegments; i++) {
-                var v = i / vSegments;
-                for (j = 0; j <= uSegments; j++) {
-                    var u = j / uSegments;
-                    var point = parametricFunction(u, v);
-                    // Make a copy just in case the function is returning mutable references.
-                    vertices.push({ x: point.x, y: point.y, z: point.z });
-                }
-            }
-            var a;
-            var b;
-            var c;
-            var d;
-            var uva;
-            var uvb;
-            var uvc;
-            var uvd;
-            for (i = 0; i < vSegments; i++) {
-                for (j = 0; j < uSegments; j++) {
-                    a = i * sliceCount + j;
-                    b = i * sliceCount + j + 1;
-                    c = (i + 1) * sliceCount + j + 1;
-                    d = (i + 1) * sliceCount + j;
-                    uva = new Vector2([j / uSegments, i / vSegments]);
-                    uvb = new Vector2([(j + 1) / uSegments, i / vSegments]);
-                    uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
-                    uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
-                    faces.push(new Face3(a, b, d));
-                    uvs.push([uva, uvb, uvd]);
-                    faces.push(new Face3(b, c, d));
-                    uvs.push([uvb.clone(), uvc, uvd.clone()]);
-                }
-            }
-            this.computeFaceNormals();
-            this.computeVertexNormals();
-        }
-        return SurfaceGeometry;
-    })(Geometry);
-    return SurfaceGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/KleinBottleGeometry',["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
-    var cos = Math.cos;
-    var sin = Math.sin;
-    var pi = Math.PI;
-    function klein(u, v) {
-        var point = new Vector3();
-        u = u * 2 * pi;
-        v = v * 2 * pi;
-        if (u < pi) {
-            point.x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(u) * cos(v);
-            point.z = -8 * sin(u) - 2 * (1 - cos(u) / 2) * sin(u) * cos(v);
-        }
-        else {
-            point.x = 3 * cos(u) * (1 + sin(u)) + (2 * (1 - cos(u) / 2)) * cos(v + pi);
-            point.z = -8 * sin(u);
-        }
-        point.y = -2 * (1 - cos(u) / 2) * sin(v);
-        return point;
-    }
-    /**
-     * By connecting the edge of a Mobius Strip we get a Klein Bottle.
-     * http://virtualmathmuseum.org/Surface/klein_bottle/klein_bottle.html
-     * @class KleinBottleGeometry
-     * @extends SurfaceGeometry
-     */
-    var KleinBottleGeometry = (function (_super) {
-        __extends(KleinBottleGeometry, _super);
-        /**
-         * @class KleinBottleGeometry
-         * @constructor
-         * @param uSegments {number}
-         * @param vSegments {number}
-         */
-        function KleinBottleGeometry(uSegments, vSegments) {
-            _super.call(this, klein, uSegments, vSegments);
-        }
-        return KleinBottleGeometry;
-    })(SurfaceGeometry);
-    return KleinBottleGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/MobiusStripGeometry',["require", "exports", '../geometries/SurfaceGeometry', '../math/Vector3'], function (require, exports, SurfaceGeometry, Vector3) {
-    var cos = Math.cos;
-    var sin = Math.sin;
-    var pi = Math.PI;
-    function mobius(u, v) {
-        var point = new Vector3([0, 0, 0]);
-        /**
-         * radius
-         */
-        var R = 1;
-        /**
-         * half-width
-         */
-        var w = 0.05;
-        var s = (2 * u - 1) * w; // [-w, w]
-        var t = 2 * pi * v; // [0, 2pi]
-        point.x = (R + s * cos(t / 2)) * cos(t);
-        point.y = (R + s * cos(t / 2)) * sin(t);
-        point.z = s * sin(t / 2);
-        return point;
-    }
-    /**
-     * http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html
-     */
-    var MobiusStripGeometry = (function (_super) {
-        __extends(MobiusStripGeometry, _super);
-        function MobiusStripGeometry(uSegments, vSegments) {
-            _super.call(this, mobius, uSegments, vSegments);
-        }
-        return MobiusStripGeometry;
-    })(SurfaceGeometry);
-    return MobiusStripGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/OctahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
-    var vertices = [
-        1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0, 0, -1
-    ];
-    var indices = [
-        0, 2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2, 1, 2, 5, 1, 5, 3, 1, 3, 4, 1, 4, 2
-    ];
-    var OctahedronGeometry = (function (_super) {
-        __extends(OctahedronGeometry, _super);
-        function OctahedronGeometry(radius, detail) {
-            _super.call(this, vertices, indices, radius, detail);
-        }
-        return OctahedronGeometry;
-    })(PolyhedronGeometry);
-    return OctahedronGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Sphere', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Sphere, Vector2, Vector3) {
-    var SphereGeometry = (function (_super) {
-        __extends(SphereGeometry, _super);
-        function SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength) {
-            if (radius === void 0) { radius = 1; }
-            if (widthSegments === void 0) { widthSegments = 16; }
-            if (heightSegments === void 0) { heightSegments = 12; }
-            if (phiStart === void 0) { phiStart = 0; }
-            if (phiLength === void 0) { phiLength = 2 * Math.PI; }
-            if (thetaStart === void 0) { thetaStart = 0; }
-            if (thetaLength === void 0) { thetaLength = Math.PI; }
-            _super.call(this);
-            var x;
-            var y;
-            var vertices = [];
-            var uvs = [];
-            for (y = 0; y <= heightSegments; y++) {
-                var verticesRow = [];
-                var uvsRow = [];
-                for (x = 0; x <= widthSegments; x++) {
-                    var u = x / widthSegments;
-                    var v = y / heightSegments;
-                    var vertex = new Vector3([0, 0, 0]);
-                    vertex.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
-                    vertex.y = radius * Math.cos(thetaStart + v * thetaLength);
-                    vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
-                    this.vertices.push(vertex);
-                    verticesRow.push(this.vertices.length - 1);
-                    uvsRow.push(new Vector2([u, 1 - v]));
-                }
-                vertices.push(verticesRow);
-                uvs.push(uvsRow);
-            }
-            for (y = 0; y < heightSegments; y++) {
-                for (x = 0; x < widthSegments; x++) {
-                    var v1 = vertices[y][x + 1];
-                    var v2 = vertices[y][x];
-                    var v3 = vertices[y + 1][x];
-                    var v4 = vertices[y + 1][x + 1];
-                    var n1 = Vector3.copy(this.vertices[v1]).normalize();
-                    var n2 = Vector3.copy(this.vertices[v2]).normalize();
-                    var n3 = Vector3.copy(this.vertices[v3]).normalize();
-                    var n4 = Vector3.copy(this.vertices[v4]).normalize();
-                    var uv1 = uvs[y][x + 1].clone();
-                    var uv2 = uvs[y][x].clone();
-                    var uv3 = uvs[y + 1][x].clone();
-                    var uv4 = uvs[y + 1][x + 1].clone();
-                    if (Math.abs(this.vertices[v1].y) === radius) {
-                        uv1.x = (uv1.x + uv2.x) / 2;
-                        this.faces.push(new Face3(v1, v3, v4, [n1, n3, n4]));
-                        this.faceVertexUvs[0].push([uv1, uv3, uv4]);
-                    }
-                    else if (Math.abs(this.vertices[v3].y) === radius) {
-                        uv3.x = (uv3.x + uv4.x) / 2;
-                        this.faces.push(new Face3(v1, v2, v3, [n1, n2, n3]));
-                        this.faceVertexUvs[0].push([uv1, uv2, uv3]);
-                    }
-                    else {
-                        this.faces.push(new Face3(v1, v2, v4, [n1, n2, n4]));
-                        this.faceVertexUvs[0].push([uv1, uv2, uv4]);
-                        this.faces.push(new Face3(v2, v3, v4, [n2.clone(), n3, n4.clone()]));
-                        this.faceVertexUvs[0].push([uv2.clone(), uv3, uv4.clone()]);
-                    }
-                }
-            }
-            this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
-        }
-        return SphereGeometry;
-    })(Geometry);
-    return SphereGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/TetrahedronGeometry',["require", "exports", '../geometries/PolyhedronGeometry'], function (require, exports, PolyhedronGeometry) {
-    var vertices = [
-        1, 1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1
-    ];
-    var indices = [
-        2, 1, 0, 0, 3, 2, 1, 3, 0, 2, 3, 1
-    ];
-    var TetrahedronGeometry = (function (_super) {
-        __extends(TetrahedronGeometry, _super);
-        function TetrahedronGeometry(radius, detail) {
-            _super.call(this, vertices, indices, radius, detail);
-        }
-        return TetrahedronGeometry;
-    })(PolyhedronGeometry);
-    return TetrahedronGeometry;
-});
-
-define('davinci-eight/math/clamp',["require", "exports"], function (require, exports) {
-    function clamp(x, min, max) {
-        return (x < min) ? min : ((x > max) ? max : x);
-    }
-    return clamp;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/TubeGeometry',["require", "exports", '../math/clamp', '../core/Face3', '../geometries/Geometry', '../math/Matrix4', '../math/Vector2', '../math/Vector3'], function (require, exports, clamp, Face3, Geometry, Matrix4, Vector2, Vector3) {
-    var TubeGeometry = (function (_super) {
-        __extends(TubeGeometry, _super);
-        function TubeGeometry(path, segments, radius, radialSegments, closed, taper) {
-            _super.call(this);
-            segments = segments || 64;
-            radius = radius || 0.05;
-            radialSegments = radialSegments || 16;
-            closed = closed || false;
-            taper = taper || TubeGeometry.NoTaper;
-            var grid = [];
-            var scope = this;
-            var tangent;
-            var normal;
-            var binormal;
-            var numpoints = segments + 1;
-            var u;
-            var v;
-            var r;
-            var cx;
-            var cy;
-            var pos;
-            var pos2 = new Vector3([0, 0, 0]);
-            var i;
-            var j;
-            var ip;
-            var jp;
-            var a;
-            var b;
-            var c;
-            var d;
-            var uva;
-            var uvb;
-            var uvc;
-            var uvd;
-            var frames = new FrenetFrames(path, segments, closed);
-            var tangents = frames.tangents;
-            var normals = frames.normals;
-            var binormals = frames.binormals;
-            // proxy internals
-            this.tangents = tangents;
-            this.normals = normals;
-            this.binormals = binormals;
-            function vert(x, y, z) {
-                return scope.vertices.push(new Vector3([x, y, z])) - 1;
-            }
-            // consruct the grid
-            for (i = 0; i < numpoints; i++) {
-                grid[i] = [];
-                u = i / (numpoints - 1);
-                pos = path.getPointAt(u);
-                tangent = tangents[i];
-                normal = normals[i];
-                binormal = binormals[i];
-                r = radius * taper(u);
-                for (j = 0; j < radialSegments; j++) {
-                    v = j / radialSegments * 2 * Math.PI;
-                    cx = -r * Math.cos(v); // TODO: Hack: Negating it so it faces outside.
-                    cy = r * Math.sin(v);
-                    pos2.copy(pos);
-                    pos2.x += cx * normal.x + cy * binormal.x;
-                    pos2.y += cx * normal.y + cy * binormal.y;
-                    pos2.z += cx * normal.z + cy * binormal.z;
-                    grid[i][j] = vert(pos2.x, pos2.y, pos2.z);
-                }
-            }
-            for (i = 0; i < segments; i++) {
-                for (j = 0; j < radialSegments; j++) {
-                    ip = (closed) ? (i + 1) % segments : i + 1;
-                    jp = (j + 1) % radialSegments;
-                    a = grid[i][j]; // *** NOT NECESSARILY PLANAR ! ***
-                    b = grid[ip][j];
-                    c = grid[ip][jp];
-                    d = grid[i][jp];
-                    uva = new Vector2([i / segments, j / radialSegments]);
-                    uvb = new Vector2([(i + 1) / segments, j / radialSegments]);
-                    uvc = new Vector2([(i + 1) / segments, (j + 1) / radialSegments]);
-                    uvd = new Vector2([i / segments, (j + 1) / radialSegments]);
-                    this.faces.push(new Face3(a, b, d));
-                    this.faceVertexUvs[0].push([uva, uvb, uvd]);
-                    this.faces.push(new Face3(b, c, d));
-                    this.faceVertexUvs[0].push([uvb.clone(), uvc, uvd.clone()]);
-                }
-            }
-            this.computeFaceNormals();
-            this.computeVertexNormals();
-        }
-        TubeGeometry.NoTaper = function (u) { return 1; };
-        TubeGeometry.SinusoidalTaper = function (u) { return Math.sin(Math.PI * u); };
-        return TubeGeometry;
-    })(Geometry);
-    // For computing of Frenet frames, exposing the tangents, normals and binormals the spline
-    var FrenetFrames = (function () {
-        function FrenetFrames(path, segments, closed) {
-            var normal = new Vector3([0, 0, 0]);
-            var tangents = [];
-            var normals = [];
-            var binormals = [];
-            var vec = new Vector3([0, 0, 0]);
-            var mat = Matrix4.identity();
-            var numpoints = segments + 1;
-            var theta;
-            var epsilon = 0.0001;
-            var epsilonSquared = 0.0001 * 0.0001;
-            var smallest;
-            // TODO: The folloowing should be a Vector3
-            var tx;
-            var ty;
-            var tz;
-            var i;
-            var u;
-            // expose internals
-            this.tangents = tangents;
-            this.normals = normals;
-            this.binormals = binormals;
-            // compute the tangent vectors for each segment on the path
-            for (i = 0; i < numpoints; i++) {
-                u = i / (numpoints - 1);
-                tangents[i] = path.getTangentAt(u);
-                tangents[i].normalize();
-            }
-            initialNormal3();
-            /*
-            function initialNormal1(lastBinormal) {
-              // fixed start binormal. Has dangers of 0 vectors
-              normals[ 0 ] = new THREE.Vector3();
-              binormals[ 0 ] = new THREE.Vector3();
-              if (lastBinormal===undefined) lastBinormal = new THREE.Vector3( 0, 0, 1 );
-              normals[ 0 ].crossVectors( lastBinormal, tangents[ 0 ] ).normalize();
-              binormals[ 0 ].crossVectors( tangents[ 0 ], normals[ 0 ] ).normalize();
-            }
-            function initialNormal2() {
-              // This uses the Frenet-Serret formula for deriving binormal
-              var t2 = path.getTangentAt( epsilon );
-              normals[ 0 ] = new THREE.Vector3().difference( t2, tangents[ 0 ] ).normalize();
-              binormals[ 0 ] = new THREE.Vector3().crossVectors( tangents[ 0 ], normals[ 0 ] );
-              normals[ 0 ].crossVectors( binormals[ 0 ], tangents[ 0 ] ).normalize(); // last binormal x tangent
-              binormals[ 0 ].crossVectors( tangents[ 0 ], normals[ 0 ] ).normalize();
-            }
-            */
-            function initialNormal3() {
-                // select an initial normal vector perpendicular to the first tangent vector,
-                // and in the direction of the smallest tangent xyz component
-                normals[0] = new Vector3([0, 0, 0]);
-                binormals[0] = new Vector3([0, 0, 0]);
-                smallest = Number.MAX_VALUE;
-                tx = Math.abs(tangents[0].x);
-                ty = Math.abs(tangents[0].y);
-                tz = Math.abs(tangents[0].z);
-                if (tx <= smallest) {
-                    smallest = tx;
-                    normal.set(1, 0, 0);
-                }
-                if (ty <= smallest) {
-                    smallest = ty;
-                    normal.set(0, 1, 0);
-                }
-                if (tz <= smallest) {
-                    normal.set(0, 0, 1);
-                }
-                vec.crossVectors(tangents[0], normal).normalize();
-                normals[0].crossVectors(tangents[0], vec);
-                binormals[0].crossVectors(tangents[0], normals[0]);
-            }
-            // compute the slowly-varying normal and binormal vectors for each segment on the path
-            for (i = 1; i < numpoints; i++) {
-                normals[i] = normals[i - 1].clone();
-                binormals[i] = binormals[i - 1].clone();
-                vec.crossVectors(tangents[i - 1], tangents[i]);
-                if (vec.magnitude() > epsilon) {
-                    vec.normalize();
-                    theta = Math.acos(clamp(tangents[i - 1].dot(tangents[i]), -1, 1)); // clamp for floating pt errors
-                    // TODO: don't like this applyMatrix4 use applySpinor
-                    normals[i].applyMatrix4(mat.rotationAxis(vec, theta));
-                }
-                binormals[i].crossVectors(tangents[i], normals[i]);
-            }
-            // if the curve is closed, postprocess the vectors so the first and last normal vectors are the same
-            if (closed) {
-                theta = Math.acos(clamp(normals[0].dot(normals[numpoints - 1]), -1, 1));
-                theta /= (numpoints - 1);
-                if (tangents[0].dot(vec.crossVectors(normals[0], normals[numpoints - 1])) > 0) {
-                    theta = -theta;
-                }
-                for (i = 1; i < numpoints; i++) {
-                    // twist a little...
-                    // TODO: Don't like this applyMatrix4 use applySpinor
-                    normals[i].applyMatrix4(mat.rotationAxis(tangents[i], theta * i));
-                    binormals[i].crossVectors(tangents[i], normals[i]);
-                }
-            }
-        }
-        return FrenetFrames;
-    })();
-    return TubeGeometry;
-});
-
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../core/Face3', '../geometries/Geometry', '../math/Vector2', '../math/Vector3'], function (require, exports, Face3, Geometry, Vector2, Vector3) {
-    var VortexGeometry = (function (_super) {
-        __extends(VortexGeometry, _super);
-        function VortexGeometry(radius, radiusCone, radiusShaft, lengthCone, lengthShaft, arrowSegments, radialSegments) {
-            if (radius === void 0) { radius = 1; }
-            if (radiusCone === void 0) { radiusCone = 0.08; }
-            if (radiusShaft === void 0) { radiusShaft = 0.01; }
-            if (lengthCone === void 0) { lengthCone = 0.2; }
-            if (lengthShaft === void 0) { lengthShaft = 0.8; }
-            if (arrowSegments === void 0) { arrowSegments = 8; }
-            if (radialSegments === void 0) { radialSegments = 12; }
-            _super.call(this);
-            var scope = this;
-            var n = 9;
-            radius = radius || 1;
-            radiusCone = radiusCone || 0.08;
-            radiusShaft = radiusShaft || 0.01;
-            lengthCone = lengthCone || 0.2;
-            lengthShaft = lengthShaft || 0.8;
-            arrowSegments = arrowSegments || 8;
-            var circleSegments = arrowSegments * n;
-            radialSegments = radialSegments || 12;
-            var twoPI = Math.PI * 2;
-            var R = radius;
-            var center = new Vector3([0, 0, 0]);
-            var uvs = [];
-            var normals = [];
-            var alpha = lengthShaft / (lengthCone + lengthShaft);
-            var factor = twoPI / arrowSegments;
-            var theta = alpha / (n - 2);
-            function computeAngle(circleSegments, i) {
-                var m = i % n;
-                if (m === n - 1) {
-                    return computeAngle(circleSegments, i - 1);
-                }
-                else {
-                    var a = (i - m) / n;
-                    return factor * (a + m * theta);
-                }
-            }
-            function computeRadius(i) {
-                var m = i % n;
-                if (m === n - 1) {
-                    return radiusCone;
-                }
-                else {
-                    return radiusShaft;
-                }
-            }
-            for (var j = 0; j <= radialSegments; j++) {
-                // v is the angle inside the vortex tube.
-                var v = twoPI * j / radialSegments;
-                var cosV = Math.cos(v);
-                var sinV = Math.sin(v);
-                for (var i = 0; i <= circleSegments; i++) {
-                    // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
-                    var u = computeAngle(circleSegments, i);
-                    var cosU = Math.cos(u);
-                    var sinU = Math.sin(u);
-                    center.x = R * cosU;
-                    center.y = R * sinU;
-                    var vertex = new Vector3([0, 0, 0]);
-                    var r = computeRadius(i);
-                    vertex.x = (R + r * cosV) * cosU;
-                    vertex.y = (R + r * cosV) * sinU;
-                    vertex.z = r * sinV;
-                    this.vertices.push(vertex);
-                    uvs.push(new Vector2([i / circleSegments, j / radialSegments]));
-                    normals.push(vertex.clone().sub(center).normalize());
-                }
-            }
-            for (var j = 1; j <= radialSegments; j++) {
-                for (var i = 1; i <= circleSegments; i++) {
-                    var a = (circleSegments + 1) * j + i - 1;
-                    var b = (circleSegments + 1) * (j - 1) + i - 1;
-                    var c = (circleSegments + 1) * (j - 1) + i;
-                    var d = (circleSegments + 1) * j + i;
-                    var face = new Face3(a, b, d, [normals[a], normals[b], normals[d]]);
-                    this.faces.push(face);
-                    this.faceVertexUvs[0].push([uvs[a].clone(), uvs[b].clone(), uvs[d].clone()]);
-                    face = new Face3(b, c, d, [normals[b], normals[c], normals[d]]);
-                    this.faces.push(face);
-                    this.faceVertexUvs[0].push([uvs[b].clone(), uvs[c].clone(), uvs[d].clone()]);
-                }
-            }
-        }
-        return VortexGeometry;
-    })(Geometry);
-    return VortexGeometry;
 });
 
 define('davinci-eight/programs/shaderProgram',["require", "exports", '../core/AttribLocation', '../scene/MonitorList', '../utils/uuid4', '../core/UniformLocation', '../utils/refChange'], function (require, exports, AttribLocation, MonitorList, uuid4, UniformLocation, refChange) {
@@ -10383,6 +6962,198 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+    /**
+     * @class Spinor3
+     */
+    var Spinor3 = (function (_super) {
+        __extends(Spinor3, _super);
+        function Spinor3(data, modified) {
+            if (data === void 0) { data = [0, 0, 0, 1]; }
+            if (modified === void 0) { modified = false; }
+            _super.call(this, data, modified, 4);
+        }
+        Object.defineProperty(Spinor3.prototype, "yz", {
+            /**
+             * @property yz
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.yz !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "zx", {
+            /**
+             * @property zx
+             * @type Number
+             */
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.zx !== value;
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "xy", {
+            /**
+             * @property xy
+             * @type Number
+             */
+            get: function () {
+                return this.data[2];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.xy !== value;
+                this.data[2] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "w", {
+            /**
+             * @property w
+             * @type Number
+             */
+            get: function () {
+                return this.data[3];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.w !== value;
+                this.data[3] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Spinor3.prototype.add = function (rhs) {
+            return this;
+        };
+        Spinor3.prototype.sum = function (a, b) {
+            return this;
+        };
+        Spinor3.prototype.clone = function () {
+            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
+        };
+        Spinor3.prototype.copy = function (spinor) {
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.w = spinor.w;
+            return this;
+        };
+        Spinor3.prototype.divideScalar = function (scalar) {
+            this.yz /= scalar;
+            this.zx /= scalar;
+            this.xy /= scalar;
+            this.w /= scalar;
+            return this;
+        };
+        Spinor3.prototype.exp = function () {
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            var expW = Math.exp(w);
+            var B = Math.sqrt(yz * yz + zx * zx + xy * xy);
+            var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
+            this.w = expW * Math.cos(B);
+            this.yz = yz * s;
+            this.zx = zx * s;
+            this.xy = xy * s;
+            return this;
+        };
+        Spinor3.prototype.lerp = function (target, alpha) {
+            this.xy += (target.xy - this.xy) * alpha;
+            this.yz += (target.yz - this.yz) * alpha;
+            this.zx += (target.zx - this.zx) * alpha;
+            this.w += (target.w - this.w) * alpha;
+            return this;
+        };
+        Spinor3.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Spinor3.prototype.multiply = function (rhs) {
+            return this.product(this, rhs);
+        };
+        Spinor3.prototype.product = function (a, b) {
+            var a0 = a.w;
+            var a1 = a.yz;
+            var a2 = a.zx;
+            var a3 = a.xy;
+            var b0 = b.w;
+            var b1 = b.yz;
+            var b2 = b.zx;
+            var b3 = b.xy;
+            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+            return this;
+        };
+        Spinor3.prototype.multiplyScalar = function (scalar) {
+            this.yz *= scalar;
+            this.zx *= scalar;
+            this.xy *= scalar;
+            this.w *= scalar;
+            return this;
+        };
+        Spinor3.prototype.quaditude = function () {
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            return w * w + yz * yz + zx * zx + xy * xy;
+        };
+        Spinor3.prototype.reverse = function () {
+            this.yz *= -1;
+            this.zx *= -1;
+            this.xy *= -1;
+            return this;
+        };
+        Spinor3.prototype.rotate = function (rotor) {
+            return this;
+        };
+        Spinor3.prototype.sub = function (rhs) {
+            return this;
+        };
+        Spinor3.prototype.difference = function (a, b) {
+            return this;
+        };
+        Spinor3.prototype.wedgeVectors = function (a, b) {
+            var ax = a.x, ay = a.y, az = a.z;
+            var bx = b.x, by = b.y, bz = b.z;
+            this.w = 0;
+            this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
+            this.zx = wedgeZX(ax, ay, az, bx, by, bz);
+            this.xy = wedgeXY(ax, ay, az, bx, by, bz);
+            return this;
+        };
+        /**
+         * @method toString
+         * @return {string} A non-normative string representation of the target.
+         */
+        Spinor3.prototype.toString = function () {
+            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        return Spinor3;
+    })(VectorN);
+    return Spinor3;
+});
+
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
 define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
     /**
      * @class Vector4
@@ -11043,7 +7814,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/DrawElements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/checkGeometry', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toDrawElements', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Material', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/MeshNormalMaterial', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/WebGLRenderer', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/EllipticalCylinderGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/TubeGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, DrawElements, Simplex, Vertex, checkGeometry, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toDrawElements, triangle, createDrawList, Material, Mesh, MeshNormalMaterial, PerspectiveCamera, Scene, WebGLRenderer, Geometry, ArrowGeometry, BarnGeometry, BoxGeometry, CylinderGeometry, DodecahedronGeometry, EllipticalCylinderGeometry, IcosahedronGeometry, KleinBottleGeometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, TubeGeometry, VortexGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspective', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/view', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/DrawElements', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/checkGeometry', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toDrawElements', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Material', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/MeshNormalMaterial', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/WebGLRenderer', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, frustum, frustumMatrix, perspective, perspectiveMatrix, view, viewMatrix, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, DrawElements, Simplex, Vertex, checkGeometry, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toDrawElements, triangle, createDrawList, Material, Mesh, MeshNormalMaterial, PerspectiveCamera, Scene, WebGLRenderer, Geometry, BoxGeometry, shaderProgram, smartProgram, programFromScripts, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, initWebGL, renderer, contextProxy, Model, refChange, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -11088,23 +7859,23 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/frustum', '
         get Color() { return Color; },
         get Face3() { return Face3; },
         get Geometry() { return Geometry; },
-        get ArrowGeometry() { return ArrowGeometry; },
-        get BarnGeometry() { return BarnGeometry; },
+        //  get ArrowGeometry() { return ArrowGeometry; },
+        //  get BarnGeometry() { return BarnGeometry; },
         get BoxGeometry() { return BoxGeometry; },
-        get CylinderGeometry() { return CylinderGeometry; },
-        get DodecahedronGeometry() { return DodecahedronGeometry; },
-        get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
-        get IcosahedronGeometry() { return IcosahedronGeometry; },
-        get KleinBottleGeometry() { return KleinBottleGeometry; },
-        get MobiusStripGeometry() { return MobiusStripGeometry; },
-        get OctahedronGeometry() { return OctahedronGeometry; },
-        get SurfaceGeometry() { return SurfaceGeometry; },
-        get PolyhedronGeometry() { return PolyhedronGeometry; },
-        get RevolutionGeometry() { return RevolutionGeometry; },
-        get SphereGeometry() { return SphereGeometry; },
-        get TetrahedronGeometry() { return TetrahedronGeometry; },
-        get TubeGeometry() { return TubeGeometry; },
-        get VortexGeometry() { return VortexGeometry; },
+        //  get CylinderGeometry() { return CylinderGeometry; },
+        //  get DodecahedronGeometry() { return DodecahedronGeometry; },
+        //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
+        //  get IcosahedronGeometry() { return IcosahedronGeometry; },
+        //  get KleinBottleGeometry() { return KleinBottleGeometry; },
+        //  get MobiusStripGeometry() { return MobiusStripGeometry; },
+        //  get OctahedronGeometry() { return OctahedronGeometry; },
+        //  get SurfaceGeometry() { return SurfaceGeometry; },
+        //  get PolyhedronGeometry() { return PolyhedronGeometry; },
+        //  get RevolutionGeometry() { return RevolutionGeometry; },
+        //  get SphereGeometry() { return SphereGeometry; },
+        //  get TetrahedronGeometry() { return TetrahedronGeometry; },
+        //  get TubeGeometry() { return TubeGeometry; },
+        //  get VortexGeometry() { return VortexGeometry; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get rotor3() { return rotor3; },
