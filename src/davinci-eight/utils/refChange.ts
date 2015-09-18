@@ -20,6 +20,10 @@ function warn(message: string) {
   return console.warn(prefix(message));
 }
 
+function error(message: string) {
+  return console.warn(prefix(message));
+}
+
 function garbageCollect() {
   let uuids: string[] = Object.keys(statistics);
   uuids.forEach(function(uuid: string) {
@@ -93,9 +97,14 @@ function refChange(uuid: string, name?: string, change: number = 0): number {
   }
   else if (change === -1) {
     var element = statistics[uuid];
-    element.refCount += change;
-    if (element.refCount === 0) {
-      element.zombie = true;
+    if (element) {
+      element.refCount += change;
+      if (element.refCount === 0) {
+        element.zombie = true;
+      }
+    }
+    else {
+      error(change + " on " + uuid + " @ " + name);
     }
   }
   else if (change === 0) {

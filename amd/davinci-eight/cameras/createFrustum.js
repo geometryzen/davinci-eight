@@ -1,11 +1,11 @@
-define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, view, Matrix4, Vector1) {
+define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, createView, Matrix4, Vector1) {
     /**
-     * @class frustum
+     * @function createFrustum
      * @constructor
      * @return {Frustum}
      */
-    var frustum = function (viewMatrixName, projectionMatrixName) {
-        var base = view(viewMatrixName);
+    var createFrustum = function (viewMatrixName, projectionMatrixName) {
+        var base = createView(viewMatrixName);
         var left = new Vector1();
         var right = new Vector1();
         var bottom = new Vector1();
@@ -99,5 +99,5 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
         };
         return self;
     };
-    return frustum;
+    return createFrustum;
 });

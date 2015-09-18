@@ -113,7 +113,8 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
    */
   var gls: { [id: number]: WebGLRenderingContext } = {};
 
-  let uuid: string = uuid4().generate()
+  let uuid: string = uuid4().generate();
+  // This looks wrong.
   var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
@@ -173,7 +174,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
         self.contextFree(canvasId);
         gls[canvasId] = manager.gl;
         let context = manager.gl;
-        let program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
+        let program: WebGLProgram = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
         programs[manager.canvasId] = program;
 
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
@@ -210,6 +211,8 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
         uniformLocations[uName].contextLoss();
       }
     },
+    // FIXME: Dead code?
+    /*
     get program() {
       console.warn("shaderProgram program property is assuming canvas id = 0");
       let canvasId = 0;
@@ -217,18 +220,19 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
       // It's a WebGLProgram, no reference count management required.
       return program;
     },
+    */
     get programId() {
       return uuid;
     },
-    use(canvasId: number): IProgram {
-      let context = gls[canvasId];
-      if (context) {
-        context.useProgram(programs[canvasId]);
+    use(canvasId: number): void {
+      let gl = gls[canvasId];
+      if (gl) {
+        let program: WebGLProgram = programs[canvasId];
+        gl.useProgram(program);
       }
       else {
-        console.warn(LOGGING_NAME_IPROGRAM + " use() missing WebGLRenderingContext");
+        console.warn(LOGGING_NAME_IPROGRAM + " use(canvasId: number) missing WebGLRenderingContext");
       }
-      return self;
     },
     enableAttrib(name: string) {
       let attribLoc = attributeLocations[name];

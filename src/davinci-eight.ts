@@ -1,14 +1,14 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 
 // cameras
-import Frustum = require('davinci-eight/cameras/Frustum');
-import Perspective = require('davinci-eight/cameras/Perspective');
-import View = require('davinci-eight/cameras/View');
-import frustum = require('davinci-eight/cameras/frustum');
-import frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
-import perspective             = require('davinci-eight/cameras/perspective');
+import createFrustum           = require('davinci-eight/cameras/createFrustum');
+import createPerspective       = require('davinci-eight/cameras/createPerspective');
+import createView              = require('davinci-eight/cameras/createView');
+import Frustum                 = require('davinci-eight/cameras/Frustum');
+import Perspective             = require('davinci-eight/cameras/Perspective');
+import View                    = require('davinci-eight/cameras/View');
+import frustumMatrix           = require('davinci-eight/cameras/frustumMatrix');
 import perspectiveMatrix       = require('davinci-eight/cameras/perspectiveMatrix');
-import view                    = require('davinci-eight/cameras/view');
 import viewMatrix              = require('davinci-eight/cameras/viewMatrix');
 // core
 import AttribLocation          = require('davinci-eight/core/AttribLocation');
@@ -146,14 +146,14 @@ var eight = {
   get MeshNormalMaterial() { return MeshNormalMaterial; },
 
   get initWebGL() { return initWebGL; },
+  get createFrustum() { return createFrustum; },
+  get createPerspective() { return createPerspective; },
+  get createView() { return createView; },
   get Model() { return Model; },
   get Simplex() { return Simplex; },
   get Vertex() { return Vertex; },
-  get frustum() { return frustum; },
   get frustumMatrix() { return frustumMatrix; },
-  get perspective() { return perspective; },
   get perspectiveMatrix() { return perspectiveMatrix; },
-  get view() { return view; },
   get viewMatrix() { return viewMatrix; },
   get Scene() { return Scene; },
   get Mesh() { return Mesh; },

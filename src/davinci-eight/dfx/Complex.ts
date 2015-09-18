@@ -1,3 +1,5 @@
+import checkGeometry = require('../dfx/checkGeometry');
+import GeometryInfo = require('../dfx/GeometryInfo');
 import Simplex = require('../dfx/Simplex');
 
 /**
@@ -5,6 +7,7 @@ import Simplex = require('../dfx/Simplex');
  */
 class Complex {
   public simplices: Simplex[] = [];
+  public metadata: GeometryInfo;
   public dynamic = true;
   public verticesNeedUpdate = false;
   public elementsNeedUpdate = false;
@@ -17,9 +20,14 @@ class Complex {
   }
   public boundary(count?: number) {
     this.simplices = Simplex.boundary(this.simplices, count);
+    this.check();
   }
   public subdivide(count?: number) {
     this.simplices = Simplex.subdivide(this.simplices, count);
+    this.check();
+  }
+  public check(): void {
+    this.metadata = checkGeometry(this.simplices);
   }
 }
 

@@ -1,9 +1,9 @@
 import View = require('../cameras/View');
 /**
- * @class view
+ * @class createView
  * @constructor
  */
-declare let view: (options?: {
+declare let createView: (options?: {
     viewMatrixName?: string;
 }) => View;
-export = view;
+export = createView;

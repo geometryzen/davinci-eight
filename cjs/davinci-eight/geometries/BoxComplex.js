@@ -138,6 +138,8 @@ var BoxComplex = (function (_super) {
         }
         // This construction duplicates vertices along the edges of the cube.
         this.mergeVertices();
+        // Update the metadata.
+        this.check();
     }
     return BoxComplex;
 })(Complex);

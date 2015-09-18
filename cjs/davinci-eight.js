@@ -1,9 +1,10 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-var frustum = require('davinci-eight/cameras/frustum');
+// cameras
+var createFrustum = require('davinci-eight/cameras/createFrustum');
+var createPerspective = require('davinci-eight/cameras/createPerspective');
+var createView = require('davinci-eight/cameras/createView');
 var frustumMatrix = require('davinci-eight/cameras/frustumMatrix');
-var perspective = require('davinci-eight/cameras/perspective');
 var perspectiveMatrix = require('davinci-eight/cameras/perspectiveMatrix');
-var view = require('davinci-eight/cameras/view');
 var viewMatrix = require('davinci-eight/cameras/viewMatrix');
 // core
 var AttribLocation = require('davinci-eight/core/AttribLocation');
@@ -105,14 +106,14 @@ var eight = {
     get Material() { return Material; },
     get MeshNormalMaterial() { return MeshNormalMaterial; },
     get initWebGL() { return initWebGL; },
+    get createFrustum() { return createFrustum; },
+    get createPerspective() { return createPerspective; },
+    get createView() { return createView; },
     get Model() { return Model; },
     get Simplex() { return Simplex; },
     get Vertex() { return Vertex; },
-    get frustum() { return frustum; },
     get frustumMatrix() { return frustumMatrix; },
-    get perspective() { return perspective; },
     get perspectiveMatrix() { return perspectiveMatrix; },
-    get view() { return view; },
     get viewMatrix() { return viewMatrix; },
     get Scene() { return Scene; },
     get Mesh() { return Mesh; },

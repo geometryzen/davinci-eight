@@ -55,12 +55,8 @@ declare var eight: {
     Material: typeof Material;
     MeshNormalMaterial: typeof MeshNormalMaterial;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
-    Model: typeof Model;
-    Simplex: typeof Simplex;
-    Vertex: typeof Vertex;
-    frustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
-    frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
-    perspective: (options?: {
+    createFrustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
+    createPerspective: (options?: {
         fov?: number;
         aspect?: number;
         near?: number;
@@ -68,17 +64,21 @@ declare var eight: {
         projectionMatrixName?: string;
         viewMatrixName?: string;
     }) => Perspective;
-    perspectiveMatrix: (fov: number, aspect: number, near: number, far: number, matrix?: Matrix4) => Matrix4;
-    view: (options?: {
+    createView: (options?: {
         viewMatrixName?: string;
     }) => View;
+    Model: typeof Model;
+    Simplex: typeof Simplex;
+    Vertex: typeof Vertex;
+    frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
+    perspectiveMatrix: (fov: number, aspect: number, near: number, far: number, matrix?: Matrix4) => Matrix4;
     viewMatrix: (eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: Matrix4) => Matrix4;
     Scene: typeof Scene;
     Mesh: typeof Mesh;
     PerspectiveCamera: typeof PerspectiveCamera;
     WebGLRenderer: typeof WebGLRenderer;
     createDrawList: () => IDrawList;
-    renderer: (canvas: HTMLCanvasElement) => ContextRenderer;
+    renderer: (canvas: HTMLCanvasElement, canvasId: number) => ContextRenderer;
     webgl: (canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes) => ContextKahuna;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;

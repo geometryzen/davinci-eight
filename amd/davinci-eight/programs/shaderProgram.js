@@ -78,6 +78,7 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
          */
         var gls = {};
         var uuid = uuid4().generate();
+        // This looks wrong.
         var attributeLocations = {};
         var uniformLocations = {};
         var self = {
@@ -172,25 +173,28 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                     uniformLocations[uName].contextLoss();
                 }
             },
+            // FIXME: Dead code?
+            /*
             get program() {
-                console.warn("shaderProgram program property is assuming canvas id = 0");
-                var canvasId = 0;
-                var program = programs[canvasId];
-                // It's a WebGLProgram, no reference count management required.
-                return program;
+              console.warn("shaderProgram program property is assuming canvas id = 0");
+              let canvasId = 0;
+              let program: WebGLProgram = programs[canvasId];
+              // It's a WebGLProgram, no reference count management required.
+              return program;
             },
+            */
             get programId() {
                 return uuid;
             },
             use: function (canvasId) {
-                var context = gls[canvasId];
-                if (context) {
-                    context.useProgram(programs[canvasId]);
+                var gl = gls[canvasId];
+                if (gl) {
+                    var program = programs[canvasId];
+                    gl.useProgram(program);
                 }
                 else {
-                    console.warn(LOGGING_NAME_IPROGRAM + " use() missing WebGLRenderingContext");
+                    console.warn(LOGGING_NAME_IPROGRAM + " use(canvasId: number) missing WebGLRenderingContext");
                 }
-                return self;
             },
             enableAttrib: function (name) {
                 var attribLoc = attributeLocations[name];

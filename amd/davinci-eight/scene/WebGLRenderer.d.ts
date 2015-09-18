@@ -2,9 +2,9 @@ import ContextController = require('../core/ContextController');
 import ContextMonitor = require('../core/ContextMonitor');
 import ContextListener = require('../core/ContextListener');
 import DrawElements = require('../dfx/DrawElements');
+import IDrawList = require('../scene/IDrawList');
 import IMesh = require('../dfx/IMesh');
 import IUnknown = require('../core/IUnknown');
-import Scene = require('../scene/Scene');
 import UniformData = require('../core/UniformData');
 declare class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
     private _canvas;
@@ -22,7 +22,7 @@ declare class WebGLRenderer implements ContextController, ContextMonitor, IUnkno
     canvas: HTMLCanvasElement;
     release(): number;
     removeContextListener(user: ContextListener): void;
-    render(scene: Scene, ambients: UniformData): void;
+    render(drawList: IDrawList, ambients: UniformData): void;
     setClearColor(color: number, alpha?: number): void;
     setSize(width: number, height: number, updateStyle?: boolean): void;
     start(): void;

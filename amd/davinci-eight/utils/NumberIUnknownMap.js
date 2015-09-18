@@ -1,4 +1,5 @@
 define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
+    // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
     var NumberIUnknownMap = (function () {
         function NumberIUnknownMap() {
@@ -77,7 +78,7 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
         };
         Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
             get: function () {
-                // TODO: memoize?
+                // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
                 return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
             },
             enumerable: true,

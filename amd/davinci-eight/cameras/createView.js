@@ -1,9 +1,9 @@
 define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../checks/expectArg', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, Symbolic, expectArg, isUndefined, computeViewMatrix) {
     /**
-     * @class view
+     * @class createView
      * @constructor
      */
-    var view = function (options) {
+    var createView = function (options) {
         var eye = new Vector3();
         var look = new Vector3();
         var up = Vector3.e2;
@@ -67,5 +67,5 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
         };
         return self;
     };
-    return view;
+    return createView;
 });

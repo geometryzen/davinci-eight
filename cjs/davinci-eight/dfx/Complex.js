@@ -1,3 +1,4 @@
+var checkGeometry = require('../dfx/checkGeometry');
 var Simplex = require('../dfx/Simplex');
 /**
  * @class Complex
@@ -17,9 +18,14 @@ var Complex = (function () {
     };
     Complex.prototype.boundary = function (count) {
         this.simplices = Simplex.boundary(this.simplices, count);
+        this.check();
     };
     Complex.prototype.subdivide = function (count) {
         this.simplices = Simplex.subdivide(this.simplices, count);
+        this.check();
+    };
+    Complex.prototype.check = function () {
+        this.metadata = checkGeometry(this.simplices);
     };
     return Complex;
 })();

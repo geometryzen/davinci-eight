@@ -12,10 +12,10 @@ import isVariableName = require('../checks/isVariableName');
 import computeViewMatrix = require('../cameras/viewMatrix');
 
 /**
- * @class view
+ * @class createView
  * @constructor
  */
-let view = function(options?: {viewMatrixName?: string;}): View {
+let createView = function(options?: {viewMatrixName?: string;}): View {
 
   let eye: Vector3 = new Vector3();
   let look: Vector3 = new Vector3();
@@ -84,4 +84,4 @@ let view = function(options?: {viewMatrixName?: string;}): View {
   return self;
 };
 
-export = view;
+export = createView;

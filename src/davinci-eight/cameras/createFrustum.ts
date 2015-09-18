@@ -1,10 +1,10 @@
 //
-// frustum.ts
+// createFrustum.ts
 //
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import View = require('davinci-eight/cameras/View');
-import view  = require('davinci-eight/cameras/view');
+import createView  = require('davinci-eight/cameras/createView');
 import Matrix4 = require('davinci-eight/math/Matrix4');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Symbolic = require('davinci-eight/core/Symbolic');
@@ -13,13 +13,13 @@ import Vector1 = require('../math/Vector1');
 import Vector3 = require('../math/Vector3');
 
 /**
- * @class frustum
+ * @function createFrustum
  * @constructor
  * @return {Frustum}
  */
-let frustum = function(viewMatrixName: string, projectionMatrixName: string): Frustum {
+let createFrustum = function(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
-  let base: View = view(viewMatrixName);
+  let base: View = createView(viewMatrixName);
   let left: Vector1 = new Vector1();
   let right: Vector1 = new Vector1();
   let bottom: Vector1 = new Vector1();
@@ -118,4 +118,4 @@ let frustum = function(viewMatrixName: string, projectionMatrixName: string): Fr
   return self;
 };
 
-export =  frustum;
+export =  createFrustum;

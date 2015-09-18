@@ -17,7 +17,7 @@ let CLASS_NAME = "ContextRenderer"
 /**
  *
  */
-let renderer = function(canvas: HTMLCanvasElement): ContextRenderer {
+let renderer = function(canvas: HTMLCanvasElement, canvasId: number): ContextRenderer {
   // FIXME: Replace.
   expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
 
@@ -29,7 +29,7 @@ let renderer = function(canvas: HTMLCanvasElement): ContextRenderer {
   let uuid = uuid4().generate();
 
   function drawHandler(drawable: IDrawable) {
-    drawable.draw();
+    drawable.draw(canvasId);
   }
 
   let self: ContextRenderer = {
@@ -78,7 +78,7 @@ let renderer = function(canvas: HTMLCanvasElement): ContextRenderer {
         gl.clearColor(red, green, blue, alpha);
       }
     },
-    render(drawList: IDrawList) {
+    render(drawList: IDrawList, unused: UniformData) {
       if (gl) {
         if (autoClear) {
           gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

@@ -34,12 +34,17 @@ var Scene = (function () {
         this._refCount--;
         refChange(this._uuid, LOGGING_NAME, -1);
         if (this._refCount === 0) {
-            this.monitors.removeContextListener(this);
-            this.monitors = void 0;
             this._drawList.release();
             this._drawList = void 0;
+            this.monitors.removeContextListener(this);
+            this.monitors = void 0;
+            this._refCount = void 0;
+            this._uuid = void 0;
+            return 0;
         }
-        return this._refCount;
+        else {
+            return this._refCount;
+        }
     };
     Scene.prototype.remove = function (drawable) {
         this._drawList.remove(drawable);

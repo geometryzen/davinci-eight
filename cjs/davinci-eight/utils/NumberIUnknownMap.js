@@ -1,5 +1,6 @@
 var refChange = require('../utils/refChange');
 var uuid4 = require('../utils/uuid4');
+// FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
 var LOGGING_NAME = 'NumberIUnknownMap';
 var NumberIUnknownMap = (function () {
     function NumberIUnknownMap() {
@@ -78,7 +79,7 @@ var NumberIUnknownMap = (function () {
     };
     Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
         get: function () {
-            // TODO: memoize?
+            // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
             return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
         },
         enumerable: true,

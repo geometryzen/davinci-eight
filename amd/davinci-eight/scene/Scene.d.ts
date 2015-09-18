@@ -17,9 +17,9 @@ import Vector4 = require('../math/Vector4');
  */
 declare class Scene implements IDrawList {
     private _drawList;
+    private monitors;
     private _refCount;
     private _uuid;
-    private monitors;
     constructor(monitors: ContextMonitor[]);
     add(drawable: IDrawable): void;
     addRef(): number;

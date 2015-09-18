@@ -14,6 +14,9 @@ function log(message) {
 function warn(message) {
     return console.warn(prefix(message));
 }
+function error(message) {
+    return console.warn(prefix(message));
+}
 function garbageCollect() {
     var uuids = Object.keys(statistics);
     uuids.forEach(function (uuid) {
@@ -84,9 +87,14 @@ function refChange(uuid, name, change) {
     }
     else if (change === -1) {
         var element = statistics[uuid];
-        element.refCount += change;
-        if (element.refCount === 0) {
-            element.zombie = true;
+        if (element) {
+            element.refCount += change;
+            if (element.refCount === 0) {
+                element.zombie = true;
+            }
+        }
+        else {
+            error(change + " on " + uuid + " @ " + name);
         }
     }
     else if (change === 0) {

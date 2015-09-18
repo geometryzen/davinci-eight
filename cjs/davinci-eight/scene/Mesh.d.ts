@@ -12,14 +12,18 @@ declare class Mesh<G extends Geometry, M extends IProgram, U extends UniformData
     private _uuid;
     geometry: G;
     _material: M;
-    private meshes;
+    /**
+     * FIXME This is a bad name because it is not just a collection of meshLookup.
+     * A map from canvas to IMesh.
+     * It's a function that returns a mesh, given a canvasId; a lokup
+     */
+    private meshLookup;
     model: U;
-    private elements;
     private mode;
     constructor(geometry: G, material: M, model: U);
     addRef(): number;
     release(): number;
-    draw(): void;
+    draw(canvasId: number): void;
     contextFree(canvasId: number): void;
     contextGain(manager: ContextManager): void;
     contextLoss(canvasId: number): void;

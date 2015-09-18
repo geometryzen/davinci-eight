@@ -28,7 +28,7 @@ var WebGLRenderer = (function () {
         // FIXME: dangerous chaining?
         // FIXME: The proxy is reference counted so WebGLRenderer should be too.
         this._kahuna = contextProxy(this._canvas, canvasId, attributes);
-        this._renderer = createRenderer(this._canvas);
+        this._renderer = createRenderer(this._canvas, canvasId);
         // Provide the manager with access to the WebGLRenderingContext.
         this._kahuna.addContextListener(this._renderer);
         refChange(this._uuid, LOGGING_NAME, +1);
@@ -85,11 +85,11 @@ var WebGLRenderer = (function () {
     WebGLRenderer.prototype.removeContextListener = function (user) {
         this._kahuna.removeContextListener(user);
     };
-    WebGLRenderer.prototype.render = function (scene, ambients) {
+    WebGLRenderer.prototype.render = function (drawList, ambients) {
         // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
         // This implies camera should implement UniformData and we pass that in as ambients.
         // This allows us to generalize the WebGLRenderer API.
-        this._renderer.render(scene, ambients);
+        this._renderer.render(drawList, ambients);
     };
     WebGLRenderer.prototype.setClearColor = function (color, alpha) {
         if (alpha === void 0) { alpha = 1.0; }

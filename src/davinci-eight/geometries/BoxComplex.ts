@@ -157,6 +157,8 @@ class BoxComplex extends Complex {
     }
     // This construction duplicates vertices along the edges of the cube.
     this.mergeVertices();
+    // Update the metadata.
+    this.check();
   }
 }
 

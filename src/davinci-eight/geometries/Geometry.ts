@@ -1,19 +1,15 @@
-import Simplex = require('../dfx/Simplex');
+import DrawElements = require('../dfx/DrawElements');
+import GeometryInfo = require('../dfx/GeometryInfo');
 
 /**
  * @class Geometry
  */
 class Geometry {
-  //public simplices: Simplex[] = [];
-  public dynamic = true;
-  public verticesNeedUpdate = false;
-  public elementsNeedUpdate = false;
-  public uvsNeedUpdate = false;
-//public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
-  constructor() {
-  }
-  protected mergeVertices(precisionPoints: number = 4) {
-    console.warn("Geometry.mergeVertices not yet implemented");
+  public elements: DrawElements;
+  public metadata: GeometryInfo;
+  constructor(elements: DrawElements, metadata: GeometryInfo) {
+    this.elements = elements;
+    this.metadata = metadata;
   }
 }
 

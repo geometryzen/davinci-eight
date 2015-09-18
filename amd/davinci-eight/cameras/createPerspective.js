@@ -1,6 +1,6 @@
-define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/Matrix4', 'davinci-eight/core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, view, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
+define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
     /**
-     * @class perspective
+     * @function createPerspective
      * @constructor
      * @param fov {number}
      * @param aspect {number}
@@ -8,14 +8,14 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
      * @param far {number}
      * @return {Perspective}
      */
-    var perspective = function (options) {
+    var createPerspective = function (options) {
         options = options || {};
         var fov = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
         var aspect = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
         var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
         var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
-        var base = view(options);
+        var base = createView(options);
         var projectionMatrix = Matrix4.identity();
         var matrixNeedsUpdate = true;
         var self = {
@@ -109,5 +109,5 @@ define(["require", "exports", 'davinci-eight/cameras/view', 'davinci-eight/math/
         };
         return self;
     };
-    return perspective;
+    return createPerspective;
 });

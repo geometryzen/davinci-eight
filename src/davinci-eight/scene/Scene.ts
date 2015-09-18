@@ -29,9 +29,9 @@ function ctorContext(): string {
  */
 class Scene implements IDrawList {
   private _drawList: IDrawList = createDrawList();
+  private monitors: MonitorList;
   private _refCount = 1;
   private _uuid = uuid4().generate();
-  private monitors: MonitorList;
   // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
   constructor(monitors: ContextMonitor[]) {
     MonitorList.verify('monitors', monitors, ctorContext);
@@ -51,12 +51,17 @@ class Scene implements IDrawList {
     this._refCount--;
     refChange(this._uuid, LOGGING_NAME, -1);
     if (this._refCount === 0) {
-      this.monitors.removeContextListener(this);
-      this.monitors = void 0;
       this._drawList.release();
       this._drawList = void 0;
+      this.monitors.removeContextListener(this);
+      this.monitors = void 0;
+      this._refCount = void 0;
+      this._uuid = void 0;
+      return 0;
     }
-    return this._refCount;
+    else {
+      return this._refCount;
+    }
   }
   remove(drawable: IDrawable): void {
     this._drawList.remove(drawable);

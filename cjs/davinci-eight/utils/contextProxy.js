@@ -71,7 +71,9 @@ var ElementsBlock = (function () {
         refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, -1);
         if (this._refCount === 0) {
             this._attributes.release();
+            this._attributes = void 0;
             this._indexBuffer.release();
+            this._indexBuffer = void 0;
         }
         return this._refCount;
     };

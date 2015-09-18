@@ -841,6 +841,7 @@ class Face3 {
  */
 class Complex {
   public simplices: Simplex[];
+  public metadata: GeometryInfo;
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
   public elementsNeedUpdate: boolean;
@@ -856,6 +857,10 @@ class Complex {
    * count: The number of times to apply the boundary operation. Default is one (1).
    */
   public boundary(count?: number): void;
+  /**
+   * Updates the metadata property by scanning the vertices.
+   */
+  public check(): void;
   /**
    * Updates the normals property of each face by creating a per-face normal.
    */
@@ -874,16 +879,6 @@ class Complex {
    */
   public subdivide(count?: number): void;
 }
-
-/**
- * @class Geometry
- * Base class for geometries.
- * A complex holds the instructions for rendering a 3D mesh.
- */
-class Geometry {
-
-}
-
 
 /**
  * @module EIGHT
@@ -956,10 +951,10 @@ interface WindowAnimationRunner
 
 /**
  * @module EIGHT
- * @function frustum
+ * @function createFrustum
  * Constructs and returns a Frustum.
  */
-function frustum(left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number): Frustum;
+function createFrustum(left?: number, right?: number, bottom?: number, top?: number, near?: number, far?: number): Frustum;
 
 /**
  * @module EIGHT
@@ -970,10 +965,10 @@ function frustumMatrix(left: number, right: number, bottom: number, top: number,
 
 /**
  * @module EIGHT
- * @function perspective
+ * @function createPerspective
  * Constructs and returns a Perspective.
  */
-function perspective(options?: {fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string}): Perspective;
+function createPerspective(options?: {fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string}): Perspective;
 
 /**
  * @module EIGHT
@@ -984,10 +979,10 @@ function perspectiveMatrix(fov: number, aspect: number, near: number, far: numbe
 
 /**
  * @module EIGHT
- * @function view
+ * @function createView
  * Constructs and returns a View.
  */
-function view(): View;
+function createView(): View;
 
 /**
  * @module EIGHT
@@ -1039,121 +1034,6 @@ interface UniformMetaInfo {
  * Constructs a program by introspecting a geometry.
  */
 function smartProgram(monitors: ContextMonitor[], attributes: {[name:string]:AttribMetaInfo}, uniforms: {[name:string]:UniformMetaInfo}, bindings?: string[]): IProgram;
-
-/**
- * @module THREE
- * @class ArrowGeometry
- */
-class ArrowGeometry extends Geometry {
-  constructor();
-}
-
-/**
- * @module THREE
- * @class VortexGeometry
- */
-class VortexGeometry extends Geometry {
-  constructor();
-}
-
-/**
- * @module THREE
- * @class PolyhedronGeometry
- */
-class PolyhedronGeometry extends Geometry {
-  constructor(vertices: number[], indices: number[], radius?:  number, detail?: number);
-}
-
-/**
- * @module THREE
- * @class DodecahedronGeometry
- */
-class DodecahedronGeometry extends PolyhedronGeometry {
-  constructor(radius?: number, detail?: number);
-}
-
-/**
- * @module THREE
- * @class IcosahedronGeometry
- */
-class IcosahedronGeometry extends PolyhedronGeometry {
-  constructor(radius?: number, detail?: number);
-}
-
-/**
- * @module THREE
- * @class KleinBottleGeometry
- */
-class KleinBottleGeometry extends SurfaceGeometry {
-  constructor(uSegments: number, vSegments: number);
-}
-
-/**
- * @module THREE
- * @class MobiusStripGeometry
- */
-class MobiusStripGeometry extends SurfaceGeometry {
-  constructor(uSegments: number, vSegments: number);
-}
-
-/**
- * @module THREE
- * @class OctahedronGeometry
- */
-class OctahedronGeometry extends PolyhedronGeometry {
-  constructor(radius?: number, detail?: number);
-}
-
-/**
- * @module THREE
- * @class SurfaceGeometry
- */
-class SurfaceGeometry extends Geometry {
-  /**
-   * Constructs a parametric surface geometry from a function.
-   * parametricFunction The function that determines a 3D point corresponding to the two parameters.
-   * uSegments The number of segments for the u parameter.
-   * vSegments The number of segments for the v parameter.
-   */
-  constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
-}
-
-/**
- * @module THREE
- * @class SphereGeometry
- */
-class SphereGeometry extends Geometry {
-  constructor(
-    radius?: number,
-    widthSegments?: number,
-    heightSegments?: number,
-    phiStart?: number,
-    phiLength?: number,
-    thetaStart?: number,
-    thetaLength?: number);
-}
-
-/**
- * @module THREE
- * @class TetrahedronGeometry
- */
-class TetrahedronGeometry extends PolyhedronGeometry {
-  constructor(radius?: number, detail?: number);
-}
-
-/**
- * @module THREE
- * @class TubeGeometry
- */
-class TubeGeometry extends Geometry {
-  constructor(
-    path: Curve,
-    segments?: number,
-    radius?: number,
-    radialSegments?: number,
-    closed?: boolean,
-    taper?: (u: number)=>number);
-}
 
 /**
  * @module THREE
@@ -1451,8 +1331,9 @@ interface IDrawable extends IResource {
   material: IProgram;
   /**
    * @method draw
+   * @param canvasId {number}
    */
-  draw(): void;
+  draw(canvasId: number): void;
 }
 
 /**
@@ -1546,7 +1427,7 @@ class PerspectiveCamera implements ICamera, UniformData {
   contextFree(canvasId: number): void;
   contextGain(manager: ContextManager): void;
   contextLoss(canvasId: number): void;
-  draw(): void;
+  draw(canvasId: number): void;
   release(): number;
 }
 
@@ -1573,7 +1454,7 @@ class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
   createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
   release(): number;
   removeContextListener(user: ContextListener): void;
-  render(scene: Scene, ambiends: UniformData): void;
+  render(drawList: IDrawList, ambients: UniformData): void;
   setClearColor(color: number, alpha?: number): void;
   setSize(width: number, height: number, updateStyle?: boolean): void;
   start(): void;
@@ -1634,7 +1515,15 @@ class Material implements IProgram {
 }
 
 /**
- * @module EIGHT
+ * @class Geometry
+ * A geometry holds the instructions for rendering a 3D mesh.
+ */
+class Geometry {
+  public elements: DrawElements;
+  public metadata: GeometryInfo;
+  constructor(elements: DrawElements, metadata: GeometryInfo);
+}
+/**
  * @class Mesh
  * @implements IDrawable
  */
@@ -1645,7 +1534,7 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
   constructor(geometry: G, material: M, model: U);
   addRef(): number;
   release(): number;
-  draw(): void;
+  draw(canvasId: number): void;
   contextFree(): void;
   contextGain(manager: ContextManager): void;
   contextLoss(): void;

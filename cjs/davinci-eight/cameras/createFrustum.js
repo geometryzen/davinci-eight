@@ -1,13 +1,13 @@
-var view = require('davinci-eight/cameras/view');
+var createView = require('davinci-eight/cameras/createView');
 var Matrix4 = require('davinci-eight/math/Matrix4');
 var Vector1 = require('../math/Vector1');
 /**
- * @class frustum
+ * @function createFrustum
  * @constructor
  * @return {Frustum}
  */
-var frustum = function (viewMatrixName, projectionMatrixName) {
-    var base = view(viewMatrixName);
+var createFrustum = function (viewMatrixName, projectionMatrixName) {
+    var base = createView(viewMatrixName);
     var left = new Vector1();
     var right = new Vector1();
     var bottom = new Vector1();
@@ -101,4 +101,4 @@ var frustum = function (viewMatrixName, projectionMatrixName) {
     };
     return self;
 };
-module.exports = frustum;
+module.exports = createFrustum;

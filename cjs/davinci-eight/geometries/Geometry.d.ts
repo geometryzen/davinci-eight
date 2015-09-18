@@ -1,12 +1,11 @@
+import DrawElements = require('../dfx/DrawElements');
+import GeometryInfo = require('../dfx/GeometryInfo');
 /**
  * @class Geometry
  */
 declare class Geometry {
-    dynamic: boolean;
-    verticesNeedUpdate: boolean;
-    elementsNeedUpdate: boolean;
-    uvsNeedUpdate: boolean;
-    constructor();
-    protected mergeVertices(precisionPoints?: number): void;
+    elements: DrawElements;
+    metadata: GeometryInfo;
+    constructor(elements: DrawElements, metadata: GeometryInfo);
 }
 export = Geometry;

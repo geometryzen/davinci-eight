@@ -8,7 +8,7 @@ var CLASS_NAME = "ContextRenderer";
 /**
  *
  */
-var renderer = function (canvas) {
+var renderer = function (canvas, canvasId) {
     // FIXME: Replace.
     expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
     // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
@@ -18,7 +18,7 @@ var renderer = function (canvas) {
     var clearAlpha = 0;
     var uuid = uuid4().generate();
     function drawHandler(drawable) {
-        drawable.draw();
+        drawable.draw(canvasId);
     }
     var self = {
         get canvas() { return canvas; },
@@ -66,7 +66,7 @@ var renderer = function (canvas) {
                 gl.clearColor(red, green, blue, alpha);
             }
         },
-        render: function (drawList) {
+        render: function (drawList, unused) {
             if (gl) {
                 if (autoClear) {
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

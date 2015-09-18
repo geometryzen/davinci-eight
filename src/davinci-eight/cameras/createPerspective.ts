@@ -1,24 +1,24 @@
 //
-// perspective.ts
+// createPerspective.ts
 //
 import UniformDataVisitor = require('../core/UniformDataVisitor');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
-import Perspective = require('davinci-eight/cameras/Perspective');
-import View = require('davinci-eight/cameras/View');
-import view  = require('davinci-eight/cameras/view');
-import Matrix4 = require('davinci-eight/math/Matrix4');
-import Spinor3 = require('davinci-eight/math/Spinor3');
-import Symbolic = require('davinci-eight/core/Symbolic');
-import Cartesian3 = require('davinci-eight/math/Cartesian3');
-import Vector1 = require('../math/Vector1');
-import Vector3 = require('../math/Vector3');
-import isDefined = require('../checks/isDefined');
-import isUndefined = require('../checks/isUndefined');
-import expectArg = require('../checks/expectArg');
+import UniformMetaInfos   = require('../core/UniformMetaInfos');
+import Perspective        = require('../cameras/Perspective');
+import View               = require('../cameras/View');
+import createView         = require('../cameras/createView');
+import Matrix4            = require('../math/Matrix4');
+import Spinor3            = require('../math/Spinor3');
+import Symbolic           = require('../core/Symbolic');
+import Cartesian3         = require('../math/Cartesian3');
+import Vector1            = require('../math/Vector1');
+import Vector3            = require('../math/Vector3');
+import isDefined          = require('../checks/isDefined');
+import isUndefined        = require('../checks/isUndefined');
+import expectArg          = require('../checks/expectArg');
 import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
 
 /**
- * @class perspective
+ * @function createPerspective
  * @constructor
  * @param fov {number}
  * @param aspect {number}
@@ -26,7 +26,7 @@ import computePerspectiveMatrix = require('../cameras/perspectiveMatrix');
  * @param far {number}
  * @return {Perspective}
  */
-let perspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string;}): Perspective {
+let createPerspective = function(options?: { fov?: number; aspect?: number; near?: number; far?: number; projectionMatrixName?: string; viewMatrixName?: string;}): Perspective {
 
   options = options || {};
   let fov: Vector1 = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
@@ -35,7 +35,7 @@ let perspective = function(options?: { fov?: number; aspect?: number; near?: num
   let far: Vector1 = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
   let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
-  let base: View = view(options);
+  let base: View = createView(options);
   let projectionMatrix: Matrix4 = Matrix4.identity();
   var matrixNeedsUpdate = true;
 
@@ -132,4 +132,4 @@ let perspective = function(options?: { fov?: number; aspect?: number; near?: num
   return self;
 };
 
-export =  perspective;
+export =  createPerspective;

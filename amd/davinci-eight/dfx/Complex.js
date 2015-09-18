@@ -1,4 +1,4 @@
-define(["require", "exports", '../dfx/Simplex'], function (require, exports, Simplex) {
+define(["require", "exports", '../dfx/checkGeometry', '../dfx/Simplex'], function (require, exports, checkGeometry, Simplex) {
     /**
      * @class Complex
      */
@@ -17,9 +17,14 @@ define(["require", "exports", '../dfx/Simplex'], function (require, exports, Sim
         };
         Complex.prototype.boundary = function (count) {
             this.simplices = Simplex.boundary(this.simplices, count);
+            this.check();
         };
         Complex.prototype.subdivide = function (count) {
             this.simplices = Simplex.subdivide(this.simplices, count);
+            this.check();
+        };
+        Complex.prototype.check = function () {
+            this.metadata = checkGeometry(this.simplices);
         };
         return Complex;
     })();

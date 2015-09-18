@@ -5,10 +5,10 @@ var expectArg = require('../checks/expectArg');
 var isUndefined = require('../checks/isUndefined');
 var computeViewMatrix = require('../cameras/viewMatrix');
 /**
- * @class view
+ * @class createView
  * @constructor
  */
-var view = function (options) {
+var createView = function (options) {
     var eye = new Vector3();
     var look = new Vector3();
     var up = Vector3.e2;
@@ -72,4 +72,4 @@ var view = function (options) {
     };
     return self;
 };
-module.exports = view;
+module.exports = createView;

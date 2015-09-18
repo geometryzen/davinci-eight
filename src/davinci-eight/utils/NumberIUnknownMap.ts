@@ -2,6 +2,8 @@ import IUnknown = require('../core/IUnknown');
 import refChange = require('../utils/refChange');
 import uuid4 = require('../utils/uuid4');
 
+// FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
+
 let LOGGING_NAME = 'NumberIUnknownMap';
 
 class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
@@ -82,7 +84,7 @@ class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
     }
   }
   get keys(): number[] {
-    // TODO: memoize?
+    // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
     return Object.keys(this._elements).map(function(keyString){return parseFloat(keyString)});
   }
   remove(key: number) {

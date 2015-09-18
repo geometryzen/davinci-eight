@@ -29,30 +29,25 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
   private _uuid: string = uuid4().generate();
   public geometry: G;
   public _material: M;
-  private meshes: NumberIUnknownMap<IMesh>;
+  /**
+   * FIXME This is a bad name because it is not just a collection of meshLookup.
+   * A map from canvas to IMesh.
+   * It's a function that returns a mesh, given a canvasId; a lokup
+   */
+  private meshLookup: NumberIUnknownMap<IMesh>;
   public model: U;
-  private elements: DrawElements;
   private mode: number;
   // FIXME: Do we insist on a ContextMonitor here.
   // We can also assume that we are OK because of the Scene - but can't assume that there is one?
   constructor(geometry: G, material: M, model: U) {
     this.geometry = geometry;
-
     this._material = material;
     this._material.addRef();
 
-    this.meshes = new NumberIUnknownMap<IMesh>();
+    this.meshLookup = new NumberIUnknownMap<IMesh>();
 
     this.model = model;
     refChange(this._uuid, LOGGING_NAME, +1);
-    // 1. Apply subdivide and boundary if needed, acting on simplices.
-    // 2. Check the geometry to produce the geometry info.
-    // 3 Compute DrawElements from the Simplex geometry.
-    // 4 Wait for contextGain.
-//    var simplices = Simplex.subdivide(geometry.simplices, 2);
-//    simplices = Simplex.boundary(simplices, 1);
-//    let geometryInfo: GeometryInfo = checkGeometry(simplices);
-//    this.elements = toDrawElements(simplices, geometryInfo);
   }
   addRef(): number {
     this._refCount++;
@@ -63,40 +58,40 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
     this._refCount--;
     refChange(this._uuid, LOGGING_NAME, -1);
     if (this._refCount === 0) {
-      this.meshes.release();
-      this.meshes = void 0;
+      this.meshLookup.release();
+      this.meshLookup = void 0;
       this._material.release();
       this._material = void 0;
     }
     return this._refCount;
   }
-  draw(): void {
-    console.warn("Mesh.draw() needs canvas id")
-    // FIXME: We need a canvasID;
-    let canvasId = void 0;
-    let mesh = this.meshes.get(canvasId);
-    if (mesh) {
-      this.material.use(canvasId);
-      this.model.accept(this._material);
-      mesh.bind(this._material);
-      mesh.draw();
-      mesh.unbind();
-
-      mesh.release();
-    }
-    else {
-      console.warn(LOGGING_NAME + " draw method has mesh or canvasId, canvasId => " + canvasId);
-    }
+  draw(canvasId: number): void {
+    // We're interleaving calls to different contexts!
+    // FIXME: It seems that by going this route we're
+    // going to be traversing the objects the same way :(?
+    let self = this;
+    // Be careful not to call through the public API and cause addRef!
+    // FIXME: Would be nice to be able to check that a block does not alter the reference count?
+    let material = self._material;
+    let model = self.model;
+    let mesh = this.meshLookup.get(canvasId);
+    material.use(canvasId);
+    model.accept(material);
+    mesh.bind(material/*, aNameToKeyName*/); // FIXME: Why not part of the API.
+    mesh.draw();
+    mesh.unbind();
+    mesh.release();
   }
   contextFree(canvasId: number): void {
     this._material.contextFree(canvasId);
   }
   contextGain(manager: ContextManager): void {
-    // 5. create the mesh and cache the IMesh result.
-    if (this.elements) {
-
-      let mesh = manager.createDrawElementsMesh(this.elements);
-      this.meshes.put(manager.canvasId, mesh);
+    let geometry = this.geometry;
+    if (geometry) {
+      let elements = geometry.elements;
+      let metadata = geometry.metadata;
+      let mesh = manager.createDrawElementsMesh(elements);
+      this.meshLookup.put(manager.canvasId, mesh);
       mesh.release();
 
       this._material.contextGain(manager);

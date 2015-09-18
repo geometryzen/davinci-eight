@@ -6,6 +6,7 @@ import ContextListener = require('../core/ContextListener');
 import contextProxy = require('../utils/contextProxy');
 import createRenderer = require('../renderers/renderer');
 import DrawElements = require('../dfx/DrawElements');
+import IDrawList = require('../scene/IDrawList');
 import IMesh = require('../dfx/IMesh');
 import IUnknown = require('../core/IUnknown');
 import mustBeInteger = require('../checks/mustBeInteger');
@@ -46,7 +47,7 @@ class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
     // FIXME: dangerous chaining?
     // FIXME: The proxy is reference counted so WebGLRenderer should be too.
     this._kahuna = contextProxy(this._canvas, canvasId, attributes);
-    this._renderer = createRenderer(this._canvas);
+    this._renderer = createRenderer(this._canvas, canvasId);
     // Provide the manager with access to the WebGLRenderingContext.
     this._kahuna.addContextListener(this._renderer);
     refChange(this._uuid, LOGGING_NAME, +1);
@@ -91,11 +92,11 @@ class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
   removeContextListener(user: ContextListener): void {
     this._kahuna.removeContextListener(user);
   }
-  render(scene: Scene, ambients: UniformData): void {
+  render(drawList: IDrawList, ambients: UniformData): void {
     // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
     // This implies camera should implement UniformData and we pass that in as ambients.
     // This allows us to generalize the WebGLRenderer API.
-    this._renderer.render(scene, ambients);
+    this._renderer.render(drawList, ambients);
   }
   setClearColor(color: number, alpha: number = 1.0): void {
     console.warn("WegGLRenderer.setClearColor(). Making it up as we go along.");

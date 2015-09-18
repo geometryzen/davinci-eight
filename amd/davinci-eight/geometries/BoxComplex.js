@@ -131,6 +131,8 @@ define(["require", "exports", '../dfx/Complex', '../checks/mustBeInteger', '../c
             }
             // This construction duplicates vertices along the edges of the cube.
             this.mergeVertices();
+            // Update the metadata.
+            this.check();
         }
         return BoxComplex;
     })(Complex);
