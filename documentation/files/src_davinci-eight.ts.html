@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -200,7 +202,8 @@ import WebGLRenderer = require(&#x27;davinci-eight/scene/WebGLRenderer&#x27;);
 import Geometry = require(&#x27;davinci-eight/geometries/Geometry&#x27;);
 //import ArrowGeometry = require(&#x27;davinci-eight/geometries/ArrowGeometry&#x27;);
 //import BarnGeometry = require(&#x27;davinci-eight/geometries/BarnGeometry&#x27;);
-import BoxComplex = require(&#x27;davinci-eight/geometries/BoxComplex&#x27;);
+import BoxComplex  = require(&#x27;davinci-eight/geometries/BoxComplex&#x27;);
+import BoxGeometry = require(&#x27;davinci-eight/geometries/BoxGeometry&#x27;);
 //import CylinderGeometry = require(&#x27;davinci-eight/geometries/CylinderGeometry&#x27;);
 //import DodecahedronGeometry = require(&#x27;davinci-eight/geometries/DodecahedronGeometry&#x27;);
 //import EllipticalCylinderGeometry = require(&#x27;davinci-eight/geometries/EllipticalCylinderGeometry&#x27;);
@@ -330,6 +333,7 @@ var eight = {
 //  get ArrowGeometry() { return ArrowGeometry; },
 //  get BarnGeometry() { return BarnGeometry; },
   get BoxComplex() { return BoxComplex; },
+  get BoxGeometry() { return BoxGeometry; },
 //  get CylinderGeometry() { return CylinderGeometry; },
 //  get DodecahedronGeometry() { return DodecahedronGeometry; },
 //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },

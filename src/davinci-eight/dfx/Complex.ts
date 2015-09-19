@@ -1,6 +1,9 @@
 import checkGeometry = require('../dfx/checkGeometry');
+import DrawElements = require('../dfx/DrawElements');
+import Geometry = require('../geometries/Geometry');
 import GeometryInfo = require('../dfx/GeometryInfo');
 import Simplex = require('../dfx/Simplex');
+import toDrawElements = require('../dfx/toDrawElements');
 
 /**
  * @class Complex
@@ -30,9 +33,6 @@ class Complex {
    */
   constructor() {
   }
-  protected mergeVertices(precisionPoints: number = 4) {
-    // console.warn("Complex.mergeVertices not yet implemented");
-  }
   /**
    * <p>
    * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
@@ -40,31 +40,47 @@ class Complex {
    *
    * @method boundary
    * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-   * @return {void}
+   * @return {Complex}
    */
-  public boundary(times?: number): void {
+  public boundary(times?: number): Complex {
     this.data = Simplex.boundary(this.data, times);
-    this.check();
+    return this.check();
+  }
+  /**
+   * Updates the meta property of this instance to match the data.
+   *
+   * @method check
+   * @return {Complex}
+   */
+  public check(): Complex {
+    this.meta = checkGeometry(this.data);
+    return this;
   }
   /**
    * Applies the subdivide operation to each Simplex in this instance the specified number of times.
    *
    * @method subdivide
    * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-   * @return {void}
+   * @return {Complex}
    */
-  public subdivide(times?: number) {
+  public subdivide(times?: number): Complex {
     this.data = Simplex.subdivide(this.data, times);
     this.check();
+    return this;
   }
   /**
-   * Updates the meta property of this instance to match the data.
-   *
-   * @method check
-   * @return {void}
+   * @method toGeometry
+   * @return {Geometry}
    */
-  public check(): void {
-    this.meta = checkGeometry(this.data);
+  public toGeometry(): Geometry {
+    let elements = toDrawElements(this.data, this.meta);
+    return new Geometry(elements, this.meta);
+  }
+  /**
+   *
+   */
+  protected mergeVertices(precisionPoints: number = 4) {
+    // console.warn("Complex.mergeVertices not yet implemented");
   }
 }
 

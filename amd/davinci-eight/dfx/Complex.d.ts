@@ -1,3 +1,4 @@
+import Geometry = require('../geometries/Geometry');
 import GeometryInfo = require('../dfx/GeometryInfo');
 import Simplex = require('../dfx/Simplex');
 /**
@@ -25,7 +26,6 @@ declare class Complex {
      * @constructor
      */
     constructor();
-    protected mergeVertices(precisionPoints?: number): void;
     /**
      * <p>
      * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
@@ -33,23 +33,32 @@ declare class Complex {
      *
      * @method boundary
      * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-     * @return {void}
+     * @return {Complex}
      */
-    boundary(times?: number): void;
+    boundary(times?: number): Complex;
+    /**
+     * Updates the meta property of this instance to match the data.
+     *
+     * @method check
+     * @return {Complex}
+     */
+    check(): Complex;
     /**
      * Applies the subdivide operation to each Simplex in this instance the specified number of times.
      *
      * @method subdivide
      * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-     * @return {void}
+     * @return {Complex}
      */
-    subdivide(times?: number): void;
+    subdivide(times?: number): Complex;
     /**
-     * Updates the meta property of this instance to match the data.
-     *
-     * @method check
-     * @return {void}
+     * @method toGeometry
+     * @return {Geometry}
      */
-    check(): void;
+    toGeometry(): Geometry;
+    /**
+     *
+     */
+    protected mergeVertices(precisionPoints?: number): void;
 }
 export = Complex;

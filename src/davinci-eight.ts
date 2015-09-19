@@ -61,7 +61,8 @@ import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 import Geometry = require('davinci-eight/geometries/Geometry');
 //import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 //import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
-import BoxComplex = require('davinci-eight/geometries/BoxComplex');
+import BoxComplex  = require('davinci-eight/geometries/BoxComplex');
+import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 //import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
 //import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
@@ -191,6 +192,7 @@ var eight = {
 //  get ArrowGeometry() { return ArrowGeometry; },
 //  get BarnGeometry() { return BarnGeometry; },
   get BoxComplex() { return BoxComplex; },
+  get BoxGeometry() { return BoxGeometry; },
 //  get CylinderGeometry() { return CylinderGeometry; },
 //  get DodecahedronGeometry() { return DodecahedronGeometry; },
 //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -147,6 +149,7 @@ import IDrawable = require(&#x27;../core/IDrawable&#x27;);
 import IMesh = require(&#x27;../dfx/IMesh&#x27;);
 import IProgram = require(&#x27;../core/IProgram&#x27;);
 import Material = require(&#x27;../materials/Material&#x27;)
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;);
 import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;);
 import refChange = require(&#x27;../utils/refChange&#x27;);
 import Simplex = require(&#x27;../dfx/Simplex&#x27;);
@@ -158,6 +161,10 @@ import uuid4 = require(&#x27;../utils/uuid4&#x27;);
  * Name used for reference count monitoring and logging.
  */
 let LOGGING_NAME = &#x27;Mesh&#x27;;
+
+function contextBuilder() {
+  return LOGGING_NAME;
+}
 
 /**
  * @class Mesh
@@ -229,6 +236,10 @@ class Mesh&lt;G extends Geometry, M extends IProgram, U extends UniformData&gt; 
     if (geometry) {
       let data = geometry.data;
       let meta = geometry.meta;
+
+      mustBeDefined(&#x27;geometry.data&#x27;, data, contextBuilder);
+      mustBeDefined(&#x27;geometry.meta&#x27;, meta, contextBuilder);
+
       // FIXME: Why is the meta not being used?
       let mesh = manager.createDrawElementsMesh(data);
       this.meshLookup.put(manager.canvasId, mesh);

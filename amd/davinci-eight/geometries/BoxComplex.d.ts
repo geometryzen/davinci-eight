@@ -4,6 +4,6 @@ import Complex = require('../dfx/Complex');
  * @extends Complex
  */
 declare class BoxComplex extends Complex {
-    constructor(width?: number, height?: number, depth?: number, widthSegments?: number, heightSegments?: number, depthSegments?: number, wireFrame?: boolean);
+    constructor(x?: number, y?: number, z?: number, xSeg?: number, ySeg?: number, zSeg?: number, wireFrame?: boolean);
 }
 export = BoxComplex;

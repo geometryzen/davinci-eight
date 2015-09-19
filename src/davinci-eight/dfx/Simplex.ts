@@ -5,7 +5,6 @@ import Vertex = require('../dfx/Vertex');
 import VertexAttributeMap = require('../dfx/VertexAttributeMap');
 import VectorN = require('../math/VectorN');
 
-// TODO; Make this checkIntegerArg with a range.
 function checkIntegerArg(name: string, n: number, min: number, max: number): number {
   if (isInteger(n) && n >= min && n <= max) {
     return n;
@@ -58,9 +57,14 @@ function lerpVectorN(a: VectorN<number>, b: VectorN<number>, alpha: number): Vec
 /**
  * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
  * A k-simplex is the convex hull of its k + 1 vertices.
+ * @class Simplex
  */
 class Simplex {
-  // TODO: Could use a VectorN<Vertex here?>
+  /**
+   * The vertices of the simplex.
+   * @property
+   * @type {Vertex[]}
+   */
   public vertices: Vertex[] = [];
   /**
    * @class Simplex
@@ -80,43 +84,76 @@ class Simplex {
       vertex.parent = parent;
     });
   }
+  /**
+   * The dimensionality of the simplex.
+   * @property k
+   * @type {number}
+   * @readonly
+   */
   get k(): number {
     return this.vertices.length - 1;
   }
   // These symbolic constants represent the correct k values for various low-dimesional simplices. 
   // The number of vertices in a k-simplex is k + 1.
+
   /**
    * An empty set can be consired to be a -1 simplex (algebraic topology).
+   * @property K_FOR_EMPTY
+   * @type {number}
+   * @static
    */
   public static K_FOR_EMPTY = -1;
+
   /**
    * A single point may be considered a 0-simplex.
+   * @property K_FOR_POINT
+   * @type {number}
+   * @static
    */
   public static K_FOR_POINT = 0;
+
   /**
    * A line segment may be considered a 1-simplex.
+   * @property K_FOR_LINE_SEGMENT
+   * @type {number}
+   * @static
    */
   public static K_FOR_LINE_SEGMENT = 1;
   /**
    * A 2-simplex is a triangle.
+   * @property K_FOR_TRIANGLE
+   * @type {number}
+   * @static
    */
   public static K_FOR_TRIANGLE = 2;
   /**
    * A 3-simplex is a tetrahedron.
+   * @property K_FOR_TETRAHEDRON
+   * @type {number}
+   * @static
    */
   public static K_FOR_TETRAHEDRON = 3;
   /**
    * A 4-simplex is a 5-cell.
+   * @property K_FOR_FIVE_CELL
+   * @type {number}
+   * @static
    */
   public static K_FOR_FIVE_CELL = 4;
+
   /**
-   *
+   * @deprecated
    */
+  // FIXME: We don't need the index property on the vertex (needs some work).
   public static indices(simplex: Simplex): number[] {
     return simplex.vertices.map(function(vertex) { return vertex.index; });
   }
   /**
    * Computes the boundary of the simplex.
+   * @method boundaryMap
+   * @param simplex {Simplex}
+   * @return {Simplex[]}
+   * @private
    */
   private static boundaryMap(simplex: Simplex): Simplex[] {
     let vertices = simplex.vertices;
@@ -227,21 +264,36 @@ class Simplex {
 
     return divs;
   }
-  public static boundary(geometry: Simplex[], count: number = 1): Simplex[] {
+  /**
+   * Computes the result of the boundary operation performed `count` times.
+   * @method boundary
+   * @param simplices {Simplex[]}
+   * @param count {number}
+   * @return {Simplex[]}
+   */
+  public static boundary(simplices: Simplex[], count: number = 1): Simplex[] {
     checkCountArg(count);
     for (var i = 0; i < count; i++) {
-      geometry = geometry.map(Simplex.boundaryMap).reduce(concatReduce, []);
+      simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
     }
-    return geometry;
+    return simplices;
   }
-  public static subdivide(geometry: Simplex[], count: number = 1): Simplex[] {
+  /**
+   * Computes the result of the subdivide operation performed `count` times.
+   * @method subdivide
+   * @param simplices {Simplex[]}
+   * @param count {number}
+   * @return {Simplex[]}
+   */
+  public static subdivide(simplices: Simplex[], count: number = 1): Simplex[] {
     checkCountArg(count);
     for (var i = 0; i < count; i++) {
-      geometry = geometry.map(Simplex.subdivideMap).reduce(concatReduce, []);
+      simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
     }
-    return geometry;
+    return simplices;
   }
   // TODO: This function destined to be part of Simplex constructor.
+  // FIXME still used from triangle.ts!
   public static setAttributeValues(attributes: {[name: string]: VectorN<number>[]}, simplex: Simplex) {
     let names: string[] = Object.keys(attributes);
     let attribsLength = names.length;

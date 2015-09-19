@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -138,8 +140,11 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import checkGeometry = require(&#x27;../dfx/checkGeometry&#x27;);
+import DrawElements = require(&#x27;../dfx/DrawElements&#x27;);
+import Geometry = require(&#x27;../geometries/Geometry&#x27;);
 import GeometryInfo = require(&#x27;../dfx/GeometryInfo&#x27;);
 import Simplex = require(&#x27;../dfx/Simplex&#x27;);
+import toDrawElements = require(&#x27;../dfx/toDrawElements&#x27;);
 
 /**
  * @class Complex
@@ -169,9 +174,6 @@ class Complex {
    */
   constructor() {
   }
-  protected mergeVertices(precisionPoints: number = 4) {
-    // console.warn(&quot;Complex.mergeVertices not yet implemented&quot;);
-  }
   /**
    * &lt;p&gt;
    * Applies the &lt;em&gt;boundary&lt;/em&gt; operation to each Simplex in this instance the specified number of times.
@@ -179,31 +181,47 @@ class Complex {
    *
    * @method boundary
    * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-   * @return {void}
+   * @return {Complex}
    */
-  public boundary(times?: number): void {
+  public boundary(times?: number): Complex {
     this.data = Simplex.boundary(this.data, times);
-    this.check();
+    return this.check();
+  }
+  /**
+   * Updates the meta property of this instance to match the data.
+   *
+   * @method check
+   * @return {Complex}
+   */
+  public check(): Complex {
+    this.meta = checkGeometry(this.data);
+    return this;
   }
   /**
    * Applies the subdivide operation to each Simplex in this instance the specified number of times.
    *
    * @method subdivide
    * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-   * @return {void}
+   * @return {Complex}
    */
-  public subdivide(times?: number) {
+  public subdivide(times?: number): Complex {
     this.data = Simplex.subdivide(this.data, times);
     this.check();
+    return this;
   }
   /**
-   * Updates the meta property of this instance to match the data.
-   *
-   * @method check
-   * @return {void}
+   * @method toGeometry
+   * @return {Geometry}
    */
-  public check(): void {
-    this.meta = checkGeometry(this.data);
+  public toGeometry(): Geometry {
+    let elements = toDrawElements(this.data, this.meta);
+    return new Geometry(elements, this.meta);
+  }
+  /**
+   *
+   */
+  protected mergeVertices(precisionPoints: number = 4) {
+    // console.warn(&quot;Complex.mergeVertices not yet implemented&quot;);
   }
 }
 

@@ -28,6 +28,7 @@ import Scene = require('davinci-eight/scene/Scene');
 import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import BoxComplex = require('davinci-eight/geometries/BoxComplex');
+import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import Material = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
@@ -110,6 +111,7 @@ declare var eight: {
     Face3: typeof Face3;
     Geometry: typeof Geometry;
     BoxComplex: typeof BoxComplex;
+    BoxGeometry: typeof BoxGeometry;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     rotor3: () => Rotor3;

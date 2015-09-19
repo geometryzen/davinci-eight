@@ -810,7 +810,7 @@ class Face3 {
 }
 
 /**
- * A complex holds the faces and vertices (as simplices) used to describe a 3D mesh.
+ * A complex holds a list of simplices.
  */
 class Complex {
   public data: Simplex[];
@@ -826,35 +826,33 @@ class Complex {
   constructor();
   /**
    * Applies the boundary operation to the geometry.
-   * Tetrahedrons become Triangles.
-   * Triangles become Line Segments.
-   * Line Segments become Points.
-   * Points become an empty simplex.
-   * An empty simplex vanishes.
-   * count: The number of times to apply the boundary operation. Default is one (1).
+   * Under the boundary operation, each k-simplex becomes several simplices of dimension k - 1.
+   * For example, the following mappings hold:
+   * Tetrahedron   =>  4 Triangles.
+   * Triangle      =>  3 Line Segments.
+   * Line Segment  =>  2 Points.
+   * Point         =>  1 Empty Simplex.
+   * Empty Simplex =>  Empty set.
+   *
+   * The initial mapping step in computing the boundary operation produces the type Simplex[][].
+   * This is reduced, by concatenating elements, back to the type Simplex[].
+   * 
+   * times: The number of times to apply the boundary operation. Default is one (1).
    */
-  public boundary(times?: number): void;
+  public boundary(times?: number): Complex;
   /**
    * Updates the metadata property by scanning the vertices.
    */
-  public check(): void;
-  /**
-   * Updates the normals property of each face by creating a per-face normal.
-   */
-  public computeFaceNormals(): void;
-  /**
-   * Updates the normals property of each face by creating per-vertex normals averaged over adjacent faces.
-   */
-  public computeVertexNormals(): void;
-  /**
-   * Merges vertices which are separated by less than the specified quadrance.
-   */
-  public mergeVertices(precisionPoints?: number): void;
+  public check(): Complex;
   /**
    * Subdivides the simplices of the geometry to produce finer detail.
    * times: The number of times to subdivide. Default is one (1).
    */
-  public subdivide(times?: number): void;
+  public subdivide(times?: number): Complex;
+  /**
+   * Computes and returns the arrays used to draw in WebGL.
+   */
+  public toGeometry(): Geometry;
 }
 
 /**
@@ -1334,6 +1332,23 @@ class BoxComplex extends Complex {
   constructor(width?: number, height?: number, depth?: number, widthSegments?: number, heightSegments?: number, depthSegments?: number, wireFrame?: boolean);
 }
 
+/**
+ *
+ */
+class BoxGeometry extends Geometry {
+  x: number;
+  y: number;
+  z: number;
+  xSegments: number;
+  ySegments: number;
+  zSegments: number;
+  lines: boolean;
+  constructor();
+  /**
+   * calculates the geometry from the current state of parameters.
+   */
+  calculate(): void;
+}
 /**
  *
  */

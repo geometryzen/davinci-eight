@@ -1,8 +1,11 @@
-define(["require", "exports", '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, NumberIUnknownMap, refChange, uuid4) {
+define(["require", "exports", '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
     /**
      * Name used for reference count monitoring and logging.
      */
     var LOGGING_NAME = 'Mesh';
+    function contextBuilder() {
+        return LOGGING_NAME;
+    }
     /**
      * @class Mesh
      * @implements IDrawable
@@ -61,6 +64,8 @@ define(["require", "exports", '../utils/NumberIUnknownMap', '../utils/refChange'
             if (geometry) {
                 var data = geometry.data;
                 var meta = geometry.meta;
+                mustBeDefined('geometry.data', data, contextBuilder);
+                mustBeDefined('geometry.meta', meta, contextBuilder);
                 // FIXME: Why is the meta not being used?
                 var mesh = manager.createDrawElementsMesh(data);
                 this.meshLookup.put(manager.canvasId, mesh);

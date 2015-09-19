@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -138,7 +140,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:65</code></a>
+            Defined in: <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:69</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -147,7 +149,9 @@
 
 
 <div class="box intro">
-    
+    <p>A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+A k-simplex is the convex hull of its k + 1 vertices.</p>
+
 </div>
 
     <div class="constructor">
@@ -173,7 +177,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:65</code></a>
+        <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l69"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:69</code></a>
         </p>
 
 
@@ -224,15 +228,15 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_bind">bind</a>
+                                <a href="#method_boundary">boundary</a>
+
+                            </li>
+                            <li class="index-item method private">
+                                <a href="#method_boundaryMap">boundaryMap</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_draw
-
-An abstraction of either drawElements or drawArrays, as appropriate.">draw
-
-An abstraction of either drawElements or drawArrays, as appropriate.</a>
+                                <a href="#method_subdivide">subdivide</a>
 
                             </li>
                     </ul>
@@ -243,8 +247,42 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_uuid">uuid</a>
+                                <a href="#property_"></a>
 
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_k">k</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_K_FOR_EMPTY">K_FOR_EMPTY</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_K_FOR_FIVE_CELL">K_FOR_FIVE_CELL</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_K_FOR_LINE_SEGMENT">K_FOR_LINE_SEGMENT</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_K_FOR_POINT">K_FOR_POINT</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_K_FOR_TETRAHEDRON">K_FOR_TETRAHEDRON</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_K_FOR_TRIANGLE">K_FOR_TRIANGLE</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -255,20 +293,23 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_bind" class="method item">
-    <h3 class="name"><code>bind</code></h3>
+<div id="method_boundary" class="method item">
+    <h3 class="name"><code>boundary</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>program</code>
+                        <code>simplices</code>
                 </li>
                 <li class="arg">
-                        <code>aNameToKeyName</code>
+                        <code>count</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
 
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
+        </span>
 
 
 
@@ -279,7 +320,7 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_dfx_IMesh.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;IMesh.ts:16</code></a>
+        <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l267"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:267</code></a>
         </p>
 
 
@@ -287,7 +328,8 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
     </div>
 
     <div class="description">
-        
+        <p>Computes the result of the boundary operation performed <code>count</code> times.</p>
+
     </div>
 
         <div class="params">
@@ -295,8 +337,8 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">program</code>
-                        <span class="type">IProgram</span>
+                        <code class="param-name">simplices</code>
+                        <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
 
 
                     <div class="param-description">
@@ -305,8 +347,8 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
 
                 </li>
                 <li class="param">
-                        <code class="param-name">aNameToKeyName</code>
-                        <span class="type">Object</span>
+                        <code class="param-name">count</code>
+                        <span class="type">Number</span>
 
 
                     <div class="param-description">
@@ -317,18 +359,97 @@ An abstraction of either drawElements or drawArrays, as appropriate.</a>
             </ul>
         </div>
 
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>:
+            </div>
+        </div>
 
 
 </div>
-<div id="method_draw
+<div id="method_boundaryMap" class="method item private">
+    <h3 class="name"><code>boundaryMap</code></h3>
 
-An abstraction of either drawElements or drawArrays, as appropriate." class="method item">
-    <h3 class="name"><code>draw
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>simplex</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
-An abstraction of either drawElements or drawArrays, as appropriate.</code></h3>
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
+        </span>
 
-        <span class="paren">()</span>
 
+        <span class="flag private">private</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l151"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:151</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Computes the boundary of the simplex.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">simplex</code>
+                        <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_subdivide" class="method item">
+    <h3 class="name"><code>subdivide</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>simplices</code>
+                </li>
+                <li class="arg">
+                        <code>count</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
+        </span>
 
 
 
@@ -339,7 +460,7 @@ An abstraction of either drawElements or drawArrays, as appropriate.</code></h3>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_dfx_IMesh.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;IMesh.ts:22</code></a>
+        <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l281"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:281</code></a>
         </p>
 
 
@@ -347,10 +468,44 @@ An abstraction of either drawElements or drawArrays, as appropriate.</code></h3>
     </div>
 
     <div class="description">
-        
+        <p>Computes the result of the subdivide operation performed <code>count</code> times.</p>
+
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
 
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">simplices</code>
+                        <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">count</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>:
+            </div>
+        </div>
 
 
 </div>
@@ -359,9 +514,9 @@ An abstraction of either drawElements or drawArrays, as appropriate.</code></h3>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-                    <div id="property_uuid" class="property item">
-                        <h3 class="name"><code>uuid</code></h3>
-                        <span class="type">Unknown</span>
+                    <div id="property_" class="property item">
+                        <h3 class="name"><code></code></h3>
+                        <span class="type">Vertex</span>
                     
                     
                     
@@ -370,14 +525,196 @@ An abstraction of either drawElements or drawArrays, as appropriate.</code></h3>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_dfx_IMesh.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;IMesh.ts:12</code></a>
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l63"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:63</code></a>
                             </p>
                     
                     
                         </div>
                     
                         <div class="description">
-                            
+                            <p>The vertices of the simplex.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_k" class="property item">
+                        <h3 class="name"><code>k</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:87</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>The dimensionality of the simplex.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_K_FOR_EMPTY" class="property item">
+                        <h3 class="name"><code>K_FOR_EMPTY</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:99</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>An empty set can be consired to be a -1 simplex (algebraic topology).</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_K_FOR_FIVE_CELL" class="property item">
+                        <h3 class="name"><code>K_FOR_FIVE_CELL</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l136"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:136</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>A 4-simplex is a 5-cell.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_K_FOR_LINE_SEGMENT" class="property item">
+                        <h3 class="name"><code>K_FOR_LINE_SEGMENT</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l115"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:115</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>A line segment may be considered a 1-simplex.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_K_FOR_POINT" class="property item">
+                        <h3 class="name"><code>K_FOR_POINT</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:107</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>A single point may be considered a 0-simplex.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_K_FOR_TETRAHEDRON" class="property item">
+                        <h3 class="name"><code>K_FOR_TETRAHEDRON</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l129"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:129</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>A 3-simplex is a tetrahedron.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_K_FOR_TRIANGLE" class="property item">
+                        <h3 class="name"><code>K_FOR_TRIANGLE</code></h3>
+                        <span class="type">Number</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_dfx_Simplex.ts.html#l122"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Simplex.ts:122</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>A 2-simplex is a triangle.</p>
+                    
                         </div>
                     
                     

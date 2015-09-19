@@ -23,11 +23,23 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
         return size;
     }
     /**
+     * <p>
      * Holds all the values of a particular attribute.
      * The size property describes how to break up the values.
      * The length of the values should be an integer multiple of the size.
+     * </p>
+    
+      var x = 3;
+    
+     * @class DrawAttribute
      */
     var DrawAttribute = (function () {
+        /**
+         * @class DrawAttribute
+         * @constructor
+         * @param values {VectorN<number>}
+         * @param size {number}
+         */
         function DrawAttribute(values, size) {
             this.values = checkValues(values);
             this.size = checkSize(size, values);

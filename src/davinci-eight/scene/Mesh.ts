@@ -8,6 +8,7 @@ import IDrawable = require('../core/IDrawable');
 import IMesh = require('../dfx/IMesh');
 import IProgram = require('../core/IProgram');
 import Material = require('../materials/Material')
+import mustBeDefined = require('../checks/mustBeDefined');
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import refChange = require('../utils/refChange');
 import Simplex = require('../dfx/Simplex');
@@ -19,6 +20,10 @@ import uuid4 = require('../utils/uuid4');
  * Name used for reference count monitoring and logging.
  */
 let LOGGING_NAME = 'Mesh';
+
+function contextBuilder() {
+  return LOGGING_NAME;
+}
 
 /**
  * @class Mesh
@@ -90,6 +95,10 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
     if (geometry) {
       let data = geometry.data;
       let meta = geometry.meta;
+
+      mustBeDefined('geometry.data', data, contextBuilder);
+      mustBeDefined('geometry.meta', meta, contextBuilder);
+
       // FIXME: Why is the meta not being used?
       let mesh = manager.createDrawElementsMesh(data);
       this.meshLookup.put(manager.canvasId, mesh);

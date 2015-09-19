@@ -131,7 +131,6 @@ let renderer = function(canvas: HTMLCanvasElement, canvasId: number): ContextRen
       }
     },
     render(drawList: IDrawList, unused: UniformData) {
-      self.prolog();
       drawList.traverse(drawHandler);
     }
   };

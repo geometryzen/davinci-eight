@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -173,6 +175,47 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
                             <li class="index-item property">
                                 <a href="#property_ATTRIBUTE_COLOR">ATTRIBUTE_COLOR</a>
 
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ATTRIBUTE_MATERIAL_INDEX">ATTRIBUTE_MATERIAL_INDEX</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ATTRIBUTE_NORMAL">ATTRIBUTE_NORMAL</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ATTRIBUTE_POSITION">ATTRIBUTE_POSITION</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ATTRIBUTE_TEXTURE_COORDS">ATTRIBUTE_TEXTURE_COORDS</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_UNIFORM_AMBIENT_LIGHT">UNIFORM_AMBIENT_LIGHT</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_UNIFORM_PROJECTION_MATRIX">UNIFORM_PROJECTION_MATRIX</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_VARYING_COLOR">VARYING_COLOR</a>
+
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_VARYING_LIGHT">VARYING_LIGHT</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                     </ul>
                 </div>
@@ -186,24 +229,232 @@ These names must be stable to avoid breaking custom vertex and fragment shaders.
 
                     <div id="property_ATTRIBUTE_COLOR" class="property item">
                         <h3 class="name"><code>ATTRIBUTE_COLOR</code></h3>
-                        <span class="type">String
-                    epilog</span>
+                        <span class="type">String</span>
                     
                     
                     
                     
+                            <span class="flag static">static</span>
                     
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:10</code></a>
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:11</code></a>
                             </p>
                     
                     
                         </div>
                     
                         <div class="description">
-                            <p>prolog</p>
+                            <p>'aColor'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ATTRIBUTE_MATERIAL_INDEX" class="property item">
+                        <h3 class="name"><code>ATTRIBUTE_MATERIAL_INDEX</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:19</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'aMaterialIndex'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ATTRIBUTE_NORMAL" class="property item">
+                        <h3 class="name"><code>ATTRIBUTE_NORMAL</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:27</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'aNormal'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ATTRIBUTE_POSITION" class="property item">
+                        <h3 class="name"><code>ATTRIBUTE_POSITION</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:35</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'aPosition'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ATTRIBUTE_TEXTURE_COORDS" class="property item">
+                        <h3 class="name"><code>ATTRIBUTE_TEXTURE_COORDS</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l43"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:43</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'aTextureCoords'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_UNIFORM_AMBIENT_LIGHT" class="property item">
+                        <h3 class="name"><code>UNIFORM_AMBIENT_LIGHT</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:51</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'uAmbientLight'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_UNIFORM_PROJECTION_MATRIX" class="property item">
+                        <h3 class="name"><code>UNIFORM_PROJECTION_MATRIX</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:65</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'uProjection'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_VARYING_COLOR" class="property item">
+                        <h3 class="name"><code>VARYING_COLOR</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:80</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'vColor'</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="property_VARYING_LIGHT" class="property item">
+                        <h3 class="name"><code>VARYING_LIGHT</code></h3>
+                        <span class="type">String</span>
+                    
+                    
+                    
+                    
+                            <span class="flag static">static</span>
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_davinci-eight_core_Symbolic.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;Symbolic.ts:88</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>'vLight'</p>
                     
                         </div>
                     

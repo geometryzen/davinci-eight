@@ -97,7 +97,6 @@ define(["require", "exports", '../commands/EIGHTLogger', '../checks/expectArg', 
                 }
             },
             render: function (drawList, unused) {
-                self.prolog();
                 drawList.traverse(drawHandler);
             }
         };

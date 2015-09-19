@@ -5,7 +5,7 @@ function beDefined() {
   return "be defined"
 }
 
-function mustBeDefined(name: string, value: any, contextBuilder: () => string): any {
+function mustBeDefined(name: string, value: any, contextBuilder?: () => string): any {
   mustSatisfy(name, isDefined(value), beDefined, contextBuilder);
   return value;
 }

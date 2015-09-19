@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -146,30 +148,90 @@
  * @class Symbolic
  */
 class Symbolic {
+
   /**
-   * prolog
+   * &#x27;aColor&#x27;
    * @property ATTRIBUTE_COLOR
    * @type {string}
-   * epilog
+   * @static
    */
   public static ATTRIBUTE_COLOR: string                     = &#x27;aColor&#x27;;
+
+  /**
+   * &#x27;aMaterialIndex&#x27;
+   * @property ATTRIBUTE_MATERIAL_INDEX
+   * @type {string}
+   * @static
+   */
   public static ATTRIBUTE_MATERIAL_INDEX: string            = &#x27;aMaterialIndex&#x27;;
+
+  /**
+   * &#x27;aNormal&#x27;
+   * @property ATTRIBUTE_NORMAL
+   * @type {string}
+   * @static
+   */
   public static ATTRIBUTE_NORMAL: string                    = &#x27;aNormal&#x27;;
+
+  /**
+   * &#x27;aPosition&#x27;
+   * @property ATTRIBUTE_POSITION
+   * @type {string}
+   * @static
+   */
   public static ATTRIBUTE_POSITION: string                  = &#x27;aPosition&#x27;;
+
+  /**
+   * &#x27;aTextureCoords&#x27;
+   * @property ATTRIBUTE_TEXTURE_COORDS
+   * @type {string}
+   * @static
+   */
   public static ATTRIBUTE_TEXTURE_COORDS: string            = &#x27;aTextureCoords&#x27;;
 
+  /**
+   * &#x27;uAmbientLight&#x27;
+   * @property UNIFORM_AMBIENT_LIGHT
+   * @type {string}
+   * @static
+   */
   public static UNIFORM_AMBIENT_LIGHT: string               = &#x27;uAmbientLight&#x27;;
+
   public static UNIFORM_COLOR: string                       = &#x27;uColor&#x27;;
   public static UNIFORM_DIRECTIONAL_LIGHT_COLOR: string     = &#x27;uDirectionalLightColor&#x27;;
   public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = &#x27;uDirectionalLightDirection&#x27;;
   public static UNIFORM_POINT_LIGHT_COLOR: string           = &#x27;uPointLightColor&#x27;;
   public static UNIFORM_POINT_LIGHT_POSITION: string        = &#x27;uPointLightPosition&#x27;;
+
+  /**
+   * &#x27;uProjection&#x27;
+   * @property UNIFORM_PROJECTION_MATRIX
+   * @type {string}
+   * @static
+   */
   public static UNIFORM_PROJECTION_MATRIX: string           = &#x27;uProjection&#x27;;
+
+  /**
+   * &#x27;uModel&#x27;
+   */
   public static UNIFORM_MODEL_MATRIX: string                = &#x27;uModel&#x27;;
   public static UNIFORM_NORMAL_MATRIX: string               = &#x27;uNormal&#x27;;
   public static UNIFORM_VIEW_MATRIX: string                 = &#x27;uView&#x27;;
 
+  /**
+   * &#x27;vColor&#x27;
+   * @property VARYING_COLOR
+   * @type {string}
+   * @static
+   */
   public static VARYING_COLOR: string                       = &#x27;vColor&#x27;;
+
+  /**
+   * &#x27;vLight&#x27;
+   * @property VARYING_LIGHT
+   * @type {string}
+   * @static
+   */
   public static VARYING_LIGHT: string                       = &#x27;vLight&#x27;;
 }
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/dfx/IMesh.ts - davinci-eight</title>
+    <title>src/davinci-eight/geometries/BoxGeometry.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.99.0</em>
+            <em>API Docs for: 2.100.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -46,6 +46,7 @@
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
+                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -58,6 +59,7 @@
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
+                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -133,44 +135,65 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/dfx/IMesh.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/geometries/BoxGeometry.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IProgram = require(&#x27;../core/IProgram&#x27;);
-import IUnknown = require(&#x27;../core/IUnknown&#x27;);
-
-// TODO: IMesh to extend IResource allowing for context loss recovery?
-// FIXME: Move this to core?
-// FIXME: Documentation
+import BoxComplex = require(&#x27;../geometries/BoxComplex&#x27;);
+import Geometry = require(&#x27;../geometries/Geometry&#x27;);
+import toDrawElements = require(&#x27;../dfx/toDrawElements&#x27;);
 
 /**
- * @interface IMesh
+ * @class BoxGeometry
  */
-interface IMesh extends IUnknown {
+class BoxGeometry extends Geometry {
   /**
-   * @property uuid
+   * @property x {number} The length of the side in the x-axis direction.
    */
-  uuid: string;
+  public x: number;
   /**
-   * @method bind
-   * @param program {IProgram}
-   * @param aNameToKeyName
+   * @property y {number} The length of the side in the y-axis direction.
    */
-  bind(program: IProgram, aNameToKeyName?: {[name: string]: string}): void;
+  public y: number;
   /**
-   * @method draw
-   *
-   * An abstraction of either drawElements or drawArrays, as appropriate.
+   * @property z {number} The length of the side in the z-axis direction.
    */
-  draw(): void;
+  public z: number;
   /**
-   *
+   * @property xSegments {number} The number of segments in the x-axis direction.
    */
-  unbind(): void;
+  public xSegments: number;
+  /**
+   * @property ySegments {number} The number of segments in the y-axis direction.
+   */
+  public ySegments: number;
+  /**
+   * @property zSegments {number} The number of segments in the z-axis direction.
+   */
+  public zSegments: number;
+  public lines: boolean;
+  /**
+   * @class BoxGeometry
+   * @constructor
+   */
+  constructor() {
+    super(void 0, void 0);
+    this.x = 1;
+    this.y = 1;
+    this.z = 1;
+    this.xSegments = 1;
+    this.ySegments = 1;
+    this.zSegments = 1;
+    this.lines = true;
+  }
+  calculate(): void {
+    let complex = new BoxComplex(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
+    this.data = toDrawElements(complex.data, complex.meta);
+    this.meta = complex.meta;
+  }
 }
 
-export = IMesh;
+export = BoxGeometry;
     </pre>
 </div>
                     </div>

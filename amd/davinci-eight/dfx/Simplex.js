@@ -1,5 +1,4 @@
 define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../dfx/Vertex', '../math/VectorN'], function (require, exports, expectArg, isInteger, Vertex, VectorN) {
-    // TODO; Make this checkIntegerArg with a range.
     function checkIntegerArg(name, n, min, max) {
         if (isInteger(n) && n >= min && n <= max) {
             return n;
@@ -46,6 +45,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
     /**
      * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
      * A k-simplex is the convex hull of its k + 1 vertices.
+     * @class Simplex
      */
     var Simplex = (function () {
         /**
@@ -54,7 +54,11 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
          * @param k {number} The initial number of vertices in the simplex is k + 1.
          */
         function Simplex(k) {
-            // TODO: Could use a VectorN<Vertex here?>
+            /**
+             * The vertices of the simplex.
+             * @property
+             * @type {Vertex[]}
+             */
             this.vertices = [];
             if (!isInteger(k)) {
                 expectArg('k', k).toBeNumber();
@@ -69,6 +73,12 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             });
         }
         Object.defineProperty(Simplex.prototype, "k", {
+            /**
+             * The dimensionality of the simplex.
+             * @property k
+             * @type {number}
+             * @readonly
+             */
             get: function () {
                 return this.vertices.length - 1;
             },
@@ -76,13 +86,18 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             configurable: true
         });
         /**
-         *
+         * @deprecated
          */
+        // FIXME: We don't need the index property on the vertex (needs some work).
         Simplex.indices = function (simplex) {
             return simplex.vertices.map(function (vertex) { return vertex.index; });
         };
         /**
          * Computes the boundary of the simplex.
+         * @method boundaryMap
+         * @param simplex {Simplex}
+         * @return {Simplex[]}
+         * @private
          */
         Simplex.boundaryMap = function (simplex) {
             var vertices = simplex.vertices;
@@ -182,23 +197,38 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
             }
             return divs;
         };
-        Simplex.boundary = function (geometry, count) {
+        /**
+         * Computes the result of the boundary operation performed `count` times.
+         * @method boundary
+         * @param simplices {Simplex[]}
+         * @param count {number}
+         * @return {Simplex[]}
+         */
+        Simplex.boundary = function (simplices, count) {
             if (count === void 0) { count = 1; }
             checkCountArg(count);
             for (var i = 0; i < count; i++) {
-                geometry = geometry.map(Simplex.boundaryMap).reduce(concatReduce, []);
+                simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
             }
-            return geometry;
+            return simplices;
         };
-        Simplex.subdivide = function (geometry, count) {
+        /**
+         * Computes the result of the subdivide operation performed `count` times.
+         * @method subdivide
+         * @param simplices {Simplex[]}
+         * @param count {number}
+         * @return {Simplex[]}
+         */
+        Simplex.subdivide = function (simplices, count) {
             if (count === void 0) { count = 1; }
             checkCountArg(count);
             for (var i = 0; i < count; i++) {
-                geometry = geometry.map(Simplex.subdivideMap).reduce(concatReduce, []);
+                simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
             }
-            return geometry;
+            return simplices;
         };
         // TODO: This function destined to be part of Simplex constructor.
+        // FIXME still used from triangle.ts!
         Simplex.setAttributeValues = function (attributes, simplex) {
             var names = Object.keys(attributes);
             var attribsLength = names.length;
@@ -217,26 +247,44 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
         // The number of vertices in a k-simplex is k + 1.
         /**
          * An empty set can be consired to be a -1 simplex (algebraic topology).
+         * @property K_FOR_EMPTY
+         * @type {number}
+         * @static
          */
         Simplex.K_FOR_EMPTY = -1;
         /**
          * A single point may be considered a 0-simplex.
+         * @property K_FOR_POINT
+         * @type {number}
+         * @static
          */
         Simplex.K_FOR_POINT = 0;
         /**
          * A line segment may be considered a 1-simplex.
+         * @property K_FOR_LINE_SEGMENT
+         * @type {number}
+         * @static
          */
         Simplex.K_FOR_LINE_SEGMENT = 1;
         /**
          * A 2-simplex is a triangle.
+         * @property K_FOR_TRIANGLE
+         * @type {number}
+         * @static
          */
         Simplex.K_FOR_TRIANGLE = 2;
         /**
          * A 3-simplex is a tetrahedron.
+         * @property K_FOR_TETRAHEDRON
+         * @type {number}
+         * @static
          */
         Simplex.K_FOR_TETRAHEDRON = 3;
         /**
          * A 4-simplex is a 5-cell.
+         * @property K_FOR_FIVE_CELL
+         * @type {number}
+         * @static
          */
         Simplex.K_FOR_FIVE_CELL = 4;
         return Simplex;
