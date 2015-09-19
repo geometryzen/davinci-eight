@@ -63,7 +63,7 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
                 this._gl.bindTexture(this._target, this._texture);
             }
             else {
-                console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGLRenderingContext.");
+                console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGL rendering context.");
             }
         };
         /**
@@ -74,7 +74,7 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
                 this._gl.bindTexture(this._target, null);
             }
             else {
-                console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGLRenderingContext.");
+                console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGL rendering context.");
             }
         };
         return TextureResource;

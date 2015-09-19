@@ -88,9 +88,10 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
   contextGain(manager: ContextManager): void {
     let geometry = this.geometry;
     if (geometry) {
-      let elements = geometry.elements;
-      let metadata = geometry.metadata;
-      let mesh = manager.createDrawElementsMesh(elements);
+      let data = geometry.data;
+      let meta = geometry.meta;
+      // FIXME: Why is the meta not being used?
+      let mesh = manager.createDrawElementsMesh(data);
       this.meshLookup.put(manager.canvasId, mesh);
       mesh.release();
 

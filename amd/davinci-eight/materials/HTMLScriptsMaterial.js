@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../materials/Material', '../checks/mustSatisfy', '../programs/programFromScripts'], function (require, exports, Material, mustSatisfy, programFromScripts) {
     /**
@@ -13,13 +12,13 @@ define(["require", "exports", '../materials/Material', '../checks/mustSatisfy', 
         return CLASS_NAME;
     }
     /**
-     * @module EIGHT
      * @class HTMLScriptsMaterial
      * @extends Material
      */
     var HTMLScriptsMaterial = (function (_super) {
         __extends(HTMLScriptsMaterial, _super);
         /**
+         * @class HTMLScriptsMaterial
          * @constructor
          * @param contexts {ContextMonitor[]}
          * @param scriptIds {string[]}
@@ -35,6 +34,10 @@ define(["require", "exports", '../materials/Material', '../checks/mustSatisfy', 
             this.scriptIds = scriptIds.map(function (scriptId) { return scriptId; });
             this.dom = dom;
         }
+        /**
+         * @method createProgram
+         * @return {IProgram}
+         */
         HTMLScriptsMaterial.prototype.createProgram = function () {
             var vsId = this.scriptIds[0];
             var fsId = this.scriptIds[1];

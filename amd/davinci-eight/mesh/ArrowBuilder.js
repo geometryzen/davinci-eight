@@ -1,11 +1,11 @@
-define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3', '../core/Symbolic'], function (require, exports, expectArg, isUndefined, Vector3, Symbolic) {
+define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
     /**
      * @class ArrowBuilder
      */
     var ArrowBuilder = (function () {
         function ArrowBuilder(options) {
+            if (options === void 0) { options = {}; }
             this.$axis = Vector3.e3.clone();
-            options = options || { modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX };
             //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
             //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
             //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);

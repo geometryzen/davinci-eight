@@ -1,7 +1,35 @@
-define(["require", "exports", '../core', '../core/Color', '../checks/expectArg', '../utils/uuid4'], function (require, exports, core, Color, expectArg, uuid4) {
-    var CLASS_NAME = "ContextRenderer";
-    // FIXME: multi-context monitors: etc
-    // FIXME; Remove attributes
+define(["require", "exports", '../commands/EIGHTLogger', '../checks/expectArg', '../commands/ContextAttributesLogger', '../utils/IUnknownArray', '../utils/refChange', '../utils/uuid4', '../commands/VersionLogger', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, EIGHTLogger, expectArg, ContextAttributesLogger, IUnknownArray, refChange, uuid4, VersionLogger, WebGLClear, WebGLClearColor, WebGLEnable) {
+    function setStartUpCommands(renderer) {
+        var cmd;
+        // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
+        cmd = new EIGHTLogger();
+        renderer.pushStartUp(cmd);
+        cmd.release();
+        // `WebGL major.minor (OpenGL ES ...)`
+        cmd = new VersionLogger();
+        renderer.pushStartUp(cmd);
+        cmd.release();
+        // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
+        cmd = new ContextAttributesLogger();
+        renderer.pushStartUp(cmd);
+        cmd.release();
+        // cmd(red, green, blue, alpha)
+        cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
+        renderer.pushStartUp(cmd);
+        cmd.release();
+        // enable(capability)
+        cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
+        renderer.pushStartUp(cmd);
+        cmd.release();
+    }
+    function setPrologCommands(renderer) {
+        var cmd;
+        // clear(mask)
+        cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
+        renderer.pushProlog(cmd);
+        cmd.release();
+    }
+    var CLASS_NAME = "CanonicalContextRenderer";
     /**
      *
      */
@@ -10,71 +38,72 @@ define(["require", "exports", '../core', '../core/Color', '../checks/expectArg',
         expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
         var gl = void 0;
-        var autoClear = true;
-        var clearColor = Color.fromRGB(0, 0, 0);
-        var clearAlpha = 0;
         var uuid = uuid4().generate();
+        var refCount = 1;
+        var prolog = new IUnknownArray();
+        var startUp = new IUnknownArray();
         function drawHandler(drawable) {
             drawable.draw(canvasId);
         }
         var self = {
-            get canvas() { return canvas; },
-            get gl() { return gl; },
+            addRef: function () {
+                refCount++;
+                refChange(uuid, CLASS_NAME, +1);
+                return refCount;
+            },
+            get gl() {
+                return gl;
+            },
             contextFree: function () {
                 gl = void 0;
             },
             contextGain: function (manager) {
-                // FIXME: multi-context
                 gl = manager.gl;
-                console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_AUTHORED_DATE);
-                if (core.LOG_WEBGL_VERSION) {
-                    console.log(gl.getParameter(gl.VERSION));
-                }
-                if (core.LOG_WEBGL_CONTEXT_ATTRIBUTES) {
-                    var attributes = gl.getContextAttributes();
-                    console.log("alpha                 => " + attributes.alpha);
-                    console.log("antialias             => " + attributes.antialias);
-                    console.log("depth                 => " + attributes.depth);
-                    console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-                    console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-                    console.log("stencil               => " + attributes.stencil);
-                }
-                gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearAlpha);
-                gl.clearDepth(1.0);
-                gl.enable(gl.DEPTH_TEST);
-                gl.depthFunc(gl.LEQUAL);
-                gl.viewport(0, 0, canvas.width, canvas.height);
+                startUp.forEach(function (command) {
+                    command.execute(gl);
+                });
             },
             contextLoss: function () {
                 gl = void 0;
             },
-            get autoClear() {
-                return autoClear;
-            },
-            set autoClear(value) {
-                autoClear = expectArg('autoClear', value).toBeBoolean().value;
-            },
-            clearColor: function (red, green, blue, alpha) {
-                clearColor.r = expectArg('red', red).toBeNumber().value;
-                clearColor.g = expectArg('green', green).toBeNumber().value;
-                clearColor.b = expectArg('blue', blue).toBeNumber().value;
-                clearAlpha = expectArg('alpha', alpha).toBeNumber().value;
+            prolog: function () {
                 if (gl) {
-                    gl.clearColor(red, green, blue, alpha);
+                    prolog.forEach(function (command) {
+                        command.execute(gl);
+                    });
+                }
+                else {
+                    console.warn("Unable to execute prolog because WebGLRenderingContext is missing.");
+                }
+            },
+            pushProlog: function (command) {
+                prolog.push(command);
+            },
+            pushStartUp: function (command) {
+                startUp.push(command);
+            },
+            release: function () {
+                refCount--;
+                refChange(uuid, CLASS_NAME, -1);
+                if (refCount === 0) {
+                    prolog.release();
+                    prolog = void 0;
+                    startUp.release();
+                    startUp = void 0;
+                    return 0;
+                }
+                else {
+                    return refCount;
                 }
             },
             render: function (drawList, unused) {
-                if (gl) {
-                    if (autoClear) {
-                        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                    }
-                }
-                else {
-                    console.warn("renderer is unable to clear because WebGLRenderingContext is missing");
-                }
+                self.prolog();
                 drawList.traverse(drawHandler);
             }
         };
+        refChange(uuid, CLASS_NAME, +1);
+        setStartUpCommands(self);
+        setPrologCommands(self);
         return self;
     };
     return renderer;

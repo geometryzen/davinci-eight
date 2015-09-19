@@ -1,11 +1,24 @@
 define(["require", "exports"], function (require, exports) {
     /**
+     * <p>
+     * A geometry holds the elements or arrays sent to the GLSL pipeline.
+     * </p>
+     * <p>
+     * These instructions are in a compact form suitable for populating WebGLBuffer(s).
+     * </p>
+     *
      * @class Geometry
      */
     var Geometry = (function () {
-        function Geometry(elements, metadata) {
-            this.elements = elements;
-            this.metadata = metadata;
+        /**
+         * @class Geometry
+         * @constructor
+         * @param data {DrawElements} The instructions for drawing the geometry.
+         * @param meta {GeometryInfo}
+         */
+        function Geometry(data, meta) {
+            this.data = data;
+            this.meta = meta;
         }
         return Geometry;
     })();

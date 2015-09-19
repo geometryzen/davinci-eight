@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     /**
@@ -78,9 +77,6 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.add = function (rhs) {
             return this;
         };
-        Spinor3.prototype.sum = function (a, b) {
-            return this;
-        };
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
@@ -89,6 +85,9 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.zx = spinor.zx;
             this.xy = spinor.xy;
             this.w = spinor.w;
+            return this;
+        };
+        Spinor3.prototype.difference = function (a, b) {
             return this;
         };
         Spinor3.prototype.divideScalar = function (scalar) {
@@ -125,6 +124,13 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
+        Spinor3.prototype.multiplyScalar = function (scalar) {
+            this.yz *= scalar;
+            this.zx *= scalar;
+            this.xy *= scalar;
+            this.w *= scalar;
+            return this;
+        };
         Spinor3.prototype.product = function (a, b) {
             var a0 = a.w;
             var a1 = a.yz;
@@ -138,13 +144,6 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
             this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
             this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-            return this;
-        };
-        Spinor3.prototype.multiplyScalar = function (scalar) {
-            this.yz *= scalar;
-            this.zx *= scalar;
-            this.xy *= scalar;
-            this.w *= scalar;
             return this;
         };
         Spinor3.prototype.quaditude = function () {
@@ -166,7 +165,7 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.sub = function (rhs) {
             return this;
         };
-        Spinor3.prototype.difference = function (a, b) {
+        Spinor3.prototype.sum = function (a, b) {
             return this;
         };
         Spinor3.prototype.wedgeVectors = function (a, b) {

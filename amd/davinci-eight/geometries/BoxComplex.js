@@ -1,8 +1,7 @@
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../dfx/Complex', '../checks/mustBeInteger', '../checks/mustBeNumber', '../dfx/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector2', '../math/Vector3'], function (require, exports, Complex, mustBeInteger, mustBeNumber, Simplex, Symbolic, Vector1, Vector2, Vector3) {
     function boxCtor() {
@@ -108,7 +107,7 @@ define(["require", "exports", '../dfx/Complex', '../checks/mustBeInteger', '../c
                         face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                         face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
                         face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
-                        geometry.simplices.push(face);
+                        geometry.data.push(face);
                         face = new Simplex(Simplex.K_FOR_TRIANGLE);
                         face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
                         face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
@@ -122,7 +121,7 @@ define(["require", "exports", '../dfx/Complex', '../checks/mustBeInteger', '../c
                         face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                         face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
                         face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
-                        geometry.simplices.push(face);
+                        geometry.data.push(face);
                     }
                 }
             }
@@ -131,7 +130,6 @@ define(["require", "exports", '../dfx/Complex', '../checks/mustBeInteger', '../c
             }
             // This construction duplicates vertices along the edges of the cube.
             this.mergeVertices();
-            // Update the metadata.
             this.check();
         }
         return BoxComplex;

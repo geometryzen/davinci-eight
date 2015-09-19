@@ -129,7 +129,7 @@ class BoxComplex extends Complex {
           face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
           face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
 
-          geometry.simplices.push( face );
+          geometry.data.push( face );
 
           face = new Simplex(Simplex.K_FOR_TRIANGLE);
 
@@ -148,7 +148,7 @@ class BoxComplex extends Complex {
           face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
           face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
 
-          geometry.simplices.push( face );
+          geometry.data.push( face );
         }
       }
     }
@@ -157,7 +157,6 @@ class BoxComplex extends Complex {
     }
     // This construction duplicates vertices along the edges of the cube.
     this.mergeVertices();
-    // Update the metadata.
     this.check();
   }
 }

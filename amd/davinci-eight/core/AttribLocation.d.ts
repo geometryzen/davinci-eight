@@ -28,9 +28,9 @@ declare class AttribLocation implements ContextProgramListener {
     /**
      * @method vertexPointer
      * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
-     * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
-     * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
-     * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
+     * @param normalized {boolean} Used for WebGL rendering context vertexAttribPointer method.
+     * @param stride {number} Used for WebGL rendering context vertexAttribPointer method.
+     * @param offset {number} Used for WebGL rendering context vertexAttribPointer method.
      */
     vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
     /**

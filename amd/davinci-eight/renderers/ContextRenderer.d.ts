@@ -1,24 +1,32 @@
 import ContextListener = require('../core/ContextListener');
+import IContextCommand = require('../core/IContextCommand');
 import IDrawList = require('../scene/IDrawList');
+import IUnknown = require('../core/IUnknown');
 import UniformData = require('../core/UniformData');
 /**
  * @interface ContextRenderer
  * @extends ContextListener
+ * @extends IUnknown
  */
-interface ContextRenderer extends ContextListener {
+interface ContextRenderer extends ContextListener, IUnknown {
     /**
-     * The (readonly) cached WebGLRenderingContext. The context may sometimes be undefined.
+     * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
      */
     gl: WebGLRenderingContext;
     /**
-    * @property autoClear
-    * Defines whether the renderer should automatically clear its output before rendering.
-    */
-    autoClear: boolean;
-    /**
-     *
+     * Executes the prolog commands.
      */
-    clearColor(red: number, green: number, blue: number, alpha: number): void;
+    prolog(): void;
+    /**
+     * @method pushProlog
+     * @param command {IContextCommand}
+     */
+    pushProlog(command: IContextCommand): any;
+    /**
+     * @method pushStartUp
+     * @param command {IContextCommand}
+     */
+    pushStartUp(command: IContextCommand): any;
     /**
      * Render the contents of the drawList.
      * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.

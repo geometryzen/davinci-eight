@@ -9,6 +9,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
      */
     var Material = (function () {
         /**
+         * @class Material
          * @constructor
          * @param contexts {ContextMonitor[]}
          * @param type {string} The class name, used for logging and serialization.
@@ -31,12 +32,20 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             }
         };
         Object.defineProperty(Material.prototype, "monitors", {
+            /**
+             * @property monitors
+             * @type {ContextMonitor[]}
+             */
             get: function () {
                 return this._monitors.toArray();
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method addRef
+         * @return {number}
+         */
         Material.prototype.addRef = function () {
             this._refCount++;
             refChange(this.programId, this.type, +1);

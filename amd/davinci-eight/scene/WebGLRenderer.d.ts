@@ -1,30 +1,34 @@
 import ContextController = require('../core/ContextController');
+import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
 import ContextListener = require('../core/ContextListener');
+import ContextRenderer = require('../renderers/ContextRenderer');
 import DrawElements = require('../dfx/DrawElements');
+import IContextCommand = require('../core/IContextCommand');
 import IDrawList = require('../scene/IDrawList');
 import IMesh = require('../dfx/IMesh');
-import IUnknown = require('../core/IUnknown');
+import Shareable = require('../utils/Shareable');
 import UniformData = require('../core/UniformData');
-declare class WebGLRenderer implements ContextController, ContextMonitor, IUnknown {
+declare class WebGLRenderer extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
     private _canvas;
+    private _canvasId;
     private _kahuna;
     private _renderer;
-    private _canvasId;
-    private _refCount;
-    private _uuid;
     constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
+    destructor(): void;
     addContextListener(user: ContextListener): void;
-    addRef(): number;
     canvasId: number;
-    gl: WebGLRenderingContext;
     createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
     canvas: HTMLCanvasElement;
-    release(): number;
+    contextFree(canvasId: number): void;
+    contextGain(manager: ContextManager): void;
+    contextLoss(canvasId: number): void;
+    gl: WebGLRenderingContext;
+    prolog(): void;
+    pushProlog(command: IContextCommand): void;
+    pushStartUp(command: IContextCommand): void;
     removeContextListener(user: ContextListener): void;
     render(drawList: IDrawList, ambients: UniformData): void;
-    setClearColor(color: number, alpha?: number): void;
-    setSize(width: number, height: number, updateStyle?: boolean): void;
     start(): void;
     stop(): void;
 }

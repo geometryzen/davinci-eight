@@ -1,12 +1,21 @@
 define(["require", "exports"], function (require, exports) {
     /**
+     * <p>
      * Canonical variable names, which also act as semantic identifiers for name overrides.
      * These names must be stable to avoid breaking custom vertex and fragment shaders.
+     * </p>
+     *
      * @class Symbolic
      */
     var Symbolic = (function () {
         function Symbolic() {
         }
+        /**
+         * prolog
+         * @property ATTRIBUTE_COLOR
+         * @type {string}
+         * epilog
+         */
         Symbolic.ATTRIBUTE_COLOR = 'aColor';
         Symbolic.ATTRIBUTE_MATERIAL_INDEX = 'aMaterialIndex';
         Symbolic.ATTRIBUTE_NORMAL = 'aNormal';

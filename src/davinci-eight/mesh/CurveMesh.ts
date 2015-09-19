@@ -21,8 +21,8 @@ class CurveMesh {
     this.n = n;
     this.generator = generator;
   }
-  draw(context: WebGLRenderingContext) {
-    context.drawElements(context.POINTS, this.elements.length, context.UNSIGNED_SHORT, 0);
+  draw(gl: WebGLRenderingContext) {
+    gl.drawElements(gl.POINTS, this.elements.length, gl.UNSIGNED_SHORT, 0);
   }
   get dynamic(): boolean {
     return true;

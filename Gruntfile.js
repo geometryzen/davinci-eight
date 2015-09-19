@@ -210,7 +210,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('testAll', ['exec:test', 'test']);
 
-  grunt.registerTask('style', ['clean', 'buildAMD', 'buildCJS', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('style', ['clean', 'buildAMD', 'jshint', 'docs', 'copy', 'requirejs', 'uglify']);
 
-  grunt.registerTask('default', ['clean', 'buildAMD', 'buildCJS', 'docs', 'copy', 'requirejs', 'uglify']);
+  grunt.registerTask('default', ['clean', 'buildAMD', 'docs', 'copy', 'requirejs', 'uglify']);
 };

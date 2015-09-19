@@ -10,6 +10,10 @@ import View                    = require('davinci-eight/cameras/View');
 import frustumMatrix           = require('davinci-eight/cameras/frustumMatrix');
 import perspectiveMatrix       = require('davinci-eight/cameras/perspectiveMatrix');
 import viewMatrix              = require('davinci-eight/cameras/viewMatrix');
+// commands
+import WebGLClear              = require('davinci-eight/commands/WebGLClear')
+import WebGLClearColor         = require('davinci-eight/commands/WebGLClearColor')
+import WebGLEnable             = require('davinci-eight/commands/WebGLEnable')
 // core
 import AttribLocation          = require('davinci-eight/core/AttribLocation');
 import AttribMetaInfos         = require('davinci-eight/core/AttribMetaInfos');
@@ -81,7 +85,8 @@ import programFromScripts = require('davinci-eight/programs/programFromScripts')
 import Material            = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import MeshNormalMaterial  = require('davinci-eight/materials/MeshNormalMaterial');
-
+// mappers
+import RoundUniform = require('davinci-eight/mappers/RoundUniform');
 // math
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -110,6 +115,8 @@ import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
 import initWebGL = require('davinci-eight/renderers/initWebGL');
 import renderer = require('davinci-eight/renderers/renderer');
 // uniforms
+import SineWaveUniform            = require('davinci-eight/uniforms/SineWaveUniform');
+import StockTicker                = require('davinci-eight/uniforms/StockTicker');
 
 // utils
 import contextProxy               = require('davinci-eight/utils/contextProxy');
@@ -119,6 +126,7 @@ import makeBox                    = require('davinci-eight/utils/makeBox');
 import makeSphere                 = require('davinci-eight/utils/makeSphere');
 import Model                      = require('davinci-eight/utils/Model');
 import refChange                  = require('davinci-eight/utils/refChange');
+import Shareable           = require('davinci-eight/utils/Shareable');
 import workbench3D                = require('davinci-eight/utils/workbench3D');
 import WindowAnimationRunner      = require('davinci-eight/utils/WindowAnimationRunner');
 import windowAnimationRunner      = require('davinci-eight/utils/windowAnimationRunner');
@@ -129,10 +137,10 @@ import windowAnimationRunner      = require('davinci-eight/utils/windowAnimation
 var eight = {
   /**
    * The publish date of the latest version of the library.
-   * @property LAST_AUTHORED_DATE
+   * @property LAST_MODIFIED
    * @type string
    */
-  get LAST_AUTHORED_DATE() { return core.LAST_AUTHORED_DATE; },
+  get LAST_MODIFIED() { return core.LAST_MODIFIED; },
   /**
    * The semantic version of the library.
    * @property VERSION
@@ -144,6 +152,10 @@ var eight = {
   get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },
   get Material() { return Material; },
   get MeshNormalMaterial() { return MeshNormalMaterial; },
+  //commands
+  get WebGLClear() { return WebGLClear; },
+  get WebGLClearColor() { return WebGLClearColor; },
+  get WebGLEnable() { return WebGLEnable; },
 
   get initWebGL() { return initWebGL; },
   get createFrustum() { return createFrustum; },
@@ -204,6 +216,8 @@ var eight = {
   get Vector4() { return Vector4; },
   get VectorN() { return VectorN; },
   get Curve() { return Curve; },
+  // mappers
+  get RoundUniform() { return RoundUniform },
   // mesh
   get ArrowBuilder() { return ArrowBuilder; },
   
@@ -222,7 +236,10 @@ var eight = {
   get programFromScripts() { return programFromScripts; },
   get DrawAttribute() { return DrawAttribute; },
   get DrawElements() { return DrawElements; },
+  // uniforms
+  get SineWaveUniform() { return SineWaveUniform; },
   // utils
-  get refChange() { return refChange; }
+  get refChange() { return refChange; },
+  get Shareable() { return Shareable; }
 };
 export = eight;

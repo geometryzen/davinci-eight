@@ -2,6 +2,9 @@
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
+import WebGLClear = require('davinci-eight/commands/WebGLClear');
+import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor');
+import WebGLEnable = require('davinci-eight/commands/WebGLEnable');
 import AttribLocation = require('davinci-eight/core/AttribLocation');
 import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
 import Color = require('davinci-eight/core/Color');
@@ -28,6 +31,7 @@ import BoxComplex = require('davinci-eight/geometries/BoxComplex');
 import Material = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
+import RoundUniform = require('davinci-eight/mappers/RoundUniform');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
@@ -43,17 +47,22 @@ import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import IProgram = require('davinci-eight/core/IProgram');
 import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
+import SineWaveUniform = require('davinci-eight/uniforms/SineWaveUniform');
 import Model = require('davinci-eight/utils/Model');
+import Shareable = require('davinci-eight/utils/Shareable');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
  */
 declare var eight: {
-    LAST_AUTHORED_DATE: string;
+    LAST_MODIFIED: string;
     VERSION: string;
     HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
     Material: typeof Material;
     MeshNormalMaterial: typeof MeshNormalMaterial;
+    WebGLClear: typeof WebGLClear;
+    WebGLClearColor: typeof WebGLClearColor;
+    WebGLEnable: typeof WebGLEnable;
     initWebGL: (canvas: HTMLCanvasElement, attributes?: WebGLContextAttributes) => WebGLRenderingContext;
     createFrustum: (viewMatrixName: string, projectionMatrixName: string) => Frustum;
     createPerspective: (options?: {
@@ -112,6 +121,7 @@ declare var eight: {
     Vector4: typeof Vector4;
     VectorN: typeof VectorN;
     Curve: typeof Curve;
+    RoundUniform: typeof RoundUniform;
     ArrowBuilder: typeof ArrowBuilder;
     checkGeometry: (geometry: Simplex[]) => GeometryInfo;
     computeFaceNormals: (simplex: Simplex, positionName?: string, normalName?: string) => void;
@@ -132,6 +142,8 @@ declare var eight: {
     programFromScripts: (monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IProgram;
     DrawAttribute: typeof DrawAttribute;
     DrawElements: typeof DrawElements;
+    SineWaveUniform: typeof SineWaveUniform;
     refChange: (uuid: string, name?: string, change?: number) => number;
+    Shareable: typeof Shareable;
 };
 export = eight;

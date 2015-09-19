@@ -59,9 +59,10 @@ define(["require", "exports", '../utils/NumberIUnknownMap', '../utils/refChange'
         Mesh.prototype.contextGain = function (manager) {
             var geometry = this.geometry;
             if (geometry) {
-                var elements = geometry.elements;
-                var metadata = geometry.metadata;
-                var mesh = manager.createDrawElementsMesh(elements);
+                var data = geometry.data;
+                var meta = geometry.meta;
+                // FIXME: Why is the meta not being used?
+                var mesh = manager.createDrawElementsMesh(data);
                 this.meshLookup.put(manager.canvasId, mesh);
                 mesh.release();
                 this._material.contextGain(manager);

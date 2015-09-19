@@ -1,9 +1,9 @@
 import ContextManager = require('../core/ContextManager');
 /**
  * This interface standardizes the concept of an implementation being dependent upon
- * a WebGLRenderingContext. The notification methods for context gain, loss, and free
+ * a WebGL rendering context. The notification methods for context gain, loss, and free
  * allow the implementation to participate in the dynamic and volatile environment
- * whereupon a browser may reset its WebGLRenderingContext(s).
+ * whereupon a browser may reset its WebGL rendering contexts.
  * @class ContextListener
  */
 interface ContextListener {
@@ -18,7 +18,7 @@ interface ContextListener {
      */
     contextFree(canvasId: number): void;
     /**
-     * Called to inform the dependent of a new WebGLRenderingContext.
+     * Called to inform the dependent of a new WebGL rendering context.
      * The implementation should ignore the notification if it has already
      * received the same context.
      * @method contextGain
@@ -26,7 +26,7 @@ interface ContextListener {
      */
     contextGain(manager: ContextManager): void;
     /**
-     * Called to inform the dependent of a loss of WebGLRenderingContext.
+     * Called to inform the dependent of a loss of WebGL rendering context.
      * The dependent must assume that any cached context is invalid.
      * The dependent must not try to use and cached context to free resources.
      * The dependent should reset its state to that for which there is no context.

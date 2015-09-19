@@ -78,7 +78,7 @@ class TextureResource implements ITexture {
       this._gl.bindTexture(this._target, this._texture);
     }
     else {
-      console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGLRenderingContext.");
+      console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGL rendering context.");
     }
   }
   /**
@@ -89,7 +89,7 @@ class TextureResource implements ITexture {
       this._gl.bindTexture(this._target, null);
     }
     else {
-      console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGLRenderingContext.");
+      console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGL rendering context.");
     }
   }
 }

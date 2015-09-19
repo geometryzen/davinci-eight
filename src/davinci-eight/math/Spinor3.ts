@@ -62,9 +62,6 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   add(rhs: Spinor3Coords) {
     return this;
   }
-  sum(a: Spinor3Coords, b: Spinor3Coords) {
-    return this;
-  }
   clone() {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
@@ -73,6 +70,9 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.zx = spinor.zx;
     this.xy = spinor.xy;
     this.w  = spinor.w;
+    return this;
+  }
+  difference(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
   divideScalar(scalar: number) {
@@ -109,6 +109,13 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   multiply(rhs: Spinor3Coords): Spinor3 {
     return this.product(this, rhs);
   }
+  multiplyScalar(scalar: number) {
+    this.yz *= scalar;
+    this.zx *= scalar;
+    this.xy *= scalar;
+    this.w  *= scalar;
+    return this;
+  }
   product(a: Spinor3Coords, b: Spinor3Coords): Spinor3 {
     let a0 = a.w;
     let a1 = a.yz;
@@ -122,13 +129,6 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
     this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
     this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-    return this;
-  }
-  multiplyScalar(scalar: number) {
-    this.yz *= scalar;
-    this.zx *= scalar;
-    this.xy *= scalar;
-    this.w  *= scalar;
     return this;
   }
   quaditude() {
@@ -150,7 +150,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   sub(rhs: Spinor3Coords) {
     return this;
   }
-  difference(a: Spinor3Coords, b: Spinor3Coords) {
+  sum(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
   wedgeVectors(a: Cartesian3, b: Cartesian3) {

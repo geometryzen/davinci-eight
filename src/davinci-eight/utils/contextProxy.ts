@@ -14,6 +14,8 @@ import ITexture = require('../core/ITexture');
 import IUnknown = require('../core/IUnknown')
 import IProgram = require('../core/IProgram');
 import mustBeInteger = require('../checks/mustBeInteger');
+import mustBeNumber = require('../checks/mustBeNumber');
+import mustBeString = require('../checks/mustBeString');
 import RefCount = require('../utils/RefCount');
 import refChange = require('../utils/refChange');
 import Simplex = require('../dfx/Simplex');
@@ -149,16 +151,16 @@ class ElementsBlockAttrib implements IUnknown {
 
 // TODO: If mode provided, check consistent with elements.k.
 // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
-function drawMode(k: number, mode: number, gl: WebGLRenderingContext): number {
-  switch(k) {
+function drawMode(k: number, mode: number): number {
+  switch (k) {
     case Simplex.K_FOR_TRIANGLE: {
-      return gl.TRIANGLES;
+      return mustBeNumber('TRIANGLES', WebGLRenderingContext.TRIANGLES);
     }
     case Simplex.K_FOR_LINE_SEGMENT: {
-      return gl.LINES;
+      return mustBeNumber('LINES', WebGLRenderingContext.LINES);
     }
     case Simplex.K_FOR_POINT: {
-      return gl.POINTS;
+      return mustBeNumber('POINTS', WebGLRenderingContext.POINTS);
     }
     case Simplex.K_FOR_EMPTY: {
       return void 0;
@@ -169,18 +171,16 @@ function drawMode(k: number, mode: number, gl: WebGLRenderingContext): number {
   }
 }
 
-function isDrawMode(mode: number, gl: WebGLRenderingContext): boolean {
-  if (!isNumber(mode)) {
-    expectArg('mode', mode).toBeNumber();
-  }
+function isDrawMode(mode: number): boolean {
+  mustBeNumber('mode', mode);
   switch(mode) {
-    case gl.TRIANGLES: {
+    case WebGLRenderingContext.TRIANGLES: {
       return true;
     }
-    case gl.LINES: {
+    case WebGLRenderingContext.LINES: {
       return true;
     }
-    case gl.POINTS: {
+    case WebGLRenderingContext.POINTS: {
       return true;
     }
     default: {
@@ -189,10 +189,10 @@ function isDrawMode(mode: number, gl: WebGLRenderingContext): boolean {
   }
 }
 
-function isBufferUsage(usage: number, gl: WebGLRenderingContext): boolean {
-  expectArg('usage', usage).toBeNumber();
+function isBufferUsage(usage: number): boolean {
+  mustBeNumber('usage', usage);
   switch(usage) {
-    case gl.STATIC_DRAW: {
+    case WebGLRenderingContext.STATIC_DRAW: {
       return true;
     }
     default: {
@@ -201,9 +201,9 @@ function isBufferUsage(usage: number, gl: WebGLRenderingContext): boolean {
   }
 }
 
-function messageUnrecognizedMesh(meshUUID: string): string {
-  expectArg('meshUUID', meshUUID).toBeString();
-  return meshUUID + " is not a recognized mesh uuid";
+function messageUnrecognizedMesh(uuid: string): string {
+  mustBeString('uuid', uuid);
+  return uuid + " is not a recognized mesh uuid";
 }
 
 function attribKey(aName: string, aNameToKeyName?: {[aName: string]: string}): string {
@@ -284,6 +284,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
   // Remark: We only hold weak references to users so that the lifetime of resource
   // objects is not affected by the fact that they are listening for gl events.
   // Users should automatically add themselves upon construction and remove upon release.
+  // // FIXME: Really? Not IUnknownArray<IContextListener> ?
   let users: ContextListener[] = [];
 
   function addContextListener(user: ContextListener): void {
@@ -424,7 +425,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
      */
     createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh {
       expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
-      mode = drawMode(elements.k, mode, gl);
+      mode = drawMode(elements.k, mode);
       if (!isDefined(mode)) {
         // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
         // something that can't be drawn (no mode) and it is invisible anyway.
@@ -432,7 +433,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
         return void 0;
       }
       if (isDefined(usage)) {
-        expectArg('usage', usage).toSatisfy(isBufferUsage(usage, gl), "usage must be on of STATIC_DRAW, ...");
+        expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
       }
       else {
         usage = gl.STATIC_DRAW;

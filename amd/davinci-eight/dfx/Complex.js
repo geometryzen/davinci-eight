@@ -3,9 +3,17 @@ define(["require", "exports", '../dfx/checkGeometry', '../dfx/Simplex'], functio
      * @class Complex
      */
     var Complex = (function () {
-        //public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
+        // TODO: public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
+        /**
+         * @class Complex
+         * @constructor
+         */
         function Complex() {
-            this.simplices = [];
+            /**
+             * @property data
+             * @type {Simplex[]}
+             */
+            this.data = [];
             this.dynamic = true;
             this.verticesNeedUpdate = false;
             this.elementsNeedUpdate = false;
@@ -15,16 +23,38 @@ define(["require", "exports", '../dfx/checkGeometry', '../dfx/Simplex'], functio
             if (precisionPoints === void 0) { precisionPoints = 4; }
             // console.warn("Complex.mergeVertices not yet implemented");
         };
-        Complex.prototype.boundary = function (count) {
-            this.simplices = Simplex.boundary(this.simplices, count);
+        /**
+         * <p>
+         * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+         * </p>
+         *
+         * @method boundary
+         * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+         * @return {void}
+         */
+        Complex.prototype.boundary = function (times) {
+            this.data = Simplex.boundary(this.data, times);
             this.check();
         };
-        Complex.prototype.subdivide = function (count) {
-            this.simplices = Simplex.subdivide(this.simplices, count);
+        /**
+         * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+         *
+         * @method subdivide
+         * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+         * @return {void}
+         */
+        Complex.prototype.subdivide = function (times) {
+            this.data = Simplex.subdivide(this.data, times);
             this.check();
         };
+        /**
+         * Updates the meta property of this instance to match the data.
+         *
+         * @method check
+         * @return {void}
+         */
         Complex.prototype.check = function () {
-            this.metadata = checkGeometry(this.simplices);
+            this.meta = checkGeometry(this.data);
         };
         return Complex;
     })();

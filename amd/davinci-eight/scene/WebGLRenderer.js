@@ -1,52 +1,44 @@
-define(["require", "exports", '../utils/contextProxy', '../renderers/renderer', '../checks/mustBeInteger', '../checks/mustSatisfy', '../utils/refChange', '../utils/uuid4'], function (require, exports, contextProxy, createRenderer, mustBeInteger, mustSatisfy, refChange, uuid4) {
-    var LOGGING_NAME = 'WebGLRenderer';
-    // FIXME: ContextManger may be reference counted so this class may need to be too.
-    function ctorContext() {
-        return LOGGING_NAME + " constructor";
-    }
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../checks/mustBeInteger', '../checks/mustSatisfy', '../utils/Shareable'], function (require, exports, createRenderer, contextProxy, mustBeInteger, mustSatisfy, Shareable) {
     function beHTMLCanvasElement() {
         return "be an HTMLCanvasElement";
     }
-    var WebGLRenderer = (function () {
+    var WebGLRenderer = (function (_super) {
+        __extends(WebGLRenderer, _super);
         function WebGLRenderer(canvas, canvasId, attributes) {
             if (canvasId === void 0) { canvasId = 0; }
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+            _super.call(this, 'WebGLRenderer');
             if (canvas) {
-                mustSatisfy('canvas', canvas instanceof HTMLCanvasElement, beHTMLCanvasElement, ctorContext);
+                mustSatisfy('canvas', canvas instanceof HTMLCanvasElement, beHTMLCanvasElement);
                 this._canvas = canvas;
             }
             else {
                 this._canvas = document.createElement('canvas');
             }
-            this._canvasId = mustBeInteger('canvasId', canvasId, ctorContext);
-            // FIXME: dangerous chaining?
-            // FIXME: The proxy is reference counted so WebGLRenderer should be too.
+            this._canvasId = mustBeInteger('canvasId', canvasId);
             this._kahuna = contextProxy(this._canvas, canvasId, attributes);
             this._renderer = createRenderer(this._canvas, canvasId);
-            // Provide the manager with access to the WebGLRenderingContext.
             this._kahuna.addContextListener(this._renderer);
-            refChange(this._uuid, LOGGING_NAME, +1);
         }
+        WebGLRenderer.prototype.destructor = function () {
+            this._kahuna.removeContextListener(this._renderer);
+            this._kahuna.release();
+            this._kahuna = void 0;
+            this._renderer.release();
+            this._renderer = void 0;
+            this._canvasId = void 0;
+            this._canvas = void 0;
+        };
         WebGLRenderer.prototype.addContextListener = function (user) {
             this._kahuna.addContextListener(user);
-        };
-        WebGLRenderer.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME, +1);
-            return this._refCount;
         };
         Object.defineProperty(WebGLRenderer.prototype, "canvasId", {
             get: function () {
                 return this._canvasId;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(WebGLRenderer.prototype, "gl", {
-            // FIXME: Rename this property to gl, which is the normal usage.
-            get: function () {
-                return this._kahuna.gl;
             },
             enumerable: true,
             configurable: true
@@ -61,21 +53,30 @@ define(["require", "exports", '../utils/contextProxy', '../renderers/renderer', 
             enumerable: true,
             configurable: true
         });
-        WebGLRenderer.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME, -1);
-            if (this._refCount === 0) {
-                this._kahuna.release();
-                this._canvas = void 0;
-                this._canvasId = void 0;
-                this._kahuna = void 0;
-                this._refCount = void 0;
-                this._renderer = void 0;
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
+        WebGLRenderer.prototype.contextFree = function (canvasId) {
+            this._renderer.contextFree(canvasId);
+        };
+        WebGLRenderer.prototype.contextGain = function (manager) {
+            this._renderer.contextGain(manager);
+        };
+        WebGLRenderer.prototype.contextLoss = function (canvasId) {
+            this._renderer.contextLoss(canvasId);
+        };
+        Object.defineProperty(WebGLRenderer.prototype, "gl", {
+            get: function () {
+                return this._kahuna.gl;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        WebGLRenderer.prototype.prolog = function () {
+            this._renderer.prolog();
+        };
+        WebGLRenderer.prototype.pushProlog = function (command) {
+            this._renderer.pushProlog(command);
+        };
+        WebGLRenderer.prototype.pushStartUp = function (command) {
+            this._renderer.pushStartUp(command);
         };
         WebGLRenderer.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);
@@ -86,14 +87,6 @@ define(["require", "exports", '../utils/contextProxy', '../renderers/renderer', 
             // This allows us to generalize the WebGLRenderer API.
             this._renderer.render(drawList, ambients);
         };
-        WebGLRenderer.prototype.setClearColor = function (color, alpha) {
-            if (alpha === void 0) { alpha = 1.0; }
-            console.warn("WegGLRenderer.setClearColor(). Making it up as we go along.");
-            this._renderer.clearColor(0.2, 0.2, 0.2, alpha);
-        };
-        WebGLRenderer.prototype.setSize = function (width, height, updateStyle) {
-            console.warn("WegGLRenderer.setSize()");
-        };
         WebGLRenderer.prototype.start = function () {
             this._kahuna.start();
         };
@@ -101,6 +94,6 @@ define(["require", "exports", '../utils/contextProxy', '../renderers/renderer', 
             this._kahuna.stop();
         };
         return WebGLRenderer;
-    })();
+    })(Shareable);
     return WebGLRenderer;
 });

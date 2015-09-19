@@ -1,19 +1,66 @@
-import core = require('../core');
 import Color = require('../core/Color');
+import EIGHTLogger = require('../commands/EIGHTLogger');
 import expectArg = require('../checks/expectArg');
+import ContextAttributesLogger = require('../commands/ContextAttributesLogger');
 import ContextManager = require('../core/ContextManager');
 import ContextRenderer = require('../renderers/ContextRenderer');
+import IContextCommand = require('../core/IContextCommand');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IMesh = require('../dfx/IMesh');
 import IProgram = require('../core/IProgram');
+import IUnknownArray = require('../utils/IUnknownArray');
+import mustSatisfy = require('../checks/mustSatisfy');
 import UniformData = require('../core/UniformData');
+import refChange = require('../utils/refChange');
 import uuid4 = require('../utils/uuid4');
+import VersionLogger = require('../commands/VersionLogger');
+import WebGLClear      = require('../commands/WebGLClear');
+import WebGLClearColor = require('../commands/WebGLClearColor');
+import WebGLEnable     = require('../commands/WebGLEnable');
 
-let CLASS_NAME = "ContextRenderer"
+function setStartUpCommands(renderer: ContextRenderer) {
 
-// FIXME: multi-context monitors: etc
-// FIXME; Remove attributes
+  var cmd: IContextCommand;
+
+  // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
+  cmd = new EIGHTLogger();
+  renderer.pushStartUp(cmd);
+  cmd.release();
+
+  // `WebGL major.minor (OpenGL ES ...)`
+  cmd = new VersionLogger();
+  renderer.pushStartUp(cmd);
+  cmd.release();
+
+  // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
+  cmd = new ContextAttributesLogger();
+  renderer.pushStartUp(cmd);
+  cmd.release();
+
+  // cmd(red, green, blue, alpha)
+  cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
+  renderer.pushStartUp(cmd);
+  cmd.release();
+
+  // enable(capability)
+  cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
+  renderer.pushStartUp(cmd);
+  cmd.release();
+}
+
+function setPrologCommands(renderer: ContextRenderer) {
+
+  var cmd: IContextCommand;
+
+  // clear(mask)
+  cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
+  renderer.pushProlog(cmd);
+  cmd.release();
+}
+
+let CLASS_NAME = "CanonicalContextRenderer"
+
 /**
  *
  */
@@ -23,73 +70,74 @@ let renderer = function(canvas: HTMLCanvasElement, canvasId: number): ContextRen
 
   // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
   var gl: WebGLRenderingContext = void 0;
-  var autoClear: boolean = true;
-  let clearColor: Color = Color.fromRGB(0, 0, 0);
-  var clearAlpha: number = 0;
   let uuid = uuid4().generate();
+  let refCount = 1;
+  let prolog = new IUnknownArray<IContextCommand>();
+  let startUp = new IUnknownArray<IContextCommand>();
 
   function drawHandler(drawable: IDrawable) {
     drawable.draw(canvasId);
   }
 
   let self: ContextRenderer = {
-    get canvas() { return canvas; },
-    get gl(): WebGLRenderingContext { return gl;},
+    addRef(): number {
+      refCount++;
+      refChange(uuid, CLASS_NAME, +1);
+      return refCount;
+    },
+    get gl(): WebGLRenderingContext {
+      return gl;
+    },
     contextFree() {
       gl = void 0;
     },
     contextGain(manager: ContextManager) {
-      // FIXME: multi-context
       gl = manager.gl;
-      console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_AUTHORED_DATE);
-      if (core.LOG_WEBGL_VERSION) {
-        console.log(gl.getParameter(gl.VERSION));
-      }
-      if (core.LOG_WEBGL_CONTEXT_ATTRIBUTES) {
-        let attributes: WebGLContextAttributes = gl.getContextAttributes();
-        console.log("alpha                 => " + attributes.alpha);
-        console.log("antialias             => " + attributes.antialias);
-        console.log("depth                 => " + attributes.depth);
-        console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-        console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-        console.log("stencil               => " + attributes.stencil);
-      }
-      gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearAlpha);
-      gl.clearDepth(1.0); 
-      gl.enable(gl.DEPTH_TEST);
-      gl.depthFunc(gl.LEQUAL);
-      gl.viewport(0, 0, canvas.width, canvas.height);
+      startUp.forEach(function(command: IContextCommand){
+        command.execute(gl);
+      });
     },
     contextLoss() {
       gl = void 0;
     },
-    get autoClear(): boolean {
-      return autoClear;
-    },
-    set autoClear(value: boolean) {
-      autoClear = expectArg('autoClear', value).toBeBoolean().value;
-    },
-    clearColor(red: number, green: number, blue: number, alpha: number): void {
-      clearColor.r = expectArg('red',   red  ).toBeNumber().value;
-      clearColor.g = expectArg('green', green).toBeNumber().value;
-      clearColor.b = expectArg('blue',  blue ).toBeNumber().value;
-      clearAlpha   = expectArg('alpha', alpha).toBeNumber().value;
+    prolog(): void {
       if (gl) {
-        gl.clearColor(red, green, blue, alpha);
+        prolog.forEach(function(command: IContextCommand){
+          command.execute(gl);
+        });
+      }
+      else {
+        console.warn("Unable to execute prolog because WebGLRenderingContext is missing.");
+      }
+    },
+    pushProlog(command: IContextCommand): void {
+      prolog.push(command);
+    },
+    pushStartUp(command: IContextCommand): void {
+      startUp.push(command);
+    },
+    release(): number {
+      refCount--;
+      refChange(uuid, CLASS_NAME, -1);
+      if (refCount === 0) {
+        prolog.release();
+        prolog = void 0;
+        startUp.release();
+        startUp = void 0;
+        return 0;
+      }
+      else {
+        return refCount;
       }
     },
     render(drawList: IDrawList, unused: UniformData) {
-      if (gl) {
-        if (autoClear) {
-          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        }
-      }
-      else {
-        console.warn("renderer is unable to clear because WebGLRenderingContext is missing");
-      }
+      self.prolog();
       drawList.traverse(drawHandler);
     }
   };
+  refChange(uuid, CLASS_NAME, +1);
+  setStartUpCommands(self);
+  setPrologCommands(self);
   return self;
 };
 

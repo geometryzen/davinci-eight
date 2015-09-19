@@ -1,12 +1,19 @@
 import ColorRGB = require('../core/ColorRGB');
 import Mutable = require('../math/Mutable');
 /**
+ * <p>
  * A mutable type representing a color through its RGB components.
- * @class Color
+ * </p>
+ * <p>
  * WARNING: In many object-oriented designs, types representing values are completely immutable.
  * In a graphics library where data changes rapidly and garbage collection might become an issue,
  * it is common to use reference types, such as in this design. This mutability can lead to
  * difficult bugs because it is hard to reason about where a color may have changed.
+ * </p>
+ *
+ * @class Color
+ * @implements ColorRGB
+ * @implements Mutable<number[]>
  */
 declare class Color implements ColorRGB, Mutable<number[]> {
     data: number[];

@@ -19,8 +19,7 @@ class CylinderArgs {
   private $thetaLength: number;
   private $wireFrame: boolean;
   private $axis: Vector3 = Vector3.e3.clone();
-  constructor(options?: CylinderOptions) {
-    options = options || {modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX};
+  constructor(options: CylinderOptions = {}) {
     this.setRadiusTop(isUndefined(options.radiusTop) ? 1 : options.radiusTop);
     this.setRadiusBottom(isUndefined(options.radiusBottom) ? 1 : options.radiusBottom);
     this.setHeight(isUndefined(options.height) ? 1 : options.height);

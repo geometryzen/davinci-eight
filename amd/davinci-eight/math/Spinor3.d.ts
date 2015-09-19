@@ -29,21 +29,21 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
      */
     w: number;
     add(rhs: Spinor3Coords): Spinor3;
-    sum(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     clone(): Spinor3;
     copy(spinor: Spinor3Coords): Spinor3;
+    difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     divideScalar(scalar: number): Spinor3;
     exp(): Spinor3;
     lerp(target: Spinor3Coords, alpha: number): Spinor3;
     magnitude(): number;
     multiply(rhs: Spinor3Coords): Spinor3;
-    product(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     multiplyScalar(scalar: number): Spinor3;
+    product(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     quaditude(): number;
     reverse(): Spinor3;
     rotate(rotor: Spinor3Coords): Spinor3;
     sub(rhs: Spinor3Coords): Spinor3;
-    difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
+    sum(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     wedgeVectors(a: Cartesian3, b: Cartesian3): Spinor3;
     /**
      * @method toString

@@ -39,6 +39,7 @@ class Material implements IProgram {
   private _monitors: MonitorList;
   private type: string;
   /**
+   * @class Material
    * @constructor
    * @param contexts {ContextMonitor[]}
    * @param type {string} The class name, used for logging and serialization.
@@ -58,9 +59,17 @@ class Material implements IProgram {
       this._monitors.addContextListener(this);
     }
   }
+  /**
+   * @property monitors
+   * @type {ContextMonitor[]}
+   */
   get monitors(): ContextMonitor[] {
     return this._monitors.toArray();
   }
+  /**
+   * @method addRef
+   * @return {number}
+   */
   addRef(): number {
     this._refCount++;
     refChange(this.programId, this.type, +1);

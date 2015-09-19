@@ -45,9 +45,9 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         /**
          * @method vertexPointer
          * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
-         * @param normalized {boolean} Used for WebGLRenderingContext.vertexAttribPointer().
-         * @param stride {number} Used for WebGLRenderingContext.vertexAttribPointer().
-         * @param offset {number} Used for WebGLRenderingContext.vertexAttribPointer().
+         * @param normalized {boolean} Used for WebGL rendering context vertexAttribPointer method.
+         * @param stride {number} Used for WebGL rendering context vertexAttribPointer method.
+         * @param offset {number} Used for WebGL rendering context vertexAttribPointer method.
          */
         AttribLocation.prototype.vertexPointer = function (size, normalized, stride, offset) {
             if (normalized === void 0) { normalized = false; }

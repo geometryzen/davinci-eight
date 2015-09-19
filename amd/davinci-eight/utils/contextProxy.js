@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isNumber', '../checks/mustBeInteger', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, expectArg, initWebGL, isDefined, isNumber, mustBeInteger, RefCount, refChange, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, expectArg, initWebGL, isDefined, mustBeInteger, mustBeNumber, mustBeString, RefCount, refChange, Simplex, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Mesh';
@@ -115,16 +115,16 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
     })();
     // TODO: If mode provided, check consistent with elements.k.
     // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
-    function drawMode(k, mode, gl) {
+    function drawMode(k, mode) {
         switch (k) {
             case Simplex.K_FOR_TRIANGLE: {
-                return gl.TRIANGLES;
+                return mustBeNumber('TRIANGLES', WebGLRenderingContext.TRIANGLES);
             }
             case Simplex.K_FOR_LINE_SEGMENT: {
-                return gl.LINES;
+                return mustBeNumber('LINES', WebGLRenderingContext.LINES);
             }
             case Simplex.K_FOR_POINT: {
-                return gl.POINTS;
+                return mustBeNumber('POINTS', WebGLRenderingContext.POINTS);
             }
             case Simplex.K_FOR_EMPTY: {
                 return void 0;
@@ -134,18 +134,16 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             }
         }
     }
-    function isDrawMode(mode, gl) {
-        if (!isNumber(mode)) {
-            expectArg('mode', mode).toBeNumber();
-        }
+    function isDrawMode(mode) {
+        mustBeNumber('mode', mode);
         switch (mode) {
-            case gl.TRIANGLES: {
+            case WebGLRenderingContext.TRIANGLES: {
                 return true;
             }
-            case gl.LINES: {
+            case WebGLRenderingContext.LINES: {
                 return true;
             }
-            case gl.POINTS: {
+            case WebGLRenderingContext.POINTS: {
                 return true;
             }
             default: {
@@ -153,10 +151,10 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             }
         }
     }
-    function isBufferUsage(usage, gl) {
-        expectArg('usage', usage).toBeNumber();
+    function isBufferUsage(usage) {
+        mustBeNumber('usage', usage);
         switch (usage) {
-            case gl.STATIC_DRAW: {
+            case WebGLRenderingContext.STATIC_DRAW: {
                 return true;
             }
             default: {
@@ -164,9 +162,9 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             }
         }
     }
-    function messageUnrecognizedMesh(meshUUID) {
-        expectArg('meshUUID', meshUUID).toBeString();
-        return meshUUID + " is not a recognized mesh uuid";
+    function messageUnrecognizedMesh(uuid) {
+        mustBeString('uuid', uuid);
+        return uuid + " is not a recognized mesh uuid";
     }
     function attribKey(aName, aNameToKeyName) {
         if (aNameToKeyName) {
@@ -244,6 +242,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
+        // // FIXME: Really? Not IUnknownArray<IContextListener> ?
         var users = [];
         function addContextListener(user) {
             expectArg('user', user).toBeObject();
@@ -373,7 +372,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
              */
             createDrawElementsMesh: function (elements, mode, usage) {
                 expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
-                mode = drawMode(elements.k, mode, gl);
+                mode = drawMode(elements.k, mode);
                 if (!isDefined(mode)) {
                     // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
                     // something that can't be drawn (no mode) and it is invisible anyway.
@@ -381,7 +380,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                     return void 0;
                 }
                 if (isDefined(usage)) {
-                    expectArg('usage', usage).toSatisfy(isBufferUsage(usage, gl), "usage must be on of STATIC_DRAW, ...");
+                    expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
                 else {
                     usage = gl.STATIC_DRAW;

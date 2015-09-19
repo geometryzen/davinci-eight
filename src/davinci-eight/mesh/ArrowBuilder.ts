@@ -19,8 +19,7 @@ class ArrowBuilder {
   private $depthSegments: number;
   private $coneHeight: number;
   private $wireFrame: boolean;
-  constructor(options?: ArrowOptions) {
-    options = options || {modelMatrix: Symbolic.UNIFORM_MODEL_MATRIX};
+  constructor(options: ArrowOptions = {}) {
 //    this.setWidth(isUndefined(options.width) ? 1 : options.width);
 //    this.setHeight(isUndefined(options.height) ? 1 : options.height);
 //    this.setDepth(isUndefined(options.depth) ? 1 : options.depth);

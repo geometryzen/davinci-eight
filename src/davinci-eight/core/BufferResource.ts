@@ -91,7 +91,7 @@ class BufferResource implements IBuffer {
       this._gl.bindBuffer(this._target, this._buffer);
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGLRenderingContext.");
+      console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGL rendering context.");
     }
   }
   /**
@@ -102,7 +102,7 @@ class BufferResource implements IBuffer {
       this._gl.bindBuffer(this._target, null);
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGLRenderingContext.");
+      console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGL rendering context.");
     }
 
   }

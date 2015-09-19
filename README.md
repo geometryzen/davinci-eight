@@ -200,6 +200,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.96.0: 2015-09-16 BoxComplex
 * 2.97.0: 2015-09-17 HTMLScriptsMaterial
 * 2.98.0: 2015-09-18 IUnknownArray
+* 2.99.0: 2015-09-18 IContextCommand
 
 ## License
 Copyright (c) 2014-2015 David Holmes

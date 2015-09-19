@@ -1,9 +1,18 @@
 /**
+ * <p>
  * Canonical variable names, which also act as semantic identifiers for name overrides.
  * These names must be stable to avoid breaking custom vertex and fragment shaders.
+ * </p>
+ *
  * @class Symbolic
  */
 class Symbolic {
+  /**
+   * prolog
+   * @property ATTRIBUTE_COLOR
+   * @type {string}
+   * epilog
+   */
   public static ATTRIBUTE_COLOR: string                     = 'aColor';
   public static ATTRIBUTE_MATERIAL_INDEX: string            = 'aMaterialIndex';
   public static ATTRIBUTE_NORMAL: string                    = 'aNormal';

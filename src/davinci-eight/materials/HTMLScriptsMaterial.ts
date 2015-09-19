@@ -16,7 +16,6 @@ function nameBuilder(): string {
 }
 
 /**
- * @module EIGHT
  * @class HTMLScriptsMaterial
  * @extends Material
  */
@@ -25,6 +24,7 @@ class HTMLScriptsMaterial extends Material {
   public dom: Document;
   public attributeBindings: string[] = [];
   /**
+   * @class HTMLScriptsMaterial
    * @constructor
    * @param contexts {ContextMonitor[]}
    * @param scriptIds {string[]}
@@ -37,6 +37,10 @@ class HTMLScriptsMaterial extends Material {
     this.scriptIds = scriptIds.map(function(scriptId) { return scriptId });
     this.dom = dom;
   }
+  /**
+   * @method createProgram
+   * @return {IProgram}
+   */
   createProgram(): IProgram {
     let vsId = this.scriptIds[0];
     let fsId = this.scriptIds[1];

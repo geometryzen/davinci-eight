@@ -142,18 +142,18 @@ var cuboid = function(
     set grayScale(value: boolean) {
       grayScale = value;
     },
-    draw(context: WebGLRenderingContext) {
+    draw(gl: WebGLRenderingContext) {
       switch(drawMode) {
         case 0: {
-          context.drawArrays(context.POINTS, 0, points.length * 1);
+          gl.drawArrays(gl.POINTS, 0, points.length * 1);
         }
         break;
         case 1: {
-          context.drawArrays(context.LINES, 0, lines.length * 2);
+          gl.drawArrays(gl.LINES, 0, lines.length * 2);
         }
         break;
         case 2: {
-          context.drawArrays(context.TRIANGLES, 0, triangles.length * 3);
+          gl.drawArrays(gl.TRIANGLES, 0, triangles.length * 3);
         }
         break;
         default : {

@@ -21,9 +21,6 @@ function updateFaceNormal(face: Face3, vertices: Cartesian3[]) {
   face.vertexNormals.push(normal);
 }
 
-/**
- * @class Geometry
- */
 class Geometry {
   // faces and vertices will be combined into Simplex[]
   public faces: Face3[] = [];
@@ -119,11 +116,6 @@ class Geometry {
       face.vertexNormals[2] = vertexNormals[face.c].clone();
     }
   }
-  /**
-   * Updates the geometry by merging closely separated vertices.
-   * @method mergeVertices
-   * @param precisionPoints {number} number of decimal points, eg. 4 for epsilon of 0.0001
-   */
   protected mergeVertices(precisionPoints: number = 4) {
     /**
      * Hashmap for looking up vertice by position coordinates (and making sure they are unique).
