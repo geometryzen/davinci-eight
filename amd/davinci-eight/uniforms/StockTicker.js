@@ -3,8 +3,8 @@ define(["require", "exports"], function (require, exports) {
         function StockTicker() {
             this.price = Math.PI;
         }
-        StockTicker.prototype.accept = function (visitor) {
-            visitor.uniform1f('uStockTicker', this.price);
+        StockTicker.prototype.setUniforms = function (visitor, canvasId) {
+            visitor.uniform1f('uStockTicker', this.price, canvasId);
         };
         return StockTicker;
     })();

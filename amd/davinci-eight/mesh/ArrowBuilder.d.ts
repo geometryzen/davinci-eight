@@ -1,8 +1,5 @@
 import ArrowOptions = require('../mesh/ArrowOptions');
 import Cartesian3 = require('../math/Cartesian3');
-/**
- * @class ArrowBuilder
- */
 declare class ArrowBuilder {
     private $axis;
     private $flavor;

@@ -1,8 +1,8 @@
 import ContextListener = require('../core/ContextListener');
 import ContextUnique = require('../core/ContextUnique');
-import DrawElements = require('../dfx/DrawElements');
+import GeometryData = require('../dfx/GeometryData');
 import IBuffer = require('../core/IBuffer');
-import IMesh = require('../dfx/IMesh');
+import IBufferGeometry = require('../dfx/IBufferGeometry');
 // FIXME: Do we need IProgram?
 import IProgram = require('../core/IProgram');
 import ITexture2D = require('../core/ITexture2D');
@@ -24,7 +24,7 @@ interface ContextManager extends ContextUnique, IUnknown {
   clearDepth(depth: number): void;
   createArrayBuffer(): IBuffer;
   createElementArrayBuffer(): IBuffer;
-  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
   drawArrays(mode: number, first: number, count: number): void;

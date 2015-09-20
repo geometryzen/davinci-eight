@@ -92,9 +92,10 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
                 far.x = value;
                 updateProjectionMatrix();
             },
-            accept: function (visitor) {
+            setUniforms: function (visitor, canvasId) {
+                // FIXME: canvasId ignored
                 visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
-                base.accept(visitor);
+                base.setUniforms(visitor, canvasId);
             }
         };
         return self;

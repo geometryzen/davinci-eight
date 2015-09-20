@@ -17,12 +17,12 @@ class Symbolic {
   public static ATTRIBUTE_COLOR: string                     = 'aColor';
 
   /**
-   * 'aMaterialIndex'
-   * @property ATTRIBUTE_MATERIAL_INDEX
+   * 'aGeometryIndex'
+   * @property ATTRIBUTE_GEOMETRY_INDEX
    * @type {string}
    * @static
    */
-  public static ATTRIBUTE_MATERIAL_INDEX: string            = 'aMaterialIndex';
+  public static ATTRIBUTE_GEOMETRY_INDEX: string            = 'aGeometryIndex';
 
   /**
    * 'aNormal'

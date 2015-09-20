@@ -58,8 +58,8 @@ define(["require", "exports", '../scene/MonitorList', '../scene/createDrawList',
         Scene.prototype.contextLoss = function (canvasId) {
             this._drawList.contextLoss(canvasId);
         };
-        Scene.prototype.uniform1f = function (name, x) {
-            this._drawList.uniform1f(name, x);
+        Scene.prototype.uniform1f = function (name, x, canvasId) {
+            this._drawList.uniform1f(name, x, canvasId);
         };
         Scene.prototype.uniform2f = function (name, x, y) {
             this._drawList.uniform2f(name, x, y);

@@ -20,9 +20,9 @@ class RoundUniform implements UniformDataVisitor {
     // FIXME: No reference counting yet.
     this._next = next;
   }
-  uniform1f(name: string, x: number): void {
+  uniform1f(name: string, x: number, canvasId: number): void {
     if (this._next) {
-      this._next.uniform1f(name, Math.round(x));
+      this._next.uniform1f(name, Math.round(x), canvasId);
     }
   }
   uniform2f(name: string, x: number, y: number): void {

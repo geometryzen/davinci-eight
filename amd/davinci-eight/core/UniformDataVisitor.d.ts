@@ -7,7 +7,7 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 interface UniformDataVisitor {
-    uniform1f(name: string, x: number): void;
+    uniform1f(name: string, x: number, canvasId: number): void;
     uniform2f(name: string, x: number, y: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;

@@ -1,12 +1,12 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
-import AttribMetaInfos = require('../core/AttribMetaInfos');
-import UniformMetaInfo = require('../core/UniformMetaInfo');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
 import getAttribVarName = require('../core/getAttribVarName');
 import getUniformVarName = require('../core/getUniformVarName');
+import mustBeBoolean = require('../checks/mustBeBoolean');
+import mustBeDefined = require('../checks/mustBeDefined');
 import Symbolic = require('../core/Symbolic');
+import UniformMetaInfo = require('../core/UniformMetaInfo');
 
-function getUniformCodeName(uniforms: UniformMetaInfos, name: string) {
+function getUniformCodeName(uniforms: { [name: string]: UniformMetaInfo }, name: string) {
   return getUniformVarName(uniforms[name], name);
 }
 
@@ -23,7 +23,12 @@ let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor"
 /**
  * 
  */
-function vertexShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean): string {
+function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean): string {
+
+  mustBeDefined('attributes', attributes);
+  mustBeDefined('uniforms', uniforms);
+  mustBeBoolean('vColor', vColor);
+  mustBeBoolean('vLight', vLight);
 
   var lines: string[] = [];
   for (var aName in attributes) {
@@ -71,36 +76,41 @@ function vertexShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, v
   glPosition.unshift('  ');
   lines.push(glPosition.join(''));
 
-  if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-    let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
-    switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
-      case 'vec4': {
-        lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
-      }
-      break;
-      case 'vec3': {
-        lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
-      }
-      break;
-      default: {
-        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
+  if (vColor) {
+    if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+      let colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
+      switch(attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
+        case 'vec4': {
+          lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+        }
+        break;
+        case 'vec3': {
+          lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
+        }
+        break;
+        default: {
+          throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
+        }
       }
     }
-  }
-  else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-    let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
-    switch(uniforms[Symbolic.UNIFORM_COLOR].glslType) {
-      case 'vec4': {
-        lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
+    else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+      let colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
+      switch(uniforms[Symbolic.UNIFORM_COLOR].glslType) {
+        case 'vec4': {
+          lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
+        }
+        break;
+        case 'vec3': {
+          lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
+        }
+        break;
+        default: {
+          throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+        }
       }
-      break;
-      case 'vec3': {
-        lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
-      }
-      break;
-      default: {
-        throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
-      }
+    }
+    else {
+      lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);");
     }
   }
 

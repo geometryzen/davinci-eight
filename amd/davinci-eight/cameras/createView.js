@@ -54,7 +54,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
                 up.normalize();
                 return self;
             },
-            accept: function (visitor) {
+            setUniforms: function (visitor, canvasId) {
                 if (eye.modified || look.modified || up.modified) {
                     // TODO: view matrix would be better.
                     computeViewMatrix(eye, look, up, viewMatrix);
@@ -62,6 +62,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Sym
                     look.modified = false;
                     up.modified = false;
                 }
+                // FIXME: canvasId is being ignored, must pass in.
                 visitor.uniformMatrix4(viewMatrixName, false, viewMatrix);
             }
         };

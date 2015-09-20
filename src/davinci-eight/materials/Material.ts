@@ -11,6 +11,7 @@ import Matrix4 = require('../math/Matrix4');
 import mustBeInteger = require('../checks/mustBeInteger');
 import mustBeString = require('../checks/mustBeString');
 import refChange = require('../utils/refChange');
+import Shareable = require('../utils/Shareable');
 import UniformLocation = require('../core/UniformLocation');
 import uuid4 = require('../utils/uuid4');
 import Vector1 = require('../math/Vector1');
@@ -23,7 +24,6 @@ function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string) 
 }
 
 /**
- * @module EIGHT
  * @class Material
  * @implements IProgram
  */
@@ -33,8 +33,8 @@ class Material implements IProgram {
   private readyPending: boolean = false;
   public programId: string = uuid4().generate();
   // FIXME get from shaders?
-  public vertexShader: string;
-  public fragmentShader: string;
+  //public vertexShader: string;
+  //public fragmentShader: string;
   private _refCount: number = 1;
   private _monitors: MonitorList;
   private type: string;
@@ -53,7 +53,7 @@ class Material implements IProgram {
     this.type = type;
     refChange(this.programId, this.type, this._refCount);
   }
-  private makeReady(async: boolean): void {
+  protected makeReady(async: boolean): void {
     if (!this.readyPending) {
       this.readyPending = true;
       this._monitors.addContextListener(this);
@@ -74,6 +74,9 @@ class Material implements IProgram {
     this._refCount++;
     refChange(this.programId, this.type, +1);
     return this._refCount;
+  }
+  get fragmentShader() {
+    return this.inner ? this.inner.fragmentShader : void 0;
   }
   release(): number {
     this._refCount--;
@@ -184,20 +187,18 @@ class Material implements IProgram {
   }
   protected createProgram(): IProgram {
     // FIXME; Since we get contextGain by canvas, expect canvasId to be an argument?
-    // FIXME: We just delegate contextGain to the program.
-    console.warn("Material createProgram method is virtual and should be implemented by " + this.type);
-    return void 0;
+    throw new Error("Material createProgram method is virtual and should be implemented by " + this.type);
   }
-  uniform1f(name: string, x: number): void {
+  uniform1f(name: string, x: number, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniform1f(name, x);
+      this.inner.uniform1f(name, x, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniform1f(name, x);
+        this.inner.uniform1f(name, x, canvasId);
       }
       else {
         if (!readyPending) {
@@ -403,6 +404,9 @@ class Material implements IProgram {
         }
       }
     }
+  }
+  get vertexShader() {
+    return this.inner ? this.inner.vertexShader : void 0;
   }
 }
 

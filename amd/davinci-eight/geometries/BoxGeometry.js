@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/BoxComplex', '../geometries/Geometry', '../dfx/toDrawElements'], function (require, exports, BoxComplex, Geometry, toDrawElements) {
+define(["require", "exports", '../geometries/BoxComplex', '../geometries/Geometry', '../dfx/toGeometryData'], function (require, exports, BoxComplex, Geometry, toGeometryData) {
     /**
      * @class BoxGeometry
      */
@@ -25,7 +25,7 @@ define(["require", "exports", '../geometries/BoxComplex', '../geometries/Geometr
         }
         BoxGeometry.prototype.calculate = function () {
             var complex = new BoxComplex(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
-            this.data = toDrawElements(complex.data, complex.meta);
+            this.data = toGeometryData(complex.data, complex.meta);
             this.meta = complex.meta;
         };
         return BoxGeometry;

@@ -13,8 +13,8 @@ define(["require", "exports"], function (require, exports) {
         /**
          * @class Geometry
          * @constructor
-         * @param data {DrawElements} The instructions for drawing the geometry.
-         * @param meta {GeometryInfo}
+         * @param data {GeometryData} The instructions for drawing the geometry.
+         * @param meta {GeometryMeta}
          */
         function Geometry(data, meta) {
             this.data = data;

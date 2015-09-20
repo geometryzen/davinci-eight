@@ -1,11 +1,17 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
-import AttribMetaInfos = require('../core/AttribMetaInfos');
+import mustBeBoolean = require('../checks/mustBeBoolean');
+import mustBeDefined = require('../checks/mustBeDefined');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
+
 /**
  *
  */
-function fragmentShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean) {
+function fragmentShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: { [name: string]: UniformMetaInfo }, vColor: boolean, vLight: boolean) {
+
+  mustBeDefined('attributes', attributes);
+  mustBeDefined('uniforms', uniforms);
+  mustBeBoolean('vColor', vColor);
+  mustBeBoolean('vLight', vLight);
 
   var lines: string[] = [];
   if (vColor) {

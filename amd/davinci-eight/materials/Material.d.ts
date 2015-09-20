@@ -12,7 +12,6 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 /**
- * @module EIGHT
  * @class Material
  * @implements IProgram
  */
@@ -20,8 +19,6 @@ declare class Material implements IProgram {
     private inner;
     private readyPending;
     programId: string;
-    vertexShader: string;
-    fragmentShader: string;
     private _refCount;
     private _monitors;
     private type;
@@ -32,7 +29,7 @@ declare class Material implements IProgram {
      * @param type {string} The class name, used for logging and serialization.
      */
     constructor(contexts: ContextMonitor[], type: string);
-    private makeReady(async);
+    protected makeReady(async: boolean): void;
     /**
      * @property monitors
      * @type {ContextMonitor[]}
@@ -43,6 +40,7 @@ declare class Material implements IProgram {
      * @return {number}
      */
     addRef(): number;
+    fragmentShader: string;
     release(): number;
     use(canvasId: number): void;
     attributes: {
@@ -57,7 +55,7 @@ declare class Material implements IProgram {
     contextGain(manager: ContextManager): void;
     contextLoss(canvasId: number): void;
     protected createProgram(): IProgram;
-    uniform1f(name: string, x: number): void;
+    uniform1f(name: string, x: number, canvasId: number): void;
     uniform2f(name: string, x: number, y: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;
     uniform4f(name: string, x: number, y: number, z: number, w: number): void;
@@ -69,5 +67,6 @@ declare class Material implements IProgram {
     uniformVector2(name: string, vector: Vector2): void;
     uniformVector3(name: string, vector: Vector3): void;
     uniformVector4(name: string, vector: Vector4): void;
+    vertexShader: string;
 }
 export = Material;

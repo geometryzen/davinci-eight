@@ -3,7 +3,7 @@
  */
 interface UniformMetaInfo {
   /**
-   * @property name {string} Specifies an optional override of the name used as a key in UniformMetaInfos.
+   * @property name {string} Specifies an optional override of the name used as a key.
    */
   name?: string;
   /**

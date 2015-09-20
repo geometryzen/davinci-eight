@@ -14,7 +14,7 @@ declare class Mesh<G extends Geometry, M extends IProgram, U extends UniformData
     _material: M;
     /**
      * FIXME This is a bad name because it is not just a collection of meshLookup.
-     * A map from canvas to IMesh.
+     * A map from canvas to IBufferGeometry.
      * It's a function that returns a mesh, given a canvasId; a lokup
      */
     private meshLookup;

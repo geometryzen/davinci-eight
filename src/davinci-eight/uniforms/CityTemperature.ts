@@ -11,7 +11,7 @@ class CityTemperature implements UniformData {
     this.temperature = Math.E;
     this._uName = uName;
   }
-  accept(visitor: UniformDataVisitor): void {
+  setUniforms(visitor: UniformDataVisitor, canvasId): void {
     visitor.uniform1f(this._uName, this.temperature);
   }
 }

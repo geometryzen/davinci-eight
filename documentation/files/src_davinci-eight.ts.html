@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.100.0</em>
+            <em>API Docs for: 2.101.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,8 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
-                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
-                                <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
@@ -67,7 +63,9 @@
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -83,11 +81,11 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
+                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
+                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
-                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
-                                <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -157,7 +155,7 @@ import WebGLClearColor         = require(&#x27;davinci-eight/commands/WebGLClear
 import WebGLEnable             = require(&#x27;davinci-eight/commands/WebGLEnable&#x27;)
 // core
 import AttribLocation          = require(&#x27;davinci-eight/core/AttribLocation&#x27;);
-import AttribMetaInfos         = require(&#x27;davinci-eight/core/AttribMetaInfos&#x27;);
+import AttribMetaInfo          = require(&#x27;davinci-eight/core/AttribMetaInfo&#x27;);
 import Color                   = require(&#x27;davinci-eight/core/Color&#x27;);
 import core                    = require(&#x27;davinci-eight/core&#x27;);
 import DrawMode                = require(&#x27;davinci-eight/core/DrawMode&#x27;);
@@ -169,25 +167,23 @@ import ContextMonitor          = require(&#x27;davinci-eight/core/ContextMonitor
 import Symbolic                = require(&#x27;davinci-eight/core/Symbolic&#x27;);
 import UniformData             = require(&#x27;davinci-eight/core/UniformData&#x27;);
 import UniformDataVisitor      = require(&#x27;davinci-eight/core/UniformDataVisitor&#x27;);
-import UniformMetaInfo         = require(&#x27;davinci-eight/core/UniformMetaInfo&#x27;);
-import UniformMetaInfos        = require(&#x27;davinci-eight/core/UniformMetaInfos&#x27;);
 import UniformLocation         = require(&#x27;davinci-eight/core/UniformLocation&#x27;);
-import UniformProvider         = require(&#x27;davinci-eight/core/UniformProvider&#x27;);
+import UniformMetaInfo         = require(&#x27;davinci-eight/core/UniformMetaInfo&#x27;);
 // curves
 import Curve = require(&#x27;davinci-eight/curves/Curve&#x27;);
 // dfx
 import DrawAttribute = require(&#x27;davinci-eight/dfx/DrawAttribute&#x27;);
-import DrawElements = require(&#x27;davinci-eight/dfx/DrawElements&#x27;);
+import GeometryData = require(&#x27;davinci-eight/dfx/GeometryData&#x27;);
 import Simplex = require(&#x27;davinci-eight/dfx/Simplex&#x27;);
 import Vertex = require(&#x27;davinci-eight/dfx/Vertex&#x27;);
-import checkGeometry = require(&#x27;davinci-eight/dfx/checkGeometry&#x27;);
-import GeometryInfo = require(&#x27;davinci-eight/dfx/GeometryInfo&#x27;);
+import toGeometryMeta = require(&#x27;davinci-eight/dfx/toGeometryMeta&#x27;);
+import GeometryMeta = require(&#x27;davinci-eight/dfx/GeometryMeta&#x27;);
 import computeFaceNormals = require(&#x27;davinci-eight/dfx/computeFaceNormals&#x27;);
 import cube = require(&#x27;davinci-eight/dfx/cube&#x27;);
 import quadrilateral = require(&#x27;davinci-eight/dfx/quadrilateral&#x27;);
 import square = require(&#x27;davinci-eight/dfx/square&#x27;);
 import tetrahedron = require(&#x27;davinci-eight/dfx/tetrahedron&#x27;);
-import toDrawElements = require(&#x27;davinci-eight/dfx/toDrawElements&#x27;);
+import toGeometryData = require(&#x27;davinci-eight/dfx/toGeometryData&#x27;);
 import triangle = require(&#x27;davinci-eight/dfx/triangle&#x27;);
 
 // scene
@@ -224,9 +220,10 @@ import smartProgram = require(&#x27;davinci-eight/programs/smartProgram&#x27;);
 import programFromScripts = require(&#x27;davinci-eight/programs/programFromScripts&#x27;);
 
 // materials
-import Material            = require(&#x27;davinci-eight/materials/Material&#x27;);
-import HTMLScriptsMaterial = require(&#x27;davinci-eight/materials/HTMLScriptsMaterial&#x27;);
-import MeshNormalMaterial  = require(&#x27;davinci-eight/materials/MeshNormalMaterial&#x27;);
+import Material             = require(&#x27;davinci-eight/materials/Material&#x27;);
+import HTMLScriptsMaterial  = require(&#x27;davinci-eight/materials/HTMLScriptsMaterial&#x27;);
+import MeshNormalMaterial   = require(&#x27;davinci-eight/materials/MeshNormalMaterial&#x27;);
+import SmartMaterialBuilder = require(&#x27;davinci-eight/materials/SmartMaterialBuilder&#x27;);
 // mappers
 import RoundUniform = require(&#x27;davinci-eight/mappers/RoundUniform&#x27;);
 // math
@@ -294,6 +291,7 @@ var eight = {
   get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },
   get Material() { return Material; },
   get MeshNormalMaterial() { return MeshNormalMaterial; },
+  get SmartMaterialBuilder() { return SmartMaterialBuilder; },
   //commands
   get WebGLClear() { return WebGLClear; },
   get WebGLClearColor() { return WebGLClearColor; },
@@ -364,21 +362,21 @@ var eight = {
   // mesh
   get ArrowBuilder() { return ArrowBuilder; },
   
-  get checkGeometry() { return checkGeometry; },
+  get toGeometryMeta() { return toGeometryMeta; },
   get computeFaceNormals() { return computeFaceNormals; },
   get cube() { return cube; },
   get quadrilateral() { return quadrilateral; },
   get square() { return square; },
   get tetrahedron() { return tetrahedron; },
   get triangle() { return triangle; },
-  get toDrawElements() { return toDrawElements; },
+  get toGeometryData() { return toGeometryData; },
   get CylinderArgs() { return CylinderArgs; },
 
   get Symbolic() { return Symbolic; },
   // programs
   get programFromScripts() { return programFromScripts; },
   get DrawAttribute() { return DrawAttribute; },
-  get DrawElements() { return DrawElements; },
+  get GeometryData() { return GeometryData; },
   // uniforms
   get SineWaveUniform() { return SineWaveUniform; },
   // utils

@@ -1,23 +1,14 @@
-define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', './shaderProgram', '../core/Symbolic', '../programs/vertexShader'], function (require, exports, MonitorList, fragmentShader, shaderProgram, Symbolic, vertexShader) {
-    function vLightRequired(uniforms) {
-        return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
-    }
-    function vColorRequired(attributes, uniforms) {
-        return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
-    }
+define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './shaderProgram', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, shaderProgram, vColorRequired, vertexShader, vLightRequired) {
     /**
      *
      */
-    var smartProgram = function (monitors, attributes, uniforms, bindings) {
+    var smartProgram = function (monitors, attributes, uniformsList, bindings) {
         MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
-        if (!attributes) {
-            throw new Error("The attributes parameter is required for smartProgram.");
-        }
-        if (!uniforms) {
-            throw new Error("The uniformsList parameter is required for smartProgram.");
-        }
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniformsList', uniformsList);
+        var uniforms = mergeStringMapList(uniformsList);
         var vColor = vColorRequired(attributes, uniforms);
-        var vLight = vLightRequired(uniforms);
+        var vLight = vLightRequired(attributes, uniforms);
         var innerProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
         var self = {
             get programId() {
@@ -59,8 +50,8 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             disableAttrib: function (name) {
                 return innerProgram.disableAttrib(name);
             },
-            uniform1f: function (name, x) {
-                return innerProgram.uniform1f(name, x);
+            uniform1f: function (name, x, canvasId) {
+                return innerProgram.uniform1f(name, x, canvasId);
             },
             uniform2f: function (name, x, y) {
                 return innerProgram.uniform2f(name, x, y);

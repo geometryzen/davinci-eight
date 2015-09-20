@@ -78,8 +78,8 @@ class Scene implements IDrawList {
   contextLoss(canvasId: number) {
     this._drawList.contextLoss(canvasId);
   }
-  uniform1f(name: string, x: number) {
-    this._drawList.uniform1f(name, x);
+  uniform1f(name: string, x: number, canvasId: number) {
+    this._drawList.uniform1f(name, x, canvasId);
   }
   uniform2f(name: string, x: number, y: number) {
     this._drawList.uniform2f(name, x, y);

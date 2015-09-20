@@ -6,8 +6,8 @@ class StockTicker implements UniformData {
   constructor() {
     this.price = Math.PI;
   }
-  accept(visitor: UniformDataVisitor): void {
-    visitor.uniform1f('uStockTicker', this.price);
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void {
+    visitor.uniform1f('uStockTicker', this.price, canvasId);
   }
 }
 

@@ -1,5 +1,3 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
-
 function makeArray(length: number) {
   var xs: number[] = [];
   for (var i = 0; i < length; i++) {
@@ -26,12 +24,6 @@ class CurveMesh {
   }
   get dynamic(): boolean {
     return true;
-  }
-  getAttribMeta(): AttribMetaInfos {
-    return {
-      position: { name: 'aPosition', type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-      color:    { name: 'aColor',    type: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
-    };
   }
   update(): void {
     var n = this.n;

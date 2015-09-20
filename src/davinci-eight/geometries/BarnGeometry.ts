@@ -4,7 +4,6 @@ import Vector3 = require('../math/Vector3');
 
 /**
  * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
- * @class BarnGeometry
  */
 class BarnGeometry extends Geometry {
   constructor() {

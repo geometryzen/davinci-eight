@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../core/Symbolic'], function (require, exports, getAttribVarName, getUniformVarName, Symbolic) {
+define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/Symbolic'], function (require, exports, getAttribVarName, getUniformVarName, mustBeBoolean, mustBeDefined, Symbolic) {
     function getUniformCodeName(uniforms, name) {
         return getUniformVarName(uniforms[name], name);
     }
@@ -16,6 +16,10 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
      *
      */
     function vertexShader(attributes, uniforms, vColor, vLight) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        mustBeBoolean('vColor', vColor);
+        mustBeBoolean('vLight', vLight);
         var lines = [];
         for (var aName in attributes) {
             lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
@@ -59,40 +63,45 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         glPosition.unshift("gl_Position");
         glPosition.unshift('  ');
         lines.push(glPosition.join(''));
-        if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-            var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
-            switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
-                case 'vec4':
-                    {
-                        lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+        if (vColor) {
+            if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+                var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
+                switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
+                    case 'vec4':
+                        {
+                            lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+                        }
+                        break;
+                    case 'vec3':
+                        {
+                            lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
+                        }
+                        break;
+                    default: {
+                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
                     }
-                    break;
-                case 'vec3':
-                    {
-                        lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
-                    }
-                    break;
-                default: {
-                    throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
                 }
             }
-        }
-        else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-            var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
-            switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
-                case 'vec4':
-                    {
-                        lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
+            else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+                var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
+                switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
+                    case 'vec4':
+                        {
+                            lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
+                        }
+                        break;
+                    case 'vec3':
+                        {
+                            lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
+                        }
+                        break;
+                    default: {
+                        throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
                     }
-                    break;
-                case 'vec3':
-                    {
-                        lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
-                    }
-                    break;
-                default: {
-                    throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
                 }
+            }
+            else {
+                lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);");
             }
         }
         if (vLight) {

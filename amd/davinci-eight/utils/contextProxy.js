@@ -1,4 +1,4 @@
-define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, DrawElements, expectArg, initWebGL, isDefined, mustBeInteger, mustBeNumber, mustBeString, RefCount, refChange, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, GeometryData, expectArg, initWebGL, isDefined, mustBeInteger, mustBeNumber, mustBeString, RefCount, refChange, Simplex, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Mesh';
@@ -18,17 +18,17 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
     /**
      * This could become an encapsulated call?
      */
-    var DrawElementsCommand = (function () {
-        function DrawElementsCommand(mode, count, type, offset) {
+    var GeometryDataCommand = (function () {
+        function GeometryDataCommand(mode, count, type, offset) {
             this.mode = mode;
             this.count = count;
             this.type = type;
             this.offset = offset;
         }
-        DrawElementsCommand.prototype.execute = function (gl) {
+        GeometryDataCommand.prototype.execute = function (gl) {
             gl.drawElements(this.mode, this.count, this.type, this.offset);
         };
-        return DrawElementsCommand;
+        return GeometryDataCommand;
     })();
     var ElementsBlock = (function () {
         function ElementsBlock(indexBuffer, attributes, drawCommand) {
@@ -271,7 +271,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 }
             };
         }
-        function createDrawElementsMesh(uuid) {
+        function createBufferGeometry(uuid) {
             var refCount = new RefCount(meshRemover(uuid));
             var _program = void 0;
             var mesh = {
@@ -370,8 +370,8 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
             /**
              *
              */
-            createDrawElementsMesh: function (elements, mode, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
+            createBufferGeometry: function (elements, mode, usage) {
+                expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryData");
                 mode = drawMode(elements.k, mode);
                 if (!isDefined(mode)) {
                     // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
@@ -385,7 +385,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 else {
                     usage = gl.STATIC_DRAW;
                 }
-                var mesh = createDrawElementsMesh(uuid4().generate());
+                var mesh = createBufferGeometry(uuid4().generate());
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
@@ -411,7 +411,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/DrawElements', '
                 // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
                 switch (elements.k) {
                 }
-                var drawCommand = new DrawElementsCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+                var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
                 blocks.put(mesh.uuid, block);
                 block.release();

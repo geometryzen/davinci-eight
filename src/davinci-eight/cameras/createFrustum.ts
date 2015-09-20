@@ -109,9 +109,10 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
       far.x = value;
       updateProjectionMatrix();
     },
-    accept(visitor: UniformDataVisitor) {
+    setUniforms(visitor: UniformDataVisitor, canvasId: number) {
+      // FIXME: canvasId ignored
       visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
-      base.accept(visitor);
+      base.setUniforms(visitor, canvasId);
     }
   };
 

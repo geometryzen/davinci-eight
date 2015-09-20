@@ -1,5 +1,5 @@
 define(["require", "exports", '../dfx/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Simplex, Symbolic, Vector2, Vector3) {
-    function buildPlane(u, v, udir, vdir, width, height, depth, widthSegments, heightSegments, depthSegments, materialIndex, points, faces) {
+    function buildPlane(u, v, udir, vdir, width, height, depth, widthSegments, heightSegments, depthSegments, geometryIndex, points, faces) {
         var w;
         var ix;
         var iy;
@@ -53,29 +53,29 @@ define(["require", "exports", '../dfx/Simplex', '../core/Symbolic', '../math/Vec
                 face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a + offset];
                 face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                 face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva;
-                face.vertices[0].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                face.vertices[0].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
                 face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
                 face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                 face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
-                face.vertices[1].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                face.vertices[1].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
                 face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
                 face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                 face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
-                face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                face.vertices[2].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
                 faces.push(face);
                 face = new Simplex(Simplex.K_FOR_TRIANGLE);
                 face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b + offset];
                 face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                 face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb;
-                face.vertices[0].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                face.vertices[0].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
                 face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c + offset];
                 face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                 face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc;
-                face.vertices[1].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                face.vertices[1].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
                 face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d + offset];
                 face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normal;
                 face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd;
-                face.vertices[2].attributes[Symbolic.ATTRIBUTE_MATERIAL_INDEX] = materialIndex;
+                face.vertices[2].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = geometryIndex;
                 faces.push(face);
             }
         }

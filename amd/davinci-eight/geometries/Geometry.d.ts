@@ -1,5 +1,5 @@
-import DrawElements = require('../dfx/DrawElements');
-import GeometryInfo = require('../dfx/GeometryInfo');
+import GeometryData = require('../dfx/GeometryData');
+import GeometryMeta = require('../dfx/GeometryMeta');
 /**
  * <p>
  * A geometry holds the elements or arrays sent to the GLSL pipeline.
@@ -13,20 +13,20 @@ import GeometryInfo = require('../dfx/GeometryInfo');
 declare class Geometry {
     /**
      * @property data
-     * @type {DrawElements}
+     * @type {GeometryData}
      */
-    data: DrawElements;
+    data: GeometryData;
     /**
      * @property meta
-     * @type {GeometryInfo}
+     * @type {GeometryMeta}
      */
-    meta: GeometryInfo;
+    meta: GeometryMeta;
     /**
      * @class Geometry
      * @constructor
-     * @param data {DrawElements} The instructions for drawing the geometry.
-     * @param meta {GeometryInfo}
+     * @param data {GeometryData} The instructions for drawing the geometry.
+     * @param meta {GeometryMeta}
      */
-    constructor(data: DrawElements, meta: GeometryInfo);
+    constructor(data: GeometryData, meta: GeometryMeta);
 }
 export = Geometry;

@@ -1,6 +1,7 @@
-import UniformMetaInfo = require('../core/UniformMetaInfo');
 /**
  * Policy for how a uniform variable name is determined.
  */
-declare function getUniformVarName(uniform: UniformMetaInfo, varName: string): string;
+declare function getUniformVarName(uniform: {
+    name?: string;
+}, varName: string): string;
 export = getUniformVarName;

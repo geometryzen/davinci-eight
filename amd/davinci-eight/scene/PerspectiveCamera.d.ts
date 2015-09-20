@@ -22,7 +22,7 @@ declare class PerspectiveCamera implements ICamera, UniformData {
     private inner;
     constructor(fov?: number, aspect?: number, near?: number, far?: number);
     addRef(): number;
-    accept(visitor: UniformDataVisitor): void;
+    setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
     contextFree(): void;
     contextGain(manager: ContextManager): void;
     contextLoss(): void;

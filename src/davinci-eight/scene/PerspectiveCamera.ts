@@ -44,13 +44,13 @@ class PerspectiveCamera implements ICamera, UniformData {
     refChange(this._uuid, CLASS_NAME, +1);
     return this._refCount;
   }
-  accept(visitor: UniformDataVisitor): void {
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void {
     this.inner.setFov(this.fov);
     this.inner.setAspect(this.aspect);
     this.inner.setNear(this.near);
     this.inner.setFar(this.far);
     this.inner.setEye(this.position);
-    this.inner.accept(visitor);
+    this.inner.setUniforms(visitor, canvasId);
   }
   contextFree(): void {
   }

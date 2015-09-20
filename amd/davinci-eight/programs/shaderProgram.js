@@ -139,6 +139,7 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                     var context = manager.gl;
                     var program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
                     programs[manager.canvasId] = program;
+                    // FIXME: Need to work with locations by canvasId. 
                     var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
                     for (var a = 0; a < activeAttributes; a++) {
                         var activeAttribInfo = context.getActiveAttrib(program, a);
@@ -208,9 +209,12 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                     attribLoc.disable();
                 }
             },
-            uniform1f: function (name, x) {
+            uniform1f: function (name, x, canvasId) {
                 var uniformLoc = uniformLocations[name];
                 if (uniformLoc) {
+                    // FIXME: What happens to canvasId.
+                    // Is it used to select the locations? YES?
+                    // Is it passed on to the location? NO.
                     uniformLoc.uniform1f(x);
                 }
             },

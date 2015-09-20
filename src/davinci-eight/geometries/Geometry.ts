@@ -1,5 +1,5 @@
-import DrawElements = require('../dfx/DrawElements');
-import GeometryInfo = require('../dfx/GeometryInfo');
+import GeometryData = require('../dfx/GeometryData');
+import GeometryMeta = require('../dfx/GeometryMeta');
 
 /**
  * <p>
@@ -14,22 +14,22 @@ import GeometryInfo = require('../dfx/GeometryInfo');
 class Geometry {
   /**
    * @property data
-   * @type {DrawElements}
+   * @type {GeometryData}
    */
-  public data: DrawElements;
+  public data: GeometryData;
   /**
    * @property meta
-   * @type {GeometryInfo}
+   * @type {GeometryMeta}
    */
-  // FIXME: GeometryInfo vanishes in the API docs because it is an interface.
-  public meta: GeometryInfo;
+  // FIXME: GeometryMeta vanishes in the API docs because it is an interface.
+  public meta: GeometryMeta;
   /**
    * @class Geometry
    * @constructor
-   * @param data {DrawElements} The instructions for drawing the geometry.
-   * @param meta {GeometryInfo} 
+   * @param data {GeometryData} The instructions for drawing the geometry.
+   * @param meta {GeometryMeta} 
    */
-  constructor(data: DrawElements, meta: GeometryInfo) {
+  constructor(data: GeometryData, meta: GeometryMeta) {
     this.data = data;
     this.meta = meta;
   }

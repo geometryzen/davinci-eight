@@ -1,9 +1,9 @@
-import checkGeometry = require('../dfx/checkGeometry');
-import DrawElements = require('../dfx/DrawElements');
+import toGeometryMeta = require('../dfx/toGeometryMeta');
+import GeometryData = require('../dfx/GeometryData');
 import Geometry = require('../geometries/Geometry');
-import GeometryInfo = require('../dfx/GeometryInfo');
+import GeometryMeta = require('../dfx/GeometryMeta');
 import Simplex = require('../dfx/Simplex');
-import toDrawElements = require('../dfx/toDrawElements');
+import toGeometryData = require('../dfx/toGeometryData');
 
 /**
  * @class Complex
@@ -18,9 +18,9 @@ class Complex {
    * Summary information on the simplices such as dimensionality and sizes for attributes.
    * This same data structure may be used to map vertex attribute names to program names.
    * @property meta
-   * @type {GeometryInfo}
+   * @type {GeometryMeta}
    */
-  public meta: GeometryInfo;
+  public meta: GeometryMeta;
 
   public dynamic = true;
   public verticesNeedUpdate = false;
@@ -53,7 +53,7 @@ class Complex {
    * @return {Complex}
    */
   public check(): Complex {
-    this.meta = checkGeometry(this.data);
+    this.meta = toGeometryMeta(this.data);
     return this;
   }
   /**
@@ -73,7 +73,7 @@ class Complex {
    * @return {Geometry}
    */
   public toGeometry(): Geometry {
-    let elements = toDrawElements(this.data, this.meta);
+    let elements = toGeometryData(this.data, this.meta);
     return new Geometry(elements, this.meta);
   }
   /**

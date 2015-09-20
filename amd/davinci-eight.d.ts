@@ -6,21 +6,21 @@ import WebGLClear = require('davinci-eight/commands/WebGLClear');
 import WebGLClearColor = require('davinci-eight/commands/WebGLClearColor');
 import WebGLEnable = require('davinci-eight/commands/WebGLEnable');
 import AttribLocation = require('davinci-eight/core/AttribLocation');
-import AttribMetaInfos = require('davinci-eight/core/AttribMetaInfos');
+import AttribMetaInfo = require('davinci-eight/core/AttribMetaInfo');
 import Color = require('davinci-eight/core/Color');
 import DrawMode = require('davinci-eight/core/DrawMode');
 import Face3 = require('davinci-eight/core/Face3');
 import ContextKahuna = require('davinci-eight/core/ContextKahuna');
 import ContextMonitor = require('davinci-eight/core/ContextMonitor');
 import Symbolic = require('davinci-eight/core/Symbolic');
-import UniformMetaInfos = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
+import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
 import Curve = require('davinci-eight/curves/Curve');
 import DrawAttribute = require('davinci-eight/dfx/DrawAttribute');
-import DrawElements = require('davinci-eight/dfx/DrawElements');
+import GeometryData = require('davinci-eight/dfx/GeometryData');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
-import GeometryInfo = require('davinci-eight/dfx/GeometryInfo');
+import GeometryMeta = require('davinci-eight/dfx/GeometryMeta');
 import IDrawList = require('davinci-eight/scene/IDrawList');
 import Mesh = require('davinci-eight/scene/Mesh');
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
@@ -32,6 +32,7 @@ import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 import Material = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
+import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuilder');
 import RoundUniform = require('davinci-eight/mappers/RoundUniform');
 import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
@@ -61,6 +62,7 @@ declare var eight: {
     HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
     Material: typeof Material;
     MeshNormalMaterial: typeof MeshNormalMaterial;
+    SmartMaterialBuilder: typeof SmartMaterialBuilder;
     WebGLClear: typeof WebGLClear;
     WebGLClearColor: typeof WebGLClearColor;
     WebGLEnable: typeof WebGLEnable;
@@ -106,7 +108,11 @@ declare var eight: {
     AttribLocation: typeof AttribLocation;
     UniformLocation: typeof UniformLocation;
     shaderProgram: (monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]) => IProgram;
-    smartProgram: (monitors: ContextMonitor[], attributes: AttribMetaInfos, uniforms: UniformMetaInfos, bindings: string[]) => IProgram;
+    smartProgram: (monitors: ContextMonitor[], attributes: {
+        [name: string]: AttribMetaInfo;
+    }, uniformsList: {
+        [name: string]: UniformMetaInfo;
+    }[], bindings: string[]) => IProgram;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;
@@ -125,7 +131,7 @@ declare var eight: {
     Curve: typeof Curve;
     RoundUniform: typeof RoundUniform;
     ArrowBuilder: typeof ArrowBuilder;
-    checkGeometry: (geometry: Simplex[]) => GeometryInfo;
+    toGeometryMeta: (geometry: Simplex[]) => GeometryMeta;
     computeFaceNormals: (simplex: Simplex, positionName?: string, normalName?: string) => void;
     cube: (size?: number) => Simplex[];
     quadrilateral: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, d: VectorN<number>, attributes?: {
@@ -138,12 +144,12 @@ declare var eight: {
     triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
-    toDrawElements: (geometry: Simplex[], geometryInfo?: GeometryInfo) => DrawElements;
+    toGeometryData: (geometry: Simplex[], geometryInfo?: GeometryMeta) => GeometryData;
     CylinderArgs: typeof CylinderArgs;
     Symbolic: typeof Symbolic;
     programFromScripts: (monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IProgram;
     DrawAttribute: typeof DrawAttribute;
-    DrawElements: typeof DrawElements;
+    GeometryData: typeof GeometryData;
     SineWaveUniform: typeof SineWaveUniform;
     refChange: (uuid: string, name?: string, change?: number) => number;
     Shareable: typeof Shareable;

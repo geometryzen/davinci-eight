@@ -1,6 +1,6 @@
 import BoxComplex = require('../geometries/BoxComplex');
 import Geometry = require('../geometries/Geometry');
-import toDrawElements = require('../dfx/toDrawElements');
+import toGeometryData = require('../dfx/toGeometryData');
 
 /**
  * @class BoxGeometry
@@ -47,7 +47,7 @@ class BoxGeometry extends Geometry {
   }
   calculate(): void {
     let complex = new BoxComplex(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
-    this.data = toDrawElements(complex.data, complex.meta);
+    this.data = toGeometryData(complex.data, complex.meta);
     this.meta = complex.meta;
   }
 }

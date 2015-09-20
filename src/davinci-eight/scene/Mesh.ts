@@ -1,18 +1,18 @@
-import checkGeometry = require('../dfx/checkGeometry');
+import toGeometryMeta = require('../dfx/toGeometryMeta');
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
-import DrawElements = require('../dfx/DrawElements');
+import GeometryData = require('../dfx/GeometryData');
 import Geometry = require('../geometries/Geometry');
-import GeometryInfo = require('../dfx/GeometryInfo');
+import GeometryMeta = require('../dfx/GeometryMeta');
 import IDrawable = require('../core/IDrawable');
-import IMesh = require('../dfx/IMesh');
+import IBufferGeometry = require('../dfx/IBufferGeometry');
 import IProgram = require('../core/IProgram');
 import Material = require('../materials/Material')
 import mustBeDefined = require('../checks/mustBeDefined');
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import refChange = require('../utils/refChange');
 import Simplex = require('../dfx/Simplex');
-import toDrawElements = require('../dfx/toDrawElements');
+import toGeometryData = require('../dfx/toGeometryData');
 import UniformData = require('../core/UniformData');
 import uuid4 = require('../utils/uuid4');
 
@@ -36,10 +36,10 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
   public _material: M;
   /**
    * FIXME This is a bad name because it is not just a collection of meshLookup.
-   * A map from canvas to IMesh.
+   * A map from canvas to IBufferGeometry.
    * It's a function that returns a mesh, given a canvasId; a lokup
    */
-  private meshLookup: NumberIUnknownMap<IMesh>;
+  private meshLookup: NumberIUnknownMap<IBufferGeometry>;
   public model: U;
   private mode: number;
   // FIXME: Do we insist on a ContextMonitor here.
@@ -49,7 +49,7 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
     this._material = material;
     this._material.addRef();
 
-    this.meshLookup = new NumberIUnknownMap<IMesh>();
+    this.meshLookup = new NumberIUnknownMap<IBufferGeometry>();
 
     this.model = model;
     refChange(this._uuid, LOGGING_NAME, +1);
@@ -81,7 +81,9 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
     let model = self.model;
     let mesh = this.meshLookup.get(canvasId);
     material.use(canvasId);
-    model.accept(material);
+    model.setUniforms(material, canvasId);
+    // FIXME Does canvasId affect the next steps?...
+    // Nope! We've already picked it by canvas.
     mesh.bind(material/*, aNameToKeyName*/); // FIXME: Why not part of the API.
     mesh.draw();
     mesh.unbind();
@@ -100,7 +102,7 @@ class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implem
       mustBeDefined('geometry.meta', meta, contextBuilder);
 
       // FIXME: Why is the meta not being used?
-      let mesh = manager.createDrawElementsMesh(data);
+      let mesh = manager.createBufferGeometry(data);
       this.meshLookup.put(manager.canvasId, mesh);
       mesh.release();
 

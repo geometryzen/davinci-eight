@@ -16,7 +16,7 @@ import WebGLClearColor         = require('davinci-eight/commands/WebGLClearColor
 import WebGLEnable             = require('davinci-eight/commands/WebGLEnable')
 // core
 import AttribLocation          = require('davinci-eight/core/AttribLocation');
-import AttribMetaInfos         = require('davinci-eight/core/AttribMetaInfos');
+import AttribMetaInfo          = require('davinci-eight/core/AttribMetaInfo');
 import Color                   = require('davinci-eight/core/Color');
 import core                    = require('davinci-eight/core');
 import DrawMode                = require('davinci-eight/core/DrawMode');
@@ -28,25 +28,23 @@ import ContextMonitor          = require('davinci-eight/core/ContextMonitor');
 import Symbolic                = require('davinci-eight/core/Symbolic');
 import UniformData             = require('davinci-eight/core/UniformData');
 import UniformDataVisitor      = require('davinci-eight/core/UniformDataVisitor');
-import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo');
-import UniformMetaInfos        = require('davinci-eight/core/UniformMetaInfos');
 import UniformLocation         = require('davinci-eight/core/UniformLocation');
-import UniformProvider         = require('davinci-eight/core/UniformProvider');
+import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo');
 // curves
 import Curve = require('davinci-eight/curves/Curve');
 // dfx
 import DrawAttribute = require('davinci-eight/dfx/DrawAttribute');
-import DrawElements = require('davinci-eight/dfx/DrawElements');
+import GeometryData = require('davinci-eight/dfx/GeometryData');
 import Simplex = require('davinci-eight/dfx/Simplex');
 import Vertex = require('davinci-eight/dfx/Vertex');
-import checkGeometry = require('davinci-eight/dfx/checkGeometry');
-import GeometryInfo = require('davinci-eight/dfx/GeometryInfo');
+import toGeometryMeta = require('davinci-eight/dfx/toGeometryMeta');
+import GeometryMeta = require('davinci-eight/dfx/GeometryMeta');
 import computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals');
 import cube = require('davinci-eight/dfx/cube');
 import quadrilateral = require('davinci-eight/dfx/quadrilateral');
 import square = require('davinci-eight/dfx/square');
 import tetrahedron = require('davinci-eight/dfx/tetrahedron');
-import toDrawElements = require('davinci-eight/dfx/toDrawElements');
+import toGeometryData = require('davinci-eight/dfx/toGeometryData');
 import triangle = require('davinci-eight/dfx/triangle');
 
 // scene
@@ -83,9 +81,10 @@ import smartProgram = require('davinci-eight/programs/smartProgram');
 import programFromScripts = require('davinci-eight/programs/programFromScripts');
 
 // materials
-import Material            = require('davinci-eight/materials/Material');
-import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
-import MeshNormalMaterial  = require('davinci-eight/materials/MeshNormalMaterial');
+import Material             = require('davinci-eight/materials/Material');
+import HTMLScriptsMaterial  = require('davinci-eight/materials/HTMLScriptsMaterial');
+import MeshNormalMaterial   = require('davinci-eight/materials/MeshNormalMaterial');
+import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuilder');
 // mappers
 import RoundUniform = require('davinci-eight/mappers/RoundUniform');
 // math
@@ -153,6 +152,7 @@ var eight = {
   get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },
   get Material() { return Material; },
   get MeshNormalMaterial() { return MeshNormalMaterial; },
+  get SmartMaterialBuilder() { return SmartMaterialBuilder; },
   //commands
   get WebGLClear() { return WebGLClear; },
   get WebGLClearColor() { return WebGLClearColor; },
@@ -223,21 +223,21 @@ var eight = {
   // mesh
   get ArrowBuilder() { return ArrowBuilder; },
   
-  get checkGeometry() { return checkGeometry; },
+  get toGeometryMeta() { return toGeometryMeta; },
   get computeFaceNormals() { return computeFaceNormals; },
   get cube() { return cube; },
   get quadrilateral() { return quadrilateral; },
   get square() { return square; },
   get tetrahedron() { return tetrahedron; },
   get triangle() { return triangle; },
-  get toDrawElements() { return toDrawElements; },
+  get toGeometryData() { return toGeometryData; },
   get CylinderArgs() { return CylinderArgs; },
 
   get Symbolic() { return Symbolic; },
   // programs
   get programFromScripts() { return programFromScripts; },
   get DrawAttribute() { return DrawAttribute; },
-  get DrawElements() { return DrawElements; },
+  get GeometryData() { return GeometryData; },
   // uniforms
   get SineWaveUniform() { return SineWaveUniform; },
   // utils

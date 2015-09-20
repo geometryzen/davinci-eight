@@ -12,11 +12,12 @@ class SineWaveUniform extends Shareable implements UniformData {
     this.omega = omega;
     this.uName = uName;
   }
-  accept(visitor: UniformDataVisitor): void {
+  setUniforms(visitor: UniformDataVisitor, canvasId): void {
     let time = Date.now() / 1000;
     let theta = this.omega * time;
     let a = this.amplitude * Math.sin(theta) + this.mean;
-    visitor.uniform1f(this.uName, a);
+    // FIXME: canvasId
+    visitor.uniform1f(this.uName, a, canvasId);
   }
 }
 

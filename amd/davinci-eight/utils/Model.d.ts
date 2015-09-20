@@ -16,6 +16,6 @@ declare class Model implements UniformData {
     private S;
     private T;
     constructor();
-    accept(visitor: UniformDataVisitor): void;
+    setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
 }
 export = Model;

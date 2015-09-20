@@ -1,8 +1,12 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeDefined'], function (require, exports, mustBeBoolean, mustBeDefined) {
     /**
      *
      */
     function fragmentShader(attributes, uniforms, vColor, vLight) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        mustBeBoolean('vColor', vColor);
+        mustBeBoolean('vLight', vLight);
         var lines = [];
         if (vColor) {
             lines.push("varying highp vec4 vColor;");

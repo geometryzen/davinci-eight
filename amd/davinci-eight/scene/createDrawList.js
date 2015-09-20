@@ -39,7 +39,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
         /**
          * accept provides a way to push out the IProgram without bumping the reference count.
          */
-        DrawableGroup.prototype.accept = function (visitor) {
+        DrawableGroup.prototype.acceptProgram = function (visitor) {
             visitor(this._program);
         };
         Object.defineProperty(DrawableGroup.prototype, "length", {
@@ -148,7 +148,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
         };
         DrawableGroups.prototype.traversePrograms = function (callback) {
             this._groups.forEach(function (groupId, group) {
-                group.accept(callback);
+                group.acceptProgram(callback);
             });
         };
         return DrawableGroups;
@@ -209,12 +209,11 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             remove: function (drawable) {
                 drawableGroups.remove(drawable);
             },
-            uniform1f: function (name, x) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniform1f(name, x);
-                    });
+            uniform1f: function (name, x, canvasId) {
+                // FIXME: Don't do this, instead, buffer the calls and replay.
+                drawableGroups.traversePrograms(function (program) {
+                    program.use(canvasId);
+                    program.uniform1f(name, x, canvasId);
                 });
             },
             uniform2f: function (name, x, y) {

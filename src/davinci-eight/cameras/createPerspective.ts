@@ -2,7 +2,6 @@
 // createPerspective.ts
 //
 import UniformDataVisitor = require('../core/UniformDataVisitor');
-import UniformMetaInfos   = require('../core/UniformMetaInfos');
 import Perspective        = require('../cameras/Perspective');
 import View               = require('../cameras/View');
 import createView         = require('../cameras/createView');
@@ -119,13 +118,14 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
       far.x = value;
       return self;
     },
-    accept(visitor: UniformDataVisitor) {
+    setUniforms(visitor: UniformDataVisitor, canvasId: number) {
       if (matrixNeedsUpdate) {
         computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
         matrixNeedsUpdate = false;
       }
+      // FIXME: canvasId being ignored
       visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
-      base.accept(visitor);
+      base.setUniforms(visitor, canvasId);
     }
   };
 

@@ -1,0 +1,5 @@
+interface MeshNormalMaterialParameters {
+
+}
+
+export = MeshNormalMaterialParameters;

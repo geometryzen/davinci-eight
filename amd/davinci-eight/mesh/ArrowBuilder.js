@@ -1,7 +1,4 @@
 define(["require", "exports", '../checks/expectArg', '../checks/isUndefined', '../math/Vector3'], function (require, exports, expectArg, isUndefined, Vector3) {
-    /**
-     * @class ArrowBuilder
-     */
     var ArrowBuilder = (function () {
         function ArrowBuilder(options) {
             if (options === void 0) { options = {}; }

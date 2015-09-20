@@ -98,13 +98,14 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
                 far.x = value;
                 return self;
             },
-            accept: function (visitor) {
+            setUniforms: function (visitor, canvasId) {
                 if (matrixNeedsUpdate) {
                     computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                     matrixNeedsUpdate = false;
                 }
+                // FIXME: canvasId being ignored
                 visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
-                base.accept(visitor);
+                base.setUniforms(visitor, canvasId);
             }
         };
         return self;

@@ -12,7 +12,6 @@ define(["require", "exports", '../materials/Material'], function (require, expor
         return LOGGING_NAME;
     }
     /**
-     * @module EIGHT
      * @class MeshNormalMaterial
      * @extends Material
      */
@@ -20,15 +19,16 @@ define(["require", "exports", '../materials/Material'], function (require, expor
         __extends(MeshNormalMaterial, _super);
         // A super call must be the first statement in the constructor when a class
         // contains initialized propertied or has parameter properties (TS2376).
-        function MeshNormalMaterial(contexts) {
+        /**
+         * @class MeshNormalMaterial
+         * @constructor
+         */
+        function MeshNormalMaterial(contexts, parameters) {
             _super.call(this, contexts, LOGGING_NAME);
             //
             // Perform state initialization here.
             //
         }
-        MeshNormalMaterial.prototype.contextGain = function (manager) {
-            console.warn(LOGGING_NAME + ' contextGain method TODO');
-        };
         return MeshNormalMaterial;
     })(Material);
     return MeshNormalMaterial;

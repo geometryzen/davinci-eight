@@ -18,12 +18,12 @@ define(["require", "exports"], function (require, exports) {
          */
         Symbolic.ATTRIBUTE_COLOR = 'aColor';
         /**
-         * 'aMaterialIndex'
-         * @property ATTRIBUTE_MATERIAL_INDEX
+         * 'aGeometryIndex'
+         * @property ATTRIBUTE_GEOMETRY_INDEX
          * @type {string}
          * @static
          */
-        Symbolic.ATTRIBUTE_MATERIAL_INDEX = 'aMaterialIndex';
+        Symbolic.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
         /**
          * 'aNormal'
          * @property ATTRIBUTE_NORMAL

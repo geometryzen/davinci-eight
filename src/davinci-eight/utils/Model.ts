@@ -27,7 +27,7 @@ class Model implements UniformData {
     this.scale.modified = true;
     this.color.modified = true;
   }
-  accept(visitor: UniformDataVisitor) {
+  setUniforms(visitor: UniformDataVisitor, canvasId: number) {
     if (this.position.modified) {
       this.T.translation(this.position);
       this.position.modified = false;

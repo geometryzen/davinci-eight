@@ -1,5 +1,3 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
-
 class RGBMesh {
   private elements: Uint16Array;
   private vertices: Float32Array;
@@ -13,12 +11,6 @@ class RGBMesh {
   }
   get dynamic(): boolean {
     return false;
-  }
-  getAttribMeta(): AttribMetaInfos {
-    return {
-      position: { name: 'aPosition', glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 },
-      color:    { name: 'aColor',    glslType: 'vec3', size: 3, normalized: false, stride: 0, offset: 0 }
-    };
   }
   update(): void {
     var vs: number[] = [

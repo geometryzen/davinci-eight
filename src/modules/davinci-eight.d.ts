@@ -87,7 +87,7 @@ interface IResource extends IUnknown, ContextListener {
 /**
  *
  */
-interface IMesh extends IUnknown {
+interface IBufferGeometry extends IUnknown {
   uuid: string;
   bind(program: IProgram, aNameToKeyName?: {[name: string]: string}): void;
   draw(): void;
@@ -97,7 +97,7 @@ interface IMesh extends IUnknown {
 /**
  *
  */
-class DrawElements {
+class GeometryData {
   public k: number;
   public indices: VectorN<number>;
   public attributes: {[name: string]: DrawAttribute};
@@ -180,7 +180,7 @@ class Simplex {
 /**
  *
  */
-interface GeometryInfo {
+interface GeometryMeta {
   k: number;
   attributes: { [key: string]: { size: number; name?: string } };
 }
@@ -188,9 +188,9 @@ interface GeometryInfo {
 /**
  * Computes the mapping from attribute name to size.
  * Reports inconsistencies in the geometry by throwing exceptions.
- * When used with toDrawElements(), allows names and sizes to be mapped.
+ * When used with toGeometryData(), allows names and sizes to be mapped.
  */
-function checkGeometry(geometry: Simplex[]): GeometryInfo;
+function toGeometryMeta(geometry: Simplex[]): GeometryMeta;
 
 /**
  *
@@ -250,9 +250,9 @@ function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>,
 function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
 /**
- * geometry to DrawElements conversion.
+ * geometry to GeometryData conversion.
  */
-function toDrawElements(data: Simplex[], meta?: GeometryInfo): DrawElements;
+function toGeometryData(data: Simplex[], meta?: GeometryMeta): GeometryData;
 
 /**
  *
@@ -278,17 +278,18 @@ class AttribLocation implements ContextProgramListener {
 }
 
 /**
- *
+ * A wrapper around a `WebGLBuffer` that is associated at construction with
+ * a particular kind of target.
  */
 interface IBuffer extends IResource {
   /**
-   *
+   * Makes this buffer current by binding it to the appropriate target.
    */
-  bind();
+  bind(): void;
   /**
-   *
+   * Clears the appropriate target so that this buffer is no longer bound.
    */
-  unbind();
+  unbind(): void;
 }
 
 /**
@@ -322,14 +323,16 @@ interface ITexture extends IResource {
 }
 
 /**
- *
+ * A reference-counted wrapper around a `WebGLTexture`.
+ * It is associated with the `TEXTURE_2D` target at construction time. 
  */
 interface ITexture2D extends ITexture {
 
 }
 
 /**
- *
+ * A reference-counted wrapper around a `WebGLTexture`.
+ * It is associated with the `TEXTURE_CUBE_MAP` target at construction time. 
  */
 interface ITextureCubeMap extends ITexture {
 
@@ -676,7 +679,7 @@ interface UniformDataVisitor {
  *
  */
 interface UniformData {
-  accept(visitor: UniformDataVisitor);
+  setUniforms(visitor: UniformDataVisitor, canvasId): void;
 }
 
 /**
@@ -818,7 +821,7 @@ class Complex {
    * Summary information on the simplices such as dimensionality and sizes for attributes.
    * This same data structure may be used to map vertex attribute names to program names.
    */
-  public meta: GeometryInfo;
+  public meta: GeometryMeta;
   public dynamic: boolean;
   public verticesNeedUpdate: boolean;
   public elementsNeedUpdate: boolean;
@@ -841,7 +844,7 @@ class Complex {
    */
   public boundary(times?: number): Complex;
   /**
-   * Updates the metadata property by scanning the vertices.
+   * Updates the `meta` property by scanning the vertices.
    */
   public check(): Complex;
   /**
@@ -967,7 +970,7 @@ interface AttribMetaInfo {
  */
 interface UniformMetaInfo {
   /**
-   * Specifies an optional override of the name used as a key in UniformMetaInfos.
+   * Specifies an optional override of the name used as a key.
    */
   name?: string;
   /**
@@ -1026,7 +1029,7 @@ interface ContextManager  extends ContextUnique, IUnknown
   clearDepth(depth: number): void;
   createArrayBuffer(): IBuffer;
   createElementArrayBuffer(): IBuffer;
-  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
   drawArrays(mode: number, first: number, count: number): void;
@@ -1057,7 +1060,7 @@ class Model implements UniformData {
    * Model implements UniformData required for manipulating a body.
    */ 
   constructor();
-  accept(visitor: UniformDataVisitor);
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
 }
 
 /**
@@ -1112,9 +1115,9 @@ class Symbolic {
    */
   static ATTRIBUTE_COLOR: string;
   /**
-   * 'aMaterialIndex'
+   * 'aGeometryIndex'
    */
-  static ATTRIBUTE_MATERIAL_INDEX: string;
+  static ATTRIBUTE_GEOMETRY_INDEX: string;
   /**
    * 'aNormal'
    */
@@ -1250,7 +1253,7 @@ class PerspectiveCamera implements ICamera, UniformData {
   material: IProgram;
   constructor(fov?: number, aspect?: number, near?: number, far?: number);
   addRef(): number;
-  accept(visitor: UniformDataVisitor): void;
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
   contextFree(canvasId: number): void;
   contextGain(manager: ContextManager): void;
   contextLoss(canvasId: number): void;
@@ -1305,7 +1308,9 @@ class WebGLRenderer implements ContextController, ContextMonitor, ContextRendere
   contextFree(canvasId: number): void;
   contextGain(manager: ContextManager): void;
   contextLoss(canvasId: number): void;
-  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh;
+  createArrayBuffer(): IBuffer;
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createTexture2D(): ITexture2D;
   prolog(): void;
   pushProlog(command: IContextCommand): void;
   pushStartUp(command: IContextCommand): void;
@@ -1388,9 +1393,19 @@ class Material implements IProgram {
  * </p>
  */
 class Geometry {
-  public elements: DrawElements;
-  public metadata: GeometryInfo;
-  constructor(elements: DrawElements, metadata: GeometryInfo);
+  /**
+   *
+   */
+  public data: GeometryData;
+  /**
+   *
+   */
+  public meta: GeometryMeta;
+  /**
+   * data:
+   * meta:
+   */
+  constructor(data: GeometryData, meta: GeometryMeta);
 }
 
 /**
@@ -1424,20 +1439,29 @@ class HTMLScriptsMaterial extends Material {
 /**
  *
  */
-class MeshNormalMaterial extends Material {
-  /**
-   * contexts: The contexts that this material must support.
-   */
-  constructor(contexts: ContextMonitor[]);
+interface MeshNormalMaterialParameters {
+
 }
 
+class MeshNormalMaterial extends Material {
+  constructor(contexts: ContextMonitor[], parameters?: MeshNormalMaterialParameters);
+}
+
+class SmartMaterialBuilder {
+  constructor(geometry?: Geometry);
+  public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
+  public uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
+  public build(contexts: ContextMonitor[]): Material;
+}
+
+// FIXME SineUniformsSetter
 class SineWaveUniform extends Shareable implements UniformData {
   public amplitude: number;
   public omega: number;
   public mean: number;
   public uName: string;
   constructor(omega: number, uName?: string);
-  accept(visitor: UniformDataVisitor): void;
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
 }
 
 class RoundUniform implements UniformDataVisitor {

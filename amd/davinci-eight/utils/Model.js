@@ -18,7 +18,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rot
             this.scale.modified = true;
             this.color.modified = true;
         }
-        Model.prototype.accept = function (visitor) {
+        Model.prototype.setUniforms = function (visitor, canvasId) {
             if (this.position.modified) {
                 this.T.translation(this.position);
                 this.position.modified = false;

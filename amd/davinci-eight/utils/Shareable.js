@@ -31,7 +31,7 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
             return this._refCount;
         };
         /**
-         * Notifies this instance that something is referencing it.
+         * Notifies this instance that something is dereferencing it.
          *
          * @method release
          * @return {number} The new value of the reference count.

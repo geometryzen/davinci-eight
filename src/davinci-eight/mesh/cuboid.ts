@@ -3,7 +3,6 @@
 //
 /// <amd-dependency path="davinci-blade/Euclidean3" name="Euclidean3"/>
 /// <reference path="../../../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import AttribMetaInfos = require('../core/AttribMetaInfos');
 import CuboidMesh = require('../mesh/CuboidMesh');
 import vectorE3 = require('davinci-eight/math/e3ga/vectorE3');
 import Color = require('../core/Color');
@@ -169,37 +168,6 @@ var cuboid = function(
     },
     get dynamic(): boolean {
       return false;
-    },
-    getAttribMeta(): AttribMetaInfos {
-      var attribues: AttribMetaInfos = {};
-      attribues[Symbolic.ATTRIBUTE_POSITION] = {
-        name: VERTEX_ATTRIBUTE_POSITION,
-        glslType: 'vec3',
-        size: 3,
-        normalized: false,
-        stride: 0,
-        offset: 0};
-      if (!grayScale) {
-        attribues[Symbolic.ATTRIBUTE_COLOR] = {
-          name: VERTEX_ATTRIBUTE_COLOR,
-          glslType: 'vec3',
-          size: 3,
-          normalized: false,
-          stride: 0,
-          offset: 0
-        };
-      }
-      if (drawMode === 2) {
-        attribues[Symbolic.ATTRIBUTE_NORMAL] = {
-          name: VERTEX_ATTRIBUTE_NORMAL,
-          glslType: 'vec3',
-          size: 3,
-          normalized: false,
-          stride: 0,
-          offset: 0
-        };
-      }
-      return attribues;
     },
     update(): void {
       function computeVertexList() {

@@ -12,7 +12,6 @@ import expectArg = require('../checks/expectArg');
 import uuid4 = require('../utils/uuid4');
 import UniformLocation = require('../core/UniformLocation');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -176,7 +175,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
         let context = manager.gl;
         let program: WebGLProgram = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
         programs[manager.canvasId] = program;
-
+        // FIXME: Need to work with locations by canvasId. 
         let activeAttributes: number = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
         for (var a = 0; a < activeAttributes; a++) {
           let activeAttribInfo: WebGLActiveInfo = context.getActiveAttrib(program, a);
@@ -246,9 +245,12 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
         attribLoc.disable();
       }
     },
-    uniform1f(name: string, x: number) {
+    uniform1f(name: string, x: number, canvasId: number) {
       let uniformLoc = uniformLocations[name];
       if (uniformLoc) {
+        // FIXME: What happens to canvasId.
+        // Is it used to select the locations? YES?
+        // Is it passed on to the location? NO.
         uniformLoc.uniform1f(x);
       }
     },

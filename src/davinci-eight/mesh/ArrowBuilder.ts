@@ -6,9 +6,6 @@ import Cartesian3 = require('../math/Cartesian3');
 import Vector3 = require('../math/Vector3');
 import Symbolic = require('../core/Symbolic');
 
-/**
- * @class ArrowBuilder
- */
 class ArrowBuilder {
   private $axis: Vector3 = Vector3.e3.clone();
   private $flavor: number;

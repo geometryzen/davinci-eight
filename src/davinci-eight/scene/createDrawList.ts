@@ -65,7 +65,7 @@ class DrawableGroup implements IUnknown {
   /**
    * accept provides a way to push out the IProgram without bumping the reference count.
    */
-  accept(visitor: (program: IProgram)=>void) {
+  acceptProgram(visitor: (program: IProgram)=>void) {
     visitor(this._program);
   }
   get length() {
@@ -176,7 +176,7 @@ class DrawableGroups implements IUnknown {
   }
   traversePrograms(callback: (program: IProgram) => void) {
     this._groups.forEach(function(groupId, group){
-      group.accept(callback);
+      group.acceptProgram(callback);
     });
   }
 }
@@ -238,12 +238,11 @@ let createDrawList = function(): IDrawList {
     remove(drawable: IDrawable) {
       drawableGroups.remove(drawable);
     },
-    uniform1f(name: string, x: number) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniform1f(name, x);
-        });
+    uniform1f(name: string, x: number, canvasId: number) {
+      // FIXME: Don't do this, instead, buffer the calls and replay.
+      drawableGroups.traversePrograms(function(program: IProgram) {
+        program.use(canvasId);
+        program.uniform1f(name, x, canvasId);
       });
     },
     uniform2f(name: string, x: number, y: number) {

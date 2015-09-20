@@ -2,11 +2,11 @@ import BufferResource = require('../core/BufferResource');
 import ContextKahuna = require('../core/ContextKahuna');
 import ContextManager = require('../core/ContextManager');
 import ContextListener = require('../core/ContextListener');
-import DrawElements = require('../dfx/DrawElements');
+import GeometryData = require('../dfx/GeometryData');
 import expectArg = require('../checks/expectArg');
 import initWebGL = require('../renderers/initWebGL');
 import IBuffer = require('../core/IBuffer');
-import IMesh = require('../dfx/IMesh');
+import IBufferGeometry = require('../dfx/IBufferGeometry');
 import isDefined = require('../checks/isDefined');
 import isNumber = require('../checks/isNumber');
 import isUndefined = require('../checks/isUndefined');
@@ -48,7 +48,7 @@ function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderin
 /**
  * This could become an encapsulated call?
  */
-class DrawElementsCommand {
+class GeometryDataCommand {
   private mode: number;
   private count: number;
   private type: number;
@@ -69,10 +69,10 @@ class ElementsBlock implements IUnknown {
   // Can we know our IProgram(s)?
   private _attributes: StringIUnknownMap<ElementsBlockAttrib>;
   private _indexBuffer: IBuffer;
-  public drawCommand: DrawElementsCommand;
+  public drawCommand: GeometryDataCommand;
   private _refCount = 1;
   private _uuid: string = uuid4().generate();
-  constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap<ElementsBlockAttrib>, drawCommand: DrawElementsCommand) {
+  constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap<ElementsBlockAttrib>, drawCommand: GeometryDataCommand) {
 
     this._indexBuffer = indexBuffer;
     this._indexBuffer.addRef();
@@ -317,11 +317,11 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
     }
   }
 
-  function createDrawElementsMesh(uuid: string): IMesh {
+  function createBufferGeometry(uuid: string): IBufferGeometry {
 
     let refCount = new RefCount(meshRemover(uuid));
     let _program: IProgram = void 0;
-    let mesh: IMesh = {
+    let mesh: IBufferGeometry = {
       addRef(): number {
         refChange(uuid, LOGGING_NAME_MESH, +1);
         return refCount.addRef();
@@ -423,8 +423,8 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
     /**
      *
      */
-    createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh {
-      expectArg('elements', elements).toSatisfy(elements instanceof DrawElements, "elements must be an instance of DrawElements");
+    createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
+      expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryData");
       mode = drawMode(elements.k, mode);
       if (!isDefined(mode)) {
         // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
@@ -439,7 +439,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
         usage = gl.STATIC_DRAW;
       }
 
-      let mesh: IMesh = createDrawElementsMesh(uuid4().generate());
+      let mesh: IBufferGeometry = createBufferGeometry(uuid4().generate());
 
       let indexBuffer = kahuna.createElementArrayBuffer();
       indexBuffer.bind();
@@ -468,7 +468,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       switch(elements.k) {
 
       }
-      let drawCommand = new DrawElementsCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+      let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
       let block = new ElementsBlock(indexBuffer, attributes, drawCommand);
       blocks.put(mesh.uuid, block);
       block.release();

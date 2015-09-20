@@ -6,10 +6,12 @@ import ContextMonitor = require('../core/ContextMonitor');
 import ContextListener = require('../core/ContextListener');
 import contextProxy = require('../utils/contextProxy');
 import ContextRenderer = require('../renderers/ContextRenderer');
-import DrawElements = require('../dfx/DrawElements');
+import GeometryData = require('../dfx/GeometryData');
+import IBuffer = require('../core/IBuffer');
 import IContextCommand = require('../core/IContextCommand');
 import IDrawList = require('../scene/IDrawList');
-import IMesh = require('../dfx/IMesh');
+import IBufferGeometry = require('../dfx/IBufferGeometry');
+import ITexture2D = require('../core/ITexture2D');
 import IUnknown = require('../core/IUnknown');
 import mustBeInteger = require('../checks/mustBeInteger');
 import mustSatisfy = require('../checks/mustSatisfy');
@@ -55,9 +57,6 @@ class WebGLRenderer extends Shareable implements ContextController, ContextMonit
   get canvasId(): number {
     return this._canvasId;
   }
-  createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh {
-    return this._kahuna.createDrawElementsMesh(elements, mode, usage);
-  }
   get canvas(): HTMLCanvasElement {
     return this._canvas;
   }
@@ -70,8 +69,17 @@ class WebGLRenderer extends Shareable implements ContextController, ContextMonit
   contextLoss(canvasId: number) {
     this._renderer.contextLoss(canvasId);
   }
+  createArrayBuffer(): IBuffer {
+    return this._kahuna.createArrayBuffer();
+  }
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
+        return this._kahuna.createBufferGeometry(elements, mode, usage);
+  }
+  createTexture2D(): ITexture2D {
+    return this._kahuna.createTexture2D();
+  }
   get gl(): WebGLRenderingContext {
-    return this._kahuna.gl;
+      return this._kahuna.gl;
   }
   prolog(): void {
     this._renderer.prolog();

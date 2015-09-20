@@ -1,4 +1,4 @@
-define(["require", "exports", '../dfx/checkGeometry', '../geometries/Geometry', '../dfx/Simplex', '../dfx/toDrawElements'], function (require, exports, checkGeometry, Geometry, Simplex, toDrawElements) {
+define(["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry', '../dfx/Simplex', '../dfx/toGeometryData'], function (require, exports, toGeometryMeta, Geometry, Simplex, toGeometryData) {
     /**
      * @class Complex
      */
@@ -39,7 +39,7 @@ define(["require", "exports", '../dfx/checkGeometry', '../geometries/Geometry', 
          * @return {Complex}
          */
         Complex.prototype.check = function () {
-            this.meta = checkGeometry(this.data);
+            this.meta = toGeometryMeta(this.data);
             return this;
         };
         /**
@@ -59,7 +59,7 @@ define(["require", "exports", '../dfx/checkGeometry', '../geometries/Geometry', 
          * @return {Geometry}
          */
         Complex.prototype.toGeometry = function () {
-            var elements = toDrawElements(this.data, this.meta);
+            var elements = toGeometryData(this.data, this.meta);
             return new Geometry(elements, this.meta);
         };
         /**

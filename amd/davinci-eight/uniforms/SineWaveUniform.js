@@ -14,11 +14,12 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             this.omega = omega;
             this.uName = uName;
         }
-        SineWaveUniform.prototype.accept = function (visitor) {
+        SineWaveUniform.prototype.setUniforms = function (visitor, canvasId) {
             var time = Date.now() / 1000;
             var theta = this.omega * time;
             var a = this.amplitude * Math.sin(theta) + this.mean;
-            visitor.uniform1f(this.uName, a);
+            // FIXME: canvasId
+            visitor.uniform1f(this.uName, a, canvasId);
         };
         return SineWaveUniform;
     })(Shareable);

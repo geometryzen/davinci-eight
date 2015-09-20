@@ -43,9 +43,6 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             enumerable: true,
             configurable: true
         });
-        WebGLRenderer.prototype.createDrawElementsMesh = function (elements, mode, usage) {
-            return this._kahuna.createDrawElementsMesh(elements, mode, usage);
-        };
         Object.defineProperty(WebGLRenderer.prototype, "canvas", {
             get: function () {
                 return this._canvas;
@@ -61,6 +58,15 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         };
         WebGLRenderer.prototype.contextLoss = function (canvasId) {
             this._renderer.contextLoss(canvasId);
+        };
+        WebGLRenderer.prototype.createArrayBuffer = function () {
+            return this._kahuna.createArrayBuffer();
+        };
+        WebGLRenderer.prototype.createBufferGeometry = function (elements, mode, usage) {
+            return this._kahuna.createBufferGeometry(elements, mode, usage);
+        };
+        WebGLRenderer.prototype.createTexture2D = function () {
+            return this._kahuna.createTexture2D();
         };
         Object.defineProperty(WebGLRenderer.prototype, "gl", {
             get: function () {

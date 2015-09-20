@@ -4,24 +4,24 @@ define(
   'davinci-eight/dfx/Vertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/dfx/triangle',
-  'davinci-eight/dfx/toDrawElements',
-  'davinci-eight/dfx/DrawElements',
+  'davinci-eight/dfx/toGeometryData',
+  'davinci-eight/dfx/GeometryData',
   'davinci-eight/core/Symbolic',
-  'davinci-eight/dfx/checkGeometry',
+  'davinci-eight/dfx/toGeometryMeta',
   'davinci-eight/dfx/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbolic, checkGeometry, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, toGeometryData, GeometryData, Symbolic, toGeometryMeta, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
   var COORDS_PER_NORMAL = 3;
   var COORDS_PER_TEXTURE = 2;
 
-  describe("toDrawElements", function() {
+  describe("toGeometryData", function() {
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
         var geometry = [];
-        var geoInfo = checkGeometry(geometry);
+        var geoInfo = toGeometryMeta(geometry);
         expect(typeof geoInfo).toBe('undefined');
       });
     });
@@ -33,8 +33,8 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
       var a = geometry[0].vertices[0];
       var b = geometry[0].vertices[1];
       var c = geometry[0].vertices[2];
-      var geoInfo = checkGeometry(geometry);
-      var elements = toDrawElements(geometry, geoInfo);
+      var geoInfo = toGeometryMeta(geometry);
+      var elements = toGeometryData(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
@@ -90,8 +90,8 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
       var geometry = [];
       geometry.push(f012);
       geometry.push(f023);
-      var geoInfo = checkGeometry(geometry);
-      var elements = toDrawElements(geometry, geoInfo);
+      var geoInfo = toGeometryMeta(geometry);
+      var elements = toGeometryData(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
@@ -170,8 +170,8 @@ function(Simplex, Vertex, Vector3, triangle, toDrawElements, DrawElements, Symbo
       geometry.push(f013);
       geometry.push(f032);
       geometry.push(f021);
-      var geoInfo = checkGeometry(geometry);
-      var elements = toDrawElements(geometry, geoInfo);
+      var geoInfo = toGeometryMeta(geometry);
+      var elements = toGeometryData(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {

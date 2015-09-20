@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.100.0</em>
+            <em>API Docs for: 2.101.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,8 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
-                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
-                                <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
@@ -67,7 +63,9 @@
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -83,11 +81,11 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
+                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
+                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
-                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
-                                <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -143,11 +141,11 @@ import BufferResource = require(&#x27;../core/BufferResource&#x27;);
 import ContextKahuna = require(&#x27;../core/ContextKahuna&#x27;);
 import ContextManager = require(&#x27;../core/ContextManager&#x27;);
 import ContextListener = require(&#x27;../core/ContextListener&#x27;);
-import DrawElements = require(&#x27;../dfx/DrawElements&#x27;);
+import GeometryData = require(&#x27;../dfx/GeometryData&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import initWebGL = require(&#x27;../renderers/initWebGL&#x27;);
 import IBuffer = require(&#x27;../core/IBuffer&#x27;);
-import IMesh = require(&#x27;../dfx/IMesh&#x27;);
+import IBufferGeometry = require(&#x27;../dfx/IBufferGeometry&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import isNumber = require(&#x27;../checks/isNumber&#x27;);
 import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
@@ -189,7 +187,7 @@ function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderin
 /**
  * This could become an encapsulated call?
  */
-class DrawElementsCommand {
+class GeometryDataCommand {
   private mode: number;
   private count: number;
   private type: number;
@@ -210,10 +208,10 @@ class ElementsBlock implements IUnknown {
   // Can we know our IProgram(s)?
   private _attributes: StringIUnknownMap&lt;ElementsBlockAttrib&gt;;
   private _indexBuffer: IBuffer;
-  public drawCommand: DrawElementsCommand;
+  public drawCommand: GeometryDataCommand;
   private _refCount = 1;
   private _uuid: string = uuid4().generate();
-  constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap&lt;ElementsBlockAttrib&gt;, drawCommand: DrawElementsCommand) {
+  constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap&lt;ElementsBlockAttrib&gt;, drawCommand: GeometryDataCommand) {
 
     this._indexBuffer = indexBuffer;
     this._indexBuffer.addRef();
@@ -458,11 +456,11 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
     }
   }
 
-  function createDrawElementsMesh(uuid: string): IMesh {
+  function createBufferGeometry(uuid: string): IBufferGeometry {
 
     let refCount = new RefCount(meshRemover(uuid));
     let _program: IProgram = void 0;
-    let mesh: IMesh = {
+    let mesh: IBufferGeometry = {
       addRef(): number {
         refChange(uuid, LOGGING_NAME_MESH, +1);
         return refCount.addRef();
@@ -564,8 +562,8 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
     /**
      *
      */
-    createDrawElementsMesh(elements: DrawElements, mode?: number, usage?: number): IMesh {
-      expectArg(&#x27;elements&#x27;, elements).toSatisfy(elements instanceof DrawElements, &quot;elements must be an instance of DrawElements&quot;);
+    createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
+      expectArg(&#x27;elements&#x27;, elements).toSatisfy(elements instanceof GeometryData, &quot;elements must be an instance of GeometryData&quot;);
       mode = drawMode(elements.k, mode);
       if (!isDefined(mode)) {
         // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
@@ -580,7 +578,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
         usage = gl.STATIC_DRAW;
       }
 
-      let mesh: IMesh = createDrawElementsMesh(uuid4().generate());
+      let mesh: IBufferGeometry = createBufferGeometry(uuid4().generate());
 
       let indexBuffer = kahuna.createElementArrayBuffer();
       indexBuffer.bind();
@@ -609,7 +607,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       switch(elements.k) {
 
       }
-      let drawCommand = new DrawElementsCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+      let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
       let block = new ElementsBlock(indexBuffer, attributes, drawCommand);
       blocks.put(mesh.uuid, block);
       block.release();

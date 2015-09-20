@@ -3,7 +3,6 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
         console.warn(clazz + " dropped uniform" + suffix + " " + name);
     }
     /**
-     * @module EIGHT
      * @class Material
      * @implements IProgram
      */
@@ -17,6 +16,9 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
         function Material(contexts, type) {
             this.readyPending = false;
             this.programId = uuid4().generate();
+            // FIXME get from shaders?
+            //public vertexShader: string;
+            //public fragmentShader: string;
             this._refCount = 1;
             MonitorList.verify('contexts', contexts);
             mustBeString('type', type);
@@ -51,6 +53,13 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             refChange(this.programId, this.type, +1);
             return this._refCount;
         };
+        Object.defineProperty(Material.prototype, "fragmentShader", {
+            get: function () {
+                return this.inner ? this.inner.fragmentShader : void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Material.prototype.release = function () {
             this._refCount--;
             refChange(this.programId, this.type, -1);
@@ -168,20 +177,18 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
         };
         Material.prototype.createProgram = function () {
             // FIXME; Since we get contextGain by canvas, expect canvasId to be an argument?
-            // FIXME: We just delegate contextGain to the program.
-            console.warn("Material createProgram method is virtual and should be implemented by " + this.type);
-            return void 0;
+            throw new Error("Material createProgram method is virtual and should be implemented by " + this.type);
         };
-        Material.prototype.uniform1f = function (name, x) {
+        Material.prototype.uniform1f = function (name, x, canvasId) {
             if (this.inner) {
-                this.inner.uniform1f(name, x);
+                this.inner.uniform1f(name, x, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform1f(name, x);
+                    this.inner.uniform1f(name, x, canvasId);
                 }
                 else {
                     if (!readyPending) {
@@ -388,6 +395,13 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
                 }
             }
         };
+        Object.defineProperty(Material.prototype, "vertexShader", {
+            get: function () {
+                return this.inner ? this.inner.vertexShader : void 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Material;
     })();
     return Material;

@@ -1,4 +1,3 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
 import cuboid = require('../mesh/cuboid');
 import CuboidMesh = require('../mesh/CuboidMesh');
 

@@ -50,7 +50,9 @@ define(["require", "exports", '../checks/mustBeDefined', '../utils/NumberIUnknow
             var model = self.model;
             var mesh = this.meshLookup.get(canvasId);
             material.use(canvasId);
-            model.accept(material);
+            model.setUniforms(material, canvasId);
+            // FIXME Does canvasId affect the next steps?...
+            // Nope! We've already picked it by canvas.
             mesh.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
             mesh.draw();
             mesh.unbind();
@@ -67,7 +69,7 @@ define(["require", "exports", '../checks/mustBeDefined', '../utils/NumberIUnknow
                 mustBeDefined('geometry.data', data, contextBuilder);
                 mustBeDefined('geometry.meta', meta, contextBuilder);
                 // FIXME: Why is the meta not being used?
-                var mesh = manager.createDrawElementsMesh(data);
+                var mesh = manager.createBufferGeometry(data);
                 this.meshLookup.put(manager.canvasId, mesh);
                 mesh.release();
                 this._material.contextGain(manager);

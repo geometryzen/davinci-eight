@@ -1,9 +1,13 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
+import AttribMetaInfo = require('../core/AttribMetaInfo');
 import ContextMonitor = require('../core/ContextMonitor');
 import IProgram = require('../core/IProgram');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
+import UniformMetaInfo = require('../core/UniformMetaInfo');
 /**
  *
  */
-declare var smartProgram: (monitors: ContextMonitor[], attributes: AttribMetaInfos, uniforms: UniformMetaInfos, bindings: string[]) => IProgram;
+declare var smartProgram: (monitors: ContextMonitor[], attributes: {
+    [name: string]: AttribMetaInfo;
+}, uniformsList: {
+    [name: string]: UniformMetaInfo;
+}[], bindings: string[]) => IProgram;
 export = smartProgram;

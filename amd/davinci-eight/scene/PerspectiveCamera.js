@@ -31,13 +31,13 @@ define(["require", "exports", '../cameras/createPerspective', '../utils/refChang
             refChange(this._uuid, CLASS_NAME, +1);
             return this._refCount;
         };
-        PerspectiveCamera.prototype.accept = function (visitor) {
+        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
             this.inner.setFov(this.fov);
             this.inner.setAspect(this.aspect);
             this.inner.setNear(this.near);
             this.inner.setFar(this.far);
             this.inner.setEye(this.position);
-            this.inner.accept(visitor);
+            this.inner.setUniforms(visitor, canvasId);
         };
         PerspectiveCamera.prototype.contextFree = function () {
         };

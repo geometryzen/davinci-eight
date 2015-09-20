@@ -1,7 +1,11 @@
-import AttribMetaInfos = require('../core/AttribMetaInfos');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
+import AttribMetaInfo = require('../core/AttribMetaInfo');
+import UniformMetaInfo = require('../core/UniformMetaInfo');
 /**
  *
  */
-declare function fragmentShader(attributes: AttribMetaInfos, uniforms: UniformMetaInfos, vColor: boolean, vLight: boolean): string;
+declare function fragmentShader(attributes: {
+    [name: string]: AttribMetaInfo;
+}, uniforms: {
+    [name: string]: UniformMetaInfo;
+}, vColor: boolean, vLight: boolean): string;
 export = fragmentShader;

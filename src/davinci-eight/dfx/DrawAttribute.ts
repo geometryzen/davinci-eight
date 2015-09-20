@@ -47,6 +47,8 @@ class DrawAttribute {
   public values: VectorN<number>;
   /**
    * The chunking size of the attribute.
+   * This is distinct from the size in the `GeometryMeta`.
+   * The chunking size is invariant given the values and is used to describe the vertex attribute pointer.
    */
   public size: number;
   /**

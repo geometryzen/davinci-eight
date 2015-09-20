@@ -25,7 +25,7 @@ declare class Shareable implements IUnknown {
      */
     addRef(): number;
     /**
-     * Notifies this instance that something is referencing it.
+     * Notifies this instance that something is dereferencing it.
      *
      * @method release
      * @return {number} The new value of the reference count.

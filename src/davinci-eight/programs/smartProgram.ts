@@ -1,5 +1,4 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
-import AttribMetaInfos = require('../core/AttribMetaInfos');
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
 import MonitorList = require('../scene/MonitorList');
@@ -10,41 +9,32 @@ import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
+import mergeStringMapList = require('../utils/mergeStringMapList');
+import mustBeDefined = require('../checks/mustBeDefined');
 import shaderProgram = require('./shaderProgram');
 import IProgram = require('../core/IProgram');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
+import vColorRequired = require('../programs/vColorRequired');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 import vertexShader = require('../programs/vertexShader');
-
-function vLightRequired(uniforms: UniformMetaInfos): boolean {
-  return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
-}
-
-function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos): boolean {
-  return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
-}
+import vLightRequired = require('../programs/vLightRequired');
 
 /**
  *
  */
-var smartProgram = function(monitors: ContextMonitor[], attributes: AttribMetaInfos, uniforms: UniformMetaInfos, bindings: string[]): IProgram {
+var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IProgram {
   MonitorList.verify('monitors', monitors, () => { return "smartProgram"; });
-
-  if (!attributes) {
-    throw new Error("The attributes parameter is required for smartProgram.");
-  }
-
-  if (!uniforms) {
-    throw new Error("The uniformsList parameter is required for smartProgram.");
-  }
+  mustBeDefined('attributes', attributes);
+  mustBeDefined('uniformsList', uniformsList);
+ 
+  let uniforms = mergeStringMapList(uniformsList);
 
   let vColor: boolean = vColorRequired(attributes, uniforms);
-  let vLight: boolean = vLightRequired(uniforms);
+  let vLight: boolean = vLightRequired(attributes, uniforms);
 
   let innerProgram: IProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
@@ -88,8 +78,8 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: AttribMetaIn
     disableAttrib(name: string) {
       return innerProgram.disableAttrib(name);
     },
-    uniform1f(name: string, x: number) {
-      return innerProgram.uniform1f(name, x);
+    uniform1f(name: string, x: number, canvasId: number) {
+      return innerProgram.uniform1f(name, x, canvasId);
     },
     uniform2f(name: string, x: number, y: number) {
       return innerProgram.uniform2f(name, x, y);

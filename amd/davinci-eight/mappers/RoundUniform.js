@@ -14,9 +14,9 @@ define(["require", "exports"], function (require, exports) {
             enumerable: true,
             configurable: true
         });
-        RoundUniform.prototype.uniform1f = function (name, x) {
+        RoundUniform.prototype.uniform1f = function (name, x, canvasId) {
             if (this._next) {
-                this._next.uniform1f(name, Math.round(x));
+                this._next.uniform1f(name, Math.round(x), canvasId);
             }
         };
         RoundUniform.prototype.uniform2f = function (name, x, y) {

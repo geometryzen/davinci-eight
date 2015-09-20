@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.100.0</em>
+            <em>API Docs for: 2.101.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,12 +38,8 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/ArrowBuilder.html">ArrowBuilder</a></li>
-                                <li><a href="../classes/ArrowOptions.html">ArrowOptions</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
-                                <li><a href="../classes/AttribMetaInfos.html">AttribMetaInfos</a></li>
-                                <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
                                 <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
@@ -67,7 +63,9 @@
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
+                                <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
@@ -83,11 +81,11 @@
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
+                                <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
+                                <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
-                                <li><a href="../classes/UniformMetaInfos.html">UniformMetaInfos</a></li>
-                                <li><a href="../classes/UniformProvider.html">UniformProvider</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
                                 <li><a href="../classes/Vector3.html">Vector3</a></li>
@@ -140,7 +138,6 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import AttribMetaInfo = require(&#x27;../core/AttribMetaInfo&#x27;);
-import AttribMetaInfos = require(&#x27;../core/AttribMetaInfos&#x27;);
 import ContextManager = require(&#x27;../core/ContextManager&#x27;);
 import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;);
 import MonitorList = require(&#x27;../scene/MonitorList&#x27;);
@@ -151,41 +148,32 @@ import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
 import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
+import mergeStringMapList = require(&#x27;../utils/mergeStringMapList&#x27;);
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;);
 import shaderProgram = require(&#x27;./shaderProgram&#x27;);
 import IProgram = require(&#x27;../core/IProgram&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
-import UniformMetaInfos = require(&#x27;../core/UniformMetaInfos&#x27;);
+import vColorRequired = require(&#x27;../programs/vColorRequired&#x27;);
 import Vector1 = require(&#x27;../math/Vector1&#x27;);
 import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Vector4 = require(&#x27;../math/Vector4&#x27;);
 import vertexShader = require(&#x27;../programs/vertexShader&#x27;);
-
-function vLightRequired(uniforms: UniformMetaInfos): boolean {
-  return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] &amp;&amp; !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
-}
-
-function vColorRequired(attributes: AttribMetaInfos, uniforms: UniformMetaInfos): boolean {
-  return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
-}
+import vLightRequired = require(&#x27;../programs/vLightRequired&#x27;);
 
 /**
  *
  */
-var smartProgram = function(monitors: ContextMonitor[], attributes: AttribMetaInfos, uniforms: UniformMetaInfos, bindings: string[]): IProgram {
+var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IProgram {
   MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;smartProgram&quot;; });
-
-  if (!attributes) {
-    throw new Error(&quot;The attributes parameter is required for smartProgram.&quot;);
-  }
-
-  if (!uniforms) {
-    throw new Error(&quot;The uniformsList parameter is required for smartProgram.&quot;);
-  }
+  mustBeDefined(&#x27;attributes&#x27;, attributes);
+  mustBeDefined(&#x27;uniformsList&#x27;, uniformsList);
+ 
+  let uniforms = mergeStringMapList(uniformsList);
 
   let vColor: boolean = vColorRequired(attributes, uniforms);
-  let vLight: boolean = vLightRequired(uniforms);
+  let vLight: boolean = vLightRequired(attributes, uniforms);
 
   let innerProgram: IProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
@@ -229,8 +217,8 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: AttribMetaIn
     disableAttrib(name: string) {
       return innerProgram.disableAttrib(name);
     },
-    uniform1f(name: string, x: number) {
-      return innerProgram.uniform1f(name, x);
+    uniform1f(name: string, x: number, canvasId: number) {
+      return innerProgram.uniform1f(name, x, canvasId);
     },
     uniform2f(name: string, x: number, y: number) {
       return innerProgram.uniform2f(name, x, y);

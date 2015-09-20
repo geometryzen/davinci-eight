@@ -1,5 +1,4 @@
 import UniformDataVisitor = require('../core/UniformDataVisitor');
-import UniformMetaInfos = require('../core/UniformMetaInfos');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 import Spinor3 = require('../math/Spinor3');
@@ -69,7 +68,7 @@ let createView = function(options?: {viewMatrixName?: string;}): View {
         up.normalize();
         return self;
       },
-      accept(visitor: UniformDataVisitor) {
+      setUniforms(visitor: UniformDataVisitor, canvasId: number) {
         if (eye.modified || look.modified || up.modified) {
           // TODO: view matrix would be better.
           computeViewMatrix(eye, look, up, viewMatrix);
@@ -77,6 +76,7 @@ let createView = function(options?: {viewMatrixName?: string;}): View {
           look.modified = false;
           up.modified = false;
         }
+        // FIXME: canvasId is being ignored, must pass in.
         visitor.uniformMatrix4(viewMatrixName, false, viewMatrix);
       }
   };

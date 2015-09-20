@@ -1,5 +1,5 @@
 import Geometry = require('../geometries/Geometry');
-import GeometryInfo = require('../dfx/GeometryInfo');
+import GeometryMeta = require('../dfx/GeometryMeta');
 import Simplex = require('../dfx/Simplex');
 /**
  * @class Complex
@@ -14,9 +14,9 @@ declare class Complex {
      * Summary information on the simplices such as dimensionality and sizes for attributes.
      * This same data structure may be used to map vertex attribute names to program names.
      * @property meta
-     * @type {GeometryInfo}
+     * @type {GeometryMeta}
      */
-    meta: GeometryInfo;
+    meta: GeometryMeta;
     dynamic: boolean;
     verticesNeedUpdate: boolean;
     elementsNeedUpdate: boolean;
