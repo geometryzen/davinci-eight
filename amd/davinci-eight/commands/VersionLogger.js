@@ -8,18 +8,38 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
      * <p>
      * Displays details about the WegGL version to the console.
      * <p>
+     * <p>
+     * Initializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.
+     * <p>
      * @class VersionLogger
      * @extends Shareable
      * @implements IContextCommand
      */
     var VersionLogger = (function (_super) {
         __extends(VersionLogger, _super);
+        /**
+         * @class VersionLogger
+         * @constructor
+         */
         function VersionLogger() {
             _super.call(this, 'VersionLogger');
         }
+        /**
+         * <p>
+         * Logs the WebGL <code>VERSION</code> parameter to the console.
+         * </p>
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
         VersionLogger.prototype.execute = function (gl) {
             console.log(gl.getParameter(gl.VERSION));
         };
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         VersionLogger.prototype.destructor = function () {
         };
         return VersionLogger;

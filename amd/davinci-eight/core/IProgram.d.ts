@@ -3,9 +3,11 @@ import AttribLocation = require('../core/AttribLocation');
 import UniformLocation = require('../core/UniformLocation');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 /**
+ * <p>
  * The role of a IProgram is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.
  * The Program must be able to provide introspection information that describes the program.
- * @interface IProgram
+ * </p>
+ * @class IProgram
  * @extends IResource
  * @extends UniformDataVisitor
  */
@@ -29,6 +31,7 @@ interface IProgram extends IResource, UniformDataVisitor {
      * Makes the Program the current program for WebGL.
      * @method use
      * @param canvasId {number} Determines which WebGLProgram to use.
+     * @return {void}
      */
     use(canvasId: number): void;
     /**
@@ -46,11 +49,21 @@ interface IProgram extends IResource, UniformDataVisitor {
         [name: string]: UniformLocation;
     };
     /**
-     *
+     * <p>
+     * Enables an attribute location of a WebGLProgram.
+     * </p>
+     * @method enableAttrib
+     * @param name {string} The name of the attribute to enable.
+     * @beta
      */
     enableAttrib(name: string): void;
     /**
-     *
+     * <p>
+     * Enables an attribute location of a WebGLProgram.
+     * </p>
+     * @method disableAttrib
+     * @param name {string} The name of the attribute disable.
+     * @beta
      */
     disableAttrib(name: string): void;
 }

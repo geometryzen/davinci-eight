@@ -6,7 +6,7 @@ declare class SineWaveUniform extends Shareable implements UniformData {
     omega: number;
     mean: number;
     uName: string;
-    constructor(omega: any, uName?: string);
-    setUniforms(visitor: UniformDataVisitor, canvasId: any): void;
+    constructor(omega: number, uName?: string);
+    setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
 }
 export = SineWaveUniform;

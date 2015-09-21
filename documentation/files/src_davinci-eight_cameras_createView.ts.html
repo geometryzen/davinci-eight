@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -142,9 +147,10 @@ import Vector3 = require(&#x27;../math/Vector3&#x27;);
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;);
 import View = require(&#x27;../cameras/View&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isUndefined = require(&#x27;../checks/isUndefined&#x27;);
 import isVariableName = require(&#x27;../checks/isVariableName&#x27;);
 import computeViewMatrix = require(&#x27;../cameras/viewMatrix&#x27;);
@@ -173,34 +179,39 @@ let createView = function(options?: {viewMatrixName?: string;}): View {
       set eye(value: Vector3) {
         self.setEye(value);
       },
-      setEye(value: Vector3) {
-        expectArg(&#x27;eye&#x27;, value).toBeObject();
-        eye.x = value.x;
-        eye.y = value.y;
-        eye.z = value.z;
-        return self;
+      /**
+       * @method setEye
+       * @param eye {Vector3}
+       * @return {View} &#x60;this&#x60; instance.
+       */
+      setEye(eye_: Vector3): View {
+        mustBeObject(&#x27;eye&#x27;, eye_)
+        eye.x = mustBeNumber(&#x27;eye.x&#x27;, eye_.x)
+        eye.y = mustBeNumber(&#x27;eye.y&#x27;, eye_.y)
+        eye.z = mustBeNumber(&#x27;eye.z&#x27;, eye_.z)
+        return self
       },
       get look(): Vector3 {
-        return look;
+        return look
       },
       set look(value: Vector3) {
-        self.setLook(value);
+        self.setLook(value)
       },
       setLook(value: Cartesian3): View {
-        expectArg(&#x27;look&#x27;, value).toBeObject();
-        look.x = value.x;
-        look.y = value.y;
-        look.z = value.z;
-        return self;
+        mustBeObject(&#x27;look&#x27;, value)
+        look.x = value.x
+        look.y = value.y
+        look.z = value.z
+        return self
       },
       get up(): Vector3 {
-        return up;
+        return up
       },
       set up(value: Vector3) {
-        self.setUp(value);
+        self.setUp(value)
       },
       setUp(value: Cartesian3): View {
-        expectArg(&#x27;up&#x27;, value).toBeObject();
+        mustBeObject(&#x27;up&#x27;, value);
         up.x = value.x;
         up.y = value.y;
         up.z = value.z;

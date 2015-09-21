@@ -1,6 +1,6 @@
 
 // Array of images curently loading
-var g_loadingImages = [];
+var g_loadingImages: HTMLImageElement[] = [];
 
 // Clears all the images currently loading.
 // This is used to handle context lost events.
@@ -33,7 +33,7 @@ function loadImageTexture(ctx: WebGLRenderingContext, url: string)
   var texture = ctx.createTexture();
   ctx.bindTexture(ctx.TEXTURE_2D, texture);
   // FIXME TypeScript ctx.texImage2D(ctx.TEXTURE_2D, 0, ctx.RGBA, 1, 1, 0, ctx.RGBA, ctx.UNSIGNED_BYTE, null);
-  var image = new Image();
+  var image: HTMLImageElement = new Image();
   g_loadingImages.push(image);
   image.onload = function() { doLoadImageTexture(ctx, image, texture) }
   image.src = url;

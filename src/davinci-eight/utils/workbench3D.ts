@@ -1,13 +1,4 @@
-/**
- * @const
- * @type {string}
- */
 var EVENT_NAME_RESIZE = 'resize';
-
-/**
- * @const
- * @type {string}
- */
 var TAG_NAME_CANVAS = 'canvas';
 
 function removeElementsByTagName(doc: Document, tagname: string) {
@@ -20,10 +11,11 @@ function removeElementsByTagName(doc: Document, tagname: string) {
 
 /**
  * Creates and returns a workbench3D thing.
- * @param canvas An HTML canvas element to be inserted.
+ * canvas: An HTML canvas element to be inserted.
  * TODO: We should remove the camera as being too opinionated, replace with a callback providing 
  */
-var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; }, win: Window = window) {
+ // FIXME: With renderer typed as `any`, anything could happen.
+var workbench3D = function(canvas: HTMLCanvasElement, renderer: any, camera: { aspect: number; }, win: Window = window) {
     var doc = win.document;
 
     function syncToWindow() {
@@ -33,7 +25,7 @@ var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect
         camera.aspect = width / height;
     }
 
-    var onWindowResize = function(event) { syncToWindow(); };
+    var onWindowResize = function(event: any) { syncToWindow(); };
 
     var that =
         {

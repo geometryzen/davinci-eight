@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -138,7 +143,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:17</code></a>
+            Defined in: <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:33</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -147,26 +152,549 @@
 
 
 <div class="box intro">
-    
+    <p>
+</p>
 </div>
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_PerspectiveCamera" class="method item">
+    <h3 class="name"><code>PerspectiveCamera</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code class="optional">[fov = 75 * Math.PI / 180]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[aspect=1]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[near=0.1]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[far=2000]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:33</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name optional">[fov = 75 * Math.PI / 180]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[aspect=1]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[near=0.1]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[far=2000]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>  var camera = new EIGHT.PerspectiveCamera()
+  camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+  camera.setFov(3.0 * e3)</code></pre>
+
+            </div>
+        </div>
+</div>
+    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_setAspect">setAspect</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setEye">setEye</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setFov">setFov</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setNear">setNear</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_aspect">aspect</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_eye">eye</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_fov">fov</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_near">near</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
+<div id="method_setAspect" class="method item">
+    <h3 class="name"><code>setAspect</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>aspect</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l87"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:87</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">aspect</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+                    <p><code>this</code> instance without incrementing the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setEye" class="method item">
+    <h3 class="name"><code>setEye</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>eye</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:106</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">eye</code>
+                        <span class="type"><a href="../classes/Cartesian3.html" class="crosslink">Cartesian3</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+                    <p><code>this</code> instance without incrementing the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setFov" class="method item">
+    <h3 class="name"><code>setFov</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>fov</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l131"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:131</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">fov</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+                    <p><code>this</code> instance without incrementing the reference count.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setNear" class="method item">
+    <h3 class="name"><code>setNear</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>near</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>
+        </span>
+
+
+
+
+
+        <span class="flag chainable">chainable</span>
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l162"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:162</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">near</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/PerspectiveCamera.html" class="crosslink">PerspectiveCamera</a></span>:
+                    <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_aspect" class="property item">
+    <h3 class="name"><code>aspect</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:78</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The aspect ratio (width / height) of the camera viewport.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_eye" class="property item">
+    <h3 class="name"><code>eye</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l97"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:97</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The position of the camera.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_fov" class="property item">
+    <h3 class="name"><code>fov</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l116"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:116</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+Measured in radians.</p>
+
+    </div>
+
+
+
+</div>
+<div id="property_near" class="property item">
+    <h3 class="name"><code>near</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l150"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:150</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>The distance to the near plane.</p>
+
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -137,7 +142,7 @@
 <div class="box meta">
 
         <div class="extends">
-            Extends Camera
+            Extends <a href="../classes/View.html" class="crosslink">View</a>
         </div>
 
         <div class="foundat">
@@ -174,7 +179,7 @@
                                 <a href="#method_setAspect">setAspect</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setEye">setEye</a>
 
                             </li>
@@ -186,7 +191,7 @@
                                 <a href="#method_setFov">setFov</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setLook">setLook</a>
 
                             </li>
@@ -194,7 +199,7 @@
                                 <a href="#method_setNear">setNear</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_setUp">setUp</a>
 
                             </li>
@@ -209,6 +214,10 @@
                                 <a href="#property_aspect">aspect</a>
 
                             </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_eye">eye</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_far">far</a>
 
@@ -217,8 +226,16 @@
                                 <a href="#property_fov">fov</a>
 
                             </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_look">look</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_near">near</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_up">up</a>
 
                             </li>
                     </ul>
@@ -269,7 +286,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">aspect</code>
-                        <span class="type">Number</span>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
@@ -302,8 +319,11 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
+            <p>Inherited from
+            <a href="../classes/View.html#method_setEye">
+                View
+            </a>
+            but overwritten in
         <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l54"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:54</code></a>
         </p>
 
@@ -375,7 +395,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">far</code>
-                        <span class="type">Number</span>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
@@ -428,7 +448,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">fov</code>
-                        <span class="type">Number</span>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
@@ -461,8 +481,11 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
+            <p>Inherited from
+            <a href="../classes/View.html#method_setLook">
+                View
+            </a>
+            but overwritten in
         <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l60"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:60</code></a>
         </p>
 
@@ -534,7 +557,7 @@
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">near</code>
-                        <span class="type">Number</span>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
@@ -567,8 +590,11 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
+            <p>Inherited from
+            <a href="../classes/View.html#method_setUp">
+                View
+            </a>
+            but overwritten in
         <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l66"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:66</code></a>
         </p>
 
@@ -606,102 +632,174 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-                    <div id="property_aspect" class="property item">
-                        <h3 class="name"><code>aspect</code></h3>
-                        <span class="type">Number</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:15</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_far" class="property item">
-                        <h3 class="name"><code>far</code></h3>
-                        <span class="type">Number</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:25</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_fov" class="property item">
-                        <h3 class="name"><code>fov</code></h3>
-                        <span class="type">Number</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:10</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_near" class="property item">
-                        <h3 class="name"><code>near</code></h3>
-                        <span class="type">Number</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:20</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            
-                        </div>
-                    
-                    
-                    
-                    </div>
+<div id="property_aspect" class="property item">
+    <h3 class="name"><code>aspect</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:15</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_eye" class="property item inherited">
+    <h3 class="name"><code>eye</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/View.html#property_eye">View</a>:
+        <a href="../files/src_davinci-eight_cameras_View.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;View.ts:11</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_far" class="property item">
+    <h3 class="name"><code>far</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:25</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_fov" class="property item">
+    <h3 class="name"><code>fov</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:10</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_look" class="property item inherited">
+    <h3 class="name"><code>look</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/View.html#property_look">View</a>:
+        <a href="../files/src_davinci-eight_cameras_View.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;View.ts:16</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_near" class="property item">
+    <h3 class="name"><code>near</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_cameras_Perspective.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;Perspective.ts:20</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_up" class="property item inherited">
+    <h3 class="name"><code>up</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/View.html#property_up">View</a>:
+        <a href="../files/src_davinci-eight_cameras_View.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;cameras&#x2F;View.ts:21</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
             </div>
 
 

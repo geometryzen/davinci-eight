@@ -1,25 +1,25 @@
 /**
- * @class WindowAnimationRunner
+ * interface WindowAnimationRunner
  */
 interface WindowAnimationRunner {
     /**
      * The `start` method puts the animation runner into the running state.
-     * @method start
+     * method start
      */
     start(): void;
     /**
      * The `stop` method pauses the animation runner from the running state.
-     * @method stop
+     * method stop
      */
     stop(): void;
     /**
      * The `reset` method sets the time to zero from the paused state.
-     * @method reset
+     * method reset
      */
     reset(): void;
     /**
      *The `lap` method records the time in the running state.
-     * @method lap
+     * method lap
      */
     lap(): void;
     /**

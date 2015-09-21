@@ -119,7 +119,7 @@ class Curve {
 
     var i = 0, il = arcLengths.length;
 
-    var targetArcLength; // The targeted u distance value to get
+    var targetArcLength: number; // The targeted u distance value to get
 
     if ( distance ) {
 
@@ -135,7 +135,9 @@ class Curve {
 
     // binary search for the index with largest value smaller than target u distance
 
-    var low = 0, high = il - 1, comparison;
+    var low = 0;
+    var high = il - 1
+    var comparison: number;
 
     while ( low <= high ) {
 

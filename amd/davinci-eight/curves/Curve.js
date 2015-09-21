@@ -108,7 +108,9 @@ define(["require", "exports"], function (require, exports) {
             }
             //var time = Date.now();
             // binary search for the index with largest value smaller than target u distance
-            var low = 0, high = il - 1, comparison;
+            var low = 0;
+            var high = il - 1;
+            var comparison;
             while (low <= high) {
                 i = Math.floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
                 comparison = arcLengths[i] - targetArcLength;

@@ -108,6 +108,10 @@ import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
 import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 
+// models
+import Model                      = require('davinci-eight/models/Model');
+import RigidBody3                 = require('davinci-eight/models/RigidBody3');
+
 // programs
 import IProgram = require('davinci-eight/core/IProgram');
 // renderers
@@ -124,7 +128,6 @@ import Framerate                  = require('davinci-eight/utils/Framerate');
 import loadImageTexture           = require('davinci-eight/utils/loadImageTexture');
 import makeBox                    = require('davinci-eight/utils/makeBox');
 import makeSphere                 = require('davinci-eight/utils/makeSphere');
-import Model                      = require('davinci-eight/utils/Model');
 import refChange                  = require('davinci-eight/utils/refChange');
 import Shareable           = require('davinci-eight/utils/Shareable');
 import workbench3D                = require('davinci-eight/utils/workbench3D');
@@ -162,7 +165,10 @@ var eight = {
   get createFrustum() { return createFrustum; },
   get createPerspective() { return createPerspective; },
   get createView() { return createView; },
+  
   get Model() { return Model; },
+  get RigidBody3() { return RigidBody3 },
+
   get Simplex() { return Simplex; },
   get Vertex() { return Vertex; },
   get frustumMatrix() { return frustumMatrix; },

@@ -47,10 +47,11 @@ import Vector4 = require('davinci-eight/math/Vector4');
 import VectorN = require('davinci-eight/math/VectorN');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
+import Model = require('davinci-eight/models/Model');
+import RigidBody3 = require('davinci-eight/models/RigidBody3');
 import IProgram = require('davinci-eight/core/IProgram');
 import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
 import SineWaveUniform = require('davinci-eight/uniforms/SineWaveUniform');
-import Model = require('davinci-eight/utils/Model');
 import Shareable = require('davinci-eight/utils/Shareable');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
@@ -80,6 +81,7 @@ declare var eight: {
         viewMatrixName?: string;
     }) => View;
     Model: typeof Model;
+    RigidBody3: typeof RigidBody3;
     Simplex: typeof Simplex;
     Vertex: typeof Vertex;
     frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
@@ -144,7 +146,7 @@ declare var eight: {
     triangle: (a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: {
         [name: string]: VectorN<number>[];
     }, triangles?: Simplex[]) => Simplex[];
-    toGeometryData: (geometry: Simplex[], geometryInfo?: GeometryMeta) => GeometryData;
+    toGeometryData: (simplices: Simplex[], geometryMeta?: GeometryMeta) => GeometryData;
     CylinderArgs: typeof CylinderArgs;
     Symbolic: typeof Symbolic;
     programFromScripts: (monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IProgram;

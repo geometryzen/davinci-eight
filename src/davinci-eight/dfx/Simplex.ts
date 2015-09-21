@@ -297,12 +297,12 @@ class Simplex {
   public static setAttributeValues(attributes: {[name: string]: VectorN<number>[]}, simplex: Simplex) {
     let names: string[] = Object.keys(attributes);
     let attribsLength = names.length;
-    let attribIndex;
+    let attribIndex: number;
     for (attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
       let name = names[attribIndex];
       let values: VectorN<number>[] = attributes[name];
       let valuesLength = values.length;
-      let valueIndex;
+      let valueIndex: number;
       for (valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
         simplex.vertices[valueIndex].attributes[name] = values[valueIndex];
       }

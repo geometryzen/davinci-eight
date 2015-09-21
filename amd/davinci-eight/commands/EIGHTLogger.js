@@ -14,12 +14,30 @@ define(["require", "exports", '../core', '../utils/Shareable'], function (requir
      */
     var EIGHTLogger = (function (_super) {
         __extends(EIGHTLogger, _super);
+        /**
+         * <p>
+         * Initializes <b>the</b> `type` property to 'EIGHTLogger'.
+         * </p>
+         * @class EIGHTLogger
+         * @constructor
+         */
         function EIGHTLogger() {
             _super.call(this, 'EIGHTLogger');
         }
+        /**
+         * Logs the version, GitHub URL, and last modified date to the console.
+         * @method execute
+         * @param unused WebGLRenderingContext
+         */
         EIGHTLogger.prototype.execute = function (unused) {
             console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
         };
+        /**
+         * Does nothing.
+         * @protected
+         * @method destructor
+         * @return void
+         */
         EIGHTLogger.prototype.destructor = function () {
         };
         return EIGHTLogger;

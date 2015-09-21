@@ -4,7 +4,7 @@ import Vector3 = require('../math/Vector3');
 
 /**
  * @class Perspective
- * @extends Camera
+ * @extends View
  */
 interface Perspective extends View {
   /**

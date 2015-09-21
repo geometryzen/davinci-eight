@@ -2,7 +2,7 @@ import mustSatisfy = require('../checks/mustSatisfy');
 import isBoolean = require('../checks/isBoolean');
 
 function beBoolean() {
-  return "be boolean"
+  return "be `boolean`";
 }
 
 function mustBeBoolean(name: string, value: boolean, contextBuilder?: () => string): boolean {

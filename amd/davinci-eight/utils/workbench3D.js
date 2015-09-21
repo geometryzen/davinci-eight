@@ -1,13 +1,5 @@
 define(["require", "exports"], function (require, exports) {
-    /**
-     * @const
-     * @type {string}
-     */
     var EVENT_NAME_RESIZE = 'resize';
-    /**
-     * @const
-     * @type {string}
-     */
     var TAG_NAME_CANVAS = 'canvas';
     function removeElementsByTagName(doc, tagname) {
         var elements = doc.getElementsByTagName(tagname);
@@ -18,9 +10,10 @@ define(["require", "exports"], function (require, exports) {
     }
     /**
      * Creates and returns a workbench3D thing.
-     * @param canvas An HTML canvas element to be inserted.
+     * canvas: An HTML canvas element to be inserted.
      * TODO: We should remove the camera as being too opinionated, replace with a callback providing
      */
+    // FIXME: With renderer typed as `any`, anything could happen.
     var workbench3D = function (canvas, renderer, camera, win) {
         if (win === void 0) { win = window; }
         var doc = win.document;

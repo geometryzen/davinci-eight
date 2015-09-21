@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/gl-matrix.d.ts - davinci-eight</title>
+    <title>src/davinci-eight/models/RigidBody3.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -133,77 +138,75 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/gl-matrix.d.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/models/RigidBody3.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-//
-// gl-matrix.d.ts
-//
-// This (external) module of declarations was manually constructed in order to use the gl-matrix library.
-//
+import IRigidBody3 = require(&#x27;../models/IRigidBody3&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;);
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import Spinor3 = require(&#x27;../math/Spinor3&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
 
-declare module x {
-}
+// The &#x60;type&#x60; property when this class is being used concretely.
+let TYPE_RIGID_BODY_3 = &#x27;RigidBody3&#x27;;
 
-interface Matrix3Service {
+/**
+ * A model for a rigid body in 3-dimensional space.
+ * This class may be used concretely or extended.
+ * @class RigidBody3
+ */
+class RigidBody3 extends Shareable implements IRigidBody3 {
+  private _attitude: Spinor3;
+  private _position: Vector3;
   /**
-   * Creates a new identity mat3
+   * The &#x60;attitude&#x60; is initialized to the default for &#x60;Spinor3&#x60;.
+   * The &#x60;position&#x60; is initialized to the default for &#x60;Vector3&#x60;.
+   * This class assumes that it is being used concretely if the type is &#x27;RigidBody3&#x27;.
+   * @class RigidBody3
+   * @constructor
+   * @param type {string} The class name of the derived class. Defaults to &#x27;RigidBody3&#x27;.
    */
-  create(): number[];
-  identity(matrix: number[]): void;
+  constructor(type: string = &#x27;RigidBody3&#x27;) {
+    super(type)
+    this._attitude = new Spinor3()
+    this._position = new Vector3()
+  }
+  protected destructor(): void {
+    if (this._type !== TYPE_RIGID_BODY_3) {
+      console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;);
+    }
+    this._attitude = void 0
+    this._position = void 0
+  }
   /**
-   * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
-   * @param {Matrix3x3} out Matrix3x3 receiving operation result.
-   * @param {Matrix4} a Matrix4x4 to derive the normal matrix from
+   * The attitude spinor of the rigid body.
+   * @property attitude
+   * @type Spinor3
+   * @readonly
    */
-  normalFromMat4(out: number[], a: number[]);
+  get attitude(): Spinor3 {
+    return this._attitude
+  }
+  set attitude(unused) {
+    throw new Error(readOnly(&#x27;attitude&#x27;).message)
+  }
+  /**
+   * The position vector of the rigid body.
+   * @property position
+   * @type Vector3
+   * @readonly
+   */
+  get position(): Vector3 {
+    return this._position
+  }
+  set position(unused) {
+    throw new Error(readOnly(&#x27;position&#x27;).message)
+  }
 }
 
-interface Matrix4Service {
-  create(): number[];
-  fromQuat(matrix: number[], q: number[]): void;
-  identity(matrix: number[]): void;
-  mul(m1: number[], m2: number[], m3: number[]): void;
-  perspective(matrix: number[], fov: number, aspect: number, near: number, far: number): void;
-  translate(m1: number[], m2: number[], displacement: number[]): void;
-  fromRotationTranslation(matrix: number[], q: Quaternion, v: Vector3): void;
-}
-
-interface Vector3 {
-
-}
-
-interface Vector3Service {
-  fromValues(x: number, y: number, z: number): Vector3;
-}
-
-interface Quaternion {
-
-}
-
-interface QuaternionService {
-  fromValues(x: number, y: number, z: number, w:number): Quaternion;
-}
-
-interface glMatrix {
-  create(): number;
-  mat3: Matrix3Service;
-  mat4: Matrix4Service;
-  vec3: Vector3Service;
-  quat: QuaternionService;
-}
-
-declare var x: glMatrix;
-
-// This is not a TypeScript internal module.
-// We can reference it by the literal string &#x27;gl-matrix&#x27;.
-// e.g. import glMatrix = require(&#x27;gl-matrix&#x27;);
-// var m: Matrix4x4 = glMatrix.mat4.create()
-declare module &#x27;gl-matrix&#x27; {
-    export = x;
-}
-
+export = RigidBody3
     </pre>
 </div>
                     </div>

@@ -1,4 +1,5 @@
 import isUndefined = require('../checks/isUndefined');
+import mustBeNumber = require('../checks/mustBeNumber');
 
 function message(standard: string, override: () => string): string {
   return isUndefined(override) ? standard : override();
@@ -33,8 +34,11 @@ function expectArg<T>(name: string, value: T) {
       }
       return arg;
     },
-    toBeInClosedInterval(lower, upper) {
-      if (value >= lower && value <= upper) {
+    toBeInClosedInterval(lower: number, upper: number) {
+      let something: any = value;
+      let x: number = something;
+      mustBeNumber('x', x);
+      if (x >= lower && x <= upper) {
         return arg;
       }
       else {

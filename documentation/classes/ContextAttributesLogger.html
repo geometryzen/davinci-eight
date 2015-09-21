@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -171,15 +176,15 @@ Displays details about the WegGL version to the console.
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_addRef">addRef</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method protected inherited">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method inherited inherited">
                                 <a href="#method_release">release</a>
 
                             </li>
@@ -199,7 +204,7 @@ Displays details about the WegGL version to the console.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
         </span>
 
 
@@ -209,9 +214,12 @@ Displays details about the WegGL version to the console.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#method_addRef">Shareable</a>:
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:27</code></a>
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:23</code></a>
         </p>
 
 
@@ -219,7 +227,9 @@ Displays details about the WegGL version to the console.
     </div>
 
     <div class="description">
-        Notifies this instance that something is dereferencing it.
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
     </div>
 
 
@@ -227,14 +237,14 @@ Displays details about the WegGL version to the console.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
                     The new value of the reference count.
             </div>
         </div>
 
 
 </div>
-<div id="method_destructor" class="method item inherited">
+<div id="method_destructor" class="method item protected inherited">
     <h3 class="name"><code>destructor</code></h3>
 
         <span class="paren">()</span>
@@ -244,6 +254,7 @@ Displays details about the WegGL version to the console.
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
@@ -252,7 +263,7 @@ Displays details about the WegGL version to the console.
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/Shareable.html#method_destructor">Shareable</a>:
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:56</code></a>
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:57</code></a>
         </p>
 
 
@@ -260,7 +271,15 @@ Displays details about the WegGL version to the console.
     </div>
 
     <div class="description">
-        This method should be implemented by derived classes.
+        <p>
+Outputs a warning to the console that this method should be implemented by the derived class.
+</p>
+<p>
+<em>This method should be implemented by derived classes.</em>
+</p>
+<p>
+<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
+</p>
     </div>
 
 
@@ -280,7 +299,7 @@ Displays details about the WegGL version to the console.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
         </span>
 
 
@@ -290,9 +309,12 @@ Displays details about the WegGL version to the console.
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Shareable.html#method_release">Shareable</a>:
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:38</code></a>
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:36</code></a>
         </p>
 
 
@@ -300,7 +322,9 @@ Displays details about the WegGL version to the console.
     </div>
 
     <div class="description">
-        Notifies this instance that something is dereferencing it.
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
     </div>
 
 
@@ -308,7 +332,7 @@ Displays details about the WegGL version to the console.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
                     The new value of the reference count.
             </div>
         </div>

@@ -9,7 +9,7 @@ import VectorN = require('../math/VectorN');
 import Vertex = require('../dfx/Vertex');
 
 function numberList(size: number, value: number): number[] {
-  let data = [];
+  let data: number[] = [];
   for(var i = 0; i < size; i++) {data.push(value);}
   return data;
 }

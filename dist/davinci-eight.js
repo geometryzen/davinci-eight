@@ -440,7 +440,36 @@ define('davinci-eight/checks/isUndefined',["require", "exports"], function (requ
     return isUndefined;
 });
 
-define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined'], function (require, exports, isUndefined) {
+define('davinci-eight/checks/mustSatisfy',["require", "exports"], function (require, exports) {
+    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
+        if (!condition) {
+            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
+            var context = contextBuilder ? " in " + contextBuilder() : "";
+            throw new Error(name + " must " + message + context + ".");
+        }
+    }
+    return mustSatisfy;
+});
+
+define('davinci-eight/checks/isNumber',["require", "exports"], function (require, exports) {
+    function isNumber(x) {
+        return (typeof x === 'number');
+    }
+    return isNumber;
+});
+
+define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy, isNumber) {
+    function beANumber() {
+        return "be a `number`";
+    }
+    function mustBeInteger(name, value, contextBuilder) {
+        mustSatisfy(name, isNumber(value), beANumber, contextBuilder);
+        return value;
+    }
+    return mustBeInteger;
+});
+
+define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined, mustBeNumber) {
     function message(standard, override) {
         return isUndefined(override) ? standard : override();
     }
@@ -475,7 +504,10 @@ define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUnde
                 return arg;
             },
             toBeInClosedInterval: function (lower, upper) {
-                if (value >= lower && value <= upper) {
+                var something = value;
+                var x = something;
+                mustBeNumber('x', x);
+                if (x >= lower && x <= upper) {
                     return arg;
                 }
                 else {
@@ -1405,6 +1437,24 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
     return Matrix4;
 });
 
+define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
+    function isObject(x) {
+        return (typeof x === 'object');
+    }
+    return isObject;
+});
+
+define('davinci-eight/checks/mustBeObject',["require", "exports", '../checks/mustSatisfy', '../checks/isObject'], function (require, exports, mustSatisfy, isObject) {
+    function beObject() {
+        return "be an `object`";
+    }
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy(name, isObject(value), beObject, contextBuilder);
+        return value;
+    }
+    return mustBeObject;
+});
+
 define('davinci-eight/core/Symbolic',["require", "exports"], function (require, exports) {
     /**
      * <p>
@@ -1541,7 +1591,7 @@ define('davinci-eight/cameras/viewMatrix',["require", "exports", '../checks/isDe
     return viewMatrix;
 });
 
-define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector3', '../math/Matrix4', '../core/Symbolic', '../checks/expectArg', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, Symbolic, expectArg, isUndefined, computeViewMatrix) {
+define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/Symbolic', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, mustBeNumber, mustBeObject, Symbolic, isUndefined, computeViewMatrix) {
     /**
      * @class createView
      * @constructor
@@ -1563,11 +1613,16 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector
             set eye(value) {
                 self.setEye(value);
             },
-            setEye: function (value) {
-                expectArg('eye', value).toBeObject();
-                eye.x = value.x;
-                eye.y = value.y;
-                eye.z = value.z;
+            /**
+             * @method setEye
+             * @param eye {Vector3}
+             * @return {View} `this` instance.
+             */
+            setEye: function (eye_) {
+                mustBeObject('eye', eye_);
+                eye.x = mustBeNumber('eye.x', eye_.x);
+                eye.y = mustBeNumber('eye.y', eye_.y);
+                eye.z = mustBeNumber('eye.z', eye_.z);
                 return self;
             },
             get look() {
@@ -1577,7 +1632,7 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector
                 self.setLook(value);
             },
             setLook: function (value) {
-                expectArg('look', value).toBeObject();
+                mustBeObject('look', value);
                 look.x = value.x;
                 look.y = value.y;
                 look.z = value.z;
@@ -1590,7 +1645,7 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector
                 self.setUp(value);
             },
             setUp: function (value) {
-                expectArg('up', value).toBeObject();
+                mustBeObject('up', value);
                 up.x = value.x;
                 up.y = value.y;
                 up.z = value.z;
@@ -2094,35 +2149,6 @@ define('davinci-eight/cameras/createPerspective',["require", "exports", '../came
     return createPerspective;
 });
 
-define('davinci-eight/checks/mustSatisfy',["require", "exports"], function (require, exports) {
-    function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
-        if (!condition) {
-            var message = messageBuilder ? messageBuilder() : "satisfy some condition";
-            var context = contextBuilder ? " in " + contextBuilder() : "";
-            throw new Error(name + " must " + message + context + ".");
-        }
-    }
-    return mustSatisfy;
-});
-
-define('davinci-eight/checks/isNumber',["require", "exports"], function (require, exports) {
-    function isNumber(x) {
-        return (typeof x === 'number');
-    }
-    return isNumber;
-});
-
-define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy, isNumber) {
-    function beANumber() {
-        return "be a number";
-    }
-    function mustBeInteger(name, value, contextBuilder) {
-        mustSatisfy(name, isNumber(value), beANumber, contextBuilder);
-        return value;
-    }
-    return mustBeInteger;
-});
-
 define('davinci-eight/checks/isString',["require", "exports"], function (require, exports) {
     function isString(s) {
         return (typeof s === 'string');
@@ -2351,17 +2377,13 @@ define('davinci-eight/utils/uuid4',["require", "exports"], function (require, ex
 });
 
 define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, refChange, uuid4) {
-    /**
-     * <p>
-     * Convenient base class for derived classes implementing IUnknown.
-     * </p>
-     *
-     * @class Shareable
-     * @implements IUnknown
-     */
     var Shareable = (function () {
         /**
+         * <p>
+         * Convenient base class for derived classes implementing <code>IUnknown</code>.
+         * </p>
          * @class Shareable
+         * @extends IUnknown
          * @constructor
          * @param type {string} The human-readable name of the derived type.
          */
@@ -2372,7 +2394,9 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
             refChange(this._uuid, type, +1);
         }
         /**
+         * <p>
          * Notifies this instance that something is dereferencing it.
+         * </p>
          *
          * @method addRef
          * @return {number} The new value of the reference count.
@@ -2383,7 +2407,9 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
             return this._refCount;
         };
         /**
+         * <p>
          * Notifies this instance that something is dereferencing it.
+         * </p>
          *
          * @method release
          * @return {number} The new value of the reference count.
@@ -2401,13 +2427,21 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
             return refCount;
         };
         /**
-         * This method should be implemented by derived classes.
-         *
+         * <p>
+         * Outputs a warning to the console that this method should be implemented by the derived class.
+         * </p>
+         * <p>
+         * <em>This method should be implemented by derived classes.</em>
+         * </p>
+         * <p>
+         * <em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
+         * </p>
          * @method destructor
          * @return {void}
+         * @protected
          */
         Shareable.prototype.destructor = function () {
-            console.warn("`destructor(): void` method should be implemented by `" + this._type + "`.");
+            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
         };
         return Shareable;
     })();
@@ -2828,10 +2862,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         ASSERTIVE: false,
         DEFENSIVE: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-19',
+        LAST_MODIFIED: '2015-09-20',
         NAMESPACE: 'EIGHT',
         VERBOSE: true,
-        VERSION: '2.101.0'
+        VERSION: '2.102.0'
     };
     return core;
 });
@@ -3205,7 +3239,9 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
             }
             //var time = Date.now();
             // binary search for the index with largest value smaller than target u distance
-            var low = 0, high = il - 1, comparison;
+            var low = 0;
+            var high = il - 1;
+            var comparison;
             while (low <= high) {
                 i = Math.floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
                 comparison = arcLengths[i] - targetArcLength;
@@ -4249,27 +4285,27 @@ define('davinci-eight/dfx/toGeometryData',["require", "exports", '../dfx/toGeome
     function concat(a, b) {
         return a.concat(b);
     }
-    function toGeometryData(geometry, geometryInfo) {
-        expectArg('geometry', geometry).toBeObject();
-        var actuals = toGeometryMeta(geometry);
-        if (geometryInfo) {
-            expectArg('geometryInfo', geometryInfo).toBeObject();
+    function toGeometryData(simplices, geometryMeta) {
+        expectArg('simplices', simplices).toBeObject();
+        var actuals = toGeometryMeta(simplices);
+        if (geometryMeta) {
+            expectArg('geometryMeta', geometryMeta).toBeObject();
         }
         else {
-            geometryInfo = actuals;
+            geometryMeta = actuals;
         }
-        var attribMap = geometryInfo.attributes;
+        var attribMap = geometryMeta.attributes;
         // Cache the keys and keys.length of the specified attributes and declare a loop index.
         var keys = Object.keys(attribMap);
         var keysLen = keys.length;
         var k;
         // Side effect is to set the index property, but it will be be the same as the array index. 
-        var vertices = computeUniqueVertices(geometry);
+        var vertices = computeUniqueVertices(simplices);
         var vsLength = vertices.length;
         var i;
         // Each simplex produces as many indices as vertices.
         // This is why we need the Vertex to have an temporary index property.
-        var indices = geometry.map(Simplex.indices).reduce(concat, []);
+        var indices = simplices.map(Simplex.indices).reduce(concat, []);
         // Create intermediate data structures for output and to cache dimensions and name.
         // For performance an an array will be used whose index is the key index.
         var outputs = [];
@@ -4304,7 +4340,7 @@ define('davinci-eight/dfx/toGeometryData',["require", "exports", '../dfx/toGeome
             var vector = new VectorN(data, false, data.length);
             attributes[output.name] = new DrawAttribute(vector, output.dimensions);
         }
-        return new GeometryData(geometryInfo.k, new VectorN(indices, false, indices.length), attributes);
+        return new GeometryData(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
     }
     return toGeometryData;
 });
@@ -4878,7 +4914,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
 
 define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mustSatisfy', '../checks/isDefined'], function (require, exports, mustSatisfy, isDefined) {
     function beDefined() {
-        return "be defined";
+        return "not be be `undefined`";
     }
     function mustBeDefined(name, value, contextBuilder) {
         mustSatisfy(name, isDefined(value), beDefined, contextBuilder);
@@ -4988,32 +5024,71 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../checks/mustBeDefine
     return Mesh;
 });
 
-define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../utils/refChange', '../utils/uuid4', '../math/Vector3'], function (require, exports, createPerspective, refChange, uuid4, Vector3) {
+define('davinci-eight/i18n/readOnly',["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString) {
+    /**
+     *
+     */
+    function readOnly(name) {
+        mustBeString('name', name);
+        var message = {
+            get message() {
+                return "Property `" + name + "` is readonly.";
+            }
+        };
+        return message;
+    }
+    return readOnly;
+});
+
+define('davinci-eight/checks/mustBeCanvasId',["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, mustSatisfy, isInteger) {
+    function beCanvasId() {
+        return "be a `number` which is also an integer";
+    }
+    function mustBeCanvasId(name, value, contextBuilder) {
+        mustSatisfy(name, isInteger(value), beCanvasId, contextBuilder);
+        return value;
+    }
+    return mustBeCanvasId;
+});
+
+define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeCanvasId', '../checks/mustBeDefined', '../checks/mustBeNumber', '../utils/refChange', '../utils/uuid4', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeCanvasId, mustBeDefined, mustBeNumber, refChange, uuid4, Vector3) {
     /**
      * Name used for reference count monitoring and logging.
      */
     var CLASS_NAME = 'PerspectiveCamera';
     /**
-     * @module EIGHT
      * @class PerspectiveCamera
-     * @implements ICamera
-     * @implements UniformData
      */
     var PerspectiveCamera = (function () {
+        /**
+         * <p>
+         *
+         * </p>
+         * @class PerspectiveCamera
+         * @constructor
+         * @param [fov = 75 * Math.PI / 180] {number}
+         * @param [aspect=1] {number}
+         * @param [near=0.1] {number}
+         * @param [far=2000] {number}
+         * @example
+             var camera = new EIGHT.PerspectiveCamera()
+             camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+             camera.setFov(3.0 * e3)
+         */
         function PerspectiveCamera(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 50 * Math.PI / 180; }
+            if (fov === void 0) { fov = 75 * Math.PI / 180; }
             if (aspect === void 0) { aspect = 1; }
             if (near === void 0) { near = 0.1; }
             if (far === void 0) { far = 2000; }
+            // FIXME: Gotta go
             this.position = new Vector3();
             this._refCount = 1;
             this._uuid = uuid4().generate();
-            this.inner = createPerspective();
-            this.fov = fov;
-            this.aspect = aspect;
-            this.near = near;
-            this.far = far;
-            // FIXME: If cameras do become drawable, then we might want monitoring.
+            mustBeNumber('fov', fov);
+            mustBeNumber('aspect', aspect);
+            mustBeNumber('near', near);
+            mustBeNumber('far', far);
+            this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
             refChange(this._uuid, CLASS_NAME, +1);
         }
         PerspectiveCamera.prototype.addRef = function () {
@@ -5022,11 +5097,10 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
             return this._refCount;
         };
         PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
-            this.inner.setFov(this.fov);
-            this.inner.setAspect(this.aspect);
+            mustBeDefined('visitor', visitor);
+            mustBeCanvasId('canvasId', canvasId);
             this.inner.setNear(this.near);
             this.inner.setFar(this.far);
-            this.inner.setEye(this.position);
             this.inner.setUniforms(visitor, canvasId);
         };
         PerspectiveCamera.prototype.contextFree = function () {
@@ -5038,6 +5112,147 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
         PerspectiveCamera.prototype.draw = function (canvasId) {
             console.log(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
+            /**
+             * The aspect ratio (width / height) of the camera viewport.
+             * @property aspect
+             * @type {number}
+             * @readonly
+             */
+            get: function () {
+                return this.inner.aspect;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setAspect
+         * @param aspect {number}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setAspect = function (aspect) {
+            this.inner.aspect = aspect;
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
+            /**
+             * The position of the camera.
+             * @property eye
+             * @type {Vector3}
+             * @readonly
+             */
+            get: function () {
+                return this.inner.eye;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setEye
+         * @param eye {Cartesian3}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setEye = function (eye) {
+            this.inner.setEye(eye);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
+            /**
+             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+             * Measured in radians.
+             * @property fov
+             * @type {number}
+             * @readonly
+             */
+            // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
+            get: function () {
+                return this.inner.fov;
+            },
+            set: function (unused) {
+                // FIXME: Need a custom Error class that can take the LocalizableMessage.
+                throw new Error(readOnly('fov').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setFov
+         * @param fov {number}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setFov = function (fov) {
+            mustBeNumber('fov', fov);
+            this.inner.fov = fov;
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "look", {
+            get: function () {
+                return this.inner.look;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setLook = function (look) {
+            this.inner.setLook(look);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "near", {
+            /**
+             * The distance to the near plane.
+             * @property near
+             * @type {number}
+             * @readonly
+             */
+            get: function () {
+                return this.inner.near;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('near').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setNear
+         * @param near {number}
+         * @return {PerspectiveCamera} <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setNear = function (near) {
+            this.inner.setNear(near);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "far", {
+            get: function () {
+                return this.inner.far;
+            },
+            set: function (far) {
+                this.inner.far = far;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setFar = function (far) {
+            this.inner.setFar(far);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "up", {
+            get: function () {
+                return this.inner.up;
+            },
+            set: function (unised) {
+                throw new Error(readOnly('up').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setUp = function (up) {
+            this.inner.setUp(up);
+            return this;
         };
         PerspectiveCamera.prototype.release = function () {
             this._refCount--;
@@ -5246,12 +5461,30 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '.
      */
     var EIGHTLogger = (function (_super) {
         __extends(EIGHTLogger, _super);
+        /**
+         * <p>
+         * Initializes <b>the</b> `type` property to 'EIGHTLogger'.
+         * </p>
+         * @class EIGHTLogger
+         * @constructor
+         */
         function EIGHTLogger() {
             _super.call(this, 'EIGHTLogger');
         }
+        /**
+         * Logs the version, GitHub URL, and last modified date to the console.
+         * @method execute
+         * @param unused WebGLRenderingContext
+         */
         EIGHTLogger.prototype.execute = function (unused) {
             console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
         };
+        /**
+         * Does nothing.
+         * @protected
+         * @method destructor
+         * @return void
+         */
         EIGHTLogger.prototype.destructor = function () {
         };
         return EIGHTLogger;
@@ -5304,18 +5537,38 @@ define('davinci-eight/commands/VersionLogger',["require", "exports", '../utils/S
      * <p>
      * Displays details about the WegGL version to the console.
      * <p>
+     * <p>
+     * Initializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.
+     * <p>
      * @class VersionLogger
      * @extends Shareable
      * @implements IContextCommand
      */
     var VersionLogger = (function (_super) {
         __extends(VersionLogger, _super);
+        /**
+         * @class VersionLogger
+         * @constructor
+         */
         function VersionLogger() {
             _super.call(this, 'VersionLogger');
         }
+        /**
+         * <p>
+         * Logs the WebGL <code>VERSION</code> parameter to the console.
+         * </p>
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
         VersionLogger.prototype.execute = function (gl) {
             console.log(gl.getParameter(gl.VERSION));
         };
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
         VersionLogger.prototype.destructor = function () {
         };
         return VersionLogger;
@@ -6359,16 +6612,22 @@ define('davinci-eight/geometries/buildPlane',["require", "exports", '../dfx/Simp
         var segment_height = height / gridY;
         // The normal starts out as all zeros.
         var normal = new Vector3();
+        // A bit of hackery to keey TypeScript compiler happy.
+        // TODO: This should really be implemented by, say, cyclic permutation of an array.
+        var something = normal;
+        var bogusNormal = something;
         // This bit of code sets the appropriate coordinate in the normal vector.
-        normal[w] = depth > 0 ? 1 : -1;
+        bogusNormal[w] = depth > 0 ? 1 : -1;
         // Compute the points.
         for (iy = 0; iy < gridY1; iy++) {
             for (ix = 0; ix < gridX1; ix++) {
                 var point = new Vector3();
+                something = point;
+                var bogusPoint = something;
                 // This bit of code sets the appropriate coordinate in the position vector.
-                point[u] = (ix * segment_width - width_half) * udir;
-                point[v] = (iy * segment_height - height_half) * vdir;
-                point[w] = depth;
+                bogusPoint[u] = (ix * segment_width - width_half) * udir;
+                bogusPoint[v] = (iy * segment_height - height_half) * vdir;
+                bogusPoint[w] = depth;
                 points.push(point);
             }
         }
@@ -6890,7 +7149,7 @@ define('davinci-eight/checks/isBoolean',["require", "exports"], function (requir
 
 define('davinci-eight/checks/mustBeBoolean',["require", "exports", '../checks/mustSatisfy', '../checks/isBoolean'], function (require, exports, mustSatisfy, isBoolean) {
     function beBoolean() {
-        return "be boolean";
+        return "be `boolean`";
     }
     function mustBeBoolean(name, value, contextBuilder) {
         mustSatisfy(name, isBoolean(value), beBoolean, contextBuilder);
@@ -9157,42 +9416,15 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
     return CylinderArgs;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/uniforms/SineWaveUniform',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    var SineWaveUniform = (function (_super) {
-        __extends(SineWaveUniform, _super);
-        function SineWaveUniform(omega, uName) {
-            if (uName === void 0) { uName = 'uSineWave'; }
-            _super.call(this, 'SineWaveUniform');
-            this.amplitude = 1;
-            this.mean = 0;
-            this.omega = omega;
-            this.uName = uName;
-        }
-        SineWaveUniform.prototype.setUniforms = function (visitor, canvasId) {
-            var time = Date.now() / 1000;
-            var theta = this.omega * time;
-            var a = this.amplitude * Math.sin(theta) + this.mean;
-            // FIXME: canvasId
-            visitor.uniform1f(this.uName, a, canvasId);
-        };
-        return SineWaveUniform;
-    })(Shareable);
-    return SineWaveUniform;
-});
-
-define('davinci-eight/utils/Model',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rotor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, rotor3, Symbolic, Vector3) {
+define('davinci-eight/models/Model',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rotor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, createRotor3, Symbolic, Vector3) {
     /**
      * Model implements UniformData required for manipulating a body.
      */
+    // TODO: What should we call this?
     var Model = (function () {
         function Model() {
             this.position = new Vector3();
-            this.attitude = rotor3();
+            this.attitude = createRotor3();
             this.scale = new Vector3([1, 1, 1]);
             this.color = new Vector3([1, 1, 1]);
             this.M = Matrix4.identity();
@@ -9229,16 +9461,109 @@ define('davinci-eight/utils/Model',["require", "exports", '../math/Matrix3', '..
     return Model;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/models/RigidBody3',["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/Spinor3', '../math/Vector3'], function (require, exports, readOnly, Shareable, Spinor3, Vector3) {
+    // The `type` property when this class is being used concretely.
+    var TYPE_RIGID_BODY_3 = 'RigidBody3';
+    /**
+     * A model for a rigid body in 3-dimensional space.
+     * This class may be used concretely or extended.
+     * @class RigidBody3
+     */
+    var RigidBody3 = (function (_super) {
+        __extends(RigidBody3, _super);
+        /**
+         * The `attitude` is initialized to the default for `Spinor3`.
+         * The `position` is initialized to the default for `Vector3`.
+         * This class assumes that it is being used concretely if the type is 'RigidBody3'.
+         * @class RigidBody3
+         * @constructor
+         * @param type {string} The class name of the derived class. Defaults to 'RigidBody3'.
+         */
+        function RigidBody3(type) {
+            if (type === void 0) { type = 'RigidBody3'; }
+            _super.call(this, type);
+            this._attitude = new Spinor3();
+            this._position = new Vector3();
+        }
+        RigidBody3.prototype.destructor = function () {
+            if (this._type !== TYPE_RIGID_BODY_3) {
+                console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+            }
+            this._attitude = void 0;
+            this._position = void 0;
+        };
+        Object.defineProperty(RigidBody3.prototype, "attitude", {
+            /**
+             * The attitude spinor of the rigid body.
+             * @property attitude
+             * @type Spinor3
+             * @readonly
+             */
+            get: function () {
+                return this._attitude;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('attitude').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RigidBody3.prototype, "position", {
+            /**
+             * The position vector of the rigid body.
+             * @property position
+             * @type Vector3
+             * @readonly
+             */
+            get: function () {
+                return this._position;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('position').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return RigidBody3;
+    })(Shareable);
+    return RigidBody3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/uniforms/SineWaveUniform',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
+    var SineWaveUniform = (function (_super) {
+        __extends(SineWaveUniform, _super);
+        function SineWaveUniform(omega, uName) {
+            if (uName === void 0) { uName = 'uSineWave'; }
+            _super.call(this, 'SineWaveUniform');
+            this.amplitude = 1;
+            this.mean = 0;
+            this.omega = omega;
+            this.uName = uName;
+        }
+        SineWaveUniform.prototype.setUniforms = function (visitor, canvasId) {
+            var time = Date.now() / 1000;
+            var theta = this.omega * time;
+            var a = this.amplitude * Math.sin(theta) + this.mean;
+            // FIXME: canvasId
+            visitor.uniform1f(this.uName, a, canvasId);
+        };
+        return SineWaveUniform;
+    })(Shareable);
+    return SineWaveUniform;
+});
+
 define('davinci-eight/utils/workbench3D',["require", "exports"], function (require, exports) {
-    /**
-     * @const
-     * @type {string}
-     */
     var EVENT_NAME_RESIZE = 'resize';
-    /**
-     * @const
-     * @type {string}
-     */
     var TAG_NAME_CANVAS = 'canvas';
     function removeElementsByTagName(doc, tagname) {
         var elements = doc.getElementsByTagName(tagname);
@@ -9249,9 +9574,10 @@ define('davinci-eight/utils/workbench3D',["require", "exports"], function (requi
     }
     /**
      * Creates and returns a workbench3D thing.
-     * @param canvas An HTML canvas element to be inserted.
+     * canvas: An HTML canvas element to be inserted.
      * TODO: We should remove the camera as being too opinionated, replace with a callback providing
      */
+    // FIXME: With renderer typed as `any`, anything could happen.
     var workbench3D = function (canvas, renderer, camera, win) {
         if (win === void 0) { win = window; }
         var doc = win.document;
@@ -9293,11 +9619,13 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
     }
     /**
      * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
-     * @param animate The `animate` function is called for each animation frame.
-     * @param options.setUp The `setUp` function is called synchronously each time the start() method is called.
-     * @param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
-     * @param options.terminate The `terminate` function is called to determine whether the animation should stop.
-     * @param options.window {Window} The window in which the animation will run. Defaults to the global window.
+     * class WindowAnimationRunner
+     * constructor
+     * param animate The `animate` function is called for each animation frame.
+     * param options.setUp The `setUp` function is called synchronously each time the start() method is called.
+     * param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
+     * param options.terminate The `terminate` function is called to determine whether the animation should stop.
+     * param options.window {Window} The window in which the animation will run. Defaults to the global window.
      */
     var animation = function (animate, options) {
         // TODO: Use enum when TypeScript compiler version is appropriate.
@@ -9428,7 +9756,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/GeometryData', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toGeometryData', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/WebGLRenderer', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/BoxComplex', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/Model', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, GeometryData, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, WebGLRenderer, Geometry, BoxComplex, BoxGeometry, shaderProgram, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, initWebGL, renderer, SineWaveUniform, contextProxy, Model, refChange, Shareable, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/GeometryData', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toGeometryData', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/WebGLRenderer', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/BoxComplex', 'davinci-eight/geometries/BoxGeometry', 'davinci-eight/programs/shaderProgram', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/Model', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, GeometryData, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, WebGLRenderer, Geometry, BoxComplex, BoxGeometry, shaderProgram, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, Model, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -9460,6 +9788,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get createPerspective() { return createPerspective; },
         get createView() { return createView; },
         get Model() { return Model; },
+        get RigidBody3() { return RigidBody3; },
         get Simplex() { return Simplex; },
         get Vertex() { return Vertex; },
         get frustumMatrix() { return frustumMatrix; },

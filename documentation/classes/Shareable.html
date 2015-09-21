@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -136,9 +141,12 @@
 <h1>Shareable Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:18</code></a>
+            Defined in: <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:10</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -148,7 +156,7 @@
 
 <div class="box intro">
     <p>
-Convenient base class for derived classes implementing IUnknown.
+Convenient base class for derived classes implementing <code>IUnknown</code>.
 </p>
 </div>
 
@@ -175,7 +183,7 @@ Convenient base class for derived classes implementing IUnknown.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:18</code></a>
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:10</code></a>
         </p>
 
 
@@ -192,7 +200,7 @@ Convenient base class for derived classes implementing IUnknown.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">type</code>
-                        <span class="type">String</span>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
 
                     <div class="param-description">
@@ -223,16 +231,16 @@ Convenient base class for derived classes implementing IUnknown.
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
-                            <li class="index-item method">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited">
                                 <a href="#method_addRef">addRef</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method protected">
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_release">release</a>
 
                             </li>
@@ -252,7 +260,7 @@ Convenient base class for derived classes implementing IUnknown.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
         </span>
 
 
@@ -262,9 +270,12 @@ Convenient base class for derived classes implementing IUnknown.
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:27</code></a>
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:23</code></a>
         </p>
 
 
@@ -272,8 +283,9 @@ Convenient base class for derived classes implementing IUnknown.
     </div>
 
     <div class="description">
-        <p>Notifies this instance that something is dereferencing it.</p>
-
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
     </div>
 
 
@@ -281,7 +293,7 @@ Convenient base class for derived classes implementing IUnknown.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
                     <p>The new value of the reference count.</p>
 
             </div>
@@ -289,7 +301,7 @@ Convenient base class for derived classes implementing IUnknown.
 
 
 </div>
-<div id="method_destructor" class="method item">
+<div id="method_destructor" class="method item protected">
     <h3 class="name"><code>destructor</code></h3>
 
         <span class="paren">()</span>
@@ -299,6 +311,7 @@ Convenient base class for derived classes implementing IUnknown.
         </span>
 
 
+        <span class="flag protected">protected</span>
 
 
 
@@ -307,7 +320,7 @@ Convenient base class for derived classes implementing IUnknown.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l56"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:56</code></a>
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:57</code></a>
         </p>
 
 
@@ -315,8 +328,15 @@ Convenient base class for derived classes implementing IUnknown.
     </div>
 
     <div class="description">
-        <p>This method should be implemented by derived classes.</p>
-
+        <p>
+Outputs a warning to the console that this method should be implemented by the derived class.
+</p>
+<p>
+<em>This method should be implemented by derived classes.</em>
+</p>
+<p>
+<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
+</p>
     </div>
 
 
@@ -336,7 +356,7 @@ Convenient base class for derived classes implementing IUnknown.
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type">Number</span>
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
         </span>
 
 
@@ -346,9 +366,12 @@ Convenient base class for derived classes implementing IUnknown.
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:38</code></a>
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:36</code></a>
         </p>
 
 
@@ -356,8 +379,9 @@ Convenient base class for derived classes implementing IUnknown.
     </div>
 
     <div class="description">
-        <p>Notifies this instance that something is dereferencing it.</p>
-
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
     </div>
 
 
@@ -365,7 +389,7 @@ Convenient base class for derived classes implementing IUnknown.
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type">Number</span>:
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
                     <p>The new value of the reference count.</p>
 
             </div>

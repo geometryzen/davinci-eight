@@ -3,10 +3,10 @@ define(["require", "exports"], function (require, exports) {
         ASSERTIVE: false,
         DEFENSIVE: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-19',
+        LAST_MODIFIED: '2015-09-20',
         NAMESPACE: 'EIGHT',
         VERBOSE: true,
-        VERSION: '2.101.0'
+        VERSION: '2.102.0'
     };
     return core;
 });

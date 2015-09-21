@@ -1245,20 +1245,70 @@ interface ICamera extends IDrawable {
 /**
  *
  */
-class PerspectiveCamera implements ICamera, UniformData {
+class PerspectiveCamera implements ICamera, Perspective, UniformData {
+  /**
+   * The aspect ratio of the viewport, i.e., width / height.
+   */
+  aspect: number;
+  /**
+   * The position of the camera.
+   */
+  eye: Vector3;
+  /**
+   * The distance to the far plane of the viewport.
+   */
+  far: number;
+  /**
+   * The field of view is the angle in the camera horizontal plane that the viewport subtends at the camera.
+   * The field of view is measured in radians.
+   */
+  fov: number;
+  /**
+   * The point (position vector) that the camera looks at.
+   */
+  look: Vector3;
+  /**
+   *The distance to the near plane of the viewport.
+   */
+  near: number;
+  /**
+   *
+   */
   position: Vector3;
   /**
    * Optional material used for rendering this instance.
    */
   material: IProgram;
-  constructor(fov?: number, aspect?: number, near?: number, far?: number);
-  addRef(): number;
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
-  contextFree(canvasId: number): void;
-  contextGain(manager: ContextManager): void;
-  contextLoss(canvasId: number): void;
-  draw(canvasId: number): void;
-  release(): number;
+  /**
+   * The "guess" direction that is used to generate the upwards direction for the camera. 
+   */
+  up: Vector3
+  /**
+   * fov...: The `fov` property.
+   * aspect: The `aspect` property.
+   * near..: The `near` property.
+   * far...: The `far` property.
+   */
+  constructor(fov?: number, aspect?: number, near?: number, far?: number)
+  addRef(): number
+  contextFree(canvasId: number): void
+  contextGain(manager: ContextManager): void
+  contextLoss(canvasId: number): void
+  draw(canvasId: number): void
+  setAspect(aspect: number): PerspectiveCamera
+  setEye(eye: Cartesian3): PerspectiveCamera
+  setFar(far: number): PerspectiveCamera
+  setFov(fov: number): PerspectiveCamera
+  setLook(look: Cartesian3): PerspectiveCamera
+  setNear(near: number): PerspectiveCamera
+  setUp(up: Cartesian3): PerspectiveCamera
+  /**
+   * sets the uniform values from this instance into the WebGLProgram(s) defined by the arguments.
+   * visitor.: The visitor which is receiving the uniform values.
+   * canvasId: The identifier of the canvas.
+   */
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void
+  release(): number
 }
 
 /**
@@ -1463,6 +1513,34 @@ class SineWaveUniform extends Shareable implements UniformData {
   constructor(omega: number, uName?: string);
   setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
 }
+
+interface IRigidBody3 extends IUnknown {
+  position: Vector3;
+  attitude: Spinor3;
+}
+
+/**
+ * A model for a rigid body in 3-dimensional space.
+ * This class may be used concretely or extended.
+ */
+class RigidBody3 extends Shareable implements IRigidBody3 {
+  /**
+   * The position vector of the rigid body.
+   */
+  public position: Vector3;
+  /**
+   * The attitude spinor of the rigid body.
+   */
+  public attitude: Spinor3;
+  /**
+   * The `attitude` is initialized to the default for `Spinor3`.
+   * The `position` is initialized to the default for `Vector3`.
+   * This class assumes that it is being used concretely if the type is 'RigidBody3'.
+   * type: The class name of the derived class. Defaults to 'RigidBody3'.
+   */
+  constructor(type?: string)
+}
+
 
 class RoundUniform implements UniformDataVisitor {
   next: UniformDataVisitor;

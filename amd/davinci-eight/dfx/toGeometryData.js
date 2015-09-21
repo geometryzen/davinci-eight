@@ -35,27 +35,27 @@ define(["require", "exports", '../dfx/toGeometryMeta', '../dfx/computeUniqueVert
     function concat(a, b) {
         return a.concat(b);
     }
-    function toGeometryData(geometry, geometryInfo) {
-        expectArg('geometry', geometry).toBeObject();
-        var actuals = toGeometryMeta(geometry);
-        if (geometryInfo) {
-            expectArg('geometryInfo', geometryInfo).toBeObject();
+    function toGeometryData(simplices, geometryMeta) {
+        expectArg('simplices', simplices).toBeObject();
+        var actuals = toGeometryMeta(simplices);
+        if (geometryMeta) {
+            expectArg('geometryMeta', geometryMeta).toBeObject();
         }
         else {
-            geometryInfo = actuals;
+            geometryMeta = actuals;
         }
-        var attribMap = geometryInfo.attributes;
+        var attribMap = geometryMeta.attributes;
         // Cache the keys and keys.length of the specified attributes and declare a loop index.
         var keys = Object.keys(attribMap);
         var keysLen = keys.length;
         var k;
         // Side effect is to set the index property, but it will be be the same as the array index. 
-        var vertices = computeUniqueVertices(geometry);
+        var vertices = computeUniqueVertices(simplices);
         var vsLength = vertices.length;
         var i;
         // Each simplex produces as many indices as vertices.
         // This is why we need the Vertex to have an temporary index property.
-        var indices = geometry.map(Simplex.indices).reduce(concat, []);
+        var indices = simplices.map(Simplex.indices).reduce(concat, []);
         // Create intermediate data structures for output and to cache dimensions and name.
         // For performance an an array will be used whose index is the key index.
         var outputs = [];
@@ -90,7 +90,7 @@ define(["require", "exports", '../dfx/toGeometryMeta', '../dfx/computeUniqueVert
             var vector = new VectorN(data, false, data.length);
             attributes[output.name] = new DrawAttribute(vector, output.dimensions);
         }
-        return new GeometryData(geometryInfo.k, new VectorN(indices, false, indices.length), attributes);
+        return new GeometryData(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
     }
     return toGeometryData;
 });

@@ -203,6 +203,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.099.0: 2015-09-18 IContextCommand
 * 2.100.0: 2015-09-19 BoxGeometry
 * 2.101.0: 2015-09-19 IBufferGeometry
+* 2.102.0: 2015-09-20 RigidBody3
 
 ## License
 Copyright (c) 2014-2015 David Holmes

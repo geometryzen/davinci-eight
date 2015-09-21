@@ -8,7 +8,7 @@ import VectorN = require('../math/VectorN');
 
 function stringify(thing: any, space: any): string {
   let cache: any[] = [];
-  return JSON.stringify(thing, function(key: string, value) {
+  return JSON.stringify(thing, function(key: string, value: any) {
       if (typeof value === 'object' && value !== null) {
           if (cache.indexOf(value) !== -1) {
               // Circular reference found, discard key

@@ -1,5 +1,5 @@
 import GeometryData = require('../dfx/GeometryData');
 import GeometryMeta = require('../dfx/GeometryMeta');
 import Simplex = require('../dfx/Simplex');
-declare function toGeometryData(geometry: Simplex[], geometryInfo?: GeometryMeta): GeometryData;
+declare function toGeometryData(simplices: Simplex[], geometryMeta?: GeometryMeta): GeometryData;
 export = toGeometryData;

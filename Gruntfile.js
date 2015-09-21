@@ -7,6 +7,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
+    // Access the package file contents for later use.
     pkg: grunt.file.readJSON('package.json'),
 
     // Task configuration.
@@ -80,6 +81,7 @@ module.exports = function(grunt) {
             }
         }
     },
+    // Check JavaScript files for errors/warnings
     jshint: {
         src: [
             'Gruntfile.js',
@@ -91,6 +93,7 @@ module.exports = function(grunt) {
             jshintrc: '.jshintrc'
         }
     },
+    // Build TypeScript documentation.
     yuidoc: {
         compile: {
             name: '<%= pkg.name %>',
@@ -99,12 +102,14 @@ module.exports = function(grunt) {
             url: '<%= pkg.homepage %>',
             logo: '../assets/logo.png',
             options: {
+                linkNatives: true, // Native types get linked to MDN.
                 quiet: true,
                 writeJSON: true,
+                excludes: [],
                 extension: '.ts',
-                paths: ['src'],
+                paths: ['src/davinci-eight'],
                 outdir: 'documentation',
-                syntaxtype: 'js'
+                syntaxtype: 'js'  // YUIDocs doesn't understand TypeScript.
             }
         }
     },
@@ -155,7 +160,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc'); // enable the YUIDocs task.
   grunt.loadNpmTasks('grunt-complexity');
   grunt.loadNpmTasks('grunt-exec');
 
@@ -175,6 +180,10 @@ module.exports = function(grunt) {
       return ['--module commonjs'].concat(xs);
   }
 
+  function noImplicitAny(xs) {
+      return ['--noImplicitAny'].concat(xs);
+  }
+
   function removeComments(xs) {
       return ['--removeComments'].concat(xs);
   }
@@ -183,7 +192,7 @@ module.exports = function(grunt) {
       return ['--outDir', where].concat(xs);
   }
 
-  var argsAMD = AMD(ES5(compilerSources));
+  var argsAMD = AMD(ES5(noImplicitAny(compilerSources)));
   var argsCJS = COMMONJS(ES5(compilerSources));
 
   grunt.registerTask('buildAMD', "Build", function(){
@@ -206,6 +215,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', ['connect:test', 'jasmine']);
 
+  // Register 'docs' so that we can do `grunt docs` from the command line. 
   grunt.registerTask('docs', ['yuidoc']);
 
   grunt.registerTask('testAll', ['exec:test', 'test']);

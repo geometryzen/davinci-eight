@@ -3,9 +3,10 @@ import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 import Spinor3 = require('../math/Spinor3');
 import Matrix4 = require('../math/Matrix4');
+import mustBeNumber = require('../checks/mustBeNumber');
+import mustBeObject = require('../checks/mustBeObject');
 import View = require('../cameras/View');
 import Symbolic = require('../core/Symbolic');
-import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import isVariableName = require('../checks/isVariableName');
 import computeViewMatrix = require('../cameras/viewMatrix');
@@ -34,34 +35,39 @@ let createView = function(options?: {viewMatrixName?: string;}): View {
       set eye(value: Vector3) {
         self.setEye(value);
       },
-      setEye(value: Vector3) {
-        expectArg('eye', value).toBeObject();
-        eye.x = value.x;
-        eye.y = value.y;
-        eye.z = value.z;
-        return self;
+      /**
+       * @method setEye
+       * @param eye {Vector3}
+       * @return {View} `this` instance.
+       */
+      setEye(eye_: Vector3): View {
+        mustBeObject('eye', eye_)
+        eye.x = mustBeNumber('eye.x', eye_.x)
+        eye.y = mustBeNumber('eye.y', eye_.y)
+        eye.z = mustBeNumber('eye.z', eye_.z)
+        return self
       },
       get look(): Vector3 {
-        return look;
+        return look
       },
       set look(value: Vector3) {
-        self.setLook(value);
+        self.setLook(value)
       },
       setLook(value: Cartesian3): View {
-        expectArg('look', value).toBeObject();
-        look.x = value.x;
-        look.y = value.y;
-        look.z = value.z;
-        return self;
+        mustBeObject('look', value)
+        look.x = value.x
+        look.y = value.y
+        look.z = value.z
+        return self
       },
       get up(): Vector3 {
-        return up;
+        return up
       },
       set up(value: Vector3) {
-        self.setUp(value);
+        self.setUp(value)
       },
       setUp(value: Cartesian3): View {
-        expectArg('up', value).toBeObject();
+        mustBeObject('up', value);
         up.x = value.x;
         up.y = value.y;
         up.z = value.z;

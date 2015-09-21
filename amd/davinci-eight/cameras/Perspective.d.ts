@@ -2,7 +2,7 @@ import View = require('../cameras/View');
 import Cartesian3 = require('../math/Cartesian3');
 /**
  * @class Perspective
- * @extends Camera
+ * @extends View
  */
 interface Perspective extends View {
     /**

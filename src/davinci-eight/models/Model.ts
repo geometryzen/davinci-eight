@@ -1,7 +1,7 @@
 import Color = require('../core/Color');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import rotor3 = require('../math/rotor3');
+import createRotor3 = require('../math/rotor3');
 import Rotor3 = require('../math/Rotor3');
 import Spinor3 = require('../math/Spinor3');
 import Symbolic = require('../core/Symbolic');
@@ -10,10 +10,11 @@ import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Vector3 = require('../math/Vector3');
 /**
  * Model implements UniformData required for manipulating a body.
- */ 
+ */
+// TODO: What should we call this?
 class Model implements UniformData {
   public position = new Vector3();
-  public attitude = rotor3();
+  public attitude = createRotor3();
   public scale: Vector3 = new Vector3([1, 1, 1]);
   public color: Vector3 = new Vector3([1, 1, 1]);
   private M = Matrix4.identity();

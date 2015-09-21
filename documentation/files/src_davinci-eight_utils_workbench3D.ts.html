@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -137,16 +142,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/**
- * @const
- * @type {string}
- */
 var EVENT_NAME_RESIZE = &#x27;resize&#x27;;
-
-/**
- * @const
- * @type {string}
- */
 var TAG_NAME_CANVAS = &#x27;canvas&#x27;;
 
 function removeElementsByTagName(doc: Document, tagname: string) {
@@ -159,10 +155,11 @@ function removeElementsByTagName(doc: Document, tagname: string) {
 
 /**
  * Creates and returns a workbench3D thing.
- * @param canvas An HTML canvas element to be inserted.
+ * canvas: An HTML canvas element to be inserted.
  * TODO: We should remove the camera as being too opinionated, replace with a callback providing 
  */
-var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect: number; }, win: Window = window) {
+ // FIXME: With renderer typed as &#x60;any&#x60;, anything could happen.
+var workbench3D = function(canvas: HTMLCanvasElement, renderer: any, camera: { aspect: number; }, win: Window = window) {
     var doc = win.document;
 
     function syncToWindow() {
@@ -172,7 +169,7 @@ var workbench3D = function(canvas: HTMLCanvasElement, renderer, camera: { aspect
         camera.aspect = width / height;
     }
 
-    var onWindowResize = function(event) { syncToWindow(); };
+    var onWindowResize = function(event: any) { syncToWindow(); };
 
     var that =
         {

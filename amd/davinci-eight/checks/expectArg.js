@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/isUndefined'], function (require, exports, isUndefined) {
+define(["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined, mustBeNumber) {
     function message(standard, override) {
         return isUndefined(override) ? standard : override();
     }
@@ -33,7 +33,10 @@ define(["require", "exports", '../checks/isUndefined'], function (require, expor
                 return arg;
             },
             toBeInClosedInterval: function (lower, upper) {
-                if (value >= lower && value <= upper) {
+                var something = value;
+                var x = something;
+                mustBeNumber('x', x);
+                if (x >= lower && x <= upper) {
                     return arg;
                 }
                 else {

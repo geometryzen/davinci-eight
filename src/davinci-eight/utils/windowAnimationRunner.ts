@@ -4,7 +4,7 @@ import expectArg = require('../checks/expectArg');
 function defaultSetUp(): void {
 }
 
-function defaultTearDown(animateException): void {
+function defaultTearDown(animateException: any): void {
   if (animateException) {
     let message = "Exception raised during animate function: " + animateException;
     console.warn(message);
@@ -18,17 +18,19 @@ function defaultTerminate(time: number): boolean {
 
 /**
  * Creates an object implementing a stopwatch API that makes callbacks to user-supplied functions.
- * @param animate The `animate` function is called for each animation frame.
- * @param options.setUp The `setUp` function is called synchronously each time the start() method is called.
- * @param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
- * @param options.terminate The `terminate` function is called to determine whether the animation should stop.
- * @param options.window {Window} The window in which the animation will run. Defaults to the global window. 
+ * class WindowAnimationRunner
+ * constructor
+ * param animate The `animate` function is called for each animation frame.
+ * param options.setUp The `setUp` function is called synchronously each time the start() method is called.
+ * param options.tearDown The `tearDown` function is called asynchronously each time the animation is stopped.
+ * param options.terminate The `terminate` function is called to determine whether the animation should stop.
+ * param options.window {Window} The window in which the animation will run. Defaults to the global window. 
  */
 var animation = function(
     animate: (time: number) => void,
     options?: {
       setUp?: () => void;
-      tearDown?: (animateException) => void;
+      tearDown?: (animateException: any) => void;
       terminate?: (time: number) => boolean;
       window?: Window }): WindowAnimationRunner {
 
@@ -41,7 +43,7 @@ var animation = function(
 
     let $window: Window = expectArg('options.window', options.window || window).toNotBeNull().value;
     let setUp: () => void = expectArg('options.setUp', options.setUp || defaultSetUp).value;
-    let tearDown: (animateException) => void = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
+    let tearDown: (animateException: any) => void = expectArg('options.tearDown', options.tearDown || defaultTearDown).value;
     let terminate: (time: number) => boolean = expectArg('options.terminate', options.terminate || defaultTerminate).toNotBeNull().value;
 
     var stopSignal = false;       // 27 is Esc

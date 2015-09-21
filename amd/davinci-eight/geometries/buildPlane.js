@@ -25,16 +25,22 @@ define(["require", "exports", '../dfx/Simplex', '../core/Symbolic', '../math/Vec
         var segment_height = height / gridY;
         // The normal starts out as all zeros.
         var normal = new Vector3();
+        // A bit of hackery to keey TypeScript compiler happy.
+        // TODO: This should really be implemented by, say, cyclic permutation of an array.
+        var something = normal;
+        var bogusNormal = something;
         // This bit of code sets the appropriate coordinate in the normal vector.
-        normal[w] = depth > 0 ? 1 : -1;
+        bogusNormal[w] = depth > 0 ? 1 : -1;
         // Compute the points.
         for (iy = 0; iy < gridY1; iy++) {
             for (ix = 0; ix < gridX1; ix++) {
                 var point = new Vector3();
+                something = point;
+                var bogusPoint = something;
                 // This bit of code sets the appropriate coordinate in the position vector.
-                point[u] = (ix * segment_width - width_half) * udir;
-                point[v] = (iy * segment_height - height_half) * vdir;
-                point[w] = depth;
+                bogusPoint[u] = (ix * segment_width - width_half) * udir;
+                bogusPoint[v] = (iy * segment_height - height_half) * vdir;
+                bogusPoint[w] = depth;
                 points.push(point);
             }
         }

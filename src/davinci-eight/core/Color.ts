@@ -66,7 +66,7 @@ class Color implements ColorRGB, Mutable<number[]> {
    */
   public static fromHSL(H: number, S: number, L: number): Color {
     var C = (1 - Math.abs(2*L-1)) * S;
-    function normalizeAngle(angle: number) {
+    function normalizeAngle(angle: number): number {
       if (angle > 2 * Math.PI) {
         return normalizeAngle(angle - 2 * Math.PI);
       }

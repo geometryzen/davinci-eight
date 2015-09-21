@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>WindowAnimationRunner - davinci-eight</title>
+    <title>LocalizableMessage - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.101.0</em>
+            <em>API Docs for: 2.102.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -52,6 +52,7 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -66,8 +67,12 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
+                                <li><a href="../classes/LocalizableMessage.html">LocalizableMessage</a></li>
                                 <li><a href="../classes/Material.html">Material</a></li>
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
@@ -77,6 +82,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
+                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -95,7 +101,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -133,12 +138,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>WindowAnimationRunner Class</h1>
+<h1>LocalizableMessage Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l1"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:1</code></a>
+            Defined in: <a href="../files/src_davinci-eight_i18n_LocalizableMessage.ts.html#l1"><code>src&#x2F;davinci-eight&#x2F;i18n&#x2F;LocalizableMessage.ts:1</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -155,7 +160,6 @@
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
@@ -163,43 +167,13 @@
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods">
-                            <li class="index-item method">
-                                <a href="#method_lap">lap</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_reset">reset</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_start">start</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_stop">stop</a>
-
-                            </li>
-                    </ul>
-                </div>
 
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
                     <ul class="index-list properties">
                             <li class="index-item property">
-                                <a href="#property_isPaused">isPaused</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isRunning">isRunning</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_time">time</a>
+                                <a href="#property_message">message</a>
 
                             </li>
                     </ul>
@@ -208,213 +182,34 @@
 
         </div>
 
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_lap" class="method item">
-    <h3 class="name"><code>lap</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:21</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The <code>lap</code> method records the time in the running state.</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_reset" class="method item">
-    <h3 class="name"><code>reset</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:16</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The <code>reset</code> method sets the time to zero from the paused state.</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_start" class="method item">
-    <h3 class="name"><code>start</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l6"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:6</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The <code>start</code> method puts the animation runner into the running state.</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_stop" class="method item">
-    <h3 class="name"><code>stop</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:11</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>The <code>stop</code> method pauses the animation runner from the running state.</p>
-
-    </div>
-
-
-
-
-</div>
-            </div>
 
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-                    <div id="property_isPaused" class="property item">
-                        <h3 class="name"><code>isPaused</code></h3>
-                        <span class="type">Unknown</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:36</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>The readonly <code>isPaused</code> property determines whether the animation runner as been paused.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_isRunning" class="property item">
-                        <h3 class="name"><code>isRunning</code></h3>
-                        <span class="type">Unknown</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:31</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>The readonly <code>isRunning</code> property determines whether the animation runner is running.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="property_time" class="property item">
-                        <h3 class="name"><code>time</code></h3>
-                        <span class="type">Unknown</span>
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/src_davinci-eight_utils_WindowAnimationRunner.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;WindowAnimationRunner.ts:26</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>The readonly <code>time</code> property contains the elapsed time on the animation runner.</p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
+<div id="property_message" class="property item">
+    <h3 class="name"><code>message</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_i18n_LocalizableMessage.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;i18n&#x2F;LocalizableMessage.ts:5</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
             </div>
 
 
