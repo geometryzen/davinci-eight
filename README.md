@@ -32,7 +32,7 @@ WARNING. This library is under active development; the API is subject to changes
 
 ## API documentation
 
-[Under development](http://htmlpreview.github.com/?https://github.com/geometryzen/davinci-eight/blob/master/documentation/index.html)
+[2.102.0](http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html)
 
 ## Getting Started
 
@@ -204,6 +204,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.100.0: 2015-09-19 BoxGeometry
 * 2.101.0: 2015-09-19 IBufferGeometry
 * 2.102.0: 2015-09-20 RigidBody3
+* 2.103.0: 2015-09-21 API Documentation
 
 ## License
 Copyright (c) 2014-2015 David Holmes
