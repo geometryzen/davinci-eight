@@ -1,6 +1,6 @@
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');
 import MonitorList = require('../scene/MonitorList');
 import mustSatisfy = require('../checks/mustSatisfy');
@@ -39,9 +39,9 @@ class HTMLScriptsMaterial extends Material {
   }
   /**
    * @method createProgram
-   * @return {IProgram}
+   * @return {IMaterial}
    */
-  createProgram(): IProgram {
+  createProgram(): IMaterial {
     let vsId = this.scriptIds[0];
     let fsId = this.scriptIds[1];
     return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);

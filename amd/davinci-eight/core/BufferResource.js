@@ -1,19 +1,21 @@
-define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../checks/expectArg', '../checks/mustBeBoolean', '../utils/Shareable'], function (require, exports, expectArg, mustBeBoolean, Shareable) {
     /**
      * Name used for reference count monitoring and logging.
      */
     var LOGGING_NAME_IBUFFER = 'IBuffer';
-    function checkTarget(target) {
-        return target;
-    }
-    // TODO: Replace this with a functional constructor to prevent tinkering.
-    var BufferResource = (function () {
-        function BufferResource(monitor, target) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+    // TODO: Replace this with a functional constructor to prevent tinkering?
+    // TODO: Why is this object specific to one context?
+    var BufferResource = (function (_super) {
+        __extends(BufferResource, _super);
+        function BufferResource(monitor, isElements) {
+            _super.call(this, LOGGING_NAME_IBUFFER);
             this._monitor = expectArg('montor', monitor).toBeObject().value;
-            this._target = checkTarget(target);
-            refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
+            this._isElements = mustBeBoolean('isElements', isElements);
             monitor.addContextListener(this);
         }
         BufferResource.prototype.destructor = function () {
@@ -24,25 +26,7 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
             this._gl = void 0;
             this._monitor.removeContextListener(this);
             this._monitor = void 0;
-            this._refCount = void 0;
-            this._target = void 0;
-            this._uuid = void 0;
-        };
-        BufferResource.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
-            return this._refCount;
-        };
-        BufferResource.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME_IBUFFER, -1);
-            if (this._refCount === 0) {
-                this.destructor();
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
+            this._isElements = void 0;
         };
         BufferResource.prototype.contextFree = function () {
             if (this._buffer) {
@@ -73,8 +57,10 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
          * @method bind
          */
         BufferResource.prototype.bind = function () {
-            if (this._gl) {
-                this._gl.bindBuffer(this._target, this._buffer);
+            var gl = this._gl;
+            if (gl) {
+                var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+                gl.bindBuffer(target, this._buffer);
             }
             else {
                 console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGL rendering context.");
@@ -84,14 +70,16 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
          * @method unbind
          */
         BufferResource.prototype.unbind = function () {
-            if (this._gl) {
-                this._gl.bindBuffer(this._target, null);
+            var gl = this._gl;
+            if (gl) {
+                var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+                gl.bindBuffer(target, null);
             }
             else {
                 console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGL rendering context.");
             }
         };
         return BufferResource;
-    })();
+    })(Shareable);
     return BufferResource;
 });

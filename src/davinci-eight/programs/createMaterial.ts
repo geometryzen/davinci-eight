@@ -1,7 +1,8 @@
 import AttribLocation = require('../core/AttribLocation');
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
-import IProgram = require('../core/IProgram');
+import core = require('../core');
+import IMaterial = require('../core/IMaterial');
 import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
@@ -9,6 +10,7 @@ import Matrix4 = require('../math/Matrix4');
 import MonitorList = require('../scene/MonitorList');
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import expectArg = require('../checks/expectArg');
+import isDefined = require('../checks/isDefined');
 import uuid4 = require('../utils/uuid4');
 import UniformLocation = require('../core/UniformLocation');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
@@ -21,7 +23,7 @@ import refChange = require('../utils/refChange');
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_IPROGRAM = 'IProgram';
+let LOGGING_NAME_IPROGRAM = 'IMaterial';
 
 function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
   var shader: WebGLShader = ctx.createShader(type);
@@ -53,7 +55,6 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
 
   // Create the program object.
   let program = ctx.createProgram();
-  // console.log("WebGLProgram created");
 
   // Attach our two shaders to the program.
   ctx.attachShader(program, vs);
@@ -87,11 +88,10 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
   }
 }
 
-// FIXME: Rename to program or createProgram
 // FIXME: Handle list of shaders? Else createSimpleProgram
 
-let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IProgram {
-  MonitorList.verify('monitors', monitors, () => { return "shaderProgram";});
+let createMaterial = function(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IMaterial {
+  MonitorList.verify('monitors', monitors, () => { return "createMaterial";});
   // FIXME multi-context
   if (typeof vertexShader !== 'string') {
     throw new Error("vertexShader argument must be a string.");
@@ -117,7 +117,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
   var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
-  var self: IProgram = {
+  var self: IMaterial = {
     get vertexShader() {
       return vertexShader;
     },
@@ -199,6 +199,9 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
           uniformLocations[uName].contextGain(context, program);
         }
       }
+      else {
+
+      }
     },
     contextLoss(canvasId: number) {
       programs[canvasId] = void 0;
@@ -213,7 +216,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
     // FIXME: Dead code?
     /*
     get program() {
-      console.warn("shaderProgram program property is assuming canvas id = 0");
+      console.warn("createMaterial program property is assuming canvas id = 0");
       let canvasId = 0;
       let program: WebGLProgram = programs[canvasId];
       // It's a WebGLProgram, no reference count management required.
@@ -290,10 +293,19 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
         uniformLoc.matrix3(transpose, matrix);
       }
     },
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.matrix4(transpose, matrix);
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+      // FIXME: Should be getting the uniformLocations by canvas or passing canvasId
+      // on to th uniformLoc.matrix4. I like the former, I think.
+      if (isDefined(canvasId)) {
+        let uniformLoc = uniformLocations[name];
+        if (uniformLoc) {
+          uniformLoc.matrix4(transpose, matrix);
+        }
+      }
+      else {
+        if (core.verbose) {
+          console.warn("Ignoring uniformMatrix4 for " + name + " because `typeof canvasId` is " + typeof canvasId);
+        }
       }
     },
     uniformVector1(name: string, vector: Vector1) {
@@ -326,4 +338,4 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
   return self;
 };
 
-export = shaderProgram;
+export = createMaterial;

@@ -125,7 +125,7 @@ function doLoadObj(obj, text)
                         nor = parseInt(f[2]) - 1;
                     }
                     else {
-                        obj.ctx.console.log("*** Error: did not understand face '"+array[i]+"'");
+                        obj.ctx.console.warn("*** Error: did not understand face '"+array[i]+"'");
                         return null;
                     }
 

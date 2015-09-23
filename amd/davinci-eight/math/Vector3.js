@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/expectArg', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, expectArg, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, expectArg, isNumber, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class Vector3
      */
@@ -252,6 +252,22 @@ define(["require", "exports", '../checks/expectArg', '../math/VectorN', '../math
          */
         Vector3.prototype.toString = function () {
             return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
+        };
+        Vector3.prototype.__add__ = function (rhs) {
+            if (rhs instanceof Vector3) {
+                return this.clone().add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Vector3.prototype.__mul__ = function (rhs) {
+            if (isNumber(rhs)) {
+                return this.clone().multiplyScalar(rhs);
+            }
+            else {
+                return void 0;
+            }
         };
         /**
          * @method copy

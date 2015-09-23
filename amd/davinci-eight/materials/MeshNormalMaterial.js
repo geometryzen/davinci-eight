@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../materials/Material'], function (require, exports, Material) {
+define(["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -22,13 +22,25 @@ define(["require", "exports", '../materials/Material'], function (require, expor
         /**
          * @class MeshNormalMaterial
          * @constructor
+         * @param monitors [ContextMonitor[]=[]]
+         * @parameters [MeshNormalParameters]
          */
-        function MeshNormalMaterial(contexts, parameters) {
-            _super.call(this, contexts, LOGGING_NAME);
-            //
-            // Perform state initialization here.
-            //
+        function MeshNormalMaterial(monitors, parameters) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, monitors, LOGGING_NAME);
         }
+        MeshNormalMaterial.prototype.createProgram = function () {
+            var smb = new SmartMaterialBuilder();
+            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+            smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
+            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
+            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
+            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+            return smb.build(this.monitors);
+        };
         return MeshNormalMaterial;
     })(Material);
     return MeshNormalMaterial;

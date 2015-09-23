@@ -4,6 +4,8 @@ import IDrawList = require('../scene/IDrawList');
 import IUnknown = require('../core/IUnknown');
 import UniformData = require('../core/UniformData');
 /**
+ * This interface is to be implemented by classes associated with a single context.
+ * This does mean that the commands are not shared.
  * @class ContextRenderer
  * @extends ContextListener
  * @extends IUnknown
@@ -16,6 +18,20 @@ interface ContextRenderer extends ContextListener, IUnknown {
      * @readOnly
      */
     gl: WebGLRenderingContext;
+    /**
+     * @property canvasElement
+     * @type {HTMLCanvasElement}
+     * @readOnly
+     */
+    canvasElement: HTMLCanvasElement;
+    /**
+     * <p>
+     * Determines whether the prolog commands are run automatically as part of the render method.
+     * </p>
+     * @property autoProlog
+     * @type {boolean}
+     */
+    autoProlog: boolean;
     /**
      * Executes the prolog commands.
      * @method prolog

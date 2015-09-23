@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.103.0</em>
+            <em>API Docs for: 2.104.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,8 +41,6 @@
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -51,9 +49,13 @@
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
@@ -61,6 +63,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -68,7 +71,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -91,6 +94,7 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -101,10 +105,11 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -155,8 +160,8 @@ import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import mergeStringMapList = require(&#x27;../utils/mergeStringMapList&#x27;);
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;);
-import shaderProgram = require(&#x27;./shaderProgram&#x27;);
-import IProgram = require(&#x27;../core/IProgram&#x27;);
+import createMaterial = require(&#x27;./createMaterial&#x27;);
+import IMaterial = require(&#x27;../core/IMaterial&#x27;);
 import Symbolic = require(&#x27;../core/Symbolic&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
 import vColorRequired = require(&#x27;../programs/vColorRequired&#x27;);
@@ -170,7 +175,7 @@ import vLightRequired = require(&#x27;../programs/vLightRequired&#x27;);
 /**
  *
  */
-var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IProgram {
+var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IMaterial {
   MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;smartProgram&quot;; });
   mustBeDefined(&#x27;attributes&#x27;, attributes);
   mustBeDefined(&#x27;uniformsList&#x27;, uniformsList);
@@ -180,9 +185,9 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: str
   let vColor: boolean = vColorRequired(attributes, uniforms);
   let vLight: boolean = vLightRequired(attributes, uniforms);
 
-  let innerProgram: IProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+  let innerProgram: IMaterial = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
-  let self: IProgram = {
+  let self: IMaterial = {
     get programId() {
       return innerProgram.programId;
     },
@@ -225,38 +230,38 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: str
     uniform1f(name: string, x: number, canvasId: number) {
       return innerProgram.uniform1f(name, x, canvasId);
     },
-    uniform2f(name: string, x: number, y: number) {
-      return innerProgram.uniform2f(name, x, y);
+    uniform2f(name: string, x: number, y: number, canvasId: number) {
+      return innerProgram.uniform2f(name, x, y, canvasId);
     },
-    uniform3f(name: string, x: number, y: number, z: number) {
-      return innerProgram.uniform3f(name, x, y, z);
+    uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
+      return innerProgram.uniform3f(name, x, y, z, canvasId);
     },
-    uniform4f(name: string, x: number, y: number, z: number, w: number) {
-      return innerProgram.uniform4f(name, x, y, z, w);
+    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
+      return innerProgram.uniform4f(name, x, y, z, w, canvasId);
     },
-    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
-      return innerProgram.uniformMatrix1(name, transpose, matrix);
+    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number) {
+      return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
     },
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
-      return innerProgram.uniformMatrix2(name, transpose, matrix);
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
+      return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
     },
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
-      return innerProgram.uniformMatrix3(name, transpose, matrix);
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
+      return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
     },
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
-      return innerProgram.uniformMatrix4(name, transpose, matrix);
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+      return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
     },
-    uniformVector1(name: string, vector: Vector1) {
-      return innerProgram.uniformVector1(name, vector);
+    uniformVector1(name: string, vector: Vector1, canvasId: number) {
+      return innerProgram.uniformVector1(name, vector, canvasId);
     },
-    uniformVector2(name: string, vector: Vector2) {
-      return innerProgram.uniformVector2(name, vector);
+    uniformVector2(name: string, vector: Vector2, canvasId: number) {
+      return innerProgram.uniformVector2(name, vector, canvasId);
     },
-    uniformVector3(name: string, vector: Vector3) {
-      return innerProgram.uniformVector3(name, vector);
+    uniformVector3(name: string, vector: Vector3, canvasId: number) {
+      return innerProgram.uniformVector3(name, vector, canvasId);
     },
-    uniformVector4(name: string, vector: Vector4) {
-      return innerProgram.uniformVector4(name, vector);
+    uniformVector4(name: string, vector: Vector4, canvasId: number) {
+      return innerProgram.uniformVector4(name, vector, canvasId);
     }
   }
 

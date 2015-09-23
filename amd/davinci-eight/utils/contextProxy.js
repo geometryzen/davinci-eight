@@ -1,4 +1,9 @@
-define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/RefCount', '../utils/refChange', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, GeometryData, expectArg, initWebGL, isDefined, mustBeInteger, mustBeNumber, mustBeString, RefCount, refChange, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../core/BufferResource', '../core', '../dfx/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/RefCount', '../utils/refChange', '../utils/Shareable', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, RefCount, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Mesh';
@@ -17,30 +22,58 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
     }
     /**
      * This could become an encapsulated call?
+     * class GeometryDataCommand
+     * private
      */
     var GeometryDataCommand = (function () {
+        /**
+         * class GeometryDataCommand
+         * constructor
+         */
         function GeometryDataCommand(mode, count, type, offset) {
             this.mode = mode;
             this.count = count;
             this.type = type;
             this.offset = offset;
         }
+        /**
+         * Executes the drawElements command using the instance state.
+         * method execute
+         * param gl {WebGLRenderingContext}
+         */
         GeometryDataCommand.prototype.execute = function (gl) {
-            gl.drawElements(this.mode, this.count, this.type, this.offset);
+            if (isDefined(gl)) {
+                gl.drawElements(this.mode, this.count, this.type, this.offset);
+            }
+            else {
+                console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.");
+            }
         };
         return GeometryDataCommand;
     })();
-    var ElementsBlock = (function () {
+    /**
+     * class ElementsBlock
+     */
+    var ElementsBlock = (function (_super) {
+        __extends(ElementsBlock, _super);
+        /**
+         * class ElementsBlock
+         * constructor
+         */
         function ElementsBlock(indexBuffer, attributes, drawCommand) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK);
             this._indexBuffer = indexBuffer;
             this._indexBuffer.addRef();
             this._attributes = attributes;
             this._attributes.addRef();
             this.drawCommand = drawCommand;
-            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
         }
+        ElementsBlock.prototype.destructor = function () {
+            this._attributes.release();
+            this._attributes = void 0;
+            this._indexBuffer.release();
+            this._indexBuffer = void 0;
+        };
         Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
             get: function () {
                 this._indexBuffer.addRef();
@@ -49,22 +82,6 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
             enumerable: true,
             configurable: true
         });
-        ElementsBlock.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
-            return this._refCount;
-        };
-        ElementsBlock.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, -1);
-            if (this._refCount === 0) {
-                this._attributes.release();
-                this._attributes = void 0;
-                this._indexBuffer.release();
-                this._indexBuffer = void 0;
-            }
-            return this._refCount;
-        };
         Object.defineProperty(ElementsBlock.prototype, "attributes", {
             get: function () {
                 this._attributes.addRef();
@@ -74,34 +91,25 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
             configurable: true
         });
         return ElementsBlock;
-    })();
-    /**
-     *
-     */
-    var ElementsBlockAttrib = (function () {
+    })(Shareable);
+    var ElementsBlockAttrib = (function (_super) {
+        __extends(ElementsBlockAttrib, _super);
         function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE);
             this._buffer = buffer;
             this._buffer.addRef();
             this.size = size;
             this.normalized = normalized;
             this.stride = stride;
             this.offset = offset;
-            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
         }
-        ElementsBlockAttrib.prototype.addRef = function () {
-            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
-            this._refCount++;
-            return this._refCount;
-        };
-        ElementsBlockAttrib.prototype.release = function () {
-            refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, -1);
-            this._refCount--;
-            if (this._refCount === 0) {
-                this._buffer.release();
-            }
-            return this._refCount;
+        ElementsBlockAttrib.prototype.destructor = function () {
+            this._buffer.release();
+            this._buffer = void 0;
+            this.size = void 0;
+            this.normalized = void 0;
+            this.stride = void 0;
+            this.offset = void 0;
         };
         Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
             get: function () {
@@ -112,7 +120,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
             configurable: true
         });
         return ElementsBlockAttrib;
-    })();
+    })(Shareable);
     // TODO: If mode provided, check consistent with elements.k.
     // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
     function drawMode(k, mode) {
@@ -180,7 +188,8 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
      *
      */
     function bindProgramAttribLocations(program, block, aNameToKeyName) {
-        // FIXME: This is where we get the IProgram attributes property.
+        // FIXME: Expecting canvasId here.
+        // FIXME: This is where we get the IMaterial attributes property.
         // FIXME: Can we invert this?
         // What are we offering to the program:
         // block.attributes (reference counted)
@@ -218,7 +227,7 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
             }
         }
         else {
-            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
+            console.warn("bindProgramAttribLocations: program.attributes is falsey.");
         }
     }
     function unbindProgramAttribLocations(program) {
@@ -233,10 +242,9 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
             console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
         }
     }
-    function webgl(canvas, canvasId, attributes) {
-        if (canvasId === void 0) { canvasId = 0; }
-        expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement @ webgl function");
-        mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
+    function webgl(attributes) {
+        // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
         var blocks = new StringIUnknownMap();
         // Remark: We only hold weak references to users so that the lifetime of resource
@@ -346,26 +354,38 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
         }
         // FIXME Rename to gl
         var gl;
+        /**
+         * We must cache the canvas so that we can remove listeners when `stop() is called.
+         * Only between `start()` and `stop()` is canvas defined.
+         * We use a canvasBuilder so the other initialization can happen while we are waiting
+         * for the DOM to load.
+         */
+        var _canvasElement;
+        var _canvasId;
         var refCount = 1;
         var mirror = false;
         var tokenArg = expectArg('token', "");
         var webGLContextLost = function (event) {
-            event.preventDefault();
-            gl = void 0;
-            users.forEach(function (user) {
-                user.contextLoss(canvasId);
-            });
+            if (isDefined(_canvasElement)) {
+                event.preventDefault();
+                gl = void 0;
+                users.forEach(function (user) {
+                    user.contextLoss(_canvasId);
+                });
+            }
         };
         var webGLContextRestored = function (event) {
-            event.preventDefault();
-            gl = initWebGL(canvas, attributes);
-            users.forEach(function (user) {
-                user.contextGain(kahuna);
-            });
+            if (isDefined(_canvasElement)) {
+                event.preventDefault();
+                gl = initWebGL(_canvasElement, attributes);
+                users.forEach(function (user) {
+                    user.contextGain(kahuna);
+                });
+            }
         };
         var kahuna = {
             get canvasId() {
-                return canvasId;
+                return _canvasId;
             },
             /**
              *
@@ -383,12 +403,26 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
                     expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
                 }
                 else {
-                    usage = gl.STATIC_DRAW;
+                    // TODO; Perhaps a simpler way to be Hyper Functional Warrior is to use WebGLRenderingContext.STATIC_DRAW?
+                    usage = isDefined(gl) ? gl.STATIC_DRAW : void 0;
+                }
+                // It's going to get pretty hopeless without a WebGL context.
+                // If that's the case, let's just return undefined now before we start allocating useless stuff.
+                if (isUndefined(gl)) {
+                    if (core.verbose) {
+                        console.warn("Impossible to create a buffer geometry without a WebGL context. Sorry, no dice!");
+                    }
+                    return void 0;
                 }
                 var mesh = createBufferGeometry(uuid4().generate());
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
-                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+                if (isDefined(gl)) {
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+                }
+                else {
+                    console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
+                }
                 indexBuffer.unbind();
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
@@ -419,23 +453,55 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
                 indexBuffer.release();
                 return mesh;
             },
-            start: function () {
-                gl = initWebGL(canvas, attributes);
-                canvas.addEventListener('webglcontextlost', webGLContextLost, false);
-                canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-                users.forEach(function (user) { user.contextGain(kahuna); });
+            start: function (canvasElement, canvasId) {
+                var alreadyStarted = isDefined(_canvasElement);
+                if (!alreadyStarted) {
+                    // cache the arguments
+                    _canvasElement = canvasElement;
+                    _canvasId = canvasId;
+                }
+                else {
+                    // We'll assert that if we have a canvas element then we should have a canvas id.
+                    mustBeInteger('_canvasId', _canvasId);
+                    // We'll just be idempotent and ignore the call because we've already been started.
+                    // To use the canvasElement might conflict with one we have dynamically created.
+                    if (core.verbose) {
+                        console.warn("Ignoring `start()` because already started.");
+                    }
+                    return;
+                }
+                // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
+                // To not complain is the way of the hyper-functional warrior.
+                if (isDefined(_canvasElement)) {
+                    gl = initWebGL(_canvasElement, attributes);
+                    _canvasElement.addEventListener('webglcontextlost', webGLContextLost, false);
+                    _canvasElement.addEventListener('webglcontextrestored', webGLContextRestored, false);
+                    users.forEach(function (user) { user.contextGain(kahuna); });
+                }
             },
             stop: function () {
-                gl = void 0;
-                users.forEach(function (user) { user.contextFree(canvasId); });
-                canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
-                canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+                if (isDefined(_canvasElement)) {
+                    gl = void 0;
+                    users.forEach(function (user) { user.contextFree(_canvasId); });
+                    _canvasElement.removeEventListener('webglcontextrestored', webGLContextRestored, false);
+                    _canvasElement.removeEventListener('webglcontextlost', webGLContextLost, false);
+                    _canvasElement = void 0;
+                    _canvasId = void 0;
+                }
             },
             addContextListener: function (user) {
                 addContextListener(user);
             },
             removeContextListener: function (user) {
                 removeContextListener(user);
+            },
+            get canvasElement() {
+                if (!_canvasElement) {
+                    // Interesting little side-effect!
+                    // Love the way kahuna talks in the third person.
+                    kahuna.start(document.createElement('canvas'), randumbInteger());
+                }
+                return _canvasElement;
             },
             get gl() {
                 if (gl) {
@@ -493,12 +559,17 @@ define(["require", "exports", '../core/BufferResource', '../dfx/GeometryData', '
                 }
             },
             createArrayBuffer: function () {
-                // TODO: Replace with functional constructor pattern.
-                return new BufferResource(kahuna, mustBeContext(gl, 'createArrayBuffer()').ARRAY_BUFFER);
+                // TODO: Replace with functional constructor pattern?
+                return new BufferResource(kahuna, false);
             },
             createElementArrayBuffer: function () {
-                // TODO: Replace with functional constructor pattern.
-                return new BufferResource(kahuna, mustBeContext(gl, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+                // TODO: Replace with functional constructor pattern?
+                // FIXME
+                // It's a bit draconian to insist that there be a WegGLRenderingContext.
+                // Especially whenthe BufferResource willl be listening for context coming and goings.
+                // Let's be Hyper-Functional Warrior and let it go.
+                // Only problem is, we don't know if we should be handling elements or attributes. No problem.
+                return new BufferResource(kahuna, true);
             },
             createTexture2D: function () {
                 // TODO: Replace with functional constructor pattern.

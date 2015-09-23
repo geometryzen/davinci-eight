@@ -5,15 +5,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../geometries/buildPlane', '../dfx/Complex', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Vector1'], function (require, exports, buildPlane, Complex, mustBeInteger, mustBeNumber, Vector1) {
     function boxCtor() {
-        return "BoxComplex constructor";
+        return "CuboidComplex constructor";
     }
     /**
-     * @class BoxComplex
+     * @class CuboidComplex
      * @extends Complex
      */
-    var BoxComplex = (function (_super) {
-        __extends(BoxComplex, _super);
-        function BoxComplex(x, y, z, xSeg, ySeg, zSeg, wireFrame) {
+    var CuboidComplex = (function (_super) {
+        __extends(CuboidComplex, _super);
+        function CuboidComplex(x, y, z, xSeg, ySeg, zSeg, wireFrame) {
             if (x === void 0) { x = 1; }
             if (y === void 0) { y = 1; }
             if (z === void 0) { z = 1; }
@@ -52,7 +52,7 @@ define(["require", "exports", '../geometries/buildPlane', '../dfx/Complex', '../
             this.mergeVertices();
             this.check();
         }
-        return BoxComplex;
+        return CuboidComplex;
     })(Complex);
-    return BoxComplex;
+    return CuboidComplex;
 });

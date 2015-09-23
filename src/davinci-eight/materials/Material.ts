@@ -3,7 +3,7 @@ import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
 import core = require('../core');
 import MonitorList = require('../scene/MonitorList');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
@@ -19,25 +19,22 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 
-function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string) {
-  console.warn(clazz + " dropped uniform" + suffix + " " + name);
+function consoleWarnDroppedUniform(clazz: string, suffix: string, name: string, canvasId: number) {
+  console.warn(clazz + " dropped uniform" + suffix + " " + name)
+  console.warn("`typeof canvasId` is " + typeof canvasId)
 }
 
 /**
  * @class Material
- * @implements IProgram
+ * @implements IMaterial
  */
-class Material implements IProgram {
+class Material extends Shareable implements IMaterial {
   // FIXME: Hide this but use a virtual method to set it.
-  private inner: IProgram;
+  private inner: IMaterial;
   private readyPending: boolean = false;
-  public programId: string = uuid4().generate();
-  // FIXME get from shaders?
-  //public vertexShader: string;
-  //public fragmentShader: string;
-  private _refCount: number = 1;
   private _monitors: MonitorList;
   private type: string;
+  public programId = uuid4().generate();
   /**
    * @class Material
    * @constructor
@@ -45,13 +42,23 @@ class Material implements IProgram {
    * @param type {string} The class name, used for logging and serialization.
    */
   constructor(contexts: ContextMonitor[], type: string) {
+    super('Material')
     MonitorList.verify('contexts', contexts);
     mustBeString('type', type);
     this._monitors = MonitorList.copy(contexts);
-    // FIXME multi-context support.
-
     this.type = type;
-    refChange(this.programId, this.type, this._refCount);
+  }
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this._monitors.removeContextListener(this);
+    if (this.inner) {
+      this.inner.release();
+      this.inner = void 0;
+    }
   }
   protected makeReady(async: boolean): void {
     if (!this.readyPending) {
@@ -66,29 +73,8 @@ class Material implements IProgram {
   get monitors(): ContextMonitor[] {
     return this._monitors.toArray();
   }
-  /**
-   * @method addRef
-   * @return {number}
-   */
-  addRef(): number {
-    this._refCount++;
-    refChange(this.programId, this.type, +1);
-    return this._refCount;
-  }
   get fragmentShader() {
     return this.inner ? this.inner.fragmentShader : void 0;
-  }
-  release(): number {
-    this._refCount--;
-    refChange(this.programId, this.type, -1);
-    if (this._refCount === 0) {
-      this._monitors.removeContextListener(this);
-      if (this.inner) {
-        this.inner.release();
-        this.inner = void 0;
-      }
-    }
-    return this._refCount;
   }
   // FIXME; I'm going to need to know which monitor.
   use(canvasId: number): void {
@@ -105,7 +91,9 @@ class Material implements IProgram {
         return this.inner.use(canvasId);
       }
       else {
-        console.warn(this.type + " use()");
+        if (core.verbose) {
+          console.warn(this.type + " use()");
+        }
       }
     }
   }
@@ -179,13 +167,14 @@ class Material implements IProgram {
   }
   contextGain(manager: ContextManager) {
     this.inner = this.createProgram();
+    this.inner.contextGain(manager);
   }
   contextLoss(canvasId: number) {
     if (this.inner) {
       this.inner.contextLoss(canvasId);
     }
   }
-  protected createProgram(): IProgram {
+  protected createProgram(): IMaterial {
     // FIXME; Since we get contextGain by canvas, expect canvasId to be an argument?
     throw new Error("Material createProgram method is virtual and should be implemented by " + this.type);
   }
@@ -202,205 +191,207 @@ class Material implements IProgram {
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, '1f', name);
+          consoleWarnDroppedUniform(this.type, '1f', name, canvasId);
         }
       }
     }
   }
-  uniform2f(name: string, x: number, y: number): void {
+  uniform2f(name: string, x: number, y: number, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniform2f(name, x, y);
+      this.inner.uniform2f(name, x, y, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniform2f(name, x, y);
+        this.inner.uniform2f(name, x, y, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, '2f', name);
+          consoleWarnDroppedUniform(this.type, '2f', name, canvasId);
         }
       }
     }
   }
-  uniform3f(name: string, x: number, y: number, z: number): void {
+  uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniform3f(name, x, y, z);
+      this.inner.uniform3f(name, x, y, z, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniform3f(name, x, y, z);
+        this.inner.uniform3f(name, x, y, z, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, '3f', name);
+          consoleWarnDroppedUniform(this.type, '3f', name, canvasId);
         }
       }
     }
   }
-  uniform4f(name: string, x: number, y: number, z: number, w: number): void {
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniform4f(name, x, y, z, w);
+      this.inner.uniform4f(name, x, y, z, w, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniform4f(name, x, y, z, w);
+        this.inner.uniform4f(name, x, y, z, w, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, '4f', name);
+          consoleWarnDroppedUniform(this.type, '4f', name, canvasId);
         }
       }
     }
   }
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1): void {
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformMatrix1(name, transpose, matrix);
+      this.inner.uniformMatrix1(name, transpose, matrix, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformMatrix1(name, transpose, matrix);
+        this.inner.uniformMatrix1(name, transpose, matrix, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Matrix1', name);
+          consoleWarnDroppedUniform(this.type, 'Matrix1', name, canvasId);
         }
       }
     }
   }
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void {
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformMatrix2(name, transpose, matrix);
+      this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformMatrix2(name, transpose, matrix);
+        this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Matrix2', name);
+          consoleWarnDroppedUniform(this.type, 'Matrix2', name, canvasId);
         }
       }
     }
   }
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3): void {
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformMatrix3(name, transpose, matrix);
+      this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformMatrix3(name, transpose, matrix);
+        this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Matrix3', name);
+          consoleWarnDroppedUniform(this.type, 'Matrix3', name, canvasId);
         }
       }
     }
   }
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void {
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformMatrix4(name, transpose, matrix);
+      this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformMatrix4(name, transpose, matrix);
+        this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Matrix4', name);
+          if (core.verbose) {
+            consoleWarnDroppedUniform(this.type, 'Matrix4', name, canvasId);
+          }
         }
       }
     }
   }
-  uniformVector1(name: string, vector: Vector1): void {
+  uniformVector1(name: string, vector: Vector1, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector1(name, vector);
+      this.inner.uniformVector1(name, vector, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformVector1(name, vector);
+        this.inner.uniformVector1(name, vector, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector1', name);
+          consoleWarnDroppedUniform(this.type, 'Vector1', name, canvasId);
         }
       }
     }
   }
-  uniformVector2(name: string, vector: Vector2): void {
+  uniformVector2(name: string, vector: Vector2, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector2(name, vector);
+      this.inner.uniformVector2(name, vector, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformVector2(name, vector);
+        this.inner.uniformVector2(name, vector, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector2', name);
+          consoleWarnDroppedUniform(this.type, 'Vector2', name, canvasId);
         }
       }
     }
   }
-  uniformVector3(name: string, vector: Vector3): void {
+  uniformVector3(name: string, vector: Vector3, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector3(name, vector);
+      this.inner.uniformVector3(name, vector, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformVector3(name, vector);
+        this.inner.uniformVector3(name, vector, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector3', name);
+          consoleWarnDroppedUniform(this.type, 'Vector3', name, canvasId);
         }
       }
     }
   }
-  uniformVector4(name: string, vector: Vector4): void {
+  uniformVector4(name: string, vector: Vector4, canvasId: number): void {
     if (this.inner) {
-      this.inner.uniformVector4(name, vector);
+      this.inner.uniformVector4(name, vector, canvasId);
     }
     else {
       let async = false;
       let readyPending = this.readyPending;
       this.makeReady(async);
       if (this.inner) {
-        this.inner.uniformVector4(name, vector);
+        this.inner.uniformVector4(name, vector, canvasId);
       }
       else {
         if (!readyPending) {
-          consoleWarnDroppedUniform(this.type, 'Vector4', name);
+          consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId);
         }
       }
     }

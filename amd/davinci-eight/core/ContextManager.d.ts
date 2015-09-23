@@ -6,7 +6,7 @@ import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
 import IUnknown = require('../core/IUnknown');
 /**
- * @interface ContextManager
+ * @class ContextManager
  * @extends ContextUnique
  * @extends IUnknown
  */
@@ -23,6 +23,12 @@ interface ContextManager extends ContextUnique, IUnknown {
     depthFunc(func: number): void;
     enable(capability: number): void;
     gl: WebGLRenderingContext;
+    /**
+     * @property canvasElement
+     * @type {HTMLCanvasElement}
+     * @readOnly
+     */
+    canvasElement: HTMLCanvasElement;
     mirror: boolean;
 }
 export = ContextManager;

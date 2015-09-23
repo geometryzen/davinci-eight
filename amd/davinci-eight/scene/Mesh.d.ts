@@ -1,13 +1,13 @@
 import ContextManager = require('../core/ContextManager');
 import Geometry = require('../geometries/Geometry');
 import IDrawable = require('../core/IDrawable');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import UniformData = require('../core/UniformData');
 /**
  * @class Mesh
  * @implements IDrawable
  */
-declare class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implements IDrawable {
+declare class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> implements IDrawable {
     private _refCount;
     private _uuid;
     geometry: G;
@@ -15,7 +15,7 @@ declare class Mesh<G extends Geometry, M extends IProgram, U extends UniformData
     /**
      * FIXME This is a bad name because it is not just a collection of meshLookup.
      * A map from canvas to IBufferGeometry.
-     * It's a function that returns a mesh, given a canvasId; a lokup
+     * It's a function that returns a mesh, given a canvasId a lokup
      */
     private meshLookup;
     model: U;
@@ -32,6 +32,6 @@ declare class Mesh<G extends Geometry, M extends IProgram, U extends UniformData
      *
      * Provides a reference counted reference to the material.
      */
-    material: IProgram;
+    material: IMaterial;
 }
 export = Mesh;

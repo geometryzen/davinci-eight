@@ -4,14 +4,15 @@ import UniformLocation = require('../core/UniformLocation');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 /**
  * <p>
- * The role of a IProgram is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.
+ * The role of a IMaterial is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.
  * The Program must be able to provide introspection information that describes the program.
  * </p>
- * @class IProgram
+ * @class IMaterial
  * @extends IResource
  * @extends UniformDataVisitor
+ * @beta
  */
-interface IProgram extends IResource, UniformDataVisitor {
+interface IMaterial extends IResource, UniformDataVisitor {
     /**
      * @property programId
      * @type string
@@ -67,4 +68,4 @@ interface IProgram extends IResource, UniformDataVisitor {
      */
     disableAttrib(name: string): void;
 }
-export = IProgram;
+export = IMaterial;

@@ -11,8 +11,8 @@ import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import mergeStringMapList = require('../utils/mergeStringMapList');
 import mustBeDefined = require('../checks/mustBeDefined');
-import shaderProgram = require('./shaderProgram');
-import IProgram = require('../core/IProgram');
+import createMaterial = require('./createMaterial');
+import IMaterial = require('../core/IMaterial');
 import Symbolic = require('../core/Symbolic');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vColorRequired = require('../programs/vColorRequired');
@@ -26,7 +26,7 @@ import vLightRequired = require('../programs/vLightRequired');
 /**
  *
  */
-var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IProgram {
+var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IMaterial {
   MonitorList.verify('monitors', monitors, () => { return "smartProgram"; });
   mustBeDefined('attributes', attributes);
   mustBeDefined('uniformsList', uniformsList);
@@ -36,9 +36,9 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: str
   let vColor: boolean = vColorRequired(attributes, uniforms);
   let vLight: boolean = vLightRequired(attributes, uniforms);
 
-  let innerProgram: IProgram = shaderProgram(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+  let innerProgram: IMaterial = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
 
-  let self: IProgram = {
+  let self: IMaterial = {
     get programId() {
       return innerProgram.programId;
     },
@@ -81,38 +81,38 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: str
     uniform1f(name: string, x: number, canvasId: number) {
       return innerProgram.uniform1f(name, x, canvasId);
     },
-    uniform2f(name: string, x: number, y: number) {
-      return innerProgram.uniform2f(name, x, y);
+    uniform2f(name: string, x: number, y: number, canvasId: number) {
+      return innerProgram.uniform2f(name, x, y, canvasId);
     },
-    uniform3f(name: string, x: number, y: number, z: number) {
-      return innerProgram.uniform3f(name, x, y, z);
+    uniform3f(name: string, x: number, y: number, z: number, canvasId: number) {
+      return innerProgram.uniform3f(name, x, y, z, canvasId);
     },
-    uniform4f(name: string, x: number, y: number, z: number, w: number) {
-      return innerProgram.uniform4f(name, x, y, z, w);
+    uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number) {
+      return innerProgram.uniform4f(name, x, y, z, w, canvasId);
     },
-    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
-      return innerProgram.uniformMatrix1(name, transpose, matrix);
+    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number) {
+      return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
     },
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
-      return innerProgram.uniformMatrix2(name, transpose, matrix);
+    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number) {
+      return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
     },
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
-      return innerProgram.uniformMatrix3(name, transpose, matrix);
+    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number) {
+      return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
     },
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
-      return innerProgram.uniformMatrix4(name, transpose, matrix);
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+      return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
     },
-    uniformVector1(name: string, vector: Vector1) {
-      return innerProgram.uniformVector1(name, vector);
+    uniformVector1(name: string, vector: Vector1, canvasId: number) {
+      return innerProgram.uniformVector1(name, vector, canvasId);
     },
-    uniformVector2(name: string, vector: Vector2) {
-      return innerProgram.uniformVector2(name, vector);
+    uniformVector2(name: string, vector: Vector2, canvasId: number) {
+      return innerProgram.uniformVector2(name, vector, canvasId);
     },
-    uniformVector3(name: string, vector: Vector3) {
-      return innerProgram.uniformVector3(name, vector);
+    uniformVector3(name: string, vector: Vector3, canvasId: number) {
+      return innerProgram.uniformVector3(name, vector, canvasId);
     },
-    uniformVector4(name: string, vector: Vector4) {
-      return innerProgram.uniformVector4(name, vector);
+    uniformVector4(name: string, vector: Vector4, canvasId: number) {
+      return innerProgram.uniformVector4(name, vector, canvasId);
     }
   }
 

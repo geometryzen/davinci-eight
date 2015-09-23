@@ -1,143 +1,179 @@
-import Color = require('../core/Color');
-import EIGHTLogger = require('../commands/EIGHTLogger');
-import expectArg = require('../checks/expectArg');
-import ContextAttributesLogger = require('../commands/ContextAttributesLogger');
-import ContextManager = require('../core/ContextManager');
-import ContextRenderer = require('../renderers/ContextRenderer');
-import IContextCommand = require('../core/IContextCommand');
-import IDrawable = require('../core/IDrawable');
-import IDrawList = require('../scene/IDrawList');
-import IBufferGeometry = require('../dfx/IBufferGeometry');
-import IProgram = require('../core/IProgram');
-import IUnknownArray = require('../utils/IUnknownArray');
-import mustSatisfy = require('../checks/mustSatisfy');
-import UniformData = require('../core/UniformData');
-import refChange = require('../utils/refChange');
-import uuid4 = require('../utils/uuid4');
-import VersionLogger = require('../commands/VersionLogger');
-import WebGLClear      = require('../commands/WebGLClear');
-import WebGLClearColor = require('../commands/WebGLClearColor');
-import WebGLEnable     = require('../commands/WebGLEnable');
+import Color = require('../core/Color')
+import core = require('../core')
+import EIGHTLogger = require('../commands/EIGHTLogger')
+import expectArg = require('../checks/expectArg')
+import ContextAttributesLogger = require('../commands/ContextAttributesLogger')
+import ContextManager = require('../core/ContextManager')
+import ContextRenderer = require('../renderers/ContextRenderer')
+import IContextCommand = require('../core/IContextCommand')
+import IDrawable = require('../core/IDrawable')
+import IDrawList = require('../scene/IDrawList')
+import IBufferGeometry = require('../dfx/IBufferGeometry')
+import IMaterial = require('../core/IMaterial')
+import IUnknownArray = require('../utils/IUnknownArray')
+import mustBeBoolean = require('../checks/mustBeBoolean')
+import mustSatisfy = require('../checks/mustSatisfy')
+import UniformData = require('../core/UniformData')
+import refChange = require('../utils/refChange')
+import uuid4 = require('../utils/uuid4')
+import VersionLogger = require('../commands/VersionLogger')
+import WebGLClear      = require('../commands/WebGLClear')
+import WebGLClearColor = require('../commands/WebGLClearColor')
+import WebGLEnable     = require('../commands/WebGLEnable')
 
 function setStartUpCommands(renderer: ContextRenderer) {
 
-  var cmd: IContextCommand;
+  var cmd: IContextCommand
 
   // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
-  cmd = new EIGHTLogger();
-  renderer.pushStartUp(cmd);
-  cmd.release();
+  cmd = new EIGHTLogger()
+  renderer.pushStartUp(cmd)
+  cmd.release()
 
   // `WebGL major.minor (OpenGL ES ...)`
-  cmd = new VersionLogger();
-  renderer.pushStartUp(cmd);
-  cmd.release();
+  cmd = new VersionLogger()
+  renderer.pushStartUp(cmd)
+  cmd.release()
 
   // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
-  cmd = new ContextAttributesLogger();
-  renderer.pushStartUp(cmd);
-  cmd.release();
+  cmd = new ContextAttributesLogger()
+  renderer.pushStartUp(cmd)
+  cmd.release()
 
   // cmd(red, green, blue, alpha)
-  cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
-  renderer.pushStartUp(cmd);
-  cmd.release();
+  cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
+  renderer.pushStartUp(cmd)
+  cmd.release()
 
   // enable(capability)
-  cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
-  renderer.pushStartUp(cmd);
-  cmd.release();
+  cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST)
+  renderer.pushStartUp(cmd)
+  cmd.release()
 }
 
 function setPrologCommands(renderer: ContextRenderer) {
 
-  var cmd: IContextCommand;
+  var cmd: IContextCommand
 
   // clear(mask)
-  cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-  renderer.pushProlog(cmd);
-  cmd.release();
+  cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT)
+  renderer.pushProlog(cmd)
+  cmd.release()
 }
 
 let CLASS_NAME = "CanonicalContextRenderer"
 
 /**
+ * We need to know the canvasId so that we can tell drawables where to draw.
+ * However, we don't need an don't want a canvas because we can only get that once the
+ * canvas has loaded. I suppose a promise would be OK, but that's for another day.
  *
+ * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
-let renderer = function(canvas: HTMLCanvasElement, canvasId: number): ContextRenderer {
-  // FIXME: Replace.
-  expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-
+let renderer = function(): ContextRenderer {
   // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
-  var gl: WebGLRenderingContext = void 0;
-  let uuid = uuid4().generate();
-  let refCount = 1;
-  let prolog = new IUnknownArray<IContextCommand>();
-  let startUp = new IUnknownArray<IContextCommand>();
-
-  function drawHandler(drawable: IDrawable) {
-    drawable.draw(canvasId);
-  }
+  var _manager: ContextManager;
+  //var gl: WebGLRenderingContext = void 0
+  //var canvasElement: HTMLCanvasElement;
+  //var canvasId: number
+  let uuid = uuid4().generate()
+  let refCount = 1
+  var _autoProlog: boolean = true;
+  let prolog = new IUnknownArray<IContextCommand>()
+  let startUp = new IUnknownArray<IContextCommand>()
 
   let self: ContextRenderer = {
     addRef(): number {
-      refCount++;
-      refChange(uuid, CLASS_NAME, +1);
-      return refCount;
+      refCount++
+      refChange(uuid, CLASS_NAME, +1)
+      return refCount
+    },
+    get autoProlog(): boolean {
+      return _autoProlog;
+    },
+    set autoProlog(autoProlog: boolean) {
+      mustBeBoolean('autoProlog', autoProlog)
+      _autoProlog = autoProlog;
+    },
+    get canvasElement(): HTMLCanvasElement {
+      return _manager ? _manager.canvasElement : void 0
     },
     get gl(): WebGLRenderingContext {
-      return gl;
+      return _manager ? _manager.gl : void 0
     },
     contextFree() {
-      gl = void 0;
+      _manager = void 0;
     },
     contextGain(manager: ContextManager) {
-      gl = manager.gl;
+      // This object is single context, so we only ever get called with one manager at a time (serially).
+      _manager = manager;
       startUp.forEach(function(command: IContextCommand){
-        command.execute(gl);
-      });
+        command.execute(manager.gl)
+      })
     },
     contextLoss() {
-      gl = void 0;
+      _manager = void 0;
     },
     prolog(): void {
-      if (gl) {
+      if (_manager) {
         prolog.forEach(function(command: IContextCommand){
-          command.execute(gl);
-        });
+          command.execute(_manager.gl)
+        })
       }
       else {
-        console.warn("Unable to execute prolog because WebGLRenderingContext is missing.");
+        if (core.verbose) {
+          console.warn("Unable to execute prolog because WebGLRenderingContext is missing.")
+        }
       }
     },
     pushProlog(command: IContextCommand): void {
-      prolog.push(command);
+      prolog.push(command)
     },
     pushStartUp(command: IContextCommand): void {
-      startUp.push(command);
+      startUp.push(command)
     },
     release(): number {
-      refCount--;
-      refChange(uuid, CLASS_NAME, -1);
+      refCount--
+      refChange(uuid, CLASS_NAME, -1)
       if (refCount === 0) {
-        prolog.release();
-        prolog = void 0;
-        startUp.release();
-        startUp = void 0;
-        return 0;
+        prolog.release()
+        prolog = void 0
+        startUp.release()
+        startUp = void 0
+        return 0
       }
       else {
-        return refCount;
+        return refCount
       }
     },
-    render(drawList: IDrawList, unused: UniformData) {
-      drawList.traverse(drawHandler);
-    }
-  };
-  refChange(uuid, CLASS_NAME, +1);
-  setStartUpCommands(self);
-  setPrologCommands(self);
-  return self;
-};
+    // FIXME: Need to be using the uniforms?
+    // But we now already know the canvas so maybe not.
+    render(drawList: IDrawList, ambients: UniformData) {
+      // We have to do this to lazily initialize.
+      // FIXME: This means there should be another method that avoid this.
+      drawList.contextGain(_manager)
 
-export = renderer;
+      if (_autoProlog === true) { self.prolog() }
+
+      // FIXME: Check for _manager
+      let canvasId = _manager.canvasId;
+      // FIXME: This seems inefficient, using a callback.
+      // Especially since all we do is call draw(canvasId) on each
+      function drawHandler(drawable: IDrawable) {
+        drawable.draw(canvasId)
+      }
+      // We do know the canvasId now so how can we process those uniforms. Who do they go to?
+      //
+      // The prolog callback for the traverse sets the uniforms on the program.  
+      drawList.traverse(drawHandler, canvasId, function(program: IMaterial) {
+        ambients.setUniforms(program, canvasId)
+      })
+    }
+  }
+  refChange(uuid, CLASS_NAME, +1)
+  setStartUpCommands(self)
+  setPrologCommands(self)
+  return self
+}
+
+export = renderer

@@ -1,4 +1,4 @@
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import ContextMonitor = require('../core/ContextMonitor');
 /**
  * @method programFromScripts
@@ -7,5 +7,5 @@ import ContextMonitor = require('../core/ContextMonitor');
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-declare function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]): IProgram;
+declare function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]): IMaterial;
 export = programFromScripts;

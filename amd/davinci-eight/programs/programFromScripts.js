@@ -1,4 +1,4 @@
-define(["require", "exports", '../programs/shaderProgram', '../checks/expectArg', '../scene/MonitorList'], function (require, exports, shaderProgram, expectArg, MonitorList) {
+define(["require", "exports", '../programs/createMaterial', '../checks/expectArg', '../scene/MonitorList'], function (require, exports, createMaterial, expectArg, MonitorList) {
     // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
     // FIXME: Temporary rename simpleProgramFromScripts?
     /**
@@ -26,7 +26,7 @@ define(["require", "exports", '../programs/shaderProgram', '../checks/expectArg'
         }
         var vertexShader = $(vsId).textContent;
         var fragmentShader = $(fsId).textContent;
-        return shaderProgram(monitors, vertexShader, fragmentShader, attribs);
+        return createMaterial(monitors, vertexShader, fragmentShader, attribs);
     }
     return programFromScripts;
 });

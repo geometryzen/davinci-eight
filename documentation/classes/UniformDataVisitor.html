@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>IProgram - davinci-eight</title>
+    <title>UniformDataVisitor - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.103.0</em>
+            <em>API Docs for: 2.104.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,8 +41,6 @@
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -51,9 +49,13 @@
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
@@ -61,6 +63,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -68,7 +71,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -91,6 +94,7 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -101,10 +105,11 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -138,27 +143,20 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>IProgram Class</h1>
+<h1>UniformDataVisitor Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends UniformDataVisitor
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_IProgram.ts.html#l8"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:8</code></a>
+            Defined in: <a href="../files/src_davinci-eight_core_UniformDataVisitor.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformDataVisitor.ts:10</code></a>
         </div>
 
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
-    <p>
-The role of a IProgram is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.
-The Program must be able to provide introspection information that describes the program.
-</p>
+    
 </div>
 
 
@@ -167,7 +165,6 @@ The Program must be able to provide introspection information that describes the
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -177,48 +174,18 @@ The Program must be able to provide introspection information that describes the
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_disableAttrib">disableAttrib</a>
+                                <a href="#method_setUniforms">setUniforms</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_enableAttrib">enableAttrib</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_use">use</a>
+                                <a href="#method_uniform1f">uniform1f</a>
 
                             </li>
                     </ul>
                 </div>
 
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property">
-                                <a href="#property_attributeLocations">attributeLocations</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_fragmentShader">fragmentShader</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_programId">programId</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_uniforms">uniforms</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_vertexShader">vertexShader</a>
-
-                            </li>
-                    </ul>
-                </div>
 
 
         </div>
@@ -226,121 +193,14 @@ The Program must be able to provide introspection information that describes the
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_disableAttrib" class="method item">
-    <h3 class="name"><code>disableAttrib</code></h3>
+<div id="method_setUniforms" class="method item">
+    <h3 class="name"><code>setUniforms</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>name</code>
+                        <code>visitor</code>
                 </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l61"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:61</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Enables an attribute location of a WebGLProgram.
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                        <p>The name of the attribute disable.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_enableAttrib" class="method item">
-    <h3 class="name"><code>enableAttrib</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>name</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l50"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:50</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Enables an attribute location of a WebGLProgram.
-</p>
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">name</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-                    <div class="param-description">
-                        <p>The name of the attribute to enable.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-<div id="method_use" class="method item">
-    <h3 class="name"><code>use</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
                         <code>canvasId</code>
                 </li>
@@ -360,7 +220,7 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:33</code></a>
+        <a href="../files/src_davinci-eight_core_UniformData.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformData.ts:7</code></a>
         </p>
 
 
@@ -368,8 +228,7 @@ Enables an attribute location of a WebGLProgram.
     </div>
 
     <div class="description">
-        <p>Makes the Program the current program for WebGL.</p>
-
+        
     </div>
 
         <div class="params">
@@ -377,13 +236,22 @@ Enables an attribute location of a WebGLProgram.
 
             <ul class="params-list">
                 <li class="param">
+                        <code class="param-name">visitor</code>
+                        <span class="type"><a href="../classes/UniformDataVisitor.html" class="crosslink">UniformDataVisitor</a></span>
+
+
+                    <div class="param-description">
+                        
+                    </div>
+
+                </li>
+                <li class="param">
                         <code class="param-name">canvasId</code>
                         <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
-                        <p>Determines which WebGLProgram to use.</p>
-
+                        
                     </div>
 
                 </li>
@@ -400,38 +268,25 @@ Enables an attribute location of a WebGLProgram.
 
 
 </div>
-            </div>
+<div id="method_uniform1f" class="method item">
+    <h3 class="name"><code>uniform1f</code></h3>
 
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_attributeLocations" class="property item">
-    <h3 class="name"><code>attributeLocations</code></h3>
-    <span class="type">name: string: AttribLocation</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:40</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>name</code>
+                </li>
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>canvasId</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
-</div>
-<div id="property_fragmentShader" class="property item">
-    <h3 class="name"><code>fragmentShader</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
 
 
@@ -440,8 +295,9 @@ Enables an attribute location of a WebGLProgram.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:28</code></a>
+        <a href="../files/src_davinci-eight_core_UniformDataVisitor.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformDataVisitor.ts:15</code></a>
         </p>
+
 
 
     </div>
@@ -450,82 +306,48 @@ Enables an attribute location of a WebGLProgram.
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">name</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
 
-</div>
-<div id="property_programId" class="property item">
-    <h3 class="name"><code>programId</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                        
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
+                    <div class="param-description">
+                        
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">canvasId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
+                    <div class="param-description">
+                        
+                    </div>
 
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:18</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_uniforms" class="property item">
-    <h3 class="name"><code>uniforms</code></h3>
-    <span class="type">name: string: UniformLocation</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:45</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_vertexShader" class="property item">
-    <h3 class="name"><code>vertexShader</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_IProgram.ts.html#l23"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IProgram.ts:23</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
+                </li>
+            </ul>
+        </div>
 
 
 
 </div>
             </div>
+
 
 
     </div>

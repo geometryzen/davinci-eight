@@ -1,16 +1,22 @@
-define(["require", "exports", '../scene/MonitorList', '../scene/createDrawList', '../utils/refChange', '../utils/uuid4'], function (require, exports, MonitorList, createDrawList, refChange, uuid4) {
+define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../utils/refChange', '../utils/uuid4'], function (require, exports, createDrawList, MonitorList, refChange, uuid4) {
     var LOGGING_NAME = 'Scene';
     function ctorContext() {
         return LOGGING_NAME + " constructor";
     }
     /**
-     * @module EIGHT
      * @class Scene
-     * @implements IDrawList
+     * @extends IDrawList
      */
+    // FIXME: extend Shareable
     var Scene = (function () {
         // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
+        /**
+         * @class Scene
+         * @constructor
+         * @param monitors [ContextMonitor[]=[]]
+         */
         function Scene(monitors) {
+            if (monitors === void 0) { monitors = []; }
             this._drawList = createDrawList();
             this._refCount = 1;
             this._uuid = uuid4().generate();
@@ -46,8 +52,8 @@ define(["require", "exports", '../scene/MonitorList', '../scene/createDrawList',
         Scene.prototype.remove = function (drawable) {
             this._drawList.remove(drawable);
         };
-        Scene.prototype.traverse = function (callback) {
-            this._drawList.traverse(callback);
+        Scene.prototype.traverse = function (callback, canvasId, prolog) {
+            this._drawList.traverse(callback, canvasId, prolog);
         };
         Scene.prototype.contextFree = function (canvasId) {
             this._drawList.contextFree(canvasId);
@@ -57,42 +63,6 @@ define(["require", "exports", '../scene/MonitorList', '../scene/createDrawList',
         };
         Scene.prototype.contextLoss = function (canvasId) {
             this._drawList.contextLoss(canvasId);
-        };
-        Scene.prototype.uniform1f = function (name, x, canvasId) {
-            this._drawList.uniform1f(name, x, canvasId);
-        };
-        Scene.prototype.uniform2f = function (name, x, y) {
-            this._drawList.uniform2f(name, x, y);
-        };
-        Scene.prototype.uniform3f = function (name, x, y, z) {
-            this._drawList.uniform3f(name, x, y, z);
-        };
-        Scene.prototype.uniform4f = function (name, x, y, z, w) {
-            this._drawList.uniform4f(name, x, y, z, w);
-        };
-        Scene.prototype.uniformMatrix1 = function (name, transpose, matrix) {
-            this._drawList.uniformMatrix1(name, transpose, matrix);
-        };
-        Scene.prototype.uniformMatrix2 = function (name, transpose, matrix) {
-            this._drawList.uniformMatrix2(name, transpose, matrix);
-        };
-        Scene.prototype.uniformMatrix3 = function (name, transpose, matrix) {
-            this._drawList.uniformMatrix3(name, transpose, matrix);
-        };
-        Scene.prototype.uniformMatrix4 = function (name, transpose, matrix) {
-            this._drawList.uniformMatrix4(name, transpose, matrix);
-        };
-        Scene.prototype.uniformVector1 = function (name, vector) {
-            this._drawList.uniformVector1(name, vector);
-        };
-        Scene.prototype.uniformVector2 = function (name, vector) {
-            this._drawList.uniformVector2(name, vector);
-        };
-        Scene.prototype.uniformVector3 = function (name, vector) {
-            this._drawList.uniformVector3(name, vector);
-        };
-        Scene.prototype.uniformVector4 = function (name, vector) {
-            this._drawList.uniformVector4(name, vector);
         };
         return Scene;
     })();

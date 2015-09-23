@@ -1,8 +1,8 @@
-define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', '../utils/uuid4', '../core/UniformLocation', '../utils/refChange'], function (require, exports, AttribLocation, MonitorList, uuid4, UniformLocation, refChange) {
+define(["require", "exports", '../core/AttribLocation', '../core', '../scene/MonitorList', '../checks/isDefined', '../utils/uuid4', '../core/UniformLocation', '../utils/refChange'], function (require, exports, AttribLocation, core, MonitorList, isDefined, uuid4, UniformLocation, refChange) {
     /**
      * Name used for reference count monitoring and logging.
      */
-    var LOGGING_NAME_IPROGRAM = 'IProgram';
+    var LOGGING_NAME_IPROGRAM = 'IMaterial';
     function makeWebGLShader(ctx, source, type) {
         var shader = ctx.createShader(type);
         ctx.shaderSource(shader, source);
@@ -31,7 +31,6 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
         var fs = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
         // Create the program object.
         var program = ctx.createProgram();
-        // console.log("WebGLProgram created");
         // Attach our two shaders to the program.
         ctx.attachShader(program, vs);
         ctx.attachShader(program, fs);
@@ -56,10 +55,9 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
             throw new Error("Error linking program: " + message);
         }
     }
-    // FIXME: Rename to program or createProgram
     // FIXME: Handle list of shaders? Else createSimpleProgram
-    var shaderProgram = function (monitors, vertexShader, fragmentShader, attribs) {
-        MonitorList.verify('monitors', monitors, function () { return "shaderProgram"; });
+    var createMaterial = function (monitors, vertexShader, fragmentShader, attribs) {
+        MonitorList.verify('monitors', monitors, function () { return "createMaterial"; });
         // FIXME multi-context
         if (typeof vertexShader !== 'string') {
             throw new Error("vertexShader argument must be a string.");
@@ -163,6 +161,8 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                         uniformLocations[uName].contextGain(context, program);
                     }
                 }
+                else {
+                }
             },
             contextLoss: function (canvasId) {
                 programs[canvasId] = void 0;
@@ -177,7 +177,7 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
             // FIXME: Dead code?
             /*
             get program() {
-              console.warn("shaderProgram program property is assuming canvas id = 0");
+              console.warn("createMaterial program property is assuming canvas id = 0");
               let canvasId = 0;
               let program: WebGLProgram = programs[canvasId];
               // It's a WebGLProgram, no reference count management required.
@@ -254,10 +254,19 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
                     uniformLoc.matrix3(transpose, matrix);
                 }
             },
-            uniformMatrix4: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix4(transpose, matrix);
+            uniformMatrix4: function (name, transpose, matrix, canvasId) {
+                // FIXME: Should be getting the uniformLocations by canvas or passing canvasId
+                // on to th uniformLoc.matrix4. I like the former, I think.
+                if (isDefined(canvasId)) {
+                    var uniformLoc = uniformLocations[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix4(transpose, matrix);
+                    }
+                }
+                else {
+                    if (core.verbose) {
+                        console.warn("Ignoring uniformMatrix4 for " + name + " because `typeof canvasId` is " + typeof canvasId);
+                    }
                 }
             },
             uniformVector1: function (name, vector) {
@@ -289,5 +298,5 @@ define(["require", "exports", '../core/AttribLocation', '../scene/MonitorList', 
         refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
         return self;
     };
-    return shaderProgram;
+    return createMaterial;
 });

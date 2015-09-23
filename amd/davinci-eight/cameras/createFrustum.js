@@ -93,8 +93,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
                 updateProjectionMatrix();
             },
             setUniforms: function (visitor, canvasId) {
-                // FIXME: canvasId ignored
-                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
                 base.setUniforms(visitor, canvasId);
             }
         };

@@ -1,9 +1,10 @@
 import Cartesian3 = require('../math/Cartesian3')
 import ContextManager = require('../core/ContextManager')
 import ICamera = require('../scene/ICamera')
-import IProgram = require('../core/IProgram')
+import IMaterial = require('../core/IMaterial')
 import createPerspective = require('../cameras/createPerspective')
 import isDefined = require('../checks/isDefined')
+import isInteger = require('../checks/isInteger')
 import readOnly = require('../i18n/readOnly')
 import mustBeCanvasId = require('../checks/mustBeCanvasId')
 import mustBeDefined = require('../checks/mustBeDefined')
@@ -28,7 +29,7 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   public position: Vector3 = new Vector3();
   private _refCount = 1;
   private _uuid: string = uuid4().generate();
-  public material: IProgram;
+  public material: IMaterial;
   private inner: Perspective;
   /**
    * <p>
@@ -59,8 +60,6 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
     return this._refCount
   }
   setUniforms(visitor: UniformDataVisitor, canvasId: number): void {
-    mustBeDefined('visitor', visitor)
-    mustBeCanvasId('canvasId', canvasId)
     this.inner.setNear(this.near)
     this.inner.setFar(this.far)
     this.inner.setUniforms(visitor, canvasId)
@@ -72,7 +71,7 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   contextLoss(): void {
   }
   draw(canvasId: number): void {
-    console.log(CLASS_NAME + ".draw(" + canvasId + ")")
+    console.warn(CLASS_NAME + ".draw(" + canvasId + ")")
     // Do nothing.
   }
   /**
@@ -125,7 +124,6 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
     return this.inner.fov
   }
   set fov(unused: number) {
-    // FIXME: Need a custom Error class that can take the LocalizableMessage.
     throw new Error(readOnly('fov').message)
   }
   /**

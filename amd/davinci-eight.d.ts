@@ -27,8 +27,8 @@ import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
 import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 import Geometry = require('davinci-eight/geometries/Geometry');
-import BoxComplex = require('davinci-eight/geometries/BoxComplex');
-import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
+import CuboidComplex = require('davinci-eight/geometries/CuboidComplex');
+import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
 import Material = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import MeshNormalMaterial = require('davinci-eight/materials/MeshNormalMaterial');
@@ -47,9 +47,10 @@ import Vector4 = require('davinci-eight/math/Vector4');
 import VectorN = require('davinci-eight/math/VectorN');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
+import EulerModel = require('davinci-eight/models/EulerModel');
 import Model = require('davinci-eight/models/Model');
 import RigidBody3 = require('davinci-eight/models/RigidBody3');
-import IProgram = require('davinci-eight/core/IProgram');
+import IMaterial = require('davinci-eight/core/IMaterial');
 import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
 import SineWaveUniform = require('davinci-eight/uniforms/SineWaveUniform');
 import Shareable = require('davinci-eight/utils/Shareable');
@@ -80,6 +81,7 @@ declare var eight: {
     createView: (options?: {
         viewMatrixName?: string;
     }) => View;
+    EulerModel: typeof EulerModel;
     Model: typeof Model;
     RigidBody3: typeof RigidBody3;
     Simplex: typeof Simplex;
@@ -92,8 +94,8 @@ declare var eight: {
     PerspectiveCamera: typeof PerspectiveCamera;
     WebGLRenderer: typeof WebGLRenderer;
     createDrawList: () => IDrawList;
-    renderer: (canvas: HTMLCanvasElement, canvasId: number) => ContextRenderer;
-    webgl: (canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes) => ContextKahuna;
+    renderer: () => ContextRenderer;
+    webgl: (attributes?: WebGLContextAttributes) => ContextKahuna;
     workbench: (canvas: HTMLCanvasElement, renderer: any, camera: {
         aspect: number;
     }, win?: Window) => {
@@ -109,17 +111,17 @@ declare var eight: {
     DrawMode: typeof DrawMode;
     AttribLocation: typeof AttribLocation;
     UniformLocation: typeof UniformLocation;
-    shaderProgram: (monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]) => IProgram;
+    createMaterial: (monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]) => IMaterial;
     smartProgram: (monitors: ContextMonitor[], attributes: {
         [name: string]: AttribMetaInfo;
     }, uniformsList: {
         [name: string]: UniformMetaInfo;
-    }[], bindings: string[]) => IProgram;
+    }[], bindings: string[]) => IMaterial;
     Color: typeof Color;
     Face3: typeof Face3;
     Geometry: typeof Geometry;
-    BoxComplex: typeof BoxComplex;
-    BoxGeometry: typeof BoxGeometry;
+    CuboidComplex: typeof CuboidComplex;
+    CuboidGeometry: typeof CuboidGeometry;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
     rotor3: () => Rotor3;
@@ -149,7 +151,7 @@ declare var eight: {
     toGeometryData: (simplices: Simplex[], geometryMeta?: GeometryMeta) => GeometryData;
     CylinderArgs: typeof CylinderArgs;
     Symbolic: typeof Symbolic;
-    programFromScripts: (monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IProgram;
+    programFromScripts: (monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IMaterial;
     DrawAttribute: typeof DrawAttribute;
     GeometryData: typeof GeometryData;
     SineWaveUniform: typeof SineWaveUniform;

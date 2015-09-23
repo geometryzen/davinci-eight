@@ -110,8 +110,7 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
       updateProjectionMatrix();
     },
     setUniforms(visitor: UniformDataVisitor, canvasId: number) {
-      // FIXME: canvasId ignored
-      visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+      visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
       base.setUniforms(visitor, canvasId);
     }
   };

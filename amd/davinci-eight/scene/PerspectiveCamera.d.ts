@@ -1,7 +1,7 @@
 import Cartesian3 = require('../math/Cartesian3');
 import ContextManager = require('../core/ContextManager');
 import ICamera = require('../scene/ICamera');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import Perspective = require('../cameras/Perspective');
 import UniformData = require('../core/UniformData');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
@@ -13,7 +13,7 @@ declare class PerspectiveCamera implements ICamera, Perspective, UniformData {
     position: Vector3;
     private _refCount;
     private _uuid;
-    material: IProgram;
+    material: IMaterial;
     private inner;
     /**
      * <p>

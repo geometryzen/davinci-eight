@@ -7,13 +7,14 @@ import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import IUnknown = require('../core/IUnknown');
 import IUnknownArray = require('../utils/IUnknownArray');
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import refChange = require('../utils/refChange');
 import StringIUnknownMap = require('../utils/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
+import UniformData = require('../core/UniformData');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -26,17 +27,18 @@ let CLASS_NAME_ALL = "DrawableGroups";
 // FIXME; Probably good to have another collection of DrawableGroup
 
 /**
- * A grouping of IDrawable, by IProgram.
+ * A grouping of IDrawable, by IMaterial.
  */
+// FIXME: extends Shareable
 class DrawableGroup implements IUnknown {
   /**
    * I can't see this being used; it's all about the drawables!
    */
-  private _program: IProgram;
+  private _program: IMaterial;
   private _drawables = new IUnknownArray<IDrawable>();
   private _refCount = 1;
   private _uuid = uuid4().generate();
-  constructor(program: IProgram) {
+  constructor(program: IMaterial) {
     this._program = program;
     this._program.addRef();
     refChange(this._uuid, CLASS_NAME_GROUP, +1);
@@ -63,9 +65,9 @@ class DrawableGroup implements IUnknown {
     }
   }
   /**
-   * accept provides a way to push out the IProgram without bumping the reference count.
+   * accept provides a way to push out the IMaterial without bumping the reference count.
    */
-  acceptProgram(visitor: (program: IProgram)=>void) {
+  acceptProgram(visitor: (program: IMaterial)=>void) {
     visitor(this._program);
   }
   get length() {
@@ -83,7 +85,7 @@ class DrawableGroup implements IUnknown {
       });
     }
   }
-  traverse(callback: (drawable: IDrawable) => void ) {
+  traverseDrawables(callback: (drawable: IDrawable) => void ) {
     this._drawables.forEach(callback);
   }
 }
@@ -93,7 +95,7 @@ class DrawableGroup implements IUnknown {
  */
 class DrawableGroups implements IUnknown {
   /**
-   *
+   * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
    */
   private _groups = new StringIUnknownMap<DrawableGroup>();
   private _refCount = 1;
@@ -122,7 +124,7 @@ class DrawableGroups implements IUnknown {
   }
   add(drawable: IDrawable) {
     // Now let's see if we can get a program...
-    let program: IProgram = drawable.material;
+    let program: IMaterial = drawable.material;
     if (program) {
       try {
         let programId: string = program.programId;
@@ -148,7 +150,7 @@ class DrawableGroups implements IUnknown {
     }
   }
   remove(drawable: IDrawable) {
-    let program: IProgram = drawable.material;
+    let program: IMaterial = drawable.material;
     if (program) {
       try {
         let programId: string = program.programId;
@@ -169,12 +171,13 @@ class DrawableGroups implements IUnknown {
       }
     }
   }
-  traverseDrawables(callback: (drawable: IDrawable) => void) {
-    this._groups.forEach(function(groupId, group){
-      group.traverse(callback);
+  traverseDrawables(callback: (drawable: IDrawable) => void, callback2: (program: IMaterial) => void) {
+    this._groups.forEach(function(groupId, group) {
+      group.acceptProgram(callback2);
+      group.traverseDrawables(callback);
     });
   }
-  traversePrograms(callback: (program: IProgram) => void) {
+  traversePrograms(callback: (program: IMaterial) => void) {
     this._groups.forEach(function(groupId, group){
       group.acceptProgram(callback);
     });
@@ -210,22 +213,23 @@ let createDrawList = function(): IDrawList {
       }
     },
     contextFree(canvasId: number) {
-      drawableGroups.traverseDrawables(function(drawable){
-        drawable.contextFree(canvasId);
-      });
+      drawableGroups.traverseDrawables(function(drawable){drawable.contextFree(canvasId);}, function(program) {program.contextFree(canvasId)});
     },
     contextGain(manager: ContextManager) {
       if (!managers.exists(manager.canvasId)) {
         managers.put(manager.canvasId, manager)
       }
-      drawableGroups.traverseDrawables(function(drawable){
-        drawable.contextGain(manager);
-      });
+      drawableGroups.traverseDrawables(
+        function(drawable){
+          drawable.contextGain(manager);
+        }, 
+        function(material: IMaterial) {
+          material.contextGain(manager)
+        }
+      );
     },
     contextLoss(canvasId) {
-      drawableGroups.traverseDrawables(function(drawable){
-        drawable.contextLoss(canvasId);
-      });
+      drawableGroups.traverseDrawables(function(drawable){drawable.contextLoss(canvasId);}, function(program){program.contextLoss(canvasId)});
     },
     add(drawable: IDrawable) {
       // If we have managers povide them to the drawable before asking for the program.
@@ -238,103 +242,8 @@ let createDrawList = function(): IDrawList {
     remove(drawable: IDrawable) {
       drawableGroups.remove(drawable);
     },
-    uniform1f(name: string, x: number, canvasId: number) {
-      // FIXME: Don't do this, instead, buffer the calls and replay.
-      drawableGroups.traversePrograms(function(program: IProgram) {
-        program.use(canvasId);
-        program.uniform1f(name, x, canvasId);
-      });
-    },
-    uniform2f(name: string, x: number, y: number) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniform2f(name, x, y);
-        });
-      });
-    },
-    uniform3f(name: string, x: number, y: number, z: number) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniform3f(name, x, y, z);
-        });
-      });
-    },
-    uniform4f(name: string, x: number, y: number, z: number, w: number) {
-      managers.forEach(function(canvasId, manager) {
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniform4f(name, x, y, z, w);
-        });
-      });
-    },
-    uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformMatrix1(name, transpose, matrix);
-        });
-      });
-    },
-    uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformMatrix2(name, transpose, matrix);
-        });
-      });
-    },
-    uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformMatrix3(name, transpose, matrix);
-        });
-      });
-    },
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformMatrix4(name, transpose, matrix);
-        });
-      });
-    },
-    uniformVector1(name: string, vector: Vector1) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformVector1(name, vector);
-        });
-      });
-    },
-    uniformVector2(name: string, vector: Vector2) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformVector2(name, vector);
-        });
-      });
-    },
-    uniformVector3(name: string, vector: Vector3) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformVector3(name, vector);
-        });
-      });
-    },
-    uniformVector4(name: string, vector: Vector4) {
-      managers.forEach(function(canvasId, manager){
-        drawableGroups.traversePrograms(function(program: IProgram) {
-          program.use(canvasId);
-          program.uniformVector4(name, vector);
-        });
-      });
-    },
-    traverse(callback: (drawable: IDrawable) => void) {
-      drawableGroups.traverseDrawables(callback);
+    traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (program: IMaterial)=>void) {
+      drawableGroups.traverseDrawables(callback, prolog);
     }
   }
   refChange(uuid, CLASS_NAME_DRAWLIST, +1);

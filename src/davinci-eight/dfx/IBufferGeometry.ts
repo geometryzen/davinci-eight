@@ -1,4 +1,4 @@
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import IUnknown = require('../core/IUnknown');
 
 // FIXME: Move this to core?
@@ -14,11 +14,11 @@ interface IBufferGeometry extends IUnknown {
   uuid: string;
   /**
    * @method bind
-   * @param program {IProgram}
+   * @param program {IMaterial}
    * @param aNameToKeyName
    * @return {void}
    */
-  bind(program: IProgram, aNameToKeyName?: {[name: string]: string}): void;
+  bind(program: IMaterial, aNameToKeyName?: {[name: string]: string}): void;
   /**
    * @method draw
    * @return {void}

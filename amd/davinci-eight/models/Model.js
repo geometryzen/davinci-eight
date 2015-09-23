@@ -34,9 +34,9 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rot
             }
             this.M.copy(this.T).multiply(this.R).multiply(this.S);
             this.N.normalFromMatrix4(this.M);
-            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M);
-            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N);
-            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
+            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color, canvasId);
         };
         return Model;
     })();

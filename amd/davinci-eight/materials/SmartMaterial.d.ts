@@ -1,5 +1,5 @@
 import ContextMonitor = require('../core/ContextMonitor');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');
 /**
  * <p>
@@ -38,7 +38,7 @@ declare class SmartMaterial extends Material {
             glslType: string;
         };
     }, vColor: boolean, vLight: boolean);
-    protected createProgram(): IProgram;
+    protected createProgram(): IMaterial;
     vertexShader: string;
     fragmentShader: string;
 }

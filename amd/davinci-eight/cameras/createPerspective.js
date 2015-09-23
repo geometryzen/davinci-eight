@@ -103,8 +103,7 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
                     computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
                     matrixNeedsUpdate = false;
                 }
-                // FIXME: canvasId being ignored
-                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix);
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
                 base.setUniforms(visitor, canvasId);
             }
         };

@@ -1,39 +1,42 @@
-import BufferResource = require('../core/BufferResource');
-import ContextKahuna = require('../core/ContextKahuna');
-import ContextManager = require('../core/ContextManager');
-import ContextListener = require('../core/ContextListener');
-import GeometryData = require('../dfx/GeometryData');
-import expectArg = require('../checks/expectArg');
-import initWebGL = require('../renderers/initWebGL');
-import IBuffer = require('../core/IBuffer');
-import IBufferGeometry = require('../dfx/IBufferGeometry');
-import isDefined = require('../checks/isDefined');
-import isNumber = require('../checks/isNumber');
-import isUndefined = require('../checks/isUndefined');
-import ITexture = require('../core/ITexture');
+import BufferResource = require('../core/BufferResource')
+import ContextKahuna = require('../core/ContextKahuna')
+import ContextManager = require('../core/ContextManager')
+import ContextListener = require('../core/ContextListener')
+import core = require('../core')
+import GeometryData = require('../dfx/GeometryData')
+import expectArg = require('../checks/expectArg')
+import initWebGL = require('../renderers/initWebGL')
+import IBuffer = require('../core/IBuffer')
+import IBufferGeometry = require('../dfx/IBufferGeometry')
+import isDefined = require('../checks/isDefined')
+import isNumber = require('../checks/isNumber')
+import isUndefined = require('../checks/isUndefined')
+import ITexture = require('../core/ITexture')
 import IUnknown = require('../core/IUnknown')
-import IProgram = require('../core/IProgram');
-import mustBeInteger = require('../checks/mustBeInteger');
-import mustBeNumber = require('../checks/mustBeNumber');
-import mustBeString = require('../checks/mustBeString');
-import RefCount = require('../utils/RefCount');
-import refChange = require('../utils/refChange');
-import Simplex = require('../dfx/Simplex');
-import StringIUnknownMap = require('../utils/StringIUnknownMap');
-import Symbolic = require('../core/Symbolic');
-import TextureResource = require('../resources/TextureResource');
-import uuid4 = require('../utils/uuid4');
-import VectorN = require('../math/VectorN');
+import IMaterial = require('../core/IMaterial')
+import mustBeInteger = require('../checks/mustBeInteger')
+import mustBeNumber = require('../checks/mustBeNumber')
+import mustBeString = require('../checks/mustBeString')
+import randumbInteger = require('../utils/randumbInteger');
+import RefCount = require('../utils/RefCount')
+import refChange = require('../utils/refChange')
+import Shareable = require('../utils/Shareable')
+import Simplex = require('../dfx/Simplex')
+import StringIUnknownMap = require('../utils/StringIUnknownMap')
+import Symbolic = require('../core/Symbolic')
+import TextureResource = require('../resources/TextureResource')
+import uuid4 = require('../utils/uuid4')
+import VectorN = require('../math/VectorN')
 
-let LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
-let LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
-let LOGGING_NAME_MESH = 'Mesh';
+let LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock'
+let LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib'
+let LOGGING_NAME_MESH = 'Mesh'
 
-let LOGGING_NAME_KAHUNA = 'ContextKahuna';
+let LOGGING_NAME_KAHUNA = 'ContextKahuna'
 
 function webglFunctionalConstructorContextBuilder(): string {
   // The following string represents how this API is exposed.
-  return "webgl functional constructor";
+  return "webgl functional constructor"
 }
 
 function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderingContext {
@@ -47,62 +50,91 @@ function mustBeContext(gl: WebGLRenderingContext, method: string): WebGLRenderin
 
 /**
  * This could become an encapsulated call?
+ * class GeometryDataCommand
+ * private
  */
 class GeometryDataCommand {
+  /**
+   * property mode
+   * type {number}
+   * private
+   */
   private mode: number;
   private count: number;
   private type: number;
   private offset: number;
+  /**
+   * class GeometryDataCommand
+   * constructor
+   */
   constructor(mode: number, count: number, type: number, offset: number) {
     this.mode = mode;
     this.count = count;
     this.type = type;
     this.offset = offset;
   }
+  /**
+   * Executes the drawElements command using the instance state.
+   * method execute
+   * param gl {WebGLRenderingContext}
+   */
   execute(gl: WebGLRenderingContext) {
-    gl.drawElements(this.mode, this.count, this.type, this.offset);
+    if (isDefined(gl)) {
+      gl.drawElements(this.mode, this.count, this.type, this.offset);
+    }
+    else {
+      console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.")
+    }
   }
 }
 
-class ElementsBlock implements IUnknown {
-  // FIXME: Need to convert thi into a IUnknownArray
-  // Can we know our IProgram(s)?
+/**
+ * class ElementsBlock
+ */
+class ElementsBlock extends Shareable {
+  // FIXME: Need to convert this into a IUnknownArray
+  // Can we know our IMaterial(s)?
+  /**
+   * Mapping from attribute name to a data structure describing and containing a buffer.
+   * property _attributes
+   * type {StringIUnknownMap<ElementBlockAttrib>}
+   * private
+   */
   private _attributes: StringIUnknownMap<ElementsBlockAttrib>;
+  /**
+   * The buffer containing element indices used in the drawElements command.
+   * property _indexBuffer
+   * type {IBuffer}
+   * private
+   */
   private _indexBuffer: IBuffer;
+  /**
+   * An executable command. May be a call to drawElements or drawArrays.
+   * property drawCommand
+   * type {GeometryDataCommand}
+   */
   public drawCommand: GeometryDataCommand;
-  private _refCount = 1;
-  private _uuid: string = uuid4().generate();
+  /**
+   * class ElementsBlock
+   * constructor
+   */
   constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap<ElementsBlockAttrib>, drawCommand: GeometryDataCommand) {
-
+    super(LOGGING_NAME_ELEMENTS_BLOCK);
     this._indexBuffer = indexBuffer;
     this._indexBuffer.addRef();
-
     this._attributes = attributes;
     this._attributes.addRef();
-
     this.drawCommand = drawCommand;
-
-    refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
+  }
+  destructor(): void {
+    this._attributes.release();
+    this._attributes = void 0;
+    this._indexBuffer.release();
+    this._indexBuffer = void 0;
   }
   get indexBuffer(): IBuffer {
     this._indexBuffer.addRef();
     return this._indexBuffer;
-  }
-  addRef(): number {
-    this._refCount++;
-    refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, +1);
-    return this._refCount;
-  }
-  release(): number {
-    this._refCount--;
-    refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK, -1);
-    if (this._refCount === 0) {
-      this._attributes.release();
-      this._attributes = void 0;
-      this._indexBuffer.release();
-      this._indexBuffer = void 0;
-    }
-    return this._refCount;
   }
   get attributes(): StringIUnknownMap<ElementsBlockAttrib> {
     this._attributes.addRef();
@@ -110,38 +142,28 @@ class ElementsBlock implements IUnknown {
   }
 }
 
-/**
- *
- */
-class ElementsBlockAttrib implements IUnknown {
+class ElementsBlockAttrib extends Shareable {
   private _buffer: IBuffer;
   public size: number;
   public normalized: boolean;
   public stride: number;
   public offset: number;
-  private _refCount = 1;
-  private _uuid: string = uuid4().generate();
   constructor(buffer: IBuffer, size: number, normalized: boolean, stride: number, offset: number) {
+    super(LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE)
     this._buffer = buffer;
     this._buffer.addRef();
     this.size = size;
     this.normalized = normalized;
     this.stride = stride;
     this.offset = offset;
-    refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
   }
-  addRef(): number {
-    refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, +1);
-    this._refCount++;
-    return this._refCount;
-  }
-  release(): number {
-    refChange(this._uuid, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE, -1);
-    this._refCount--;
-    if (this._refCount === 0) {
-      this._buffer.release();
-    }
-    return this._refCount;
+  destructor(): void {
+    this._buffer.release();
+    this._buffer = void 0;
+    this.size = void 0;
+    this.normalized = void 0;
+    this.stride = void 0;
+    this.offset = void 0;
   }
   get buffer() {
     this._buffer.addRef();
@@ -219,8 +241,9 @@ function attribKey(aName: string, aNameToKeyName?: {[aName: string]: string}): s
 /**
  *
  */
-function bindProgramAttribLocations(program: IProgram, block: ElementsBlock, aNameToKeyName?: {[name: string]: string}) {
-  // FIXME: This is where we get the IProgram attributes property.
+function bindProgramAttribLocations(program: IMaterial, block: ElementsBlock, aNameToKeyName?: {[name: string]: string}) {
+  // FIXME: Expecting canvasId here.
+  // FIXME: This is where we get the IMaterial attributes property.
   // FIXME: Can we invert this?
   // What are we offering to the program:
   // block.attributes (reference counted)
@@ -259,11 +282,11 @@ function bindProgramAttribLocations(program: IProgram, block: ElementsBlock, aNa
     }
   }
   else {
-    console.warn("unbindProgramAttribLocations: program.attributes is falsey.")
+    console.warn("bindProgramAttribLocations: program.attributes is falsey.")
   }
 }
 
-function unbindProgramAttribLocations(program: IProgram) {
+function unbindProgramAttribLocations(program: IMaterial) {
   // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
   let attribLocations = program.attributes;
   if (attribLocations) {
@@ -276,9 +299,9 @@ function unbindProgramAttribLocations(program: IProgram) {
   }
 }
 
-function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: WebGLContextAttributes): ContextKahuna {
-  expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement @ webgl function");
-  mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
+function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
+  // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+  // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
   let uuid: string = uuid4().generate();
   let blocks = new StringIUnknownMap<ElementsBlock>();
   // Remark: We only hold weak references to users so that the lifetime of resource
@@ -320,7 +343,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
   function createBufferGeometry(uuid: string): IBufferGeometry {
 
     let refCount = new RefCount(meshRemover(uuid));
-    let _program: IProgram = void 0;
+    let _program: IMaterial = void 0;
     let mesh: IBufferGeometry = {
       addRef(): number {
         refChange(uuid, LOGGING_NAME_MESH, +1);
@@ -333,7 +356,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       get uuid() {
         return uuid;
       },
-      bind(program: IProgram, aNameToKeyName?: {[name: string]: string}): void {
+      bind(program: IMaterial, aNameToKeyName?: {[name: string]: string}): void {
         if (_program !== program) {
           if (_program) {
             mesh.unbind();
@@ -396,29 +419,41 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
 
   // FIXME Rename to gl
   var gl: WebGLRenderingContext;
+  /**
+   * We must cache the canvas so that we can remove listeners when `stop() is called.
+   * Only between `start()` and `stop()` is canvas defined.
+   * We use a canvasBuilder so the other initialization can happen while we are waiting
+   * for the DOM to load. 
+   */
+  var _canvasElement: HTMLCanvasElement;
+  var _canvasId: number;
   var refCount: number = 1;
   var mirror: boolean = false;
   let tokenArg = expectArg('token', "");
 
   let webGLContextLost = function(event: Event) {
-    event.preventDefault();
-    gl = void 0;
-    users.forEach(function(user: ContextListener) {
-      user.contextLoss(canvasId);
-    });
-  };
+    if (isDefined(_canvasElement)) {
+      event.preventDefault()
+      gl = void 0
+      users.forEach(function(user: ContextListener) {
+        user.contextLoss(_canvasId)
+      })
+    }
+  }
 
   let webGLContextRestored = function(event: Event) {
-    event.preventDefault();
-    gl = initWebGL(canvas, attributes);
-    users.forEach(function(user: ContextListener) {
-      user.contextGain(kahuna);
-    });
-  };
+    if (isDefined(_canvasElement)) {
+      event.preventDefault()
+      gl = initWebGL(_canvasElement, attributes)
+      users.forEach(function(user: ContextListener) {
+        user.contextGain(kahuna)
+      })
+    }
+  }
 
   var kahuna: ContextKahuna = {
     get canvasId(): number {
-      return canvasId;
+      return _canvasId;
     },
     /**
      *
@@ -436,14 +471,29 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
         expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
       }
       else {
-        usage = gl.STATIC_DRAW;
+        // TODO; Perhaps a simpler way to be Hyper Functional Warrior is to use WebGLRenderingContext.STATIC_DRAW?
+        usage = isDefined(gl) ? gl.STATIC_DRAW : void 0;
+        // No usage may be OK. After all it's just a hint!
+      }
+      // It's going to get pretty hopeless without a WebGL context.
+      // If that's the case, let's just return undefined now before we start allocating useless stuff.
+      if (isUndefined(gl)) {
+        if (core.verbose) {
+          console.warn("Impossible to create a buffer geometry without a WebGL context. Sorry, no dice!");
+        }
+        return void 0;
       }
 
       let mesh: IBufferGeometry = createBufferGeometry(uuid4().generate());
 
       let indexBuffer = kahuna.createElementArrayBuffer();
       indexBuffer.bind();
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+      if (isDefined(gl)) {
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+      }
+      else {
+        console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.")
+      }
       indexBuffer.unbind();
 
       let attributes = new StringIUnknownMap<ElementsBlockAttrib>();
@@ -476,23 +526,55 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       indexBuffer.release();
       return mesh;
     },
-    start(): void {
-      gl = initWebGL(canvas, attributes);
-      canvas.addEventListener('webglcontextlost', webGLContextLost, false);
-      canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-      users.forEach(function(user: ContextListener) {user.contextGain(kahuna);});
+    start(canvasElement: HTMLCanvasElement, canvasId: number): void {
+      let alreadyStarted = isDefined(_canvasElement);
+      if (!alreadyStarted) {
+        // cache the arguments
+        _canvasElement = canvasElement
+        _canvasId = canvasId
+      }
+      else {
+        // We'll assert that if we have a canvas element then we should have a canvas id.
+        mustBeInteger('_canvasId', _canvasId);
+        // We'll just be idempotent and ignore the call because we've already been started.
+        // To use the canvasElement might conflict with one we have dynamically created.
+        if (core.verbose) {
+          console.warn("Ignoring `start()` because already started.")
+        }
+        return
+      }
+      // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
+      // To not complain is the way of the hyper-functional warrior.
+      if (isDefined(_canvasElement)) {
+        gl = initWebGL(_canvasElement, attributes);
+        _canvasElement.addEventListener('webglcontextlost', webGLContextLost, false)
+        _canvasElement.addEventListener('webglcontextrestored', webGLContextRestored, false)
+        users.forEach(function(user: ContextListener) { user.contextGain(kahuna) })
+      }
     },
     stop(): void {
-      gl = void 0;
-      users.forEach(function(user: ContextListener) {user.contextFree(canvasId);});
-      canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
-      canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+      if (isDefined(_canvasElement)) {
+        gl = void 0
+        users.forEach(function(user: ContextListener) { user.contextFree(_canvasId) })
+        _canvasElement.removeEventListener('webglcontextrestored', webGLContextRestored, false)
+        _canvasElement.removeEventListener('webglcontextlost', webGLContextLost, false)
+        _canvasElement = void 0;
+        _canvasId = void 0;
+      }
     },
     addContextListener(user: ContextListener): void {
       addContextListener(user);
     },
     removeContextListener(user: ContextListener): void {
       removeContextListener(user);
+    },
+    get canvasElement(): HTMLCanvasElement {
+      if (!_canvasElement) {
+        // Interesting little side-effect!
+        // Love the way kahuna talks in the third person.
+        kahuna.start(document.createElement('canvas'), randumbInteger());
+        }
+      return _canvasElement;
     },
     get gl(): WebGLRenderingContext {
       if (gl) {
@@ -550,12 +632,17 @@ function webgl(canvas: HTMLCanvasElement, canvasId: number = 0, attributes?: Web
       }
     },
     createArrayBuffer(): IBuffer {
-      // TODO: Replace with functional constructor pattern.
-      return new BufferResource(kahuna, mustBeContext(gl, 'createArrayBuffer()').ARRAY_BUFFER);
+      // TODO: Replace with functional constructor pattern?
+      return new BufferResource(kahuna, false);
     },
     createElementArrayBuffer(): IBuffer {
-      // TODO: Replace with functional constructor pattern.
-      return new BufferResource(kahuna, mustBeContext(gl, 'createElementArrayBuffer()').ELEMENT_ARRAY_BUFFER);
+      // TODO: Replace with functional constructor pattern?
+      // FIXME
+      // It's a bit draconian to insist that there be a WegGLRenderingContext.
+      // Especially whenthe BufferResource willl be listening for context coming and goings.
+      // Let's be Hyper-Functional Warrior and let it go.
+      // Only problem is, we don't know if we should be handling elements or attributes. No problem.
+      return new BufferResource(kahuna, true);
     },
     createTexture2D(): ITexture {
       // TODO: Replace with functional constructor pattern.

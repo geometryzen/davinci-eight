@@ -11,16 +11,44 @@ import IBufferGeometry = require('../dfx/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
 import Shareable = require('../utils/Shareable');
 import UniformData = require('../core/UniformData');
+/**
+ * @class WebGLRenderer
+ */
 declare class WebGLRenderer extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
-    private _canvas;
-    private _canvasId;
     private _kahuna;
     private _renderer;
-    constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
-    destructor(): void;
+    /**
+     * @class WebGLRenderer
+     * @constructor
+     * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
+     * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
+     * @param attributes [WebGLContextAttributes] Allow the context to be configured.
+     * @beta
+     */
+    constructor(attributes?: WebGLContextAttributes);
+    /**
+     * @method destructor
+     * return {void}
+     * @protected
+     */
+    protected destructor(): void;
     addContextListener(user: ContextListener): void;
+    /**
+     * <p>
+     * Determines whether prolog commands are run automatically as part of the `render()` call.
+     * </p>
+     * @property autoProlog
+     * @type boolean
+     * @default true
+     */
+    autoProlog: boolean;
+    canvasElement: HTMLCanvasElement;
+    /**
+     * @property canvasId
+     * @type {number}
+     * @readOnly
+     */
     canvasId: number;
-    canvas: HTMLCanvasElement;
     contextFree(canvasId: number): void;
     contextGain(manager: ContextManager): void;
     contextLoss(canvasId: number): void;
@@ -33,7 +61,8 @@ declare class WebGLRenderer extends Shareable implements ContextController, Cont
     pushStartUp(command: IContextCommand): void;
     removeContextListener(user: ContextListener): void;
     render(drawList: IDrawList, ambients: UniformData): void;
-    start(): void;
+    setSize(width: number, height: number): void;
+    start(canvas: HTMLCanvasElement, canvasId: number): void;
     stop(): void;
 }
 export = WebGLRenderer;

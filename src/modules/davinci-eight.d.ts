@@ -89,7 +89,7 @@ interface IResource extends IUnknown, ContextListener {
  */
 interface IBufferGeometry extends IUnknown {
   uuid: string;
-  bind(program: IProgram, aNameToKeyName?: {[name: string]: string}): void;
+  bind(program: IMaterial, aNameToKeyName?: {[name: string]: string}): void;
   draw(): void;
   unbind(): void;
 }
@@ -876,7 +876,7 @@ class Complex {
 /**
  * A collection of WebGLProgram(s), one for each canvas in which the program is used.
  */
-interface IProgram extends IResource, UniformDataVisitor
+interface IMaterial extends IResource, UniformDataVisitor
 {
   /**
    *
@@ -952,7 +952,7 @@ function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: 
 /**
  * Constructs a program from the specified vertex and fragment shader codes.
  */
-function shaderProgram(contexts: ContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IProgram;
+function createMaterial(contexts: ContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IMaterial;
 
 /**
  *
@@ -986,7 +986,7 @@ interface UniformMetaInfo {
  * uniformsList
  * bindings Used for setting indices.
  */
-function smartProgram(monitors: ContextMonitor[], attributes: {[name:string]:AttribMetaInfo}, uniforms: {[name:string]:UniformMetaInfo}, bindings?: string[]): IProgram;
+function smartProgram(monitors: ContextMonitor[], attributes: {[name:string]:AttribMetaInfo}, uniforms: {[name:string]:UniformMetaInfo}, bindings?: string[]): IMaterial;
 
 /**
  *
@@ -1163,7 +1163,7 @@ interface ContextUnique {
  *
  */
 interface ContextController {
-  start(): void;
+  start(canvas: HTMLCanvasElement, canvasId: number): void
   stop(): void;
   // TODO: kill
   // kill(): void;
@@ -1184,7 +1184,7 @@ interface IDrawable extends IResource {
   /**
    *
    */
-  material: IProgram;
+  material: IMaterial;
   /**
    * canvasId: Identifies the canvas on which to draw.
    */
@@ -1201,19 +1201,19 @@ class Object3D {
 /**
  *
  */
-interface IDrawList extends ContextListener, IUnknown, UniformDataVisitor {
+interface IDrawList extends ContextListener, IUnknown {
   add(drawable: IDrawable): void;
   addRef(): number;
   release(): number;
   remove(drawable: IDrawable): void;
-  traverse(callback: (drawable: IDrawable) => void): void;
+  traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
 }
 
 /**
  *
  */
 class Scene implements IDrawList {
-  constructor(monitors: ContextMonitor[]);
+  constructor(monitors?: ContextMonitor[]);
   add(drawable: IDrawable): void;
   addRef(): number;
   contextFree(canvasId: number): void;
@@ -1221,19 +1221,7 @@ class Scene implements IDrawList {
   contextLoss(canvasId: number): void;
   release(): number;
   remove(drawable: IDrawable): void;
-  traverse(callback: (drawable: IDrawable) => void): void;
-  uniform1f(name: string, x: number);
-  uniform2f(name: string, x: number, y: number);
-  uniform3f(name: string, x: number, y: number, z: number);
-  uniform4f(name: string, x: number, y: number, z: number, w: number);
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1);
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2);
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3);
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4);
-  uniformVector1(name: string, vector: Vector1);
-  uniformVector2(name: string, vector: Vector2);
-  uniformVector3(name: string, vector: Vector3);
-  uniformVector4(name: string, vector: Vector4);
+  traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
 }
 
 /**
@@ -1278,7 +1266,7 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   /**
    * Optional material used for rendering this instance.
    */
-  material: IProgram;
+  material: IMaterial;
   /**
    * The "guess" direction that is used to generate the upwards direction for the camera. 
    */
@@ -1316,6 +1304,12 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
  */
 interface ContextRenderer extends ContextListener, IUnknown {
   /**
+   * Determines whether prolog commands are run automatically as part of the render() call.
+   * It may be useful to manually exceute the prolog commands if you want to render
+   * multiple times within the animation loop without e.g., clearing the color and depth buffers.
+   */
+  autoProlog: boolean;
+  /**
    * Execute the commands in the prolog list.
    */
   prolog(): void;
@@ -1344,15 +1338,30 @@ interface ContextRenderer extends ContextListener, IUnknown {
  *
  */
 class WebGLRenderer implements ContextController, ContextMonitor, ContextRenderer {
+  /**
+   * <p>
+   * Determines whether prolog commands are run automatically as part of the render() call.
+   * It may be useful to manually exceute the prolog commands if you want to render
+   * multiple times within the animation loop without e.g., clearing the color and depth buffers.
+   * The deafault is <code>true</code>
+   * </p>
+   */
+  autoProlog: boolean;
   canvasId: number;
   gl: WebGLRenderingContext;
-  canvas: HTMLCanvasElement;
   /**
-   * canvas
+   * If the canvasElement property has not been initialized by calling `start()`,
+   * then any attempt to access this property will trigger the construction of
+   * a new HTML canvas element which will remain in effect for this WebGLRenderer
+   * until `stop()` is called.
+   */
+  canvasElement: HTMLCanvasElement;
+  /**
+   * canvasBuilder : A no-argument function that returns a canvas element from which the context will be retrieved. 
    * canvasId
    * attributes
    */
-  constructor(canvas?: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes);
+  constructor(attributes?: WebGLContextAttributes);
   addContextListener(user: ContextListener): void;
   addRef(): number;
   contextFree(canvasId: number): void;
@@ -1367,14 +1376,15 @@ class WebGLRenderer implements ContextController, ContextMonitor, ContextRendere
   release(): number;
   removeContextListener(user: ContextListener): void;
   render(drawList: IDrawList, ambients: UniformData): void;
-  start(): void;
+  setSize(width: number, height: number): void;
+  start(canvas: HTMLCanvasElement, canvasId: number): void;
   stop(): void;
 }
 
 /**
  *
  */
-class BoxComplex extends Complex {
+class CuboidComplex extends Complex {
   /**
    * width: The side length in the x-axis direction.
    * height: The side length in the y-axis direction.
@@ -1390,7 +1400,7 @@ class BoxComplex extends Complex {
 /**
  *
  */
-class BoxGeometry extends Geometry {
+class CuboidGeometry extends Geometry {
   x: number;
   y: number;
   z: number;
@@ -1398,7 +1408,7 @@ class BoxGeometry extends Geometry {
   ySegments: number;
   zSegments: number;
   lines: boolean;
-  constructor();
+  constructor(width?: number, height?: number, depth?: number);
   /**
    * calculates the geometry from the current state of parameters.
    */
@@ -1407,7 +1417,7 @@ class BoxGeometry extends Geometry {
 /**
  *
  */
-class Material implements IProgram {
+class Material implements IMaterial {
   program: WebGLProgram;
   programId: string;
   vertexShader: string;
@@ -1461,7 +1471,7 @@ class Geometry {
 /**
  *
  */
-class Mesh<G extends Geometry, M extends IProgram, U extends UniformData> implements IDrawable {
+class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> implements IDrawable {
   geometry: G;
   material: M;
   model: U;
@@ -1494,7 +1504,7 @@ interface MeshNormalMaterialParameters {
 }
 
 class MeshNormalMaterial extends Material {
-  constructor(contexts: ContextMonitor[], parameters?: MeshNormalMaterialParameters);
+  constructor(contexts?: ContextMonitor[], parameters?: MeshNormalMaterialParameters);
 }
 
 class SmartMaterialBuilder {
@@ -1512,6 +1522,12 @@ class SineWaveUniform extends Shareable implements UniformData {
   public uName: string;
   constructor(omega: number, uName?: string);
   setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
+}
+
+class EulerModel implements UniformData {
+  rotation: Vector3;
+  constructor()
+  setUniforms(visitor: UniformDataVisitor, canvasId: number): void
 }
 
 interface IRigidBody3 extends IUnknown {

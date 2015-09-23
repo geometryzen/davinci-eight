@@ -1,8 +1,8 @@
 import Geometry = require('../geometries/Geometry');
 /**
- * @class BoxGeometry
+ * @class CuboidGeometry
  */
-declare class BoxGeometry extends Geometry {
+declare class CuboidGeometry extends Geometry {
     /**
      * @property x {number} The length of the side in the x-axis direction.
      */
@@ -29,10 +29,16 @@ declare class BoxGeometry extends Geometry {
     zSegments: number;
     lines: boolean;
     /**
-     * @class BoxGeometry
+     * <p>
+     * A CuboidGeometry represents the mathematical shape of a cuboid.
+     * <p>
+     * @class CuboidGeometry
      * @constructor
+     * @param width {number} The length in the x-axis aspect.
+     * @param height {number} The length in the y-axis aspect.
+     * @param depth {number} The length in the z-axis aspect.
      */
-    constructor();
+    constructor(width?: number, height?: number, depth?: number);
     calculate(): void;
 }
-export = BoxGeometry;
+export = CuboidGeometry;

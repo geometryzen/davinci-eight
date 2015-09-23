@@ -3,6 +3,7 @@ import expectArg = require('../checks/expectArg');
 import LinearElement = require('../math/LinearElement');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
+import isNumber = require('../checks/isNumber');
 import Spinor3Coords = require('../math/Spinor3Coords');
 import VectorN = require('../math/VectorN');
 import wedgeXY = require('../math/wedgeXY');
@@ -260,6 +261,22 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
    */
   toString(): string {
     return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
+  }
+  __add__(rhs: Vector3): Vector3 {
+    if (rhs instanceof Vector3) {
+      return this.clone().add(rhs);
+    }
+    else {
+      return void 0;
+    }
+  }
+  __mul__(rhs: number): Vector3 {
+    if (isNumber(rhs)) {
+      return this.clone().multiplyScalar(rhs);
+    }
+    else {
+      return void 0;
+    }
   }
   /**
    * @method copy

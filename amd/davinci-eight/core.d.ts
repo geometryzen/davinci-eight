@@ -4,7 +4,7 @@ declare var core: {
     GITHUB: string;
     LAST_MODIFIED: string;
     NAMESPACE: string;
-    VERBOSE: boolean;
+    verbose: boolean;
     VERSION: string;
 };
 export = core;

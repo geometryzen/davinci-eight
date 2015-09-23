@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.103.0</em>
+            <em>API Docs for: 2.104.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,8 +41,6 @@
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -51,9 +49,13 @@
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
@@ -61,6 +63,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -68,7 +71,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -91,6 +94,7 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -101,10 +105,11 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -148,33 +153,30 @@ import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import ContextListener = require(&#x27;../core/ContextListener&#x27;);
 import ContextManager = require(&#x27;../core/ContextManager&#x27;);
 import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;);
+import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;);
 import refChange = require(&#x27;../utils/refChange&#x27;);
+import Shareable = require(&#x27;../utils/Shareable&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_IBUFFER = &#x27;IBuffer&#x27;;
+let LOGGING_NAME_IBUFFER = &#x27;IBuffer&#x27;
 
-function checkTarget(target: number): number {
-  return target;
-}
-
-// TODO: Replace this with a functional constructor to prevent tinkering.
-class BufferResource implements IBuffer {
+// TODO: Replace this with a functional constructor to prevent tinkering?
+// TODO: Why is this object specific to one context?
+class BufferResource extends Shareable implements IBuffer {
   private _buffer: WebGLBuffer;
   private _gl: WebGLRenderingContext;
   private _monitor: ContextMonitor;
-  private _refCount: number = 1;
-  private _target: number;
-  private _uuid: string = uuid4().generate();
-  constructor(monitor: ContextMonitor, target: number) {
+  private _isElements: boolean;
+  constructor(monitor: ContextMonitor, isElements: boolean) {
+    super(LOGGING_NAME_IBUFFER)
     this._monitor = expectArg(&#x27;montor&#x27;, monitor).toBeObject().value;
-    this._target = checkTarget(target);
-    refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
+    this._isElements = mustBeBoolean(&#x27;isElements&#x27;, isElements);
     monitor.addContextListener(this);
   }
-  private destructor() {
+  protected destructor(): void {
     if (this._buffer) {
       this._gl.deleteBuffer(this._buffer);
       this._buffer = void 0;
@@ -182,25 +184,7 @@ class BufferResource implements IBuffer {
     this._gl = void 0;
     this._monitor.removeContextListener(this);
     this._monitor = void 0;
-    this._refCount = void 0;
-    this._target = void 0;
-    this._uuid = void 0;
-  }
-  addRef(): number {
-    this._refCount++;
-    refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
-    return this._refCount;
-  }
-  release(): number {
-    this._refCount--;
-    refChange(this._uuid, LOGGING_NAME_IBUFFER, -1);
-    if (this._refCount === 0) {
-      this.destructor();
-      return 0;
-    }
-    else {
-      return this._refCount;
-    }
+    this._isElements = void 0;
   }
   contextFree() {
     if (this._buffer) {
@@ -231,8 +215,10 @@ class BufferResource implements IBuffer {
    * @method bind
    */
   bind(): void {
-    if (this._gl) {
-      this._gl.bindBuffer(this._target, this._buffer);
+    let gl = this._gl;
+    if (gl) {
+      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+      gl.bindBuffer(target, this._buffer);
     }
     else {
       console.warn(LOGGING_NAME_IBUFFER + &quot; bind() missing WebGL rendering context.&quot;);
@@ -242,8 +228,10 @@ class BufferResource implements IBuffer {
    * @method unbind
    */
   unbind() {
-    if (this._gl) {
-      this._gl.bindBuffer(this._target, null);
+    let gl = this._gl;
+    if (gl) {
+      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+      gl.bindBuffer(target, null);
     }
     else {
       console.warn(LOGGING_NAME_IBUFFER + &quot; unbind() missing WebGL rendering context.&quot;);

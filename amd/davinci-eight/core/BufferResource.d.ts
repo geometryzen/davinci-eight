@@ -1,17 +1,14 @@
 import IBuffer = require('../core/IBuffer');
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
-declare class BufferResource implements IBuffer {
+import Shareable = require('../utils/Shareable');
+declare class BufferResource extends Shareable implements IBuffer {
     private _buffer;
     private _gl;
     private _monitor;
-    private _refCount;
-    private _target;
-    private _uuid;
-    constructor(monitor: ContextMonitor, target: number);
-    private destructor();
-    addRef(): number;
-    release(): number;
+    private _isElements;
+    constructor(monitor: ContextMonitor, isElements: boolean);
+    protected destructor(): void;
     contextFree(): void;
     contextGain(manager: ContextManager): void;
     contextLoss(): void;

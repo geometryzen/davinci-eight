@@ -59,8 +59,8 @@ import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
 import Geometry = require('davinci-eight/geometries/Geometry');
 //import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 //import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
-import BoxComplex  = require('davinci-eight/geometries/BoxComplex');
-import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
+import CuboidComplex  = require('davinci-eight/geometries/CuboidComplex');
+import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry');
 //import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
 //import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry');
@@ -76,7 +76,7 @@ import BoxGeometry = require('davinci-eight/geometries/BoxGeometry');
 //import TubeGeometry = require('davinci-eight/geometries/TubeGeometry');
 //import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 // programs
-import shaderProgram = require('davinci-eight/programs/shaderProgram');
+import createMaterial = require('davinci-eight/programs/createMaterial');
 import smartProgram = require('davinci-eight/programs/smartProgram');
 import programFromScripts = require('davinci-eight/programs/programFromScripts');
 
@@ -109,11 +109,12 @@ import CylinderOptions = require('davinci-eight/mesh/CylinderOptions');
 import SphereOptions = require('davinci-eight/mesh/SphereOptions');
 
 // models
-import Model                      = require('davinci-eight/models/Model');
-import RigidBody3                 = require('davinci-eight/models/RigidBody3');
+import EulerModel = require('davinci-eight/models/EulerModel');
+import Model      = require('davinci-eight/models/Model');
+import RigidBody3 = require('davinci-eight/models/RigidBody3');
 
 // programs
-import IProgram = require('davinci-eight/core/IProgram');
+import IMaterial = require('davinci-eight/core/IMaterial');
 // renderers
 import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
 import initWebGL = require('davinci-eight/renderers/initWebGL');
@@ -165,7 +166,8 @@ var eight = {
   get createFrustum() { return createFrustum; },
   get createPerspective() { return createPerspective; },
   get createView() { return createView; },
-  
+
+  get EulerModel() { return EulerModel },
   get Model() { return Model; },
   get RigidBody3() { return RigidBody3 },
 
@@ -186,8 +188,8 @@ var eight = {
   get DrawMode() { return DrawMode; },
   get AttribLocation() { return AttribLocation; },
   get UniformLocation() { return UniformLocation; },
-  get shaderProgram() {
-    return shaderProgram;
+  get createMaterial() {
+    return createMaterial;
   },
   get smartProgram() {
     return smartProgram;
@@ -197,8 +199,8 @@ var eight = {
   get Geometry() { return Geometry; },
 //  get ArrowGeometry() { return ArrowGeometry; },
 //  get BarnGeometry() { return BarnGeometry; },
-  get BoxComplex() { return BoxComplex; },
-  get BoxGeometry() { return BoxGeometry; },
+  get CuboidComplex() { return CuboidComplex; },
+  get CuboidGeometry() { return CuboidGeometry; },
 //  get CylinderGeometry() { return CylinderGeometry; },
 //  get DodecahedronGeometry() { return DodecahedronGeometry; },
 //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },

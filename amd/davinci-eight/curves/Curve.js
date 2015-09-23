@@ -70,7 +70,6 @@ define(["require", "exports"], function (require, exports) {
             if (this.cacheArcLengths
                 && (this.cacheArcLengths.length == divisions + 1)
                 && !this.needsUpdate) {
-                //console.log( "cached", this.cacheArcLengths );
                 return this.cacheArcLengths;
             }
             this.needsUpdate = false;
@@ -126,7 +125,6 @@ define(["require", "exports"], function (require, exports) {
                 }
             }
             i = high;
-            //console.log('b' , i, low, high, Date.now()- time);
             if (arcLengths[i] == targetArcLength) {
                 var t = i / (il - 1);
                 return t;

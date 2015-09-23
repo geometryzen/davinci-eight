@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../programs/fragmentShader', '../materials/Material', '../programs/shaderProgram', '../programs/vertexShader'], function (require, exports, fragmentShader, Material, shaderProgram, vertexShader) {
+define(["require", "exports", '../programs/fragmentShader', '../materials/Material', '../programs/createMaterial', '../programs/vertexShader'], function (require, exports, fragmentShader, Material, createMaterial, vertexShader) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -45,7 +45,7 @@ define(["require", "exports", '../programs/fragmentShader', '../materials/Materi
         }
         SmartMaterial.prototype.createProgram = function () {
             var bindings = [];
-            return shaderProgram(this.monitors, this.vertexShader, this.fragmentShader, bindings);
+            return createMaterial(this.monitors, this.vertexShader, this.fragmentShader, bindings);
         };
         Object.defineProperty(SmartMaterial.prototype, "vertexShader", {
             get: function () {

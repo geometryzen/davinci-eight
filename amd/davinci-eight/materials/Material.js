@@ -1,12 +1,19 @@
-define(["require", "exports", '../core', '../scene/MonitorList', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, core, MonitorList, mustBeInteger, mustBeString, refChange, uuid4) {
-    function consoleWarnDroppedUniform(clazz, suffix, name) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../core', '../scene/MonitorList', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../utils/uuid4'], function (require, exports, core, MonitorList, mustBeInteger, mustBeString, Shareable, uuid4) {
+    function consoleWarnDroppedUniform(clazz, suffix, name, canvasId) {
         console.warn(clazz + " dropped uniform" + suffix + " " + name);
+        console.warn("`typeof canvasId` is " + typeof canvasId);
     }
     /**
      * @class Material
-     * @implements IProgram
+     * @implements IMaterial
      */
-    var Material = (function () {
+    var Material = (function (_super) {
+        __extends(Material, _super);
         /**
          * @class Material
          * @constructor
@@ -14,19 +21,26 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
          * @param type {string} The class name, used for logging and serialization.
          */
         function Material(contexts, type) {
+            _super.call(this, 'Material');
             this.readyPending = false;
             this.programId = uuid4().generate();
-            // FIXME get from shaders?
-            //public vertexShader: string;
-            //public fragmentShader: string;
-            this._refCount = 1;
             MonitorList.verify('contexts', contexts);
             mustBeString('type', type);
             this._monitors = MonitorList.copy(contexts);
-            // FIXME multi-context support.
             this.type = type;
-            refChange(this.programId, this.type, this._refCount);
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        Material.prototype.destructor = function () {
+            this._monitors.removeContextListener(this);
+            if (this.inner) {
+                this.inner.release();
+                this.inner = void 0;
+            }
+        };
         Material.prototype.makeReady = function (async) {
             if (!this.readyPending) {
                 this.readyPending = true;
@@ -44,15 +58,6 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             enumerable: true,
             configurable: true
         });
-        /**
-         * @method addRef
-         * @return {number}
-         */
-        Material.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this.programId, this.type, +1);
-            return this._refCount;
-        };
         Object.defineProperty(Material.prototype, "fragmentShader", {
             get: function () {
                 return this.inner ? this.inner.fragmentShader : void 0;
@@ -60,18 +65,6 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             enumerable: true,
             configurable: true
         });
-        Material.prototype.release = function () {
-            this._refCount--;
-            refChange(this.programId, this.type, -1);
-            if (this._refCount === 0) {
-                this._monitors.removeContextListener(this);
-                if (this.inner) {
-                    this.inner.release();
-                    this.inner = void 0;
-                }
-            }
-            return this._refCount;
-        };
         // FIXME; I'm going to need to know which monitor.
         Material.prototype.use = function (canvasId) {
             if (core.ASSERTIVE) {
@@ -87,7 +80,9 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
                     return this.inner.use(canvasId);
                 }
                 else {
-                    console.warn(this.type + " use()");
+                    if (core.verbose) {
+                        console.warn(this.type + " use()");
+                    }
                 }
             }
         };
@@ -169,6 +164,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
         };
         Material.prototype.contextGain = function (manager) {
             this.inner = this.createProgram();
+            this.inner.contextGain(manager);
         };
         Material.prototype.contextLoss = function (canvasId) {
             if (this.inner) {
@@ -192,205 +188,207 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '1f', name);
+                        consoleWarnDroppedUniform(this.type, '1f', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniform2f = function (name, x, y) {
+        Material.prototype.uniform2f = function (name, x, y, canvasId) {
             if (this.inner) {
-                this.inner.uniform2f(name, x, y);
+                this.inner.uniform2f(name, x, y, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform2f(name, x, y);
+                    this.inner.uniform2f(name, x, y, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '2f', name);
+                        consoleWarnDroppedUniform(this.type, '2f', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniform3f = function (name, x, y, z) {
+        Material.prototype.uniform3f = function (name, x, y, z, canvasId) {
             if (this.inner) {
-                this.inner.uniform3f(name, x, y, z);
+                this.inner.uniform3f(name, x, y, z, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform3f(name, x, y, z);
+                    this.inner.uniform3f(name, x, y, z, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '3f', name);
+                        consoleWarnDroppedUniform(this.type, '3f', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniform4f = function (name, x, y, z, w) {
+        Material.prototype.uniform4f = function (name, x, y, z, w, canvasId) {
             if (this.inner) {
-                this.inner.uniform4f(name, x, y, z, w);
+                this.inner.uniform4f(name, x, y, z, w, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniform4f(name, x, y, z, w);
+                    this.inner.uniform4f(name, x, y, z, w, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, '4f', name);
+                        consoleWarnDroppedUniform(this.type, '4f', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformMatrix1 = function (name, transpose, matrix) {
+        Material.prototype.uniformMatrix1 = function (name, transpose, matrix, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix1(name, transpose, matrix);
+                this.inner.uniformMatrix1(name, transpose, matrix, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix1(name, transpose, matrix);
+                    this.inner.uniformMatrix1(name, transpose, matrix, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix1', name);
+                        consoleWarnDroppedUniform(this.type, 'Matrix1', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformMatrix2 = function (name, transpose, matrix) {
+        Material.prototype.uniformMatrix2 = function (name, transpose, matrix, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix2(name, transpose, matrix);
+                this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix2(name, transpose, matrix);
+                    this.inner.uniformMatrix2(name, transpose, matrix, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix2', name);
+                        consoleWarnDroppedUniform(this.type, 'Matrix2', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformMatrix3 = function (name, transpose, matrix) {
+        Material.prototype.uniformMatrix3 = function (name, transpose, matrix, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix3(name, transpose, matrix);
+                this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix3(name, transpose, matrix);
+                    this.inner.uniformMatrix3(name, transpose, matrix, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix3', name);
+                        consoleWarnDroppedUniform(this.type, 'Matrix3', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformMatrix4 = function (name, transpose, matrix) {
+        Material.prototype.uniformMatrix4 = function (name, transpose, matrix, canvasId) {
             if (this.inner) {
-                this.inner.uniformMatrix4(name, transpose, matrix);
+                this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformMatrix4(name, transpose, matrix);
+                    this.inner.uniformMatrix4(name, transpose, matrix, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Matrix4', name);
+                        if (core.verbose) {
+                            consoleWarnDroppedUniform(this.type, 'Matrix4', name, canvasId);
+                        }
                     }
                 }
             }
         };
-        Material.prototype.uniformVector1 = function (name, vector) {
+        Material.prototype.uniformVector1 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector1(name, vector);
+                this.inner.uniformVector1(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector1(name, vector);
+                    this.inner.uniformVector1(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector1', name);
+                        consoleWarnDroppedUniform(this.type, 'Vector1', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformVector2 = function (name, vector) {
+        Material.prototype.uniformVector2 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector2(name, vector);
+                this.inner.uniformVector2(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector2(name, vector);
+                    this.inner.uniformVector2(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector2', name);
+                        consoleWarnDroppedUniform(this.type, 'Vector2', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformVector3 = function (name, vector) {
+        Material.prototype.uniformVector3 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector3(name, vector);
+                this.inner.uniformVector3(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector3(name, vector);
+                    this.inner.uniformVector3(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector3', name);
+                        consoleWarnDroppedUniform(this.type, 'Vector3', name, canvasId);
                     }
                 }
             }
         };
-        Material.prototype.uniformVector4 = function (name, vector) {
+        Material.prototype.uniformVector4 = function (name, vector, canvasId) {
             if (this.inner) {
-                this.inner.uniformVector4(name, vector);
+                this.inner.uniformVector4(name, vector, canvasId);
             }
             else {
                 var async = false;
                 var readyPending = this.readyPending;
                 this.makeReady(async);
                 if (this.inner) {
-                    this.inner.uniformVector4(name, vector);
+                    this.inner.uniformVector4(name, vector, canvasId);
                 }
                 else {
                     if (!readyPending) {
-                        consoleWarnDroppedUniform(this.type, 'Vector4', name);
+                        consoleWarnDroppedUniform(this.type, 'Vector4', name, canvasId);
                     }
                 }
             }
@@ -403,6 +401,6 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             configurable: true
         });
         return Material;
-    })();
+    })(Shareable);
     return Material;
 });

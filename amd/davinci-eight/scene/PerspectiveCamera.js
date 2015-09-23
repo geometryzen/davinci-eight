@@ -1,4 +1,4 @@
-define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeCanvasId', '../checks/mustBeDefined', '../checks/mustBeNumber', '../utils/refChange', '../utils/uuid4', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeCanvasId, mustBeDefined, mustBeNumber, refChange, uuid4, Vector3) {
+define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/refChange', '../utils/uuid4', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeNumber, refChange, uuid4, Vector3) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -44,8 +44,6 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             return this._refCount;
         };
         PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
-            mustBeDefined('visitor', visitor);
-            mustBeCanvasId('canvasId', canvasId);
             this.inner.setNear(this.near);
             this.inner.setFar(this.far);
             this.inner.setUniforms(visitor, canvasId);
@@ -57,7 +55,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
         PerspectiveCamera.prototype.contextLoss = function () {
         };
         PerspectiveCamera.prototype.draw = function (canvasId) {
-            console.log(CLASS_NAME + ".draw(" + canvasId + ")");
+            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
         };
         Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
@@ -119,7 +117,6 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
                 return this.inner.fov;
             },
             set: function (unused) {
-                // FIXME: Need a custom Error class that can take the LocalizableMessage.
                 throw new Error(readOnly('fov').message);
             },
             enumerable: true,

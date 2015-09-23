@@ -20,17 +20,10 @@ class EllipticalCylinderGeometry extends Geometry {
   constructor() {
     super();
     var s: blade.Euclidean3 = scalarE3(1);
-    console.log("s: " + s);
     var m: blade.Euclidean3 = new Euclidean3(1, 2, 3, 4, 5, 6, 7, 8);
-    console.log("m: " + m);
     var v: blade.Euclidean3 = vectorE3(1, 2, 3);
-    console.log("v: " + v);
-
     var B: blade.Euclidean3 = bivectorE3(3, 4, 5);
-    console.log("B: " + B);
-
     var I: blade.Euclidean3 = pseudoscalarE3(6);
-    console.log("I: " + I);
   }
 }
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/geometries/BoxComplex.ts - davinci-eight</title>
+    <title>src/davinci-eight/scene/WebGLRenderer.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.103.0</em>
+            <em>API Docs for: 2.104.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,8 +41,6 @@
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -51,9 +49,13 @@
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
@@ -61,6 +63,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -68,7 +71,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -91,6 +94,7 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -101,10 +105,11 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -138,74 +143,182 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/geometries/BoxComplex.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/scene/WebGLRenderer.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import buildPlane = require(&#x27;../geometries/buildPlane&#x27;);
-import Complex = require(&#x27;../dfx/Complex&#x27;);
-import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;);
-import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
-import Simplex = require(&#x27;../dfx/Simplex&#x27;);
-import Symbolic = require(&#x27;../core/Symbolic&#x27;);
-import Vector1 = require(&#x27;../math/Vector1&#x27;);
-import Vector2 = require(&#x27;../math/Vector2&#x27;);
-import Vector3 = require(&#x27;../math/Vector3&#x27;);
+import createRenderer = require(&#x27;../renderers/renderer&#x27;)
+import ContextController = require(&#x27;../core/ContextController&#x27;)
+import ContextKahuna = require(&#x27;../core/ContextKahuna&#x27;)
+import ContextManager = require(&#x27;../core/ContextManager&#x27;)
+import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;)
+import ContextListener = require(&#x27;../core/ContextListener&#x27;)
+import contextProxy = require(&#x27;../utils/contextProxy&#x27;)
+import ContextRenderer = require(&#x27;../renderers/ContextRenderer&#x27;)
+import core = require(&#x27;../core&#x27;)
+import GeometryData = require(&#x27;../dfx/GeometryData&#x27;)
+import IBuffer = require(&#x27;../core/IBuffer&#x27;)
+import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
+import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
+import IBufferGeometry = require(&#x27;../dfx/IBufferGeometry&#x27;)
+import ITexture2D = require(&#x27;../core/ITexture2D&#x27;)
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
+import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
+import Scene = require(&#x27;../scene/Scene&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import UniformData = require(&#x27;../core/UniformData&#x27;)
 
-function boxCtor() {
-  return &quot;BoxComplex constructor&quot;;
+function beHTMLCanvasElement(): string {
+  return &quot;be an HTMLCanvasElement&quot;
 }
 
+let defaultCanvasBuilder = () =&gt; {return document.createElement(&#x27;canvas&#x27;)}
+
 /**
- * @class BoxComplex
- * @extends Complex
+ * @class WebGLRenderer
  */
-class BoxComplex extends Complex {
-  constructor(x: number = 1, y: number = 1, z: number = 1,
-    xSeg: number = 1, ySeg: number = 1, zSeg: number = 1,
-    wireFrame: boolean = false) {
-
-    super();
-
-    mustBeNumber(&#x27;x&#x27;, x, boxCtor);
-    mustBeNumber(&#x27;y&#x27;, y, boxCtor);
-    mustBeNumber(&#x27;z&#x27;, z, boxCtor);
-    mustBeInteger(&#x27;xSeg&#x27;, xSeg, boxCtor);
-    mustBeInteger(&#x27;ySeg&#x27;, ySeg, boxCtor);
-    mustBeInteger(&#x27;zSeg&#x27;, zSeg, boxCtor);
-
-    // Temporary storage for points.
-    // The approach is:
-    // 1. Compute the points first.
-    // 2. Compute the faces and have them reference the points.
-    // 3. Throw away the temporary storage of points. 
-    let points: Vector3[] = [];
-
-    let faces: Simplex[] = this.data;
-
-    let xdiv2 = x / 2;
-    let ydiv2 = y / 2;
-    let zdiv2 = z / 2;
-
-    // FIXME: Possible bug in 4th column? Not symmetric.
-    buildPlane(&#x27;z&#x27;, &#x27;y&#x27;, -1, -1, z, y, +xdiv2, xSeg, ySeg, zSeg, new Vector1([0]), points, faces); // +x
-    buildPlane(&#x27;z&#x27;, &#x27;y&#x27;, +1, -1, z, y, -xdiv2, xSeg, ySeg, zSeg, new Vector1([1]), points, faces); // -x
-    buildPlane(&#x27;x&#x27;, &#x27;z&#x27;, +1, +1, x, z, +ydiv2, xSeg, ySeg, zSeg, new Vector1([2]), points, faces); // +y
-    buildPlane(&#x27;x&#x27;, &#x27;z&#x27;, +1, -1, x, z, -ydiv2, xSeg, ySeg, zSeg, new Vector1([3]), points, faces); // -y
-    buildPlane(&#x27;x&#x27;, &#x27;y&#x27;, +1, -1, x, y, +zdiv2, xSeg, ySeg, zSeg, new Vector1([4]), points, faces); // +z
-    buildPlane(&#x27;x&#x27;, &#x27;y&#x27;, -1, -1, x, y, -zdiv2, xSeg, ySeg, zSeg, new Vector1([5]), points, faces); // -z
-
-    if (wireFrame) {
-      this.boundary();
+class WebGLRenderer extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+  private _kahuna: ContextKahuna
+  private _renderer: ContextRenderer
+  /**
+   * @class WebGLRenderer
+   * @constructor
+   * @param canvasBuilder {() =&gt; HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
+   * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
+   * @param attributes [WebGLContextAttributes] Allow the context to be configured.
+   * @beta
+   */
+  // FIXME: Move attributes to start()
+  constructor(attributes?: WebGLContextAttributes) {
+    super(&#x27;WebGLRenderer&#x27;)
+    this._kahuna = contextProxy(attributes)
+    this._renderer = createRenderer()
+    this._kahuna.addContextListener(this._renderer)
+  }
+  /**
+   * @method destructor
+   * return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this._kahuna.removeContextListener(this._renderer)
+    this._kahuna.release()
+    this._kahuna = void 0
+    this._renderer.release()
+    this._renderer = void 0
+  }
+  addContextListener(user: ContextListener): void {
+    this._kahuna.addContextListener(user)
+  }
+  /**
+   * &lt;p&gt;
+   * Determines whether prolog commands are run automatically as part of the &#x60;render()&#x60; call.
+   * &lt;/p&gt;
+   * @property autoProlog
+   * @type boolean
+   * @default true
+   */
+  get autoProlog(): boolean {
+    return this._renderer.autoProlog;
+  }
+  set autoProlog(autoProlog) {
+    this._renderer.autoProlog = autoProlog;
+  }
+  get canvasElement(): HTMLCanvasElement {
+    return this._kahuna.canvasElement;
+  }
+  set canvasElement(canvasElement: HTMLCanvasElement) {
+    this._kahuna.canvasElement = canvasElement;
+  }
+  /**
+   * @property canvasId
+   * @type {number}
+   * @readOnly
+   */
+  get canvasId(): number {
+    return this._kahuna.canvasId;
+  }
+  set canvasId(unused) {
+    // FIXME: DRY delegate to kahuna? Should give the same result.
+    throw new Error(readOnly(&#x27;canvasId&#x27;).message)
+  }
+  /* FIXME: Do we need this. Why. Why not kahuna too?
+  // No contract says that we need to return this.
+  // It&#x27;s cust that convenience of having someone else do it for you!
+  get canvas(): HTMLCanvasElement {
+    return this._kahuna
+    return this._canvas
+  }
+  */
+  contextFree(canvasId: number) {
+    this._renderer.contextFree(canvasId)
+  }
+  contextGain(manager: ContextManager) {
+    this._renderer.contextGain(manager)
+  }
+  contextLoss(canvasId: number) {
+    this._renderer.contextLoss(canvasId)
+  }
+  createArrayBuffer(): IBuffer {
+    return this._kahuna.createArrayBuffer()
+  }
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
+    return this._kahuna.createBufferGeometry(elements, mode, usage)
+  }
+  createTexture2D(): ITexture2D {
+    return this._kahuna.createTexture2D()
+  }
+  get gl(): WebGLRenderingContext {
+    return this._kahuna.gl
+  }
+  prolog(): void {
+    this._renderer.prolog()
+  }
+  pushProlog(command: IContextCommand): void {
+    this._renderer.pushProlog(command)
+  }
+  pushStartUp(command: IContextCommand): void {
+    this._renderer.pushStartUp(command)
+  }
+  removeContextListener(user: ContextListener): void {
+    this._kahuna.removeContextListener(user)
+  }
+  render(drawList: IDrawList, ambients: UniformData): void {
+    // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
+    // This implies camera should implement UniformData and we pass that in as ambients.
+    // This allows us to generalize the WebGLRenderer API.
+    this._renderer.render(drawList, ambients)
+  }
+  setSize(width: number, height: number): void {
+    mustBeInteger(&#x27;width&#x27;, width)
+    mustBeInteger(&#x27;height&#x27;, height)
+    let canvas = this.canvasElement
+    canvas.width = width
+    canvas.height = height
+    this.gl.viewport(0, 0, width, height)
+  }
+  start(canvas: HTMLCanvasElement, canvasId: number): void {
+    // FIXME: DRY delegate to kahuna.
+    if (!(canvas instanceof HTMLElement)) {
+      if (core.verbose) {
+        console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)
+      }
+      return
     }
-    // This construction duplicates vertices along the edges of the cube.
-    this.mergeVertices();
-    this.check();
+    mustBeDefined(&#x27;canvas&#x27;, canvas)
+    mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+    this._kahuna.start(canvas, canvasId)
+  }
+  stop(): void {
+    this._kahuna.stop()
   }
 }
 
-export = BoxComplex;
-
+export = WebGLRenderer
     </pre>
 </div>
                     </div>

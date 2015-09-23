@@ -1,5 +1,5 @@
-import shaderProgram = require('../programs/shaderProgram');
-import IProgram = require('../core/IProgram');
+import createMaterial = require('../programs/createMaterial');
+import IMaterial = require('../core/IMaterial');
 import isDefined = require('../checks/isDefined');
 import expectArg = require('../checks/expectArg');
 import ContextMonitor = require('../core/ContextMonitor');
@@ -15,7 +15,7 @@ import MonitorList = require('../scene/MonitorList');
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs: string[] = []): IProgram {
+function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs: string[] = []): IMaterial {
   MonitorList.verify('monitors', monitors, () => { return "programFromScripts";});
   expectArg('vsId', vsId).toBeString();
   expectArg('fsId', fsId).toBeString();
@@ -33,7 +33,7 @@ function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: stri
   }
   let vertexShader: string = $(vsId).textContent;
   let fragmentShader: string = $(fsId).textContent;
-  return shaderProgram(monitors, vertexShader, fragmentShader, attribs);
+  return createMaterial(monitors, vertexShader, fragmentShader, attribs);
 }
 
 export = programFromScripts;

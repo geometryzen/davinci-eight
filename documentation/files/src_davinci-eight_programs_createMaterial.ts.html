@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/programs/shaderProgram.ts - davinci-eight</title>
+    <title>src/davinci-eight/programs/createMaterial.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.103.0</em>
+            <em>API Docs for: 2.104.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,8 +41,6 @@
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -51,9 +49,13 @@
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
@@ -61,6 +63,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -68,7 +71,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -91,6 +94,7 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -101,10 +105,11 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -138,14 +143,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/programs/shaderProgram.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/programs/createMaterial.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 import AttribLocation = require(&#x27;../core/AttribLocation&#x27;);
 import ContextManager = require(&#x27;../core/ContextManager&#x27;);
 import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;);
-import IProgram = require(&#x27;../core/IProgram&#x27;);
+import core = require(&#x27;../core&#x27;);
+import IMaterial = require(&#x27;../core/IMaterial&#x27;);
 import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
 import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
@@ -153,6 +159,7 @@ import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
 import MonitorList = require(&#x27;../scene/MonitorList&#x27;);
 import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import UniformLocation = require(&#x27;../core/UniformLocation&#x27;);
 import UniformMetaInfo = require(&#x27;../core/UniformMetaInfo&#x27;);
@@ -165,7 +172,7 @@ import refChange = require(&#x27;../utils/refChange&#x27;);
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_IPROGRAM = &#x27;IProgram&#x27;;
+let LOGGING_NAME_IPROGRAM = &#x27;IMaterial&#x27;;
 
 function makeWebGLShader(ctx: WebGLRenderingContext, source: string, type: number): WebGLShader {
   var shader: WebGLShader = ctx.createShader(type);
@@ -197,7 +204,6 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
 
   // Create the program object.
   let program = ctx.createProgram();
-  // console.log(&quot;WebGLProgram created&quot;);
 
   // Attach our two shaders to the program.
   ctx.attachShader(program, vs);
@@ -231,11 +237,10 @@ function makeWebGLProgram(ctx: WebGLRenderingContext, vertexShader: string, frag
   }
 }
 
-// FIXME: Rename to program or createProgram
 // FIXME: Handle list of shaders? Else createSimpleProgram
 
-let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IProgram {
-  MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;shaderProgram&quot;;});
+let createMaterial = function(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IMaterial {
+  MonitorList.verify(&#x27;monitors&#x27;, monitors, () =&gt; { return &quot;createMaterial&quot;;});
   // FIXME multi-context
   if (typeof vertexShader !== &#x27;string&#x27;) {
     throw new Error(&quot;vertexShader argument must be a string.&quot;);
@@ -261,7 +266,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
   var attributeLocations: { [name: string]: AttribLocation } = {};
   var uniformLocations: { [name: string]: UniformLocation } = {};
 
-  var self: IProgram = {
+  var self: IMaterial = {
     get vertexShader() {
       return vertexShader;
     },
@@ -343,6 +348,9 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
           uniformLocations[uName].contextGain(context, program);
         }
       }
+      else {
+
+      }
     },
     contextLoss(canvasId: number) {
       programs[canvasId] = void 0;
@@ -357,7 +365,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
     // FIXME: Dead code?
     /*
     get program() {
-      console.warn(&quot;shaderProgram program property is assuming canvas id = 0&quot;);
+      console.warn(&quot;createMaterial program property is assuming canvas id = 0&quot;);
       let canvasId = 0;
       let program: WebGLProgram = programs[canvasId];
       // It&#x27;s a WebGLProgram, no reference count management required.
@@ -434,10 +442,19 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
         uniformLoc.matrix3(transpose, matrix);
       }
     },
-    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4) {
-      let uniformLoc = uniformLocations[name];
-      if (uniformLoc) {
-        uniformLoc.matrix4(transpose, matrix);
+    uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number) {
+      // FIXME: Should be getting the uniformLocations by canvas or passing canvasId
+      // on to th uniformLoc.matrix4. I like the former, I think.
+      if (isDefined(canvasId)) {
+        let uniformLoc = uniformLocations[name];
+        if (uniformLoc) {
+          uniformLoc.matrix4(transpose, matrix);
+        }
+      }
+      else {
+        if (core.verbose) {
+          console.warn(&quot;Ignoring uniformMatrix4 for &quot; + name + &quot; because &#x60;typeof canvasId&#x60; is &quot; + typeof canvasId);
+        }
       }
     },
     uniformVector1(name: string, vector: Vector1) {
@@ -470,7 +487,7 @@ let shaderProgram = function(monitors: ContextMonitor[], vertexShader: string, f
   return self;
 };
 
-export = shaderProgram;
+export = createMaterial;
     </pre>
 </div>
                     </div>

@@ -4,8 +4,9 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
     var CLASS_NAME_ALL = "DrawableGroups";
     // FIXME; Probably good to have another collection of DrawableGroup
     /**
-     * A grouping of IDrawable, by IProgram.
+     * A grouping of IDrawable, by IMaterial.
      */
+    // FIXME: extends Shareable
     var DrawableGroup = (function () {
         function DrawableGroup(program) {
             this._drawables = new IUnknownArray();
@@ -37,7 +38,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             }
         };
         /**
-         * accept provides a way to push out the IProgram without bumping the reference count.
+         * accept provides a way to push out the IMaterial without bumping the reference count.
          */
         DrawableGroup.prototype.acceptProgram = function (visitor) {
             visitor(this._program);
@@ -61,7 +62,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 });
             }
         };
-        DrawableGroup.prototype.traverse = function (callback) {
+        DrawableGroup.prototype.traverseDrawables = function (callback) {
             this._drawables.forEach(callback);
         };
         return DrawableGroup;
@@ -72,7 +73,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
     var DrawableGroups = (function () {
         function DrawableGroups() {
             /**
-             *
+             * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
              */
             this._groups = new StringIUnknownMap();
             this._refCount = 1;
@@ -141,9 +142,10 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 }
             }
         };
-        DrawableGroups.prototype.traverseDrawables = function (callback) {
+        DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {
             this._groups.forEach(function (groupId, group) {
-                group.traverse(callback);
+                group.acceptProgram(callback2);
+                group.traverseDrawables(callback);
             });
         };
         DrawableGroups.prototype.traversePrograms = function (callback) {
@@ -181,9 +183,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 }
             },
             contextFree: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) {
-                    drawable.contextFree(canvasId);
-                });
+                drawableGroups.traverseDrawables(function (drawable) { drawable.contextFree(canvasId); }, function (program) { program.contextFree(canvasId); });
             },
             contextGain: function (manager) {
                 if (!managers.exists(manager.canvasId)) {
@@ -191,12 +191,12 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 }
                 drawableGroups.traverseDrawables(function (drawable) {
                     drawable.contextGain(manager);
+                }, function (material) {
+                    material.contextGain(manager);
                 });
             },
             contextLoss: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) {
-                    drawable.contextLoss(canvasId);
-                });
+                drawableGroups.traverseDrawables(function (drawable) { drawable.contextLoss(canvasId); }, function (program) { program.contextLoss(canvasId); });
             },
             add: function (drawable) {
                 // If we have managers povide them to the drawable before asking for the program.
@@ -209,103 +209,8 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             remove: function (drawable) {
                 drawableGroups.remove(drawable);
             },
-            uniform1f: function (name, x, canvasId) {
-                // FIXME: Don't do this, instead, buffer the calls and replay.
-                drawableGroups.traversePrograms(function (program) {
-                    program.use(canvasId);
-                    program.uniform1f(name, x, canvasId);
-                });
-            },
-            uniform2f: function (name, x, y) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniform2f(name, x, y);
-                    });
-                });
-            },
-            uniform3f: function (name, x, y, z) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniform3f(name, x, y, z);
-                    });
-                });
-            },
-            uniform4f: function (name, x, y, z, w) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniform4f(name, x, y, z, w);
-                    });
-                });
-            },
-            uniformMatrix1: function (name, transpose, matrix) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformMatrix1(name, transpose, matrix);
-                    });
-                });
-            },
-            uniformMatrix2: function (name, transpose, matrix) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformMatrix2(name, transpose, matrix);
-                    });
-                });
-            },
-            uniformMatrix3: function (name, transpose, matrix) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformMatrix3(name, transpose, matrix);
-                    });
-                });
-            },
-            uniformMatrix4: function (name, transpose, matrix) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformMatrix4(name, transpose, matrix);
-                    });
-                });
-            },
-            uniformVector1: function (name, vector) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformVector1(name, vector);
-                    });
-                });
-            },
-            uniformVector2: function (name, vector) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformVector2(name, vector);
-                    });
-                });
-            },
-            uniformVector3: function (name, vector) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformVector3(name, vector);
-                    });
-                });
-            },
-            uniformVector4: function (name, vector) {
-                managers.forEach(function (canvasId, manager) {
-                    drawableGroups.traversePrograms(function (program) {
-                        program.use(canvasId);
-                        program.uniformVector4(name, vector);
-                    });
-                });
-            },
-            traverse: function (callback) {
-                drawableGroups.traverseDrawables(callback);
+            traverse: function (callback, canvasId, prolog) {
+                drawableGroups.traverseDrawables(callback, prolog);
             }
         };
         refChange(uuid, CLASS_NAME_DRAWLIST, +1);

@@ -5,14 +5,14 @@ import fragmentShader = require('../programs/fragmentShader');
 import getAttribVarName = require('../core/getAttribVarName');
 import getUniformVarName = require('../core/getUniformVarName');
 import GeometryMeta = require('../dfx/GeometryMeta');
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');
 import mergeStringMapList = require('../utils/mergeStringMapList');
 import MeshNormalMaterialParameters = require('../materials/MeshNormalMaterialParameters');
 import MonitorList = require('../scene/MonitorList');
 import mustBeDefined = require('../checks/mustBeDefined');
 import mustBeInteger = require('../checks/mustBeInteger');
-import shaderProgram = require('../programs/shaderProgram');
+import createMaterial = require('../programs/createMaterial');
 import UniformMetaInfo = require('../core/UniformMetaInfo');
 import vertexShader = require('../programs/vertexShader');
 import glslAttribType = require('../programs/glslAttribType');
@@ -63,9 +63,9 @@ class SmartMaterial extends Material {
     // We can start eagerly or omit this call entirely and wait till we are use(d).
     this.makeReady(false);
   }
-  protected createProgram(): IProgram {
+  protected createProgram(): IMaterial {
     let bindings: string[] = [];
-    return shaderProgram(this.monitors, this.vertexShader, this.fragmentShader, bindings);
+    return createMaterial(this.monitors, this.vertexShader, this.fragmentShader, bindings);
   }
   get vertexShader(): string {
     return vertexShader(this.aParams, this.uParams, this.vColor, this.vLight);

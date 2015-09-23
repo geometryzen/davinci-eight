@@ -1,4 +1,4 @@
-import IProgram = require('../core/IProgram');
+import IMaterial = require('../core/IMaterial');
 import IResource = require('../core/IResource');
 /**
  * <p>
@@ -14,10 +14,10 @@ import IResource = require('../core/IResource');
 interface IDrawable extends IResource {
     /**
      * @property material
-     * @type {IProgram}
+     * @type {IMaterial}
      * Contains a WebGLProgram for each canvas that this IDrawable can draw to.
      */
-    material: IProgram;
+    material: IMaterial;
     /**
      * @method draw
      * @param canvasId {number} Determines which canvas the IDrawable should draw to.

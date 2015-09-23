@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
+define(["require", "exports", '../core', '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, core, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -40,23 +40,40 @@ define(["require", "exports", '../checks/mustBeDefined', '../utils/NumberIUnknow
             return this._refCount;
         };
         Mesh.prototype.draw = function (canvasId) {
-            // We're interleaving calls to different contexts!
-            // FIXME: It seems that by going this route we're
-            // going to be traversing the objects the same way :(?
-            var self = this;
-            // Be careful not to call through the public API and cause addRef!
-            // FIXME: Would be nice to be able to check that a block does not alter the reference count?
-            var material = self._material;
-            var model = self.model;
-            var mesh = this.meshLookup.get(canvasId);
-            material.use(canvasId);
-            model.setUniforms(material, canvasId);
-            // FIXME Does canvasId affect the next steps?...
-            // Nope! We've already picked it by canvas.
-            mesh.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
-            mesh.draw();
-            mesh.unbind();
-            mesh.release();
+            // We know we are going to need a "good" canvasId to perform the buffers lookup.
+            // So we may as well test that condition now rather than waste information.
+            // (Energy is always conserved, entropy almost always increases, its information we waste!) 
+            if (isDefined(canvasId)) {
+                // We're interleaving calls to different contexts!
+                // FIXME: It seems that by going this route we're
+                // going to be traversing the objects the same way :(?
+                var self_1 = this;
+                // Be careful not to call through the public API and cause addRef!
+                // FIXME: Would be nice to be able to check that a block does not alter the reference count?
+                var material = self_1._material;
+                var model = self_1.model;
+                var buffers = this.meshLookup.get(canvasId);
+                if (isDefined(buffers)) {
+                    material.use(canvasId);
+                    model.setUniforms(material, canvasId);
+                    // FIXME Does canvasId affect the next steps?...
+                    // Nope! We've already picked it by canvas.
+                    buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
+                    buffers.draw();
+                    buffers.unbind();
+                    buffers.release();
+                }
+                else {
+                    if (core.verbose) {
+                        console.warn("Mesh is unable to draw because it has not be prepared for the specified canvas. canvasId => " + canvasId);
+                    }
+                }
+            }
+            else {
+                if (core.verbose) {
+                    console.warn("Mesh unable to look up buffer geometry because `typeof canvasId` is " + typeof canvasId);
+                }
+            }
         };
         Mesh.prototype.contextFree = function (canvasId) {
             this._material.contextFree(canvasId);

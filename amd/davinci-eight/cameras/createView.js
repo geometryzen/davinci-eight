@@ -67,8 +67,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/m
                     look.modified = false;
                     up.modified = false;
                 }
-                // FIXME: canvasId is being ignored, must pass in.
-                visitor.uniformMatrix4(viewMatrixName, false, viewMatrix);
+                visitor.uniformMatrix4(viewMatrixName, false, viewMatrix, canvasId);
             }
         };
         return self;

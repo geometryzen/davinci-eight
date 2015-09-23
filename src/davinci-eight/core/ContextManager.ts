@@ -3,8 +3,8 @@ import ContextUnique = require('../core/ContextUnique');
 import GeometryData = require('../dfx/GeometryData');
 import IBuffer = require('../core/IBuffer');
 import IBufferGeometry = require('../dfx/IBufferGeometry');
-// FIXME: Do we need IProgram?
-import IProgram = require('../core/IProgram');
+// FIXME: Do we need IMaterial?
+import IMaterial = require('../core/IMaterial');
 import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
 import IUnknown = require('../core/IUnknown');
@@ -14,7 +14,7 @@ import IUnknown = require('../core/IUnknown');
 // FIXME IUnknown?
 
 /**
- * @interface ContextManager
+ * @class ContextManager
  * @extends ContextUnique
  * @extends IUnknown
  */
@@ -32,6 +32,12 @@ interface ContextManager extends ContextUnique, IUnknown {
   depthFunc(func: number): void;
   enable(capability: number): void;
   gl: WebGLRenderingContext;
+  /**
+   * @property canvasElement
+   * @type {HTMLCanvasElement}
+   * @readOnly
+   */
+  canvasElement: HTMLCanvasElement;
   mirror: boolean;
 }
 

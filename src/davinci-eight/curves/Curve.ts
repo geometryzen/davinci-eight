@@ -77,7 +77,6 @@ class Curve {
       && ( this.cacheArcLengths.length == divisions + 1 )
       && ! this.needsUpdate) {
 
-      //console.log( "cached", this.cacheArcLengths );
       return this.cacheArcLengths;
 
     }
@@ -165,8 +164,6 @@ class Curve {
     }
 
     i = high;
-
-    //console.log('b' , i, low, high, Date.now()- time);
 
     if ( arcLengths[ i ] == targetArcLength ) {
 

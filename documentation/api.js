@@ -4,8 +4,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "AttribLocation",
         "AttribMetaInfo",
         "BoxBuilder",
-        "BoxComplex",
-        "BoxGeometry",
         "BoxMesh",
         "Cartesian1",
         "Cartesian2",
@@ -14,8 +12,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "Color",
         "Complex",
         "ContextAttributesLogger",
+        "ContextController",
         "ContextListener",
+        "ContextManager",
         "ContextRenderer",
+        "CuboidComplex",
+        "CuboidGeometry",
         "CuboidMesh",
         "CylinderArgs",
         "DrawAttribute",
@@ -23,6 +25,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ElementArray",
         "ElementBuffer",
         "EllipsoidMesh",
+        "EulerModel",
         "Face3",
         "Frustum",
         "Geometry",
@@ -30,7 +33,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "HTMLScriptsMaterial",
         "IBufferGeometry",
         "IDrawable",
-        "IProgram",
+        "IMaterial",
         "IUnknown",
         "KleinBottleGeometry",
         "Line3",
@@ -53,6 +56,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "SmartMaterialBuilder",
         "Spinor3",
         "Symbolic",
+        "UniformDataVisitor",
         "UniformLocation",
         "Vector1",
         "Vector2",
@@ -63,16 +67,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "WebGLClear",
         "WebGLClearColor",
         "WebGLEnable",
+        "WebGLRenderer",
+        "WindowAnimationRunner",
         "createView"
     ],
-    "modules": [
-        "EIGHT"
-    ],
-    "allModules": [
-        {
-            "displayName": "EIGHT",
-            "name": "EIGHT"
-        }
-    ]
+    "modules": [],
+    "allModules": []
 } };
 });

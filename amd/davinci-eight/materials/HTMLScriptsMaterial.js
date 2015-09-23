@@ -36,7 +36,7 @@ define(["require", "exports", '../materials/Material', '../checks/mustSatisfy', 
         }
         /**
          * @method createProgram
-         * @return {IProgram}
+         * @return {IMaterial}
          */
         HTMLScriptsMaterial.prototype.createProgram = function () {
             var vsId = this.scriptIds[0];

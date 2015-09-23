@@ -4,33 +4,30 @@ import isDefined = require('../checks/isDefined');
 import ContextListener = require('../core/ContextListener');
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
+import mustBeBoolean = require('../checks/mustBeBoolean');
 import refChange = require('../utils/refChange');
+import Shareable = require('../utils/Shareable');
 import uuid4 = require('../utils/uuid4');
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_IBUFFER = 'IBuffer';
+let LOGGING_NAME_IBUFFER = 'IBuffer'
 
-function checkTarget(target: number): number {
-  return target;
-}
-
-// TODO: Replace this with a functional constructor to prevent tinkering.
-class BufferResource implements IBuffer {
+// TODO: Replace this with a functional constructor to prevent tinkering?
+// TODO: Why is this object specific to one context?
+class BufferResource extends Shareable implements IBuffer {
   private _buffer: WebGLBuffer;
   private _gl: WebGLRenderingContext;
   private _monitor: ContextMonitor;
-  private _refCount: number = 1;
-  private _target: number;
-  private _uuid: string = uuid4().generate();
-  constructor(monitor: ContextMonitor, target: number) {
+  private _isElements: boolean;
+  constructor(monitor: ContextMonitor, isElements: boolean) {
+    super(LOGGING_NAME_IBUFFER)
     this._monitor = expectArg('montor', monitor).toBeObject().value;
-    this._target = checkTarget(target);
-    refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
+    this._isElements = mustBeBoolean('isElements', isElements);
     monitor.addContextListener(this);
   }
-  private destructor() {
+  protected destructor(): void {
     if (this._buffer) {
       this._gl.deleteBuffer(this._buffer);
       this._buffer = void 0;
@@ -38,25 +35,7 @@ class BufferResource implements IBuffer {
     this._gl = void 0;
     this._monitor.removeContextListener(this);
     this._monitor = void 0;
-    this._refCount = void 0;
-    this._target = void 0;
-    this._uuid = void 0;
-  }
-  addRef(): number {
-    this._refCount++;
-    refChange(this._uuid, LOGGING_NAME_IBUFFER, +1);
-    return this._refCount;
-  }
-  release(): number {
-    this._refCount--;
-    refChange(this._uuid, LOGGING_NAME_IBUFFER, -1);
-    if (this._refCount === 0) {
-      this.destructor();
-      return 0;
-    }
-    else {
-      return this._refCount;
-    }
+    this._isElements = void 0;
   }
   contextFree() {
     if (this._buffer) {
@@ -87,8 +66,10 @@ class BufferResource implements IBuffer {
    * @method bind
    */
   bind(): void {
-    if (this._gl) {
-      this._gl.bindBuffer(this._target, this._buffer);
+    let gl = this._gl;
+    if (gl) {
+      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+      gl.bindBuffer(target, this._buffer);
     }
     else {
       console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGL rendering context.");
@@ -98,8 +79,10 @@ class BufferResource implements IBuffer {
    * @method unbind
    */
   unbind() {
-    if (this._gl) {
-      this._gl.bindBuffer(this._target, null);
+    let gl = this._gl;
+    if (gl) {
+      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+      gl.bindBuffer(target, null);
     }
     else {
       console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGL rendering context.");

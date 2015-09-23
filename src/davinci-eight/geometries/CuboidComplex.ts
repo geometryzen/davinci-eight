@@ -9,14 +9,14 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
 function boxCtor() {
-  return "BoxComplex constructor";
+  return "CuboidComplex constructor";
 }
 
 /**
- * @class BoxComplex
+ * @class CuboidComplex
  * @extends Complex
  */
-class BoxComplex extends Complex {
+class CuboidComplex extends Complex {
   constructor(x: number = 1, y: number = 1, z: number = 1,
     xSeg: number = 1, ySeg: number = 1, zSeg: number = 1,
     wireFrame: boolean = false) {
@@ -60,4 +60,4 @@ class BoxComplex extends Complex {
   }
 }
 
-export = BoxComplex;
+export = CuboidComplex;

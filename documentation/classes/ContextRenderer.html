@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.103.0</em>
+            <em>API Docs for: 2.104.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,8 +41,6 @@
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
-                                <li><a href="../classes/BoxComplex.html">BoxComplex</a></li>
-                                <li><a href="../classes/BoxGeometry.html">BoxGeometry</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
@@ -51,9 +49,13 @@
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
+                                <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextListener.html">ContextListener</a></li>
+                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
+                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
@@ -61,6 +63,7 @@
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
                                 <li><a href="../classes/EllipsoidMesh.html">EllipsoidMesh</a></li>
+                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -68,7 +71,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
-                                <li><a href="../classes/IProgram.html">IProgram</a></li>
+                                <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -91,6 +94,7 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
+                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
                                 <li><a href="../classes/Vector2.html">Vector2</a></li>
@@ -101,10 +105,11 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
+                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
+                                <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
-                                <li><a href="../modules/EIGHT.html">EIGHT</a></li>
                             </ul>
                         </div>
                     </div>
@@ -149,13 +154,14 @@
             Defined in: <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l6"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:6</code></a>
         </div>
 
-            Module: <a href="../modules/EIGHT.html">EIGHT</a>
 
 </div>
 
 
 <div class="box intro">
-    
+    <p>This interface is to be implemented by classes associated with a single context.
+This does mean that the commands are not shared.</p>
+
 </div>
 
 
@@ -210,6 +216,14 @@
                     <h3>Properties</h3>
 
                     <ul class="index-list properties extends">
+                            <li class="index-item property">
+                                <a href="#property_autoProlog">autoProlog</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_canvasElement">canvasElement</a>
+
+                            </li>
                             <li class="index-item property">
                                 <a href="#property_gl">gl</a>
 
@@ -380,7 +394,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l19"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:19</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:35</code></a>
         </p>
 
 
@@ -427,7 +441,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l25"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:25</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:41</code></a>
         </p>
 
 
@@ -489,7 +503,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:31</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:47</code></a>
         </p>
 
 
@@ -599,7 +613,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:37</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:53</code></a>
         </p>
 
 
@@ -655,6 +669,56 @@ This is a convenience method that calls clear and then traverses the DrawList ca
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_autoProlog" class="property item">
+    <h3 class="name"><code>autoProlog</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:27</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Determines whether the prolog commands are run automatically as part of the render method.
+</p>
+    </div>
+
+
+
+</div>
+<div id="property_canvasElement" class="property item">
+    <h3 class="name"><code>canvasElement</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement" class="crosslink external" target="_blank">HTMLCanvasElement</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:21</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
 <div id="property_gl" class="property item">
     <h3 class="name"><code>gl</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext" class="crosslink external" target="_blank">WebGLRenderingContext</a></span>
@@ -666,7 +730,7 @@ This is a convenience method that calls clear and then traverses the DrawList ca
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:12</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:14</code></a>
         </p>
 
 

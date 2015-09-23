@@ -1,9 +1,12 @@
 import ContextManager = require('../core/ContextManager');
 import ContextMonitor = require('../core/ContextMonitor');
+import IMaterial = require('../core/IMaterial');
 import MeshNormalMaterialParameters = require('../materials/MeshNormalMaterialParameters');
 import Material = require('../materials/Material');
 import MonitorList = require('../scene/MonitorList');
-
+import createMaterial = require('../programs/createMaterial');
+import SmartMaterialBuilder = require('../materials/SmartMaterialBuilder')
+import Symbolic = require('../core/Symbolic')
 /**
  * Name used for reference count monitoring and logging.
  */
@@ -23,12 +26,26 @@ class MeshNormalMaterial extends Material {
   /**
    * @class MeshNormalMaterial
    * @constructor
+   * @param monitors [ContextMonitor[]=[]]
+   * @parameters [MeshNormalParameters]
    */
-  constructor(contexts: ContextMonitor[], parameters?: MeshNormalMaterialParameters) {
-    super(contexts, LOGGING_NAME);
-    //
-    // Perform state initialization here.
-    //
+  constructor(monitors: ContextMonitor[] = [], parameters?: MeshNormalMaterialParameters) {
+    super(monitors, LOGGING_NAME);
+  }
+  protected createProgram(): IMaterial {
+    let smb = new SmartMaterialBuilder();
+
+    smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+    smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
+    // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
+
+    smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
+    smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
+    smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
+    smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
+    smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+
+    return smb.build(this.monitors);
   }
 }
 
