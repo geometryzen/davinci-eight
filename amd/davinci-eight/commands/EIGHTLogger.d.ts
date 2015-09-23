@@ -30,5 +30,6 @@ declare class EIGHTLogger extends Shareable implements IContextCommand {
      * @return void
      */
     protected destructor(): void;
+    name: string;
 }
 export = EIGHTLogger;

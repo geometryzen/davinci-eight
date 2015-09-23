@@ -262,9 +262,23 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
   toString(): string {
     return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})"
   }
+  /**
+   * Returns the result of `this` + `rhs` without modifying `this`.
+   * @method __add__
+   * @param rhs {Vector3}
+   * @return {Vector3}
+   */
   __add__(rhs: Vector3): Vector3 {
     if (rhs instanceof Vector3) {
       return this.clone().add(rhs);
+    }
+    else {
+      return void 0;
+    }
+  }
+  __sub__(rhs: Vector3): Vector3 {
+    if (rhs instanceof Vector3) {
+      return this.clone().sub(rhs);
     }
     else {
       return void 0;

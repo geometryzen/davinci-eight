@@ -4,6 +4,8 @@ import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
 
+var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor'
+
 /**
  * <p>
  * clearColor(red: number, green: number, blue: number, alpha: number): void
@@ -23,11 +25,11 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
    * @constructor
    */
   constructor(red: number = 0, green: number = 0, blue: number = 0, alpha: number = 1) {
-    super('WebGLClearColor');
-    this.red   = mustBeNumber('red',   red);
-    this.green = mustBeNumber('green', green);
-    this.blue  = mustBeNumber('blue',  blue);
-    this.alpha = mustBeNumber('alpha', alpha);
+    super('WebGLRenderingContext.clearColor')
+    this.red   = mustBeNumber('red',   red)
+    this.green = mustBeNumber('green', green)
+    this.blue  = mustBeNumber('blue',  blue)
+    this.alpha = mustBeNumber('alpha', alpha)
   }
   /**
    * @method contextFree
@@ -43,7 +45,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
    * @return {void}
    */
   contextGain(manager: ContextManager): void {
-    this.execute(manager.gl);
+    this.execute(manager.gl)
   }
   /**
    * @method contextLoss
@@ -59,21 +61,24 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
    * @return {void}
    */
   execute(gl: WebGLRenderingContext): void {
-    mustBeNumber('red', this.red);
-    mustBeNumber('green', this.green);
-    mustBeNumber('blue', this.blue);
-    mustBeNumber('alpha', this.alpha);
-    gl.clearColor(this.red, this.green, this.blue, this.alpha);
+    mustBeNumber('red', this.red)
+    mustBeNumber('green', this.green)
+    mustBeNumber('blue', this.blue)
+    mustBeNumber('alpha', this.alpha)
+    gl.clearColor(this.red, this.green, this.blue, this.alpha)
   }
   /**
    * @method destructor
    * @return {void}
    */
   destructor(): void {
-    this.red = void 0;
-    this.green = void 0;
-    this.blue = void 0;
-    this.alpha = void 0;
+    this.red = void 0
+    this.green = void 0
+    this.blue = void 0
+    this.alpha = void 0
+  }
+  get name(): string {
+    return QUALIFIED_NAME
   }
 }
 

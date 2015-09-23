@@ -4,6 +4,8 @@ import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
 
+var QUALIFIED_NAME = 'WebGLRenderingContext.enable'
+
 /**
  * <p>
  * enable(capability: number): void
@@ -20,7 +22,7 @@ class WebGLEnable extends Shareable implements IContextCommand, ContextListener 
    * @constructor
    */
   constructor(capability: number = 1) {
-    super('WebGLEnable');
+    super(QUALIFIED_NAME);
     this.capability = mustBeNumber('capability', capability);
   }
   /**
@@ -62,6 +64,9 @@ class WebGLEnable extends Shareable implements IContextCommand, ContextListener 
    */
   destructor(): void {
     this.capability = void 0;
+  }
+  get name(): string {
+    return QUALIFIED_NAME;
   }
 }
 

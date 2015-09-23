@@ -6,7 +6,7 @@ var core =
   LAST_MODIFIED: '2015-09-23',
   NAMESPACE: 'EIGHT',
   verbose: true,
-  VERSION: '2.105.0'
+  VERSION: '2.106.0'
 };
 
 export = core;

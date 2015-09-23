@@ -13,6 +13,8 @@ import IContextCommand = require('../core/IContextCommand')
 import IDrawList = require('../scene/IDrawList')
 import IBufferGeometry = require('../dfx/IBufferGeometry')
 import ITexture2D = require('../core/ITexture2D')
+import ITextureCubeMap = require('../core/ITextureCubeMap')
+import IPrologCommand = require('../core/IPrologCommand')
 import IUnknown = require('../core/IUnknown')
 import mustBeDefined = require('../checks/mustBeDefined')
 import mustBeFunction = require('../checks/mustBeFunction')
@@ -32,7 +34,7 @@ let defaultCanvasBuilder = () => {return document.createElement('canvas')}
 /**
  * @class Canvas3D
  */
-class Canvas3D extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, ContextManager, ContextMonitor, ContextRenderer {
   private _kahuna: ContextKahuna
   private _renderer: ContextRenderer
   /**
@@ -120,6 +122,12 @@ class Canvas3D extends Shareable implements ContextController, ContextMonitor, C
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
     return this._kahuna.createBufferGeometry(elements, mode, usage)
   }
+  createElementArrayBuffer(): IBuffer {
+    return this._kahuna.createElementArrayBuffer()
+  }
+  createTextureCubeMap(): ITextureCubeMap {
+    return this._kahuna.createTextureCubeMap()
+  }
   createTexture2D(): ITexture2D {
     return this._kahuna.createTexture2D()
   }
@@ -129,20 +137,14 @@ class Canvas3D extends Shareable implements ContextController, ContextMonitor, C
   prolog(): void {
     this._renderer.prolog()
   }
-  pushProlog(command: IContextCommand): void {
-    this._renderer.pushProlog(command)
+  addPrologCommand(command: IPrologCommand): void {
+    this._renderer.addPrologCommand(command)
   }
-  pushStartUp(command: IContextCommand): void {
-    this._renderer.pushStartUp(command)
+  addContextGainCommand(command: IContextCommand): void {
+    this._renderer.addContextGainCommand(command)
   }
   removeContextListener(user: ContextListener): void {
     this._kahuna.removeContextListener(user)
-  }
-  render(drawList: IDrawList, ambients: UniformData): void {
-    // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
-    // This implies camera should implement UniformData and we pass that in as ambients.
-    // This allows us to generalize the Canvas3D API.
-    this._renderer.render(drawList, ambients)
   }
   setSize(width: number, height: number): void {
     mustBeInteger('width', width)

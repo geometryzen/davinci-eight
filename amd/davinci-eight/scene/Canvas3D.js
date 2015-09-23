@@ -110,6 +110,12 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
             return this._kahuna.createBufferGeometry(elements, mode, usage);
         };
+        Canvas3D.prototype.createElementArrayBuffer = function () {
+            return this._kahuna.createElementArrayBuffer();
+        };
+        Canvas3D.prototype.createTextureCubeMap = function () {
+            return this._kahuna.createTextureCubeMap();
+        };
         Canvas3D.prototype.createTexture2D = function () {
             return this._kahuna.createTexture2D();
         };
@@ -123,20 +129,14 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         Canvas3D.prototype.prolog = function () {
             this._renderer.prolog();
         };
-        Canvas3D.prototype.pushProlog = function (command) {
-            this._renderer.pushProlog(command);
+        Canvas3D.prototype.addPrologCommand = function (command) {
+            this._renderer.addPrologCommand(command);
         };
-        Canvas3D.prototype.pushStartUp = function (command) {
-            this._renderer.pushStartUp(command);
+        Canvas3D.prototype.addContextGainCommand = function (command) {
+            this._renderer.addContextGainCommand(command);
         };
         Canvas3D.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);
-        };
-        Canvas3D.prototype.render = function (drawList, ambients) {
-            // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
-            // This implies camera should implement UniformData and we pass that in as ambients.
-            // This allows us to generalize the Canvas3D API.
-            this._renderer.render(drawList, ambients);
         };
         Canvas3D.prototype.setSize = function (width, height) {
             mustBeInteger('width', width);

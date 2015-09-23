@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -149,9 +150,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IContextCommand = require(&#x27;../core/IContextCommand&#x27;);
+import ContextManager = require(&#x27;../core/ContextManager&#x27;)
+import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;);
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
 import Shareable = require(&#x27;../utils/Shareable&#x27;);
+
+var QUALIFIED_NAME = &#x27;WebGLRenderingContext.clear&#x27;
 
 /**
  * &lt;p&gt;
@@ -161,31 +165,43 @@ import Shareable = require(&#x27;../utils/Shareable&#x27;);
  * @extends Shareable
  * @implements IContextCommand
  */
-class WebGLClear extends Shareable implements IContextCommand {
+class WebGLClear extends Shareable implements IPrologCommand {
+  /**
+   * The mask used to specify which buffers to clear.
+   * @property mask
+   * @type {number}
+   */
   public mask: number;
   /**
    * @class WebGLClear
    * @constructor
    */
   constructor(mask: number) {
-    super(&#x27;WebGLClear&#x27;);
+    super(QUALIFIED_NAME);
     this.mask = mustBeNumber(&#x27;mask&#x27;, mask);
-  }
-  /**
-   * @method execute
-   * @param gl {WebGLRenderingContext}
-   * @return {void}
-   */
-  execute(gl: WebGLRenderingContext): void {
-    mustBeNumber(&#x27;mask&#x27;, this.mask);
-    gl.clear(this.mask);
   }
   /**
    * @method destructor
    * @return {void}
    */
   destructor(): void {
-    this.mask = void 0;
+      this.mask = void 0;
+  }
+  /**
+   * @method execute
+   * @param gl {WebGLRenderingContext}
+   * @return {void}
+   */
+  execute(manager: ContextManager): void {
+    manager.gl.clear(this.mask);
+  }
+  /**
+   * @property name
+   * @type {string}
+   * @readOnly
+   */
+  get name(): string {
+    return QUALIFIED_NAME;
   }
 }
 

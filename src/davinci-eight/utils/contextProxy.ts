@@ -415,19 +415,17 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     return mesh;
   }
 
-  // FIXME Rename to gl
-  var gl: WebGLRenderingContext;
+  var gl: WebGLRenderingContext
   /**
    * We must cache the canvas so that we can remove listeners when `stop() is called.
    * Only between `start()` and `stop()` is canvas defined.
    * We use a canvasBuilder so the other initialization can happen while we are waiting
    * for the DOM to load. 
    */
-  var _canvasElement: HTMLCanvasElement;
-  var _canvasId: number;
-  var refCount: number = 1;
-  var mirror: boolean = false;
-  let tokenArg = expectArg('token', "");
+  var _canvasElement: HTMLCanvasElement
+  var _canvasId: number
+  var refCount: number = 1
+  let tokenArg = expectArg('token', "")
 
   let webGLContextLost = function(event: Event) {
     if (isDefined(_canvasElement)) {
@@ -597,36 +595,6 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       return refCount;
     },
-    clearColor(red: number, green: number, blue: number, alpha: number): void {
-      if (gl) {
-        return gl.clearColor(red, green, blue, alpha);
-      }
-    },
-    clearDepth(depth: number): void {
-      if (gl) {
-        return gl.clearDepth(depth);
-      }
-    },
-    drawArrays(mode: number, first: number, count: number): void {
-      if (gl) {
-        return gl.drawArrays(mode, first, count);
-      }
-    },
-    drawElements(mode: number, count: number, type: number, offset: number): void {
-      if (gl) {
-        return gl.drawElements(mode, count, type, offset);
-      }
-    },
-    depthFunc(func: number): void {
-      if (gl) {
-        return gl.depthFunc(func);
-      }
-    },
-    enable(capability: number): void {
-      if (gl) {
-        return gl.enable(capability);
-      }
-    },
     createArrayBuffer(): IBuffer {
       // TODO: Replace with functional constructor pattern?
       return new BufferResource(kahuna, false);
@@ -648,12 +616,6 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     createTextureCubeMap(): ITexture {
       // TODO: Replace with functional constructor pattern.
       return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-    },
-    get mirror() {
-      return mirror;
-    },
-    set mirror(value: boolean) {
-      mirror = expectArg('mirror', value).toBeBoolean().value;
     }
   };
   refChange(uuid, LOGGING_NAME_KAHUNA, +1);

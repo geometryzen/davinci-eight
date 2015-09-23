@@ -80,7 +80,14 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string;
+    /**
+     * Returns the result of `this` + `rhs` without modifying `this`.
+     * @method __add__
+     * @param rhs {Vector3}
+     * @return {Vector3}
+     */
     __add__(rhs: Vector3): Vector3;
+    __sub__(rhs: Vector3): Vector3;
     __mul__(rhs: number): Vector3;
     /**
      * @method copy

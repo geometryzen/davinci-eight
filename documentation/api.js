@@ -36,6 +36,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "IDrawList",
         "IDrawable",
         "IMaterial",
+        "IPrologCommand",
         "IUnknown",
         "KleinBottleGeometry",
         "Line3",

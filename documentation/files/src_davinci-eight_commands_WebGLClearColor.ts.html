@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -155,6 +156,8 @@ import IContextCommand = require(&#x27;../core/IContextCommand&#x27;);
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
 import Shareable = require(&#x27;../utils/Shareable&#x27;);
 
+var QUALIFIED_NAME = &#x27;WebGLRenderingContext.clearColor&#x27;
+
 /**
  * &lt;p&gt;
  * clearColor(red: number, green: number, blue: number, alpha: number): void
@@ -174,11 +177,11 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
    * @constructor
    */
   constructor(red: number = 0, green: number = 0, blue: number = 0, alpha: number = 1) {
-    super(&#x27;WebGLClearColor&#x27;);
-    this.red   = mustBeNumber(&#x27;red&#x27;,   red);
-    this.green = mustBeNumber(&#x27;green&#x27;, green);
-    this.blue  = mustBeNumber(&#x27;blue&#x27;,  blue);
-    this.alpha = mustBeNumber(&#x27;alpha&#x27;, alpha);
+    super(&#x27;WebGLRenderingContext.clearColor&#x27;)
+    this.red   = mustBeNumber(&#x27;red&#x27;,   red)
+    this.green = mustBeNumber(&#x27;green&#x27;, green)
+    this.blue  = mustBeNumber(&#x27;blue&#x27;,  blue)
+    this.alpha = mustBeNumber(&#x27;alpha&#x27;, alpha)
   }
   /**
    * @method contextFree
@@ -194,7 +197,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
    * @return {void}
    */
   contextGain(manager: ContextManager): void {
-    this.execute(manager.gl);
+    this.execute(manager.gl)
   }
   /**
    * @method contextLoss
@@ -210,21 +213,24 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
    * @return {void}
    */
   execute(gl: WebGLRenderingContext): void {
-    mustBeNumber(&#x27;red&#x27;, this.red);
-    mustBeNumber(&#x27;green&#x27;, this.green);
-    mustBeNumber(&#x27;blue&#x27;, this.blue);
-    mustBeNumber(&#x27;alpha&#x27;, this.alpha);
-    gl.clearColor(this.red, this.green, this.blue, this.alpha);
+    mustBeNumber(&#x27;red&#x27;, this.red)
+    mustBeNumber(&#x27;green&#x27;, this.green)
+    mustBeNumber(&#x27;blue&#x27;, this.blue)
+    mustBeNumber(&#x27;alpha&#x27;, this.alpha)
+    gl.clearColor(this.red, this.green, this.blue, this.alpha)
   }
   /**
    * @method destructor
    * @return {void}
    */
   destructor(): void {
-    this.red = void 0;
-    this.green = void 0;
-    this.blue = void 0;
-    this.alpha = void 0;
+    this.red = void 0
+    this.green = void 0
+    this.blue = void 0
+    this.alpha = void 0
+  }
+  get name(): string {
+    return QUALIFIED_NAME
   }
 }
 

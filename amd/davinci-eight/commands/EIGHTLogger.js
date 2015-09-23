@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../core', '../utils/Shareable'], function (require, exports, core, Shareable) {
+    var QUALIFIED_NAME = 'EIGHT.Logger';
     /**
      * <p>
      * Displays details about EIGHT to the console.
@@ -22,7 +23,7 @@ define(["require", "exports", '../core', '../utils/Shareable'], function (requir
          * @constructor
          */
         function EIGHTLogger() {
-            _super.call(this, 'EIGHTLogger');
+            _super.call(this, QUALIFIED_NAME);
         }
         /**
          * Logs the version, GitHub URL, and last modified date to the console.
@@ -40,6 +41,13 @@ define(["require", "exports", '../core', '../utils/Shareable'], function (requir
          */
         EIGHTLogger.prototype.destructor = function () {
         };
+        Object.defineProperty(EIGHTLogger.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return EIGHTLogger;
     })(Shareable);
     return EIGHTLogger;

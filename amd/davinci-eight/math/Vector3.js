@@ -253,9 +253,23 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
         Vector3.prototype.toString = function () {
             return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
         };
+        /**
+         * Returns the result of `this` + `rhs` without modifying `this`.
+         * @method __add__
+         * @param rhs {Vector3}
+         * @return {Vector3}
+         */
         Vector3.prototype.__add__ = function (rhs) {
             if (rhs instanceof Vector3) {
                 return this.clone().add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Vector3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Vector3) {
+                return this.clone().sub(rhs);
             }
             else {
                 return void 0;

@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
+    var QUALIFIED_NAME = 'EIGHT.WebGLContextAttributesLogger';
     /**
      * <p>
      * Displays details about the WegGL version to the console.
@@ -15,7 +16,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
     var ContextAttributesLogger = (function (_super) {
         __extends(ContextAttributesLogger, _super);
         function ContextAttributesLogger() {
-            _super.call(this, 'ContextAttributesLogger');
+            _super.call(this, QUALIFIED_NAME);
         }
         ContextAttributesLogger.prototype.execute = function (gl) {
             var attributes = gl.getContextAttributes();
@@ -28,6 +29,13 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
         };
         ContextAttributesLogger.prototype.destructor = function () {
         };
+        Object.defineProperty(ContextAttributesLogger.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return ContextAttributesLogger;
     })(Shareable);
     return ContextAttributesLogger;

@@ -350,7 +350,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
             refChange(uuid, LOGGING_NAME_MESH, +1);
             return mesh;
         }
-        // FIXME Rename to gl
         var gl;
         /**
          * We must cache the canvas so that we can remove listeners when `stop() is called.
@@ -361,7 +360,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
         var _canvasElement;
         var _canvasId;
         var refCount = 1;
-        var mirror = false;
         var tokenArg = expectArg('token', "");
         var webGLContextLost = function (event) {
             if (isDefined(_canvasElement)) {
@@ -524,36 +522,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 }
                 return refCount;
             },
-            clearColor: function (red, green, blue, alpha) {
-                if (gl) {
-                    return gl.clearColor(red, green, blue, alpha);
-                }
-            },
-            clearDepth: function (depth) {
-                if (gl) {
-                    return gl.clearDepth(depth);
-                }
-            },
-            drawArrays: function (mode, first, count) {
-                if (gl) {
-                    return gl.drawArrays(mode, first, count);
-                }
-            },
-            drawElements: function (mode, count, type, offset) {
-                if (gl) {
-                    return gl.drawElements(mode, count, type, offset);
-                }
-            },
-            depthFunc: function (func) {
-                if (gl) {
-                    return gl.depthFunc(func);
-                }
-            },
-            enable: function (capability) {
-                if (gl) {
-                    return gl.enable(capability);
-                }
-            },
             createArrayBuffer: function () {
                 // TODO: Replace with functional constructor pattern?
                 return new BufferResource(kahuna, false);
@@ -575,12 +543,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
             createTextureCubeMap: function () {
                 // TODO: Replace with functional constructor pattern.
                 return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-            },
-            get mirror() {
-                return mirror;
-            },
-            set mirror(value) {
-                mirror = expectArg('mirror', value).toBeBoolean().value;
             }
         };
         refChange(uuid, LOGGING_NAME_KAHUNA, +1);

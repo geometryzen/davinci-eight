@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -161,6 +162,7 @@ import IDrawable = require(&#x27;../core/IDrawable&#x27;)
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
 import IBufferGeometry = require(&#x27;../dfx/IBufferGeometry&#x27;)
 import IMaterial = require(&#x27;../core/IMaterial&#x27;)
+import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;)
 import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;)
 import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
 import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
@@ -178,37 +180,37 @@ function setStartUpCommands(renderer: ContextRenderer) {
 
   // &#x60;EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD&#x60;
   cmd = new EIGHTLogger()
-  renderer.pushStartUp(cmd)
+  renderer.addContextGainCommand(cmd)
   cmd.release()
 
   // &#x60;WebGL major.minor (OpenGL ES ...)&#x60;
   // cmd = new VersionLogger()
-  // renderer.pushStartUp(cmd)
+  // renderer.addContextGainCommand(cmd)
   // cmd.release()
 
   // &#x60;alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil&#x60;
   // cmd = new ContextAttributesLogger()
-  // renderer.pushStartUp(cmd)
+  // renderer.addContextGainCommand(cmd)
   // cmd.release()
 
   // cmd(red, green, blue, alpha)
   cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
-  renderer.pushStartUp(cmd)
+  renderer.addContextGainCommand(cmd)
   cmd.release()
 
   // enable(capability)
   cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST)
-  renderer.pushStartUp(cmd)
+  renderer.addContextGainCommand(cmd)
   cmd.release()
 }
 
 function setPrologCommands(renderer: ContextRenderer) {
 
-  var cmd: IContextCommand
+  var cmd: IPrologCommand
 
   // clear(mask)
   cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT)
-  renderer.pushProlog(cmd)
+  renderer.addPrologCommand(cmd)
   cmd.release()
 }
 
@@ -226,7 +228,7 @@ let renderer = function(): ContextRenderer {
   let uuid = uuid4().generate()
   let refCount = 1
   var _autoProlog: boolean = true;
-  let prolog = new IUnknownArray&lt;IContextCommand&gt;()
+  let prolog = new IUnknownArray&lt;IPrologCommand&gt;()
   let startUp = new IUnknownArray&lt;IContextCommand&gt;()
 
   let self: ContextRenderer = {
@@ -263,9 +265,9 @@ let renderer = function(): ContextRenderer {
     },
     prolog(): void {
       if (_manager) {
-        prolog.forEach(function(command: IContextCommand){
-          command.execute(_manager.gl)
-        })
+        for (var i = 0, length = prolog.length; i &lt; length; i++) {
+          prolog.getWeakReference(i).execute(_manager)
+        }
       }
       else {
         if (core.verbose) {
@@ -273,10 +275,10 @@ let renderer = function(): ContextRenderer {
         }
       }
     },
-    pushProlog(command: IContextCommand): void {
+    addPrologCommand(command: IPrologCommand): void {
       prolog.push(command)
     },
-    pushStartUp(command: IContextCommand): void {
+    addContextGainCommand(command: IContextCommand): void {
       startUp.push(command)
     },
     release(): number {
@@ -291,17 +293,6 @@ let renderer = function(): ContextRenderer {
       }
       else {
         return refCount
-      }
-    },
-    render(drawList: IDrawList, ambients: UniformData) {
-      if (_manager) {
-        // We have to do this to lazily initialize.
-        // FIXME: This means there should be another method that avoid this?
-        drawList.contextGain(_manager)
-
-        if (_autoProlog === true) { self.prolog() }
-
-        drawList.draw(ambients, _manager.canvasId)
       }
     }
   }

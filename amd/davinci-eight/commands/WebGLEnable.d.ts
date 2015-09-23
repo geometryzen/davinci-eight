@@ -47,5 +47,6 @@ declare class WebGLEnable extends Shareable implements IContextCommand, ContextL
      * @return {void}
      */
     destructor(): void;
+    name: string;
 }
 export = WebGLEnable;

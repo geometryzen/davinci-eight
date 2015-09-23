@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.clear';
     /**
      * <p>
      * clear(mask: number): void
@@ -19,18 +20,9 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
          * @constructor
          */
         function WebGLClear(mask) {
-            _super.call(this, 'WebGLClear');
+            _super.call(this, QUALIFIED_NAME);
             this.mask = mustBeNumber('mask', mask);
         }
-        /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLClear.prototype.execute = function (gl) {
-            mustBeNumber('mask', this.mask);
-            gl.clear(this.mask);
-        };
         /**
          * @method destructor
          * @return {void}
@@ -38,6 +30,26 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         WebGLClear.prototype.destructor = function () {
             this.mask = void 0;
         };
+        /**
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
+        WebGLClear.prototype.execute = function (manager) {
+            manager.gl.clear(this.mask);
+        };
+        Object.defineProperty(WebGLClear.prototype, "name", {
+            /**
+             * @property name
+             * @type {string}
+             * @readOnly
+             */
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return WebGLClear;
     })(Shareable);
     return WebGLClear;

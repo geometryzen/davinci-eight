@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -155,6 +156,8 @@ import IContextCommand = require(&#x27;../core/IContextCommand&#x27;);
 import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
 import Shareable = require(&#x27;../utils/Shareable&#x27;);
 
+var QUALIFIED_NAME = &#x27;WebGLRenderingContext.enable&#x27;
+
 /**
  * &lt;p&gt;
  * enable(capability: number): void
@@ -171,7 +174,7 @@ class WebGLEnable extends Shareable implements IContextCommand, ContextListener 
    * @constructor
    */
   constructor(capability: number = 1) {
-    super(&#x27;WebGLEnable&#x27;);
+    super(QUALIFIED_NAME);
     this.capability = mustBeNumber(&#x27;capability&#x27;, capability);
   }
   /**
@@ -213,6 +216,9 @@ class WebGLEnable extends Shareable implements IContextCommand, ContextListener 
    */
   destructor(): void {
     this.capability = void 0;
+  }
+  get name(): string {
+    return QUALIFIED_NAME;
   }
 }
 

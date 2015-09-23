@@ -10,6 +10,7 @@ import IDrawable = require('../core/IDrawable')
 import IDrawList = require('../scene/IDrawList')
 import IBufferGeometry = require('../dfx/IBufferGeometry')
 import IMaterial = require('../core/IMaterial')
+import IPrologCommand = require('../core/IPrologCommand')
 import IUnknownArray = require('../utils/IUnknownArray')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustSatisfy = require('../checks/mustSatisfy')
@@ -27,37 +28,37 @@ function setStartUpCommands(renderer: ContextRenderer) {
 
   // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
   cmd = new EIGHTLogger()
-  renderer.pushStartUp(cmd)
+  renderer.addContextGainCommand(cmd)
   cmd.release()
 
   // `WebGL major.minor (OpenGL ES ...)`
   // cmd = new VersionLogger()
-  // renderer.pushStartUp(cmd)
+  // renderer.addContextGainCommand(cmd)
   // cmd.release()
 
   // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
   // cmd = new ContextAttributesLogger()
-  // renderer.pushStartUp(cmd)
+  // renderer.addContextGainCommand(cmd)
   // cmd.release()
 
   // cmd(red, green, blue, alpha)
   cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
-  renderer.pushStartUp(cmd)
+  renderer.addContextGainCommand(cmd)
   cmd.release()
 
   // enable(capability)
   cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST)
-  renderer.pushStartUp(cmd)
+  renderer.addContextGainCommand(cmd)
   cmd.release()
 }
 
 function setPrologCommands(renderer: ContextRenderer) {
 
-  var cmd: IContextCommand
+  var cmd: IPrologCommand
 
   // clear(mask)
   cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT)
-  renderer.pushProlog(cmd)
+  renderer.addPrologCommand(cmd)
   cmd.release()
 }
 
@@ -75,7 +76,7 @@ let renderer = function(): ContextRenderer {
   let uuid = uuid4().generate()
   let refCount = 1
   var _autoProlog: boolean = true;
-  let prolog = new IUnknownArray<IContextCommand>()
+  let prolog = new IUnknownArray<IPrologCommand>()
   let startUp = new IUnknownArray<IContextCommand>()
 
   let self: ContextRenderer = {
@@ -112,9 +113,9 @@ let renderer = function(): ContextRenderer {
     },
     prolog(): void {
       if (_manager) {
-        prolog.forEach(function(command: IContextCommand){
-          command.execute(_manager.gl)
-        })
+        for (var i = 0, length = prolog.length; i < length; i++) {
+          prolog.getWeakReference(i).execute(_manager)
+        }
       }
       else {
         if (core.verbose) {
@@ -122,10 +123,10 @@ let renderer = function(): ContextRenderer {
         }
       }
     },
-    pushProlog(command: IContextCommand): void {
+    addPrologCommand(command: IPrologCommand): void {
       prolog.push(command)
     },
-    pushStartUp(command: IContextCommand): void {
+    addContextGainCommand(command: IContextCommand): void {
       startUp.push(command)
     },
     release(): number {
@@ -140,17 +141,6 @@ let renderer = function(): ContextRenderer {
       }
       else {
         return refCount
-      }
-    },
-    render(drawList: IDrawList, ambients: UniformData) {
-      if (_manager) {
-        // We have to do this to lazily initialize.
-        // FIXME: This means there should be another method that avoid this?
-        drawList.contextGain(_manager)
-
-        if (_autoProlog === true) { self.prolog() }
-
-        drawList.draw(ambients, _manager.canvasId)
       }
     }
   }

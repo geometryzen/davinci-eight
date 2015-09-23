@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -149,11 +150,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ContextListener = require(&#x27;../core/ContextListener&#x27;);
-import IContextCommand = require(&#x27;../core/IContextCommand&#x27;);
-import IDrawList = require(&#x27;../scene/IDrawList&#x27;);
-import IUnknown = require(&#x27;../core/IUnknown&#x27;);
-import UniformData = require(&#x27;../core/UniformData&#x27;); 
+import ContextListener = require(&#x27;../core/ContextListener&#x27;)
+import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
+import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;)
+import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import UniformData = require(&#x27;../core/UniformData&#x27;) 
 /**
  * This interface is to be implemented by classes associated with a single context.
  * This does mean that the commands are not shared.
@@ -190,26 +192,18 @@ interface ContextRenderer extends ContextListener, IUnknown {
    */
   prolog(): void;
   /**
-   * @method pushProlog
+   * Adds a command to the &#x60;prolog&#x60; that will be executed as part of the render() call, before drawing.
+   * @method addPrologCommand
+   * @param command {IPrologCommand}
+   * @return {void}
+   */
+  addPrologCommand(command: IPrologCommand): void;
+  /**
+   * @method addContextGainCommand
    * @param command {IContextCommand}
    * @return {void}
    */
-  pushProlog(command: IContextCommand): void;
-  /**
-   * @method pushStartUp
-   * @param command {IContextCommand}
-   * @return {void}
-   */
-  pushStartUp(command: IContextCommand): void;
-  /**
-   * Render the contents of the drawList.
-   * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.
-   * @method render
-   * @param drawList {IDrawList} A traversable list of things to be drawn.
-   * @param ambients {UniformData}
-   * @return {void}
-   */
-  render(drawList: IDrawList, ambients: UniformData): void;
+  addContextGainCommand(command: IContextCommand): void;
 }
 
 export = ContextRenderer;

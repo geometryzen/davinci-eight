@@ -3,30 +3,30 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
         var cmd;
         // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
         cmd = new EIGHTLogger();
-        renderer.pushStartUp(cmd);
+        renderer.addContextGainCommand(cmd);
         cmd.release();
         // `WebGL major.minor (OpenGL ES ...)`
         // cmd = new VersionLogger()
-        // renderer.pushStartUp(cmd)
+        // renderer.addContextGainCommand(cmd)
         // cmd.release()
         // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
         // cmd = new ContextAttributesLogger()
-        // renderer.pushStartUp(cmd)
+        // renderer.addContextGainCommand(cmd)
         // cmd.release()
         // cmd(red, green, blue, alpha)
         cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
-        renderer.pushStartUp(cmd);
+        renderer.addContextGainCommand(cmd);
         cmd.release();
         // enable(capability)
         cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
-        renderer.pushStartUp(cmd);
+        renderer.addContextGainCommand(cmd);
         cmd.release();
     }
     function setPrologCommands(renderer) {
         var cmd;
         // clear(mask)
         cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-        renderer.pushProlog(cmd);
+        renderer.addPrologCommand(cmd);
         cmd.release();
     }
     var CLASS_NAME = "CanonicalContextRenderer";
@@ -78,9 +78,9 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
             },
             prolog: function () {
                 if (_manager) {
-                    prolog.forEach(function (command) {
-                        command.execute(_manager.gl);
-                    });
+                    for (var i = 0, length = prolog.length; i < length; i++) {
+                        prolog.getWeakReference(i).execute(_manager);
+                    }
                 }
                 else {
                     if (core.verbose) {
@@ -88,10 +88,10 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
                     }
                 }
             },
-            pushProlog: function (command) {
+            addPrologCommand: function (command) {
                 prolog.push(command);
             },
-            pushStartUp: function (command) {
+            addContextGainCommand: function (command) {
                 startUp.push(command);
             },
             release: function () {
@@ -106,17 +106,6 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
                 }
                 else {
                     return refCount;
-                }
-            },
-            render: function (drawList, ambients) {
-                if (_manager) {
-                    // We have to do this to lazily initialize.
-                    // FIXME: This means there should be another method that avoid this?
-                    drawList.contextGain(_manager);
-                    if (_autoProlog === true) {
-                        self.prolog();
-                    }
-                    drawList.draw(ambients, _manager.canvasId);
                 }
             }
         };

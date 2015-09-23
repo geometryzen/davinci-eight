@@ -2,6 +2,8 @@ import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
 
+let QUALIFIED_NAME = 'EIGHT.VersionLogger'
+
 /**
  * <p>
  * Displays details about the WegGL version to the console.
@@ -19,7 +21,7 @@ class VersionLogger extends Shareable implements IContextCommand {
    * @constructor
    */
   constructor() {
-    super('VersionLogger');
+    super(QUALIFIED_NAME)
   }
   /**
    * <p>
@@ -30,7 +32,7 @@ class VersionLogger extends Shareable implements IContextCommand {
    * @return {void}
    */
   execute(gl: WebGLRenderingContext): void {
-    console.log(gl.getParameter(gl.VERSION));
+    console.log(gl.getParameter(gl.VERSION))
   }
   /**
    * @method destructor
@@ -38,6 +40,9 @@ class VersionLogger extends Shareable implements IContextCommand {
    * @protected
    */
   protected destructor(): void {
+  }
+  get name(): string {
+    return QUALIFIED_NAME
   }
 }
 

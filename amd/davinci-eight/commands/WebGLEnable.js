@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.enable';
     /**
      * <p>
      * enable(capability: number): void
@@ -21,7 +22,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
          */
         function WebGLEnable(capability) {
             if (capability === void 0) { capability = 1; }
-            _super.call(this, 'WebGLEnable');
+            _super.call(this, QUALIFIED_NAME);
             this.capability = mustBeNumber('capability', capability);
         }
         /**
@@ -64,6 +65,13 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         WebGLEnable.prototype.destructor = function () {
             this.capability = void 0;
         };
+        Object.defineProperty(WebGLEnable.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return WebGLEnable;
     })(Shareable);
     return WebGLEnable;

@@ -207,6 +207,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.103.0: 2015-09-21 API Documentation
 * 2.104.0: 2015-09-22 MeshNormalMaterial
 * 2.105.0: 2015-09-23 Scene
+* 2.106.0: 2015-09-23 IPrologCommand
 
 ## License
 Copyright (c) 2014-2015 David Holmes

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -153,7 +154,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l6"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:6</code></a>
+            Defined in: <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:7</code></a>
         </div>
 
 
@@ -183,6 +184,14 @@ This does mean that the commands are not shared.</p>
                     <h3>Methods</h3>
 
                     <ul class="index-list methods extends">
+                            <li class="index-item method">
+                                <a href="#method_addContextGainCommand">addContextGainCommand</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_addPrologCommand">addPrologCommand</a>
+
+                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_addRef">addRef</a>
 
@@ -195,20 +204,8 @@ This does mean that the commands are not shared.</p>
                                 <a href="#method_prolog">prolog</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_pushProlog">pushProlog</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_pushStartUp">pushStartUp</a>
-
-                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_release">release</a>
-
-                            </li>
-                            <li class="index-item method">
-                                <a href="#method_render">render</a>
 
                             </li>
                     </ul>
@@ -239,6 +236,131 @@ This does mean that the commands are not shared.</p>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addContextGainCommand" class="method item">
+    <h3 class="name"><code>addContextGainCommand</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>command</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:49</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">command</code>
+                        <span class="type">IContextCommand</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_addPrologCommand" class="method item">
+    <h3 class="name"><code>addPrologCommand</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>command</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l42"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:42</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Adds a command to the <code>prolog</code> that will be executed as part of the render() call, before drawing.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">command</code>
+                        <span class="type"><a href="../classes/IPrologCommand.html" class="crosslink">IPrologCommand</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
 <div id="method_addRef" class="method item inherited">
     <h3 class="name"><code>addRef</code></h3>
 
@@ -396,7 +518,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:35</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:36</code></a>
         </p>
 
 
@@ -408,130 +530,6 @@ The new reference count. This value is intended to be used only for test purpose
 
     </div>
 
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_pushProlog" class="method item">
-    <h3 class="name"><code>pushProlog</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>command</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l41"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:41</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">command</code>
-                        <span class="type">IContextCommand</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_pushStartUp" class="method item">
-    <h3 class="name"><code>pushStartUp</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>command</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:47</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">command</code>
-                        <span class="type">IContextCommand</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
 
         <div class="returns">
             <h4>Returns:</h4>
@@ -588,84 +586,6 @@ The new reference count. This value is intended to be used only for test purpose
 
 
 </div>
-<div id="method_render" class="method item">
-    <h3 class="name"><code>render</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>drawList</code>
-                </li>
-                <li class="arg">
-                        <code>ambients</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Void</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:53</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Render the contents of the drawList.
-This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">drawList</code>
-                        <span class="type"><a href="../classes/IDrawList.html" class="crosslink">IDrawList</a></span>
-
-
-                    <div class="param-description">
-                        <p>A traversable list of things to be drawn.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">ambients</code>
-                        <span class="type">UniformData</span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">Void</span>:
-            </div>
-        </div>
-
-
-</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -682,7 +602,7 @@ This is a convenience method that calls clear and then traverses the DrawList ca
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l27"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:27</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l28"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:28</code></a>
         </p>
 
 
@@ -708,7 +628,7 @@ Determines whether the prolog commands are run automatically as part of the rend
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l21"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:21</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:22</code></a>
         </p>
 
 
@@ -732,7 +652,7 @@ Determines whether the prolog commands are run automatically as part of the rend
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l14"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:14</code></a>
+        <a href="../files/src_davinci-eight_renderers_ContextRenderer.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;renderers&#x2F;ContextRenderer.ts:15</code></a>
         </p>
 
 

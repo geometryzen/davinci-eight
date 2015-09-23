@@ -6,15 +6,15 @@ import ContextRenderer = require('../renderers/ContextRenderer');
 import GeometryData = require('../dfx/GeometryData');
 import IBuffer = require('../core/IBuffer');
 import IContextCommand = require('../core/IContextCommand');
-import IDrawList = require('../scene/IDrawList');
 import IBufferGeometry = require('../dfx/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
+import ITextureCubeMap = require('../core/ITextureCubeMap');
+import IPrologCommand = require('../core/IPrologCommand');
 import Shareable = require('../utils/Shareable');
-import UniformData = require('../core/UniformData');
 /**
  * @class Canvas3D
  */
-declare class Canvas3D extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+declare class Canvas3D extends Shareable implements ContextController, ContextManager, ContextMonitor, ContextRenderer {
     private _kahuna;
     private _renderer;
     /**
@@ -54,13 +54,14 @@ declare class Canvas3D extends Shareable implements ContextController, ContextMo
     contextLoss(canvasId: number): void;
     createArrayBuffer(): IBuffer;
     createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+    createElementArrayBuffer(): IBuffer;
+    createTextureCubeMap(): ITextureCubeMap;
     createTexture2D(): ITexture2D;
     gl: WebGLRenderingContext;
     prolog(): void;
-    pushProlog(command: IContextCommand): void;
-    pushStartUp(command: IContextCommand): void;
+    addPrologCommand(command: IPrologCommand): void;
+    addContextGainCommand(command: IContextCommand): void;
     removeContextListener(user: ContextListener): void;
-    render(drawList: IDrawList, ambients: UniformData): void;
     setSize(width: number, height: number): void;
     start(canvas: HTMLCanvasElement, canvasId: number): void;
     stop(): void;

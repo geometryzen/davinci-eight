@@ -1025,19 +1025,13 @@ interface ContextMonitor {
  */
 interface ContextManager  extends ContextUnique, IUnknown
 {
-  clearColor(red: number, green: number, blue: number, alpha: number): void;
-  clearDepth(depth: number): void;
   createArrayBuffer(): IBuffer;
   createElementArrayBuffer(): IBuffer;
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
-  drawArrays(mode: number, first: number, count: number): void;
-  drawElements(mode: number, count: number, type: number, offset: number): void;
-  depthFunc(func: number): void;
-  enable(capability: number): void;
   gl: WebGLRenderingContext;
-  mirror: boolean;
+  canvasElement: HTMLCanvasElement;
 }
 
 /**
@@ -1203,8 +1197,7 @@ class Object3D {
  */
 interface IDrawList extends ContextListener, IUnknown {
   add(drawable: IDrawable): void;
-  addRef(): number;
-  release(): number;
+  draw(ambients: UniformData, canvasId: number): void;
   remove(drawable: IDrawable): void;
   traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
 }
@@ -1219,6 +1212,7 @@ class Scene implements IDrawList {
   contextFree(canvasId: number): void;
   contextGain(manager: ContextManager): void;
   contextLoss(canvasId: number): void;
+  draw(ambients: UniformData, canvasId: number): void;
   release(): number;
   remove(drawable: IDrawable): void;
   traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
@@ -1302,6 +1296,14 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
 /**
  *
  */
+interface IPrologCommand extends IUnknown {
+  name: string;
+  execute(manager: ContextManager): void;
+}
+
+/**
+ *
+ */
 interface ContextRenderer extends ContextListener, IUnknown {
   /**
    * Determines whether prolog commands are run automatically as part of the render() call.
@@ -1317,21 +1319,16 @@ interface ContextRenderer extends ContextListener, IUnknown {
    * Pushes a command onto the list of commands to be executed by the `prolog()` method.
    * command: The command to execute.
    */
-  pushProlog(command: IContextCommand): void;
+  addPrologCommand(command: IPrologCommand): void;
   /**
    * Pushes a command onto the list of commands to be executed on contextGain.
    * command: The command to execute.
    */
-  pushStartUp(command: IContextCommand): void;
+  addContextGainCommand(command: IContextCommand): void;
   /**
    * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
    */
   gl: WebGLRenderingContext;
-  /**
-   * Render the contents of the drawList.
-   * This is a convenience method that calls clear and then traverses the DrawList calling draw on each Drawable.
-   */
-  render(drawList: IDrawList, ambients: UniformData): void;
 }
 
 /**
@@ -1356,11 +1353,6 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
    * until `stop()` is called.
    */
   canvasElement: HTMLCanvasElement;
-  /**
-   * canvasBuilder : A no-argument function that returns a canvas element from which the context will be retrieved. 
-   * canvasId
-   * attributes
-   */
   constructor(attributes?: WebGLContextAttributes);
   addContextListener(user: ContextListener): void;
   addRef(): number;
@@ -1369,13 +1361,17 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
   contextLoss(canvasId: number): void;
   createArrayBuffer(): IBuffer;
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
+  createTextureCubeMap(): ITextureCubeMap;
+  /**
+   * Executes commands in the prolog list. e.g., 
+   */
   prolog(): void;
-  pushProlog(command: IContextCommand): void;
-  pushStartUp(command: IContextCommand): void;
+  addPrologCommand(command: IPrologCommand): void;
+  addContextGainCommand(command: IContextCommand): void;
   release(): number;
   removeContextListener(user: ContextListener): void;
-  render(drawList: IDrawList, ambients: UniformData): void;
   setSize(width: number, height: number): void;
   start(canvas: HTMLCanvasElement, canvasId: number): void;
   stop(): void;
@@ -1578,6 +1574,7 @@ class RoundUniform implements UniformDataVisitor {
 // commands
 
 interface IContextCommand extends IUnknown {
+  name: string;
   execute(gl: WebGLRenderingContext): void;
 }
 
@@ -1586,6 +1583,7 @@ interface IContextCommand extends IUnknown {
  */
 class WebGLClear extends Shareable implements IContextCommand {
   public mask: number;
+  public name: string;
   /**
    *
    */
@@ -1608,6 +1606,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
   green: number;
   blue: number;
   alpha: number;
+  name: string;
   constructor(red?: number, green?: number, blue?: number, alpha?: number);
   /**
    * canvasId
@@ -1633,6 +1632,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
  */
 class WebGLEnable extends Shareable implements IContextCommand, ContextListener {
   public capability: number;
+  public name: string;
   /**
    *
    */

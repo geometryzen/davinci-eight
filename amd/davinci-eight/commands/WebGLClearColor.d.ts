@@ -50,5 +50,6 @@ declare class WebGLClearColor extends Shareable implements IContextCommand, Cont
      * @return {void}
      */
     destructor(): void;
+    name: string;
 }
 export = WebGLClearColor;

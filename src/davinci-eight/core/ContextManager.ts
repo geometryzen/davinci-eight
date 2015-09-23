@@ -20,17 +20,11 @@ import IUnknown = require('../core/IUnknown');
  */
  // FIXME Try commenting out IUnknown
 interface ContextManager extends ContextUnique, IUnknown {
-  clearColor(red: number, green: number, blue: number, alpha: number): void;
-  clearDepth(depth: number): void;
   createArrayBuffer(): IBuffer;
-  createElementArrayBuffer(): IBuffer;
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
-  drawArrays(mode: number, first: number, count: number): void;
-  drawElements(mode: number, count: number, type: number, offset: number): void;
-  depthFunc(func: number): void;
-  enable(capability: number): void;
   gl: WebGLRenderingContext;
   /**
    * @property canvasElement
@@ -38,7 +32,6 @@ interface ContextManager extends ContextUnique, IUnknown {
    * @readOnly
    */
   canvasElement: HTMLCanvasElement;
-  mirror: boolean;
 }
 
 export = ContextManager;

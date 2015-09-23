@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -413,9 +414,23 @@ class Vector3 extends VectorN&lt;number&gt; implements Cartesian3, LinearElement
   toString(): string {
     return &quot;Vector3({x: &quot; + this.x + &quot;, y: &quot; + this.y + &quot;, z: &quot; + this.z + &quot;})&quot;
   }
+  /**
+   * Returns the result of &#x60;this&#x60; + &#x60;rhs&#x60; without modifying &#x60;this&#x60;.
+   * @method __add__
+   * @param rhs {Vector3}
+   * @return {Vector3}
+   */
   __add__(rhs: Vector3): Vector3 {
     if (rhs instanceof Vector3) {
       return this.clone().add(rhs);
+    }
+    else {
+      return void 0;
+    }
+  }
+  __sub__(rhs: Vector3): Vector3 {
+    if (rhs instanceof Vector3) {
+      return this.clone().sub(rhs);
     }
     else {
       return void 0;

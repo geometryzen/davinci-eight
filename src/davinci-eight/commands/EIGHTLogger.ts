@@ -3,6 +3,8 @@ import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
 
+var QUALIFIED_NAME = 'EIGHT.Logger'
+
 /**
  * <p>
  * Displays details about EIGHT to the console.
@@ -20,7 +22,7 @@ class EIGHTLogger extends Shareable implements IContextCommand {
    * @constructor
    */
   constructor() {
-    super('EIGHTLogger');
+    super(QUALIFIED_NAME);
   }
   /**
    * Logs the version, GitHub URL, and last modified date to the console. 
@@ -37,6 +39,9 @@ class EIGHTLogger extends Shareable implements IContextCommand {
    * @return void
    */
   protected destructor(): void {
+  }
+  get name(): string {
+    return QUALIFIED_NAME;
   }
 }
 

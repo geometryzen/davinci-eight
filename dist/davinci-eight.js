@@ -1016,9 +1016,23 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
         Vector3.prototype.toString = function () {
             return "Vector3({x: " + this.x + ", y: " + this.y + ", z: " + this.z + "})";
         };
+        /**
+         * Returns the result of `this` + `rhs` without modifying `this`.
+         * @method __add__
+         * @param rhs {Vector3}
+         * @return {Vector3}
+         */
         Vector3.prototype.__add__ = function (rhs) {
             if (rhs instanceof Vector3) {
                 return this.clone().add(rhs);
+            }
+            else {
+                return void 0;
+            }
+        };
+        Vector3.prototype.__sub__ = function (rhs) {
+            if (rhs instanceof Vector3) {
+                return this.clone().sub(rhs);
             }
             else {
                 return void 0;
@@ -2467,6 +2481,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/commands/WebGLClear',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.clear';
     /**
      * <p>
      * clear(mask: number): void
@@ -2482,18 +2497,9 @@ define('davinci-eight/commands/WebGLClear',["require", "exports", '../checks/mus
          * @constructor
          */
         function WebGLClear(mask) {
-            _super.call(this, 'WebGLClear');
+            _super.call(this, QUALIFIED_NAME);
             this.mask = mustBeNumber('mask', mask);
         }
-        /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLClear.prototype.execute = function (gl) {
-            mustBeNumber('mask', this.mask);
-            gl.clear(this.mask);
-        };
         /**
          * @method destructor
          * @return {void}
@@ -2501,6 +2507,26 @@ define('davinci-eight/commands/WebGLClear',["require", "exports", '../checks/mus
         WebGLClear.prototype.destructor = function () {
             this.mask = void 0;
         };
+        /**
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
+        WebGLClear.prototype.execute = function (manager) {
+            manager.gl.clear(this.mask);
+        };
+        Object.defineProperty(WebGLClear.prototype, "name", {
+            /**
+             * @property name
+             * @type {string}
+             * @readOnly
+             */
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return WebGLClear;
     })(Shareable);
     return WebGLClear;
@@ -2512,6 +2538,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor';
     /**
      * <p>
      * clearColor(red: number, green: number, blue: number, alpha: number): void
@@ -2532,7 +2559,7 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
             if (green === void 0) { green = 0; }
             if (blue === void 0) { blue = 0; }
             if (alpha === void 0) { alpha = 1; }
-            _super.call(this, 'WebGLClearColor');
+            _super.call(this, 'WebGLRenderingContext.clearColor');
             this.red = mustBeNumber('red', red);
             this.green = mustBeNumber('green', green);
             this.blue = mustBeNumber('blue', blue);
@@ -2584,6 +2611,13 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
             this.blue = void 0;
             this.alpha = void 0;
         };
+        Object.defineProperty(WebGLClearColor.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return WebGLClearColor;
     })(Shareable);
     return WebGLClearColor;
@@ -2595,6 +2629,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.enable';
     /**
      * <p>
      * enable(capability: number): void
@@ -2612,7 +2647,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mu
          */
         function WebGLEnable(capability) {
             if (capability === void 0) { capability = 1; }
-            _super.call(this, 'WebGLEnable');
+            _super.call(this, QUALIFIED_NAME);
             this.capability = mustBeNumber('capability', capability);
         }
         /**
@@ -2655,6 +2690,13 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mu
         WebGLEnable.prototype.destructor = function () {
             this.capability = void 0;
         };
+        Object.defineProperty(WebGLEnable.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return WebGLEnable;
     })(Shareable);
     return WebGLEnable;
@@ -2878,7 +2920,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-09-23',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.105.0'
+        VERSION: '2.106.0'
     };
     return core;
 });
@@ -5449,6 +5491,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '../utils/Shareable'], function (require, exports, core, Shareable) {
+    var QUALIFIED_NAME = 'EIGHT.Logger';
     /**
      * <p>
      * Displays details about EIGHT to the console.
@@ -5467,7 +5510,7 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '.
          * @constructor
          */
         function EIGHTLogger() {
-            _super.call(this, 'EIGHTLogger');
+            _super.call(this, QUALIFIED_NAME);
         }
         /**
          * Logs the version, GitHub URL, and last modified date to the console.
@@ -5485,6 +5528,13 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '.
          */
         EIGHTLogger.prototype.destructor = function () {
         };
+        Object.defineProperty(EIGHTLogger.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return EIGHTLogger;
     })(Shareable);
     return EIGHTLogger;
@@ -5513,30 +5563,30 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
         var cmd;
         // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
         cmd = new EIGHTLogger();
-        renderer.pushStartUp(cmd);
+        renderer.addContextGainCommand(cmd);
         cmd.release();
         // `WebGL major.minor (OpenGL ES ...)`
         // cmd = new VersionLogger()
-        // renderer.pushStartUp(cmd)
+        // renderer.addContextGainCommand(cmd)
         // cmd.release()
         // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
         // cmd = new ContextAttributesLogger()
-        // renderer.pushStartUp(cmd)
+        // renderer.addContextGainCommand(cmd)
         // cmd.release()
         // cmd(red, green, blue, alpha)
         cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
-        renderer.pushStartUp(cmd);
+        renderer.addContextGainCommand(cmd);
         cmd.release();
         // enable(capability)
         cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
-        renderer.pushStartUp(cmd);
+        renderer.addContextGainCommand(cmd);
         cmd.release();
     }
     function setPrologCommands(renderer) {
         var cmd;
         // clear(mask)
         cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-        renderer.pushProlog(cmd);
+        renderer.addPrologCommand(cmd);
         cmd.release();
     }
     var CLASS_NAME = "CanonicalContextRenderer";
@@ -5588,9 +5638,9 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
             },
             prolog: function () {
                 if (_manager) {
-                    prolog.forEach(function (command) {
-                        command.execute(_manager.gl);
-                    });
+                    for (var i = 0, length = prolog.length; i < length; i++) {
+                        prolog.getWeakReference(i).execute(_manager);
+                    }
                 }
                 else {
                     if (core.verbose) {
@@ -5598,10 +5648,10 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
                     }
                 }
             },
-            pushProlog: function (command) {
+            addPrologCommand: function (command) {
                 prolog.push(command);
             },
-            pushStartUp: function (command) {
+            addContextGainCommand: function (command) {
                 startUp.push(command);
             },
             release: function () {
@@ -5616,17 +5666,6 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
                 }
                 else {
                     return refCount;
-                }
-            },
-            render: function (drawList, ambients) {
-                if (_manager) {
-                    // We have to do this to lazily initialize.
-                    // FIXME: This means there should be another method that avoid this?
-                    drawList.contextGain(_manager);
-                    if (_autoProlog === true) {
-                        self.prolog();
-                    }
-                    drawList.draw(ambients, _manager.canvasId);
                 }
             }
         };
@@ -6248,7 +6287,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             refChange(uuid, LOGGING_NAME_MESH, +1);
             return mesh;
         }
-        // FIXME Rename to gl
         var gl;
         /**
          * We must cache the canvas so that we can remove listeners when `stop() is called.
@@ -6259,7 +6297,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         var _canvasElement;
         var _canvasId;
         var refCount = 1;
-        var mirror = false;
         var tokenArg = expectArg('token', "");
         var webGLContextLost = function (event) {
             if (isDefined(_canvasElement)) {
@@ -6422,36 +6459,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 }
                 return refCount;
             },
-            clearColor: function (red, green, blue, alpha) {
-                if (gl) {
-                    return gl.clearColor(red, green, blue, alpha);
-                }
-            },
-            clearDepth: function (depth) {
-                if (gl) {
-                    return gl.clearDepth(depth);
-                }
-            },
-            drawArrays: function (mode, first, count) {
-                if (gl) {
-                    return gl.drawArrays(mode, first, count);
-                }
-            },
-            drawElements: function (mode, count, type, offset) {
-                if (gl) {
-                    return gl.drawElements(mode, count, type, offset);
-                }
-            },
-            depthFunc: function (func) {
-                if (gl) {
-                    return gl.depthFunc(func);
-                }
-            },
-            enable: function (capability) {
-                if (gl) {
-                    return gl.enable(capability);
-                }
-            },
             createArrayBuffer: function () {
                 // TODO: Replace with functional constructor pattern?
                 return new BufferResource(kahuna, false);
@@ -6473,12 +6480,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             createTextureCubeMap: function () {
                 // TODO: Replace with functional constructor pattern.
                 return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-            },
-            get mirror() {
-                return mirror;
-            },
-            set mirror(value) {
-                mirror = expectArg('mirror', value).toBeBoolean().value;
             }
         };
         refChange(uuid, LOGGING_NAME_KAHUNA, +1);
@@ -6599,6 +6600,12 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
         Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
             return this._kahuna.createBufferGeometry(elements, mode, usage);
         };
+        Canvas3D.prototype.createElementArrayBuffer = function () {
+            return this._kahuna.createElementArrayBuffer();
+        };
+        Canvas3D.prototype.createTextureCubeMap = function () {
+            return this._kahuna.createTextureCubeMap();
+        };
         Canvas3D.prototype.createTexture2D = function () {
             return this._kahuna.createTexture2D();
         };
@@ -6612,20 +6619,14 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
         Canvas3D.prototype.prolog = function () {
             this._renderer.prolog();
         };
-        Canvas3D.prototype.pushProlog = function (command) {
-            this._renderer.pushProlog(command);
+        Canvas3D.prototype.addPrologCommand = function (command) {
+            this._renderer.addPrologCommand(command);
         };
-        Canvas3D.prototype.pushStartUp = function (command) {
-            this._renderer.pushStartUp(command);
+        Canvas3D.prototype.addContextGainCommand = function (command) {
+            this._renderer.addContextGainCommand(command);
         };
         Canvas3D.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);
-        };
-        Canvas3D.prototype.render = function (drawList, ambients) {
-            // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
-            // This implies camera should implement UniformData and we pass that in as ambients.
-            // This allows us to generalize the Canvas3D API.
-            this._renderer.render(drawList, ambients);
         };
         Canvas3D.prototype.setSize = function (width, height) {
             mustBeInteger('width', width);

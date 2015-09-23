@@ -1,6 +1,9 @@
-import IContextCommand = require('../core/IContextCommand');
+import ContextManager = require('../core/ContextManager')
+import IPrologCommand = require('../core/IPrologCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
+
+var QUALIFIED_NAME = 'WebGLRenderingContext.clear'
 
 /**
  * <p>
@@ -10,31 +13,43 @@ import Shareable = require('../utils/Shareable');
  * @extends Shareable
  * @implements IContextCommand
  */
-class WebGLClear extends Shareable implements IContextCommand {
+class WebGLClear extends Shareable implements IPrologCommand {
+  /**
+   * The mask used to specify which buffers to clear.
+   * @property mask
+   * @type {number}
+   */
   public mask: number;
   /**
    * @class WebGLClear
    * @constructor
    */
   constructor(mask: number) {
-    super('WebGLClear');
+    super(QUALIFIED_NAME);
     this.mask = mustBeNumber('mask', mask);
-  }
-  /**
-   * @method execute
-   * @param gl {WebGLRenderingContext}
-   * @return {void}
-   */
-  execute(gl: WebGLRenderingContext): void {
-    mustBeNumber('mask', this.mask);
-    gl.clear(this.mask);
   }
   /**
    * @method destructor
    * @return {void}
    */
   destructor(): void {
-    this.mask = void 0;
+      this.mask = void 0;
+  }
+  /**
+   * @method execute
+   * @param gl {WebGLRenderingContext}
+   * @return {void}
+   */
+  execute(manager: ContextManager): void {
+    manager.gl.clear(this.mask);
+  }
+  /**
+   * @property name
+   * @type {string}
+   * @readOnly
+   */
+  get name(): string {
+    return QUALIFIED_NAME;
   }
 }
 

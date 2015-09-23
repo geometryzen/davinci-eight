@@ -12,5 +12,6 @@ declare class ContextAttributesLogger extends Shareable implements IContextComma
     constructor();
     execute(gl: WebGLRenderingContext): void;
     destructor(): void;
+    name: string;
 }
 export = ContextAttributesLogger;

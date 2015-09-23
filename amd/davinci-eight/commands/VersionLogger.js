@@ -4,6 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
+    var QUALIFIED_NAME = 'EIGHT.VersionLogger';
     /**
      * <p>
      * Displays details about the WegGL version to the console.
@@ -22,7 +23,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * @constructor
          */
         function VersionLogger() {
-            _super.call(this, 'VersionLogger');
+            _super.call(this, QUALIFIED_NAME);
         }
         /**
          * <p>
@@ -42,6 +43,13 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          */
         VersionLogger.prototype.destructor = function () {
         };
+        Object.defineProperty(VersionLogger.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return VersionLogger;
     })(Shareable);
     return VersionLogger;

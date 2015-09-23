@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -164,6 +165,8 @@ import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
 import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
 import IBufferGeometry = require(&#x27;../dfx/IBufferGeometry&#x27;)
 import ITexture2D = require(&#x27;../core/ITexture2D&#x27;)
+import ITextureCubeMap = require(&#x27;../core/ITextureCubeMap&#x27;)
+import IPrologCommand = require(&#x27;../core/IPrologCommand&#x27;)
 import IUnknown = require(&#x27;../core/IUnknown&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
@@ -183,7 +186,7 @@ let defaultCanvasBuilder = () =&gt; {return document.createElement(&#x27;canvas&
 /**
  * @class Canvas3D
  */
-class Canvas3D extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, ContextManager, ContextMonitor, ContextRenderer {
   private _kahuna: ContextKahuna
   private _renderer: ContextRenderer
   /**
@@ -271,6 +274,12 @@ class Canvas3D extends Shareable implements ContextController, ContextMonitor, C
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
     return this._kahuna.createBufferGeometry(elements, mode, usage)
   }
+  createElementArrayBuffer(): IBuffer {
+    return this._kahuna.createElementArrayBuffer()
+  }
+  createTextureCubeMap(): ITextureCubeMap {
+    return this._kahuna.createTextureCubeMap()
+  }
   createTexture2D(): ITexture2D {
     return this._kahuna.createTexture2D()
   }
@@ -280,20 +289,14 @@ class Canvas3D extends Shareable implements ContextController, ContextMonitor, C
   prolog(): void {
     this._renderer.prolog()
   }
-  pushProlog(command: IContextCommand): void {
-    this._renderer.pushProlog(command)
+  addPrologCommand(command: IPrologCommand): void {
+    this._renderer.addPrologCommand(command)
   }
-  pushStartUp(command: IContextCommand): void {
-    this._renderer.pushStartUp(command)
+  addContextGainCommand(command: IContextCommand): void {
+    this._renderer.addContextGainCommand(command)
   }
   removeContextListener(user: ContextListener): void {
     this._kahuna.removeContextListener(user)
-  }
-  render(drawList: IDrawList, ambients: UniformData): void {
-    // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
-    // This implies camera should implement UniformData and we pass that in as ambients.
-    // This allows us to generalize the Canvas3D API.
-    this._renderer.render(drawList, ambients)
   }
   setSize(width: number, height: number): void {
     mustBeInteger(&#x27;width&#x27;, width)

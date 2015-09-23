@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.105.0</em>
+            <em>API Docs for: 2.106.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -74,6 +74,7 @@
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
+                                <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
                                 <li><a href="../classes/Line3.html">Line3</a></li>
@@ -566,19 +567,17 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     return mesh;
   }
 
-  // FIXME Rename to gl
-  var gl: WebGLRenderingContext;
+  var gl: WebGLRenderingContext
   /**
    * We must cache the canvas so that we can remove listeners when &#x60;stop() is called.
    * Only between &#x60;start()&#x60; and &#x60;stop()&#x60; is canvas defined.
    * We use a canvasBuilder so the other initialization can happen while we are waiting
    * for the DOM to load. 
    */
-  var _canvasElement: HTMLCanvasElement;
-  var _canvasId: number;
-  var refCount: number = 1;
-  var mirror: boolean = false;
-  let tokenArg = expectArg(&#x27;token&#x27;, &quot;&quot;);
+  var _canvasElement: HTMLCanvasElement
+  var _canvasId: number
+  var refCount: number = 1
+  let tokenArg = expectArg(&#x27;token&#x27;, &quot;&quot;)
 
   let webGLContextLost = function(event: Event) {
     if (isDefined(_canvasElement)) {
@@ -748,36 +747,6 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       return refCount;
     },
-    clearColor(red: number, green: number, blue: number, alpha: number): void {
-      if (gl) {
-        return gl.clearColor(red, green, blue, alpha);
-      }
-    },
-    clearDepth(depth: number): void {
-      if (gl) {
-        return gl.clearDepth(depth);
-      }
-    },
-    drawArrays(mode: number, first: number, count: number): void {
-      if (gl) {
-        return gl.drawArrays(mode, first, count);
-      }
-    },
-    drawElements(mode: number, count: number, type: number, offset: number): void {
-      if (gl) {
-        return gl.drawElements(mode, count, type, offset);
-      }
-    },
-    depthFunc(func: number): void {
-      if (gl) {
-        return gl.depthFunc(func);
-      }
-    },
-    enable(capability: number): void {
-      if (gl) {
-        return gl.enable(capability);
-      }
-    },
     createArrayBuffer(): IBuffer {
       // TODO: Replace with functional constructor pattern?
       return new BufferResource(kahuna, false);
@@ -799,12 +768,6 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     createTextureCubeMap(): ITexture {
       // TODO: Replace with functional constructor pattern.
       return new TextureResource([kahuna], mustBeContext(gl, &#x27;createTextureCubeMap()&#x27;).TEXTURE_CUBE_MAP);
-    },
-    get mirror() {
-      return mirror;
-    },
-    set mirror(value: boolean) {
-      mirror = expectArg(&#x27;mirror&#x27;, value).toBeBoolean().value;
     }
   };
   refChange(uuid, LOGGING_NAME_KAHUNA, +1);

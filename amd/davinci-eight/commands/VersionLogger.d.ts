@@ -32,5 +32,6 @@ declare class VersionLogger extends Shareable implements IContextCommand {
      * @protected
      */
     protected destructor(): void;
+    name: string;
 }
 export = VersionLogger;
