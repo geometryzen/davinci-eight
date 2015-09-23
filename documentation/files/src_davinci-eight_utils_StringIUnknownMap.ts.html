@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Cartesian2 - davinci-eight</title>
+    <title>src/davinci-eight/utils/StringIUnknownMap.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -145,109 +145,116 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Cartesian2 Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: src/davinci-eight/utils/StringIUnknownMap.ts</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import refChange = require(&#x27;../utils/refChange&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import uuid4 = require(&#x27;../utils/uuid4&#x27;)
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Cartesian2.ts.html#l1"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Cartesian2.ts:1</code></a>
-        </div>
+let LOGGING_NAME_IUNKNOWN_MAP = &#x27;StringIUnknownMap&#x27;
 
+class StringIUnknownMap&lt;V extends IUnknown&gt; implements IUnknown {
+  private _refCount = 1;
+  private _elements: { [key: string]: V } = {};
+  private _uuid = uuid4().generate();
+  /**
+   * &lt;p&gt;
+   * A map&amp;lt;V&amp;gt; of &lt;code&gt;string&lt;/code&gt; to &lt;code&gt;V extends IUnknown&lt;/code&gt;.
+   * &lt;/p&gt;
+   * @class StringIUnknownMap
+   * @constructor
+   */
+  constructor() {
+    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+  }
+  addRef() {
+    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+    this._refCount++;
+    return this._refCount;
+  }
+  release() {
+    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
+    this._refCount--;
+    if (this._refCount === 0) {
+      let self = this;
+      this.forEach(function(key) {
+        self.putWeakReference(key, void 0);
+      });
+      this._elements = void 0;
+    }
+    return this._refCount;
+  }
+  /**
+   * Determines whether the key exists in the map with a defined value.
+   * @method exists
+   * @param key {string}
+   * @return {boolean} &lt;p&gt;&lt;code&gt;true&lt;/code&gt; if there is an element at the specified key.&lt;/p&gt;
+   */
+  exists(key: string): boolean {
+    let element = this._elements[key];
+    return element ? true : false;
+  }
+  getStrongReference(key: string): V {
+    let element = this._elements[key];
+    if (element) {
+      element.addRef();
+      return element;
+    }
+    else {
+      return void 0;
+    }
+  }
+  getWeakReference(key: string): V {
+    let element = this._elements[key];
+    if (element) {
+      return element;
+    }
+    else {
+      return void 0;
+    }
+  }
+  putStrongReference(key: string, value: V): void {
+    if (value) {
+      value.addRef()
+    }
+    this.putWeakReference(key, value)
+  }
+  putWeakReference(key: string, value: V): void {
+    var elements = this._elements
+    var existing = elements[key]
+    if (existing) {
+      existing.release()
+    }
+    elements[key] = value
+  }
+  forEach(callback: (key: string, value: V) =&gt; void) {
+    let keys: string[] = this.keys;
+    var i: number;
+    let length: number = keys.length;
+    for (i = 0; i &lt; length; i++) {
+      let key: string = keys[i];
+      let value = this._elements[key];
+      callback(key, value);
+    }
+  }
+  get keys(): string[] {
+    // TODO: memoize
+    return Object.keys(this._elements);
+  }
+  remove(key: string) {
+    var value = this.getWeakReference(key)
+    if (value) {
+      value.release()
+    }
+    delete this._elements[key]
+  }
+}
 
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_x">x</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_y">y</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_x" class="property item">
-    <h3 class="name"><code>x</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Cartesian2.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Cartesian2.ts:5</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_y" class="property item">
-    <h3 class="name"><code>y</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Cartesian2.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Cartesian2.ts:10</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+export = StringIUnknownMap;
+    </pre>
 </div>
                     </div>
                 </div>

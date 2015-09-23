@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>WebGLRenderer - davinci-eight</title>
+    <title>IDrawList - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.104.0</em>
+            <em>API Docs for: 2.105.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -71,6 +72,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -105,7 +108,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -143,12 +145,15 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>WebGLRenderer Class</h1>
+<h1>IDrawList Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_scene_WebGLRenderer.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;WebGLRenderer.ts:38</code></a>
+            Defined in: <a href="../files/src_davinci-eight_scene_IDrawList.ts.html#l7"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;IDrawList.ts:7</code></a>
         </div>
 
 
@@ -159,97 +164,12 @@
     
 </div>
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_WebGLRenderer" class="method item">
-    <h3 class="name"><code>WebGLRenderer</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>canvasBuilder</code>
-                </li>
-                <li class="arg">
-                        <code>canvasId</code>
-                </li>
-                <li class="arg">
-                        <code>attributes</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_scene_WebGLRenderer.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;WebGLRenderer.ts:38</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">canvasBuilder</code>
-                        <span class="type">() => HTMLCanvasElement</span>
-
-
-                    <div class="param-description">
-                        <p>The canvas is created lazily, allowing construction during DOM load.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">canvasId</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-                    <div class="param-description">
-                        <p>[number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.</p>
-
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">attributes</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-                    <div class="param-description">
-                        <p>[WebGLContextAttributes] Allow the context to be configured.</p>
-
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-
-
-</div>
-    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -259,28 +179,18 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
-                            <li class="index-item method protected">
-                                <a href="#method_destructor!~YUIDOC_LINE~!return">destructor!~YUIDOC_LINE~!return</a>
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_release">release</a>
 
                             </li>
                     </ul>
                 </div>
 
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_autoProlog">autoProlog</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_canvasId">canvasId</a>
-
-                            </li>
-                    </ul>
-                </div>
 
 
         </div>
@@ -288,94 +198,98 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_destructor!~YUIDOC_LINE~!return" class="method item protected">
-    <h3 class="name"><code>destructor!~YUIDOC_LINE~!return</code></h3>
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
 
         <span class="paren">()</span>
 
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
 
 
-        <span class="flag protected">protected</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_scene_WebGLRenderer.ts.html#l53"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;WebGLRenderer.ts:53</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_autoProlog" class="property item">
-    <h3 class="name"><code>autoProlog</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
 
 
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_scene_WebGLRenderer.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;WebGLRenderer.ts:68</code></a>
+                <p>Inherited from
+                <a href="../classes/IUnknown.html#method_addRef">IUnknown</a>:
+        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:9</code></a>
         </p>
+
 
 
     </div>
 
     <div class="description">
         <p>
-Determines whether prolog commands are run automatically as part of the <code>render()</code> call.
+Increments the reference count of an IUnknown instance.
 </p>
     </div>
 
-        <p><strong>Default:</strong> true</p>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
 
 
 </div>
-<div id="property_canvasId" class="property item">
-    <h3 class="name"><code>canvasId</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
 
 
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_scene_WebGLRenderer.ts.html#l88"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;WebGLRenderer.ts:88</code></a>
+                <p>Inherited from
+                <a href="../classes/IUnknown.html#method_release">IUnknown</a>:
+        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:20</code></a>
         </p>
+
 
 
     </div>
 
     <div class="description">
-        
+        <p>
+Decrements the reference count of an IUnknown instance.
+</p>
     </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    <p>
+The new reference count. This value is intended to be used only for test purposes.
+</p>
+            </div>
+        </div>
 
 
 </div>
             </div>
+
 
 
     </div>

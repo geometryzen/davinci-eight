@@ -19,7 +19,7 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             if (this._refCount === 0) {
                 var self_1 = this;
                 this.forEach(function (key) {
-                    self_1.put(key, void 0);
+                    self_1.putStrongReference(key, void 0);
                 });
                 this._elements = void 0;
             }
@@ -29,42 +29,29 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             var element = this._elements[key];
             return element ? true : false;
         };
-        NumberIUnknownMap.prototype.get = function (key) {
-            var element = this._elements[key];
+        NumberIUnknownMap.prototype.getStrongReference = function (key) {
+            var element = this.getWeakReference(key);
             if (element) {
                 element.addRef();
-                return element;
             }
-            else {
-                return void 0;
-            }
+            return element;
         };
-        NumberIUnknownMap.prototype.put = function (key, value) {
-            var existing = this._elements[key];
+        NumberIUnknownMap.prototype.getWeakReference = function (index) {
+            return this._elements[index];
+        };
+        NumberIUnknownMap.prototype.putStrongReference = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakReference(key, value);
+        };
+        NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
             if (existing) {
-                if (value) {
-                    if (existing === value) {
-                    }
-                    else {
-                        existing.release();
-                        value.addRef();
-                        this._elements[key] = value;
-                    }
-                }
-                else {
-                    existing.release();
-                    this._elements[key] = void 0;
-                }
+                existing.release();
             }
-            else {
-                // There is no entry at the key specified.
-                if (value) {
-                    value.addRef();
-                    this._elements[key] = value;
-                }
-                else {
-                }
-            }
+            elements[key] = value;
         };
         NumberIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
@@ -85,7 +72,8 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             configurable: true
         });
         NumberIUnknownMap.prototype.remove = function (key) {
-            this.put(key, void 0);
+            // Strong or Weak doesn't matter because the value is `undefined`.
+            this.putStrongReference(key, void 0);
             delete this._elements[key];
         };
         return NumberIUnknownMap;

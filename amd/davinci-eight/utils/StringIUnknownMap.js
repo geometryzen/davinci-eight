@@ -1,6 +1,13 @@
 define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
     var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
     var StringIUnknownMap = (function () {
+        /**
+         * <p>
+         * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
+         * </p>
+         * @class StringIUnknownMap
+         * @constructor
+         */
         function StringIUnknownMap() {
             this._refCount = 1;
             this._elements = {};
@@ -18,17 +25,23 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             if (this._refCount === 0) {
                 var self_1 = this;
                 this.forEach(function (key) {
-                    self_1.put(key, void 0);
+                    self_1.putWeakReference(key, void 0);
                 });
                 this._elements = void 0;
             }
             return this._refCount;
         };
+        /**
+         * Determines whether the key exists in the map with a defined value.
+         * @method exists
+         * @param key {string}
+         * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
+         */
         StringIUnknownMap.prototype.exists = function (key) {
             var element = this._elements[key];
             return element ? true : false;
         };
-        StringIUnknownMap.prototype.get = function (key) {
+        StringIUnknownMap.prototype.getStrongReference = function (key) {
             var element = this._elements[key];
             if (element) {
                 element.addRef();
@@ -38,32 +51,28 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
                 return void 0;
             }
         };
-        StringIUnknownMap.prototype.put = function (key, value) {
-            var existing = this._elements[key];
-            if (existing) {
-                if (value) {
-                    if (existing === value) {
-                    }
-                    else {
-                        existing.release();
-                        value.addRef();
-                        this._elements[key] = value;
-                    }
-                }
-                else {
-                    existing.release();
-                    this._elements[key] = void 0;
-                }
+        StringIUnknownMap.prototype.getWeakReference = function (key) {
+            var element = this._elements[key];
+            if (element) {
+                return element;
             }
             else {
-                // There is no entry at the key specified.
-                if (value) {
-                    value.addRef();
-                    this._elements[key] = value;
-                }
-                else {
-                }
+                return void 0;
             }
+        };
+        StringIUnknownMap.prototype.putStrongReference = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakReference(key, value);
+        };
+        StringIUnknownMap.prototype.putWeakReference = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
+            if (existing) {
+                existing.release();
+            }
+            elements[key] = value;
         };
         StringIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
@@ -84,7 +93,10 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             configurable: true
         });
         StringIUnknownMap.prototype.remove = function (key) {
-            this.put(key, void 0);
+            var value = this.getWeakReference(key);
+            if (value) {
+                value.release();
+            }
             delete this._elements[key];
         };
         return StringIUnknownMap;

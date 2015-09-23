@@ -7,8 +7,10 @@ declare class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
     addRef(): number;
     release(): number;
     exists(key: number): boolean;
-    get(key: number): V;
-    put(key: number, value: V): void;
+    getStrongReference(key: number): V;
+    getWeakReference(index: number): V;
+    putStrongReference(key: number, value: V): void;
+    putWeakReference(key: number, value: V): void;
     forEach(callback: (key: number, value: V) => void): void;
     keys: number[];
     remove(key: number): void;

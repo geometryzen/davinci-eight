@@ -10,6 +10,7 @@ import Matrix3 = require('../math/Matrix3')
 import Matrix4 = require('../math/Matrix4')
 import MonitorList = require('../scene/MonitorList')
 import mustSatisfy = require('../checks/mustSatisfy')
+import Shareable = require('../utils/Shareable')
 import UniformData = require('../core/UniformData')
 import Vector1 = require('../math/Vector1')
 import Vector2 = require('../math/Vector2')
@@ -27,64 +28,107 @@ function ctorContext(): string {
 
 /**
  * @class Scene
+ * @extends Shareable
  * @extends IDrawList
  */
- // FIXME: extend Shareable
-class Scene implements IDrawList {
-  private _drawList: IDrawList = createDrawList()
-  private monitors: MonitorList
-  private _refCount = 1
-  private _uuid = uuid4().generate()
+class Scene extends Shareable implements IDrawList {
+  private drawList: IDrawList;
+  private monitors: MonitorList;
   // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
   /**
+   * <p>
+   * A <code>Scene</code> is a collection of drawable instances arranged in some order.
+   * The precise order is implementation defined.
+   * The collection may be traversed for general processing using callback/visitor functions.
+   * </p>
    * @class Scene
    * @constructor
    * @param monitors [ContextMonitor[]=[]]
    */
   constructor(monitors: ContextMonitor[] = []) {
+    super(LOGGING_NAME)
     MonitorList.verify('monitors', monitors, ctorContext)
+
+    this.drawList = createDrawList();
     this.monitors = new MonitorList(monitors)
+
     this.monitors.addContextListener(this)
-    refChange(this._uuid, LOGGING_NAME, +1)
   }
-  add(drawable: IDrawable) {
-    this._drawList.add(drawable)
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this.monitors.removeContextListener(this)
+
+    this.monitors = void 0
+
+    this.drawList.release()
+    this.drawList = void 0
   }
-  addRef(): number {
-    this._refCount++
-    refChange(this._uuid, LOGGING_NAME, +1)
-    return this._refCount
+  /**
+   * <p>
+   * Adds the <code>drawable</code> to this <code>Scene</code>.
+   * </p>
+   * @method add
+   * @param drawable {IDrawable}
+   * @return {Void}
+   * <p>
+   * This method returns <code>undefined</code>.
+   * </p>
+   */
+  add(drawable: IDrawable): void {
+    this.drawList.add(drawable)
   }
-  release(): number {
-    this._refCount--
-    refChange(this._uuid, LOGGING_NAME, -1)
-    if (this._refCount === 0) {
-      this._drawList.release()
-      this._drawList = void 0
-      this.monitors.removeContextListener(this)
-      this.monitors = void 0
-      this._refCount = void 0
-      this._uuid = void 0
-      return 0
-    }
-    else {
-      return this._refCount
-    }
+  /**
+   * <p>
+   * Traverses the collection of drawables, drawing each one.
+   * </p>
+   * @method draw
+   * @param ambients {UniformData}
+   * @param canvasId {number}
+   * @return {void}
+   * @beta
+   */
+  draw(ambients: UniformData, canvasId: number): void {
+    this.drawList.draw(ambients, canvasId)
   }
+  /**
+   * <p>
+   * Removes the <code>drawable</code> from this <code>Scene</code>.
+   * </p>
+   * @method remove
+   * @param drawable {IDrawable}
+   * @return {Void}
+   * <p>
+   * This method returns <code>undefined</code>.
+   * </p>
+   */
   remove(drawable: IDrawable): void {
-    this._drawList.remove(drawable)
+    this.drawList.remove(drawable)
   }
-  traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (program: IMaterial)=>void): void {
-    this._drawList.traverse(callback, canvasId, prolog)
+  /**
+   * <p>
+   * Traverses the collection of drawables, calling the specified callback arguments.
+   * </p>
+   * @method traverse
+   * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
+   * @param canvasId {number} Identifies the canvas.
+   * @param prolog {(material: IMaterial) => void} Callback function for each material. 
+   * @return {void}
+   */
+  traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IMaterial) => void): void {
+    this.drawList.traverse(callback, canvasId, prolog)
   }
-  contextFree(canvasId: number) {
-    this._drawList.contextFree(canvasId)
+  contextFree(canvasId: number): void {
+    this.drawList.contextFree(canvasId)
   }
-  contextGain(manager: ContextManager) {
-    this._drawList.contextGain(manager)
+  contextGain(manager: ContextManager): void {
+    this.drawList.contextGain(manager)
   }
-  contextLoss(canvasId: number) {
-    this._drawList.contextLoss(canvasId)
+  contextLoss(canvasId: number): void {
+    this.drawList.contextLoss(canvasId)
   }
 }
 

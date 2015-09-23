@@ -64,6 +64,10 @@ class DrawableGroup implements IUnknown {
       return this._refCount;
     }
   }
+  get material(): IMaterial {
+    this._program.addRef();
+    return this._program;
+  }
   /**
    * accept provides a way to push out the IMaterial without bumping the reference count.
    */
@@ -85,15 +89,31 @@ class DrawableGroup implements IUnknown {
       });
     }
   }
+  draw(ambients: UniformData, canvasId: number): void {
+
+    var i: number
+    var length: number
+    var drawables = this._drawables
+    var material = this._program
+
+    material.use(canvasId)
+
+    ambients.setUniforms(material, canvasId)
+
+    length = drawables.length
+    for (i = 0; i < length; i++) {
+      drawables.getWeakReference(i).draw(canvasId)
+    }
+  }
   traverseDrawables(callback: (drawable: IDrawable) => void ) {
     this._drawables.forEach(callback);
   }
 }
 
 /**
- * Should look like a set of Drawable Groups
+ * Should look like a set of Drawable Groups. Maybe like a Scene!
  */
-class DrawableGroups implements IUnknown {
+class DrawableGroups implements IUnknown/*IDrawList*/ {
   /**
    * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
    */
@@ -128,13 +148,12 @@ class DrawableGroups implements IUnknown {
     if (program) {
       try {
         let programId: string = program.programId;
-        let programInfo = this._groups.get(programId);
+        let programInfo = this._groups.getWeakReference(programId);
         if (!programInfo) {
-          programInfo = new DrawableGroup(program);
-          this._groups.put(programId, programInfo);
+          programInfo = new DrawableGroup(program)
+          this._groups.putWeakReference(programId, programInfo)
         }
-        programInfo.push(drawable);
-        programInfo.release();
+        programInfo.push(drawable)
         // FIXME
         //_managers.forEach(function(canvasId, manager) {
         //  program.contextGain(manager);
@@ -155,12 +174,11 @@ class DrawableGroups implements IUnknown {
       try {
         let programId: string = program.programId;
         if (this._groups.exists(programId)) {
-          let group = this._groups.get(programId);
+          let group = this._groups.getWeakReference(programId);
           group.remove(drawable);
           if (group.length === 0) {
             delete this._groups.remove(programId);
           }
-          group.release();
         }
         else {
           throw new Error("drawable not found?!");
@@ -171,6 +189,25 @@ class DrawableGroups implements IUnknown {
       }
     }
   }
+  draw(ambients: UniformData, canvasId: number) {
+    // Manually hoisted variable declarations.
+    var drawGroups: StringIUnknownMap<DrawableGroup>
+    var materialKey: string;
+    var materialKeys: string[]
+    var materialsLength: number
+    var i: number
+    var drawGroup: DrawableGroup
+
+    drawGroups = this._groups;
+    materialKeys = drawGroups.keys
+    materialsLength = materialKeys.length
+    for (i = 0; i < materialsLength; i++) {
+      materialKey = materialKeys[i]
+      drawGroup = drawGroups.getWeakReference(materialKey)
+      drawGroup.draw(ambients, canvasId)
+    }
+  }
+  // FIXME: Rename to traverse
   traverseDrawables(callback: (drawable: IDrawable) => void, callback2: (program: IMaterial) => void) {
     this._groups.forEach(function(groupId, group) {
       group.acceptProgram(callback2);
@@ -186,7 +223,7 @@ class DrawableGroups implements IUnknown {
 
 let createDrawList = function(): IDrawList {
   let drawableGroups = new DrawableGroups();
-  let managers = new NumberIUnknownMap<ContextManager>();
+  let canvasIdToManager = new NumberIUnknownMap<ContextManager>();
   let refCount: number = 1;
   let uuid = uuid4().generate();
 
@@ -202,8 +239,8 @@ let createDrawList = function(): IDrawList {
       if (refCount === 0) {
         drawableGroups.release();
         drawableGroups = void 0;
-        managers.release();
-        managers = void 0;
+        canvasIdToManager.release();
+        canvasIdToManager = void 0;
         refCount = void 0;
         uuid = void 0;
         return 0;
@@ -213,31 +250,57 @@ let createDrawList = function(): IDrawList {
       }
     },
     contextFree(canvasId: number) {
-      drawableGroups.traverseDrawables(function(drawable){drawable.contextFree(canvasId);}, function(program) {program.contextFree(canvasId)});
-    },
-    contextGain(manager: ContextManager) {
-      if (!managers.exists(manager.canvasId)) {
-        managers.put(manager.canvasId, manager)
-      }
       drawableGroups.traverseDrawables(
-        function(drawable){
-          drawable.contextGain(manager);
-        }, 
-        function(material: IMaterial) {
-          material.contextGain(manager)
+        function(drawable) {
+          drawable.contextFree(canvasId)
+        },
+        function(program) {
+          program.contextFree(canvasId)
         }
-      );
+      )
+      canvasIdToManager.remove(canvasId);
     },
-    contextLoss(canvasId) {
-      drawableGroups.traverseDrawables(function(drawable){drawable.contextLoss(canvasId);}, function(program){program.contextLoss(canvasId)});
+    /**
+     * method contextGain
+     */
+    contextGain(manager: ContextManager) {
+      if (!canvasIdToManager.exists(manager.canvasId)) {
+        // Cache the manager.
+        canvasIdToManager.putStrongReference(manager.canvasId, manager)
+        // Broadcast to drawables and materials.
+        drawableGroups.traverseDrawables(
+          function(drawable) {
+            drawable.contextGain(manager)
+          }, 
+          function(material) {
+            material.contextGain(manager)
+          }
+        )
+      }
+    },
+    contextLoss(canvasId: number) {
+      if (canvasIdToManager.exists(canvasId)) {
+        drawableGroups.traverseDrawables(
+          function(drawable) {
+            drawable.contextLoss(canvasId)
+          },
+          function(material) {
+            material.contextLoss(canvasId)
+          }
+        )
+        canvasIdToManager.remove(canvasId)
+      }
     },
     add(drawable: IDrawable) {
-      // If we have managers povide them to the drawable before asking for the program.
+      // If we have canvasIdToManager povide them to the drawable before asking for the program.
       // FIXME: Do we have to be careful about whether the manager has a context?
-      managers.forEach(function(id, manager) {
+      canvasIdToManager.forEach(function(id, manager) {
         drawable.contextGain(manager);
       });
       drawableGroups.add(drawable);
+    },
+    draw(ambients: UniformData, canvasId: number): void {
+      drawableGroups.draw(ambients, canvasId);
     },
     remove(drawable: IDrawable) {
       drawableGroups.remove(drawable);

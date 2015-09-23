@@ -54,7 +54,7 @@ import IDrawList          = require('davinci-eight/scene/IDrawList');
 import Mesh               = require('davinci-eight/scene/Mesh');
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
-import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
+import Canvas3D = require('davinci-eight/scene/Canvas3D');
 // geometries
 import Geometry = require('davinci-eight/geometries/Geometry');
 //import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
@@ -179,7 +179,7 @@ var eight = {
   get Scene() { return Scene; },
   get Mesh() { return Mesh; },
   get PerspectiveCamera() { return PerspectiveCamera; },
-  get WebGLRenderer() { return WebGLRenderer; },
+  get Canvas3D() { return Canvas3D; },
   get createDrawList() { return createDrawList; },
   get renderer() { return renderer; },
   get webgl() {return contextProxy;},

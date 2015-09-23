@@ -2875,10 +2875,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         ASSERTIVE: false,
         DEFENSIVE: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-22',
+        LAST_MODIFIED: '2015-09-23',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.104.0'
+        VERSION: '2.105.0'
     };
     return core;
 });
@@ -4358,6 +4358,7 @@ define('davinci-eight/dfx/toGeometryData',["require", "exports", '../dfx/toGeome
 
 define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
     var LOGGING_NAME = 'IUnknownArray';
+    // FIXME xtend Shareable
     var IUnknownArray = (function () {
         function IUnknownArray() {
             this._elements = [];
@@ -4369,6 +4370,17 @@ define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/refC
             this._refCount++;
             refChange(this._uuid, LOGGING_NAME, +1);
             return this._refCount;
+        };
+        IUnknownArray.prototype.getWeakReference = function (index) {
+            return this._elements[index];
+        };
+        IUnknownArray.prototype.getStrongReference = function (index) {
+            var element;
+            element = this._elements[index];
+            if (element) {
+                element.addRef();
+            }
+            return element;
         };
         IUnknownArray.prototype.indexOf = function (element) {
             return this._elements.indexOf(element);
@@ -4439,7 +4451,7 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
             if (this._refCount === 0) {
                 var self_1 = this;
                 this.forEach(function (key) {
-                    self_1.put(key, void 0);
+                    self_1.putStrongReference(key, void 0);
                 });
                 this._elements = void 0;
             }
@@ -4449,42 +4461,29 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
             var element = this._elements[key];
             return element ? true : false;
         };
-        NumberIUnknownMap.prototype.get = function (key) {
-            var element = this._elements[key];
+        NumberIUnknownMap.prototype.getStrongReference = function (key) {
+            var element = this.getWeakReference(key);
             if (element) {
                 element.addRef();
-                return element;
             }
-            else {
-                return void 0;
-            }
+            return element;
         };
-        NumberIUnknownMap.prototype.put = function (key, value) {
-            var existing = this._elements[key];
+        NumberIUnknownMap.prototype.getWeakReference = function (index) {
+            return this._elements[index];
+        };
+        NumberIUnknownMap.prototype.putStrongReference = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakReference(key, value);
+        };
+        NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
             if (existing) {
-                if (value) {
-                    if (existing === value) {
-                    }
-                    else {
-                        existing.release();
-                        value.addRef();
-                        this._elements[key] = value;
-                    }
-                }
-                else {
-                    existing.release();
-                    this._elements[key] = void 0;
-                }
+                existing.release();
             }
-            else {
-                // There is no entry at the key specified.
-                if (value) {
-                    value.addRef();
-                    this._elements[key] = value;
-                }
-                else {
-                }
-            }
+            elements[key] = value;
         };
         NumberIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
@@ -4505,7 +4504,8 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
             configurable: true
         });
         NumberIUnknownMap.prototype.remove = function (key) {
-            this.put(key, void 0);
+            // Strong or Weak doesn't matter because the value is `undefined`.
+            this.putStrongReference(key, void 0);
             delete this._elements[key];
         };
         return NumberIUnknownMap;
@@ -4516,6 +4516,13 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
 define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
     var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
     var StringIUnknownMap = (function () {
+        /**
+         * <p>
+         * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
+         * </p>
+         * @class StringIUnknownMap
+         * @constructor
+         */
         function StringIUnknownMap() {
             this._refCount = 1;
             this._elements = {};
@@ -4533,17 +4540,23 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
             if (this._refCount === 0) {
                 var self_1 = this;
                 this.forEach(function (key) {
-                    self_1.put(key, void 0);
+                    self_1.putWeakReference(key, void 0);
                 });
                 this._elements = void 0;
             }
             return this._refCount;
         };
+        /**
+         * Determines whether the key exists in the map with a defined value.
+         * @method exists
+         * @param key {string}
+         * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
+         */
         StringIUnknownMap.prototype.exists = function (key) {
             var element = this._elements[key];
             return element ? true : false;
         };
-        StringIUnknownMap.prototype.get = function (key) {
+        StringIUnknownMap.prototype.getStrongReference = function (key) {
             var element = this._elements[key];
             if (element) {
                 element.addRef();
@@ -4553,32 +4566,28 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
                 return void 0;
             }
         };
-        StringIUnknownMap.prototype.put = function (key, value) {
-            var existing = this._elements[key];
-            if (existing) {
-                if (value) {
-                    if (existing === value) {
-                    }
-                    else {
-                        existing.release();
-                        value.addRef();
-                        this._elements[key] = value;
-                    }
-                }
-                else {
-                    existing.release();
-                    this._elements[key] = void 0;
-                }
+        StringIUnknownMap.prototype.getWeakReference = function (key) {
+            var element = this._elements[key];
+            if (element) {
+                return element;
             }
             else {
-                // There is no entry at the key specified.
-                if (value) {
-                    value.addRef();
-                    this._elements[key] = value;
-                }
-                else {
-                }
+                return void 0;
             }
+        };
+        StringIUnknownMap.prototype.putStrongReference = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakReference(key, value);
+        };
+        StringIUnknownMap.prototype.putWeakReference = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
+            if (existing) {
+                existing.release();
+            }
+            elements[key] = value;
         };
         StringIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
@@ -4599,7 +4608,10 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
             configurable: true
         });
         StringIUnknownMap.prototype.remove = function (key) {
-            this.put(key, void 0);
+            var value = this.getWeakReference(key);
+            if (value) {
+                value.release();
+            }
             delete this._elements[key];
         };
         return StringIUnknownMap;
@@ -4646,6 +4658,14 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 return this._refCount;
             }
         };
+        Object.defineProperty(DrawableGroup.prototype, "material", {
+            get: function () {
+                this._program.addRef();
+                return this._program;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * accept provides a way to push out the IMaterial without bumping the reference count.
          */
@@ -4671,13 +4691,25 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 });
             }
         };
+        DrawableGroup.prototype.draw = function (ambients, canvasId) {
+            var i;
+            var length;
+            var drawables = this._drawables;
+            var material = this._program;
+            material.use(canvasId);
+            ambients.setUniforms(material, canvasId);
+            length = drawables.length;
+            for (i = 0; i < length; i++) {
+                drawables.getWeakReference(i).draw(canvasId);
+            }
+        };
         DrawableGroup.prototype.traverseDrawables = function (callback) {
             this._drawables.forEach(callback);
         };
         return DrawableGroup;
     })();
     /**
-     * Should look like a set of Drawable Groups
+     * Should look like a set of Drawable Groups. Maybe like a Scene!
      */
     var DrawableGroups = (function () {
         function DrawableGroups() {
@@ -4714,13 +4746,12 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             if (program) {
                 try {
                     var programId = program.programId;
-                    var programInfo = this._groups.get(programId);
+                    var programInfo = this._groups.getWeakReference(programId);
                     if (!programInfo) {
                         programInfo = new DrawableGroup(program);
-                        this._groups.put(programId, programInfo);
+                        this._groups.putWeakReference(programId, programInfo);
                     }
                     programInfo.push(drawable);
-                    programInfo.release();
                 }
                 finally {
                     program.release();
@@ -4735,12 +4766,11 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 try {
                     var programId = program.programId;
                     if (this._groups.exists(programId)) {
-                        var group = this._groups.get(programId);
+                        var group = this._groups.getWeakReference(programId);
                         group.remove(drawable);
                         if (group.length === 0) {
                             delete this._groups.remove(programId);
                         }
-                        group.release();
                     }
                     else {
                         throw new Error("drawable not found?!");
@@ -4751,6 +4781,24 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 }
             }
         };
+        DrawableGroups.prototype.draw = function (ambients, canvasId) {
+            // Manually hoisted variable declarations.
+            var drawGroups;
+            var materialKey;
+            var materialKeys;
+            var materialsLength;
+            var i;
+            var drawGroup;
+            drawGroups = this._groups;
+            materialKeys = drawGroups.keys;
+            materialsLength = materialKeys.length;
+            for (i = 0; i < materialsLength; i++) {
+                materialKey = materialKeys[i];
+                drawGroup = drawGroups.getWeakReference(materialKey);
+                drawGroup.draw(ambients, canvasId);
+            }
+        };
+        // FIXME: Rename to traverse
         DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {
             this._groups.forEach(function (groupId, group) {
                 group.acceptProgram(callback2);
@@ -4766,7 +4814,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
     })();
     var createDrawList = function () {
         var drawableGroups = new DrawableGroups();
-        var managers = new NumberIUnknownMap();
+        var canvasIdToManager = new NumberIUnknownMap();
         var refCount = 1;
         var uuid = uuid4().generate();
         var self = {
@@ -4781,8 +4829,8 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 if (refCount === 0) {
                     drawableGroups.release();
                     drawableGroups = void 0;
-                    managers.release();
-                    managers = void 0;
+                    canvasIdToManager.release();
+                    canvasIdToManager = void 0;
                     refCount = void 0;
                     uuid = void 0;
                     return 0;
@@ -4792,28 +4840,48 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 }
             },
             contextFree: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) { drawable.contextFree(canvasId); }, function (program) { program.contextFree(canvasId); });
-            },
-            contextGain: function (manager) {
-                if (!managers.exists(manager.canvasId)) {
-                    managers.put(manager.canvasId, manager);
-                }
                 drawableGroups.traverseDrawables(function (drawable) {
-                    drawable.contextGain(manager);
-                }, function (material) {
-                    material.contextGain(manager);
+                    drawable.contextFree(canvasId);
+                }, function (program) {
+                    program.contextFree(canvasId);
                 });
+                canvasIdToManager.remove(canvasId);
+            },
+            /**
+             * method contextGain
+             */
+            contextGain: function (manager) {
+                if (!canvasIdToManager.exists(manager.canvasId)) {
+                    // Cache the manager.
+                    canvasIdToManager.putStrongReference(manager.canvasId, manager);
+                    // Broadcast to drawables and materials.
+                    drawableGroups.traverseDrawables(function (drawable) {
+                        drawable.contextGain(manager);
+                    }, function (material) {
+                        material.contextGain(manager);
+                    });
+                }
             },
             contextLoss: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) { drawable.contextLoss(canvasId); }, function (program) { program.contextLoss(canvasId); });
+                if (canvasIdToManager.exists(canvasId)) {
+                    drawableGroups.traverseDrawables(function (drawable) {
+                        drawable.contextLoss(canvasId);
+                    }, function (material) {
+                        material.contextLoss(canvasId);
+                    });
+                    canvasIdToManager.remove(canvasId);
+                }
             },
             add: function (drawable) {
-                // If we have managers povide them to the drawable before asking for the program.
+                // If we have canvasIdToManager povide them to the drawable before asking for the program.
                 // FIXME: Do we have to be careful about whether the manager has a context?
-                managers.forEach(function (id, manager) {
+                canvasIdToManager.forEach(function (id, manager) {
                     drawable.contextGain(manager);
                 });
                 drawableGroups.add(drawable);
+            },
+            draw: function (ambients, canvasId) {
+                drawableGroups.draw(ambients, canvasId);
             },
             remove: function (drawable) {
                 drawableGroups.remove(drawable);
@@ -4893,7 +4961,7 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../core', '../checks/i
                 // FIXME: Would be nice to be able to check that a block does not alter the reference count?
                 var material = self_1._material;
                 var model = self_1.model;
-                var buffers = this.meshLookup.get(canvasId);
+                var buffers = this.meshLookup.getWeakReference(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     model.setUniforms(material, canvasId);
@@ -4902,7 +4970,6 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../core', '../checks/i
                     buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
                     buffers.draw();
                     buffers.unbind();
-                    buffers.release();
                 }
                 else {
                     if (core.verbose) {
@@ -4927,9 +4994,7 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../core', '../checks/i
                 mustBeDefined('geometry.data', data, contextBuilder);
                 mustBeDefined('geometry.meta', meta, contextBuilder);
                 // FIXME: Why is the meta not being used?
-                var mesh = manager.createBufferGeometry(data);
-                this.meshLookup.put(manager.canvasId, mesh);
-                mesh.release();
+                this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data));
                 this._material.contextGain(manager);
             }
             else {
@@ -5263,74 +5328,118 @@ define('davinci-eight/scene/MonitorList',["require", "exports", '../checks/mustS
     return MonitorList;
 });
 
-define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../utils/refChange', '../utils/uuid4'], function (require, exports, createDrawList, MonitorList, refChange, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../utils/Shareable'], function (require, exports, createDrawList, MonitorList, Shareable) {
     var LOGGING_NAME = 'Scene';
     function ctorContext() {
         return LOGGING_NAME + " constructor";
     }
     /**
      * @class Scene
+     * @extends Shareable
      * @extends IDrawList
      */
-    // FIXME: extend Shareable
-    var Scene = (function () {
+    var Scene = (function (_super) {
+        __extends(Scene, _super);
         // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
         /**
+         * <p>
+         * A <code>Scene</code> is a collection of drawable instances arranged in some order.
+         * The precise order is implementation defined.
+         * The collection may be traversed for general processing using callback/visitor functions.
+         * </p>
          * @class Scene
          * @constructor
          * @param monitors [ContextMonitor[]=[]]
          */
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
-            this._drawList = createDrawList();
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+            _super.call(this, LOGGING_NAME);
             MonitorList.verify('monitors', monitors, ctorContext);
+            this.drawList = createDrawList();
             this.monitors = new MonitorList(monitors);
             this.monitors.addContextListener(this);
-            refChange(this._uuid, LOGGING_NAME, +1);
         }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        Scene.prototype.destructor = function () {
+            this.monitors.removeContextListener(this);
+            this.monitors = void 0;
+            this.drawList.release();
+            this.drawList = void 0;
+        };
+        /**
+         * <p>
+         * Adds the <code>drawable</code> to this <code>Scene</code>.
+         * </p>
+         * @method add
+         * @param drawable {IDrawable}
+         * @return {Void}
+         * <p>
+         * This method returns <code>undefined</code>.
+         * </p>
+         */
         Scene.prototype.add = function (drawable) {
-            this._drawList.add(drawable);
+            this.drawList.add(drawable);
         };
-        Scene.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME, +1);
-            return this._refCount;
+        /**
+         * <p>
+         * Traverses the collection of drawables, drawing each one.
+         * </p>
+         * @method draw
+         * @param ambients {UniformData}
+         * @param canvasId {number}
+         * @return {void}
+         * @beta
+         */
+        Scene.prototype.draw = function (ambients, canvasId) {
+            this.drawList.draw(ambients, canvasId);
         };
-        Scene.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME, -1);
-            if (this._refCount === 0) {
-                this._drawList.release();
-                this._drawList = void 0;
-                this.monitors.removeContextListener(this);
-                this.monitors = void 0;
-                this._refCount = void 0;
-                this._uuid = void 0;
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
-        };
+        /**
+         * <p>
+         * Removes the <code>drawable</code> from this <code>Scene</code>.
+         * </p>
+         * @method remove
+         * @param drawable {IDrawable}
+         * @return {Void}
+         * <p>
+         * This method returns <code>undefined</code>.
+         * </p>
+         */
         Scene.prototype.remove = function (drawable) {
-            this._drawList.remove(drawable);
+            this.drawList.remove(drawable);
         };
+        /**
+         * <p>
+         * Traverses the collection of drawables, calling the specified callback arguments.
+         * </p>
+         * @method traverse
+         * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
+         * @param canvasId {number} Identifies the canvas.
+         * @param prolog {(material: IMaterial) => void} Callback function for each material.
+         * @return {void}
+         */
         Scene.prototype.traverse = function (callback, canvasId, prolog) {
-            this._drawList.traverse(callback, canvasId, prolog);
+            this.drawList.traverse(callback, canvasId, prolog);
         };
         Scene.prototype.contextFree = function (canvasId) {
-            this._drawList.contextFree(canvasId);
+            this.drawList.contextFree(canvasId);
         };
         Scene.prototype.contextGain = function (manager) {
-            this._drawList.contextGain(manager);
+            this.drawList.contextGain(manager);
         };
         Scene.prototype.contextLoss = function (canvasId) {
-            this._drawList.contextLoss(canvasId);
+            this.drawList.contextLoss(canvasId);
         };
         return Scene;
-    })();
+    })(Shareable);
     return Scene;
 });
 
@@ -5381,41 +5490,6 @@ define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '.
     return EIGHTLogger;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/commands/ContextAttributesLogger',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    /**
-     * <p>
-     * Displays details about the WegGL version to the console.
-     * <p>
-     * @class ContextAttributesLogger
-     * @extends Shareable
-     * @implements IContextCommand
-     */
-    var ContextAttributesLogger = (function (_super) {
-        __extends(ContextAttributesLogger, _super);
-        function ContextAttributesLogger() {
-            _super.call(this, 'ContextAttributesLogger');
-        }
-        ContextAttributesLogger.prototype.execute = function (gl) {
-            var attributes = gl.getContextAttributes();
-            console.log("alpha                 => " + attributes.alpha);
-            console.log("antialias             => " + attributes.antialias);
-            console.log("depth                 => " + attributes.depth);
-            console.log("premultipliedAlpha    => " + attributes.premultipliedAlpha);
-            console.log("preserveDrawingBuffer => " + attributes.preserveDrawingBuffer);
-            console.log("stencil               => " + attributes.stencil);
-        };
-        ContextAttributesLogger.prototype.destructor = function () {
-        };
-        return ContextAttributesLogger;
-    })(Shareable);
-    return ContextAttributesLogger;
-});
-
 define('davinci-eight/checks/isBoolean',["require", "exports"], function (require, exports) {
     function isBoolean(x) {
         return (typeof x === 'boolean');
@@ -5434,56 +5508,7 @@ define('davinci-eight/checks/mustBeBoolean',["require", "exports", '../checks/mu
     return mustBeBoolean;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/commands/VersionLogger',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    /**
-     * <p>
-     * Displays details about the WegGL version to the console.
-     * <p>
-     * <p>
-     * Initializes the <code>type</code> property to <code>'VersionLogger'</code> for reference count tracking.
-     * <p>
-     * @class VersionLogger
-     * @extends Shareable
-     * @implements IContextCommand
-     */
-    var VersionLogger = (function (_super) {
-        __extends(VersionLogger, _super);
-        /**
-         * @class VersionLogger
-         * @constructor
-         */
-        function VersionLogger() {
-            _super.call(this, 'VersionLogger');
-        }
-        /**
-         * <p>
-         * Logs the WebGL <code>VERSION</code> parameter to the console.
-         * </p>
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        VersionLogger.prototype.execute = function (gl) {
-            console.log(gl.getParameter(gl.VERSION));
-        };
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        VersionLogger.prototype.destructor = function () {
-        };
-        return VersionLogger;
-    })(Shareable);
-    return VersionLogger;
-});
-
-define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../commands/EIGHTLogger', '../commands/ContextAttributesLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/VersionLogger', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, ContextAttributesLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, VersionLogger, WebGLClear, WebGLClearColor, WebGLEnable) {
+define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, WebGLClear, WebGLClearColor, WebGLEnable) {
     function setStartUpCommands(renderer) {
         var cmd;
         // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
@@ -5491,13 +5516,13 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
         renderer.pushStartUp(cmd);
         cmd.release();
         // `WebGL major.minor (OpenGL ES ...)`
-        cmd = new VersionLogger();
-        renderer.pushStartUp(cmd);
-        cmd.release();
+        // cmd = new VersionLogger()
+        // renderer.pushStartUp(cmd)
+        // cmd.release()
         // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
-        cmd = new ContextAttributesLogger();
-        renderer.pushStartUp(cmd);
-        cmd.release();
+        // cmd = new ContextAttributesLogger()
+        // renderer.pushStartUp(cmd)
+        // cmd.release()
         // cmd(red, green, blue, alpha)
         cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
         renderer.pushStartUp(cmd);
@@ -5523,11 +5548,7 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
      * Part of the role of this class is to manage the commands that are executed at startup/prolog.
      */
     var renderer = function () {
-        // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
         var _manager;
-        //var gl: WebGLRenderingContext = void 0
-        //var canvasElement: HTMLCanvasElement;
-        //var canvasId: number
         var uuid = uuid4().generate();
         var refCount = 1;
         var _autoProlog = true;
@@ -5597,28 +5618,16 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
                     return refCount;
                 }
             },
-            // FIXME: Need to be using the uniforms?
-            // But we now already know the canvas so maybe not.
             render: function (drawList, ambients) {
-                // We have to do this to lazily initialize.
-                // FIXME: This means there should be another method that avoid this.
-                drawList.contextGain(_manager);
-                if (_autoProlog === true) {
-                    self.prolog();
+                if (_manager) {
+                    // We have to do this to lazily initialize.
+                    // FIXME: This means there should be another method that avoid this?
+                    drawList.contextGain(_manager);
+                    if (_autoProlog === true) {
+                        self.prolog();
+                    }
+                    drawList.draw(ambients, _manager.canvasId);
                 }
-                // FIXME: Check for _manager
-                var canvasId = _manager.canvasId;
-                // FIXME: This seems inefficient, using a callback.
-                // Especially since all we do is call draw(canvasId) on each
-                function drawHandler(drawable) {
-                    drawable.draw(canvasId);
-                }
-                // We do know the canvasId now so how can we process those uniforms. Who do they go to?
-                //
-                // The prolog callback for the traverse sets the uniforms on the program.  
-                drawList.traverse(drawHandler, canvasId, function (program) {
-                    ambients.setUniforms(program, canvasId);
-                });
             }
         };
         refChange(uuid, CLASS_NAME, +1);
@@ -6094,9 +6103,10 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 var aName = aNames[i];
                 var key = attribKey(aName, aNameToKeyName);
                 var attributes = block.attributes;
-                var attribute = attributes.get(key);
+                var attribute = attributes.getWeakReference(key);
                 if (attribute) {
                     // Associate the attribute buffer with the attribute location.
+                    // FIXME Would be nice to be able to get a weak reference to the buffer.
                     var buffer = attribute.buffer;
                     buffer.bind();
                     var attributeLocation = attribLocations[aName];
@@ -6104,7 +6114,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     buffer.unbind();
                     attributeLocation.enable();
                     buffer.release();
-                    attribute.release();
                 }
                 else {
                     // The attribute available may not be required by the program.
@@ -6188,7 +6197,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                         if (_program) {
                             mesh.unbind();
                         }
-                        var block = blocks.get(uuid);
+                        var block = blocks.getWeakReference(uuid);
                         if (block) {
                             if (program) {
                                 _program = program;
@@ -6201,7 +6210,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                             else {
                                 expectArg('program', program).toBeObject();
                             }
-                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -6209,10 +6217,9 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     }
                 },
                 draw: function () {
-                    var block = blocks.get(uuid);
+                    var block = blocks.getWeakReference(uuid);
                     if (block) {
                         block.drawCommand.execute(gl);
-                        block.release();
                     }
                     else {
                         throw new Error(messageUnrecognizedMesh(uuid));
@@ -6220,13 +6227,13 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 },
                 unbind: function () {
                     if (_program) {
-                        var block = blocks.get(uuid);
+                        var block = blocks.getWeakReference(uuid);
                         if (block) {
+                            // FIXME: Ask block to unbind index buffer and avoid addRef/release
                             var indexBuffer = block.indexBuffer;
                             indexBuffer.unbind();
                             indexBuffer.release();
                             unbindProgramAttribLocations(_program);
-                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -6313,6 +6320,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
+                // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
@@ -6325,8 +6333,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     var data = vertexAttrib.values.data;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                    attributes.put(name_1, attribute);
-                    attribute.release();
+                    attributes.putWeakReference(name_1, attribute);
                     buffer.unbind();
                     buffer.release();
                 }
@@ -6335,9 +6342,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 switch (elements.k) {
                 }
                 var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
-                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-                blocks.put(mesh.uuid, block);
-                block.release();
+                blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand));
                 attributes.release();
                 indexBuffer.release();
                 return mesh;
@@ -6487,18 +6492,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../core', '../checks/mustBeDefined', '../checks/mustBeInteger', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, createRenderer, contextProxy, core, mustBeDefined, mustBeInteger, readOnly, Shareable) {
+define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../core', '../checks/mustBeDefined', '../checks/mustBeInteger', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, createRenderer, contextProxy, core, mustBeDefined, mustBeInteger, readOnly, Shareable) {
     function beHTMLCanvasElement() {
         return "be an HTMLCanvasElement";
     }
     var defaultCanvasBuilder = function () { return document.createElement('canvas'); };
     /**
-     * @class WebGLRenderer
+     * @class Canvas3D
      */
-    var WebGLRenderer = (function (_super) {
-        __extends(WebGLRenderer, _super);
+    var Canvas3D = (function (_super) {
+        __extends(Canvas3D, _super);
         /**
-         * @class WebGLRenderer
+         * @class Canvas3D
          * @constructor
          * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
          * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
@@ -6506,8 +6511,8 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
          * @beta
          */
         // FIXME: Move attributes to start()
-        function WebGLRenderer(attributes) {
-            _super.call(this, 'WebGLRenderer');
+        function Canvas3D(attributes) {
+            _super.call(this, 'Canvas3D');
             this._kahuna = contextProxy(attributes);
             this._renderer = createRenderer();
             this._kahuna.addContextListener(this._renderer);
@@ -6517,17 +6522,17 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
          * return {void}
          * @protected
          */
-        WebGLRenderer.prototype.destructor = function () {
+        Canvas3D.prototype.destructor = function () {
             this._kahuna.removeContextListener(this._renderer);
             this._kahuna.release();
             this._kahuna = void 0;
             this._renderer.release();
             this._renderer = void 0;
         };
-        WebGLRenderer.prototype.addContextListener = function (user) {
+        Canvas3D.prototype.addContextListener = function (user) {
             this._kahuna.addContextListener(user);
         };
-        Object.defineProperty(WebGLRenderer.prototype, "autoProlog", {
+        Object.defineProperty(Canvas3D.prototype, "autoProlog", {
             /**
              * <p>
              * Determines whether prolog commands are run automatically as part of the `render()` call.
@@ -6545,7 +6550,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(WebGLRenderer.prototype, "canvasElement", {
+        Object.defineProperty(Canvas3D.prototype, "canvasElement", {
             get: function () {
                 return this._kahuna.canvasElement;
             },
@@ -6555,7 +6560,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(WebGLRenderer.prototype, "canvasId", {
+        Object.defineProperty(Canvas3D.prototype, "canvasId", {
             /**
              * @property canvasId
              * @type {number}
@@ -6579,50 +6584,50 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
           return this._canvas
         }
         */
-        WebGLRenderer.prototype.contextFree = function (canvasId) {
+        Canvas3D.prototype.contextFree = function (canvasId) {
             this._renderer.contextFree(canvasId);
         };
-        WebGLRenderer.prototype.contextGain = function (manager) {
+        Canvas3D.prototype.contextGain = function (manager) {
             this._renderer.contextGain(manager);
         };
-        WebGLRenderer.prototype.contextLoss = function (canvasId) {
+        Canvas3D.prototype.contextLoss = function (canvasId) {
             this._renderer.contextLoss(canvasId);
         };
-        WebGLRenderer.prototype.createArrayBuffer = function () {
+        Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
         };
-        WebGLRenderer.prototype.createBufferGeometry = function (elements, mode, usage) {
+        Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
             return this._kahuna.createBufferGeometry(elements, mode, usage);
         };
-        WebGLRenderer.prototype.createTexture2D = function () {
+        Canvas3D.prototype.createTexture2D = function () {
             return this._kahuna.createTexture2D();
         };
-        Object.defineProperty(WebGLRenderer.prototype, "gl", {
+        Object.defineProperty(Canvas3D.prototype, "gl", {
             get: function () {
                 return this._kahuna.gl;
             },
             enumerable: true,
             configurable: true
         });
-        WebGLRenderer.prototype.prolog = function () {
+        Canvas3D.prototype.prolog = function () {
             this._renderer.prolog();
         };
-        WebGLRenderer.prototype.pushProlog = function (command) {
+        Canvas3D.prototype.pushProlog = function (command) {
             this._renderer.pushProlog(command);
         };
-        WebGLRenderer.prototype.pushStartUp = function (command) {
+        Canvas3D.prototype.pushStartUp = function (command) {
             this._renderer.pushStartUp(command);
         };
-        WebGLRenderer.prototype.removeContextListener = function (user) {
+        Canvas3D.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);
         };
-        WebGLRenderer.prototype.render = function (drawList, ambients) {
+        Canvas3D.prototype.render = function (drawList, ambients) {
             // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
             // This implies camera should implement UniformData and we pass that in as ambients.
-            // This allows us to generalize the WebGLRenderer API.
+            // This allows us to generalize the Canvas3D API.
             this._renderer.render(drawList, ambients);
         };
-        WebGLRenderer.prototype.setSize = function (width, height) {
+        Canvas3D.prototype.setSize = function (width, height) {
             mustBeInteger('width', width);
             mustBeInteger('height', height);
             var canvas = this.canvasElement;
@@ -6630,7 +6635,7 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
             canvas.height = height;
             this.gl.viewport(0, 0, width, height);
         };
-        WebGLRenderer.prototype.start = function (canvas, canvasId) {
+        Canvas3D.prototype.start = function (canvas, canvasId) {
             // FIXME: DRY delegate to kahuna.
             if (!(canvas instanceof HTMLElement)) {
                 if (core.verbose) {
@@ -6642,12 +6647,12 @@ define('davinci-eight/scene/WebGLRenderer',["require", "exports", '../renderers/
             mustBeInteger('canvasId', canvasId);
             this._kahuna.start(canvas, canvasId);
         };
-        WebGLRenderer.prototype.stop = function () {
+        Canvas3D.prototype.stop = function () {
             this._kahuna.stop();
         };
-        return WebGLRenderer;
+        return Canvas3D;
     })(Shareable);
-    return WebGLRenderer;
+    return Canvas3D;
 });
 
 define('davinci-eight/geometries/Geometry',["require", "exports"], function (require, exports) {
@@ -9900,7 +9905,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/GeometryData', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toGeometryData', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/WebGLRenderer', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/CuboidComplex', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, GeometryData, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, WebGLRenderer, Geometry, CuboidComplex, CuboidGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/GeometryData', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toGeometryData', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/CuboidComplex', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, GeometryData, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, Canvas3D, Geometry, CuboidComplex, CuboidGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -9942,7 +9947,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get Scene() { return Scene; },
         get Mesh() { return Mesh; },
         get PerspectiveCamera() { return PerspectiveCamera; },
-        get WebGLRenderer() { return WebGLRenderer; },
+        get Canvas3D() { return Canvas3D; },
         get createDrawList() { return createDrawList; },
         get renderer() { return renderer; },
         get webgl() { return contextProxy; },

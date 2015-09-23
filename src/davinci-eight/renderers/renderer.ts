@@ -31,14 +31,14 @@ function setStartUpCommands(renderer: ContextRenderer) {
   cmd.release()
 
   // `WebGL major.minor (OpenGL ES ...)`
-  cmd = new VersionLogger()
-  renderer.pushStartUp(cmd)
-  cmd.release()
+  // cmd = new VersionLogger()
+  // renderer.pushStartUp(cmd)
+  // cmd.release()
 
   // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
-  cmd = new ContextAttributesLogger()
-  renderer.pushStartUp(cmd)
-  cmd.release()
+  // cmd = new ContextAttributesLogger()
+  // renderer.pushStartUp(cmd)
+  // cmd.release()
 
   // cmd(red, green, blue, alpha)
   cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
@@ -71,11 +71,7 @@ let CLASS_NAME = "CanonicalContextRenderer"
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
 let renderer = function(): ContextRenderer {
-  // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
   var _manager: ContextManager;
-  //var gl: WebGLRenderingContext = void 0
-  //var canvasElement: HTMLCanvasElement;
-  //var canvasId: number
   let uuid = uuid4().generate()
   let refCount = 1
   var _autoProlog: boolean = true;
@@ -146,28 +142,16 @@ let renderer = function(): ContextRenderer {
         return refCount
       }
     },
-    // FIXME: Need to be using the uniforms?
-    // But we now already know the canvas so maybe not.
     render(drawList: IDrawList, ambients: UniformData) {
-      // We have to do this to lazily initialize.
-      // FIXME: This means there should be another method that avoid this.
-      drawList.contextGain(_manager)
+      if (_manager) {
+        // We have to do this to lazily initialize.
+        // FIXME: This means there should be another method that avoid this?
+        drawList.contextGain(_manager)
 
-      if (_autoProlog === true) { self.prolog() }
+        if (_autoProlog === true) { self.prolog() }
 
-      // FIXME: Check for _manager
-      let canvasId = _manager.canvasId;
-      // FIXME: This seems inefficient, using a callback.
-      // Especially since all we do is call draw(canvasId) on each
-      function drawHandler(drawable: IDrawable) {
-        drawable.draw(canvasId)
+        drawList.draw(ambients, _manager.canvasId)
       }
-      // We do know the canvasId now so how can we process those uniforms. Who do they go to?
-      //
-      // The prolog callback for the traverse sets the uniforms on the program.  
-      drawList.traverse(drawHandler, canvasId, function(program: IMaterial) {
-        ambients.setUniforms(program, canvasId)
-      })
     }
   }
   refChange(uuid, CLASS_NAME, +1)

@@ -37,6 +37,14 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 return this._refCount;
             }
         };
+        Object.defineProperty(DrawableGroup.prototype, "material", {
+            get: function () {
+                this._program.addRef();
+                return this._program;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * accept provides a way to push out the IMaterial without bumping the reference count.
          */
@@ -62,13 +70,25 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 });
             }
         };
+        DrawableGroup.prototype.draw = function (ambients, canvasId) {
+            var i;
+            var length;
+            var drawables = this._drawables;
+            var material = this._program;
+            material.use(canvasId);
+            ambients.setUniforms(material, canvasId);
+            length = drawables.length;
+            for (i = 0; i < length; i++) {
+                drawables.getWeakReference(i).draw(canvasId);
+            }
+        };
         DrawableGroup.prototype.traverseDrawables = function (callback) {
             this._drawables.forEach(callback);
         };
         return DrawableGroup;
     })();
     /**
-     * Should look like a set of Drawable Groups
+     * Should look like a set of Drawable Groups. Maybe like a Scene!
      */
     var DrawableGroups = (function () {
         function DrawableGroups() {
@@ -105,13 +125,12 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             if (program) {
                 try {
                     var programId = program.programId;
-                    var programInfo = this._groups.get(programId);
+                    var programInfo = this._groups.getWeakReference(programId);
                     if (!programInfo) {
                         programInfo = new DrawableGroup(program);
-                        this._groups.put(programId, programInfo);
+                        this._groups.putWeakReference(programId, programInfo);
                     }
                     programInfo.push(drawable);
-                    programInfo.release();
                 }
                 finally {
                     program.release();
@@ -126,12 +145,11 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 try {
                     var programId = program.programId;
                     if (this._groups.exists(programId)) {
-                        var group = this._groups.get(programId);
+                        var group = this._groups.getWeakReference(programId);
                         group.remove(drawable);
                         if (group.length === 0) {
                             delete this._groups.remove(programId);
                         }
-                        group.release();
                     }
                     else {
                         throw new Error("drawable not found?!");
@@ -142,6 +160,24 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 }
             }
         };
+        DrawableGroups.prototype.draw = function (ambients, canvasId) {
+            // Manually hoisted variable declarations.
+            var drawGroups;
+            var materialKey;
+            var materialKeys;
+            var materialsLength;
+            var i;
+            var drawGroup;
+            drawGroups = this._groups;
+            materialKeys = drawGroups.keys;
+            materialsLength = materialKeys.length;
+            for (i = 0; i < materialsLength; i++) {
+                materialKey = materialKeys[i];
+                drawGroup = drawGroups.getWeakReference(materialKey);
+                drawGroup.draw(ambients, canvasId);
+            }
+        };
+        // FIXME: Rename to traverse
         DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {
             this._groups.forEach(function (groupId, group) {
                 group.acceptProgram(callback2);
@@ -157,7 +193,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
     })();
     var createDrawList = function () {
         var drawableGroups = new DrawableGroups();
-        var managers = new NumberIUnknownMap();
+        var canvasIdToManager = new NumberIUnknownMap();
         var refCount = 1;
         var uuid = uuid4().generate();
         var self = {
@@ -172,8 +208,8 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 if (refCount === 0) {
                     drawableGroups.release();
                     drawableGroups = void 0;
-                    managers.release();
-                    managers = void 0;
+                    canvasIdToManager.release();
+                    canvasIdToManager = void 0;
                     refCount = void 0;
                     uuid = void 0;
                     return 0;
@@ -183,28 +219,48 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 }
             },
             contextFree: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) { drawable.contextFree(canvasId); }, function (program) { program.contextFree(canvasId); });
-            },
-            contextGain: function (manager) {
-                if (!managers.exists(manager.canvasId)) {
-                    managers.put(manager.canvasId, manager);
-                }
                 drawableGroups.traverseDrawables(function (drawable) {
-                    drawable.contextGain(manager);
-                }, function (material) {
-                    material.contextGain(manager);
+                    drawable.contextFree(canvasId);
+                }, function (program) {
+                    program.contextFree(canvasId);
                 });
+                canvasIdToManager.remove(canvasId);
+            },
+            /**
+             * method contextGain
+             */
+            contextGain: function (manager) {
+                if (!canvasIdToManager.exists(manager.canvasId)) {
+                    // Cache the manager.
+                    canvasIdToManager.putStrongReference(manager.canvasId, manager);
+                    // Broadcast to drawables and materials.
+                    drawableGroups.traverseDrawables(function (drawable) {
+                        drawable.contextGain(manager);
+                    }, function (material) {
+                        material.contextGain(manager);
+                    });
+                }
             },
             contextLoss: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) { drawable.contextLoss(canvasId); }, function (program) { program.contextLoss(canvasId); });
+                if (canvasIdToManager.exists(canvasId)) {
+                    drawableGroups.traverseDrawables(function (drawable) {
+                        drawable.contextLoss(canvasId);
+                    }, function (material) {
+                        material.contextLoss(canvasId);
+                    });
+                    canvasIdToManager.remove(canvasId);
+                }
             },
             add: function (drawable) {
-                // If we have managers povide them to the drawable before asking for the program.
+                // If we have canvasIdToManager povide them to the drawable before asking for the program.
                 // FIXME: Do we have to be careful about whether the manager has a context?
-                managers.forEach(function (id, manager) {
+                canvasIdToManager.forEach(function (id, manager) {
                     drawable.contextGain(manager);
                 });
                 drawableGroups.add(drawable);
+            },
+            draw: function (ambients, canvasId) {
+                drawableGroups.draw(ambients, canvasId);
             },
             remove: function (drawable) {
                 drawableGroups.remove(drawable);

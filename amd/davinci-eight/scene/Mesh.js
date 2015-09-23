@@ -52,7 +52,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/mustB
                 // FIXME: Would be nice to be able to check that a block does not alter the reference count?
                 var material = self_1._material;
                 var model = self_1.model;
-                var buffers = this.meshLookup.get(canvasId);
+                var buffers = this.meshLookup.getWeakReference(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     model.setUniforms(material, canvasId);
@@ -61,7 +61,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/mustB
                     buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
                     buffers.draw();
                     buffers.unbind();
-                    buffers.release();
                 }
                 else {
                     if (core.verbose) {
@@ -86,9 +85,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/mustB
                 mustBeDefined('geometry.data', data, contextBuilder);
                 mustBeDefined('geometry.meta', meta, contextBuilder);
                 // FIXME: Why is the meta not being used?
-                var mesh = manager.createBufferGeometry(data);
-                this.meshLookup.put(manager.canvasId, mesh);
-                mesh.release();
+                this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data));
                 this._material.contextGain(manager);
             }
             else {

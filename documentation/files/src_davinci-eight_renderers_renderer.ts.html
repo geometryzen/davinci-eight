@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.104.0</em>
+            <em>API Docs for: 2.105.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -71,6 +72,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -105,7 +108,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -180,14 +182,14 @@ function setStartUpCommands(renderer: ContextRenderer) {
   cmd.release()
 
   // &#x60;WebGL major.minor (OpenGL ES ...)&#x60;
-  cmd = new VersionLogger()
-  renderer.pushStartUp(cmd)
-  cmd.release()
+  // cmd = new VersionLogger()
+  // renderer.pushStartUp(cmd)
+  // cmd.release()
 
   // &#x60;alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil&#x60;
-  cmd = new ContextAttributesLogger()
-  renderer.pushStartUp(cmd)
-  cmd.release()
+  // cmd = new ContextAttributesLogger()
+  // renderer.pushStartUp(cmd)
+  // cmd.release()
 
   // cmd(red, green, blue, alpha)
   cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0)
@@ -220,11 +222,7 @@ let CLASS_NAME = &quot;CanonicalContextRenderer&quot;
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
 let renderer = function(): ContextRenderer {
-  // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
   var _manager: ContextManager;
-  //var gl: WebGLRenderingContext = void 0
-  //var canvasElement: HTMLCanvasElement;
-  //var canvasId: number
   let uuid = uuid4().generate()
   let refCount = 1
   var _autoProlog: boolean = true;
@@ -295,28 +293,16 @@ let renderer = function(): ContextRenderer {
         return refCount
       }
     },
-    // FIXME: Need to be using the uniforms?
-    // But we now already know the canvas so maybe not.
     render(drawList: IDrawList, ambients: UniformData) {
-      // We have to do this to lazily initialize.
-      // FIXME: This means there should be another method that avoid this.
-      drawList.contextGain(_manager)
+      if (_manager) {
+        // We have to do this to lazily initialize.
+        // FIXME: This means there should be another method that avoid this?
+        drawList.contextGain(_manager)
 
-      if (_autoProlog === true) { self.prolog() }
+        if (_autoProlog === true) { self.prolog() }
 
-      // FIXME: Check for _manager
-      let canvasId = _manager.canvasId;
-      // FIXME: This seems inefficient, using a callback.
-      // Especially since all we do is call draw(canvasId) on each
-      function drawHandler(drawable: IDrawable) {
-        drawable.draw(canvasId)
+        drawList.draw(ambients, _manager.canvasId)
       }
-      // We do know the canvasId now so how can we process those uniforms. Who do they go to?
-      //
-      // The prolog callback for the traverse sets the uniforms on the program.  
-      drawList.traverse(drawHandler, canvasId, function(program: IMaterial) {
-        ambients.setUniforms(program, canvasId)
-      })
     }
   }
   refChange(uuid, CLASS_NAME, +1)

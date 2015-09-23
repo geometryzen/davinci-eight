@@ -259,9 +259,10 @@ function bindProgramAttribLocations(program: IMaterial, block: ElementsBlock, aN
       let aName = aNames[i];
       let key: string = attribKey(aName, aNameToKeyName);
       let attributes = block.attributes;
-      let attribute = attributes.get(key);
+      let attribute = attributes.getWeakReference(key);
       if (attribute) {
         // Associate the attribute buffer with the attribute location.
+        // FIXME Would be nice to be able to get a weak reference to the buffer.
         let buffer = attribute.buffer;
         buffer.bind();
         let attributeLocation = attribLocations[aName];
@@ -270,7 +271,6 @@ function bindProgramAttribLocations(program: IMaterial, block: ElementsBlock, aN
 
         attributeLocation.enable();
         buffer.release();
-        attribute.release();
       }
       else {
         // The attribute available may not be required by the program.
@@ -361,7 +361,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
           if (_program) {
             mesh.unbind();
           }
-          let block= blocks.get(uuid);
+          let block= blocks.getWeakReference(uuid);
           if (block) {
             if (program) {
               _program = program;
@@ -376,7 +376,6 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             else {
               expectArg('program', program).toBeObject();
             }
-            block.release();
           }
           else {
             throw new Error(messageUnrecognizedMesh(uuid));
@@ -384,10 +383,9 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         }
       },
       draw(): void {
-        let block = blocks.get(uuid);
+        let block = blocks.getWeakReference(uuid);
         if (block) {
           block.drawCommand.execute(gl);
-          block.release();
         }
         else {
           throw new Error(messageUnrecognizedMesh(uuid));
@@ -395,13 +393,13 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       },
       unbind(): void {
         if (_program) {
-          let block = blocks.get(uuid);
+          let block = blocks.getWeakReference(uuid);
           if (block) {
+            // FIXME: Ask block to unbind index buffer and avoid addRef/release
             let indexBuffer = block.indexBuffer;
             indexBuffer.unbind();
             indexBuffer.release();
             unbindProgramAttribLocations(_program);
-            block.release();
           }
           else {
             throw new Error(messageUnrecognizedMesh(uuid));
@@ -496,6 +494,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       indexBuffer.unbind();
 
+      // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
       let attributes = new StringIUnknownMap<ElementsBlockAttrib>();
       let names = Object.keys(elements.attributes);
       let namesLength = names.length;
@@ -508,8 +507,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         let data: number[] = vertexAttrib.values.data;
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
         let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-        attributes.put(name, attribute);
-        attribute.release();
+        attributes.putWeakReference(name, attribute);
         buffer.unbind();
         buffer.release();
       }
@@ -518,12 +516,10 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       switch(elements.k) {
 
       }
-      let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
-      let block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-      blocks.put(mesh.uuid, block);
-      block.release();
-      attributes.release();
-      indexBuffer.release();
+      let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0)
+      blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand))
+      attributes.release()
+      indexBuffer.release()
       return mesh;
     },
     start(canvasElement: HTMLCanvasElement, canvasId: number): void {

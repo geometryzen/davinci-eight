@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.104.0</em>
+            <em>API Docs for: 2.105.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -71,6 +72,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -105,7 +108,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -234,7 +236,7 @@ class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt;
       // FIXME: Would be nice to be able to check that a block does not alter the reference count?
       let material = self._material
       let model = self.model
-      let buffers: IBufferGeometry = this.meshLookup.get(canvasId)
+      let buffers: IBufferGeometry = this.meshLookup.getWeakReference(canvasId)
       if (isDefined(buffers)) {
         material.use(canvasId)
         model.setUniforms(material, canvasId)
@@ -243,7 +245,6 @@ class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt;
         buffers.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API.
         buffers.draw()
         buffers.unbind()
-        buffers.release()
       }
       else {
         if (core.verbose) {
@@ -270,9 +271,7 @@ class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt;
       mustBeDefined(&#x27;geometry.meta&#x27;, meta, contextBuilder)
 
       // FIXME: Why is the meta not being used?
-      let mesh = manager.createBufferGeometry(data)
-      this.meshLookup.put(manager.canvasId, mesh)
-      mesh.release()
+      this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
 
       this._material.contextGain(manager)
     }

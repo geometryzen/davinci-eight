@@ -24,7 +24,7 @@ class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
     if (this._refCount === 0) {
       let self = this;
       this.forEach(function(key) {
-        self.put(key, void 0);
+        self.putStrongReference(key, void 0);
       });
       this._elements = void 0;
     }
@@ -34,44 +34,29 @@ class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
     let element = this._elements[key];
     return element ? true : false;
   }
-  get(key: number): V {
-    let element = this._elements[key];
+  getStrongReference(key: number): V {
+    let element = this.getWeakReference(key)
     if (element) {
-      element.addRef();
-      return element;
+      element.addRef()
     }
-    else {
-      return void 0;
-    }
+    return element;
   }
-  put(key: number, value: V): void {
-    let existing = this._elements[key];
+  getWeakReference(index: number): V {
+    return this._elements[index]
+  }
+  putStrongReference(key: number, value: V): void {
+    if (value) {
+      value.addRef()
+    }
+    this.putWeakReference(key, value)
+  }
+  putWeakReference(key: number, value: V): void {
+    var elements = this._elements
+    var existing = elements[key]
     if (existing) {
-      if (value) {
-        if (existing === value) {
-          // do nothing
-        }
-        else {
-          existing.release();
-          value.addRef();
-          this._elements[key] = value;
-        }
-      }
-      else {
-        existing.release();
-        this._elements[key] = void 0;
-      }
+      existing.release()
     }
-    else {
-      // There is no entry at the key specified.
-      if (value) {
-        value.addRef();
-        this._elements[key] = value;
-      }
-      else {
-        // do nothing.
-      }
-    }
+    elements[key] = value
   }
   forEach(callback: (key: number, value: V) => void) {
     let keys: number[] = this.keys;
@@ -88,7 +73,8 @@ class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
     return Object.keys(this._elements).map(function(keyString){return parseFloat(keyString)});
   }
   remove(key: number) {
-    this.put(key, void 0);
+    // Strong or Weak doesn't matter because the value is `undefined`.
+    this.putStrongReference(key, void 0);
     delete this._elements[key];
   }
 }

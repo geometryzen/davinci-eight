@@ -1,9 +1,9 @@
-import IUnknown = require('../core/IUnknown');
-import refChange = require('../utils/refChange');
-import uuid4 = require('../utils/uuid4');
+import IUnknown = require('../core/IUnknown')
+import refChange = require('../utils/refChange')
+import uuid4 = require('../utils/uuid4')
 
 let LOGGING_NAME = 'IUnknownArray';
-
+// FIXME xtend Shareable
 class IUnknownArray<T extends IUnknown> implements IUnknown {
   private _elements: T[] = [];
   private _refCount = 1;
@@ -16,8 +16,19 @@ class IUnknownArray<T extends IUnknown> implements IUnknown {
     refChange(this._uuid, LOGGING_NAME, +1);
     return this._refCount;
   }
+  getWeakReference(index: number) {
+    return this._elements[index];
+  }
+  getStrongReference(index: number) {
+    var element: T
+    element = this._elements[index]
+    if (element) {
+      element.addRef()
+    }
+    return element
+  }
   indexOf(element: T): number {
-    return this._elements.indexOf(element);
+      return this._elements.indexOf(element);
   }
   get length() {
     return this._elements.length;

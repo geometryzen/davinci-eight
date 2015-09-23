@@ -1337,7 +1337,7 @@ interface ContextRenderer extends ContextListener, IUnknown {
 /**
  *
  */
-class WebGLRenderer implements ContextController, ContextMonitor, ContextRenderer {
+class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
   /**
    * <p>
    * Determines whether prolog commands are run automatically as part of the render() call.
@@ -1352,7 +1352,7 @@ class WebGLRenderer implements ContextController, ContextMonitor, ContextRendere
   /**
    * If the canvasElement property has not been initialized by calling `start()`,
    * then any attempt to access this property will trigger the construction of
-   * a new HTML canvas element which will remain in effect for this WebGLRenderer
+   * a new HTML canvas element which will remain in effect for this Canvas3D
    * until `stop()` is called.
    */
   canvasElement: HTMLCanvasElement;

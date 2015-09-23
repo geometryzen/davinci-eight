@@ -1,5 +1,6 @@
 define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
     var LOGGING_NAME = 'IUnknownArray';
+    // FIXME xtend Shareable
     var IUnknownArray = (function () {
         function IUnknownArray() {
             this._elements = [];
@@ -11,6 +12,17 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             this._refCount++;
             refChange(this._uuid, LOGGING_NAME, +1);
             return this._refCount;
+        };
+        IUnknownArray.prototype.getWeakReference = function (index) {
+            return this._elements[index];
+        };
+        IUnknownArray.prototype.getStrongReference = function (index) {
+            var element;
+            element = this._elements[index];
+            if (element) {
+                element.addRef();
+            }
+            return element;
         };
         IUnknownArray.prototype.indexOf = function (element) {
             return this._elements.indexOf(element);

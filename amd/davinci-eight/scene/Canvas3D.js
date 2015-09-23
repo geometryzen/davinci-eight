@@ -9,12 +9,12 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
     }
     var defaultCanvasBuilder = function () { return document.createElement('canvas'); };
     /**
-     * @class WebGLRenderer
+     * @class Canvas3D
      */
-    var WebGLRenderer = (function (_super) {
-        __extends(WebGLRenderer, _super);
+    var Canvas3D = (function (_super) {
+        __extends(Canvas3D, _super);
         /**
-         * @class WebGLRenderer
+         * @class Canvas3D
          * @constructor
          * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
          * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
@@ -22,8 +22,8 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * @beta
          */
         // FIXME: Move attributes to start()
-        function WebGLRenderer(attributes) {
-            _super.call(this, 'WebGLRenderer');
+        function Canvas3D(attributes) {
+            _super.call(this, 'Canvas3D');
             this._kahuna = contextProxy(attributes);
             this._renderer = createRenderer();
             this._kahuna.addContextListener(this._renderer);
@@ -33,17 +33,17 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
          * return {void}
          * @protected
          */
-        WebGLRenderer.prototype.destructor = function () {
+        Canvas3D.prototype.destructor = function () {
             this._kahuna.removeContextListener(this._renderer);
             this._kahuna.release();
             this._kahuna = void 0;
             this._renderer.release();
             this._renderer = void 0;
         };
-        WebGLRenderer.prototype.addContextListener = function (user) {
+        Canvas3D.prototype.addContextListener = function (user) {
             this._kahuna.addContextListener(user);
         };
-        Object.defineProperty(WebGLRenderer.prototype, "autoProlog", {
+        Object.defineProperty(Canvas3D.prototype, "autoProlog", {
             /**
              * <p>
              * Determines whether prolog commands are run automatically as part of the `render()` call.
@@ -61,7 +61,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(WebGLRenderer.prototype, "canvasElement", {
+        Object.defineProperty(Canvas3D.prototype, "canvasElement", {
             get: function () {
                 return this._kahuna.canvasElement;
             },
@@ -71,7 +71,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(WebGLRenderer.prototype, "canvasId", {
+        Object.defineProperty(Canvas3D.prototype, "canvasId", {
             /**
              * @property canvasId
              * @type {number}
@@ -95,50 +95,50 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
           return this._canvas
         }
         */
-        WebGLRenderer.prototype.contextFree = function (canvasId) {
+        Canvas3D.prototype.contextFree = function (canvasId) {
             this._renderer.contextFree(canvasId);
         };
-        WebGLRenderer.prototype.contextGain = function (manager) {
+        Canvas3D.prototype.contextGain = function (manager) {
             this._renderer.contextGain(manager);
         };
-        WebGLRenderer.prototype.contextLoss = function (canvasId) {
+        Canvas3D.prototype.contextLoss = function (canvasId) {
             this._renderer.contextLoss(canvasId);
         };
-        WebGLRenderer.prototype.createArrayBuffer = function () {
+        Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
         };
-        WebGLRenderer.prototype.createBufferGeometry = function (elements, mode, usage) {
+        Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
             return this._kahuna.createBufferGeometry(elements, mode, usage);
         };
-        WebGLRenderer.prototype.createTexture2D = function () {
+        Canvas3D.prototype.createTexture2D = function () {
             return this._kahuna.createTexture2D();
         };
-        Object.defineProperty(WebGLRenderer.prototype, "gl", {
+        Object.defineProperty(Canvas3D.prototype, "gl", {
             get: function () {
                 return this._kahuna.gl;
             },
             enumerable: true,
             configurable: true
         });
-        WebGLRenderer.prototype.prolog = function () {
+        Canvas3D.prototype.prolog = function () {
             this._renderer.prolog();
         };
-        WebGLRenderer.prototype.pushProlog = function (command) {
+        Canvas3D.prototype.pushProlog = function (command) {
             this._renderer.pushProlog(command);
         };
-        WebGLRenderer.prototype.pushStartUp = function (command) {
+        Canvas3D.prototype.pushStartUp = function (command) {
             this._renderer.pushStartUp(command);
         };
-        WebGLRenderer.prototype.removeContextListener = function (user) {
+        Canvas3D.prototype.removeContextListener = function (user) {
             this._kahuna.removeContextListener(user);
         };
-        WebGLRenderer.prototype.render = function (drawList, ambients) {
+        Canvas3D.prototype.render = function (drawList, ambients) {
             // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
             // This implies camera should implement UniformData and we pass that in as ambients.
-            // This allows us to generalize the WebGLRenderer API.
+            // This allows us to generalize the Canvas3D API.
             this._renderer.render(drawList, ambients);
         };
-        WebGLRenderer.prototype.setSize = function (width, height) {
+        Canvas3D.prototype.setSize = function (width, height) {
             mustBeInteger('width', width);
             mustBeInteger('height', height);
             var canvas = this.canvasElement;
@@ -146,7 +146,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             canvas.height = height;
             this.gl.viewport(0, 0, width, height);
         };
-        WebGLRenderer.prototype.start = function (canvas, canvasId) {
+        Canvas3D.prototype.start = function (canvas, canvasId) {
             // FIXME: DRY delegate to kahuna.
             if (!(canvas instanceof HTMLElement)) {
                 if (core.verbose) {
@@ -158,10 +158,10 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             mustBeInteger('canvasId', canvasId);
             this._kahuna.start(canvas, canvasId);
         };
-        WebGLRenderer.prototype.stop = function () {
+        Canvas3D.prototype.stop = function () {
             this._kahuna.stop();
         };
-        return WebGLRenderer;
+        return Canvas3D;
     })(Shareable);
-    return WebGLRenderer;
+    return Canvas3D;
 });

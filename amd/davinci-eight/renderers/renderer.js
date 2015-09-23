@@ -1,4 +1,4 @@
-define(["require", "exports", '../core', '../commands/EIGHTLogger', '../commands/ContextAttributesLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/VersionLogger', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, ContextAttributesLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, VersionLogger, WebGLClear, WebGLClearColor, WebGLEnable) {
+define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, WebGLClear, WebGLClearColor, WebGLEnable) {
     function setStartUpCommands(renderer) {
         var cmd;
         // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
@@ -6,13 +6,13 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../commands
         renderer.pushStartUp(cmd);
         cmd.release();
         // `WebGL major.minor (OpenGL ES ...)`
-        cmd = new VersionLogger();
-        renderer.pushStartUp(cmd);
-        cmd.release();
+        // cmd = new VersionLogger()
+        // renderer.pushStartUp(cmd)
+        // cmd.release()
         // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
-        cmd = new ContextAttributesLogger();
-        renderer.pushStartUp(cmd);
-        cmd.release();
+        // cmd = new ContextAttributesLogger()
+        // renderer.pushStartUp(cmd)
+        // cmd.release()
         // cmd(red, green, blue, alpha)
         cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
         renderer.pushStartUp(cmd);
@@ -38,11 +38,7 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../commands
      * Part of the role of this class is to manage the commands that are executed at startup/prolog.
      */
     var renderer = function () {
-        // Forced to cache this becuase of the need to avoid duplicating every call by wrapping.
         var _manager;
-        //var gl: WebGLRenderingContext = void 0
-        //var canvasElement: HTMLCanvasElement;
-        //var canvasId: number
         var uuid = uuid4().generate();
         var refCount = 1;
         var _autoProlog = true;
@@ -112,28 +108,16 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../commands
                     return refCount;
                 }
             },
-            // FIXME: Need to be using the uniforms?
-            // But we now already know the canvas so maybe not.
             render: function (drawList, ambients) {
-                // We have to do this to lazily initialize.
-                // FIXME: This means there should be another method that avoid this.
-                drawList.contextGain(_manager);
-                if (_autoProlog === true) {
-                    self.prolog();
+                if (_manager) {
+                    // We have to do this to lazily initialize.
+                    // FIXME: This means there should be another method that avoid this?
+                    drawList.contextGain(_manager);
+                    if (_autoProlog === true) {
+                        self.prolog();
+                    }
+                    drawList.draw(ambients, _manager.canvasId);
                 }
-                // FIXME: Check for _manager
-                var canvasId = _manager.canvasId;
-                // FIXME: This seems inefficient, using a callback.
-                // Especially since all we do is call draw(canvasId) on each
-                function drawHandler(drawable) {
-                    drawable.draw(canvasId);
-                }
-                // We do know the canvasId now so how can we process those uniforms. Who do they go to?
-                //
-                // The prolog callback for the traverse sets the uniforms on the program.  
-                drawList.traverse(drawHandler, canvasId, function (program) {
-                    ambients.setUniforms(program, canvasId);
-                });
             }
         };
         refChange(uuid, CLASS_NAME, +1);

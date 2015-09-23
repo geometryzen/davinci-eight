@@ -85,7 +85,7 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
       // FIXME: Would be nice to be able to check that a block does not alter the reference count?
       let material = self._material
       let model = self.model
-      let buffers: IBufferGeometry = this.meshLookup.get(canvasId)
+      let buffers: IBufferGeometry = this.meshLookup.getWeakReference(canvasId)
       if (isDefined(buffers)) {
         material.use(canvasId)
         model.setUniforms(material, canvasId)
@@ -94,7 +94,6 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
         buffers.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API.
         buffers.draw()
         buffers.unbind()
-        buffers.release()
       }
       else {
         if (core.verbose) {
@@ -121,9 +120,7 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
       mustBeDefined('geometry.meta', meta, contextBuilder)
 
       // FIXME: Why is the meta not being used?
-      let mesh = manager.createBufferGeometry(data)
-      this.meshLookup.put(manager.canvasId, mesh)
-      mesh.release()
+      this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
 
       this._material.contextGain(manager)
     }

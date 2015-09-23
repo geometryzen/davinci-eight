@@ -25,7 +25,7 @@ import IDrawList = require('davinci-eight/scene/IDrawList');
 import Mesh = require('davinci-eight/scene/Mesh');
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
-import WebGLRenderer = require('davinci-eight/scene/WebGLRenderer');
+import Canvas3D = require('davinci-eight/scene/Canvas3D');
 import Geometry = require('davinci-eight/geometries/Geometry');
 import CuboidComplex = require('davinci-eight/geometries/CuboidComplex');
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
@@ -92,7 +92,7 @@ declare var eight: {
     Scene: typeof Scene;
     Mesh: typeof Mesh;
     PerspectiveCamera: typeof PerspectiveCamera;
-    WebGLRenderer: typeof WebGLRenderer;
+    Canvas3D: typeof Canvas3D;
     createDrawList: () => IDrawList;
     renderer: () => ContextRenderer;
     webgl: (attributes?: WebGLContextAttributes) => ContextKahuna;

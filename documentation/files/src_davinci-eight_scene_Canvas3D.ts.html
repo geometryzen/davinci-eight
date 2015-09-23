@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Cartesian2 - davinci-eight</title>
+    <title>src/davinci-eight/scene/Canvas3D.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -145,109 +145,183 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>Cartesian2 Class</h1>
-<div class="box meta">
+<h1 class="file-heading">File: src/davinci-eight/scene/Canvas3D.ts</h1>
 
+<div class="file">
+    <pre class="code prettyprint linenums">
+import createRenderer = require(&#x27;../renderers/renderer&#x27;)
+import ContextController = require(&#x27;../core/ContextController&#x27;)
+import ContextKahuna = require(&#x27;../core/ContextKahuna&#x27;)
+import ContextManager = require(&#x27;../core/ContextManager&#x27;)
+import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;)
+import ContextListener = require(&#x27;../core/ContextListener&#x27;)
+import contextProxy = require(&#x27;../utils/contextProxy&#x27;)
+import ContextRenderer = require(&#x27;../renderers/ContextRenderer&#x27;)
+import core = require(&#x27;../core&#x27;)
+import GeometryData = require(&#x27;../dfx/GeometryData&#x27;)
+import IBuffer = require(&#x27;../core/IBuffer&#x27;)
+import IContextCommand = require(&#x27;../core/IContextCommand&#x27;)
+import IDrawList = require(&#x27;../scene/IDrawList&#x27;)
+import IBufferGeometry = require(&#x27;../dfx/IBufferGeometry&#x27;)
+import ITexture2D = require(&#x27;../core/ITexture2D&#x27;)
+import IUnknown = require(&#x27;../core/IUnknown&#x27;)
+import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
+import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;)
+import Scene = require(&#x27;../scene/Scene&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import UniformData = require(&#x27;../core/UniformData&#x27;)
 
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_math_Cartesian2.ts.html#l1"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Cartesian2.ts:1</code></a>
-        </div>
+function beHTMLCanvasElement(): string {
+  return &quot;be an HTMLCanvasElement&quot;
+}
 
+let defaultCanvasBuilder = () =&gt; {return document.createElement(&#x27;canvas&#x27;)}
 
-</div>
+/**
+ * @class Canvas3D
+ */
+class Canvas3D extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+  private _kahuna: ContextKahuna
+  private _renderer: ContextRenderer
+  /**
+   * @class Canvas3D
+   * @constructor
+   * @param canvasBuilder {() =&gt; HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
+   * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
+   * @param attributes [WebGLContextAttributes] Allow the context to be configured.
+   * @beta
+   */
+  // FIXME: Move attributes to start()
+  constructor(attributes?: WebGLContextAttributes) {
+    super(&#x27;Canvas3D&#x27;)
+    this._kahuna = contextProxy(attributes)
+    this._renderer = createRenderer()
+    this._kahuna.addContextListener(this._renderer)
+  }
+  /**
+   * @method destructor
+   * return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this._kahuna.removeContextListener(this._renderer)
+    this._kahuna.release()
+    this._kahuna = void 0
+    this._renderer.release()
+    this._renderer = void 0
+  }
+  addContextListener(user: ContextListener): void {
+    this._kahuna.addContextListener(user)
+  }
+  /**
+   * &lt;p&gt;
+   * Determines whether prolog commands are run automatically as part of the &#x60;render()&#x60; call.
+   * &lt;/p&gt;
+   * @property autoProlog
+   * @type boolean
+   * @default true
+   */
+  get autoProlog(): boolean {
+    return this._renderer.autoProlog;
+  }
+  set autoProlog(autoProlog) {
+    this._renderer.autoProlog = autoProlog;
+  }
+  get canvasElement(): HTMLCanvasElement {
+    return this._kahuna.canvasElement;
+  }
+  set canvasElement(canvasElement: HTMLCanvasElement) {
+    this._kahuna.canvasElement = canvasElement;
+  }
+  /**
+   * @property canvasId
+   * @type {number}
+   * @readOnly
+   */
+  get canvasId(): number {
+    return this._kahuna.canvasId;
+  }
+  set canvasId(unused) {
+    // FIXME: DRY delegate to kahuna? Should give the same result.
+    throw new Error(readOnly(&#x27;canvasId&#x27;).message)
+  }
+  /* FIXME: Do we need this. Why. Why not kahuna too?
+  // No contract says that we need to return this.
+  // It&#x27;s cust that convenience of having someone else do it for you!
+  get canvas(): HTMLCanvasElement {
+    return this._kahuna
+    return this._canvas
+  }
+  */
+  contextFree(canvasId: number) {
+    this._renderer.contextFree(canvasId)
+  }
+  contextGain(manager: ContextManager) {
+    this._renderer.contextGain(manager)
+  }
+  contextLoss(canvasId: number) {
+    this._renderer.contextLoss(canvasId)
+  }
+  createArrayBuffer(): IBuffer {
+    return this._kahuna.createArrayBuffer()
+  }
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
+    return this._kahuna.createBufferGeometry(elements, mode, usage)
+  }
+  createTexture2D(): ITexture2D {
+    return this._kahuna.createTexture2D()
+  }
+  get gl(): WebGLRenderingContext {
+    return this._kahuna.gl
+  }
+  prolog(): void {
+    this._renderer.prolog()
+  }
+  pushProlog(command: IContextCommand): void {
+    this._renderer.pushProlog(command)
+  }
+  pushStartUp(command: IContextCommand): void {
+    this._renderer.pushStartUp(command)
+  }
+  removeContextListener(user: ContextListener): void {
+    this._kahuna.removeContextListener(user)
+  }
+  render(drawList: IDrawList, ambients: UniformData): void {
+    // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
+    // This implies camera should implement UniformData and we pass that in as ambients.
+    // This allows us to generalize the Canvas3D API.
+    this._renderer.render(drawList, ambients)
+  }
+  setSize(width: number, height: number): void {
+    mustBeInteger(&#x27;width&#x27;, width)
+    mustBeInteger(&#x27;height&#x27;, height)
+    let canvas = this.canvasElement
+    canvas.width = width
+    canvas.height = height
+    this.gl.viewport(0, 0, width, height)
+  }
+  start(canvas: HTMLCanvasElement, canvasId: number): void {
+    // FIXME: DRY delegate to kahuna.
+    if (!(canvas instanceof HTMLElement)) {
+      if (core.verbose) {
+        console.warn(&quot;canvas must be an HTMLCanvasElement to start the context.&quot;)
+      }
+      return
+    }
+    mustBeDefined(&#x27;canvas&#x27;, canvas)
+    mustBeInteger(&#x27;canvasId&#x27;, canvasId)
+    this._kahuna.start(canvas, canvasId)
+  }
+  stop(): void {
+    this._kahuna.stop()
+  }
+}
 
-
-<div class="box intro">
-    
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_x">x</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_y">y</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_x" class="property item">
-    <h3 class="name"><code>x</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Cartesian2.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Cartesian2.ts:5</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-<div id="property_y" class="property item">
-    <h3 class="name"><code>y</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_math_Cartesian2.ts.html#l10"><code>src&#x2F;davinci-eight&#x2F;math&#x2F;Cartesian2.ts:10</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+export = Canvas3D
+    </pre>
 </div>
                     </div>
                 </div>

@@ -12,13 +12,13 @@ import ITexture2D = require('../core/ITexture2D');
 import Shareable = require('../utils/Shareable');
 import UniformData = require('../core/UniformData');
 /**
- * @class WebGLRenderer
+ * @class Canvas3D
  */
-declare class WebGLRenderer extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+declare class Canvas3D extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
     private _kahuna;
     private _renderer;
     /**
-     * @class WebGLRenderer
+     * @class Canvas3D
      * @constructor
      * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
      * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
@@ -65,4 +65,4 @@ declare class WebGLRenderer extends Shareable implements ContextController, Cont
     start(canvas: HTMLCanvasElement, canvasId: number): void;
     stop(): void;
 }
-export = WebGLRenderer;
+export = Canvas3D;

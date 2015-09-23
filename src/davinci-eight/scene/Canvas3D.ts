@@ -30,13 +30,13 @@ function beHTMLCanvasElement(): string {
 let defaultCanvasBuilder = () => {return document.createElement('canvas')}
 
 /**
- * @class WebGLRenderer
+ * @class Canvas3D
  */
-class WebGLRenderer extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, ContextMonitor, ContextRenderer {
   private _kahuna: ContextKahuna
   private _renderer: ContextRenderer
   /**
-   * @class WebGLRenderer
+   * @class Canvas3D
    * @constructor
    * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
    * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
@@ -45,7 +45,7 @@ class WebGLRenderer extends Shareable implements ContextController, ContextMonit
    */
   // FIXME: Move attributes to start()
   constructor(attributes?: WebGLContextAttributes) {
-    super('WebGLRenderer')
+    super('Canvas3D')
     this._kahuna = contextProxy(attributes)
     this._renderer = createRenderer()
     this._kahuna.addContextListener(this._renderer)
@@ -141,7 +141,7 @@ class WebGLRenderer extends Shareable implements ContextController, ContextMonit
   render(drawList: IDrawList, ambients: UniformData): void {
     // FIXME: The camera will provide uniforms, but I need to get them into the renderer loop.
     // This implies camera should implement UniformData and we pass that in as ambients.
-    // This allows us to generalize the WebGLRenderer API.
+    // This allows us to generalize the Canvas3D API.
     this._renderer.render(drawList, ambients)
   }
   setSize(width: number, height: number): void {
@@ -169,4 +169,4 @@ class WebGLRenderer extends Shareable implements ContextController, ContextMonit
   }
 }
 
-export = WebGLRenderer
+export = Canvas3D

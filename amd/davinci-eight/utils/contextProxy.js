@@ -205,9 +205,10 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 var aName = aNames[i];
                 var key = attribKey(aName, aNameToKeyName);
                 var attributes = block.attributes;
-                var attribute = attributes.get(key);
+                var attribute = attributes.getWeakReference(key);
                 if (attribute) {
                     // Associate the attribute buffer with the attribute location.
+                    // FIXME Would be nice to be able to get a weak reference to the buffer.
                     var buffer = attribute.buffer;
                     buffer.bind();
                     var attributeLocation = attribLocations[aName];
@@ -215,7 +216,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                     buffer.unbind();
                     attributeLocation.enable();
                     buffer.release();
-                    attribute.release();
                 }
                 else {
                     // The attribute available may not be required by the program.
@@ -299,7 +299,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                         if (_program) {
                             mesh.unbind();
                         }
-                        var block = blocks.get(uuid);
+                        var block = blocks.getWeakReference(uuid);
                         if (block) {
                             if (program) {
                                 _program = program;
@@ -312,7 +312,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                             else {
                                 expectArg('program', program).toBeObject();
                             }
-                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -320,10 +319,9 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                     }
                 },
                 draw: function () {
-                    var block = blocks.get(uuid);
+                    var block = blocks.getWeakReference(uuid);
                     if (block) {
                         block.drawCommand.execute(gl);
-                        block.release();
                     }
                     else {
                         throw new Error(messageUnrecognizedMesh(uuid));
@@ -331,13 +329,13 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 },
                 unbind: function () {
                     if (_program) {
-                        var block = blocks.get(uuid);
+                        var block = blocks.getWeakReference(uuid);
                         if (block) {
+                            // FIXME: Ask block to unbind index buffer and avoid addRef/release
                             var indexBuffer = block.indexBuffer;
                             indexBuffer.unbind();
                             indexBuffer.release();
                             unbindProgramAttribLocations(_program);
-                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -424,6 +422,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
+                // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
@@ -436,8 +435,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                     var data = vertexAttrib.values.data;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                    attributes.put(name_1, attribute);
-                    attribute.release();
+                    attributes.putWeakReference(name_1, attribute);
                     buffer.unbind();
                     buffer.release();
                 }
@@ -446,9 +444,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 switch (elements.k) {
                 }
                 var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
-                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-                blocks.put(mesh.uuid, block);
-                block.release();
+                blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand));
                 attributes.release();
                 indexBuffer.release();
                 return mesh;

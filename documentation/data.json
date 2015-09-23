@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.104.0",
+        "version": "2.105.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -930,6 +930,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/scene/Canvas3D.ts": {
+            "name": "src/davinci-eight/scene/Canvas3D.ts",
+            "modules": {},
+            "classes": {
+                "Canvas3D": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/scene/ICamera.ts": {
             "name": "src/davinci-eight/scene/ICamera.ts",
             "modules": {},
@@ -940,7 +949,9 @@
         "src/davinci-eight/scene/IDrawList.ts": {
             "name": "src/davinci-eight/scene/IDrawList.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "IDrawList": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -985,15 +996,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/scene/WebGLRenderer.ts": {
-            "name": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "modules": {},
-            "classes": {
-                "WebGLRenderer": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/scene/createDrawList.ts": {
             "name": "src/davinci-eight/scene/createDrawList.ts",
             "modules": {},
@@ -1020,6 +1022,15 @@
             "modules": {},
             "classes": {
                 "Shareable": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/utils/StringIUnknownMap.ts": {
+            "name": "src/davinci-eight/utils/StringIUnknownMap.ts",
+            "modules": {},
+            "classes": {
+                "StringIUnknownMap": 1
             },
             "fors": {},
             "namespaces": {}
@@ -2101,6 +2112,46 @@
             "description": "This interface is to be implemented by classes associated with a single context.\nThis does mean that the commands are not shared.",
             "extends": "IUnknown"
         },
+        "Canvas3D": {
+            "name": "Canvas3D",
+            "shortname": "Canvas3D",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "line": 38,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "canvasBuilder",
+                    "description": "The canvas is created lazily, allowing construction during DOM load.",
+                    "type": "() => HTMLCanvasElement"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "[number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique."
+                },
+                {
+                    "name": "attributes",
+                    "description": "[WebGLContextAttributes] Allow the context to be configured."
+                }
+            ],
+            "beta": 1
+        },
+        "IDrawList": {
+            "name": "IDrawList",
+            "shortname": "IDrawList",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 7,
+            "extends": "IUnknown"
+        },
         "Mesh": {
             "name": "Mesh",
             "shortname": "Mesh",
@@ -2168,8 +2219,9 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 39,
+            "line": 38,
             "extends": "IDrawList",
+            "description": "<p>\nA <code>Scene</code> is a collection of drawable instances arranged in some order.\nThe precise order is implementation defined.\nThe collection may be traversed for general processing using callback/visitor functions.\n</p>",
             "is_constructor": 1,
             "params": [
                 {
@@ -2177,34 +2229,6 @@
                     "description": "[ContextMonitor[]=[]]"
                 }
             ]
-        },
-        "WebGLRenderer": {
-            "name": "WebGLRenderer",
-            "shortname": "WebGLRenderer",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 38,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "canvasBuilder",
-                    "description": "The canvas is created lazily, allowing construction during DOM load.",
-                    "type": "() => HTMLCanvasElement"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "[number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique."
-                },
-                {
-                    "name": "attributes",
-                    "description": "[WebGLContextAttributes] Allow the context to be configured."
-                }
-            ],
-            "beta": 1
         },
         "Shareable": {
             "name": "Shareable",
@@ -2226,6 +2250,19 @@
                     "type": "String"
                 }
             ]
+        },
+        "StringIUnknownMap": {
+            "name": "StringIUnknownMap",
+            "shortname": "StringIUnknownMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
+            "line": 12,
+            "description": "<p>\nA map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.\n</p>",
+            "is_constructor": 1
         },
         "WindowAnimationRunner": {
             "name": "WindowAnimationRunner",
@@ -5026,53 +5063,75 @@
             "file": "src/davinci-eight/renderers/FrameworkDrawContext.ts",
             "line": 2,
             "description": "TODO: Undecided as to whether this should be used.",
-            "class": "Mesh"
+            "class": "Canvas3D"
         },
         {
             "file": "src/davinci-eight/renderers/initWebGL.ts",
             "line": 3,
             "description": "Returns the WebGLRenderingContext given a canvas.\ncanvas\nattributes\nIf the canvas is undefined then an undefined value is returned for the context.",
-            "class": "Mesh"
+            "class": "Canvas3D"
         },
         {
             "file": "src/davinci-eight/renderers/renderer.ts",
             "line": 66,
             "description": "We need to know the canvasId so that we can tell drawables where to draw.\nHowever, we don't need an don't want a canvas because we can only get that once the\ncanvas has loaded. I suppose a promise would be OK, but that's for another day.\n\nPart of the role of this class is to manage the commands that are executed at startup/prolog.",
-            "class": "Mesh"
+            "class": "Canvas3D"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 9,
             "description": "Name used for reference count monitoring and logging.",
-            "class": "Mesh"
+            "class": "Canvas3D"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 73,
             "itemtype": "method",
             "name": "bind",
-            "class": "Mesh"
+            "class": "Canvas3D"
         },
         {
             "file": "src/davinci-eight/resources/TextureResource.ts",
             "line": 84,
             "itemtype": "method",
             "name": "unbind",
-            "class": "Mesh"
+            "class": "Canvas3D"
+        },
+        {
+            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "line": 53,
+            "itemtype": "method",
+            "name": "destructor!~YUIDOC_LINE~!return",
+            "type": "Void",
+            "access": "protected",
+            "tagname": "",
+            "class": "Canvas3D"
+        },
+        {
+            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "line": 68,
+            "description": "<p>\nDetermines whether prolog commands are run automatically as part of the `render()` call.\n</p>",
+            "itemtype": "property",
+            "name": "autoProlog",
+            "type": "boolean",
+            "default": "true",
+            "class": "Canvas3D"
+        },
+        {
+            "file": "src/davinci-eight/scene/Canvas3D.ts",
+            "line": 88,
+            "itemtype": "property",
+            "name": "canvasId",
+            "type": "{number}",
+            "readonly": "",
+            "class": "Canvas3D"
         },
         {
             "file": "src/davinci-eight/scene/ICamera.ts",
             "line": 2,
             "interface": "ICamera",
             "extends": "IDrawable\n\nSupports IDrawable so that all cameras can be added to the scene graph.",
-            "class": "Mesh"
-        },
-        {
-            "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 12,
-            "interface": "IDrawList",
-            "extends": "UniformDataVisitor\n\nContextListener because it prefers a WebGLRenderingContext outside the animation loop.\nIUnknown because it is responsible for holding references to the drawables.\nUniformDataVisitor because... FIXME",
-            "class": "Mesh"
+            "class": "IDrawList"
         },
         {
             "file": "src/davinci-eight/scene/KahunaList.ts",
@@ -5094,7 +5153,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Mesh.ts",
-            "line": 137,
+            "line": 134,
             "itemtype": "property",
             "name": "material\n\nProvides a reference counted reference to the material.",
             "class": "Mesh"
@@ -5228,33 +5287,109 @@
             "class": "PerspectiveCamera"
         },
         {
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 53,
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 57,
             "itemtype": "method",
-            "name": "destructor!~YUIDOC_LINE~!return",
-            "type": "Void",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
             "access": "protected",
             "tagname": "",
-            "class": "WebGLRenderer"
+            "class": "Scene"
         },
         {
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 68,
-            "description": "<p>\nDetermines whether prolog commands are run automatically as part of the `render()` call.\n</p>",
-            "itemtype": "property",
-            "name": "autoProlog",
-            "type": "boolean",
-            "default": "true",
-            "class": "WebGLRenderer"
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 70,
+            "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
+                }
+            ],
+            "return": {
+                "description": "<p>\nThis method returns <code>undefined</code>.\n</p>",
+                "type": "Void"
+            },
+            "class": "Scene"
         },
         {
-            "file": "src/davinci-eight/scene/WebGLRenderer.ts",
-            "line": 88,
-            "itemtype": "property",
-            "name": "canvasId",
-            "type": "{number}",
-            "readonly": "",
-            "class": "WebGLRenderer"
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 84,
+            "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "ambients",
+                    "description": "",
+                    "type": "UniformData"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "beta": 1,
+            "class": "Scene"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 97,
+            "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "drawable",
+                    "description": "",
+                    "type": "IDrawable"
+                }
+            ],
+            "return": {
+                "description": "<p>\nThis method returns <code>undefined</code>.\n</p>",
+                "type": "Void"
+            },
+            "class": "Scene"
+        },
+        {
+            "file": "src/davinci-eight/scene/Scene.ts",
+            "line": 111,
+            "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
+            "itemtype": "method",
+            "name": "traverse",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Callback function for each drawable.",
+                    "type": "(drawable: IDrawable) => void"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "Identifies the canvas.",
+                    "type": "Number"
+                },
+                {
+                    "name": "prolog",
+                    "description": "Callback function for each material.",
+                    "type": "(material: IMaterial) => void"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "Scene"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
@@ -5270,20 +5405,26 @@
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 67,
+            "line": 71,
             "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
             "class": "Shareable"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 93,
-            "description": "Should look like a set of Drawable Groups",
+            "line": 113,
+            "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
             "class": "Shareable"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 97,
+            "line": 117,
             "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
+            "class": "Shareable"
+        },
+        {
+            "file": "src/davinci-eight/scene/createDrawList.ts",
+            "line": 263,
+            "description": "method contextGain",
             "class": "Shareable"
         },
         {
@@ -5294,7 +5435,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 45,
+            "line": 56,
             "description": "Traverse without Reference Counting",
             "class": "Shareable"
         },
@@ -5335,6 +5476,25 @@
             "access": "protected",
             "tagname": "",
             "class": "Shareable"
+        },
+        {
+            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
+            "line": 39,
+            "description": "Determines whether the key exists in the map with a defined value.",
+            "itemtype": "method",
+            "name": "exists",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "<p><code>true</code> if there is an element at the specified key.</p>",
+                "type": "Boolean"
+            },
+            "class": "StringIUnknownMap"
         },
         {
             "file": "src/davinci-eight/utils/WindowAnimationRunner.ts",
@@ -5472,13 +5632,13 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 422,
+            "line": 420,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": ""
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 458,
+            "line": 456,
             "class": ""
         },
         {
@@ -5846,10 +6006,6 @@
             "line": " src/davinci-eight/scene/ICamera.ts:2"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/scene/IDrawList.ts:12"
-        },
-        {
             "message": "Missing item type\nImplementation Only.",
             "line": " src/davinci-eight/scene/KahunaList.ts:11"
         },
@@ -5879,15 +6035,19 @@
         },
         {
             "message": "Missing item type\naccept provides a way to push out the IMaterial without bumping the reference count.",
-            "line": " src/davinci-eight/scene/createDrawList.ts:67"
+            "line": " src/davinci-eight/scene/createDrawList.ts:71"
         },
         {
-            "message": "Missing item type\nShould look like a set of Drawable Groups",
-            "line": " src/davinci-eight/scene/createDrawList.ts:93"
+            "message": "Missing item type\nShould look like a set of Drawable Groups. Maybe like a Scene!",
+            "line": " src/davinci-eight/scene/createDrawList.ts:113"
         },
         {
             "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "line": " src/davinci-eight/scene/createDrawList.ts:97"
+            "line": " src/davinci-eight/scene/createDrawList.ts:117"
+        },
+        {
+            "message": "Missing item type\nmethod contextGain",
+            "line": " src/davinci-eight/scene/createDrawList.ts:263"
         },
         {
             "message": "Missing item type\nPoller for the yadda server.",
@@ -5895,7 +6055,7 @@
         },
         {
             "message": "Missing item type\nTraverse without Reference Counting",
-            "line": " src/davinci-eight/utils/IUnknownArray.ts:45"
+            "line": " src/davinci-eight/utils/IUnknownArray.ts:56"
         },
         {
             "message": "Missing item type\nThis could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
@@ -5939,11 +6099,11 @@
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:422"
+            "line": " src/davinci-eight/utils/contextProxy.ts:420"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:458"
+            "line": " src/davinci-eight/utils/contextProxy.ts:456"
         },
         {
             "message": "Missing item type\nInitially used to give me a canvasId.\nUsing the big-enough space principle to avoid collisions.",

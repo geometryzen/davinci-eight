@@ -5,6 +5,8 @@ declare class IUnknownArray<T extends IUnknown> implements IUnknown {
     private _uuid;
     constructor();
     addRef(): number;
+    getWeakReference(index: number): T;
+    getStrongReference(index: number): T;
     indexOf(element: T): number;
     length: number;
     release(): number;

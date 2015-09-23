@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.104.0</em>
+            <em>API Docs for: 2.105.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -42,6 +42,7 @@
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BoxBuilder.html">BoxBuilder</a></li>
                                 <li><a href="../classes/BoxMesh.html">BoxMesh</a></li>
+                                <li><a href="../classes/Canvas3D.html">Canvas3D</a></li>
                                 <li><a href="../classes/Cartesian1.html">Cartesian1</a></li>
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
@@ -71,6 +72,7 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
+                                <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -93,6 +95,7 @@
                                 <li><a href="../classes/SmartMaterial.html">SmartMaterial</a></li>
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
+                                <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
@@ -105,7 +108,6 @@
                                 <li><a href="../classes/WebGLClear.html">WebGLClear</a></li>
                                 <li><a href="../classes/WebGLClearColor.html">WebGLClearColor</a></li>
                                 <li><a href="../classes/WebGLEnable.html">WebGLEnable</a></li>
-                                <li><a href="../classes/WebGLRenderer.html">WebGLRenderer</a></li>
                                 <li><a href="../classes/WindowAnimationRunner.html">WindowAnimationRunner</a></li>
                             </ul>
                 
@@ -159,6 +161,7 @@ import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
 import MonitorList = require(&#x27;../scene/MonitorList&#x27;)
 import mustSatisfy = require(&#x27;../checks/mustSatisfy&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import UniformData = require(&#x27;../core/UniformData&#x27;)
 import Vector1 = require(&#x27;../math/Vector1&#x27;)
 import Vector2 = require(&#x27;../math/Vector2&#x27;)
@@ -176,64 +179,107 @@ function ctorContext(): string {
 
 /**
  * @class Scene
+ * @extends Shareable
  * @extends IDrawList
  */
- // FIXME: extend Shareable
-class Scene implements IDrawList {
-  private _drawList: IDrawList = createDrawList()
-  private monitors: MonitorList
-  private _refCount = 1
-  private _uuid = uuid4().generate()
+class Scene extends Shareable implements IDrawList {
+  private drawList: IDrawList;
+  private monitors: MonitorList;
   // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
   /**
+   * &lt;p&gt;
+   * A &lt;code&gt;Scene&lt;/code&gt; is a collection of drawable instances arranged in some order.
+   * The precise order is implementation defined.
+   * The collection may be traversed for general processing using callback/visitor functions.
+   * &lt;/p&gt;
    * @class Scene
    * @constructor
    * @param monitors [ContextMonitor[]=[]]
    */
   constructor(monitors: ContextMonitor[] = []) {
+    super(LOGGING_NAME)
     MonitorList.verify(&#x27;monitors&#x27;, monitors, ctorContext)
+
+    this.drawList = createDrawList();
     this.monitors = new MonitorList(monitors)
+
     this.monitors.addContextListener(this)
-    refChange(this._uuid, LOGGING_NAME, +1)
   }
-  add(drawable: IDrawable) {
-    this._drawList.add(drawable)
+  /**
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    this.monitors.removeContextListener(this)
+
+    this.monitors = void 0
+
+    this.drawList.release()
+    this.drawList = void 0
   }
-  addRef(): number {
-    this._refCount++
-    refChange(this._uuid, LOGGING_NAME, +1)
-    return this._refCount
+  /**
+   * &lt;p&gt;
+   * Adds the &lt;code&gt;drawable&lt;/code&gt; to this &lt;code&gt;Scene&lt;/code&gt;.
+   * &lt;/p&gt;
+   * @method add
+   * @param drawable {IDrawable}
+   * @return {Void}
+   * &lt;p&gt;
+   * This method returns &lt;code&gt;undefined&lt;/code&gt;.
+   * &lt;/p&gt;
+   */
+  add(drawable: IDrawable): void {
+    this.drawList.add(drawable)
   }
-  release(): number {
-    this._refCount--
-    refChange(this._uuid, LOGGING_NAME, -1)
-    if (this._refCount === 0) {
-      this._drawList.release()
-      this._drawList = void 0
-      this.monitors.removeContextListener(this)
-      this.monitors = void 0
-      this._refCount = void 0
-      this._uuid = void 0
-      return 0
-    }
-    else {
-      return this._refCount
-    }
+  /**
+   * &lt;p&gt;
+   * Traverses the collection of drawables, drawing each one.
+   * &lt;/p&gt;
+   * @method draw
+   * @param ambients {UniformData}
+   * @param canvasId {number}
+   * @return {void}
+   * @beta
+   */
+  draw(ambients: UniformData, canvasId: number): void {
+    this.drawList.draw(ambients, canvasId)
   }
+  /**
+   * &lt;p&gt;
+   * Removes the &lt;code&gt;drawable&lt;/code&gt; from this &lt;code&gt;Scene&lt;/code&gt;.
+   * &lt;/p&gt;
+   * @method remove
+   * @param drawable {IDrawable}
+   * @return {Void}
+   * &lt;p&gt;
+   * This method returns &lt;code&gt;undefined&lt;/code&gt;.
+   * &lt;/p&gt;
+   */
   remove(drawable: IDrawable): void {
-    this._drawList.remove(drawable)
+    this.drawList.remove(drawable)
   }
-  traverse(callback: (drawable: IDrawable) =&gt; void, canvasId: number, prolog: (program: IMaterial)=&gt;void): void {
-    this._drawList.traverse(callback, canvasId, prolog)
+  /**
+   * &lt;p&gt;
+   * Traverses the collection of drawables, calling the specified callback arguments.
+   * &lt;/p&gt;
+   * @method traverse
+   * @param callback {(drawable: IDrawable) =&gt; void} Callback function for each drawable.
+   * @param canvasId {number} Identifies the canvas.
+   * @param prolog {(material: IMaterial) =&gt; void} Callback function for each material. 
+   * @return {void}
+   */
+  traverse(callback: (drawable: IDrawable) =&gt; void, canvasId: number, prolog: (material: IMaterial) =&gt; void): void {
+    this.drawList.traverse(callback, canvasId, prolog)
   }
-  contextFree(canvasId: number) {
-    this._drawList.contextFree(canvasId)
+  contextFree(canvasId: number): void {
+    this.drawList.contextFree(canvasId)
   }
-  contextGain(manager: ContextManager) {
-    this._drawList.contextGain(manager)
+  contextGain(manager: ContextManager): void {
+    this.drawList.contextGain(manager)
   }
-  contextLoss(canvasId: number) {
-    this._drawList.contextLoss(canvasId)
+  contextLoss(canvasId: number): void {
+    this.drawList.contextLoss(canvasId)
   }
 }
 
