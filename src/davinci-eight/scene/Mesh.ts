@@ -95,16 +95,6 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
         buffers.draw()
         buffers.unbind()
       }
-      else {
-        if (core.verbose) {
-          console.warn("Mesh is unable to draw because it has not be prepared for the specified canvas. canvasId => " + canvasId);
-        }
-      }
-    }
-    else {
-      if (core.verbose) {
-        console.warn("Mesh unable to look up buffer geometry because `typeof canvasId` is " + typeof canvasId)
-      }
     }
   }
   contextFree(canvasId: number): void {

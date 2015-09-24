@@ -6,12 +6,12 @@ interface Cartesian2 {
    * @property x
    * @type number
    */
-  x: number;
+  x: number
   /**
    * @property y
    * @type number
    */
-  y: number;
+  y: number
 }
 
-export = Cartesian2;
+export = Cartesian2

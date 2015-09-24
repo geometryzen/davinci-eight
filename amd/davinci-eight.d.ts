@@ -60,6 +60,7 @@ import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunne
  */
 declare var eight: {
     LAST_MODIFIED: string;
+    strict: boolean;
     VERSION: string;
     HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
     Material: typeof Material;

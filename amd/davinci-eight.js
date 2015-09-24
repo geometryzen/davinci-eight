@@ -8,12 +8,20 @@ define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-ei
          * The publish date of the latest version of the library.
          * @property LAST_MODIFIED
          * @type string
+         * @readOnly
          */
         get LAST_MODIFIED() { return core.LAST_MODIFIED; },
+        get strict() {
+            return core.strict;
+        },
+        set strict(value) {
+            core.strict = value;
+        },
         /**
          * The semantic version of the library.
          * @property VERSION
          * @type string
+         * @readOnly
          */
         get VERSION() { return core.VERSION; },
         // TODO: Arrange in alphabetical order in order to assess width of API.
@@ -59,24 +67,24 @@ define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-ei
         get Color() { return Color; },
         get Face3() { return Face3; },
         get Geometry() { return Geometry; },
-        //  get ArrowGeometry() { return ArrowGeometry; },
-        //  get BarnGeometry() { return BarnGeometry; },
+        //  get ArrowGeometry() { return ArrowGeometry },
+        //  get BarnGeometry() { return BarnGeometry },
         get CuboidComplex() { return CuboidComplex; },
         get CuboidGeometry() { return CuboidGeometry; },
-        //  get CylinderGeometry() { return CylinderGeometry; },
-        //  get DodecahedronGeometry() { return DodecahedronGeometry; },
-        //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
-        //  get IcosahedronGeometry() { return IcosahedronGeometry; },
-        //  get KleinBottleGeometry() { return KleinBottleGeometry; },
-        //  get MobiusStripGeometry() { return MobiusStripGeometry; },
-        //  get OctahedronGeometry() { return OctahedronGeometry; },
-        //  get SurfaceGeometry() { return SurfaceGeometry; },
-        //  get PolyhedronGeometry() { return PolyhedronGeometry; },
-        //  get RevolutionGeometry() { return RevolutionGeometry; },
-        //  get SphereGeometry() { return SphereGeometry; },
-        //  get TetrahedronGeometry() { return TetrahedronGeometry; },
-        //  get TubeGeometry() { return TubeGeometry; },
-        //  get VortexGeometry() { return VortexGeometry; },
+        //  get CylinderGeometry() { return CylinderGeometry },
+        //  get DodecahedronGeometry() { return DodecahedronGeometry },
+        //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
+        //  get IcosahedronGeometry() { return IcosahedronGeometry },
+        //  get KleinBottleGeometry() { return KleinBottleGeometry },
+        //  get MobiusStripGeometry() { return MobiusStripGeometry },
+        //  get OctahedronGeometry() { return OctahedronGeometry },
+        //  get SurfaceGeometry() { return SurfaceGeometry },
+        //  get PolyhedronGeometry() { return PolyhedronGeometry },
+        //  get RevolutionGeometry() { return RevolutionGeometry },
+        //  get SphereGeometry() { return SphereGeometry },
+        //  get TetrahedronGeometry() { return TetrahedronGeometry },
+        //  get TubeGeometry() { return TubeGeometry },
+        //  get VortexGeometry() { return VortexGeometry },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get rotor3() { return rotor3; },

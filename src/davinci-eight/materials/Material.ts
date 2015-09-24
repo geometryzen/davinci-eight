@@ -78,7 +78,7 @@ class Material extends Shareable implements IMaterial {
   }
   // FIXME; I'm going to need to know which monitor.
   use(canvasId: number): void {
-    if (core.ASSERTIVE) {
+    if (core.strict) {
       mustBeInteger('canvasid', canvasId);
     }
     if (this.inner) {
@@ -92,7 +92,7 @@ class Material extends Shareable implements IMaterial {
       }
       else {
         if (core.verbose) {
-          console.warn(this.type + " use()");
+          console.warn(this.type + " is not ready for use. Maybe did not receive contextGain?");
         }
       }
     }

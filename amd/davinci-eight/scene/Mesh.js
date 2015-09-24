@@ -1,4 +1,4 @@
-define(["require", "exports", '../core', '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, core, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
+define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -61,16 +61,6 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/mustB
                     buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
                     buffers.draw();
                     buffers.unbind();
-                }
-                else {
-                    if (core.verbose) {
-                        console.warn("Mesh is unable to draw because it has not be prepared for the specified canvas. canvasId => " + canvasId);
-                    }
-                }
-            }
-            else {
-                if (core.verbose) {
-                    console.warn("Mesh unable to look up buffer geometry because `typeof canvasId` is " + typeof canvasId);
                 }
             }
         };

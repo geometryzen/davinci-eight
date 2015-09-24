@@ -1,6 +1,8 @@
+/**
+ *
+ */
 declare var core: {
-    ASSERTIVE: boolean;
-    DEFENSIVE: boolean;
+    strict: boolean;
     GITHUB: string;
     LAST_MODIFIED: string;
     NAMESPACE: string;

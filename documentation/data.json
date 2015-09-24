@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.106.0",
+        "version": "2.107.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -641,6 +641,56 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/Color.ts": {
+            "name": "src/davinci-eight/math/Color.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Complex.ts": {
+            "name": "src/davinci-eight/math/Complex.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Dimensions.ts": {
+            "name": "src/davinci-eight/math/Dimensions.ts",
+            "modules": {},
+            "classes": {
+                "Dimensions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Euclidean1.ts": {
+            "name": "src/davinci-eight/math/Euclidean1.ts",
+            "modules": {},
+            "classes": {
+                "Euclidean1": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Euclidean2.ts": {
+            "name": "src/davinci-eight/math/Euclidean2.ts",
+            "modules": {},
+            "classes": {
+                "Euclidean2": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Euclidean3.ts": {
+            "name": "src/davinci-eight/math/Euclidean3.ts",
+            "modules": {},
+            "classes": {
+                "Euclidean3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/GeometricElement.ts": {
             "name": "src/davinci-eight/math/GeometricElement.ts",
             "modules": {},
@@ -710,6 +760,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/Rational.ts": {
+            "name": "src/davinci-eight/math/Rational.ts",
+            "modules": {},
+            "classes": {
+                "Rational": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/Rotor3.ts": {
             "name": "src/davinci-eight/math/Rotor3.ts",
             "modules": {},
@@ -722,6 +781,15 @@
             "modules": {},
             "classes": {
                 "Spinor3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Unit.ts": {
+            "name": "src/davinci-eight/math/Unit.ts",
+            "modules": {},
+            "classes": {
+                "Unit": 1
             },
             "fors": {},
             "namespaces": {}
@@ -759,6 +827,13 @@
             "classes": {
                 "Vector4": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/mathcore.ts": {
+            "name": "src/davinci-eight/math/mathcore.ts",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1076,6 +1151,13 @@
         },
         "src/davinci-eight/utils/workbench3D.ts": {
             "name": "src/davinci-eight/utils/workbench3D.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core.ts": {
+            "name": "src/davinci-eight/core.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1875,6 +1957,136 @@
             "file": "src/davinci-eight/math/Cartesian4.ts",
             "line": 1
         },
+        "Dimensions": {
+            "name": "Dimensions",
+            "shortname": "Dimensions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 33,
+            "description": "The Dimensions class captures the physical dimensions associated with a unit of measure.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "mass",
+                    "description": "The mass component of the dimensions object.",
+                    "type": "Rational"
+                },
+                {
+                    "name": "length",
+                    "description": "The length component of the dimensions object.",
+                    "type": "Rational"
+                },
+                {
+                    "name": "time",
+                    "description": "The time component of the dimensions object.",
+                    "type": "Rational"
+                },
+                {
+                    "name": "charge",
+                    "description": "The charge component of the dimensions object.",
+                    "type": "Rational"
+                },
+                {
+                    "name": "temperature",
+                    "description": "The temperature component of the dimensions object.",
+                    "type": "Rational"
+                },
+                {
+                    "name": "amount",
+                    "description": "The amount component of the dimensions object.",
+                    "type": "Rational"
+                },
+                {
+                    "name": "intensity",
+                    "description": "The intensity component of the dimensions object.",
+                    "type": "Rational"
+                }
+            ]
+        },
+        "Euclidean1": {
+            "name": "Euclidean1",
+            "shortname": "Euclidean1",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Euclidean1.ts",
+            "line": 38,
+            "description": "The Euclidean1 class represents a multivector for a 1-dimensional linear space with a Euclidean metric.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "w",
+                    "description": "The scalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The vector component of the multivector in the x-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "uom",
+                    "description": "The optional unit of measure."
+                }
+            ]
+        },
+        "Euclidean2": {
+            "name": "Euclidean2",
+            "shortname": "Euclidean2",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Euclidean2.ts",
+            "line": 411,
+            "description": "The Euclidean2 class represents a multivector for a 2-dimensional linear space with a Euclidean metric.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "w",
+                    "description": "The scalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The vector component of the multivector in the x-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The vector component of the multivector in the y-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xy",
+                    "description": "The pseudoscalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "uom",
+                    "description": "The optional unit of measure."
+                }
+            ]
+        },
+        "Euclidean3": {
+            "name": "Euclidean3",
+            "shortname": "Euclidean3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 681,
+            "description": "The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric."
+        },
         "Matrix<M>": {
             "name": "Matrix<M>",
             "shortname": "Matrix<M>",
@@ -1909,6 +2121,32 @@
             "file": "src/davinci-eight/math/Mutable.ts",
             "line": 1
         },
+        "Rational": {
+            "name": "Rational",
+            "shortname": "Rational",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Rational.ts",
+            "line": 36,
+            "description": "The Rational class represents a rational number.",
+            "extends": "Field",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "n",
+                    "description": "The numerator.",
+                    "type": "Number"
+                },
+                {
+                    "name": "d",
+                    "description": "The denominator.",
+                    "type": "Number"
+                }
+            ]
+        },
         "Spinor3": {
             "name": "Spinor3",
             "shortname": "Spinor3",
@@ -1919,6 +2157,36 @@
             "extension_for": [],
             "file": "src/davinci-eight/math/Spinor3.ts",
             "line": 10
+        },
+        "Unit": {
+            "name": "Unit",
+            "shortname": "Unit",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Unit.ts",
+            "line": 199,
+            "description": "The Unit class represents the units for a measure.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scale",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "dimensions",
+                    "description": "",
+                    "type": "Dimensions"
+                },
+                {
+                    "name": "labels",
+                    "description": "The label strings to use for each dimension.",
+                    "type": "String[]"
+                }
+            ]
         },
         "Vector1": {
             "name": "Vector1",
@@ -4568,6 +4836,267 @@
             "class": "Cartesian4"
         },
         {
+            "file": "src/davinci-eight/math/Color.ts",
+            "line": 23,
+            "description": "Converts an angle, radius, height to a color on a color wheel.",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 61,
+            "description": "The real part of the complex number.",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 65,
+            "description": "The imaginary part of the complex number.",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 69,
+            "description": "The optional unit of measure.",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 73,
+            "description": "Constructs a complex number z = (x, y).",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The real part of the complex number."
+                },
+                {
+                    "name": "y",
+                    "description": "The imaginary part of the complex number."
+                }
+            ],
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 99,
+            "description": "__add__ supports operator +(Complex, any)",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 111,
+            "description": "__radd__ supports operator +(any, Complex)",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 130,
+            "description": "The <em>mass</em> component of this dimensions instance.",
+            "itemtype": "property",
+            "name": "M",
+            "type": "{Rational}",
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Dimensions.ts",
+            "line": 169,
+            "description": "Determines whether all the components of the Dimensions instance are zero.",
+            "itemtype": "method",
+            "name": "isZero",
+            "return": {
+                "description": "<code>true</code> if all the components are zero, otherwise <code>false</code>.",
+                "type": "Boolean"
+            },
+            "class": "Dimensions"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean1.ts",
+            "line": 58,
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "",
+                "type": "Euclidean1"
+            },
+            "class": "Euclidean1"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean2.ts",
+            "line": 810,
+            "description": "~ (tilde) produces reversion.",
+            "class": "Euclidean2"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 192,
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 686,
+            "description": "The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.",
+            "itemtype": "property",
+            "name": "w",
+            "type": "number",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 692,
+            "description": "The `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 696,
+            "description": "The `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 700,
+            "description": "The `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 704,
+            "description": "The `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 708,
+            "description": "The `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 712,
+            "description": "The `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 716,
+            "description": "The `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 720,
+            "description": "The optional unit of measure.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 724,
+            "description": "Constructs a Euclidean3 from its coordinates.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "w",
+                    "description": "The scalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "The vector component of the multivector in the x-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "The vector component of the multivector in the y-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "z",
+                    "description": "The vector component of the multivector in the z-direction.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xy",
+                    "description": "The bivector component of the multivector in the xy-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "yz",
+                    "description": "The bivector component of the multivector in the yz-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "zx",
+                    "description": "The bivector component of the multivector in the zx-plane.",
+                    "type": "Number"
+                },
+                {
+                    "name": "xyz",
+                    "description": "The pseudoscalar part of the multivector.",
+                    "type": "Number"
+                },
+                {
+                    "name": "uom",
+                    "description": "The optional unit of measure."
+                }
+            ],
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 801,
+            "description": "Computes the sum of this Euclidean3 and another considered to be the rhs of the binary addition, `+`, operator.\nThis method does not change this Euclidean3.",
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Euclidean3"
+                }
+            ],
+            "return": {
+                "description": "This Euclidean3 plus rhs.",
+                "type": "Euclidean3"
+            },
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 836,
+            "description": "Computes the difference of this Euclidean3 and another considered to be the rhs of the binary subtraction, `-`, operator.\nThis method does not change this Euclidean3.",
+            "itemtype": "method",
+            "name": "sub",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Euclidean3"
+                }
+            ],
+            "return": {
+                "description": "This Euclidean3 minus rhs.",
+                "type": "Euclidean3"
+            },
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 1060,
+            "description": "~ (tilde) produces reversion.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 1144,
+            "description": "Computes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
+            "class": "Euclidean3"
+        },
+        {
+            "file": "src/davinci-eight/math/Euclidean3.ts",
+            "line": 1149,
+            "description": "Computes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
+            "class": "Euclidean3"
+        },
+        {
             "file": "src/davinci-eight/math/GeometricElement.ts",
             "line": 2,
             "description": "A mutable element of a geometric space.",
@@ -4664,7 +5193,7 @@
             "file": "src/davinci-eight/math/Quaternion.ts",
             "line": 7,
             "description": "Quaternion is retained for reference only.\nQuaternion should not be exposed.",
-            "class": "Spinor3"
+            "class": "Rational"
         },
         {
             "file": "src/davinci-eight/math/Rotor3.ts",
@@ -4860,6 +5389,12 @@
             "name": "w",
             "type": "Number",
             "class": "Vector4"
+        },
+        {
+            "file": "src/davinci-eight/math/mathcore.ts",
+            "line": 2,
+            "description": "Determines whether a property name is callable on an object.",
+            "class": "BoxBuilder"
         },
         {
             "file": "src/davinci-eight/math/rotor3.ts",
@@ -5217,7 +5752,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Mesh.ts",
-            "line": 134,
+            "line": 124,
             "itemtype": "property",
             "name": "material\n\nProvides a reference counted reference to the material.",
             "class": "Mesh"
@@ -5722,6 +6257,11 @@
             "line": 12,
             "description": "Creates and returns a workbench3D thing.\ncanvas: An HTML canvas element to be inserted.\nTODO: We should remove the camera as being too opinionated, replace with a callback providing",
             "class": ""
+        },
+        {
+            "file": "src/davinci-eight/core.ts",
+            "line": 1,
+            "class": ""
         }
     ],
     "warnings": [
@@ -5958,6 +6498,90 @@
             "line": " src/davinci-eight/materials/SmartMaterial.ts:21"
         },
         {
+            "message": "Missing item type\nConverts an angle, radius, height to a color on a color wheel.",
+            "line": " src/davinci-eight/math/Color.ts:23"
+        },
+        {
+            "message": "Missing item type\nThe real part of the complex number.",
+            "line": " src/davinci-eight/math/Complex.ts:61"
+        },
+        {
+            "message": "Missing item type\nThe imaginary part of the complex number.",
+            "line": " src/davinci-eight/math/Complex.ts:65"
+        },
+        {
+            "message": "Missing item type\nThe optional unit of measure.",
+            "line": " src/davinci-eight/math/Complex.ts:69"
+        },
+        {
+            "message": "Missing item type\nConstructs a complex number z = (x, y).",
+            "line": " src/davinci-eight/math/Complex.ts:73"
+        },
+        {
+            "message": "Missing item type\n__add__ supports operator +(Complex, any)",
+            "line": " src/davinci-eight/math/Complex.ts:99"
+        },
+        {
+            "message": "Missing item type\n__radd__ supports operator +(any, Complex)",
+            "line": " src/davinci-eight/math/Complex.ts:111"
+        },
+        {
+            "message": "Missing item type\n~ (tilde) produces reversion.",
+            "line": " src/davinci-eight/math/Euclidean2.ts:810"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/math/Euclidean3.ts:192"
+        },
+        {
+            "message": "Missing item type\nThe `x` property is the x coordinate of the grade one (vector) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:692"
+        },
+        {
+            "message": "Missing item type\nThe `y` property is the y coordinate of the grade one (vector) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:696"
+        },
+        {
+            "message": "Missing item type\nThe `z` property is the z coordinate of the grade one (vector) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:700"
+        },
+        {
+            "message": "Missing item type\nThe `xy` property is the xy coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:704"
+        },
+        {
+            "message": "Missing item type\nThe `yz` property is the yz coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:708"
+        },
+        {
+            "message": "Missing item type\nThe `zx` property is the zx coordinate of the grade two (bivector) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:712"
+        },
+        {
+            "message": "Missing item type\nThe `xyz` property is the grade three (pseudoscalar) part of the Euclidean3 multivector.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:716"
+        },
+        {
+            "message": "Missing item type\nThe optional unit of measure.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:720"
+        },
+        {
+            "message": "Missing item type\nConstructs a Euclidean3 from its coordinates.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:724"
+        },
+        {
+            "message": "Missing item type\n~ (tilde) produces reversion.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:1060"
+        },
+        {
+            "message": "Missing item type\nComputes the magnitude of this Euclidean3. The magnitude is the square root of the quadrance.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:1144"
+        },
+        {
+            "message": "Missing item type\nComputes the quadrance of this Euclidean3. The quadrance is the square of the magnitude.",
+            "line": " src/davinci-eight/math/Euclidean3.ts:1149"
+        },
+        {
             "message": "Missing item type\nA mutable element of a geometric space.",
             "line": " src/davinci-eight/math/GeometricElement.ts:2"
         },
@@ -5996,6 +6620,10 @@
         {
             "message": "Missing item type\nR = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",
             "line": " src/davinci-eight/math/Rotor3.ts:3"
+        },
+        {
+            "message": "Missing item type\nDetermines whether a property name is callable on an object.",
+            "line": " src/davinci-eight/math/mathcore.ts:2"
         },
         {
             "message": "Missing item type\nFunctional constructor for producing a Rotor3.\nThe function is named so as to avoid case-insensitive collisions with Rotor3.\nThis will be exposed as `rotor3`.\nWe only need 2 parameters because the sum of the squares of the components is 1.\nPerhaps we should think of the third as being part of a cache?\nExtending this idea, what if",
@@ -6180,6 +6808,10 @@
         {
             "message": "Missing item type\nCreates and returns a workbench3D thing.\ncanvas: An HTML canvas element to be inserted.\nTODO: We should remove the camera as being too opinionated, replace with a callback providing",
             "line": " src/davinci-eight/utils/workbench3D.ts:12"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/core.ts:1"
         }
     ]
 }

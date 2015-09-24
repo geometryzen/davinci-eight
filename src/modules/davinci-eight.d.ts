@@ -1063,6 +1063,12 @@ class Model implements UniformData {
 var LAST_MODIFIED: string
 
 /**
+ * Deterimies whether the library strictly inforces invariants.
+ * This may have a performance penalty.
+ */
+var strict: boolean;
+
+/**
  * The version string of the davinci-eight module.
  */
 var VERSION: string;

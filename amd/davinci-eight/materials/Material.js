@@ -67,7 +67,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
         });
         // FIXME; I'm going to need to know which monitor.
         Material.prototype.use = function (canvasId) {
-            if (core.ASSERTIVE) {
+            if (core.strict) {
                 mustBeInteger('canvasid', canvasId);
             }
             if (this.inner) {
@@ -81,7 +81,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
                 }
                 else {
                     if (core.verbose) {
-                        console.warn(this.type + " use()");
+                        console.warn(this.type + " is not ready for use. Maybe did not receive contextGain?");
                     }
                 }
             }

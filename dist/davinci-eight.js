@@ -2913,14 +2913,16 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
 });
 
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
+    /**
+     *
+     */
     var core = {
-        ASSERTIVE: false,
-        DEFENSIVE: false,
+        strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         LAST_MODIFIED: '2015-09-23',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.106.0'
+        VERSION: '2.107.0'
     };
     return core;
 });
@@ -4949,7 +4951,7 @@ define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mu
     return mustBeDefined;
 });
 
-define('davinci-eight/scene/Mesh',["require", "exports", '../core', '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, core, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
+define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -5012,16 +5014,6 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../core', '../checks/i
                     buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API.
                     buffers.draw();
                     buffers.unbind();
-                }
-                else {
-                    if (core.verbose) {
-                        console.warn("Mesh is unable to draw because it has not be prepared for the specified canvas. canvasId => " + canvasId);
-                    }
-                }
-            }
-            else {
-                if (core.verbose) {
-                    console.warn("Mesh unable to look up buffer geometry because `typeof canvasId` is " + typeof canvasId);
                 }
             }
         };
@@ -7687,7 +7679,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
         });
         // FIXME; I'm going to need to know which monitor.
         Material.prototype.use = function (canvasId) {
-            if (core.ASSERTIVE) {
+            if (core.strict) {
                 mustBeInteger('canvasid', canvasId);
             }
             if (this.inner) {
@@ -7701,7 +7693,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
                 }
                 else {
                     if (core.verbose) {
-                        console.warn(this.type + " use()");
+                        console.warn(this.type + " is not ready for use. Maybe did not receive contextGain?");
                     }
                 }
             }
@@ -9915,12 +9907,20 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
          * The publish date of the latest version of the library.
          * @property LAST_MODIFIED
          * @type string
+         * @readOnly
          */
         get LAST_MODIFIED() { return core.LAST_MODIFIED; },
+        get strict() {
+            return core.strict;
+        },
+        set strict(value) {
+            core.strict = value;
+        },
         /**
          * The semantic version of the library.
          * @property VERSION
          * @type string
+         * @readOnly
          */
         get VERSION() { return core.VERSION; },
         // TODO: Arrange in alphabetical order in order to assess width of API.
@@ -9966,24 +9966,24 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get Color() { return Color; },
         get Face3() { return Face3; },
         get Geometry() { return Geometry; },
-        //  get ArrowGeometry() { return ArrowGeometry; },
-        //  get BarnGeometry() { return BarnGeometry; },
+        //  get ArrowGeometry() { return ArrowGeometry },
+        //  get BarnGeometry() { return BarnGeometry },
         get CuboidComplex() { return CuboidComplex; },
         get CuboidGeometry() { return CuboidGeometry; },
-        //  get CylinderGeometry() { return CylinderGeometry; },
-        //  get DodecahedronGeometry() { return DodecahedronGeometry; },
-        //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry; },
-        //  get IcosahedronGeometry() { return IcosahedronGeometry; },
-        //  get KleinBottleGeometry() { return KleinBottleGeometry; },
-        //  get MobiusStripGeometry() { return MobiusStripGeometry; },
-        //  get OctahedronGeometry() { return OctahedronGeometry; },
-        //  get SurfaceGeometry() { return SurfaceGeometry; },
-        //  get PolyhedronGeometry() { return PolyhedronGeometry; },
-        //  get RevolutionGeometry() { return RevolutionGeometry; },
-        //  get SphereGeometry() { return SphereGeometry; },
-        //  get TetrahedronGeometry() { return TetrahedronGeometry; },
-        //  get TubeGeometry() { return TubeGeometry; },
-        //  get VortexGeometry() { return VortexGeometry; },
+        //  get CylinderGeometry() { return CylinderGeometry },
+        //  get DodecahedronGeometry() { return DodecahedronGeometry },
+        //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
+        //  get IcosahedronGeometry() { return IcosahedronGeometry },
+        //  get KleinBottleGeometry() { return KleinBottleGeometry },
+        //  get MobiusStripGeometry() { return MobiusStripGeometry },
+        //  get OctahedronGeometry() { return OctahedronGeometry },
+        //  get SurfaceGeometry() { return SurfaceGeometry },
+        //  get PolyhedronGeometry() { return PolyhedronGeometry },
+        //  get RevolutionGeometry() { return RevolutionGeometry },
+        //  get SphereGeometry() { return SphereGeometry },
+        //  get TetrahedronGeometry() { return TetrahedronGeometry },
+        //  get TubeGeometry() { return TubeGeometry },
+        //  get VortexGeometry() { return VortexGeometry },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
         get rotor3() { return rotor3; },
