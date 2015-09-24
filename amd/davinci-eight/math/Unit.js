@@ -1,4 +1,5 @@
-define(["require", "exports", '../math/Dimensions', '../math/Rational', '../math/UnitError'], function (require, exports, Dimensions, Rational, UnitError) {
+define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitError'], function (require, exports, Dimensions, QQ, UnitError) {
+    var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -16,11 +17,11 @@ define(["require", "exports", '../math/Dimensions', '../math/Rational', '../math
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof Rational) {
+        if (arg instanceof QQ) {
             return arg;
         }
         else {
-            throw new UnitError("Argument '" + arg + "' must be a Rational");
+            throw new UnitError("Argument '" + arg + "' must be a QQ");
         }
     }
     function assertArgUnit(name, arg) {
@@ -408,6 +409,9 @@ define(["require", "exports", '../math/Dimensions', '../math/Rational', '../math
                 return void 0;
             }
         };
+        Unit.KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
+        Unit.METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
+        Unit.SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
         return Unit;
     })();
     return Unit;

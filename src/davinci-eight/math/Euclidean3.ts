@@ -1,7 +1,10 @@
+import Cartesian3 = require('../math/Cartesian3')
+import Dimensions = require('../math/Dimensions')
 import Euclidean3Error = require('../math/Euclidean3Error')
 import mathcore = require('../math/mathcore');
 import Measure = require('../math/Measure');
 import NotImplementedError = require('../math/NotImplementedError');
+import Spinor3Coords = require('../math/Spinor3Coords')
 import Unit = require('../math/Unit');
 
 var cos  = Math.cos;
@@ -682,7 +685,15 @@ function stringFromCoordinates(
  * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
  * @class Euclidean3
  */
-class Euclidean3 implements Measure<Euclidean3> {
+class Euclidean3 implements Cartesian3, Measure<Euclidean3>, Spinor3Coords {
+    public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
+    public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
+    public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
+    public static e2 = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
+    public static e3 = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
+    public static kilogram = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
+    public static meter = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
+    public static second = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
     /**
      * The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.
      * @property w

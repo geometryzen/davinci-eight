@@ -1127,6 +1127,14 @@ define(["require", "exports", '../math/Euclidean3Error', '../math/mathcore', '..
             var coordToString = function (coord) { return coord.toString(); };
             return this.toStringCustom(coordToString, ["1", "e_{1}", "e_{2}", "e_{3}", "e_{12}", "e_{23}", "e_{31}", "e_{123}"]);
         };
+        Euclidean3.zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
+        Euclidean3.one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
+        Euclidean3.e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
+        Euclidean3.e2 = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
+        Euclidean3.e3 = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
+        Euclidean3.kilogram = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
+        Euclidean3.meter = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
+        Euclidean3.second = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
         return Euclidean3;
     })();
     return Euclidean3;

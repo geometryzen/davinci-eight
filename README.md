@@ -209,6 +209,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.105.0: 2015-09-23 Scene
 * 2.106.0: 2015-09-23 IPrologCommand
 * 2.107.0: 2015-09-23 Euclidean*
+* 2.108.0: 2015-09-23 Euclidean3
 
 ## License
 Copyright (c) 2014-2015 David Holmes

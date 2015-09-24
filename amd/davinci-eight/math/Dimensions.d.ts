@@ -1,4 +1,4 @@
-import Rational = require('../math/Rational');
+import QQ = require('../math/QQ');
 declare class Dimensions {
     L: any;
     T: any;
@@ -6,32 +6,35 @@ declare class Dimensions {
     temperature: any;
     amount: any;
     intensity: any;
+    static MASS: Dimensions;
+    static LENGTH: Dimensions;
+    static TIME: Dimensions;
     private _mass;
     /**
      * The Dimensions class captures the physical dimensions associated with a unit of measure.
      *
      * @class Dimensions
      * @constructor
-     * @param {Rational} mass The mass component of the dimensions object.
-     * @param {Rational} length The length component of the dimensions object.
-     * @param {Rational} time The time component of the dimensions object.
-     * @param {Rational} charge The charge component of the dimensions object.
-     * @param {Rational} temperature The temperature component of the dimensions object.
-     * @param {Rational} amount The amount component of the dimensions object.
-     * @param {Rational} intensity The intensity component of the dimensions object.
+     * @param {QQ} mass The mass component of the dimensions object.
+     * @param {QQ} length The length component of the dimensions object.
+     * @param {QQ} time The time component of the dimensions object.
+     * @param {QQ} charge The charge component of the dimensions object.
+     * @param {QQ} temperature The temperature component of the dimensions object.
+     * @param {QQ} amount The amount component of the dimensions object.
+     * @param {QQ} intensity The intensity component of the dimensions object.
      */
-    constructor(theMass: any, L: any, T: any, Q: any, temperature: any, amount: any, intensity: any);
+    constructor(theMass: QQ, L: any, T: any, Q: any, temperature: any, amount: any, intensity: any);
     /**
     * The <em>mass</em> component of this dimensions instance.
     *
     * @property M
-    * @type {Rational}
+    * @type {QQ}
     */
-    M: Rational;
+    M: QQ;
     compatible(rhs: Dimensions): Dimensions;
     mul(rhs: Dimensions): Dimensions;
     div(rhs: Dimensions): Dimensions;
-    pow(exponent: Rational): Dimensions;
+    pow(exponent: QQ): Dimensions;
     sqrt(): Dimensions;
     dimensionless(): boolean;
     /**

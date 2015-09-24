@@ -5,10 +5,10 @@ import Vector3 = require('../math/Vector3');
 
 var EPS = 0.000001;
 /**
- * Quaternion is retained for reference only.
- * Quaternion should not be exposed.
+ * HH is retained for reference only.
+ * HH should not be exposed.
  */
-class Quaternion implements GeometricElement<Quaternion, Quaternion> {
+class HH implements GeometricElement<HH, HH> {
   private _x: number;
   private _y: number;
   private _z: number;
@@ -48,10 +48,10 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this._w = value;
     this.onChangeCallback();
   }
-  add(element: Quaternion) {
+  add(element: HH) {
     return this;
   }
-  sum(a: Quaternion, b: Quaternion) {
+  sum(a: HH, b: HH) {
     return this;
   }
   set(x: number, y: number, z: number, w: number) {
@@ -62,17 +62,17 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.onChangeCallback();
     return this;
   }
-  clone(): Quaternion {
-    return new Quaternion(this._x, this._y, this._z, this._w);
+  clone(): HH {
+    return new HH(this._x, this._y, this._z, this._w);
   }
-  conjugate(): Quaternion {
+  conjugate(): HH {
     this._x *= - 1;
     this._y *= - 1;
     this._z *= - 1;
     this.onChangeCallback();
     return this;
   }
-  copy(quaternion: Quaternion): Quaternion {
+  copy(quaternion: HH): HH {
     this._x = quaternion.x;
     this._y = quaternion.y;
     this._z = quaternion.z;
@@ -83,17 +83,17 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   divideScalar(scalar: number) {
     return this;
   }
-  dot(v: Quaternion): number {
+  dot(v: HH): number {
     return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
   }
   exp() {
     return this;
   }
-  inverse(): Quaternion {
+  inverse(): HH {
     this.conjugate().normalize();
     return this;
   }
-  lerp(target: Quaternion, alpha: number): Quaternion {
+  lerp(target: HH, alpha: number): HH {
     this.x += ( target.x - this.x ) * alpha;
     this.y += ( target.y - this.y ) * alpha;
     this.z += ( target.z - this.z ) * alpha;
@@ -103,10 +103,10 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   magnitude(): number {
     return Math.sqrt(this.quaditude());
   }
-  multiply(q: Quaternion): Quaternion {
+  multiply(q: HH): HH {
     return this.product(this, q);
   }
-  product(a: Quaternion, b: Quaternion): Quaternion {
+  product(a: HH, b: HH): HH {
     // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
     let qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
     let qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -120,7 +120,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   multiplyScalar(scalar: number) {
     return this;
   }
-  normalize(): Quaternion {
+  normalize(): HH {
     let l = this.magnitude();
     if (l === 0) {
       this._x = 0;
@@ -138,18 +138,18 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.onChangeCallback();
     return this;
   }
-  onChange(callback: () => void): Quaternion {
+  onChange(callback: () => void): HH {
     this.onChangeCallback = callback;
     return this;
   }
   quaditude(): number {
     return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
   }
-  rotate(rotor: Quaternion): Quaternion {
+  rotate(rotor: HH): HH {
     // TODO: This would require creating a temporary so we fall back to components.
     return this.product(rotor, this);
   }
-  setFromAxisAngle(axis: Cartesian3, angle: number): Quaternion {
+  setFromAxisAngle(axis: Cartesian3, angle: number): HH {
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
     // assumes axis is normalized
     var halfAngle = angle / 2, s = Math.sin( halfAngle );
@@ -160,7 +160,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.onChangeCallback();
     return this;
   }
-  setFromRotationMatrix(m: Matrix4): Quaternion {
+  setFromRotationMatrix(m: Matrix4): HH {
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
     // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
     var te = m.data,
@@ -228,7 +228,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.normalize();
     return this;
   }
-  slerp(qb: Quaternion, t: number): Quaternion {
+  slerp(qb: HH, t: number): HH {
     if (t === 0) return this;
     if (t === 1) return this.copy(qb);
     var x = this._x, y = this._y, z = this._z, w = this._w;
@@ -275,16 +275,16 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.onChangeCallback();
     return this;
   }
-  sub(rhs: Quaternion) {
+  sub(rhs: HH) {
     return this;
   }
-  difference(a: Quaternion, b: Quaternion) {
+  difference(a: HH, b: HH) {
     return this;
   }
-  equals(quaternion: Quaternion) {
+  equals(quaternion: HH) {
     return (quaternion._x === this._x) && (quaternion._y === this._y) && ( quaternion._z === this._z ) && ( quaternion._w === this._w );
   }
-  fromArray(array: number[], offset: number = 0): Quaternion {
+  fromArray(array: number[], offset: number = 0): HH {
     this._x = array[ offset ];
     this._y = array[ offset + 1 ];
     this._z = array[ offset + 2 ];
@@ -299,9 +299,9 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     array[ offset + 3 ] = this._w;
     return array;
   }
-  public static slerp(qa: Quaternion, qb: Quaternion, qm: Quaternion, t: number): Quaternion {
+  public static slerp(qa: HH, qb: HH, qm: HH, t: number): HH {
     return qm.copy(qa).slerp(qb, t);
   }
 }
 
-export = Quaternion;
+export = HH;

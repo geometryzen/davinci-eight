@@ -4,13 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define(["require", "exports"], function (require, exports) {
-    var RationalError = (function (_super) {
-        __extends(RationalError, _super);
-        function RationalError(message) {
+    var CCError = (function (_super) {
+        __extends(CCError, _super);
+        function CCError(message) {
             _super.call(this, message);
-            this.name = 'RationalError';
+            this.name = 'CCError';
         }
-        return RationalError;
+        return CCError;
     })(Error);
-    return RationalError;
+    return CCError;
 });

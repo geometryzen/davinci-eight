@@ -1,22 +1,22 @@
 // TODO: Add special methods and unit of measure.
 //import Unit = require('../math/Unit');
-import RationalError = require('../math/RationalError')
+import QQError = require('../math/QQError')
 
 function assertArgNumber(name: string, x: number): number {
   if (typeof x === 'number') {
     return x;
   }
   else {
-    throw new RationalError("Argument '" + name + "' must be a number");
+    throw new QQError("Argument '" + name + "' must be a number");
   }
 }
 
-function assertArgRational(name: string, arg: Rational): Rational {
-  if (arg instanceof Rational) {
+function assertArgRational(name: string, arg: QQ): QQ {
+  if (arg instanceof QQ) {
     return arg;
   }
   else {
-    throw new RationalError("Argument '" + arg + "' must be a Rational");
+    throw new QQError("Argument '" + arg + "' must be a QQ");
   }
 }
 /*
@@ -25,18 +25,18 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
     return uom;
   }
   else {
-    throw new RationalError("Argument '" + uom + "' must be a Unit or undefined");
+    throw new QQError("Argument '" + uom + "' must be a Unit or undefined");
   }
 }
 */
-class Rational {
+class QQ {
   private _numer: number;
   private _denom: number;
 
   /**
-   * The Rational class represents a rational number.
+   * The QQ class represents a rational number.
    *
-   * @class Rational
+   * @class QQ
    * @extends Field
    * @constructor
    * @param {number} n The numerator.
@@ -100,28 +100,28 @@ class Rational {
     return this._denom;
   }
 
-  add(rhs: Rational): Rational {
+  add(rhs: QQ): QQ {
     assertArgRational('rhs', rhs);
-    return new Rational(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+    return new QQ(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
   }
 
-  sub(rhs: Rational): Rational {
+  sub(rhs: QQ): QQ {
     assertArgRational('rhs', rhs);
-    return new Rational(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+    return new QQ(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
   }
 
-  mul(rhs: Rational): Rational {
+  mul(rhs: QQ): QQ {
     assertArgRational('rhs', rhs);
-    return new Rational(this._numer * rhs._numer, this._denom * rhs._denom);
+    return new QQ(this._numer * rhs._numer, this._denom * rhs._denom);
   }
 
   // TODO: div testing
-  div(rhs: any): Rational {
+  div(rhs: any): QQ {
     if (typeof rhs === 'number') {
-        return new Rational(this._numer, this._denom * rhs);
+        return new QQ(this._numer, this._denom * rhs);
     }
     else {
-        return new Rational(this._numer * rhs._denom, this._denom * rhs._numer);
+        return new QQ(this._numer * rhs._denom, this._denom * rhs._numer);
     }
   }
 
@@ -129,12 +129,12 @@ class Rational {
     return this._numer === 0;
   }
 
-  negative(): Rational {
-    return new Rational(-this._numer, this._denom);
+  negative(): QQ {
+    return new QQ(-this._numer, this._denom);
   }
 
   equals(other: any): boolean {
-    if (other instanceof Rational) {
+    if (other instanceof QQ) {
         return this._numer * other._denom === this._denom * other._numer;
     }
     else {
@@ -146,9 +146,9 @@ class Rational {
     return "" + this._numer + "/" + this._denom;
   }
 
-  static ONE: Rational = new Rational(1, 1);
-  static TWO: Rational = new Rational(2, 1);
-  static MINUS_ONE: Rational = new Rational(-1, 1);
-  static ZERO: Rational = new Rational(0, 1);
+  static ONE: QQ = new QQ(1, 1);
+  static TWO: QQ = new QQ(2, 1);
+  static MINUS_ONE: QQ = new QQ(-1, 1);
+  static ZERO: QQ = new QQ(0, 1);
 }
-export = Rational;
+export = QQ;

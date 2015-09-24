@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/Rational.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/QQ.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.107.0</em>
+            <em>API Docs for: 2.108.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -92,7 +92,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -152,29 +152,29 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/Rational.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/QQ.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 // TODO: Add special methods and unit of measure.
 //import Unit = require(&#x27;../math/Unit&#x27;);
-import RationalError = require(&#x27;../math/RationalError&#x27;)
+import QQError = require(&#x27;../math/QQError&#x27;)
 
 function assertArgNumber(name: string, x: number): number {
   if (typeof x === &#x27;number&#x27;) {
     return x;
   }
   else {
-    throw new RationalError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
+    throw new QQError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
   }
 }
 
-function assertArgRational(name: string, arg: Rational): Rational {
-  if (arg instanceof Rational) {
+function assertArgRational(name: string, arg: QQ): QQ {
+  if (arg instanceof QQ) {
     return arg;
   }
   else {
-    throw new RationalError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Rational&quot;);
+    throw new QQError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a QQ&quot;);
   }
 }
 /*
@@ -183,18 +183,18 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
     return uom;
   }
   else {
-    throw new RationalError(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;);
+    throw new QQError(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;);
   }
 }
 */
-class Rational {
+class QQ {
   private _numer: number;
   private _denom: number;
 
   /**
-   * The Rational class represents a rational number.
+   * The QQ class represents a rational number.
    *
-   * @class Rational
+   * @class QQ
    * @extends Field
    * @constructor
    * @param {number} n The numerator.
@@ -258,28 +258,28 @@ class Rational {
     return this._denom;
   }
 
-  add(rhs: Rational): Rational {
+  add(rhs: QQ): QQ {
     assertArgRational(&#x27;rhs&#x27;, rhs);
-    return new Rational(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+    return new QQ(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
   }
 
-  sub(rhs: Rational): Rational {
+  sub(rhs: QQ): QQ {
     assertArgRational(&#x27;rhs&#x27;, rhs);
-    return new Rational(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+    return new QQ(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
   }
 
-  mul(rhs: Rational): Rational {
+  mul(rhs: QQ): QQ {
     assertArgRational(&#x27;rhs&#x27;, rhs);
-    return new Rational(this._numer * rhs._numer, this._denom * rhs._denom);
+    return new QQ(this._numer * rhs._numer, this._denom * rhs._denom);
   }
 
   // TODO: div testing
-  div(rhs: any): Rational {
+  div(rhs: any): QQ {
     if (typeof rhs === &#x27;number&#x27;) {
-        return new Rational(this._numer, this._denom * rhs);
+        return new QQ(this._numer, this._denom * rhs);
     }
     else {
-        return new Rational(this._numer * rhs._denom, this._denom * rhs._numer);
+        return new QQ(this._numer * rhs._denom, this._denom * rhs._numer);
     }
   }
 
@@ -287,12 +287,12 @@ class Rational {
     return this._numer === 0;
   }
 
-  negative(): Rational {
-    return new Rational(-this._numer, this._denom);
+  negative(): QQ {
+    return new QQ(-this._numer, this._denom);
   }
 
   equals(other: any): boolean {
-    if (other instanceof Rational) {
+    if (other instanceof QQ) {
         return this._numer * other._denom === this._denom * other._numer;
     }
     else {
@@ -304,12 +304,12 @@ class Rational {
     return &quot;&quot; + this._numer + &quot;/&quot; + this._denom;
   }
 
-  static ONE: Rational = new Rational(1, 1);
-  static TWO: Rational = new Rational(2, 1);
-  static MINUS_ONE: Rational = new Rational(-1, 1);
-  static ZERO: Rational = new Rational(0, 1);
+  static ONE: QQ = new QQ(1, 1);
+  static TWO: QQ = new QQ(2, 1);
+  static MINUS_ONE: QQ = new QQ(-1, 1);
+  static ZERO: QQ = new QQ(0, 1);
 }
-export = Rational;
+export = QQ;
     </pre>
 </div>
                     </div>

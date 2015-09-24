@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/math/Complex.ts - davinci-eight</title>
+    <title>src/davinci-eight/math/CC.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.107.0</em>
+            <em>API Docs for: 2.108.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -92,7 +92,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -152,11 +152,11 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/math/Complex.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/math/CC.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ComplexError = require(&#x27;../math/ComplexError&#x27;);
+import CCError = require(&#x27;../math/CCError&#x27;);
 import Measure = require(&#x27;../math/Measure&#x27;);
 import Unit = require(&#x27;../math/Unit&#x27;);
 import mathcore = require(&#x27;../math/mathcore&#x27;);
@@ -172,16 +172,16 @@ function assertArgNumber(name: string, x: number): number {
     return x;
   }
   else {
-    throw new ComplexError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
+    throw new CCError(&quot;Argument &#x27;&quot; + name + &quot;&#x27; must be a number&quot;);
   }
 }
 
-function assertArgComplex(name: string, arg: Complex): Complex {
-  if (arg instanceof Complex) {
+function assertArgComplex(name: string, arg: CC): CC {
+  if (arg instanceof CC) {
     return arg;
   }
   else {
-    throw new ComplexError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Complex&quot;);
+    throw new CCError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a CC&quot;);
   }
 }
 
@@ -190,32 +190,32 @@ function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
     return uom;
   }
   else {
-    throw new ComplexError(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;);
+    throw new CCError(&quot;Argument &#x27;&quot; + uom + &quot;&#x27; must be a Unit or undefined&quot;);
   }
 }
 
-function multiply(a: Complex, b: Complex): Complex {
+function multiply(a: CC, b: CC): CC {
   assertArgComplex(&#x27;a&#x27;, a);
   assertArgComplex(&#x27;b&#x27;, b);
   var x = a.x * b.x - a.y * b.y;
   var y = a.x * b.y + a.y * b.x;
-  return new Complex(x, y, Unit.mul(a.uom, b.uom));
+  return new CC(x, y, Unit.mul(a.uom, b.uom));
 }
 
-function divide(a: Complex, b: Complex): Complex {
+function divide(a: CC, b: CC): CC {
   assertArgComplex(&#x27;a&#x27;, a);
   assertArgComplex(&#x27;b&#x27;, b);
   var q = b.x * b.x + b.y * b.y;
   var x = (a.x * b.x + a.y * b.y) / q;
   var y = (a.y * b.x - a.x * b.y) / q;
-  return new Complex(x, y, Unit.div(a.uom, b.uom));
+  return new CC(x, y, Unit.div(a.uom, b.uom));
 }
 
 function norm(x: number, y: number): number {
   return Math.sqrt(x * x + y * y);
 }
 
-class Complex implements Measure&lt;Complex&gt; {
+class CC implements Measure&lt;CC&gt; {
     /**
      * The real part of the complex number.
      */
@@ -249,194 +249,194 @@ class Complex implements Measure&lt;Complex&gt; {
       return [this.x, this.y];
     }
 
-    add(rhs: Complex): Complex {
+    add(rhs: CC): CC {
       assertArgComplex(&#x27;rhs&#x27;, rhs);
-      return new Complex(this.x + rhs.x, this.y + rhs.y, Unit.compatible(this.uom, rhs.uom));
+      return new CC(this.x + rhs.x, this.y + rhs.y, Unit.compatible(this.uom, rhs.uom));
     }
 
     /**
-     * __add__ supports operator +(Complex, any)
+     * __add__ supports operator +(CC, any)
      */
-    __add__(other: any): Complex {
-      if (other instanceof Complex) {
+    __add__(other: any): CC {
+      if (other instanceof CC) {
         return this.add(other);
       }
       else if (typeof other === &#x27;number&#x27;) {
-        return new Complex(this.x + other, this.y, Unit.compatible(this.uom, undefined));
+        return new CC(this.x + other, this.y, Unit.compatible(this.uom, undefined));
       }
     }
 
     /**
-     * __radd__ supports operator +(any, Complex)
+     * __radd__ supports operator +(any, CC)
      */
-    __radd__(other: any): Complex
+    __radd__(other: any): CC
     {
-      if (other instanceof Complex)
+      if (other instanceof CC)
       {
-        var lhs: Complex = other;
-        return new Complex(other.x + this.x, other.y + this.y, Unit.compatible(lhs.uom, this.uom));
+        var lhs: CC = other;
+        return new CC(other.x + this.x, other.y + this.y, Unit.compatible(lhs.uom, this.uom));
       }
       else if (typeof other === &#x27;number&#x27;)
       {
         var x: number = other;
-        return new Complex(x + this.x, this.y, Unit.compatible(undefined, this.uom));
+        return new CC(x + this.x, this.y, Unit.compatible(undefined, this.uom));
       }
     }
 
-    sub(rhs: Complex): Complex {
+    sub(rhs: CC): CC {
       assertArgComplex(&#x27;rhs&#x27;, rhs);
-      return new Complex(this.x - rhs.x, this.y - rhs.y, Unit.compatible(this.uom, rhs.uom));
+      return new CC(this.x - rhs.x, this.y - rhs.y, Unit.compatible(this.uom, rhs.uom));
     }
 
-    __sub__(other: any): Complex
+    __sub__(other: any): CC
     {
-      if (other instanceof Complex)
+      if (other instanceof CC)
       {
-        var rhs: Complex = other;
-        return new Complex(this.x - rhs.x, this.y - rhs.y, Unit.compatible(this.uom, rhs.uom));
+        var rhs: CC = other;
+        return new CC(this.x - rhs.x, this.y - rhs.y, Unit.compatible(this.uom, rhs.uom));
       }
       else if (typeof other === &#x27;number&#x27;)
       {
         var x: number = other;
-        return new Complex(this.x - x, this.y, Unit.compatible(this.uom, undefined));
+        return new CC(this.x - x, this.y, Unit.compatible(this.uom, undefined));
       }
     }
 
-    __rsub__(other: any): Complex
+    __rsub__(other: any): CC
     {
-      if (other instanceof Complex)
+      if (other instanceof CC)
       {
-        var lhs: Complex = other;
-        return new Complex(lhs.x - this.x, lhs.y - this.y, Unit.compatible(lhs.uom, this.uom));
+        var lhs: CC = other;
+        return new CC(lhs.x - this.x, lhs.y - this.y, Unit.compatible(lhs.uom, this.uom));
       }
       else if (typeof other === &#x27;number&#x27;)
       {
         var x: number = other;
-        return new Complex(x - this.x, -this.y, Unit.compatible(undefined, this.uom));
+        return new CC(x - this.x, -this.y, Unit.compatible(undefined, this.uom));
       }
     }
 
-    mul(rhs: Complex): Complex {
+    mul(rhs: CC): CC {
       assertArgComplex(&#x27;rhs&#x27;, rhs);
       return multiply(this, rhs);
     }
 
-    __mul__(other: any): Complex {
-      if (other instanceof Complex) {
+    __mul__(other: any): CC {
+      if (other instanceof CC) {
         return multiply(this, other);
       }
       else if (typeof other === &#x27;number&#x27;) {
         var x: number = other;
-        return new Complex(this.x * x, this.y * x, this.uom);
+        return new CC(this.x * x, this.y * x, this.uom);
       }
     }
 
-    __rmul__(other: any): Complex {
-      if (other instanceof Complex) {
+    __rmul__(other: any): CC {
+      if (other instanceof CC) {
         return multiply(other, this);
       }
       else if (typeof other === &#x27;number&#x27;) {
         var x: number = other;
-        return new Complex(x * this.x, x * this.y, this.uom);
+        return new CC(x * this.x, x * this.y, this.uom);
       }
     }
 
-    div(rhs: Complex): Complex {
+    div(rhs: CC): CC {
       assertArgComplex(&#x27;rhs&#x27;, rhs);
       return divide(this, rhs);
     }
 
-    __div__(other: any): Complex {
-      if (other instanceof Complex) {
+    __div__(other: any): CC {
+      if (other instanceof CC) {
         return divide(this, other);
       }
       else if (typeof other === &#x27;number&#x27;) {
-        return new Complex(this.x / other, this.y / other, this.uom);
+        return new CC(this.x / other, this.y / other, this.uom);
       }
     }
 
-    __rdiv__(other: any): Complex {
-      if (other instanceof Complex) {
+    __rdiv__(other: any): CC {
+      if (other instanceof CC) {
         return divide(other, this);
       }
       else if (typeof other === &#x27;number&#x27;) {
-        return divide(new Complex(other, 0), this);
+        return divide(new CC(other, 0), this);
       }
     }
 
-    wedge(rhs: Complex): Complex {
+    wedge(rhs: CC): CC {
       // assertArgComplex(&#x27;rhs&#x27;, rhs);
-      throw new ComplexError(&#x27;wedge&#x27;);
+      throw new CCError(&#x27;wedge&#x27;);
     }
 
-    lshift(rhs: Complex): Complex {
+    lshift(rhs: CC): CC {
       // assertArgComplex(&#x27;rhs&#x27;, rhs);
-      throw new ComplexError(&#x27;lshift&#x27;);
+      throw new CCError(&#x27;lshift&#x27;);
     }
 
-    rshift(rhs: Complex): Complex {
+    rshift(rhs: CC): CC {
       // assertArgComplex(&#x27;rhs&#x27;, rhs);
-      throw new ComplexError(&#x27;rshift&#x27;);
+      throw new CCError(&#x27;rshift&#x27;);
     }
 
-    pow(exponent: Complex): Complex {
+    pow(exponent: CC): CC {
       // assertArgComplex(&#x27;rhs&#x27;, rhs);
-      throw new ComplexError(&#x27;pow&#x27;);
+      throw new CCError(&#x27;pow&#x27;);
     }
 
-    cos(): Complex {
+    cos(): CC {
       Unit.assertDimensionless(this.uom);
       var x = this.x;
       var y = this.y;
-      return new Complex(cos(x) * cosh(y), - sin(x) * sinh(y));
+      return new CC(cos(x) * cosh(y), - sin(x) * sinh(y));
     }
 
-    cosh(): Complex {
+    cosh(): CC {
       Unit.assertDimensionless(this.uom);
       var x = this.x;
       var y = this.y;
-      return new Complex(cosh(x) * cos(y), sinh(x) * sin(y));
+      return new CC(cosh(x) * cos(y), sinh(x) * sin(y));
     }
 
-    exp(): Complex {
+    exp(): CC {
       Unit.assertDimensionless(this.uom);
       var x = this.x;
       var y = this.y;
       var expX = Math.exp(x);
-      return new Complex(expX * cos(y), expX * sin(y));
+      return new CC(expX * cos(y), expX * sin(y));
     }
 
-    norm(): Complex {
+    norm(): CC {
       var x = this.x;
       var y = this.y;
-      return new Complex(Math.sqrt(x * x + y * y), 0, this.uom);
+      return new CC(Math.sqrt(x * x + y * y), 0, this.uom);
     }
 
-    quad(): Complex {
+    quad(): CC {
       var x = this.x;
       var y = this.y;
-      return new Complex(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
+      return new CC(x * x + y * y, 0, Unit.mul(this.uom, this.uom));
     }
 
-    sin(): Complex {
+    sin(): CC {
       Unit.assertDimensionless(this.uom);
       var x = this.x;
       var y = this.y;
-      return new Complex(sin(x) * cosh(y), cos(x) * sinh(y));
+      return new CC(sin(x) * cosh(y), cos(x) * sinh(y));
     }
 
-    sinh(): Complex {
+    sinh(): CC {
       Unit.assertDimensionless(this.uom);
       var x = this.x;
       var y = this.y;
-      return new Complex(sinh(x) * cos(y), cosh(x) * sin(y));
+      return new CC(sinh(x) * cos(y), cosh(x) * sin(y));
     }
 
-    unit(): Complex {
+    unit(): CC {
       var x = this.x;
       var y = this.y;
       var divisor = norm(x, y);
-      return new Complex(x / divisor, y / divisor);
+      return new CC(x / divisor, y / divisor);
     }
 
     scalar(): number {
@@ -448,7 +448,7 @@ class Complex implements Measure&lt;Complex&gt; {
     }
 
     toStringCustom(coordToString: (x: number) =&gt; string): string {
-      var quantityString = &quot;Complex(&quot; + coordToString(this.x) + &quot;, &quot; + coordToString(this.y) + &quot;)&quot;;
+      var quantityString = &quot;CC(&quot; + coordToString(this.x) + &quot;, &quot; + coordToString(this.y) + &quot;)&quot;;
       if (this.uom) {
         var uomString = this.uom.toString().trim();
         if (uomString) {
@@ -476,7 +476,7 @@ class Complex implements Measure&lt;Complex&gt; {
     }
 }
 
-export = Complex;
+export = CC;
 
     </pre>
 </div>

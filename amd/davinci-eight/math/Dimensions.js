@@ -1,4 +1,6 @@
-define(["require", "exports", '../math/DimensionError', '../math/Rational'], function (require, exports, DimensionError, Rational) {
+define(["require", "exports", '../math/DimensionError', '../math/QQ'], function (require, exports, DimensionError, QQ) {
+    var R0 = QQ.ZERO;
+    var R1 = QQ.ONE;
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -16,11 +18,11 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof Rational) {
+        if (arg instanceof QQ) {
             return arg;
         }
         else {
-            throw new DimensionError("Argument '" + arg + "' must be a Rational");
+            throw new DimensionError("Argument '" + arg + "' must be a QQ");
         }
     }
     var Dimensions = (function () {
@@ -29,13 +31,13 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
          *
          * @class Dimensions
          * @constructor
-         * @param {Rational} mass The mass component of the dimensions object.
-         * @param {Rational} length The length component of the dimensions object.
-         * @param {Rational} time The time component of the dimensions object.
-         * @param {Rational} charge The charge component of the dimensions object.
-         * @param {Rational} temperature The temperature component of the dimensions object.
-         * @param {Rational} amount The amount component of the dimensions object.
-         * @param {Rational} intensity The intensity component of the dimensions object.
+         * @param {QQ} mass The mass component of the dimensions object.
+         * @param {QQ} length The length component of the dimensions object.
+         * @param {QQ} time The time component of the dimensions object.
+         * @param {QQ} charge The charge component of the dimensions object.
+         * @param {QQ} temperature The temperature component of the dimensions object.
+         * @param {QQ} amount The amount component of the dimensions object.
+         * @param {QQ} intensity The intensity component of the dimensions object.
          */
         function Dimensions(theMass, L, T, Q, temperature, amount, intensity) {
             this.L = L;
@@ -53,88 +55,77 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
                     message: "Expecting 7 arguments"
                 };
             }
-            if (typeof theMass === 'number') {
-                this._mass = new Rational(theMass, 1);
-            }
-            else if (theMass instanceof Rational) {
-                this._mass = theMass;
-            }
-            else {
-                throw {
-                    name: "DimensionError",
-                    message: "mass must be a Rational or number"
-                };
-            }
+            this._mass = theMass;
             if (typeof length === 'number') {
-                this.L = new Rational(length, 1);
+                this.L = new QQ(length, 1);
             }
-            else if (length instanceof Rational) {
+            else if (length instanceof QQ) {
                 this.L = length;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "length must be a Rational or number"
+                    message: "length must be a QQ or number"
                 };
             }
             if (typeof time === 'number') {
-                this.T = new Rational(time, 1);
+                this.T = new QQ(time, 1);
             }
-            else if (time instanceof Rational) {
+            else if (time instanceof QQ) {
                 this.T = time;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "time must be a Rational or number"
+                    message: "time must be a QQ or number"
                 };
             }
             if (typeof charge === 'number') {
-                this.Q = new Rational(charge, 1);
+                this.Q = new QQ(charge, 1);
             }
-            else if (charge instanceof Rational) {
+            else if (charge instanceof QQ) {
                 this.Q = charge;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "charge must be a Rational or number"
+                    message: "charge must be a QQ or number"
                 };
             }
             if (typeof temperature === 'number') {
-                this.temperature = new Rational(temperature, 1);
+                this.temperature = new QQ(temperature, 1);
             }
-            else if (temperature instanceof Rational) {
+            else if (temperature instanceof QQ) {
                 this.temperature = temperature;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "(thermodynamic) temperature must be a Rational or number"
+                    message: "(thermodynamic) temperature must be a QQ or number"
                 };
             }
             if (typeof amount === 'number') {
-                this.amount = new Rational(amount, 1);
+                this.amount = new QQ(amount, 1);
             }
-            else if (amount instanceof Rational) {
+            else if (amount instanceof QQ) {
                 this.amount = amount;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "amount (of substance) must be a Rational or number"
+                    message: "amount (of substance) must be a QQ or number"
                 };
             }
             if (typeof intensity === 'number') {
-                this.intensity = new Rational(intensity, 1);
+                this.intensity = new QQ(intensity, 1);
             }
-            else if (intensity instanceof Rational) {
+            else if (intensity instanceof QQ) {
                 this.intensity = intensity;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "(luminous) intensity must be a Rational or number"
+                    message: "(luminous) intensity must be a QQ or number"
                 };
             }
         }
@@ -143,7 +134,7 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
             * The <em>mass</em> component of this dimensions instance.
             *
             * @property M
-            * @type {Rational}
+            * @type {QQ}
             */
             get: function () {
                 return this._mass;
@@ -169,7 +160,7 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
             return new Dimensions(this._mass.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
         };
         Dimensions.prototype.sqrt = function () {
-            return new Dimensions(this._mass.div(Rational.TWO), this.L.div(Rational.TWO), this.T.div(Rational.TWO), this.Q.div(Rational.TWO), this.temperature.div(Rational.TWO), this.amount.div(Rational.TWO), this.intensity.div(Rational.TWO));
+            return new Dimensions(this._mass.div(QQ.TWO), this.L.div(QQ.TWO), this.T.div(QQ.TWO), this.Q.div(QQ.TWO), this.temperature.div(QQ.TWO), this.amount.div(QQ.TWO), this.intensity.div(QQ.TWO));
         };
         Dimensions.prototype.dimensionless = function () {
             return this._mass.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
@@ -205,6 +196,9 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
                 return typeof x === 'string';
             }).join(" * ");
         };
+        Dimensions.MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
+        Dimensions.LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
+        Dimensions.TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
         return Dimensions;
     })();
     return Dimensions;

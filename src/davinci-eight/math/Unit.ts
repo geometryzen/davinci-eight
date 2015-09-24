@@ -1,6 +1,8 @@
 import Dimensions = require('../math/Dimensions');
-import Rational = require('../math/Rational');
+import QQ = require('../math/QQ');
 import UnitError = require('../math/UnitError');
+
+var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
 
 function assertArgNumber(name: string, x: number): number {
   if (typeof x === 'number') {
@@ -20,12 +22,12 @@ function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
   }
 }
 
-function assertArgRational(name: string, arg: Rational): Rational {
-  if (arg instanceof Rational) {
+function assertArgRational(name: string, arg: QQ): QQ {
+  if (arg instanceof QQ) {
     return arg;
   }
   else {
-    throw new UnitError("Argument '" + arg + "' must be a Rational");
+    throw new UnitError("Argument '" + arg + "' must be a QQ");
   }
 }
 
@@ -53,7 +55,7 @@ var dumbString = function(scale: number, dimensions: Dimensions, labels: string[
     var operatorStr: string;
     var scaleString: string;
     var unitsString: string;
-    var stringify = function(rational: Rational, label: string): string {
+    var stringify = function(rational: QQ, label: string): string {
         if (rational.numer === 0) {
             return null;
         } else if (rational.denom === 1) {
@@ -196,6 +198,9 @@ function div(lhs: Unit, rhs: Unit): Unit
 }
 
 class Unit {
+    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
+    public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
+    public static SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
     /**
      * The Unit class represents the units for a measure.
      *
@@ -360,7 +365,7 @@ class Unit {
       }
     }
 
-    pow(exponent: Rational): Unit
+    pow(exponent: QQ): Unit
     {
       assertArgRational('exponent', exponent);
       return new Unit(Math.pow(this.scale, exponent.numer/exponent.denom), this.dimensions.pow(exponent), this.labels);

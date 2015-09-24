@@ -375,6 +375,58 @@ interface GeometricElement<I, M> extends LinearElement<I, M, I> {
 }
 
 /**
+ * A rational number.
+ */
+class QQ {
+  numer: number;
+  denom: number;
+}
+
+/**
+ * The dimensions of a physical quantity.
+ */
+class Dimensions {
+  M: QQ;
+  L: QQ;
+  T: QQ;
+  Q: QQ;
+  temperature: QQ;
+  amount: QQ;
+  intensity: QQ;
+}
+
+/**
+ * The uinit of measure for a physical quantity.
+ */
+class Unit {
+  scale: number;
+  dimensions: Dimensions;
+}
+
+/**
+ * A measure with an optional unit of measure.
+ */
+class Euclidean3 implements Cartesian3, Spinor3Coords {
+  w: number;
+  x: number;
+  y: number;
+  z: number;
+  yz: number;
+  zx: number;
+  xy: number;
+  xyz: number;
+  uom: Unit;
+  static zero: Euclidean3;
+  static one: Euclidean3;
+  static e1: Euclidean3;
+  static e2: Euclidean3;
+  static e3: Euclidean3;
+  static kilogram: Euclidean3;
+  static meter: Euclidean3;
+  static second: Euclidean3;
+}
+
+/**
  *
  */
 class Matrix1 {

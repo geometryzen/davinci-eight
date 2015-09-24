@@ -94,8 +94,8 @@ import Cartesian2 = require('davinci-eight/math/Cartesian2')
 import Cartesian3 = require('davinci-eight/math/Cartesian3')
 import Cartesian4 = require('davinci-eight/math/Cartesian4')
 //import Color = require('davinci-eight/math/Color') - conflict with core
-import Complex = require('davinci-eight/math/Complex')
-import ComplexError = require('davinci-eight/math/ComplexError')
+import CC = require('davinci-eight/math/CC')
+import CCError = require('davinci-eight/math/CCError')
 import DimensionError = require('davinci-eight/math/DimensionError')
 import Dimensions = require('davinci-eight/math/Dimensions')
 import Euclidean1 = require('davinci-eight/math/Euclidean1')
@@ -115,9 +115,9 @@ import Matrix3 = require('davinci-eight/math/Matrix3')
 import Matrix4 = require('davinci-eight/math/Matrix4')
 import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
-import Quaternion = require('davinci-eight/math/Quaternion')
-import Rational = require('davinci-eight/math/Rational')
-import RationalError = require('davinci-eight/math/RationalError')
+import HH = require('davinci-eight/math/HH')
+import QQ = require('davinci-eight/math/QQ')
+import QQError = require('davinci-eight/math/QQError')
 import Rotor3 = require('davinci-eight/math/Rotor3')
 import rotor3 = require('davinci-eight/math/rotor3')
 import Spinor1 = require('davinci-eight/math/Spinor1')
@@ -257,11 +257,12 @@ var eight = {
 //  get TetrahedronGeometry() { return TetrahedronGeometry },
 //  get TubeGeometry() { return TubeGeometry },
 //  get VortexGeometry() { return VortexGeometry },
+  get Euclidean3() { return Euclidean3 },
   get Matrix3() { return Matrix3 },
   get Matrix4() { return Matrix4 },
   get rotor3() { return rotor3 },
   get Spinor3() { return Spinor3 },
-  get Quaternion() { return Quaternion },
+  get HH() { return HH },
   get Vector1() { return Vector1 },
   get Vector2() { return Vector2 },
   get Vector3() { return Vector3 },

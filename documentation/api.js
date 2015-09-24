@@ -54,7 +54,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Perspective",
         "PerspectiveCamera",
         "Point3",
-        "Rational",
+        "QQ",
         "RigidBody3",
         "Scene",
         "ShaderVariableDecl",

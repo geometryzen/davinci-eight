@@ -1,9 +1,12 @@
 import Dimensions = require('../math/Dimensions');
-import Rational = require('../math/Rational');
+import QQ = require('../math/QQ');
 declare class Unit {
     scale: number;
     dimensions: Dimensions;
     labels: string[];
+    static KILOGRAM: Unit;
+    static METER: Unit;
+    static SECOND: Unit;
     /**
      * The Unit class represents the units for a measure.
      *
@@ -27,7 +30,7 @@ declare class Unit {
     div(rhs: Unit): Unit;
     __div__(other: any): Unit;
     __rdiv__(other: any): Unit;
-    pow(exponent: Rational): Unit;
+    pow(exponent: QQ): Unit;
     inverse(): Unit;
     isUnity(): boolean;
     norm(): Unit;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.107.0</em>
+            <em>API Docs for: 2.108.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -92,7 +92,7 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/Rational.html">Rational</a></li>
+                                <li><a href="../classes/QQ.html">QQ</a></li>
                                 <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
@@ -156,10 +156,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import Dimensions = require(&#x27;../math/Dimensions&#x27;)
 import Euclidean3Error = require(&#x27;../math/Euclidean3Error&#x27;)
 import mathcore = require(&#x27;../math/mathcore&#x27;);
 import Measure = require(&#x27;../math/Measure&#x27;);
 import NotImplementedError = require(&#x27;../math/NotImplementedError&#x27;);
+import Spinor3Coords = require(&#x27;../math/Spinor3Coords&#x27;)
 import Unit = require(&#x27;../math/Unit&#x27;);
 
 var cos  = Math.cos;
@@ -840,7 +843,15 @@ function stringFromCoordinates(
  * The Euclidean3 class represents a multivector for a 3-dimensional vector space with a Euclidean metric.
  * @class Euclidean3
  */
-class Euclidean3 implements Measure&lt;Euclidean3&gt; {
+class Euclidean3 implements Cartesian3, Measure&lt;Euclidean3&gt;, Spinor3Coords {
+    public static zero = new Euclidean3(0, 0, 0, 0, 0, 0, 0, 0);
+    public static one = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0);
+    public static e1 = new Euclidean3(0, 1, 0, 0, 0, 0, 0, 0);
+    public static e2 = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
+    public static e3 = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
+    public static kilogram = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
+    public static meter = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
+    public static second = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
     /**
      * The &#x60;w&#x60; property is the grade zero (scalar) part of the Euclidean3 multivector.
      * @property w

@@ -1,11 +1,11 @@
 define(["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
     var EPS = 0.000001;
     /**
-     * Quaternion is retained for reference only.
-     * Quaternion should not be exposed.
+     * HH is retained for reference only.
+     * HH should not be exposed.
      */
-    var Quaternion = (function () {
-        function Quaternion(x, y, z, w) {
+    var HH = (function () {
+        function HH(x, y, z, w) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             if (z === void 0) { z = 0; }
@@ -16,7 +16,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this._z = z;
             this._w = w;
         }
-        Object.defineProperty(Quaternion.prototype, "x", {
+        Object.defineProperty(HH.prototype, "x", {
             get: function () {
                 return this._x;
             },
@@ -27,7 +27,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Quaternion.prototype, "y", {
+        Object.defineProperty(HH.prototype, "y", {
             get: function () {
                 return this._y;
             },
@@ -38,7 +38,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Quaternion.prototype, "z", {
+        Object.defineProperty(HH.prototype, "z", {
             get: function () {
                 return this._z;
             },
@@ -49,7 +49,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Quaternion.prototype, "w", {
+        Object.defineProperty(HH.prototype, "w", {
             get: function () {
                 return this._w;
             },
@@ -60,13 +60,13 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             enumerable: true,
             configurable: true
         });
-        Quaternion.prototype.add = function (element) {
+        HH.prototype.add = function (element) {
             return this;
         };
-        Quaternion.prototype.sum = function (a, b) {
+        HH.prototype.sum = function (a, b) {
             return this;
         };
-        Quaternion.prototype.set = function (x, y, z, w) {
+        HH.prototype.set = function (x, y, z, w) {
             this._x = x;
             this._y = y;
             this._z = z;
@@ -74,17 +74,17 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.clone = function () {
-            return new Quaternion(this._x, this._y, this._z, this._w);
+        HH.prototype.clone = function () {
+            return new HH(this._x, this._y, this._z, this._w);
         };
-        Quaternion.prototype.conjugate = function () {
+        HH.prototype.conjugate = function () {
             this._x *= -1;
             this._y *= -1;
             this._z *= -1;
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.copy = function (quaternion) {
+        HH.prototype.copy = function (quaternion) {
             this._x = quaternion.x;
             this._y = quaternion.y;
             this._z = quaternion.z;
@@ -92,33 +92,33 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.divideScalar = function (scalar) {
+        HH.prototype.divideScalar = function (scalar) {
             return this;
         };
-        Quaternion.prototype.dot = function (v) {
+        HH.prototype.dot = function (v) {
             return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
         };
-        Quaternion.prototype.exp = function () {
+        HH.prototype.exp = function () {
             return this;
         };
-        Quaternion.prototype.inverse = function () {
+        HH.prototype.inverse = function () {
             this.conjugate().normalize();
             return this;
         };
-        Quaternion.prototype.lerp = function (target, alpha) {
+        HH.prototype.lerp = function (target, alpha) {
             this.x += (target.x - this.x) * alpha;
             this.y += (target.y - this.y) * alpha;
             this.z += (target.z - this.z) * alpha;
             this.w += (target.w - this.w) * alpha;
             return this;
         };
-        Quaternion.prototype.magnitude = function () {
+        HH.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
-        Quaternion.prototype.multiply = function (q) {
+        HH.prototype.multiply = function (q) {
             return this.product(this, q);
         };
-        Quaternion.prototype.product = function (a, b) {
+        HH.prototype.product = function (a, b) {
             // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
             var qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
             var qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -129,10 +129,10 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.multiplyScalar = function (scalar) {
+        HH.prototype.multiplyScalar = function (scalar) {
             return this;
         };
-        Quaternion.prototype.normalize = function () {
+        HH.prototype.normalize = function () {
             var l = this.magnitude();
             if (l === 0) {
                 this._x = 0;
@@ -150,18 +150,18 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.onChange = function (callback) {
+        HH.prototype.onChange = function (callback) {
             this.onChangeCallback = callback;
             return this;
         };
-        Quaternion.prototype.quaditude = function () {
+        HH.prototype.quaditude = function () {
             return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
         };
-        Quaternion.prototype.rotate = function (rotor) {
+        HH.prototype.rotate = function (rotor) {
             // TODO: This would require creating a temporary so we fall back to components.
             return this.product(rotor, this);
         };
-        Quaternion.prototype.setFromAxisAngle = function (axis, angle) {
+        HH.prototype.setFromAxisAngle = function (axis, angle) {
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
             // assumes axis is normalized
             var halfAngle = angle / 2, s = Math.sin(halfAngle);
@@ -172,7 +172,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.setFromRotationMatrix = function (m) {
+        HH.prototype.setFromRotationMatrix = function (m) {
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
             // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
             var te = m.data, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33, s;
@@ -207,7 +207,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.setFromUnitVectors = function (vFrom, vTo) {
+        HH.prototype.setFromUnitVectors = function (vFrom, vTo) {
             // TODO: Could create circularity problems.
             var v1 = new Vector3();
             var r = vFrom.dot(vTo) + 1;
@@ -230,7 +230,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.normalize();
             return this;
         };
-        Quaternion.prototype.slerp = function (qb, t) {
+        HH.prototype.slerp = function (qb, t) {
             if (t === 0)
                 return this;
             if (t === 1)
@@ -272,16 +272,16 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.sub = function (rhs) {
+        HH.prototype.sub = function (rhs) {
             return this;
         };
-        Quaternion.prototype.difference = function (a, b) {
+        HH.prototype.difference = function (a, b) {
             return this;
         };
-        Quaternion.prototype.equals = function (quaternion) {
+        HH.prototype.equals = function (quaternion) {
             return (quaternion._x === this._x) && (quaternion._y === this._y) && (quaternion._z === this._z) && (quaternion._w === this._w);
         };
-        Quaternion.prototype.fromArray = function (array, offset) {
+        HH.prototype.fromArray = function (array, offset) {
             if (offset === void 0) { offset = 0; }
             this._x = array[offset];
             this._y = array[offset + 1];
@@ -290,7 +290,7 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             this.onChangeCallback();
             return this;
         };
-        Quaternion.prototype.toArray = function (array, offset) {
+        HH.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
             array[offset] = this._x;
@@ -299,10 +299,10 @@ define(["require", "exports", '../math/Vector3'], function (require, exports, Ve
             array[offset + 3] = this._w;
             return array;
         };
-        Quaternion.slerp = function (qa, qb, qm, t) {
+        HH.slerp = function (qa, qb, qm, t) {
             return qm.copy(qa).slerp(qb, t);
         };
-        return Quaternion;
+        return HH;
     })();
-    return Quaternion;
+    return HH;
 });

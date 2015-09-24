@@ -1,18 +1,18 @@
-define(["require", "exports", '../math/RationalError'], function (require, exports, RationalError) {
+define(["require", "exports", '../math/QQError'], function (require, exports, QQError) {
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
         }
         else {
-            throw new RationalError("Argument '" + name + "' must be a number");
+            throw new QQError("Argument '" + name + "' must be a number");
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof Rational) {
+        if (arg instanceof QQ) {
             return arg;
         }
         else {
-            throw new RationalError("Argument '" + arg + "' must be a Rational");
+            throw new QQError("Argument '" + arg + "' must be a QQ");
         }
     }
     /*
@@ -21,21 +21,21 @@ define(["require", "exports", '../math/RationalError'], function (require, expor
         return uom;
       }
       else {
-        throw new RationalError("Argument '" + uom + "' must be a Unit or undefined");
+        throw new QQError("Argument '" + uom + "' must be a Unit or undefined");
       }
     }
     */
-    var Rational = (function () {
+    var QQ = (function () {
         /**
-         * The Rational class represents a rational number.
+         * The QQ class represents a rational number.
          *
-         * @class Rational
+         * @class QQ
          * @extends Field
          * @constructor
          * @param {number} n The numerator.
          * @param {number} d The denominator.
          */
-        function Rational(n, d) {
+        function QQ(n, d) {
             assertArgNumber('n', n);
             assertArgNumber('d', d);
             var g;
@@ -81,63 +81,63 @@ define(["require", "exports", '../math/RationalError'], function (require, expor
             this._numer = n / g;
             this._denom = d / g;
         }
-        Object.defineProperty(Rational.prototype, "numer", {
+        Object.defineProperty(QQ.prototype, "numer", {
             get: function () {
                 return this._numer;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Rational.prototype, "denom", {
+        Object.defineProperty(QQ.prototype, "denom", {
             get: function () {
                 return this._denom;
             },
             enumerable: true,
             configurable: true
         });
-        Rational.prototype.add = function (rhs) {
+        QQ.prototype.add = function (rhs) {
             assertArgRational('rhs', rhs);
-            return new Rational(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+            return new QQ(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
         };
-        Rational.prototype.sub = function (rhs) {
+        QQ.prototype.sub = function (rhs) {
             assertArgRational('rhs', rhs);
-            return new Rational(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+            return new QQ(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
         };
-        Rational.prototype.mul = function (rhs) {
+        QQ.prototype.mul = function (rhs) {
             assertArgRational('rhs', rhs);
-            return new Rational(this._numer * rhs._numer, this._denom * rhs._denom);
+            return new QQ(this._numer * rhs._numer, this._denom * rhs._denom);
         };
         // TODO: div testing
-        Rational.prototype.div = function (rhs) {
+        QQ.prototype.div = function (rhs) {
             if (typeof rhs === 'number') {
-                return new Rational(this._numer, this._denom * rhs);
+                return new QQ(this._numer, this._denom * rhs);
             }
             else {
-                return new Rational(this._numer * rhs._denom, this._denom * rhs._numer);
+                return new QQ(this._numer * rhs._denom, this._denom * rhs._numer);
             }
         };
-        Rational.prototype.isZero = function () {
+        QQ.prototype.isZero = function () {
             return this._numer === 0;
         };
-        Rational.prototype.negative = function () {
-            return new Rational(-this._numer, this._denom);
+        QQ.prototype.negative = function () {
+            return new QQ(-this._numer, this._denom);
         };
-        Rational.prototype.equals = function (other) {
-            if (other instanceof Rational) {
+        QQ.prototype.equals = function (other) {
+            if (other instanceof QQ) {
                 return this._numer * other._denom === this._denom * other._numer;
             }
             else {
                 return false;
             }
         };
-        Rational.prototype.toString = function () {
+        QQ.prototype.toString = function () {
             return "" + this._numer + "/" + this._denom;
         };
-        Rational.ONE = new Rational(1, 1);
-        Rational.TWO = new Rational(2, 1);
-        Rational.MINUS_ONE = new Rational(-1, 1);
-        Rational.ZERO = new Rational(0, 1);
-        return Rational;
+        QQ.ONE = new QQ(1, 1);
+        QQ.TWO = new QQ(2, 1);
+        QQ.MINUS_ONE = new QQ(-1, 1);
+        QQ.ZERO = new QQ(0, 1);
+        return QQ;
     })();
-    return Rational;
+    return QQ;
 });
