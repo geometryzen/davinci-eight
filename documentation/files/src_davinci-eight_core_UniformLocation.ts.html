@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -161,8 +161,8 @@ import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
 import Matrix2 = require(&#x27;../math/Matrix2&#x27;);
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
-import ContextProgramListener = require(&#x27;../core/ContextProgramListener&#x27;);
-import ContextManager = require(&#x27;../core/ContextManager&#x27;);
+import IContextProgramConsumer = require(&#x27;../core/IContextProgramConsumer&#x27;);
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
 import Vector1 = require(&#x27;../math/Vector1&#x27;);
 import Vector2 = require(&#x27;../math/Vector2&#x27;);
 import Vector3 = require(&#x27;../math/Vector3&#x27;);
@@ -176,7 +176,7 @@ function matrix4NE(a: number[], b: Float32Array): boolean {
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
  */
-class UniformLocation implements ContextProgramListener {
+class UniformLocation implements IContextProgramConsumer {
   private _context: WebGLRenderingContext;
   private _location: WebGLUniformLocation;
   private _name: string;
@@ -190,10 +190,10 @@ class UniformLocation implements ContextProgramListener {
   /**
    * @class UniformLocation
    * @constructor
-   * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+   * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
    */
-  constructor(manager: ContextManager, name: string) {
+  constructor(manager: IContextProvider, name: string) {
     expectArg(&#x27;manager&#x27;, manager).toBeObject().value;
     this._name = expectArg(&#x27;name&#x27;, name).toBeString().value;
   }
@@ -201,7 +201,7 @@ class UniformLocation implements ContextProgramListener {
    * @method contextFree
    */
   contextFree() {
-    this.contextLoss();
+    this.contextLost();
   }
   /**
    * @method contextGain
@@ -209,7 +209,7 @@ class UniformLocation implements ContextProgramListener {
    * @param program {WebGLProgram}
    */
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
-    this.contextLoss();
+    this.contextLost();
     this._context = context;
     // FIXME: Uniform locations are created for a specific program,
     // which means that locations cannot be shared.
@@ -217,9 +217,9 @@ class UniformLocation implements ContextProgramListener {
     this._program = program;
   }
   /**
-   * @method contextLoss
+   * @method contextLost
    */
-  contextLoss() {
+  contextLost() {
     this._context  = void 0;
     this._location = void 0;
     this._program  = void 0;

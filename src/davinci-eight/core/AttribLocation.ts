@@ -1,6 +1,6 @@
 import expectArg = require('../checks/expectArg');
-import ContextProgramListener = require('../core/ContextProgramListener');
-import ContextManager = require('../core/ContextManager');
+import IContextProgramConsumer = require('../core/IContextProgramConsumer');
+import IContextProvider = require('../core/IContextProvider');
 
 function existsLocation(location: number): boolean {
   return location >= 0;
@@ -12,9 +12,9 @@ function existsLocation(location: number): boolean {
  * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
  * @class AttribLocation
- * @implements ContextProgramListener
+ * @implements IContextProgramConsumer
  */
-class AttribLocation implements ContextProgramListener {
+class AttribLocation implements IContextProgramConsumer {
   private _name: string;
   private _index: number;
   private _context: WebGLRenderingContext;
@@ -23,10 +23,10 @@ class AttribLocation implements ContextProgramListener {
    * In particular, this class manages buffer allocation, location caching, and data binding.
    * @class AttribLocation
    * @constructor
-   * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+   * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
    * @param name {string} The name of the variable as it appears in the GLSL program.
    */
-  constructor(manager: ContextManager, name: string) {
+  constructor(manager: IContextProvider, name: string) {
     expectArg('manager', manager).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }
@@ -34,14 +34,14 @@ class AttribLocation implements ContextProgramListener {
     return this._index;
   }
   contextFree(): void {
-    this.contextLoss();
+    this.contextLost();
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
-    this.contextLoss();
+    this.contextLost();
     this._index = context.getAttribLocation(program, this._name);
     this._context  = context;
   }
-  contextLoss(): void {
+  contextLost(): void {
     this._index = void 0;
     this._context  = void 0;
   }

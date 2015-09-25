@@ -1,60 +1,11 @@
-define(["require", "exports", '../core/AttribLocation', '../core', '../scene/MonitorList', '../checks/isDefined', '../utils/uuid4', '../core/UniformLocation', '../utils/refChange'], function (require, exports, AttribLocation, core, MonitorList, isDefined, uuid4, UniformLocation, refChange) {
+define(["require", "exports", '../core', '../scene/MonitorList', '../utils/NumberIUnknownMap', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, core, MonitorList, NumberIUnknownMap, uuid4, refChange, SimpleWebGLProgram) {
     /**
      * Name used for reference count monitoring and logging.
      */
-    var LOGGING_NAME_IPROGRAM = 'IMaterial';
-    function makeWebGLShader(ctx, source, type) {
-        var shader = ctx.createShader(type);
-        ctx.shaderSource(shader, source);
-        ctx.compileShader(shader);
-        var compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
-        if (compiled) {
-            return shader;
-        }
-        else {
-            if (!ctx.isContextLost()) {
-                var message = ctx.getShaderInfoLog(shader);
-                ctx.deleteShader(shader);
-                throw new Error("Error compiling shader: " + message);
-            }
-            else {
-                throw new Error("Context lost while compiling shader");
-            }
-        }
-    }
+    var LOGGING_NAME_IMATERIAL = 'IMaterial';
     /**
      * Creates a WebGLProgram with compiled and linked shaders.
      */
-    function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
-        // create our shaders
-        var vs = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
-        var fs = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
-        // Create the program object.
-        var program = ctx.createProgram();
-        // Attach our two shaders to the program.
-        ctx.attachShader(program, vs);
-        ctx.attachShader(program, fs);
-        // Bind attributes allows us to specify the index that an attribute should be bound to.
-        for (var index = 0; index < attribs.length; ++index) {
-            ctx.bindAttribLocation(program, index, attribs[index]);
-        }
-        // Link the program.
-        ctx.linkProgram(program);
-        // Check the link status
-        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
-        if (linked || ctx.isContextLost()) {
-            return program;
-        }
-        else {
-            var message = ctx.getProgramInfoLog(program);
-            ctx.detachShader(program, vs);
-            ctx.deleteShader(vs);
-            ctx.detachShader(program, fs);
-            ctx.deleteShader(fs);
-            ctx.deleteProgram(program);
-            throw new Error("Error linking program: " + message);
-        }
-    }
     // FIXME: Handle list of shaders? Else createSimpleProgram
     var createMaterial = function (monitors, vertexShader, fragmentShader, attribs) {
         MonitorList.verify('monitors', monitors, function () { return "createMaterial"; });
@@ -69,16 +20,8 @@ define(["require", "exports", '../core/AttribLocation', '../core', '../scene/Mon
         /**
          * Because we are multi-canvas aware, programs are tracked by the canvas id.
          */
-        var programs = {};
-        /**
-         * Because we are multi-canvas aware, gls are tracked by the canvas id.
-         * We need to hold onto a WebGLRenderingContext so that we can delete programs.
-         */
-        var gls = {};
+        var programsByCanvasId = new NumberIUnknownMap();
         var uuid = uuid4().generate();
-        // This looks wrong.
-        var attributeLocations = {};
-        var uniformLocations = {};
         var self = {
             get vertexShader() {
                 return vertexShader;
@@ -86,179 +29,170 @@ define(["require", "exports", '../core/AttribLocation', '../core', '../scene/Mon
             get fragmentShader() {
                 return fragmentShader;
             },
-            get attributes() {
-                return attributeLocations;
+            attributes: function (canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    return program.attributes;
+                }
             },
-            get uniforms() {
-                return uniformLocations;
+            uniforms: function (canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    return program.uniforms;
+                }
             },
-            addRef: function () {
-                refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
+            addRef: function (client) {
+                // mustBeDefined('client', client)
+                refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
                 refCount++;
                 return refCount;
             },
-            release: function () {
-                refChange(uuid, LOGGING_NAME_IPROGRAM, -1);
+            release: function (client) {
+                // mustBeDefined('client', client)
+                refChange(uuid, LOGGING_NAME_IMATERIAL, -1);
                 refCount--;
                 if (refCount === 0) {
                     MonitorList.removeContextListener(self, monitors);
-                    var keys = Object.keys(gls).map(function (key) { return parseInt(key); });
-                    var keysLength = keys.length;
-                    for (var k = 0; k < keysLength; k++) {
-                        var canvasId = keys[k];
-                        self.contextFree(canvasId);
-                    }
+                    programsByCanvasId.release();
                 }
                 return refCount;
             },
             contextFree: function (canvasId) {
-                var $context = gls[canvasId];
-                if ($context) {
-                    var program = programs[canvasId];
-                    if (program) {
-                        $context.deleteProgram(program);
-                        programs[canvasId] = void 0;
-                    }
-                    gls[canvasId] = void 0;
-                    for (var aName in attributeLocations) {
-                        attributeLocations[aName].contextFree();
-                    }
-                    for (var uName in uniformLocations) {
-                        uniformLocations[uName].contextFree();
-                    }
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.contextFree(canvasId);
+                    programsByCanvasId.remove(canvasId);
                 }
             },
             contextGain: function (manager) {
-                // FIXME: multi-canvas
-                var canvasId = manager.canvasId;
-                if (gls[canvasId] !== manager.gl) {
-                    self.contextFree(canvasId);
-                    gls[canvasId] = manager.gl;
-                    var context = manager.gl;
-                    var program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
-                    programs[manager.canvasId] = program;
-                    // FIXME: Need to work with locations by canvasId. 
-                    var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
-                    for (var a = 0; a < activeAttributes; a++) {
-                        var activeAttribInfo = context.getActiveAttrib(program, a);
-                        var name_1 = activeAttribInfo.name;
-                        if (!attributeLocations[name_1]) {
-                            attributeLocations[name_1] = new AttribLocation(manager, name_1);
-                        }
-                    }
-                    var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
-                    for (var u = 0; u < activeUniforms; u++) {
-                        var activeUniformInfo = context.getActiveUniform(program, u);
-                        var name_2 = activeUniformInfo.name;
-                        if (!uniformLocations[name_2]) {
-                            uniformLocations[name_2] = new UniformLocation(manager, name_2);
-                        }
-                    }
-                    for (var aName in attributeLocations) {
-                        attributeLocations[aName].contextGain(context, program);
-                    }
-                    for (var uName in uniformLocations) {
-                        uniformLocations[uName].contextGain(context, program);
-                    }
+                var canvasId;
+                var sprog;
+                canvasId = manager.canvasId;
+                if (!programsByCanvasId.exists(canvasId)) {
+                    sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs);
+                    programsByCanvasId.putWeakReference(canvasId, sprog);
                 }
                 else {
+                    sprog = programsByCanvasId.getWeakReference(canvasId);
+                }
+                sprog.contextGain(manager);
+            },
+            contextLost: function (canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.contextLost(canvasId);
+                    programsByCanvasId.remove(canvasId);
                 }
             },
-            contextLoss: function (canvasId) {
-                programs[canvasId] = void 0;
-                gls[canvasId] = void 0;
-                for (var aName in attributeLocations) {
-                    attributeLocations[aName].contextLoss();
-                }
-                for (var uName in uniformLocations) {
-                    uniformLocations[uName].contextLoss();
-                }
-            },
-            // FIXME: Dead code?
-            /*
-            get program() {
-              console.warn("createMaterial program property is assuming canvas id = 0");
-              let canvasId = 0;
-              let program: WebGLProgram = programs[canvasId];
-              // It's a WebGLProgram, no reference count management required.
-              return program;
-            },
-            */
             get programId() {
                 return uuid;
             },
             use: function (canvasId) {
-                var gl = gls[canvasId];
-                if (gl) {
-                    var program = programs[canvasId];
-                    gl.useProgram(program);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.use();
                 }
                 else {
-                    console.warn(LOGGING_NAME_IPROGRAM + " use(canvasId: number) missing WebGLRenderingContext");
+                    console.warn(LOGGING_NAME_IMATERIAL + " use(canvasId: number) missing WebGLRenderingContext");
                 }
             },
-            enableAttrib: function (name) {
-                var attribLoc = attributeLocations[name];
-                if (attribLoc) {
-                    attribLoc.enable();
+            enableAttrib: function (name, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
+                }
+                else {
                 }
             },
-            disableAttrib: function (name) {
-                var attribLoc = attributeLocations[name];
-                if (attribLoc) {
-                    attribLoc.disable();
+            disableAttrib: function (name, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
+                }
+                else {
                 }
             },
             uniform1f: function (name, x, canvasId) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    // FIXME: What happens to canvasId.
-                    // Is it used to select the locations? YES?
-                    // Is it passed on to the location? NO.
-                    uniformLoc.uniform1f(x);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform1f(x);
+                    }
+                    else {
+                    }
+                }
+                else {
                 }
             },
-            uniform2f: function (name, x, y) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform2f(x, y);
+            uniform2f: function (name, x, y, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform2f(x, y);
+                    }
                 }
             },
-            uniform3f: function (name, x, y, z) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform3f(x, y, z);
+            uniform3f: function (name, x, y, z, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform3f(x, y, z);
+                    }
                 }
             },
-            uniform4f: function (name, x, y, z, w) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform4f(x, y, z, w);
+            uniform4f: function (name, x, y, z, w, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform4f(x, y, z, w);
+                    }
                 }
             },
-            uniformMatrix1: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix1(transpose, matrix);
+            uniformMatrix1: function (name, transpose, matrix, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix1(transpose, matrix);
+                    }
                 }
             },
-            uniformMatrix2: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix2(transpose, matrix);
+            uniformMatrix2: function (name, transpose, matrix, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix2(transpose, matrix);
+                    }
                 }
             },
-            uniformMatrix3: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix3(transpose, matrix);
+            uniformMatrix3: function (name, transpose, matrix, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix3(transpose, matrix);
+                    }
                 }
             },
             uniformMatrix4: function (name, transpose, matrix, canvasId) {
-                // FIXME: Should be getting the uniformLocations by canvas or passing canvasId
-                // on to th uniformLoc.matrix4. I like the former, I think.
-                if (isDefined(canvasId)) {
-                    var uniformLoc = uniformLocations[name];
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
                         uniformLoc.matrix4(transpose, matrix);
                     }
@@ -269,33 +203,47 @@ define(["require", "exports", '../core/AttribLocation', '../core', '../scene/Mon
                     }
                 }
             },
-            uniformVector1: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector1(vector);
+            uniformVector1: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector1(vector);
+                    }
                 }
             },
-            uniformVector2: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector2(vector);
+            uniformVector2: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector2(vector);
+                    }
                 }
             },
-            uniformVector3: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector3(vector);
+            uniformVector3: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector3(vector);
+                    }
                 }
             },
-            uniformVector4: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector4(vector);
+            uniformVector4: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    // FIXME: Renames to simply uniforms (what else could they be?)
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector4(vector);
+                    }
                 }
             }
         };
         MonitorList.addContextListener(self, monitors);
-        refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
+        MonitorList.synchronize(self, monitors);
+        refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
         return self;
     };
     return createMaterial;

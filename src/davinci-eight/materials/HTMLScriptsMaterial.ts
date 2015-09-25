@@ -1,4 +1,4 @@
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');

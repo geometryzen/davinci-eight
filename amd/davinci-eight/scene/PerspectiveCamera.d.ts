@@ -1,5 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ICamera = require('../scene/ICamera');
 import IMaterial = require('../core/IMaterial');
 import Perspective = require('../cameras/Perspective');
@@ -34,8 +34,8 @@ declare class PerspectiveCamera implements ICamera, Perspective, UniformData {
     addRef(): number;
     setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
     contextFree(): void;
-    contextGain(manager: ContextManager): void;
-    contextLoss(): void;
+    contextGain(manager: IContextProvider): void;
+    contextLost(): void;
     draw(canvasId: number): void;
     /**
      * The aspect ratio (width / height) of the camera viewport.

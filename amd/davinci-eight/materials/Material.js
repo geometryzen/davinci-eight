@@ -3,11 +3,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core', '../scene/MonitorList', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../utils/uuid4'], function (require, exports, core, MonitorList, mustBeInteger, mustBeString, Shareable, uuid4) {
+define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUndefined', '../scene/MonitorList', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../utils/uuid4'], function (require, exports, core, isDefined, isUndefined, MonitorList, mustBeInteger, mustBeString, Shareable, uuid4) {
     function consoleWarnDroppedUniform(clazz, suffix, name, canvasId) {
         console.warn(clazz + " dropped uniform" + suffix + " " + name);
         console.warn("`typeof canvasId` is " + typeof canvasId);
     }
+    var MATERIAL_TYPE_NAME = 'Material';
     /**
      * @class Material
      * @implements IMaterial
@@ -21,8 +22,9 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
          * @param type {string} The class name, used for logging and serialization.
          */
         function Material(contexts, type) {
-            _super.call(this, 'Material');
+            _super.call(this, MATERIAL_TYPE_NAME);
             this.readyPending = false;
+            // FIXME: Make uuid and use Shareable
             this.programId = uuid4().generate();
             MonitorList.verify('contexts', contexts);
             mustBeString('type', type);
@@ -37,7 +39,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
         Material.prototype.destructor = function () {
             this._monitors.removeContextListener(this);
             if (this.inner) {
-                this.inner.release();
+                this.inner.release(MATERIAL_TYPE_NAME);
                 this.inner = void 0;
             }
         };
@@ -45,6 +47,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             if (!this.readyPending) {
                 this.readyPending = true;
                 this._monitors.addContextListener(this);
+                this._monitors.synchronize(this);
             }
         };
         Object.defineProperty(Material.prototype, "monitors", {
@@ -65,7 +68,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             enumerable: true,
             configurable: true
         });
-        // FIXME; I'm going to need to know which monitor.
+        // FIXME I'm going to need to know which monitor.
         Material.prototype.use = function (canvasId) {
             if (core.strict) {
                 mustBeInteger('canvasid', canvasId);
@@ -86,71 +89,63 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
                 }
             }
         };
-        Object.defineProperty(Material.prototype, "attributes", {
-            get: function () {
-                // FIXME: Why is this called.
-                // FIXME: The map should be protected but that is slow
-                // FIXME Clear need for performant solution.
-                if (this.inner) {
-                    return this.inner.attributes;
-                }
-                else {
-                    var async = false;
-                    this.makeReady(async);
-                    if (this.inner) {
-                        return this.inner.attributes;
-                    }
-                    else {
-                        return void 0;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Material.prototype, "uniforms", {
-            get: function () {
-                if (this.inner) {
-                    return this.inner.uniforms;
-                }
-                else {
-                    var async = false;
-                    this.makeReady(async);
-                    if (this.inner) {
-                        return this.inner.uniforms;
-                    }
-                    else {
-                        return void 0;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Material.prototype.enableAttrib = function (name) {
+        Material.prototype.attributes = function (canvasId) {
+            // FIXME: Why is this called.
+            // FIXME: The map should be protected but that is slow
+            // FIXME Clear need for performant solution.
             if (this.inner) {
-                return this.inner.enableAttrib(name);
+                return this.inner.attributes(canvasId);
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.enableAttrib(name);
+                    return this.inner.attributes(canvasId);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        Material.prototype.uniforms = function (canvasId) {
+            if (this.inner) {
+                return this.inner.uniforms(canvasId);
+            }
+            else {
+                var async = false;
+                this.makeReady(async);
+                if (this.inner) {
+                    return this.inner.uniforms(canvasId);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        Material.prototype.enableAttrib = function (name, canvasId) {
+            if (this.inner) {
+                return this.inner.enableAttrib(name, canvasId);
+            }
+            else {
+                var async = false;
+                this.makeReady(async);
+                if (this.inner) {
+                    return this.inner.enableAttrib(name, canvasId);
                 }
                 else {
                     console.warn(this.type + " enableAttrib()");
                 }
             }
         };
-        Material.prototype.disableAttrib = function (name) {
+        Material.prototype.disableAttrib = function (name, canvasId) {
             if (this.inner) {
-                return this.inner.disableAttrib(name);
+                return this.inner.disableAttrib(name, canvasId);
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.disableAttrib(name);
+                    return this.inner.disableAttrib(name, canvasId);
                 }
                 else {
                     console.warn(this.type + " disableAttrib()");
@@ -163,16 +158,20 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../checks/must
             }
         };
         Material.prototype.contextGain = function (manager) {
-            this.inner = this.createProgram();
-            this.inner.contextGain(manager);
+            if (isUndefined(this.inner)) {
+                this.inner = this.createProgram();
+            }
+            if (isDefined(this.inner)) {
+                this.inner.contextGain(manager);
+            }
         };
-        Material.prototype.contextLoss = function (canvasId) {
+        Material.prototype.contextLost = function (canvasId) {
             if (this.inner) {
-                this.inner.contextLoss(canvasId);
+                this.inner.contextLost(canvasId);
             }
         };
         Material.prototype.createProgram = function () {
-            // FIXME; Since we get contextGain by canvas, expect canvasId to be an argument?
+            // FIXME Since we get contextGain by canvas, expect canvasId to be an argument?
             throw new Error("Material createProgram method is virtual and should be implemented by " + this.type);
         };
         Material.prototype.uniform1f = function (name, x, canvasId) {

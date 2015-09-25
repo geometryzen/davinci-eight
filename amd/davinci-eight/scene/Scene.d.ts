@@ -1,4 +1,4 @@
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
@@ -77,7 +77,7 @@ declare class Scene extends Shareable implements IDrawList {
      */
     traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (material: IMaterial) => void): void;
     contextFree(canvasId: number): void;
-    contextGain(manager: ContextManager): void;
-    contextLoss(canvasId: number): void;
+    contextGain(manager: IContextProvider): void;
+    contextLost(canvasId: number): void;
 }
 export = Scene;

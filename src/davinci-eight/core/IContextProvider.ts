@@ -1,4 +1,5 @@
-import ContextListener = require('../core/ContextListener');
+import IContextConsumer = require('../core/IContextConsumer');
+import ContextMonitor = require('../core/ContextMonitor');
 import ContextUnique = require('../core/ContextUnique');
 import GeometryData = require('../dfx/GeometryData');
 import IBuffer = require('../core/IBuffer');
@@ -9,17 +10,16 @@ import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
 import IUnknown = require('../core/IUnknown');
 
-// The IContextManager 
-// FIXME: Rename to IContextManager? Does it hold weak or strong references?
+// The IIContextProvider 
+// FIXME: Rename to IIContextProvider? Does it hold weak or strong references?
 // FIXME IUnknown?
 
 /**
- * @class ContextManager
+ * @class IContextProvider
  * @extends ContextUnique
  * @extends IUnknown
  */
- // FIXME Try commenting out IUnknown
-interface ContextManager extends ContextUnique, IUnknown {
+interface IContextProvider extends ContextMonitor, IUnknown {
   createArrayBuffer(): IBuffer;
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createElementArrayBuffer(): IBuffer;
@@ -34,4 +34,4 @@ interface ContextManager extends ContextUnique, IUnknown {
   canvasElement: HTMLCanvasElement;
 }
 
-export = ContextManager;
+export = IContextProvider;

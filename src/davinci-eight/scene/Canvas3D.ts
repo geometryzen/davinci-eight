@@ -1,9 +1,9 @@
 import createRenderer = require('../renderers/renderer')
 import ContextController = require('../core/ContextController')
 import ContextKahuna = require('../core/ContextKahuna')
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import ContextMonitor = require('../core/ContextMonitor')
-import ContextListener = require('../core/ContextListener')
+import IContextConsumer = require('../core/IContextConsumer')
 import contextProxy = require('../utils/contextProxy')
 import ContextRenderer = require('../renderers/ContextRenderer')
 import core = require('../core')
@@ -34,7 +34,7 @@ let defaultCanvasBuilder = () => {return document.createElement('canvas')}
 /**
  * @class Canvas3D
  */
-class Canvas3D extends Shareable implements ContextController, ContextManager, ContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, IContextProvider, ContextMonitor, ContextRenderer {
   private _kahuna: ContextKahuna
   private _renderer: ContextRenderer
   /**
@@ -51,6 +51,7 @@ class Canvas3D extends Shareable implements ContextController, ContextManager, C
     this._kahuna = contextProxy(attributes)
     this._renderer = createRenderer()
     this._kahuna.addContextListener(this._renderer)
+    this._kahuna.synchronize(this._renderer)
   }
   /**
    * @method destructor
@@ -64,7 +65,7 @@ class Canvas3D extends Shareable implements ContextController, ContextManager, C
     this._renderer.release()
     this._renderer = void 0
   }
-  addContextListener(user: ContextListener): void {
+  addContextListener(user: IContextConsumer): void {
     this._kahuna.addContextListener(user)
   }
   /**
@@ -110,11 +111,11 @@ class Canvas3D extends Shareable implements ContextController, ContextManager, C
   contextFree(canvasId: number) {
     this._renderer.contextFree(canvasId)
   }
-  contextGain(manager: ContextManager) {
+  contextGain(manager: IContextProvider) {
     this._renderer.contextGain(manager)
   }
-  contextLoss(canvasId: number) {
-    this._renderer.contextLoss(canvasId)
+  contextLost(canvasId: number) {
+    this._renderer.contextLost(canvasId)
   }
   createArrayBuffer(): IBuffer {
     return this._kahuna.createArrayBuffer()
@@ -143,7 +144,7 @@ class Canvas3D extends Shareable implements ContextController, ContextManager, C
   addContextGainCommand(command: IContextCommand): void {
     this._renderer.addContextGainCommand(command)
   }
-  removeContextListener(user: ContextListener): void {
+  removeContextListener(user: IContextConsumer): void {
     this._kahuna.removeContextListener(user)
   }
   setSize(width: number, height: number): void {
@@ -168,6 +169,9 @@ class Canvas3D extends Shareable implements ContextController, ContextManager, C
   }
   stop(): void {
     this._kahuna.stop()
+  }
+  synchronize(user: IContextConsumer) {
+    this._kahuna.synchronize(user)
   }
 }
 

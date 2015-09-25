@@ -12,7 +12,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
      * @class WebGLEnable
      * @extends Shareable
      * @implements IContextCommand
-     * @implements ContextListener
+     * @implements IContextConsumer
      */
     var WebGLEnable = (function (_super) {
         __extends(WebGLEnable, _super);
@@ -35,18 +35,18 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         };
         /**
          * @method contextGain
-         * @param manager {ContextManager}
+         * @param manager {IContextProvider}
          * @return {void}
          */
         WebGLEnable.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
         };
         /**
-         * @method contextLoss
+         * @method contextLost
          * @param canvasId {number}
          * @return {void}
          */
-        WebGLEnable.prototype.contextLoss = function (canvasId) {
+        WebGLEnable.prototype.contextLost = function (canvasId) {
             // do nothing
         };
         /**

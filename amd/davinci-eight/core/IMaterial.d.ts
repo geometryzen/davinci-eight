@@ -39,14 +39,14 @@ interface IMaterial extends IResource, UniformDataVisitor {
      * @property attributeLocations
      * @type { [name: string]: AttribLocation }
      */
-    attributes: {
+    attributes(canvasId: number): {
         [name: string]: AttribLocation;
     };
     /**
      * @property uniforms
      * @type { [name: string]: UniformLocation }
      */
-    uniforms: {
+    uniforms(canvasId: number): {
         [name: string]: UniformLocation;
     };
     /**
@@ -57,7 +57,7 @@ interface IMaterial extends IResource, UniformDataVisitor {
      * @param name {string} The name of the attribute to enable.
      * @beta
      */
-    enableAttrib(name: string): void;
+    enableAttrib(name: string, canvasId: number): void;
     /**
      * <p>
      * Enables an attribute location of a WebGLProgram.
@@ -66,6 +66,6 @@ interface IMaterial extends IResource, UniformDataVisitor {
      * @param name {string} The name of the attribute disable.
      * @beta
      */
-    disableAttrib(name: string): void;
+    disableAttrib(name: string, canvasId: number): void;
 }
 export = IMaterial;

@@ -1,5 +1,5 @@
 import toGeometryMeta = require('../dfx/toGeometryMeta')
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import ContextMonitor = require('../core/ContextMonitor')
 import core = require('../core');
 import GeometryData = require('../dfx/GeometryData')
@@ -13,6 +13,7 @@ import Material = require('../materials/Material')
 import mustBeDefined = require('../checks/mustBeDefined')
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap')
 import refChange = require('../utils/refChange')
+import Shareable = require('../utils/Shareable')
 import Simplex = require('../dfx/Simplex')
 import toGeometryData = require('../dfx/toGeometryData')
 import UniformData = require('../core/UniformData')
@@ -31,46 +32,36 @@ function contextBuilder() {
  * @class Mesh
  * @implements IDrawable
  */
-class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> implements IDrawable {
-  private _refCount = 1
-  private _uuid: string = uuid4().generate()
-  public geometry: G
-  public _material: M
+class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
+  public geometry: G;
+  public _material: M;
   /**
-   * FIXME This is a bad name because it is not just a collection of meshLookup.
+   * FIXME This is a bad name because it is not just a collection of buffersByCanvasid.
    * A map from canvas to IBufferGeometry.
    * It's a function that returns a mesh, given a canvasId a lokup
    */
-  private meshLookup: NumberIUnknownMap<IBufferGeometry>
-  public model: U
-  private mode: number
+  private buffersByCanvasid: NumberIUnknownMap<IBufferGeometry>;
+  public model: U;
+  private mode: number;
   // FIXME: Do we insist on a ContextMonitor here.
   // We can also assume that we are OK because of the Scene - but can't assume that there is one?
   constructor(geometry: G, material: M, model: U) {
+    super(LOGGING_NAME)
     this.geometry = geometry
     this._material = material
     this._material.addRef()
 
-    this.meshLookup = new NumberIUnknownMap<IBufferGeometry>()
+    this.buffersByCanvasid = new NumberIUnknownMap<IBufferGeometry>()
 
     this.model = model
-    refChange(this._uuid, LOGGING_NAME, +1)
   }
-  addRef(): number {
-    this._refCount++
-    refChange(this._uuid, LOGGING_NAME, +1)
-    return this._refCount
-  }
-  release(): number {
-    this._refCount--
-    refChange(this._uuid, LOGGING_NAME, -1)
-    if (this._refCount === 0) {
-      this.meshLookup.release()
-      this.meshLookup = void 0
-      this._material.release()
-      this._material = void 0
-    }
-    return this._refCount
+  protected destructor(): void {
+    this.geometry = void 0;
+    this.buffersByCanvasid.release()
+    this.buffersByCanvasid = void 0
+    this._material.release()
+    this._material = void 0
+    this.model = void 0;
   }
   draw(canvasId: number): void {
     // We know we are going to need a "good" canvasId to perform the buffers lookup.
@@ -85,7 +76,7 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
       // FIXME: Would be nice to be able to check that a block does not alter the reference count?
       let material = self._material
       let model = self.model
-      let buffers: IBufferGeometry = this.meshLookup.getWeakReference(canvasId)
+      let buffers: IBufferGeometry = this.buffersByCanvasid.getWeakReference(canvasId)
       if (isDefined(buffers)) {
         material.use(canvasId)
         model.setUniforms(material, canvasId)
@@ -100,26 +91,26 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
   contextFree(canvasId: number): void {
     this._material.contextFree(canvasId)
   }
-  contextGain(manager: ContextManager): void {
-    let geometry = this.geometry
-    if (geometry) {
-      let data = geometry.data
-      let meta = geometry.meta
+  contextGain(manager: IContextProvider): void {
+    // 1. Replace the existing buffers if we have geometry. 
+    if (this.geometry) {
+      let data = this.geometry.data
+      let meta = this.geometry.meta
 
       mustBeDefined('geometry.data', data, contextBuilder)
       mustBeDefined('geometry.meta', meta, contextBuilder)
 
       // FIXME: Why is the meta not being used?
-      this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
-
-      this._material.contextGain(manager)
+      this.buffersByCanvasid.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
     }
     else {
       console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId)
     }
+    // 2. Delegate the context to the material.
+    this._material.contextGain(manager)
   }
-  contextLoss(canvasId: number): void {
-    this._material.contextLoss(canvasId)
+  contextLost(canvasId: number): void {
+    this._material.contextLost(canvasId)
   }
   /**
    * @property material

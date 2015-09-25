@@ -1,5 +1,5 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 import fragmentShader = require('../programs/fragmentShader');
 import getAttribVarName = require('../core/getAttribVarName');

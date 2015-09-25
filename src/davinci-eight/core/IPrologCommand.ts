@@ -1,4 +1,4 @@
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import IUnknown = require('../core/IUnknown')
 
 /**
@@ -18,10 +18,10 @@ interface IPrologCommand extends IUnknown {
   name: string;
   /**
    * @method execute
-   * @param manager {ContextManager}
+   * @param manager {IContextProvider}
    * @return {void}
    */
-  execute(manager: ContextManager): void;
+  execute(manager: IContextProvider): void;
 }
 
 export = IPrologCommand;

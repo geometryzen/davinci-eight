@@ -1,15 +1,20 @@
-import ContextListener = require('../core/ContextListener');
+import IContextConsumer = require('../core/IContextConsumer');
 import ContextUnique = require('../core/ContextUnique');
 
+// FIXME: Merge into IContextProvider
 interface ContextMonitor extends ContextUnique {
   /**
    *
    */
-  addContextListener(user: ContextListener): void;
+  addContextListener(user: IContextConsumer): void;
   /**
    *
    */
-  removeContextListener(user: ContextListener): void;
+  removeContextListener(user: IContextConsumer): void;
+  /**
+   *
+   */
+  synchronize(user: IContextConsumer): void;
 }
 
 export = ContextMonitor;

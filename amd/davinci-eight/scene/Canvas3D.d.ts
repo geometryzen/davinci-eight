@@ -1,7 +1,7 @@
 import ContextController = require('../core/ContextController');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
-import ContextListener = require('../core/ContextListener');
+import IContextConsumer = require('../core/IContextConsumer');
 import ContextRenderer = require('../renderers/ContextRenderer');
 import GeometryData = require('../dfx/GeometryData');
 import IBuffer = require('../core/IBuffer');
@@ -14,7 +14,7 @@ import Shareable = require('../utils/Shareable');
 /**
  * @class Canvas3D
  */
-declare class Canvas3D extends Shareable implements ContextController, ContextManager, ContextMonitor, ContextRenderer {
+declare class Canvas3D extends Shareable implements ContextController, IContextProvider, ContextMonitor, ContextRenderer {
     private _kahuna;
     private _renderer;
     /**
@@ -32,7 +32,7 @@ declare class Canvas3D extends Shareable implements ContextController, ContextMa
      * @protected
      */
     protected destructor(): void;
-    addContextListener(user: ContextListener): void;
+    addContextListener(user: IContextConsumer): void;
     /**
      * <p>
      * Determines whether prolog commands are run automatically as part of the `render()` call.
@@ -50,8 +50,8 @@ declare class Canvas3D extends Shareable implements ContextController, ContextMa
      */
     canvasId: number;
     contextFree(canvasId: number): void;
-    contextGain(manager: ContextManager): void;
-    contextLoss(canvasId: number): void;
+    contextGain(manager: IContextProvider): void;
+    contextLost(canvasId: number): void;
     createArrayBuffer(): IBuffer;
     createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
     createElementArrayBuffer(): IBuffer;
@@ -61,9 +61,10 @@ declare class Canvas3D extends Shareable implements ContextController, ContextMa
     prolog(): void;
     addPrologCommand(command: IPrologCommand): void;
     addContextGainCommand(command: IContextCommand): void;
-    removeContextListener(user: ContextListener): void;
+    removeContextListener(user: IContextConsumer): void;
     setSize(width: number, height: number): void;
     start(canvas: HTMLCanvasElement, canvasId: number): void;
     stop(): void;
+    synchronize(user: IContextConsumer): void;
 }
 export = Canvas3D;

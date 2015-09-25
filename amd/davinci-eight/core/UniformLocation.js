@@ -10,7 +10,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
         /**
          * @class UniformLocation
          * @constructor
-         * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
         function UniformLocation(manager, name) {
@@ -27,7 +27,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @method contextFree
          */
         UniformLocation.prototype.contextFree = function () {
-            this.contextLoss();
+            this.contextLost();
         };
         /**
          * @method contextGain
@@ -35,7 +35,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param program {WebGLProgram}
          */
         UniformLocation.prototype.contextGain = function (context, program) {
-            this.contextLoss();
+            this.contextLost();
             this._context = context;
             // FIXME: Uniform locations are created for a specific program,
             // which means that locations cannot be shared.
@@ -43,9 +43,9 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             this._program = program;
         };
         /**
-         * @method contextLoss
+         * @method contextLost
          */
-        UniformLocation.prototype.contextLoss = function () {
+        UniformLocation.prototype.contextLost = function () {
             this._context = void 0;
             this._location = void 0;
             this._program = void 0;

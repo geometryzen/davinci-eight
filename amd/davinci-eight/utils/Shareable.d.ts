@@ -21,7 +21,7 @@ declare class Shareable implements IUnknown {
      * @method addRef
      * @return {number} The new value of the reference count.
      */
-    addRef(): number;
+    addRef(client?: string): number;
     /**
      * <p>
      * Notifies this instance that something is dereferencing it.
@@ -30,7 +30,7 @@ declare class Shareable implements IUnknown {
      * @method release
      * @return {number} The new value of the reference count.
      */
-    release(): number;
+    release(client?: string): number;
     /**
      * <p>
      * Outputs a warning to the console that this method should be implemented by the derived class.

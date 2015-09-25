@@ -1,5 +1,5 @@
 import AttribLocation = require('../core/AttribLocation');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import Matrix1 = require('../math/Matrix1');
@@ -43,17 +43,17 @@ declare class Material extends Shareable implements IMaterial {
     monitors: ContextMonitor[];
     fragmentShader: string;
     use(canvasId: number): void;
-    attributes: {
+    attributes(canvasId: number): {
         [name: string]: AttribLocation;
     };
-    uniforms: {
+    uniforms(canvasId: number): {
         [name: string]: UniformLocation;
     };
-    enableAttrib(name: string): void;
-    disableAttrib(name: string): void;
+    enableAttrib(name: string, canvasId: number): void;
+    disableAttrib(name: string, canvasId: number): void;
     contextFree(canvasId: number): void;
-    contextGain(manager: ContextManager): void;
-    contextLoss(canvasId: number): void;
+    contextGain(manager: IContextProvider): void;
+    contextLost(canvasId: number): void;
     protected createProgram(): IMaterial;
     uniform1f(name: string, x: number, canvasId: number): void;
     uniform2f(name: string, x: number, y: number, canvasId: number): void;

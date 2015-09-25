@@ -1,5 +1,5 @@
 import IUnknown = require('../core/IUnknown');
-import ContextListener = require('../core/ContextListener');
-interface IResource extends IUnknown, ContextListener {
+import IContextConsumer = require('../core/IContextConsumer');
+interface IResource extends IUnknown, IContextConsumer {
 }
 export = IResource;

@@ -12,7 +12,7 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
      * @class WebGLClearColor
      * @extends Shareable
      * @implements IContextCommand
-     * @implements ContextListener
+     * @implements IContextConsumer
      */
     var WebGLClearColor = (function (_super) {
         __extends(WebGLClearColor, _super);
@@ -41,18 +41,18 @@ define(["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], f
         };
         /**
          * @method contextGain
-         * @param manager {ContextManager}
+         * @param manager {IContextProvider}
          * @return {void}
          */
         WebGLClearColor.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
         };
         /**
-         * @method contextLoss
+         * @method contextLost
          * @param canvasId {number}
          * @return {void}
          */
-        WebGLClearColor.prototype.contextLoss = function (canvasId) {
+        WebGLClearColor.prototype.contextLost = function (canvasId) {
             // do nothing
         };
         /**

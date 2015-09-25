@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -157,7 +157,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
-import ContextManager = require(&#x27;../core/ContextManager&#x27;)
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import ICamera = require(&#x27;../scene/ICamera&#x27;)
 import IMaterial = require(&#x27;../core/IMaterial&#x27;)
 import createPerspective = require(&#x27;../cameras/createPerspective&#x27;)
@@ -224,9 +224,9 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   }
   contextFree(): void {
   }
-  contextGain(manager: ContextManager): void {
+  contextGain(manager: IContextProvider): void {
   }
-  contextLoss(): void {
+  contextLost(): void {
   }
   draw(canvasId: number): void {
     console.warn(CLASS_NAME + &quot;.draw(&quot; + canvasId + &quot;)&quot;)

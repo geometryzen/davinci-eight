@@ -1,4 +1,4 @@
-import ContextListener = require('../core/ContextListener')
+import IContextConsumer = require('../core/IContextConsumer')
 import IContextCommand = require('../core/IContextCommand')
 import IPrologCommand = require('../core/IPrologCommand')
 import IDrawList = require('../scene/IDrawList')
@@ -8,10 +8,10 @@ import UniformData = require('../core/UniformData')
  * This interface is to be implemented by classes associated with a single context.
  * This does mean that the commands are not shared.
  * @class ContextRenderer
- * @extends ContextListener
+ * @extends IContextConsumer
  * @extends IUnknown
  */
-interface ContextRenderer extends ContextListener, IUnknown {
+interface ContextRenderer extends IContextConsumer, IUnknown {
   /**
    * The (readonly) cached WebGL rendering context. The context may sometimes be undefined.
    * @property gl

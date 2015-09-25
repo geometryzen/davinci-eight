@@ -16,7 +16,7 @@ interface IUnknown {
    * The new reference count. This value is intended to be used only for test purposes.
    * </p>
    */
-  addRef(): number;
+  addRef(client?: string): number;
   /**
    * <p>
    * Decrements the reference count of an IUnknown instance.
@@ -27,7 +27,7 @@ interface IUnknown {
    * The new reference count. This value is intended to be used only for test purposes.
    * </p>
    */
-  release(): number;
+  release(client?: string): number;
 }
 
 export = IUnknown;

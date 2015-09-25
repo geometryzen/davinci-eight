@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -178,6 +178,7 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @property programId
    * @type string
    */
+  // FIXME: rename material id or simply uuid.
   programId: string;
   /**
    * @property vertexShader
@@ -200,12 +201,13 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @property attributeLocations
    * @type { [name: string]: AttribLocation }
    */
-  attributes: { [name: string]: AttribLocation };
+  attributes(canvasId: number): { [name: string]: AttribLocation };
   /**
    * @property uniforms
    * @type { [name: string]: UniformLocation }
    */
-  uniforms: { [name: string]: UniformLocation };
+  // FIXME: Need canvasId because of locations.
+  uniforms(canvasId: number): { [name: string]: UniformLocation };
   /**
    * &lt;p&gt;
    * Enables an attribute location of a WebGLProgram.
@@ -214,9 +216,8 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @param name {string} The name of the attribute to enable.
    * @beta
    */
-  // FIXME: This should take a canvasId.
   // FIXME: Can we move to the attribute index?
-  enableAttrib(name: string): void;
+  enableAttrib(name: string, canvasId: number): void;
   /**
    * &lt;p&gt;
    * Enables an attribute location of a WebGLProgram.
@@ -225,7 +226,8 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @param name {string} The name of the attribute disable.
    * @beta
    */
-  disableAttrib(name: string): void;
+  // FIXME: Can we move to the attribute index?
+  disableAttrib(name: string, canvasId: number): void;
 }
 
 export = IMaterial;

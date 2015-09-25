@@ -241,12 +241,12 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                     });
                 }
             },
-            contextLoss: function (canvasId) {
+            contextLost: function (canvasId) {
                 if (canvasIdToManager.exists(canvasId)) {
                     drawableGroups.traverseDrawables(function (drawable) {
-                        drawable.contextLoss(canvasId);
+                        drawable.contextLost(canvasId);
                     }, function (material) {
-                        material.contextLoss(canvasId);
+                        material.contextLost(canvasId);
                     });
                     canvasIdToManager.remove(canvasId);
                 }

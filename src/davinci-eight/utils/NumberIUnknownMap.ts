@@ -1,34 +1,23 @@
-import IUnknown = require('../core/IUnknown');
-import refChange = require('../utils/refChange');
-import uuid4 = require('../utils/uuid4');
+import IUnknown = require('../core/IUnknown')
+import Shareable = require('../utils/Shareable')
 
 // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
 
 let LOGGING_NAME = 'NumberIUnknownMap';
 
-class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
-  private _refCount = 1;
+class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
   private _elements: { [key: number]: V } = {};
-  private _uuid = uuid4().generate();
   constructor() {
-    refChange(this._uuid, LOGGING_NAME, +1);
+    super(LOGGING_NAME)
   }
-  addRef() {
-    refChange(this._uuid, LOGGING_NAME, +1);
-    this._refCount++;
-    return this._refCount;
-  }
-  release() {
-    refChange(this._uuid, LOGGING_NAME, -1);
-    this._refCount--;
-    if (this._refCount === 0) {
-      let self = this;
-      this.forEach(function(key) {
-        self.putStrongReference(key, void 0);
+  protected destructor(): void {
+    let self = this;
+    this.forEach(function(key, value) {
+      if (value) {
+          value.release()
+        }
       });
       this._elements = void 0;
-    }
-    return this._refCount;
   }
   exists(key: number): boolean {
     let element = this._elements[key];

@@ -1,5 +1,5 @@
-import ContextListener = require('../core/ContextListener');
-import ContextManager = require('../core/ContextManager');
+import IContextConsumer = require('../core/IContextConsumer');
+import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import Shareable = require('../utils/Shareable');
 /**
@@ -9,9 +9,9 @@ import Shareable = require('../utils/Shareable');
  * @class WebGLEnable
  * @extends Shareable
  * @implements IContextCommand
- * @implements ContextListener
+ * @implements IContextConsumer
  */
-declare class WebGLEnable extends Shareable implements IContextCommand, ContextListener {
+declare class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
     capability: number;
     /**
      * @class WebGLEnable
@@ -26,16 +26,16 @@ declare class WebGLEnable extends Shareable implements IContextCommand, ContextL
     contextFree(canvasId: number): void;
     /**
      * @method contextGain
-     * @param manager {ContextManager}
+     * @param manager {IContextProvider}
      * @return {void}
      */
-    contextGain(manager: ContextManager): void;
+    contextGain(manager: IContextProvider): void;
     /**
-     * @method contextLoss
+     * @method contextLost
      * @param canvasId {number}
      * @return {void}
      */
-    contextLoss(canvasId: number): void;
+    contextLost(canvasId: number): void;
     /**
      * @method execute
      * @param gl {WebGLRenderingContext}

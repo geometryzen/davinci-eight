@@ -3,8 +3,8 @@ import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import ContextProgramListener = require('../core/ContextProgramListener');
-import ContextManager = require('../core/ContextManager');
+import IContextProgramConsumer = require('../core/IContextProgramConsumer');
+import IContextProvider = require('../core/IContextProvider');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -18,7 +18,7 @@ function matrix4NE(a: number[], b: Float32Array): boolean {
  * Utility class for managing a shader uniform variable.
  * @class UniformLocation
  */
-class UniformLocation implements ContextProgramListener {
+class UniformLocation implements IContextProgramConsumer {
   private _context: WebGLRenderingContext;
   private _location: WebGLUniformLocation;
   private _name: string;
@@ -32,10 +32,10 @@ class UniformLocation implements ContextProgramListener {
   /**
    * @class UniformLocation
    * @constructor
-   * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+   * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
    * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
    */
-  constructor(manager: ContextManager, name: string) {
+  constructor(manager: IContextProvider, name: string) {
     expectArg('manager', manager).toBeObject().value;
     this._name = expectArg('name', name).toBeString().value;
   }
@@ -43,7 +43,7 @@ class UniformLocation implements ContextProgramListener {
    * @method contextFree
    */
   contextFree() {
-    this.contextLoss();
+    this.contextLost();
   }
   /**
    * @method contextGain
@@ -51,7 +51,7 @@ class UniformLocation implements ContextProgramListener {
    * @param program {WebGLProgram}
    */
   contextGain(context: WebGLRenderingContext, program: WebGLProgram) {
-    this.contextLoss();
+    this.contextLost();
     this._context = context;
     // FIXME: Uniform locations are created for a specific program,
     // which means that locations cannot be shared.
@@ -59,9 +59,9 @@ class UniformLocation implements ContextProgramListener {
     this._program = program;
   }
   /**
-   * @method contextLoss
+   * @method contextLost
    */
-  contextLoss() {
+  contextLost() {
     this._context  = void 0;
     this._location = void 0;
     this._program  = void 0;

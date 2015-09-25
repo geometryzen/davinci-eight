@@ -2428,7 +2428,7 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
          * @method addRef
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.addRef = function () {
+        Shareable.prototype.addRef = function (client) {
             this._refCount++;
             refChange(this._uuid, this._type, +1);
             return this._refCount;
@@ -2441,7 +2441,7 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
          * @method release
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.release = function () {
+        Shareable.prototype.release = function (client) {
             this._refCount--;
             refChange(this._uuid, this._type, -1);
             var refCount = this._refCount;
@@ -2546,7 +2546,7 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
      * @class WebGLClearColor
      * @extends Shareable
      * @implements IContextCommand
-     * @implements ContextListener
+     * @implements IContextConsumer
      */
     var WebGLClearColor = (function (_super) {
         __extends(WebGLClearColor, _super);
@@ -2575,18 +2575,18 @@ define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../check
         };
         /**
          * @method contextGain
-         * @param manager {ContextManager}
+         * @param manager {IContextProvider}
          * @return {void}
          */
         WebGLClearColor.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
         };
         /**
-         * @method contextLoss
+         * @method contextLost
          * @param canvasId {number}
          * @return {void}
          */
-        WebGLClearColor.prototype.contextLoss = function (canvasId) {
+        WebGLClearColor.prototype.contextLost = function (canvasId) {
             // do nothing
         };
         /**
@@ -2637,7 +2637,7 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mu
      * @class WebGLEnable
      * @extends Shareable
      * @implements IContextCommand
-     * @implements ContextListener
+     * @implements IContextConsumer
      */
     var WebGLEnable = (function (_super) {
         __extends(WebGLEnable, _super);
@@ -2660,18 +2660,18 @@ define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mu
         };
         /**
          * @method contextGain
-         * @param manager {ContextManager}
+         * @param manager {IContextProvider}
          * @return {void}
          */
         WebGLEnable.prototype.contextGain = function (manager) {
             this.execute(manager.gl);
         };
         /**
-         * @method contextLoss
+         * @method contextLost
          * @param canvasId {number}
          * @return {void}
          */
-        WebGLEnable.prototype.contextLoss = function (canvasId) {
+        WebGLEnable.prototype.contextLost = function (canvasId) {
             // do nothing
         };
         /**
@@ -2712,7 +2712,7 @@ define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/exp
      * to use the AttribLocation instances managed by the Program because
      * there will be improved integrity and context loss management.
      * @class AttribLocation
-     * @implements ContextProgramListener
+     * @implements IContextProgramConsumer
      */
     var AttribLocation = (function () {
         /**
@@ -2720,7 +2720,7 @@ define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/exp
          * In particular, this class manages buffer allocation, location caching, and data binding.
          * @class AttribLocation
          * @constructor
-         * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
          * @param name {string} The name of the variable as it appears in the GLSL program.
          */
         function AttribLocation(manager, name) {
@@ -2735,14 +2735,14 @@ define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/exp
             configurable: true
         });
         AttribLocation.prototype.contextFree = function () {
-            this.contextLoss();
+            this.contextLost();
         };
         AttribLocation.prototype.contextGain = function (context, program) {
-            this.contextLoss();
+            this.contextLost();
             this._index = context.getAttribLocation(program, this._name);
             this._context = context;
         };
-        AttribLocation.prototype.contextLoss = function () {
+        AttribLocation.prototype.contextLost = function () {
             this._index = void 0;
             this._context = void 0;
         };
@@ -2919,10 +2919,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     var core = {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-23',
+        LAST_MODIFIED: '2015-09-25',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.108.0'
+        VERSION: '2.109.0'
     };
     return core;
 });
@@ -2992,7 +2992,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
         /**
          * @class UniformLocation
          * @constructor
-         * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
         function UniformLocation(manager, name) {
@@ -3009,7 +3009,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @method contextFree
          */
         UniformLocation.prototype.contextFree = function () {
-            this.contextLoss();
+            this.contextLost();
         };
         /**
          * @method contextGain
@@ -3017,7 +3017,7 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
          * @param program {WebGLProgram}
          */
         UniformLocation.prototype.contextGain = function (context, program) {
-            this.contextLoss();
+            this.contextLost();
             this._context = context;
             // FIXME: Uniform locations are created for a specific program,
             // which means that locations cannot be shared.
@@ -3025,9 +3025,9 @@ define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/ex
             this._program = program;
         };
         /**
-         * @method contextLoss
+         * @method contextLost
          */
-        UniformLocation.prototype.contextLoss = function () {
+        UniformLocation.prototype.contextLost = function () {
             this._context = void 0;
             this._location = void 0;
             this._program = void 0;
@@ -4474,32 +4474,28 @@ define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/refC
     return IUnknownArray;
 });
 
-define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
-    var NumberIUnknownMap = (function () {
+    var NumberIUnknownMap = (function (_super) {
+        __extends(NumberIUnknownMap, _super);
         function NumberIUnknownMap() {
-            this._refCount = 1;
+            _super.call(this, LOGGING_NAME);
             this._elements = {};
-            this._uuid = uuid4().generate();
-            refChange(this._uuid, LOGGING_NAME, +1);
         }
-        NumberIUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, LOGGING_NAME, +1);
-            this._refCount++;
-            return this._refCount;
-        };
-        NumberIUnknownMap.prototype.release = function () {
-            refChange(this._uuid, LOGGING_NAME, -1);
-            this._refCount--;
-            if (this._refCount === 0) {
-                var self_1 = this;
-                this.forEach(function (key) {
-                    self_1.putStrongReference(key, void 0);
-                });
-                this._elements = void 0;
-            }
-            return this._refCount;
+        NumberIUnknownMap.prototype.destructor = function () {
+            var self = this;
+            this.forEach(function (key, value) {
+                if (value) {
+                    value.release();
+                }
+            });
+            this._elements = void 0;
         };
         NumberIUnknownMap.prototype.exists = function (key) {
             var element = this._elements[key];
@@ -4553,7 +4549,7 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
             delete this._elements[key];
         };
         return NumberIUnknownMap;
-    })();
+    })(Shareable);
     return NumberIUnknownMap;
 });
 
@@ -4906,12 +4902,12 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                     });
                 }
             },
-            contextLoss: function (canvasId) {
+            contextLost: function (canvasId) {
                 if (canvasIdToManager.exists(canvasId)) {
                     drawableGroups.traverseDrawables(function (drawable) {
-                        drawable.contextLoss(canvasId);
+                        drawable.contextLost(canvasId);
                     }, function (material) {
-                        material.contextLoss(canvasId);
+                        material.contextLost(canvasId);
                     });
                     canvasIdToManager.remove(canvasId);
                 }
@@ -4951,7 +4947,12 @@ define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mu
     return mustBeDefined;
 });
 
-define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -4963,34 +4964,25 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', 
      * @class Mesh
      * @implements IDrawable
      */
-    var Mesh = (function () {
+    var Mesh = (function (_super) {
+        __extends(Mesh, _super);
         // FIXME: Do we insist on a ContextMonitor here.
         // We can also assume that we are OK because of the Scene - but can't assume that there is one?
         function Mesh(geometry, material, model) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+            _super.call(this, LOGGING_NAME);
             this.geometry = geometry;
             this._material = material;
             this._material.addRef();
-            this.meshLookup = new NumberIUnknownMap();
+            this.buffersByCanvasid = new NumberIUnknownMap();
             this.model = model;
-            refChange(this._uuid, LOGGING_NAME, +1);
         }
-        Mesh.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME, +1);
-            return this._refCount;
-        };
-        Mesh.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME, -1);
-            if (this._refCount === 0) {
-                this.meshLookup.release();
-                this.meshLookup = void 0;
-                this._material.release();
-                this._material = void 0;
-            }
-            return this._refCount;
+        Mesh.prototype.destructor = function () {
+            this.geometry = void 0;
+            this.buffersByCanvasid.release();
+            this.buffersByCanvasid = void 0;
+            this._material.release();
+            this._material = void 0;
+            this.model = void 0;
         };
         Mesh.prototype.draw = function (canvasId) {
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
@@ -5005,7 +4997,7 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', 
                 // FIXME: Would be nice to be able to check that a block does not alter the reference count?
                 var material = self_1._material;
                 var model = self_1.model;
-                var buffers = this.meshLookup.getWeakReference(canvasId);
+                var buffers = this.buffersByCanvasid.getWeakReference(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     model.setUniforms(material, canvasId);
@@ -5021,22 +5013,23 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', 
             this._material.contextFree(canvasId);
         };
         Mesh.prototype.contextGain = function (manager) {
-            var geometry = this.geometry;
-            if (geometry) {
-                var data = geometry.data;
-                var meta = geometry.meta;
+            // 1. Replace the existing buffers if we have geometry. 
+            if (this.geometry) {
+                var data = this.geometry.data;
+                var meta = this.geometry.meta;
                 mustBeDefined('geometry.data', data, contextBuilder);
                 mustBeDefined('geometry.meta', meta, contextBuilder);
                 // FIXME: Why is the meta not being used?
-                this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data));
-                this._material.contextGain(manager);
+                this.buffersByCanvasid.putWeakReference(manager.canvasId, manager.createBufferGeometry(data));
             }
             else {
                 console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);
             }
+            // 2. Delegate the context to the material.
+            this._material.contextGain(manager);
         };
-        Mesh.prototype.contextLoss = function (canvasId) {
-            this._material.contextLoss(canvasId);
+        Mesh.prototype.contextLost = function (canvasId) {
+            this._material.contextLost(canvasId);
         };
         Object.defineProperty(Mesh.prototype, "material", {
             /**
@@ -5052,7 +5045,7 @@ define('davinci-eight/scene/Mesh',["require", "exports", '../checks/isDefined', 
             configurable: true
         });
         return Mesh;
-    })();
+    })(Shareable);
     return Mesh;
 });
 
@@ -5126,7 +5119,7 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
         };
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
-        PerspectiveCamera.prototype.contextLoss = function () {
+        PerspectiveCamera.prototype.contextLost = function () {
         };
         PerspectiveCamera.prototype.draw = function (canvasId) {
             console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
@@ -5320,6 +5313,11 @@ define('davinci-eight/scene/MonitorList',["require", "exports", '../checks/mustS
                 monitor.removeContextListener(user);
             });
         };
+        MonitorList.prototype.synchronize = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
+            });
+        };
         MonitorList.prototype.toArray = function () {
             return this.monitors.map(identity);
         };
@@ -5355,6 +5353,12 @@ define('davinci-eight/scene/MonitorList',["require", "exports", '../checks/mustS
             MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
             monitors.forEach(function (monitor) {
                 monitor.removeContextListener(user);
+            });
+        };
+        MonitorList.synchronize = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
             });
         };
         return MonitorList;
@@ -5397,6 +5401,7 @@ define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawLi
             this.drawList = createDrawList();
             this.monitors = new MonitorList(monitors);
             this.monitors.addContextListener(this);
+            this.monitors.synchronize(this);
         }
         /**
          * @method destructor
@@ -5469,8 +5474,8 @@ define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawLi
         Scene.prototype.contextGain = function (manager) {
             this.drawList.contextGain(manager);
         };
-        Scene.prototype.contextLoss = function (canvasId) {
-            this.drawList.contextLoss(canvasId);
+        Scene.prototype.contextLost = function (canvasId) {
+            this.drawList.contextLost(canvasId);
         };
         return Scene;
     })(Shareable);
@@ -5625,7 +5630,7 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
                     command.execute(manager.gl);
                 });
             },
-            contextLoss: function () {
+            contextLost: function () {
                 _manager = void 0;
             },
             prolog: function () {
@@ -5683,52 +5688,50 @@ define('davinci-eight/core/BufferResource',["require", "exports", '../checks/exp
     // TODO: Why is this object specific to one context?
     var BufferResource = (function (_super) {
         __extends(BufferResource, _super);
-        function BufferResource(monitor, isElements) {
+        function BufferResource(manager, isElements) {
             _super.call(this, LOGGING_NAME_IBUFFER);
-            this._monitor = expectArg('montor', monitor).toBeObject().value;
+            this.manager = expectArg('montor', manager).toBeObject().value;
             this._isElements = mustBeBoolean('isElements', isElements);
-            monitor.addContextListener(this);
+            manager.addContextListener(this);
+            manager.synchronize(this);
         }
         BufferResource.prototype.destructor = function () {
             if (this._buffer) {
-                this._gl.deleteBuffer(this._buffer);
+                this.manager.gl.deleteBuffer(this._buffer);
                 this._buffer = void 0;
             }
-            this._gl = void 0;
-            this._monitor.removeContextListener(this);
-            this._monitor = void 0;
+            this.manager.removeContextListener(this);
+            this.manager = void 0;
             this._isElements = void 0;
         };
         BufferResource.prototype.contextFree = function () {
             if (this._buffer) {
-                this._gl.deleteBuffer(this._buffer);
+                this.manager.gl.deleteBuffer(this._buffer);
                 this._buffer = void 0;
             }
-            this._gl = void 0;
-        };
-        BufferResource.prototype.contextGain = function (manager) {
-            // FIXME: Support for multiple contexts. Do I need multiple buffers?
-            // Remark. The constructor says I will only be working with one context.
-            // However, if that is the case, what if someone adds me to a different context.
-            // Answer, I can detect this condition by looking a canvasId.
-            // But can I prevent it in the API?
-            // I don't think so. That would require typed contexts.
-            var gl = manager.gl;
-            if (this._gl !== gl) {
-                this.contextFree();
-                this._gl = gl;
-                this._buffer = gl.createBuffer();
+            else {
             }
         };
-        BufferResource.prototype.contextLoss = function () {
+        BufferResource.prototype.contextGain = function (manager) {
+            if (this.manager.canvasId === manager.canvasId) {
+                if (!this._buffer) {
+                    this._buffer = manager.gl.createBuffer();
+                }
+                else {
+                }
+            }
+            else {
+                console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
+            }
+        };
+        BufferResource.prototype.contextLost = function () {
             this._buffer = void 0;
-            this._gl = void 0;
         };
         /**
          * @method bind
          */
         BufferResource.prototype.bind = function () {
-            var gl = this._gl;
+            var gl = this.manager.gl;
             if (gl) {
                 var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
                 gl.bindBuffer(target, this._buffer);
@@ -5741,7 +5744,7 @@ define('davinci-eight/core/BufferResource',["require", "exports", '../checks/exp
          * @method unbind
          */
         BufferResource.prototype.unbind = function () {
-            var gl = this._gl;
+            var gl = this.manager.gl;
             if (gl) {
                 var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
                 gl.bindBuffer(target, null);
@@ -5861,6 +5864,7 @@ define('davinci-eight/resources/TextureResource',["require", "exports", '../chec
             this._target = target;
             refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
             monitor.addContextListener(this);
+            monitor.synchronize(this);
         }
         TextureResource.prototype.addRef = function () {
             this._refCount++;
@@ -5895,7 +5899,7 @@ define('davinci-eight/resources/TextureResource',["require", "exports", '../chec
                 this._texture = gl.createTexture();
             }
         };
-        TextureResource.prototype.contextLoss = function () {
+        TextureResource.prototype.contextLost = function () {
             // FIXME: I need to know which context.
             this._texture = void 0;
             this._gl = void 0;
@@ -6116,7 +6120,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
     /**
      *
      */
-    function bindProgramAttribLocations(program, block, aNameToKeyName) {
+    function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
         // FIXME: Expecting canvasId here.
         // FIXME: This is where we get the IMaterial attributes property.
         // FIXME: Can we invert this?
@@ -6125,7 +6129,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
         // in order to get the name -> index correct.
         // Then attribute setting shoul go much faster
-        var attribLocations = program.attributes;
+        var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
             var aNamesLength = aNames.length;
@@ -6159,9 +6163,9 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             console.warn("bindProgramAttribLocations: program.attributes is falsey.");
         }
     }
-    function unbindProgramAttribLocations(program) {
+    function unbindProgramAttribLocations(program, canvasId) {
         // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
-        var attribLocations = program.attributes;
+        var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             Object.keys(attribLocations).forEach(function (aName) {
                 attribLocations[aName].disable();
@@ -6179,23 +6183,41 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
-        // // FIXME: Really? Not IUnknownArray<IContextListener> ?
+        // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
         var users = [];
         function addContextListener(user) {
             expectArg('user', user).toBeObject();
-            users.push(user);
-            if (gl) {
-                user.contextGain(kahuna);
+            var index = users.indexOf(user);
+            if (index < 0) {
+                users.push(user);
+            }
+            else {
+                console.warn("user already exists for addContextListener");
             }
         }
+        /**
+         * Implementation of removeContextListener for the kahuna.
+         */
         function removeContextListener(user) {
             expectArg('user', user).toBeObject();
             var index = users.indexOf(user);
             if (index >= 0) {
                 var removals = users.splice(index, 1);
-                removals.forEach(function (user) {
-                    // What's going on here?
-                });
+            }
+            else {
+                console.warn("user not found for removeContextListener(user)");
+            }
+        }
+        function synchronize(user) {
+            if (gl) {
+                if (gl.isContextLost()) {
+                    user.contextLost(_canvasId);
+                }
+                else {
+                    user.contextGain(kahuna);
+                }
+            }
+            else {
             }
         }
         function meshRemover(blockUUID) {
@@ -6208,7 +6230,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 }
             };
         }
-        function createBufferGeometry(uuid) {
+        function createBufferGeometry(uuid, canvasId) {
             var refCount = new RefCount(meshRemover(uuid));
             var _program = void 0;
             var mesh = {
@@ -6236,7 +6258,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                                 var indexBuffer = block.indexBuffer;
                                 indexBuffer.bind();
                                 indexBuffer.release();
-                                bindProgramAttribLocations(_program, block, aNameToKeyName);
+                                bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
                             }
                             else {
                                 expectArg('program', program).toBeObject();
@@ -6264,7 +6286,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                             var indexBuffer = block.indexBuffer;
                             indexBuffer.unbind();
                             indexBuffer.release();
-                            unbindProgramAttribLocations(_program);
+                            // FIXME: Looks like an IMaterial method!
+                            unbindProgramAttribLocations(_program, _canvasId);
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -6295,7 +6318,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 event.preventDefault();
                 gl = void 0;
                 users.forEach(function (user) {
-                    user.contextLoss(_canvasId);
+                    user.contextLost(_canvasId);
                 });
             }
         };
@@ -6339,7 +6362,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     }
                     return void 0;
                 }
-                var mesh = createBufferGeometry(uuid4().generate());
+                var mesh = createBufferGeometry(uuid4().generate(), _canvasId);
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
@@ -6417,6 +6440,9 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             },
             removeContextListener: function (user) {
                 removeContextListener(user);
+            },
+            synchronize: function (user) {
+                synchronize(user);
             },
             get canvasElement() {
                 if (!_canvasElement) {
@@ -6509,6 +6535,7 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
             this._kahuna = contextProxy(attributes);
             this._renderer = createRenderer();
             this._kahuna.addContextListener(this._renderer);
+            this._kahuna.synchronize(this._renderer);
         }
         /**
          * @method destructor
@@ -6583,8 +6610,8 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
         Canvas3D.prototype.contextGain = function (manager) {
             this._renderer.contextGain(manager);
         };
-        Canvas3D.prototype.contextLoss = function (canvasId) {
-            this._renderer.contextLoss(canvasId);
+        Canvas3D.prototype.contextLost = function (canvasId) {
+            this._renderer.contextLost(canvasId);
         };
         Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
@@ -6642,6 +6669,9 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
         };
         Canvas3D.prototype.stop = function () {
             this._kahuna.stop();
+        };
+        Canvas3D.prototype.synchronize = function (user) {
+            this._kahuna.synchronize(user);
         };
         return Canvas3D;
     })(Shareable);
@@ -6946,23 +6976,22 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geom
     return CuboidGeometry;
 });
 
-define('davinci-eight/programs/createMaterial',["require", "exports", '../core/AttribLocation', '../core', '../scene/MonitorList', '../checks/isDefined', '../utils/uuid4', '../core/UniformLocation', '../utils/refChange'], function (require, exports, AttribLocation, core, MonitorList, isDefined, uuid4, UniformLocation, refChange) {
+define('davinci-eight/programs/makeWebGLShader',["require", "exports"], function (require, exports) {
     /**
-     * Name used for reference count monitoring and logging.
+     *
      */
-    var LOGGING_NAME_IPROGRAM = 'IMaterial';
-    function makeWebGLShader(ctx, source, type) {
-        var shader = ctx.createShader(type);
-        ctx.shaderSource(shader, source);
-        ctx.compileShader(shader);
-        var compiled = ctx.getShaderParameter(shader, ctx.COMPILE_STATUS);
+    function makeWebGLShader(gl, source, type) {
+        var shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
         if (compiled) {
             return shader;
         }
         else {
-            if (!ctx.isContextLost()) {
-                var message = ctx.getShaderInfoLog(shader);
-                ctx.deleteShader(shader);
+            if (!gl.isContextLost()) {
+                var message = gl.getShaderInfoLog(shader);
+                gl.deleteShader(shader);
                 throw new Error("Error compiling shader: " + message);
             }
             else {
@@ -6970,9 +6999,10 @@ define('davinci-eight/programs/createMaterial',["require", "exports", '../core/A
             }
         }
     }
-    /**
-     * Creates a WebGLProgram with compiled and linked shaders.
-     */
+    return makeWebGLShader;
+});
+
+define('davinci-eight/programs/makeWebGLProgram',["require", "exports", '../programs/makeWebGLShader'], function (require, exports, makeWebGLShader) {
     function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
         // create our shaders
         var vs = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
@@ -7003,6 +7033,136 @@ define('davinci-eight/programs/createMaterial',["require", "exports", '../core/A
             throw new Error("Error linking program: " + message);
         }
     }
+    return makeWebGLProgram;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation, makeWebGLProgram, UniformLocation, Shareable) {
+    /**
+     * This class is "simple because" it assumes exactly one vertex shader and on fragment shader.
+     * This class assumes that it will only be supporting a single WebGL rendering context.
+     * The existence of the manager in the constructor enables it to enforce this invariant.
+     */
+    var SimpleWebGLProgram = (function (_super) {
+        __extends(SimpleWebGLProgram, _super);
+        function SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs) {
+            _super.call(this, 'SimpleWebGLProgram');
+            this.attributes = {};
+            this.uniforms = {};
+            this.manager = manager;
+            // Interesting. CM can't be addRefd!
+            // manager.addRef()
+            this.vertexShader = vertexShader;
+            this.fragmentShader = fragmentShader;
+            this.attribs = attribs;
+            this.manager.addContextListener(this);
+            this.manager.synchronize(this);
+        }
+        SimpleWebGLProgram.prototype.destructor = function () {
+            var manager = this.manager;
+            var canvasId = manager.canvasId;
+            // If the program has been allocated, find out what to do with it.
+            // (we may have been disconnected from listening)
+            if (this.program) {
+                var gl = manager.gl;
+                if (gl) {
+                    if (gl.isContextLost()) {
+                        this.contextLost(canvasId);
+                    }
+                    else {
+                        this.contextFree(canvasId);
+                    }
+                }
+                else {
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                }
+            }
+            manager.removeContextListener(this);
+            // this.manager.release()
+            this.manager = void 0;
+        };
+        SimpleWebGLProgram.prototype.contextGain = function (manager) {
+            if (!this.program) {
+                this.program = makeWebGLProgram(manager.gl, this.vertexShader, this.fragmentShader, this.attribs);
+                var context = manager.gl;
+                var program = this.program;
+                var attributes = this.attributes;
+                var uniforms = this.uniforms;
+                var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
+                for (var a = 0; a < activeAttributes; a++) {
+                    var activeAttribInfo = context.getActiveAttrib(program, a);
+                    var name_1 = activeAttribInfo.name;
+                    if (!attributes[name_1]) {
+                        attributes[name_1] = new AttribLocation(manager, name_1);
+                    }
+                }
+                var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
+                for (var u = 0; u < activeUniforms; u++) {
+                    var activeUniformInfo = context.getActiveUniform(program, u);
+                    var name_2 = activeUniformInfo.name;
+                    if (!uniforms[name_2]) {
+                        uniforms[name_2] = new UniformLocation(manager, name_2);
+                    }
+                }
+                for (var aName in attributes) {
+                    attributes[aName].contextGain(context, program);
+                }
+                for (var uName in uniforms) {
+                    uniforms[uName].contextGain(context, program);
+                }
+            }
+        };
+        SimpleWebGLProgram.prototype.contextLost = function (canvasId) {
+            this.program = void 0;
+            for (var aName in this.attributes) {
+                this.attributes[aName].contextLost();
+            }
+            for (var uName in this.uniforms) {
+                this.uniforms[uName].contextLost();
+            }
+        };
+        SimpleWebGLProgram.prototype.contextFree = function (canvasId) {
+            if (this.program) {
+                var gl = this.manager.gl;
+                if (gl) {
+                    if (!gl.isContextLost()) {
+                        gl.deleteProgram(this.program);
+                    }
+                    else {
+                    }
+                }
+                else {
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                }
+                this.program = void 0;
+            }
+            for (var aName in this.attributes) {
+                this.attributes[aName].contextFree();
+            }
+            for (var uName in this.uniforms) {
+                this.uniforms[uName].contextFree();
+            }
+        };
+        SimpleWebGLProgram.prototype.use = function () {
+            this.manager.gl.useProgram(this.program);
+        };
+        return SimpleWebGLProgram;
+    })(Shareable);
+    return SimpleWebGLProgram;
+});
+
+define('davinci-eight/programs/createMaterial',["require", "exports", '../core', '../scene/MonitorList', '../utils/NumberIUnknownMap', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, core, MonitorList, NumberIUnknownMap, uuid4, refChange, SimpleWebGLProgram) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME_IMATERIAL = 'IMaterial';
+    /**
+     * Creates a WebGLProgram with compiled and linked shaders.
+     */
     // FIXME: Handle list of shaders? Else createSimpleProgram
     var createMaterial = function (monitors, vertexShader, fragmentShader, attribs) {
         MonitorList.verify('monitors', monitors, function () { return "createMaterial"; });
@@ -7017,16 +7177,8 @@ define('davinci-eight/programs/createMaterial',["require", "exports", '../core/A
         /**
          * Because we are multi-canvas aware, programs are tracked by the canvas id.
          */
-        var programs = {};
-        /**
-         * Because we are multi-canvas aware, gls are tracked by the canvas id.
-         * We need to hold onto a WebGLRenderingContext so that we can delete programs.
-         */
-        var gls = {};
+        var programsByCanvasId = new NumberIUnknownMap();
         var uuid = uuid4().generate();
-        // This looks wrong.
-        var attributeLocations = {};
-        var uniformLocations = {};
         var self = {
             get vertexShader() {
                 return vertexShader;
@@ -7034,179 +7186,170 @@ define('davinci-eight/programs/createMaterial',["require", "exports", '../core/A
             get fragmentShader() {
                 return fragmentShader;
             },
-            get attributes() {
-                return attributeLocations;
+            attributes: function (canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    return program.attributes;
+                }
             },
-            get uniforms() {
-                return uniformLocations;
+            uniforms: function (canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    return program.uniforms;
+                }
             },
-            addRef: function () {
-                refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
+            addRef: function (client) {
+                // mustBeDefined('client', client)
+                refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
                 refCount++;
                 return refCount;
             },
-            release: function () {
-                refChange(uuid, LOGGING_NAME_IPROGRAM, -1);
+            release: function (client) {
+                // mustBeDefined('client', client)
+                refChange(uuid, LOGGING_NAME_IMATERIAL, -1);
                 refCount--;
                 if (refCount === 0) {
                     MonitorList.removeContextListener(self, monitors);
-                    var keys = Object.keys(gls).map(function (key) { return parseInt(key); });
-                    var keysLength = keys.length;
-                    for (var k = 0; k < keysLength; k++) {
-                        var canvasId = keys[k];
-                        self.contextFree(canvasId);
-                    }
+                    programsByCanvasId.release();
                 }
                 return refCount;
             },
             contextFree: function (canvasId) {
-                var $context = gls[canvasId];
-                if ($context) {
-                    var program = programs[canvasId];
-                    if (program) {
-                        $context.deleteProgram(program);
-                        programs[canvasId] = void 0;
-                    }
-                    gls[canvasId] = void 0;
-                    for (var aName in attributeLocations) {
-                        attributeLocations[aName].contextFree();
-                    }
-                    for (var uName in uniformLocations) {
-                        uniformLocations[uName].contextFree();
-                    }
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.contextFree(canvasId);
+                    programsByCanvasId.remove(canvasId);
                 }
             },
             contextGain: function (manager) {
-                // FIXME: multi-canvas
-                var canvasId = manager.canvasId;
-                if (gls[canvasId] !== manager.gl) {
-                    self.contextFree(canvasId);
-                    gls[canvasId] = manager.gl;
-                    var context = manager.gl;
-                    var program = makeWebGLProgram(context, vertexShader, fragmentShader, attribs);
-                    programs[manager.canvasId] = program;
-                    // FIXME: Need to work with locations by canvasId. 
-                    var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
-                    for (var a = 0; a < activeAttributes; a++) {
-                        var activeAttribInfo = context.getActiveAttrib(program, a);
-                        var name_1 = activeAttribInfo.name;
-                        if (!attributeLocations[name_1]) {
-                            attributeLocations[name_1] = new AttribLocation(manager, name_1);
-                        }
-                    }
-                    var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
-                    for (var u = 0; u < activeUniforms; u++) {
-                        var activeUniformInfo = context.getActiveUniform(program, u);
-                        var name_2 = activeUniformInfo.name;
-                        if (!uniformLocations[name_2]) {
-                            uniformLocations[name_2] = new UniformLocation(manager, name_2);
-                        }
-                    }
-                    for (var aName in attributeLocations) {
-                        attributeLocations[aName].contextGain(context, program);
-                    }
-                    for (var uName in uniformLocations) {
-                        uniformLocations[uName].contextGain(context, program);
-                    }
+                var canvasId;
+                var sprog;
+                canvasId = manager.canvasId;
+                if (!programsByCanvasId.exists(canvasId)) {
+                    sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs);
+                    programsByCanvasId.putWeakReference(canvasId, sprog);
                 }
                 else {
+                    sprog = programsByCanvasId.getWeakReference(canvasId);
+                }
+                sprog.contextGain(manager);
+            },
+            contextLost: function (canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.contextLost(canvasId);
+                    programsByCanvasId.remove(canvasId);
                 }
             },
-            contextLoss: function (canvasId) {
-                programs[canvasId] = void 0;
-                gls[canvasId] = void 0;
-                for (var aName in attributeLocations) {
-                    attributeLocations[aName].contextLoss();
-                }
-                for (var uName in uniformLocations) {
-                    uniformLocations[uName].contextLoss();
-                }
-            },
-            // FIXME: Dead code?
-            /*
-            get program() {
-              console.warn("createMaterial program property is assuming canvas id = 0");
-              let canvasId = 0;
-              let program: WebGLProgram = programs[canvasId];
-              // It's a WebGLProgram, no reference count management required.
-              return program;
-            },
-            */
             get programId() {
                 return uuid;
             },
             use: function (canvasId) {
-                var gl = gls[canvasId];
-                if (gl) {
-                    var program = programs[canvasId];
-                    gl.useProgram(program);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.use();
                 }
                 else {
-                    console.warn(LOGGING_NAME_IPROGRAM + " use(canvasId: number) missing WebGLRenderingContext");
+                    console.warn(LOGGING_NAME_IMATERIAL + " use(canvasId: number) missing WebGLRenderingContext");
                 }
             },
-            enableAttrib: function (name) {
-                var attribLoc = attributeLocations[name];
-                if (attribLoc) {
-                    attribLoc.enable();
+            enableAttrib: function (name, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
+                }
+                else {
                 }
             },
-            disableAttrib: function (name) {
-                var attribLoc = attributeLocations[name];
-                if (attribLoc) {
-                    attribLoc.disable();
+            disableAttrib: function (name, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
+                }
+                else {
                 }
             },
             uniform1f: function (name, x, canvasId) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    // FIXME: What happens to canvasId.
-                    // Is it used to select the locations? YES?
-                    // Is it passed on to the location? NO.
-                    uniformLoc.uniform1f(x);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform1f(x);
+                    }
+                    else {
+                    }
+                }
+                else {
                 }
             },
-            uniform2f: function (name, x, y) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform2f(x, y);
+            uniform2f: function (name, x, y, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform2f(x, y);
+                    }
                 }
             },
-            uniform3f: function (name, x, y, z) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform3f(x, y, z);
+            uniform3f: function (name, x, y, z, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform3f(x, y, z);
+                    }
                 }
             },
-            uniform4f: function (name, x, y, z, w) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.uniform4f(x, y, z, w);
+            uniform4f: function (name, x, y, z, w, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform4f(x, y, z, w);
+                    }
                 }
             },
-            uniformMatrix1: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix1(transpose, matrix);
+            uniformMatrix1: function (name, transpose, matrix, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix1(transpose, matrix);
+                    }
                 }
             },
-            uniformMatrix2: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix2(transpose, matrix);
+            uniformMatrix2: function (name, transpose, matrix, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix2(transpose, matrix);
+                    }
                 }
             },
-            uniformMatrix3: function (name, transpose, matrix) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.matrix3(transpose, matrix);
+            uniformMatrix3: function (name, transpose, matrix, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix3(transpose, matrix);
+                    }
                 }
             },
             uniformMatrix4: function (name, transpose, matrix, canvasId) {
-                // FIXME: Should be getting the uniformLocations by canvas or passing canvasId
-                // on to th uniformLoc.matrix4. I like the former, I think.
-                if (isDefined(canvasId)) {
-                    var uniformLoc = uniformLocations[name];
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
                     if (uniformLoc) {
                         uniformLoc.matrix4(transpose, matrix);
                     }
@@ -7217,33 +7360,47 @@ define('davinci-eight/programs/createMaterial',["require", "exports", '../core/A
                     }
                 }
             },
-            uniformVector1: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector1(vector);
+            uniformVector1: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector1(vector);
+                    }
                 }
             },
-            uniformVector2: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector2(vector);
+            uniformVector2: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector2(vector);
+                    }
                 }
             },
-            uniformVector3: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector3(vector);
+            uniformVector3: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector3(vector);
+                    }
                 }
             },
-            uniformVector4: function (name, vector) {
-                var uniformLoc = uniformLocations[name];
-                if (uniformLoc) {
-                    uniformLoc.vector4(vector);
+            uniformVector4: function (name, vector, canvasId) {
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    // FIXME: Renames to simply uniforms (what else could they be?)
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector4(vector);
+                    }
                 }
             }
         };
         MonitorList.addContextListener(self, monitors);
-        refChange(uuid, LOGGING_NAME_IPROGRAM, +1);
+        MonitorList.synchronize(self, monitors);
+        refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
         return self;
     };
     return createMaterial;
@@ -7499,11 +7656,11 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/Mo
             get programId() {
                 return innerProgram.programId;
             },
-            get attributes() {
-                return innerProgram.attributes;
+            attributes: function (canvasId) {
+                return innerProgram.attributes(canvasId);
             },
-            get uniforms() {
-                return innerProgram.uniforms;
+            uniforms: function (canvasId) {
+                return innerProgram.uniforms(canvasId);
             },
             get vertexShader() {
                 return innerProgram.vertexShader;
@@ -7523,17 +7680,17 @@ define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/Mo
             contextGain: function (manager) {
                 return innerProgram.contextGain(manager);
             },
-            contextLoss: function (canvasId) {
-                return innerProgram.contextLoss(canvasId);
+            contextLost: function (canvasId) {
+                return innerProgram.contextLost(canvasId);
             },
             use: function (canvasId) {
                 return innerProgram.use(canvasId);
             },
-            enableAttrib: function (name) {
-                return innerProgram.enableAttrib(name);
+            enableAttrib: function (name, canvasId) {
+                return innerProgram.enableAttrib(name, canvasId);
             },
-            disableAttrib: function (name) {
-                return innerProgram.disableAttrib(name);
+            disableAttrib: function (name, canvasId) {
+                return innerProgram.disableAttrib(name, canvasId);
             },
             uniform1f: function (name, x, canvasId) {
                 return innerProgram.uniform1f(name, x, canvasId);
@@ -7615,11 +7772,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/materials/Material',["require", "exports", '../core', '../scene/MonitorList', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../utils/uuid4'], function (require, exports, core, MonitorList, mustBeInteger, mustBeString, Shareable, uuid4) {
+define('davinci-eight/materials/Material',["require", "exports", '../core', '../checks/isDefined', '../checks/isUndefined', '../scene/MonitorList', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/Shareable', '../utils/uuid4'], function (require, exports, core, isDefined, isUndefined, MonitorList, mustBeInteger, mustBeString, Shareable, uuid4) {
     function consoleWarnDroppedUniform(clazz, suffix, name, canvasId) {
         console.warn(clazz + " dropped uniform" + suffix + " " + name);
         console.warn("`typeof canvasId` is " + typeof canvasId);
     }
+    var MATERIAL_TYPE_NAME = 'Material';
     /**
      * @class Material
      * @implements IMaterial
@@ -7633,8 +7791,9 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
          * @param type {string} The class name, used for logging and serialization.
          */
         function Material(contexts, type) {
-            _super.call(this, 'Material');
+            _super.call(this, MATERIAL_TYPE_NAME);
             this.readyPending = false;
+            // FIXME: Make uuid and use Shareable
             this.programId = uuid4().generate();
             MonitorList.verify('contexts', contexts);
             mustBeString('type', type);
@@ -7649,7 +7808,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
         Material.prototype.destructor = function () {
             this._monitors.removeContextListener(this);
             if (this.inner) {
-                this.inner.release();
+                this.inner.release(MATERIAL_TYPE_NAME);
                 this.inner = void 0;
             }
         };
@@ -7657,6 +7816,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
             if (!this.readyPending) {
                 this.readyPending = true;
                 this._monitors.addContextListener(this);
+                this._monitors.synchronize(this);
             }
         };
         Object.defineProperty(Material.prototype, "monitors", {
@@ -7677,7 +7837,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
             enumerable: true,
             configurable: true
         });
-        // FIXME; I'm going to need to know which monitor.
+        // FIXME I'm going to need to know which monitor.
         Material.prototype.use = function (canvasId) {
             if (core.strict) {
                 mustBeInteger('canvasid', canvasId);
@@ -7698,71 +7858,63 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
                 }
             }
         };
-        Object.defineProperty(Material.prototype, "attributes", {
-            get: function () {
-                // FIXME: Why is this called.
-                // FIXME: The map should be protected but that is slow
-                // FIXME Clear need for performant solution.
-                if (this.inner) {
-                    return this.inner.attributes;
-                }
-                else {
-                    var async = false;
-                    this.makeReady(async);
-                    if (this.inner) {
-                        return this.inner.attributes;
-                    }
-                    else {
-                        return void 0;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Material.prototype, "uniforms", {
-            get: function () {
-                if (this.inner) {
-                    return this.inner.uniforms;
-                }
-                else {
-                    var async = false;
-                    this.makeReady(async);
-                    if (this.inner) {
-                        return this.inner.uniforms;
-                    }
-                    else {
-                        return void 0;
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Material.prototype.enableAttrib = function (name) {
+        Material.prototype.attributes = function (canvasId) {
+            // FIXME: Why is this called.
+            // FIXME: The map should be protected but that is slow
+            // FIXME Clear need for performant solution.
             if (this.inner) {
-                return this.inner.enableAttrib(name);
+                return this.inner.attributes(canvasId);
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.enableAttrib(name);
+                    return this.inner.attributes(canvasId);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        Material.prototype.uniforms = function (canvasId) {
+            if (this.inner) {
+                return this.inner.uniforms(canvasId);
+            }
+            else {
+                var async = false;
+                this.makeReady(async);
+                if (this.inner) {
+                    return this.inner.uniforms(canvasId);
+                }
+                else {
+                    return void 0;
+                }
+            }
+        };
+        Material.prototype.enableAttrib = function (name, canvasId) {
+            if (this.inner) {
+                return this.inner.enableAttrib(name, canvasId);
+            }
+            else {
+                var async = false;
+                this.makeReady(async);
+                if (this.inner) {
+                    return this.inner.enableAttrib(name, canvasId);
                 }
                 else {
                     console.warn(this.type + " enableAttrib()");
                 }
             }
         };
-        Material.prototype.disableAttrib = function (name) {
+        Material.prototype.disableAttrib = function (name, canvasId) {
             if (this.inner) {
-                return this.inner.disableAttrib(name);
+                return this.inner.disableAttrib(name, canvasId);
             }
             else {
                 var async = false;
                 this.makeReady(async);
                 if (this.inner) {
-                    return this.inner.disableAttrib(name);
+                    return this.inner.disableAttrib(name, canvasId);
                 }
                 else {
                     console.warn(this.type + " disableAttrib()");
@@ -7775,16 +7927,20 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
             }
         };
         Material.prototype.contextGain = function (manager) {
-            this.inner = this.createProgram();
-            this.inner.contextGain(manager);
+            if (isUndefined(this.inner)) {
+                this.inner = this.createProgram();
+            }
+            if (isDefined(this.inner)) {
+                this.inner.contextGain(manager);
+            }
         };
-        Material.prototype.contextLoss = function (canvasId) {
+        Material.prototype.contextLost = function (canvasId) {
             if (this.inner) {
-                this.inner.contextLoss(canvasId);
+                this.inner.contextLost(canvasId);
             }
         };
         Material.prototype.createProgram = function () {
-            // FIXME; Since we get contextGain by canvas, expect canvasId to be an argument?
+            // FIXME Since we get contextGain by canvas, expect canvasId to be an argument?
             throw new Error("Material createProgram method is virtual and should be implemented by " + this.type);
         };
         Material.prototype.uniform1f = function (name, x, canvasId) {

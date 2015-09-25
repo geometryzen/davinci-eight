@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -156,7 +156,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import ContextManager = require(&#x27;../core/ContextManager&#x27;);
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
 import isDefined = require(&#x27;../checks/isDefined&#x27;);
 import Matrix1 = require(&#x27;../math/Matrix1&#x27;);
@@ -381,7 +381,7 @@ class DrawableGroups implements IUnknown/*IDrawList*/ {
 
 let createDrawList = function(): IDrawList {
   let drawableGroups = new DrawableGroups();
-  let canvasIdToManager = new NumberIUnknownMap&lt;ContextManager&gt;();
+  let canvasIdToManager = new NumberIUnknownMap&lt;IContextProvider&gt;();
   let refCount: number = 1;
   let uuid = uuid4().generate();
 
@@ -421,7 +421,7 @@ let createDrawList = function(): IDrawList {
     /**
      * method contextGain
      */
-    contextGain(manager: ContextManager) {
+    contextGain(manager: IContextProvider) {
       if (!canvasIdToManager.exists(manager.canvasId)) {
         // Cache the manager.
         canvasIdToManager.putStrongReference(manager.canvasId, manager)
@@ -436,14 +436,14 @@ let createDrawList = function(): IDrawList {
         )
       }
     },
-    contextLoss(canvasId: number) {
+    contextLost(canvasId: number) {
       if (canvasIdToManager.exists(canvasId)) {
         drawableGroups.traverseDrawables(
           function(drawable) {
-            drawable.contextLoss(canvasId)
+            drawable.contextLost(canvasId)
           },
           function(material) {
-            material.contextLoss(canvasId)
+            material.contextLost(canvasId)
           }
         )
         canvasIdToManager.remove(canvasId)

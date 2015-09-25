@@ -1,5 +1,5 @@
-import ContextListener = require('../core/ContextListener');
-import ContextManager = require('../core/ContextManager');
+import IContextConsumer = require('../core/IContextConsumer');
+import IContextProvider = require('../core/IContextProvider');
 import IContextCommand = require('../core/IContextCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
@@ -13,9 +13,9 @@ var QUALIFIED_NAME = 'WebGLRenderingContext.enable'
  * @class WebGLEnable
  * @extends Shareable
  * @implements IContextCommand
- * @implements ContextListener
+ * @implements IContextConsumer
  */
-class WebGLEnable extends Shareable implements IContextCommand, ContextListener {
+class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
   public capability: number;
   /**
    * @class WebGLEnable
@@ -35,18 +35,18 @@ class WebGLEnable extends Shareable implements IContextCommand, ContextListener 
   }
   /**
    * @method contextGain
-   * @param manager {ContextManager}
+   * @param manager {IContextProvider}
    * @return {void}
    */
-  contextGain(manager: ContextManager): void {
+  contextGain(manager: IContextProvider): void {
     this.execute(manager.gl);
   }
   /**
-   * @method contextLoss
+   * @method contextLost
    * @param canvasId {number}
    * @return {void}
    */
-  contextLoss(canvasId: number): void {
+  contextLost(canvasId: number): void {
     // do nothing
   }
   /**

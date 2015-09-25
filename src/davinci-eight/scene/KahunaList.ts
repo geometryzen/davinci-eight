@@ -1,4 +1,4 @@
-import ContextListener = require('../core/ContextListener');
+import IContextConsumer = require('../core/IContextConsumer');
 import ContextController = require('../core/ContextController');
 import ContextKahuna = require('../core/ContextKahuna');
 import ContextMonitor = require('../core/ContextMonitor');
@@ -15,7 +15,7 @@ class KahunaList {
   private monitors: ContextKahuna[] = [];
   constructor() {
   }
-  addContextListener(user: ContextListener) {
+  addContextListener(user: IContextConsumer) {
     this.monitors.forEach(function(monitor){
       monitor.addContextListener(user);
     });
@@ -23,7 +23,7 @@ class KahunaList {
   push(monitor: ContextKahuna): void {
     this.monitors.push(monitor);
   }
-  removeContextListener(user: ContextListener) {
+  removeContextListener(user: IContextConsumer) {
     this.monitors.forEach(function(monitor){
       monitor.removeContextListener(user);
     });

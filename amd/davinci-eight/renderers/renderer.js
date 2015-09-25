@@ -73,7 +73,7 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
                     command.execute(manager.gl);
                 });
             },
-            contextLoss: function () {
+            contextLost: function () {
                 _manager = void 0;
             },
             prolog: function () {

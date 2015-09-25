@@ -1,7 +1,7 @@
 import BufferResource = require('../core/BufferResource')
 import ContextKahuna = require('../core/ContextKahuna')
-import ContextManager = require('../core/ContextManager')
-import ContextListener = require('../core/ContextListener')
+import IContextProvider = require('../core/IContextProvider')
+import IContextConsumer = require('../core/IContextConsumer')
 import core = require('../core')
 import GeometryData = require('../dfx/GeometryData')
 import expectArg = require('../checks/expectArg')
@@ -241,7 +241,7 @@ function attribKey(aName: string, aNameToKeyName?: {[aName: string]: string}): s
 /**
  *
  */
-function bindProgramAttribLocations(program: IMaterial, block: ElementsBlock, aNameToKeyName?: {[name: string]: string}) {
+function bindProgramAttribLocations(program: IMaterial, canvasId: number, block: ElementsBlock, aNameToKeyName?: {[name: string]: string}) {
   // FIXME: Expecting canvasId here.
   // FIXME: This is where we get the IMaterial attributes property.
   // FIXME: Can we invert this?
@@ -250,7 +250,7 @@ function bindProgramAttribLocations(program: IMaterial, block: ElementsBlock, aN
   // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
   // in order to get the name -> index correct.
   // Then attribute setting shoul go much faster
-  let attribLocations = program.attributes;
+  let attribLocations = program.attributes(canvasId);
   if (attribLocations) {
     let aNames = Object.keys(attribLocations);
     let aNamesLength = aNames.length;
@@ -286,9 +286,9 @@ function bindProgramAttribLocations(program: IMaterial, block: ElementsBlock, aN
   }
 }
 
-function unbindProgramAttribLocations(program: IMaterial) {
+function unbindProgramAttribLocations(program: IMaterial, canvasId: number) {
   // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
-  let attribLocations = program.attributes;
+  let attribLocations = program.attributes(canvasId);
   if (attribLocations) {
     Object.keys(attribLocations).forEach(function(aName: string) {
       attribLocations[aName].disable();
@@ -307,25 +307,45 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
   // Remark: We only hold weak references to users so that the lifetime of resource
   // objects is not affected by the fact that they are listening for gl events.
   // Users should automatically add themselves upon construction and remove upon release.
-  // // FIXME: Really? Not IUnknownArray<IContextListener> ?
-  let users: ContextListener[] = [];
+  // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
+  let users: IContextConsumer[] = [];
 
-  function addContextListener(user: ContextListener): void {
-    expectArg('user', user).toBeObject();
-    users.push(user);
-    if (gl) {
-      user.contextGain(kahuna);
+  function addContextListener(user: IContextConsumer): void {
+    expectArg('user', user).toBeObject()
+    let index = users.indexOf(user)
+    if (index < 0) {
+      users.push(user)
+    }
+    else {
+      console.warn("user already exists for addContextListener")
     }
   }
 
-  function removeContextListener(user: ContextListener): void {
+  /**
+   * Implementation of removeContextListener for the kahuna.
+   */
+  function removeContextListener(user: IContextConsumer): void {
     expectArg('user', user).toBeObject();
     let index = users.indexOf(user);
     if (index >= 0) {
       let removals = users.splice(index, 1);
-      removals.forEach(function(user: ContextListener){
-        // What's going on here?
-      });
+    }
+    else {
+      console.warn("user not found for removeContextListener(user)")
+    }
+  }
+  function synchronize(user: IContextConsumer): void {
+    if (gl) {
+      if (gl.isContextLost()) {
+        user.contextLost(_canvasId);
+      }
+      else {
+        user.contextGain(kahuna);
+      }
+    }
+    else {
+      // FIXME: Broken symmetry.
+      // user.contextFree(_canvasId)
     }
   }
 
@@ -340,7 +360,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     }
   }
 
-  function createBufferGeometry(uuid: string): IBufferGeometry {
+  function createBufferGeometry(uuid: string, canvasId: number): IBufferGeometry {
 
     let refCount = new RefCount(meshRemover(uuid));
     let _program: IMaterial = void 0;
@@ -371,7 +391,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
               indexBuffer.bind();
               indexBuffer.release();
 
-              bindProgramAttribLocations(_program, block, aNameToKeyName);
+              bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
             }
             else {
               expectArg('program', program).toBeObject();
@@ -399,7 +419,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
             let indexBuffer = block.indexBuffer;
             indexBuffer.unbind();
             indexBuffer.release();
-            unbindProgramAttribLocations(_program);
+            // FIXME: Looks like an IMaterial method!
+            unbindProgramAttribLocations(_program, _canvasId);
           }
           else {
             throw new Error(messageUnrecognizedMesh(uuid));
@@ -431,8 +452,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     if (isDefined(_canvasElement)) {
       event.preventDefault()
       gl = void 0
-      users.forEach(function(user: ContextListener) {
-        user.contextLoss(_canvasId)
+      users.forEach(function(user: IContextConsumer) {
+        user.contextLost(_canvasId)
       })
     }
   }
@@ -441,7 +462,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     if (isDefined(_canvasElement)) {
       event.preventDefault()
       gl = initWebGL(_canvasElement, attributes)
-      users.forEach(function(user: ContextListener) {
+      users.forEach(function(user: IContextConsumer) {
         user.contextGain(kahuna)
       })
     }
@@ -479,8 +500,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         }
         return void 0;
       }
-
-      let mesh: IBufferGeometry = createBufferGeometry(uuid4().generate());
+      let mesh: IBufferGeometry = createBufferGeometry(uuid4().generate(), _canvasId);
 
       let indexBuffer = kahuna.createElementArrayBuffer();
       indexBuffer.bind();
@@ -543,24 +563,27 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         gl = initWebGL(_canvasElement, attributes);
         _canvasElement.addEventListener('webglcontextlost', webGLContextLost, false)
         _canvasElement.addEventListener('webglcontextrestored', webGLContextRestored, false)
-        users.forEach(function(user: ContextListener) { user.contextGain(kahuna) })
+        users.forEach(function(user: IContextConsumer) { user.contextGain(kahuna) })
       }
     },
     stop(): void {
       if (isDefined(_canvasElement)) {
         gl = void 0
-        users.forEach(function(user: ContextListener) { user.contextFree(_canvasId) })
+        users.forEach(function(user: IContextConsumer) { user.contextFree(_canvasId) })
         _canvasElement.removeEventListener('webglcontextrestored', webGLContextRestored, false)
         _canvasElement.removeEventListener('webglcontextlost', webGLContextLost, false)
         _canvasElement = void 0;
         _canvasId = void 0;
       }
     },
-    addContextListener(user: ContextListener): void {
+    addContextListener(user: IContextConsumer): void {
       addContextListener(user);
     },
-    removeContextListener(user: ContextListener): void {
+    removeContextListener(user: IContextConsumer): void {
       removeContextListener(user);
+    },
+    synchronize(user: IContextConsumer): void {
+      synchronize(user)
     },
     get canvasElement(): HTMLCanvasElement {
       if (!_canvasElement) {

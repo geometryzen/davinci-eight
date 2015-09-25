@@ -1,5 +1,5 @@
 import ITexture = require('../core/ITexture');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 declare class TextureResource implements ITexture {
     private _gl;
@@ -12,8 +12,8 @@ declare class TextureResource implements ITexture {
     addRef(): number;
     release(): number;
     contextFree(): void;
-    contextGain(manager: ContextManager): void;
-    contextLoss(): void;
+    contextGain(manager: IContextProvider): void;
+    contextLost(): void;
     /**
      * @method bind
      */

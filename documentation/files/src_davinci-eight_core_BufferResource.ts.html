@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -156,16 +156,15 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import IBuffer = require(&#x27;../core/IBuffer&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import isDefined = require(&#x27;../checks/isDefined&#x27;);
-import ContextListener = require(&#x27;../core/ContextListener&#x27;);
-import ContextManager = require(&#x27;../core/ContextManager&#x27;);
-import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;);
-import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;);
-import refChange = require(&#x27;../utils/refChange&#x27;);
-import Shareable = require(&#x27;../utils/Shareable&#x27;);
-import uuid4 = require(&#x27;../utils/uuid4&#x27;);
+import IBuffer = require(&#x27;../core/IBuffer&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import isDefined = require(&#x27;../checks/isDefined&#x27;)
+import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
+import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
+import refChange = require(&#x27;../utils/refChange&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import uuid4 = require(&#x27;../utils/uuid4&#x27;)
 
 /**
  * Name used for reference count monitoring and logging.
@@ -175,81 +174,80 @@ let LOGGING_NAME_IBUFFER = &#x27;IBuffer&#x27;
 // TODO: Replace this with a functional constructor to prevent tinkering?
 // TODO: Why is this object specific to one context?
 class BufferResource extends Shareable implements IBuffer {
-  private _buffer: WebGLBuffer;
-  private _gl: WebGLRenderingContext;
-  private _monitor: ContextMonitor;
-  private _isElements: boolean;
-  constructor(monitor: ContextMonitor, isElements: boolean) {
+  private _buffer: WebGLBuffer
+  private manager: IContextProvider
+  private _isElements: boolean
+  constructor(manager: IContextProvider, isElements: boolean) {
     super(LOGGING_NAME_IBUFFER)
-    this._monitor = expectArg(&#x27;montor&#x27;, monitor).toBeObject().value;
-    this._isElements = mustBeBoolean(&#x27;isElements&#x27;, isElements);
-    monitor.addContextListener(this);
+    this.manager = expectArg(&#x27;montor&#x27;, manager).toBeObject().value
+    this._isElements = mustBeBoolean(&#x27;isElements&#x27;, isElements)
+    manager.addContextListener(this)
+    manager.synchronize(this)
   }
   protected destructor(): void {
     if (this._buffer) {
-      this._gl.deleteBuffer(this._buffer);
-      this._buffer = void 0;
+      this.manager.gl.deleteBuffer(this._buffer)
+      this._buffer = void 0
     }
-    this._gl = void 0;
-    this._monitor.removeContextListener(this);
-    this._monitor = void 0;
-    this._isElements = void 0;
+    this.manager.removeContextListener(this)
+    this.manager = void 0
+    this._isElements = void 0
   }
   contextFree() {
     if (this._buffer) {
-      this._gl.deleteBuffer(this._buffer);
-      this._buffer = void 0;
+      this.manager.gl.deleteBuffer(this._buffer)
+      this._buffer = void 0
     }
-    this._gl = void 0;
-  }
-  contextGain(manager: ContextManager) {
-    // FIXME: Support for multiple contexts. Do I need multiple buffers?
-    // Remark. The constructor says I will only be working with one context.
-    // However, if that is the case, what if someone adds me to a different context.
-    // Answer, I can detect this condition by looking a canvasId.
-    // But can I prevent it in the API?
-    // I don&#x27;t think so. That would require typed contexts.
-    let gl = manager.gl;
-    if (this._gl !== gl) {
-      this.contextFree();
-      this._gl = gl;
-      this._buffer = gl.createBuffer();
+    else {
+      // It&#x27;s a duplicate, ignore.
     }
   }
-  contextLoss() {
-    this._buffer = void 0;
-    this._gl = void 0;
+  contextGain(manager: IContextProvider) {
+    if (this.manager.canvasId === manager.canvasId) {
+      if (!this._buffer) {
+        this._buffer = manager.gl.createBuffer()
+      }
+      else {
+        // It&#x27;s a duplicate, ignore the call.
+      }
+    }
+    else {
+      console.warn(&quot;BufferResource ignoring contextGain for canvasId &quot; + manager.canvasId);
+    }
+  }
+  contextLost() {
+    this._buffer = void 0
   }
   /**
    * @method bind
    */
   bind(): void {
-    let gl = this._gl;
+    let gl = this.manager.gl
     if (gl) {
-      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
-      gl.bindBuffer(target, this._buffer);
+      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+      gl.bindBuffer(target, this._buffer)
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + &quot; bind() missing WebGL rendering context.&quot;);
+      console.warn(LOGGING_NAME_IBUFFER + &quot; bind() missing WebGL rendering context.&quot;)
     }
   }
   /**
    * @method unbind
    */
   unbind() {
-    let gl = this._gl;
+    let gl = this.manager.gl
     if (gl) {
-      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
-      gl.bindBuffer(target, null);
+      let target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+      gl.bindBuffer(target, null)
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + &quot; unbind() missing WebGL rendering context.&quot;);
+      console.warn(LOGGING_NAME_IBUFFER + &quot; unbind() missing WebGL rendering context.&quot;)
     }
 
   }
 }
 
-export = BufferResource;
+export = BufferResource
 
     </pre>
 </div>

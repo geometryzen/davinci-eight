@@ -1,5 +1,5 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 import MonitorList = require('../scene/MonitorList');
 import expectArg = require('../checks/expectArg');
@@ -42,11 +42,11 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: str
     get programId() {
       return innerProgram.programId;
     },
-    get attributes() {
-      return innerProgram.attributes;
+    attributes(canvasId: number) {
+      return innerProgram.attributes(canvasId);
     },
-    get uniforms() {
-      return innerProgram.uniforms;
+    uniforms(canvasId: number) {
+      return innerProgram.uniforms(canvasId);
     },
     get vertexShader() {
       return innerProgram.vertexShader;
@@ -63,20 +63,20 @@ var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: str
     contextFree(canvasId: number) {
       return innerProgram.contextFree(canvasId);
     },
-    contextGain(manager: ContextManager) {
+    contextGain(manager: IContextProvider) {
       return innerProgram.contextGain(manager);
     },
-    contextLoss(canvasId: number) {
-      return innerProgram.contextLoss(canvasId);
+    contextLost(canvasId: number) {
+      return innerProgram.contextLost(canvasId);
     },
     use(canvasId: number) {
       return innerProgram.use(canvasId);
     },
-    enableAttrib(name: string) {
-      return innerProgram.enableAttrib(name);
+    enableAttrib(name: string, canvasId: number) {
+      return innerProgram.enableAttrib(name, canvasId);
     },
-    disableAttrib(name: string) {
-      return innerProgram.disableAttrib(name);
+    disableAttrib(name: string, canvasId: number) {
+      return innerProgram.disableAttrib(name, canvasId);
     },
     uniform1f(name: string, x: number, canvasId: number) {
       return innerProgram.uniform1f(name, x, canvasId);

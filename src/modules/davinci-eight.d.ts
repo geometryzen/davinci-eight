@@ -50,7 +50,7 @@ class Shareable implements IUnknown {
 /**
  *
  */
-interface ContextListener {
+interface IContextConsumer {
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order
@@ -66,7 +66,7 @@ interface ContextListener {
    * received the same context.
    * manager: If there's something strange in your neighborhood.
    */
-  contextGain(manager: ContextManager): void;
+  contextGain(manager: IContextProvider): void;
   /**
    * Called to inform the dependent of a loss of WebGL rendering context.
    * The dependent must assume that any cached context is invalid.
@@ -74,13 +74,13 @@ interface ContextListener {
    * The dependent should reset its state to that for which there is no context.
    * canvasId: Determines the context for which resources are being lost.
    */
-  contextLoss(canvasId: number): void;
+  contextLost(canvasId: number): void;
 }
 
 /**
  *
  */
-interface IResource extends IUnknown, ContextListener {
+interface IResource extends IUnknown, IContextConsumer {
 
 }
 
@@ -257,21 +257,21 @@ function toGeometryData(data: Simplex[], meta?: GeometryMeta): GeometryData;
 /**
  *
  */
-interface ContextProgramListener {
+interface IContextProgramConsumer {
   contextFree(): void;
   contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
-  contextLoss(): void;
+  contextLost(): void;
 }
 
 /**
  * Manages the lifecycle of an attribute used in a vertex shader.
  */
-class AttribLocation implements ContextProgramListener {
+class AttribLocation implements IContextProgramConsumer {
   index: number;
   constructor(name: string, size: number, type: number);
   contextFree(): void;
   contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
-  contextLoss(): void;
+  contextLost(): void;
   enable(): void;
   disable(): void;
   vertexPointer(size: number, normalized?: boolean, stride?: number, offset?: number): void;
@@ -295,11 +295,11 @@ interface IBuffer extends IResource {
 /**
  *
  */
-class UniformLocation implements ContextProgramListener {
-  constructor(monitor: ContextManager, name: string);
+class UniformLocation implements IContextProgramConsumer {
+  constructor(monitor: IContextProvider, name: string);
   contextFree(): void;
   contextGain(gl: WebGLRenderingContext, program: WebGLProgram): void;
-  contextLoss(): void;
+  contextLost(): void;
   uniform1f(x: number): void;
   uniform2f(x: number, y: number): void;
   uniform3f(x: number, y: number, z: number): void;
@@ -930,31 +930,14 @@ class Complex {
  */
 interface IMaterial extends IResource, UniformDataVisitor
 {
-  /**
-   *
-   */
   programId: string;
-  /**
-   *
-   */
   vertexShader: string;
-  /**
-   *
-   */
   fragmentShader: string;
-  /**
-   * Makes the program the current program for WebGL.
-   * canvasId: Determines which WebGLProgram to use.
-   */
   use(canvasId: number): void;
-  /**
-   * A map of attribute name to attribute location for active attributes.
-   */
-  attributes: { [name: string]: AttribLocation };
-  /**
-   * A map of uniform name to uniform location for active uniforms.
-   */
-  uniforms: { [name: string]: UniformLocation };
+  attributes(canvasId: number): { [name: string]: AttribLocation };
+  uniforms(canvasId: number): { [name: string]: UniformLocation };
+  enableAttrib(name: string, canvasId: number): void;
+  disableAttrib(name: string, canvasId: number): void;
 }
 
 /**
@@ -1065,17 +1048,21 @@ interface ContextMonitor {
   /**
    *
    */
-  addContextListener(user: ContextListener): void;
+  addContextListener(user: IContextConsumer): void;
   /**
    *
    */
-  removeContextListener(user: ContextListener): void;
+  removeContextListener(user: IContextConsumer): void;
+  /**
+   *
+   */
+  synchronize(user: IContextConsumer): void;
 }
 
 /**
  *
  */
-interface ContextManager  extends ContextUnique, IUnknown
+interface IContextProvider  extends ContextUnique, IUnknown
 {
   createArrayBuffer(): IBuffer;
   createElementArrayBuffer(): IBuffer;
@@ -1087,12 +1074,12 @@ interface ContextManager  extends ContextUnique, IUnknown
 }
 
 /**
- * Constructs and returns a ContextManager.
+ * Constructs and returns a IContextProvider.
  * canvas: The HTML5 Canvas to be used for WebGL rendering.
  * canvasId: The optional user-defined integer identifier for the canvas. Default is zero (0).
  * attributes: Optional attributes for initializing the context.
  */
-function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): ContextManager;
+function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): IContextProvider;
 
 /**
  *
@@ -1224,7 +1211,7 @@ interface ContextController {
 /**
  *
  */
-interface ContextKahuna extends ContextController, ContextManager, ContextMonitor, ContextUnique {
+interface ContextKahuna extends ContextController, IContextProvider, ContextMonitor, ContextUnique {
 
 }
 
@@ -1253,7 +1240,7 @@ class Object3D {
 /**
  *
  */
-interface IDrawList extends ContextListener, IUnknown {
+interface IDrawList extends IContextConsumer, IUnknown {
   add(drawable: IDrawable): void;
   draw(ambients: UniformData, canvasId: number): void;
   remove(drawable: IDrawable): void;
@@ -1268,8 +1255,8 @@ class Scene implements IDrawList {
   add(drawable: IDrawable): void;
   addRef(): number;
   contextFree(canvasId: number): void;
-  contextGain(manager: ContextManager): void;
-  contextLoss(canvasId: number): void;
+  contextGain(manager: IContextProvider): void;
+  contextLost(canvasId: number): void;
   draw(ambients: UniformData, canvasId: number): void;
   release(): number;
   remove(drawable: IDrawable): void;
@@ -1332,8 +1319,8 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   constructor(fov?: number, aspect?: number, near?: number, far?: number)
   addRef(): number
   contextFree(canvasId: number): void
-  contextGain(manager: ContextManager): void
-  contextLoss(canvasId: number): void
+  contextGain(manager: IContextProvider): void
+  contextLost(canvasId: number): void
   draw(canvasId: number): void
   setAspect(aspect: number): PerspectiveCamera
   setEye(eye: Cartesian3): PerspectiveCamera
@@ -1356,13 +1343,13 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
  */
 interface IPrologCommand extends IUnknown {
   name: string;
-  execute(manager: ContextManager): void;
+  execute(manager: IContextProvider): void;
 }
 
 /**
  *
  */
-interface ContextRenderer extends ContextListener, IUnknown {
+interface ContextRenderer extends IContextConsumer, IUnknown {
   /**
    * Determines whether prolog commands are run automatically as part of the render() call.
    * It may be useful to manually exceute the prolog commands if you want to render
@@ -1412,11 +1399,11 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
    */
   canvasElement: HTMLCanvasElement;
   constructor(attributes?: WebGLContextAttributes);
-  addContextListener(user: ContextListener): void;
+  addContextListener(user: IContextConsumer): void;
   addRef(): number;
   contextFree(canvasId: number): void;
-  contextGain(manager: ContextManager): void;
-  contextLoss(canvasId: number): void;
+  contextGain(manager: IContextProvider): void;
+  contextLost(canvasId: number): void;
   createArrayBuffer(): IBuffer;
   createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createElementArrayBuffer(): IBuffer;
@@ -1429,7 +1416,11 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
   addPrologCommand(command: IPrologCommand): void;
   addContextGainCommand(command: IContextCommand): void;
   release(): number;
-  removeContextListener(user: ContextListener): void;
+  removeContextListener(user: IContextConsumer): void;
+  /**
+   *
+   */
+  synchronize(user: IContextConsumer): void;
   setSize(width: number, height: number): void;
   start(canvas: HTMLCanvasElement, canvasId: number): void;
   stop(): void;
@@ -1485,8 +1476,8 @@ class Material implements IMaterial {
   enableAttrib(name: string): void;
   disableAttrib(name: string): void;
   contextFree(canvasId: number): void;
-  contextGain(manager: ContextManager): void;
-  contextLoss(canvasId: number): void;
+  contextGain(manager: IContextProvider): void;
+  contextLost(canvasId: number): void;
   uniform1f(name: string, x: number): void;
   uniform2f(name: string, x: number, y: number): void;
   uniform3f(name: string, x: number, y: number, z: number): void;
@@ -1534,8 +1525,8 @@ class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> imple
   release(): number;
   draw(canvasId: number): void;
   contextFree(): void;
-  contextGain(manager: ContextManager): void;
-  contextLoss(): void;
+  contextGain(manager: IContextProvider): void;
+  contextLost(): void;
 }
 
 /**
@@ -1659,7 +1650,7 @@ class WebGLClear extends Shareable implements IContextCommand {
 /**
  * `clearColor(red: number, green: number, blue: number, alpha: number): void`
  */
-class WebGLClearColor extends Shareable implements IContextCommand, ContextListener {
+class WebGLClearColor extends Shareable implements IContextCommand, IContextConsumer {
   red: number;
   green: number;
   blue: number;
@@ -1673,11 +1664,11 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
   /**
    * manager
    */
-  contextGain(manager: ContextManager): void;
+  contextGain(manager: IContextProvider): void;
   /**
    * canvasId
    */
-  contextLoss(canvasId: number): void;
+  contextLost(canvasId: number): void;
   /**
    * Executes the gl.clearColor command using the instance properties for red, green ,blue and alpha. 
    * gl The WebGL rendering context.
@@ -1688,7 +1679,7 @@ class WebGLClearColor extends Shareable implements IContextCommand, ContextListe
 /**
  * `enable(capability: number): void`
  */
-class WebGLEnable extends Shareable implements IContextCommand, ContextListener {
+class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer {
   public capability: number;
   public name: string;
   /**
@@ -1702,11 +1693,11 @@ class WebGLEnable extends Shareable implements IContextCommand, ContextListener 
   /**
    *
    */
-  contextGain(manager: ContextManager): void;
+  contextGain(manager: IContextProvider): void;
   /**
    *
    */
-  contextLoss(canvasId: number): void;
+  contextLost(canvasId: number): void;
   /**
    *
    */

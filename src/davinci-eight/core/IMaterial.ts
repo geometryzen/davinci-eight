@@ -20,6 +20,7 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @property programId
    * @type string
    */
+  // FIXME: rename material id or simply uuid.
   programId: string;
   /**
    * @property vertexShader
@@ -42,12 +43,13 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @property attributeLocations
    * @type { [name: string]: AttribLocation }
    */
-  attributes: { [name: string]: AttribLocation };
+  attributes(canvasId: number): { [name: string]: AttribLocation };
   /**
    * @property uniforms
    * @type { [name: string]: UniformLocation }
    */
-  uniforms: { [name: string]: UniformLocation };
+  // FIXME: Need canvasId because of locations.
+  uniforms(canvasId: number): { [name: string]: UniformLocation };
   /**
    * <p>
    * Enables an attribute location of a WebGLProgram.
@@ -56,9 +58,8 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @param name {string} The name of the attribute to enable.
    * @beta
    */
-  // FIXME: This should take a canvasId.
   // FIXME: Can we move to the attribute index?
-  enableAttrib(name: string): void;
+  enableAttrib(name: string, canvasId: number): void;
   /**
    * <p>
    * Enables an attribute location of a WebGLProgram.
@@ -67,7 +68,8 @@ interface IMaterial extends IResource, UniformDataVisitor {
    * @param name {string} The name of the attribute disable.
    * @beta
    */
-  disableAttrib(name: string): void;
+  // FIXME: Can we move to the attribute index?
+  disableAttrib(name: string, canvasId: number): void;
 }
 
 export = IMaterial;

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -157,8 +157,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import expectArg = require(&#x27;../checks/expectArg&#x27;);
-import ContextProgramListener = require(&#x27;../core/ContextProgramListener&#x27;);
-import ContextManager = require(&#x27;../core/ContextManager&#x27;);
+import IContextProgramConsumer = require(&#x27;../core/IContextProgramConsumer&#x27;);
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;);
 
 function existsLocation(location: number): boolean {
   return location &gt;= 0;
@@ -170,9 +170,9 @@ function existsLocation(location: number): boolean {
  * to use the AttribLocation instances managed by the Program because
  * there will be improved integrity and context loss management.
  * @class AttribLocation
- * @implements ContextProgramListener
+ * @implements IContextProgramConsumer
  */
-class AttribLocation implements ContextProgramListener {
+class AttribLocation implements IContextProgramConsumer {
   private _name: string;
   private _index: number;
   private _context: WebGLRenderingContext;
@@ -181,10 +181,10 @@ class AttribLocation implements ContextProgramListener {
    * In particular, this class manages buffer allocation, location caching, and data binding.
    * @class AttribLocation
    * @constructor
-   * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+   * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
    * @param name {string} The name of the variable as it appears in the GLSL program.
    */
-  constructor(manager: ContextManager, name: string) {
+  constructor(manager: IContextProvider, name: string) {
     expectArg(&#x27;manager&#x27;, manager).toBeObject().value;
     this._name = expectArg(&#x27;name&#x27;, name).toBeString().value;
   }
@@ -192,14 +192,14 @@ class AttribLocation implements ContextProgramListener {
     return this._index;
   }
   contextFree(): void {
-    this.contextLoss();
+    this.contextLost();
   }
   contextGain(context: WebGLRenderingContext, program: WebGLProgram): void {
-    this.contextLoss();
+    this.contextLost();
     this._index = context.getAttribLocation(program, this._name);
     this._context  = context;
   }
-  contextLoss(): void {
+  contextLost(): void {
     this._index = void 0;
     this._context  = void 0;
   }

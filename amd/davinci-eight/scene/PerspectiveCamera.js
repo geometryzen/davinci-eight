@@ -52,7 +52,7 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
         };
         PerspectiveCamera.prototype.contextGain = function (manager) {
         };
-        PerspectiveCamera.prototype.contextLoss = function () {
+        PerspectiveCamera.prototype.contextLost = function () {
         };
         PerspectiveCamera.prototype.draw = function (canvasId) {
             console.warn(CLASS_NAME + ".draw(" + canvasId + ")");

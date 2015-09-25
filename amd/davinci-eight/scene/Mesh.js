@@ -1,4 +1,9 @@
-define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/uuid4'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, refChange, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -10,34 +15,25 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
      * @class Mesh
      * @implements IDrawable
      */
-    var Mesh = (function () {
+    var Mesh = (function (_super) {
+        __extends(Mesh, _super);
         // FIXME: Do we insist on a ContextMonitor here.
         // We can also assume that we are OK because of the Scene - but can't assume that there is one?
         function Mesh(geometry, material, model) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
+            _super.call(this, LOGGING_NAME);
             this.geometry = geometry;
             this._material = material;
             this._material.addRef();
-            this.meshLookup = new NumberIUnknownMap();
+            this.buffersByCanvasid = new NumberIUnknownMap();
             this.model = model;
-            refChange(this._uuid, LOGGING_NAME, +1);
         }
-        Mesh.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME, +1);
-            return this._refCount;
-        };
-        Mesh.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME, -1);
-            if (this._refCount === 0) {
-                this.meshLookup.release();
-                this.meshLookup = void 0;
-                this._material.release();
-                this._material = void 0;
-            }
-            return this._refCount;
+        Mesh.prototype.destructor = function () {
+            this.geometry = void 0;
+            this.buffersByCanvasid.release();
+            this.buffersByCanvasid = void 0;
+            this._material.release();
+            this._material = void 0;
+            this.model = void 0;
         };
         Mesh.prototype.draw = function (canvasId) {
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
@@ -52,7 +48,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
                 // FIXME: Would be nice to be able to check that a block does not alter the reference count?
                 var material = self_1._material;
                 var model = self_1.model;
-                var buffers = this.meshLookup.getWeakReference(canvasId);
+                var buffers = this.buffersByCanvasid.getWeakReference(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
                     model.setUniforms(material, canvasId);
@@ -68,22 +64,23 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
             this._material.contextFree(canvasId);
         };
         Mesh.prototype.contextGain = function (manager) {
-            var geometry = this.geometry;
-            if (geometry) {
-                var data = geometry.data;
-                var meta = geometry.meta;
+            // 1. Replace the existing buffers if we have geometry. 
+            if (this.geometry) {
+                var data = this.geometry.data;
+                var meta = this.geometry.meta;
                 mustBeDefined('geometry.data', data, contextBuilder);
                 mustBeDefined('geometry.meta', meta, contextBuilder);
                 // FIXME: Why is the meta not being used?
-                this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data));
-                this._material.contextGain(manager);
+                this.buffersByCanvasid.putWeakReference(manager.canvasId, manager.createBufferGeometry(data));
             }
             else {
                 console.warn(LOGGING_NAME + " contextGain method has no elements, canvasId => " + manager.canvasId);
             }
+            // 2. Delegate the context to the material.
+            this._material.contextGain(manager);
         };
-        Mesh.prototype.contextLoss = function (canvasId) {
-            this._material.contextLoss(canvasId);
+        Mesh.prototype.contextLost = function (canvasId) {
+            this._material.contextLost(canvasId);
         };
         Object.defineProperty(Mesh.prototype, "material", {
             /**
@@ -99,6 +96,6 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
             configurable: true
         });
         return Mesh;
-    })();
+    })(Shareable);
     return Mesh;
 });

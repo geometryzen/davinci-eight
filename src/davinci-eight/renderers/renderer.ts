@@ -3,7 +3,7 @@ import core = require('../core')
 import EIGHTLogger = require('../commands/EIGHTLogger')
 import expectArg = require('../checks/expectArg')
 import ContextAttributesLogger = require('../commands/ContextAttributesLogger')
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import ContextRenderer = require('../renderers/ContextRenderer')
 import IContextCommand = require('../core/IContextCommand')
 import IDrawable = require('../core/IDrawable')
@@ -72,7 +72,7 @@ let CLASS_NAME = "CanonicalContextRenderer"
  * Part of the role of this class is to manage the commands that are executed at startup/prolog.
  */
 let renderer = function(): ContextRenderer {
-  var _manager: ContextManager;
+  var _manager: IContextProvider;
   let uuid = uuid4().generate()
   let refCount = 1
   var _autoProlog: boolean = true;
@@ -101,14 +101,14 @@ let renderer = function(): ContextRenderer {
     contextFree() {
       _manager = void 0;
     },
-    contextGain(manager: ContextManager) {
+    contextGain(manager: IContextProvider) {
       // This object is single context, so we only ever get called with one manager at a time (serially).
       _manager = manager;
       startUp.forEach(function(command: IContextCommand){
         command.execute(manager.gl)
       })
     },
-    contextLoss() {
+    contextLost() {
       _manager = void 0;
     },
     prolog(): void {

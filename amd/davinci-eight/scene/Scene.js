@@ -33,6 +33,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
             this.drawList = createDrawList();
             this.monitors = new MonitorList(monitors);
             this.monitors.addContextListener(this);
+            this.monitors.synchronize(this);
         }
         /**
          * @method destructor
@@ -105,8 +106,8 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
         Scene.prototype.contextGain = function (manager) {
             this.drawList.contextGain(manager);
         };
-        Scene.prototype.contextLoss = function (canvasId) {
-            this.drawList.contextLoss(canvasId);
+        Scene.prototype.contextLost = function (canvasId) {
+            this.drawList.contextLost(canvasId);
         };
         return Scene;
     })(Shareable);

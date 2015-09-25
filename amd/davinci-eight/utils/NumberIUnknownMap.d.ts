@@ -1,11 +1,9 @@
 import IUnknown = require('../core/IUnknown');
-declare class NumberIUnknownMap<V extends IUnknown> implements IUnknown {
-    private _refCount;
+import Shareable = require('../utils/Shareable');
+declare class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
     private _elements;
-    private _uuid;
     constructor();
-    addRef(): number;
-    release(): number;
+    protected destructor(): void;
     exists(key: number): boolean;
     getStrongReference(key: number): V;
     getWeakReference(index: number): V;

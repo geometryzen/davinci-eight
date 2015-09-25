@@ -8,7 +8,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
      * to use the AttribLocation instances managed by the Program because
      * there will be improved integrity and context loss management.
      * @class AttribLocation
-     * @implements ContextProgramListener
+     * @implements IContextProgramConsumer
      */
     var AttribLocation = (function () {
         /**
@@ -16,7 +16,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * In particular, this class manages buffer allocation, location caching, and data binding.
          * @class AttribLocation
          * @constructor
-         * @param manager {ContextManager} Unused. May be used later e.g. for mirroring.
+         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
          * @param name {string} The name of the variable as it appears in the GLSL program.
          */
         function AttribLocation(manager, name) {
@@ -31,14 +31,14 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             configurable: true
         });
         AttribLocation.prototype.contextFree = function () {
-            this.contextLoss();
+            this.contextLost();
         };
         AttribLocation.prototype.contextGain = function (context, program) {
-            this.contextLoss();
+            this.contextLost();
             this._index = context.getAttribLocation(program, this._name);
             this._context = context;
         };
-        AttribLocation.prototype.contextLoss = function () {
+        AttribLocation.prototype.contextLost = function () {
             this._index = void 0;
             this._context = void 0;
         };

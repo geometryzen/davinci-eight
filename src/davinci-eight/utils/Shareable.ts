@@ -28,7 +28,7 @@ class Shareable implements IUnknown {
    * @method addRef
    * @return {number} The new value of the reference count.
    */
-  addRef(): number {
+  addRef(client?: string): number {
     this._refCount++;
     refChange(this._uuid, this._type, +1);
     return this._refCount;
@@ -41,7 +41,7 @@ class Shareable implements IUnknown {
    * @method release
    * @return {number} The new value of the reference count.
    */
-  release(): number {
+  release(client?: string): number {
     this._refCount--;
     refChange(this._uuid, this._type, -1);
     let refCount = this._refCount;

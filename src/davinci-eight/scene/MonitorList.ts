@@ -1,4 +1,4 @@
-import ContextListener = require('../core/ContextListener');
+import IContextConsumer = require('../core/IContextConsumer');
 import ContextMonitor = require('../core/ContextMonitor');
 import mustHaveOwnProperty = require('../checks/mustHaveOwnProperty');
 import mustSatisfy = require('../checks/mustSatisfy');
@@ -27,7 +27,7 @@ class MonitorList {
   constructor(monitors: ContextMonitor[] = []) {
     this.monitors = monitors.map(identity);
   }
-  addContextListener(user: ContextListener) {
+  addContextListener(user: IContextConsumer) {
     this.monitors.forEach(function(monitor){
       monitor.addContextListener(user);
     });
@@ -35,9 +35,14 @@ class MonitorList {
   push(monitor: ContextMonitor): void {
     this.monitors.push(monitor);
   }
-  removeContextListener(user: ContextListener) {
+  removeContextListener(user: IContextConsumer) {
     this.monitors.forEach(function(monitor){
       monitor.removeContextListener(user);
+    });
+  }
+  synchronize(user: IContextConsumer) {
+    this.monitors.forEach(function(monitor){
+      monitor.synchronize(user);
     });
   }
   toArray(): ContextMonitor[] {
@@ -68,16 +73,22 @@ class MonitorList {
     }
     return monitors;
   }
-  public static addContextListener(user: ContextListener, monitors: ContextMonitor[]) {
+  public static addContextListener(user: IContextConsumer, monitors: ContextMonitor[]) {
     MonitorList.verify('monitors', monitors, () => { return 'MonitorList.addContextListener'; });
     monitors.forEach(function(monitor){
       monitor.addContextListener(user);
     });
   }
-  public static removeContextListener(user: ContextListener, monitors: ContextMonitor[]) {
+  public static removeContextListener(user: IContextConsumer, monitors: ContextMonitor[]) {
     MonitorList.verify('monitors', monitors, () => { return 'MonitorList.removeContextListener'; });
     monitors.forEach(function(monitor){
       monitor.removeContextListener(user);
+    });
+  }
+  public static synchronize(user: IContextConsumer, monitors: ContextMonitor[]) {
+    MonitorList.verify('monitors', monitors, () => { return 'MonitorList.removeContextListener'; });
+    monitors.forEach(function(monitor){
+      monitor.synchronize(user);
     });
   }
 }

@@ -23,7 +23,7 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
          * @method addRef
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.addRef = function () {
+        Shareable.prototype.addRef = function (client) {
             this._refCount++;
             refChange(this._uuid, this._type, +1);
             return this._refCount;
@@ -36,7 +36,7 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
          * @method release
          * @return {number} The new value of the reference count.
          */
-        Shareable.prototype.release = function () {
+        Shareable.prototype.release = function (client) {
             this._refCount--;
             refChange(this._uuid, this._type, -1);
             var refCount = this._refCount;

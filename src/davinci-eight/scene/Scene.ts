@@ -1,4 +1,4 @@
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import ContextMonitor = require('../core/ContextMonitor')
 import createDrawList = require('../scene/createDrawList')
 import IDrawable = require('../core/IDrawable')
@@ -53,6 +53,7 @@ class Scene extends Shareable implements IDrawList {
     this.monitors = new MonitorList(monitors)
 
     this.monitors.addContextListener(this)
+    this.monitors.synchronize(this)
   }
   /**
    * @method destructor
@@ -124,11 +125,11 @@ class Scene extends Shareable implements IDrawList {
   contextFree(canvasId: number): void {
     this.drawList.contextFree(canvasId)
   }
-  contextGain(manager: ContextManager): void {
+  contextGain(manager: IContextProvider): void {
     this.drawList.contextGain(manager)
   }
-  contextLoss(canvasId: number): void {
-    this.drawList.contextLoss(canvasId)
+  contextLost(canvasId: number): void {
+    this.drawList.contextLost(canvasId)
   }
 }
 

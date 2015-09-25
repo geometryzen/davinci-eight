@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -157,7 +157,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import toGeometryMeta = require(&#x27;../dfx/toGeometryMeta&#x27;)
-import ContextManager = require(&#x27;../core/ContextManager&#x27;)
+import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;)
 import core = require(&#x27;../core&#x27;);
 import GeometryData = require(&#x27;../dfx/GeometryData&#x27;)
@@ -171,6 +171,7 @@ import Material = require(&#x27;../materials/Material&#x27;)
 import mustBeDefined = require(&#x27;../checks/mustBeDefined&#x27;)
 import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;)
 import refChange = require(&#x27;../utils/refChange&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Simplex = require(&#x27;../dfx/Simplex&#x27;)
 import toGeometryData = require(&#x27;../dfx/toGeometryData&#x27;)
 import UniformData = require(&#x27;../core/UniformData&#x27;)
@@ -189,46 +190,36 @@ function contextBuilder() {
  * @class Mesh
  * @implements IDrawable
  */
-class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt; implements IDrawable {
-  private _refCount = 1
-  private _uuid: string = uuid4().generate()
-  public geometry: G
-  public _material: M
+class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt; extends Shareable implements IDrawable {
+  public geometry: G;
+  public _material: M;
   /**
-   * FIXME This is a bad name because it is not just a collection of meshLookup.
+   * FIXME This is a bad name because it is not just a collection of buffersByCanvasid.
    * A map from canvas to IBufferGeometry.
    * It&#x27;s a function that returns a mesh, given a canvasId a lokup
    */
-  private meshLookup: NumberIUnknownMap&lt;IBufferGeometry&gt;
-  public model: U
-  private mode: number
+  private buffersByCanvasid: NumberIUnknownMap&lt;IBufferGeometry&gt;;
+  public model: U;
+  private mode: number;
   // FIXME: Do we insist on a ContextMonitor here.
   // We can also assume that we are OK because of the Scene - but can&#x27;t assume that there is one?
   constructor(geometry: G, material: M, model: U) {
+    super(LOGGING_NAME)
     this.geometry = geometry
     this._material = material
     this._material.addRef()
 
-    this.meshLookup = new NumberIUnknownMap&lt;IBufferGeometry&gt;()
+    this.buffersByCanvasid = new NumberIUnknownMap&lt;IBufferGeometry&gt;()
 
     this.model = model
-    refChange(this._uuid, LOGGING_NAME, +1)
   }
-  addRef(): number {
-    this._refCount++
-    refChange(this._uuid, LOGGING_NAME, +1)
-    return this._refCount
-  }
-  release(): number {
-    this._refCount--
-    refChange(this._uuid, LOGGING_NAME, -1)
-    if (this._refCount === 0) {
-      this.meshLookup.release()
-      this.meshLookup = void 0
-      this._material.release()
-      this._material = void 0
-    }
-    return this._refCount
+  protected destructor(): void {
+    this.geometry = void 0;
+    this.buffersByCanvasid.release()
+    this.buffersByCanvasid = void 0
+    this._material.release()
+    this._material = void 0
+    this.model = void 0;
   }
   draw(canvasId: number): void {
     // We know we are going to need a &quot;good&quot; canvasId to perform the buffers lookup.
@@ -243,7 +234,7 @@ class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt;
       // FIXME: Would be nice to be able to check that a block does not alter the reference count?
       let material = self._material
       let model = self.model
-      let buffers: IBufferGeometry = this.meshLookup.getWeakReference(canvasId)
+      let buffers: IBufferGeometry = this.buffersByCanvasid.getWeakReference(canvasId)
       if (isDefined(buffers)) {
         material.use(canvasId)
         model.setUniforms(material, canvasId)
@@ -258,26 +249,26 @@ class Mesh&lt;G extends Geometry, M extends IMaterial, U extends UniformData&gt;
   contextFree(canvasId: number): void {
     this._material.contextFree(canvasId)
   }
-  contextGain(manager: ContextManager): void {
-    let geometry = this.geometry
-    if (geometry) {
-      let data = geometry.data
-      let meta = geometry.meta
+  contextGain(manager: IContextProvider): void {
+    // 1. Replace the existing buffers if we have geometry. 
+    if (this.geometry) {
+      let data = this.geometry.data
+      let meta = this.geometry.meta
 
       mustBeDefined(&#x27;geometry.data&#x27;, data, contextBuilder)
       mustBeDefined(&#x27;geometry.meta&#x27;, meta, contextBuilder)
 
       // FIXME: Why is the meta not being used?
-      this.meshLookup.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
-
-      this._material.contextGain(manager)
+      this.buffersByCanvasid.putWeakReference(manager.canvasId, manager.createBufferGeometry(data))
     }
     else {
       console.warn(LOGGING_NAME + &quot; contextGain method has no elements, canvasId =&gt; &quot; + manager.canvasId)
     }
+    // 2. Delegate the context to the material.
+    this._material.contextGain(manager)
   }
-  contextLoss(canvasId: number): void {
-    this._material.contextLoss(canvasId)
+  contextLost(canvasId: number): void {
+    this._material.contextLost(canvasId)
   }
   /**
    * @property material

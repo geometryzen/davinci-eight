@@ -14,11 +14,11 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             get programId() {
                 return innerProgram.programId;
             },
-            get attributes() {
-                return innerProgram.attributes;
+            attributes: function (canvasId) {
+                return innerProgram.attributes(canvasId);
             },
-            get uniforms() {
-                return innerProgram.uniforms;
+            uniforms: function (canvasId) {
+                return innerProgram.uniforms(canvasId);
             },
             get vertexShader() {
                 return innerProgram.vertexShader;
@@ -38,17 +38,17 @@ define(["require", "exports", '../scene/MonitorList', '../programs/fragmentShade
             contextGain: function (manager) {
                 return innerProgram.contextGain(manager);
             },
-            contextLoss: function (canvasId) {
-                return innerProgram.contextLoss(canvasId);
+            contextLost: function (canvasId) {
+                return innerProgram.contextLost(canvasId);
             },
             use: function (canvasId) {
                 return innerProgram.use(canvasId);
             },
-            enableAttrib: function (name) {
-                return innerProgram.enableAttrib(name);
+            enableAttrib: function (name, canvasId) {
+                return innerProgram.enableAttrib(name, canvasId);
             },
-            disableAttrib: function (name) {
-                return innerProgram.disableAttrib(name);
+            disableAttrib: function (name, canvasId) {
+                return innerProgram.disableAttrib(name, canvasId);
             },
             uniform1f: function (name, x, canvasId) {
                 return innerProgram.uniform1f(name, x, canvasId);

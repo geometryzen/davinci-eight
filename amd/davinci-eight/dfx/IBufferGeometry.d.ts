@@ -1,6 +1,7 @@
 import IMaterial = require('../core/IMaterial');
 import IUnknown = require('../core/IUnknown');
 /**
+ * A buffer geometry is implicitly bound to a single context.
  * @class IBufferGeometry
  * @extends IUnkown
  */

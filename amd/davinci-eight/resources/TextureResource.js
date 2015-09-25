@@ -16,6 +16,7 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
             this._target = target;
             refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
             monitor.addContextListener(this);
+            monitor.synchronize(this);
         }
         TextureResource.prototype.addRef = function () {
             this._refCount++;
@@ -50,7 +51,7 @@ define(["require", "exports", '../checks/expectArg', '../utils/refChange', '../u
                 this._texture = gl.createTexture();
             }
         };
-        TextureResource.prototype.contextLoss = function () {
+        TextureResource.prototype.contextLost = function () {
             // FIXME: I need to know which context.
             this._texture = void 0;
             this._gl = void 0;

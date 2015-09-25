@@ -1,5 +1,5 @@
 import Cartesian3 = require('../math/Cartesian3')
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import ICamera = require('../scene/ICamera')
 import IMaterial = require('../core/IMaterial')
 import createPerspective = require('../cameras/createPerspective')
@@ -66,9 +66,9 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   }
   contextFree(): void {
   }
-  contextGain(manager: ContextManager): void {
+  contextGain(manager: IContextProvider): void {
   }
-  contextLoss(): void {
+  contextLost(): void {
   }
   draw(canvasId: number): void {
     console.warn(CLASS_NAME + ".draw(" + canvasId + ")")

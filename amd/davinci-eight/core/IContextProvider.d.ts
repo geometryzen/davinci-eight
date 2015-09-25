@@ -1,4 +1,4 @@
-import ContextUnique = require('../core/ContextUnique');
+import ContextMonitor = require('../core/ContextMonitor');
 import GeometryData = require('../dfx/GeometryData');
 import IBuffer = require('../core/IBuffer');
 import IBufferGeometry = require('../dfx/IBufferGeometry');
@@ -6,11 +6,11 @@ import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
 import IUnknown = require('../core/IUnknown');
 /**
- * @class ContextManager
+ * @class IContextProvider
  * @extends ContextUnique
  * @extends IUnknown
  */
-interface ContextManager extends ContextUnique, IUnknown {
+interface IContextProvider extends ContextMonitor, IUnknown {
     createArrayBuffer(): IBuffer;
     createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
     createElementArrayBuffer(): IBuffer;
@@ -24,4 +24,4 @@ interface ContextManager extends ContextUnique, IUnknown {
      */
     canvasElement: HTMLCanvasElement;
 }
-export = ContextManager;
+export = IContextProvider;

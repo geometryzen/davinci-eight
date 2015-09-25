@@ -1,5 +1,5 @@
 import isDefined = require('../checks/isDefined');
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 
 
@@ -35,7 +35,7 @@ class ElementBuffer {
     }
     this._context = void 0;
   }
-  contextGain(manager: ContextManager) {
+  contextGain(manager: IContextProvider) {
     // FIXME Support multiple
     let context = manager.context;
     if (this._context !== context) {
@@ -44,7 +44,7 @@ class ElementBuffer {
       this._buffer = context.createBuffer();
     }
   }
-  contextLoss() {
+  contextLost() {
     this._buffer = void 0;
     this._context = void 0;
   }

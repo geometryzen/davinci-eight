@@ -1,29 +1,25 @@
-define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
-    var NumberIUnknownMap = (function () {
+    var NumberIUnknownMap = (function (_super) {
+        __extends(NumberIUnknownMap, _super);
         function NumberIUnknownMap() {
-            this._refCount = 1;
+            _super.call(this, LOGGING_NAME);
             this._elements = {};
-            this._uuid = uuid4().generate();
-            refChange(this._uuid, LOGGING_NAME, +1);
         }
-        NumberIUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, LOGGING_NAME, +1);
-            this._refCount++;
-            return this._refCount;
-        };
-        NumberIUnknownMap.prototype.release = function () {
-            refChange(this._uuid, LOGGING_NAME, -1);
-            this._refCount--;
-            if (this._refCount === 0) {
-                var self_1 = this;
-                this.forEach(function (key) {
-                    self_1.putStrongReference(key, void 0);
-                });
-                this._elements = void 0;
-            }
-            return this._refCount;
+        NumberIUnknownMap.prototype.destructor = function () {
+            var self = this;
+            this.forEach(function (key, value) {
+                if (value) {
+                    value.release();
+                }
+            });
+            this._elements = void 0;
         };
         NumberIUnknownMap.prototype.exists = function (key) {
             var element = this._elements[key];
@@ -77,6 +73,6 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             delete this._elements[key];
         };
         return NumberIUnknownMap;
-    })();
+    })(Shareable);
     return NumberIUnknownMap;
 });

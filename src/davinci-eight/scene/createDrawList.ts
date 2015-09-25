@@ -1,4 +1,4 @@
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 import expectArg = require('../checks/expectArg');
 import isDefined = require('../checks/isDefined');
 import Matrix1 = require('../math/Matrix1');
@@ -223,7 +223,7 @@ class DrawableGroups implements IUnknown/*IDrawList*/ {
 
 let createDrawList = function(): IDrawList {
   let drawableGroups = new DrawableGroups();
-  let canvasIdToManager = new NumberIUnknownMap<ContextManager>();
+  let canvasIdToManager = new NumberIUnknownMap<IContextProvider>();
   let refCount: number = 1;
   let uuid = uuid4().generate();
 
@@ -263,7 +263,7 @@ let createDrawList = function(): IDrawList {
     /**
      * method contextGain
      */
-    contextGain(manager: ContextManager) {
+    contextGain(manager: IContextProvider) {
       if (!canvasIdToManager.exists(manager.canvasId)) {
         // Cache the manager.
         canvasIdToManager.putStrongReference(manager.canvasId, manager)
@@ -278,14 +278,14 @@ let createDrawList = function(): IDrawList {
         )
       }
     },
-    contextLoss(canvasId: number) {
+    contextLost(canvasId: number) {
       if (canvasIdToManager.exists(canvasId)) {
         drawableGroups.traverseDrawables(
           function(drawable) {
-            drawable.contextLoss(canvasId)
+            drawable.contextLost(canvasId)
           },
           function(material) {
-            material.contextLoss(canvasId)
+            material.contextLost(canvasId)
           }
         )
         canvasIdToManager.remove(canvasId)

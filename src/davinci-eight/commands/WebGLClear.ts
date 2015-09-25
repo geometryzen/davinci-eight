@@ -1,4 +1,4 @@
-import ContextManager = require('../core/ContextManager')
+import IContextProvider = require('../core/IContextProvider')
 import IPrologCommand = require('../core/IPrologCommand');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Shareable = require('../utils/Shareable');
@@ -40,7 +40,7 @@ class WebGLClear extends Shareable implements IPrologCommand {
    * @param gl {WebGLRenderingContext}
    * @return {void}
    */
-  execute(manager: ContextManager): void {
+  execute(manager: IContextProvider): void {
     manager.gl.clear(this.mask);
   }
   /**

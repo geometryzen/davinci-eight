@@ -3,6 +3,7 @@ import IUnknown = require('../core/IUnknown');
 
 // FIXME: Move this to core?
 /**
+ * A buffer geometry is implicitly bound to a single context.
  * @class IBufferGeometry
  * @extends IUnkown
  */

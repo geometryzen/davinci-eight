@@ -31,6 +31,11 @@ define(["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], f
                 monitor.removeContextListener(user);
             });
         };
+        MonitorList.prototype.synchronize = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
+            });
+        };
         MonitorList.prototype.toArray = function () {
             return this.monitors.map(identity);
         };
@@ -66,6 +71,12 @@ define(["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], f
             MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
             monitors.forEach(function (monitor) {
                 monitor.removeContextListener(user);
+            });
+        };
+        MonitorList.synchronize = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
             });
         };
         return MonitorList;

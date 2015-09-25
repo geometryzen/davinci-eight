@@ -1,12 +1,12 @@
-import ContextManager = require('../core/ContextManager');
+import IContextProvider = require('../core/IContextProvider');
 /**
  * This interface standardizes the concept of an implementation being dependent upon
  * a WebGL rendering context. The notification methods for context gain, loss, and free
  * allow the implementation to participate in the dynamic and volatile environment
  * whereupon a browser may reset its WebGL rendering contexts.
- * @class ContextListener
+ * @class IContextConsumer
  */
-interface ContextListener {
+interface IContextConsumer {
   /**
    * Called to request the dependent to free any WebGL resources acquired and owned.
    * The dependent may assume that its cached context is still valid in order
@@ -23,21 +23,21 @@ interface ContextListener {
    * The implementation should ignore the notification if it has already
    * received the same context.
    * @method contextGain
-   * @param manager {ContextManager} If there's something strange in your neighborhood.
+   * @param manager {IContextProvider} If there's something strange in your neighborhood.
    */
-  contextGain(manager: ContextManager): void;
+  contextGain(manager: IContextProvider): void;
   /**
    * Called to inform the dependent of a loss of WebGL rendering context.
    * The dependent must assume that any cached context is invalid.
    * The dependent must not try to use and cached context to free resources.
    * The dependent should reset its state to that for which there is no context.
-   * @method contextLoss
+   * @method contextLost
    * @param canvasId {number} Determines the context for which resources are being lost.
    *
    * The canvasId is provided, rather than the manager, to remind implementors
    * that resources have been lost and cannot be freed by the application.
    */
-  contextLoss(canvasId: number): void;
+  contextLost(canvasId: number): void;
 }
 
-export = ContextListener;
+export = IContextConsumer;

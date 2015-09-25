@@ -12,52 +12,50 @@ define(["require", "exports", '../checks/expectArg', '../checks/mustBeBoolean', 
     // TODO: Why is this object specific to one context?
     var BufferResource = (function (_super) {
         __extends(BufferResource, _super);
-        function BufferResource(monitor, isElements) {
+        function BufferResource(manager, isElements) {
             _super.call(this, LOGGING_NAME_IBUFFER);
-            this._monitor = expectArg('montor', monitor).toBeObject().value;
+            this.manager = expectArg('montor', manager).toBeObject().value;
             this._isElements = mustBeBoolean('isElements', isElements);
-            monitor.addContextListener(this);
+            manager.addContextListener(this);
+            manager.synchronize(this);
         }
         BufferResource.prototype.destructor = function () {
             if (this._buffer) {
-                this._gl.deleteBuffer(this._buffer);
+                this.manager.gl.deleteBuffer(this._buffer);
                 this._buffer = void 0;
             }
-            this._gl = void 0;
-            this._monitor.removeContextListener(this);
-            this._monitor = void 0;
+            this.manager.removeContextListener(this);
+            this.manager = void 0;
             this._isElements = void 0;
         };
         BufferResource.prototype.contextFree = function () {
             if (this._buffer) {
-                this._gl.deleteBuffer(this._buffer);
+                this.manager.gl.deleteBuffer(this._buffer);
                 this._buffer = void 0;
             }
-            this._gl = void 0;
-        };
-        BufferResource.prototype.contextGain = function (manager) {
-            // FIXME: Support for multiple contexts. Do I need multiple buffers?
-            // Remark. The constructor says I will only be working with one context.
-            // However, if that is the case, what if someone adds me to a different context.
-            // Answer, I can detect this condition by looking a canvasId.
-            // But can I prevent it in the API?
-            // I don't think so. That would require typed contexts.
-            var gl = manager.gl;
-            if (this._gl !== gl) {
-                this.contextFree();
-                this._gl = gl;
-                this._buffer = gl.createBuffer();
+            else {
             }
         };
-        BufferResource.prototype.contextLoss = function () {
+        BufferResource.prototype.contextGain = function (manager) {
+            if (this.manager.canvasId === manager.canvasId) {
+                if (!this._buffer) {
+                    this._buffer = manager.gl.createBuffer();
+                }
+                else {
+                }
+            }
+            else {
+                console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
+            }
+        };
+        BufferResource.prototype.contextLost = function () {
             this._buffer = void 0;
-            this._gl = void 0;
         };
         /**
          * @method bind
          */
         BufferResource.prototype.bind = function () {
-            var gl = this._gl;
+            var gl = this.manager.gl;
             if (gl) {
                 var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
                 gl.bindBuffer(target, this._buffer);
@@ -70,7 +68,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/mustBeBoolean', 
          * @method unbind
          */
         BufferResource.prototype.unbind = function () {
-            var gl = this._gl;
+            var gl = this.manager.gl;
             if (gl) {
                 var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
                 gl.bindBuffer(target, null);

@@ -27,6 +27,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             this._kahuna = contextProxy(attributes);
             this._renderer = createRenderer();
             this._kahuna.addContextListener(this._renderer);
+            this._kahuna.synchronize(this._renderer);
         }
         /**
          * @method destructor
@@ -101,8 +102,8 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         Canvas3D.prototype.contextGain = function (manager) {
             this._renderer.contextGain(manager);
         };
-        Canvas3D.prototype.contextLoss = function (canvasId) {
-            this._renderer.contextLoss(canvasId);
+        Canvas3D.prototype.contextLost = function (canvasId) {
+            this._renderer.contextLost(canvasId);
         };
         Canvas3D.prototype.createArrayBuffer = function () {
             return this._kahuna.createArrayBuffer();
@@ -160,6 +161,9 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         };
         Canvas3D.prototype.stop = function () {
             this._kahuna.stop();
+        };
+        Canvas3D.prototype.synchronize = function (user) {
+            this._kahuna.synchronize(user);
         };
         return Canvas3D;
     })(Shareable);

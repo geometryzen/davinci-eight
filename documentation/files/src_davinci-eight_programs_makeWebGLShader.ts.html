@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ContextManager - davinci-eight</title>
+    <title>src/davinci-eight/programs/makeWebGLShader.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.108.0</em>
+            <em>API Docs for: 2.109.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -51,8 +51,6 @@
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
-                                <li><a href="../classes/ContextListener.html">ContextListener</a></li>
-                                <li><a href="../classes/ContextManager.html">ContextManager</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
                                 <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
@@ -75,6 +73,8 @@
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
+                                <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
@@ -152,193 +152,36 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ContextManager Class</h1>
-<div class="box meta">
-
-        <div class="extends">
-            Extends <a href="../classes/IUnknown.html" class="crosslink">IUnknown</a>
-        </div>
-
-        <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_core_ContextManager.ts.html#l16"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextManager.ts:16</code></a>
-        </div>
-
-
-</div>
-
-
-<div class="box intro">
-    
-</div>
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-                <div class="index-section methods">
-                    <h3>Methods</h3>
-
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
-                                <a href="#method_addRef">addRef</a>
-
-                            </li>
-                            <li class="index-item method inherited">
-                                <a href="#method_release">release</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties extends">
-                            <li class="index-item property">
-                                <a href="#property_canvasElement">canvasElement</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-            <div id="methods" class="api-class-tabpanel">
-                <h2 class="off-left">Methods</h2>
-
-<div id="method_addRef" class="method item inherited">
-    <h3 class="name"><code>addRef</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IUnknown.html#method_addRef">IUnknown</a>:
-        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:9</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Increments the reference count of an IUnknown instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
-<div id="method_release" class="method item inherited">
-    <h3 class="name"><code>release</code></h3>
-
-        <span class="paren">()</span>
-
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>Inherited from
-                <a href="../classes/IUnknown.html#method_release">IUnknown</a>:
-        <a href="../files/src_davinci-eight_core_IUnknown.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;IUnknown.ts:20</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>
-Decrements the reference count of an IUnknown instance.
-</p>
-    </div>
-
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
-                    <p>
-The new reference count. This value is intended to be used only for test purposes.
-</p>
-            </div>
-        </div>
-
-
-</div>
-            </div>
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_canvasElement" class="property item">
-    <h3 class="name"><code>canvasElement</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement" class="crosslink external" target="_blank">HTMLCanvasElement</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_core_ContextManager.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;ContextManager.ts:29</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: src/davinci-eight/programs/makeWebGLShader.ts</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ *
+ */
+function makeWebGLShader(gl: WebGLRenderingContext, source: string, type: number): WebGLShader {
+  var shader: WebGLShader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  let compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+  if (compiled) {
+    return shader;
+  }
+  else {
+    if (!gl.isContextLost()) {
+      let message = gl.getShaderInfoLog(shader);
+      gl.deleteShader(shader);
+      throw new Error(&quot;Error compiling shader: &quot; + message);
+    }
+    else {
+      throw new Error(&quot;Context lost while compiling shader&quot;);
+    }
+  }
+}
+
+export = makeWebGLShader
+
+    </pre>
 </div>
                     </div>
                 </div>

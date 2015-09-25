@@ -187,7 +187,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
     /**
      *
      */
-    function bindProgramAttribLocations(program, block, aNameToKeyName) {
+    function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
         // FIXME: Expecting canvasId here.
         // FIXME: This is where we get the IMaterial attributes property.
         // FIXME: Can we invert this?
@@ -196,7 +196,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
         // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
         // in order to get the name -> index correct.
         // Then attribute setting shoul go much faster
-        var attribLocations = program.attributes;
+        var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
             var aNamesLength = aNames.length;
@@ -230,9 +230,9 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
             console.warn("bindProgramAttribLocations: program.attributes is falsey.");
         }
     }
-    function unbindProgramAttribLocations(program) {
+    function unbindProgramAttribLocations(program, canvasId) {
         // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
-        var attribLocations = program.attributes;
+        var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             Object.keys(attribLocations).forEach(function (aName) {
                 attribLocations[aName].disable();
@@ -250,23 +250,41 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
-        // // FIXME: Really? Not IUnknownArray<IContextListener> ?
+        // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
         var users = [];
         function addContextListener(user) {
             expectArg('user', user).toBeObject();
-            users.push(user);
-            if (gl) {
-                user.contextGain(kahuna);
+            var index = users.indexOf(user);
+            if (index < 0) {
+                users.push(user);
+            }
+            else {
+                console.warn("user already exists for addContextListener");
             }
         }
+        /**
+         * Implementation of removeContextListener for the kahuna.
+         */
         function removeContextListener(user) {
             expectArg('user', user).toBeObject();
             var index = users.indexOf(user);
             if (index >= 0) {
                 var removals = users.splice(index, 1);
-                removals.forEach(function (user) {
-                    // What's going on here?
-                });
+            }
+            else {
+                console.warn("user not found for removeContextListener(user)");
+            }
+        }
+        function synchronize(user) {
+            if (gl) {
+                if (gl.isContextLost()) {
+                    user.contextLost(_canvasId);
+                }
+                else {
+                    user.contextGain(kahuna);
+                }
+            }
+            else {
             }
         }
         function meshRemover(blockUUID) {
@@ -279,7 +297,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 }
             };
         }
-        function createBufferGeometry(uuid) {
+        function createBufferGeometry(uuid, canvasId) {
             var refCount = new RefCount(meshRemover(uuid));
             var _program = void 0;
             var mesh = {
@@ -307,7 +325,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                                 var indexBuffer = block.indexBuffer;
                                 indexBuffer.bind();
                                 indexBuffer.release();
-                                bindProgramAttribLocations(_program, block, aNameToKeyName);
+                                bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
                             }
                             else {
                                 expectArg('program', program).toBeObject();
@@ -335,7 +353,8 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                             var indexBuffer = block.indexBuffer;
                             indexBuffer.unbind();
                             indexBuffer.release();
-                            unbindProgramAttribLocations(_program);
+                            // FIXME: Looks like an IMaterial method!
+                            unbindProgramAttribLocations(_program, _canvasId);
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -366,7 +385,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 event.preventDefault();
                 gl = void 0;
                 users.forEach(function (user) {
-                    user.contextLoss(_canvasId);
+                    user.contextLost(_canvasId);
                 });
             }
         };
@@ -410,7 +429,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                     }
                     return void 0;
                 }
-                var mesh = createBufferGeometry(uuid4().generate());
+                var mesh = createBufferGeometry(uuid4().generate(), _canvasId);
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
@@ -488,6 +507,9 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
             },
             removeContextListener: function (user) {
                 removeContextListener(user);
+            },
+            synchronize: function (user) {
+                synchronize(user);
             },
             get canvasElement() {
                 if (!_canvasElement) {
