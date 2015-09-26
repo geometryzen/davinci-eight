@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.110.0",
+        "version": "2.111.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -365,11 +365,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/dfx/Complex.ts": {
-            "name": "src/davinci-eight/dfx/Complex.ts",
+        "src/davinci-eight/dfx/Chain.ts": {
+            "name": "src/davinci-eight/dfx/Chain.ts",
             "modules": {},
             "classes": {
-                "Complex": 1
+                "Chain": 1
             },
             "fors": {},
             "namespaces": {}
@@ -466,11 +466,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/CuboidComplex.ts": {
-            "name": "src/davinci-eight/geometries/CuboidComplex.ts",
+        "src/davinci-eight/geometries/CuboidChain.ts": {
+            "name": "src/davinci-eight/geometries/CuboidChain.ts",
             "modules": {},
             "classes": {
-                "CuboidComplex": 1
+                "CuboidChain": 1
             },
             "fors": {},
             "namespaces": {}
@@ -926,8 +926,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/models/Model.ts": {
-            "name": "src/davinci-eight/models/Model.ts",
+        "src/davinci-eight/models/Model3.ts": {
+            "name": "src/davinci-eight/models/Model3.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1630,16 +1630,17 @@
                 }
             ]
         },
-        "Complex": {
-            "name": "Complex",
-            "shortname": "Complex",
+        "Chain": {
+            "name": "Chain",
+            "shortname": "Chain",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/davinci-eight/dfx/Complex.ts",
-            "line": 30,
+            "file": "src/davinci-eight/dfx/Chain.ts",
+            "line": 29,
+            "description": "A list of simplices (data) with information about dimensionality and vertex properties (meta).",
             "is_constructor": 1
         },
         "DrawAttribute": {
@@ -1711,17 +1712,17 @@
                 }
             ]
         },
-        "CuboidComplex": {
-            "name": "CuboidComplex",
-            "shortname": "CuboidComplex",
+        "CuboidChain": {
+            "name": "CuboidChain",
+            "shortname": "CuboidChain",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/davinci-eight/geometries/CuboidComplex.ts",
+            "file": "src/davinci-eight/geometries/CuboidChain.ts",
             "line": 15,
-            "extends": "Complex"
+            "extends": "Chain"
         },
         "CuboidGeometry": {
             "name": "CuboidGeometry",
@@ -3284,20 +3285,20 @@
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 11,
+            "line": 9,
             "description": "Name used for reference count monitoring and logging.",
             "class": "Color"
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 63,
+            "line": 64,
             "itemtype": "method",
             "name": "bind",
             "class": "Color"
         },
         {
             "file": "src/davinci-eight/core/BufferResource.ts",
-            "line": 76,
+            "line": 77,
             "itemtype": "method",
             "name": "unbind",
             "class": "Color"
@@ -3499,7 +3500,7 @@
             "file": "src/davinci-eight/core/IContextProvider.ts",
             "line": 29,
             "itemtype": "property",
-            "name": "canvasElement",
+            "name": "canvas",
             "type": "{HTMLCanvasElement}",
             "readonly": "",
             "class": "IContextProvider"
@@ -4116,7 +4117,7 @@
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
             "line": 1,
             "interface": "UniformMetaInfo",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
@@ -4124,7 +4125,7 @@
             "itemtype": "property",
             "name": "name  Specifies an optional override of the name used as a key.",
             "type": "String",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
@@ -4132,69 +4133,69 @@
             "itemtype": "property",
             "name": "glslType  The type keyword as it appears in the GLSL shader program.",
             "type": "String",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/core/getAttribVarName.ts",
             "line": 4,
             "description": "Policy for how an attribute variable name is determined.",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/core/getUniformVarName.ts",
             "line": 4,
             "description": "Policy for how a uniform variable name is determined.",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 2,
             "author": "zz85 / http://www.lab4games.net/zz85/blog\nExtensible curve object\n\nSome common of Curve methods\n.getPoint(t), getTangent(t)\n.getPointAt(u), getTagentAt(u)\n.getPoints(), .getSpacedPoints()\n.getLength()\n.updateArcLengths()\n\nThis following classes subclasses Curve:\n\nLineCurve\nQuadraticBezierCurve\nCubicBezierCurve\nSplineCurve\nArcCurve\nEllipseCurve\nClosedSplineCurve",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 30,
             "description": "Virtual base class method to overwrite and implement in subclasses\nt belongs to [0, 1]",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 37,
             "description": "Get point at relative position in curve according to arc length",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 112,
             "description": "Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 194,
             "description": "Returns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 12,
             "itemtype": "property",
             "name": "data",
             "type": "{Simplex[]}",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 17,
             "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis same data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
             "type": "{GeometryMeta}",
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 36,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>",
             "itemtype": "method",
@@ -4208,24 +4209,24 @@
             ],
             "return": {
                 "description": "",
-                "type": "Complex"
+                "type": "Chain"
             },
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 49,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
             "return": {
                 "description": "",
-                "type": "Complex"
+                "type": "Chain"
             },
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 59,
             "description": "Applies the subdivide operation to each Simplex in this instance the specified number of times.",
             "itemtype": "method",
@@ -4239,12 +4240,12 @@
             ],
             "return": {
                 "description": "",
-                "type": "Complex"
+                "type": "Chain"
             },
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 71,
             "itemtype": "method",
             "name": "toGeometry",
@@ -4252,12 +4253,12 @@
                 "description": "",
                 "type": "Geometry"
             },
-            "class": "Complex"
+            "class": "Chain"
         },
         {
-            "file": "src/davinci-eight/dfx/Complex.ts",
+            "file": "src/davinci-eight/dfx/Chain.ts",
             "line": 79,
-            "class": "Complex"
+            "class": "Chain"
         },
         {
             "file": "src/davinci-eight/dfx/DrawAttribute.ts",
@@ -4503,43 +4504,43 @@
             "line": 27,
             "description": "The index property is used when computing elements.",
             "deprecated": true,
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/dfx/VertexAttributeMap.ts",
             "line": 2,
             "description": "Defined for implementation convenience.",
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/dfx/cube.ts",
             "line": 12,
             "description": "cube as Simplex[]\n\n   v6----- v5\n  /|      /|\n v1------v0|\n | |     | |\n | |v7---|-|v4\n |/      |/\n v2------v3",
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/dfx/quadrilateral.ts",
             "line": 19,
             "description": "quadrilateral\n\n b-------a\n |       | \n |       |\n |       |\n c-------d\n\nThe quadrilateral is split into two triangles: b-c-a and d-a-c, like a \"Z\".\nThe zeroth vertex for each triangle is opposite the other triangle.",
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/dfx/tetrahedron.ts",
             "line": 6,
             "description": "terahedron\n\nThe tetrahedron is composed of four triangles: abc, bdc, cda, dba.",
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/dfx/toGeometryMeta.ts",
             "line": 25,
             "description": "Returns undefined (void 0) for an empty geometry.",
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/geometries/BarnGeometry.ts",
             "line": 5,
             "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.",
-            "class": "CuboidComplex"
+            "class": "CuboidChain"
         },
         {
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
@@ -5515,9 +5516,9 @@
             "class": "EulerModel"
         },
         {
-            "file": "src/davinci-eight/models/Model.ts",
+            "file": "src/davinci-eight/models/Model3.ts",
             "line": 11,
-            "description": "Model implements UniformData required for manipulating a body.",
+            "description": "Model3 implements UniformData required for manipulating a body.",
             "class": "RigidBody3"
         },
         {
@@ -5548,19 +5549,19 @@
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 27,
+            "line": 28,
             "description": "Name used for reference count monitoring and logging.",
             "class": "ContextRenderer"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 32,
+            "line": 33,
             "description": "Creates a WebGLProgram with compiled and linked shaders.",
             "class": "ContextRenderer"
         },
         {
             "file": "src/davinci-eight/programs/createMaterial.ts",
-            "line": 50,
+            "line": 51,
             "description": "Because we are multi-canvas aware, programs are tracked by the canvas id.",
             "class": "ContextRenderer"
         },
@@ -5627,7 +5628,7 @@
             "file": "src/davinci-eight/renderers/ContextRenderer.ts",
             "line": 22,
             "itemtype": "property",
-            "name": "canvasElement",
+            "name": "canvas",
             "type": "{HTMLCanvasElement}",
             "readonly": "",
             "class": "ContextRenderer"
@@ -6323,7 +6324,7 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/core/BufferResource.ts:11"
+            "line": " src/davinci-eight/core/BufferResource.ts:9"
         },
         {
             "message": "Missing item type\nConverts an angle, radius, height to a color on a color wheel.",
@@ -6419,7 +6420,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/dfx/Complex.ts:79"
+            "line": " src/davinci-eight/dfx/Chain.ts:79"
         },
         {
             "message": "Missing item type\nThe values of the attribute.",
@@ -6694,8 +6695,8 @@
             "line": " src/davinci-eight/mesh/prism.ts:68"
         },
         {
-            "message": "Missing item type\nModel implements UniformData required for manipulating a body.",
-            "line": " src/davinci-eight/models/Model.ts:11"
+            "message": "Missing item type\nModel3 implements UniformData required for manipulating a body.",
+            "line": " src/davinci-eight/models/Model3.ts:11"
         },
         {
             "message": "Missing item type\nThis class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",
@@ -6703,15 +6704,15 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:27"
+            "line": " src/davinci-eight/programs/createMaterial.ts:28"
         },
         {
             "message": "Missing item type\nCreates a WebGLProgram with compiled and linked shaders.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:32"
+            "line": " src/davinci-eight/programs/createMaterial.ts:33"
         },
         {
             "message": "Missing item type\nBecause we are multi-canvas aware, programs are tracked by the canvas id.",
-            "line": " src/davinci-eight/programs/createMaterial.ts:50"
+            "line": " src/davinci-eight/programs/createMaterial.ts:51"
         },
         {
             "message": "Missing item type",

@@ -7,7 +7,7 @@ declare class BufferResource extends Shareable implements IBuffer {
     private _isElements;
     constructor(manager: IContextProvider, isElements: boolean);
     protected destructor(): void;
-    contextFree(): void;
+    contextFree(canvasId: number): void;
     contextGain(manager: IContextProvider): void;
     contextLost(): void;
     /**

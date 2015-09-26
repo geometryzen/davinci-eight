@@ -443,13 +443,13 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
    * We use a canvasBuilder so the other initialization can happen while we are waiting
    * for the DOM to load. 
    */
-  var _canvasElement: HTMLCanvasElement
+  var _canvas: HTMLCanvasElement
   var _canvasId: number
   var refCount: number = 1
   let tokenArg = expectArg('token', "")
 
   let webGLContextLost = function(event: Event) {
-    if (isDefined(_canvasElement)) {
+    if (isDefined(_canvas)) {
       event.preventDefault()
       gl = void 0
       users.forEach(function(user: IContextConsumer) {
@@ -459,9 +459,9 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
   }
 
   let webGLContextRestored = function(event: Event) {
-    if (isDefined(_canvasElement)) {
+    if (isDefined(_canvas)) {
       event.preventDefault()
-      gl = initWebGL(_canvasElement, attributes)
+      gl = initWebGL(_canvas, attributes)
       users.forEach(function(user: IContextConsumer) {
         user.contextGain(kahuna)
       })
@@ -540,18 +540,18 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       indexBuffer.release()
       return mesh;
     },
-    start(canvasElement: HTMLCanvasElement, canvasId: number): void {
-      let alreadyStarted = isDefined(_canvasElement);
+    start(canvas: HTMLCanvasElement, canvasId: number): void {
+      let alreadyStarted = isDefined(_canvas);
       if (!alreadyStarted) {
         // cache the arguments
-        _canvasElement = canvasElement
+        _canvas = canvas
         _canvasId = canvasId
       }
       else {
         // We'll assert that if we have a canvas element then we should have a canvas id.
         mustBeInteger('_canvasId', _canvasId);
         // We'll just be idempotent and ignore the call because we've already been started.
-        // To use the canvasElement might conflict with one we have dynamically created.
+        // To use the canvas might conflict with one we have dynamically created.
         if (core.verbose) {
           console.warn("Ignoring `start()` because already started.")
         }
@@ -559,20 +559,29 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
       // To not complain is the way of the hyper-functional warrior.
-      if (isDefined(_canvasElement)) {
-        gl = initWebGL(_canvasElement, attributes);
-        _canvasElement.addEventListener('webglcontextlost', webGLContextLost, false)
-        _canvasElement.addEventListener('webglcontextrestored', webGLContextRestored, false)
-        users.forEach(function(user: IContextConsumer) { user.contextGain(kahuna) })
+      if (isDefined(_canvas)) {
+        gl = initWebGL(_canvas, attributes);
+        users.forEach(function(user: IContextConsumer) {
+          kahuna.synchronize(user)
+        })
+        _canvas.addEventListener('webglcontextlost', webGLContextLost, false)
+        _canvas.addEventListener('webglcontextrestored', webGLContextRestored, false)
       }
     },
     stop(): void {
-      if (isDefined(_canvasElement)) {
-        gl = void 0
-        users.forEach(function(user: IContextConsumer) { user.contextFree(_canvasId) })
-        _canvasElement.removeEventListener('webglcontextrestored', webGLContextRestored, false)
-        _canvasElement.removeEventListener('webglcontextlost', webGLContextLost, false)
-        _canvasElement = void 0;
+      if (isDefined(_canvas)) {
+        _canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false)
+        _canvas.removeEventListener('webglcontextlost', webGLContextLost, false)
+        if (gl) {
+          if (gl.isContextLost()) {
+            users.forEach(function(user: IContextConsumer) { user.contextLost(_canvasId) })
+          }
+          else {
+            users.forEach(function(user: IContextConsumer) { user.contextFree(_canvasId) })
+          }
+          gl = void 0;
+        }
+        _canvas = void 0;
         _canvasId = void 0;
       }
     },
@@ -585,13 +594,13 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     synchronize(user: IContextConsumer): void {
       synchronize(user)
     },
-    get canvasElement(): HTMLCanvasElement {
-      if (!_canvasElement) {
+    get canvas(): HTMLCanvasElement {
+      if (!_canvas) {
         // Interesting little side-effect!
         // Love the way kahuna talks in the third person.
         kahuna.start(document.createElement('canvas'), randumbInteger());
         }
-      return _canvasElement;
+      return _canvas;
     },
     get gl(): WebGLRenderingContext {
       if (gl) {

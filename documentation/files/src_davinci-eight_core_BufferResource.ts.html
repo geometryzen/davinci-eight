@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.110.0</em>
+            <em>API Docs for: 2.111.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,13 +47,13 @@
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
+                                <li><a href="../classes/Chain.html">Chain</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidChain.html">CuboidChain</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -157,45 +157,46 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import IBuffer = require(&#x27;../core/IBuffer&#x27;)
-import expectArg = require(&#x27;../checks/expectArg&#x27;)
 import isDefined = require(&#x27;../checks/isDefined&#x27;)
 import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;)
 import IContextProvider = require(&#x27;../core/IContextProvider&#x27;)
 import mustBeBoolean = require(&#x27;../checks/mustBeBoolean&#x27;)
-import refChange = require(&#x27;../utils/refChange&#x27;)
+import mustBeObject = require(&#x27;../checks/mustBeObject&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
-import uuid4 = require(&#x27;../utils/uuid4&#x27;)
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_IBUFFER = &#x27;IBuffer&#x27;
+let CLASS_NAME = &#x27;BufferResource&#x27;
 
 // TODO: Replace this with a functional constructor to prevent tinkering?
 // TODO: Why is this object specific to one context?
 class BufferResource extends Shareable implements IBuffer {
-  private _buffer: WebGLBuffer
-  private manager: IContextProvider
-  private _isElements: boolean
+  private _buffer: WebGLBuffer;
+  private manager: IContextProvider;
+  private _isElements: boolean;
   constructor(manager: IContextProvider, isElements: boolean) {
-    super(LOGGING_NAME_IBUFFER)
-    this.manager = expectArg(&#x27;montor&#x27;, manager).toBeObject().value
+    super(CLASS_NAME)
+    this.manager = mustBeObject(&#x27;manager&#x27;, manager)
     this._isElements = mustBeBoolean(&#x27;isElements&#x27;, isElements)
     manager.addContextListener(this)
     manager.synchronize(this)
   }
   protected destructor(): void {
-    if (this._buffer) {
-      this.manager.gl.deleteBuffer(this._buffer)
-      this._buffer = void 0
-    }
+    this.contextFree(this.manager.canvasId)
     this.manager.removeContextListener(this)
     this.manager = void 0
     this._isElements = void 0
   }
-  contextFree() {
+  contextFree(canvasId: number) {
     if (this._buffer) {
-      this.manager.gl.deleteBuffer(this._buffer)
+      var gl = this.manager.gl
+      if (isDefined(gl)) {
+        gl.deleteBuffer(this._buffer)
+      }
+      else {
+        console.error(CLASS_NAME + &quot; must leak WebGLBuffer because WebGLRenderingContext is &quot;+ typeof gl)
+      }
       this._buffer = void 0
     }
     else {
@@ -228,7 +229,7 @@ class BufferResource extends Shareable implements IBuffer {
       gl.bindBuffer(target, this._buffer)
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + &quot; bind() missing WebGL rendering context.&quot;)
+      console.warn(CLASS_NAME + &quot; bind() missing WebGL rendering context.&quot;)
     }
   }
   /**
@@ -241,7 +242,7 @@ class BufferResource extends Shareable implements IBuffer {
       gl.bindBuffer(target, null)
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + &quot; unbind() missing WebGL rendering context.&quot;)
+      console.warn(CLASS_NAME + &quot; unbind() missing WebGL rendering context.&quot;)
     }
 
   }

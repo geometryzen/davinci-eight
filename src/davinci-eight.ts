@@ -61,7 +61,7 @@ import Canvas3D = require('davinci-eight/scene/Canvas3D')
 import Geometry = require('davinci-eight/geometries/Geometry')
 //import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
 //import BarnGeometry = require('davinci-eight/geometries/BarnGeometry')
-import CuboidComplex  = require('davinci-eight/geometries/CuboidComplex')
+import CuboidChain  = require('davinci-eight/geometries/CuboidChain')
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry')
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
 //import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry')
@@ -145,7 +145,7 @@ import SphereOptions = require('davinci-eight/mesh/SphereOptions')
 
 // models
 import EulerModel = require('davinci-eight/models/EulerModel')
-import Model      = require('davinci-eight/models/Model')
+import Model3     = require('davinci-eight/models/Model3')
 import RigidBody3 = require('davinci-eight/models/RigidBody3')
 
 // programs
@@ -212,7 +212,7 @@ var eight = {
   get createView() { return createView },
 
   get EulerModel() { return EulerModel },
-  get Model() { return Model },
+  get Model3() { return Model3 },
   get RigidBody3() { return RigidBody3 },
 
   get Simplex() { return Simplex },
@@ -243,7 +243,7 @@ var eight = {
   get Geometry() { return Geometry },
 //  get ArrowGeometry() { return ArrowGeometry },
 //  get BarnGeometry() { return BarnGeometry },
-  get CuboidComplex() { return CuboidComplex },
+  get CuboidChain() { return CuboidChain },
   get CuboidGeometry() { return CuboidGeometry },
 //  get CylinderGeometry() { return CylinderGeometry },
 //  get DodecahedronGeometry() { return DodecahedronGeometry },

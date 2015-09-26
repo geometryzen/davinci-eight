@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CuboidComplex - davinci-eight</title>
+    <title>Chain - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.110.0</em>
+            <em>API Docs for: 2.111.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,13 +47,13 @@
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
+                                <li><a href="../classes/Chain.html">Chain</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidChain.html">CuboidChain</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -152,15 +152,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>CuboidComplex Class</h1>
+<h1>Chain Class</h1>
 <div class="box meta">
 
-        <div class="extends">
-            Extends <a href="../classes/Complex.html" class="crosslink">Complex</a>
-        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidComplex.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidComplex.ts:15</code></a>
+            Defined in: <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:29</code></a>
         </div>
 
 
@@ -168,9 +165,43 @@
 
 
 <div class="box intro">
-    
+    <p>A list of simplices (data) with information about dimensionality and vertex properties (meta).</p>
+
 </div>
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_Chain" class="method item">
+    <h3 class="name"><code>Chain</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:29</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+
+</div>
+    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
@@ -187,20 +218,20 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods extends">
-                            <li class="index-item method inherited">
+                    <ul class="index-list methods">
+                            <li class="index-item method">
                                 <a href="#method_boundary">boundary</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_check">check</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_subdivide">subdivide</a>
 
                             </li>
-                            <li class="index-item method inherited">
+                            <li class="index-item method">
                                 <a href="#method_toGeometry">toGeometry</a>
 
                             </li>
@@ -210,20 +241,20 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties extends">
-                            <li class="index-item property inherited">
+                    <ul class="index-list properties">
+                            <li class="index-item property">
                                 <a href="#property_data">data</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_glslType  The type keyword as it appears in the GLSL shader program.">glslType  The type keyword as it appears in the GLSL shader program.</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_meta">meta</a>
 
                             </li>
-                            <li class="index-item property inherited">
+                            <li class="index-item property">
                                 <a href="#property_name  Specifies an optional override of the name used as a key.">name  Specifies an optional override of the name used as a key.</a>
 
                             </li>
@@ -236,7 +267,7 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_boundary" class="method item inherited">
+<div id="method_boundary" class="method item">
     <h3 class="name"><code>boundary</code></h3>
 
         <div class="args">
@@ -248,7 +279,7 @@
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Complex.html" class="crosslink">Complex</a></span>
+            <span class="type"><a href="../classes/Chain.html" class="crosslink">Chain</a></span>
         </span>
 
 
@@ -258,9 +289,9 @@
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#method_boundary">Complex</a>:
-        <a href="../files/src_davinci-eight_dfx_Complex.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Complex.ts:36</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:36</code></a>
         </p>
 
 
@@ -295,19 +326,19 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Complex.html" class="crosslink">Complex</a></span>:
+                        <span class="type"><a href="../classes/Chain.html" class="crosslink">Chain</a></span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_check" class="method item inherited">
+<div id="method_check" class="method item">
     <h3 class="name"><code>check</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Complex.html" class="crosslink">Complex</a></span>
+            <span class="type"><a href="../classes/Chain.html" class="crosslink">Chain</a></span>
         </span>
 
 
@@ -317,9 +348,9 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#method_check">Complex</a>:
-        <a href="../files/src_davinci-eight_dfx_Complex.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Complex.ts:49</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l49"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:49</code></a>
         </p>
 
 
@@ -336,13 +367,13 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Complex.html" class="crosslink">Complex</a></span>:
+                        <span class="type"><a href="../classes/Chain.html" class="crosslink">Chain</a></span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_subdivide" class="method item inherited">
+<div id="method_subdivide" class="method item">
     <h3 class="name"><code>subdivide</code></h3>
 
         <div class="args">
@@ -354,7 +385,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
         </div>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/Complex.html" class="crosslink">Complex</a></span>
+            <span class="type"><a href="../classes/Chain.html" class="crosslink">Chain</a></span>
         </span>
 
 
@@ -364,9 +395,9 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#method_subdivide">Complex</a>:
-        <a href="../files/src_davinci-eight_dfx_Complex.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Complex.ts:59</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:59</code></a>
         </p>
 
 
@@ -400,13 +431,13 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/Complex.html" class="crosslink">Complex</a></span>:
+                        <span class="type"><a href="../classes/Chain.html" class="crosslink">Chain</a></span>:
             </div>
         </div>
 
 
 </div>
-<div id="method_toGeometry" class="method item inherited">
+<div id="method_toGeometry" class="method item">
     <h3 class="name"><code>toGeometry</code></h3>
 
         <span class="paren">()</span>
@@ -422,9 +453,9 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#method_toGeometry">Complex</a>:
-        <a href="../files/src_davinci-eight_dfx_Complex.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Complex.ts:71</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:71</code></a>
         </p>
 
 
@@ -451,7 +482,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
-<div id="property_data" class="property item inherited">
+<div id="property_data" class="property item">
     <h3 class="name"><code>data</code></h3>
     <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
 
@@ -460,9 +491,9 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#property_data">Complex</a>:
-        <a href="../files/src_davinci-eight_dfx_Complex.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Complex.ts:12</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:12</code></a>
         </p>
 
 
@@ -475,7 +506,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
 </div>
-<div id="property_glslType  The type keyword as it appears in the GLSL shader program." class="property item inherited">
+<div id="property_glslType  The type keyword as it appears in the GLSL shader program." class="property item">
     <h3 class="name"><code>glslType  The type keyword as it appears in the GLSL shader program.</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
@@ -484,8 +515,8 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#property_glslType  The type keyword as it appears in the GLSL shader program.">Complex</a>:
+                <p>
+                Defined in
         <a href="../files/src_davinci-eight_core_UniformMetaInfo.ts.html#l9"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformMetaInfo.ts:9</code></a>
         </p>
 
@@ -499,7 +530,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
 </div>
-<div id="property_meta" class="property item inherited">
+<div id="property_meta" class="property item">
     <h3 class="name"><code>meta</code></h3>
     <span class="type"><a href="../classes/GeometryMeta.html" class="crosslink">GeometryMeta</a></span>
 
@@ -508,9 +539,9 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#property_meta">Complex</a>:
-        <a href="../files/src_davinci-eight_dfx_Complex.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Complex.ts:17</code></a>
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_dfx_Chain.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;dfx&#x2F;Chain.ts:17</code></a>
         </p>
 
 
@@ -525,7 +556,7 @@ This same data structure may be used to map vertex attribute names to program na
 
 
 </div>
-<div id="property_name  Specifies an optional override of the name used as a key." class="property item inherited">
+<div id="property_name  Specifies an optional override of the name used as a key." class="property item">
     <h3 class="name"><code>name  Specifies an optional override of the name used as a key.</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
@@ -534,8 +565,8 @@ This same data structure may be used to map vertex attribute names to program na
 
 
     <div class="meta">
-                <p>Inherited from
-                <a href="../classes/Complex.html#property_name  Specifies an optional override of the name used as a key.">Complex</a>:
+                <p>
+                Defined in
         <a href="../files/src_davinci-eight_core_UniformMetaInfo.ts.html#l5"><code>src&#x2F;davinci-eight&#x2F;core&#x2F;UniformMetaInfo.ts:5</code></a>
         </p>
 

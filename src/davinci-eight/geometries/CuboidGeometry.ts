@@ -1,4 +1,4 @@
-import CuboidComplex = require('../geometries/CuboidComplex')
+import CuboidChain = require('../geometries/CuboidChain')
 import Geometry = require('../geometries/Geometry')
 import toGeometryData = require('../dfx/toGeometryData')
 
@@ -53,7 +53,7 @@ class CuboidGeometry extends Geometry {
     this.calculate()
   }
   calculate(): void {
-    let complex = new CuboidComplex(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines)
+    let complex = new CuboidChain(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines)
     this.data = toGeometryData(complex.data, complex.meta)
     this.meta = complex.meta
   }

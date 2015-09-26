@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/CuboidComplex', '../geometries/Geometry', '../dfx/toGeometryData'], function (require, exports, CuboidComplex, Geometry, toGeometryData) {
+define(["require", "exports", '../geometries/CuboidChain', '../geometries/Geometry', '../dfx/toGeometryData'], function (require, exports, CuboidChain, Geometry, toGeometryData) {
     /**
      * @class CuboidGeometry
      */
@@ -34,7 +34,7 @@ define(["require", "exports", '../geometries/CuboidComplex', '../geometries/Geom
             this.calculate();
         }
         CuboidGeometry.prototype.calculate = function () {
-            var complex = new CuboidComplex(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
+            var complex = new CuboidChain(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
             this.data = toGeometryData(complex.data, complex.meta);
             this.meta = complex.meta;
         };

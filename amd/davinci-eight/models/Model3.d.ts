@@ -3,13 +3,13 @@ import UniformData = require('../core/UniformData');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Vector3 = require('../math/Vector3');
 /**
- * Model implements UniformData required for manipulating a body.
+ * Model3 implements UniformData required for manipulating a body.
  */
-declare class Model implements UniformData {
+declare class Model3 implements UniformData {
     position: Vector3;
     attitude: Rotor3;
-    scale: Vector3;
-    color: Vector3;
+    scaleXYZ: Vector3;
+    colorRGB: Vector3;
     private M;
     private N;
     private R;
@@ -18,4 +18,4 @@ declare class Model implements UniformData {
     constructor();
     setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
 }
-export = Model;
+export = Model3;

@@ -92,8 +92,8 @@ let renderer = function(): ContextRenderer {
       mustBeBoolean('autoProlog', autoProlog)
       _autoProlog = autoProlog;
     },
-    get canvasElement(): HTMLCanvasElement {
-      return _manager ? _manager.canvasElement : void 0
+    get canvas(): HTMLCanvasElement {
+      return _manager ? _manager.canvas : void 0
     },
     get gl(): WebGLRenderingContext {
       return _manager ? _manager.gl : void 0

@@ -62,12 +62,12 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Canvas3D.prototype, "canvasElement", {
+        Object.defineProperty(Canvas3D.prototype, "canvas", {
             get: function () {
-                return this._kahuna.canvasElement;
+                return this._kahuna.canvas;
             },
-            set: function (canvasElement) {
-                this._kahuna.canvasElement = canvasElement;
+            set: function (canvas) {
+                this._kahuna.canvas = canvas;
             },
             enumerable: true,
             configurable: true
@@ -142,7 +142,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
         Canvas3D.prototype.setSize = function (width, height) {
             mustBeInteger('width', width);
             mustBeInteger('height', height);
-            var canvas = this.canvasElement;
+            var canvas = this.canvas;
             canvas.width = width;
             canvas.height = height;
             this.gl.viewport(0, 0, width, height);

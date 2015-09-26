@@ -20,11 +20,11 @@ interface ContextRenderer extends IContextConsumer, IUnknown {
    */
   gl: WebGLRenderingContext;
   /**
-   * @property canvasElement
+   * @property canvas
    * @type {HTMLCanvasElement}
    * @readOnly
    */
-  canvasElement: HTMLCanvasElement;
+  canvas: HTMLCanvasElement;
   /**
    * <p>
    * Determines whether the prolog commands are run automatically as part of the render method.

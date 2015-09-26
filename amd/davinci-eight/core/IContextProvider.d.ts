@@ -18,10 +18,10 @@ interface IContextProvider extends ContextMonitor, IUnknown {
     createTextureCubeMap(): ITextureCubeMap;
     gl: WebGLRenderingContext;
     /**
-     * @property canvasElement
+     * @property canvas
      * @type {HTMLCanvasElement}
      * @readOnly
      */
-    canvasElement: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
 }
 export = IContextProvider;

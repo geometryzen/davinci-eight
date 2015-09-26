@@ -376,12 +376,12 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
          * We use a canvasBuilder so the other initialization can happen while we are waiting
          * for the DOM to load.
          */
-        var _canvasElement;
+        var _canvas;
         var _canvasId;
         var refCount = 1;
         var tokenArg = expectArg('token', "");
         var webGLContextLost = function (event) {
-            if (isDefined(_canvasElement)) {
+            if (isDefined(_canvas)) {
                 event.preventDefault();
                 gl = void 0;
                 users.forEach(function (user) {
@@ -390,9 +390,9 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
             }
         };
         var webGLContextRestored = function (event) {
-            if (isDefined(_canvasElement)) {
+            if (isDefined(_canvas)) {
                 event.preventDefault();
-                gl = initWebGL(_canvasElement, attributes);
+                gl = initWebGL(_canvas, attributes);
                 users.forEach(function (user) {
                     user.contextGain(kahuna);
                 });
@@ -466,18 +466,18 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 indexBuffer.release();
                 return mesh;
             },
-            start: function (canvasElement, canvasId) {
-                var alreadyStarted = isDefined(_canvasElement);
+            start: function (canvas, canvasId) {
+                var alreadyStarted = isDefined(_canvas);
                 if (!alreadyStarted) {
                     // cache the arguments
-                    _canvasElement = canvasElement;
+                    _canvas = canvas;
                     _canvasId = canvasId;
                 }
                 else {
                     // We'll assert that if we have a canvas element then we should have a canvas id.
                     mustBeInteger('_canvasId', _canvasId);
                     // We'll just be idempotent and ignore the call because we've already been started.
-                    // To use the canvasElement might conflict with one we have dynamically created.
+                    // To use the canvas might conflict with one we have dynamically created.
                     if (core.verbose) {
                         console.warn("Ignoring `start()` because already started.");
                     }
@@ -485,20 +485,29 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
                 }
                 // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
                 // To not complain is the way of the hyper-functional warrior.
-                if (isDefined(_canvasElement)) {
-                    gl = initWebGL(_canvasElement, attributes);
-                    _canvasElement.addEventListener('webglcontextlost', webGLContextLost, false);
-                    _canvasElement.addEventListener('webglcontextrestored', webGLContextRestored, false);
-                    users.forEach(function (user) { user.contextGain(kahuna); });
+                if (isDefined(_canvas)) {
+                    gl = initWebGL(_canvas, attributes);
+                    users.forEach(function (user) {
+                        kahuna.synchronize(user);
+                    });
+                    _canvas.addEventListener('webglcontextlost', webGLContextLost, false);
+                    _canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
                 }
             },
             stop: function () {
-                if (isDefined(_canvasElement)) {
-                    gl = void 0;
-                    users.forEach(function (user) { user.contextFree(_canvasId); });
-                    _canvasElement.removeEventListener('webglcontextrestored', webGLContextRestored, false);
-                    _canvasElement.removeEventListener('webglcontextlost', webGLContextLost, false);
-                    _canvasElement = void 0;
+                if (isDefined(_canvas)) {
+                    _canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
+                    _canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+                    if (gl) {
+                        if (gl.isContextLost()) {
+                            users.forEach(function (user) { user.contextLost(_canvasId); });
+                        }
+                        else {
+                            users.forEach(function (user) { user.contextFree(_canvasId); });
+                        }
+                        gl = void 0;
+                    }
+                    _canvas = void 0;
                     _canvasId = void 0;
                 }
             },
@@ -511,13 +520,13 @@ define(["require", "exports", '../core/BufferResource', '../core', '../dfx/Geome
             synchronize: function (user) {
                 synchronize(user);
             },
-            get canvasElement() {
-                if (!_canvasElement) {
+            get canvas() {
+                if (!_canvas) {
                     // Interesting little side-effect!
                     // Love the way kahuna talks in the third person.
                     kahuna.start(document.createElement('canvas'), randumbInteger());
                 }
-                return _canvasElement;
+                return _canvas;
             },
             get gl() {
                 if (gl) {

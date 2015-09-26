@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/dfx/Complex.ts - davinci-eight</title>
+    <title>src/davinci-eight/models/Model3.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.110.0</em>
+            <em>API Docs for: 2.111.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,13 +47,13 @@
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
+                                <li><a href="../classes/Chain.html">Chain</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
-                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidComplex.html">CuboidComplex</a></li>
+                                <li><a href="../classes/CuboidChain.html">CuboidChain</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
@@ -152,97 +152,64 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/dfx/Complex.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/models/Model3.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import toGeometryMeta = require(&#x27;../dfx/toGeometryMeta&#x27;);
-import GeometryData = require(&#x27;../dfx/GeometryData&#x27;);
-import Geometry = require(&#x27;../geometries/Geometry&#x27;);
-import GeometryMeta = require(&#x27;../dfx/GeometryMeta&#x27;);
-import Simplex = require(&#x27;../dfx/Simplex&#x27;);
-import toGeometryData = require(&#x27;../dfx/toGeometryData&#x27;);
-
+import Color = require(&#x27;../core/Color&#x27;);
+import Matrix3 = require(&#x27;../math/Matrix3&#x27;);
+import Matrix4 = require(&#x27;../math/Matrix4&#x27;);
+import createRotor3 = require(&#x27;../math/rotor3&#x27;);
+import Rotor3 = require(&#x27;../math/Rotor3&#x27;);
+import Spinor3 = require(&#x27;../math/Spinor3&#x27;);
+import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import UniformData = require(&#x27;../core/UniformData&#x27;);
+import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;);
+import Vector3 = require(&#x27;../math/Vector3&#x27;);
 /**
- * @class Complex
+ * Model3 implements UniformData required for manipulating a body.
  */
-class Complex {
-  /**
-   * @property data
-   * @type {Simplex[]}
-   */
-  public data: Simplex[] = [];
-  /**
-   * Summary information on the simplices such as dimensionality and sizes for attributes.
-   * This same data structure may be used to map vertex attribute names to program names.
-   * @property meta
-   * @type {GeometryMeta}
-   */
-  public meta: GeometryMeta;
-
-  public dynamic = true;
-  public verticesNeedUpdate = false;
-  public elementsNeedUpdate = false;
-  public uvsNeedUpdate = false;
-  // TODO: public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
-  /**
-   * @class Complex
-   * @constructor
-   */
+// TODO: What should we call this?
+class Model3 implements UniformData {
+  public position = new Vector3();
+  public attitude = createRotor3();
+  public scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
+  public colorRGB: Vector3 = new Vector3([1, 1, 1]);
+  private M = Matrix4.identity();
+  private N = Matrix3.identity();
+  private R = Matrix4.identity();
+  private S = Matrix4.identity();
+  private T = Matrix4.identity();
   constructor() {
+    this.position.modified = true;
+    this.attitude.modified = true;
+    this.scaleXYZ.modified = true;
+    this.colorRGB.modified = true;
   }
-  /**
-   * &lt;p&gt;
-   * Applies the &lt;em&gt;boundary&lt;/em&gt; operation to each Simplex in this instance the specified number of times.
-   * &lt;/p&gt;
-   *
-   * @method boundary
-   * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-   * @return {Complex}
-   */
-  public boundary(times?: number): Complex {
-    this.data = Simplex.boundary(this.data, times);
-    return this.check();
-  }
-  /**
-   * Updates the meta property of this instance to match the data.
-   *
-   * @method check
-   * @return {Complex}
-   */
-  public check(): Complex {
-    this.meta = toGeometryMeta(this.data);
-    return this;
-  }
-  /**
-   * Applies the subdivide operation to each Simplex in this instance the specified number of times.
-   *
-   * @method subdivide
-   * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-   * @return {Complex}
-   */
-  public subdivide(times?: number): Complex {
-    this.data = Simplex.subdivide(this.data, times);
-    this.check();
-    return this;
-  }
-  /**
-   * @method toGeometry
-   * @return {Geometry}
-   */
-  public toGeometry(): Geometry {
-    let elements = toGeometryData(this.data, this.meta);
-    return new Geometry(elements, this.meta);
-  }
-  /**
-   *
-   */
-  protected mergeVertices(precisionPoints: number = 4) {
-    // console.warn(&quot;Complex.mergeVertices not yet implemented&quot;);
+  setUniforms(visitor: UniformDataVisitor, canvasId: number) {
+    if (this.position.modified) {
+      this.T.translation(this.position);
+      this.position.modified = false;
+    }
+    if (this.attitude.modified) {
+        this.R.rotation(this.attitude);
+        this.attitude.modified = false;
+    }
+    if (this.scaleXYZ.modified) {
+      this.S.scaling(this.scaleXYZ);
+      this.scaleXYZ.modified = false;
+    }
+    this.M.copy(this.T).multiply(this.R).multiply(this.S);
+
+    this.N.normalFromMatrix4(this.M)
+
+    visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
+    visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
+    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.colorRGB, canvasId);
   }
 }
 
-export = Complex;
+export = Model3;
 
     </pre>
 </div>

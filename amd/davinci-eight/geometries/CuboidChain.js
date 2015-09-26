@@ -3,17 +3,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../geometries/buildPlane', '../dfx/Complex', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Vector1'], function (require, exports, buildPlane, Complex, mustBeInteger, mustBeNumber, Vector1) {
+define(["require", "exports", '../geometries/buildPlane', '../dfx/Chain', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Vector1'], function (require, exports, buildPlane, Chain, mustBeInteger, mustBeNumber, Vector1) {
     function boxCtor() {
-        return "CuboidComplex constructor";
+        return "CuboidChain constructor";
     }
     /**
-     * @class CuboidComplex
-     * @extends Complex
+     * @class CuboidChain
+     * @extends Chain
      */
-    var CuboidComplex = (function (_super) {
-        __extends(CuboidComplex, _super);
-        function CuboidComplex(x, y, z, xSeg, ySeg, zSeg, wireFrame) {
+    var CuboidChain = (function (_super) {
+        __extends(CuboidChain, _super);
+        function CuboidChain(x, y, z, xSeg, ySeg, zSeg, wireFrame) {
             if (x === void 0) { x = 1; }
             if (y === void 0) { y = 1; }
             if (z === void 0) { z = 1; }
@@ -52,7 +52,7 @@ define(["require", "exports", '../geometries/buildPlane', '../dfx/Complex', '../
             this.mergeVertices();
             this.check();
         }
-        return CuboidComplex;
-    })(Complex);
-    return CuboidComplex;
+        return CuboidChain;
+    })(Chain);
+    return CuboidChain;
 });

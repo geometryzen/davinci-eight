@@ -1,43 +1,44 @@
 import IBuffer = require('../core/IBuffer')
-import expectArg = require('../checks/expectArg')
 import isDefined = require('../checks/isDefined')
 import IContextConsumer = require('../core/IContextConsumer')
 import IContextProvider = require('../core/IContextProvider')
 import mustBeBoolean = require('../checks/mustBeBoolean')
-import refChange = require('../utils/refChange')
+import mustBeObject = require('../checks/mustBeObject')
 import Shareable = require('../utils/Shareable')
-import uuid4 = require('../utils/uuid4')
 
 /**
  * Name used for reference count monitoring and logging.
  */
-let LOGGING_NAME_IBUFFER = 'IBuffer'
+let CLASS_NAME = 'BufferResource'
 
 // TODO: Replace this with a functional constructor to prevent tinkering?
 // TODO: Why is this object specific to one context?
 class BufferResource extends Shareable implements IBuffer {
-  private _buffer: WebGLBuffer
-  private manager: IContextProvider
-  private _isElements: boolean
+  private _buffer: WebGLBuffer;
+  private manager: IContextProvider;
+  private _isElements: boolean;
   constructor(manager: IContextProvider, isElements: boolean) {
-    super(LOGGING_NAME_IBUFFER)
-    this.manager = expectArg('montor', manager).toBeObject().value
+    super(CLASS_NAME)
+    this.manager = mustBeObject('manager', manager)
     this._isElements = mustBeBoolean('isElements', isElements)
     manager.addContextListener(this)
     manager.synchronize(this)
   }
   protected destructor(): void {
-    if (this._buffer) {
-      this.manager.gl.deleteBuffer(this._buffer)
-      this._buffer = void 0
-    }
+    this.contextFree(this.manager.canvasId)
     this.manager.removeContextListener(this)
     this.manager = void 0
     this._isElements = void 0
   }
-  contextFree() {
+  contextFree(canvasId: number) {
     if (this._buffer) {
-      this.manager.gl.deleteBuffer(this._buffer)
+      var gl = this.manager.gl
+      if (isDefined(gl)) {
+        gl.deleteBuffer(this._buffer)
+      }
+      else {
+        console.error(CLASS_NAME + " must leak WebGLBuffer because WebGLRenderingContext is "+ typeof gl)
+      }
       this._buffer = void 0
     }
     else {
@@ -70,7 +71,7 @@ class BufferResource extends Shareable implements IBuffer {
       gl.bindBuffer(target, this._buffer)
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGL rendering context.")
+      console.warn(CLASS_NAME + " bind() missing WebGL rendering context.")
     }
   }
   /**
@@ -83,7 +84,7 @@ class BufferResource extends Shareable implements IBuffer {
       gl.bindBuffer(target, null)
     }
     else {
-      console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGL rendering context.")
+      console.warn(CLASS_NAME + " unbind() missing WebGL rendering context.")
     }
 
   }

@@ -42,7 +42,7 @@ declare class Canvas3D extends Shareable implements ContextController, IContextP
      * @default true
      */
     autoProlog: boolean;
-    canvasElement: HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
     /**
      * @property canvasId
      * @type {number}

@@ -713,18 +713,18 @@ class Vector4 extends VectorN<number> implements Cartesian4 {
  *
  */
 interface UniformDataVisitor {
-  uniform1f(name: string, x: number);
-  uniform2f(name: string, x: number, y: number);
-  uniform3f(name: string, x: number, y: number, z: number);
-  uniform4f(name: string, x: number, y: number, z: number, w: number);
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1);
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2);
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3);
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4);
-  uniformVector1(name: string, vector: Vector1);
-  uniformVector2(name: string, vector: Vector2);
-  uniformVector3(name: string, vector: Vector3);
-  uniformVector4(name: string, vector: Vector4);
+  uniform1f(name: string, x: number, canvasId: number);
+  uniform2f(name: string, x: number, y: number, canvasId: number);
+  uniform3f(name: string, x: number, y: number, z: number, canvasId: number);
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number);
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number);
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number);
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number);
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number);
+  uniformVector1(name: string, vector: Vector1, canvasId: number);
+  uniformVector2(name: string, vector: Vector2, canvasId: number);
+  uniformVector3(name: string, vector: Vector3, canvasId: number);
+  uniformVector4(name: string, vector: Vector4, canvasId: number);
 }
 
 /**
@@ -867,7 +867,7 @@ class Face3 {
 /**
  * A complex holds a list of simplices.
  */
-class Complex {
+class Chain {
   public data: Simplex[];
   /**
    * Summary information on the simplices such as dimensionality and sizes for attributes.
@@ -894,16 +894,16 @@ class Complex {
    * 
    * times: The number of times to apply the boundary operation. Default is one (1).
    */
-  public boundary(times?: number): Complex;
+  public boundary(times?: number): Chain;
   /**
    * Updates the `meta` property by scanning the vertices.
    */
-  public check(): Complex;
+  public check(): Chain;
   /**
    * Subdivides the simplices of the geometry to produce finer detail.
    * times: The number of times to subdivide. Default is one (1).
    */
-  public subdivide(times?: number): Complex;
+  public subdivide(times?: number): Chain;
   /**
    * Computes and returns the arrays used to draw in WebGL.
    */
@@ -1070,7 +1070,7 @@ interface IContextProvider  extends ContextUnique, IUnknown
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
   gl: WebGLRenderingContext;
-  canvasElement: HTMLCanvasElement;
+  canvas: HTMLCanvasElement;
 }
 
 /**
@@ -1084,11 +1084,11 @@ function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLC
 /**
  *
  */
-class Model implements UniformData {
+class Model3 implements UniformData {
   public position: Vector3;
   public attitude: Spinor3;
-  public scale: Vector3;
-  public color: Vector3;
+  public scaleXYZ: Vector3;
+  public colorRGB: Vector3;
   /**
    * Model implements UniformData required for manipulating a body.
    */ 
@@ -1392,12 +1392,12 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
   canvasId: number;
   gl: WebGLRenderingContext;
   /**
-   * If the canvasElement property has not been initialized by calling `start()`,
+   * If the canvas property has not been initialized by calling `start()`,
    * then any attempt to access this property will trigger the construction of
    * a new HTML canvas element which will remain in effect for this Canvas3D
    * until `stop()` is called.
    */
-  canvasElement: HTMLCanvasElement;
+  canvas: HTMLCanvasElement;
   constructor(attributes?: WebGLContextAttributes);
   addContextListener(user: IContextConsumer): void;
   addRef(): number;
@@ -1429,7 +1429,7 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
 /**
  *
  */
-class CuboidComplex extends Complex {
+class CuboidChain extends Chain {
   /**
    * width: The side length in the x-axis direction.
    * height: The side length in the y-axis direction.
@@ -1478,18 +1478,18 @@ class Material implements IMaterial {
   contextFree(canvasId: number): void;
   contextGain(manager: IContextProvider): void;
   contextLost(canvasId: number): void;
-  uniform1f(name: string, x: number): void;
-  uniform2f(name: string, x: number, y: number): void;
-  uniform3f(name: string, x: number, y: number, z: number): void;
-  uniform4f(name: string, x: number, y: number, z: number, w: number): void;
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1): void;
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2): void;
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3): void;
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4): void;
-  uniformVector1(name: string, vector: Vector1): void;
-  uniformVector2(name: string, vector: Vector2): void;
-  uniformVector3(name: string, vector: Vector3): void;
-  uniformVector4(name: string, vector: Vector4): void;
+  uniform1f(name: string, x: number, canvasId: number): void;
+  uniform2f(name: string, x: number, y: number, canvasId: number): void;
+  uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void;
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
+  uniformVector1(name: string, vector: Vector1, canvasId: number): void;
+  uniformVector2(name: string, vector: Vector2, canvasId: number): void;
+  uniformVector3(name: string, vector: Vector3, canvasId: number): void;
+  uniformVector4(name: string, vector: Vector4, canvasId: number): void;
 }
 
 /**
@@ -1606,18 +1606,18 @@ class RigidBody3 extends Shareable implements IRigidBody3 {
 class RoundUniform implements UniformDataVisitor {
   next: UniformDataVisitor;
   constructor();
-  uniform1f(name: string, x: number);
-  uniform2f(name: string, x: number, y: number);
-  uniform3f(name: string, x: number, y: number, z: number);
-  uniform4f(name: string, x: number, y: number, z: number, w: number);
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1);
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2);
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3);
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4);
-  uniformVector1(name: string, vector: Vector1);
-  uniformVector2(name: string, vector: Vector2);
-  uniformVector3(name: string, vector: Vector3);
-  uniformVector4(name: string, vector: Vector4);
+  uniform1f(name: string, x: number, canvasId: number);
+  uniform2f(name: string, x: number, y: number, canvasId: number);
+  uniform3f(name: string, x: number, y: number, z: number, canvasId: number);
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number);
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number);
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number);
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number);
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number);
+  uniformVector1(name: string, vector: Vector1, canvasId: number);
+  uniformVector2(name: string, vector: Vector2, canvasId: number);
+  uniformVector3(name: string, vector: Vector3, canvasId: number);
+  uniformVector4(name: string, vector: Vector4, canvasId: number);
 }
 
 // commands

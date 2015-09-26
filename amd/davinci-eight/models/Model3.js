@@ -1,14 +1,14 @@
 define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rotor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, createRotor3, Symbolic, Vector3) {
     /**
-     * Model implements UniformData required for manipulating a body.
+     * Model3 implements UniformData required for manipulating a body.
      */
     // TODO: What should we call this?
-    var Model = (function () {
-        function Model() {
+    var Model3 = (function () {
+        function Model3() {
             this.position = new Vector3();
             this.attitude = createRotor3();
-            this.scale = new Vector3([1, 1, 1]);
-            this.color = new Vector3([1, 1, 1]);
+            this.scaleXYZ = new Vector3([1, 1, 1]);
+            this.colorRGB = new Vector3([1, 1, 1]);
             this.M = Matrix4.identity();
             this.N = Matrix3.identity();
             this.R = Matrix4.identity();
@@ -16,10 +16,10 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rot
             this.T = Matrix4.identity();
             this.position.modified = true;
             this.attitude.modified = true;
-            this.scale.modified = true;
-            this.color.modified = true;
+            this.scaleXYZ.modified = true;
+            this.colorRGB.modified = true;
         }
-        Model.prototype.setUniforms = function (visitor, canvasId) {
+        Model3.prototype.setUniforms = function (visitor, canvasId) {
             if (this.position.modified) {
                 this.T.translation(this.position);
                 this.position.modified = false;
@@ -28,17 +28,17 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rot
                 this.R.rotation(this.attitude);
                 this.attitude.modified = false;
             }
-            if (this.scale.modified) {
-                this.S.scaling(this.scale);
-                this.scale.modified = false;
+            if (this.scaleXYZ.modified) {
+                this.S.scaling(this.scaleXYZ);
+                this.scaleXYZ.modified = false;
             }
             this.M.copy(this.T).multiply(this.R).multiply(this.S);
             this.N.normalFromMatrix4(this.M);
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
-            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color, canvasId);
+            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.colorRGB, canvasId);
         };
-        return Model;
+        return Model3;
     })();
-    return Model;
+    return Model3;
 });

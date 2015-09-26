@@ -57,8 +57,8 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
                 mustBeBoolean('autoProlog', autoProlog);
                 _autoProlog = autoProlog;
             },
-            get canvasElement() {
-                return _manager ? _manager.canvasElement : void 0;
+            get canvas() {
+                return _manager ? _manager.canvas : void 0;
             },
             get gl() {
                 return _manager ? _manager.gl : void 0;

@@ -1,5 +1,5 @@
 import buildPlane = require('../geometries/buildPlane');
-import Complex = require('../dfx/Complex');
+import Chain = require('../dfx/Chain');
 import mustBeInteger = require('../checks/mustBeInteger');
 import mustBeNumber = require('../checks/mustBeNumber');
 import Simplex = require('../dfx/Simplex');
@@ -9,14 +9,14 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 
 function boxCtor() {
-  return "CuboidComplex constructor";
+  return "CuboidChain constructor";
 }
 
 /**
- * @class CuboidComplex
- * @extends Complex
+ * @class CuboidChain
+ * @extends Chain
  */
-class CuboidComplex extends Complex {
+class CuboidChain extends Chain {
   constructor(x: number = 1, y: number = 1, z: number = 1,
     xSeg: number = 1, ySeg: number = 1, zSeg: number = 1,
     wireFrame: boolean = false) {
@@ -60,4 +60,4 @@ class CuboidComplex extends Complex {
   }
 }
 
-export = CuboidComplex;
+export = CuboidChain;

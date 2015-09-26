@@ -6,9 +6,9 @@ import Simplex = require('../dfx/Simplex');
 import toGeometryData = require('../dfx/toGeometryData');
 
 /**
- * @class Complex
+ * @class Chain
  */
-class Complex {
+class Chain {
   /**
    * @property data
    * @type {Simplex[]}
@@ -26,9 +26,9 @@ class Complex {
   public verticesNeedUpdate = false;
   public elementsNeedUpdate = false;
   public uvsNeedUpdate = false;
-  // TODO: public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
   /**
-   * @class Complex
+   * A list of simplices (data) with information about dimensionality and vertex properties (meta). 
+   * @class Chain
    * @constructor
    */
   constructor() {
@@ -40,9 +40,9 @@ class Complex {
    *
    * @method boundary
    * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-   * @return {Complex}
+   * @return {Chain}
    */
-  public boundary(times?: number): Complex {
+  public boundary(times?: number): Chain {
     this.data = Simplex.boundary(this.data, times);
     return this.check();
   }
@@ -50,9 +50,9 @@ class Complex {
    * Updates the meta property of this instance to match the data.
    *
    * @method check
-   * @return {Complex}
+   * @return {Chain}
    */
-  public check(): Complex {
+  public check(): Chain {
     this.meta = toGeometryMeta(this.data);
     return this;
   }
@@ -61,9 +61,9 @@ class Complex {
    *
    * @method subdivide
    * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-   * @return {Complex}
+   * @return {Chain}
    */
-  public subdivide(times?: number): Complex {
+  public subdivide(times?: number): Chain {
     this.data = Simplex.subdivide(this.data, times);
     this.check();
     return this;
@@ -80,8 +80,8 @@ class Complex {
    *
    */
   protected mergeVertices(precisionPoints: number = 4) {
-    // console.warn("Complex.mergeVertices not yet implemented");
+    // console.warn("Chain.mergeVertices not yet implemented");
   }
 }
 
-export = Complex;
+export = Chain;

@@ -82,11 +82,11 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   set autoProlog(autoProlog) {
     this._renderer.autoProlog = autoProlog;
   }
-  get canvasElement(): HTMLCanvasElement {
-    return this._kahuna.canvasElement;
+  get canvas(): HTMLCanvasElement {
+    return this._kahuna.canvas;
   }
-  set canvasElement(canvasElement: HTMLCanvasElement) {
-    this._kahuna.canvasElement = canvasElement;
+  set canvas(canvas: HTMLCanvasElement) {
+    this._kahuna.canvas = canvas;
   }
   /**
    * @property canvasId
@@ -150,7 +150,7 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
   setSize(width: number, height: number): void {
     mustBeInteger('width', width)
     mustBeInteger('height', height)
-    let canvas = this.canvasElement
+    let canvas = this.canvas
     canvas.width = width
     canvas.height = height
     this.gl.viewport(0, 0, width, height)

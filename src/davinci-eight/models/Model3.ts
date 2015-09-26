@@ -9,14 +9,14 @@ import UniformData = require('../core/UniformData');
 import UniformDataVisitor = require('../core/UniformDataVisitor');
 import Vector3 = require('../math/Vector3');
 /**
- * Model implements UniformData required for manipulating a body.
+ * Model3 implements UniformData required for manipulating a body.
  */
 // TODO: What should we call this?
-class Model implements UniformData {
+class Model3 implements UniformData {
   public position = new Vector3();
   public attitude = createRotor3();
-  public scale: Vector3 = new Vector3([1, 1, 1]);
-  public color: Vector3 = new Vector3([1, 1, 1]);
+  public scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
+  public colorRGB: Vector3 = new Vector3([1, 1, 1]);
   private M = Matrix4.identity();
   private N = Matrix3.identity();
   private R = Matrix4.identity();
@@ -25,8 +25,8 @@ class Model implements UniformData {
   constructor() {
     this.position.modified = true;
     this.attitude.modified = true;
-    this.scale.modified = true;
-    this.color.modified = true;
+    this.scaleXYZ.modified = true;
+    this.colorRGB.modified = true;
   }
   setUniforms(visitor: UniformDataVisitor, canvasId: number) {
     if (this.position.modified) {
@@ -37,9 +37,9 @@ class Model implements UniformData {
         this.R.rotation(this.attitude);
         this.attitude.modified = false;
     }
-    if (this.scale.modified) {
-      this.S.scaling(this.scale);
-      this.scale.modified = false;
+    if (this.scaleXYZ.modified) {
+      this.S.scaling(this.scaleXYZ);
+      this.scaleXYZ.modified = false;
     }
     this.M.copy(this.T).multiply(this.R).multiply(this.S);
 
@@ -47,8 +47,8 @@ class Model implements UniformData {
 
     visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
     visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
-    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.color, canvasId);
+    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.colorRGB, canvasId);
   }
 }
 
-export = Model;
+export = Model3;

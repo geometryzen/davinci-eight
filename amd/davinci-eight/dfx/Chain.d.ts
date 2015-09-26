@@ -2,9 +2,9 @@ import Geometry = require('../geometries/Geometry');
 import GeometryMeta = require('../dfx/GeometryMeta');
 import Simplex = require('../dfx/Simplex');
 /**
- * @class Complex
+ * @class Chain
  */
-declare class Complex {
+declare class Chain {
     /**
      * @property data
      * @type {Simplex[]}
@@ -22,7 +22,8 @@ declare class Complex {
     elementsNeedUpdate: boolean;
     uvsNeedUpdate: boolean;
     /**
-     * @class Complex
+     * A list of simplices (data) with information about dimensionality and vertex properties (meta).
+     * @class Chain
      * @constructor
      */
     constructor();
@@ -33,24 +34,24 @@ declare class Complex {
      *
      * @method boundary
      * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-     * @return {Complex}
+     * @return {Chain}
      */
-    boundary(times?: number): Complex;
+    boundary(times?: number): Chain;
     /**
      * Updates the meta property of this instance to match the data.
      *
      * @method check
-     * @return {Complex}
+     * @return {Chain}
      */
-    check(): Complex;
+    check(): Chain;
     /**
      * Applies the subdivide operation to each Simplex in this instance the specified number of times.
      *
      * @method subdivide
      * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-     * @return {Complex}
+     * @return {Chain}
      */
-    subdivide(times?: number): Complex;
+    subdivide(times?: number): Chain;
     /**
      * @method toGeometry
      * @return {Geometry}
@@ -61,4 +62,4 @@ declare class Complex {
      */
     protected mergeVertices(precisionPoints?: number): void;
 }
-export = Complex;
+export = Chain;

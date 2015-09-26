@@ -1,4 +1,4 @@
-define(["require", "exports", '../core', '../scene/MonitorList', '../utils/NumberIUnknownMap', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, core, MonitorList, NumberIUnknownMap, uuid4, refChange, SimpleWebGLProgram) {
+define(["require", "exports", '../core', '../scene/MonitorList', '../utils/NumberIUnknownMap', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, core, MonitorList, NumberIUnknownMap, mustBeInteger, mustBeString, uuid4, refChange, SimpleWebGLProgram) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -30,12 +30,14 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 return fragmentShader;
             },
             attributes: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     return program.attributes;
                 }
             },
             uniforms: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     return program.uniforms;
@@ -58,6 +60,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 return refCount;
             },
             contextFree: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     program.contextFree(canvasId);
@@ -78,6 +81,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 sprog.contextGain(manager);
             },
             contextLost: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     program.contextLost(canvasId);
@@ -88,6 +92,7 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 return uuid;
             },
             use: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     program.use();
@@ -97,6 +102,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             enableAttrib: function (name, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var attribLoc = program.attributes[name];
@@ -110,6 +117,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             disableAttrib: function (name, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var attribLoc = program.attributes[name];
@@ -123,6 +132,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniform1f: function (name, x, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -136,6 +147,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniform2f: function (name, x, y, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -145,6 +158,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniform3f: function (name, x, y, z, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -154,6 +169,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniform4f: function (name, x, y, z, w, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -163,6 +180,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformMatrix1: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -172,6 +191,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformMatrix2: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -181,6 +202,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformMatrix3: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -190,6 +213,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformMatrix4: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -204,6 +229,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformVector1: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -213,6 +240,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformVector2: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -222,6 +251,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformVector3: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     var uniformLoc = program.uniforms[name];
@@ -231,6 +262,8 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                 }
             },
             uniformVector4: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
                 var program = programsByCanvasId.getWeakReference(canvasId);
                 if (program) {
                     // FIXME: Renames to simply uniforms (what else could they be?)

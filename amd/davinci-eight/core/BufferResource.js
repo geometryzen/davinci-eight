@@ -3,34 +3,37 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/expectArg', '../checks/mustBeBoolean', '../utils/Shareable'], function (require, exports, expectArg, mustBeBoolean, Shareable) {
+define(["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeObject', '../utils/Shareable'], function (require, exports, isDefined, mustBeBoolean, mustBeObject, Shareable) {
     /**
      * Name used for reference count monitoring and logging.
      */
-    var LOGGING_NAME_IBUFFER = 'IBuffer';
+    var CLASS_NAME = 'BufferResource';
     // TODO: Replace this with a functional constructor to prevent tinkering?
     // TODO: Why is this object specific to one context?
     var BufferResource = (function (_super) {
         __extends(BufferResource, _super);
         function BufferResource(manager, isElements) {
-            _super.call(this, LOGGING_NAME_IBUFFER);
-            this.manager = expectArg('montor', manager).toBeObject().value;
+            _super.call(this, CLASS_NAME);
+            this.manager = mustBeObject('manager', manager);
             this._isElements = mustBeBoolean('isElements', isElements);
             manager.addContextListener(this);
             manager.synchronize(this);
         }
         BufferResource.prototype.destructor = function () {
-            if (this._buffer) {
-                this.manager.gl.deleteBuffer(this._buffer);
-                this._buffer = void 0;
-            }
+            this.contextFree(this.manager.canvasId);
             this.manager.removeContextListener(this);
             this.manager = void 0;
             this._isElements = void 0;
         };
-        BufferResource.prototype.contextFree = function () {
+        BufferResource.prototype.contextFree = function (canvasId) {
             if (this._buffer) {
-                this.manager.gl.deleteBuffer(this._buffer);
+                var gl = this.manager.gl;
+                if (isDefined(gl)) {
+                    gl.deleteBuffer(this._buffer);
+                }
+                else {
+                    console.error(CLASS_NAME + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
+                }
                 this._buffer = void 0;
             }
             else {
@@ -61,7 +64,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/mustBeBoolean', 
                 gl.bindBuffer(target, this._buffer);
             }
             else {
-                console.warn(LOGGING_NAME_IBUFFER + " bind() missing WebGL rendering context.");
+                console.warn(CLASS_NAME + " bind() missing WebGL rendering context.");
             }
         };
         /**
@@ -74,7 +77,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/mustBeBoolean', 
                 gl.bindBuffer(target, null);
             }
             else {
-                console.warn(LOGGING_NAME_IBUFFER + " unbind() missing WebGL rendering context.");
+                console.warn(CLASS_NAME + " unbind() missing WebGL rendering context.");
             }
         };
         return BufferResource;

@@ -1,14 +1,14 @@
 define(["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry', '../dfx/Simplex', '../dfx/toGeometryData'], function (require, exports, toGeometryMeta, Geometry, Simplex, toGeometryData) {
     /**
-     * @class Complex
+     * @class Chain
      */
-    var Complex = (function () {
-        // TODO: public boundingSphere: Sphere = new Sphere({x: 0, y: 0, z: 0}, Infinity);
+    var Chain = (function () {
         /**
-         * @class Complex
+         * A list of simplices (data) with information about dimensionality and vertex properties (meta).
+         * @class Chain
          * @constructor
          */
-        function Complex() {
+        function Chain() {
             /**
              * @property data
              * @type {Simplex[]}
@@ -26,9 +26,9 @@ define(["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry',
          *
          * @method boundary
          * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-         * @return {Complex}
+         * @return {Chain}
          */
-        Complex.prototype.boundary = function (times) {
+        Chain.prototype.boundary = function (times) {
             this.data = Simplex.boundary(this.data, times);
             return this.check();
         };
@@ -36,9 +36,9 @@ define(["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry',
          * Updates the meta property of this instance to match the data.
          *
          * @method check
-         * @return {Complex}
+         * @return {Chain}
          */
-        Complex.prototype.check = function () {
+        Chain.prototype.check = function () {
             this.meta = toGeometryMeta(this.data);
             return this;
         };
@@ -47,9 +47,9 @@ define(["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry',
          *
          * @method subdivide
          * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-         * @return {Complex}
+         * @return {Chain}
          */
-        Complex.prototype.subdivide = function (times) {
+        Chain.prototype.subdivide = function (times) {
             this.data = Simplex.subdivide(this.data, times);
             this.check();
             return this;
@@ -58,18 +58,18 @@ define(["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry',
          * @method toGeometry
          * @return {Geometry}
          */
-        Complex.prototype.toGeometry = function () {
+        Chain.prototype.toGeometry = function () {
             var elements = toGeometryData(this.data, this.meta);
             return new Geometry(elements, this.meta);
         };
         /**
          *
          */
-        Complex.prototype.mergeVertices = function (precisionPoints) {
+        Chain.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }
-            // console.warn("Complex.mergeVertices not yet implemented");
+            // console.warn("Chain.mergeVertices not yet implemented");
         };
-        return Complex;
+        return Chain;
     })();
-    return Complex;
+    return Chain;
 });
