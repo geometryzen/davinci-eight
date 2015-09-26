@@ -211,6 +211,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.107.0: 2015-09-23 Euclidean*
 * 2.108.0: 2015-09-23 Euclidean3
 * 2.109.0: 2015-09-25 IMaterial
+* 2.110.0: 2015-09-25 MeshNormalMaterial
 
 ## License
 Copyright (c) 2014-2015 David Holmes

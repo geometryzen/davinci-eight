@@ -2922,7 +2922,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-09-25',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.109.0'
+        VERSION: '2.110.0'
     };
     return core;
 });

@@ -1467,14 +1467,14 @@ class Material implements IMaterial {
   programId: string;
   vertexShader: string;
   fragmentShader: string;
-  attributes: { [name: string]: AttribLocation };
-  uniforms: { [name: string]: UniformLocation };
+  attributes(canvasId: number): { [name: string]: AttribLocation };
+  uniforms(canvasId: number): { [name: string]: UniformLocation };
   constructor(monitors: ContextMonitor[], name: string);
   addRef(): number;
   release(): number;
   use(canvasId: number): void;
-  enableAttrib(name: string): void;
-  disableAttrib(name: string): void;
+  enableAttrib(name: string, canvasId: number): void;
+  disableAttrib(name: string, canvasId: number): void;
   contextFree(canvasId: number): void;
   contextGain(manager: IContextProvider): void;
   contextLost(canvasId: number): void;
