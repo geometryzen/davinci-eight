@@ -1,6 +1,6 @@
 import ContextMonitor = require('../core/ContextMonitor');
 import getAttribVarName = require('../core/getAttribVarName');
-import Geometry = require('../geometries/Geometry');
+import SerialGeometry = require('../geometries/SerialGeometry');
 import getUniformVarName = require('../core/getUniformVarName');
 import glslAttribType = require('../programs/glslAttribType');
 import Material = require('../materials/Material');
@@ -50,7 +50,7 @@ class SmartMaterialBuilder {
    * @constructor
    * @param geometry {Geometry} Optional.
    */
-  constructor(geometry?: Geometry) {
+  constructor(geometry?: SerialGeometry) {
     if (geometry) {
       let attributes = geometry.meta.attributes;
       let keys = Object.keys(attributes);

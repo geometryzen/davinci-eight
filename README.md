@@ -213,6 +213,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.109.0: 2015-09-25 IMaterial
 * 2.110.0: 2015-09-25 MeshNormalMaterial
 * 2.111.0: 2015-09-26 Model3
+* 2.112.0: 2015-09-27 SerialGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes

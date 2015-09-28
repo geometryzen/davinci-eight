@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.111.0</em>
+            <em>API Docs for: 2.112.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,18 +47,17 @@
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
-                                <li><a href="../classes/Chain.html">Chain</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidChain.html">CuboidChain</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CuboidSerialGeometry.html">CuboidSerialGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -92,9 +91,12 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/SerialGeometry.html">SerialGeometry</a></li>
+                                <li><a href="../classes/SerialGeometryAttribute.html">SerialGeometryAttribute</a></li>
+                                <li><a href="../classes/SerialGeometryElements.html">SerialGeometryElements</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
@@ -159,7 +161,7 @@
 import IContextConsumer = require(&#x27;../core/IContextConsumer&#x27;);
 import ContextMonitor = require(&#x27;../core/ContextMonitor&#x27;);
 import ContextUnique = require(&#x27;../core/ContextUnique&#x27;);
-import GeometryData = require(&#x27;../dfx/GeometryData&#x27;);
+import SerialGeometryElements = require(&#x27;../dfx/SerialGeometryElements&#x27;);
 import IBuffer = require(&#x27;../core/IBuffer&#x27;);
 import IBufferGeometry = require(&#x27;../dfx/IBufferGeometry&#x27;);
 // FIXME: Do we need IMaterial?
@@ -179,7 +181,7 @@ import IUnknown = require(&#x27;../core/IUnknown&#x27;);
  */
 interface IContextProvider extends ContextMonitor, IUnknown {
   createArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
   createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;

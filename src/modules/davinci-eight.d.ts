@@ -97,17 +97,17 @@ interface IBufferGeometry extends IUnknown {
 /**
  *
  */
-class GeometryData {
+class SerialGeometryElements {
   public k: number;
   public indices: VectorN<number>;
-  public attributes: {[name: string]: DrawAttribute};
-  constructor(k: number, indices: VectorN<number>, attributes: {[name: string]: DrawAttribute});
+  public attributes: {[name: string]: SerialGeometryAttribute};
+  constructor(k: number, indices: VectorN<number>, attributes: {[name: string]: SerialGeometryAttribute});
 }
 
 /**
  *
  */
-class DrawAttribute {
+class SerialGeometryAttribute {
   public values: VectorN<number>;
   public size: number;
   constructor(values: VectorN<number>, size: number);
@@ -188,7 +188,7 @@ interface GeometryMeta {
 /**
  * Computes the mapping from attribute name to size.
  * Reports inconsistencies in the geometry by throwing exceptions.
- * When used with toGeometryData(), allows names and sizes to be mapped.
+ * When used with toSerialGeometry(), allows names and sizes to be mapped.
  */
 function toGeometryMeta(geometry: Simplex[]): GeometryMeta;
 
@@ -250,9 +250,9 @@ function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>,
 function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
 /**
- * geometry to GeometryData conversion.
+ * geometry to SerialGeometry conversion.
  */
-function toGeometryData(data: Simplex[], meta?: GeometryMeta): GeometryData;
+function toSerialGeometryElements(simplices: Simplex[], geometryMeta?: GeometryMeta): SerialGeometryElements;
 
 /**
  *
@@ -377,7 +377,7 @@ interface GeometricElement<I, M> extends LinearElement<I, M, I> {
 /**
  * A rational number.
  */
-class QQ {
+class Rational {
   numer: number;
   denom: number;
 }
@@ -386,13 +386,13 @@ class QQ {
  * The dimensions of a physical quantity.
  */
 class Dimensions {
-  M: QQ;
-  L: QQ;
-  T: QQ;
-  Q: QQ;
-  temperature: QQ;
-  amount: QQ;
-  intensity: QQ;
+  M: Rational;
+  L: Rational;
+  T: Rational;
+  Q: Rational;
+  temperature: Rational;
+  amount: Rational;
+  intensity: Rational;
 }
 
 /**
@@ -865,9 +865,9 @@ class Face3 {
 }
 
 /**
- * A complex holds a list of simplices.
+ * A geometry holds a list of simplices.
  */
-class Chain {
+class Geometry {
   public data: Simplex[];
   /**
    * Summary information on the simplices such as dimensionality and sizes for attributes.
@@ -894,20 +894,20 @@ class Chain {
    * 
    * times: The number of times to apply the boundary operation. Default is one (1).
    */
-  public boundary(times?: number): Chain;
+  public boundary(times?: number): Geometry;
   /**
    * Updates the `meta` property by scanning the vertices.
    */
-  public check(): Chain;
+  public check(): Geometry;
   /**
    * Subdivides the simplices of the geometry to produce finer detail.
    * times: The number of times to subdivide. Default is one (1).
    */
-  public subdivide(times?: number): Chain;
+  public subdivide(times?: number): Geometry;
   /**
    * Computes and returns the arrays used to draw in WebGL.
    */
-  public toGeometry(): Geometry;
+  public toSerialGeometry(): SerialGeometry;
 }
 
 /**
@@ -1066,7 +1066,7 @@ interface IContextProvider  extends ContextUnique, IUnknown
 {
   createArrayBuffer(): IBuffer;
   createElementArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
   gl: WebGLRenderingContext;
@@ -1405,7 +1405,7 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
   contextGain(manager: IContextProvider): void;
   contextLost(canvasId: number): void;
   createArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
   createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
@@ -1429,7 +1429,7 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
 /**
  *
  */
-class CuboidChain extends Chain {
+class CuboidSerialGeometry extends SerialGeometry {
   /**
    * width: The side length in the x-axis direction.
    * height: The side length in the y-axis direction.
@@ -1497,11 +1497,11 @@ class Material implements IMaterial {
  * A geometry holds the instructions for rendering a 3D mesh. (d.ts)
  * </p>
  */
-class Geometry {
+class SerialGeometry {
   /**
    *
    */
-  public data: GeometryData;
+  public data: SerialGeometryElements;
   /**
    *
    */
@@ -1510,13 +1510,13 @@ class Geometry {
    * data:
    * meta:
    */
-  constructor(data: GeometryData, meta: GeometryMeta);
+  constructor(data: SerialGeometryElements, meta: GeometryMeta);
 }
 
 /**
  *
  */
-class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> implements IDrawable {
+class Mesh<G extends SerialGeometry, M extends IMaterial, U extends UniformData> implements IDrawable {
   geometry: G;
   material: M;
   model: U;
@@ -1553,7 +1553,7 @@ class MeshNormalMaterial extends Material {
 }
 
 class SmartMaterialBuilder {
-  constructor(geometry?: Geometry);
+  constructor(geometry?: SerialGeometry);
   public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
   public uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
   public build(contexts: ContextMonitor[]): Material;

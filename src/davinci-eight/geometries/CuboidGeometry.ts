@@ -1,61 +1,62 @@
-import CuboidChain = require('../geometries/CuboidChain')
-import Geometry = require('../geometries/Geometry')
-import toGeometryData = require('../dfx/toGeometryData')
+import buildPlane = require('../geometries/buildPlane');
+import Geometry = require('../dfx/Geometry');
+import mustBeInteger = require('../checks/mustBeInteger');
+import mustBeNumber = require('../checks/mustBeNumber');
+import Simplex = require('../dfx/Simplex');
+import Symbolic = require('../core/Symbolic');
+import Vector1 = require('../math/Vector1');
+import Vector2 = require('../math/Vector2');
+import Vector3 = require('../math/Vector3');
+
+function boxCtor() {
+  return "CuboidGeometry constructor";
+}
 
 /**
  * @class CuboidGeometry
+ * @extends Geometry
  */
 class CuboidGeometry extends Geometry {
-  /**
-   * @property x {number} The length of the side in the x-axis direction.
-   */
-  public x: number;
-  /**
-   * @property y {number} The length of the side in the y-axis direction.
-   */
-  public y: number;
-  /**
-   * @property z {number} The length of the side in the z-axis direction.
-   */
-  public z: number;
-  /**
-   * @property xSegments {number} The number of segments in the x-axis direction.
-   */
-  public xSegments: number;
-  /**
-   * @property ySegments {number} The number of segments in the y-axis direction.
-   */
-  public ySegments: number;
-  /**
-   * @property zSegments {number} The number of segments in the z-axis direction.
-   */
-  public zSegments: number;
-  public lines: boolean;
-  /**
-   * <p>
-   * A CuboidGeometry represents the mathematical shape of a cuboid.
-   * <p>
-   * @class CuboidGeometry
-   * @constructor
-   * @param width {number} The length in the x-axis aspect.
-   * @param height {number} The length in the y-axis aspect.
-   * @param depth {number} The length in the z-axis aspect. 
-   */
-  constructor(width: number = 1, height: number = 1, depth: number = 1) {
-    super(void 0, void 0)
-    this.x = width
-    this.y = height
-    this.z = depth
-    this.xSegments = 1
-    this.ySegments = 1
-    this.zSegments = 1
-    this.lines = true
-    this.calculate()
-  }
-  calculate(): void {
-    let complex = new CuboidChain(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines)
-    this.data = toGeometryData(complex.data, complex.meta)
-    this.meta = complex.meta
+  constructor(x: number = 1, y: number = 1, z: number = 1,
+    xSeg: number = 1, ySeg: number = 1, zSeg: number = 1,
+    wireFrame: boolean = false) {
+
+    super();
+
+    mustBeNumber('x', x, boxCtor);
+    mustBeNumber('y', y, boxCtor);
+    mustBeNumber('z', z, boxCtor);
+    mustBeInteger('xSeg', xSeg, boxCtor);
+    mustBeInteger('ySeg', ySeg, boxCtor);
+    mustBeInteger('zSeg', zSeg, boxCtor);
+
+    // Temporary storage for points.
+    // The approach is:
+    // 1. Compute the points first.
+    // 2. Compute the faces and have them reference the points.
+    // 3. Throw away the temporary storage of points. 
+    let points: Vector3[] = [];
+
+    let faces: Simplex[] = this.data;
+
+    let xdiv2 = x / 2;
+    let ydiv2 = y / 2;
+    let zdiv2 = z / 2;
+
+    // FIXME: Possible bug in 4th column? Not symmetric.
+    buildPlane('z', 'y', -1, -1, z, y, +xdiv2, xSeg, ySeg, zSeg, new Vector1([0]), points, faces); // +x
+    buildPlane('z', 'y', +1, -1, z, y, -xdiv2, xSeg, ySeg, zSeg, new Vector1([1]), points, faces); // -x
+    buildPlane('x', 'z', +1, +1, x, z, +ydiv2, xSeg, ySeg, zSeg, new Vector1([2]), points, faces); // +y
+    buildPlane('x', 'z', +1, -1, x, z, -ydiv2, xSeg, ySeg, zSeg, new Vector1([3]), points, faces); // -y
+    buildPlane('x', 'y', +1, -1, x, y, +zdiv2, xSeg, ySeg, zSeg, new Vector1([4]), points, faces); // +z
+    buildPlane('x', 'y', -1, -1, x, y, -zdiv2, xSeg, ySeg, zSeg, new Vector1([5]), points, faces); // -z
+
+    if (wireFrame) {
+      this.boundary();
+    }
+    // This construction duplicates vertices along the edges of the cube.
+    this.mergeVertices();
+    this.check();
   }
 }
 

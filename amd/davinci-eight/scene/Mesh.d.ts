@@ -1,5 +1,5 @@
 import IContextProvider = require('../core/IContextProvider');
-import Geometry = require('../geometries/Geometry');
+import SerialGeometry = require('../geometries/SerialGeometry');
 import IDrawable = require('../core/IDrawable');
 import IMaterial = require('../core/IMaterial');
 import Shareable = require('../utils/Shareable');
@@ -8,7 +8,7 @@ import UniformData = require('../core/UniformData');
  * @class Mesh
  * @implements IDrawable
  */
-declare class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
+declare class Mesh<G extends SerialGeometry, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
     geometry: G;
     _material: M;
     /**

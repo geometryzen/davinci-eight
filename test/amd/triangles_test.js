@@ -4,20 +4,20 @@ define(
   'davinci-eight/dfx/Vertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/dfx/triangle',
-  'davinci-eight/dfx/toGeometryData',
-  'davinci-eight/dfx/GeometryData',
+  'davinci-eight/dfx/toSerialGeometryElements',
+  'davinci-eight/dfx/SerialGeometryElements',
   'davinci-eight/core/Symbolic',
   'davinci-eight/dfx/toGeometryMeta',
   'davinci-eight/dfx/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangle, toGeometryData, GeometryData, Symbolic, toGeometryMeta, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, toSerialGeometryElements, SerialGeometryElements, Symbolic, toGeometryMeta, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
   var COORDS_PER_NORMAL = 3;
   var COORDS_PER_TEXTURE = 2;
 
-  describe("toGeometryData", function() {
+  describe("toSerialGeometryElements", function() {
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
         var geometry = [];
@@ -34,7 +34,7 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, GeometryData, Symbo
       var b = geometry[0].vertices[1];
       var c = geometry[0].vertices[2];
       var geoInfo = toGeometryMeta(geometry);
-      var elements = toGeometryData(geometry, geoInfo);
+      var elements = toSerialGeometryElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
@@ -91,7 +91,7 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, GeometryData, Symbo
       geometry.push(f012);
       geometry.push(f023);
       var geoInfo = toGeometryMeta(geometry);
-      var elements = toGeometryData(geometry, geoInfo);
+      var elements = toSerialGeometryElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
@@ -171,7 +171,7 @@ function(Simplex, Vertex, Vector3, triangle, toGeometryData, GeometryData, Symbo
       geometry.push(f032);
       geometry.push(f021);
       var geoInfo = toGeometryMeta(geometry);
-      var elements = toGeometryData(geometry, geoInfo);
+      var elements = toSerialGeometryElements(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {

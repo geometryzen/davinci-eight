@@ -1,5 +1,5 @@
 import ContextMonitor = require('../core/ContextMonitor');
-import GeometryData = require('../dfx/GeometryData');
+import SerialGeometryElements = require('../dfx/SerialGeometryElements');
 import IBuffer = require('../core/IBuffer');
 import IBufferGeometry = require('../dfx/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
@@ -12,7 +12,7 @@ import IUnknown = require('../core/IUnknown');
  */
 interface IContextProvider extends ContextMonitor, IUnknown {
     createArrayBuffer(): IBuffer;
-    createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+    createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
     createElementArrayBuffer(): IBuffer;
     createTexture2D(): ITexture2D;
     createTextureCubeMap(): ITextureCubeMap;

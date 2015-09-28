@@ -3,7 +3,7 @@ import ContextKahuna = require('../core/ContextKahuna')
 import IContextProvider = require('../core/IContextProvider')
 import IContextConsumer = require('../core/IContextConsumer')
 import core = require('../core')
-import GeometryData = require('../dfx/GeometryData')
+import SerialGeometryElements = require('../dfx/SerialGeometryElements')
 import expectArg = require('../checks/expectArg')
 import initWebGL = require('../renderers/initWebGL')
 import IBuffer = require('../core/IBuffer')
@@ -475,8 +475,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     /**
      *
      */
-    createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
-      expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryData");
+    createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry {
+      expectArg('elements', elements).toSatisfy(elements instanceof SerialGeometryElements, "elements must be an instance of SerialGeometry");
       mode = drawMode(elements.k, mode);
       if (!isDefined(mode)) {
         // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets

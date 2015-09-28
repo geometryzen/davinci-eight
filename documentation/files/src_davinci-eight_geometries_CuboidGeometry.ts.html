@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.111.0</em>
+            <em>API Docs for: 2.112.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,18 +47,17 @@
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
-                                <li><a href="../classes/Chain.html">Chain</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidChain.html">CuboidChain</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CuboidSerialGeometry.html">CuboidSerialGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -92,9 +91,12 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/SerialGeometry.html">SerialGeometry</a></li>
+                                <li><a href="../classes/SerialGeometryAttribute.html">SerialGeometryAttribute</a></li>
+                                <li><a href="../classes/SerialGeometryElements.html">SerialGeometryElements</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
@@ -156,68 +158,70 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import CuboidChain = require(&#x27;../geometries/CuboidChain&#x27;)
-import Geometry = require(&#x27;../geometries/Geometry&#x27;)
-import toGeometryData = require(&#x27;../dfx/toGeometryData&#x27;)
+import buildPlane = require(&#x27;../geometries/buildPlane&#x27;);
+import Geometry = require(&#x27;../dfx/Geometry&#x27;);
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;);
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;);
+import Simplex = require(&#x27;../dfx/Simplex&#x27;);
+import Symbolic = require(&#x27;../core/Symbolic&#x27;);
+import Vector1 = require(&#x27;../math/Vector1&#x27;);
+import Vector2 = require(&#x27;../math/Vector2&#x27;);
+import Vector3 = require(&#x27;../math/Vector3&#x27;);
+
+function boxCtor() {
+  return &quot;CuboidGeometry constructor&quot;;
+}
 
 /**
  * @class CuboidGeometry
+ * @extends Geometry
  */
 class CuboidGeometry extends Geometry {
-  /**
-   * @property x {number} The length of the side in the x-axis direction.
-   */
-  public x: number;
-  /**
-   * @property y {number} The length of the side in the y-axis direction.
-   */
-  public y: number;
-  /**
-   * @property z {number} The length of the side in the z-axis direction.
-   */
-  public z: number;
-  /**
-   * @property xSegments {number} The number of segments in the x-axis direction.
-   */
-  public xSegments: number;
-  /**
-   * @property ySegments {number} The number of segments in the y-axis direction.
-   */
-  public ySegments: number;
-  /**
-   * @property zSegments {number} The number of segments in the z-axis direction.
-   */
-  public zSegments: number;
-  public lines: boolean;
-  /**
-   * &lt;p&gt;
-   * A CuboidGeometry represents the mathematical shape of a cuboid.
-   * &lt;p&gt;
-   * @class CuboidGeometry
-   * @constructor
-   * @param width {number} The length in the x-axis aspect.
-   * @param height {number} The length in the y-axis aspect.
-   * @param depth {number} The length in the z-axis aspect. 
-   */
-  constructor(width: number = 1, height: number = 1, depth: number = 1) {
-    super(void 0, void 0)
-    this.x = width
-    this.y = height
-    this.z = depth
-    this.xSegments = 1
-    this.ySegments = 1
-    this.zSegments = 1
-    this.lines = true
-    this.calculate()
-  }
-  calculate(): void {
-    let complex = new CuboidChain(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines)
-    this.data = toGeometryData(complex.data, complex.meta)
-    this.meta = complex.meta
+  constructor(x: number = 1, y: number = 1, z: number = 1,
+    xSeg: number = 1, ySeg: number = 1, zSeg: number = 1,
+    wireFrame: boolean = false) {
+
+    super();
+
+    mustBeNumber(&#x27;x&#x27;, x, boxCtor);
+    mustBeNumber(&#x27;y&#x27;, y, boxCtor);
+    mustBeNumber(&#x27;z&#x27;, z, boxCtor);
+    mustBeInteger(&#x27;xSeg&#x27;, xSeg, boxCtor);
+    mustBeInteger(&#x27;ySeg&#x27;, ySeg, boxCtor);
+    mustBeInteger(&#x27;zSeg&#x27;, zSeg, boxCtor);
+
+    // Temporary storage for points.
+    // The approach is:
+    // 1. Compute the points first.
+    // 2. Compute the faces and have them reference the points.
+    // 3. Throw away the temporary storage of points. 
+    let points: Vector3[] = [];
+
+    let faces: Simplex[] = this.data;
+
+    let xdiv2 = x / 2;
+    let ydiv2 = y / 2;
+    let zdiv2 = z / 2;
+
+    // FIXME: Possible bug in 4th column? Not symmetric.
+    buildPlane(&#x27;z&#x27;, &#x27;y&#x27;, -1, -1, z, y, +xdiv2, xSeg, ySeg, zSeg, new Vector1([0]), points, faces); // +x
+    buildPlane(&#x27;z&#x27;, &#x27;y&#x27;, +1, -1, z, y, -xdiv2, xSeg, ySeg, zSeg, new Vector1([1]), points, faces); // -x
+    buildPlane(&#x27;x&#x27;, &#x27;z&#x27;, +1, +1, x, z, +ydiv2, xSeg, ySeg, zSeg, new Vector1([2]), points, faces); // +y
+    buildPlane(&#x27;x&#x27;, &#x27;z&#x27;, +1, -1, x, z, -ydiv2, xSeg, ySeg, zSeg, new Vector1([3]), points, faces); // -y
+    buildPlane(&#x27;x&#x27;, &#x27;y&#x27;, +1, -1, x, y, +zdiv2, xSeg, ySeg, zSeg, new Vector1([4]), points, faces); // +z
+    buildPlane(&#x27;x&#x27;, &#x27;y&#x27;, -1, -1, x, y, -zdiv2, xSeg, ySeg, zSeg, new Vector1([5]), points, faces); // -z
+
+    if (wireFrame) {
+      this.boundary();
+    }
+    // This construction duplicates vertices along the edges of the cube.
+    this.mergeVertices();
+    this.check();
   }
 }
 
 export = CuboidGeometry;
+
     </pre>
 </div>
                     </div>

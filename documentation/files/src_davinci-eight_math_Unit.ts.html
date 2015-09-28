@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.111.0</em>
+            <em>API Docs for: 2.112.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -47,18 +47,17 @@
                                 <li><a href="../classes/Cartesian2.html">Cartesian2</a></li>
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
-                                <li><a href="../classes/Chain.html">Chain</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
                                 <li><a href="../classes/ContextRenderer.html">ContextRenderer</a></li>
                                 <li><a href="../classes/createView.html">createView</a></li>
-                                <li><a href="../classes/CuboidChain.html">CuboidChain</a></li>
                                 <li><a href="../classes/CuboidGeometry.html">CuboidGeometry</a></li>
                                 <li><a href="../classes/CuboidMesh.html">CuboidMesh</a></li>
+                                <li><a href="../classes/CuboidSerialGeometry.html">CuboidSerialGeometry</a></li>
                                 <li><a href="../classes/CylinderArgs.html">CylinderArgs</a></li>
                                 <li><a href="../classes/Dimensions.html">Dimensions</a></li>
-                                <li><a href="../classes/DrawAttribute.html">DrawAttribute</a></li>
                                 <li><a href="../classes/EIGHTLogger.html">EIGHTLogger</a></li>
                                 <li><a href="../classes/ElementArray.html">ElementArray</a></li>
                                 <li><a href="../classes/ElementBuffer.html">ElementBuffer</a></li>
@@ -92,9 +91,12 @@
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
-                                <li><a href="../classes/QQ.html">QQ</a></li>
+                                <li><a href="../classes/Rational.html">Rational</a></li>
                                 <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
+                                <li><a href="../classes/SerialGeometry.html">SerialGeometry</a></li>
+                                <li><a href="../classes/SerialGeometryAttribute.html">SerialGeometryAttribute</a></li>
+                                <li><a href="../classes/SerialGeometryElements.html">SerialGeometryElements</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
                                 <li><a href="../classes/Simplex.html">Simplex</a></li>
@@ -157,7 +159,7 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Dimensions = require(&#x27;../math/Dimensions&#x27;);
-import QQ = require(&#x27;../math/QQ&#x27;);
+import Rational = require(&#x27;../math/Rational&#x27;);
 import UnitError = require(&#x27;../math/UnitError&#x27;);
 
 var LABELS_SI = [&#x27;kg&#x27;, &#x27;m&#x27;, &#x27;s&#x27;, &#x27;C&#x27;, &#x27;K&#x27;, &#x27;mol&#x27;, &#x27;candela&#x27;];
@@ -180,12 +182,12 @@ function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
   }
 }
 
-function assertArgRational(name: string, arg: QQ): QQ {
-  if (arg instanceof QQ) {
+function assertArgRational(name: string, arg: Rational): Rational {
+  if (arg instanceof Rational) {
     return arg;
   }
   else {
-    throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a QQ&quot;);
+    throw new UnitError(&quot;Argument &#x27;&quot; + arg + &quot;&#x27; must be a Rational&quot;);
   }
 }
 
@@ -213,7 +215,7 @@ var dumbString = function(scale: number, dimensions: Dimensions, labels: string[
     var operatorStr: string;
     var scaleString: string;
     var unitsString: string;
-    var stringify = function(rational: QQ, label: string): string {
+    var stringify = function(rational: Rational, label: string): string {
         if (rational.numer === 0) {
             return null;
         } else if (rational.denom === 1) {
@@ -523,7 +525,7 @@ class Unit {
       }
     }
 
-    pow(exponent: QQ): Unit
+    pow(exponent: Rational): Unit
     {
       assertArgRational(&#x27;exponent&#x27;, exponent);
       return new Unit(Math.pow(this.scale, exponent.numer/exponent.denom), this.dimensions.pow(exponent), this.labels);

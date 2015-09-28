@@ -1,5 +1,5 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/GeometryData', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toGeometryData', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/CuboidChain', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/HH', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, GeometryData, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, Canvas3D, Geometry, CuboidChain, CuboidGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, HH, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
+define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/SerialGeometryAttribute', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toSerialGeometryElements', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/SerialGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSerialGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, SerialGeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toSerialGeometryElements, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, Canvas3D, SerialGeometry, CuboidGeometry, CuboidSerialGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -66,11 +66,11 @@ define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-ei
         },
         get Color() { return Color; },
         get Face3() { return Face3; },
-        get Geometry() { return Geometry; },
+        get CompatcGeometry() { return SerialGeometry; },
         //  get ArrowGeometry() { return ArrowGeometry },
         //  get BarnGeometry() { return BarnGeometry },
-        get CuboidChain() { return CuboidChain; },
         get CuboidGeometry() { return CuboidGeometry; },
+        get CuboidSerialGeometry() { return CuboidSerialGeometry; },
         //  get CylinderGeometry() { return CylinderGeometry },
         //  get DodecahedronGeometry() { return DodecahedronGeometry },
         //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
@@ -90,7 +90,7 @@ define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-ei
         get Matrix4() { return Matrix4; },
         get rotor3() { return rotor3; },
         get Spinor3() { return Spinor3; },
-        get HH() { return HH; },
+        get Quaternion() { return Quaternion; },
         get Vector1() { return Vector1; },
         get Vector2() { return Vector2; },
         get Vector3() { return Vector3; },
@@ -108,13 +108,13 @@ define(["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-ei
         get square() { return square; },
         get tetrahedron() { return tetrahedron; },
         get triangle() { return triangle; },
-        get toGeometryData() { return toGeometryData; },
+        get toSerialGeometryElements() { return toSerialGeometryElements; },
         get CylinderArgs() { return CylinderArgs; },
         get Symbolic() { return Symbolic; },
         // programs
         get programFromScripts() { return programFromScripts; },
-        get DrawAttribute() { return DrawAttribute; },
-        get GeometryData() { return GeometryData; },
+        get SerialGeometryAttribute() { return SerialGeometryAttribute; },
+        get SerialGeometry() { return SerialGeometry; },
         // uniforms
         get SineWaveUniform() { return SineWaveUniform; },
         // utils

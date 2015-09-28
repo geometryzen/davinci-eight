@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.111.0",
+        "version": "2.112.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -365,28 +365,12 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/dfx/Chain.ts": {
-            "name": "src/davinci-eight/dfx/Chain.ts",
+        "src/davinci-eight/dfx/Geometry.ts": {
+            "name": "src/davinci-eight/dfx/Geometry.ts",
             "modules": {},
             "classes": {
-                "Chain": 1
+                "Geometry": 1
             },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/dfx/DrawAttribute.ts": {
-            "name": "src/davinci-eight/dfx/DrawAttribute.ts",
-            "modules": {},
-            "classes": {
-                "DrawAttribute": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/dfx/GeometryData.ts": {
-            "name": "src/davinci-eight/dfx/GeometryData.ts",
-            "modules": {},
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -404,6 +388,24 @@
             "modules": {},
             "classes": {
                 "IBufferGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/dfx/SerialGeometryAttribute.ts": {
+            "name": "src/davinci-eight/dfx/SerialGeometryAttribute.ts",
+            "modules": {},
+            "classes": {
+                "SerialGeometryAttribute": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/dfx/SerialGeometryElements.ts": {
+            "name": "src/davinci-eight/dfx/SerialGeometryElements.ts",
+            "modules": {},
+            "classes": {
+                "SerialGeometryElements": 1
             },
             "fors": {},
             "namespaces": {}
@@ -466,15 +468,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/CuboidChain.ts": {
-            "name": "src/davinci-eight/geometries/CuboidChain.ts",
-            "modules": {},
-            "classes": {
-                "CuboidChain": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/geometries/CuboidGeometry.ts": {
             "name": "src/davinci-eight/geometries/CuboidGeometry.ts",
             "modules": {},
@@ -484,11 +477,11 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/geometries/Geometry.ts": {
-            "name": "src/davinci-eight/geometries/Geometry.ts",
+        "src/davinci-eight/geometries/CuboidSerialGeometry.ts": {
+            "name": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "modules": {},
             "classes": {
-                "Geometry": 1
+                "CuboidSerialGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -513,6 +506,15 @@
             "name": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/SerialGeometry.ts": {
+            "name": "src/davinci-eight/geometries/SerialGeometry.ts",
+            "modules": {},
+            "classes": {
+                "SerialGeometry": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -605,13 +607,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/CC.ts": {
-            "name": "src/davinci-eight/math/CC.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/math/Cartesian1.ts": {
             "name": "src/davinci-eight/math/Cartesian1.ts",
             "modules": {},
@@ -655,6 +650,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/math/Complex.ts": {
+            "name": "src/davinci-eight/math/Complex.ts",
+            "modules": {},
+            "classes": {
+                "Complex": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/math/Dimensions.ts": {
             "name": "src/davinci-eight/math/Dimensions.ts",
             "modules": {},
@@ -693,13 +697,6 @@
         },
         "src/davinci-eight/math/GeometricElement.ts": {
             "name": "src/davinci-eight/math/GeometricElement.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/HH.ts": {
-            "name": "src/davinci-eight/math/HH.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -760,11 +757,18 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/QQ.ts": {
-            "name": "src/davinci-eight/math/QQ.ts",
+        "src/davinci-eight/math/Quaternion.ts": {
+            "name": "src/davinci-eight/math/Quaternion.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/math/Rational.ts": {
+            "name": "src/davinci-eight/math/Rational.ts",
             "modules": {},
             "classes": {
-                "QQ": 1
+                "Rational": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1630,43 +1634,18 @@
                 }
             ]
         },
-        "Chain": {
-            "name": "Chain",
-            "shortname": "Chain",
+        "Geometry": {
+            "name": "Geometry",
+            "shortname": "Geometry",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 29,
             "description": "A list of simplices (data) with information about dimensionality and vertex properties (meta).",
             "is_constructor": 1
-        },
-        "DrawAttribute": {
-            "name": "DrawAttribute",
-            "shortname": "DrawAttribute",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "src/davinci-eight/dfx/DrawAttribute.ts",
-            "line": 54,
-            "description": "<p>\nHolds all the values of a particular attribute.\nThe size property describes how to break up the values.\nThe length of the values should be an integer multiple of the size.\n</p>\n\n var x = 3;",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "values",
-                    "description": "",
-                    "type": "VectorN<number>"
-                },
-                {
-                    "name": "size",
-                    "description": "",
-                    "type": "Number"
-                }
-            ]
         },
         "GeometryMeta": {
             "name": "GeometryMeta",
@@ -1692,6 +1671,60 @@
             "description": "A buffer geometry is implicitly bound to a single context.",
             "extends": "IUnkown"
         },
+        "SerialGeometryAttribute": {
+            "name": "SerialGeometryAttribute",
+            "shortname": "SerialGeometryAttribute",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/dfx/SerialGeometryAttribute.ts",
+            "line": 54,
+            "description": "<p>\nHolds all the values of a particular attribute.\nThe size property describes how to break up the values.\nThe length of the values should be an integer multiple of the size.\n</p>\n\n var x = 3;",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "values",
+                    "description": "",
+                    "type": "VectorN<number>"
+                },
+                {
+                    "name": "size",
+                    "description": "",
+                    "type": "Number"
+                }
+            ]
+        },
+        "SerialGeometryElements": {
+            "name": "SerialGeometryElements",
+            "shortname": "SerialGeometryElements",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/dfx/SerialGeometryElements.ts",
+            "line": 25,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "k",
+                    "description": "<p>The dimensionality of the primitives.</p>",
+                    "type": "Number"
+                },
+                {
+                    "name": "indices",
+                    "description": "<p>A list of index into the attributes</p>",
+                    "type": "VectorN"
+                },
+                {
+                    "name": "attributes",
+                    "description": "}",
+                    "type": "[name:string]: SerialGeometryAttribute"
+                }
+            ]
+        },
         "Simplex": {
             "name": "Simplex",
             "shortname": "Simplex",
@@ -1712,18 +1745,6 @@
                 }
             ]
         },
-        "CuboidChain": {
-            "name": "CuboidChain",
-            "shortname": "CuboidChain",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "src/davinci-eight/geometries/CuboidChain.ts",
-            "line": 15,
-            "extends": "Chain"
-        },
         "CuboidGeometry": {
             "name": "CuboidGeometry",
             "shortname": "CuboidGeometry",
@@ -1733,8 +1754,20 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 15,
+            "extends": "Geometry"
+        },
+        "CuboidSerialGeometry": {
+            "name": "CuboidSerialGeometry",
+            "shortname": "CuboidSerialGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 34,
-            "description": "<p>\nA CuboidGeometry represents the mathematical shape of a cuboid.\n<p>",
+            "description": "<p>\nA CuboidSerialGeometry represents the mathematical shape of a cuboid.\n<p>",
             "is_constructor": 1,
             "params": [
                 {
@@ -1751,31 +1784,6 @@
                     "name": "depth",
                     "description": "The length in the z-axis aspect.",
                     "type": "Number"
-                }
-            ]
-        },
-        "Geometry": {
-            "name": "Geometry",
-            "shortname": "Geometry",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 26,
-            "description": "<p>\nA geometry holds the elements or arrays sent to the GLSL pipeline.\n</p>\n<p>\nThese instructions are in a compact form suitable for populating WebGLBuffer(s).\n</p>",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "data",
-                    "description": "The instructions for drawing the geometry.",
-                    "type": "GeometryData"
-                },
-                {
-                    "name": "meta",
-                    "description": "",
-                    "type": "GeometryMeta"
                 }
             ]
         },
@@ -1802,6 +1810,31 @@
                     "name": "vSegments",
                     "description": "",
                     "type": "Number"
+                }
+            ]
+        },
+        "SerialGeometry": {
+            "name": "SerialGeometry",
+            "shortname": "SerialGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/geometries/SerialGeometry.ts",
+            "line": 26,
+            "description": "<p>\nA geometry holds the elements or arrays sent to the GLSL pipeline.\n</p>\n<p>\nThese instructions are in a compact form suitable for populating WebGLBuffer(s).\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "The instructions for drawing the geometry.",
+                    "type": "SerialGeometryElements"
+                },
+                {
+                    "name": "meta",
+                    "description": "",
+                    "type": "GeometryMeta"
                 }
             ]
         },
@@ -1980,6 +2013,28 @@
             "file": "src/davinci-eight/math/Cartesian4.ts",
             "line": 1
         },
+        "Complex": {
+            "name": "Complex",
+            "shortname": "Complex",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 51,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "x",
+                    "description": "The real part of the complex number."
+                },
+                {
+                    "name": "y",
+                    "description": "The imaginary part of the complex number."
+                }
+            ]
+        },
         "Dimensions": {
             "name": "Dimensions",
             "shortname": "Dimensions",
@@ -1996,37 +2051,37 @@
                 {
                     "name": "mass",
                     "description": "The mass component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 },
                 {
                     "name": "length",
                     "description": "The length component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 },
                 {
                     "name": "time",
                     "description": "The time component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 },
                 {
                     "name": "charge",
                     "description": "The charge component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 },
                 {
                     "name": "temperature",
                     "description": "The temperature component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 },
                 {
                     "name": "amount",
                     "description": "The amount component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 },
                 {
                     "name": "intensity",
                     "description": "The intensity component of the dimensions object.",
-                    "type": "QQ"
+                    "type": "Rational"
                 }
             ]
         },
@@ -2144,28 +2199,27 @@
             "file": "src/davinci-eight/math/Mutable.ts",
             "line": 1
         },
-        "QQ": {
-            "name": "QQ",
-            "shortname": "QQ",
+        "Rational": {
+            "name": "Rational",
+            "shortname": "Rational",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/davinci-eight/math/QQ.ts",
-            "line": 36,
-            "description": "The QQ class represents a rational number.",
-            "extends": "Field",
+            "file": "src/davinci-eight/math/Rational.ts",
+            "line": 20,
+            "description": "The Rational class represents a rational number.",
             "is_constructor": 1,
             "params": [
                 {
                     "name": "n",
-                    "description": "The numerator.",
+                    "description": "The numerator, an integer.",
                     "type": "Number"
                 },
                 {
                     "name": "d",
-                    "description": "The denominator.",
+                    "description": "The denominator, an integer.",
                     "type": "Number"
                 }
             ]
@@ -4117,7 +4171,7 @@
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
             "line": 1,
             "interface": "UniformMetaInfo",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
@@ -4125,7 +4179,7 @@
             "itemtype": "property",
             "name": "name  Specifies an optional override of the name used as a key.",
             "type": "String",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
@@ -4133,69 +4187,69 @@
             "itemtype": "property",
             "name": "glslType  The type keyword as it appears in the GLSL shader program.",
             "type": "String",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/core/getAttribVarName.ts",
             "line": 4,
             "description": "Policy for how an attribute variable name is determined.",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/core/getUniformVarName.ts",
             "line": 4,
             "description": "Policy for how a uniform variable name is determined.",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 2,
             "author": "zz85 / http://www.lab4games.net/zz85/blog\nExtensible curve object\n\nSome common of Curve methods\n.getPoint(t), getTangent(t)\n.getPointAt(u), getTagentAt(u)\n.getPoints(), .getSpacedPoints()\n.getLength()\n.updateArcLengths()\n\nThis following classes subclasses Curve:\n\nLineCurve\nQuadraticBezierCurve\nCubicBezierCurve\nSplineCurve\nArcCurve\nEllipseCurve\nClosedSplineCurve",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 30,
             "description": "Virtual base class method to overwrite and implement in subclasses\nt belongs to [0, 1]",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 37,
             "description": "Get point at relative position in curve according to arc length",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 112,
             "description": "Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 194,
             "description": "Returns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 12,
             "itemtype": "property",
             "name": "data",
             "type": "{Simplex[]}",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 17,
             "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis same data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
             "type": "{GeometryMeta}",
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 36,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>",
             "itemtype": "method",
@@ -4209,24 +4263,24 @@
             ],
             "return": {
                 "description": "",
-                "type": "Chain"
+                "type": "Geometry"
             },
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 49,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
             "return": {
                 "description": "",
-                "type": "Chain"
+                "type": "Geometry"
             },
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 59,
             "description": "Applies the subdivide operation to each Simplex in this instance the specified number of times.",
             "itemtype": "method",
@@ -4240,43 +4294,25 @@
             ],
             "return": {
                 "description": "",
-                "type": "Chain"
+                "type": "Geometry"
             },
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 71,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
                 "description": "",
-                "type": "Geometry"
+                "type": "SerialGeometry"
             },
-            "class": "Chain"
+            "class": "Geometry"
         },
         {
-            "file": "src/davinci-eight/dfx/Chain.ts",
+            "file": "src/davinci-eight/dfx/Geometry.ts",
             "line": 79,
-            "class": "Chain"
-        },
-        {
-            "file": "src/davinci-eight/dfx/DrawAttribute.ts",
-            "line": 43,
-            "description": "The values of the attribute.",
-            "class": "DrawAttribute"
-        },
-        {
-            "file": "src/davinci-eight/dfx/DrawAttribute.ts",
-            "line": 48,
-            "description": "The chunking size of the attribute.\nThis is distinct from the size in the `GeometryMeta`.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
-            "class": "DrawAttribute"
-        },
-        {
-            "file": "src/davinci-eight/dfx/GeometryData.ts",
-            "line": 6,
-            "description": "0 => POINTS, 1 => LINES, 2 => TRIANGLES",
-            "class": "GeometryMeta"
+            "class": "Geometry"
         },
         {
             "file": "src/davinci-eight/dfx/GeometryMeta.ts",
@@ -4344,6 +4380,40 @@
                 "type": "Void"
             },
             "class": "IBufferGeometry"
+        },
+        {
+            "file": "src/davinci-eight/dfx/SerialGeometryAttribute.ts",
+            "line": 43,
+            "description": "The values of the attribute.",
+            "class": "SerialGeometryAttribute"
+        },
+        {
+            "file": "src/davinci-eight/dfx/SerialGeometryAttribute.ts",
+            "line": 48,
+            "description": "The chunking size of the attribute.\nThis is distinct from the size in the `GeometryMeta`.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
+            "class": "SerialGeometryAttribute"
+        },
+        {
+            "file": "src/davinci-eight/dfx/SerialGeometryElements.ts",
+            "line": 9,
+            "description": "0 => POINTS, 1 => LINES, 2 => TRIANGLES",
+            "class": "SerialGeometryElements"
+        },
+        {
+            "file": "src/davinci-eight/dfx/SerialGeometryElements.ts",
+            "line": 14,
+            "itemtype": "property",
+            "name": "indices",
+            "type": "{VectorN}",
+            "class": "SerialGeometryElements"
+        },
+        {
+            "file": "src/davinci-eight/dfx/SerialGeometryElements.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "{{[name:string]: SerialGeometryAttribute}}",
+            "class": "SerialGeometryElements"
         },
         {
             "file": "src/davinci-eight/dfx/Simplex.ts",
@@ -4504,107 +4574,91 @@
             "line": 27,
             "description": "The index property is used when computing elements.",
             "deprecated": true,
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
             "file": "src/davinci-eight/dfx/VertexAttributeMap.ts",
             "line": 2,
             "description": "Defined for implementation convenience.",
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
             "file": "src/davinci-eight/dfx/cube.ts",
             "line": 12,
             "description": "cube as Simplex[]\n\n   v6----- v5\n  /|      /|\n v1------v0|\n | |     | |\n | |v7---|-|v4\n |/      |/\n v2------v3",
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
             "file": "src/davinci-eight/dfx/quadrilateral.ts",
             "line": 19,
             "description": "quadrilateral\n\n b-------a\n |       | \n |       |\n |       |\n c-------d\n\nThe quadrilateral is split into two triangles: b-c-a and d-a-c, like a \"Z\".\nThe zeroth vertex for each triangle is opposite the other triangle.",
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
             "file": "src/davinci-eight/dfx/tetrahedron.ts",
             "line": 6,
             "description": "terahedron\n\nThe tetrahedron is composed of four triangles: abc, bdc, cda, dba.",
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
             "file": "src/davinci-eight/dfx/toGeometryMeta.ts",
             "line": 25,
             "description": "Returns undefined (void 0) for an empty geometry.",
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/BarnGeometry.ts",
             "line": 5,
             "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.",
-            "class": "CuboidChain"
+            "class": "CuboidGeometry"
         },
         {
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 9,
             "itemtype": "property",
             "name": "x  The length of the side in the x-axis direction.",
             "type": "Number",
-            "class": "CuboidGeometry"
+            "class": "CuboidSerialGeometry"
         },
         {
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 13,
             "itemtype": "property",
             "name": "y  The length of the side in the y-axis direction.",
             "type": "Number",
-            "class": "CuboidGeometry"
+            "class": "CuboidSerialGeometry"
         },
         {
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 17,
             "itemtype": "property",
             "name": "z  The length of the side in the z-axis direction.",
             "type": "Number",
-            "class": "CuboidGeometry"
+            "class": "CuboidSerialGeometry"
         },
         {
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 21,
             "itemtype": "property",
             "name": "xSegments  The number of segments in the x-axis direction.",
             "type": "Number",
-            "class": "CuboidGeometry"
+            "class": "CuboidSerialGeometry"
         },
         {
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 25,
             "itemtype": "property",
             "name": "ySegments  The number of segments in the y-axis direction.",
             "type": "Number",
-            "class": "CuboidGeometry"
+            "class": "CuboidSerialGeometry"
         },
         {
-            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "file": "src/davinci-eight/geometries/CuboidSerialGeometry.ts",
             "line": 29,
             "itemtype": "property",
             "name": "zSegments  The number of segments in the z-axis direction.",
             "type": "Number",
-            "class": "CuboidGeometry"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 15,
-            "itemtype": "property",
-            "name": "data",
-            "type": "{GeometryData}",
-            "class": "Geometry"
-        },
-        {
-            "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 20,
-            "itemtype": "property",
-            "name": "meta",
-            "type": "{GeometryMeta}",
-            "class": "Geometry"
+            "class": "CuboidSerialGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/GeometryOld.ts",
@@ -4636,19 +4690,35 @@
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 10,
             "description": "radius",
-            "class": "LocalizableMessage"
+            "class": "SerialGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 14,
             "description": "half-width",
-            "class": "LocalizableMessage"
+            "class": "SerialGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 28,
             "description": "http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html",
-            "class": "LocalizableMessage"
+            "class": "SerialGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SerialGeometry.ts",
+            "line": 15,
+            "itemtype": "property",
+            "name": "data",
+            "type": "{SerialGeometry}",
+            "class": "SerialGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SerialGeometry.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "meta",
+            "type": "{GeometryMeta}",
+            "class": "SerialGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/SurfaceGeometry.ts",
@@ -4784,52 +4854,6 @@
             "class": "SmartMaterial"
         },
         {
-            "file": "src/davinci-eight/math/CC.ts",
-            "line": 61,
-            "description": "The real part of the complex number.",
-            "class": "Cartesian1"
-        },
-        {
-            "file": "src/davinci-eight/math/CC.ts",
-            "line": 65,
-            "description": "The imaginary part of the complex number.",
-            "class": "Cartesian1"
-        },
-        {
-            "file": "src/davinci-eight/math/CC.ts",
-            "line": 69,
-            "description": "The optional unit of measure.",
-            "class": "Cartesian1"
-        },
-        {
-            "file": "src/davinci-eight/math/CC.ts",
-            "line": 73,
-            "description": "Constructs a complex number z = (x, y).",
-            "params": [
-                {
-                    "name": "x",
-                    "description": "The real part of the complex number."
-                },
-                {
-                    "name": "y",
-                    "description": "The imaginary part of the complex number."
-                }
-            ],
-            "class": "Cartesian1"
-        },
-        {
-            "file": "src/davinci-eight/math/CC.ts",
-            "line": 99,
-            "description": "__add__ supports operator +(CC, any)",
-            "class": "Cartesian1"
-        },
-        {
-            "file": "src/davinci-eight/math/CC.ts",
-            "line": 111,
-            "description": "__radd__ supports operator +(any, CC)",
-            "class": "Cartesian1"
-        },
-        {
             "file": "src/davinci-eight/math/Cartesian1.ts",
             "line": 5,
             "itemtype": "property",
@@ -4913,7 +4937,46 @@
             "file": "src/davinci-eight/math/Color.ts",
             "line": 23,
             "description": "Converts an angle, radius, height to a color on a color wheel.",
-            "class": "Dimensions"
+            "class": "Complex"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 33,
+            "description": "The real part of the complex number.",
+            "itemtype": "property",
+            "name": "x",
+            "type": "{number}",
+            "class": "Complex"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 39,
+            "description": "The imaginary part of the complex number.",
+            "itemtype": "property",
+            "name": "y",
+            "type": "{number}",
+            "class": "Complex"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 45,
+            "description": "The optional unit of measure.",
+            "itemtype": "property",
+            "name": "uom",
+            "type": "{Unit}",
+            "class": "Complex"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 76,
+            "description": "__add__ supports operator +(Complex, any)",
+            "class": "Complex"
+        },
+        {
+            "file": "src/davinci-eight/math/Complex.ts",
+            "line": 87,
+            "description": "__radd__ supports operator +(any, Complex)",
+            "class": "Complex"
         },
         {
             "file": "src/davinci-eight/math/Dimensions.ts",
@@ -4921,7 +4984,7 @@
             "description": "The <em>mass</em> component of this dimensions instance.",
             "itemtype": "property",
             "name": "M",
-            "type": "{QQ}",
+            "type": "{Rational}",
             "class": "Dimensions"
         },
         {
@@ -5131,12 +5194,6 @@
             "class": "Matrix<M>"
         },
         {
-            "file": "src/davinci-eight/math/HH.ts",
-            "line": 7,
-            "description": "HH is retained for reference only.\nHH should not be exposed.",
-            "class": "Matrix<M>"
-        },
-        {
             "file": "src/davinci-eight/math/LinearElement.ts",
             "line": 1,
             "description": "A mutable element of a linear space.",
@@ -5222,6 +5279,50 @@
             "name": "callback",
             "type": "() => T",
             "class": "Mutable"
+        },
+        {
+            "file": "src/davinci-eight/math/Quaternion.ts",
+            "line": 7,
+            "description": "Quaternion is retained for reference only.\nQuaternion should not be exposed.",
+            "class": "Rational"
+        },
+        {
+            "file": "src/davinci-eight/math/Rational.ts",
+            "line": 7,
+            "itemtype": "property",
+            "name": "_numer",
+            "type": "{number}",
+            "access": "private",
+            "tagname": "",
+            "class": "Rational"
+        },
+        {
+            "file": "src/davinci-eight/math/Rational.ts",
+            "line": 13,
+            "itemtype": "property",
+            "name": "_denom",
+            "type": "{number}",
+            "access": "private",
+            "tagname": "",
+            "class": "Rational"
+        },
+        {
+            "file": "src/davinci-eight/math/Rational.ts",
+            "line": 77,
+            "itemtype": "property",
+            "name": "numer",
+            "type": "{number}",
+            "readonly": "",
+            "class": "Rational"
+        },
+        {
+            "file": "src/davinci-eight/math/Rational.ts",
+            "line": 85,
+            "itemtype": "property",
+            "name": "denom",
+            "type": "{number}",
+            "readonly": "",
+            "class": "Rational"
         },
         {
             "file": "src/davinci-eight/math/Rotor3.ts",
@@ -6420,23 +6521,23 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/dfx/Chain.ts:79"
-        },
-        {
-            "message": "Missing item type\nThe values of the attribute.",
-            "line": " src/davinci-eight/dfx/DrawAttribute.ts:43"
-        },
-        {
-            "message": "Missing item type\nThe chunking size of the attribute.\nThis is distinct from the size in the `GeometryMeta`.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
-            "line": " src/davinci-eight/dfx/DrawAttribute.ts:48"
-        },
-        {
-            "message": "Missing item type\n0 => POINTS, 1 => LINES, 2 => TRIANGLES",
-            "line": " src/davinci-eight/dfx/GeometryData.ts:6"
+            "line": " src/davinci-eight/dfx/Geometry.ts:79"
         },
         {
             "message": "Missing item type\nThe properties of the attributes.\nThe size refers to the size of the GLSL type, not the chunking size.\nThe name is an override of the key that produces the variable name.",
             "line": " src/davinci-eight/dfx/GeometryMeta.ts:11"
+        },
+        {
+            "message": "Missing item type\nThe values of the attribute.",
+            "line": " src/davinci-eight/dfx/SerialGeometryAttribute.ts:43"
+        },
+        {
+            "message": "Missing item type\nThe chunking size of the attribute.\nThis is distinct from the size in the `GeometryMeta`.\nThe chunking size is invariant given the values and is used to describe the vertex attribute pointer.",
+            "line": " src/davinci-eight/dfx/SerialGeometryAttribute.ts:48"
+        },
+        {
+            "message": "Missing item type\n0 => POINTS, 1 => LINES, 2 => TRIANGLES",
+            "line": " src/davinci-eight/dfx/SerialGeometryElements.ts:9"
         },
         {
             "message": "Missing item type",
@@ -6547,32 +6648,16 @@
             "line": " src/davinci-eight/materials/SmartMaterial.ts:21"
         },
         {
-            "message": "Missing item type\nThe real part of the complex number.",
-            "line": " src/davinci-eight/math/CC.ts:61"
-        },
-        {
-            "message": "Missing item type\nThe imaginary part of the complex number.",
-            "line": " src/davinci-eight/math/CC.ts:65"
-        },
-        {
-            "message": "Missing item type\nThe optional unit of measure.",
-            "line": " src/davinci-eight/math/CC.ts:69"
-        },
-        {
-            "message": "Missing item type\nConstructs a complex number z = (x, y).",
-            "line": " src/davinci-eight/math/CC.ts:73"
-        },
-        {
-            "message": "Missing item type\n__add__ supports operator +(CC, any)",
-            "line": " src/davinci-eight/math/CC.ts:99"
-        },
-        {
-            "message": "Missing item type\n__radd__ supports operator +(any, CC)",
-            "line": " src/davinci-eight/math/CC.ts:111"
-        },
-        {
             "message": "Missing item type\nConverts an angle, radius, height to a color on a color wheel.",
             "line": " src/davinci-eight/math/Color.ts:23"
+        },
+        {
+            "message": "Missing item type\n__add__ supports operator +(Complex, any)",
+            "line": " src/davinci-eight/math/Complex.ts:76"
+        },
+        {
+            "message": "Missing item type\n__radd__ supports operator +(any, Complex)",
+            "line": " src/davinci-eight/math/Complex.ts:87"
         },
         {
             "message": "Missing item type\n~ (tilde) produces reversion.",
@@ -6635,10 +6720,6 @@
             "line": " src/davinci-eight/math/GeometricElement.ts:2"
         },
         {
-            "message": "Missing item type\nHH is retained for reference only.\nHH should not be exposed.",
-            "line": " src/davinci-eight/math/HH.ts:7"
-        },
-        {
             "message": "Missing item type\nA mutable element of a linear space.",
             "line": " src/davinci-eight/math/LinearElement.ts:1"
         },
@@ -6665,6 +6746,10 @@
         {
             "message": "Missing item type",
             "line": " src/davinci-eight/math/Matrix4.ts:242"
+        },
+        {
+            "message": "Missing item type\nQuaternion is retained for reference only.\nQuaternion should not be exposed.",
+            "line": " src/davinci-eight/math/Quaternion.ts:7"
         },
         {
             "message": "Missing item type\nR = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",

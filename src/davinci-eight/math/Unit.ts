@@ -1,5 +1,5 @@
 import Dimensions = require('../math/Dimensions');
-import QQ = require('../math/QQ');
+import Rational = require('../math/Rational');
 import UnitError = require('../math/UnitError');
 
 var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
@@ -22,12 +22,12 @@ function assertArgDimensions(name: string, arg: Dimensions): Dimensions {
   }
 }
 
-function assertArgRational(name: string, arg: QQ): QQ {
-  if (arg instanceof QQ) {
+function assertArgRational(name: string, arg: Rational): Rational {
+  if (arg instanceof Rational) {
     return arg;
   }
   else {
-    throw new UnitError("Argument '" + arg + "' must be a QQ");
+    throw new UnitError("Argument '" + arg + "' must be a Rational");
   }
 }
 
@@ -55,7 +55,7 @@ var dumbString = function(scale: number, dimensions: Dimensions, labels: string[
     var operatorStr: string;
     var scaleString: string;
     var unitsString: string;
-    var stringify = function(rational: QQ, label: string): string {
+    var stringify = function(rational: Rational, label: string): string {
         if (rational.numer === 0) {
             return null;
         } else if (rational.denom === 1) {
@@ -365,7 +365,7 @@ class Unit {
       }
     }
 
-    pow(exponent: QQ): Unit
+    pow(exponent: Rational): Unit
     {
       assertArgRational('exponent', exponent);
       return new Unit(Math.pow(this.scale, exponent.numer/exponent.denom), this.dimensions.pow(exponent), this.labels);

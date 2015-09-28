@@ -1,7 +1,7 @@
 import IContextConsumer = require('../core/IContextConsumer');
 import ContextMonitor = require('../core/ContextMonitor');
 import ContextUnique = require('../core/ContextUnique');
-import GeometryData = require('../dfx/GeometryData');
+import SerialGeometryElements = require('../dfx/SerialGeometryElements');
 import IBuffer = require('../core/IBuffer');
 import IBufferGeometry = require('../dfx/IBufferGeometry');
 // FIXME: Do we need IMaterial?
@@ -21,7 +21,7 @@ import IUnknown = require('../core/IUnknown');
  */
 interface IContextProvider extends ContextMonitor, IUnknown {
   createArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
   createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;

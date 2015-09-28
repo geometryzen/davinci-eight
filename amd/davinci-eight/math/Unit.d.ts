@@ -1,5 +1,5 @@
 import Dimensions = require('../math/Dimensions');
-import QQ = require('../math/QQ');
+import Rational = require('../math/Rational');
 declare class Unit {
     scale: number;
     dimensions: Dimensions;
@@ -30,7 +30,7 @@ declare class Unit {
     div(rhs: Unit): Unit;
     __div__(other: any): Unit;
     __rdiv__(other: any): Unit;
-    pow(exponent: QQ): Unit;
+    pow(exponent: Rational): Unit;
     inverse(): Unit;
     isUnity(): boolean;
     norm(): Unit;

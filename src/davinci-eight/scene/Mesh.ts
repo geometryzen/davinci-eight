@@ -2,8 +2,8 @@ import toGeometryMeta = require('../dfx/toGeometryMeta')
 import IContextProvider = require('../core/IContextProvider')
 import ContextMonitor = require('../core/ContextMonitor')
 import core = require('../core');
-import GeometryData = require('../dfx/GeometryData')
-import Geometry = require('../geometries/Geometry')
+import SerialGeometryElements = require('../dfx/SerialGeometryElements')
+import SerialGeometry = require('../geometries/SerialGeometry')
 import GeometryMeta = require('../dfx/GeometryMeta')
 import IDrawable = require('../core/IDrawable')
 import IBufferGeometry = require('../dfx/IBufferGeometry')
@@ -15,7 +15,7 @@ import NumberIUnknownMap = require('../utils/NumberIUnknownMap')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../dfx/Simplex')
-import toGeometryData = require('../dfx/toGeometryData')
+import toSerialGeometryElements = require('../dfx/toSerialGeometryElements')
 import UniformData = require('../core/UniformData')
 import uuid4 = require('../utils/uuid4')
 
@@ -32,7 +32,7 @@ function contextBuilder() {
  * @class Mesh
  * @implements IDrawable
  */
-class Mesh<G extends Geometry, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
+class Mesh<G extends SerialGeometry, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
   public geometry: G;
   public _material: M;
   /**

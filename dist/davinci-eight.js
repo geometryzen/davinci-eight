@@ -2919,10 +2919,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     var core = {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-26',
+        LAST_MODIFIED: '2015-09-27',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.111.0'
+        VERSION: '2.112.0'
     };
     return core;
 });
@@ -3357,7 +3357,7 @@ define('davinci-eight/curves/Curve',["require", "exports"], function (require, e
     return Curve;
 });
 
-define('davinci-eight/dfx/DrawAttribute',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+define('davinci-eight/dfx/SerialGeometryAttribute',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
     function isVectorN(values) {
         return values instanceof VectorN;
     }
@@ -3390,38 +3390,22 @@ define('davinci-eight/dfx/DrawAttribute',["require", "exports", '../math/VectorN
     
       var x = 3;
     
-     * @class DrawAttribute
+     * @class SerialGeometryAttribute
      */
-    var DrawAttribute = (function () {
+    var SerialGeometryAttribute = (function () {
         /**
-         * @class DrawAttribute
+         * @class SerialGeometryAttribute
          * @constructor
          * @param values {VectorN<number>}
          * @param size {number}
          */
-        function DrawAttribute(values, size) {
+        function SerialGeometryAttribute(values, size) {
             this.values = checkValues(values);
             this.size = checkSize(size, values);
         }
-        return DrawAttribute;
+        return SerialGeometryAttribute;
     })();
-    return DrawAttribute;
-});
-
-define('davinci-eight/dfx/GeometryData',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
-    var GeometryData = (function () {
-        function GeometryData(k, indices, attributes) {
-            // TODO: Looks like a DrawAttributeMap here (implementation only)
-            this.attributes = {};
-            expectArg('indices', indices).toBeObject().toSatisfy(indices instanceof VectorN, "indices must be a VectorN<number>");
-            expectArg('attributes', attributes).toBeObject();
-            this.k = k;
-            this.indices = indices;
-            this.attributes = attributes;
-        }
-        return GeometryData;
-    })();
-    return GeometryData;
+    return SerialGeometryAttribute;
 });
 
 define('davinci-eight/checks/isInteger',["require", "exports", '../checks/isNumber'], function (require, exports, isNumber) {
@@ -4303,7 +4287,37 @@ define('davinci-eight/dfx/computeUniqueVertices',["require", "exports"], functio
     return computeUniqueVertices;
 });
 
-define('davinci-eight/dfx/toGeometryData',["require", "exports", '../dfx/toGeometryMeta', '../dfx/computeUniqueVertices', '../dfx/GeometryData', '../dfx/DrawAttribute', '../checks/expectArg', '../dfx/Simplex', '../math/VectorN'], function (require, exports, toGeometryMeta, computeUniqueVertices, GeometryData, DrawAttribute, expectArg, Simplex, VectorN) {
+define('davinci-eight/dfx/SerialGeometryElements',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
+    /**
+     * @class SerialGeometryElements
+     */
+    var SerialGeometryElements = (function () {
+        /**
+         * @class SerialGeometryElements
+         * @constructor
+         * @param k {number} <p>The dimensionality of the primitives.</p>
+         * @param indices {VectorN} <p>A list of index into the attributes</p>
+         * @param attributes {{[name:string]: SerialGeometryAttribute}}
+         */
+        function SerialGeometryElements(k, indices, attributes) {
+            // TODO: Looks like a DrawAttributeMap here (implementation only)
+            /**
+             * @property attributes
+             * @type {{[name:string]: SerialGeometryAttribute}}
+             */
+            this.attributes = {};
+            expectArg('indices', indices).toBeObject().toSatisfy(indices instanceof VectorN, "indices must be a VectorN<number>");
+            expectArg('attributes', attributes).toBeObject();
+            this.k = k;
+            this.indices = indices;
+            this.attributes = attributes;
+        }
+        return SerialGeometryElements;
+    })();
+    return SerialGeometryElements;
+});
+
+define('davinci-eight/dfx/toSerialGeometryElements',["require", "exports", '../dfx/toGeometryMeta', '../dfx/computeUniqueVertices', '../dfx/SerialGeometryElements', '../dfx/SerialGeometryAttribute', '../checks/expectArg', '../dfx/Simplex', '../math/VectorN'], function (require, exports, toGeometryMeta, computeUniqueVertices, SerialGeometryElements, SerialGeometryAttribute, expectArg, Simplex, VectorN) {
     function numberList(size, value) {
         var data = [];
         for (var i = 0; i < size; i++) {
@@ -4340,7 +4354,7 @@ define('davinci-eight/dfx/toGeometryData',["require", "exports", '../dfx/toGeome
     function concat(a, b) {
         return a.concat(b);
     }
-    function toGeometryData(simplices, geometryMeta) {
+    function toSerialGeometryElements(simplices, geometryMeta) {
         expectArg('simplices', simplices).toBeObject();
         var actuals = toGeometryMeta(simplices);
         if (geometryMeta) {
@@ -4393,11 +4407,11 @@ define('davinci-eight/dfx/toGeometryData',["require", "exports", '../dfx/toGeome
             var output = outputs[k];
             var data = output.data;
             var vector = new VectorN(data, false, data.length);
-            attributes[output.name] = new DrawAttribute(vector, output.dimensions);
+            attributes[output.name] = new SerialGeometryAttribute(vector, output.dimensions);
         }
-        return new GeometryData(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
+        return new SerialGeometryElements(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
     }
-    return toGeometryData;
+    return toSerialGeometryElements;
 });
 
 define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
@@ -5939,7 +5953,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core', '../dfx/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/RefCount', '../utils/refChange', '../utils/Shareable', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, RefCount, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core', '../dfx/SerialGeometryElements', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/RefCount', '../utils/refChange', '../utils/Shareable', '../dfx/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, SerialGeometryElements, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, RefCount, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Mesh';
@@ -6342,7 +6356,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
              *
              */
             createBufferGeometry: function (elements, mode, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryData");
+                expectArg('elements', elements).toSatisfy(elements instanceof SerialGeometryElements, "elements must be an instance of SerialGeometry");
                 mode = drawMode(elements.k, mode);
                 if (!isDefined(mode)) {
                     // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
@@ -6690,7 +6704,7 @@ define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/rende
     return Canvas3D;
 });
 
-define('davinci-eight/geometries/Geometry',["require", "exports"], function (require, exports) {
+define('davinci-eight/geometries/SerialGeometry',["require", "exports"], function (require, exports) {
     /**
      * <p>
      * A geometry holds the elements or arrays sent to the GLSL pipeline.
@@ -6699,22 +6713,22 @@ define('davinci-eight/geometries/Geometry',["require", "exports"], function (req
      * These instructions are in a compact form suitable for populating WebGLBuffer(s).
      * </p>
      *
-     * @class Geometry
+     * @class SerialGeometry
      */
-    var Geometry = (function () {
+    var SerialGeometry = (function () {
         /**
-         * @class Geometry
+         * @class SerialGeometry
          * @constructor
-         * @param data {GeometryData} The instructions for drawing the geometry.
+         * @param data {SerialGeometryElements} The instructions for drawing the geometry.
          * @param meta {GeometryMeta}
          */
-        function Geometry(data, meta) {
+        function SerialGeometry(data, meta) {
             this.data = data;
             this.meta = meta;
         }
-        return Geometry;
+        return SerialGeometry;
     })();
-    return Geometry;
+    return SerialGeometry;
 });
 
 define('davinci-eight/geometries/buildPlane',["require", "exports", '../dfx/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Simplex, Symbolic, Vector2, Vector3) {
@@ -6808,17 +6822,17 @@ define('davinci-eight/geometries/buildPlane',["require", "exports", '../dfx/Simp
     return buildPlane;
 });
 
-define('davinci-eight/dfx/Chain',["require", "exports", '../dfx/toGeometryMeta', '../geometries/Geometry', '../dfx/Simplex', '../dfx/toGeometryData'], function (require, exports, toGeometryMeta, Geometry, Simplex, toGeometryData) {
+define('davinci-eight/dfx/Geometry',["require", "exports", '../dfx/toGeometryMeta', '../geometries/SerialGeometry', '../dfx/Simplex', '../dfx/toSerialGeometryElements'], function (require, exports, toGeometryMeta, SerialGeometry, Simplex, toSerialGeometryElements) {
     /**
-     * @class Chain
+     * @class Geometry
      */
-    var Chain = (function () {
+    var Geometry = (function () {
         /**
          * A list of simplices (data) with information about dimensionality and vertex properties (meta).
-         * @class Chain
+         * @class Geometry
          * @constructor
          */
-        function Chain() {
+        function Geometry() {
             /**
              * @property data
              * @type {Simplex[]}
@@ -6836,9 +6850,9 @@ define('davinci-eight/dfx/Chain',["require", "exports", '../dfx/toGeometryMeta',
          *
          * @method boundary
          * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-         * @return {Chain}
+         * @return {Geometry}
          */
-        Chain.prototype.boundary = function (times) {
+        Geometry.prototype.boundary = function (times) {
             this.data = Simplex.boundary(this.data, times);
             return this.check();
         };
@@ -6846,9 +6860,9 @@ define('davinci-eight/dfx/Chain',["require", "exports", '../dfx/toGeometryMeta',
          * Updates the meta property of this instance to match the data.
          *
          * @method check
-         * @return {Chain}
+         * @return {Geometry}
          */
-        Chain.prototype.check = function () {
+        Geometry.prototype.check = function () {
             this.meta = toGeometryMeta(this.data);
             return this;
         };
@@ -6857,31 +6871,31 @@ define('davinci-eight/dfx/Chain',["require", "exports", '../dfx/toGeometryMeta',
          *
          * @method subdivide
          * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-         * @return {Chain}
+         * @return {Geometry}
          */
-        Chain.prototype.subdivide = function (times) {
+        Geometry.prototype.subdivide = function (times) {
             this.data = Simplex.subdivide(this.data, times);
             this.check();
             return this;
         };
         /**
          * @method toGeometry
-         * @return {Geometry}
+         * @return {SerialGeometry}
          */
-        Chain.prototype.toGeometry = function () {
-            var elements = toGeometryData(this.data, this.meta);
-            return new Geometry(elements, this.meta);
+        Geometry.prototype.toSerialGeometry = function () {
+            var elements = toSerialGeometryElements(this.data, this.meta);
+            return new SerialGeometry(elements, this.meta);
         };
         /**
          *
          */
-        Chain.prototype.mergeVertices = function (precisionPoints) {
+        Geometry.prototype.mergeVertices = function (precisionPoints) {
             if (precisionPoints === void 0) { precisionPoints = 4; }
-            // console.warn("Chain.mergeVertices not yet implemented");
+            // console.warn("Geometry.mergeVertices not yet implemented");
         };
-        return Chain;
+        return Geometry;
     })();
-    return Chain;
+    return Geometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -6889,17 +6903,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidChain',["require", "exports", '../geometries/buildPlane', '../dfx/Chain', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Vector1'], function (require, exports, buildPlane, Chain, mustBeInteger, mustBeNumber, Vector1) {
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geometries/buildPlane', '../dfx/Geometry', '../checks/mustBeInteger', '../checks/mustBeNumber', '../math/Vector1'], function (require, exports, buildPlane, Geometry, mustBeInteger, mustBeNumber, Vector1) {
     function boxCtor() {
-        return "CuboidChain constructor";
+        return "CuboidGeometry constructor";
     }
     /**
-     * @class CuboidChain
-     * @extends Chain
+     * @class CuboidGeometry
+     * @extends Geometry
      */
-    var CuboidChain = (function (_super) {
-        __extends(CuboidChain, _super);
-        function CuboidChain(x, y, z, xSeg, ySeg, zSeg, wireFrame) {
+    var CuboidGeometry = (function (_super) {
+        __extends(CuboidGeometry, _super);
+        function CuboidGeometry(x, y, z, xSeg, ySeg, zSeg, wireFrame) {
             if (x === void 0) { x = 1; }
             if (y === void 0) { y = 1; }
             if (z === void 0) { z = 1; }
@@ -6938,9 +6952,9 @@ define('davinci-eight/geometries/CuboidChain',["require", "exports", '../geometr
             this.mergeVertices();
             this.check();
         }
-        return CuboidChain;
-    })(Chain);
-    return CuboidChain;
+        return CuboidGeometry;
+    })(Geometry);
+    return CuboidGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -6948,23 +6962,23 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geometries/CuboidChain', '../geometries/Geometry', '../dfx/toGeometryData'], function (require, exports, CuboidChain, Geometry, toGeometryData) {
+define('davinci-eight/geometries/CuboidSerialGeometry',["require", "exports", '../geometries/CuboidGeometry', '../geometries/SerialGeometry', '../dfx/toSerialGeometryElements'], function (require, exports, CuboidGeometry, SerialGeometry, toSerialGeometryElements) {
     /**
-     * @class CuboidGeometry
+     * @class CuboidSerialGeometry
      */
-    var CuboidGeometry = (function (_super) {
-        __extends(CuboidGeometry, _super);
+    var CuboidSerialGeometry = (function (_super) {
+        __extends(CuboidSerialGeometry, _super);
         /**
          * <p>
-         * A CuboidGeometry represents the mathematical shape of a cuboid.
+         * A CuboidSerialGeometry represents the mathematical shape of a cuboid.
          * <p>
-         * @class CuboidGeometry
+         * @class CuboidSerialGeometry
          * @constructor
          * @param width {number} The length in the x-axis aspect.
          * @param height {number} The length in the y-axis aspect.
          * @param depth {number} The length in the z-axis aspect.
          */
-        function CuboidGeometry(width, height, depth) {
+        function CuboidSerialGeometry(width, height, depth) {
             if (width === void 0) { width = 1; }
             if (height === void 0) { height = 1; }
             if (depth === void 0) { depth = 1; }
@@ -6978,14 +6992,14 @@ define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geom
             this.lines = true;
             this.calculate();
         }
-        CuboidGeometry.prototype.calculate = function () {
-            var complex = new CuboidChain(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
-            this.data = toGeometryData(complex.data, complex.meta);
+        CuboidSerialGeometry.prototype.calculate = function () {
+            var complex = new CuboidGeometry(this.x, this.y, this.z, this.xSegments, this.ySegments, this.zSegments, this.lines);
+            this.data = toSerialGeometryElements(complex.data, complex.meta);
             this.meta = complex.meta;
         };
-        return CuboidGeometry;
-    })(Geometry);
-    return CuboidGeometry;
+        return CuboidSerialGeometry;
+    })(SerialGeometry);
+    return CuboidSerialGeometry;
 });
 
 define('davinci-eight/programs/makeWebGLShader',["require", "exports"], function (require, exports) {
@@ -8660,67 +8674,26 @@ define('davinci-eight/math/DimensionError',["require", "exports"], function (req
     return DimensionError;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/math/QQError',["require", "exports"], function (require, exports) {
-    var QQError = (function (_super) {
-        __extends(QQError, _super);
-        function QQError(message) {
-            _super.call(this, message);
-            this.name = 'QQError';
-        }
-        return QQError;
-    })(Error);
-    return QQError;
-});
-
-define('davinci-eight/math/QQ',["require", "exports", '../math/QQError'], function (require, exports, QQError) {
-    function assertArgNumber(name, x) {
-        if (typeof x === 'number') {
-            return x;
-        }
-        else {
-            throw new QQError("Argument '" + name + "' must be a number");
-        }
-    }
-    function assertArgRational(name, arg) {
-        if (arg instanceof QQ) {
-            return arg;
-        }
-        else {
-            throw new QQError("Argument '" + arg + "' must be a QQ");
-        }
-    }
-    /*
-    function assertArgUnitOrUndefined(name: string, uom: Unit): Unit {
-      if (typeof uom === 'undefined' || uom instanceof Unit) {
-        return uom;
-      }
-      else {
-        throw new QQError("Argument '" + uom + "' must be a Unit or undefined");
-      }
-    }
-    */
-    var QQ = (function () {
+define('davinci-eight/math/Rational',["require", "exports", '../checks/mustBeInteger'], function (require, exports, mustBeInteger) {
+    /**
+     * @class Rational
+     */
+    var Rational = (function () {
         /**
-         * The QQ class represents a rational number.
+         * The Rational class represents a rational number.
          *
-         * @class QQ
-         * @extends Field
+         * @class Rational
          * @constructor
-         * @param {number} n The numerator.
-         * @param {number} d The denominator.
+         * @param {number} n The numerator, an integer.
+         * @param {number} d The denominator, an integer.
          */
-        function QQ(n, d) {
-            assertArgNumber('n', n);
-            assertArgNumber('d', d);
+        function Rational(n, d) {
+            mustBeInteger('n', n);
+            mustBeInteger('d', d);
             var g;
             var gcd = function (a, b) {
-                assertArgNumber('a', a);
-                assertArgNumber('b', b);
+                mustBeInteger('a', a);
+                mustBeInteger('b', b);
                 var temp;
                 if (a < 0) {
                     a = -a;
@@ -8760,70 +8733,77 @@ define('davinci-eight/math/QQ',["require", "exports", '../math/QQError'], functi
             this._numer = n / g;
             this._denom = d / g;
         }
-        Object.defineProperty(QQ.prototype, "numer", {
+        Object.defineProperty(Rational.prototype, "numer", {
+            /**
+             * @property numer
+             * @type {number}
+             * @readOnly
+             */
             get: function () {
                 return this._numer;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(QQ.prototype, "denom", {
+        Object.defineProperty(Rational.prototype, "denom", {
+            /**
+             * @property denom
+             * @type {number}
+             * @readOnly
+             */
             get: function () {
                 return this._denom;
             },
             enumerable: true,
             configurable: true
         });
-        QQ.prototype.add = function (rhs) {
-            assertArgRational('rhs', rhs);
-            return new QQ(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
+        Rational.prototype.add = function (rhs) {
+            return new Rational(this._numer * rhs._denom + this._denom * rhs._numer, this._denom * rhs._denom);
         };
-        QQ.prototype.sub = function (rhs) {
-            assertArgRational('rhs', rhs);
-            return new QQ(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
+        Rational.prototype.sub = function (rhs) {
+            return new Rational(this._numer * rhs._denom - this._denom * rhs._numer, this._denom * rhs._denom);
         };
-        QQ.prototype.mul = function (rhs) {
-            assertArgRational('rhs', rhs);
-            return new QQ(this._numer * rhs._numer, this._denom * rhs._denom);
+        Rational.prototype.mul = function (rhs) {
+            return new Rational(this._numer * rhs._numer, this._denom * rhs._denom);
         };
         // TODO: div testing
-        QQ.prototype.div = function (rhs) {
+        Rational.prototype.div = function (rhs) {
             if (typeof rhs === 'number') {
-                return new QQ(this._numer, this._denom * rhs);
+                return new Rational(this._numer, this._denom * rhs);
             }
             else {
-                return new QQ(this._numer * rhs._denom, this._denom * rhs._numer);
+                return new Rational(this._numer * rhs._denom, this._denom * rhs._numer);
             }
         };
-        QQ.prototype.isZero = function () {
+        Rational.prototype.isZero = function () {
             return this._numer === 0;
         };
-        QQ.prototype.negative = function () {
-            return new QQ(-this._numer, this._denom);
+        Rational.prototype.negative = function () {
+            return new Rational(-this._numer, this._denom);
         };
-        QQ.prototype.equals = function (other) {
-            if (other instanceof QQ) {
+        Rational.prototype.equals = function (other) {
+            if (other instanceof Rational) {
                 return this._numer * other._denom === this._denom * other._numer;
             }
             else {
                 return false;
             }
         };
-        QQ.prototype.toString = function () {
+        Rational.prototype.toString = function () {
             return "" + this._numer + "/" + this._denom;
         };
-        QQ.ONE = new QQ(1, 1);
-        QQ.TWO = new QQ(2, 1);
-        QQ.MINUS_ONE = new QQ(-1, 1);
-        QQ.ZERO = new QQ(0, 1);
-        return QQ;
+        Rational.ONE = new Rational(1, 1);
+        Rational.TWO = new Rational(2, 1);
+        Rational.MINUS_ONE = new Rational(-1, 1);
+        Rational.ZERO = new Rational(0, 1);
+        return Rational;
     })();
-    return QQ;
+    return Rational;
 });
 
-define('davinci-eight/math/Dimensions',["require", "exports", '../math/DimensionError', '../math/QQ'], function (require, exports, DimensionError, QQ) {
-    var R0 = QQ.ZERO;
-    var R1 = QQ.ONE;
+define('davinci-eight/math/Dimensions',["require", "exports", '../math/DimensionError', '../math/Rational'], function (require, exports, DimensionError, Rational) {
+    var R0 = Rational.ZERO;
+    var R1 = Rational.ONE;
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -8841,11 +8821,11 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/Dimension
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof QQ) {
+        if (arg instanceof Rational) {
             return arg;
         }
         else {
-            throw new DimensionError("Argument '" + arg + "' must be a QQ");
+            throw new DimensionError("Argument '" + arg + "' must be a Rational");
         }
     }
     var Dimensions = (function () {
@@ -8854,13 +8834,13 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/Dimension
          *
          * @class Dimensions
          * @constructor
-         * @param {QQ} mass The mass component of the dimensions object.
-         * @param {QQ} length The length component of the dimensions object.
-         * @param {QQ} time The time component of the dimensions object.
-         * @param {QQ} charge The charge component of the dimensions object.
-         * @param {QQ} temperature The temperature component of the dimensions object.
-         * @param {QQ} amount The amount component of the dimensions object.
-         * @param {QQ} intensity The intensity component of the dimensions object.
+         * @param {Rational} mass The mass component of the dimensions object.
+         * @param {Rational} length The length component of the dimensions object.
+         * @param {Rational} time The time component of the dimensions object.
+         * @param {Rational} charge The charge component of the dimensions object.
+         * @param {Rational} temperature The temperature component of the dimensions object.
+         * @param {Rational} amount The amount component of the dimensions object.
+         * @param {Rational} intensity The intensity component of the dimensions object.
          */
         function Dimensions(theMass, L, T, Q, temperature, amount, intensity) {
             this.L = L;
@@ -8880,75 +8860,75 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/Dimension
             }
             this._mass = theMass;
             if (typeof length === 'number') {
-                this.L = new QQ(length, 1);
+                this.L = new Rational(length, 1);
             }
-            else if (length instanceof QQ) {
+            else if (length instanceof Rational) {
                 this.L = length;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "length must be a QQ or number"
+                    message: "length must be a Rational or number"
                 };
             }
             if (typeof time === 'number') {
-                this.T = new QQ(time, 1);
+                this.T = new Rational(time, 1);
             }
-            else if (time instanceof QQ) {
+            else if (time instanceof Rational) {
                 this.T = time;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "time must be a QQ or number"
+                    message: "time must be a Rational or number"
                 };
             }
             if (typeof charge === 'number') {
-                this.Q = new QQ(charge, 1);
+                this.Q = new Rational(charge, 1);
             }
-            else if (charge instanceof QQ) {
+            else if (charge instanceof Rational) {
                 this.Q = charge;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "charge must be a QQ or number"
+                    message: "charge must be a Rational or number"
                 };
             }
             if (typeof temperature === 'number') {
-                this.temperature = new QQ(temperature, 1);
+                this.temperature = new Rational(temperature, 1);
             }
-            else if (temperature instanceof QQ) {
+            else if (temperature instanceof Rational) {
                 this.temperature = temperature;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "(thermodynamic) temperature must be a QQ or number"
+                    message: "(thermodynamic) temperature must be a Rational or number"
                 };
             }
             if (typeof amount === 'number') {
-                this.amount = new QQ(amount, 1);
+                this.amount = new Rational(amount, 1);
             }
-            else if (amount instanceof QQ) {
+            else if (amount instanceof Rational) {
                 this.amount = amount;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "amount (of substance) must be a QQ or number"
+                    message: "amount (of substance) must be a Rational or number"
                 };
             }
             if (typeof intensity === 'number') {
-                this.intensity = new QQ(intensity, 1);
+                this.intensity = new Rational(intensity, 1);
             }
-            else if (intensity instanceof QQ) {
+            else if (intensity instanceof Rational) {
                 this.intensity = intensity;
             }
             else {
                 throw {
                     name: "DimensionError",
-                    message: "(luminous) intensity must be a QQ or number"
+                    message: "(luminous) intensity must be a Rational or number"
                 };
             }
         }
@@ -8957,7 +8937,7 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/Dimension
             * The <em>mass</em> component of this dimensions instance.
             *
             * @property M
-            * @type {QQ}
+            * @type {Rational}
             */
             get: function () {
                 return this._mass;
@@ -8983,7 +8963,7 @@ define('davinci-eight/math/Dimensions',["require", "exports", '../math/Dimension
             return new Dimensions(this._mass.mul(exponent), this.L.mul(exponent), this.T.mul(exponent), this.Q.mul(exponent), this.temperature.mul(exponent), this.amount.mul(exponent), this.intensity.mul(exponent));
         };
         Dimensions.prototype.sqrt = function () {
-            return new Dimensions(this._mass.div(QQ.TWO), this.L.div(QQ.TWO), this.T.div(QQ.TWO), this.Q.div(QQ.TWO), this.temperature.div(QQ.TWO), this.amount.div(QQ.TWO), this.intensity.div(QQ.TWO));
+            return new Dimensions(this._mass.div(Rational.TWO), this.L.div(Rational.TWO), this.T.div(Rational.TWO), this.Q.div(Rational.TWO), this.temperature.div(Rational.TWO), this.amount.div(Rational.TWO), this.intensity.div(Rational.TWO));
         };
         Dimensions.prototype.dimensionless = function () {
             return this._mass.isZero() && this.L.isZero() && this.T.isZero() && this.Q.isZero() && this.temperature.isZero() && this.amount.isZero() && this.intensity.isZero();
@@ -9044,7 +9024,7 @@ define('davinci-eight/math/UnitError',["require", "exports"], function (require,
     return UnitError;
 });
 
-define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitError'], function (require, exports, Dimensions, QQ, UnitError) {
+define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '../math/Rational', '../math/UnitError'], function (require, exports, Dimensions, Rational, UnitError) {
     var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
@@ -9063,11 +9043,11 @@ define('davinci-eight/math/Unit',["require", "exports", '../math/Dimensions', '.
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof QQ) {
+        if (arg instanceof Rational) {
             return arg;
         }
         else {
-            throw new UnitError("Argument '" + arg + "' must be a QQ");
+            throw new UnitError("Argument '" + arg + "' must be a Rational");
         }
     }
     function assertArgUnit(name, arg) {
@@ -10713,14 +10693,14 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
     return Matrix3;
 });
 
-define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
+define('davinci-eight/math/Quaternion',["require", "exports", '../math/Vector3'], function (require, exports, Vector3) {
     var EPS = 0.000001;
     /**
-     * HH is retained for reference only.
-     * HH should not be exposed.
+     * Quaternion is retained for reference only.
+     * Quaternion should not be exposed.
      */
-    var HH = (function () {
-        function HH(x, y, z, w) {
+    var Quaternion = (function () {
+        function Quaternion(x, y, z, w) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             if (z === void 0) { z = 0; }
@@ -10731,7 +10711,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this._z = z;
             this._w = w;
         }
-        Object.defineProperty(HH.prototype, "x", {
+        Object.defineProperty(Quaternion.prototype, "x", {
             get: function () {
                 return this._x;
             },
@@ -10742,7 +10722,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(HH.prototype, "y", {
+        Object.defineProperty(Quaternion.prototype, "y", {
             get: function () {
                 return this._y;
             },
@@ -10753,7 +10733,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(HH.prototype, "z", {
+        Object.defineProperty(Quaternion.prototype, "z", {
             get: function () {
                 return this._z;
             },
@@ -10764,7 +10744,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(HH.prototype, "w", {
+        Object.defineProperty(Quaternion.prototype, "w", {
             get: function () {
                 return this._w;
             },
@@ -10775,13 +10755,13 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             enumerable: true,
             configurable: true
         });
-        HH.prototype.add = function (element) {
+        Quaternion.prototype.add = function (element) {
             return this;
         };
-        HH.prototype.sum = function (a, b) {
+        Quaternion.prototype.sum = function (a, b) {
             return this;
         };
-        HH.prototype.set = function (x, y, z, w) {
+        Quaternion.prototype.set = function (x, y, z, w) {
             this._x = x;
             this._y = y;
             this._z = z;
@@ -10789,17 +10769,17 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.clone = function () {
-            return new HH(this._x, this._y, this._z, this._w);
+        Quaternion.prototype.clone = function () {
+            return new Quaternion(this._x, this._y, this._z, this._w);
         };
-        HH.prototype.conjugate = function () {
+        Quaternion.prototype.conjugate = function () {
             this._x *= -1;
             this._y *= -1;
             this._z *= -1;
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.copy = function (quaternion) {
+        Quaternion.prototype.copy = function (quaternion) {
             this._x = quaternion.x;
             this._y = quaternion.y;
             this._z = quaternion.z;
@@ -10807,33 +10787,33 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.divideScalar = function (scalar) {
+        Quaternion.prototype.divideScalar = function (scalar) {
             return this;
         };
-        HH.prototype.dot = function (v) {
+        Quaternion.prototype.dot = function (v) {
             return this._x * v._x + this._y * v._y + this._z * v._z + this._w * v._w;
         };
-        HH.prototype.exp = function () {
+        Quaternion.prototype.exp = function () {
             return this;
         };
-        HH.prototype.inverse = function () {
+        Quaternion.prototype.inverse = function () {
             this.conjugate().normalize();
             return this;
         };
-        HH.prototype.lerp = function (target, alpha) {
+        Quaternion.prototype.lerp = function (target, alpha) {
             this.x += (target.x - this.x) * alpha;
             this.y += (target.y - this.y) * alpha;
             this.z += (target.z - this.z) * alpha;
             this.w += (target.w - this.w) * alpha;
             return this;
         };
-        HH.prototype.magnitude = function () {
+        Quaternion.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
-        HH.prototype.multiply = function (q) {
+        Quaternion.prototype.multiply = function (q) {
             return this.product(this, q);
         };
-        HH.prototype.product = function (a, b) {
+        Quaternion.prototype.product = function (a, b) {
             // from http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/code/index.htm
             var qax = a._x, qay = a._y, qaz = a._z, qaw = a._w;
             var qbx = b._x, qby = b._y, qbz = b._z, qbw = b._w;
@@ -10844,10 +10824,10 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.multiplyScalar = function (scalar) {
+        Quaternion.prototype.multiplyScalar = function (scalar) {
             return this;
         };
-        HH.prototype.normalize = function () {
+        Quaternion.prototype.normalize = function () {
             var l = this.magnitude();
             if (l === 0) {
                 this._x = 0;
@@ -10865,18 +10845,18 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.onChange = function (callback) {
+        Quaternion.prototype.onChange = function (callback) {
             this.onChangeCallback = callback;
             return this;
         };
-        HH.prototype.quaditude = function () {
+        Quaternion.prototype.quaditude = function () {
             return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
         };
-        HH.prototype.rotate = function (rotor) {
+        Quaternion.prototype.rotate = function (rotor) {
             // TODO: This would require creating a temporary so we fall back to components.
             return this.product(rotor, this);
         };
-        HH.prototype.setFromAxisAngle = function (axis, angle) {
+        Quaternion.prototype.setFromAxisAngle = function (axis, angle) {
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/index.htm
             // assumes axis is normalized
             var halfAngle = angle / 2, s = Math.sin(halfAngle);
@@ -10887,7 +10867,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.setFromRotationMatrix = function (m) {
+        Quaternion.prototype.setFromRotationMatrix = function (m) {
             // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
             // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
             var te = m.data, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33, s;
@@ -10922,7 +10902,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.setFromUnitVectors = function (vFrom, vTo) {
+        Quaternion.prototype.setFromUnitVectors = function (vFrom, vTo) {
             // TODO: Could create circularity problems.
             var v1 = new Vector3();
             var r = vFrom.dot(vTo) + 1;
@@ -10945,7 +10925,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.normalize();
             return this;
         };
-        HH.prototype.slerp = function (qb, t) {
+        Quaternion.prototype.slerp = function (qb, t) {
             if (t === 0)
                 return this;
             if (t === 1)
@@ -10987,16 +10967,16 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.sub = function (rhs) {
+        Quaternion.prototype.sub = function (rhs) {
             return this;
         };
-        HH.prototype.difference = function (a, b) {
+        Quaternion.prototype.difference = function (a, b) {
             return this;
         };
-        HH.prototype.equals = function (quaternion) {
+        Quaternion.prototype.equals = function (quaternion) {
             return (quaternion._x === this._x) && (quaternion._y === this._y) && (quaternion._z === this._z) && (quaternion._w === this._w);
         };
-        HH.prototype.fromArray = function (array, offset) {
+        Quaternion.prototype.fromArray = function (array, offset) {
             if (offset === void 0) { offset = 0; }
             this._x = array[offset];
             this._y = array[offset + 1];
@@ -11005,7 +10985,7 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             this.onChangeCallback();
             return this;
         };
-        HH.prototype.toArray = function (array, offset) {
+        Quaternion.prototype.toArray = function (array, offset) {
             if (array === void 0) { array = []; }
             if (offset === void 0) { offset = 0; }
             array[offset] = this._x;
@@ -11014,12 +10994,12 @@ define('davinci-eight/math/HH',["require", "exports", '../math/Vector3'], functi
             array[offset + 3] = this._w;
             return array;
         };
-        HH.slerp = function (qa, qb, qm, t) {
+        Quaternion.slerp = function (qa, qb, qm, t) {
             return qm.copy(qa).slerp(qb, t);
         };
-        return HH;
+        return Quaternion;
     })();
-    return HH;
+    return Quaternion;
 });
 
 define('davinci-eight/math/rotor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
@@ -12144,7 +12124,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/DrawAttribute', 'davinci-eight/dfx/GeometryData', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toGeometryData', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/Geometry', 'davinci-eight/geometries/CuboidChain', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/HH', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, DrawAttribute, GeometryData, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, Canvas3D, Geometry, CuboidChain, CuboidGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, HH, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/dfx/SerialGeometryAttribute', 'davinci-eight/dfx/Simplex', 'davinci-eight/dfx/Vertex', 'davinci-eight/dfx/toGeometryMeta', 'davinci-eight/dfx/computeFaceNormals', 'davinci-eight/dfx/cube', 'davinci-eight/dfx/quadrilateral', 'davinci-eight/dfx/square', 'davinci-eight/dfx/tetrahedron', 'davinci-eight/dfx/toSerialGeometryElements', 'davinci-eight/dfx/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Mesh', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/SerialGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CuboidSerialGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/MeshNormalMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Quaternion', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, SerialGeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toSerialGeometryElements, triangle, createDrawList, Mesh, PerspectiveCamera, Scene, Canvas3D, SerialGeometry, CuboidGeometry, CuboidSerialGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, MeshNormalMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Quaternion, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -12211,11 +12191,11 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         },
         get Color() { return Color; },
         get Face3() { return Face3; },
-        get Geometry() { return Geometry; },
+        get CompatcGeometry() { return SerialGeometry; },
         //  get ArrowGeometry() { return ArrowGeometry },
         //  get BarnGeometry() { return BarnGeometry },
-        get CuboidChain() { return CuboidChain; },
         get CuboidGeometry() { return CuboidGeometry; },
+        get CuboidSerialGeometry() { return CuboidSerialGeometry; },
         //  get CylinderGeometry() { return CylinderGeometry },
         //  get DodecahedronGeometry() { return DodecahedronGeometry },
         //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
@@ -12235,7 +12215,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get Matrix4() { return Matrix4; },
         get rotor3() { return rotor3; },
         get Spinor3() { return Spinor3; },
-        get HH() { return HH; },
+        get Quaternion() { return Quaternion; },
         get Vector1() { return Vector1; },
         get Vector2() { return Vector2; },
         get Vector3() { return Vector3; },
@@ -12253,13 +12233,13 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get square() { return square; },
         get tetrahedron() { return tetrahedron; },
         get triangle() { return triangle; },
-        get toGeometryData() { return toGeometryData; },
+        get toSerialGeometryElements() { return toSerialGeometryElements; },
         get CylinderArgs() { return CylinderArgs; },
         get Symbolic() { return Symbolic; },
         // programs
         get programFromScripts() { return programFromScripts; },
-        get DrawAttribute() { return DrawAttribute; },
-        get GeometryData() { return GeometryData; },
+        get SerialGeometryAttribute() { return SerialGeometryAttribute; },
+        get SerialGeometry() { return SerialGeometry; },
         // uniforms
         get SineWaveUniform() { return SineWaveUniform; },
         // utils

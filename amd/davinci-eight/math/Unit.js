@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitError'], function (require, exports, Dimensions, QQ, UnitError) {
+define(["require", "exports", '../math/Dimensions', '../math/Rational', '../math/UnitError'], function (require, exports, Dimensions, Rational, UnitError) {
     var LABELS_SI = ['kg', 'm', 's', 'C', 'K', 'mol', 'candela'];
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
@@ -17,11 +17,11 @@ define(["require", "exports", '../math/Dimensions', '../math/QQ', '../math/UnitE
         }
     }
     function assertArgRational(name, arg) {
-        if (arg instanceof QQ) {
+        if (arg instanceof Rational) {
             return arg;
         }
         else {
-            throw new UnitError("Argument '" + arg + "' must be a QQ");
+            throw new UnitError("Argument '" + arg + "' must be a Rational");
         }
     }
     function assertArgUnit(name, arg) {
