@@ -15,6 +15,11 @@ declare class Euclidean3 implements Cartesian3, Measure<Euclidean3>, Spinor3Coor
     static kilogram: Euclidean3;
     static meter: Euclidean3;
     static second: Euclidean3;
+    static coulomb: Euclidean3;
+    static ampere: Euclidean3;
+    static kelvin: Euclidean3;
+    static mole: Euclidean3;
+    static candela: Euclidean3;
     /**
      * The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.
      * @property w

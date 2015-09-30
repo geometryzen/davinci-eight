@@ -3,6 +3,7 @@ import Rational = require('../math/Rational')
 
 var R0 = Rational.ZERO;
 var R1 = Rational.ONE;
+var M1 = Rational.MINUS_ONE;
 
 function assertArgNumber(name: string, x: number): number {
   if (typeof x === 'number') {
@@ -32,9 +33,14 @@ function assertArgRational(name: string, arg: Rational): Rational {
 }
 
 class Dimensions {
-    public static MASS   = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
-    public static LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
-    public static TIME   = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+    public static MASS        = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
+    public static LENGTH      = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
+    public static TIME        = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+    public static CHARGE      = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
+    public static CURRENT     = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
+    public static TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
+    public static AMOUNT      = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
+    public static INTENSITY   = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
 
     private _mass: Rational;
     /**

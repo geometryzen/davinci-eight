@@ -1,23 +1,22 @@
 define(
 [
-  'davinci-eight/dfx/Simplex',
-  'davinci-eight/dfx/Vertex',
+  'davinci-eight/geometries/Simplex',
+  'davinci-eight/geometries/Vertex',
   'davinci-eight/math/Vector3',
-  'davinci-eight/dfx/triangle',
-  'davinci-eight/dfx/toSerialGeometryElements',
-  'davinci-eight/dfx/SerialGeometryElements',
+  'davinci-eight/geometries/triangle',
+  'davinci-eight/geometries/toGeometryData',
   'davinci-eight/core/Symbolic',
-  'davinci-eight/dfx/toGeometryMeta',
-  'davinci-eight/dfx/computeFaceNormals'
+  'davinci-eight/geometries/toGeometryMeta',
+  'davinci-eight/geometries/computeFaceNormals'
 ],
-function(Simplex, Vertex, Vector3, triangle, toSerialGeometryElements, SerialGeometryElements, Symbolic, toGeometryMeta, computeFaceNormals)
+function(Simplex, Vertex, Vector3, triangle, toGeometryData, Symbolic, toGeometryMeta, computeFaceNormals)
 {
   var VERTICES_PER_FACE = 3;
   var COORDS_PER_POSITION = 3;
   var COORDS_PER_NORMAL = 3;
   var COORDS_PER_TEXTURE = 2;
 
-  describe("toSerialGeometryElements", function() {
+  describe("toGeometryData", function() {
     describe("zero triangles", function() {
       it("should create empty arrays", function() {
         var geometry = [];
@@ -34,7 +33,7 @@ function(Simplex, Vertex, Vector3, triangle, toSerialGeometryElements, SerialGeo
       var b = geometry[0].vertices[1];
       var c = geometry[0].vertices[2];
       var geoInfo = toGeometryMeta(geometry);
-      var elements = toSerialGeometryElements(geometry, geoInfo);
+      var elements = toGeometryData(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
@@ -91,7 +90,7 @@ function(Simplex, Vertex, Vector3, triangle, toSerialGeometryElements, SerialGeo
       geometry.push(f012);
       geometry.push(f023);
       var geoInfo = toGeometryMeta(geometry);
-      var elements = toSerialGeometryElements(geometry, geoInfo);
+      var elements = toGeometryData(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {
@@ -171,7 +170,7 @@ function(Simplex, Vertex, Vector3, triangle, toSerialGeometryElements, SerialGeo
       geometry.push(f032);
       geometry.push(f021);
       var geoInfo = toGeometryMeta(geometry);
-      var elements = toSerialGeometryElements(geometry, geoInfo);
+      var elements = toGeometryData(geometry, geoInfo);
       var indices = elements.indices.data;
       var positions = elements.attributes[Symbolic.ATTRIBUTE_POSITION].values.data;
       it("indices.length", function() {

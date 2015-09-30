@@ -63,9 +63,9 @@ define(['davinci-eight/math/Spinor3'], function(Spinor3)
         expect(m.modified).toBe(true);
       });
     });
-    describe("multiplyScalar", function() {
+    describe("scale", function() {
       it("should multiply each coordinate by the scalar value", function() {
-        var m = new Spinor3([2, 3, 5, 7]).multiplyScalar(2);
+        var m = new Spinor3([2, 3, 5, 7]).scale(2);
         expect(m.data[0]).toBe(4);
         expect(m.data[1]).toBe(6);
         expect(m.data[2]).toBe(10);

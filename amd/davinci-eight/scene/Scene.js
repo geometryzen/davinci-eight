@@ -74,6 +74,14 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
             this.drawList.draw(ambients, canvasId);
         };
         /**
+         * Gets a collection of drawable elements by name.
+         * @method getDrawablesByName
+         * @param name {string}
+         */
+        Scene.prototype.getDrawablesByName = function (name) {
+            return this.drawList.getDrawablesByName(name);
+        };
+        /**
          * <p>
          * Removes the <code>drawable</code> from this <code>Scene</code>.
          * </p>

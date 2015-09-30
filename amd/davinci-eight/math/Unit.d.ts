@@ -7,6 +7,11 @@ declare class Unit {
     static KILOGRAM: Unit;
     static METER: Unit;
     static SECOND: Unit;
+    static COULOMB: Unit;
+    static AMPERE: Unit;
+    static KELVIN: Unit;
+    static MOLE: Unit;
+    static CANDELA: Unit;
     /**
      * The Unit class represents the units for a measure.
      *

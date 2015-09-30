@@ -198,9 +198,14 @@ function div(lhs: Unit, rhs: Unit): Unit
 }
 
 class Unit {
-    public static KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
-    public static METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
-    public static SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
+    public static KILOGRAM = new Unit(1.0, Dimensions.MASS,        LABELS_SI);
+    public static METER    = new Unit(1.0, Dimensions.LENGTH,      LABELS_SI);
+    public static SECOND   = new Unit(1.0, Dimensions.TIME,        LABELS_SI);
+    public static COULOMB  = new Unit(1.0, Dimensions.CHARGE,      LABELS_SI);
+    public static AMPERE   = new Unit(1.0, Dimensions.CURRENT,     LABELS_SI);
+    public static KELVIN   = new Unit(1.0, Dimensions.TEMPERATURE, LABELS_SI);
+    public static MOLE     = new Unit(1.0, Dimensions.AMOUNT,      LABELS_SI);
+    public static CANDELA  = new Unit(1.0, Dimensions.INTENSITY,   LABELS_SI);
     /**
      * The Unit class represents the units for a measure.
      *

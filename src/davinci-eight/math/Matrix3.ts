@@ -60,7 +60,7 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
 
     }
 
-    this.multiplyScalar( 1.0 / det );
+    this.scale( 1.0 / det );
 
     return this;
 
@@ -71,7 +71,7 @@ class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
   multiply(rhs: Matrix3) {
     return this.product(this, rhs);
   }
-  multiplyScalar(s: number) {
+  scale(s: number) {
     let m = this.data;
     m[0] *= s; m[3] *= s; m[6] *= s;
     m[1] *= s; m[4] *= s; m[7] *= s;

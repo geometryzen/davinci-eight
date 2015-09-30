@@ -302,9 +302,23 @@ let createDrawList = function(): IDrawList {
     draw(ambients: UniformData, canvasId: number): void {
       drawableGroups.draw(ambients, canvasId);
     },
+    getDrawablesByName(name: string): IUnknownArray<IDrawable> {
+      var result = new IUnknownArray<IDrawable>()
+      drawableGroups.traverseDrawables(
+        function(candidate: IDrawable) {
+          if  (candidate.name === name) {
+            result.push(candidate)
+          }
+         },
+        function(program: IMaterial) {
+        }
+      )
+      return result;
+    },
     remove(drawable: IDrawable) {
       drawableGroups.remove(drawable);
     },
+    // FIXME: canvasId not being used?
     traverse(callback: (drawable: IDrawable) => void, canvasId: number, prolog: (program: IMaterial)=>void) {
       drawableGroups.traverseDrawables(callback, prolog);
     }

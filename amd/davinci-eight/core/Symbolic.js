@@ -57,6 +57,7 @@ define(["require", "exports"], function (require, exports) {
         Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
         Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
         Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+        Symbolic.UNIFORM_POINT_SIZE = 'uPointSize';
         /**
          * 'uProjection'
          * @property UNIFORM_PROJECTION_MATRIX

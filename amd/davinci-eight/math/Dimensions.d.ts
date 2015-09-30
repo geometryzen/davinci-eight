@@ -9,6 +9,11 @@ declare class Dimensions {
     static MASS: Dimensions;
     static LENGTH: Dimensions;
     static TIME: Dimensions;
+    static CHARGE: Dimensions;
+    static CURRENT: Dimensions;
+    static TEMPERATURE: Dimensions;
+    static AMOUNT: Dimensions;
+    static INTENSITY: Dimensions;
     private _mass;
     /**
      * The Dimensions class captures the physical dimensions associated with a unit of measure.

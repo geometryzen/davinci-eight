@@ -14,7 +14,8 @@ import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 /**
  * @class Material
- * @implements IMaterial
+ * @extends Shareable
+ * @extends IMaterial
  */
 declare class Material extends Shareable implements IMaterial {
     private inner;

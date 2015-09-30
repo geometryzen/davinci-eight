@@ -1,10 +1,10 @@
 define(
 [
-  'davinci-eight/dfx/Simplex',
-  'davinci-eight/dfx/Vertex',
+  'davinci-eight/geometries/Simplex',
+  'davinci-eight/geometries/Vertex',
   'davinci-eight/math/Vector3',
   'davinci-eight/core/Symbolic',
-  'davinci-eight/dfx/triangle'
+  'davinci-eight/geometries/triangle'
 ],
 function(Simplex, Vertex, Vector3, Symbolic, triangle)
 {

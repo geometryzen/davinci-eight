@@ -3,11 +3,11 @@ import ContextKahuna = require('../core/ContextKahuna')
 import IContextProvider = require('../core/IContextProvider')
 import IContextConsumer = require('../core/IContextConsumer')
 import core = require('../core')
-import SerialGeometryElements = require('../dfx/SerialGeometryElements')
+import GeometryData = require('../geometries/GeometryData')
 import expectArg = require('../checks/expectArg')
 import initWebGL = require('../renderers/initWebGL')
 import IBuffer = require('../core/IBuffer')
-import IBufferGeometry = require('../dfx/IBufferGeometry')
+import IBufferGeometry = require('../geometries/IBufferGeometry')
 import isDefined = require('../checks/isDefined')
 import isNumber = require('../checks/isNumber')
 import isUndefined = require('../checks/isUndefined')
@@ -21,7 +21,7 @@ import randumbInteger = require('../utils/randumbInteger');
 import RefCount = require('../utils/RefCount')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
-import Simplex = require('../dfx/Simplex')
+import Simplex = require('../geometries/Simplex')
 import StringIUnknownMap = require('../utils/StringIUnknownMap')
 import Symbolic = require('../core/Symbolic')
 import TextureResource = require('../resources/TextureResource')
@@ -30,7 +30,7 @@ import VectorN = require('../math/VectorN')
 
 let LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock'
 let LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib'
-let LOGGING_NAME_MESH = 'Mesh'
+let LOGGING_NAME_MESH = 'Drawable'
 
 let LOGGING_NAME_KAHUNA = 'ContextKahuna'
 
@@ -475,8 +475,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     /**
      *
      */
-    createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry {
-      expectArg('elements', elements).toSatisfy(elements instanceof SerialGeometryElements, "elements must be an instance of SerialGeometry");
+    createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry {
+      expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryElements");
       mode = drawMode(elements.k, mode);
       if (!isDefined(mode)) {
         // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets

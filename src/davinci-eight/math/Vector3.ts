@@ -13,7 +13,7 @@ import wedgeZX = require('../math/wedgeZX');
 /**
  * @class Vector3
  */
-class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
+class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords, Cartesian3> {
   public static e1 = new Vector3([1, 0, 0]);
   public static e2 = new Vector3([0, 1, 0]);
   public static e3 = new Vector3([0, 0, 1]);
@@ -111,7 +111,25 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
 
     return this;
   }
-  rotate(spinor: Spinor3Coords) {
+  /**
+   * @method reflect
+   * @param n {Cartesian3}
+   * @return {Vector3}
+   */
+  reflect(n: Cartesian3): Vector3 {
+    let ax = this.x;
+    let ay = this.y;
+    let az = this.z;
+    let nx = n.x;
+    let ny = n.y;
+    let nz = n.z;
+    let dot2 = (ax * nx + ay * ny + az * nz) * 2;
+    this.x = ax - dot2 * nx;
+    this.y = ay - dot2 * ny;
+    this.z = az - dot2 * nz;
+    return this
+  }
+  rotate(spinor: Spinor3Coords): Vector3 {
     let x = this.x;
     let y = this.y;
     let z = this.z;
@@ -207,7 +225,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     this.z *= v.z;
     return this;
   }
-  multiplyScalar(scalar: number): Vector3 {
+  scale(scalar: number): Vector3 {
     this.x *= scalar;
     this.y *= scalar;
     this.z *= scalar;
@@ -223,7 +241,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
     let m = this.magnitude();
     if (m !== 0) {
       if (magnitude !== m) {
-        return this.multiplyScalar(magnitude / m);
+        return this.scale(magnitude / m);
       }
       else {
         return this;  // No change
@@ -286,7 +304,7 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
   }
   __mul__(rhs: number): Vector3 {
     if (isNumber(rhs)) {
-      return this.clone().multiplyScalar(rhs);
+      return this.clone().scale(rhs);
     }
     else {
       return void 0;
@@ -298,6 +316,9 @@ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Carte
    */
   static copy(vector: Cartesian3): Vector3 {
     return new Vector3([vector.x, vector.y, vector.z]);
+  }
+  static lerp(a: Cartesian3, b: Cartesian3, alpha: number): Vector3 {
+    return Vector3.copy(b).sub(a).scale(alpha).add(a)
   }
 }
 

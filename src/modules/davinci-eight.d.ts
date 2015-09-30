@@ -27,6 +27,27 @@ interface IUnknown {
   release(): number;
 }
 
+class IUnknownArray<T extends IUnknown> extends Shareable {
+  public length: number;
+  /**
+   * Collection class for maintaining an array of types derived from IUnknown.
+   * Provides a safer way to maintain reference counts than a native array.
+   */
+  constructor()
+  destructor(): void
+  /**
+   * Gets the element at the specified index without incrementing the reference count.
+   * Use this method when you don't intend to hold onto the returned value.
+   */
+  getWeakReference(index: number): T
+  getStrongReference(index: number): T
+  indexOf(searchElement: T, fromIndex?: number): number
+  splice(index: number, count: number): T[]
+  forEach(callback: (value: T, index: number) => void): void
+  push(element: T): number
+  pop(): T
+}
+
 /**
  * Convenience base class for classes requiring reference counting.
  * 
@@ -97,17 +118,17 @@ interface IBufferGeometry extends IUnknown {
 /**
  *
  */
-class SerialGeometryElements {
+class GeometryData {
   public k: number;
   public indices: VectorN<number>;
-  public attributes: {[name: string]: SerialGeometryAttribute};
-  constructor(k: number, indices: VectorN<number>, attributes: {[name: string]: SerialGeometryAttribute});
+  public attributes: {[name: string]: GeometryAttribute};
+  constructor(k: number, indices: VectorN<number>, attributes: {[name: string]: GeometryAttribute});
 }
 
 /**
  *
  */
-class SerialGeometryAttribute {
+class GeometryAttribute {
   public values: VectorN<number>;
   public size: number;
   constructor(values: VectorN<number>, size: number);
@@ -188,7 +209,7 @@ interface GeometryMeta {
 /**
  * Computes the mapping from attribute name to size.
  * Reports inconsistencies in the geometry by throwing exceptions.
- * When used with toSerialGeometry(), allows names and sizes to be mapped.
+ * When used with toElements(), allows names and sizes to be mapped.
  */
 function toGeometryMeta(geometry: Simplex[]): GeometryMeta;
 
@@ -250,9 +271,9 @@ function tetrahedron(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>,
 function triangle(a: VectorN<number>, b: VectorN<number>, c: VectorN<number>, attributes?: { [name: string]: VectorN<number>[] }, triangles?: Simplex[]): Simplex[];
 
 /**
- * geometry to SerialGeometry conversion.
+ * geometry to GeometryElements conversion.
  */
-function toSerialGeometryElements(simplices: Simplex[], geometryMeta?: GeometryMeta): SerialGeometryElements;
+function toGeometryData(simplices: Simplex[], geometryMeta?: GeometryMeta): GeometryData;
 
 /**
  *
@@ -356,8 +377,8 @@ interface LinearElement<I, M, S> {
   difference(a: I, b: I): M;
   divideScalar(scalar: number): M;
   lerp(target: I, alpha: number): M;
-  multiplyScalar(scalar: number): M;
-//reflect(vector: I): M;
+  scale(scalar: number): M;
+  reflect(vector: I): M;
   rotate(rotor: S): M;
   sub(rhs: I): M;
   sum(a: I, b: I): M;
@@ -424,6 +445,13 @@ class Euclidean3 implements Cartesian3, Spinor3Coords {
   static kilogram: Euclidean3;
   static meter: Euclidean3;
   static second: Euclidean3;
+  static coulomb: Euclidean3;
+  static ampere: Euclidean3;
+  static kelvin: Euclidean3;
+  static mole: Euclidean3;
+  static candela: Euclidean3;
+  toFixed(digits?: number): string
+  toString(): string
 }
 
 /**
@@ -562,7 +590,7 @@ class Vector2 extends VectorN<number> implements Cartesian2 {
   sum(a: Cartesian2, b: Cartesian2): Vector2;
   copy(v: Cartesian2): Vector2;
   magnitude(): number;
-  multiplyScalar(s: number): Vector2;
+  scale(s: number): Vector2;
   quaditude(): number;
   set(x: number, y: number): Vector2;
   sub(v: Cartesian2): Vector2;
@@ -580,11 +608,11 @@ interface Rotor3 extends Spinor3Coords {
   copy(spinor: Spinor3Coords): Rotor3;
   exp(): Rotor3;
   multiply(spinor: Spinor3Coords): Rotor3;
-  multiplyScalar(s: number): Rotor3;
+  scale(s: number): Rotor3;
   product(a: Spinor3Coords, b: Spinor3Coords): Rotor3;
   reverse(): Rotor3;
   toString(): string;
-  wedgeVectors(m: Cartesian3, n: Cartesian3): Rotor3;
+  spinor(m: Cartesian3, n: Cartesian3): Rotor3;
 }
 
 /**
@@ -620,7 +648,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement
   lerp(target: Spinor3Coords, alpha: number): Spinor3;
   magnitude(): number;
   multiply(rhs: Spinor3Coords): Spinor3;
-  multiplyScalar(scalar: number): Spinor3;
+  scale(scalar: number): Spinor3;
   /**
    * Sets this Spinor3 to the geometric product of the vectors a and b, a * b.
    */
@@ -634,7 +662,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement
   /**
    * Sets this Spinor3 to the outer product of the vectors a and b, a ^ b.
    */
-  wedgeVectors(a: Cartesian3, b: Cartesian3): Spinor3;
+  spinor(a: Cartesian3, b: Cartesian3): Spinor3;
 }
 
 /**
@@ -677,7 +705,7 @@ interface Cartesian3 {
   divideScalar(rhs: number): Vector3;
   magnitude(): number;
   lerp(target: Cartesian3, alpha: number): Vector3;
-  multiplyScalar(rhs: number): Vector3;
+  scale(rhs: number): Vector3;
   normalize(): Vector3;
   quaditude(): number;
   quadranceTo(position: Cartesian3): number;
@@ -907,7 +935,7 @@ class Geometry {
   /**
    * Computes and returns the arrays used to draw in WebGL.
    */
-  public toSerialGeometry(): SerialGeometry;
+  public toElements(): GeometryElements;
 }
 
 /**
@@ -1066,7 +1094,7 @@ interface IContextProvider  extends ContextUnique, IUnknown
 {
   createArrayBuffer(): IBuffer;
   createElementArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
   gl: WebGLRenderingContext;
@@ -1225,6 +1253,12 @@ interface IDrawable extends IResource {
    */
   material: IMaterial;
   /**
+   * User assigned name of the drawable object. Allows an object to be found in a scene.
+   * @property name
+   * @type [string]
+   */
+  name: string;
+  /**
    * canvasId: Identifies the canvas on which to draw.
    */
   draw(canvasId: number): void;
@@ -1233,34 +1267,34 @@ interface IDrawable extends IResource {
 /**
  *
  */
-class Object3D {
-  constructor();
-}
-
-/**
- *
- */
 interface IDrawList extends IContextConsumer, IUnknown {
   add(drawable: IDrawable): void;
   draw(ambients: UniformData, canvasId: number): void;
+  /**
+   * Gets a collection of drawable elements by name.
+   * @method getDrawablesByName
+   * @param name {string}
+   */
+  getDrawablesByName(name: string): IUnknownArray<IDrawable>;
+
   remove(drawable: IDrawable): void;
   traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
 }
-
 /**
  *
  */
 class Scene implements IDrawList {
-  constructor(monitors?: ContextMonitor[]);
-  add(drawable: IDrawable): void;
-  addRef(): number;
-  contextFree(canvasId: number): void;
-  contextGain(manager: IContextProvider): void;
-  contextLost(canvasId: number): void;
-  draw(ambients: UniformData, canvasId: number): void;
-  release(): number;
-  remove(drawable: IDrawable): void;
-  traverse(callback: (drawable: IDrawable) => void, canvasId: number): void;
+  constructor(monitors?: ContextMonitor[])
+  add(drawable: IDrawable): void
+  addRef(): number
+  contextFree(canvasId: number): void
+  contextGain(manager: IContextProvider): void
+  contextLost(canvasId: number): void
+  draw(ambients: UniformData, canvasId: number): void
+  getDrawablesByName(name: string): IUnknownArray<IDrawable>
+  release(): number
+  remove(drawable: IDrawable): void
+  traverse(callback: (drawable: IDrawable) => void, canvasId: number): void
 }
 
 /**
@@ -1306,6 +1340,10 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
    * Optional material used for rendering this instance.
    */
   material: IMaterial;
+  /**
+   * Optional name used for finding this instance.
+   */
+  name: string;
   /**
    * The "guess" direction that is used to generate the upwards direction for the camera. 
    */
@@ -1405,7 +1443,7 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
   contextGain(manager: IContextProvider): void;
   contextLost(canvasId: number): void;
   createArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
   createElementArrayBuffer(): IBuffer;
   createTexture2D(): ITexture2D;
   createTextureCubeMap(): ITextureCubeMap;
@@ -1429,34 +1467,31 @@ class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
 /**
  *
  */
-class CuboidSerialGeometry extends SerialGeometry {
-  /**
-   * width: The side length in the x-axis direction.
-   * height: The side length in the y-axis direction.
-   * depth: The side length in the z-axis direction.
-   * widthSegments: The number of line segments in the x-axis direction.
-   * heightSegments: The number of line segments in the y-axis direction.
-   * depthSegments: The number of line segments in the z-axis direction.
-   * wireFrame: Determines whether the geometry computes line segments or triangles.
-   */
-  constructor(width?: number, height?: number, depth?: number, widthSegments?: number, heightSegments?: number, depthSegments?: number, wireFrame?: boolean);
+class BarnGeometry extends Geometry {
+  a: Vector3;
+  b: Vector3;
+  c: Vector3;
+  k: number;
+  constructor();
+  calculate(): void;
 }
 
 /**
  *
  */
 class CuboidGeometry extends Geometry {
-  x: number;
-  y: number;
-  z: number;
-  xSegments: number;
-  ySegments: number;
-  zSegments: number;
-  lines: boolean;
-  constructor(width?: number, height?: number, depth?: number);
-  /**
-   * calculates the geometry from the current state of parameters.
-   */
+  a: Vector3;
+  b: Vector3;
+  c: Vector3;
+  k: number;
+  constructor();
+  calculate(): void;
+}
+
+class Simplex1Geometry extends Geometry {
+  head: Vector3;
+  tail: Vector3;
+  constructor();
   calculate(): void;
 }
 /**
@@ -1497,11 +1532,11 @@ class Material implements IMaterial {
  * A geometry holds the instructions for rendering a 3D mesh. (d.ts)
  * </p>
  */
-class SerialGeometry {
+class GeometryElements {
   /**
    *
    */
-  public data: SerialGeometryElements;
+  public data: GeometryData;
   /**
    *
    */
@@ -1510,16 +1545,17 @@ class SerialGeometry {
    * data:
    * meta:
    */
-  constructor(data: SerialGeometryElements, meta: GeometryMeta);
+  constructor(data: GeometryData, meta: GeometryMeta);
 }
 
 /**
  *
  */
-class Mesh<G extends SerialGeometry, M extends IMaterial, U extends UniformData> implements IDrawable {
+class Drawable<G extends GeometryElements, M extends IMaterial, U extends UniformData> implements IDrawable {
   geometry: G;
   material: M;
   model: U;
+  name: string;
   constructor(geometry: G, material: M, model: U);
   addRef(): number;
   release(): number;
@@ -1544,16 +1580,47 @@ class HTMLScriptsMaterial extends Material {
 /**
  *
  */
-interface MeshNormalMaterialParameters {
+interface PointMaterialParameters {
 
 }
 
-class MeshNormalMaterial extends Material {
-  constructor(contexts?: ContextMonitor[], parameters?: MeshNormalMaterialParameters);
+/**
+ *
+ */
+class PointMaterial extends Material {
+    constructor(contexts?: ContextMonitor[], parameters?: PointMaterialParameters);
+}
+
+/**
+ *
+ */
+interface LineMaterialParameters {
+
+}
+
+/**
+ *
+ */
+class LineMaterial extends Material {
+  constructor(contexts?: ContextMonitor[], parameters?: LineMaterialParameters);
+}
+
+/**
+ *
+ */
+interface MeshMaterialParameters {
+
+}
+
+/**
+ *
+ */
+class MeshMaterial extends Material {
+  constructor(contexts?: ContextMonitor[], parameters?: MeshMaterialParameters);
 }
 
 class SmartMaterialBuilder {
-  constructor(geometry?: SerialGeometry);
+  constructor(elements?: GeometryElements);
   public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
   public uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
   public build(contexts: ContextMonitor[]): Material;

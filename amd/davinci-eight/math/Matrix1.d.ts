@@ -1,7 +1,7 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
 import GeometricElement = require('../math/GeometricElement');
 import Matrix = require('../math/Matrix');
-declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1> {
+declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Matrix1> {
     /**
      * Constructs a Matrix1 by wrapping a Float32Array.
      * @constructor
@@ -19,11 +19,13 @@ declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, Geometr
     lerp(target: Matrix1, alpha: number): Matrix1;
     magnitude(): number;
     multiply(rhs: Matrix1): Matrix1;
-    multiplyScalar(scalar: number): Matrix1;
+    scale(scalar: number): Matrix1;
     product(a: Matrix1, b: Matrix1): Matrix1;
     quaditude(): number;
+    reflect(n: Matrix1): Matrix1;
     rotate(rotor: Matrix1): Matrix1;
     sub(element: Matrix1): Matrix1;
     difference(a: Matrix1, b: Matrix1): Matrix1;
+    spinor(a: Matrix1, b: Matrix1): Matrix1;
 }
 export = Matrix1;

@@ -54,6 +54,7 @@ declare class Symbolic {
     static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string;
     static UNIFORM_POINT_LIGHT_COLOR: string;
     static UNIFORM_POINT_LIGHT_POSITION: string;
+    static UNIFORM_POINT_SIZE: string;
     /**
      * 'uProjection'
      * @property UNIFORM_PROJECTION_MATRIX

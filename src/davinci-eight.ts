@@ -34,40 +34,40 @@ import UniformLocation         = require('davinci-eight/core/UniformLocation')
 import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo')
 // curves
 import Curve = require('davinci-eight/curves/Curve')
-// dfx
-import SerialGeometryAttribute = require('davinci-eight/dfx/SerialGeometryAttribute')
-import SerialGeometryElements = require('davinci-eight/dfx/SerialGeometryElements')
-import Simplex = require('davinci-eight/dfx/Simplex')
-import Vertex = require('davinci-eight/dfx/Vertex')
-import toGeometryMeta = require('davinci-eight/dfx/toGeometryMeta')
-import GeometryMeta = require('davinci-eight/dfx/GeometryMeta')
-import computeFaceNormals = require('davinci-eight/dfx/computeFaceNormals')
-import cube = require('davinci-eight/dfx/cube')
-import quadrilateral = require('davinci-eight/dfx/quadrilateral')
-import square = require('davinci-eight/dfx/square')
-import tetrahedron = require('davinci-eight/dfx/tetrahedron')
-import toSerialGeometryElements = require('davinci-eight/dfx/toSerialGeometryElements')
-import triangle = require('davinci-eight/dfx/triangle')
+// geometries
+import GeometryAttribute = require('davinci-eight/geometries/GeometryAttribute')
+import GeometryData = require('davinci-eight/geometries/GeometryData')
+import Simplex = require('davinci-eight/geometries/Simplex')
+import Vertex = require('davinci-eight/geometries/Vertex')
+import toGeometryMeta = require('davinci-eight/geometries/toGeometryMeta')
+import GeometryMeta = require('davinci-eight/geometries/GeometryMeta')
+import computeFaceNormals = require('davinci-eight/geometries/computeFaceNormals')
+import cube = require('davinci-eight/geometries/cube')
+import quadrilateral = require('davinci-eight/geometries/quadrilateral')
+import square = require('davinci-eight/geometries/square')
+import tetrahedron = require('davinci-eight/geometries/tetrahedron')
+import toGeometryData = require('davinci-eight/geometries/toGeometryData')
+import triangle = require('davinci-eight/geometries/triangle')
 
 // scene
 import createDrawList     = require('davinci-eight/scene/createDrawList')
 import ICamera            = require('davinci-eight/scene/ICamera')
 import IDrawList          = require('davinci-eight/scene/IDrawList')
-import Mesh               = require('davinci-eight/scene/Mesh')
+import Drawable               = require('davinci-eight/scene/Drawable')
 import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera')
 import Scene = require('davinci-eight/scene/Scene')
 import Canvas3D = require('davinci-eight/scene/Canvas3D')
 // geometries
-import SerialGeometry = require('davinci-eight/geometries/SerialGeometry')
+import GeometryElements = require('davinci-eight/geometries/GeometryElements')
 //import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
-//import BarnGeometry = require('davinci-eight/geometries/BarnGeometry')
+import BarnGeometry    = require('davinci-eight/geometries/BarnGeometry')
 import CuboidGeometry  = require('davinci-eight/geometries/CuboidGeometry')
-import CuboidSerialGeometry = require('davinci-eight/geometries/CuboidSerialGeometry')
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
 //import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry')
 //import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry')
 //import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry')
 //import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry')
+import Simplex1Geometry  = require('davinci-eight/geometries/Simplex1Geometry')
 //import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry')
 //import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry')
 //import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry')
@@ -85,7 +85,9 @@ import programFromScripts = require('davinci-eight/programs/programFromScripts')
 // materials
 import Material             = require('davinci-eight/materials/Material')
 import HTMLScriptsMaterial  = require('davinci-eight/materials/HTMLScriptsMaterial')
-import MeshNormalMaterial   = require('davinci-eight/materials/MeshNormalMaterial')
+import LineMaterial   = require('davinci-eight/materials/LineMaterial')
+import MeshMaterial   = require('davinci-eight/materials/MeshMaterial')
+import PointMaterial = require('davinci-eight/materials/PointMaterial')
 import SmartMaterialBuilder = require('davinci-eight/materials/SmartMaterialBuilder')
 // mappers
 import RoundUniform = require('davinci-eight/mappers/RoundUniform')
@@ -116,7 +118,6 @@ import Matrix3 = require('davinci-eight/math/Matrix3')
 import Matrix4 = require('davinci-eight/math/Matrix4')
 import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
-import Quaternion = require('davinci-eight/math/Quaternion')
 import Rational = require('davinci-eight/math/Rational')
 import Rotor3 = require('davinci-eight/math/Rotor3')
 import rotor3 = require('davinci-eight/math/rotor3')
@@ -197,7 +198,9 @@ var eight = {
   // materials
   get HTMLScriptsMaterial() { return HTMLScriptsMaterial },
   get Material() { return Material },
-  get MeshNormalMaterial() { return MeshNormalMaterial },
+  get LineMaterial() { return LineMaterial },
+  get MeshMaterial() { return MeshMaterial },
+  get PointMaterial() { return PointMaterial },
   get SmartMaterialBuilder() { return SmartMaterialBuilder },
   //commands
   get WebGLClear() { return WebGLClear },
@@ -219,7 +222,7 @@ var eight = {
   get perspectiveMatrix() { return perspectiveMatrix },
   get viewMatrix() { return viewMatrix },
   get Scene() { return Scene },
-  get Mesh() { return Mesh },
+  get Drawable() { return Drawable },
   get PerspectiveCamera() { return PerspectiveCamera },
   get Canvas3D() { return Canvas3D },
   get createDrawList() { return createDrawList },
@@ -238,16 +241,16 @@ var eight = {
   },
   get Color() { return Color },
   get Face3() { return Face3 },
-  get CompatcGeometry() { return SerialGeometry },
+  get CompatcGeometry() { return GeometryElements },
 //  get ArrowGeometry() { return ArrowGeometry },
-//  get BarnGeometry() { return BarnGeometry },
+  get BarnGeometry() { return BarnGeometry },
   get CuboidGeometry() { return CuboidGeometry },
-  get CuboidSerialGeometry() { return CuboidSerialGeometry },
 //  get CylinderGeometry() { return CylinderGeometry },
 //  get DodecahedronGeometry() { return DodecahedronGeometry },
 //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
 //  get IcosahedronGeometry() { return IcosahedronGeometry },
 //  get KleinBottleGeometry() { return KleinBottleGeometry },
+  get Simplex1Geometry() { return Simplex1Geometry },
 //  get MobiusStripGeometry() { return MobiusStripGeometry },
 //  get OctahedronGeometry() { return OctahedronGeometry },
 //  get SurfaceGeometry() { return SurfaceGeometry },
@@ -262,7 +265,6 @@ var eight = {
   get Matrix4() { return Matrix4 },
   get rotor3() { return rotor3 },
   get Spinor3() { return Spinor3 },
-  get Quaternion() { return Quaternion },
   get Vector1() { return Vector1 },
   get Vector2() { return Vector2 },
   get Vector3() { return Vector3 },
@@ -281,14 +283,14 @@ var eight = {
   get square() { return square },
   get tetrahedron() { return tetrahedron },
   get triangle() { return triangle },
-  get toSerialGeometryElements() { return toSerialGeometryElements },
+  get toGeometryData() { return toGeometryData },
   get CylinderArgs() { return CylinderArgs },
 
   get Symbolic() { return Symbolic },
   // programs
   get programFromScripts() { return programFromScripts },
-  get SerialGeometryAttribute() { return SerialGeometryAttribute },
-  get SerialGeometry() { return SerialGeometry },
+  get GeometryAttribute() { return GeometryAttribute },
+  get GeometryElements() { return GeometryElements },
   // uniforms
   get SineWaveUniform() { return SineWaveUniform },
   // utils

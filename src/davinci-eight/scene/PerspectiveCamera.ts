@@ -11,6 +11,7 @@ import mustBeDefined = require('../checks/mustBeDefined')
 import mustBeNumber = require('../checks/mustBeNumber')
 import Perspective = require('../cameras/Perspective')
 import refChange = require('../utils/refChange')
+import Shareable = require('../utils/Shareable')
 import UniformData = require('../core/UniformData')
 import UniformDataVisitor = require('../core/UniformDataVisitor')
 import uuid4 = require('../utils/uuid4')
@@ -29,7 +30,19 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   public position: Vector3 = new Vector3();
   private _refCount = 1;
   private _uuid: string = uuid4().generate();
+  /**
+   * @property material
+   * @type {IMaterial}
+   */
   public material: IMaterial;
+  /**
+   * @property name
+   * @type [string]
+   */
+  public name: string;
+  /**
+   *
+   */
   private inner: Perspective;
   /**
    * <p>

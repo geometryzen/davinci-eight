@@ -53,7 +53,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix1.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
-        Matrix1.prototype.multiplyScalar = function (scalar) {
+        Matrix1.prototype.scale = function (scalar) {
             var data = this.data;
             data[0] *= scalar;
             return this;
@@ -65,6 +65,10 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             var x = this.data[0];
             return x * x;
         };
+        Matrix1.prototype.reflect = function (n) {
+            // FIXME: What do we do?
+            return this;
+        };
         Matrix1.prototype.rotate = function (rotor) {
             return this;
         };
@@ -72,6 +76,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             return this;
         };
         Matrix1.prototype.difference = function (a, b) {
+            return this;
+        };
+        Matrix1.prototype.spinor = function (a, b) {
             return this;
         };
         return Matrix1;

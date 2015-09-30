@@ -22,6 +22,12 @@ interface IDrawable extends IResource {
    */
   material: IMaterial;
   /**
+   * User assigned name of the drawable object. Allows an object to be found in a scene.
+   * @property name
+   * @type [string]
+   */
+  name: string;
+  /**
    * @method draw
    * @param canvasId {number} Determines which canvas the IDrawable should draw to.
    * @return {void}

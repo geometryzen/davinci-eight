@@ -61,6 +61,7 @@ class Symbolic {
   public static UNIFORM_DIRECTIONAL_LIGHT_DIRECTION: string = 'uDirectionalLightDirection';
   public static UNIFORM_POINT_LIGHT_COLOR: string           = 'uPointLightColor';
   public static UNIFORM_POINT_LIGHT_POSITION: string        = 'uPointLightPosition';
+  public static UNIFORM_POINT_SIZE: string                  = 'uPointSize';
 
   /**
    * 'uProjection'

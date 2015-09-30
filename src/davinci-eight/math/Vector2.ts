@@ -7,7 +7,7 @@ import expectArg = require('../checks/expectArg');
 /**
  * @class Vector2
  */
-class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2, Spinor2Coords> {
+class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2, Spinor2Coords, Cartesian2> {
   /**
    * @class Vector2
    * @constructor
@@ -92,7 +92,7 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
     this.y *= v.y;
     return this;
   }
-  multiplyScalar(s: number) {
+  scale(s: number) {
     this.x *= s;
     this.y *= s;
     return this;
@@ -177,13 +177,17 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
     let dy = this.y - position.y;
     return dx * dx + dy * dy;
   }
+  reflect(n: Cartesian2): Vector2 {
+    // FIXME: TODO
+    return this;
+  }
   rotate(rotor: Spinor2Coords): Vector2 {
     return this;
   }
   setMagnitude(l: number) {
     var oldLength = this.magnitude();
     if ( oldLength !== 0 && l !== oldLength ) {
-      this.multiplyScalar( l / oldLength );
+      this.scale( l / oldLength );
     }
     return this;
   }
@@ -193,7 +197,7 @@ class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Carte
     return this;
   }
   lerpVectors(v1: Vector2, v2: Vector2, alpha: number) {
-    this.difference( v2, v1 ).multiplyScalar( alpha ).add( v1 );
+    this.difference( v2, v1 ).scale( alpha ).add( v1 );
     return this;
   }
   equals(v: Cartesian2) {

@@ -126,11 +126,14 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.w += (target.w - this.w) * alpha;
             return this;
         };
-        Vector4.prototype.multiplyScalar = function (scalar) {
+        Vector4.prototype.scale = function (scalar) {
             this.x *= scalar;
             this.y *= scalar;
             this.z *= scalar;
             this.w *= scalar;
+            return this;
+        };
+        Vector4.prototype.reflect = function (n) {
             return this;
         };
         Vector4.prototype.rotate = function (rotor) {

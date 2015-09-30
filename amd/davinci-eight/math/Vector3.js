@@ -110,6 +110,24 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
             this.z = e[2] * x + e[6] * y + e[10] * z + e[14];
             return this;
         };
+        /**
+         * @method reflect
+         * @param n {Cartesian3}
+         * @return {Vector3}
+         */
+        Vector3.prototype.reflect = function (n) {
+            var ax = this.x;
+            var ay = this.y;
+            var az = this.z;
+            var nx = n.x;
+            var ny = n.y;
+            var nz = n.z;
+            var dot2 = (ax * nx + ay * ny + az * nz) * 2;
+            this.x = ax - dot2 * nx;
+            this.y = ay - dot2 * ny;
+            this.z = az - dot2 * nz;
+            return this;
+        };
         Vector3.prototype.rotate = function (spinor) {
             var x = this.x;
             var y = this.y;
@@ -198,7 +216,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
             this.z *= v.z;
             return this;
         };
-        Vector3.prototype.multiplyScalar = function (scalar) {
+        Vector3.prototype.scale = function (scalar) {
             this.x *= scalar;
             this.y *= scalar;
             this.z *= scalar;
@@ -214,7 +232,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
             var m = this.magnitude();
             if (m !== 0) {
                 if (magnitude !== m) {
-                    return this.multiplyScalar(magnitude / m);
+                    return this.scale(magnitude / m);
                 }
                 else {
                     return this; // No change
@@ -277,7 +295,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
         };
         Vector3.prototype.__mul__ = function (rhs) {
             if (isNumber(rhs)) {
-                return this.clone().multiplyScalar(rhs);
+                return this.clone().scale(rhs);
             }
             else {
                 return void 0;
@@ -289,6 +307,9 @@ define(["require", "exports", '../checks/expectArg', '../checks/isNumber', '../m
          */
         Vector3.copy = function (vector) {
             return new Vector3([vector.x, vector.y, vector.z]);
+        };
+        Vector3.lerp = function (a, b, alpha) {
+            return Vector3.copy(b).sub(a).scale(alpha).add(a);
         };
         Vector3.e1 = new Vector3([1, 0, 0]);
         Vector3.e2 = new Vector3([0, 1, 0]);

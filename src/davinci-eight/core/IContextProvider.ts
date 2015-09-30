@@ -1,37 +1,80 @@
 import IContextConsumer = require('../core/IContextConsumer');
 import ContextMonitor = require('../core/ContextMonitor');
 import ContextUnique = require('../core/ContextUnique');
-import SerialGeometryElements = require('../dfx/SerialGeometryElements');
-import IBuffer = require('../core/IBuffer');
-import IBufferGeometry = require('../dfx/IBufferGeometry');
-// FIXME: Do we need IMaterial?
-import IMaterial = require('../core/IMaterial');
-import ITexture2D = require('../core/ITexture2D');
-import ITextureCubeMap = require('../core/ITextureCubeMap');
-import IUnknown = require('../core/IUnknown');
+import GeometryData = require('../geometries/GeometryData')
+import IBuffer = require('../core/IBuffer')
+import IBufferGeometry = require('../geometries/IBufferGeometry')
+import ITexture2D = require('../core/ITexture2D')
+import ITextureCubeMap = require('../core/ITextureCubeMap')
+import IUnknown = require('../core/IUnknown')
 
-// The IIContextProvider 
-// FIXME: Rename to IIContextProvider? Does it hold weak or strong references?
+// FIXME: Does it hold weak or strong references?
 // FIXME IUnknown?
 
 /**
  * @class IContextProvider
- * @extends ContextUnique
+ * @extends ContextMonitor
  * @extends IUnknown
  */
 interface IContextProvider extends ContextMonitor, IUnknown {
-  createArrayBuffer(): IBuffer;
-  createBufferGeometry(elements: SerialGeometryElements, mode?: number, usage?: number): IBufferGeometry;
-  createElementArrayBuffer(): IBuffer;
-  createTexture2D(): ITexture2D;
-  createTextureCubeMap(): ITextureCubeMap;
-  gl: WebGLRenderingContext;
   /**
    * @property canvas
    * @type {HTMLCanvasElement}
    * @readOnly
    */
   canvas: HTMLCanvasElement;
+  /**
+   * @property gl
+   * @type {WebGLRenderingContext}
+   * @readOnly
+   */
+  gl: WebGLRenderingContext;
+  /**
+   * @method addContextListener
+   * @param user {IContextConsumer}
+   * @return {void}
+   */
+  addContextListener(user: IContextConsumer): void;
+  /**
+   * @method createArrayBuffer
+   * @return {IBuffer}
+   */
+  createArrayBuffer(): IBuffer;
+  /**
+   * @method createBufferGeometry
+   * @param elements {GeometryData}
+   * @param mode [number]
+   * @param usage [number]
+   * @return {IBufferGeometry}
+   */
+  createBufferGeometry(elements: GeometryData, mode?: number, usage?: number): IBufferGeometry;
+  /**
+   * @method createElementArrayBuffer
+   * @return {IBuffer}
+   */
+  createElementArrayBuffer(): IBuffer;
+  /**
+   * @method createTexture2D
+   * @return {ITexture2D}
+   */
+  createTexture2D(): ITexture2D;
+  /**
+   * @method createTextureCubeMap
+   * @return {ITextureCubeMap}
+   */
+  createTextureCubeMap(): ITextureCubeMap;
+  /**
+   * @method removeContextListener
+   * @param user {IContextConsumer}
+   * @return {void}
+   */
+  removeContextListener(user: IContextConsumer): void;
+  /**
+   * @method synchronize
+   * @param user {IContextConsumer}
+   * @return {void}
+   */
+  synchronize(user: IContextConsumer): void;
 }
 
 export = IContextProvider;

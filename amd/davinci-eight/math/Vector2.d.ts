@@ -5,7 +5,7 @@ import VectorN = require('../math/VectorN');
 /**
  * @class Vector2
  */
-declare class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2, Spinor2Coords> {
+declare class Vector2 extends VectorN<number> implements Cartesian2, LinearElement<Cartesian2, Vector2, Spinor2Coords, Cartesian2> {
     /**
      * @class Vector2
      * @constructor
@@ -34,7 +34,7 @@ declare class Vector2 extends VectorN<number> implements Cartesian2, LinearEleme
     subScalar(s: number): Vector2;
     difference(a: Cartesian2, b: Cartesian2): Vector2;
     multiply(v: Cartesian2): Vector2;
-    multiplyScalar(s: number): Vector2;
+    scale(s: number): Vector2;
     divide(v: Cartesian2): Vector2;
     divideScalar(scalar: number): Vector2;
     min(v: Cartesian2): Vector2;
@@ -50,6 +50,7 @@ declare class Vector2 extends VectorN<number> implements Cartesian2, LinearEleme
     normalize(): Vector2;
     quaditude(): number;
     quadranceTo(position: Cartesian2): number;
+    reflect(n: Cartesian2): Vector2;
     rotate(rotor: Spinor2Coords): Vector2;
     setMagnitude(l: number): Vector2;
     lerp(v: Cartesian2, alpha: number): Vector2;

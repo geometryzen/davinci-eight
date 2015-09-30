@@ -79,7 +79,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             this.x *= v.x;
             return this;
         };
-        Vector1.prototype.multiplyScalar = function (scalar) {
+        Vector1.prototype.scale = function (scalar) {
             this.x *= scalar;
             return this;
         };
@@ -148,13 +148,17 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             var dx = this.x - position.x;
             return dx * dx;
         };
+        Vector1.prototype.reflect = function (n) {
+            // FIXME: TODO
+            return this;
+        };
         Vector1.prototype.rotate = function (rotor) {
             return this;
         };
         Vector1.prototype.setMagnitude = function (l) {
             var oldLength = this.magnitude();
             if (oldLength !== 0 && l !== oldLength) {
-                this.multiplyScalar(l / oldLength);
+                this.scale(l / oldLength);
             }
             return this;
         };
@@ -163,7 +167,7 @@ define(["require", "exports", '../math/VectorN'], function (require, exports, Ve
             return this;
         };
         Vector1.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).multiplyScalar(alpha).add(v1);
+            this.difference(v2, v1).scale(alpha).add(v1);
             return this;
         };
         Vector1.prototype.equals = function (v) {

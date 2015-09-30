@@ -12,7 +12,7 @@ declare class Matrix3 extends AbstractMatrix implements Matrix<Matrix3> {
     getInverse(matrix: Matrix4, throwOnInvertible?: boolean): Matrix3;
     identity(): Matrix3;
     multiply(rhs: Matrix3): Matrix3;
-    multiplyScalar(s: number): Matrix3;
+    scale(s: number): Matrix3;
     product(a: Matrix3, b: Matrix3): Matrix3;
     normalFromMatrix4(m: Matrix4): void;
     set(n11: number, n12: number, n13: number, n21: number, n22: number, n23: number, n31: number, n32: number, n33: number): Matrix3;

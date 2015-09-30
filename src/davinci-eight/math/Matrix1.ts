@@ -2,7 +2,7 @@ import AbstractMatrix = require('../math/AbstractMatrix');
 import GeometricElement = require('../math/GeometricElement');
 import Matrix = require('../math/Matrix');
 
-class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1> {
+class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElement<Matrix1, Matrix1, Matrix1, Matrix1> {
   /**
    * Constructs a Matrix1 by wrapping a Float32Array.
    * @constructor
@@ -50,7 +50,7 @@ class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElemen
   multiply(rhs: Matrix1) {
     return this.product(this, rhs);
   }
-  multiplyScalar(scalar: number) {
+  scale(scalar: number) {
     let data = this.data;
     data[0] *= scalar;
     return this;
@@ -62,6 +62,10 @@ class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElemen
     let x = this.data[0];
     return x * x;
   }
+  reflect(n: Matrix1): Matrix1 {
+    // FIXME: What do we do?
+    return this;
+  }
   rotate(rotor: Matrix1): Matrix1 {
     return this;
   }
@@ -69,6 +73,9 @@ class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElemen
     return this;
   }
   difference(a: Matrix1, b: Matrix1) {
+    return this;
+  }
+  spinor(a: Matrix1, b: Matrix1): Matrix1 {
     return this;
   }
 }

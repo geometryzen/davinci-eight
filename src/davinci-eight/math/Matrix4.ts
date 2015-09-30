@@ -116,7 +116,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     let det = n11 * te[ 0 ] + n21 * te[ 4 ] + n31 * te[ 8 ] + n41 * te[ 12 ];
 
     if (det !== 0) {
-      return this.multiplyScalar(1 / det);
+      return this.scale(1 / det);
     }
     else {
       let msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
@@ -133,7 +133,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
   identity(): Matrix4 {
     return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
   }
-  multiplyScalar(s: number) {
+  scale(s: number) {
     let te = this.data;
     te[ 0 ] *= s; te[ 4 ] *= s; te[ 8 ] *= s; te[ 12 ] *= s;
     te[ 1 ] *= s; te[ 5 ] *= s; te[ 9 ] *= s; te[ 13 ] *= s;
@@ -239,10 +239,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     let te = this.data;
     return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
   }
-  /**
-   *
-   */
-  scale(scale: Cartesian3): Matrix4 {
+  scaleXYZ(scale: Cartesian3): Matrix4 {
     // We treat the scale operation as pre-multiplication: 
     // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
     // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
@@ -316,7 +313,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
       return Matrix4.identity().product(this, other);
     }
     else if (typeof other === 'number') {
-      return this.clone().multiplyScalar(other);
+      return this.clone().scale(other);
     }
   }
   __rmul__(other: any): Matrix4 {
@@ -324,7 +321,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
       return Matrix4.identity().product(other, this);
     }
     else if (typeof other === 'number') {
-      return this.clone().multiplyScalar(other);
+      return this.clone().scale(other);
     }
   }
 }

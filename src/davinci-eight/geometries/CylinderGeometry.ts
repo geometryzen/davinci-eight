@@ -81,7 +81,7 @@ class CylinderGeometry extends Geometry {
 
     // top cap
     if (!openEnded && radiusTop > 0 ) {
-      this.vertices.push(Vector3.e2.clone().multiplyScalar(heightHalf));
+      this.vertices.push(Vector3.e2.clone().scale(heightHalf));
       for ( x = 0; x < radialSegments; x ++ ) {
         let v1: number = vertices[0][x];
         let v2: number = vertices[0][x + 1];
@@ -99,14 +99,14 @@ class CylinderGeometry extends Geometry {
 
     // bottom cap
     if (!openEnded && radiusBottom > 0) {
-      this.vertices.push(Vector3.e2.clone().multiplyScalar(-heightHalf));
+      this.vertices.push(Vector3.e2.clone().scale(-heightHalf));
       for ( x = 0; x < radialSegments; x ++ ) {
         let v1: number  = vertices[heightSegments][x + 1];
         let v2: number = vertices[heightSegments][x];
         let v3: number = this.vertices.length - 1;
-        let n1: Vector3 = Vector3.e2.clone().multiplyScalar(-1);
-        let n2: Vector3 = Vector3.e2.clone().multiplyScalar(-1);
-        let n3: Vector3 = Vector3.e2.clone().multiplyScalar(-1);
+        let n1: Vector3 = Vector3.e2.clone().scale(-1);
+        let n2: Vector3 = Vector3.e2.clone().scale(-1);
+        let n3: Vector3 = Vector3.e2.clone().scale(-1);
         let uv1: Vector2 = uvs[ heightSegments ][x + 1].clone();
         let uv2: Vector2 = uvs[ heightSegments ][x].clone();
         let uv3: Vector2 = new Vector2([uv2.x, 1]);

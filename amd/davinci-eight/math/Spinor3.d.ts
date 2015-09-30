@@ -6,7 +6,7 @@ import Spinor3Coords = require('../math/Spinor3Coords');
 /**
  * @class Spinor3
  */
-declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3> {
+declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3> {
     constructor(data?: number[], modified?: boolean);
     /**
      * @property yz
@@ -37,14 +37,15 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
     lerp(target: Spinor3Coords, alpha: number): Spinor3;
     magnitude(): number;
     multiply(rhs: Spinor3Coords): Spinor3;
-    multiplyScalar(scalar: number): Spinor3;
+    scale(scalar: number): Spinor3;
     product(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     quaditude(): number;
     reverse(): Spinor3;
+    reflect(n: Cartesian3): Spinor3;
     rotate(rotor: Spinor3Coords): Spinor3;
     sub(rhs: Spinor3Coords): Spinor3;
     sum(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
-    wedgeVectors(a: Cartesian3, b: Cartesian3): Spinor3;
+    spinor(a: Cartesian3, b: Cartesian3): Spinor3;
     /**
      * @method toString
      * @return {string} A non-normative string representation of the target.

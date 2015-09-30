@@ -12,6 +12,9 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
     var TIMES = SPACE + '*' + SPACE;
     var ASSIGN = SPACE + '=' + SPACE;
     var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
+    function indent(n) {
+        return SPACE + SPACE;
+    }
     /**
      *
      */
@@ -63,6 +66,9 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         glPosition.unshift("gl_Position");
         glPosition.unshift('  ');
         lines.push(glPosition.join(''));
+        if (uniforms[Symbolic.UNIFORM_POINT_SIZE]) {
+            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_POINT_SIZE) + ";");
+        }
         if (vColor) {
             if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
                 var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
@@ -125,8 +131,6 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
                 }
             }
         }
-        // TODO: This should be made conditional and variable or constant.
-        //lines.push("  gl_PointSize = 6.0;");
         lines.push("}");
         var code = lines.join("\n");
         return code;

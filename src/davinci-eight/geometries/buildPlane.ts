@@ -1,4 +1,4 @@
-import Simplex = require('../dfx/Simplex');
+import Simplex = require('../geometries/Simplex');
 import Symbolic = require('../core/Symbolic');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');

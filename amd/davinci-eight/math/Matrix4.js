@@ -103,7 +103,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             te[15] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
             var det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12];
             if (det !== 0) {
-                return this.multiplyScalar(1 / det);
+                return this.scale(1 / det);
             }
             else {
                 var msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0";
@@ -120,7 +120,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         Matrix4.prototype.identity = function () {
             return this.set(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
         };
-        Matrix4.prototype.multiplyScalar = function (s) {
+        Matrix4.prototype.scale = function (s) {
             var te = this.data;
             te[0] *= s;
             te[4] *= s;
@@ -240,10 +240,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
             var te = this.data;
             return [te[0 + i], te[4 + i], te[8 + i], te[12 + i]];
         };
-        /**
-         *
-         */
-        Matrix4.prototype.scale = function (scale) {
+        Matrix4.prototype.scaleXYZ = function (scale) {
             // We treat the scale operation as pre-multiplication: 
             // |x 0 0 0|   |m[0] m[4] m[8] m[C]|   |x * m[0] x * m[4] x * m[8] x * m[C]|
             // |0 y 0 0| * |m[1] m[5] m[9] m[D]| = |y * m[1] y * m[5] y * m[9] y * m[D]|
@@ -311,7 +308,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
                 return Matrix4.identity().product(this, other);
             }
             else if (typeof other === 'number') {
-                return this.clone().multiplyScalar(other);
+                return this.clone().scale(other);
             }
         };
         Matrix4.prototype.__rmul__ = function (other) {
@@ -319,7 +316,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
                 return Matrix4.identity().product(other, this);
             }
             else if (typeof other === 'number') {
-                return this.clone().multiplyScalar(other);
+                return this.clone().scale(other);
             }
         };
         return Matrix4;

@@ -11,7 +11,8 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
     var MATERIAL_TYPE_NAME = 'Material';
     /**
      * @class Material
-     * @implements IMaterial
+     * @extends Shareable
+     * @extends IMaterial
      */
     var Material = (function (_super) {
         __extends(Material, _super);

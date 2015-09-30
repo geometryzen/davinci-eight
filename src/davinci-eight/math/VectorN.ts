@@ -54,11 +54,22 @@ function ctorSizeKind(): string {
   return contextNameKind(constructorString('T'), 'size', 'number');
 }
 
+/**
+ * @class VectorN<T>
+ * @extends Mutable<T[]>
+ */
 class VectorN<T> implements Mutable<T[]> {
   private _size: number;
   private _data: T[];
   private _callback: () => T[];
   public modified: boolean;
+  /**
+   * @class VectorN
+   * @constructor
+   * @param data {T[]}
+   * @param modified [boolean = false]
+   * @param [size]
+   */
   constructor(data: T[], modified: boolean = false, size?: number) {
     let dataArg = expectArg('data', data).toBeObject(ctorDataKind);
     this.modified = expectArg('modified', modified).toBeBoolean(ctorModifiedKind).value;

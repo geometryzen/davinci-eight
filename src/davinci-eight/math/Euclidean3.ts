@@ -692,8 +692,13 @@ class Euclidean3 implements Cartesian3, Measure<Euclidean3>, Spinor3Coords {
     public static e2 = new Euclidean3(0, 0, 1, 0, 0, 0, 0, 0);
     public static e3 = new Euclidean3(0, 0, 0, 1, 0, 0, 0, 0);
     public static kilogram = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KILOGRAM);
-    public static meter = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
-    public static second = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
+    public static meter    = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.METER);
+    public static second   = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.SECOND);
+    public static coulomb  = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.COULOMB);
+    public static ampere   = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.AMPERE);
+    public static kelvin   = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.KELVIN);
+    public static mole     = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.MOLE);
+    public static candela  = new Euclidean3(1, 0, 0, 0, 0, 0, 0, 0, Unit.CANDELA);
     /**
      * The `w` property is the grade zero (scalar) part of the Euclidean3 multivector.
      * @property w

@@ -1,0 +1,5 @@
+interface LineMaterialParameters {
+
+}
+
+export = LineMaterialParameters;

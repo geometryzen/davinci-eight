@@ -1,6 +1,7 @@
 define(["require", "exports", '../math/DimensionError', '../math/Rational'], function (require, exports, DimensionError, Rational) {
     var R0 = Rational.ZERO;
     var R1 = Rational.ONE;
+    var M1 = Rational.MINUS_ONE;
     function assertArgNumber(name, x) {
         if (typeof x === 'number') {
             return x;
@@ -199,6 +200,11 @@ define(["require", "exports", '../math/DimensionError', '../math/Rational'], fun
         Dimensions.MASS = new Dimensions(R1, R0, R0, R0, R0, R0, R0);
         Dimensions.LENGTH = new Dimensions(R0, R1, R0, R0, R0, R0, R0);
         Dimensions.TIME = new Dimensions(R0, R0, R1, R0, R0, R0, R0);
+        Dimensions.CHARGE = new Dimensions(R0, R0, R0, R1, R0, R0, R0);
+        Dimensions.CURRENT = new Dimensions(R0, R0, M1, R1, R0, R0, R0);
+        Dimensions.TEMPERATURE = new Dimensions(R0, R0, R0, R0, R1, R0, R0);
+        Dimensions.AMOUNT = new Dimensions(R0, R0, R0, R0, R0, R1, R0);
+        Dimensions.INTENSITY = new Dimensions(R0, R0, R0, R0, R0, R0, R1);
         return Dimensions;
     })();
     return Dimensions;

@@ -85,7 +85,7 @@ function rotor3(): Rotor3 {
     multiply(spinor: Spinor3Coords): Rotor3 {
       return self.product(self, spinor);
     },
-    multiplyScalar(s: number): Rotor3 {
+    scale(s: number): Rotor3 {
       self.w  *= s;
       self.yz *= s;
       self.zx *= s;
@@ -122,7 +122,7 @@ function rotor3(): Rotor3 {
     toString(): string {
       return ['Rotor3 => ', JSON.stringify({ yz: self.yz, zx: self.zx, xy: self.xy, w: self.w })].join('');
     },
-    wedgeVectors(a: Cartesian3, b: Cartesian3): Rotor3 {
+    spinor(a: Cartesian3, b: Cartesian3): Rotor3 {
       let ax = a.x, ay = a.y, az = a.z;
       let bx = b.x, by = b.y, bz = b.z;
 

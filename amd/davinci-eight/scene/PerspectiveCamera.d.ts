@@ -13,7 +13,19 @@ declare class PerspectiveCamera implements ICamera, Perspective, UniformData {
     position: Vector3;
     private _refCount;
     private _uuid;
+    /**
+     * @property material
+     * @type {IMaterial}
+     */
     material: IMaterial;
+    /**
+     * @property name
+     * @type [string]
+     */
+    name: string;
+    /**
+     *
+     */
     private inner;
     /**
      * <p>

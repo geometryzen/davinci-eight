@@ -1,9 +1,14 @@
-import Geometry = require('../dfx/Geometry');
+import Geometry = require('../geometries/Geometry');
+import Vector3 = require('../math/Vector3');
 /**
  * @class CuboidGeometry
- * @extends Geometry
  */
 declare class CuboidGeometry extends Geometry {
-    constructor(x?: number, y?: number, z?: number, xSeg?: number, ySeg?: number, zSeg?: number, wireFrame?: boolean);
+    a: Vector3;
+    b: Vector3;
+    c: Vector3;
+    k: number;
+    constructor();
+    calculate(): void;
 }
 export = CuboidGeometry;

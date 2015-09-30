@@ -20,6 +20,10 @@ let RPAREN = ')';
 let TIMES  = SPACE + '*' + SPACE;
 let ASSIGN = SPACE + '=' + SPACE;
 let DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor"
+
+function indent(n: number): string {
+  return SPACE + SPACE
+}
 /**
  * 
  */
@@ -75,6 +79,10 @@ function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: 
   glPosition.unshift("gl_Position");
   glPosition.unshift('  ');
   lines.push(glPosition.join(''));
+
+  if (uniforms[Symbolic.UNIFORM_POINT_SIZE]) {
+    lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_POINT_SIZE) + ";")
+  }
 
   if (vColor) {
     if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
@@ -135,8 +143,6 @@ function vertexShader(attributes: { [name: string]: AttribMetaInfo }, uniforms: 
       }
     }
   }
-  // TODO: This should be made conditional and variable or constant.
-  //lines.push("  gl_PointSize = 6.0;");
   lines.push("}");
 
   let code = lines.join("\n");

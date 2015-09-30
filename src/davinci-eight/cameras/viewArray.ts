@@ -19,7 +19,7 @@ function viewArray(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: F
   }
   let u = new Vector3().crossVectors(up, n);
   let v = new Vector3().crossVectors(n, u);
-  let d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).multiplyScalar(-1);
+  let d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).scale(-1);
   m[0] = u.x;  m[4] = u.y; m[8]  = u.z; m[12] = d.x;
   m[1] = v.x;  m[5] = v.y; m[9]  = v.z; m[13] = d.y;
   m[2] = n.x;  m[6] = n.y; m[10] = n.z; m[14] = d.z;

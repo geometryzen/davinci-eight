@@ -77,7 +77,7 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             multiply: function (spinor) {
                 return self.product(self, spinor);
             },
-            multiplyScalar: function (s) {
+            scale: function (s) {
                 self.w *= s;
                 self.yz *= s;
                 self.zx *= s;
@@ -114,7 +114,7 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             toString: function () {
                 return ['Rotor3 => ', JSON.stringify({ yz: self.yz, zx: self.zx, xy: self.xy, w: self.w })].join('');
             },
-            wedgeVectors: function (a, b) {
+            spinor: function (a, b) {
                 var ax = a.x, ay = a.y, az = a.z;
                 var bx = b.x, by = b.y, bz = b.z;
                 this.w = 0;

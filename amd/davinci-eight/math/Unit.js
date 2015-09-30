@@ -412,6 +412,11 @@ define(["require", "exports", '../math/Dimensions', '../math/Rational', '../math
         Unit.KILOGRAM = new Unit(1.0, Dimensions.MASS, LABELS_SI);
         Unit.METER = new Unit(1.0, Dimensions.LENGTH, LABELS_SI);
         Unit.SECOND = new Unit(1.0, Dimensions.TIME, LABELS_SI);
+        Unit.COULOMB = new Unit(1.0, Dimensions.CHARGE, LABELS_SI);
+        Unit.AMPERE = new Unit(1.0, Dimensions.CURRENT, LABELS_SI);
+        Unit.KELVIN = new Unit(1.0, Dimensions.TEMPERATURE, LABELS_SI);
+        Unit.MOLE = new Unit(1.0, Dimensions.AMOUNT, LABELS_SI);
+        Unit.CANDELA = new Unit(1.0, Dimensions.INTENSITY, LABELS_SI);
         return Unit;
     })();
     return Unit;

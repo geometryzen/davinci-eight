@@ -3,6 +3,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "AttribLocation",
         "AttribMetaInfo",
+        "BarnGeometry",
         "BoxBuilder",
         "BoxMesh",
         "Canvas3D",
@@ -17,9 +18,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "ContextRenderer",
         "CuboidGeometry",
         "CuboidMesh",
-        "CuboidSerialGeometry",
         "CylinderArgs",
         "Dimensions",
+        "Drawable",
         "EIGHTLogger",
         "ElementArray",
         "ElementBuffer",
@@ -31,6 +32,9 @@ YUI.add("yuidoc-meta", function(Y) {
         "Face3",
         "Frustum",
         "Geometry",
+        "GeometryAttribute",
+        "GeometryData",
+        "GeometryElements",
         "GeometryMeta",
         "HTMLScriptsMaterial",
         "IBufferGeometry",
@@ -41,27 +45,28 @@ YUI.add("yuidoc-meta", function(Y) {
         "IMaterial",
         "IPrologCommand",
         "IUnknown",
+        "IUnknownArray",
         "KleinBottleGeometry",
         "Line3",
+        "LineMaterial",
+        "LinearElement<I, M, S>",
         "LocalizableMessage",
         "Material",
         "Matrix4",
         "Matrix<M>",
-        "Mesh",
-        "MeshNormalMaterial",
+        "MeshMaterial",
         "Mutable",
         "Perspective",
         "PerspectiveCamera",
         "Point3",
+        "PointMaterial",
         "Rational",
         "RigidBody3",
         "Scene",
-        "SerialGeometry",
-        "SerialGeometryAttribute",
-        "SerialGeometryElements",
         "ShaderVariableDecl",
         "Shareable",
         "Simplex",
+        "Simplex1Geometry",
         "SmartMaterial",
         "SmartMaterialBuilder",
         "Spinor3",
@@ -74,6 +79,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "Vector2",
         "Vector3",
         "Vector4",
+        "VectorN",
+        "VectorN<T>",
         "VersionLogger",
         "View",
         "WebGLClear",
@@ -82,7 +89,20 @@ YUI.add("yuidoc-meta", function(Y) {
         "WindowAnimationRunner",
         "createView"
     ],
-    "modules": [],
-    "allModules": []
+    "modules": [
+        "EIGHT",
+        "geometries"
+    ],
+    "allModules": [
+        {
+            "displayName": "EIGHT",
+            "name": "EIGHT"
+        },
+        {
+            "displayName": "geometries",
+            "name": "geometries",
+            "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.\nTen (10) vertices are used to define the barn.\nThe floor vertices are lablled 0, 1, 6, 5.\nThe corresponding ceiling vertices are labelled 4, 2, 7, 9.\nThe roof peak vertices are labelled 3, 8."
+        }
+    ]
 } };
 });

@@ -124,7 +124,7 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
-        Spinor3.prototype.multiplyScalar = function (scalar) {
+        Spinor3.prototype.scale = function (scalar) {
             this.yz *= scalar;
             this.zx *= scalar;
             this.xy *= scalar;
@@ -159,6 +159,10 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.xy *= -1;
             return this;
         };
+        Spinor3.prototype.reflect = function (n) {
+            // FIXME: TODO Bivectors transform as nBn (+sign)
+            return this;
+        };
         Spinor3.prototype.rotate = function (rotor) {
             return this;
         };
@@ -168,7 +172,7 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.sum = function (a, b) {
             return this;
         };
-        Spinor3.prototype.wedgeVectors = function (a, b) {
+        Spinor3.prototype.spinor = function (a, b) {
             var ax = a.x, ay = a.y, az = a.z;
             var bx = b.x, by = b.y, bz = b.z;
             this.w = 0;

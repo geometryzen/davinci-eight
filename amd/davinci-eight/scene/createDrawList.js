@@ -262,9 +262,20 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             draw: function (ambients, canvasId) {
                 drawableGroups.draw(ambients, canvasId);
             },
+            getDrawablesByName: function (name) {
+                var result = new IUnknownArray();
+                drawableGroups.traverseDrawables(function (candidate) {
+                    if (candidate.name === name) {
+                        result.push(candidate);
+                    }
+                }, function (program) {
+                });
+                return result;
+            },
             remove: function (drawable) {
                 drawableGroups.remove(drawable);
             },
+            // FIXME: canvasId not being used?
             traverse: function (callback, canvasId, prolog) {
                 drawableGroups.traverseDrawables(callback, prolog);
             }

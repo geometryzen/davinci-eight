@@ -11,10 +11,10 @@ interface Rotor3 extends Spinor3Coords {
     copy(spinor: Spinor3Coords): Rotor3;
     exp(): Rotor3;
     multiply(spinor: Spinor3Coords): Rotor3;
-    multiplyScalar(s: number): Rotor3;
+    scale(s: number): Rotor3;
     product(a: Spinor3Coords, b: Spinor3Coords): Rotor3;
     reverse(): Rotor3;
     toString(): string;
-    wedgeVectors(m: Cartesian3, n: Cartesian3): Rotor3;
+    spinor(m: Cartesian3, n: Cartesian3): Rotor3;
 }
 export = Rotor3;

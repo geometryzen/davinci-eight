@@ -37,7 +37,18 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
     function ctorSizeKind() {
         return contextNameKind(constructorString('T'), 'size', 'number');
     }
+    /**
+     * @class VectorN<T>
+     * @extends Mutable<T[]>
+     */
     var VectorN = (function () {
+        /**
+         * @class VectorN
+         * @constructor
+         * @param data {T[]}
+         * @param modified [boolean = false]
+         * @param [size]
+         */
         function VectorN(data, modified, size) {
             if (modified === void 0) { modified = false; }
             var dataArg = expectArg('data', data).toBeObject(ctorDataKind);

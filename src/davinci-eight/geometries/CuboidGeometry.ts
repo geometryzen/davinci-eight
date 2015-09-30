@@ -1,62 +1,75 @@
-import buildPlane = require('../geometries/buildPlane');
-import Geometry = require('../dfx/Geometry');
-import mustBeInteger = require('../checks/mustBeInteger');
-import mustBeNumber = require('../checks/mustBeNumber');
-import Simplex = require('../dfx/Simplex');
-import Symbolic = require('../core/Symbolic');
-import Vector1 = require('../math/Vector1');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-
-function boxCtor() {
-  return "CuboidGeometry constructor";
-}
+import computeFaceNormals = require('../geometries/computeFaceNormals')
+import Geometry = require('../geometries/Geometry')
+import quad = require('../geometries/quadrilateral')
+import Simplex = require('../geometries/Simplex')
+import Symbolic = require('../core/Symbolic')
+import triangle = require('../geometries/triangle')
+import Vector1 = require('../math/Vector1')
+import Vector3 = require('../math/Vector3')
+import VectorN = require('../math/VectorN')
 
 /**
  * @class CuboidGeometry
- * @extends Geometry
  */
 class CuboidGeometry extends Geometry {
-  constructor(x: number = 1, y: number = 1, z: number = 1,
-    xSeg: number = 1, ySeg: number = 1, zSeg: number = 1,
-    wireFrame: boolean = false) {
+  public a: Vector3 = Vector3.e1.clone();
+  public b: Vector3 = Vector3.e2.clone();
+  public c: Vector3 = Vector3.e3.clone();
+  public k = 1;
+  constructor() {
+    super()
+    this.calculate();
+  }
+  public calculate(): void {
+    var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
+    pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2)
+    pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2)
+    pos[2] = new Vector3().add(this.a).add(this.b).add(this.c).divideScalar(2)
+    pos[3] = new Vector3().sub(this.a).add(this.b).add(this.c).divideScalar(2)
+    pos[4] = new Vector3().copy(pos[3]).sub(this.c)
+    pos[5] = new Vector3().copy(pos[2]).sub(this.c)
+    pos[6] = new Vector3().copy(pos[1]).sub(this.c)
+    pos[7] = new Vector3().copy(pos[0]).sub(this.c)
 
-    super();
-
-    mustBeNumber('x', x, boxCtor);
-    mustBeNumber('y', y, boxCtor);
-    mustBeNumber('z', z, boxCtor);
-    mustBeInteger('xSeg', xSeg, boxCtor);
-    mustBeInteger('ySeg', ySeg, boxCtor);
-    mustBeInteger('zSeg', zSeg, boxCtor);
-
-    // Temporary storage for points.
-    // The approach is:
-    // 1. Compute the points first.
-    // 2. Compute the faces and have them reference the points.
-    // 3. Throw away the temporary storage of points. 
-    let points: Vector3[] = [];
-
-    let faces: Simplex[] = this.data;
-
-    let xdiv2 = x / 2;
-    let ydiv2 = y / 2;
-    let zdiv2 = z / 2;
-
-    // FIXME: Possible bug in 4th column? Not symmetric.
-    buildPlane('z', 'y', -1, -1, z, y, +xdiv2, xSeg, ySeg, zSeg, new Vector1([0]), points, faces); // +x
-    buildPlane('z', 'y', +1, -1, z, y, -xdiv2, xSeg, ySeg, zSeg, new Vector1([1]), points, faces); // -x
-    buildPlane('x', 'z', +1, +1, x, z, +ydiv2, xSeg, ySeg, zSeg, new Vector1([2]), points, faces); // +y
-    buildPlane('x', 'z', +1, -1, x, z, -ydiv2, xSeg, ySeg, zSeg, new Vector1([3]), points, faces); // -y
-    buildPlane('x', 'y', +1, -1, x, y, +zdiv2, xSeg, ySeg, zSeg, new Vector1([4]), points, faces); // +z
-    buildPlane('x', 'y', -1, -1, x, y, -zdiv2, xSeg, ySeg, zSeg, new Vector1([5]), points, faces); // -z
-
-    if (wireFrame) {
-      this.boundary();
+    function simplex(indices: number[]): Simplex {
+      let simplex = new Simplex(indices.length - 1)
+      for (var i = 0; i < indices.length; i++) {
+        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]]
+        simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new Vector1([i])
+      }
+      return simplex
     }
-    // This construction duplicates vertices along the edges of the cube.
-    this.mergeVertices();
-    this.check();
+    switch(this.k) {
+      case 0: {
+        var points = [[0],[1],[2],[3],[4],[5],[6],[7]]
+        this.data = points.map(function(point) {return simplex(point)})
+      }
+      break
+      case 1: {
+        let lines = [[0,1],[1,2],[2,3],[3,0],[0,7],[1,6],[2,5],[3,4],[4,5],[5,6],[6,7],[7,4]]
+        this.data = lines.map(function(line) {return simplex(line)})
+      }
+      break
+      case 2: {
+        var faces: Simplex[][] = [0, 1, 2, 3, 4, 5].map(function(index) {return void 0})
+        faces[0] = quad(pos[0], pos[1], pos[2], pos[3])
+        faces[1] = quad(pos[1], pos[6], pos[5], pos[2])
+        faces[2] = quad(pos[7], pos[0], pos[3], pos[4])
+        faces[3] = quad(pos[6], pos[7], pos[4], pos[5])
+        faces[4] = quad(pos[3], pos[2], pos[5], pos[4])
+        faces[5] = quad(pos[7], pos[6], pos[1], pos[0])
+        this.data = faces.reduce(function(a, b) { return a.concat(b) }, []);
+
+        this.data.forEach(function(simplex) {
+          computeFaceNormals(simplex);
+        })
+      }
+      break
+      default: {
+      }
+    }
+    // Compute the meta data.
+    this.check()
   }
 }
 

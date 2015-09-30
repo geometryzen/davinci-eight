@@ -30,7 +30,8 @@ let MATERIAL_TYPE_NAME = 'Material';
 
 /**
  * @class Material
- * @implements IMaterial
+ * @extends Shareable
+ * @extends IMaterial
  */
 class Material extends Shareable implements IMaterial {
   // FIXME: Hide this but use a virtual method to set it.

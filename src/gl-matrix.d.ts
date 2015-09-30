@@ -28,7 +28,6 @@ interface Matrix4Service {
   mul(m1: number[], m2: number[], m3: number[]): void;
   perspective(matrix: number[], fov: number, aspect: number, near: number, far: number): void;
   translate(m1: number[], m2: number[], displacement: number[]): void;
-  fromRotationTranslation(matrix: number[], q: Quaternion, v: Vector3): void;
 }
 
 interface Vector3 {
@@ -39,20 +38,11 @@ interface Vector3Service {
   fromValues(x: number, y: number, z: number): Vector3;
 }
 
-interface Quaternion {
-
-}
-
-interface QuaternionService {
-  fromValues(x: number, y: number, z: number, w:number): Quaternion;
-}
-
 interface glMatrix {
   create(): number;
   mat3: Matrix3Service;
   mat4: Matrix4Service;
   vec3: Vector3Service;
-  quat: QuaternionService;
 }
 
 declare var x: glMatrix;

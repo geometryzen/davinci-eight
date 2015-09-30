@@ -6,7 +6,7 @@ import VectorN = require('../math/VectorN');
 /**
  * @class Vector1
  */
-class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, Vector1, Spinor1Coords> {
+class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Cartesian1, Vector1, Spinor1Coords, Cartesian1> {
   /**
    * @class Vector1
    * @constructor
@@ -71,7 +71,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     this.x *= v.x;
     return this;
   }
-  multiplyScalar(scalar: number) {
+  scale(scalar: number) {
     this.x *= scalar;
     return this;
   }
@@ -140,13 +140,17 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     let dx = this.x - position.x;
     return dx * dx;
   }
+  reflect(n: Cartesian1): Vector1 {
+    // FIXME: TODO
+    return this;
+  }
   rotate(rotor: Spinor1Coords): Vector1 {
     return this;
   }
   setMagnitude(l: number) {
     var oldLength = this.magnitude();
     if ( oldLength !== 0 && l !== oldLength ) {
-      this.multiplyScalar( l / oldLength );
+      this.scale( l / oldLength );
     }
     return this;
   }
@@ -155,7 +159,7 @@ class Vector1 extends VectorN<number> implements Cartesian1, LinearElement<Carte
     return this;
   }
   lerpVectors(v1: Vector1, v2: Vector1, alpha: number) {
-    this.difference(v2, v1).multiplyScalar(alpha).add(v1);
+    this.difference(v2, v1).scale(alpha).add(v1);
     return this;
   }
   equals(v: Cartesian1) {

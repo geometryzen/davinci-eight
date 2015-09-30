@@ -1,21 +1,68 @@
 import IUnknown = require('../core/IUnknown');
-declare class IUnknownArray<T extends IUnknown> implements IUnknown {
+import Shareable = require('../utils/Shareable');
+/**
+ * @class IUnknownArray
+ */
+declare class IUnknownArray<T extends IUnknown> extends Shareable {
     private _elements;
-    private _refCount;
-    private _uuid;
+    /**
+     * Collection class for maintaining an array of types derived from IUnknown.
+     * Provides a safer way to maintain reference counts than a native array.
+     * @class IUnknownArray
+     * @constructor
+     */
     constructor();
-    addRef(): number;
+    /**
+     * @method destructor
+     * @return {void}
+     */
+    protected destructor(): void;
+    /**
+     * Gets the element at the specified index without incrementing the reference count.
+     * Use this method when you don't intend to hold onto the returned value.
+     * @method getWeakReference
+     * @param index {number}
+     * @return {T}
+     */
     getWeakReference(index: number): T;
+    /**
+     * Gets the element at the specified index, incrementing the reference count.
+     * Use this method when you intend to hold onto the referent and release it later.
+     * @method getStrongReference
+     * @param index {number}
+     * @return {T}
+     */
     getStrongReference(index: number): T;
-    indexOf(element: T): number;
+    /**
+     * @method indexOf
+     * @param searchElement {T}
+     * @param [fromIndex]
+     * @return {number}
+     */
+    indexOf(searchElement: T, fromIndex?: number): number;
+    /**
+     * @property length
+     * @return {number}
+     */
     length: number;
-    release(): number;
     splice(index: number, count: number): T[];
     /**
      * Traverse without Reference Counting
+     * @method forEach
+     * @param callback {(value: T, index: number)=>void}
+     * @return {void}
      */
     forEach(callback: (value: T, index: number) => void): void;
-    push(element: T): void;
+    /**
+     * @method push
+     * @param element {T}
+     * @return {number}
+     */
+    push(element: T): number;
+    /**
+     * @method pop
+     * @return {T}
+     */
     pop(): T;
 }
 export = IUnknownArray;

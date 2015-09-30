@@ -7,7 +7,7 @@ import VectorN = require('../math/VectorN');
 /**
  * @class Vector3
  */
-declare class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
+declare class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords, Cartesian3> {
     static e1: Vector3;
     static e2: Vector3;
     static e3: Vector3;
@@ -53,6 +53,12 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      * @param m The 4x4 matrix that pre-multiplies this column vector.
      */
     applyMatrix4(m: Matrix4): Vector3;
+    /**
+     * @method reflect
+     * @param n {Cartesian3}
+     * @return {Vector3}
+     */
+    reflect(n: Cartesian3): Vector3;
     rotate(spinor: Spinor3Coords): Vector3;
     clone(): Vector3;
     copy(v: Cartesian3): Vector3;
@@ -67,7 +73,7 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
     lerp(target: Cartesian3, alpha: number): Vector3;
     normalize(): Vector3;
     multiply(v: Cartesian3): Vector3;
-    multiplyScalar(scalar: number): Vector3;
+    scale(scalar: number): Vector3;
     set(x: number, y: number, z: number): Vector3;
     setMagnitude(magnitude: number): Vector3;
     setX(x: number): Vector3;
@@ -94,5 +100,6 @@ declare class Vector3 extends VectorN<number> implements Cartesian3, LinearEleme
      * Copy constructor.
      */
     static copy(vector: Cartesian3): Vector3;
+    static lerp(a: Cartesian3, b: Cartesian3, alpha: number): Vector3;
 }
 export = Vector3;

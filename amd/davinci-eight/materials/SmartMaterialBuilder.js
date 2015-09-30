@@ -32,13 +32,13 @@ define(["require", "exports", '../core/getAttribVarName', '../core/getUniformVar
         /**
          * @class SmartMaterialBuilder
          * @constructor
-         * @param geometry {Geometry} Optional.
+         * @param elements {Geometry} Optional.
          */
-        function SmartMaterialBuilder(geometry) {
+        function SmartMaterialBuilder(elements) {
             this.aMeta = {};
             this.uParams = {};
-            if (geometry) {
-                var attributes = geometry.meta.attributes;
+            if (elements) {
+                var attributes = elements.meta.attributes;
                 var keys = Object.keys(attributes);
                 var keysLength = keys.length;
                 for (var i = 0; i < keysLength; i++) {

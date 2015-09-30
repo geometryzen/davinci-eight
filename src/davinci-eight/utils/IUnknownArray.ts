@@ -1,25 +1,50 @@
 import IUnknown = require('../core/IUnknown')
-import refChange = require('../utils/refChange')
-import uuid4 = require('../utils/uuid4')
+import Shareable = require('../utils/Shareable')
 
 let LOGGING_NAME = 'IUnknownArray';
-// FIXME xtend Shareable
-class IUnknownArray<T extends IUnknown> implements IUnknown {
+
+/**
+ * @class IUnknownArray
+ */
+class IUnknownArray<T extends IUnknown> extends Shareable {
   private _elements: T[] = [];
-  private _refCount = 1;
-  private _uuid = uuid4().generate();
+  /**
+   * Collection class for maintaining an array of types derived from IUnknown.
+   * Provides a safer way to maintain reference counts than a native array.
+   * @class IUnknownArray
+   * @constructor
+   */
   constructor() {
-   refChange(this._uuid, LOGGING_NAME, +1);
+   super(LOGGING_NAME)
   }
-  addRef(): number {
-    this._refCount++;
-    refChange(this._uuid, LOGGING_NAME, +1);
-    return this._refCount;
+  /**
+   * @method destructor
+   * @return {void}
+   */
+  protected destructor(): void {
+    for (var i = 0, l = this._elements.length; i < l; i++) {
+      this._elements[i].release();
+    }
+    this._elements = void 0;
   }
-  getWeakReference(index: number) {
+  /**
+   * Gets the element at the specified index without incrementing the reference count.
+   * Use this method when you don't intend to hold onto the returned value.
+   * @method getWeakReference
+   * @param index {number}
+   * @return {T}
+   */
+  getWeakReference(index: number): T {
     return this._elements[index];
   }
-  getStrongReference(index: number) {
+  /**
+   * Gets the element at the specified index, incrementing the reference count.
+   * Use this method when you intend to hold onto the referent and release it later.
+   * @method getStrongReference
+   * @param index {number}
+   * @return {T}
+   */
+  getStrongReference(index: number): T {
     var element: T
     element = this._elements[index]
     if (element) {
@@ -27,44 +52,53 @@ class IUnknownArray<T extends IUnknown> implements IUnknown {
     }
     return element
   }
-  indexOf(element: T): number {
-      return this._elements.indexOf(element);
+  /**
+   * @method indexOf
+   * @param searchElement {T}
+   * @param [fromIndex]
+   * @return {number}
+   */
+  indexOf(searchElement: T, fromIndex?: number): number {
+    return this._elements.indexOf(searchElement, fromIndex);
   }
+  /**
+   * @property length
+   * @return {number}
+   */
   get length() {
     return this._elements.length;
   }
-  release(): number {
-    this._refCount--;
-    refChange(this._uuid, LOGGING_NAME, -1);
-    if (this._refCount === 0) {
-      for (var i = 0, l = this._elements.length; i < l; i++) {
-        this._elements[i].release();
-      }
-      this._elements = void 0;
-      this._refCount = void 0;
-      this._uuid = void 0;
-      return 0;
-    }
-    else {
-      return this._refCount;
-    }
-  }
-  splice(index: number, count: number) {
+  splice(index: number, count: number): T[] {
     // The release burdon is on the caller now.
+    // FIXME: This should return another IUnknownArray
     return this._elements.splice(index, count);
   }
   /**
    * Traverse without Reference Counting
+   * @method forEach
+   * @param callback {(value: T, index: number)=>void}
+   * @return {void}
    */
-  forEach(callback: (value: T, index: number) => void) {
-    this._elements.forEach(callback);
+  forEach(callback: (value: T, index: number) => void): void {
+    return this._elements.forEach(callback);
   }
-  push(element: T) {
-    this._elements.push(element);
-    element.addRef();
+  /**
+   * @method push
+   * @param element {T}
+   * @return {number}
+   */
+  push(element: T): number {
+    var x: number = this._elements.push(element)
+    element.addRef()
+    return x
   }
-  pop() {
-    return this._elements.pop();
+  /**
+   * @method pop
+   * @return {T}
+   */
+  pop(): T {
+    // No need to addRef because ownership is being transferred to caller.
+    return this._elements.pop()
   }
 }
 

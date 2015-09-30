@@ -12,7 +12,7 @@ define(["require", "exports", '../math/Vector3', '../checks/expectArg', '../chec
         }
         var u = new Vector3().crossVectors(up, n);
         var v = new Vector3().crossVectors(n, u);
-        var d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).multiplyScalar(-1);
+        var d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).scale(-1);
         m[0] = u.x;
         m[4] = u.y;
         m[8] = u.z;

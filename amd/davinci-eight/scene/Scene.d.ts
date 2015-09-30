@@ -2,6 +2,7 @@ import IContextProvider = require('../core/IContextProvider');
 import ContextMonitor = require('../core/ContextMonitor');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
+import IUnknownArray = require('../utils/IUnknownArray');
 import IMaterial = require('../core/IMaterial');
 import Shareable = require('../utils/Shareable');
 import UniformData = require('../core/UniformData');
@@ -53,6 +54,12 @@ declare class Scene extends Shareable implements IDrawList {
      * @beta
      */
     draw(ambients: UniformData, canvasId: number): void;
+    /**
+     * Gets a collection of drawable elements by name.
+     * @method getDrawablesByName
+     * @param name {string}
+     */
+    getDrawablesByName(name: string): IUnknownArray<IDrawable>;
     /**
      * <p>
      * Removes the <code>drawable</code> from this <code>Scene</code>.

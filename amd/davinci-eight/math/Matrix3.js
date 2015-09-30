@@ -46,7 +46,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
                 this.identity();
                 return this;
             }
-            this.multiplyScalar(1.0 / det);
+            this.scale(1.0 / det);
             return this;
         };
         Matrix3.prototype.identity = function () {
@@ -55,7 +55,7 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
-        Matrix3.prototype.multiplyScalar = function (s) {
+        Matrix3.prototype.scale = function (s) {
             var m = this.data;
             m[0] *= s;
             m[3] *= s;

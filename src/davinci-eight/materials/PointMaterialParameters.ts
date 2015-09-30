@@ -1,0 +1,5 @@
+interface PointMaterialParameters {
+
+}
+
+export = PointMaterialParameters;

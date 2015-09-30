@@ -1,5 +1,5 @@
 import ContextMonitor = require('../core/ContextMonitor');
-import SerialGeometry = require('../geometries/SerialGeometry');
+import GeometryElements = require('../geometries/GeometryElements');
 import Material = require('../materials/Material');
 /**
  * @class SmartMaterialBuilder
@@ -10,9 +10,9 @@ declare class SmartMaterialBuilder {
     /**
      * @class SmartMaterialBuilder
      * @constructor
-     * @param geometry {Geometry} Optional.
+     * @param elements {Geometry} Optional.
      */
-    constructor(geometry?: SerialGeometry);
+    constructor(elements?: GeometryElements);
     attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
     uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
     build(contexts: ContextMonitor[]): Material;

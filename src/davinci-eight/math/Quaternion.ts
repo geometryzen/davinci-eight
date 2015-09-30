@@ -8,7 +8,7 @@ var EPS = 0.000001;
  * Quaternion is retained for reference only.
  * Quaternion should not be exposed.
  */
-class Quaternion implements GeometricElement<Quaternion, Quaternion> {
+class Quaternion implements GeometricElement<Quaternion, Quaternion, Quaternion, Cartesian3> {
   private _x: number;
   private _y: number;
   private _z: number;
@@ -117,7 +117,7 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
     this.onChangeCallback();
     return this;
   }
-  multiplyScalar(scalar: number) {
+  scale(scalar: number) {
     return this;
   }
   normalize(): Quaternion {
@@ -144,6 +144,10 @@ class Quaternion implements GeometricElement<Quaternion, Quaternion> {
   }
   quaditude(): number {
     return this._x * this._x + this._y * this._y + this._z * this._z + this._w * this._w;
+  }
+  reflect(n: Cartesian3): Quaternion {
+    // FIXME: What does this mean?
+    throw new Error();
   }
   rotate(rotor: Quaternion): Quaternion {
     // TODO: This would require creating a temporary so we fall back to components.

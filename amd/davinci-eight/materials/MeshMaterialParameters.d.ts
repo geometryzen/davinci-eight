@@ -1,0 +1,3 @@
+interface MeshMaterialParameters {
+}
+export = MeshMaterialParameters;

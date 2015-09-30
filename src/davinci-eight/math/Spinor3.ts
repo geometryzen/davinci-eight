@@ -10,7 +10,7 @@ import wedgeZX = require('../math/wedgeZX');
 /**
  * @class Spinor3
  */
-class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3>
+class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3>
 {
   constructor(data: number[] = [0, 0, 0, 1], modified: boolean = false) {
     super(data, modified, 4);
@@ -109,7 +109,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   multiply(rhs: Spinor3Coords): Spinor3 {
     return this.product(this, rhs);
   }
-  multiplyScalar(scalar: number) {
+  scale(scalar: number) {
     this.yz *= scalar;
     this.zx *= scalar;
     this.xy *= scalar;
@@ -144,6 +144,10 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.xy *= - 1;
     return this;
   }
+  reflect(n: Cartesian3): Spinor3 {
+    // FIXME: TODO Bivectors transform as nBn (+sign)
+    return this;
+  }
   rotate(rotor: Spinor3Coords): Spinor3 {
     return this;
   }
@@ -153,7 +157,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   sum(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
-  wedgeVectors(a: Cartesian3, b: Cartesian3) {
+  spinor(a: Cartesian3, b: Cartesian3) {
     let ax = a.x, ay = a.y, az = a.z;
     let bx = b.x, by = b.y, bz = b.z;
 

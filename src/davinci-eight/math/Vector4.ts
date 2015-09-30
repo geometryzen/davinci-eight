@@ -7,7 +7,7 @@ import VectorN = require('../math/VectorN');
 /**
  * @class Vector4
  */
-class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4, Spinor4Coords> {
+class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Cartesian4, Vector4, Spinor4Coords, Cartesian4> {
   /**
    * @class Vector4
    * @constructor
@@ -107,11 +107,14 @@ class Vector4 extends VectorN<number> implements Cartesian4, LinearElement<Carte
     this.w += ( target.w - this.w ) * alpha;
     return this;
   }
-  multiplyScalar(scalar: number) {
+  scale(scalar: number) {
     this.x *= scalar;
     this.y *= scalar;
     this.z *= scalar;
     this.w *= scalar;
+    return this;
+  }
+  reflect(n: Cartesian4) {
     return this;
   }
   rotate(rotor: Spinor4Coords) {

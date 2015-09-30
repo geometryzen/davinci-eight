@@ -3,6 +3,7 @@ import ContextMonitor = require('../core/ContextMonitor')
 import createDrawList = require('../scene/createDrawList')
 import IDrawable = require('../core/IDrawable')
 import IDrawList = require('../scene/IDrawList')
+import IUnknownArray = require('../utils/IUnknownArray')
 import IMaterial = require('../core/IMaterial')
 import Matrix1 = require('../math/Matrix1')
 import Matrix2 = require('../math/Matrix2')
@@ -94,6 +95,14 @@ class Scene extends Shareable implements IDrawList {
    */
   draw(ambients: UniformData, canvasId: number): void {
     this.drawList.draw(ambients, canvasId)
+  }
+  /**
+   * Gets a collection of drawable elements by name.
+   * @method getDrawablesByName
+   * @param name {string}
+   */
+  getDrawablesByName(name: string): IUnknownArray<IDrawable> {
+    return this.drawList.getDrawablesByName(name)
   }
   /**
    * <p>

@@ -23,7 +23,7 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     determinant(): number;
     invert(m: Matrix4, throwOnSingular?: boolean): Matrix4;
     identity(): Matrix4;
-    multiplyScalar(s: number): Matrix4;
+    scale(s: number): Matrix4;
     transpose(): Matrix4;
     /**
      *
@@ -43,10 +43,7 @@ declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
      * @param i {number} the zero-based index of the row.
      */
     row(i: number): number[];
-    /**
-     *
-     */
-    scale(scale: Cartesian3): Matrix4;
+    scaleXYZ(scale: Cartesian3): Matrix4;
     scaling(scale: Cartesian3): Matrix4;
     set(n11: number, n12: number, n13: number, n14: number, n21: number, n22: number, n23: number, n24: number, n31: number, n32: number, n33: number, n34: number, n41: number, n42: number, n43: number, n44: number): Matrix4;
     toFixed(digits?: number): string;
