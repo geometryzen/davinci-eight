@@ -41,7 +41,6 @@ import Cartesian3 = require('davinci-eight/math/Cartesian3');
 import Euclidean3 = require('davinci-eight/math/Euclidean3');
 import Matrix3 = require('davinci-eight/math/Matrix3');
 import Matrix4 = require('davinci-eight/math/Matrix4');
-import Rotor3 = require('davinci-eight/math/Rotor3');
 import Spinor3 = require('davinci-eight/math/Spinor3');
 import Vector1 = require('davinci-eight/math/Vector1');
 import Vector2 = require('davinci-eight/math/Vector2');
@@ -132,7 +131,6 @@ declare var eight: {
     Euclidean3: typeof Euclidean3;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;
-    rotor3: () => Rotor3;
     Spinor3: typeof Spinor3;
     Vector1: typeof Vector1;
     Vector2: typeof Vector2;

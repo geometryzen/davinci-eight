@@ -10,6 +10,7 @@ import Cartesian3 = require('../math/Cartesian3');
 declare class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
     /**
      * Constructs a Matrix4 by wrapping a Float32Array.
+     * @class Matrix4
      * @constructor
      */
     constructor(data: Float32Array);

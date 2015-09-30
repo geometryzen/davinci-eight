@@ -119,8 +119,6 @@ import Matrix4 = require('davinci-eight/math/Matrix4')
 import Measure = require('davinci-eight/math/Measure')
 import Mutable = require('davinci-eight/math/Mutable')
 import Rational = require('davinci-eight/math/Rational')
-import Rotor3 = require('davinci-eight/math/Rotor3')
-import rotor3 = require('davinci-eight/math/rotor3')
 import Spinor1 = require('davinci-eight/math/Spinor1')
 import Spinor1Coords = require('davinci-eight/math/Spinor1Coords')
 import Spinor2 = require('davinci-eight/math/Spinor2')
@@ -263,7 +261,6 @@ var eight = {
   get Euclidean3() { return Euclidean3 },
   get Matrix3() { return Matrix3 },
   get Matrix4() { return Matrix4 },
-  get rotor3() { return rotor3 },
   get Spinor3() { return Spinor3 },
   get Vector1() { return Vector1 },
   get Vector2() { return Vector2 },

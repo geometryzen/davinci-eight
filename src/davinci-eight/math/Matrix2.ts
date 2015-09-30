@@ -1,5 +1,8 @@
 import AbstractMatrix = require('../math/AbstractMatrix');
+import Cartesian2 = require('../math/Cartesian2')
+import GeometricElement = require('../math/GeometricElement')
 import Matrix = require('../math/Matrix');
+
 
 class Matrix2 extends AbstractMatrix implements Matrix<Matrix2> {
   /**

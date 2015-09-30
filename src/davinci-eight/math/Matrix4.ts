@@ -24,6 +24,7 @@ class Matrix4 extends AbstractMatrix implements Matrix<Matrix4> {
 //  3  7 11 15
   /**
    * Constructs a Matrix4 by wrapping a Float32Array.
+   * @class Matrix4
    * @constructor
    */
   constructor(data: Float32Array) {

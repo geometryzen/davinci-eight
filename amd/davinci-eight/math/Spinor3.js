@@ -159,8 +159,27 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.xy *= -1;
             return this;
         };
+        /**
+         * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+         * The geometric formula for bivector reflection is B' = n * B * n.
+         * @method reflect
+         * @param n {Cartesian3}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.reflect = function (n) {
-            // FIXME: TODO Bivectors transform as nBn (+sign)
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            var nx = n.x;
+            var ny = n.y;
+            var nz = n.z;
+            var nn = nx * nx + ny * ny + nz * nz;
+            var nB = nx * yz + ny * zx + nz * xy;
+            this.w = nn * w;
+            this.xy = 2 * nz * nB - nn * xy;
+            this.yz = 2 * nx * nB - nn * yz;
+            this.zx = 2 * ny * nB - nn * zx;
             return this;
         };
         Spinor3.prototype.rotate = function (rotor) {

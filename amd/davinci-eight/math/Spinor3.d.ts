@@ -41,6 +41,13 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
     product(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     quaditude(): number;
     reverse(): Spinor3;
+    /**
+     * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+     * The geometric formula for bivector reflection is B' = n * B * n.
+     * @method reflect
+     * @param n {Cartesian3}
+     * @return {Spinor3}
+     */
     reflect(n: Cartesian3): Spinor3;
     rotate(rotor: Spinor3Coords): Spinor3;
     sub(rhs: Spinor3Coords): Spinor3;

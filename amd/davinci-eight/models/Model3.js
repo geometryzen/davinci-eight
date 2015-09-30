@@ -1,4 +1,4 @@
-define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rotor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, createRotor3, Symbolic, Vector3) {
+define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Symbolic, Vector3) {
     /**
      * Model3 implements UniformData required for manipulating a body.
      */
@@ -6,7 +6,7 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rot
     var Model3 = (function () {
         function Model3() {
             this.position = new Vector3();
-            this.attitude = createRotor3();
+            this.attitude = new Spinor3();
             this.scaleXYZ = new Vector3([1, 1, 1]);
             this.colorRGB = new Vector3([1, 1, 1]);
             this.M = Matrix4.identity();

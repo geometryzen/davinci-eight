@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.113.0",
+        "version": "2.114.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -797,13 +797,6 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/math/Rotor3.ts": {
-            "name": "src/davinci-eight/math/Rotor3.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/math/Spinor3.ts": {
             "name": "src/davinci-eight/math/Spinor3.ts",
             "modules": {},
@@ -870,13 +863,6 @@
         },
         "src/davinci-eight/math/mathcore.ts": {
             "name": "src/davinci-eight/math/mathcore.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/rotor3.ts": {
-            "name": "src/davinci-eight/math/rotor3.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -2474,8 +2460,9 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 13,
-            "description": "4x4 matrix integrating with WebGL."
+            "line": 25,
+            "description": "Constructs a Matrix4 by wrapping a Float32Array.",
+            "is_constructor": 1
         },
         "Mutable": {
             "name": "Mutable",
@@ -5868,7 +5855,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix1.ts",
-            "line": 6,
+            "line": 7,
             "description": "Constructs a Matrix1 by wrapping a Float32Array.",
             "is_constructor": 1,
             "class": "Matrix4",
@@ -5876,7 +5863,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix2.ts",
-            "line": 5,
+            "line": 8,
             "description": "Constructs a Matrix2 by wrapping a Float32Array.",
             "is_constructor": 1,
             "class": "Matrix4",
@@ -5892,21 +5879,13 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 25,
-            "description": "Constructs a Matrix4 by wrapping a Float32Array.",
-            "is_constructor": 1,
+            "line": 159,
             "class": "Matrix4",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 158,
-            "class": "Matrix4",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 208,
+            "line": 209,
             "itemtype": "method",
             "name": "rotate",
             "params": [
@@ -5920,7 +5899,7 @@
         },
         {
             "file": "src/davinci-eight/math/Matrix4.ts",
-            "line": 234,
+            "line": 235,
             "itemtype": "method",
             "name": "",
             "params": [
@@ -6001,13 +5980,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Rotor3.ts",
-            "line": 3,
-            "description": "R = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",
-            "class": "Spinor3",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/math/Spinor3.ts",
             "line": 18,
             "itemtype": "property",
@@ -6045,7 +6017,27 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 171,
+            "line": 147,
+            "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
+            "itemtype": "method",
+            "name": "reflect",
+            "params": [
+                {
+                    "name": "n",
+                    "description": "",
+                    "type": "Cartesian3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 190,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -6243,13 +6235,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/rotor3.ts",
-            "line": 16,
-            "description": "Functional constructor for producing a Rotor3.\nThe function is named so as to avoid case-insensitive collisions with Rotor3.\nThis will be exposed as `rotor3`.\nWe only need 2 parameters because the sum of the squares of the components is 1.\nPerhaps we should think of the third as being part of a cache?\nExtending this idea, what if",
-            "class": "BoxBuilder",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/math/wedgeXY.ts",
             "line": 1,
             "description": "Computes the z component of the cross-product of Cartesian vector components.",
@@ -6346,7 +6331,7 @@
         },
         {
             "file": "src/davinci-eight/models/Model3.ts",
-            "line": 11,
+            "line": 9,
             "description": "Model3 implements UniformData required for manipulating a body.",
             "class": "RigidBody3",
             "module": "EIGHT"
@@ -7783,39 +7768,27 @@
         },
         {
             "message": "Missing item type\nConstructs a Matrix1 by wrapping a Float32Array.",
-            "line": " src/davinci-eight/math/Matrix1.ts:6"
+            "line": " src/davinci-eight/math/Matrix1.ts:7"
         },
         {
             "message": "Missing item type\nConstructs a Matrix2 by wrapping a Float32Array.",
-            "line": " src/davinci-eight/math/Matrix2.ts:5"
+            "line": " src/davinci-eight/math/Matrix2.ts:8"
         },
         {
             "message": "Missing item type\nConstructs a Matrix4 by wrapping a Float32Array.",
             "line": " src/davinci-eight/math/Matrix3.ts:8"
         },
         {
-            "message": "Missing item type\nConstructs a Matrix4 by wrapping a Float32Array.",
-            "line": " src/davinci-eight/math/Matrix4.ts:25"
-        },
-        {
             "message": "Missing item type",
-            "line": " src/davinci-eight/math/Matrix4.ts:158"
+            "line": " src/davinci-eight/math/Matrix4.ts:159"
         },
         {
             "message": "Missing item type\nQuaternion is retained for reference only.\nQuaternion should not be exposed.",
             "line": " src/davinci-eight/math/Quaternion.ts:7"
         },
         {
-            "message": "Missing item type\nR = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1\n\nThe magnitude constraint means that a Rotor3 can be implemented with a unit scale,\nleaving only 3 parameters. This should improve computational efficiency.",
-            "line": " src/davinci-eight/math/Rotor3.ts:3"
-        },
-        {
             "message": "Missing item type\nDetermines whether a property name is callable on an object.",
             "line": " src/davinci-eight/math/mathcore.ts:2"
-        },
-        {
-            "message": "Missing item type\nFunctional constructor for producing a Rotor3.\nThe function is named so as to avoid case-insensitive collisions with Rotor3.\nThis will be exposed as `rotor3`.\nWe only need 2 parameters because the sum of the squares of the components is 1.\nPerhaps we should think of the third as being part of a cache?\nExtending this idea, what if",
-            "line": " src/davinci-eight/math/rotor3.ts:16"
         },
         {
             "message": "Missing item type\nComputes the z component of the cross-product of Cartesian vector components.",
@@ -7835,7 +7808,7 @@
         },
         {
             "message": "Missing item type\nModel3 implements UniformData required for manipulating a body.",
-            "line": " src/davinci-eight/models/Model3.ts:11"
+            "line": " src/davinci-eight/models/Model3.ts:9"
         },
         {
             "message": "Missing item type\nThis class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",

@@ -19,6 +19,7 @@ define(["require", "exports", '../math/AbstractMatrix', '../checks/expectArg', '
         //  3  7 11 15
         /**
          * Constructs a Matrix4 by wrapping a Float32Array.
+         * @class Matrix4
          * @constructor
          */
         function Matrix4(data) {

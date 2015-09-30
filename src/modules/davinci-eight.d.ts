@@ -370,7 +370,7 @@ interface Mutable<T> {
 /**
  *
  */
-interface LinearElement<I, M, S> {
+interface LinearElement<I, M, S, V> {
   add(rhs: I): M;
   clone(): M;
   copy(source: I): M;
@@ -378,7 +378,7 @@ interface LinearElement<I, M, S> {
   divideScalar(scalar: number): M;
   lerp(target: I, alpha: number): M;
   scale(scalar: number): M;
-  reflect(vector: I): M;
+  reflect(vector: V): M;
   rotate(rotor: S): M;
   sub(rhs: I): M;
   sum(a: I, b: I): M;
@@ -387,7 +387,7 @@ interface LinearElement<I, M, S> {
 /**
  *
  */
-interface GeometricElement<I, M> extends LinearElement<I, M, I> {
+interface GeometricElement<I, M, S, V> extends LinearElement<I, M, S, V> {
   exp(): M;
   magnitude(): number;
   multiply(element: I): M;
@@ -598,29 +598,6 @@ class Vector2 extends VectorN<number> implements Cartesian2 {
 }
 
 /**
- * R = mn (i.e. a versor), with the constraint that R * ~R = ~R * R = 1
- *
- * The magnitude constraint means that a Rotor3 can be implemented with a unit scale,
- * leaving only 3 parameters. This should improve computational efficiency.
- */
-interface Rotor3 extends Spinor3Coords {
-  modified: boolean;
-  copy(spinor: Spinor3Coords): Rotor3;
-  exp(): Rotor3;
-  multiply(spinor: Spinor3Coords): Rotor3;
-  scale(s: number): Rotor3;
-  product(a: Spinor3Coords, b: Spinor3Coords): Rotor3;
-  reverse(): Rotor3;
-  toString(): string;
-  spinor(m: Cartesian3, n: Cartesian3): Rotor3;
-}
-
-/**
- *
- */
-function rotor3(): Rotor3;
-
-/**
  *
  */
 interface Spinor3Coords {
@@ -633,7 +610,7 @@ interface Spinor3Coords {
 /**
  *
  */
-class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement<Spinor3Coords, Spinor3> {
+class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3> {
   public yz: number;
   public zx: number;
   public xy: number;
@@ -655,6 +632,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement
   product(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
   quaditude(): number;
   reverse(): Spinor3;
+  reflect(n: Cartesian3): Spinor3;
   rotate(rotor: Spinor3Coords): Spinor3;
   sub(rhs: Spinor3Coords): Spinor3;
   sum(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
@@ -686,7 +664,7 @@ interface Cartesian3 {
 /**
  *
  */
- class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords> {
+ class Vector3 extends VectorN<number> implements Cartesian3, LinearElement<Cartesian3, Vector3, Spinor3Coords, Vector3> {
   public x: number;
   public y: number;
   public z: number;
@@ -709,6 +687,7 @@ interface Cartesian3 {
   normalize(): Vector3;
   quaditude(): number;
   quadranceTo(position: Cartesian3): number;
+  reflect(n: Cartesian3): Vector3;
   rotate(rotor: Spinor3Coords): Vector3;
   set(x: number, y: number, z: number): Vector3;
   setMagnitude(magnitude: number): Vector3;
@@ -1110,7 +1089,7 @@ interface IContextProvider  extends ContextUnique, IUnknown
 function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): IContextProvider;
 
 /**
- *
+ * UniformData required for manipulating a rigid body.
  */
 class Model3 implements UniformData {
   public position: Vector3;

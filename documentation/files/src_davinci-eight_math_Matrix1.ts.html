@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.113.0</em>
+            <em>API Docs for: 2.114.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -167,11 +167,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;);
-import GeometricElement = require(&#x27;../math/GeometricElement&#x27;);
-import Matrix = require(&#x27;../math/Matrix&#x27;);
+import AbstractMatrix = require(&#x27;../math/AbstractMatrix&#x27;)
+import Cartesian1 = require(&#x27;../math/Cartesian1&#x27;)
+import GeometricElement = require(&#x27;../math/GeometricElement&#x27;)
+import Matrix = require(&#x27;../math/Matrix&#x27;)
 
-class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, GeometricElement&lt;Matrix1, Matrix1, Matrix1, Matrix1&gt; {
+class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, GeometricElement&lt;Matrix1, Matrix1, Matrix1, Cartesian1&gt; {
   /**
    * Constructs a Matrix1 by wrapping a Float32Array.
    * @constructor
@@ -231,7 +232,7 @@ class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, Geometric
     let x = this.data[0];
     return x * x;
   }
-  reflect(n: Matrix1): Matrix1 {
+  reflect(n: Cartesian1): Matrix1 {
     // FIXME: What do we do?
     return this;
   }
@@ -244,7 +245,7 @@ class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, Geometric
   difference(a: Matrix1, b: Matrix1) {
     return this;
   }
-  spinor(a: Matrix1, b: Matrix1): Matrix1 {
+  spinor(a: Cartesian1, b: Cartesian1): Matrix1 {
     return this;
   }
 }

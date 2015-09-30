@@ -144,8 +144,27 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.xy *= - 1;
     return this;
   }
+  /**
+   * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+   * The geometric formula for bivector reflection is B' = n * B * n.
+   * @method reflect
+   * @param n {Cartesian3}
+   * @return {Spinor3}
+   */
   reflect(n: Cartesian3): Spinor3 {
-    // FIXME: TODO Bivectors transform as nBn (+sign)
+    let w = this.w;
+    let yz = this.yz;
+    let zx = this.zx;
+    let xy = this.xy;
+    let nx = n.x;
+    let ny = n.y;
+    let nz = n.z;
+    let nn = nx * nx + ny * ny + nz * nz
+    let nB = nx * yz + ny * zx + nz * xy
+    this.w = nn * w
+    this.xy = 2 * nz * nB - nn * xy
+    this.yz = 2 * nx * nB - nn * yz
+    this.zx = 2 * ny * nB - nn * zx
     return this;
   }
   rotate(rotor: Spinor3Coords): Spinor3 {
@@ -157,7 +176,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   sum(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
-  spinor(a: Cartesian3, b: Cartesian3) {
+  spinor(a: Cartesian3, b: Cartesian3): Spinor3 {
     let ax = a.x, ay = a.y, az = a.z;
     let bx = b.x, by = b.y, bz = b.z;
 

@@ -1191,6 +1191,7 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
         //  3  7 11 15
         /**
          * Constructs a Matrix4 by wrapping a Float32Array.
+         * @class Matrix4
          * @constructor
          */
         function Matrix4(data) {
@@ -2953,10 +2954,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     var core = {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-29',
+        LAST_MODIFIED: '2015-09-30',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.113.0'
+        VERSION: '2.114.0'
     };
     return core;
 });
@@ -10925,137 +10926,6 @@ define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatr
     return Matrix3;
 });
 
-define('davinci-eight/math/rotor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
-    var INDEX_YZ = 0;
-    var INDEX_ZX = 1;
-    var INDEX_XY = 2;
-    var INDEX_W = 3;
-    var INDEX_A = 0;
-    var INDEX_B = 1;
-    var INDEX_C = 2;
-    /**
-     * Functional constructor for producing a Rotor3.
-     * The function is named so as to avoid case-insensitive collisions with Rotor3.
-     * This will be exposed as `rotor3`.
-     * We only need 2 parameters because the sum of the squares of the components is 1.
-     * Perhaps we should think of the third as being part of a cache?
-     * Extending this idea, what if
-     */
-    function rotor3() {
-        // For mutable classes, perhaps no-arg constructors make sense,
-        // or maybe we have specialized constructors that maintain a data structure?
-        // yz <=> a <=> 0
-        // zx <=> b <=> 1
-        // xy <=> c <=> 2
-        // We choose any kind of data structure to store our state.
-        var data = new VectorN([0, 0, 0, 1], false, 4);
-        var self = {
-            get modified() {
-                return data.modified;
-            },
-            set modified(value) {
-                data.modified = value;
-            },
-            get yz() {
-                return data.getComponent(INDEX_YZ);
-            },
-            set yz(value) {
-                data.setComponent(INDEX_YZ, value);
-            },
-            get zx() {
-                return data.getComponent(INDEX_ZX);
-            },
-            set zx(value) {
-                data.setComponent(INDEX_ZX, value);
-            },
-            get xy() {
-                return data.getComponent(INDEX_XY);
-            },
-            set xy(value) {
-                data.setComponent(INDEX_XY, value);
-            },
-            get w() {
-                return data.getComponent(INDEX_W);
-            },
-            set w(value) {
-                data.setComponent(INDEX_W, value);
-            },
-            copy: function (spinor) {
-                self.w = spinor.w;
-                self.yz = spinor.yz;
-                self.zx = spinor.zx;
-                self.xy = spinor.xy;
-                return self;
-            },
-            exp: function () {
-                var w = this.w;
-                var yz = this.yz;
-                var zx = this.zx;
-                var xy = this.xy;
-                var expW = Math.exp(w);
-                var B = Math.sqrt(yz * yz + zx * zx + xy * xy);
-                var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
-                this.w = expW * Math.cos(B);
-                this.yz = yz * s;
-                this.zx = zx * s;
-                this.xy = xy * s;
-                return this;
-            },
-            multiply: function (spinor) {
-                return self.product(self, spinor);
-            },
-            scale: function (s) {
-                self.w *= s;
-                self.yz *= s;
-                self.zx *= s;
-                self.xy *= s;
-                return self;
-            },
-            product: function (n, m) {
-                var n0 = n.w;
-                var n1 = n.yz;
-                var n2 = n.zx;
-                var n3 = n.xy;
-                var m0 = m.w;
-                var m1 = m.yz;
-                var m2 = m.zx;
-                var m3 = m.xy;
-                // TODO; We are assuming that the inputs are unit vectors!
-                var W = n0 * m0 - n1 * m1 - n2 * m2 - n3 * m3;
-                var A = n0 * m1 + n1 * m0 - n2 * m3 + n3 * m2;
-                var B = n0 * m2 + n1 * m3 + n2 * m0 - n3 * m1;
-                var C = n0 * m3 - n1 * m2 + n2 * m1 + n3 * m0;
-                var magnitude = Math.sqrt(W * W + A * A + B * B + C * C);
-                self.w = W / magnitude;
-                self.yz = A / magnitude;
-                self.zx = B / magnitude;
-                self.xy = C / magnitude;
-                return self;
-            },
-            reverse: function () {
-                self.yz *= -1;
-                self.zx *= -1;
-                self.xy *= -1;
-                return self;
-            },
-            toString: function () {
-                return ['Rotor3 => ', JSON.stringify({ yz: self.yz, zx: self.zx, xy: self.xy, w: self.w })].join('');
-            },
-            spinor: function (a, b) {
-                var ax = a.x, ay = a.y, az = a.z;
-                var bx = b.x, by = b.y, bz = b.z;
-                this.w = 0;
-                this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
-                this.zx = wedgeZX(ax, ay, az, bx, by, bz);
-                this.xy = wedgeXY(ax, ay, az, bx, by, bz);
-                return this;
-            }
-        };
-        return self;
-    }
-    return rotor3;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -11217,8 +11087,27 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             this.xy *= -1;
             return this;
         };
+        /**
+         * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+         * The geometric formula for bivector reflection is B' = n * B * n.
+         * @method reflect
+         * @param n {Cartesian3}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.reflect = function (n) {
-            // FIXME: TODO Bivectors transform as nBn (+sign)
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            var nx = n.x;
+            var ny = n.y;
+            var nz = n.z;
+            var nn = nx * nx + ny * ny + nz * nz;
+            var nB = nx * yz + ny * zx + nz * xy;
+            this.w = nn * w;
+            this.xy = 2 * nz * nB - nn * xy;
+            this.yz = 2 * nx * nB - nn * yz;
+            this.zx = 2 * ny * nB - nn * zx;
             return this;
         };
         Spinor3.prototype.rotate = function (rotor) {
@@ -11714,7 +11603,7 @@ define('davinci-eight/models/EulerModel',["require", "exports", '../i18n/readOnl
     return EulerModel;
 });
 
-define('davinci-eight/models/Model3',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/rotor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, createRotor3, Symbolic, Vector3) {
+define('davinci-eight/models/Model3',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Symbolic, Vector3) {
     /**
      * Model3 implements UniformData required for manipulating a body.
      */
@@ -11722,7 +11611,7 @@ define('davinci-eight/models/Model3',["require", "exports", '../math/Matrix3', '
     var Model3 = (function () {
         function Model3() {
             this.position = new Vector3();
-            this.attitude = createRotor3();
+            this.attitude = new Spinor3();
             this.scaleXYZ = new Vector3([1, 1, 1]);
             this.colorRGB = new Vector3([1, 1, 1]);
             this.M = Matrix4.identity();
@@ -12054,7 +11943,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/rotor3', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, rotor3, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -12145,7 +12034,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get Euclidean3() { return Euclidean3; },
         get Matrix3() { return Matrix3; },
         get Matrix4() { return Matrix4; },
-        get rotor3() { return rotor3; },
         get Spinor3() { return Spinor3; },
         get Vector1() { return Vector1; },
         get Vector2() { return Vector2; },

@@ -1,6 +1,7 @@
 /**
  * @class Matrix<M>
  */
+// FIXME: Shouldn't the parameter be the element type?
 interface Matrix<M> {
   determinant(): number;
   identity(): M;
