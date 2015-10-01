@@ -12,8 +12,8 @@ import mustBeNumber = require('../checks/mustBeNumber')
 import Perspective = require('../cameras/Perspective')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
-import UniformData = require('../core/UniformData')
-import UniformDataVisitor = require('../core/UniformDataVisitor')
+import IFacet = require('../core/IFacet')
+import IFacetVisitor = require('../core/IFacetVisitor')
 import uuid4 = require('../utils/uuid4')
 import Vector3 = require('../math/Vector3')
 
@@ -25,7 +25,7 @@ let CLASS_NAME = 'PerspectiveCamera'
 /**
  * @class PerspectiveCamera
  */
-class PerspectiveCamera implements ICamera, Perspective, UniformData {
+class PerspectiveCamera implements ICamera, Perspective, IFacet {
   // FIXME: Gotta go
   public position: Vector3 = new Vector3();
   private _refCount = 1;
@@ -72,7 +72,7 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
     refChange(this._uuid, CLASS_NAME, +1)
     return this._refCount
   }
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void {
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void {
     this.inner.setNear(this.near)
     this.inner.setFar(this.far)
     this.inner.setUniforms(visitor, canvasId)
@@ -86,6 +86,18 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
   draw(canvasId: number): void {
     console.warn(CLASS_NAME + ".draw(" + canvasId + ")")
     // Do nothing.
+  }
+  getFacet(name: string) {
+    // FIXME: This is a bit wierd.
+    if (name === this.name) {
+      return this
+    }
+    else {
+      return void 0
+    }
+  }
+  setFacet(name: string, value: IFacet): void {
+    throw new Error("WTF")
   }
   /**
    * The aspect ratio (width / height) of the camera viewport.

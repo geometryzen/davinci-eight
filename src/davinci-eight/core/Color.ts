@@ -30,32 +30,32 @@ class Color implements ColorRGB, Mutable<number[]> {
     expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
     this.data = data;
   }
-  get r(): number {
+  get red(): number {
     return this.data[0];
   }
-  set r(value: number) {
+  set red(value: number) {
     this.data[0] = value;
   }
-  get g(): number {
+  get green(): number {
     return this.data[1];
   }
-  set g(value: number) {
+  set green(value: number) {
     this.data[1] = value;
   }
-  get b(): number {
+  get blue(): number {
     return this.data[2];
   }
-  set b(value: number) {
+  set blue(value: number) {
     this.data[2] = value;
   }
   public clone() {
     return new Color([this.data[0], this.data[1], this.data[2]]);
   }
   public luminance(): number {
-    return Color.luminance(this.r, this.g, this.b);
+    return Color.luminance(this.red, this.green, this.blue);
   }
   public toString(): string {
-    return "Color(" + this.r + ", " + this.g + ", " + this.b + ")"
+    return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")"
   }
   public static luminance(r: number, g: number, b: number): number {
     var gamma = 2.2;
@@ -113,7 +113,7 @@ class Color implements ColorRGB, Mutable<number[]> {
     return new Color([red, green, blue]);
   }
   public static copy(color: ColorRGB): Color {
-    return new Color([color.r, color.g, color.b]);
+    return new Color([color.red, color.green, color.blue]);
   }
 }
 

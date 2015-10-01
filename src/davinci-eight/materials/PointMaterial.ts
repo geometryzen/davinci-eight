@@ -1,5 +1,5 @@
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import LineMaterialParameters = require('../materials/LineMaterialParameters');
 import Material = require('../materials/Material');
@@ -26,10 +26,10 @@ class PointMaterial extends Material {
   /**
    * @class PointMaterial
    * @constructor
-   * @param monitors [ContextMonitor[]=[]]
+   * @param monitors [IContextMonitor[]=[]]
    * @parameters [MeshNormalParameters]
    */
-  constructor(monitors: ContextMonitor[] = [], parameters?: LineMaterialParameters) {
+  constructor(monitors: IContextMonitor[] = [], parameters?: LineMaterialParameters) {
     super(monitors, LOGGING_NAME);
   }
   protected createProgram(): IMaterial {

@@ -3,7 +3,7 @@ import IContextCommand = require('../core/IContextCommand')
 import IPrologCommand = require('../core/IPrologCommand')
 import IDrawList = require('../scene/IDrawList')
 import IUnknown = require('../core/IUnknown')
-import UniformData = require('../core/UniformData') 
+import IFacet = require('../core/IFacet') 
 /**
  * This interface is to be implemented by classes associated with a single context.
  * This does mean that the commands are not shared.

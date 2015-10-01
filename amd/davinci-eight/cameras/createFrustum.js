@@ -5,6 +5,7 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
      * @return {Frustum}
      */
     var createFrustum = function (viewMatrixName, projectionMatrixName) {
+        var refCount = 1;
         var base = createView(viewMatrixName);
         var left = new Vector1();
         var right = new Vector1();
@@ -19,6 +20,14 @@ define(["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight
         }
         updateProjectionMatrix();
         var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
             // Delegate to the base camera.
             get eye() {
                 return base.eye;

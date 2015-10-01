@@ -40,16 +40,43 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * Use this method when you don't intend to hold onto the returned value.
    */
   getWeakReference(index: number): T
-  getStrongReference(index: number): T
+  get(index: number): T
   indexOf(searchElement: T, fromIndex?: number): number
   splice(index: number, count: number): T[]
   forEach(callback: (value: T, index: number) => void): void
-  push(element: T): number
+  pushStrongReference(element: T): number
+  pushWeakReference(element: T): number
   pop(): T
 }
 
+class NumberIUnknownMap<V extends IUnknown> extends Shareable {
+  keys: number[];
+  constructor()
+  destructor(): void
+  exists(key: number): boolean
+  get(key: number): V
+  getWeakReference(key: number): V
+  put(key: number, value: V): void
+  putWeakReference(key: number, value: V): void
+  forEach(callback: (key: number, value: V) => void)
+  remove(key: number): void
+}
+
+class StringIUnknownMap<V extends IUnknown> extends Shareable {
+  keys: string[];
+  constructor()
+  destructor(): void
+  exists(key: string): boolean
+  get(key: string): V
+  getWeakReference(key: string): V
+  put(key: string, value: V): void
+  putWeakReference(key: string, value: V): void
+  forEach(callback: (key: string, value: V) => void)
+  remove(key: string): void
+}
+
 /**
- * Convenience base class for classes requiring reference counting.
+ * Convenience base class for classe s requiring reference  counting.
  * 
  * Derived classes should implement the method destructor(): void.
  */
@@ -719,7 +746,7 @@ class Vector4 extends VectorN<number> implements Cartesian4 {
 /**
  *
  */
-interface UniformDataVisitor {
+interface IFacetVisitor {
   uniform1f(name: string, x: number, canvasId: number);
   uniform2f(name: string, x: number, y: number, canvasId: number);
   uniform3f(name: string, x: number, y: number, z: number, canvasId: number);
@@ -737,14 +764,14 @@ interface UniformDataVisitor {
 /**
  *
  */
-interface UniformData {
-  setUniforms(visitor: UniformDataVisitor, canvasId): void;
+interface IFacet extends IUnknown {
+  setUniforms(visitor: IFacetVisitor, canvasId): void;
 }
 
 /**
  * Provides the uniform for the model to view coordinates transformation.
  */
-interface View extends UniformData {
+interface View extends IFacet {
   /**
    * The position of the view reference point, VRP.
    */
@@ -853,17 +880,6 @@ interface Perspective extends View {
 /**
  *
  */
-class Face3 {
-  public a: number;
-  public b: number;
-  public c: number;
-  public vertexNormals: Cartesian3[];
-  constructor(a: number, b: number, c: number, vertexNormals?: Cartesian3[]);
-}
-
-/**
- *
- */
  class Sphere {
   public center: Cartesian3;
   public radius: number;
@@ -935,7 +951,7 @@ class Geometry {
 /**
  * A collection of WebGLProgram(s), one for each canvas in which the program is used.
  */
-interface IMaterial extends IResource, UniformDataVisitor
+interface IMaterial extends IResource, IFacetVisitor
 {
   programId: string;
   vertexShader: string;
@@ -994,7 +1010,7 @@ function viewMatrix(eye: Cartesian3, look: Cartesian3, up: Cartesian3, matrix?: 
 /**
  * Constructs a program from the specified vertex and fragment shader codes.
  */
-function createMaterial(contexts: ContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IMaterial;
+function createMaterial(contexts: IContextMonitor[], vertexShader: string, fragmentShader: string, bindings?: string[]): IMaterial;
 
 /**
  *
@@ -1028,7 +1044,7 @@ interface UniformMetaInfo {
  * uniformsList
  * bindings Used for setting indices.
  */
-function smartProgram(monitors: ContextMonitor[], attributes: {[name:string]:AttribMetaInfo}, uniforms: {[name:string]:UniformMetaInfo}, bindings?: string[]): IMaterial;
+function smartProgram(monitors: IContextMonitor[], attributes: {[name:string]:AttribMetaInfo}, uniforms: {[name:string]:UniformMetaInfo}, bindings?: string[]): IMaterial;
 
 /**
  *
@@ -1051,7 +1067,7 @@ function animation(
 /**
  *
  */
-interface ContextMonitor {
+interface IContextMonitor {
   /**
    *
    */
@@ -1089,18 +1105,17 @@ interface IContextProvider  extends ContextUnique, IUnknown
 function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLContextAttributes): IContextProvider;
 
 /**
- * UniformData required for manipulating a rigid body.
+ * IFacet required for manipulating a rigid body.
  */
-class Model3 implements UniformData {
+class ModelFacet extends Shareable implements IFacet {
   public position: Vector3;
   public attitude: Spinor3;
   public scaleXYZ: Vector3;
-  public colorRGB: Vector3;
   /**
-   * Model implements UniformData required for manipulating a body.
+   * Model implements IFacet required for manipulating a body.
    */ 
   constructor();
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 
 /**
@@ -1218,7 +1233,7 @@ interface ContextController {
 /**
  *
  */
-interface ContextKahuna extends ContextController, IContextProvider, ContextMonitor, ContextUnique {
+interface ContextKahuna extends ContextController, IContextProvider, IContextMonitor, ContextUnique {
 
 }
 
@@ -1248,7 +1263,7 @@ interface IDrawable extends IResource {
  */
 interface IDrawList extends IContextConsumer, IUnknown {
   add(drawable: IDrawable): void;
-  draw(ambients: UniformData, canvasId: number): void;
+  draw(ambients: IFacet[], canvasId: number): void;
   /**
    * Gets a collection of drawable elements by name.
    * @method getDrawablesByName
@@ -1263,13 +1278,13 @@ interface IDrawList extends IContextConsumer, IUnknown {
  *
  */
 class Scene implements IDrawList {
-  constructor(monitors?: ContextMonitor[])
+  constructor(monitors?: IContextMonitor[])
   add(drawable: IDrawable): void
   addRef(): number
   contextFree(canvasId: number): void
   contextGain(manager: IContextProvider): void
   contextLost(canvasId: number): void
-  draw(ambients: UniformData, canvasId: number): void
+  draw(ambients: IFacet[], canvasId: number): void
   getDrawablesByName(name: string): IUnknownArray<IDrawable>
   release(): number
   remove(drawable: IDrawable): void
@@ -1285,7 +1300,7 @@ interface ICamera extends IDrawable {
 /**
  *
  */
-class PerspectiveCamera implements ICamera, Perspective, UniformData {
+class PerspectiveCamera implements ICamera, Perspective, IFacet {
   /**
    * The aspect ratio of the viewport, i.e., width / height.
    */
@@ -1351,7 +1366,7 @@ class PerspectiveCamera implements ICamera, Perspective, UniformData {
    * visitor.: The visitor which is receiving the uniform values.
    * canvasId: The identifier of the canvas.
    */
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void
   release(): number
 }
 
@@ -1396,7 +1411,7 @@ interface ContextRenderer extends IContextConsumer, IUnknown {
 /**
  *
  */
-class Canvas3D implements ContextController, ContextMonitor, ContextRenderer {
+class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
   /**
    * <p>
    * Determines whether prolog commands are run automatically as part of the render() call.
@@ -1483,7 +1498,7 @@ class Material implements IMaterial {
   fragmentShader: string;
   attributes(canvasId: number): { [name: string]: AttribLocation };
   uniforms(canvasId: number): { [name: string]: UniformLocation };
-  constructor(monitors: ContextMonitor[], name: string);
+  constructor(monitors: IContextMonitor[], name: string);
   addRef(): number;
   release(): number;
   use(canvasId: number): void;
@@ -1530,18 +1545,19 @@ class GeometryElements {
 /**
  *
  */
-class Drawable<G extends GeometryElements, M extends IMaterial, U extends UniformData> implements IDrawable {
+class Drawable<G extends GeometryElements, M extends IMaterial> implements IDrawable {
   geometry: G;
   material: M;
-  model: U;
   name: string;
-  constructor(geometry: G, material: M, model: U);
+  constructor(geometry: G, material: M);
   addRef(): number;
   release(): number;
   draw(canvasId: number): void;
   contextFree(): void;
   contextGain(manager: IContextProvider): void;
   contextLost(): void;
+  getFacet(name: string): IFacet
+  setFacet<T extends IFacet>(name: string, value: T): T
 }
 
 /**
@@ -1553,7 +1569,7 @@ class HTMLScriptsMaterial extends Material {
    * scriptIds: The id properties of the script elements. Defaults to [].
    * dom:       The document object model. Defaults to document.
    */
-  constructor(contexts: ContextMonitor[], scriptIds?: string[], dom?: Document);
+  constructor(contexts: IContextMonitor[], scriptIds?: string[], dom?: Document);
 }
 
 /**
@@ -1567,7 +1583,7 @@ interface PointMaterialParameters {
  *
  */
 class PointMaterial extends Material {
-    constructor(contexts?: ContextMonitor[], parameters?: PointMaterialParameters);
+    constructor(contexts?: IContextMonitor[], parameters?: PointMaterialParameters);
 }
 
 /**
@@ -1581,7 +1597,7 @@ interface LineMaterialParameters {
  *
  */
 class LineMaterial extends Material {
-  constructor(contexts?: ContextMonitor[], parameters?: LineMaterialParameters);
+  constructor(contexts?: IContextMonitor[], parameters?: LineMaterialParameters);
 }
 
 /**
@@ -1595,62 +1611,45 @@ interface MeshMaterialParameters {
  *
  */
 class MeshMaterial extends Material {
-  constructor(contexts?: ContextMonitor[], parameters?: MeshMaterialParameters);
+  constructor(contexts?: IContextMonitor[], parameters?: MeshMaterialParameters);
 }
 
 class SmartMaterialBuilder {
   constructor(elements?: GeometryElements);
   public attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
   public uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
-  public build(contexts: ContextMonitor[]): Material;
+  public build(contexts: IContextMonitor[]): Material;
+}
+
+class ColorFacet extends Shareable implements IFacet {
+  red: number;
+  green: number;
+  blue: number;
+  constructor(name?: string)
+  destructor(): void
+  scale(s: number): ColorFacet
+  setRGB(red: number, green: number, blue: number): ColorFacet;
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void
 }
 
 // FIXME SineUniformsSetter
-class SineWaveUniform extends Shareable implements UniformData {
+class SineWaveUniform extends Shareable implements IFacet {
   public amplitude: number;
   public omega: number;
   public mean: number;
   public uName: string;
   constructor(omega: number, uName?: string);
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 
-class EulerModel implements UniformData {
+class EulerFacet extends Shareable implements IFacet {
   rotation: Vector3;
   constructor()
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void
 }
 
-interface IRigidBody3 extends IUnknown {
-  position: Vector3;
-  attitude: Spinor3;
-}
-
-/**
- * A model for a rigid body in 3-dimensional space.
- * This class may be used concretely or extended.
- */
-class RigidBody3 extends Shareable implements IRigidBody3 {
-  /**
-   * The position vector of the rigid body.
-   */
-  public position: Vector3;
-  /**
-   * The attitude spinor of the rigid body.
-   */
-  public attitude: Spinor3;
-  /**
-   * The `attitude` is initialized to the default for `Spinor3`.
-   * The `position` is initialized to the default for `Vector3`.
-   * This class assumes that it is being used concretely if the type is 'RigidBody3'.
-   * type: The class name of the derived class. Defaults to 'RigidBody3'.
-   */
-  constructor(type?: string)
-}
-
-
-class RoundUniform implements UniformDataVisitor {
-  next: UniformDataVisitor;
+class RoundUniform implements IFacetVisitor {
+  next: IFacetVisitor;
   constructor();
   uniform1f(name: string, x: number, canvasId: number);
   uniform2f(name: string, x: number, y: number, canvasId: number);

@@ -43,11 +43,11 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
         /**
          * Gets the element at the specified index, incrementing the reference count.
          * Use this method when you intend to hold onto the referent and release it later.
-         * @method getStrongReference
+         * @method get
          * @param index {number}
          * @return {T}
          */
-        IUnknownArray.prototype.getStrongReference = function (index) {
+        IUnknownArray.prototype.get = function (index) {
             var element;
             element = this._elements[index];
             if (element) {
@@ -90,14 +90,26 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             return this._elements.forEach(callback);
         };
         /**
-         * @method push
+         * Pushes an element onto the tail of the list and increments the element reference count.
+         * @method pushStrongReference
          * @param element {T}
          * @return {number}
          */
-        IUnknownArray.prototype.push = function (element) {
-            var x = this._elements.push(element);
-            element.addRef();
+        IUnknownArray.prototype.pushStrongReference = function (element) {
+            var x = this.pushWeakReference(element);
+            if (element) {
+                element.addRef();
+            }
             return x;
+        };
+        /**
+         * Pushes an element onto the tail of the list with no change in the reference count.
+         * @method pushWeakReference
+         * @param element {T}
+         * @return {number}
+         */
+        IUnknownArray.prototype.pushWeakReference = function (element) {
+            return this._elements.push(element);
         };
         /**
          * @method pop

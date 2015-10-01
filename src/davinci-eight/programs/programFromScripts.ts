@@ -2,7 +2,7 @@ import createMaterial = require('../programs/createMaterial');
 import IMaterial = require('../core/IMaterial');
 import isDefined = require('../checks/isDefined');
 import expectArg = require('../checks/expectArg');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import MonitorList = require('../scene/MonitorList');
 
 // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
@@ -10,12 +10,12 @@ import MonitorList = require('../scene/MonitorList');
 
 /**
  * @method programFromScripts
- * @param monitors {ContextMonitor[]}
+ * @param monitors {IContextMonitor[]}
  * @param vsId {string} The vertex shader script element identifier.
  * @param fsId {string} The fragment shader script element identifier.
  * @param $document {Document} The document containing the script elements.
  */
-function programFromScripts(monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs: string[] = []): IMaterial {
+function programFromScripts(monitors: IContextMonitor[], vsId: string, fsId: string, $document: Document, attribs: string[] = []): IMaterial {
   MonitorList.verify('monitors', monitors, () => { return "programFromScripts";});
   expectArg('vsId', vsId).toBeString();
   expectArg('fsId', fsId).toBeString();

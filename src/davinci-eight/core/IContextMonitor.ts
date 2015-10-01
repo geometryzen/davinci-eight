@@ -1,8 +1,14 @@
-import IContextConsumer = require('../core/IContextConsumer');
 import ContextUnique = require('../core/ContextUnique');
+import IContextConsumer = require('../core/IContextConsumer');
+import IUnknown = require('../core/IUnknown');
 
 // FIXME: Merge into IContextProvider
-interface ContextMonitor extends ContextUnique {
+/**
+ * @class IContextMonitor
+ * @extends ContextUnique
+ * @extends IUnknown
+ */
+interface IContextMonitor extends ContextUnique, IUnknown {
   /**
    *
    */
@@ -17,4 +23,4 @@ interface ContextMonitor extends ContextUnique {
   synchronize(user: IContextConsumer): void;
 }
 
-export = ContextMonitor;
+export = IContextMonitor;

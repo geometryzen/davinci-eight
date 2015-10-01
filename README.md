@@ -216,6 +216,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.112.0: 2015-09-27 SerialGeometry
 * 2.113.0: 2015-09-29 reflect
 * 2.114.0: 2015-09-30 Spinor3
+* 2.115.0: 2015-10-01 IFacet
 
 ## License
 Copyright (c) 2014-2015 David Holmes

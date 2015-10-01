@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.114.0</em>
+            <em>API Docs for: 2.115.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -49,6 +49,9 @@
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
@@ -66,7 +69,7 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
+                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -77,9 +80,14 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IFacet
+                extends IUnknown.html">IFacet
+                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -93,13 +101,14 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
-                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -109,8 +118,8 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
-                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
@@ -241,7 +250,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_getStrongReference">getStrongReference</a>
+                                <a href="#method_get">get</a>
 
                             </li>
                             <li class="index-item method">
@@ -257,7 +266,11 @@ Provides a safer way to maintain reference counts than a native array.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_push">push</a>
+                                <a href="#method_pushStrongReference">pushStrongReference</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_pushWeakReference">pushWeakReference</a>
 
                             </li>
                     </ul>
@@ -383,8 +396,8 @@ Provides a safer way to maintain reference counts than a native array.</p>
 
 
 </div>
-<div id="method_getStrongReference" class="method item">
-    <h3 class="name"><code>getStrongReference</code></h3>
+<div id="method_get" class="method item">
+    <h3 class="name"><code>get</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -605,7 +618,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:95</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:107</code></a>
         </p>
 
 
@@ -627,8 +640,8 @@ Use this method when you don't intend to hold onto the returned value.</p>
 
 
 </div>
-<div id="method_push" class="method item">
-    <h3 class="name"><code>push</code></h3>
+<div id="method_pushStrongReference" class="method item">
+    <h3 class="name"><code>pushStrongReference</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -659,7 +672,71 @@ Use this method when you don't intend to hold onto the returned value.</p>
     </div>
 
     <div class="description">
-        
+        <p>Pushes an element onto the tail of the list and increments the element reference count.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">element</code>
+                        <span class="type">T</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_pushWeakReference" class="method item">
+    <h3 class="name"><code>pushWeakReference</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>element</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:98</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Pushes an element onto the tail of the list with no change in the reference count.</p>
+
     </div>
 
         <div class="params">

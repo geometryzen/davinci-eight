@@ -89,10 +89,10 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
                 }
             },
             addPrologCommand: function (command) {
-                prolog.push(command);
+                prolog.pushStrongReference(command);
             },
             addContextGainCommand: function (command) {
-                startUp.push(command);
+                startUp.pushStrongReference(command);
             },
             release: function () {
                 refCount--;

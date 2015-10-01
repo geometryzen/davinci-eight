@@ -58,6 +58,18 @@ define(["require", "exports", '../cameras/createPerspective', '../i18n/readOnly'
             console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
         };
+        PerspectiveCamera.prototype.getFacet = function (name) {
+            // FIXME: This is a bit wierd.
+            if (name === this.name) {
+                return this;
+            }
+            else {
+                return void 0;
+            }
+        };
+        PerspectiveCamera.prototype.setFacet = function (name, value) {
+            throw new Error("WTF");
+        };
         Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
             /**
              * The aspect ratio (width / height) of the camera viewport.

@@ -1,6 +1,6 @@
 import toGeometryMeta = require('../geometries/toGeometryMeta')
 import IContextProvider = require('../core/IContextProvider')
-import ContextMonitor = require('../core/ContextMonitor')
+import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core');
 import GeometryData = require('../geometries/GeometryData')
 import GeometryElements = require('../geometries/GeometryElements')
@@ -15,8 +15,9 @@ import NumberIUnknownMap = require('../utils/NumberIUnknownMap')
 import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import Simplex = require('../geometries/Simplex')
+import StringIUnknownMap = require('../utils/StringIUnknownMap')
 import toGeometryData = require('../geometries/toGeometryData')
-import UniformData = require('../core/UniformData')
+import IFacet = require('../core/IFacet')
 import uuid4 = require('../utils/uuid4')
 
 /**
@@ -32,7 +33,7 @@ function contextBuilder() {
  * @class Drawable
  * @implements IDrawable
  */
-class Drawable<G extends GeometryElements, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
+class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareable implements IDrawable {
   /**
    * @property geometry
    * @type {G}
@@ -56,17 +57,18 @@ class Drawable<G extends GeometryElements, M extends IMaterial, U extends Unifor
    */
   private buffersByCanvasid: NumberIUnknownMap<IBufferGeometry>;
   /**
-   * @property model
-   * @type {U}
+   * @property uniforms
+   * @type {StringIUnknownMap<IFacet>}
+   * @private
    */
-  public model: U;
+  private uniforms: StringIUnknownMap<IFacet>;
   /**
    * @property mode
    * @type {number}
    * @private
    */
   private mode: number;
-  // FIXME: Do we insist on a ContextMonitor here.
+  // FIXME: Do we insist on a IContextMonitor here.
   // We can also assume that we are OK because of the Scene - but can't assume that there is one?
   /**
    * @class Drawable
@@ -75,15 +77,16 @@ class Drawable<G extends GeometryElements, M extends IMaterial, U extends Unifor
    * @param material {M}
    * @param model {U}
    */
-  constructor(geometry: G, material: M, model: U) {
+  constructor(geometry: G, material: M) {
     super(LOGGING_NAME)
     this.geometry = geometry
+
     this._material = material
     this._material.addRef()
 
     this.buffersByCanvasid = new NumberIUnknownMap<IBufferGeometry>()
 
-    this.model = model
+    this.uniforms = new StringIUnknownMap<IFacet>();
   }
   protected destructor(): void {
     this.geometry = void 0;
@@ -91,21 +94,30 @@ class Drawable<G extends GeometryElements, M extends IMaterial, U extends Unifor
     this.buffersByCanvasid = void 0
     this._material.release()
     this._material = void 0
-    this.model = void 0;
+    this.uniforms.release()
+    this.uniforms = void 0
   }
   draw(canvasId: number): void {
     // We know we are going to need a "good" canvasId to perform the buffers lookup.
     // So we may as well test that condition now.
     if (isDefined(canvasId)) {
       let material = this._material
-      let model = this.model
-      let buffers: IBufferGeometry = this.buffersByCanvasid.getWeakReference(canvasId)
+
+      let buffers: IBufferGeometry = this.buffersByCanvasid.get(canvasId)
       if (isDefined(buffers)) {
         material.use(canvasId)
-        model.setUniforms(material, canvasId)
+
+        // FIXME: The name is unused. Think we should just have a list
+        // and then access using either the real uniform name or a property name.
+        this.uniforms.forEach(function(name, uniform) {
+          uniform.setUniforms(material, canvasId)
+        })
+
         buffers.bind(material/*, aNameToKeyName*/) // FIXME: Why not part of the API?
         buffers.draw()
         buffers.unbind()
+
+        buffers.release()
       }
     }
   }
@@ -132,6 +144,18 @@ class Drawable<G extends GeometryElements, M extends IMaterial, U extends Unifor
   }
   contextLost(canvasId: number): void {
     this._material.contextLost(canvasId)
+  }
+  /**
+   * @method getFacet
+   * @param name {string}
+   * @return {IFacet}
+   */
+  getFacet(name: string): IFacet {
+    return this.uniforms.get(name)
+  }
+  setFacet<T extends IFacet>(name: string, value: T): T {
+    this.uniforms.put(name, value)
+    return value
   }
   /**
    * @property material

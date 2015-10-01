@@ -1,6 +1,6 @@
 import AttribLocation = require('../core/AttribLocation')
 import IContextProvider = require('../core/IContextProvider')
-import ContextMonitor = require('../core/ContextMonitor')
+import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core')
 import isDefined = require('../checks/isDefined')
 import isUndefined = require('../checks/isUndefined')
@@ -44,10 +44,10 @@ class Material extends Shareable implements IMaterial {
   /**
    * @class Material
    * @constructor
-   * @param contexts {ContextMonitor[]}
+   * @param contexts {IContextMonitor[]}
    * @param type {string} The class name, used for logging and serialization.
    */
-  constructor(contexts: ContextMonitor[], type: string) {
+  constructor(contexts: IContextMonitor[], type: string) {
     super(MATERIAL_TYPE_NAME)
     MonitorList.verify('contexts', contexts)
     mustBeString('type', type)
@@ -61,6 +61,8 @@ class Material extends Shareable implements IMaterial {
    */
   protected destructor(): void {
     this._monitors.removeContextListener(this)
+    this._monitors.release();
+    this._monitors = void 0;
     if (this.inner) {
       this.inner.release(MATERIAL_TYPE_NAME)
       this.inner = void 0
@@ -75,9 +77,9 @@ class Material extends Shareable implements IMaterial {
   }
   /**
    * @property monitors
-   * @type {ContextMonitor[]}
+   * @type {IContextMonitor[]}
    */
-  get monitors(): ContextMonitor[] {
+  get monitors(): IContextMonitor[] {
     return this._monitors.toArray()
   }
   get fragmentShader() {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/davinci-eight/models/Model3.ts - davinci-eight</title>
+    <title>src/davinci-eight/models/ModelFacet.ts - davinci-eight</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.114.0</em>
+            <em>API Docs for: 2.115.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -49,6 +49,9 @@
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
@@ -66,7 +69,7 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
+                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -77,9 +80,14 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IFacet
+                extends IUnknown.html">IFacet
+                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -93,13 +101,14 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
-                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -109,8 +118,8 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
-                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
@@ -163,46 +172,107 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: src/davinci-eight/models/Model3.ts</h1>
+<h1 class="file-heading">File: src/davinci-eight/models/ModelFacet.ts</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 import Color = require(&#x27;../core/Color&#x27;)
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import readOnly = require(&#x27;../i18n/readOnly&#x27;);
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
-import UniformData = require(&#x27;../core/UniformData&#x27;)
-import UniformDataVisitor = require(&#x27;../core/UniformDataVisitor&#x27;)
+import IFacet = require(&#x27;../core/IFacet&#x27;)
+import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
 import Vector3 = require(&#x27;../math/Vector3&#x27;)
 /**
- * Model3 implements UniformData required for manipulating a body.
+ * @class ModelFacet
  */
-// TODO: What should we call this?
-class Model3 implements UniformData {
-  public position = new Vector3();
-  public attitude = new Spinor3();
-  public scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
-  public colorRGB: Vector3 = new Vector3([1, 1, 1]);
+class ModelFacet extends Shareable implements IFacet {
+  private _position = new Vector3();
+  private _attitude = new Spinor3();
+  private _scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
   private M = Matrix4.identity();
   private N = Matrix3.identity();
   private R = Matrix4.identity();
   private S = Matrix4.identity();
   private T = Matrix4.identity();
+  /**
+   * ModelFacet implements IFacet required for manipulating a body.
+   * @class ModelFacet
+   * @constructor
+   */
   constructor() {
-    this.position.modified = true;
-    this.attitude.modified = true;
-    this.scaleXYZ.modified = true;
-    this.colorRGB.modified = true;
+    super(&#x27;ModelFacet&#x27;)
+    this._position.modified = true
+    this._attitude.modified = true
+    this._scaleXYZ.modified = true
   }
-  setUniforms(visitor: UniformDataVisitor, canvasId: number) {
-    if (this.position.modified) {
-      this.T.translation(this.position)
-      this.position.modified = false
+  /**
+   * @method destructor
+   * @return {void}
+   */
+  protected destructor(): void {
+    this._position = void 0
+    this._attitude = void 0
+    this._scaleXYZ = void 0
+    this.M = void 0
+    this.N = void 0
+    this.R = void 0
+    this.S = void 0
+    this.T = void 0
+  }
+  /**
+   * @property attitude
+   * @type Spinor3
+   * @readOnly
+   */
+  get attitude(): Spinor3 {
+    return this._attitude
+  }
+  set attitude(unused) {
+    throw new Error(readOnly(&#x27;attitude&#x27;).message)
+  }
+  /**
+   * @property position
+   * @type Vector3
+   * @readOnly
+   */
+  get position(): Vector3 {
+  return this._position
+  }
+  set position(unused) {
+    throw new Error(readOnly(&#x27;position&#x27;).message)
+  }
+  /**
+   * @property scaleXYZ
+   * @type Vector3
+   * @readOnly
+   */
+  get scaleXYZ(): Vector3 {
+    return this._scaleXYZ
+  }
+  set scaleXYZ(unused) {
+    throw new Error(readOnly(&#x27;scaleXYZ&#x27;).message)
+  }
+  /**
+   * @method setUniforms
+   * @param visitor {IFacetVisitor}
+   * @param canvasId {number}
+   */
+  setUniforms(visitor: IFacetVisitor, canvasId: number) {
+    if (!this.position) {
+      console.warn(&quot;setUniforms called on zombie ModelFacet&quot;)
+      return
     }
-    if (this.attitude.modified) {
-        this.R.rotation(this.attitude)
-        this.attitude.modified = false
+    if (this._position.modified) {
+      this.T.translation(this._position)
+      this._position.modified = false
+    }
+    if (this._attitude.modified) {
+        this.R.rotation(this._attitude)
+        this._attitude.modified = false
     }
     if (this.scaleXYZ.modified) {
       this.S.scaling(this.scaleXYZ)
@@ -214,11 +284,10 @@ class Model3 implements UniformData {
 
     visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId)
     visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId)
-    visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.colorRGB, canvasId)
   }
 }
 
-export = Model3
+export = ModelFacet
 
     </pre>
 </div>

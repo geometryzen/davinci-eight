@@ -5,10 +5,10 @@ var core =
 {
   strict: false,
   GITHUB: 'https://github.com/geometryzen/davinci-eight',
-  LAST_MODIFIED: '2015-09-30',
+  LAST_MODIFIED: '2015-10-01',
   NAMESPACE: 'EIGHT',
   verbose: true,
-  VERSION: '2.114.0'
+  VERSION: '2.115.0'
 };
 
 export = core;

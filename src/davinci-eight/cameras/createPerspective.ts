@@ -1,7 +1,7 @@
 //
 // createPerspective.ts
 //
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacetVisitor = require('../core/IFacetVisitor');
 import Perspective        = require('../cameras/Perspective');
 import View               = require('../cameras/View');
 import createView         = require('../cameras/createView');
@@ -34,11 +34,20 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
   let far: Vector1 = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
   let projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
 
-  let base: View = createView(options);
-  let projectionMatrix: Matrix4 = Matrix4.identity();
-  var matrixNeedsUpdate = true;
+  var refCount = 1
+  let base: View = createView(options)
+  let projectionMatrix: Matrix4 = Matrix4.identity()
+  var matrixNeedsUpdate = true
 
   let self: Perspective = {
+    addRef(): number {
+      refCount++
+      return refCount
+    },
+    release(): number {
+      refCount--
+      return refCount;
+    },
     // Delegate to the base camera.
     get eye(): Vector3 {
       return base.eye;
@@ -118,7 +127,7 @@ let createPerspective = function(options?: { fov?: number; aspect?: number; near
       far.x = value;
       return self;
     },
-    setUniforms(visitor: UniformDataVisitor, canvasId: number) {
+    setUniforms(visitor: IFacetVisitor, canvasId: number) {
       if (matrixNeedsUpdate) {
         computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
         matrixNeedsUpdate = false;

@@ -1,4 +1,8 @@
 import IUnknown = require('../core/IUnknown');
+/**
+ * @class StringIUnknownMap<V extends IUnknown>
+ * @extends IUnknown
+ */
 declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     private _refCount;
     private _elements;
@@ -20,10 +24,23 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
      * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
      */
     exists(key: string): boolean;
-    getStrongReference(key: string): V;
-    getWeakReference(key: string): V;
-    putStrongReference(key: string, value: V): void;
-    putWeakReference(key: string, value: V): void;
+    get(key: string): V;
+    /**
+     * @method getWeakReference
+     * @param key {string}
+     * @return {V}
+     * @private
+     */
+    private getWeakReference(key);
+    put(key: string, value: V): void;
+    /**
+     * @method putWeakReference
+     * @param key {string}
+     * @param value {V}
+     * @return {void}
+     * @private
+     */
+    private putWeakReference(key, value);
     forEach(callback: (key: string, value: V) => void): void;
     keys: string[];
     remove(key: string): void;

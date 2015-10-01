@@ -1,6 +1,12 @@
-import IContextConsumer = require('../core/IContextConsumer');
 import ContextUnique = require('../core/ContextUnique');
-interface ContextMonitor extends ContextUnique {
+import IContextConsumer = require('../core/IContextConsumer');
+import IUnknown = require('../core/IUnknown');
+/**
+ * @class IContextMonitor
+ * @extends ContextUnique
+ * @extends IUnknown
+ */
+interface IContextMonitor extends ContextUnique, IUnknown {
     /**
      *
      */
@@ -14,4 +20,4 @@ interface ContextMonitor extends ContextUnique {
      */
     synchronize(user: IContextConsumer): void;
 }
-export = ContextMonitor;
+export = IContextMonitor;

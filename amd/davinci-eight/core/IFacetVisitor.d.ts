@@ -7,10 +7,10 @@ import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 /**
- * @class UniformDataVisitor
+ * @class IFacetVisitor
  * @beta
  */
-interface UniformDataVisitor {
+interface IFacetVisitor {
     /**
      * @method uniform1f
      * @param name {string}
@@ -30,4 +30,4 @@ interface UniformDataVisitor {
     uniformVector3(name: string, vector: Vector3, canvasId: number): void;
     uniformVector4(name: string, vector: Vector4, canvasId: number): void;
 }
-export = UniformDataVisitor;
+export = IFacetVisitor;

@@ -19,7 +19,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
         /**
          * @class Material
          * @constructor
-         * @param contexts {ContextMonitor[]}
+         * @param contexts {IContextMonitor[]}
          * @param type {string} The class name, used for logging and serialization.
          */
         function Material(contexts, type) {
@@ -39,6 +39,8 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
          */
         Material.prototype.destructor = function () {
             this._monitors.removeContextListener(this);
+            this._monitors.release();
+            this._monitors = void 0;
             if (this.inner) {
                 this.inner.release(MATERIAL_TYPE_NAME);
                 this.inner = void 0;
@@ -54,7 +56,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
         Object.defineProperty(Material.prototype, "monitors", {
             /**
              * @property monitors
-             * @type {ContextMonitor[]}
+             * @type {IContextMonitor[]}
              */
             get: function () {
                 return this._monitors.toArray();

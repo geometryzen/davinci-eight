@@ -2,15 +2,15 @@ import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacetVisitor = require('../core/IFacetVisitor');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
-declare class RoundUniform implements UniformDataVisitor {
+declare class RoundUniform implements IFacetVisitor {
     private _next;
     constructor();
-    next: UniformDataVisitor;
+    next: IFacetVisitor;
     uniform1f(name: string, x: number, canvasId: number): void;
     uniform2f(name: string, x: number, y: number): void;
     uniform3f(name: string, x: number, y: number, z: number): void;

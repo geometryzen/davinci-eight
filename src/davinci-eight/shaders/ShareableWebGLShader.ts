@@ -1,5 +1,5 @@
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IShader = require('../shaders/IShader');
 import Shareable = require('../utils/Shareable')
 
@@ -12,9 +12,9 @@ class ShareableWebGLShader extends Shareable implements IShader {
    * This means that this resource is inherantly multi-canvas.
    * It also means that the argument in the constructor is bogus because it is not fixed.
    * It's just an initial list.
-   * But then we need IContextProvider to extend ContextMonitor so that this can unhook?
+   * But then we need IContextProvider to extend IContextMonitor so that this can unhook?
    */
-  constructor(monitor: ContextMonitor) {
+  constructor(monitor: IContextMonitor) {
     super('WebGLShader');
     monitor.addContextListener(this);
   }

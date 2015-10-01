@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.114.0</em>
+            <em>API Docs for: 2.115.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -49,6 +49,9 @@
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
@@ -66,7 +69,7 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
+                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -77,9 +80,14 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IFacet
+                extends IUnknown.html">IFacet
+                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -93,13 +101,14 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
-                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -109,8 +118,8 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
-                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
@@ -231,7 +240,7 @@ The collection may be traversed for general processing using callback/visitor fu
 
 
                     <div class="param-description">
-                        <p>[ContextMonitor[]=[]]</p>
+                        <p>[IContextMonitor[]=[]]</p>
 
                     </div>
 
@@ -271,7 +280,7 @@ The collection may be traversed for general processing using callback/visitor fu
                                 <a href="#method_destructor">destructor</a>
 
                             </li>
-                            <li class="index-item method">
+                            <li class="index-item method inherited">
                                 <a href="#method_draw">draw</a>
 
                             </li>
@@ -325,7 +334,7 @@ The collection may be traversed for general processing using callback/visitor fu
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l72"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:72</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:71</code></a>
         </p>
 
 
@@ -432,7 +441,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l59"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:59</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l58"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:58</code></a>
         </p>
 
 
@@ -479,9 +488,12 @@ The new reference count. This value is intended to be used only for test purpose
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:86</code></a>
+            <p>Inherited from
+            <a href="../classes/IDrawList.html#method_draw">
+                IDrawList
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:85</code></a>
         </p>
 
 
@@ -500,7 +512,7 @@ Traverses the collection of drawables, drawing each one.
             <ul class="params-list">
                 <li class="param">
                         <code class="param-name">ambients</code>
-                        <span class="type">UniformData</span>
+                        <span class="type">IFacet</span>
 
 
                     <div class="param-description">
@@ -555,7 +567,7 @@ Traverses the collection of drawables, drawing each one.
                 IDrawList
             </a>
             but overwritten in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l99"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:99</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:98</code></a>
         </p>
 
 
@@ -656,7 +668,7 @@ The new reference count. This value is intended to be used only for test purpose
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:107</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l106"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:106</code></a>
         </p>
 
 
@@ -729,7 +741,7 @@ This method returns <code>undefined</code>.
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:121</code></a>
+        <a href="../files/src_davinci-eight_scene_Scene.ts.html#l120"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;Scene.ts:120</code></a>
         </p>
 
 

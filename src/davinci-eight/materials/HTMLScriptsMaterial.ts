@@ -1,5 +1,5 @@
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');
 import MonitorList = require('../scene/MonitorList');
@@ -26,11 +26,11 @@ class HTMLScriptsMaterial extends Material {
   /**
    * @class HTMLScriptsMaterial
    * @constructor
-   * @param contexts {ContextMonitor[]}
+   * @param contexts {IContextMonitor[]}
    * @param scriptIds {string[]}
    * @param dom {Document}
    */
-  constructor(contexts: ContextMonitor[], scriptIds: string[] = [], dom: Document = document) {
+  constructor(contexts: IContextMonitor[], scriptIds: string[] = [], dom: Document = document) {
     super(contexts, CLASS_NAME);
     // For now, we limit the implementation to only a vertex shader and a fragment shader.
     mustSatisfy('scriptIds', scriptIds.length === 2, () => { return "scriptIds must be [vsId, fsId]";});

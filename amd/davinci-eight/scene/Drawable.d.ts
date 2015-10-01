@@ -3,12 +3,12 @@ import GeometryElements = require('../geometries/GeometryElements');
 import IDrawable = require('../core/IDrawable');
 import IMaterial = require('../core/IMaterial');
 import Shareable = require('../utils/Shareable');
-import UniformData = require('../core/UniformData');
+import IFacet = require('../core/IFacet');
 /**
  * @class Drawable
  * @implements IDrawable
  */
-declare class Drawable<G extends GeometryElements, M extends IMaterial, U extends UniformData> extends Shareable implements IDrawable {
+declare class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareable implements IDrawable {
     /**
      * @property geometry
      * @type {G}
@@ -32,10 +32,11 @@ declare class Drawable<G extends GeometryElements, M extends IMaterial, U extend
      */
     private buffersByCanvasid;
     /**
-     * @property model
-     * @type {U}
+     * @property uniforms
+     * @type {StringIUnknownMap<IFacet>}
+     * @private
      */
-    model: U;
+    private uniforms;
     /**
      * @property mode
      * @type {number}
@@ -49,12 +50,19 @@ declare class Drawable<G extends GeometryElements, M extends IMaterial, U extend
      * @param material {M}
      * @param model {U}
      */
-    constructor(geometry: G, material: M, model: U);
+    constructor(geometry: G, material: M);
     protected destructor(): void;
     draw(canvasId: number): void;
     contextFree(canvasId: number): void;
     contextGain(manager: IContextProvider): void;
     contextLost(canvasId: number): void;
+    /**
+     * @method getFacet
+     * @param name {string}
+     * @return {IFacet}
+     */
+    getFacet(name: string): IFacet;
+    setFacet<T extends IFacet>(name: string, value: T): T;
     /**
      * @property material
      * @type {M}

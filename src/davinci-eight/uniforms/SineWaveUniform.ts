@@ -1,8 +1,8 @@
 import Shareable = require('../utils/Shareable');
-import UniformData = require('../core/UniformData');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacet = require('../core/IFacet');
+import IFacetVisitor = require('../core/IFacetVisitor');
 
-class SineWaveUniform extends Shareable implements UniformData {
+class SineWaveUniform extends Shareable implements IFacet {
   public amplitude: number = 1;
   public omega: number;
   public mean: number = 0;
@@ -12,7 +12,7 @@ class SineWaveUniform extends Shareable implements UniformData {
     this.omega = omega;
     this.uName = uName;
   }
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void {
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void {
     let time = Date.now() / 1000;
     let theta = this.omega * time;
     let a = this.amplitude * Math.sin(theta) + this.mean;

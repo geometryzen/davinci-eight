@@ -1,7 +1,7 @@
 import IResource = require('../core/IResource');
 import AttribLocation = require('../core/AttribLocation');
 import UniformLocation = require('../core/UniformLocation');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacetVisitor = require('../core/IFacetVisitor');
 /**
  * <p>
  * The role of a IMaterial is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.
@@ -9,10 +9,10 @@ import UniformDataVisitor = require('../core/UniformDataVisitor');
  * </p>
  * @class IMaterial
  * @extends IResource
- * @extends UniformDataVisitor
+ * @extends IFacetVisitor
  * @beta
  */
-interface IMaterial extends IResource, UniformDataVisitor {
+interface IMaterial extends IResource, IFacetVisitor {
     /**
      * @property programId
      * @type string

@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import getAttribVarName = require('../core/getAttribVarName');
 import GeometryElements = require('../geometries/GeometryElements');
 import getUniformVarName = require('../core/getUniformVarName');
@@ -84,7 +84,7 @@ class SmartMaterialBuilder {
     }
     return this;
   }
-  public build(contexts: ContextMonitor[]): Material {
+  public build(contexts: IContextMonitor[]): Material {
     // FIXME: Push this calculation down into the functions.
     // Then the data structures are based on size.
     // uniforms based on numeric type?

@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import LineMaterialParameters = require('../materials/LineMaterialParameters');
 import Material = require('../materials/Material');
@@ -10,10 +10,10 @@ declare class LineMaterial extends Material {
     /**
      * @class LineMaterial
      * @constructor
-     * @param monitors [ContextMonitor[]=[]]
+     * @param monitors [IContextMonitor[]=[]]
      * @parameters [MeshNormalParameters]
      */
-    constructor(monitors?: ContextMonitor[], parameters?: LineMaterialParameters);
+    constructor(monitors?: IContextMonitor[], parameters?: LineMaterialParameters);
     protected createProgram(): IMaterial;
 }
 export = LineMaterial;

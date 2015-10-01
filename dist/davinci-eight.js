@@ -1658,6 +1658,7 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector
      * @constructor
      */
     var createView = function (options) {
+        var refCount = 1;
         var eye = new Vector3();
         var look = new Vector3();
         var up = Vector3.e2;
@@ -1668,6 +1669,14 @@ define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector
         look.modified = true;
         up.modified = true;
         var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
             get eye() {
                 return eye;
             },
@@ -1936,6 +1945,7 @@ define('davinci-eight/cameras/createFrustum',["require", "exports", 'davinci-eig
      * @return {Frustum}
      */
     var createFrustum = function (viewMatrixName, projectionMatrixName) {
+        var refCount = 1;
         var base = createView(viewMatrixName);
         var left = new Vector1();
         var right = new Vector1();
@@ -1950,6 +1960,14 @@ define('davinci-eight/cameras/createFrustum',["require", "exports", 'davinci-eig
         }
         updateProjectionMatrix();
         var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
             // Delegate to the base camera.
             get eye() {
                 return base.eye;
@@ -2114,10 +2132,19 @@ define('davinci-eight/cameras/createPerspective',["require", "exports", '../came
         var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
         var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+        var refCount = 1;
         var base = createView(options);
         var projectionMatrix = Matrix4.identity();
         var matrixNeedsUpdate = true;
         var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
             // Delegate to the base camera.
             get eye() {
                 return base.eye;
@@ -2845,7 +2872,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
             expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
             this.data = data;
         }
-        Object.defineProperty(Color.prototype, "r", {
+        Object.defineProperty(Color.prototype, "red", {
             get: function () {
                 return this.data[0];
             },
@@ -2855,7 +2882,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Color.prototype, "g", {
+        Object.defineProperty(Color.prototype, "green", {
             get: function () {
                 return this.data[1];
             },
@@ -2865,7 +2892,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Color.prototype, "b", {
+        Object.defineProperty(Color.prototype, "blue", {
             get: function () {
                 return this.data[2];
             },
@@ -2879,10 +2906,10 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
             return new Color([this.data[0], this.data[1], this.data[2]]);
         };
         Color.prototype.luminance = function () {
-            return Color.luminance(this.r, this.g, this.b);
+            return Color.luminance(this.red, this.green, this.blue);
         };
         Color.prototype.toString = function () {
-            return "Color(" + this.r + ", " + this.g + ", " + this.b + ")";
+            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
         };
         Color.luminance = function (r, g, b) {
             var gamma = 2.2;
@@ -2940,7 +2967,7 @@ define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'],
             return new Color([red, green, blue]);
         };
         Color.copy = function (color) {
-            return new Color([color.r, color.g, color.b]);
+            return new Color([color.red, color.green, color.blue]);
         };
         return Color;
     })();
@@ -2954,10 +2981,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     var core = {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-09-30',
+        LAST_MODIFIED: '2015-10-01',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.114.0'
+        VERSION: '2.115.0'
     };
     return core;
 });
@@ -2970,49 +2997,6 @@ define('davinci-eight/core/DrawMode',["require", "exports"], function (require, 
         DrawMode[DrawMode["TRIANGLES"] = 2] = "TRIANGLES";
     })(DrawMode || (DrawMode = {}));
     return DrawMode;
-});
-
-define('davinci-eight/core/Face3',["require", "exports", '../math/Vector3', '../core/Color'], function (require, exports, Vector3, Color) {
-    /**
-     * @class Face3
-     */
-    var Face3 = (function () {
-        /**
-         * @class Face3
-         * @constructor
-         * @param a {number}
-         * @param b {number}
-         * @param c {number}
-         * @param normals {Cartesian3[]} The per-vertex normals for this face (3) or face normal (1).
-         */
-        function Face3(a, b, c, vertexNormals) {
-            if (vertexNormals === void 0) { vertexNormals = []; }
-            this.normal = new Vector3();
-            this.color = new Color();
-            this.a = a;
-            this.b = b;
-            this.c = c;
-            this.vertexNormals = vertexNormals;
-        }
-        Face3.prototype.clone = function () {
-            var face = new Face3(this.a, this.b, this.c);
-            face.normal = Vector3.copy(this.normal);
-            face.color = Color.copy(this.color);
-            face.materialIndex = this.materialIndex;
-            for (var i = 0, il = this.vertexNormals.length; i < il; i++) {
-                face.vertexNormals[i] = Vector3.copy(this.vertexNormals[i]);
-            }
-            for (var i = 0, il = this.vertexColors.length; i < il; i++) {
-                face.vertexColors[i] = Color.copy(this.vertexColors[i]);
-            }
-            for (var i = 0, il = this.vertexTangents.length; i < il; i++) {
-                face.vertexTangents[i] = Vector3.copy(this.vertexTangents[i]);
-            }
-            return face;
-        };
-        return Face3;
-    })();
-    return Face3;
 });
 
 define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
@@ -4498,11 +4482,11 @@ define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shar
         /**
          * Gets the element at the specified index, incrementing the reference count.
          * Use this method when you intend to hold onto the referent and release it later.
-         * @method getStrongReference
+         * @method get
          * @param index {number}
          * @return {T}
          */
-        IUnknownArray.prototype.getStrongReference = function (index) {
+        IUnknownArray.prototype.get = function (index) {
             var element;
             element = this._elements[index];
             if (element) {
@@ -4545,14 +4529,26 @@ define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shar
             return this._elements.forEach(callback);
         };
         /**
-         * @method push
+         * Pushes an element onto the tail of the list and increments the element reference count.
+         * @method pushStrongReference
          * @param element {T}
          * @return {number}
          */
-        IUnknownArray.prototype.push = function (element) {
-            var x = this._elements.push(element);
-            element.addRef();
+        IUnknownArray.prototype.pushStrongReference = function (element) {
+            var x = this.pushWeakReference(element);
+            if (element) {
+                element.addRef();
+            }
             return x;
+        };
+        /**
+         * Pushes an element onto the tail of the list with no change in the reference count.
+         * @method pushWeakReference
+         * @param element {T}
+         * @return {number}
+         */
+        IUnknownArray.prototype.pushWeakReference = function (element) {
+            return this._elements.push(element);
         };
         /**
          * @method pop
@@ -4575,8 +4571,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
+    /**
+     * @class NumberIUnknownMap<V>
+     */
     var NumberIUnknownMap = (function (_super) {
         __extends(NumberIUnknownMap, _super);
+        /**
+         * @class NumberIUnknownMap<V>
+         * @constructor
+         */
         function NumberIUnknownMap() {
             _super.call(this, LOGGING_NAME);
             this._elements = {};
@@ -4594,23 +4597,25 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
             var element = this._elements[key];
             return element ? true : false;
         };
-        NumberIUnknownMap.prototype.getStrongReference = function (key) {
+        NumberIUnknownMap.prototype.get = function (key) {
             var element = this.getWeakReference(key);
             if (element) {
                 element.addRef();
             }
             return element;
         };
-        NumberIUnknownMap.prototype.getWeakReference = function (index) {
+        // FIXME
+        /*private*/ NumberIUnknownMap.prototype.getWeakReference = function (index) {
             return this._elements[index];
         };
-        NumberIUnknownMap.prototype.putStrongReference = function (key, value) {
+        NumberIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
             this.putWeakReference(key, value);
         };
-        NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
+        // FIXME
+        /*private*/ NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {
@@ -4638,7 +4643,7 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
         });
         NumberIUnknownMap.prototype.remove = function (key) {
             // Strong or Weak doesn't matter because the value is `undefined`.
-            this.putStrongReference(key, void 0);
+            this.put(key, void 0);
             delete this._elements[key];
         };
         return NumberIUnknownMap;
@@ -4648,6 +4653,10 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
 
 define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
     var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
+    /**
+     * @class StringIUnknownMap<V extends IUnknown>
+     * @extends IUnknown
+     */
     var StringIUnknownMap = (function () {
         /**
          * <p>
@@ -4689,7 +4698,7 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
             var element = this._elements[key];
             return element ? true : false;
         };
-        StringIUnknownMap.prototype.getStrongReference = function (key) {
+        StringIUnknownMap.prototype.get = function (key) {
             var element = this._elements[key];
             if (element) {
                 element.addRef();
@@ -4699,6 +4708,12 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
                 return void 0;
             }
         };
+        /**
+         * @method getWeakReference
+         * @param key {string}
+         * @return {V}
+         * @private
+         */
         StringIUnknownMap.prototype.getWeakReference = function (key) {
             var element = this._elements[key];
             if (element) {
@@ -4708,12 +4723,19 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
                 return void 0;
             }
         };
-        StringIUnknownMap.prototype.putStrongReference = function (key, value) {
+        StringIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
             this.putWeakReference(key, value);
         };
+        /**
+         * @method putWeakReference
+         * @param key {string}
+         * @param value {V}
+         * @return {void}
+         * @private
+         */
         StringIUnknownMap.prototype.putWeakReference = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
@@ -4813,7 +4835,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             configurable: true
         });
         DrawableGroup.prototype.push = function (drawable) {
-            this._drawables.push(drawable);
+            this._drawables.pushStrongReference(drawable);
         };
         DrawableGroup.prototype.remove = function (drawable) {
             var drawables = this._drawables;
@@ -4830,7 +4852,11 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             var drawables = this._drawables;
             var material = this._program;
             material.use(canvasId);
-            ambients.setUniforms(material, canvasId);
+            if (ambients) {
+                ambients.forEach(function (ambient) {
+                    ambient.setUniforms(material, canvasId);
+                });
+            }
             length = drawables.length;
             for (i = 0; i < length; i++) {
                 drawables.getWeakReference(i).draw(canvasId);
@@ -4879,12 +4905,13 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             if (program) {
                 try {
                     var programId = program.programId;
-                    var programInfo = this._groups.getWeakReference(programId);
+                    var programInfo = this._groups.get(programId);
                     if (!programInfo) {
                         programInfo = new DrawableGroup(program);
-                        this._groups.putWeakReference(programId, programInfo);
+                        this._groups.put(programId, programInfo);
                     }
                     programInfo.push(drawable);
+                    programInfo.release();
                 }
                 finally {
                     program.release();
@@ -4899,11 +4926,12 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 try {
                     var programId = program.programId;
                     if (this._groups.exists(programId)) {
-                        var group = this._groups.getWeakReference(programId);
+                        var group = this._groups.get(programId);
                         group.remove(drawable);
                         if (group.length === 0) {
                             delete this._groups.remove(programId);
                         }
+                        group.release();
                     }
                     else {
                         throw new Error("drawable not found?!");
@@ -4927,8 +4955,9 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             materialsLength = materialKeys.length;
             for (i = 0; i < materialsLength; i++) {
                 materialKey = materialKeys[i];
-                drawGroup = drawGroups.getWeakReference(materialKey);
+                drawGroup = drawGroups.get(materialKey);
                 drawGroup.draw(ambients, canvasId);
+                drawGroup.release();
             }
         };
         // FIXME: Rename to traverse
@@ -4986,7 +5015,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             contextGain: function (manager) {
                 if (!canvasIdToManager.exists(manager.canvasId)) {
                     // Cache the manager.
-                    canvasIdToManager.putStrongReference(manager.canvasId, manager);
+                    canvasIdToManager.put(manager.canvasId, manager);
                     // Broadcast to drawables and materials.
                     drawableGroups.traverseDrawables(function (drawable) {
                         drawable.contextGain(manager);
@@ -5020,7 +5049,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 var result = new IUnknownArray();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
-                        result.push(candidate);
+                        result.pushStrongReference(candidate);
                     }
                 }, function (program) {
                 });
@@ -5056,7 +5085,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable) {
+define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/Shareable', '../utils/StringIUnknownMap'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -5070,7 +5099,7 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
      */
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
-        // FIXME: Do we insist on a ContextMonitor here.
+        // FIXME: Do we insist on a IContextMonitor here.
         // We can also assume that we are OK because of the Scene - but can't assume that there is one?
         /**
          * @class Drawable
@@ -5079,13 +5108,13 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
          * @param material {M}
          * @param model {U}
          */
-        function Drawable(geometry, material, model) {
+        function Drawable(geometry, material) {
             _super.call(this, LOGGING_NAME);
             this.geometry = geometry;
             this._material = material;
             this._material.addRef();
             this.buffersByCanvasid = new NumberIUnknownMap();
-            this.model = model;
+            this.uniforms = new StringIUnknownMap();
         }
         Drawable.prototype.destructor = function () {
             this.geometry = void 0;
@@ -5093,21 +5122,26 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
             this.buffersByCanvasid = void 0;
             this._material.release();
             this._material = void 0;
-            this.model = void 0;
+            this.uniforms.release();
+            this.uniforms = void 0;
         };
         Drawable.prototype.draw = function (canvasId) {
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
                 var material = this._material;
-                var model = this.model;
-                var buffers = this.buffersByCanvasid.getWeakReference(canvasId);
+                var buffers = this.buffersByCanvasid.get(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
-                    model.setUniforms(material, canvasId);
+                    // FIXME: The name is unused. Think we should just have a list
+                    // and then access using either the real uniform name or a property name.
+                    this.uniforms.forEach(function (name, uniform) {
+                        uniform.setUniforms(material, canvasId);
+                    });
                     buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API?
                     buffers.draw();
                     buffers.unbind();
+                    buffers.release();
                 }
             }
         };
@@ -5132,6 +5166,18 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
         };
         Drawable.prototype.contextLost = function (canvasId) {
             this._material.contextLost(canvasId);
+        };
+        /**
+         * @method getFacet
+         * @param name {string}
+         * @return {IFacet}
+         */
+        Drawable.prototype.getFacet = function (name) {
+            return this.uniforms.get(name);
+        };
+        Drawable.prototype.setFacet = function (name, value) {
+            this.uniforms.put(name, value);
+            return value;
         };
         Object.defineProperty(Drawable.prototype, "material", {
             /**
@@ -5227,6 +5273,18 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
         PerspectiveCamera.prototype.draw = function (canvasId) {
             console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
             // Do nothing.
+        };
+        PerspectiveCamera.prototype.getFacet = function (name) {
+            // FIXME: This is a bit wierd.
+            if (name === this.name) {
+                return this;
+            }
+            else {
+                return void 0;
+            }
+        };
+        PerspectiveCamera.prototype.setFacet = function (name, value) {
+            throw new Error("WTF");
         };
         Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
             /**
@@ -5383,12 +5441,17 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
     return PerspectiveCamera;
 });
 
-define('davinci-eight/scene/MonitorList',["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, mustSatisfy, isInteger) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/MonitorList',["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable, mustSatisfy, isInteger) {
     function beInstanceOfContextMonitors() {
         return "be an instance of MonitorList";
     }
     function beContextMonitorArray() {
-        return "be ContextMonitor[]";
+        return "be IContextMonitor[]";
     }
     function identity(monitor) {
         return monitor;
@@ -5398,11 +5461,21 @@ define('davinci-eight/scene/MonitorList',["require", "exports", '../checks/mustS
     /**
      * Implementation Only.
      */
-    var MonitorList = (function () {
+    var MonitorList = (function (_super) {
+        __extends(MonitorList, _super);
         function MonitorList(monitors) {
             if (monitors === void 0) { monitors = []; }
+            _super.call(this, 'MonitorList');
             this.monitors = monitors.map(identity);
+            this.monitors.forEach(function (monitor) {
+                monitor.addRef();
+            });
         }
+        MonitorList.prototype.destructor = function () {
+            this.monitors.forEach(function (monitor) {
+                monitor.release();
+            });
+        };
         MonitorList.prototype.addContextListener = function (user) {
             this.monitors.forEach(function (monitor) {
                 monitor.addContextListener(user);
@@ -5465,7 +5538,7 @@ define('davinci-eight/scene/MonitorList',["require", "exports", '../checks/mustS
             });
         };
         return MonitorList;
-    })();
+    })(Shareable);
     return MonitorList;
 });
 
@@ -5495,7 +5568,7 @@ define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawLi
          * </p>
          * @class Scene
          * @constructor
-         * @param monitors [ContextMonitor[]=[]]
+         * @param monitors [IContextMonitor[]=[]]
          */
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
@@ -5513,6 +5586,7 @@ define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawLi
          */
         Scene.prototype.destructor = function () {
             this.monitors.removeContextListener(this);
+            this.monitors.release();
             this.monitors = void 0;
             this.drawList.release();
             this.drawList = void 0;
@@ -5536,7 +5610,7 @@ define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawLi
          * Traverses the collection of drawables, drawing each one.
          * </p>
          * @method draw
-         * @param ambients {UniformData}
+         * @param ambients {IFacet[]}
          * @param canvasId {number}
          * @return {void}
          * @beta
@@ -5757,10 +5831,10 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
                 }
             },
             addPrologCommand: function (command) {
-                prolog.push(command);
+                prolog.pushStrongReference(command);
             },
             addContextGainCommand: function (command) {
-                startUp.push(command);
+                startUp.pushStrongReference(command);
             },
             release: function () {
                 refCount--;
@@ -6252,7 +6326,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 var aName = aNames[i];
                 var key = attribKey(aName, aNameToKeyName);
                 var attributes = block.attributes;
-                var attribute = attributes.getWeakReference(key);
+                var attribute = attributes.get(key);
                 if (attribute) {
                     // Associate the attribute buffer with the attribute location.
                     // FIXME Would be nice to be able to get a weak reference to the buffer.
@@ -6263,6 +6337,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     buffer.unbind();
                     attributeLocation.enable();
                     buffer.release();
+                    attribute.release();
                 }
                 else {
                     // The attribute available may not be required by the program.
@@ -6364,7 +6439,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                         if (_program) {
                             mesh.unbind();
                         }
-                        var block = blocks.getWeakReference(uuid);
+                        var block = blocks.get(uuid);
                         if (block) {
                             if (program) {
                                 _program = program;
@@ -6377,6 +6452,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                             else {
                                 expectArg('program', program).toBeObject();
                             }
+                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -6384,9 +6460,10 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     }
                 },
                 draw: function () {
-                    var block = blocks.getWeakReference(uuid);
+                    var block = blocks.get(uuid);
                     if (block) {
                         block.drawCommand.execute(gl);
+                        block.release();
                     }
                     else {
                         throw new Error(messageUnrecognizedMesh(uuid));
@@ -6394,7 +6471,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 },
                 unbind: function () {
                     if (_program) {
-                        var block = blocks.getWeakReference(uuid);
+                        var block = blocks.get(uuid);
                         if (block) {
                             // FIXME: Ask block to unbind index buffer and avoid addRef/release
                             var indexBuffer = block.indexBuffer;
@@ -6402,6 +6479,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                             indexBuffer.release();
                             // FIXME: Looks like an IMaterial method!
                             unbindProgramAttribLocations(_program, _canvasId);
+                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -6486,7 +6564,6 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
-                // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
@@ -6499,7 +6576,8 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                     var data = vertexAttrib.values.data;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                    attributes.putWeakReference(name_1, attribute);
+                    attributes.put(name_1, attribute);
+                    attribute.release();
                     buffer.unbind();
                     buffer.release();
                 }
@@ -6508,7 +6586,9 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
                 switch (elements.k) {
                 }
                 var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
-                blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand));
+                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
+                blocks.put(mesh.uuid, block);
+                block.release();
                 attributes.release();
                 indexBuffer.release();
                 return mesh;
@@ -6615,7 +6695,7 @@ define('davinci-eight/utils/contextProxy',["require", "exports", '../core/Buffer
             },
             createTexture2D: function () {
                 // TODO: Replace with functional constructor pattern.
-                // FIXME Does this mean that Texture only has one ContextMonitor?
+                // FIXME Does this mean that Texture only has one IContextMonitor?
                 return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
             },
             createTextureCubeMap: function () {
@@ -7921,7 +8001,7 @@ define('davinci-eight/programs/programFromScripts',["require", "exports", '../pr
     // FIXME: Temporary rename simpleProgramFromScripts?
     /**
      * @method programFromScripts
-     * @param monitors {ContextMonitor[]}
+     * @param monitors {IContextMonitor[]}
      * @param vsId {string} The vertex shader script element identifier.
      * @param fsId {string} The fragment shader script element identifier.
      * @param $document {Document} The document containing the script elements.
@@ -7970,7 +8050,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
         /**
          * @class Material
          * @constructor
-         * @param contexts {ContextMonitor[]}
+         * @param contexts {IContextMonitor[]}
          * @param type {string} The class name, used for logging and serialization.
          */
         function Material(contexts, type) {
@@ -7990,6 +8070,8 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
          */
         Material.prototype.destructor = function () {
             this._monitors.removeContextListener(this);
+            this._monitors.release();
+            this._monitors = void 0;
             if (this.inner) {
                 this.inner.release(MATERIAL_TYPE_NAME);
                 this.inner = void 0;
@@ -8005,7 +8087,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
         Object.defineProperty(Material.prototype, "monitors", {
             /**
              * @property monitors
-             * @type {ContextMonitor[]}
+             * @type {IContextMonitor[]}
              */
             get: function () {
                 return this._monitors.toArray();
@@ -8378,7 +8460,7 @@ define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../
         /**
          * @class HTMLScriptsMaterial
          * @constructor
-         * @param contexts {ContextMonitor[]}
+         * @param contexts {IContextMonitor[]}
          * @param scriptIds {string[]}
          * @param dom {Document}
          */
@@ -8466,7 +8548,7 @@ define('davinci-eight/materials/SmartMaterial',["require", "exports", '../progra
         /**
          * @class SmartMaterial
          * @constructor
-         * @param contexts {ContextMonitor[]}
+         * @param contexts {IContextMonitor[]}
          * @param geometry {GeometryMeta} This parameter determines the attributes used in the shaders.
          */
         function SmartMaterial(contexts, aParams, uParams, vColor, vLight) {
@@ -8615,7 +8697,7 @@ define('davinci-eight/materials/LineMaterial',["require", "exports", '../materia
         /**
          * @class LineMaterial
          * @constructor
-         * @param monitors [ContextMonitor[]=[]]
+         * @param monitors [IContextMonitor[]=[]]
          * @parameters [MeshNormalParameters]
          */
         function LineMaterial(monitors, parameters) {
@@ -8661,7 +8743,7 @@ define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materia
         /**
          * @class MeshMaterial
          * @constructor
-         * @param monitors [ContextMonitor[]=[]]
+         * @param monitors [IContextMonitor[]=[]]
          * @parameters [MeshNormalParameters]
          */
         function MeshMaterial(monitors, parameters) {
@@ -8709,7 +8791,7 @@ define('davinci-eight/materials/PointMaterial',["require", "exports", '../materi
         /**
          * @class PointMaterial
          * @constructor
-         * @param monitors [ContextMonitor[]=[]]
+         * @param monitors [IContextMonitor[]=[]]
          * @parameters [MeshNormalParameters]
          */
         function PointMaterial(monitors, parameters) {
@@ -11562,28 +11644,35 @@ define('davinci-eight/mesh/CylinderArgs',["require", "exports", '../checks/expec
     return CylinderArgs;
 });
 
-define('davinci-eight/models/EulerModel',["require", "exports", '../i18n/readOnly', '../math/Vector3'], function (require, exports, readOnly, Vector3) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/models/EulerFacet',["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/Vector3'], function (require, exports, readOnly, Shareable, Vector3) {
     /**
-     * @class EulerModel
+     * @class EulerFacet
      */
-    var EulerModel = (function () {
+    var EulerFacet = (function (_super) {
+        __extends(EulerFacet, _super);
         /**
-         * @class EulerModel
+         * @class EulerFacet
          * @constructor
          */
-        function EulerModel() {
+        function EulerFacet() {
+            _super.call(this, 'EulerFacet');
             this._rotation = new Vector3();
         }
         /**
          * @method setUniforms
-         * @param visitor {UniformDataVisitor}
+         * @param visitor {IFacetVisitor}
          * @param canvasId {number}
          * @return {void}
          */
-        EulerModel.prototype.setUniforms = function (visitor, canvasId) {
-            console.warn("EulerModel.setUniforms");
+        EulerFacet.prototype.setUniforms = function (visitor, canvasId) {
+            console.warn("EulerFacet.setUniforms");
         };
-        Object.defineProperty(EulerModel.prototype, "rotation", {
+        Object.defineProperty(EulerFacet.prototype, "rotation", {
             /**
              * @property rotation
              * @type {Vector3}
@@ -11598,54 +11687,9 @@ define('davinci-eight/models/EulerModel',["require", "exports", '../i18n/readOnl
             enumerable: true,
             configurable: true
         });
-        return EulerModel;
-    })();
-    return EulerModel;
-});
-
-define('davinci-eight/models/Model3',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, Spinor3, Symbolic, Vector3) {
-    /**
-     * Model3 implements UniformData required for manipulating a body.
-     */
-    // TODO: What should we call this?
-    var Model3 = (function () {
-        function Model3() {
-            this.position = new Vector3();
-            this.attitude = new Spinor3();
-            this.scaleXYZ = new Vector3([1, 1, 1]);
-            this.colorRGB = new Vector3([1, 1, 1]);
-            this.M = Matrix4.identity();
-            this.N = Matrix3.identity();
-            this.R = Matrix4.identity();
-            this.S = Matrix4.identity();
-            this.T = Matrix4.identity();
-            this.position.modified = true;
-            this.attitude.modified = true;
-            this.scaleXYZ.modified = true;
-            this.colorRGB.modified = true;
-        }
-        Model3.prototype.setUniforms = function (visitor, canvasId) {
-            if (this.position.modified) {
-                this.T.translation(this.position);
-                this.position.modified = false;
-            }
-            if (this.attitude.modified) {
-                this.R.rotation(this.attitude);
-                this.attitude.modified = false;
-            }
-            if (this.scaleXYZ.modified) {
-                this.S.scaling(this.scaleXYZ);
-                this.scaleXYZ.modified = false;
-            }
-            this.M.copy(this.T).multiply(this.R).multiply(this.S);
-            this.N.normalFromMatrix4(this.M);
-            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
-            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
-            visitor.uniformVector3(Symbolic.UNIFORM_COLOR, this.colorRGB, canvasId);
-        };
-        return Model3;
-    })();
-    return Model3;
+        return EulerFacet;
+    })(Shareable);
+    return EulerFacet;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -11653,43 +11697,50 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/models/RigidBody3',["require", "exports", '../i18n/readOnly', '../utils/Shareable', '../math/Spinor3', '../math/Vector3'], function (require, exports, readOnly, Shareable, Spinor3, Vector3) {
-    // The `type` property when this class is being used concretely.
-    var TYPE_RIGID_BODY_3 = 'RigidBody3';
+define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, readOnly, Shareable, Spinor3, Symbolic, Vector3) {
     /**
-     * A model for a rigid body in 3-dimensional space.
-     * This class may be used concretely or extended.
-     * @class RigidBody3
+     * @class ModelFacet
      */
-    var RigidBody3 = (function (_super) {
-        __extends(RigidBody3, _super);
+    var ModelFacet = (function (_super) {
+        __extends(ModelFacet, _super);
         /**
-         * The `attitude` is initialized to the default for `Spinor3`.
-         * The `position` is initialized to the default for `Vector3`.
-         * This class assumes that it is being used concretely if the type is 'RigidBody3'.
-         * @class RigidBody3
+         * ModelFacet implements IFacet required for manipulating a body.
+         * @class ModelFacet
          * @constructor
-         * @param type {string} The class name of the derived class. Defaults to 'RigidBody3'.
          */
-        function RigidBody3(type) {
-            if (type === void 0) { type = 'RigidBody3'; }
-            _super.call(this, type);
-            this._attitude = new Spinor3();
+        function ModelFacet() {
+            _super.call(this, 'ModelFacet');
             this._position = new Vector3();
+            this._attitude = new Spinor3();
+            this._scaleXYZ = new Vector3([1, 1, 1]);
+            this.M = Matrix4.identity();
+            this.N = Matrix3.identity();
+            this.R = Matrix4.identity();
+            this.S = Matrix4.identity();
+            this.T = Matrix4.identity();
+            this._position.modified = true;
+            this._attitude.modified = true;
+            this._scaleXYZ.modified = true;
         }
-        RigidBody3.prototype.destructor = function () {
-            if (this._type !== TYPE_RIGID_BODY_3) {
-                console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
-            }
-            this._attitude = void 0;
+        /**
+         * @method destructor
+         * @return {void}
+         */
+        ModelFacet.prototype.destructor = function () {
             this._position = void 0;
+            this._attitude = void 0;
+            this._scaleXYZ = void 0;
+            this.M = void 0;
+            this.N = void 0;
+            this.R = void 0;
+            this.S = void 0;
+            this.T = void 0;
         };
-        Object.defineProperty(RigidBody3.prototype, "attitude", {
+        Object.defineProperty(ModelFacet.prototype, "attitude", {
             /**
-             * The attitude spinor of the rigid body.
              * @property attitude
              * @type Spinor3
-             * @readonly
+             * @readOnly
              */
             get: function () {
                 return this._attitude;
@@ -11700,12 +11751,11 @@ define('davinci-eight/models/RigidBody3',["require", "exports", '../i18n/readOnl
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(RigidBody3.prototype, "position", {
+        Object.defineProperty(ModelFacet.prototype, "position", {
             /**
-             * The position vector of the rigid body.
              * @property position
              * @type Vector3
-             * @readonly
+             * @readOnly
              */
             get: function () {
                 return this._position;
@@ -11716,9 +11766,152 @@ define('davinci-eight/models/RigidBody3',["require", "exports", '../i18n/readOnl
             enumerable: true,
             configurable: true
         });
-        return RigidBody3;
+        Object.defineProperty(ModelFacet.prototype, "scaleXYZ", {
+            /**
+             * @property scaleXYZ
+             * @type Vector3
+             * @readOnly
+             */
+            get: function () {
+                return this._scaleXYZ;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('scaleXYZ').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         */
+        ModelFacet.prototype.setUniforms = function (visitor, canvasId) {
+            if (!this.position) {
+                console.warn("setUniforms called on zombie ModelFacet");
+                return;
+            }
+            if (this._position.modified) {
+                this.T.translation(this._position);
+                this._position.modified = false;
+            }
+            if (this._attitude.modified) {
+                this.R.rotation(this._attitude);
+                this._attitude.modified = false;
+            }
+            if (this.scaleXYZ.modified) {
+                this.S.scaling(this.scaleXYZ);
+                this.scaleXYZ.modified = false;
+            }
+            this.M.copy(this.T).multiply(this.R).multiply(this.S);
+            this.N.normalFromMatrix4(this.M);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
+        };
+        return ModelFacet;
     })(Shareable);
-    return RigidBody3;
+    return ModelFacet;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Shareable, Symbolic, Vector3) {
+    /**
+     * @class ColorFacet.
+     */
+    var ColorFacet = (function (_super) {
+        __extends(ColorFacet, _super);
+        /**
+         * @class ColorFacet
+         * @constructor
+         * @param [name = Symbolic.UNIFORM_COLOR]
+         */
+        function ColorFacet(name) {
+            if (name === void 0) { name = Symbolic.UNIFORM_COLOR; }
+            _super.call(this, 'ColorFacet');
+            /**
+             * @property colorRGB
+             * @type Vector3
+             * @private
+             */
+            this.data = new Vector3([1, 1, 1]);
+            this.data.modified = true;
+            this.name = name;
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ColorFacet.prototype.destructor = function () {
+            this.data = void 0;
+        };
+        Object.defineProperty(ColorFacet.prototype, "red", {
+            /**
+             * The red component of the color.
+             * @property red
+             * @type {number}
+             */
+            get: function () {
+                return this.data.x;
+            },
+            set: function (red) {
+                this.data.x = red;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ColorFacet.prototype, "green", {
+            /**
+             * The green component of the color.
+             * @property green
+             * @type {number}
+             */
+            get: function () {
+                return this.data.y;
+            },
+            set: function (green) {
+                this.data.y = green;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ColorFacet.prototype, "blue", {
+            /**
+             * The green component of the color.
+             * @property blue
+             * @type {number}
+             */
+            get: function () {
+                return this.data.x;
+            },
+            set: function (blue) {
+                this.data.z = blue;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ColorFacet.prototype.scale = function (s) {
+            this.red *= s;
+            this.green *= s;
+            this.blue *= s;
+            return this;
+        };
+        ColorFacet.prototype.setRGB = function (red, green, blue) {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+            return this;
+        };
+        ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
+            visitor.uniformVector3(this.name, this.data, canvasId);
+        };
+        return ColorFacet;
+    })(Shareable);
+    return ColorFacet;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -11943,7 +12136,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Face3', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerModel', 'davinci-eight/models/Model3', 'davinci-eight/models/RigidBody3', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Face3, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerModel, Model3, RigidBody3, initWebGL, renderer, SineWaveUniform, contextProxy, refChange, Shareable, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -11984,9 +12177,8 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get createFrustum() { return createFrustum; },
         get createPerspective() { return createPerspective; },
         get createView() { return createView; },
-        get EulerModel() { return EulerModel; },
-        get Model3() { return Model3; },
-        get RigidBody3() { return RigidBody3; },
+        get EulerFacet() { return EulerFacet; },
+        get ModelFacet() { return ModelFacet; },
         get Simplex() { return Simplex; },
         get Vertex() { return Vertex; },
         get frustumMatrix() { return frustumMatrix; },
@@ -12011,7 +12203,6 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
             return smartProgram;
         },
         get Color() { return Color; },
-        get Face3() { return Face3; },
         get CompatcGeometry() { return GeometryElements; },
         //  get ArrowGeometry() { return ArrowGeometry },
         get BarnGeometry() { return BarnGeometry; },
@@ -12060,10 +12251,14 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
         get GeometryAttribute() { return GeometryAttribute; },
         get GeometryElements() { return GeometryElements; },
         // uniforms
+        get ColorFacet() { return ColorFacet; },
         get SineWaveUniform() { return SineWaveUniform; },
         // utils
+        get IUnknownArray() { return IUnknownArray; },
+        get NumberIUnknownMap() { return NumberIUnknownMap; },
         get refChange() { return refChange; },
-        get Shareable() { return Shareable; }
+        get Shareable() { return Shareable; },
+        get StringIUnknownMap() { return StringIUnknownMap; }
     };
     return eight;
 });

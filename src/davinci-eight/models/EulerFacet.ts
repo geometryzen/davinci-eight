@@ -1,28 +1,30 @@
 import readOnly = require('../i18n/readOnly')
-import UniformData = require('../core/UniformData')
-import UniformDataVisitor = require('../core/UniformDataVisitor')
+import IFacet = require('../core/IFacet')
+import Shareable = require('../utils/Shareable')
+import IFacetVisitor = require('../core/IFacetVisitor')
 import Vector3 = require('../math/Vector3')
 
 /**
- * @class EulerModel
+ * @class EulerFacet
  */
-class EulerModel implements UniformData {
+class EulerFacet extends Shareable implements IFacet {
   private _rotation: Vector3;
   /**
-   * @class EulerModel
+   * @class EulerFacet
    * @constructor
    */
   constructor() {
+    super('EulerFacet')
     this._rotation = new Vector3();
   }
   /**
    * @method setUniforms
-   * @param visitor {UniformDataVisitor}
+   * @param visitor {IFacetVisitor}
    * @param canvasId {number}
    * @return {void}
    */
-  setUniforms(visitor: UniformDataVisitor, canvasId: number): void {
-    console.warn("EulerModel.setUniforms");
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void {
+    console.warn("EulerFacet.setUniforms");
   }
   /**
    * @property rotation
@@ -37,4 +39,4 @@ class EulerModel implements UniformData {
   }
 }
 
-export = EulerModel;
+export = EulerFacet;

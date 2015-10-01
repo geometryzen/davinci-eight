@@ -40,11 +40,11 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
   /**
    * Gets the element at the specified index, incrementing the reference count.
    * Use this method when you intend to hold onto the referent and release it later.
-   * @method getStrongReference
+   * @method get
    * @param index {number}
    * @return {T}
    */
-  getStrongReference(index: number): T {
+  get(index: number): T {
     var element: T
     element = this._elements[index]
     if (element) {
@@ -83,14 +83,26 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
     return this._elements.forEach(callback);
   }
   /**
-   * @method push
+   * Pushes an element onto the tail of the list and increments the element reference count.
+   * @method pushStrongReference
    * @param element {T}
    * @return {number}
    */
-  push(element: T): number {
-    var x: number = this._elements.push(element)
-    element.addRef()
+  pushStrongReference(element: T): number {
+    var x: number = this.pushWeakReference(element)
+    if (element) {
+      element.addRef()
+    }
     return x
+  }
+  /**
+   * Pushes an element onto the tail of the list with no change in the reference count.
+   * @method pushWeakReference
+   * @param element {T}
+   * @return {number}
+   */
+  pushWeakReference(element: T): number {
+    return this._elements.push(element)
   }
   /**
    * @method pop

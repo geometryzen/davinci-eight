@@ -3,13 +3,13 @@ import IContextProvider = require('../core/IContextProvider');
 import ICamera = require('../scene/ICamera');
 import IMaterial = require('../core/IMaterial');
 import Perspective = require('../cameras/Perspective');
-import UniformData = require('../core/UniformData');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacet = require('../core/IFacet');
+import IFacetVisitor = require('../core/IFacetVisitor');
 import Vector3 = require('../math/Vector3');
 /**
  * @class PerspectiveCamera
  */
-declare class PerspectiveCamera implements ICamera, Perspective, UniformData {
+declare class PerspectiveCamera implements ICamera, Perspective, IFacet {
     position: Vector3;
     private _refCount;
     private _uuid;
@@ -44,11 +44,13 @@ declare class PerspectiveCamera implements ICamera, Perspective, UniformData {
      */
     constructor(fov?: number, aspect?: number, near?: number, far?: number);
     addRef(): number;
-    setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
     contextFree(): void;
     contextGain(manager: IContextProvider): void;
     contextLost(): void;
     draw(canvasId: number): void;
+    getFacet(name: string): PerspectiveCamera;
+    setFacet(name: string, value: IFacet): void;
     /**
      * The aspect ratio (width / height) of the camera viewport.
      * @property aspect

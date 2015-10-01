@@ -1,17 +1,15 @@
 import IContextConsumer = require('../core/IContextConsumer');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import GeometryData = require('../geometries/GeometryData');
 import IBuffer = require('../core/IBuffer');
 import IBufferGeometry = require('../geometries/IBufferGeometry');
 import ITexture2D = require('../core/ITexture2D');
 import ITextureCubeMap = require('../core/ITextureCubeMap');
-import IUnknown = require('../core/IUnknown');
 /**
  * @class IContextProvider
- * @extends ContextMonitor
- * @extends IUnknown
+ * @extends IContextMonitor
  */
-interface IContextProvider extends ContextMonitor, IUnknown {
+interface IContextProvider extends IContextMonitor {
     /**
      * @property canvas
      * @type {HTMLCanvasElement}

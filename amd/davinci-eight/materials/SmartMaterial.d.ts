@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');
 /**
@@ -26,10 +26,10 @@ declare class SmartMaterial extends Material {
     /**
      * @class SmartMaterial
      * @constructor
-     * @param contexts {ContextMonitor[]}
+     * @param contexts {IContextMonitor[]}
      * @param geometry {GeometryMeta} This parameter determines the attributes used in the shaders.
      */
-    constructor(contexts: ContextMonitor[], aParams: {
+    constructor(contexts: IContextMonitor[], aParams: {
         [name: string]: {
             glslType: string;
         };

@@ -1,12 +1,12 @@
 import Shareable = require('../utils/Shareable');
-import UniformData = require('../core/UniformData');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
-declare class SineWaveUniform extends Shareable implements UniformData {
+import IFacet = require('../core/IFacet');
+import IFacetVisitor = require('../core/IFacetVisitor');
+declare class SineWaveUniform extends Shareable implements IFacet {
     amplitude: number;
     omega: number;
     mean: number;
     uName: string;
     constructor(omega: number, uName?: string);
-    setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 export = SineWaveUniform;

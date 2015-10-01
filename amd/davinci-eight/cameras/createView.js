@@ -4,6 +4,7 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/m
      * @constructor
      */
     var createView = function (options) {
+        var refCount = 1;
         var eye = new Vector3();
         var look = new Vector3();
         var up = Vector3.e2;
@@ -14,6 +15,14 @@ define(["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/m
         look.modified = true;
         up.modified = true;
         var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
             get eye() {
                 return eye;
             },

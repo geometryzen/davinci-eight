@@ -59,7 +59,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             configurable: true
         });
         DrawableGroup.prototype.push = function (drawable) {
-            this._drawables.push(drawable);
+            this._drawables.pushStrongReference(drawable);
         };
         DrawableGroup.prototype.remove = function (drawable) {
             var drawables = this._drawables;
@@ -76,7 +76,11 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             var drawables = this._drawables;
             var material = this._program;
             material.use(canvasId);
-            ambients.setUniforms(material, canvasId);
+            if (ambients) {
+                ambients.forEach(function (ambient) {
+                    ambient.setUniforms(material, canvasId);
+                });
+            }
             length = drawables.length;
             for (i = 0; i < length; i++) {
                 drawables.getWeakReference(i).draw(canvasId);
@@ -125,12 +129,13 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             if (program) {
                 try {
                     var programId = program.programId;
-                    var programInfo = this._groups.getWeakReference(programId);
+                    var programInfo = this._groups.get(programId);
                     if (!programInfo) {
                         programInfo = new DrawableGroup(program);
-                        this._groups.putWeakReference(programId, programInfo);
+                        this._groups.put(programId, programInfo);
                     }
                     programInfo.push(drawable);
+                    programInfo.release();
                 }
                 finally {
                     program.release();
@@ -145,11 +150,12 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 try {
                     var programId = program.programId;
                     if (this._groups.exists(programId)) {
-                        var group = this._groups.getWeakReference(programId);
+                        var group = this._groups.get(programId);
                         group.remove(drawable);
                         if (group.length === 0) {
                             delete this._groups.remove(programId);
                         }
+                        group.release();
                     }
                     else {
                         throw new Error("drawable not found?!");
@@ -173,8 +179,9 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             materialsLength = materialKeys.length;
             for (i = 0; i < materialsLength; i++) {
                 materialKey = materialKeys[i];
-                drawGroup = drawGroups.getWeakReference(materialKey);
+                drawGroup = drawGroups.get(materialKey);
                 drawGroup.draw(ambients, canvasId);
+                drawGroup.release();
             }
         };
         // FIXME: Rename to traverse
@@ -232,7 +239,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             contextGain: function (manager) {
                 if (!canvasIdToManager.exists(manager.canvasId)) {
                     // Cache the manager.
-                    canvasIdToManager.putStrongReference(manager.canvasId, manager);
+                    canvasIdToManager.put(manager.canvasId, manager);
                     // Broadcast to drawables and materials.
                     drawableGroups.traverseDrawables(function (drawable) {
                         drawable.contextGain(manager);
@@ -266,7 +273,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 var result = new IUnknownArray();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
-                        result.push(candidate);
+                        result.pushStrongReference(candidate);
                     }
                 }, function (program) {
                 });

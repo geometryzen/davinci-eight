@@ -205,7 +205,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 var aName = aNames[i];
                 var key = attribKey(aName, aNameToKeyName);
                 var attributes = block.attributes;
-                var attribute = attributes.getWeakReference(key);
+                var attribute = attributes.get(key);
                 if (attribute) {
                     // Associate the attribute buffer with the attribute location.
                     // FIXME Would be nice to be able to get a weak reference to the buffer.
@@ -216,6 +216,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     buffer.unbind();
                     attributeLocation.enable();
                     buffer.release();
+                    attribute.release();
                 }
                 else {
                     // The attribute available may not be required by the program.
@@ -317,7 +318,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                         if (_program) {
                             mesh.unbind();
                         }
-                        var block = blocks.getWeakReference(uuid);
+                        var block = blocks.get(uuid);
                         if (block) {
                             if (program) {
                                 _program = program;
@@ -330,6 +331,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                             else {
                                 expectArg('program', program).toBeObject();
                             }
+                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -337,9 +339,10 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     }
                 },
                 draw: function () {
-                    var block = blocks.getWeakReference(uuid);
+                    var block = blocks.get(uuid);
                     if (block) {
                         block.drawCommand.execute(gl);
+                        block.release();
                     }
                     else {
                         throw new Error(messageUnrecognizedMesh(uuid));
@@ -347,7 +350,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 },
                 unbind: function () {
                     if (_program) {
-                        var block = blocks.getWeakReference(uuid);
+                        var block = blocks.get(uuid);
                         if (block) {
                             // FIXME: Ask block to unbind index buffer and avoid addRef/release
                             var indexBuffer = block.indexBuffer;
@@ -355,6 +358,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                             indexBuffer.release();
                             // FIXME: Looks like an IMaterial method!
                             unbindProgramAttribLocations(_program, _canvasId);
+                            block.release();
                         }
                         else {
                             throw new Error(messageUnrecognizedMesh(uuid));
@@ -439,7 +443,6 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
-                // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
                 var attributes = new StringIUnknownMap();
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
@@ -452,7 +455,8 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     var data = vertexAttrib.values.data;
                     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
                     var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                    attributes.putWeakReference(name_1, attribute);
+                    attributes.put(name_1, attribute);
+                    attribute.release();
                     buffer.unbind();
                     buffer.release();
                 }
@@ -461,7 +465,9 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 switch (elements.k) {
                 }
                 var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
-                blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand));
+                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
+                blocks.put(mesh.uuid, block);
+                block.release();
                 attributes.release();
                 indexBuffer.release();
                 return mesh;
@@ -568,7 +574,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
             },
             createTexture2D: function () {
                 // TODO: Replace with functional constructor pattern.
-                // FIXME Does this mean that Texture only has one ContextMonitor?
+                // FIXME Does this mean that Texture only has one IContextMonitor?
                 return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
             },
             createTextureCubeMap: function () {

@@ -5,6 +5,10 @@ import uuid4 = require('../utils/uuid4')
 
 let LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap'
 
+/**
+ * @class StringIUnknownMap<V extends IUnknown>
+ * @extends IUnknown
+ */
 class StringIUnknownMap<V extends IUnknown> implements IUnknown {
   private _refCount = 1;
   private _elements: { [key: string]: V } = {};
@@ -46,7 +50,7 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     let element = this._elements[key];
     return element ? true : false;
   }
-  getStrongReference(key: string): V {
+  get(key: string): V {
     let element = this._elements[key];
     if (element) {
       element.addRef();
@@ -56,7 +60,13 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
       return void 0;
     }
   }
-  getWeakReference(key: string): V {
+  /**
+   * @method getWeakReference
+   * @param key {string}
+   * @return {V}
+   * @private
+   */
+  private getWeakReference(key: string): V {
     let element = this._elements[key];
     if (element) {
       return element;
@@ -65,13 +75,20 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
       return void 0;
     }
   }
-  putStrongReference(key: string, value: V): void {
+  put(key: string, value: V): void {
     if (value) {
       value.addRef()
     }
     this.putWeakReference(key, value)
   }
-  putWeakReference(key: string, value: V): void {
+  /**
+   * @method putWeakReference
+   * @param key {string}
+   * @param value {V}
+   * @return {void}
+   * @private
+   */
+  private putWeakReference(key: string, value: V): void {
     var elements = this._elements
     var existing = elements[key]
     if (existing) {
@@ -93,7 +110,7 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     // TODO: memoize
     return Object.keys(this._elements);
   }
-  remove(key: string) {
+  remove(key: string): void {
     var value = this.getWeakReference(key)
     if (value) {
       value.release()

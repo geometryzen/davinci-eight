@@ -14,7 +14,7 @@ import IPrologCommand = require('../core/IPrologCommand')
 import IUnknownArray = require('../utils/IUnknownArray')
 import mustBeBoolean = require('../checks/mustBeBoolean')
 import mustSatisfy = require('../checks/mustSatisfy')
-import UniformData = require('../core/UniformData')
+import IFacet = require('../core/IFacet')
 import refChange = require('../utils/refChange')
 import uuid4 = require('../utils/uuid4')
 import VersionLogger = require('../commands/VersionLogger')
@@ -124,10 +124,10 @@ let renderer = function(): ContextRenderer {
       }
     },
     addPrologCommand(command: IPrologCommand): void {
-      prolog.push(command)
+      prolog.pushStrongReference(command)
     },
     addContextGainCommand(command: IContextCommand): void {
-      startUp.push(command)
+      startUp.pushStrongReference(command)
     },
     release(): number {
       refCount--

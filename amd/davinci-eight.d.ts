@@ -9,9 +9,8 @@ import AttribLocation = require('davinci-eight/core/AttribLocation');
 import AttribMetaInfo = require('davinci-eight/core/AttribMetaInfo');
 import Color = require('davinci-eight/core/Color');
 import DrawMode = require('davinci-eight/core/DrawMode');
-import Face3 = require('davinci-eight/core/Face3');
 import ContextKahuna = require('davinci-eight/core/ContextKahuna');
-import ContextMonitor = require('davinci-eight/core/ContextMonitor');
+import IContextMonitor = require('davinci-eight/core/IContextMonitor');
 import Symbolic = require('davinci-eight/core/Symbolic');
 import UniformLocation = require('davinci-eight/core/UniformLocation');
 import UniformMetaInfo = require('davinci-eight/core/UniformMetaInfo');
@@ -49,13 +48,16 @@ import Vector4 = require('davinci-eight/math/Vector4');
 import VectorN = require('davinci-eight/math/VectorN');
 import ArrowBuilder = require('davinci-eight/mesh/ArrowBuilder');
 import CylinderArgs = require('davinci-eight/mesh/CylinderArgs');
-import EulerModel = require('davinci-eight/models/EulerModel');
-import Model3 = require('davinci-eight/models/Model3');
-import RigidBody3 = require('davinci-eight/models/RigidBody3');
+import EulerFacet = require('davinci-eight/models/EulerFacet');
+import ModelFacet = require('davinci-eight/models/ModelFacet');
 import IMaterial = require('davinci-eight/core/IMaterial');
 import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
+import ColorFacet = require('davinci-eight/uniforms/ColorFacet');
 import SineWaveUniform = require('davinci-eight/uniforms/SineWaveUniform');
+import IUnknownArray = require('davinci-eight/utils/IUnknownArray');
+import NumberIUnknownMap = require('davinci-eight/utils/NumberIUnknownMap');
 import Shareable = require('davinci-eight/utils/Shareable');
+import StringIUnknownMap = require('davinci-eight/utils/StringIUnknownMap');
 import WindowAnimationRunner = require('davinci-eight/utils/WindowAnimationRunner');
 /**
  * @module EIGHT
@@ -86,9 +88,8 @@ declare var eight: {
     createView: (options?: {
         viewMatrixName?: string;
     }) => View;
-    EulerModel: typeof EulerModel;
-    Model3: typeof Model3;
-    RigidBody3: typeof RigidBody3;
+    EulerFacet: typeof EulerFacet;
+    ModelFacet: typeof ModelFacet;
     Simplex: typeof Simplex;
     Vertex: typeof Vertex;
     frustumMatrix: (left: number, right: number, bottom: number, top: number, near: number, far: number, matrix?: Float32Array) => Float32Array;
@@ -116,14 +117,13 @@ declare var eight: {
     DrawMode: typeof DrawMode;
     AttribLocation: typeof AttribLocation;
     UniformLocation: typeof UniformLocation;
-    createMaterial: (monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]) => IMaterial;
-    smartProgram: (monitors: ContextMonitor[], attributes: {
+    createMaterial: (monitors: IContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]) => IMaterial;
+    smartProgram: (monitors: IContextMonitor[], attributes: {
         [name: string]: AttribMetaInfo;
     }, uniformsList: {
         [name: string]: UniformMetaInfo;
     }[], bindings: string[]) => IMaterial;
     Color: typeof Color;
-    Face3: typeof Face3;
     CompatcGeometry: typeof GeometryElements;
     BarnGeometry: typeof BarnGeometry;
     CuboidGeometry: typeof CuboidGeometry;
@@ -156,11 +156,15 @@ declare var eight: {
     toGeometryData: (simplices: Simplex[], geometryMeta?: GeometryMeta) => GeometryData;
     CylinderArgs: typeof CylinderArgs;
     Symbolic: typeof Symbolic;
-    programFromScripts: (monitors: ContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IMaterial;
+    programFromScripts: (monitors: IContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IMaterial;
     GeometryAttribute: typeof GeometryAttribute;
     GeometryElements: typeof GeometryElements;
+    ColorFacet: typeof ColorFacet;
     SineWaveUniform: typeof SineWaveUniform;
+    IUnknownArray: typeof IUnknownArray;
+    NumberIUnknownMap: typeof NumberIUnknownMap;
     refChange: (uuid: string, name?: string, change?: number) => number;
     Shareable: typeof Shareable;
+    StringIUnknownMap: typeof StringIUnknownMap;
 };
 export = eight;

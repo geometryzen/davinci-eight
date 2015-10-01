@@ -1,5 +1,5 @@
 import IContextProvider = require('../core/IContextProvider')
-import ContextMonitor = require('../core/ContextMonitor')
+import IContextMonitor = require('../core/IContextMonitor')
 import createDrawList = require('../scene/createDrawList')
 import IDrawable = require('../core/IDrawable')
 import IDrawList = require('../scene/IDrawList')
@@ -12,7 +12,7 @@ import Matrix4 = require('../math/Matrix4')
 import MonitorList = require('../scene/MonitorList')
 import mustSatisfy = require('../checks/mustSatisfy')
 import Shareable = require('../utils/Shareable')
-import UniformData = require('../core/UniformData')
+import IFacet = require('../core/IFacet')
 import Vector1 = require('../math/Vector1')
 import Vector2 = require('../math/Vector2')
 import Vector3 = require('../math/Vector3')
@@ -44,15 +44,14 @@ class Scene extends Shareable implements IDrawList {
    * </p>
    * @class Scene
    * @constructor
-   * @param monitors [ContextMonitor[]=[]]
+   * @param monitors [IContextMonitor[]=[]]
    */
-  constructor(monitors: ContextMonitor[] = []) {
+  constructor(monitors: IContextMonitor[] = []) {
     super(LOGGING_NAME)
     MonitorList.verify('monitors', monitors, ctorContext)
 
     this.drawList = createDrawList();
     this.monitors = new MonitorList(monitors)
-
     this.monitors.addContextListener(this)
     this.monitors.synchronize(this)
   }
@@ -63,7 +62,7 @@ class Scene extends Shareable implements IDrawList {
    */
   protected destructor(): void {
     this.monitors.removeContextListener(this)
-
+    this.monitors.release();
     this.monitors = void 0
 
     this.drawList.release()
@@ -88,12 +87,12 @@ class Scene extends Shareable implements IDrawList {
    * Traverses the collection of drawables, drawing each one.
    * </p>
    * @method draw
-   * @param ambients {UniformData}
+   * @param ambients {IFacet[]}
    * @param canvasId {number}
    * @return {void}
    * @beta
    */
-  draw(ambients: UniformData, canvasId: number): void {
+  draw(ambients: IFacet[], canvasId: number): void {
     this.drawList.draw(ambients, canvasId)
   }
   /**

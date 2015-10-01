@@ -14,7 +14,7 @@ import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import refChange = require('../utils/refChange');
 import StringIUnknownMap = require('../utils/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
-import UniformData = require('../core/UniformData');
+import IFacet = require('../core/IFacet');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
@@ -78,7 +78,7 @@ class DrawableGroup implements IUnknown {
     return this._drawables.length;
   }
   push(drawable: IDrawable) { 
-    this._drawables.push(drawable);
+    this._drawables.pushStrongReference(drawable);
   }
   remove(drawable: IDrawable): void {
     let drawables = this._drawables;
@@ -89,7 +89,7 @@ class DrawableGroup implements IUnknown {
       });
     }
   }
-  draw(ambients: UniformData, canvasId: number): void {
+  draw(ambients: IFacet[], canvasId: number): void {
 
     var i: number
     var length: number
@@ -98,7 +98,11 @@ class DrawableGroup implements IUnknown {
 
     material.use(canvasId)
 
-    ambients.setUniforms(material, canvasId)
+    if (ambients) {
+      ambients.forEach(function(ambient) {
+        ambient.setUniforms(material, canvasId)
+      })
+    }
 
     length = drawables.length
     for (i = 0; i < length; i++) {
@@ -147,20 +151,17 @@ class DrawableGroups implements IUnknown/*IDrawList*/ {
     let program: IMaterial = drawable.material;
     if (program) {
       try {
-        let programId: string = program.programId;
-        let programInfo = this._groups.getWeakReference(programId);
+        let programId: string = program.programId
+        let programInfo = this._groups.get(programId)
         if (!programInfo) {
           programInfo = new DrawableGroup(program)
-          this._groups.putWeakReference(programId, programInfo)
+          this._groups.put(programId, programInfo)
         }
         programInfo.push(drawable)
-        // FIXME
-        //_managers.forEach(function(canvasId, manager) {
-        //  program.contextGain(manager);
-        //});
+        programInfo.release()
       }
       finally {
-        program.release();
+        program.release()
       }
     }
     else {
@@ -169,27 +170,28 @@ class DrawableGroups implements IUnknown/*IDrawList*/ {
     }
   }
   remove(drawable: IDrawable) {
-    let program: IMaterial = drawable.material;
+    let program: IMaterial = drawable.material
     if (program) {
       try {
-        let programId: string = program.programId;
+        let programId: string = program.programId
         if (this._groups.exists(programId)) {
-          let group = this._groups.getWeakReference(programId);
+          let group = this._groups.get(programId)
           group.remove(drawable);
           if (group.length === 0) {
-            delete this._groups.remove(programId);
+            delete this._groups.remove(programId)
           }
+          group.release()
         }
         else {
-          throw new Error("drawable not found?!");
+          throw new Error("drawable not found?!")
         }
       }
       finally {
-        program.release();
+        program.release()
       }
     }
   }
-  draw(ambients: UniformData, canvasId: number) {
+  draw(ambients: IFacet[], canvasId: number) {
     // Manually hoisted variable declarations.
     var drawGroups: StringIUnknownMap<DrawableGroup>
     var materialKey: string;
@@ -203,8 +205,9 @@ class DrawableGroups implements IUnknown/*IDrawList*/ {
     materialsLength = materialKeys.length
     for (i = 0; i < materialsLength; i++) {
       materialKey = materialKeys[i]
-      drawGroup = drawGroups.getWeakReference(materialKey)
+      drawGroup = drawGroups.get(materialKey)
       drawGroup.draw(ambients, canvasId)
+      drawGroup.release()
     }
   }
   // FIXME: Rename to traverse
@@ -266,7 +269,7 @@ let createDrawList = function(): IDrawList {
     contextGain(manager: IContextProvider) {
       if (!canvasIdToManager.exists(manager.canvasId)) {
         // Cache the manager.
-        canvasIdToManager.putStrongReference(manager.canvasId, manager)
+        canvasIdToManager.put(manager.canvasId, manager)
         // Broadcast to drawables and materials.
         drawableGroups.traverseDrawables(
           function(drawable) {
@@ -299,7 +302,7 @@ let createDrawList = function(): IDrawList {
       });
       drawableGroups.add(drawable);
     },
-    draw(ambients: UniformData, canvasId: number): void {
+    draw(ambients: IFacet[], canvasId: number): void {
       drawableGroups.draw(ambients, canvasId);
     },
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
@@ -307,7 +310,7 @@ let createDrawList = function(): IDrawList {
       drawableGroups.traverseDrawables(
         function(candidate: IDrawable) {
           if  (candidate.name === name) {
-            result.push(candidate)
+            result.pushStrongReference(candidate)
           }
          },
         function(program: IMaterial) {

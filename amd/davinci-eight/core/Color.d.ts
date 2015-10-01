@@ -25,9 +25,9 @@ declare class Color implements ColorRGB, Mutable<number[]> {
      * @param data {number[]}
      */
     constructor(data?: number[]);
-    r: number;
-    g: number;
-    b: number;
+    red: number;
+    green: number;
+    blue: number;
     clone(): Color;
     luminance(): number;
     toString(): string;

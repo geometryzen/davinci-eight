@@ -1,15 +1,15 @@
 import ContextController = require('../core/ContextController');
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import ContextUnique = require('../core/ContextUnique');
 /**
  * @interface ContextKahuna
  * @extends ContextController
  * @extends IContextProvider
- * @extends ContextMonitor
+ * @extends IContextMonitor
  * @extends ContextUnique
  */
-interface ContextKahuna extends ContextController, IContextProvider, ContextMonitor, ContextUnique {
+interface ContextKahuna extends ContextController, IContextProvider, IContextMonitor, ContextUnique {
 
 }
 

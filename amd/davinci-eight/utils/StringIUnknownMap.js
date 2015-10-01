@@ -1,5 +1,9 @@
 define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
     var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
+    /**
+     * @class StringIUnknownMap<V extends IUnknown>
+     * @extends IUnknown
+     */
     var StringIUnknownMap = (function () {
         /**
          * <p>
@@ -41,7 +45,7 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
             var element = this._elements[key];
             return element ? true : false;
         };
-        StringIUnknownMap.prototype.getStrongReference = function (key) {
+        StringIUnknownMap.prototype.get = function (key) {
             var element = this._elements[key];
             if (element) {
                 element.addRef();
@@ -51,6 +55,12 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
                 return void 0;
             }
         };
+        /**
+         * @method getWeakReference
+         * @param key {string}
+         * @return {V}
+         * @private
+         */
         StringIUnknownMap.prototype.getWeakReference = function (key) {
             var element = this._elements[key];
             if (element) {
@@ -60,12 +70,19 @@ define(["require", "exports", '../utils/refChange', '../utils/uuid4'], function 
                 return void 0;
             }
         };
-        StringIUnknownMap.prototype.putStrongReference = function (key, value) {
+        StringIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
             this.putWeakReference(key, value);
         };
+        /**
+         * @method putWeakReference
+         * @param key {string}
+         * @param value {V}
+         * @return {void}
+         * @private
+         */
         StringIUnknownMap.prototype.putWeakReference = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];

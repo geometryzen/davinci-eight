@@ -1,8 +1,9 @@
-import UniformData = require('../core/UniformData');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
-declare class StockTicker implements UniformData {
+import IFacet = require('../core/IFacet');
+import Shareable = require('../utils/Shareable');
+import IFacetVisitor = require('../core/IFacetVisitor');
+declare class StockTicker extends Shareable implements IFacet {
     price: number;
     constructor();
-    setUniforms(visitor: UniformDataVisitor, canvasId: number): void;
+    setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 export = StockTicker;

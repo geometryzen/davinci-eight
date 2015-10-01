@@ -3,7 +3,7 @@ import refChange = require('../utils/refChange')
 import ITexture = require('../core/ITexture')
 import IContextConsumer = require('../core/IContextConsumer')
 import IContextProvider = require('../core/IContextProvider')
-import ContextMonitor = require('../core/ContextMonitor')
+import IContextMonitor = require('../core/IContextMonitor')
 import uuid4 = require('../utils/uuid4')
 
 /**
@@ -11,19 +11,19 @@ import uuid4 = require('../utils/uuid4')
  */
 let LOGGING_NAME_ITEXTURE = 'ITexture'
 
-let ms = new Array<ContextMonitor>()
-let os: ContextMonitor[] = []
+let ms = new Array<IContextMonitor>()
+let os: IContextMonitor[] = []
 // What is the difference?
 
 class TextureResource implements ITexture {
   private _gl: WebGLRenderingContext
   // FIXME: Support multiple monitors, defensive copy the array.
-  private _monitor: ContextMonitor
+  private _monitor: IContextMonitor
   private _texture: WebGLTexture
   private _refCount: number = 1
   private _uuid: string = uuid4().generate()
   private _target: number
-  constructor(monitors: ContextMonitor[], target: number) {
+  constructor(monitors: IContextMonitor[], target: number) {
     // FIXME: Supprt multiple canvas.
     let monitor = monitors[0]
     this._monitor = expectArg('montor', monitor).toBeObject().value

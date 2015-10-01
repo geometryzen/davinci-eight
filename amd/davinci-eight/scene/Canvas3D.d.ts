@@ -1,6 +1,6 @@
 import ContextController = require('../core/ContextController');
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IContextConsumer = require('../core/IContextConsumer');
 import ContextRenderer = require('../renderers/ContextRenderer');
 import GeometryData = require('../geometries/GeometryData');
@@ -14,7 +14,7 @@ import Shareable = require('../utils/Shareable');
 /**
  * @class Canvas3D
  */
-declare class Canvas3D extends Shareable implements ContextController, IContextProvider, ContextMonitor, ContextRenderer {
+declare class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
     private _kahuna;
     private _renderer;
     /**

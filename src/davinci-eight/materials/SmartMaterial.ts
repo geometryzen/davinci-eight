@@ -1,6 +1,6 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import fragmentShader = require('../programs/fragmentShader');
 import getAttribVarName = require('../core/getAttribVarName');
 import getUniformVarName = require('../core/getUniformVarName');
@@ -44,10 +44,10 @@ class SmartMaterial extends Material {
   /**
    * @class SmartMaterial
    * @constructor
-   * @param contexts {ContextMonitor[]}
+   * @param contexts {IContextMonitor[]}
    * @param geometry {GeometryMeta} This parameter determines the attributes used in the shaders.
    */
-  constructor(contexts: ContextMonitor[],
+  constructor(contexts: IContextMonitor[],
     aParams: { [name: string]: { glslType: string } },
     uParams: { [name: string]: { glslType: string } },
     vColor: boolean,

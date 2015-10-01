@@ -1,11 +1,11 @@
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IDrawable = require('../core/IDrawable');
 import IDrawList = require('../scene/IDrawList');
 import IUnknownArray = require('../utils/IUnknownArray');
 import IMaterial = require('../core/IMaterial');
 import Shareable = require('../utils/Shareable');
-import UniformData = require('../core/UniformData');
+import IFacet = require('../core/IFacet');
 /**
  * @class Scene
  * @extends Shareable
@@ -22,9 +22,9 @@ declare class Scene extends Shareable implements IDrawList {
      * </p>
      * @class Scene
      * @constructor
-     * @param monitors [ContextMonitor[]=[]]
+     * @param monitors [IContextMonitor[]=[]]
      */
-    constructor(monitors?: ContextMonitor[]);
+    constructor(monitors?: IContextMonitor[]);
     /**
      * @method destructor
      * @return {void}
@@ -48,12 +48,12 @@ declare class Scene extends Shareable implements IDrawList {
      * Traverses the collection of drawables, drawing each one.
      * </p>
      * @method draw
-     * @param ambients {UniformData}
+     * @param ambients {IFacet[]}
      * @param canvasId {number}
      * @return {void}
      * @beta
      */
-    draw(ambients: UniformData, canvasId: number): void;
+    draw(ambients: IFacet[], canvasId: number): void;
     /**
      * Gets a collection of drawable elements by name.
      * @method getDrawablesByName

@@ -3,7 +3,7 @@ define(["require", "exports", '../programs/createMaterial', '../checks/expectArg
     // FIXME: Temporary rename simpleProgramFromScripts?
     /**
      * @method programFromScripts
-     * @param monitors {ContextMonitor[]}
+     * @param monitors {IContextMonitor[]}
      * @param vsId {string} The vertex shader script element identifier.
      * @param fsId {string} The fragment shader script element identifier.
      * @param $document {Document} The document containing the script elements.

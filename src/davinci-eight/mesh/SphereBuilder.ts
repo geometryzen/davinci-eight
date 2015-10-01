@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import sphereMesh = require('../mesh/sphereMesh');

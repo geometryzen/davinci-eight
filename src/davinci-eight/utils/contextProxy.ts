@@ -250,27 +250,28 @@ function bindProgramAttribLocations(program: IMaterial, canvasId: number, block:
   // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
   // in order to get the name -> index correct.
   // Then attribute setting shoul go much faster
-  let attribLocations = program.attributes(canvasId);
+  let attribLocations = program.attributes(canvasId)
   if (attribLocations) {
-    let aNames = Object.keys(attribLocations);
-    let aNamesLength = aNames.length;
-    var i: number;
+    let aNames = Object.keys(attribLocations)
+    let aNamesLength = aNames.length
+    var i: number
     for (i = 0; i < aNamesLength; i++) {
-      let aName = aNames[i];
-      let key: string = attribKey(aName, aNameToKeyName);
-      let attributes = block.attributes;
-      let attribute = attributes.getWeakReference(key);
+      let aName = aNames[i]
+      let key: string = attribKey(aName, aNameToKeyName)
+      let attributes = block.attributes
+      let attribute = attributes.get(key)
       if (attribute) {
         // Associate the attribute buffer with the attribute location.
         // FIXME Would be nice to be able to get a weak reference to the buffer.
-        let buffer = attribute.buffer;
-        buffer.bind();
-        let attributeLocation = attribLocations[aName];
-        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-        buffer.unbind();
+        let buffer = attribute.buffer
+        buffer.bind()
+        let attributeLocation = attribLocations[aName]
+        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset)
+        buffer.unbind()
 
-        attributeLocation.enable();
-        buffer.release();
+        attributeLocation.enable()
+        buffer.release()
+        attribute.release()
       }
       else {
         // The attribute available may not be required by the program.
@@ -278,7 +279,7 @@ function bindProgramAttribLocations(program: IMaterial, canvasId: number, block:
         // Do not allow Attribute 0 to be disabled.
         console.warn("program attribute " + aName + " is not satisfied by the mesh");
       }
-      attributes.release();
+      attributes.release()
     }
   }
   else {
@@ -379,33 +380,35 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       bind(program: IMaterial, aNameToKeyName?: {[name: string]: string}): void {
         if (_program !== program) {
           if (_program) {
-            mesh.unbind();
+            mesh.unbind()
           }
-          let block= blocks.getWeakReference(uuid);
+          let block= blocks.get(uuid)
           if (block) {
             if (program) {
-              _program = program;
-              _program.addRef();
+              _program = program
+              _program.addRef()
 
-              let indexBuffer = block.indexBuffer;
-              indexBuffer.bind();
-              indexBuffer.release();
+              let indexBuffer = block.indexBuffer
+              indexBuffer.bind()
+              indexBuffer.release()
 
-              bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
+              bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName)
             }
             else {
-              expectArg('program', program).toBeObject();
+              expectArg('program', program).toBeObject()
             }
+            block.release()
           }
           else {
-            throw new Error(messageUnrecognizedMesh(uuid));
+            throw new Error(messageUnrecognizedMesh(uuid))
           }
         }
       },
       draw(): void {
-        let block = blocks.getWeakReference(uuid);
+        let block = blocks.get(uuid)
         if (block) {
-          block.drawCommand.execute(gl);
+          block.drawCommand.execute(gl)
+          block.release()
         }
         else {
           throw new Error(messageUnrecognizedMesh(uuid));
@@ -413,27 +416,28 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       },
       unbind(): void {
         if (_program) {
-          let block = blocks.getWeakReference(uuid);
+          let block = blocks.get(uuid)
           if (block) {
             // FIXME: Ask block to unbind index buffer and avoid addRef/release
-            let indexBuffer = block.indexBuffer;
-            indexBuffer.unbind();
-            indexBuffer.release();
+            let indexBuffer = block.indexBuffer
+            indexBuffer.unbind()
+            indexBuffer.release()
             // FIXME: Looks like an IMaterial method!
-            unbindProgramAttribLocations(_program, _canvasId);
+            unbindProgramAttribLocations(_program, _canvasId)
+            block.release()
           }
           else {
             throw new Error(messageUnrecognizedMesh(uuid));
           }
           // We bumped up the reference count during bind. Now we are done.
-          _program.release();
+          _program.release()
           // Important! The existence of _program indicates the binding state.
-          _program = void 0;
+          _program = void 0
         }
       }
     };
-    refChange(uuid, LOGGING_NAME_MESH, +1);
-    return mesh;
+    refChange(uuid, LOGGING_NAME_MESH, +1)
+    return mesh
   }
 
   var gl: WebGLRenderingContext
@@ -512,22 +516,22 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       indexBuffer.unbind();
 
-      // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
-      let attributes = new StringIUnknownMap<ElementsBlockAttrib>();
-      let names = Object.keys(elements.attributes);
-      let namesLength = names.length;
-      var i: number;
+      let attributes = new StringIUnknownMap<ElementsBlockAttrib>()
+      let names = Object.keys(elements.attributes)
+      let namesLength = names.length
+      var i: number
       for (i = 0; i < namesLength; i++) {
-        let name = names[i];
-        let buffer = kahuna.createArrayBuffer();
-        buffer.bind();
-        let vertexAttrib = elements.attributes[name];
-        let data: number[] = vertexAttrib.values.data;
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
-        let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-        attributes.putWeakReference(name, attribute);
-        buffer.unbind();
-        buffer.release();
+        let name = names[i]
+        let buffer = kahuna.createArrayBuffer()
+        buffer.bind()
+        let vertexAttrib = elements.attributes[name]
+        let data: number[] = vertexAttrib.values.data
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage)
+        let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
+        attributes.put(name, attribute)
+        attribute.release()
+        buffer.unbind()
+        buffer.release()
       }
       // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
       // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
@@ -535,7 +539,9 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
 
       }
       let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0)
-      blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand))
+      var block =new ElementsBlock(indexBuffer, attributes, drawCommand)
+      blocks.put(mesh.uuid, block)
+      block.release()
       attributes.release()
       indexBuffer.release()
       return mesh;
@@ -642,7 +648,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     },
     createTexture2D(): ITexture {
       // TODO: Replace with functional constructor pattern.
-      // FIXME Does this mean that Texture only has one ContextMonitor?
+      // FIXME Does this mean that Texture only has one IContextMonitor?
       return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
     },
     createTextureCubeMap(): ITexture {

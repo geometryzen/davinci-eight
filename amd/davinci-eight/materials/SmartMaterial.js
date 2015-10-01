@@ -25,7 +25,7 @@ define(["require", "exports", '../programs/fragmentShader', '../materials/Materi
         /**
          * @class SmartMaterial
          * @constructor
-         * @param contexts {ContextMonitor[]}
+         * @param contexts {IContextMonitor[]}
          * @param geometry {GeometryMeta} This parameter determines the attributes used in the shaders.
          */
         function SmartMaterial(contexts, aParams, uParams, vColor, vLight) {

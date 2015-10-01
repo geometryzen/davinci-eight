@@ -1,7 +1,7 @@
 //
 // createFrustum.ts
 //
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacetVisitor = require('../core/IFacetVisitor');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import View = require('davinci-eight/cameras/View');
 import createView  = require('davinci-eight/cameras/createView');
@@ -19,6 +19,7 @@ import Vector3 = require('../math/Vector3');
  */
 let createFrustum = function(viewMatrixName: string, projectionMatrixName: string): Frustum {
 
+  let refCount = 1;
   let base: View = createView(viewMatrixName);
   let left: Vector1 = new Vector1();
   let right: Vector1 = new Vector1();
@@ -36,6 +37,14 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
   updateProjectionMatrix();
 
   var self: Frustum = {
+    addRef(): number {
+      refCount++
+      return refCount
+    },
+    release(): number {
+      refCount--
+      return refCount;
+    },
     // Delegate to the base camera.
     get eye(): Vector3 {
       return base.eye;
@@ -109,7 +118,7 @@ let createFrustum = function(viewMatrixName: string, projectionMatrixName: strin
       far.x = value;
       updateProjectionMatrix();
     },
-    setUniforms(visitor: UniformDataVisitor, canvasId: number) {
+    setUniforms(visitor: IFacetVisitor, canvasId: number) {
       visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
       base.setUniforms(visitor, canvasId);
     }

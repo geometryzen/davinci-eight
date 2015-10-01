@@ -28,11 +28,11 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
     /**
      * Gets the element at the specified index, incrementing the reference count.
      * Use this method when you intend to hold onto the referent and release it later.
-     * @method getStrongReference
+     * @method get
      * @param index {number}
      * @return {T}
      */
-    getStrongReference(index: number): T;
+    get(index: number): T;
     /**
      * @method indexOf
      * @param searchElement {T}
@@ -54,11 +54,19 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      */
     forEach(callback: (value: T, index: number) => void): void;
     /**
-     * @method push
+     * Pushes an element onto the tail of the list and increments the element reference count.
+     * @method pushStrongReference
      * @param element {T}
      * @return {number}
      */
-    push(element: T): number;
+    pushStrongReference(element: T): number;
+    /**
+     * Pushes an element onto the tail of the list with no change in the reference count.
+     * @method pushWeakReference
+     * @param element {T}
+     * @return {number}
+     */
+    pushWeakReference(element: T): number;
     /**
      * @method pop
      * @return {T}

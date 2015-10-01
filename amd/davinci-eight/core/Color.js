@@ -26,7 +26,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
             this.data = data;
         }
-        Object.defineProperty(Color.prototype, "r", {
+        Object.defineProperty(Color.prototype, "red", {
             get: function () {
                 return this.data[0];
             },
@@ -36,7 +36,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Color.prototype, "g", {
+        Object.defineProperty(Color.prototype, "green", {
             get: function () {
                 return this.data[1];
             },
@@ -46,7 +46,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Color.prototype, "b", {
+        Object.defineProperty(Color.prototype, "blue", {
             get: function () {
                 return this.data[2];
             },
@@ -60,10 +60,10 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             return new Color([this.data[0], this.data[1], this.data[2]]);
         };
         Color.prototype.luminance = function () {
-            return Color.luminance(this.r, this.g, this.b);
+            return Color.luminance(this.red, this.green, this.blue);
         };
         Color.prototype.toString = function () {
-            return "Color(" + this.r + ", " + this.g + ", " + this.b + ")";
+            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
         };
         Color.luminance = function (r, g, b) {
             var gamma = 2.2;
@@ -121,7 +121,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
             return new Color([red, green, blue]);
         };
         Color.copy = function (color) {
-            return new Color([color.r, color.g, color.b]);
+            return new Color([color.red, color.green, color.blue]);
         };
         return Color;
     })();

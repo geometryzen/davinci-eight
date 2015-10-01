@@ -1,5 +1,6 @@
-import IMaterial = require('../core/IMaterial');
-import IResource = require('../core/IResource');
+import IMaterial = require('../core/IMaterial')
+import IResource = require('../core/IResource')
+import IFacet = require('../core/IFacet')
 
 // FIXME: Move to scene folder.
 // FIXME. Maybe hide the program and only expose program id?
@@ -33,6 +34,19 @@ interface IDrawable extends IResource {
    * @return {void}
    */
   draw(canvasId: number): void;
+  /**
+   * @method getFacet
+   * @param name {string}
+   * @return {IFacet}
+   */
+  getFacet(name: string): IFacet;
+  /**
+   * @method setFacet
+   * @param name {string}
+   * @param value {IFacet}
+   * @return {void}
+   */
+  setFacet<T extends IFacet>(name: string, value: T): T;
 }
 
 export = IDrawable;

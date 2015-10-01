@@ -1,6 +1,6 @@
 import isDefined = require('../checks/isDefined');
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 
 
 // FIXME: Dead code or not doing refChange?
@@ -16,7 +16,7 @@ class ElementBuffer {
    * @class ElementArray
    * @constructor
    */
-  constructor(monitors: ContextMonitor[]) {
+  constructor(monitors: IContextMonitor[]) {
     // FIXME: Support multi-canvas.
   }
   addRef() {

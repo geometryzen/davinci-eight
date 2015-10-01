@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/Shareable'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable) {
+define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', '../utils/NumberIUnknownMap', '../utils/Shareable', '../utils/StringIUnknownMap'], function (require, exports, isDefined, mustBeDefined, NumberIUnknownMap, Shareable, StringIUnknownMap) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -17,7 +17,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
      */
     var Drawable = (function (_super) {
         __extends(Drawable, _super);
-        // FIXME: Do we insist on a ContextMonitor here.
+        // FIXME: Do we insist on a IContextMonitor here.
         // We can also assume that we are OK because of the Scene - but can't assume that there is one?
         /**
          * @class Drawable
@@ -26,13 +26,13 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
          * @param material {M}
          * @param model {U}
          */
-        function Drawable(geometry, material, model) {
+        function Drawable(geometry, material) {
             _super.call(this, LOGGING_NAME);
             this.geometry = geometry;
             this._material = material;
             this._material.addRef();
             this.buffersByCanvasid = new NumberIUnknownMap();
-            this.model = model;
+            this.uniforms = new StringIUnknownMap();
         }
         Drawable.prototype.destructor = function () {
             this.geometry = void 0;
@@ -40,21 +40,26 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
             this.buffersByCanvasid = void 0;
             this._material.release();
             this._material = void 0;
-            this.model = void 0;
+            this.uniforms.release();
+            this.uniforms = void 0;
         };
         Drawable.prototype.draw = function (canvasId) {
             // We know we are going to need a "good" canvasId to perform the buffers lookup.
             // So we may as well test that condition now.
             if (isDefined(canvasId)) {
                 var material = this._material;
-                var model = this.model;
-                var buffers = this.buffersByCanvasid.getWeakReference(canvasId);
+                var buffers = this.buffersByCanvasid.get(canvasId);
                 if (isDefined(buffers)) {
                     material.use(canvasId);
-                    model.setUniforms(material, canvasId);
+                    // FIXME: The name is unused. Think we should just have a list
+                    // and then access using either the real uniform name or a property name.
+                    this.uniforms.forEach(function (name, uniform) {
+                        uniform.setUniforms(material, canvasId);
+                    });
                     buffers.bind(material /*, aNameToKeyName*/); // FIXME: Why not part of the API?
                     buffers.draw();
                     buffers.unbind();
+                    buffers.release();
                 }
             }
         };
@@ -79,6 +84,18 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
         };
         Drawable.prototype.contextLost = function (canvasId) {
             this._material.contextLost(canvasId);
+        };
+        /**
+         * @method getFacet
+         * @param name {string}
+         * @return {IFacet}
+         */
+        Drawable.prototype.getFacet = function (name) {
+            return this.uniforms.get(name);
+        };
+        Drawable.prototype.setFacet = function (name, value) {
+            this.uniforms.put(name, value);
+            return value;
         };
         Object.defineProperty(Drawable.prototype, "material", {
             /**

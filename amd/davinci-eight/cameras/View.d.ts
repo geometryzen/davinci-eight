@@ -1,10 +1,10 @@
-import UniformData = require('../core/UniformData');
+import IFacet = require('../core/IFacet');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 /**
  * @class View
  */
-interface View extends UniformData {
+interface View extends IFacet {
     /**
      * @property eye
      * @type Vector3

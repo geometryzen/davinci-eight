@@ -5,8 +5,15 @@ import Shareable = require('../utils/Shareable')
 
 let LOGGING_NAME = 'NumberIUnknownMap';
 
+/**
+ * @class NumberIUnknownMap<V>
+ */
 class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknown {
   private _elements: { [key: number]: V } = {};
+  /**
+   * @class NumberIUnknownMap<V>
+   * @constructor
+   */
   constructor() {
     super(LOGGING_NAME)
   }
@@ -23,23 +30,25 @@ class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknow
     let element = this._elements[key];
     return element ? true : false;
   }
-  getStrongReference(key: number): V {
+  get(key: number): V {
     let element = this.getWeakReference(key)
     if (element) {
       element.addRef()
     }
     return element;
   }
-  getWeakReference(index: number): V {
+  // FIXME
+  /*private*/ getWeakReference(index: number): V {
     return this._elements[index]
   }
-  putStrongReference(key: number, value: V): void {
+  put(key: number, value: V): void {
     if (value) {
       value.addRef()
     }
     this.putWeakReference(key, value)
   }
-  putWeakReference(key: number, value: V): void {
+  // FIXME
+  /*private*/ putWeakReference(key: number, value: V): void {
     var elements = this._elements
     var existing = elements[key]
     if (existing) {
@@ -61,9 +70,9 @@ class NumberIUnknownMap<V extends IUnknown> extends Shareable implements IUnknow
     // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
     return Object.keys(this._elements).map(function(keyString){return parseFloat(keyString)});
   }
-  remove(key: number) {
+  remove(key: number): void {
     // Strong or Weak doesn't matter because the value is `undefined`.
-    this.putStrongReference(key, void 0);
+    this.put(key, void 0);
     delete this._elements[key];
   }
 }

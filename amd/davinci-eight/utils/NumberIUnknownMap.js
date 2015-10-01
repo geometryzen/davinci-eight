@@ -6,8 +6,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 define(["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
+    /**
+     * @class NumberIUnknownMap<V>
+     */
     var NumberIUnknownMap = (function (_super) {
         __extends(NumberIUnknownMap, _super);
+        /**
+         * @class NumberIUnknownMap<V>
+         * @constructor
+         */
         function NumberIUnknownMap() {
             _super.call(this, LOGGING_NAME);
             this._elements = {};
@@ -25,23 +32,25 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             var element = this._elements[key];
             return element ? true : false;
         };
-        NumberIUnknownMap.prototype.getStrongReference = function (key) {
+        NumberIUnknownMap.prototype.get = function (key) {
             var element = this.getWeakReference(key);
             if (element) {
                 element.addRef();
             }
             return element;
         };
-        NumberIUnknownMap.prototype.getWeakReference = function (index) {
+        // FIXME
+        /*private*/ NumberIUnknownMap.prototype.getWeakReference = function (index) {
             return this._elements[index];
         };
-        NumberIUnknownMap.prototype.putStrongReference = function (key, value) {
+        NumberIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
             }
             this.putWeakReference(key, value);
         };
-        NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
+        // FIXME
+        /*private*/ NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
             var elements = this._elements;
             var existing = elements[key];
             if (existing) {
@@ -69,7 +78,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
         });
         NumberIUnknownMap.prototype.remove = function (key) {
             // Strong or Weak doesn't matter because the value is `undefined`.
-            this.putStrongReference(key, void 0);
+            this.put(key, void 0);
             delete this._elements[key];
         };
         return NumberIUnknownMap;

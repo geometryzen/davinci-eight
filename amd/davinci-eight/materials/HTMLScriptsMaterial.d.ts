@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import Material = require('../materials/Material');
 /**
@@ -12,11 +12,11 @@ declare class HTMLScriptsMaterial extends Material {
     /**
      * @class HTMLScriptsMaterial
      * @constructor
-     * @param contexts {ContextMonitor[]}
+     * @param contexts {IContextMonitor[]}
      * @param scriptIds {string[]}
      * @param dom {Document}
      */
-    constructor(contexts: ContextMonitor[], scriptIds?: string[], dom?: Document);
+    constructor(contexts: IContextMonitor[], scriptIds?: string[], dom?: Document);
     /**
      * @method createProgram
      * @return {IMaterial}

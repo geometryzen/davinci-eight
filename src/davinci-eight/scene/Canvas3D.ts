@@ -2,7 +2,7 @@ import createRenderer = require('../renderers/renderer')
 import ContextController = require('../core/ContextController')
 import ContextKahuna = require('../core/ContextKahuna')
 import IContextProvider = require('../core/IContextProvider')
-import ContextMonitor = require('../core/ContextMonitor')
+import IContextMonitor = require('../core/IContextMonitor')
 import IContextConsumer = require('../core/IContextConsumer')
 import contextProxy = require('../utils/contextProxy')
 import ContextRenderer = require('../renderers/ContextRenderer')
@@ -23,7 +23,7 @@ import mustSatisfy = require('../checks/mustSatisfy')
 import readOnly = require('../i18n/readOnly')
 import Scene = require('../scene/Scene')
 import Shareable = require('../utils/Shareable')
-import UniformData = require('../core/UniformData')
+import IFacet = require('../core/IFacet')
 
 function beHTMLCanvasElement(): string {
   return "be an HTMLCanvasElement"
@@ -34,7 +34,7 @@ let defaultCanvasBuilder = () => {return document.createElement('canvas')}
 /**
  * @class Canvas3D
  */
-class Canvas3D extends Shareable implements ContextController, IContextProvider, ContextMonitor, ContextRenderer {
+class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
   private _kahuna: ContextKahuna
   private _renderer: ContextRenderer
   /**

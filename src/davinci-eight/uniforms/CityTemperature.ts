@@ -1,18 +1,19 @@
-import UniformData = require('../core/UniformData');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
-
+import IFacet = require('../core/IFacet');
+import IFacetVisitor = require('../core/IFacetVisitor');
+import Shareable = require('../utils/Shareable');
 /**
- * Poller for the yadda server.
+ * Poller for the ...? server.
  */
-class CityTemperature implements UniformData {
+class CityTemperature extends Shareable implements IFacet {
   public temperature: number;
   private _uName;
   constructor(uName: string) {
+    super('CityTemperature')
     this.temperature = Math.E;
     this._uName = uName;
   }
-  setUniforms(visitor: UniformDataVisitor, canvasId): void {
-    visitor.uniform1f(this._uName, this.temperature);
+  setUniforms(visitor: IFacetVisitor, canvasId): void {
+    visitor.uniform1f(this._uName, this.temperature, canvasId);
   }
 }
 

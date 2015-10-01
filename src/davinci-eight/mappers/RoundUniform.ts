@@ -2,21 +2,21 @@ import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
 import Matrix3 = require('../math/Matrix3');
 import Matrix4 = require('../math/Matrix4');
-import UniformDataVisitor = require('../core/UniformDataVisitor');
+import IFacetVisitor = require('../core/IFacetVisitor');
 import Vector1 = require('../math/Vector1');
 import Vector2 = require('../math/Vector2');
 import Vector3 = require('../math/Vector3');
 import Vector4 = require('../math/Vector4');
 
-class RoundUniform implements UniformDataVisitor {
-  private _next: UniformDataVisitor;
+class RoundUniform implements IFacetVisitor {
+  private _next: IFacetVisitor;
   constructor() {
   }
   get next() {
     // FIXME: No reference counting yet.
     return this._next;
   }
-  set next(next: UniformDataVisitor) {
+  set next(next: IFacetVisitor) {
     // FIXME: No reference counting yet.
     this._next = next;
   }

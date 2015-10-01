@@ -1,6 +1,6 @@
 import AttribLocation = require('../core/AttribLocation')
 import IContextProvider = require('../core/IContextProvider')
-import ContextMonitor = require('../core/ContextMonitor')
+import IContextMonitor = require('../core/IContextMonitor')
 import core = require('../core')
 import IMaterial = require('../core/IMaterial')
 import Matrix1 = require('../math/Matrix1')
@@ -36,7 +36,7 @@ let LOGGING_NAME_IMATERIAL = 'IMaterial'
 
 // FIXME: Handle list of shaders? Else createSimpleProgram
 
-let createMaterial = function(monitors: ContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IMaterial {
+let createMaterial = function(monitors: IContextMonitor[], vertexShader: string, fragmentShader: string, attribs: string[]): IMaterial {
   MonitorList.verify('monitors', monitors, () => { return "createMaterial"})
   // FIXME multi-context
   if (typeof vertexShader !== 'string') {

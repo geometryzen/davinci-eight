@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import CylinderArgs = require('../mesh/CylinderArgs');
 import CylinderOptions = require('../mesh/CylinderOptions');
 

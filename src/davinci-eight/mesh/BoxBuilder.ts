@@ -1,5 +1,5 @@
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import expectArg = require('../checks/expectArg');
 import isUndefined = require('../checks/isUndefined');
 import BoxOptions = require('../mesh/BoxOptions');

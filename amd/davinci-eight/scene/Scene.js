@@ -24,7 +24,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * </p>
          * @class Scene
          * @constructor
-         * @param monitors [ContextMonitor[]=[]]
+         * @param monitors [IContextMonitor[]=[]]
          */
         function Scene(monitors) {
             if (monitors === void 0) { monitors = []; }
@@ -42,6 +42,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          */
         Scene.prototype.destructor = function () {
             this.monitors.removeContextListener(this);
+            this.monitors.release();
             this.monitors = void 0;
             this.drawList.release();
             this.drawList = void 0;
@@ -65,7 +66,7 @@ define(["require", "exports", '../scene/createDrawList', '../scene/MonitorList',
          * Traverses the collection of drawables, drawing each one.
          * </p>
          * @method draw
-         * @param ambients {UniformData}
+         * @param ambients {IFacet[]}
          * @param canvasId {number}
          * @return {void}
          * @beta

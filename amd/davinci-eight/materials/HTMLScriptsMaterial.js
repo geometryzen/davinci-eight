@@ -20,7 +20,7 @@ define(["require", "exports", '../materials/Material', '../checks/mustSatisfy', 
         /**
          * @class HTMLScriptsMaterial
          * @constructor
-         * @param contexts {ContextMonitor[]}
+         * @param contexts {IContextMonitor[]}
          * @param scriptIds {string[]}
          * @param dom {Document}
          */

@@ -1,4 +1,4 @@
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import GeometryElements = require('../geometries/GeometryElements');
 import Material = require('../materials/Material');
 /**
@@ -15,6 +15,6 @@ declare class SmartMaterialBuilder {
     constructor(elements?: GeometryElements);
     attribute(key: string, size: number, name?: string): SmartMaterialBuilder;
     uniform(key: string, type: string, name?: string): SmartMaterialBuilder;
-    build(contexts: ContextMonitor[]): Material;
+    build(contexts: IContextMonitor[]): Material;
 }
 export = SmartMaterialBuilder;

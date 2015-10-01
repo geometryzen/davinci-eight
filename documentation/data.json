@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.114.0",
+        "version": "2.115.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -145,6 +145,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/ColorRGB.ts": {
+            "name": "src/davinci-eight/core/ColorRGB.ts",
+            "modules": {},
+            "classes": {
+                "ColorRGB": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core/ContextController.ts": {
             "name": "src/davinci-eight/core/ContextController.ts",
             "modules": {},
@@ -156,13 +165,6 @@
         },
         "src/davinci-eight/core/ContextKahuna.ts": {
             "name": "src/davinci-eight/core/ContextKahuna.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/ContextMonitor.ts": {
-            "name": "src/davinci-eight/core/ContextMonitor.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -217,6 +219,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/IContextMonitor.ts": {
+            "name": "src/davinci-eight/core/IContextMonitor.ts",
+            "modules": {},
+            "classes": {
+                "IContextMonitor": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/core/IContextProvider.ts": {
             "name": "src/davinci-eight/core/IContextProvider.ts",
             "modules": {},
@@ -231,6 +242,24 @@
             "modules": {},
             "classes": {
                 "IDrawable": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/IFacet.ts": {
+            "name": "src/davinci-eight/core/IFacet.ts",
+            "modules": {},
+            "classes": {
+                "IFacet\nextends IUnknown": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/core/IFacetVisitor.ts": {
+            "name": "src/davinci-eight/core/IFacetVisitor.ts",
+            "modules": {},
+            "classes": {
+                "IFacetVisitor": 1
             },
             "fors": {},
             "namespaces": {}
@@ -308,22 +337,6 @@
             "modules": {},
             "classes": {
                 "Symbolic": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/UniformData.ts": {
-            "name": "src/davinci-eight/core/UniformData.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/core/UniformDataVisitor.ts": {
-            "name": "src/davinci-eight/core/UniformDataVisitor.ts",
-            "modules": {},
-            "classes": {
-                "UniformDataVisitor": 1
             },
             "fors": {},
             "namespaces": {}
@@ -941,27 +954,20 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/models/EulerModel.ts": {
-            "name": "src/davinci-eight/models/EulerModel.ts",
+        "src/davinci-eight/models/EulerFacet.ts": {
+            "name": "src/davinci-eight/models/EulerFacet.ts",
             "modules": {},
             "classes": {
-                "EulerModel": 1
+                "EulerFacet": 1
             },
             "fors": {},
             "namespaces": {}
         },
-        "src/davinci-eight/models/Model3.ts": {
-            "name": "src/davinci-eight/models/Model3.ts",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/models/RigidBody3.ts": {
-            "name": "src/davinci-eight/models/RigidBody3.ts",
+        "src/davinci-eight/models/ModelFacet.ts": {
+            "name": "src/davinci-eight/models/ModelFacet.ts",
             "modules": {},
             "classes": {
-                "RigidBody3": 1
+                "ModelFacet": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1139,11 +1145,30 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/uniforms/ColorFacet.ts": {
+            "name": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "modules": {},
+            "classes": {
+                "ColorFacet.": 1,
+                "ColorFacet": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/utils/IUnknownArray.ts": {
             "name": "src/davinci-eight/utils/IUnknownArray.ts",
             "modules": {},
             "classes": {
                 "IUnknownArray": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/utils/NumberIUnknownMap.ts": {
+            "name": "src/davinci-eight/utils/NumberIUnknownMap.ts",
+            "modules": {},
+            "classes": {
+                "NumberIUnknownMap<V>": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1161,6 +1186,7 @@
             "name": "src/davinci-eight/utils/StringIUnknownMap.ts",
             "modules": {},
             "classes": {
+                "StringIUnknownMap<V extends IUnknown>": 1,
                 "StringIUnknownMap": 1
             },
             "fors": {},
@@ -1231,13 +1257,17 @@
                 "AttribLocation": 1,
                 "AttribMetaInfo": 1,
                 "Color": 1,
+                "ColorRGB": 1,
                 "ContextController": 1,
                 "ElementBuffer": 1,
                 "ElementArray": 1,
                 "Face3": 1,
                 "IContextConsumer": 1,
+                "IContextMonitor": 1,
                 "IContextProvider": 1,
                 "IDrawable": 1,
+                "IFacet\nextends IUnknown": 1,
+                "IFacetVisitor": 1,
                 "IMaterial": 1,
                 "IPrologCommand": 1,
                 "IUnknown": 1,
@@ -1245,7 +1275,6 @@
                 "Point3": 1,
                 "ShaderVariableDecl": 1,
                 "Symbolic": 1,
-                "UniformDataVisitor": 1,
                 "UniformLocation": 1,
                 "BarnGeometry": 1,
                 "CuboidGeometry": 1,
@@ -1293,16 +1322,20 @@
                 "CuboidMesh": 1,
                 "CylinderArgs": 1,
                 "EllipsoidMesh": 1,
-                "EulerModel": 1,
-                "RigidBody3": 1,
+                "EulerFacet": 1,
+                "ModelFacet": 1,
                 "ContextRenderer": 1,
                 "Canvas3D": 1,
                 "Drawable": 1,
                 "IDrawList": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
+                "ColorFacet.": 1,
+                "ColorFacet": 1,
                 "IUnknownArray": 1,
+                "NumberIUnknownMap<V>": 1,
                 "Shareable": 1,
+                "StringIUnknownMap<V extends IUnknown>": 1,
                 "StringIUnknownMap": 1,
                 "WindowAnimationRunner": 1
             },
@@ -1535,6 +1568,18 @@
                 }
             ]
         },
+        "ColorRGB": {
+            "name": "ColorRGB",
+            "shortname": "ColorRGB",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/ColorRGB.ts",
+            "line": 1
+        },
         "ContextController": {
             "name": "ContextController",
             "shortname": "ContextController",
@@ -1621,6 +1666,19 @@
             "line": 2,
             "description": "This interface standardizes the concept of an implementation being dependent upon\na WebGL rendering context. The notification methods for context gain, loss, and free\nallow the implementation to participate in the dynamic and volatile environment\nwhereupon a browser may reset its WebGL rendering contexts."
         },
+        "IContextMonitor": {
+            "name": "IContextMonitor",
+            "shortname": "IContextMonitor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/IContextMonitor.ts",
+            "line": 6,
+            "extends": "IUnknown"
+        },
         "IContextProvider": {
             "name": "IContextProvider",
             "shortname": "IContextProvider",
@@ -1632,7 +1690,7 @@
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IContextProvider.ts",
             "line": 14,
-            "extends": "IUnknown"
+            "extends": "IContextMonitor"
         },
         "IDrawable": {
             "name": "IDrawable",
@@ -1644,9 +1702,34 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 6,
+            "line": 7,
             "description": "<p>\nThe Drawable interface indicates that the implementation can make a call\nto either drawArrays or drawElements on the WebGL rendering context.\nIt also contains other meta-data that may be used to optimize the rendering.\ne.g. transparency, visibility, bounding volumes, etc.\n</p>",
             "extends": "IResource"
+        },
+        "IFacet\nextends IUnknown": {
+            "name": "IFacet\nextends IUnknown",
+            "shortname": "IFacet\nextends IUnknown",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/IFacet.ts",
+            "line": 4
+        },
+        "IFacetVisitor": {
+            "name": "IFacetVisitor",
+            "shortname": "IFacetVisitor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 10,
+            "beta": 1
         },
         "IMaterial": {
             "name": "IMaterial",
@@ -1660,7 +1743,7 @@
             "file": "src/davinci-eight/core/IMaterial.ts",
             "line": 8,
             "description": "<p>\nThe role of a IMaterial is to manage WebGLProgram(s) consisting of a vertex shader and fragment shader.\nThe Program must be able to provide introspection information that describes the program.\n</p>",
-            "extends": "UniformDataVisitor",
+            "extends": "IFacetVisitor",
             "beta": 1
         },
         "IPrologCommand": {
@@ -1760,19 +1843,6 @@
             "file": "src/davinci-eight/core/Symbolic.ts",
             "line": 1,
             "description": "<p>\nCanonical variable names, which also act as semantic identifiers for name overrides.\nThese names must be stable to avoid breaking custom vertex and fragment shaders.\n</p>"
-        },
-        "UniformDataVisitor": {
-            "name": "UniformDataVisitor",
-            "shortname": "UniformDataVisitor",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/core/UniformDataVisitor.ts",
-            "line": 10,
-            "beta": 1
         },
         "UniformLocation": {
             "name": "UniformLocation",
@@ -2052,7 +2122,7 @@
                 {
                     "name": "contexts",
                     "description": "",
-                    "type": "ContextMonitor[]"
+                    "type": "IContextMonitor[]"
                 },
                 {
                     "name": "scriptIds",
@@ -2083,7 +2153,7 @@
             "params": [
                 {
                     "name": "monitors",
-                    "description": "[ContextMonitor[]=[]]"
+                    "description": "[IContextMonitor[]=[]]"
                 }
             ],
             "parameters": "[MeshNormalParameters]"
@@ -2106,7 +2176,7 @@
                 {
                     "name": "contexts",
                     "description": "",
-                    "type": "ContextMonitor[]"
+                    "type": "IContextMonitor[]"
                 },
                 {
                     "name": "type",
@@ -2132,7 +2202,7 @@
             "params": [
                 {
                     "name": "monitors",
-                    "description": "[ContextMonitor[]=[]]"
+                    "description": "[IContextMonitor[]=[]]"
                 }
             ],
             "parameters": "[MeshNormalParameters]"
@@ -2154,7 +2224,7 @@
             "params": [
                 {
                     "name": "monitors",
-                    "description": "[ContextMonitor[]=[]]"
+                    "description": "[IContextMonitor[]=[]]"
                 }
             ],
             "parameters": "[MeshNormalParameters]"
@@ -2178,7 +2248,7 @@
                 {
                     "name": "contexts",
                     "description": "",
-                    "type": "ContextMonitor[]"
+                    "type": "IContextMonitor[]"
                 },
                 {
                     "name": "geometry",
@@ -2780,9 +2850,9 @@
             "file": "src/davinci-eight/mesh/EllipsoidMesh.ts",
             "line": 3
         },
-        "EulerModel": {
-            "name": "EulerModel",
-            "shortname": "EulerModel",
+        "EulerFacet": {
+            "name": "EulerFacet",
+            "shortname": "EulerFacet",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2790,13 +2860,13 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/models/EulerModel.ts",
-            "line": 11,
+            "file": "src/davinci-eight/models/EulerFacet.ts",
+            "line": 12,
             "is_constructor": 1
         },
-        "RigidBody3": {
-            "name": "RigidBody3",
-            "shortname": "RigidBody3",
+        "ModelFacet": {
+            "name": "ModelFacet",
+            "shortname": "ModelFacet",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -2804,17 +2874,10 @@
             "extension_for": [],
             "module": "EIGHT",
             "namespace": "",
-            "file": "src/davinci-eight/models/RigidBody3.ts",
-            "line": 19,
-            "description": "The `attitude` is initialized to the default for `Spinor3`.\nThe `position` is initialized to the default for `Vector3`.\nThis class assumes that it is being used concretely if the type is 'RigidBody3'.",
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "type",
-                    "description": "The class name of the derived class. Defaults to 'RigidBody3'.",
-                    "type": "String"
-                }
-            ]
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 23,
+            "description": "ModelFacet implements IFacet required for manipulating a body.",
+            "is_constructor": 1
         },
         "ContextRenderer": {
             "name": "ContextRenderer",
@@ -2872,7 +2935,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 71,
+            "line": 73,
             "implements": "IDrawable",
             "is_constructor": 1,
             "params": [
@@ -2973,7 +3036,42 @@
             "params": [
                 {
                     "name": "monitors",
-                    "description": "[ContextMonitor[]=[]]"
+                    "description": "[IContextMonitor[]=[]]"
+                }
+            ]
+        },
+        "ColorFacet.": {
+            "name": "ColorFacet.",
+            "shortname": "ColorFacet.",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 11
+        },
+        "ColorFacet": {
+            "name": "ColorFacet",
+            "shortname": "ColorFacet",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 27,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "name ",
+                    "description": "",
+                    "optional": true,
+                    "optdefault": " Symbolic.UNIFORM_COLOR"
                 }
             ]
         },
@@ -2990,6 +3088,20 @@
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
             "line": 11,
             "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
+            "is_constructor": 1
+        },
+        "NumberIUnknownMap<V>": {
+            "name": "NumberIUnknownMap<V>",
+            "shortname": "NumberIUnknownMap<V>",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/utils/NumberIUnknownMap.ts",
+            "line": 13,
             "is_constructor": 1
         },
         "Shareable": {
@@ -3015,6 +3127,20 @@
                 }
             ]
         },
+        "StringIUnknownMap<V extends IUnknown>": {
+            "name": "StringIUnknownMap<V extends IUnknown>",
+            "shortname": "StringIUnknownMap<V extends IUnknown>",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
+            "line": 8,
+            "extends": "IUnknown"
+        },
         "StringIUnknownMap": {
             "name": "StringIUnknownMap",
             "shortname": "StringIUnknownMap",
@@ -3026,7 +3152,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 12,
+            "line": 16,
             "description": "<p>\nA map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.\n</p>",
             "is_constructor": 1
         },
@@ -3392,7 +3518,7 @@
         },
         {
             "file": "src/davinci-eight/cameras/createView.ts",
-            "line": 38,
+            "line": 47,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -3765,6 +3891,33 @@
             "class": "Color"
         },
         {
+            "file": "src/davinci-eight/core/ColorRGB.ts",
+            "line": 5,
+            "description": "The red component of the color.",
+            "itemtype": "property",
+            "name": "red",
+            "type": "{number}",
+            "class": "ColorRGB"
+        },
+        {
+            "file": "src/davinci-eight/core/ColorRGB.ts",
+            "line": 11,
+            "description": "The green component of the color.",
+            "itemtype": "property",
+            "name": "green",
+            "type": "{number}",
+            "class": "ColorRGB"
+        },
+        {
+            "file": "src/davinci-eight/core/ColorRGB.ts",
+            "line": 17,
+            "description": "The blue component of the color.",
+            "itemtype": "property",
+            "name": "blue",
+            "type": "{number}",
+            "class": "ColorRGB"
+        },
+        {
             "file": "src/davinci-eight/core/ContextController.ts",
             "line": 5,
             "itemtype": "method",
@@ -3803,21 +3956,6 @@
             "line": 5,
             "interface": "ContextKahuna",
             "extends": "ContextUnique",
-            "class": "ElementBuffer"
-        },
-        {
-            "file": "src/davinci-eight/core/ContextMonitor.ts",
-            "line": 6,
-            "class": "ElementBuffer"
-        },
-        {
-            "file": "src/davinci-eight/core/ContextMonitor.ts",
-            "line": 10,
-            "class": "ElementBuffer"
-        },
-        {
-            "file": "src/davinci-eight/core/ContextMonitor.ts",
-            "line": 14,
             "class": "ElementBuffer"
         },
         {
@@ -3952,8 +4090,23 @@
             "class": "IContextConsumer"
         },
         {
-            "file": "src/davinci-eight/core/IContextProvider.ts",
+            "file": "src/davinci-eight/core/IContextMonitor.ts",
+            "line": 12,
+            "class": "IContextMonitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IContextMonitor.ts",
+            "line": 16,
+            "class": "IContextMonitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IContextMonitor.ts",
             "line": 20,
+            "class": "IContextMonitor"
+        },
+        {
+            "file": "src/davinci-eight/core/IContextProvider.ts",
+            "line": 19,
             "itemtype": "property",
             "name": "canvas",
             "type": "{HTMLCanvasElement}",
@@ -3962,7 +4115,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 26,
+            "line": 25,
             "itemtype": "property",
             "name": "gl",
             "type": "{WebGLRenderingContext}",
@@ -3971,7 +4124,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 32,
+            "line": 31,
             "itemtype": "method",
             "name": "addContextListener",
             "params": [
@@ -3989,7 +4142,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 38,
+            "line": 37,
             "itemtype": "method",
             "name": "createArrayBuffer",
             "return": {
@@ -4000,7 +4153,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 43,
+            "line": 42,
             "itemtype": "method",
             "name": "createBufferGeometry",
             "params": [
@@ -4026,7 +4179,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 51,
+            "line": 50,
             "itemtype": "method",
             "name": "createElementArrayBuffer",
             "return": {
@@ -4037,7 +4190,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 56,
+            "line": 55,
             "itemtype": "method",
             "name": "createTexture2D",
             "return": {
@@ -4048,7 +4201,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 61,
+            "line": 60,
             "itemtype": "method",
             "name": "createTextureCubeMap",
             "return": {
@@ -4059,7 +4212,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 66,
+            "line": 65,
             "itemtype": "method",
             "name": "removeContextListener",
             "params": [
@@ -4077,7 +4230,7 @@
         },
         {
             "file": "src/davinci-eight/core/IContextProvider.ts",
-            "line": 72,
+            "line": 71,
             "itemtype": "method",
             "name": "synchronize",
             "params": [
@@ -4095,7 +4248,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 18,
+            "line": 19,
             "itemtype": "property",
             "name": "material",
             "type": "{IMaterial}\nContains a WebGLProgram for each canvas that this IDrawable can draw to.",
@@ -4103,7 +4256,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 24,
+            "line": 25,
             "description": "User assigned name of the drawable object. Allows an object to be found in a scene.",
             "itemtype": "property",
             "name": "name",
@@ -4112,7 +4265,7 @@
         },
         {
             "file": "src/davinci-eight/core/IDrawable.ts",
-            "line": 30,
+            "line": 31,
             "itemtype": "method",
             "name": "draw",
             "params": [
@@ -4127,6 +4280,94 @@
                 "type": "Void"
             },
             "class": "IDrawable"
+        },
+        {
+            "file": "src/davinci-eight/core/IDrawable.ts",
+            "line": 37,
+            "itemtype": "method",
+            "name": "getFacet",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IFacet"
+            },
+            "class": "IDrawable"
+        },
+        {
+            "file": "src/davinci-eight/core/IDrawable.ts",
+            "line": 43,
+            "itemtype": "method",
+            "name": "setFacet",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "IFacet"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IDrawable"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacet.ts",
+            "line": 9,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "params": [
+                {
+                    "name": "visitor",
+                    "description": "",
+                    "type": "IFacetVisitor"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IFacet\nextends IUnknown"
+        },
+        {
+            "file": "src/davinci-eight/core/IFacetVisitor.ts",
+            "line": 15,
+            "itemtype": "method",
+            "name": "uniform1f",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "IFacetVisitor"
         },
         {
             "file": "src/davinci-eight/core/IMaterial.ts",
@@ -4399,59 +4640,6 @@
             "type": "{string}",
             "static": 1,
             "class": "Symbolic"
-        },
-        {
-            "file": "src/davinci-eight/core/UniformData.ts",
-            "line": 3,
-            "interface": "UniformData",
-            "class": "UniformDataVisitor"
-        },
-        {
-            "file": "src/davinci-eight/core/UniformData.ts",
-            "line": 7,
-            "itemtype": "method",
-            "name": "setUniforms",
-            "params": [
-                {
-                    "name": "visitor",
-                    "description": "",
-                    "type": "UniformDataVisitor"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "UniformDataVisitor"
-        },
-        {
-            "file": "src/davinci-eight/core/UniformDataVisitor.ts",
-            "line": 15,
-            "itemtype": "method",
-            "name": "uniform1f",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "x",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "canvasId",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "class": "UniformDataVisitor"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
@@ -5390,10 +5578,10 @@
         },
         {
             "file": "src/davinci-eight/materials/Material.ts",
-            "line": 76,
+            "line": 78,
             "itemtype": "property",
             "name": "monitors",
-            "type": "{ContextMonitor[]}",
+            "type": "{IContextMonitor[]}",
             "class": "Material",
             "module": "EIGHT"
         },
@@ -6292,19 +6480,19 @@
             "file": "src/davinci-eight/mesh/prism.ts",
             "line": 68,
             "description": "Constructs and returns a prism mesh.",
-            "class": "EulerModel",
+            "class": "EulerFacet",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/EulerModel.ts",
-            "line": 18,
+            "file": "src/davinci-eight/models/EulerFacet.ts",
+            "line": 20,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
                 {
                     "name": "visitor",
                     "description": "",
-                    "type": "UniformDataVisitor"
+                    "type": "IFacetVisitor"
                 },
                 {
                     "name": "canvasId",
@@ -6316,46 +6504,79 @@
                 "description": "",
                 "type": "Void"
             },
-            "class": "EulerModel",
+            "class": "EulerFacet",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/EulerModel.ts",
-            "line": 27,
+            "file": "src/davinci-eight/models/EulerFacet.ts",
+            "line": 29,
             "itemtype": "property",
             "name": "rotation",
             "type": "{Vector3}",
             "readonly": "",
-            "class": "EulerModel",
+            "class": "EulerFacet",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/Model3.ts",
-            "line": 9,
-            "description": "Model3 implements UniformData required for manipulating a body.",
-            "class": "RigidBody3",
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 34,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ModelFacet",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/RigidBody3.ts",
-            "line": 39,
-            "description": "The attitude spinor of the rigid body.",
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 48,
             "itemtype": "property",
             "name": "attitude",
             "type": "Spinor3",
             "readonly": "",
-            "class": "RigidBody3",
+            "class": "ModelFacet",
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/models/RigidBody3.ts",
-            "line": 51,
-            "description": "The position vector of the rigid body.",
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 59,
             "itemtype": "property",
             "name": "position",
             "type": "Vector3",
             "readonly": "",
-            "class": "RigidBody3",
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 70,
+            "itemtype": "property",
+            "name": "scaleXYZ",
+            "type": "Vector3",
+            "readonly": "",
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 81,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "params": [
+                {
+                    "name": "visitor",
+                    "description": "",
+                    "type": "IFacetVisitor"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "ModelFacet",
             "module": "EIGHT"
         },
         {
@@ -6407,7 +6628,7 @@
                 {
                     "name": "monitors",
                     "description": "",
-                    "type": "ContextMonitor[]"
+                    "type": "IContextMonitor[]"
                 },
                 {
                     "name": "vsId",
@@ -6601,14 +6822,14 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 22,
+            "line": 23,
             "description": "Name used for reference count monitoring and logging.",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 36,
+            "line": 37,
             "itemtype": "property",
             "name": "geometry",
             "type": "{G}",
@@ -6617,7 +6838,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 41,
+            "line": 42,
             "itemtype": "property",
             "name": "_material",
             "type": "{M}",
@@ -6628,7 +6849,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 47,
+            "line": 48,
             "itemtype": "property",
             "name": "name",
             "type": "[string]",
@@ -6637,23 +6858,25 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 52,
+            "line": 53,
             "description": "FIXME This is a bad name because it is not just a collection of buffersByCanvasid.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 58,
+            "line": 59,
             "itemtype": "property",
-            "name": "model",
-            "type": "{U}",
+            "name": "uniforms",
+            "type": "{StringIUnknownMap<IFacet>}",
+            "access": "private",
+            "tagname": "",
             "class": "Drawable",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 63,
+            "line": 65,
             "itemtype": "property",
             "name": "mode",
             "type": "{number}",
@@ -6664,7 +6887,26 @@
         },
         {
             "file": "src/davinci-eight/scene/Drawable.ts",
-            "line": 136,
+            "line": 148,
+            "itemtype": "method",
+            "name": "getFacet",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IFacet"
+            },
+            "class": "Drawable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/Drawable.ts",
+            "line": 160,
             "itemtype": "property",
             "name": "material",
             "type": "{M}\n\nProvides a reference counted reference to the material.",
@@ -6681,7 +6923,31 @@
         },
         {
             "file": "src/davinci-eight/scene/IDrawList.ts",
-            "line": 17,
+            "line": 16,
+            "itemtype": "method",
+            "name": "draw",
+            "params": [
+                {
+                    "name": "ambients",
+                    "description": "",
+                    "type": "IFacet[]"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IDrawList",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/IDrawList.ts",
+            "line": 23,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -6704,7 +6970,7 @@
         },
         {
             "file": "src/davinci-eight/scene/MonitorList.ts",
-            "line": 22,
+            "line": 23,
             "description": "Implementation Only.",
             "class": "PerspectiveCamera",
             "module": "EIGHT"
@@ -6742,7 +7008,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 90,
+            "line": 102,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
@@ -6753,7 +7019,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 99,
+            "line": 111,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -6773,7 +7039,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 109,
+            "line": 121,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -6784,7 +7050,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 118,
+            "line": 130,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -6804,7 +7070,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 128,
+            "line": 140,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -6815,7 +7081,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 142,
+            "line": 154,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -6835,7 +7101,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 161,
+            "line": 173,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -6846,7 +7112,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 173,
+            "line": 185,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -6866,7 +7132,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 59,
+            "line": 58,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6880,7 +7146,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 72,
+            "line": 71,
             "description": "<p>\nAdds the <code>drawable</code> to this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "add",
@@ -6900,7 +7166,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 86,
+            "line": 85,
             "description": "<p>\nTraverses the collection of drawables, drawing each one.\n</p>",
             "itemtype": "method",
             "name": "draw",
@@ -6908,7 +7174,7 @@
                 {
                     "name": "ambients",
                     "description": "",
-                    "type": "UniformData"
+                    "type": "IFacet[]"
                 },
                 {
                     "name": "canvasId",
@@ -6926,7 +7192,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 99,
+            "line": 98,
             "description": "Gets a collection of drawable elements by name.",
             "itemtype": "method",
             "name": "getDrawablesByName",
@@ -6942,7 +7208,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 107,
+            "line": 106,
             "description": "<p>\nRemoves the <code>drawable</code> from this <code>Scene</code>.\n</p>",
             "itemtype": "method",
             "name": "remove",
@@ -6962,7 +7228,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Scene.ts",
-            "line": 121,
+            "line": 120,
             "description": "<p>\nTraverses the collection of drawables, calling the specified callback arguments.\n</p>",
             "itemtype": "method",
             "name": "traverse",
@@ -6994,56 +7260,122 @@
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 29,
             "description": "A grouping of IDrawable, by IMaterial.",
-            "class": "IUnknownArray",
+            "class": "ColorFacet.",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 34,
             "description": "I can't see this being used; it's all about the drawables!",
-            "class": "IUnknownArray",
+            "class": "ColorFacet.",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 71,
             "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 113,
-            "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
-            "class": "IUnknownArray",
+            "class": "ColorFacet.",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 117,
-            "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "class": "IUnknownArray",
+            "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
+            "class": "ColorFacet.",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 263,
+            "line": 121,
+            "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
+            "class": "ColorFacet.",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/createDrawList.ts",
+            "line": 266,
             "description": "method contextGain",
-            "class": "IUnknownArray",
+            "class": "ColorFacet.",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
             "line": 8,
-            "description": "Construction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend ContextMonitor so that this can unhook?",
-            "class": "IUnknownArray",
+            "description": "Construction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
+            "class": "ColorFacet.",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/uniforms/CityTemperature.ts",
             "line": 4,
-            "description": "Poller for the yadda server.",
-            "class": "IUnknownArray",
+            "description": "Poller for the ...? server.",
+            "class": "ColorFacet.",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 15,
+            "itemtype": "property",
+            "name": "colorRGB",
+            "type": "Vector3",
+            "access": "private",
+            "tagname": "",
+            "class": "ColorFacet.",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 21,
+            "itemtype": "property",
+            "name": "name",
+            "type": "{string}",
+            "access": "private",
+            "tagname": "",
+            "class": "ColorFacet.",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 37,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "ColorFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 45,
+            "description": "The red component of the color.",
+            "itemtype": "property",
+            "name": "red",
+            "type": "{number}",
+            "class": "ColorFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 56,
+            "description": "The green component of the color.",
+            "itemtype": "property",
+            "name": "green",
+            "type": "{number}",
+            "class": "ColorFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 67,
+            "description": "The green component of the color.",
+            "itemtype": "property",
+            "name": "blue",
+            "type": "{number}",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
@@ -7083,7 +7415,7 @@
             "line": 40,
             "description": "Gets the element at the specified index, incrementing the reference count.\nUse this method when you intend to hold onto the referent and release it later.",
             "itemtype": "method",
-            "name": "getStrongReference",
+            "name": "get",
             "params": [
                 {
                     "name": "index",
@@ -7157,8 +7489,9 @@
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
             "line": 85,
+            "description": "Pushes an element onto the tail of the list and increments the element reference count.",
             "itemtype": "method",
-            "name": "push",
+            "name": "pushStrongReference",
             "params": [
                 {
                     "name": "element",
@@ -7175,7 +7508,27 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 95,
+            "line": 98,
+            "description": "Pushes an element onto the tail of the list with no change in the reference count.",
+            "itemtype": "method",
+            "name": "pushWeakReference",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "",
+                    "type": "T"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 107,
             "itemtype": "method",
             "name": "pop",
             "return": {
@@ -7228,7 +7581,7 @@
         },
         {
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 39,
+            "line": 43,
             "description": "Determines whether the key exists in the map with a defined value.",
             "itemtype": "method",
             "name": "exists",
@@ -7243,6 +7596,53 @@
                 "description": "<p><code>true</code> if there is an element at the specified key.</p>",
                 "type": "Boolean"
             },
+            "class": "StringIUnknownMap",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
+            "line": 63,
+            "itemtype": "method",
+            "name": "getWeakReference",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "V"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "StringIUnknownMap",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
+            "line": 84,
+            "itemtype": "method",
+            "name": "putWeakReference",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "V"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "private",
+            "tagname": "",
             "class": "StringIUnknownMap",
             "module": "EIGHT"
         },
@@ -7399,21 +7799,21 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 324,
+            "line": 325,
             "description": "Implementation of removeContextListener for the kahuna.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 440,
+            "line": 444,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 475,
+            "line": 479,
             "class": "",
             "module": "EIGHT"
         },
@@ -7480,18 +7880,6 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/core/ContextMonitor.ts:6"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/ContextMonitor.ts:10"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/ContextMonitor.ts:14"
-        },
-        {
-            "message": "Missing item type",
             "line": " src/davinci-eight/core/ContextUnique.ts:1"
         },
         {
@@ -7516,6 +7904,18 @@
         },
         {
             "message": "Missing item type",
+            "line": " src/davinci-eight/core/IContextMonitor.ts:12"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/core/IContextMonitor.ts:16"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/core/IContextMonitor.ts:20"
+        },
+        {
+            "message": "Missing item type",
             "line": " src/davinci-eight/core/ITexture.ts:3"
         },
         {
@@ -7525,10 +7925,6 @@
         {
             "message": "Missing item type\n'uModel'",
             "line": " src/davinci-eight/core/Symbolic.ts:74"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/core/UniformData.ts:3"
         },
         {
             "message": "Missing item type",
@@ -7807,10 +8203,6 @@
             "line": " src/davinci-eight/mesh/prism.ts:68"
         },
         {
-            "message": "Missing item type\nModel3 implements UniformData required for manipulating a body.",
-            "line": " src/davinci-eight/models/Model3.ts:9"
-        },
-        {
             "message": "Missing item type\nThis class is \"simple because\" it assumes exactly one vertex shader and on fragment shader.\nThis class assumes that it will only be supporting a single WebGL rendering context.\nThe existence of the manager in the constructor enables it to enforce this invariant.",
             "line": " src/davinci-eight/programs/SimpleWebGLProgram.ts:8"
         },
@@ -7860,11 +8252,11 @@
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
-            "line": " src/davinci-eight/scene/Drawable.ts:22"
+            "line": " src/davinci-eight/scene/Drawable.ts:23"
         },
         {
             "message": "Missing item type\nFIXME This is a bad name because it is not just a collection of buffersByCanvasid.\nA map from canvas to IBufferGeometry.\nIt's a function that returns a mesh, given a canvasId a lokup",
-            "line": " src/davinci-eight/scene/Drawable.ts:52"
+            "line": " src/davinci-eight/scene/Drawable.ts:53"
         },
         {
             "message": "Missing item type",
@@ -7876,7 +8268,7 @@
         },
         {
             "message": "Missing item type\nImplementation Only.",
-            "line": " src/davinci-eight/scene/MonitorList.ts:22"
+            "line": " src/davinci-eight/scene/MonitorList.ts:23"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
@@ -7900,22 +8292,22 @@
         },
         {
             "message": "Missing item type\nShould look like a set of Drawable Groups. Maybe like a Scene!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:113"
-        },
-        {
-            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
             "line": " src/davinci-eight/scene/createDrawList.ts:117"
         },
         {
-            "message": "Missing item type\nmethod contextGain",
-            "line": " src/davinci-eight/scene/createDrawList.ts:263"
+            "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
+            "line": " src/davinci-eight/scene/createDrawList.ts:121"
         },
         {
-            "message": "Missing item type\nConstruction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend ContextMonitor so that this can unhook?",
+            "message": "Missing item type\nmethod contextGain",
+            "line": " src/davinci-eight/scene/createDrawList.ts:266"
+        },
+        {
+            "message": "Missing item type\nConstruction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
             "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:8"
         },
         {
-            "message": "Missing item type\nPoller for the yadda server.",
+            "message": "Missing item type\nPoller for the ...? server.",
             "line": " src/davinci-eight/uniforms/CityTemperature.ts:4"
         },
         {
@@ -7960,15 +8352,15 @@
         },
         {
             "message": "Missing item type\nImplementation of removeContextListener for the kahuna.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:324"
+            "line": " src/davinci-eight/utils/contextProxy.ts:325"
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:440"
+            "line": " src/davinci-eight/utils/contextProxy.ts:444"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:475"
+            "line": " src/davinci-eight/utils/contextProxy.ts:479"
         },
         {
             "message": "Missing item type\nInitially used to give me a canvasId.\nUsing the big-enough space principle to avoid collisions.",

@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.114.0</em>
+            <em>API Docs for: 2.115.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -49,6 +49,9 @@
                                 <li><a href="../classes/Cartesian3.html">Cartesian3</a></li>
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
+                                <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
+                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
+                                <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
                                 <li><a href="../classes/ContextController.html">ContextController</a></li>
@@ -66,7 +69,7 @@
                                 <li><a href="../classes/Euclidean1.html">Euclidean1</a></li>
                                 <li><a href="../classes/Euclidean2.html">Euclidean2</a></li>
                                 <li><a href="../classes/Euclidean3.html">Euclidean3</a></li>
-                                <li><a href="../classes/EulerModel.html">EulerModel</a></li>
+                                <li><a href="../classes/EulerFacet.html">EulerFacet</a></li>
                                 <li><a href="../classes/Face3.html">Face3</a></li>
                                 <li><a href="../classes/Frustum.html">Frustum</a></li>
                                 <li><a href="../classes/Geometry.html">Geometry</a></li>
@@ -77,9 +80,14 @@
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
+                                <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IFacet
+                extends IUnknown.html">IFacet
+                extends IUnknown</a></li>
+                                <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
@@ -93,13 +101,14 @@
                                 <li><a href="../classes/Matrix4.html">Matrix4</a></li>
                                 <li><a href="../classes/Matrix&lt;M&gt;.html">Matrix&lt;M&gt;</a></li>
                                 <li><a href="../classes/MeshMaterial.html">MeshMaterial</a></li>
+                                <li><a href="../classes/ModelFacet.html">ModelFacet</a></li>
                                 <li><a href="../classes/Mutable.html">Mutable</a></li>
+                                <li><a href="../classes/NumberIUnknownMap&lt;V&gt;.html">NumberIUnknownMap&lt;V&gt;</a></li>
                                 <li><a href="../classes/Perspective.html">Perspective</a></li>
                                 <li><a href="../classes/PerspectiveCamera.html">PerspectiveCamera</a></li>
                                 <li><a href="../classes/Point3.html">Point3</a></li>
                                 <li><a href="../classes/PointMaterial.html">PointMaterial</a></li>
                                 <li><a href="../classes/Rational.html">Rational</a></li>
-                                <li><a href="../classes/RigidBody3.html">RigidBody3</a></li>
                                 <li><a href="../classes/Scene.html">Scene</a></li>
                                 <li><a href="../classes/ShaderVariableDecl.html">ShaderVariableDecl</a></li>
                                 <li><a href="../classes/Shareable.html">Shareable</a></li>
@@ -109,8 +118,8 @@
                                 <li><a href="../classes/SmartMaterialBuilder.html">SmartMaterialBuilder</a></li>
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
+                                <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
-                                <li><a href="../classes/UniformDataVisitor.html">UniformDataVisitor</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
                                 <li><a href="../classes/Vector1.html">Vector1</a></li>
@@ -419,27 +428,28 @@ function bindProgramAttribLocations(program: IMaterial, canvasId: number, block:
   // Offer a NumberIUnknownList&lt;IAttributePointer&gt; which we have prepared up front
   // in order to get the name -&gt; index correct.
   // Then attribute setting shoul go much faster
-  let attribLocations = program.attributes(canvasId);
+  let attribLocations = program.attributes(canvasId)
   if (attribLocations) {
-    let aNames = Object.keys(attribLocations);
-    let aNamesLength = aNames.length;
-    var i: number;
+    let aNames = Object.keys(attribLocations)
+    let aNamesLength = aNames.length
+    var i: number
     for (i = 0; i &lt; aNamesLength; i++) {
-      let aName = aNames[i];
-      let key: string = attribKey(aName, aNameToKeyName);
-      let attributes = block.attributes;
-      let attribute = attributes.getWeakReference(key);
+      let aName = aNames[i]
+      let key: string = attribKey(aName, aNameToKeyName)
+      let attributes = block.attributes
+      let attribute = attributes.get(key)
       if (attribute) {
         // Associate the attribute buffer with the attribute location.
         // FIXME Would be nice to be able to get a weak reference to the buffer.
-        let buffer = attribute.buffer;
-        buffer.bind();
-        let attributeLocation = attribLocations[aName];
-        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-        buffer.unbind();
+        let buffer = attribute.buffer
+        buffer.bind()
+        let attributeLocation = attribLocations[aName]
+        attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset)
+        buffer.unbind()
 
-        attributeLocation.enable();
-        buffer.release();
+        attributeLocation.enable()
+        buffer.release()
+        attribute.release()
       }
       else {
         // The attribute available may not be required by the program.
@@ -447,7 +457,7 @@ function bindProgramAttribLocations(program: IMaterial, canvasId: number, block:
         // Do not allow Attribute 0 to be disabled.
         console.warn(&quot;program attribute &quot; + aName + &quot; is not satisfied by the mesh&quot;);
       }
-      attributes.release();
+      attributes.release()
     }
   }
   else {
@@ -548,33 +558,35 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       bind(program: IMaterial, aNameToKeyName?: {[name: string]: string}): void {
         if (_program !== program) {
           if (_program) {
-            mesh.unbind();
+            mesh.unbind()
           }
-          let block= blocks.getWeakReference(uuid);
+          let block= blocks.get(uuid)
           if (block) {
             if (program) {
-              _program = program;
-              _program.addRef();
+              _program = program
+              _program.addRef()
 
-              let indexBuffer = block.indexBuffer;
-              indexBuffer.bind();
-              indexBuffer.release();
+              let indexBuffer = block.indexBuffer
+              indexBuffer.bind()
+              indexBuffer.release()
 
-              bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
+              bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName)
             }
             else {
-              expectArg(&#x27;program&#x27;, program).toBeObject();
+              expectArg(&#x27;program&#x27;, program).toBeObject()
             }
+            block.release()
           }
           else {
-            throw new Error(messageUnrecognizedMesh(uuid));
+            throw new Error(messageUnrecognizedMesh(uuid))
           }
         }
       },
       draw(): void {
-        let block = blocks.getWeakReference(uuid);
+        let block = blocks.get(uuid)
         if (block) {
-          block.drawCommand.execute(gl);
+          block.drawCommand.execute(gl)
+          block.release()
         }
         else {
           throw new Error(messageUnrecognizedMesh(uuid));
@@ -582,27 +594,28 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       },
       unbind(): void {
         if (_program) {
-          let block = blocks.getWeakReference(uuid);
+          let block = blocks.get(uuid)
           if (block) {
             // FIXME: Ask block to unbind index buffer and avoid addRef/release
-            let indexBuffer = block.indexBuffer;
-            indexBuffer.unbind();
-            indexBuffer.release();
+            let indexBuffer = block.indexBuffer
+            indexBuffer.unbind()
+            indexBuffer.release()
             // FIXME: Looks like an IMaterial method!
-            unbindProgramAttribLocations(_program, _canvasId);
+            unbindProgramAttribLocations(_program, _canvasId)
+            block.release()
           }
           else {
             throw new Error(messageUnrecognizedMesh(uuid));
           }
           // We bumped up the reference count during bind. Now we are done.
-          _program.release();
+          _program.release()
           // Important! The existence of _program indicates the binding state.
-          _program = void 0;
+          _program = void 0
         }
       }
     };
-    refChange(uuid, LOGGING_NAME_MESH, +1);
-    return mesh;
+    refChange(uuid, LOGGING_NAME_MESH, +1)
+    return mesh
   }
 
   var gl: WebGLRenderingContext
@@ -681,22 +694,22 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       indexBuffer.unbind();
 
-      // FIXME: Advanced. Being able to set an initial reference count would allow me to save a release?
-      let attributes = new StringIUnknownMap&lt;ElementsBlockAttrib&gt;();
-      let names = Object.keys(elements.attributes);
-      let namesLength = names.length;
-      var i: number;
+      let attributes = new StringIUnknownMap&lt;ElementsBlockAttrib&gt;()
+      let names = Object.keys(elements.attributes)
+      let namesLength = names.length
+      var i: number
       for (i = 0; i &lt; namesLength; i++) {
-        let name = names[i];
-        let buffer = kahuna.createArrayBuffer();
-        buffer.bind();
-        let vertexAttrib = elements.attributes[name];
-        let data: number[] = vertexAttrib.values.data;
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
-        let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-        attributes.putWeakReference(name, attribute);
-        buffer.unbind();
-        buffer.release();
+        let name = names[i]
+        let buffer = kahuna.createArrayBuffer()
+        buffer.bind()
+        let vertexAttrib = elements.attributes[name]
+        let data: number[] = vertexAttrib.values.data
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage)
+        let attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0)
+        attributes.put(name, attribute)
+        attribute.release()
+        buffer.unbind()
+        buffer.release()
       }
       // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
       // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
@@ -704,7 +717,9 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
 
       }
       let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0)
-      blocks.putWeakReference(mesh.uuid, new ElementsBlock(indexBuffer, attributes, drawCommand))
+      var block =new ElementsBlock(indexBuffer, attributes, drawCommand)
+      blocks.put(mesh.uuid, block)
+      block.release()
       attributes.release()
       indexBuffer.release()
       return mesh;
@@ -811,7 +826,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     },
     createTexture2D(): ITexture {
       // TODO: Replace with functional constructor pattern.
-      // FIXME Does this mean that Texture only has one ContextMonitor?
+      // FIXME Does this mean that Texture only has one IContextMonitor?
       return new TextureResource([kahuna], mustBeContext(gl, &#x27;createTexture2D()&#x27;).TEXTURE_2D);
     },
     createTextureCubeMap(): ITexture {

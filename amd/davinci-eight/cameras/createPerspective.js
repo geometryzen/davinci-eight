@@ -15,10 +15,19 @@ define(["require", "exports", '../cameras/createView', '../math/Matrix4', '../co
         var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
         var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
         var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+        var refCount = 1;
         var base = createView(options);
         var projectionMatrix = Matrix4.identity();
         var matrixNeedsUpdate = true;
         var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
             // Delegate to the base camera.
             get eye() {
                 return base.eye;

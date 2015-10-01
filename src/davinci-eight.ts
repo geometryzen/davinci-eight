@@ -20,16 +20,15 @@ import AttribMetaInfo          = require('davinci-eight/core/AttribMetaInfo')
 import Color                   = require('davinci-eight/core/Color')
 import core                    = require('davinci-eight/core')
 import DrawMode                = require('davinci-eight/core/DrawMode')
-import Face3                   = require('davinci-eight/core/Face3')
 import ContextController       = require('davinci-eight/core/ContextController')
 import ContextKahuna           = require('davinci-eight/core/ContextKahuna')
 import IContextConsumer        = require('davinci-eight/core/IContextConsumer')
 import IContextProgramConsumer = require('davinci-eight/core/IContextProgramConsumer')
 import IContextProvider        = require('davinci-eight/core/IContextProvider')
-import ContextMonitor          = require('davinci-eight/core/ContextMonitor')
+import IContextMonitor          = require('davinci-eight/core/IContextMonitor')
 import Symbolic                = require('davinci-eight/core/Symbolic')
-import UniformData             = require('davinci-eight/core/UniformData')
-import UniformDataVisitor      = require('davinci-eight/core/UniformDataVisitor')
+import IFacet             = require('davinci-eight/core/IFacet')
+import IFacetVisitor      = require('davinci-eight/core/IFacetVisitor')
 import UniformLocation         = require('davinci-eight/core/UniformLocation')
 import UniformMetaInfo         = require('davinci-eight/core/UniformMetaInfo')
 // curves
@@ -141,9 +140,8 @@ import CylinderOptions = require('davinci-eight/mesh/CylinderOptions')
 import SphereOptions = require('davinci-eight/mesh/SphereOptions')
 
 // models
-import EulerModel = require('davinci-eight/models/EulerModel')
-import Model3     = require('davinci-eight/models/Model3')
-import RigidBody3 = require('davinci-eight/models/RigidBody3')
+import EulerFacet = require('davinci-eight/models/EulerFacet')
+import ModelFacet     = require('davinci-eight/models/ModelFacet')
 
 // programs
 import IMaterial = require('davinci-eight/core/IMaterial')
@@ -152,17 +150,21 @@ import ContextRenderer = require('davinci-eight/renderers/ContextRenderer')
 import initWebGL = require('davinci-eight/renderers/initWebGL')
 import renderer = require('davinci-eight/renderers/renderer')
 // uniforms
+import ColorFacet               = require('davinci-eight/uniforms/ColorFacet')
 import SineWaveUniform            = require('davinci-eight/uniforms/SineWaveUniform')
 import StockTicker                = require('davinci-eight/uniforms/StockTicker')
 
 // utils
 import contextProxy               = require('davinci-eight/utils/contextProxy')
 import Framerate                  = require('davinci-eight/utils/Framerate')
+import IUnknownArray              = require('davinci-eight/utils/IUnknownArray')
 import loadImageTexture           = require('davinci-eight/utils/loadImageTexture')
 import makeBox                    = require('davinci-eight/utils/makeBox')
 import makeSphere                 = require('davinci-eight/utils/makeSphere')
+import NumberIUnknownMap          = require('davinci-eight/utils/NumberIUnknownMap')
 import refChange                  = require('davinci-eight/utils/refChange')
 import Shareable                  = require('davinci-eight/utils/Shareable')
+import StringIUnknownMap          = require('davinci-eight/utils/StringIUnknownMap')
 import workbench3D                = require('davinci-eight/utils/workbench3D')
 import WindowAnimationRunner      = require('davinci-eight/utils/WindowAnimationRunner')
 import windowAnimationRunner      = require('davinci-eight/utils/windowAnimationRunner')
@@ -210,9 +212,8 @@ var eight = {
   get createPerspective() { return createPerspective },
   get createView() { return createView },
 
-  get EulerModel() { return EulerModel },
-  get Model3() { return Model3 },
-  get RigidBody3() { return RigidBody3 },
+  get EulerFacet() { return EulerFacet },
+  get ModelFacet() { return ModelFacet },
 
   get Simplex() { return Simplex },
   get Vertex() { return Vertex },
@@ -238,7 +239,6 @@ var eight = {
     return smartProgram
   },
   get Color() { return Color },
-  get Face3() { return Face3 },
   get CompatcGeometry() { return GeometryElements },
 //  get ArrowGeometry() { return ArrowGeometry },
   get BarnGeometry() { return BarnGeometry },
@@ -289,9 +289,13 @@ var eight = {
   get GeometryAttribute() { return GeometryAttribute },
   get GeometryElements() { return GeometryElements },
   // uniforms
+  get ColorFacet() { return ColorFacet },
   get SineWaveUniform() { return SineWaveUniform },
   // utils
+  get IUnknownArray() { return IUnknownArray },
+  get NumberIUnknownMap() { return NumberIUnknownMap },
   get refChange() { return refChange },
-  get Shareable() { return Shareable }
+  get Shareable() { return Shareable },
+  get StringIUnknownMap() { return StringIUnknownMap }
 }
 export = eight

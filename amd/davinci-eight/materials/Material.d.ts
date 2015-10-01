@@ -1,6 +1,6 @@
 import AttribLocation = require('../core/AttribLocation');
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import IMaterial = require('../core/IMaterial');
 import Matrix1 = require('../math/Matrix1');
 import Matrix2 = require('../math/Matrix2');
@@ -26,10 +26,10 @@ declare class Material extends Shareable implements IMaterial {
     /**
      * @class Material
      * @constructor
-     * @param contexts {ContextMonitor[]}
+     * @param contexts {IContextMonitor[]}
      * @param type {string} The class name, used for logging and serialization.
      */
-    constructor(contexts: ContextMonitor[], type: string);
+    constructor(contexts: IContextMonitor[], type: string);
     /**
      * @method destructor
      * @return {void}
@@ -39,9 +39,9 @@ declare class Material extends Shareable implements IMaterial {
     protected makeReady(async: boolean): void;
     /**
      * @property monitors
-     * @type {ContextMonitor[]}
+     * @type {IContextMonitor[]}
      */
-    monitors: ContextMonitor[];
+    monitors: IContextMonitor[];
     fragmentShader: string;
     use(canvasId: number): void;
     attributes(canvasId: number): {

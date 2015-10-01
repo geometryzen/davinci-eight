@@ -22,7 +22,7 @@ define(["require", "exports", '../materials/Material', '../materials/SmartMateri
         /**
          * @class MeshMaterial
          * @constructor
-         * @param monitors [ContextMonitor[]=[]]
+         * @param monitors [IContextMonitor[]=[]]
          * @parameters [MeshNormalParameters]
          */
         function MeshMaterial(monitors, parameters) {

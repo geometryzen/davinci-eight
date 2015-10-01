@@ -4,7 +4,7 @@ import IMaterial = require('../core/IMaterial')
 import IUnknown = require('../core/IUnknown')
 // FIXME: Move IUnknownArray to core.
 import IUnknownArray = require('../utils/IUnknownArray')
-import UniformData = require('../core/UniformData')
+import IFacet = require('../core/IFacet')
 
 /**
  * @class IDrawList
@@ -13,7 +13,13 @@ import UniformData = require('../core/UniformData')
  */
 interface IDrawList extends IContextConsumer, IUnknown {
   add(drawable: IDrawable): void;
-  draw(ambients: UniformData, canvasId: number): void;
+  /**
+   * @method draw
+   * @param ambients {IFacet[]}
+   * @param canvasId {number}
+   * @return {void}
+   */
+  draw(ambients: IFacet[], canvasId: number): void;
   /**
    * Gets a collection of drawable elements by name.
    * @method getDrawablesByName

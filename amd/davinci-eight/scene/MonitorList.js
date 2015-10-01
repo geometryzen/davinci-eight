@@ -1,9 +1,14 @@
-define(["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, mustSatisfy, isInteger) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable, mustSatisfy, isInteger) {
     function beInstanceOfContextMonitors() {
         return "be an instance of MonitorList";
     }
     function beContextMonitorArray() {
-        return "be ContextMonitor[]";
+        return "be IContextMonitor[]";
     }
     function identity(monitor) {
         return monitor;
@@ -13,11 +18,21 @@ define(["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], f
     /**
      * Implementation Only.
      */
-    var MonitorList = (function () {
+    var MonitorList = (function (_super) {
+        __extends(MonitorList, _super);
         function MonitorList(monitors) {
             if (monitors === void 0) { monitors = []; }
+            _super.call(this, 'MonitorList');
             this.monitors = monitors.map(identity);
+            this.monitors.forEach(function (monitor) {
+                monitor.addRef();
+            });
         }
+        MonitorList.prototype.destructor = function () {
+            this.monitors.forEach(function (monitor) {
+                monitor.release();
+            });
+        };
         MonitorList.prototype.addContextListener = function (user) {
             this.monitors.forEach(function (monitor) {
                 monitor.addContextListener(user);
@@ -80,6 +95,6 @@ define(["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], f
             });
         };
         return MonitorList;
-    })();
+    })(Shareable);
     return MonitorList;
 });

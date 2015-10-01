@@ -1,7 +1,7 @@
 import IContextConsumer = require('../core/IContextConsumer');
 import ContextController = require('../core/ContextController');
 import ContextKahuna = require('../core/ContextKahuna');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import mustSatisfy = require('../checks/mustSatisfy');
 
 function beInstanceOfContextMonitors() {

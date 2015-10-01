@@ -1,6 +1,6 @@
 import AttribMetaInfo = require('../core/AttribMetaInfo');
 import IContextProvider = require('../core/IContextProvider');
-import ContextMonitor = require('../core/ContextMonitor');
+import IContextMonitor = require('../core/IContextMonitor');
 import MonitorList = require('../scene/MonitorList');
 import expectArg = require('../checks/expectArg');
 import fragmentShader = require('../programs/fragmentShader');
@@ -26,7 +26,7 @@ import vLightRequired = require('../programs/vLightRequired');
 /**
  *
  */
-var smartProgram = function(monitors: ContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IMaterial {
+var smartProgram = function(monitors: IContextMonitor[], attributes: { [name: string]: AttribMetaInfo }, uniformsList: { [name: string]: UniformMetaInfo }[], bindings: string[]): IMaterial {
   MonitorList.verify('monitors', monitors, () => { return "smartProgram"; });
   mustBeDefined('attributes', attributes);
   mustBeDefined('uniformsList', uniformsList);
