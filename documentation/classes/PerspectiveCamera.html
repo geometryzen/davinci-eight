@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.115.0</em>
+            <em>API Docs for: 2.116.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -50,7 +51,6 @@
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -78,18 +78,22 @@
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
+                                <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -177,7 +181,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:47</code></a>
+            Defined in: <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:45</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -222,7 +226,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:47</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l45"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:45</code></a>
         </p>
 
 
@@ -290,9 +294,9 @@
             <h4>Example:</h4>
 
             <div class="example-content">
-                <pre class="code prettyprint"><code>  var camera = new EIGHT.PerspectiveCamera()
-  camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-  camera.setFov(3.0 * e3)</code></pre>
+                <p>var camera = new EIGHT.PerspectiveCamera()
+camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+camera.setFov(3.0 * e3)</p>
 
             </div>
         </div>
@@ -329,6 +333,10 @@
                             </li>
                             <li class="index-item method">
                                 <a href="#method_setNear">setNear</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setUniforms">setUniforms</a>
 
                             </li>
                     </ul>
@@ -396,7 +404,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l111"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:111</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l113"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:113</code></a>
         </p>
 
 
@@ -461,7 +469,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l130"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:130</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l132"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:132</code></a>
         </p>
 
 
@@ -526,7 +534,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l154"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:154</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l156"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:156</code></a>
         </p>
 
 
@@ -591,7 +599,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l185"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:185</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l187"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:187</code></a>
         </p>
 
 
@@ -630,6 +638,81 @@
 
 
 </div>
+<div id="method_setUniforms" class="method item">
+    <h3 class="name"><code>setUniforms</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>visitor</code>
+                </li>
+                <li class="arg">
+                        <code>canvasId</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l71"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:71</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">visitor</code>
+                        <span class="type"><a href="../classes/IFacetVisitor.html" class="crosslink">IFacetVisitor</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">canvasId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
             </div>
 
             <div id="properties" class="api-class-tabpanel">
@@ -646,7 +729,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l102"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:102</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l104"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:104</code></a>
         </p>
 
 
@@ -671,7 +754,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l121"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:121</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l123"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:123</code></a>
         </p>
 
 
@@ -696,7 +779,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l140"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:140</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l142"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:142</code></a>
         </p>
 
 
@@ -722,7 +805,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l33"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:33</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l31"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:31</code></a>
         </p>
 
 
@@ -746,7 +829,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:38</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l36"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:36</code></a>
         </p>
 
 
@@ -770,7 +853,7 @@ Measured in radians.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l173"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:173</code></a>
+        <a href="../files/src_davinci-eight_scene_PerspectiveCamera.ts.html#l175"><code>src&#x2F;davinci-eight&#x2F;scene&#x2F;PerspectiveCamera.ts:175</code></a>
         </p>
 
 

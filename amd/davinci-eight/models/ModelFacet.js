@@ -88,6 +88,51 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
             configurable: true
         });
         /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
+        ModelFacet.prototype.getProperty = function (name) {
+            switch (name) {
+                case ModelFacet.PROP_ATTITUDE: {
+                    return this._attitude.data;
+                }
+                case ModelFacet.PROP_POSITION: {
+                    return this._position.data;
+                }
+                default: {
+                    console.warn("ModelFacet.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param data {number[]}
+         * @return {void}
+         */
+        ModelFacet.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ModelFacet.PROP_ATTITUDE:
+                    {
+                        this._attitude.yz = data[0];
+                        this._attitude.zx = data[1];
+                        this._attitude.xy = data[2];
+                        this._attitude.w = data[3];
+                    }
+                    break;
+                case ModelFacet.PROP_POSITION:
+                    {
+                        this._position.set(data[0], data[1], data[2]);
+                    }
+                    break;
+                default: {
+                    console.warn("ModelFacet.setProperty " + name);
+                }
+            }
+        };
+        /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
          * @param canvasId {number}
@@ -114,6 +159,8 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
         };
+        ModelFacet.PROP_ATTITUDE = 'attitude';
+        ModelFacet.PROP_POSITION = 'position';
         return ModelFacet;
     })(Shareable);
     return ModelFacet;

@@ -1,12 +1,13 @@
-import mustBeString = require('../checks/mustBeString');
-import refChange = require('../utils/refChange');
-import IUnknown = require('../core/IUnknown');
-import uuid4 = require('../utils/uuid4');
+import mustBeString = require('../checks/mustBeString')
+import readOnly = require('../i18n/readOnly')
+import refChange = require('../utils/refChange')
+import IUnknown = require('../core/IUnknown')
+import uuid4 = require('../utils/uuid4')
 
 class Shareable implements IUnknown {
-  private _refCount: number = 1;
-  protected _type: string;
-  private _uuid = uuid4().generate();
+  private _refCount: number = 1
+  protected _type: string
+  private _uuid = uuid4().generate()
   /**
    * <p>
    * Convenient base class for derived classes implementing <code>IUnknown</code>.
@@ -17,8 +18,8 @@ class Shareable implements IUnknown {
    * @param type {string} The human-readable name of the derived type.
    */
   constructor(type: string) {
-    this._type = mustBeString('type', type);
-    refChange(this._uuid, type, +1);
+    this._type = mustBeString('type', type)
+    refChange(this._uuid, type, +1)
   }
   /**
    * <p>
@@ -29,9 +30,9 @@ class Shareable implements IUnknown {
    * @return {number} The new value of the reference count.
    */
   addRef(client?: string): number {
-    this._refCount++;
-    refChange(this._uuid, this._type, +1);
-    return this._refCount;
+    this._refCount++
+    refChange(this._uuid, this._type, +1)
+    return this._refCount
   }
   /**
    * <p>
@@ -42,18 +43,17 @@ class Shareable implements IUnknown {
    * @return {number} The new value of the reference count.
    */
   release(client?: string): number {
-    this._refCount--;
-    refChange(this._uuid, this._type, -1);
-    let refCount = this._refCount;
+    this._refCount--
+    refChange(this._uuid, this._type, -1)
+    let refCount = this._refCount
     if (refCount === 0) {
-      this.destructor();
-      this._refCount = void 0;
-      this._type = void 0;
-      this._uuid = void 0;
+      this.destructor()
+      this._refCount = void 0
+      this._type = void 0
+      this._uuid = void 0
     }
     return refCount;
   }
-
   /**
    * <p>
    * Outputs a warning to the console that this method should be implemented by the derived class.
@@ -69,7 +69,18 @@ class Shareable implements IUnknown {
    * @protected
    */
   protected destructor(): void {
-    console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+    console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.")
+  }
+  /**
+   * @property uuid
+   * @type {string}
+   * @readOnly
+   */
+  get uuid(): string {
+    return this._uuid
+  }
+  set uuid(unused: string) {
+    throw new Error(readOnly('uuid').message)
   }
 }
 

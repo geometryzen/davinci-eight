@@ -2,11 +2,56 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.115.0",
+        "version": "2.116.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
     "files": {
+        "src/davinci-eight/animate/Animator.ts": {
+            "name": "src/davinci-eight/animate/Animator.ts",
+            "modules": {},
+            "classes": {
+                "AnimatedMirror": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/animate/IAnimation.ts": {
+            "name": "src/davinci-eight/animate/IAnimation.ts",
+            "modules": {},
+            "classes": {
+                "IAnimation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/animate/IAnimationClock.ts": {
+            "name": "src/davinci-eight/animate/IAnimationClock.ts",
+            "modules": {},
+            "classes": {
+                "IAnimationClock": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/animate/IExchange.ts": {
+            "name": "src/davinci-eight/animate/IExchange.ts",
+            "modules": {},
+            "classes": {
+                "IExchange": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/animate/IProperties.ts": {
+            "name": "src/davinci-eight/animate/IProperties.ts",
+            "modules": {},
+            "classes": {
+                "IProperties": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/cameras/Frustum.ts": {
             "name": "src/davinci-eight/cameras/Frustum.ts",
             "modules": {},
@@ -371,8 +416,22 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/core/principalAngle.ts": {
+            "name": "src/davinci-eight/core/principalAngle.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/curves/Curve.ts": {
             "name": "src/davinci-eight/curves/Curve.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/events/MicroEvent.ts": {
+            "name": "src/davinci-eight/events/MicroEvent.ts",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -675,13 +734,6 @@
             "classes": {
                 "Cartesian4": 1
             },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/math/Color.ts": {
-            "name": "src/davinci-eight/math/Color.ts",
-            "modules": {},
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1149,7 +1201,6 @@
             "name": "src/davinci-eight/uniforms/ColorFacet.ts",
             "modules": {},
             "classes": {
-                "ColorFacet.": 1,
                 "ColorFacet": 1
             },
             "fors": {},
@@ -1244,6 +1295,11 @@
                 "geometries": 1
             },
             "classes": {
+                "AnimatedMirror": 1,
+                "IAnimation": 1,
+                "IAnimationClock": 1,
+                "IExchange": 1,
+                "IProperties": 1,
                 "Frustum": 1,
                 "Perspective": 1,
                 "View": 1,
@@ -1330,7 +1386,6 @@
                 "IDrawList": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
-                "ColorFacet.": 1,
                 "ColorFacet": 1,
                 "IUnknownArray": 1,
                 "NumberIUnknownMap<V>": 1,
@@ -1361,6 +1416,72 @@
         }
     },
     "classes": {
+        "AnimatedMirror": {
+            "name": "AnimatedMirror",
+            "shortname": "AnimatedMirror",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 305,
+            "description": "The super-symmetric partner of an IProperties adapter.\nThis class keeps track of animation state.",
+            "is_constructor": 1
+        },
+        "IAnimation": {
+            "name": "IAnimation",
+            "shortname": "IAnimation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/animate/IAnimation.ts",
+            "line": 3,
+            "extends": "IUnknown"
+        },
+        "IAnimationClock": {
+            "name": "IAnimationClock",
+            "shortname": "IAnimationClock",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/animate/IAnimationClock.ts",
+            "line": 1
+        },
+        "IExchange": {
+            "name": "IExchange",
+            "shortname": "IExchange",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/animate/IExchange.ts",
+            "line": 1,
+            "access": "private",
+            "tagname": ""
+        },
+        "IProperties": {
+            "name": "IProperties",
+            "shortname": "IProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/animate/IProperties.ts",
+            "line": 3,
+            "extends": "IUnknown"
+        },
         "Frustum": {
             "name": "Frustum",
             "shortname": "Frustum",
@@ -1556,7 +1677,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 24,
+            "line": 78,
             "description": "<p>\nA mutable type representing a color through its RGB components.\n</p>\n<p>\nWARNING: In many object-oriented designs, types representing values are completely immutable.\nIn a graphics library where data changes rapidly and garbage collection might become an issue,\nit is common to use reference types, such as in this design. This mutability can lead to\ndifficult bugs because it is hard to reason about where a color may have changed. \n</p>",
             "implements": "Mutable<number[]>",
             "is_constructor": 1,
@@ -2875,7 +2996,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 23,
+            "line": 29,
             "description": "ModelFacet implements IFacet required for manipulating a body.",
             "is_constructor": 1
         },
@@ -2981,7 +3102,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 47,
+            "line": 45,
             "description": "<p>\n\n</p>",
             "is_constructor": 1,
             "params": [
@@ -3015,7 +3136,7 @@
                 }
             ],
             "example": [
-                "\n      var camera = new EIGHT.PerspectiveCamera()\n      camera.setAspect(canvas.clientWidth / canvas.clientHeight)\n      camera.setFov(3.0 * e3)"
+                "\n  var camera = new EIGHT.PerspectiveCamera()\n  camera.setAspect(canvas.clientWidth / canvas.clientHeight)\n  camera.setFov(3.0 * e3)"
             ]
         },
         "Scene": {
@@ -3040,19 +3161,6 @@
                 }
             ]
         },
-        "ColorFacet.": {
-            "name": "ColorFacet.",
-            "shortname": "ColorFacet.",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "namespace": "",
-            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 11
-        },
         "ColorFacet": {
             "name": "ColorFacet",
             "shortname": "ColorFacet",
@@ -3064,7 +3172,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 27,
+            "line": 41,
             "is_constructor": 1,
             "params": [
                 {
@@ -3115,7 +3223,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/utils/Shareable.ts",
-            "line": 10,
+            "line": 11,
             "description": "<p>\nConvenient base class for derived classes implementing <code>IUnknown</code>.\n</p>",
             "extends": "IUnknown",
             "is_constructor": 1,
@@ -3171,6 +3279,207 @@
         }
     },
     "classitems": [
+        {
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 39,
+            "description": "Attach animator to an object.",
+            "class": "AnimatedMirror"
+        },
+        {
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 77,
+            "description": "Hurry all animations on an object by speeding by a factor.",
+            "class": "AnimatedMirror"
+        },
+        {
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 98,
+            "description": "Stop all animations on an object.",
+            "itemtype": "method",
+            "name": "stop",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Animated"
+                },
+                {
+                    "name": "attributes",
+                    "description": "",
+                    "type": "IExchange"
+                }
+            ],
+            "class": "AnimatedMirror"
+        },
+        {
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 124,
+            "description": "Animate a set of attributes on an object.",
+            "itemtype": "method",
+            "name": "animate",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "The object to be animated",
+                    "type": "Animated"
+                },
+                {
+                    "name": "animation",
+                    "description": "The animations to be applied by property name.",
+                    "type": "[name: string]:IAnimation"
+                },
+                {
+                    "name": "options",
+                    "description": "[IAnimateOptions] determine how the attributes will be animated."
+                }
+            ],
+            "class": "AnimatedMirror"
+        },
+        {
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 196,
+            "description": "Remove current animation on an object attribute.",
+            "class": "AnimatedMirror"
+        },
+        {
+            "file": "src/davinci-eight/animate/Animator.ts",
+            "line": 235,
+            "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "speed",
+                    "description": "Advances the static Animator.now property.",
+                    "type": "Number"
+                }
+            ],
+            "class": "AnimatedMirror"
+        },
+        {
+            "file": "src/davinci-eight/animate/IAnimation.ts",
+            "line": 8,
+            "itemtype": "method",
+            "name": "apply",
+            "params": [
+                {
+                    "name": "offset",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IAnimation"
+        },
+        {
+            "file": "src/davinci-eight/animate/IAnimation.ts",
+            "line": 14,
+            "itemtype": "method",
+            "name": "skip",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IAnimation"
+        },
+        {
+            "file": "src/davinci-eight/animate/IAnimation.ts",
+            "line": 19,
+            "itemtype": "method",
+            "name": "hurry",
+            "params": [
+                {
+                    "name": "factor",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IAnimation"
+        },
+        {
+            "file": "src/davinci-eight/animate/IAnimation.ts",
+            "line": 25,
+            "itemtype": "method",
+            "name": "extra",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IAnimation"
+        },
+        {
+            "file": "src/davinci-eight/animate/IAnimation.ts",
+            "line": 30,
+            "itemtype": "method",
+            "name": "done",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "IAnimation"
+        },
+        {
+            "file": "src/davinci-eight/animate/IAnimationClock.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "now",
+            "type": "{number}",
+            "readonly": "",
+            "class": "IAnimationClock"
+        },
+        {
+            "file": "src/davinci-eight/animate/IProperties.ts",
+            "line": 8,
+            "itemtype": "property",
+            "name": "uuid",
+            "type": "{string}",
+            "readonly": "",
+            "class": "IProperties"
+        },
+        {
+            "file": "src/davinci-eight/animate/IProperties.ts",
+            "line": 14,
+            "itemtype": "method",
+            "name": "getProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "class": "IProperties"
+        },
+        {
+            "file": "src/davinci-eight/animate/IProperties.ts",
+            "line": 20,
+            "itemtype": "method",
+            "name": "setProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "class": "IProperties"
+        },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
             "line": 10,
@@ -3886,8 +4195,94 @@
         },
         {
             "file": "src/davinci-eight/core/Color.ts",
-            "line": 64,
+            "line": 23,
+            "itemtype": "property",
+            "name": "black",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 29,
+            "itemtype": "property",
+            "name": "blue",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 35,
+            "itemtype": "property",
+            "name": "green",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 41,
+            "itemtype": "property",
+            "name": "cyan",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 47,
+            "itemtype": "property",
+            "name": "red",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 53,
+            "itemtype": "property",
+            "name": "magenta",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 59,
+            "itemtype": "property",
+            "name": "yellow",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 65,
+            "itemtype": "property",
+            "name": "white",
+            "type": "{Color}",
+            "static": 1,
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 71,
+            "itemtype": "property",
+            "name": "data",
+            "type": "{number[]}",
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 127,
             "description": "Converts an angle, radius, height to a color on a color wheel.",
+            "class": "Color"
+        },
+        {
+            "file": "src/davinci-eight/core/Color.ts",
+            "line": 135,
+            "description": "This function captures C and L",
             "class": "Color"
         },
         {
@@ -4933,6 +5328,12 @@
             "class": "BarnGeometry"
         },
         {
+            "file": "src/davinci-eight/core/principalAngle.ts",
+            "line": 1,
+            "description": "Converts the angle specified into one in the closed interval [0, Math.PI]",
+            "class": "BarnGeometry"
+        },
+        {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 2,
             "author": "zz85 / http://www.lab4games.net/zz85/blog\nExtensible curve object\n\nSome common of Curve methods\n.getPoint(t), getTangent(t)\n.getPointAt(u), getTagentAt(u)\n.getPoints(), .getSpacedPoints()\n.getLength()\n.updateArcLengths()\n\nThis following classes subclasses Curve:\n\nLineCurve\nQuadraticBezierCurve\nCubicBezierCurve\nSplineCurve\nArcCurve\nEllipseCurve\nClosedSplineCurve",
@@ -4960,6 +5361,19 @@
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 194,
             "description": "Returns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
+            "class": "BarnGeometry"
+        },
+        {
+            "file": "src/davinci-eight/events/MicroEvent.ts",
+            "line": 24,
+            "description": "mixin will delegate all MicroEvent.js function in the destination object\n\n- require('MicroEvent').mixin(Foobar) will make Foobar able to use MicroEvent",
+            "params": [
+                {
+                    "name": "the",
+                    "description": "object which will support MicroEvent",
+                    "type": "Object"
+                }
+            ],
             "class": "BarnGeometry"
         },
         {
@@ -5697,13 +6111,6 @@
             "module": "EIGHT"
         },
         {
-            "file": "src/davinci-eight/math/Color.ts",
-            "line": 23,
-            "description": "Converts an angle, radius, height to a color on a color wheel.",
-            "class": "Complex",
-            "module": "EIGHT"
-        },
-        {
             "file": "src/davinci-eight/math/Complex.ts",
             "line": 33,
             "description": "The real part of the complex number.",
@@ -6205,7 +6612,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 147,
+            "line": 177,
             "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
             "itemtype": "method",
             "name": "reflect",
@@ -6225,7 +6632,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 190,
+            "line": 220,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -6519,7 +6926,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 34,
+            "line": 40,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6531,7 +6938,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 48,
+            "line": 54,
             "itemtype": "property",
             "name": "attitude",
             "type": "Spinor3",
@@ -6541,7 +6948,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 59,
+            "line": 65,
             "itemtype": "property",
             "name": "position",
             "type": "Vector3",
@@ -6551,7 +6958,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 70,
+            "line": 76,
             "itemtype": "property",
             "name": "scaleXYZ",
             "type": "Vector3",
@@ -6561,7 +6968,50 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 81,
+            "line": 87,
+            "itemtype": "method",
+            "name": "getProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 106,
+            "itemtype": "method",
+            "name": "setProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ModelFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/models/ModelFacet.ts",
+            "line": 130,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -6984,7 +7434,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 33,
+            "line": 31,
             "itemtype": "property",
             "name": "material",
             "type": "{IMaterial}",
@@ -6993,7 +7443,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 38,
+            "line": 36,
             "itemtype": "property",
             "name": "name",
             "type": "[string]",
@@ -7002,13 +7452,37 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 43,
+            "line": 41,
             "class": "PerspectiveCamera",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 102,
+            "line": 71,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "params": [
+                {
+                    "name": "visitor",
+                    "description": "",
+                    "type": "IFacetVisitor"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "PerspectiveCamera",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
+            "line": 104,
             "description": "The aspect ratio (width / height) of the camera viewport.",
             "itemtype": "property",
             "name": "aspect",
@@ -7019,7 +7493,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 111,
+            "line": 113,
             "itemtype": "method",
             "name": "setAspect",
             "params": [
@@ -7039,7 +7513,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 121,
+            "line": 123,
             "description": "The position of the camera.",
             "itemtype": "property",
             "name": "eye",
@@ -7050,7 +7524,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 130,
+            "line": 132,
             "itemtype": "method",
             "name": "setEye",
             "params": [
@@ -7070,7 +7544,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 140,
+            "line": 142,
             "description": "The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.\nMeasured in radians.",
             "itemtype": "property",
             "name": "fov",
@@ -7081,7 +7555,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 154,
+            "line": 156,
             "itemtype": "method",
             "name": "setFov",
             "params": [
@@ -7101,7 +7575,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 173,
+            "line": 175,
             "description": "The distance to the near plane.",
             "itemtype": "property",
             "name": "near",
@@ -7112,7 +7586,7 @@
         },
         {
             "file": "src/davinci-eight/scene/PerspectiveCamera.ts",
-            "line": 185,
+            "line": 187,
             "itemtype": "method",
             "name": "setNear",
             "params": [
@@ -7260,83 +7734,101 @@
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 29,
             "description": "A grouping of IDrawable, by IMaterial.",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 34,
             "description": "I can't see this being used; it's all about the drawables!",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 71,
             "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 117,
             "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 121,
             "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
             "line": 266,
             "description": "method contextGain",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
             "line": 8,
             "description": "Construction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/uniforms/CityTemperature.ts",
             "line": 4,
             "description": "Poller for the ...? server.",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 15,
+            "line": 17,
+            "description": "property PROP_RGB",
+            "type": "{string}",
+            "static": 1,
+            "class": "ColorFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 23,
+            "description": "property PROP_RED",
+            "type": "{string}",
+            "static": 1,
+            "class": "ColorFacet",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/ColorFacet.ts",
+            "line": 29,
             "itemtype": "property",
             "name": "colorRGB",
             "type": "Vector3",
             "access": "private",
             "tagname": "",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 21,
+            "line": 35,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
             "access": "private",
             "tagname": "",
-            "class": "ColorFacet.",
+            "class": "ColorFacet",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 37,
+            "line": 51,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7350,7 +7842,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 45,
+            "line": 59,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "red",
@@ -7360,7 +7852,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 56,
+            "line": 70,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "green",
@@ -7370,7 +7862,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 67,
+            "line": 81,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "blue",
@@ -7380,7 +7872,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 20,
+            "line": 24,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7392,28 +7884,8 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 30,
-            "description": "Gets the element at the specified index without incrementing the reference count.\nUse this method when you don't intend to hold onto the returned value.",
-            "itemtype": "method",
-            "name": "getWeakReference",
-            "params": [
-                {
-                    "name": "index",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "T"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 40,
-            "description": "Gets the element at the specified index, incrementing the reference count.\nUse this method when you intend to hold onto the referent and release it later.",
+            "line": 34,
+            "description": "Gets the element at the specified index, incrementing the reference count.",
             "itemtype": "method",
             "name": "get",
             "params": [
@@ -7432,7 +7904,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 55,
+            "line": 48,
             "itemtype": "method",
             "name": "indexOf",
             "params": [
@@ -7456,7 +7928,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 64,
+            "line": 57,
             "itemtype": "property",
             "name": "length",
             "return": {
@@ -7468,7 +7940,43 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 76,
+            "line": 67,
+            "itemtype": "method",
+            "name": "splice",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "count",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "IUnnownArray<T>"
+            },
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 78,
+            "itemtype": "method",
+            "name": "shift",
+            "return": {
+                "description": "",
+                "type": "T"
+            },
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 86,
             "description": "Traverse without Reference Counting",
             "itemtype": "method",
             "name": "forEach",
@@ -7488,10 +7996,10 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 85,
+            "line": 95,
             "description": "Pushes an element onto the tail of the list and increments the element reference count.",
             "itemtype": "method",
-            "name": "pushStrongReference",
+            "name": "push",
             "params": [
                 {
                     "name": "element",
@@ -7508,27 +8016,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 98,
-            "description": "Pushes an element onto the tail of the list with no change in the reference count.",
-            "itemtype": "method",
-            "name": "pushWeakReference",
-            "params": [
-                {
-                    "name": "element",
-                    "description": "",
-                    "type": "T"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "IUnknownArray",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 107,
+            "line": 108,
             "itemtype": "method",
             "name": "pop",
             "return": {
@@ -7540,7 +8028,7 @@
         },
         {
             "file": "src/davinci-eight/utils/Shareable.ts",
-            "line": 23,
+            "line": 24,
             "description": "<p>\nNotifies this instance that something is dereferencing it.\n</p>",
             "itemtype": "method",
             "name": "addRef",
@@ -7553,7 +8041,7 @@
         },
         {
             "file": "src/davinci-eight/utils/Shareable.ts",
-            "line": 36,
+            "line": 37,
             "description": "<p>\nNotifies this instance that something is dereferencing it.\n</p>",
             "itemtype": "method",
             "name": "release",
@@ -7576,6 +8064,16 @@
             },
             "access": "protected",
             "tagname": "",
+            "class": "Shareable",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/Shareable.ts",
+            "line": 74,
+            "itemtype": "property",
+            "name": "uuid",
+            "type": "{string}",
+            "readonly": "",
             "class": "Shareable",
             "module": "EIGHT"
         },
@@ -7867,12 +8365,28 @@
             "line": " src/davinci-eight/materials/PointMaterial.ts:26"
         },
         {
+            "message": "Missing item type\nAttach animator to an object.",
+            "line": " src/davinci-eight/animate/Animator.ts:39"
+        },
+        {
+            "message": "Missing item type\nHurry all animations on an object by speeding by a factor.",
+            "line": " src/davinci-eight/animate/Animator.ts:77"
+        },
+        {
+            "message": "Missing item type\nRemove current animation on an object attribute.",
+            "line": " src/davinci-eight/animate/Animator.ts:196"
+        },
+        {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
             "line": " src/davinci-eight/core/BufferResource.ts:9"
         },
         {
             "message": "Missing item type\nConverts an angle, radius, height to a color on a color wheel.",
-            "line": " src/davinci-eight/core/Color.ts:64"
+            "line": " src/davinci-eight/core/Color.ts:127"
+        },
+        {
+            "message": "Missing item type\nThis function captures C and L",
+            "line": " src/davinci-eight/core/Color.ts:135"
         },
         {
             "message": "Missing item type",
@@ -7939,6 +8453,10 @@
             "line": " src/davinci-eight/core/getUniformVarName.ts:4"
         },
         {
+            "message": "Missing item type\nConverts the angle specified into one in the closed interval [0, Math.PI]",
+            "line": " src/davinci-eight/core/principalAngle.ts:1"
+        },
+        {
             "message": "Missing item type",
             "line": " src/davinci-eight/curves/Curve.ts:2"
         },
@@ -7957,6 +8475,10 @@
         {
             "message": "Missing item type\nReturns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
             "line": " src/davinci-eight/curves/Curve.ts:194"
+        },
+        {
+            "message": "Missing item type\nmixin will delegate all MicroEvent.js function in the destination object\n\n- require('MicroEvent').mixin(Foobar) will make Foobar able to use MicroEvent",
+            "line": " src/davinci-eight/events/MicroEvent.ts:24"
         },
         {
             "message": "Missing item type",
@@ -8089,10 +8611,6 @@
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
             "line": " src/davinci-eight/materials/SmartMaterial.ts:21"
-        },
-        {
-            "message": "Missing item type\nConverts an angle, radius, height to a color on a color wheel.",
-            "line": " src/davinci-eight/math/Color.ts:23"
         },
         {
             "message": "Missing item type\n__add__ supports operator +(Complex, any)",
@@ -8276,7 +8794,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/scene/PerspectiveCamera.ts:43"
+            "line": " src/davinci-eight/scene/PerspectiveCamera.ts:41"
         },
         {
             "message": "Missing item type\nA grouping of IDrawable, by IMaterial.",
@@ -8309,6 +8827,14 @@
         {
             "message": "Missing item type\nPoller for the ...? server.",
             "line": " src/davinci-eight/uniforms/CityTemperature.ts:4"
+        },
+        {
+            "message": "Missing item type\nproperty PROP_RGB",
+            "line": " src/davinci-eight/uniforms/ColorFacet.ts:17"
+        },
+        {
+            "message": "Missing item type\nproperty PROP_RED",
+            "line": " src/davinci-eight/uniforms/ColorFacet.ts:23"
         },
         {
             "message": "Missing item type\nThis could become an encapsulated call?\nclass GeometryDataCommand\nprivate",

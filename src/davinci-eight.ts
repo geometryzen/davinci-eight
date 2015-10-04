@@ -1,5 +1,12 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 
+// animate
+import Animator                = require('davinci-eight/animate/Animator')
+import Animation               = require('davinci-eight/animate/animations/Animation')
+import ColorTo                 = require('davinci-eight/animate/animations/ColorTo')
+import MoveTo                  = require('davinci-eight/animate/animations/MoveTo')
+import SpinTo                  = require('davinci-eight/animate/animations/SpinTo')
+
 // cameras
 import createFrustum           = require('davinci-eight/cameras/createFrustum')
 import createPerspective       = require('davinci-eight/cameras/createPerspective')
@@ -150,7 +157,7 @@ import ContextRenderer = require('davinci-eight/renderers/ContextRenderer')
 import initWebGL = require('davinci-eight/renderers/initWebGL')
 import renderer = require('davinci-eight/renderers/renderer')
 // uniforms
-import ColorFacet               = require('davinci-eight/uniforms/ColorFacet')
+import ColorFacet                 = require('davinci-eight/uniforms/ColorFacet')
 import SineWaveUniform            = require('davinci-eight/uniforms/SineWaveUniform')
 import StockTicker                = require('davinci-eight/uniforms/StockTicker')
 
@@ -194,6 +201,13 @@ var eight = {
    * @readOnly
    */
   get VERSION() { return core.VERSION },
+  // animate
+  get Animator() { return Animator },
+  get Animation() { return Animation },
+  get ColorTo() { return ColorTo },
+  get MoveTo() { return MoveTo },
+  get SpinTo() { return SpinTo },
+
   // TODO: Arrange in alphabetical order in order to assess width of API.
   // materials
   get HTMLScriptsMaterial() { return HTMLScriptsMaterial },

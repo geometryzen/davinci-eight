@@ -80,6 +80,12 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
+        Spinor3.prototype.conjugate = function () {
+            this.yz *= -1;
+            this.zx *= -1;
+            this.xy *= -1;
+            return this;
+        };
         Spinor3.prototype.copy = function (spinor) {
             this.yz = spinor.yz;
             this.zx = spinor.zx;
@@ -99,23 +105,47 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         };
         Spinor3.prototype.exp = function () {
             var w = this.w;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
             var expW = Math.exp(w);
-            var B = Math.sqrt(yz * yz + zx * zx + xy * xy);
+            var B = Math.sqrt(x * x + y * y + z * z);
             var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
             this.w = expW * Math.cos(B);
-            this.yz = yz * s;
-            this.zx = zx * s;
-            this.xy = xy * s;
+            this.yz = x * s;
+            this.zx = y * s;
+            this.xy = z * s;
+            return this;
+        };
+        Spinor3.prototype.inverse = function () {
+            this.conjugate();
+            this.divideScalar(this.quaditude());
             return this;
         };
         Spinor3.prototype.lerp = function (target, alpha) {
-            this.xy += (target.xy - this.xy) * alpha;
-            this.yz += (target.yz - this.yz) * alpha;
-            this.zx += (target.zx - this.zx) * alpha;
-            this.w += (target.w - this.w) * alpha;
+            var R2 = Spinor3.copy(target);
+            var R1 = this.clone();
+            var R = R2.multiply(R1.inverse());
+            R.log();
+            R.scale(alpha);
+            R.exp();
+            this.copy(R);
+            return this;
+        };
+        Spinor3.prototype.log = function () {
+            var w = this.w;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
+            var bb = x * x + y * y + z * z;
+            var R2 = Math.sqrt(bb);
+            var R0 = Math.abs(w);
+            var R = Math.sqrt(w * w + bb);
+            this.w = Math.log(R);
+            var f = Math.atan2(R2, R0) / R2;
+            this.yz = x * f;
+            this.zx = y * f;
+            this.xy = z * f;
             return this;
         };
         Spinor3.prototype.magnitude = function () {
@@ -206,6 +236,12 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
          */
         Spinor3.prototype.toString = function () {
             return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        Spinor3.copy = function (spinor) {
+            return new Spinor3().copy(spinor);
+        };
+        Spinor3.lerp = function (a, b, alpha) {
+            return Spinor3.copy(a).lerp(b, alpha);
         };
         return Spinor3;
     })(VectorN);

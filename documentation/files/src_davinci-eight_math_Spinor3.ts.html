@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.115.0</em>
+            <em>API Docs for: 2.116.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -50,7 +51,6 @@
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -78,18 +78,22 @@
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
+                                <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -243,6 +247,12 @@ class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, Mutable&lt
   clone() {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
+  conjugate() {
+    this.yz *= -1
+    this.zx *= -1
+    this.xy *= -1
+    return this
+  }
   copy(spinor: Spinor3Coords) {
     this.yz = spinor.yz;
     this.zx = spinor.zx;
@@ -260,25 +270,49 @@ class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, Mutable&lt
     this.w  /= scalar;
     return this;
   }
-  exp() {
+  exp(): Spinor3 {
     let w  = this.w;
-    let yz = this.yz;
-    let zx = this.zx;
-    let xy = this.xy;
+    let x = this.yz;
+    let y = this.zx;
+    let z = this.xy;
     let expW  = Math.exp(w);
-    let B  = Math.sqrt(yz * yz + zx * zx + xy * xy);
+    let B  = Math.sqrt(x * x + y * y + z * z);
     let s  = expW * (B !== 0 ? Math.sin(B) / B : 1);
     this.w  = expW * Math.cos(B);
-    this.yz = yz * s;
-    this.zx = zx * s;
-    this.xy = xy * s;
+    this.yz = x * s;
+    this.zx = y * s;
+    this.xy = z * s;
     return this;
   }
+  inverse() {
+    this.conjugate()
+    this.divideScalar(this.quaditude());
+    return this
+  }
   lerp(target: Spinor3Coords, alpha: number): Spinor3 {
-    this.xy += ( target.xy - this.xy ) * alpha;
-    this.yz += ( target.yz - this.yz ) * alpha;
-    this.zx += ( target.zx - this.zx ) * alpha;
-    this.w += ( target.w - this.w ) * alpha;
+    var R2 = Spinor3.copy(target)
+    var R1 = this.clone()
+    var R = R2.multiply(R1.inverse())
+    R.log()
+    R.scale(alpha)
+    R.exp()
+    this.copy(R)
+    return this
+  }
+  log(): Spinor3 {
+    let w = this.w
+    let x = this.yz
+    let y = this.zx
+    let z = this.xy
+    let bb = x * x + y * y + z * z
+    let R2 = Math.sqrt(bb)
+    let R0 = Math.abs(w)
+    let R  = Math.sqrt(w * w + bb)
+    this.w = Math.log(R)
+    let f = Math.atan2(R2, R0) / R2
+    this.yz = x * f
+    this.zx = y * f
+    this.xy = z * f
     return this;
   }
   magnitude() {
@@ -371,6 +405,12 @@ class Spinor3 extends VectorN&lt;number&gt; implements Spinor3Coords, Mutable&lt
    */
   toString(): string {
     return &quot;Spinor3({yz: &quot; + this.yz + &quot;, zx: &quot; + this.zx + &quot;, xy: &quot; + this.xy + &quot;, w: &quot; + this.w + &quot;})&quot;
+  }
+  static copy(spinor: Spinor3Coords): Spinor3 {
+    return new Spinor3().copy(spinor);
+  }
+  static lerp(a: Spinor3Coords, b: Spinor3Coords, alpha: number): Spinor3 {
+    return Spinor3.copy(a).lerp(b, alpha)
   }
 }
 

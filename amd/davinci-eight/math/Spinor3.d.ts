@@ -30,11 +30,14 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
     w: number;
     add(rhs: Spinor3Coords): Spinor3;
     clone(): Spinor3;
+    conjugate(): Spinor3;
     copy(spinor: Spinor3Coords): Spinor3;
     difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
     divideScalar(scalar: number): Spinor3;
     exp(): Spinor3;
+    inverse(): Spinor3;
     lerp(target: Spinor3Coords, alpha: number): Spinor3;
+    log(): Spinor3;
     magnitude(): number;
     multiply(rhs: Spinor3Coords): Spinor3;
     scale(scalar: number): Spinor3;
@@ -58,5 +61,7 @@ declare class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<
      * @return {string} A non-normative string representation of the target.
      */
     toString(): string;
+    static copy(spinor: Spinor3Coords): Spinor3;
+    static lerp(a: Spinor3Coords, b: Spinor3Coords, alpha: number): Spinor3;
 }
 export = Spinor3;

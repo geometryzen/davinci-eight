@@ -3,16 +3,15 @@ import IContextProvider = require('../core/IContextProvider');
 import ICamera = require('../scene/ICamera');
 import IMaterial = require('../core/IMaterial');
 import Perspective = require('../cameras/Perspective');
+import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import Vector3 = require('../math/Vector3');
 /**
  * @class PerspectiveCamera
  */
-declare class PerspectiveCamera implements ICamera, Perspective, IFacet {
+declare class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFacet {
     position: Vector3;
-    private _refCount;
-    private _uuid;
     /**
      * @property material
      * @type {IMaterial}
@@ -38,12 +37,18 @@ declare class PerspectiveCamera implements ICamera, Perspective, IFacet {
      * @param [near=0.1] {number}
      * @param [far=2000] {number}
      * @example
-         var camera = new EIGHT.PerspectiveCamera()
-         camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-         camera.setFov(3.0 * e3)
+     *   var camera = new EIGHT.PerspectiveCamera()
+     *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+     *   camera.setFov(3.0 * e3)
      */
     constructor(fov?: number, aspect?: number, near?: number, far?: number);
-    addRef(): number;
+    protected destructor(): void;
+    /**
+     * @method setUniforms
+     * @param visitor {IFacetVisitor}
+     * @param canvasId {number}
+     * @return {void}
+     */
     setUniforms(visitor: IFacetVisitor, canvasId: number): void;
     contextFree(): void;
     contextGain(manager: IContextProvider): void;
@@ -114,6 +119,5 @@ declare class PerspectiveCamera implements ICamera, Perspective, IFacet {
     setFar(far: number): PerspectiveCamera;
     up: Vector3;
     setUp(up: Cartesian3): PerspectiveCamera;
-    release(): number;
 }
 export = PerspectiveCamera;

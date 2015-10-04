@@ -1,4 +1,9 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
+import Animator = require('davinci-eight/animate/Animator');
+import Animation = require('davinci-eight/animate/animations/Animation');
+import ColorTo = require('davinci-eight/animate/animations/ColorTo');
+import MoveTo = require('davinci-eight/animate/animations/MoveTo');
+import SpinTo = require('davinci-eight/animate/animations/SpinTo');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
@@ -66,6 +71,11 @@ declare var eight: {
     LAST_MODIFIED: string;
     strict: boolean;
     VERSION: string;
+    Animator: typeof Animator;
+    Animation: typeof Animation;
+    ColorTo: typeof ColorTo;
+    MoveTo: typeof MoveTo;
+    SpinTo: typeof SpinTo;
     HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
     Material: typeof Material;
     LineMaterial: typeof LineMaterial;

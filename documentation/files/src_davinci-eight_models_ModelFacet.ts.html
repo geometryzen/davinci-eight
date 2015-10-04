@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.115.0</em>
+            <em>API Docs for: 2.116.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -50,7 +51,6 @@
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -78,18 +78,22 @@
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
+                                <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -185,11 +189,17 @@ import Spinor3 = require(&#x27;../math/Spinor3&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import IFacet = require(&#x27;../core/IFacet&#x27;)
 import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
+import IProperties = require(&#x27;../animate/IProperties&#x27;)
 import Vector3 = require(&#x27;../math/Vector3&#x27;)
+
 /**
  * @class ModelFacet
  */
-class ModelFacet extends Shareable implements IFacet {
+class ModelFacet extends Shareable implements IFacet, IProperties {
+
+  public static PROP_ATTITUDE = &#x27;attitude&#x27;;
+  public static PROP_POSITION = &#x27;position&#x27;;
+
   private _position = new Vector3();
   private _attitude = new Spinor3();
   private _scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
@@ -255,6 +265,49 @@ class ModelFacet extends Shareable implements IFacet {
   }
   set scaleXYZ(unused) {
     throw new Error(readOnly(&#x27;scaleXYZ&#x27;).message)
+  }
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    switch(name) {
+      case ModelFacet.PROP_ATTITUDE: {
+        return this._attitude.data
+      }
+      case ModelFacet.PROP_POSITION: {
+        return this._position.data
+      }
+      default: {
+        console.warn(&quot;ModelFacet.getProperty &quot; + name)
+        return void 0
+      }
+    }
+  }
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param data {number[]}
+   * @return {void}
+   */
+  setProperty(name: string, data: number[]): void {
+    switch(name) {
+      case ModelFacet.PROP_ATTITUDE: {
+        this._attitude.yz = data[0]
+        this._attitude.zx = data[1]
+        this._attitude.xy = data[2]
+        this._attitude.w = data[3]
+      }
+      break;
+      case ModelFacet.PROP_POSITION: {
+        this._position.set(data[0], data[1], data[2])
+      }
+      break;
+      default: {
+        console.warn(&quot;ModelFacet.setProperty &quot; + name)
+      }
+    }
   }
   /**
    * @method setUniforms

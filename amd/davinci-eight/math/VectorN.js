@@ -84,6 +84,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
                 }
                 this._data = data;
                 this._callback = void 0;
+                this.modified = true;
             },
             enumerable: true,
             configurable: true
@@ -95,6 +96,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isDefined', '../
             set: function (reactTo) {
                 this._callback = reactTo;
                 this._data = void 0;
+                this.modified = true;
             },
             enumerable: true,
             configurable: true

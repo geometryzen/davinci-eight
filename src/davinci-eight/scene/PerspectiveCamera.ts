@@ -25,11 +25,9 @@ let CLASS_NAME = 'PerspectiveCamera'
 /**
  * @class PerspectiveCamera
  */
-class PerspectiveCamera implements ICamera, Perspective, IFacet {
+class PerspectiveCamera extends Shareable implements ICamera, Perspective, IFacet {
   // FIXME: Gotta go
   public position: Vector3 = new Vector3();
-  private _refCount = 1;
-  private _uuid: string = uuid4().generate();
   /**
    * @property material
    * @type {IMaterial}
@@ -55,23 +53,27 @@ class PerspectiveCamera implements ICamera, Perspective, IFacet {
    * @param [near=0.1] {number}
    * @param [far=2000] {number}
    * @example
-       var camera = new EIGHT.PerspectiveCamera()
-       camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-       camera.setFov(3.0 * e3)
+   *   var camera = new EIGHT.PerspectiveCamera()
+   *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+   *   camera.setFov(3.0 * e3)
    */
   constructor(fov: number = 75 * Math.PI / 180, aspect: number = 1, near: number = 0.1, far: number = 2000) {
+    super('PerspectiveCamera')
     mustBeNumber('fov', fov)
     mustBeNumber('aspect', aspect)
     mustBeNumber('near', near)
     mustBeNumber('far', far)
     this.inner = createPerspective({fov: fov, aspect: aspect, near: near, far: far})
-    refChange(this._uuid, CLASS_NAME, +1)
   }
-  addRef(): number {
-    this._refCount++
-    refChange(this._uuid, CLASS_NAME, +1)
-    return this._refCount
+  protected destructor(): void {
+
   }
+  /**
+   * @method setUniforms
+   * @param visitor {IFacetVisitor}
+   * @param canvasId {number}
+   * @return {void}
+   */
   setUniforms(visitor: IFacetVisitor, canvasId: number): void {
     this.inner.setNear(this.near)
     this.inner.setFar(this.far)
@@ -205,23 +207,12 @@ class PerspectiveCamera implements ICamera, Perspective, IFacet {
   get up(): Vector3 {
     return this.inner.up
   }
-  set up(unised) {
+  set up(unused) {
     throw new Error(readOnly('up').message)
   }
   setUp(up: Cartesian3): PerspectiveCamera {
     this.inner.setUp(up)
     return this
-  }
-  release(): number {
-    this._refCount--
-    refChange(this._uuid, CLASS_NAME, -1)
-    if (this._refCount === 0) {
-      return 0
-    }
-    else {
-
-    }
-    return this._refCount
   }
 }
 

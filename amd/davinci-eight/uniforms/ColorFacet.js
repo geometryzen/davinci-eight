@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Shareable, Symbolic, Vector3) {
     /**
-     * @class ColorFacet.
+     * @class ColorFacet
      */
     var ColorFacet = (function (_super) {
         __extends(ColorFacet, _super);
@@ -71,7 +71,7 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
              * @type {number}
              */
             get: function () {
-                return this.data.x;
+                return this.data.z;
             },
             set: function (blue) {
                 this.data.z = blue;
@@ -85,15 +85,66 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
             this.blue *= s;
             return this;
         };
+        ColorFacet.prototype.setColor = function (color) {
+            this.red = color.red;
+            this.green = color.green;
+            this.blue = color.blue;
+            return this;
+        };
         ColorFacet.prototype.setRGB = function (red, green, blue) {
             this.red = red;
             this.green = green;
             this.blue = blue;
             return this;
         };
+        ColorFacet.prototype.getProperty = function (name) {
+            switch (name) {
+                case ColorFacet.PROP_RGB: {
+                    return [this.red, this.green, this.blue];
+                }
+                case ColorFacet.PROP_RED: {
+                    return [this.red];
+                }
+                default: {
+                    console.warn("ColorFacet.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        ColorFacet.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ColorFacet.PROP_RGB:
+                    {
+                        this.red = data[0];
+                        this.green = data[1];
+                        this.blue = data[2];
+                    }
+                    break;
+                case ColorFacet.PROP_RED:
+                    {
+                        this.red = data[0];
+                    }
+                    break;
+                default: {
+                    console.warn("ColorFacet.setProperty " + name);
+                }
+            }
+        };
         ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
             visitor.uniformVector3(this.name, this.data, canvasId);
         };
+        /**
+         * property PROP_RGB
+         * @type {string}
+         * @static
+         */
+        ColorFacet.PROP_RGB = 'rgb';
+        /**
+         * property PROP_RED
+         * @type {string}
+         * @static
+         */
+        ColorFacet.PROP_RED = 'red';
         return ColorFacet;
     })(Shareable);
     return ColorFacet;

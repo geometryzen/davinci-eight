@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.115.0</em>
+            <em>API Docs for: 2.116.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -50,7 +51,6 @@
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -78,18 +78,22 @@
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
+                                <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -179,17 +183,31 @@
 import Color = require(&#x27;../core/Color&#x27;)
 import Matrix3 = require(&#x27;../math/Matrix3&#x27;)
 import Matrix4 = require(&#x27;../math/Matrix4&#x27;)
+import mustBeNumber = require(&#x27;../checks/mustBeNumber&#x27;)
 import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import IFacet = require(&#x27;../core/IFacet&#x27;)
 import ColorRGB = require(&#x27;../core/ColorRGB&#x27;)
 import IFacetVisitor = require(&#x27;../core/IFacetVisitor&#x27;)
+import IProperties = require(&#x27;../animate/IProperties&#x27;)
 import Vector3 = require(&#x27;../math/Vector3&#x27;)
 /**
- * @class ColorFacet.
+ * @class ColorFacet
  */
-class ColorFacet extends Shareable implements ColorRGB, IFacet {
+class ColorFacet extends Shareable implements ColorRGB, IFacet, IProperties {
+  /**
+   * property PROP_RGB
+   * @type {string}
+   * @static
+   */
+  public static PROP_RGB = &#x27;rgb&#x27;;
+  /**
+   * property PROP_RED
+   * @type {string}
+   * @static
+   */
+  public static PROP_RED = &#x27;red&#x27;;
   /**
    * @property colorRGB
    * @type Vector3
@@ -248,7 +266,7 @@ class ColorFacet extends Shareable implements ColorRGB, IFacet {
    * @type {number}
    */
   get blue(): number {
-    return this.data.x
+    return this.data.z
   }
   set blue(blue: number) {
     this.data.z = blue
@@ -259,11 +277,48 @@ class ColorFacet extends Shareable implements ColorRGB, IFacet {
     this.blue  *= s
     return this
   }
+  setColor(color: ColorRGB): ColorFacet {
+    this.red   = color.red
+    this.green = color.green
+    this.blue  = color.blue
+    return this
+  }
   setRGB(red: number, green: number, blue: number): ColorFacet {
     this.red   = red
     this.green = green
     this.blue  = blue
-    return this;
+    return this
+  }
+  getProperty(name: string): number[] {
+    switch(name) {
+      case ColorFacet.PROP_RGB: {
+        return [this.red, this.green, this.blue]
+      }
+      case ColorFacet.PROP_RED: {
+        return [this.red]
+      }
+      default: {
+        console.warn(&quot;ColorFacet.getProperty &quot; + name)
+        return void 0
+      }
+    }
+  }
+  setProperty(name: string, data: number[]): void {
+    switch(name) {
+      case ColorFacet.PROP_RGB: {
+        this.red = data[0]
+        this.green = data[1]
+        this.blue = data[2]
+      }
+      break
+      case ColorFacet.PROP_RED: {
+        this.red = data[0]
+      }
+      break
+      default: {
+        console.warn(&quot;ColorFacet.setProperty &quot; + name)
+      }
+    }
   }
   setUniforms(visitor: IFacetVisitor, canvasId: number) {
     visitor.uniformVector3(this.name, this.data, canvasId)

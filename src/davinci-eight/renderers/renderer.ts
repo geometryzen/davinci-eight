@@ -114,7 +114,9 @@ let renderer = function(): ContextRenderer {
     prolog(): void {
       if (_manager) {
         for (var i = 0, length = prolog.length; i < length; i++) {
-          prolog.getWeakReference(i).execute(_manager)
+         var command =  prolog.get(i)
+         command.execute(_manager)
+         command.release()
         }
       }
       else {
@@ -124,10 +126,10 @@ let renderer = function(): ContextRenderer {
       }
     },
     addPrologCommand(command: IPrologCommand): void {
-      prolog.pushStrongReference(command)
+      prolog.push(command)
     },
     addContextGainCommand(command: IContextCommand): void {
-      startUp.pushStrongReference(command)
+      startUp.push(command)
     },
     release(): number {
       refCount--

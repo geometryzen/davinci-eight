@@ -65,6 +65,12 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   clone() {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
+  conjugate() {
+    this.yz *= -1
+    this.zx *= -1
+    this.xy *= -1
+    return this
+  }
   copy(spinor: Spinor3Coords) {
     this.yz = spinor.yz;
     this.zx = spinor.zx;
@@ -82,25 +88,49 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.w  /= scalar;
     return this;
   }
-  exp() {
+  exp(): Spinor3 {
     let w  = this.w;
-    let yz = this.yz;
-    let zx = this.zx;
-    let xy = this.xy;
+    let x = this.yz;
+    let y = this.zx;
+    let z = this.xy;
     let expW  = Math.exp(w);
-    let B  = Math.sqrt(yz * yz + zx * zx + xy * xy);
+    let B  = Math.sqrt(x * x + y * y + z * z);
     let s  = expW * (B !== 0 ? Math.sin(B) / B : 1);
     this.w  = expW * Math.cos(B);
-    this.yz = yz * s;
-    this.zx = zx * s;
-    this.xy = xy * s;
+    this.yz = x * s;
+    this.zx = y * s;
+    this.xy = z * s;
     return this;
   }
+  inverse() {
+    this.conjugate()
+    this.divideScalar(this.quaditude());
+    return this
+  }
   lerp(target: Spinor3Coords, alpha: number): Spinor3 {
-    this.xy += ( target.xy - this.xy ) * alpha;
-    this.yz += ( target.yz - this.yz ) * alpha;
-    this.zx += ( target.zx - this.zx ) * alpha;
-    this.w += ( target.w - this.w ) * alpha;
+    var R2 = Spinor3.copy(target)
+    var R1 = this.clone()
+    var R = R2.multiply(R1.inverse())
+    R.log()
+    R.scale(alpha)
+    R.exp()
+    this.copy(R)
+    return this
+  }
+  log(): Spinor3 {
+    let w = this.w
+    let x = this.yz
+    let y = this.zx
+    let z = this.xy
+    let bb = x * x + y * y + z * z
+    let R2 = Math.sqrt(bb)
+    let R0 = Math.abs(w)
+    let R  = Math.sqrt(w * w + bb)
+    this.w = Math.log(R)
+    let f = Math.atan2(R2, R0) / R2
+    this.yz = x * f
+    this.zx = y * f
+    this.xy = z * f
     return this;
   }
   magnitude() {
@@ -193,6 +223,12 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
    */
   toString(): string {
     return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})"
+  }
+  static copy(spinor: Spinor3Coords): Spinor3 {
+    return new Spinor3().copy(spinor);
+  }
+  static lerp(a: Spinor3Coords, b: Spinor3Coords, alpha: number): Spinor3 {
+    return Spinor3.copy(a).lerp(b, alpha)
   }
 }
 

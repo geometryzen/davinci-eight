@@ -7,11 +7,17 @@ import Spinor3 = require('../math/Spinor3')
 import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
+import IProperties = require('../animate/IProperties')
 import Vector3 = require('../math/Vector3')
+
 /**
  * @class ModelFacet
  */
-class ModelFacet extends Shareable implements IFacet {
+class ModelFacet extends Shareable implements IFacet, IProperties {
+
+  public static PROP_ATTITUDE = 'attitude';
+  public static PROP_POSITION = 'position';
+
   private _position = new Vector3();
   private _attitude = new Spinor3();
   private _scaleXYZ: Vector3 = new Vector3([1, 1, 1]);
@@ -77,6 +83,49 @@ class ModelFacet extends Shareable implements IFacet {
   }
   set scaleXYZ(unused) {
     throw new Error(readOnly('scaleXYZ').message)
+  }
+  /**
+   * @method getProperty
+   * @param name {string}
+   * @return {number[]}
+   */
+  getProperty(name: string): number[] {
+    switch(name) {
+      case ModelFacet.PROP_ATTITUDE: {
+        return this._attitude.data
+      }
+      case ModelFacet.PROP_POSITION: {
+        return this._position.data
+      }
+      default: {
+        console.warn("ModelFacet.getProperty " + name)
+        return void 0
+      }
+    }
+  }
+  /**
+   * @method setProperty
+   * @param name {string}
+   * @param data {number[]}
+   * @return {void}
+   */
+  setProperty(name: string, data: number[]): void {
+    switch(name) {
+      case ModelFacet.PROP_ATTITUDE: {
+        this._attitude.yz = data[0]
+        this._attitude.zx = data[1]
+        this._attitude.xy = data[2]
+        this._attitude.w = data[3]
+      }
+      break;
+      case ModelFacet.PROP_POSITION: {
+        this._position.set(data[0], data[1], data[2])
+      }
+      break;
+      default: {
+        console.warn("ModelFacet.setProperty " + name)
+      }
+    }
   }
   /**
    * @method setUniforms

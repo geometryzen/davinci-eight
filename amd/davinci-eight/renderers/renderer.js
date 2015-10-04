@@ -79,7 +79,9 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
             prolog: function () {
                 if (_manager) {
                     for (var i = 0, length = prolog.length; i < length; i++) {
-                        prolog.getWeakReference(i).execute(_manager);
+                        var command = prolog.get(i);
+                        command.execute(_manager);
+                        command.release();
                     }
                 }
                 else {
@@ -89,10 +91,10 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
                 }
             },
             addPrologCommand: function (command) {
-                prolog.pushStrongReference(command);
+                prolog.push(command);
             },
             addContextGainCommand: function (command) {
-                startUp.pushStrongReference(command);
+                startUp.push(command);
             },
             release: function () {
                 refCount--;

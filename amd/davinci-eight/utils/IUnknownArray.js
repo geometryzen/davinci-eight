@@ -16,9 +16,13 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
          * @class IUnknownArray
          * @constructor
          */
-        function IUnknownArray() {
+        function IUnknownArray(elements) {
+            if (elements === void 0) { elements = []; }
             _super.call(this, LOGGING_NAME);
-            this._elements = [];
+            this._elements = elements;
+            for (var i = 0, l = this._elements.length; i < l; i++) {
+                this._elements[i].addRef();
+            }
         }
         /**
          * @method destructor
@@ -31,18 +35,7 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             this._elements = void 0;
         };
         /**
-         * Gets the element at the specified index without incrementing the reference count.
-         * Use this method when you don't intend to hold onto the returned value.
-         * @method getWeakReference
-         * @param index {number}
-         * @return {T}
-         */
-        IUnknownArray.prototype.getWeakReference = function (index) {
-            return this._elements[index];
-        };
-        /**
          * Gets the element at the specified index, incrementing the reference count.
-         * Use this method when you intend to hold onto the referent and release it later.
          * @method get
          * @param index {number}
          * @return {T}
@@ -75,10 +68,27 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
             enumerable: true,
             configurable: true
         });
+        IUnknownArray.prototype.slice = function (start, end) {
+            return new IUnknownArray(this._elements.slice(start, end));
+        };
+        /**
+         * @method splice
+         * @param index {number}
+         * @param count {number}
+         * @return {IUnnownArray<T>}
+         */
         IUnknownArray.prototype.splice = function (index, count) {
             // The release burdon is on the caller now.
             // FIXME: This should return another IUnknownArray
-            return this._elements.splice(index, count);
+            return new IUnknownArray(this._elements.splice(index, count));
+        };
+        /**
+         * @method shift
+         * @return {T}
+         */
+        IUnknownArray.prototype.shift = function () {
+            // No need to addRef because ownership is being transferred to caller.
+            return this._elements.shift();
         };
         /**
          * Traverse without Reference Counting
@@ -91,25 +101,16 @@ define(["require", "exports", '../utils/Shareable'], function (require, exports,
         };
         /**
          * Pushes an element onto the tail of the list and increments the element reference count.
-         * @method pushStrongReference
+         * @method push
          * @param element {T}
          * @return {number}
          */
-        IUnknownArray.prototype.pushStrongReference = function (element) {
-            var x = this.pushWeakReference(element);
+        IUnknownArray.prototype.push = function (element) {
+            var x = this._elements.push(element);
             if (element) {
                 element.addRef();
             }
             return x;
-        };
-        /**
-         * Pushes an element onto the tail of the list with no change in the reference count.
-         * @method pushWeakReference
-         * @param element {T}
-         * @return {number}
-         */
-        IUnknownArray.prototype.pushWeakReference = function (element) {
-            return this._elements.push(element);
         };
         /**
          * @method pop

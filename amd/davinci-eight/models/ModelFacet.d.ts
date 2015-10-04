@@ -2,11 +2,14 @@ import Shareable = require('../utils/Shareable');
 import Spinor3 = require('../math/Spinor3');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
+import IProperties = require('../animate/IProperties');
 import Vector3 = require('../math/Vector3');
 /**
  * @class ModelFacet
  */
-declare class ModelFacet extends Shareable implements IFacet {
+declare class ModelFacet extends Shareable implements IFacet, IProperties {
+    static PROP_ATTITUDE: string;
+    static PROP_POSITION: string;
     private _position;
     private _attitude;
     private _scaleXYZ;
@@ -44,6 +47,19 @@ declare class ModelFacet extends Shareable implements IFacet {
      * @readOnly
      */
     scaleXYZ: Vector3;
+    /**
+     * @method getProperty
+     * @param name {string}
+     * @return {number[]}
+     */
+    getProperty(name: string): number[];
+    /**
+     * @method setProperty
+     * @param name {string}
+     * @param data {number[]}
+     * @return {void}
+     */
+    setProperty(name: string, data: number[]): void;
     /**
      * @method setUniforms
      * @param visitor {IFacetVisitor}

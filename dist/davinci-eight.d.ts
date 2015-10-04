@@ -82,6 +82,10 @@ class StringIUnknownMap<V extends IUnknown> extends Shareable {
  */
 class Shareable implements IUnknown {
   /**
+   * Unique identifier for this instance.
+   */
+  uuid: string;
+  /**
    * type: A human-readable name for the derived class type.
    */
   constructor(type: string);
@@ -649,7 +653,9 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement
   difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
   divideScalar(scalar: number): Spinor3;
   exp(): Spinor3;
+  inverse(): Spinor3;
   lerp(target: Spinor3Coords, alpha: number): Spinor3;
+  log(): Spinor3;
   magnitude(): number;
   multiply(rhs: Spinor3Coords): Spinor3;
   scale(scalar: number): Spinor3;
@@ -936,16 +942,38 @@ class Geometry {
 /**
  *
  */
- class Color
+interface ColorRGB {
+  red: number;
+  green: number;
+  blue: number;
+}
+
+/**
+ *
+ */
+class Color implements ColorRGB
 {
+  public static black: Color;
+  public static blue: Color;
+  public static green: Color;
+  public static cyan: Color;
+  public static red: Color;
+  public static magenta: Color;
+  public static yellow: Color;
+  public static white: Color;
   public red: number;
   public green: number;
   public blue: number;
+  public luminance: number;
   public data: number[];
   public modified: boolean;
   constructor(data?: number[]);
+  clone(): Color;
+  public interpolate(target: ColorRGB, alpha: number): Color;
   public static fromHSL(H: number, S: number, L: number): Color;
   public static fromRGB(red: number, green: number, blue: number): Color;
+  public static copy(color: ColorRGB): Color;
+  public static interpolate(a: ColorRGB, b: ColorRGB, alpha: number): Color;
 }
 
 /**
@@ -1107,7 +1135,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLC
 /**
  * IFacet required for manipulating a rigid body.
  */
-class ModelFacet extends Shareable implements IFacet {
+class ModelFacet extends Shareable implements IFacet, IProperties {
   public position: Vector3;
   public attitude: Spinor3;
   public scaleXYZ: Vector3;
@@ -1115,6 +1143,8 @@ class ModelFacet extends Shareable implements IFacet {
    * Model implements IFacet required for manipulating a body.
    */ 
   constructor();
+  getProperty(name: string): number[];
+  setProperty(name: string, value: number[]): void;
   setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 
@@ -1300,7 +1330,7 @@ interface ICamera extends IDrawable {
 /**
  *
  */
-class PerspectiveCamera implements ICamera, Perspective, IFacet {
+class PerspectiveCamera implements Animated, ICamera, Perspective, IFacet {
   /**
    * The aspect ratio of the viewport, i.e., width / height.
    */
@@ -1341,19 +1371,23 @@ class PerspectiveCamera implements ICamera, Perspective, IFacet {
   /**
    * The "guess" direction that is used to generate the upwards direction for the camera. 
    */
-  up: Vector3
+  up: Vector3;
   /**
    * fov...: The `fov` property.
    * aspect: The `aspect` property.
    * near..: The `near` property.
    * far...: The `far` property.
    */
-  constructor(fov?: number, aspect?: number, near?: number, far?: number)
-  addRef(): number
-  contextFree(canvasId: number): void
-  contextGain(manager: IContextProvider): void
-  contextLost(canvasId: number): void
-  draw(canvasId: number): void
+  constructor(fov?: number, aspect?: number, near?: number, far?: number);
+  addRef(): number;
+  contextFree(canvasId: number): void;
+  contextGain(manager: IContextProvider): void;
+  contextLost(canvasId: number): void;
+  draw(canvasId: number): void;
+  /**
+   *
+   */
+  set(data: { [key: string]: any }, ignore?: boolean): void;
   setAspect(aspect: number): PerspectiveCamera
   setEye(eye: Cartesian3): PerspectiveCamera
   setFar(far: number): PerspectiveCamera
@@ -1621,15 +1655,18 @@ class SmartMaterialBuilder {
   public build(contexts: IContextMonitor[]): Material;
 }
 
-class ColorFacet extends Shareable implements IFacet {
+class ColorFacet extends Shareable implements IFacet, IProperties {
   red: number;
   green: number;
   blue: number;
   constructor(name?: string)
-  destructor(): void
-  scale(s: number): ColorFacet
+  destructor(): void;
+  getProperty(name: string): number[];
+  setProperty(name: string, value: number[]): void;
+  scale(s: number): ColorFacet;
+  setColor(color: ColorRGB): ColorFacet;
   setRGB(red: number, green: number, blue: number): ColorFacet;
-  setUniforms(visitor: IFacetVisitor, canvasId: number): void
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void;
 }
 
 // FIXME SineUniformsSetter
@@ -1752,7 +1789,79 @@ class WebGLEnable extends Shareable implements IContextCommand, IContextConsumer
    */
   destructor(): void;
 }
+///////////////////////////////////////////////////////////////////////////////
 
+interface IAnimateOptions {
+  delay?: number;
+  hold?: number;
+}
+
+interface IExchange {
+  [key: string]: number[]
+}
+
+interface IProperties extends IUnknown {
+  uuid: string;
+  getProperty(name: string): number[];
+  setProperty(name: string, value: number[]): void;
+}
+
+interface IAnimation extends IUnknown {
+  apply(offset?: number): void;
+  skip(): void;
+  hurry(factor: number): void;
+  extra(): number;
+  done(): boolean;
+}
+
+interface IAnimationClock {
+  now: number;
+}
+
+class Animator {
+  clock: IAnimationClock;
+  constructor();
+  animate(object: IProperties, animations: { [name: string]: IAnimation }, options?: IAnimateOptions);
+  update(speed: number): void;
+}
+
+class Animation extends Shareable implements IAnimation {
+  constructor(host: IAnimationClock, object: IProperties, key: string, value: number[], duration: number, callback: () => void, ease: string);
+  apply(offset?: number): void;
+  hurry(factor: number): void;
+  skip(): void;
+  extra(): number;
+  done(): boolean;
+}
+
+class ColorTo extends Shareable implements IAnimation {
+  constructor(host: IAnimationClock, object: IProperties, key: string, value: ColorRGB, duration?: number, callback?: () => void, ease?: string);
+  apply(offset?: number): void;
+  hurry(factor: number): void;
+  skip(): void;
+  extra(): number;
+  done(): boolean;
+}
+
+class MoveTo extends Shareable implements IAnimation {
+  constructor(host: IAnimationClock, object: IProperties, key: string, value: Cartesian3, duration?: number, callback?: () => void, ease?: string);
+  apply(offset?: number): void;
+  hurry(factor: number): void;
+  skip(): void;
+  extra(): number;
+  done(): boolean;
+}
+
+ class SpinTo extends Shareable implements IAnimation {
+  constructor(host: IAnimationClock, object: IProperties, key: string, value: Spinor3Coords, duration?: number, callback?: () => void, ease?: string);
+  apply(offset?: number): void;
+  hurry(factor: number): void;
+  skip(): void;
+  extra(): number;
+  done(): boolean;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 }
 
 declare module 'eight'

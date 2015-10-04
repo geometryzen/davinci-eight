@@ -11,23 +11,14 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @class IUnknownArray
      * @constructor
      */
-    constructor();
+    constructor(elements?: T[]);
     /**
      * @method destructor
      * @return {void}
      */
     protected destructor(): void;
     /**
-     * Gets the element at the specified index without incrementing the reference count.
-     * Use this method when you don't intend to hold onto the returned value.
-     * @method getWeakReference
-     * @param index {number}
-     * @return {T}
-     */
-    getWeakReference(index: number): T;
-    /**
      * Gets the element at the specified index, incrementing the reference count.
-     * Use this method when you intend to hold onto the referent and release it later.
      * @method get
      * @param index {number}
      * @return {T}
@@ -45,7 +36,19 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @return {number}
      */
     length: number;
-    splice(index: number, count: number): T[];
+    slice(start?: number, end?: number): IUnknownArray<T>;
+    /**
+     * @method splice
+     * @param index {number}
+     * @param count {number}
+     * @return {IUnnownArray<T>}
+     */
+    splice(index: number, count: number): IUnknownArray<T>;
+    /**
+     * @method shift
+     * @return {T}
+     */
+    shift(): T;
     /**
      * Traverse without Reference Counting
      * @method forEach
@@ -55,18 +58,11 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
     forEach(callback: (value: T, index: number) => void): void;
     /**
      * Pushes an element onto the tail of the list and increments the element reference count.
-     * @method pushStrongReference
+     * @method push
      * @param element {T}
      * @return {number}
      */
-    pushStrongReference(element: T): number;
-    /**
-     * Pushes an element onto the tail of the list with no change in the reference count.
-     * @method pushWeakReference
-     * @param element {T}
-     * @return {number}
-     */
-    pushWeakReference(element: T): number;
+    push(element: T): number;
     /**
      * @method pop
      * @return {T}

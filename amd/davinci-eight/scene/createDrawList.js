@@ -59,15 +59,13 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             configurable: true
         });
         DrawableGroup.prototype.push = function (drawable) {
-            this._drawables.pushStrongReference(drawable);
+            this._drawables.push(drawable);
         };
         DrawableGroup.prototype.remove = function (drawable) {
             var drawables = this._drawables;
             var index = drawables.indexOf(drawable);
             if (index >= 0) {
-                drawables.splice(index, 1).forEach(function (drawable) {
-                    drawable.release();
-                });
+                drawables.splice(index, 1).release();
             }
         };
         DrawableGroup.prototype.draw = function (ambients, canvasId) {
@@ -83,7 +81,9 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             }
             length = drawables.length;
             for (i = 0; i < length; i++) {
-                drawables.getWeakReference(i).draw(canvasId);
+                var drawable = drawables.get(i);
+                drawable.draw(canvasId);
+                drawable.release();
             }
         };
         DrawableGroup.prototype.traverseDrawables = function (callback) {
@@ -273,7 +273,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 var result = new IUnknownArray();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
-                        result.pushStrongReference(candidate);
+                        result.push(candidate);
                     }
                 }, function (program) {
                 });

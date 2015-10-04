@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.115.0</em>
+            <em>API Docs for: 2.116.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -50,7 +51,6 @@
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -78,18 +78,22 @@
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
+                                <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -185,15 +189,19 @@ let LOGGING_NAME = &#x27;IUnknownArray&#x27;;
  * @class IUnknownArray
  */
 class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
-  private _elements: T[] = [];
+    private _elements: T[];
   /**
    * Collection class for maintaining an array of types derived from IUnknown.
    * Provides a safer way to maintain reference counts than a native array.
    * @class IUnknownArray
    * @constructor
    */
-  constructor() {
+  constructor(elements: T[] = []) {
    super(LOGGING_NAME)
+   this._elements = elements
+    for (var i = 0, l = this._elements.length; i &lt; l; i++) {
+      this._elements[i].addRef()
+    }
   }
   /**
    * @method destructor
@@ -201,23 +209,12 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
    */
   protected destructor(): void {
     for (var i = 0, l = this._elements.length; i &lt; l; i++) {
-      this._elements[i].release();
+      this._elements[i].release()
     }
     this._elements = void 0;
   }
   /**
-   * Gets the element at the specified index without incrementing the reference count.
-   * Use this method when you don&#x27;t intend to hold onto the returned value.
-   * @method getWeakReference
-   * @param index {number}
-   * @return {T}
-   */
-  getWeakReference(index: number): T {
-    return this._elements[index];
-  }
-  /**
    * Gets the element at the specified index, incrementing the reference count.
-   * Use this method when you intend to hold onto the referent and release it later.
    * @method get
    * @param index {number}
    * @return {T}
@@ -243,13 +240,30 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
    * @property length
    * @return {number}
    */
-  get length() {
+  get length(): number {
     return this._elements.length;
   }
-  splice(index: number, count: number): T[] {
+  slice(start?: number, end?: number): IUnknownArray&lt;T&gt; {
+    return new IUnknownArray(this._elements.slice(start, end))
+  }
+  /**
+   * @method splice
+   * @param index {number}
+   * @param count {number}
+   * @return {IUnnownArray&lt;T&gt;}
+   */
+  splice(index: number, count: number): IUnknownArray&lt;T&gt; {
     // The release burdon is on the caller now.
     // FIXME: This should return another IUnknownArray
-    return this._elements.splice(index, count);
+    return new IUnknownArray(this._elements.splice(index, count))
+  }
+  /**
+   * @method shift
+   * @return {T}
+   */
+  shift(): T {
+    // No need to addRef because ownership is being transferred to caller.
+    return this._elements.shift()
   }
   /**
    * Traverse without Reference Counting
@@ -262,25 +276,16 @@ class IUnknownArray&lt;T extends IUnknown&gt; extends Shareable {
   }
   /**
    * Pushes an element onto the tail of the list and increments the element reference count.
-   * @method pushStrongReference
+   * @method push
    * @param element {T}
    * @return {number}
    */
-  pushStrongReference(element: T): number {
-    var x: number = this.pushWeakReference(element)
+  push(element: T): number {
+    var x: number = this._elements.push(element)
     if (element) {
       element.addRef()
     }
     return x
-  }
-  /**
-   * Pushes an element onto the tail of the list with no change in the reference count.
-   * @method pushWeakReference
-   * @param element {T}
-   * @return {number}
-   */
-  pushWeakReference(element: T): number {
-    return this._elements.push(element)
   }
   /**
    * @method pop

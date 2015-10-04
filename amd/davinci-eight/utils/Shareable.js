@@ -1,4 +1,4 @@
-define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, refChange, uuid4) {
+define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, readOnly, refChange, uuid4) {
     var Shareable = (function () {
         /**
          * <p>
@@ -65,6 +65,21 @@ define(["require", "exports", '../checks/mustBeString', '../utils/refChange', '.
         Shareable.prototype.destructor = function () {
             console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
         };
+        Object.defineProperty(Shareable.prototype, "uuid", {
+            /**
+             * @property uuid
+             * @type {string}
+             * @readOnly
+             */
+            get: function () {
+                return this._uuid;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('uuid').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Shareable;
     })();
     return Shareable;

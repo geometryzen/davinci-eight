@@ -433,13 +433,6 @@ var requirejs, require, define;
 
 define("../vendor/almond/almond", function(){});
 
-define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
-    function isUndefined(arg) {
-        return (typeof arg === 'undefined');
-    }
-    return isUndefined;
-});
-
 define('davinci-eight/checks/mustSatisfy',["require", "exports"], function (require, exports) {
     function mustSatisfy(name, condition, messageBuilder, contextBuilder) {
         if (!condition) {
@@ -449,6 +442,1074 @@ define('davinci-eight/checks/mustSatisfy',["require", "exports"], function (requ
         }
     }
     return mustSatisfy;
+});
+
+define('davinci-eight/checks/isString',["require", "exports"], function (require, exports) {
+    function isString(s) {
+        return (typeof s === 'string');
+    }
+    return isString;
+});
+
+define('davinci-eight/checks/mustBeString',["require", "exports", '../checks/mustSatisfy', '../checks/isString'], function (require, exports, mustSatisfy, isString) {
+    function beAString() {
+        return "be a string";
+    }
+    function mustBeString(name, value, contextBuilder) {
+        mustSatisfy(name, isString(value), beAString, contextBuilder);
+        return value;
+    }
+    return mustBeString;
+});
+
+define('davinci-eight/i18n/readOnly',["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString) {
+    /**
+     *
+     */
+    function readOnly(name) {
+        mustBeString('name', name);
+        var message = {
+            get message() {
+                return "Property `" + name + "` is readonly.";
+            }
+        };
+        return message;
+    }
+    return readOnly;
+});
+
+define('davinci-eight/utils/refChange',["require", "exports"], function (require, exports) {
+    var statistics = {};
+    var skip = true;
+    var trace = false;
+    var traceName = void 0;
+    // TODO: Very first time refChange is called, check count is +1
+    // FIXME: Use a better sentinel for command mode.
+    var LOGGING_NAME_REF_CHANGE = 'refChange';
+    function prefix(message) {
+        return LOGGING_NAME_REF_CHANGE + ": " + message;
+    }
+    function log(message) {
+        return console.log(prefix(message));
+    }
+    function warn(message) {
+        return console.warn(prefix(message));
+    }
+    function error(message) {
+        return console.warn(prefix(message));
+    }
+    function garbageCollect() {
+        var uuids = Object.keys(statistics);
+        uuids.forEach(function (uuid) {
+            var element = statistics[uuid];
+            if (element.refCount === 0) {
+                delete statistics[uuid];
+            }
+        });
+    }
+    function computeOutstanding() {
+        var uuids = Object.keys(statistics);
+        var uuidsLength = uuids.length;
+        var i;
+        var total = 0;
+        for (i = 0; i < uuidsLength; i++) {
+            var uuid = uuids[i];
+            var statistic = statistics[uuid];
+            total += statistic.refCount;
+        }
+        return total;
+    }
+    function stop() {
+        if (skip) {
+            warn("Nothing to see because skip mode is " + skip);
+        }
+        garbageCollect();
+        return computeOutstanding();
+    }
+    function dump() {
+        var outstanding = stop();
+        if (outstanding > 0) {
+            warn(JSON.stringify(statistics, null, 2));
+        }
+        else {
+            log("There are " + outstanding + " outstanding reference counts.");
+        }
+        return outstanding;
+    }
+    function refChange(uuid, name, change) {
+        if (change === void 0) { change = 0; }
+        if (change !== 0 && skip) {
+            return;
+        }
+        if (trace) {
+            if (traceName) {
+                if (name === traceName) {
+                    var element = statistics[uuid];
+                    if (element) {
+                        log(change + " on " + uuid + " @ " + name);
+                    }
+                    else {
+                        log(change + " on " + uuid + " @ " + name);
+                    }
+                }
+            }
+            else {
+                // trace everything
+                log(change + " on " + uuid + " @ " + name);
+            }
+        }
+        if (change === +1) {
+            var element = statistics[uuid];
+            if (!element) {
+                element = { refCount: 0, name: name, zombie: false };
+                statistics[uuid] = element;
+            }
+            element.refCount += change;
+        }
+        else if (change === -1) {
+            var element = statistics[uuid];
+            if (element) {
+                element.refCount += change;
+                if (element.refCount === 0) {
+                    element.zombie = true;
+                }
+            }
+            else {
+                error(change + " on " + uuid + " @ " + name);
+            }
+        }
+        else if (change === 0) {
+            var message = "" + uuid + " @ " + name;
+            log(message);
+            if (uuid === 'stop') {
+                return stop();
+            }
+            if (uuid === 'dump') {
+                return dump();
+            }
+            else if (uuid === 'start') {
+                skip = false;
+                trace = false;
+            }
+            else if (uuid === 'reset') {
+                statistics = {};
+                skip = true;
+                trace = false;
+                traceName = void 0;
+            }
+            else if (uuid === 'trace') {
+                skip = false;
+                trace = true;
+                traceName = name;
+            }
+            else {
+                throw new Error(prefix("Unexpected command " + message));
+            }
+        }
+        else {
+            throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
+        }
+    }
+    return refChange;
+});
+
+define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
+    function uuid4() {
+        var maxFromBits = function (bits) {
+            return Math.pow(2, bits);
+        };
+        var limitUI04 = maxFromBits(4);
+        var limitUI06 = maxFromBits(6);
+        var limitUI08 = maxFromBits(8);
+        var limitUI12 = maxFromBits(12);
+        var limitUI14 = maxFromBits(14);
+        var limitUI16 = maxFromBits(16);
+        var limitUI32 = maxFromBits(32);
+        var limitUI40 = maxFromBits(40);
+        var limitUI48 = maxFromBits(48);
+        var getRandomInt = function (min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+        var randomUI06 = function () {
+            return getRandomInt(0, limitUI06 - 1);
+        };
+        var randomUI08 = function () {
+            return getRandomInt(0, limitUI08 - 1);
+        };
+        var randomUI12 = function () {
+            return getRandomInt(0, limitUI12 - 1);
+        };
+        var randomUI16 = function () {
+            return getRandomInt(0, limitUI16 - 1);
+        };
+        var randomUI32 = function () {
+            return getRandomInt(0, limitUI32 - 1);
+        };
+        var randomUI48 = function () {
+            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
+        };
+        var paddedString = function (str, length, z) {
+            str = String(str);
+            z = (!z) ? '0' : z;
+            var i = length - str.length;
+            for (; i > 0; i >>>= 1, z += z) {
+                if (i & 1) {
+                    str = z + str;
+                }
+            }
+            return str;
+        };
+        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
+            var hex = paddedString(timeLow.toString(16), 8) +
+                '-' +
+                paddedString(timeMid.toString(16), 4) +
+                '-' +
+                paddedString(timeHiAndVersion.toString(16), 4) +
+                '-' +
+                paddedString(clockSeqHiAndReserved.toString(16), 2) +
+                paddedString(clockSeqLow.toString(16), 2) +
+                '-' +
+                paddedString(node.toString(16), 12);
+            return hex;
+        };
+        return {
+            generate: function () {
+                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
+            },
+            // addition by Ka-Jan to test for validity
+            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
+            validate: function (uuid) {
+                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                return testPattern.test(uuid);
+            }
+        };
+    }
+    return uuid4;
+});
+
+define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, readOnly, refChange, uuid4) {
+    var Shareable = (function () {
+        /**
+         * <p>
+         * Convenient base class for derived classes implementing <code>IUnknown</code>.
+         * </p>
+         * @class Shareable
+         * @extends IUnknown
+         * @constructor
+         * @param type {string} The human-readable name of the derived type.
+         */
+        function Shareable(type) {
+            this._refCount = 1;
+            this._uuid = uuid4().generate();
+            this._type = mustBeString('type', type);
+            refChange(this._uuid, type, +1);
+        }
+        /**
+         * <p>
+         * Notifies this instance that something is dereferencing it.
+         * </p>
+         *
+         * @method addRef
+         * @return {number} The new value of the reference count.
+         */
+        Shareable.prototype.addRef = function (client) {
+            this._refCount++;
+            refChange(this._uuid, this._type, +1);
+            return this._refCount;
+        };
+        /**
+         * <p>
+         * Notifies this instance that something is dereferencing it.
+         * </p>
+         *
+         * @method release
+         * @return {number} The new value of the reference count.
+         */
+        Shareable.prototype.release = function (client) {
+            this._refCount--;
+            refChange(this._uuid, this._type, -1);
+            var refCount = this._refCount;
+            if (refCount === 0) {
+                this.destructor();
+                this._refCount = void 0;
+                this._type = void 0;
+                this._uuid = void 0;
+            }
+            return refCount;
+        };
+        /**
+         * <p>
+         * Outputs a warning to the console that this method should be implemented by the derived class.
+         * </p>
+         * <p>
+         * <em>This method should be implemented by derived classes.</em>
+         * </p>
+         * <p>
+         * <em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
+         * </p>
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        Shareable.prototype.destructor = function () {
+            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+        };
+        Object.defineProperty(Shareable.prototype, "uuid", {
+            /**
+             * @property uuid
+             * @type {string}
+             * @readOnly
+             */
+            get: function () {
+                return this._uuid;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('uuid').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Shareable;
+    })();
+    return Shareable;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/animate/animations/Delay',["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable) {
+    var Delay = (function (_super) {
+        __extends(Delay, _super);
+        function Delay(host, object, key, duration) {
+            _super.call(this, 'Delay');
+            this.host = host;
+            this.object = object;
+            this.object.addRef();
+            this.key = key;
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+        }
+        Delay.prototype.destructor = function () {
+            this.object.release();
+            this.object = void 0;
+        };
+        Delay.prototype.init = function (offset) {
+            if (offset === void 0) { offset = 0; }
+            this.start = this.host.now - offset;
+        };
+        Delay.prototype.apply = function (offset) {
+            if (!this.start) {
+                this.init(offset);
+            }
+            if (this.duration > 0) {
+                this.fraction = Math.min(1, (this.host.now - this.start) / this.duration);
+            }
+            else {
+                this.fraction = 1;
+            }
+        };
+        Delay.prototype.skip = function () {
+            this.duration = 0;
+        };
+        Delay.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        Delay.prototype.extra = function () {
+            return this.host.now - this.start - this.duration;
+        };
+        Delay.prototype.done = function () {
+            return this.fraction === 1;
+        };
+        return Delay;
+    })(Shareable);
+    return Delay;
+});
+
+define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
+    var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
+    /**
+     * @class StringIUnknownMap<V extends IUnknown>
+     * @extends IUnknown
+     */
+    var StringIUnknownMap = (function () {
+        /**
+         * <p>
+         * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
+         * </p>
+         * @class StringIUnknownMap
+         * @constructor
+         */
+        function StringIUnknownMap() {
+            this._refCount = 1;
+            this._elements = {};
+            this._uuid = uuid4().generate();
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+        }
+        StringIUnknownMap.prototype.addRef = function () {
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+            this._refCount++;
+            return this._refCount;
+        };
+        StringIUnknownMap.prototype.release = function () {
+            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
+            this._refCount--;
+            if (this._refCount === 0) {
+                var self_1 = this;
+                this.forEach(function (key) {
+                    self_1.putWeakReference(key, void 0);
+                });
+                this._elements = void 0;
+            }
+            return this._refCount;
+        };
+        /**
+         * Determines whether the key exists in the map with a defined value.
+         * @method exists
+         * @param key {string}
+         * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
+         */
+        StringIUnknownMap.prototype.exists = function (key) {
+            var element = this._elements[key];
+            return element ? true : false;
+        };
+        StringIUnknownMap.prototype.get = function (key) {
+            var element = this._elements[key];
+            if (element) {
+                element.addRef();
+                return element;
+            }
+            else {
+                return void 0;
+            }
+        };
+        /**
+         * @method getWeakReference
+         * @param key {string}
+         * @return {V}
+         * @private
+         */
+        StringIUnknownMap.prototype.getWeakReference = function (key) {
+            var element = this._elements[key];
+            if (element) {
+                return element;
+            }
+            else {
+                return void 0;
+            }
+        };
+        StringIUnknownMap.prototype.put = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakReference(key, value);
+        };
+        /**
+         * @method putWeakReference
+         * @param key {string}
+         * @param value {V}
+         * @return {void}
+         * @private
+         */
+        StringIUnknownMap.prototype.putWeakReference = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
+            if (existing) {
+                existing.release();
+            }
+            elements[key] = value;
+        };
+        StringIUnknownMap.prototype.forEach = function (callback) {
+            var keys = this.keys;
+            var i;
+            var length = keys.length;
+            for (i = 0; i < length; i++) {
+                var key = keys[i];
+                var value = this._elements[key];
+                callback(key, value);
+            }
+        };
+        Object.defineProperty(StringIUnknownMap.prototype, "keys", {
+            get: function () {
+                // TODO: memoize
+                return Object.keys(this._elements);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        StringIUnknownMap.prototype.remove = function (key) {
+            var value = this.getWeakReference(key);
+            if (value) {
+                value.release();
+            }
+            delete this._elements[key];
+        };
+        return StringIUnknownMap;
+    })();
+    return StringIUnknownMap;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
+    var LOGGING_NAME = 'IUnknownArray';
+    /**
+     * @class IUnknownArray
+     */
+    var IUnknownArray = (function (_super) {
+        __extends(IUnknownArray, _super);
+        /**
+         * Collection class for maintaining an array of types derived from IUnknown.
+         * Provides a safer way to maintain reference counts than a native array.
+         * @class IUnknownArray
+         * @constructor
+         */
+        function IUnknownArray(elements) {
+            if (elements === void 0) { elements = []; }
+            _super.call(this, LOGGING_NAME);
+            this._elements = elements;
+            for (var i = 0, l = this._elements.length; i < l; i++) {
+                this._elements[i].addRef();
+            }
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         */
+        IUnknownArray.prototype.destructor = function () {
+            for (var i = 0, l = this._elements.length; i < l; i++) {
+                this._elements[i].release();
+            }
+            this._elements = void 0;
+        };
+        /**
+         * Gets the element at the specified index, incrementing the reference count.
+         * @method get
+         * @param index {number}
+         * @return {T}
+         */
+        IUnknownArray.prototype.get = function (index) {
+            var element;
+            element = this._elements[index];
+            if (element) {
+                element.addRef();
+            }
+            return element;
+        };
+        /**
+         * @method indexOf
+         * @param searchElement {T}
+         * @param [fromIndex]
+         * @return {number}
+         */
+        IUnknownArray.prototype.indexOf = function (searchElement, fromIndex) {
+            return this._elements.indexOf(searchElement, fromIndex);
+        };
+        Object.defineProperty(IUnknownArray.prototype, "length", {
+            /**
+             * @property length
+             * @return {number}
+             */
+            get: function () {
+                return this._elements.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        IUnknownArray.prototype.slice = function (start, end) {
+            return new IUnknownArray(this._elements.slice(start, end));
+        };
+        /**
+         * @method splice
+         * @param index {number}
+         * @param count {number}
+         * @return {IUnnownArray<T>}
+         */
+        IUnknownArray.prototype.splice = function (index, count) {
+            // The release burdon is on the caller now.
+            // FIXME: This should return another IUnknownArray
+            return new IUnknownArray(this._elements.splice(index, count));
+        };
+        /**
+         * @method shift
+         * @return {T}
+         */
+        IUnknownArray.prototype.shift = function () {
+            // No need to addRef because ownership is being transferred to caller.
+            return this._elements.shift();
+        };
+        /**
+         * Traverse without Reference Counting
+         * @method forEach
+         * @param callback {(value: T, index: number)=>void}
+         * @return {void}
+         */
+        IUnknownArray.prototype.forEach = function (callback) {
+            return this._elements.forEach(callback);
+        };
+        /**
+         * Pushes an element onto the tail of the list and increments the element reference count.
+         * @method push
+         * @param element {T}
+         * @return {number}
+         */
+        IUnknownArray.prototype.push = function (element) {
+            var x = this._elements.push(element);
+            if (element) {
+                element.addRef();
+            }
+            return x;
+        };
+        /**
+         * @method pop
+         * @return {T}
+         */
+        IUnknownArray.prototype.pop = function () {
+            // No need to addRef because ownership is being transferred to caller.
+            return this._elements.pop();
+        };
+        return IUnknownArray;
+    })(Shareable);
+    return IUnknownArray;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/animate/Animator',["require", "exports", '../animate/animations/Delay', '../utils/Shareable', '../utils/StringIUnknownMap', '../utils/IUnknownArray'], function (require, exports, Delay, Shareable, StringIUnknownMap, IUnknownArray) {
+    var Clock = (function () {
+        function Clock() {
+            this.now = 1;
+        }
+        Clock.prototype.update = function (speed) {
+            this.now += speed;
+        };
+        return Clock;
+    })();
+    var Animator = (function () {
+        function Animator() {
+            this._clock = new Clock();
+            this.drivers = new IUnknownArray();
+            this.mirrors = new StringIUnknownMap();
+        }
+        Animator.prototype.destructor = function () {
+            this.drivers.release();
+            this.drivers = void 0;
+            this.mirrors.release();
+            this.mirrors = void 0;
+        };
+        Object.defineProperty(Animator.prototype, "clock", {
+            get: function () {
+                return this._clock;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Attach animator to an object.
+         */
+        Animator.prototype.attach = function (object) {
+            if (!this.mirrors.exists(object.uuid)) {
+                var mirror = new AnimatedMirror();
+                this.mirrors.put(object.uuid, mirror);
+                mirror.release();
+            }
+            else {
+            }
+            // FIXME: This seems crude.
+            // Override set method to abort running animations.
+            /*
+            var set = object.set;
+            object.set = function (data: IExchange, ignore: boolean) {
+        
+              if (!ignore) {
+                // Argument parsing
+                if (object === undefined || object === null) {
+                  return;
+                }
+                else {
+                  // Stop all animations on the given keys
+                  animator.stop(this, data);
+                }
+              }
+        
+              // Pass through to Animated
+              set.call(this, data);
+            }
+            */
+            // Prepare animation queue.
+        };
+        /**
+         * Hurry all animations on an object by speeding by a factor.
+         */
+        Animator.prototype.hurry = function (object, attributes, factor) {
+            if (factor === void 0) { factor = 4; }
+            // Reduce
+            var mirror = this.mirrors.get(object.uuid);
+            if (mirror) {
+                var queues = mirror.queues;
+                var keys = attributes ? Object.keys(attributes) : queues.keys;
+                keys.forEach(function (key) {
+                    var queue = queues.get(key);
+                    queue.forEach(function (animation) {
+                        animation.hurry(factor);
+                    });
+                    queue.release();
+                });
+                queues.release();
+                mirror.release();
+            }
+        };
+        /**
+         * Stop all animations on an object.
+         * @method stop
+         * @param object {Animated}
+         * @param attributes {IExchange}
+         */
+        Animator.prototype.stop = function (object, attributes) {
+            var animator = this;
+            var mirror = this.mirrors.get(object.uuid);
+            if (mirror) {
+                var queues = mirror.queues;
+                var keys = attributes ? Object.keys(attributes) : queues.keys;
+                keys.forEach(function (key) {
+                    var queue = queues.get(key);
+                    while (queue) {
+                        animator.dequeue(object, key, true);
+                        queue.release();
+                        queue = queues.get(key);
+                    }
+                });
+            }
+            queues.release();
+            mirror.release();
+        };
+        /**
+         * Animate a set of attributes on an object.
+         * @method animate
+         * @param object {Animated} The object to be animated
+         * @param animation {[name: string]:IAnimation} The animations to be applied by property name.
+         * @param options [IAnimateOptions] determine how the attributes will be animated.
+         */
+        Animator.prototype.animate = function (object, animations, options) {
+            if (options === void 0) { options = {}; }
+            var animator = this;
+            var clock = this.clock;
+            // Ensure that the object has been initialized by having a queue and animations count.
+            this.attach(object);
+            var mirror = this.mirrors.get(object.uuid);
+            try {
+                var queues = mirror.queues;
+                try {
+                    Object.keys(animations).forEach(function (key) {
+                        // If necessary, init queue for the current key.
+                        if (!queues.exists(key)) {
+                            var emptyArray = new IUnknownArray();
+                            queues.put(key, emptyArray);
+                            emptyArray.release();
+                        }
+                        var queue = queues.get(key);
+                        try {
+                            // Queue delay
+                            if (options.delay) {
+                                var delay = new Delay(clock, object, key, options.delay);
+                                queue.push(delay);
+                                delay.release();
+                                if (mirror.animations++ === 0) {
+                                    animator.drivers.push(object);
+                                }
+                            }
+                            // Queue new animation
+                            queue.push(animations[key]);
+                            // Queue hold
+                            if (options.hold) {
+                                var hold = new Delay(clock, object, key, options.hold);
+                                queue.push(hold);
+                                hold.release();
+                                if (mirror.animations++ === 0) {
+                                    animator.drivers.push(object);
+                                }
+                            }
+                            // Keep track of animating objects
+                            if (mirror.animations++ === 0) {
+                                animator.drivers.push(object);
+                            }
+                        }
+                        finally {
+                            queue.release();
+                        }
+                    });
+                }
+                finally {
+                    queues.release();
+                }
+            }
+            finally {
+                mirror.release();
+            }
+        };
+        /**
+         * Remove current animation on an object attribute.
+         */
+        Animator.prototype.dequeue = function (object, key, apply) {
+            if (apply === void 0) { apply = false; }
+            var mirror = this.mirrors.get(object.uuid);
+            try {
+                var queues = mirror.queues;
+                try {
+                    // Check if key is animated
+                    var queue = queues.get(key);
+                    if (!queue)
+                        return;
+                    // Remove from front of queue.
+                    var animation = queue.shift();
+                    if (queue.length == 0) {
+                        queues.remove(key);
+                    }
+                    // Apply animation instantly
+                    if (apply) {
+                        animation.skip();
+                    }
+                    // Keep track of animating objects
+                    if (--mirror.animations === 0) {
+                        this.drivers.splice(this.drivers.indexOf(object), 1).release();
+                    }
+                    animation.release();
+                }
+                finally {
+                    queues.release();
+                }
+            }
+            finally {
+                mirror.release();
+            }
+        };
+        /**
+         * Update all currently running animations.
+         * Essentially calls `apply` on each IAnimation in the queues of active objects.
+         * @method update
+         * @param speed {number} Advances the static Animator.now property.
+         */
+        Animator.prototype.update = function (speed) {
+            var animator = this;
+            this._clock.update(speed);
+            // Make a shallow copy of the currently active Animated objects.
+            var active = this.drivers.slice();
+            try {
+                active.forEach(function (object) {
+                    // Used to make queued animations match up at sub-frame times.
+                    var offset = 0;
+                    function advance(animations, key) {
+                        // Write out animated attribute.
+                        var animation = animations.get(0);
+                        try {
+                            animation.apply(offset || 0);
+                            // Remove completed animations.
+                            if (animation.done()) {
+                                offset = animation.extra();
+                                animator.dequeue(object, key);
+                                // Recurse into next animation.
+                                if (animations.length > 0) {
+                                    advance.call(animator, animations, key);
+                                }
+                            }
+                        }
+                        finally {
+                            animation.release();
+                        }
+                    }
+                    var mirror = animator.mirrors.get(object.uuid);
+                    try {
+                        var queues = mirror.queues;
+                        try {
+                            queues.forEach(function (key, animations) {
+                                advance(animations, key);
+                            });
+                        }
+                        finally {
+                            queues.release();
+                        }
+                    }
+                    finally {
+                        mirror.release();
+                    }
+                });
+            }
+            finally {
+                active.release();
+            }
+        };
+        return Animator;
+    })();
+    // FIXME: Encapsulation make safer and less ref count issues.
+    var AnimatedMirror = (function (_super) {
+        __extends(AnimatedMirror, _super);
+        /**
+         * The super-symmetric partner of an IProperties adapter.
+         * This class keeps track of animation state.
+         * @class AnimatedMirror
+         * @constructor
+         */
+        function AnimatedMirror() {
+            _super.call(this, 'AnimatedMirror');
+            this._queues = new StringIUnknownMap();
+            this.animations = 0;
+        }
+        AnimatedMirror.prototype.destructor = function () {
+            this._queues.release();
+            this._queues = void 0;
+        };
+        Object.defineProperty(AnimatedMirror.prototype, "queues", {
+            get: function () {
+                this._queues.addRef();
+                return this._queues;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return AnimatedMirror;
+    })(Shareable);
+    return Animator;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/animate/animations/Animation',["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable) {
+    function loop(n, callback) {
+        for (var i = 0; i < n; ++i) {
+            callback(i);
+        }
+    }
+    var Animation = (function (_super) {
+        __extends(Animation, _super);
+        function Animation(host, object, key, value, duration, callback, ease) {
+            _super.call(this, 'Animation');
+            this.host = host;
+            // this.host.
+            this.object = object;
+            this.object.addRef();
+            this.key = key;
+            this.from = void 0;
+            this.to = value;
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.callback = callback;
+            this.ease = ease;
+        }
+        Animation.prototype.destructor = function () {
+            this.object.release();
+            this.object = void 0;
+        };
+        Animation.prototype.init = function (offset) {
+            if (offset === void 0) { offset = 0; }
+            this.start = this.host.now - offset;
+            if (this.from === void 0) {
+                this.from = this.object.getProperty(this.key);
+            }
+        };
+        Animation.prototype.apply = function (offset) {
+            if (!this.start) {
+                this.init(offset);
+            }
+            var object = this.object;
+            var from = this.from;
+            var to = this.to;
+            var key = this.key;
+            var ease = this.ease;
+            // Calculate animation progress / fraction.
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (this.host.now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            // Simple easing support.
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            // Linear interpolation
+            function lerp(from, to) {
+                return from + (to - from) * rolloff;
+            }
+            // Interpolate between two arbitrary values/objects.
+            function interpolate(from, to) {
+                // Handle default cases.
+                if (to === undefined) {
+                    to = from;
+                }
+                if (from === undefined) {
+                    from = to;
+                }
+                if (to === from) {
+                    return from;
+                }
+                var out;
+                if (!from) {
+                    return to;
+                }
+                if (!to) {
+                    return from;
+                }
+                out = [];
+                loop(from.length, function (i) {
+                    out[i] = lerp(from[i], to[i]);
+                });
+                return out;
+                return (fraction > 0.5) ? to : from;
+            }
+            this.object.setProperty(this.key, interpolate(from, to));
+        };
+        Animation.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        Animation.prototype.skip = function () {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done();
+        };
+        Animation.prototype.extra = function () {
+            return this.host.now - this.start - this.duration;
+        };
+        Animation.prototype.done = function () {
+            if (this.fraction === 1) {
+                // Set final value.
+                this.object.setProperty(this.key, this.to);
+                this.callback && this.callback();
+                this.callback = void 0;
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        return Animation;
+    })(Shareable);
+    return Animation;
 });
 
 define('davinci-eight/checks/isNumber',["require", "exports"], function (require, exports) {
@@ -467,6 +1528,23 @@ define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mus
         return value;
     }
     return mustBeInteger;
+});
+
+define('davinci-eight/math/clamp',["require", "exports", '../checks/mustBeNumber'], function (require, exports, mustBeNumber) {
+    function clamp(x, min, max) {
+        mustBeNumber('x', x);
+        mustBeNumber('min', min);
+        mustBeNumber('max', max);
+        return (x < min) ? min : ((x > max) ? max : x);
+    }
+    return clamp;
+});
+
+define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
+    function isUndefined(arg) {
+        return (typeof arg === 'undefined');
+    }
+    return isUndefined;
 });
 
 define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined, mustBeNumber) {
@@ -571,6 +1649,324 @@ define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUnde
     return expectArg;
 });
 
+define('davinci-eight/core/principalAngle',["require", "exports"], function (require, exports) {
+    /**
+     * Converts the angle specified into one in the closed interval [0, Math.PI]
+     */
+    function principalAngle(angle) {
+        if (angle > 2 * Math.PI) {
+            return principalAngle(angle - 2 * Math.PI);
+        }
+        else if (angle < 0) {
+            return principalAngle(angle + 2 * Math.PI);
+        }
+        else {
+            return angle;
+        }
+    }
+    return principalAngle;
+});
+
+define('davinci-eight/core/Color',["require", "exports", '../math/clamp', '../checks/expectArg', '../checks/mustBeNumber', '../core/principalAngle'], function (require, exports, clamp, expectArg, mustBeNumber, principalAngle) {
+    /**
+     * <p>
+     * A mutable type representing a color through its RGB components.
+     * </p>
+     * <p>
+     * WARNING: In many object-oriented designs, types representing values are completely immutable.
+     * In a graphics library where data changes rapidly and garbage collection might become an issue,
+     * it is common to use reference types, such as in this design. This mutability can lead to
+     * difficult bugs because it is hard to reason about where a color may have changed.
+     * </p>
+     *
+     * @class Color
+     * @implements ColorRGB
+     * @implements Mutable<number[]>
+     */
+    var Color = (function () {
+        /**
+         * @class Color
+         * @constructor
+         * @param data {number[]}
+         */
+        function Color(data) {
+            if (data === void 0) { data = [0, 0, 0]; }
+            this.modified = false;
+            expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
+            this.data = data;
+        }
+        Object.defineProperty(Color.prototype, "red", {
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.data[0] = clamp(value, 0, 1);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Color.prototype, "green", {
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.data[1] = clamp(value, 0, 1);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Color.prototype, "blue", {
+            get: function () {
+                return this.data[2];
+            },
+            set: function (value) {
+                this.data[2] = clamp(value, 0, 1);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Color.prototype.clone = function () {
+            return new Color([this.data[0], this.data[1], this.data[2]]);
+        };
+        Color.prototype.interpolate = function (target, alpha) {
+            this.red += (target.red - this.red) * alpha;
+            this.green += (target.green - this.green) * alpha;
+            this.blue += (target.blue - this.blue) * alpha;
+            return this;
+        };
+        Object.defineProperty(Color.prototype, "luminance", {
+            get: function () {
+                return Color.luminance(this.red, this.green, this.blue);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Color.prototype.toString = function () {
+            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
+        };
+        Color.luminance = function (red, green, blue) {
+            mustBeNumber('red', red);
+            mustBeNumber('green', green);
+            mustBeNumber('blue', blue);
+            var gamma = 2.2;
+            return 0.2126 * Math.pow(red, gamma) + 0.7152 * Math.pow(green, gamma) + 0.0722 * Math.pow(blue, gamma);
+        };
+        /**
+         * Converts an angle, radius, height to a color on a color wheel.
+         */
+        Color.fromHSL = function (H, S, L) {
+            mustBeNumber('H', H);
+            mustBeNumber('S', S);
+            mustBeNumber('L', L);
+            var C = (1 - Math.abs(2 * L - 1)) * S;
+            /**
+             * This function captures C and L
+             */
+            function matchLightness(R, G, B) {
+                var x = Color.luminance(R, G, B);
+                var m = L - 0.5 * C;
+                return new Color([R + m, G + m, B + m]);
+            }
+            var sextant = ((principalAngle(H) / Math.PI) * 3) % 6;
+            var X = C * (1 - Math.abs(sextant % 2 - 1));
+            if (sextant >= 0 && sextant < 1) {
+                return matchLightness(C, X /*C*(sextant-0)*/, 0);
+            }
+            else if (sextant >= 1 && sextant < 2) {
+                return matchLightness(X /*C*(2-sextant)*/, C, 0);
+            }
+            else if (sextant >= 2 && sextant < 3) {
+                return matchLightness(0, C, C * (sextant - 2));
+            }
+            else if (sextant >= 3 && sextant < 4) {
+                return matchLightness(0, C * (4 - sextant), C);
+            }
+            else if (sextant >= 4 && sextant < 5) {
+                return matchLightness(X, 0, C);
+            }
+            else if (sextant >= 5 && sextant < 6) {
+                return matchLightness(C, 0, X);
+            }
+            else {
+                return matchLightness(0, 0, 0);
+            }
+        };
+        Color.fromRGB = function (red, green, blue) {
+            mustBeNumber('red', red);
+            mustBeNumber('green', green);
+            mustBeNumber('blue', blue);
+            // FIXME: Replace with functions that don't create temporaries.
+            expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
+            expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
+            expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
+            return new Color([red, green, blue]);
+        };
+        Color.copy = function (color) {
+            return new Color([color.red, color.green, color.blue]);
+        };
+        Color.interpolate = function (a, b, alpha) {
+            return Color.copy(a).interpolate(b, alpha);
+        };
+        /**
+         * @property black
+         * @type {Color}
+         * @static
+         */
+        Color.black = new Color([0, 0, 0]);
+        /**
+         * @property blue
+         * @type {Color}
+         * @static
+         */
+        Color.blue = new Color([0, 0, 1]);
+        /**
+         * @property green
+         * @type {Color}
+         * @static
+         */
+        Color.green = new Color([0, 1, 0]);
+        /**
+         * @property cyan
+         * @type {Color}
+         * @static
+         */
+        Color.cyan = new Color([0, 1, 1]);
+        /**
+         * @property red
+         * @type {Color}
+         * @static
+         */
+        Color.red = new Color([1, 0, 0]);
+        /**
+         * @property magenta
+         * @type {Color}
+         * @static
+         */
+        Color.magenta = new Color([1, 0, 1]);
+        /**
+         * @property yellow
+         * @type {Color}
+         * @static
+         */
+        Color.yellow = new Color([1, 1, 0]);
+        /**
+         * @property white
+         * @type {Color}
+         * @static
+         */
+        Color.white = new Color([1, 1, 1]);
+        return Color;
+    })();
+    return Color;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/animate/animations/ColorTo',["require", "exports", '../../utils/Shareable', '../../core/Color'], function (require, exports, Shareable, Color) {
+    function loop(n, callback) {
+        for (var i = 0; i < n; ++i) {
+            callback(i);
+        }
+    }
+    var ColorTo = (function (_super) {
+        __extends(ColorTo, _super);
+        function ColorTo(host, object, key, value, duration, callback, ease) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this, 'ColorTo');
+            this.host = host;
+            // this.host.
+            this.object = object;
+            this.object.addRef();
+            this.key = key;
+            this.from = void 0;
+            this.to = Color.copy(value);
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.callback = callback;
+            this.ease = ease;
+        }
+        ColorTo.prototype.destructor = function () {
+            this.object.release();
+            this.object = void 0;
+        };
+        ColorTo.prototype.init = function (offset) {
+            if (offset === void 0) { offset = 0; }
+            this.start = this.host.now - offset;
+            if (this.from === void 0) {
+                var data = this.object.getProperty(this.key);
+                if (data) {
+                    this.from = new Color(data);
+                }
+            }
+        };
+        ColorTo.prototype.apply = function (offset) {
+            if (!this.start) {
+                this.init(offset);
+            }
+            var object = this.object;
+            var from = this.from;
+            var to = this.to;
+            var key = this.key;
+            var ease = this.ease;
+            // Calculate animation progress / fraction.
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (this.host.now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            // Simple easing support.
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            this.object.setProperty(this.key, Color.interpolate(from, to, rolloff).data);
+        };
+        ColorTo.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        ColorTo.prototype.skip = function () {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done();
+        };
+        ColorTo.prototype.extra = function () {
+            return this.host.now - this.start - this.duration;
+        };
+        ColorTo.prototype.done = function () {
+            if (this.fraction === 1) {
+                // Set final value.
+                this.object.setProperty(this.key, this.to.data);
+                this.callback && this.callback();
+                this.callback = void 0;
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        return ColorTo;
+    })(Shareable);
+    return ColorTo;
+});
+
 define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
     function isDefined(arg) {
         return (typeof arg !== 'undefined');
@@ -664,6 +2060,7 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
                 }
                 this._data = data;
                 this._callback = void 0;
+                this.modified = true;
             },
             enumerable: true,
             configurable: true
@@ -675,6 +2072,7 @@ define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg'
             set: function (reactTo) {
                 this._callback = reactTo;
                 this._data = void 0;
+                this.modified = true;
             },
             enumerable: true,
             configurable: true
@@ -1091,6 +2489,472 @@ define('davinci-eight/math/Vector3',["require", "exports", '../checks/expectArg'
         return Vector3;
     })(VectorN);
     return Vector3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/animate/animations/MoveTo',["require", "exports", '../../utils/Shareable', '../../math/Vector3'], function (require, exports, Shareable, Vector3) {
+    function loop(n, callback) {
+        for (var i = 0; i < n; ++i) {
+            callback(i);
+        }
+    }
+    var MoveTo = (function (_super) {
+        __extends(MoveTo, _super);
+        function MoveTo(host, object, key, value, duration, callback, ease) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this, 'MoveTo');
+            this.host = host;
+            // this.host.
+            this.object = object;
+            this.object.addRef();
+            this.key = key;
+            this.from = void 0;
+            this.to = Vector3.copy(value);
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.callback = callback;
+            this.ease = ease;
+        }
+        MoveTo.prototype.destructor = function () {
+            this.object.release();
+            this.object = void 0;
+        };
+        MoveTo.prototype.init = function (offset) {
+            if (offset === void 0) { offset = 0; }
+            this.start = this.host.now - offset;
+            if (this.from === void 0) {
+                var data = this.object.getProperty(this.key);
+                if (data) {
+                    this.from = new Vector3(data);
+                }
+            }
+        };
+        MoveTo.prototype.apply = function (offset) {
+            if (!this.start) {
+                this.init(offset);
+            }
+            var object = this.object;
+            var from = this.from;
+            var to = this.to;
+            var key = this.key;
+            var ease = this.ease;
+            // Calculate animation progress / fraction.
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (this.host.now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            // Simple easing support.
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            var lerp = Vector3.lerp(from, to, rolloff);
+            this.object.setProperty(this.key, lerp.data);
+        };
+        MoveTo.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        MoveTo.prototype.skip = function () {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done();
+        };
+        MoveTo.prototype.extra = function () {
+            return this.host.now - this.start - this.duration;
+        };
+        MoveTo.prototype.done = function () {
+            if (this.fraction === 1) {
+                // Set final value.
+                this.object.setProperty(this.key, this.to.data);
+                this.callback && this.callback();
+                this.callback = void 0;
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        return MoveTo;
+    })(Shareable);
+    return MoveTo;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+    /**
+     * @class Spinor3
+     */
+    var Spinor3 = (function (_super) {
+        __extends(Spinor3, _super);
+        function Spinor3(data, modified) {
+            if (data === void 0) { data = [0, 0, 0, 1]; }
+            if (modified === void 0) { modified = false; }
+            _super.call(this, data, modified, 4);
+        }
+        Object.defineProperty(Spinor3.prototype, "yz", {
+            /**
+             * @property yz
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.yz !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "zx", {
+            /**
+             * @property zx
+             * @type Number
+             */
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.zx !== value;
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "xy", {
+            /**
+             * @property xy
+             * @type Number
+             */
+            get: function () {
+                return this.data[2];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.xy !== value;
+                this.data[2] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Spinor3.prototype, "w", {
+            /**
+             * @property w
+             * @type Number
+             */
+            get: function () {
+                return this.data[3];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.w !== value;
+                this.data[3] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Spinor3.prototype.add = function (rhs) {
+            return this;
+        };
+        Spinor3.prototype.clone = function () {
+            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
+        };
+        Spinor3.prototype.conjugate = function () {
+            this.yz *= -1;
+            this.zx *= -1;
+            this.xy *= -1;
+            return this;
+        };
+        Spinor3.prototype.copy = function (spinor) {
+            this.yz = spinor.yz;
+            this.zx = spinor.zx;
+            this.xy = spinor.xy;
+            this.w = spinor.w;
+            return this;
+        };
+        Spinor3.prototype.difference = function (a, b) {
+            return this;
+        };
+        Spinor3.prototype.divideScalar = function (scalar) {
+            this.yz /= scalar;
+            this.zx /= scalar;
+            this.xy /= scalar;
+            this.w /= scalar;
+            return this;
+        };
+        Spinor3.prototype.exp = function () {
+            var w = this.w;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
+            var expW = Math.exp(w);
+            var B = Math.sqrt(x * x + y * y + z * z);
+            var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
+            this.w = expW * Math.cos(B);
+            this.yz = x * s;
+            this.zx = y * s;
+            this.xy = z * s;
+            return this;
+        };
+        Spinor3.prototype.inverse = function () {
+            this.conjugate();
+            this.divideScalar(this.quaditude());
+            return this;
+        };
+        Spinor3.prototype.lerp = function (target, alpha) {
+            var R2 = Spinor3.copy(target);
+            var R1 = this.clone();
+            var R = R2.multiply(R1.inverse());
+            R.log();
+            R.scale(alpha);
+            R.exp();
+            this.copy(R);
+            return this;
+        };
+        Spinor3.prototype.log = function () {
+            var w = this.w;
+            var x = this.yz;
+            var y = this.zx;
+            var z = this.xy;
+            var bb = x * x + y * y + z * z;
+            var R2 = Math.sqrt(bb);
+            var R0 = Math.abs(w);
+            var R = Math.sqrt(w * w + bb);
+            this.w = Math.log(R);
+            var f = Math.atan2(R2, R0) / R2;
+            this.yz = x * f;
+            this.zx = y * f;
+            this.xy = z * f;
+            return this;
+        };
+        Spinor3.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Spinor3.prototype.multiply = function (rhs) {
+            return this.product(this, rhs);
+        };
+        Spinor3.prototype.scale = function (scalar) {
+            this.yz *= scalar;
+            this.zx *= scalar;
+            this.xy *= scalar;
+            this.w *= scalar;
+            return this;
+        };
+        Spinor3.prototype.product = function (a, b) {
+            var a0 = a.w;
+            var a1 = a.yz;
+            var a2 = a.zx;
+            var a3 = a.xy;
+            var b0 = b.w;
+            var b1 = b.yz;
+            var b2 = b.zx;
+            var b3 = b.xy;
+            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
+            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
+            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
+            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
+            return this;
+        };
+        Spinor3.prototype.quaditude = function () {
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            return w * w + yz * yz + zx * zx + xy * xy;
+        };
+        Spinor3.prototype.reverse = function () {
+            this.yz *= -1;
+            this.zx *= -1;
+            this.xy *= -1;
+            return this;
+        };
+        /**
+         * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
+         * The geometric formula for bivector reflection is B' = n * B * n.
+         * @method reflect
+         * @param n {Cartesian3}
+         * @return {Spinor3}
+         */
+        Spinor3.prototype.reflect = function (n) {
+            var w = this.w;
+            var yz = this.yz;
+            var zx = this.zx;
+            var xy = this.xy;
+            var nx = n.x;
+            var ny = n.y;
+            var nz = n.z;
+            var nn = nx * nx + ny * ny + nz * nz;
+            var nB = nx * yz + ny * zx + nz * xy;
+            this.w = nn * w;
+            this.xy = 2 * nz * nB - nn * xy;
+            this.yz = 2 * nx * nB - nn * yz;
+            this.zx = 2 * ny * nB - nn * zx;
+            return this;
+        };
+        Spinor3.prototype.rotate = function (rotor) {
+            return this;
+        };
+        Spinor3.prototype.sub = function (rhs) {
+            return this;
+        };
+        Spinor3.prototype.sum = function (a, b) {
+            return this;
+        };
+        Spinor3.prototype.spinor = function (a, b) {
+            var ax = a.x, ay = a.y, az = a.z;
+            var bx = b.x, by = b.y, bz = b.z;
+            this.w = 0;
+            this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
+            this.zx = wedgeZX(ax, ay, az, bx, by, bz);
+            this.xy = wedgeXY(ax, ay, az, bx, by, bz);
+            return this;
+        };
+        /**
+         * @method toString
+         * @return {string} A non-normative string representation of the target.
+         */
+        Spinor3.prototype.toString = function () {
+            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
+        };
+        Spinor3.copy = function (spinor) {
+            return new Spinor3().copy(spinor);
+        };
+        Spinor3.lerp = function (a, b, alpha) {
+            return Spinor3.copy(a).lerp(b, alpha);
+        };
+        return Spinor3;
+    })(VectorN);
+    return Spinor3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/animate/animations/SpinTo',["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], function (require, exports, Shareable, Spinor3) {
+    function loop(n, callback) {
+        for (var i = 0; i < n; ++i) {
+            callback(i);
+        }
+    }
+    var SpinTo = (function (_super) {
+        __extends(SpinTo, _super);
+        function SpinTo(host, object, key, value, duration, callback, ease) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this, 'SpinTo');
+            this.host = host;
+            // this.host.
+            this.object = object;
+            this.object.addRef();
+            this.key = key;
+            this.from = void 0;
+            this.to = Spinor3.copy(value);
+            this.duration = duration;
+            this.start = 0;
+            this.fraction = 0;
+            this.callback = callback;
+            this.ease = ease;
+        }
+        SpinTo.prototype.destructor = function () {
+            this.object.release();
+            this.object = void 0;
+        };
+        SpinTo.prototype.init = function (offset) {
+            if (offset === void 0) { offset = 0; }
+            this.start = this.host.now - offset;
+            if (this.from === void 0) {
+                var data = this.object.getProperty(this.key);
+                if (data) {
+                    this.from = new Spinor3(data);
+                }
+            }
+        };
+        SpinTo.prototype.apply = function (offset) {
+            if (!this.start) {
+                this.init(offset);
+            }
+            var object = this.object;
+            var from = this.from;
+            var to = this.to;
+            var key = this.key;
+            var ease = this.ease;
+            // Calculate animation progress / fraction.
+            var fraction;
+            if (this.duration > 0) {
+                fraction = Math.min(1, (this.host.now - this.start) / (this.duration || 1));
+            }
+            else {
+                fraction = 1;
+            }
+            this.fraction = fraction;
+            // Simple easing support.
+            var rolloff;
+            switch (ease) {
+                case 'in':
+                    rolloff = 1 - (1 - fraction) * (1 - fraction);
+                    break;
+                case 'out':
+                    rolloff = fraction * fraction;
+                    break;
+                case 'linear':
+                    rolloff = fraction;
+                    break;
+                default:
+                    rolloff = 0.5 - 0.5 * Math.cos(fraction * Math.PI);
+                    break;
+            }
+            var lerp = Spinor3.lerp(from, to, fraction);
+            this.object.setProperty(this.key, lerp.data);
+        };
+        SpinTo.prototype.hurry = function (factor) {
+            this.duration = this.duration * this.fraction + this.duration * (1 - this.fraction) / factor;
+        };
+        SpinTo.prototype.skip = function () {
+            this.duration = 0;
+            this.fraction = 1;
+            this.done();
+        };
+        SpinTo.prototype.extra = function () {
+            return this.host.now - this.start - this.duration;
+        };
+        SpinTo.prototype.done = function () {
+            if (this.fraction === 1) {
+                // Set final value.
+                this.object.setProperty(this.key, this.to.data);
+                this.callback && this.callback();
+                this.callback = void 0;
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        return SpinTo;
+    })(Shareable);
+    return SpinTo;
 });
 
 define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
@@ -2238,305 +4102,6 @@ define('davinci-eight/cameras/createPerspective',["require", "exports", '../came
     return createPerspective;
 });
 
-define('davinci-eight/checks/isString',["require", "exports"], function (require, exports) {
-    function isString(s) {
-        return (typeof s === 'string');
-    }
-    return isString;
-});
-
-define('davinci-eight/checks/mustBeString',["require", "exports", '../checks/mustSatisfy', '../checks/isString'], function (require, exports, mustSatisfy, isString) {
-    function beAString() {
-        return "be a string";
-    }
-    function mustBeString(name, value, contextBuilder) {
-        mustSatisfy(name, isString(value), beAString, contextBuilder);
-        return value;
-    }
-    return mustBeString;
-});
-
-define('davinci-eight/utils/refChange',["require", "exports"], function (require, exports) {
-    var statistics = {};
-    var skip = true;
-    var trace = false;
-    var traceName = void 0;
-    // TODO: Very first time refChange is called, check count is +1
-    // FIXME: Use a better sentinel for command mode.
-    var LOGGING_NAME_REF_CHANGE = 'refChange';
-    function prefix(message) {
-        return LOGGING_NAME_REF_CHANGE + ": " + message;
-    }
-    function log(message) {
-        return console.log(prefix(message));
-    }
-    function warn(message) {
-        return console.warn(prefix(message));
-    }
-    function error(message) {
-        return console.warn(prefix(message));
-    }
-    function garbageCollect() {
-        var uuids = Object.keys(statistics);
-        uuids.forEach(function (uuid) {
-            var element = statistics[uuid];
-            if (element.refCount === 0) {
-                delete statistics[uuid];
-            }
-        });
-    }
-    function computeOutstanding() {
-        var uuids = Object.keys(statistics);
-        var uuidsLength = uuids.length;
-        var i;
-        var total = 0;
-        for (i = 0; i < uuidsLength; i++) {
-            var uuid = uuids[i];
-            var statistic = statistics[uuid];
-            total += statistic.refCount;
-        }
-        return total;
-    }
-    function stop() {
-        if (skip) {
-            warn("Nothing to see because skip mode is " + skip);
-        }
-        garbageCollect();
-        return computeOutstanding();
-    }
-    function dump() {
-        var outstanding = stop();
-        if (outstanding > 0) {
-            warn(JSON.stringify(statistics, null, 2));
-        }
-        else {
-            log("There are " + outstanding + " outstanding reference counts.");
-        }
-        return outstanding;
-    }
-    function refChange(uuid, name, change) {
-        if (change === void 0) { change = 0; }
-        if (change !== 0 && skip) {
-            return;
-        }
-        if (trace) {
-            if (traceName) {
-                if (name === traceName) {
-                    var element = statistics[uuid];
-                    if (element) {
-                        log(change + " on " + uuid + " @ " + name);
-                    }
-                    else {
-                        log(change + " on " + uuid + " @ " + name);
-                    }
-                }
-            }
-            else {
-                // trace everything
-                log(change + " on " + uuid + " @ " + name);
-            }
-        }
-        if (change === +1) {
-            var element = statistics[uuid];
-            if (!element) {
-                element = { refCount: 0, name: name, zombie: false };
-                statistics[uuid] = element;
-            }
-            element.refCount += change;
-        }
-        else if (change === -1) {
-            var element = statistics[uuid];
-            if (element) {
-                element.refCount += change;
-                if (element.refCount === 0) {
-                    element.zombie = true;
-                }
-            }
-            else {
-                error(change + " on " + uuid + " @ " + name);
-            }
-        }
-        else if (change === 0) {
-            var message = "" + uuid + " @ " + name;
-            log(message);
-            if (uuid === 'stop') {
-                return stop();
-            }
-            if (uuid === 'dump') {
-                return dump();
-            }
-            else if (uuid === 'start') {
-                skip = false;
-                trace = false;
-            }
-            else if (uuid === 'reset') {
-                statistics = {};
-                skip = true;
-                trace = false;
-                traceName = void 0;
-            }
-            else if (uuid === 'trace') {
-                skip = false;
-                trace = true;
-                traceName = name;
-            }
-            else {
-                throw new Error(prefix("Unexpected command " + message));
-            }
-        }
-        else {
-            throw new Error(prefix("change must be +1 or -1 for normal recording, or 0 for logging to the console."));
-        }
-    }
-    return refChange;
-});
-
-define('davinci-eight/utils/uuid4',["require", "exports"], function (require, exports) {
-    function uuid4() {
-        var maxFromBits = function (bits) {
-            return Math.pow(2, bits);
-        };
-        var limitUI04 = maxFromBits(4);
-        var limitUI06 = maxFromBits(6);
-        var limitUI08 = maxFromBits(8);
-        var limitUI12 = maxFromBits(12);
-        var limitUI14 = maxFromBits(14);
-        var limitUI16 = maxFromBits(16);
-        var limitUI32 = maxFromBits(32);
-        var limitUI40 = maxFromBits(40);
-        var limitUI48 = maxFromBits(48);
-        var getRandomInt = function (min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
-        var randomUI06 = function () {
-            return getRandomInt(0, limitUI06 - 1);
-        };
-        var randomUI08 = function () {
-            return getRandomInt(0, limitUI08 - 1);
-        };
-        var randomUI12 = function () {
-            return getRandomInt(0, limitUI12 - 1);
-        };
-        var randomUI16 = function () {
-            return getRandomInt(0, limitUI16 - 1);
-        };
-        var randomUI32 = function () {
-            return getRandomInt(0, limitUI32 - 1);
-        };
-        var randomUI48 = function () {
-            return (0 | Math.random() * (1 << 30)) + (0 | Math.random() * (1 << 48 - 30)) * (1 << 30);
-        };
-        var paddedString = function (str, length, z) {
-            str = String(str);
-            z = (!z) ? '0' : z;
-            var i = length - str.length;
-            for (; i > 0; i >>>= 1, z += z) {
-                if (i & 1) {
-                    str = z + str;
-                }
-            }
-            return str;
-        };
-        var fromParts = function (timeLow, timeMid, timeHiAndVersion, clockSeqHiAndReserved, clockSeqLow, node) {
-            var hex = paddedString(timeLow.toString(16), 8) +
-                '-' +
-                paddedString(timeMid.toString(16), 4) +
-                '-' +
-                paddedString(timeHiAndVersion.toString(16), 4) +
-                '-' +
-                paddedString(clockSeqHiAndReserved.toString(16), 2) +
-                paddedString(clockSeqLow.toString(16), 2) +
-                '-' +
-                paddedString(node.toString(16), 12);
-            return hex;
-        };
-        return {
-            generate: function () {
-                return fromParts(randomUI32(), randomUI16(), 0x4000 | randomUI12(), 0x80 | randomUI06(), randomUI08(), randomUI48());
-            },
-            // addition by Ka-Jan to test for validity
-            // Based on: http://stackoverflow.com/questions/7905929/how-to-test-valid-uuid-guid
-            validate: function (uuid) {
-                var testPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-                return testPattern.test(uuid);
-            }
-        };
-    }
-    return uuid4;
-});
-
-define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeString', '../utils/refChange', '../utils/uuid4'], function (require, exports, mustBeString, refChange, uuid4) {
-    var Shareable = (function () {
-        /**
-         * <p>
-         * Convenient base class for derived classes implementing <code>IUnknown</code>.
-         * </p>
-         * @class Shareable
-         * @extends IUnknown
-         * @constructor
-         * @param type {string} The human-readable name of the derived type.
-         */
-        function Shareable(type) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
-            this._type = mustBeString('type', type);
-            refChange(this._uuid, type, +1);
-        }
-        /**
-         * <p>
-         * Notifies this instance that something is dereferencing it.
-         * </p>
-         *
-         * @method addRef
-         * @return {number} The new value of the reference count.
-         */
-        Shareable.prototype.addRef = function (client) {
-            this._refCount++;
-            refChange(this._uuid, this._type, +1);
-            return this._refCount;
-        };
-        /**
-         * <p>
-         * Notifies this instance that something is dereferencing it.
-         * </p>
-         *
-         * @method release
-         * @return {number} The new value of the reference count.
-         */
-        Shareable.prototype.release = function (client) {
-            this._refCount--;
-            refChange(this._uuid, this._type, -1);
-            var refCount = this._refCount;
-            if (refCount === 0) {
-                this.destructor();
-                this._refCount = void 0;
-                this._type = void 0;
-                this._uuid = void 0;
-            }
-            return refCount;
-        };
-        /**
-         * <p>
-         * Outputs a warning to the console that this method should be implemented by the derived class.
-         * </p>
-         * <p>
-         * <em>This method should be implemented by derived classes.</em>
-         * </p>
-         * <p>
-         * <em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>
-         * </p>
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        Shareable.prototype.destructor = function () {
-            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
-        };
-        return Shareable;
-    })();
-    return Shareable;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -2844,136 +4409,6 @@ define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/exp
     return AttribLocation;
 });
 
-define('davinci-eight/core/Color',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    /**
-     * <p>
-     * A mutable type representing a color through its RGB components.
-     * </p>
-     * <p>
-     * WARNING: In many object-oriented designs, types representing values are completely immutable.
-     * In a graphics library where data changes rapidly and garbage collection might become an issue,
-     * it is common to use reference types, such as in this design. This mutability can lead to
-     * difficult bugs because it is hard to reason about where a color may have changed.
-     * </p>
-     *
-     * @class Color
-     * @implements ColorRGB
-     * @implements Mutable<number[]>
-     */
-    var Color = (function () {
-        /**
-         * @class Color
-         * @constructor
-         * @param data {number[]}
-         */
-        function Color(data) {
-            if (data === void 0) { data = [0, 0, 0]; }
-            this.modified = false;
-            expectArg('data', data).toSatisfy(data.length === 3, "data must have length equal to 3");
-            this.data = data;
-        }
-        Object.defineProperty(Color.prototype, "red", {
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Color.prototype, "green", {
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Color.prototype, "blue", {
-            get: function () {
-                return this.data[2];
-            },
-            set: function (value) {
-                this.data[2] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Color.prototype.clone = function () {
-            return new Color([this.data[0], this.data[1], this.data[2]]);
-        };
-        Color.prototype.luminance = function () {
-            return Color.luminance(this.red, this.green, this.blue);
-        };
-        Color.prototype.toString = function () {
-            return "Color(" + this.red + ", " + this.green + ", " + this.blue + ")";
-        };
-        Color.luminance = function (r, g, b) {
-            var gamma = 2.2;
-            return 0.2126 * Math.pow(r, gamma) + 0.7152 * Math.pow(g, gamma) + 0.0722 * Math.pow(b, gamma);
-        };
-        /**
-         * Converts an angle, radius, height to a color on a color wheel.
-         */
-        Color.fromHSL = function (H, S, L) {
-            var C = (1 - Math.abs(2 * L - 1)) * S;
-            function normalizeAngle(angle) {
-                if (angle > 2 * Math.PI) {
-                    return normalizeAngle(angle - 2 * Math.PI);
-                }
-                else if (angle < 0) {
-                    return normalizeAngle(angle + 2 * Math.PI);
-                }
-                else {
-                    return angle;
-                }
-            }
-            function matchLightness(R, G, B) {
-                var x = Color.luminance(R, G, B);
-                var m = L - (0.5 * C);
-                return new Color([R + m, G + m, B + m]);
-            }
-            var sextant = ((normalizeAngle(H) / Math.PI) * 3) % 6;
-            var X = C * (1 - Math.abs(sextant % 2 - 1));
-            if (sextant >= 0 && sextant < 1) {
-                return matchLightness(C, X /*C*(sextant-0)*/, 0.0);
-            }
-            else if (sextant >= 1 && sextant < 2) {
-                return matchLightness(X /*C*(2-sextant)*/, C, 0.0);
-            }
-            else if (sextant >= 2 && sextant < 3) {
-                return matchLightness(0.0, C, C * (sextant - 2));
-            }
-            else if (sextant >= 3 && sextant < 4) {
-                return matchLightness(0.0, C * (4 - sextant), C);
-            }
-            else if (sextant >= 4 && sextant < 5) {
-                return matchLightness(X, 0.0, C);
-            }
-            else if (sextant >= 5 && sextant < 6) {
-                return matchLightness(C, 0.0, X);
-            }
-            else {
-                return matchLightness(0.0, 0.0, 0.0);
-            }
-        };
-        Color.fromRGB = function (red, green, blue) {
-            expectArg('red', red).toBeNumber().toBeInClosedInterval(0, 1);
-            expectArg('green', green).toBeNumber().toBeInClosedInterval(0, 1);
-            expectArg('blue', blue).toBeNumber().toBeInClosedInterval(0, 1);
-            return new Color([red, green, blue]);
-        };
-        Color.copy = function (color) {
-            return new Color([color.red, color.green, color.blue]);
-        };
-        return Color;
-    })();
-    return Color;
-});
-
 define('davinci-eight/core',["require", "exports"], function (require, exports) {
     /**
      *
@@ -2981,10 +4416,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
     var core = {
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-10-01',
+        LAST_MODIFIED: '2015-10-04',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.115.0'
+        VERSION: '2.116.0'
     };
     return core;
 });
@@ -4442,132 +5877,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    var LOGGING_NAME = 'IUnknownArray';
-    /**
-     * @class IUnknownArray
-     */
-    var IUnknownArray = (function (_super) {
-        __extends(IUnknownArray, _super);
-        /**
-         * Collection class for maintaining an array of types derived from IUnknown.
-         * Provides a safer way to maintain reference counts than a native array.
-         * @class IUnknownArray
-         * @constructor
-         */
-        function IUnknownArray() {
-            _super.call(this, LOGGING_NAME);
-            this._elements = [];
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         */
-        IUnknownArray.prototype.destructor = function () {
-            for (var i = 0, l = this._elements.length; i < l; i++) {
-                this._elements[i].release();
-            }
-            this._elements = void 0;
-        };
-        /**
-         * Gets the element at the specified index without incrementing the reference count.
-         * Use this method when you don't intend to hold onto the returned value.
-         * @method getWeakReference
-         * @param index {number}
-         * @return {T}
-         */
-        IUnknownArray.prototype.getWeakReference = function (index) {
-            return this._elements[index];
-        };
-        /**
-         * Gets the element at the specified index, incrementing the reference count.
-         * Use this method when you intend to hold onto the referent and release it later.
-         * @method get
-         * @param index {number}
-         * @return {T}
-         */
-        IUnknownArray.prototype.get = function (index) {
-            var element;
-            element = this._elements[index];
-            if (element) {
-                element.addRef();
-            }
-            return element;
-        };
-        /**
-         * @method indexOf
-         * @param searchElement {T}
-         * @param [fromIndex]
-         * @return {number}
-         */
-        IUnknownArray.prototype.indexOf = function (searchElement, fromIndex) {
-            return this._elements.indexOf(searchElement, fromIndex);
-        };
-        Object.defineProperty(IUnknownArray.prototype, "length", {
-            /**
-             * @property length
-             * @return {number}
-             */
-            get: function () {
-                return this._elements.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        IUnknownArray.prototype.splice = function (index, count) {
-            // The release burdon is on the caller now.
-            // FIXME: This should return another IUnknownArray
-            return this._elements.splice(index, count);
-        };
-        /**
-         * Traverse without Reference Counting
-         * @method forEach
-         * @param callback {(value: T, index: number)=>void}
-         * @return {void}
-         */
-        IUnknownArray.prototype.forEach = function (callback) {
-            return this._elements.forEach(callback);
-        };
-        /**
-         * Pushes an element onto the tail of the list and increments the element reference count.
-         * @method pushStrongReference
-         * @param element {T}
-         * @return {number}
-         */
-        IUnknownArray.prototype.pushStrongReference = function (element) {
-            var x = this.pushWeakReference(element);
-            if (element) {
-                element.addRef();
-            }
-            return x;
-        };
-        /**
-         * Pushes an element onto the tail of the list with no change in the reference count.
-         * @method pushWeakReference
-         * @param element {T}
-         * @return {number}
-         */
-        IUnknownArray.prototype.pushWeakReference = function (element) {
-            return this._elements.push(element);
-        };
-        /**
-         * @method pop
-         * @return {T}
-         */
-        IUnknownArray.prototype.pop = function () {
-            // No need to addRef because ownership is being transferred to caller.
-            return this._elements.pop();
-        };
-        return IUnknownArray;
-    })(Shareable);
-    return IUnknownArray;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
     // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
     var LOGGING_NAME = 'NumberIUnknownMap';
@@ -4651,129 +5960,6 @@ define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/
     return NumberIUnknownMap;
 });
 
-define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
-    var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
-    /**
-     * @class StringIUnknownMap<V extends IUnknown>
-     * @extends IUnknown
-     */
-    var StringIUnknownMap = (function () {
-        /**
-         * <p>
-         * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
-         * </p>
-         * @class StringIUnknownMap
-         * @constructor
-         */
-        function StringIUnknownMap() {
-            this._refCount = 1;
-            this._elements = {};
-            this._uuid = uuid4().generate();
-            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
-        }
-        StringIUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
-            this._refCount++;
-            return this._refCount;
-        };
-        StringIUnknownMap.prototype.release = function () {
-            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
-            this._refCount--;
-            if (this._refCount === 0) {
-                var self_1 = this;
-                this.forEach(function (key) {
-                    self_1.putWeakReference(key, void 0);
-                });
-                this._elements = void 0;
-            }
-            return this._refCount;
-        };
-        /**
-         * Determines whether the key exists in the map with a defined value.
-         * @method exists
-         * @param key {string}
-         * @return {boolean} <p><code>true</code> if there is an element at the specified key.</p>
-         */
-        StringIUnknownMap.prototype.exists = function (key) {
-            var element = this._elements[key];
-            return element ? true : false;
-        };
-        StringIUnknownMap.prototype.get = function (key) {
-            var element = this._elements[key];
-            if (element) {
-                element.addRef();
-                return element;
-            }
-            else {
-                return void 0;
-            }
-        };
-        /**
-         * @method getWeakReference
-         * @param key {string}
-         * @return {V}
-         * @private
-         */
-        StringIUnknownMap.prototype.getWeakReference = function (key) {
-            var element = this._elements[key];
-            if (element) {
-                return element;
-            }
-            else {
-                return void 0;
-            }
-        };
-        StringIUnknownMap.prototype.put = function (key, value) {
-            if (value) {
-                value.addRef();
-            }
-            this.putWeakReference(key, value);
-        };
-        /**
-         * @method putWeakReference
-         * @param key {string}
-         * @param value {V}
-         * @return {void}
-         * @private
-         */
-        StringIUnknownMap.prototype.putWeakReference = function (key, value) {
-            var elements = this._elements;
-            var existing = elements[key];
-            if (existing) {
-                existing.release();
-            }
-            elements[key] = value;
-        };
-        StringIUnknownMap.prototype.forEach = function (callback) {
-            var keys = this.keys;
-            var i;
-            var length = keys.length;
-            for (i = 0; i < length; i++) {
-                var key = keys[i];
-                var value = this._elements[key];
-                callback(key, value);
-            }
-        };
-        Object.defineProperty(StringIUnknownMap.prototype, "keys", {
-            get: function () {
-                // TODO: memoize
-                return Object.keys(this._elements);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        StringIUnknownMap.prototype.remove = function (key) {
-            var value = this.getWeakReference(key);
-            if (value) {
-                value.release();
-            }
-            delete this._elements[key];
-        };
-        return StringIUnknownMap;
-    })();
-    return StringIUnknownMap;
-});
-
 define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, StringIUnknownMap, uuid4) {
     var CLASS_NAME_DRAWLIST = "createDrawList";
     var CLASS_NAME_GROUP = "DrawableGroup";
@@ -4835,15 +6021,13 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             configurable: true
         });
         DrawableGroup.prototype.push = function (drawable) {
-            this._drawables.pushStrongReference(drawable);
+            this._drawables.push(drawable);
         };
         DrawableGroup.prototype.remove = function (drawable) {
             var drawables = this._drawables;
             var index = drawables.indexOf(drawable);
             if (index >= 0) {
-                drawables.splice(index, 1).forEach(function (drawable) {
-                    drawable.release();
-                });
+                drawables.splice(index, 1).release();
             }
         };
         DrawableGroup.prototype.draw = function (ambients, canvasId) {
@@ -4859,7 +6043,9 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
             }
             length = drawables.length;
             for (i = 0; i < length; i++) {
-                drawables.getWeakReference(i).draw(canvasId);
+                var drawable = drawables.get(i);
+                drawable.draw(canvasId);
+                drawable.release();
             }
         };
         DrawableGroup.prototype.traverseDrawables = function (callback) {
@@ -5049,7 +6235,7 @@ define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUn
                 var result = new IUnknownArray();
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
-                        result.pushStrongReference(candidate);
+                        result.push(candidate);
                     }
                 }, function (program) {
                 });
@@ -5198,23 +6384,12 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
     return Drawable;
 });
 
-define('davinci-eight/i18n/readOnly',["require", "exports", '../checks/mustBeString'], function (require, exports, mustBeString) {
-    /**
-     *
-     */
-    function readOnly(name) {
-        mustBeString('name', name);
-        var message = {
-            get message() {
-                return "Property `" + name + "` is readonly.";
-            }
-        };
-        return message;
-    }
-    return readOnly;
-});
-
-define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/refChange', '../utils/uuid4', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeNumber, refChange, uuid4, Vector3) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/Shareable', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeNumber, Shareable, Vector3) {
     /**
      * Name used for reference count monitoring and logging.
      */
@@ -5222,7 +6397,8 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
     /**
      * @class PerspectiveCamera
      */
-    var PerspectiveCamera = (function () {
+    var PerspectiveCamera = (function (_super) {
+        __extends(PerspectiveCamera, _super);
         /**
          * <p>
          *
@@ -5234,31 +6410,32 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
          * @param [near=0.1] {number}
          * @param [far=2000] {number}
          * @example
-             var camera = new EIGHT.PerspectiveCamera()
-             camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-             camera.setFov(3.0 * e3)
+         *   var camera = new EIGHT.PerspectiveCamera()
+         *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+         *   camera.setFov(3.0 * e3)
          */
         function PerspectiveCamera(fov, aspect, near, far) {
             if (fov === void 0) { fov = 75 * Math.PI / 180; }
             if (aspect === void 0) { aspect = 1; }
             if (near === void 0) { near = 0.1; }
             if (far === void 0) { far = 2000; }
+            _super.call(this, 'PerspectiveCamera');
             // FIXME: Gotta go
             this.position = new Vector3();
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
             mustBeNumber('fov', fov);
             mustBeNumber('aspect', aspect);
             mustBeNumber('near', near);
             mustBeNumber('far', far);
             this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
-            refChange(this._uuid, CLASS_NAME, +1);
         }
-        PerspectiveCamera.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, CLASS_NAME, +1);
-            return this._refCount;
+        PerspectiveCamera.prototype.destructor = function () {
         };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         * @return {void}
+         */
         PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
             this.inner.setNear(this.near);
             this.inner.setFar(this.far);
@@ -5416,7 +6593,7 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
             get: function () {
                 return this.inner.up;
             },
-            set: function (unised) {
+            set: function (unused) {
                 throw new Error(readOnly('up').message);
             },
             enumerable: true,
@@ -5426,18 +6603,8 @@ define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../camera
             this.inner.setUp(up);
             return this;
         };
-        PerspectiveCamera.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, CLASS_NAME, -1);
-            if (this._refCount === 0) {
-                return 0;
-            }
-            else {
-            }
-            return this._refCount;
-        };
         return PerspectiveCamera;
-    })();
+    })(Shareable);
     return PerspectiveCamera;
 });
 
@@ -5821,7 +6988,9 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
             prolog: function () {
                 if (_manager) {
                     for (var i = 0, length = prolog.length; i < length; i++) {
-                        prolog.getWeakReference(i).execute(_manager);
+                        var command = prolog.get(i);
+                        command.execute(_manager);
+                        command.release();
                     }
                 }
                 else {
@@ -5831,10 +7000,10 @@ define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../
                 }
             },
             addPrologCommand: function (command) {
-                prolog.pushStrongReference(command);
+                prolog.push(command);
             },
             addContextGainCommand: function (command) {
-                startUp.pushStrongReference(command);
+                startUp.push(command);
             },
             release: function () {
                 refCount--;
@@ -11013,220 +12182,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
-    /**
-     * @class Spinor3
-     */
-    var Spinor3 = (function (_super) {
-        __extends(Spinor3, _super);
-        function Spinor3(data, modified) {
-            if (data === void 0) { data = [0, 0, 0, 1]; }
-            if (modified === void 0) { modified = false; }
-            _super.call(this, data, modified, 4);
-        }
-        Object.defineProperty(Spinor3.prototype, "yz", {
-            /**
-             * @property yz
-             * @type Number
-             */
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.yz !== value;
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "zx", {
-            /**
-             * @property zx
-             * @type Number
-             */
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.zx !== value;
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "xy", {
-            /**
-             * @property xy
-             * @type Number
-             */
-            get: function () {
-                return this.data[2];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.xy !== value;
-                this.data[2] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Spinor3.prototype, "w", {
-            /**
-             * @property w
-             * @type Number
-             */
-            get: function () {
-                return this.data[3];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Spinor3.prototype.add = function (rhs) {
-            return this;
-        };
-        Spinor3.prototype.clone = function () {
-            return new Spinor3([this.yz, this.zx, this.xy, this.w]);
-        };
-        Spinor3.prototype.copy = function (spinor) {
-            this.yz = spinor.yz;
-            this.zx = spinor.zx;
-            this.xy = spinor.xy;
-            this.w = spinor.w;
-            return this;
-        };
-        Spinor3.prototype.difference = function (a, b) {
-            return this;
-        };
-        Spinor3.prototype.divideScalar = function (scalar) {
-            this.yz /= scalar;
-            this.zx /= scalar;
-            this.xy /= scalar;
-            this.w /= scalar;
-            return this;
-        };
-        Spinor3.prototype.exp = function () {
-            var w = this.w;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            var expW = Math.exp(w);
-            var B = Math.sqrt(yz * yz + zx * zx + xy * xy);
-            var s = expW * (B !== 0 ? Math.sin(B) / B : 1);
-            this.w = expW * Math.cos(B);
-            this.yz = yz * s;
-            this.zx = zx * s;
-            this.xy = xy * s;
-            return this;
-        };
-        Spinor3.prototype.lerp = function (target, alpha) {
-            this.xy += (target.xy - this.xy) * alpha;
-            this.yz += (target.yz - this.yz) * alpha;
-            this.zx += (target.zx - this.zx) * alpha;
-            this.w += (target.w - this.w) * alpha;
-            return this;
-        };
-        Spinor3.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
-        };
-        Spinor3.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
-        };
-        Spinor3.prototype.scale = function (scalar) {
-            this.yz *= scalar;
-            this.zx *= scalar;
-            this.xy *= scalar;
-            this.w *= scalar;
-            return this;
-        };
-        Spinor3.prototype.product = function (a, b) {
-            var a0 = a.w;
-            var a1 = a.yz;
-            var a2 = a.zx;
-            var a3 = a.xy;
-            var b0 = b.w;
-            var b1 = b.yz;
-            var b2 = b.zx;
-            var b3 = b.xy;
-            this.w = a0 * b0 - a1 * b1 - a2 * b2 - a3 * b3;
-            this.yz = a0 * b1 + a1 * b0 - a2 * b3 + a3 * b2;
-            this.zx = a0 * b2 + a1 * b3 + a2 * b0 - a3 * b1;
-            this.xy = a0 * b3 - a1 * b2 + a2 * b1 + a3 * b0;
-            return this;
-        };
-        Spinor3.prototype.quaditude = function () {
-            var w = this.w;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            return w * w + yz * yz + zx * zx + xy * xy;
-        };
-        Spinor3.prototype.reverse = function () {
-            this.yz *= -1;
-            this.zx *= -1;
-            this.xy *= -1;
-            return this;
-        };
-        /**
-         * Sets this Spinor to the value of its reflection in the plane orthogonal to n.
-         * The geometric formula for bivector reflection is B' = n * B * n.
-         * @method reflect
-         * @param n {Cartesian3}
-         * @return {Spinor3}
-         */
-        Spinor3.prototype.reflect = function (n) {
-            var w = this.w;
-            var yz = this.yz;
-            var zx = this.zx;
-            var xy = this.xy;
-            var nx = n.x;
-            var ny = n.y;
-            var nz = n.z;
-            var nn = nx * nx + ny * ny + nz * nz;
-            var nB = nx * yz + ny * zx + nz * xy;
-            this.w = nn * w;
-            this.xy = 2 * nz * nB - nn * xy;
-            this.yz = 2 * nx * nB - nn * yz;
-            this.zx = 2 * ny * nB - nn * zx;
-            return this;
-        };
-        Spinor3.prototype.rotate = function (rotor) {
-            return this;
-        };
-        Spinor3.prototype.sub = function (rhs) {
-            return this;
-        };
-        Spinor3.prototype.sum = function (a, b) {
-            return this;
-        };
-        Spinor3.prototype.spinor = function (a, b) {
-            var ax = a.x, ay = a.y, az = a.z;
-            var bx = b.x, by = b.y, bz = b.z;
-            this.w = 0;
-            this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
-            this.zx = wedgeZX(ax, ay, az, bx, by, bz);
-            this.xy = wedgeXY(ax, ay, az, bx, by, bz);
-            return this;
-        };
-        /**
-         * @method toString
-         * @return {string} A non-normative string representation of the target.
-         */
-        Spinor3.prototype.toString = function () {
-            return "Spinor3({yz: " + this.yz + ", zx: " + this.zx + ", xy: " + this.xy + ", w: " + this.w + "})";
-        };
-        return Spinor3;
-    })(VectorN);
-    return Spinor3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
     /**
      * @class Vector4
@@ -11782,6 +12737,51 @@ define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3
             configurable: true
         });
         /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
+        ModelFacet.prototype.getProperty = function (name) {
+            switch (name) {
+                case ModelFacet.PROP_ATTITUDE: {
+                    return this._attitude.data;
+                }
+                case ModelFacet.PROP_POSITION: {
+                    return this._position.data;
+                }
+                default: {
+                    console.warn("ModelFacet.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param data {number[]}
+         * @return {void}
+         */
+        ModelFacet.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ModelFacet.PROP_ATTITUDE:
+                    {
+                        this._attitude.yz = data[0];
+                        this._attitude.zx = data[1];
+                        this._attitude.xy = data[2];
+                        this._attitude.w = data[3];
+                    }
+                    break;
+                case ModelFacet.PROP_POSITION:
+                    {
+                        this._position.set(data[0], data[1], data[2]);
+                    }
+                    break;
+                default: {
+                    console.warn("ModelFacet.setProperty " + name);
+                }
+            }
+        };
+        /**
          * @method setUniforms
          * @param visitor {IFacetVisitor}
          * @param canvasId {number}
@@ -11808,6 +12808,8 @@ define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
         };
+        ModelFacet.PROP_ATTITUDE = 'attitude';
+        ModelFacet.PROP_POSITION = 'position';
         return ModelFacet;
     })(Shareable);
     return ModelFacet;
@@ -11820,7 +12822,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Shareable, Symbolic, Vector3) {
     /**
-     * @class ColorFacet.
+     * @class ColorFacet
      */
     var ColorFacet = (function (_super) {
         __extends(ColorFacet, _super);
@@ -11886,7 +12888,7 @@ define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shar
              * @type {number}
              */
             get: function () {
-                return this.data.x;
+                return this.data.z;
             },
             set: function (blue) {
                 this.data.z = blue;
@@ -11900,15 +12902,66 @@ define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shar
             this.blue *= s;
             return this;
         };
+        ColorFacet.prototype.setColor = function (color) {
+            this.red = color.red;
+            this.green = color.green;
+            this.blue = color.blue;
+            return this;
+        };
         ColorFacet.prototype.setRGB = function (red, green, blue) {
             this.red = red;
             this.green = green;
             this.blue = blue;
             return this;
         };
+        ColorFacet.prototype.getProperty = function (name) {
+            switch (name) {
+                case ColorFacet.PROP_RGB: {
+                    return [this.red, this.green, this.blue];
+                }
+                case ColorFacet.PROP_RED: {
+                    return [this.red];
+                }
+                default: {
+                    console.warn("ColorFacet.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        ColorFacet.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ColorFacet.PROP_RGB:
+                    {
+                        this.red = data[0];
+                        this.green = data[1];
+                        this.blue = data[2];
+                    }
+                    break;
+                case ColorFacet.PROP_RED:
+                    {
+                        this.red = data[0];
+                    }
+                    break;
+                default: {
+                    console.warn("ColorFacet.setProperty " + name);
+                }
+            }
+        };
         ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
             visitor.uniformVector3(this.name, this.data, canvasId);
         };
+        /**
+         * property PROP_RGB
+         * @type {string}
+         * @static
+         */
+        ColorFacet.PROP_RGB = 'rgb';
+        /**
+         * property PROP_RED
+         * @type {string}
+         * @static
+         */
+        ColorFacet.PROP_RED = 'red';
         return ColorFacet;
     })(Shareable);
     return ColorFacet;
@@ -12136,7 +13189,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/animate/Animator', 'davinci-eight/animate/animations/Animation', 'davinci-eight/animate/animations/ColorTo', 'davinci-eight/animate/animations/MoveTo', 'davinci-eight/animate/animations/SpinTo', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Animation, ColorTo, MoveTo, SpinTo, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -12161,6 +13214,12 @@ define('davinci-eight',["require", "exports", 'davinci-eight/cameras/createFrust
          * @readOnly
          */
         get VERSION() { return core.VERSION; },
+        // animate
+        get Animator() { return Animator; },
+        get Animation() { return Animation; },
+        get ColorTo() { return ColorTo; },
+        get MoveTo() { return MoveTo; },
+        get SpinTo() { return SpinTo; },
         // TODO: Arrange in alphabetical order in order to assess width of API.
         // materials
         get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },

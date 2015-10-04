@@ -7,15 +7,19 @@ let LOGGING_NAME = 'IUnknownArray';
  * @class IUnknownArray
  */
 class IUnknownArray<T extends IUnknown> extends Shareable {
-  private _elements: T[] = [];
+    private _elements: T[];
   /**
    * Collection class for maintaining an array of types derived from IUnknown.
    * Provides a safer way to maintain reference counts than a native array.
    * @class IUnknownArray
    * @constructor
    */
-  constructor() {
+  constructor(elements: T[] = []) {
    super(LOGGING_NAME)
+   this._elements = elements
+    for (var i = 0, l = this._elements.length; i < l; i++) {
+      this._elements[i].addRef()
+    }
   }
   /**
    * @method destructor
@@ -23,23 +27,12 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    */
   protected destructor(): void {
     for (var i = 0, l = this._elements.length; i < l; i++) {
-      this._elements[i].release();
+      this._elements[i].release()
     }
     this._elements = void 0;
   }
   /**
-   * Gets the element at the specified index without incrementing the reference count.
-   * Use this method when you don't intend to hold onto the returned value.
-   * @method getWeakReference
-   * @param index {number}
-   * @return {T}
-   */
-  getWeakReference(index: number): T {
-    return this._elements[index];
-  }
-  /**
    * Gets the element at the specified index, incrementing the reference count.
-   * Use this method when you intend to hold onto the referent and release it later.
    * @method get
    * @param index {number}
    * @return {T}
@@ -65,13 +58,30 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * @property length
    * @return {number}
    */
-  get length() {
+  get length(): number {
     return this._elements.length;
   }
-  splice(index: number, count: number): T[] {
+  slice(start?: number, end?: number): IUnknownArray<T> {
+    return new IUnknownArray(this._elements.slice(start, end))
+  }
+  /**
+   * @method splice
+   * @param index {number}
+   * @param count {number}
+   * @return {IUnnownArray<T>}
+   */
+  splice(index: number, count: number): IUnknownArray<T> {
     // The release burdon is on the caller now.
     // FIXME: This should return another IUnknownArray
-    return this._elements.splice(index, count);
+    return new IUnknownArray(this._elements.splice(index, count))
+  }
+  /**
+   * @method shift
+   * @return {T}
+   */
+  shift(): T {
+    // No need to addRef because ownership is being transferred to caller.
+    return this._elements.shift()
   }
   /**
    * Traverse without Reference Counting
@@ -84,25 +94,16 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
   }
   /**
    * Pushes an element onto the tail of the list and increments the element reference count.
-   * @method pushStrongReference
+   * @method push
    * @param element {T}
    * @return {number}
    */
-  pushStrongReference(element: T): number {
-    var x: number = this.pushWeakReference(element)
+  push(element: T): number {
+    var x: number = this._elements.push(element)
     if (element) {
       element.addRef()
     }
     return x
-  }
-  /**
-   * Pushes an element onto the tail of the list with no change in the reference count.
-   * @method pushWeakReference
-   * @param element {T}
-   * @return {number}
-   */
-  pushWeakReference(element: T): number {
-    return this._elements.push(element)
   }
   /**
    * @method pop

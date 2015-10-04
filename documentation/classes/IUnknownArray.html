@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.115.0</em>
+            <em>API Docs for: 2.116.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -38,6 +38,7 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/AnimatedMirror.html">AnimatedMirror</a></li>
                                 <li><a href="../classes/AttribLocation.html">AttribLocation</a></li>
                                 <li><a href="../classes/AttribMetaInfo.html">AttribMetaInfo</a></li>
                                 <li><a href="../classes/BarnGeometry.html">BarnGeometry</a></li>
@@ -50,7 +51,6 @@
                                 <li><a href="../classes/Cartesian4.html">Cartesian4</a></li>
                                 <li><a href="../classes/Color.html">Color</a></li>
                                 <li><a href="../classes/ColorFacet.html">ColorFacet</a></li>
-                                <li><a href="../classes/ColorFacet..html">ColorFacet.</a></li>
                                 <li><a href="../classes/ColorRGB.html">ColorRGB</a></li>
                                 <li><a href="../classes/Complex.html">Complex</a></li>
                                 <li><a href="../classes/ContextAttributesLogger.html">ContextAttributesLogger</a></li>
@@ -78,18 +78,22 @@
                                 <li><a href="../classes/GeometryElements.html">GeometryElements</a></li>
                                 <li><a href="../classes/GeometryMeta.html">GeometryMeta</a></li>
                                 <li><a href="../classes/HTMLScriptsMaterial.html">HTMLScriptsMaterial</a></li>
+                                <li><a href="../classes/IAnimation.html">IAnimation</a></li>
+                                <li><a href="../classes/IAnimationClock.html">IAnimationClock</a></li>
                                 <li><a href="../classes/IBufferGeometry.html">IBufferGeometry</a></li>
                                 <li><a href="../classes/IContextConsumer.html">IContextConsumer</a></li>
                                 <li><a href="../classes/IContextMonitor.html">IContextMonitor</a></li>
                                 <li><a href="../classes/IContextProvider.html">IContextProvider</a></li>
                                 <li><a href="../classes/IDrawable.html">IDrawable</a></li>
                                 <li><a href="../classes/IDrawList.html">IDrawList</a></li>
+                                <li><a href="../classes/IExchange.html">IExchange</a></li>
                                 <li><a href="../classes/IFacet
                 extends IUnknown.html">IFacet
                 extends IUnknown</a></li>
                                 <li><a href="../classes/IFacetVisitor.html">IFacetVisitor</a></li>
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
+                                <li><a href="../classes/IProperties.html">IProperties</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -254,10 +258,6 @@ Provides a safer way to maintain reference counts than a native array.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_getWeakReference">getWeakReference</a>
-
-                            </li>
-                            <li class="index-item method">
                                 <a href="#method_indexOf">indexOf</a>
 
                             </li>
@@ -266,11 +266,15 @@ Provides a safer way to maintain reference counts than a native array.</p>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_pushStrongReference">pushStrongReference</a>
+                                <a href="#method_push">push</a>
 
                             </li>
                             <li class="index-item method">
-                                <a href="#method_pushWeakReference">pushWeakReference</a>
+                                <a href="#method_shift">shift</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_splice">splice</a>
 
                             </li>
                     </ul>
@@ -311,7 +315,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:20</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:24</code></a>
         </p>
 
 
@@ -357,7 +361,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l76"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:76</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l86"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:86</code></a>
         </p>
 
 
@@ -420,7 +424,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l40"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:40</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l34"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:34</code></a>
         </p>
 
 
@@ -428,72 +432,7 @@ Provides a safer way to maintain reference counts than a native array.</p>
     </div>
 
     <div class="description">
-        <p>Gets the element at the specified index, incrementing the reference count.
-Use this method when you intend to hold onto the referent and release it later.</p>
-
-    </div>
-
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">index</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-
-
-                    <div class="param-description">
-                         
-                    </div>
-
-                </li>
-            </ul>
-        </div>
-
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type">T</span>:
-            </div>
-        </div>
-
-
-</div>
-<div id="method_getWeakReference" class="method item">
-    <h3 class="name"><code>getWeakReference</code></h3>
-
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>index</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">T</span>
-        </span>
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:30</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>Gets the element at the specified index without incrementing the reference count.
-Use this method when you don't intend to hold onto the returned value.</p>
+        <p>Gets the element at the specified index, incrementing the reference count.</p>
 
     </div>
 
@@ -551,7 +490,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l55"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:55</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l48"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:48</code></a>
         </p>
 
 
@@ -618,7 +557,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:107</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l108"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:108</code></a>
         </p>
 
 
@@ -640,8 +579,8 @@ Use this method when you don't intend to hold onto the returned value.</p>
 
 
 </div>
-<div id="method_pushStrongReference" class="method item">
-    <h3 class="name"><code>pushStrongReference</code></h3>
+<div id="method_push" class="method item">
+    <h3 class="name"><code>push</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -664,7 +603,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l85"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:85</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l95"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:95</code></a>
         </p>
 
 
@@ -703,19 +642,13 @@ Use this method when you don't intend to hold onto the returned value.</p>
 
 
 </div>
-<div id="method_pushWeakReference" class="method item">
-    <h3 class="name"><code>pushWeakReference</code></h3>
+<div id="method_shift" class="method item">
+    <h3 class="name"><code>shift</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>element</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+            <span class="type">T</span>
         </span>
 
 
@@ -727,7 +660,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l98"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:98</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l78"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:78</code></a>
         </p>
 
 
@@ -735,8 +668,56 @@ Use this method when you don't intend to hold onto the returned value.</p>
     </div>
 
     <div class="description">
-        <p>Pushes an element onto the tail of the list with no change in the reference count.</p>
+        
+    </div>
 
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">T</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_splice" class="method item">
+    <h3 class="name"><code>splice</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>index</code>
+                </li>
+                <li class="arg">
+                        <code>count</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">IUnnownArray<T></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l67"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:67</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
         <div class="params">
@@ -744,8 +725,18 @@ Use this method when you don't intend to hold onto the returned value.</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">element</code>
-                        <span class="type">T</span>
+                        <code class="param-name">index</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">count</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
 
 
                     <div class="param-description">
@@ -760,7 +751,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                        <span class="type">IUnnownArray<T></span>:
             </div>
         </div>
 
@@ -782,7 +773,7 @@ Use this method when you don't intend to hold onto the returned value.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l64"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:64</code></a>
+        <a href="../files/src_davinci-eight_utils_IUnknownArray.ts.html#l57"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;IUnknownArray.ts:57</code></a>
         </p>
 
 

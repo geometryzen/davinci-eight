@@ -46,5 +46,11 @@ declare class Shareable implements IUnknown {
      * @protected
      */
     protected destructor(): void;
+    /**
+     * @property uuid
+     * @type {string}
+     * @readOnly
+     */
+    uuid: string;
 }
 export = Shareable;

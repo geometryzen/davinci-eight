@@ -78,15 +78,13 @@ class DrawableGroup implements IUnknown {
     return this._drawables.length;
   }
   push(drawable: IDrawable) { 
-    this._drawables.pushStrongReference(drawable);
+    this._drawables.push(drawable);
   }
   remove(drawable: IDrawable): void {
-    let drawables = this._drawables;
-    let index = drawables.indexOf(drawable);
+    let drawables = this._drawables
+    let index = drawables.indexOf(drawable)
     if (index >= 0) {
-      drawables.splice(index, 1).forEach(function(drawable) {
-        drawable.release();
-      });
+      drawables.splice(index, 1).release()
     }
   }
   draw(ambients: IFacet[], canvasId: number): void {
@@ -106,7 +104,9 @@ class DrawableGroup implements IUnknown {
 
     length = drawables.length
     for (i = 0; i < length; i++) {
-      drawables.getWeakReference(i).draw(canvasId)
+      var drawable = drawables.get(i)
+      drawable.draw(canvasId)
+      drawable.release()
     }
   }
   traverseDrawables(callback: (drawable: IDrawable) => void ) {
@@ -310,7 +310,7 @@ let createDrawList = function(): IDrawList {
       drawableGroups.traverseDrawables(
         function(candidate: IDrawable) {
           if  (candidate.name === name) {
-            result.pushStrongReference(candidate)
+            result.push(candidate)
           }
          },
         function(program: IMaterial) {

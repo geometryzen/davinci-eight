@@ -103,6 +103,7 @@ class VectorN<T> implements Mutable<T[]> {
     }
     this._data = data;
     this._callback = void 0;
+    this.modified = true;
   }
   get callback() {
     return this._callback;
@@ -110,6 +111,7 @@ class VectorN<T> implements Mutable<T[]> {
   set callback(reactTo: () => T[]) {
     this._callback = reactTo;
     this._data = void 0;
+    this.modified = true;
   }
   get length() {
     return this.data.length;
