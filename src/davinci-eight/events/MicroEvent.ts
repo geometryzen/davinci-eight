@@ -1,4 +1,4 @@
-import IMicroEvent = require('../animate/IMicroEvent')
+import IMicroEvent = require('../slideshow/IMicroEvent')
 
 class MicroEvent implements IMicroEvent {
   public _events: {[key:string]:(() => void)[]}

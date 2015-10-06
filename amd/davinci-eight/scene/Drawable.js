@@ -32,7 +32,7 @@ define(["require", "exports", '../checks/isDefined', '../checks/mustBeDefined', 
             this._material = material;
             this._material.addRef();
             this.buffersByCanvasid = new NumberIUnknownMap();
-            this.uniforms = new StringIUnknownMap();
+            this.uniforms = new StringIUnknownMap(LOGGING_NAME);
         }
         Drawable.prototype.destructor = function () {
             this.geometry = void 0;

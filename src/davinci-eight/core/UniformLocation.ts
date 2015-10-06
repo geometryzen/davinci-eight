@@ -23,6 +23,7 @@ class UniformLocation implements IContextProgramConsumer {
   private _location: WebGLUniformLocation;
   private _name: string;
   private _program: WebGLProgram;
+  // FIXME: No more mirroring.
   private _x: number = void 0;
   private _y: number = void 0;
   private _z: number = void 0;
@@ -189,16 +190,21 @@ class UniformLocation implements IContextProgramConsumer {
    * @param vector {Vector3}
    */
   vector3(vector: Vector3): void {
-    this._context.useProgram(this._program);
-    let data: number[] = vector.data;
-    let x = data[0];
-    let y = data[1];
-    let z = data[2];
-    if (this._x !== x || this._y !== y || this._z !== z) {
-      this._context.uniform3fv(this._location, data);
-      this._x = x;
-      this._y = y;
-      this._z = z;
+    if (vector) {
+      this._context.useProgram(this._program);
+      let data: number[] = vector.data;
+      let x = data[0];
+      let y = data[1];
+      let z = data[2];
+      if (this._x !== x || this._y !== y || this._z !== z) {
+        this._context.uniform3fv(this._location, data);
+        this._x = x;
+        this._y = y;
+        this._z = z;
+      }
+    }
+    else {
+      console.warn("UniformLocation.vector3 called with `typeof vector` => " + typeof vector)
     }
   }
   /**

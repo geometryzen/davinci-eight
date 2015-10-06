@@ -41,7 +41,8 @@ define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../
             refChange(this._uuid, this._type, -1);
             var refCount = this._refCount;
             if (refCount === 0) {
-                this.destructor();
+                // destructor called with `true` means grumble if the method has not been overridden.
+                this.destructor(true);
                 this._refCount = void 0;
                 this._type = void 0;
                 this._uuid = void 0;
@@ -62,8 +63,11 @@ define(["require", "exports", '../checks/mustBeString', '../i18n/readOnly', '../
          * @return {void}
          * @protected
          */
-        Shareable.prototype.destructor = function () {
-            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+        Shareable.prototype.destructor = function (grumble) {
+            if (grumble === void 0) { grumble = false; }
+            if (grumble) {
+                console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+            }
         };
         Object.defineProperty(Shareable.prototype, "uuid", {
             /**

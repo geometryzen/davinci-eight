@@ -7,7 +7,7 @@ import Spinor3 = require('../math/Spinor3')
 import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
-import IProperties = require('../animate/IProperties')
+import IProperties = require('../slideshow/IProperties')
 import Vector3 = require('../math/Vector3')
 
 /**

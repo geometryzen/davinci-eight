@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.116.0</em>
+            <em>API Docs for: 2.117.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,6 +94,7 @@
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
+                                <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -217,8 +218,8 @@ let defaultCanvasBuilder = () =&gt; {return document.createElement(&#x27;canvas&
  * @class Canvas3D
  */
 class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
-  private _kahuna: ContextKahuna
-  private _renderer: ContextRenderer
+  private _kahuna: ContextKahuna;
+  private _renderer: ContextRenderer;
   /**
    * @class Canvas3D
    * @constructor
@@ -246,6 +247,7 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
     this._kahuna = void 0
     this._renderer.release()
     this._renderer = void 0
+    super.destructor()
   }
   addContextListener(user: IContextConsumer): void {
     this._kahuna.addContextListener(user)

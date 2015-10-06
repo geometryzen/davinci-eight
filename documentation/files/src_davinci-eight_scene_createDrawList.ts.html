@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.116.0</em>
+            <em>API Docs for: 2.117.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,6 +94,7 @@
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
+                                <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -194,6 +195,7 @@ import IUnknown = require(&#x27;../core/IUnknown&#x27;);
 import IUnknownArray = require(&#x27;../utils/IUnknownArray&#x27;);
 import NumberIUnknownMap = require(&#x27;../utils/NumberIUnknownMap&#x27;);
 import refChange = require(&#x27;../utils/refChange&#x27;);
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
 import StringIUnknownMap = require(&#x27;../utils/StringIUnknownMap&#x27;);
 import uuid4 = require(&#x27;../utils/uuid4&#x27;);
 import IFacet = require(&#x27;../core/IFacet&#x27;);
@@ -217,7 +219,7 @@ class DrawableGroup implements IUnknown {
    * I can&#x27;t see this being used; it&#x27;s all about the drawables!
    */
   private _program: IMaterial;
-  private _drawables = new IUnknownArray&lt;IDrawable&gt;();
+  private _drawables = new IUnknownArray&lt;IDrawable&gt;([], CLASS_NAME_GROUP);
   private _refCount = 1;
   private _uuid = uuid4().generate();
   constructor(program: IMaterial) {
@@ -266,6 +268,7 @@ class DrawableGroup implements IUnknown {
     let drawables = this._drawables
     let index = drawables.indexOf(drawable)
     if (index &gt;= 0) {
+      // We don&#x27;t actually need the returned element so release it.
       drawables.splice(index, 1).release()
     }
   }
@@ -299,34 +302,18 @@ class DrawableGroup implements IUnknown {
 /**
  * Should look like a set of Drawable Groups. Maybe like a Scene!
  */
-class DrawableGroups implements IUnknown/*IDrawList*/ {
+class DrawableGroups extends Shareable/*IDrawList*/ {
   /**
    * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
    */
-  private _groups = new StringIUnknownMap&lt;DrawableGroup&gt;();
-  private _refCount = 1;
-  private _uuid = uuid4().generate();
+  private _groups = new StringIUnknownMap&lt;DrawableGroup&gt;(CLASS_NAME_ALL);
   constructor() {
-    refChange(this._uuid, CLASS_NAME_ALL, +1);
+    super(CLASS_NAME_ALL)
   }
-  addRef(): number {
-    this._refCount++;
-    refChange(this._uuid, CLASS_NAME_ALL, +1);
-    return this._refCount;
-  }
-  release(): number {
-    this._refCount--;
-    refChange(this._uuid, CLASS_NAME_ALL, -1);
-    if (this._refCount === 0) {
-      this._groups.release();
-      this._groups = void 0;
-      this._refCount = void 0;
-      this._uuid = void 0;
-      return 0;
-    }
-    else {
-      return this._refCount;
-    }
+  protected destructor(): void {
+    this._groups.release()
+    this._groups = void 0
+    super.destructor()
   }
   add(drawable: IDrawable) {
     // Now let&#x27;s see if we can get a program...
@@ -488,7 +475,7 @@ let createDrawList = function(): IDrawList {
       drawableGroups.draw(ambients, canvasId);
     },
     getDrawablesByName(name: string): IUnknownArray&lt;IDrawable&gt; {
-      var result = new IUnknownArray&lt;IDrawable&gt;()
+      var result = new IUnknownArray&lt;IDrawable&gt;([], &#x27;getDrawablesByName&#x27;)
       drawableGroups.traverseDrawables(
         function(candidate: IDrawable) {
           if  (candidate.name === name) {

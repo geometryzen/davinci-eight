@@ -40,6 +40,7 @@ define(["require", "exports", '../renderers/renderer', '../utils/contextProxy', 
             this._kahuna = void 0;
             this._renderer.release();
             this._renderer = void 0;
+            _super.prototype.destructor.call(this);
         };
         Canvas3D.prototype.addContextListener = function (user) {
             this._kahuna.addContextListener(user);

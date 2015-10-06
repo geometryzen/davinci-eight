@@ -5,10 +5,11 @@ var core =
 {
   strict: false,
   GITHUB: 'https://github.com/geometryzen/davinci-eight',
-  LAST_MODIFIED: '2015-10-04',
+  APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
+  LAST_MODIFIED: '2015-10-05',
   NAMESPACE: 'EIGHT',
   verbose: true,
-  VERSION: '2.116.0'
+  VERSION: '2.117.0'
 };
 
 export = core;

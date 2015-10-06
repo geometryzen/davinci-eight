@@ -45,7 +45,7 @@ declare class Shareable implements IUnknown {
      * @return {void}
      * @protected
      */
-    protected destructor(): void;
+    protected destructor(grumble?: boolean): void;
     /**
      * @property uuid
      * @type {string}

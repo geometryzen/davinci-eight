@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.116.0</em>
+            <em>API Docs for: 2.117.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,6 +94,7 @@
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
+                                <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -205,6 +206,7 @@ class UniformLocation implements IContextProgramConsumer {
   private _location: WebGLUniformLocation;
   private _name: string;
   private _program: WebGLProgram;
+  // FIXME: No more mirroring.
   private _x: number = void 0;
   private _y: number = void 0;
   private _z: number = void 0;
@@ -371,16 +373,21 @@ class UniformLocation implements IContextProgramConsumer {
    * @param vector {Vector3}
    */
   vector3(vector: Vector3): void {
-    this._context.useProgram(this._program);
-    let data: number[] = vector.data;
-    let x = data[0];
-    let y = data[1];
-    let z = data[2];
-    if (this._x !== x || this._y !== y || this._z !== z) {
-      this._context.uniform3fv(this._location, data);
-      this._x = x;
-      this._y = y;
-      this._z = z;
+    if (vector) {
+      this._context.useProgram(this._program);
+      let data: number[] = vector.data;
+      let x = data[0];
+      let y = data[1];
+      let z = data[2];
+      if (this._x !== x || this._y !== y || this._z !== z) {
+        this._context.uniform3fv(this._location, data);
+        this._x = x;
+        this._y = y;
+        this._z = z;
+      }
+    }
+    else {
+      console.warn(&quot;UniformLocation.vector3 called with &#x60;typeof vector&#x60; =&gt; &quot; + typeof vector)
     }
   }
   /**

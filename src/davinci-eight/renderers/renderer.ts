@@ -76,8 +76,8 @@ let renderer = function(): ContextRenderer {
   let uuid = uuid4().generate()
   let refCount = 1
   var _autoProlog: boolean = true;
-  let prolog = new IUnknownArray<IPrologCommand>()
-  let startUp = new IUnknownArray<IContextCommand>()
+  let prolog = new IUnknownArray<IPrologCommand>([], CLASS_NAME)
+  let startUp = new IUnknownArray<IContextCommand>([], CLASS_NAME)
 
   let self: ContextRenderer = {
     addRef(): number {

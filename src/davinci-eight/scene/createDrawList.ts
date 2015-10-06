@@ -12,6 +12,7 @@ import IUnknown = require('../core/IUnknown');
 import IUnknownArray = require('../utils/IUnknownArray');
 import NumberIUnknownMap = require('../utils/NumberIUnknownMap');
 import refChange = require('../utils/refChange');
+import Shareable = require('../utils/Shareable')
 import StringIUnknownMap = require('../utils/StringIUnknownMap');
 import uuid4 = require('../utils/uuid4');
 import IFacet = require('../core/IFacet');
@@ -35,7 +36,7 @@ class DrawableGroup implements IUnknown {
    * I can't see this being used; it's all about the drawables!
    */
   private _program: IMaterial;
-  private _drawables = new IUnknownArray<IDrawable>();
+  private _drawables = new IUnknownArray<IDrawable>([], CLASS_NAME_GROUP);
   private _refCount = 1;
   private _uuid = uuid4().generate();
   constructor(program: IMaterial) {
@@ -84,6 +85,7 @@ class DrawableGroup implements IUnknown {
     let drawables = this._drawables
     let index = drawables.indexOf(drawable)
     if (index >= 0) {
+      // We don't actually need the returned element so release it.
       drawables.splice(index, 1).release()
     }
   }
@@ -117,34 +119,18 @@ class DrawableGroup implements IUnknown {
 /**
  * Should look like a set of Drawable Groups. Maybe like a Scene!
  */
-class DrawableGroups implements IUnknown/*IDrawList*/ {
+class DrawableGroups extends Shareable/*IDrawList*/ {
   /**
    * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
    */
-  private _groups = new StringIUnknownMap<DrawableGroup>();
-  private _refCount = 1;
-  private _uuid = uuid4().generate();
+  private _groups = new StringIUnknownMap<DrawableGroup>(CLASS_NAME_ALL);
   constructor() {
-    refChange(this._uuid, CLASS_NAME_ALL, +1);
+    super(CLASS_NAME_ALL)
   }
-  addRef(): number {
-    this._refCount++;
-    refChange(this._uuid, CLASS_NAME_ALL, +1);
-    return this._refCount;
-  }
-  release(): number {
-    this._refCount--;
-    refChange(this._uuid, CLASS_NAME_ALL, -1);
-    if (this._refCount === 0) {
-      this._groups.release();
-      this._groups = void 0;
-      this._refCount = void 0;
-      this._uuid = void 0;
-      return 0;
-    }
-    else {
-      return this._refCount;
-    }
+  protected destructor(): void {
+    this._groups.release()
+    this._groups = void 0
+    super.destructor()
   }
   add(drawable: IDrawable) {
     // Now let's see if we can get a program...
@@ -306,7 +292,7 @@ let createDrawList = function(): IDrawList {
       drawableGroups.draw(ambients, canvasId);
     },
     getDrawablesByName(name: string): IUnknownArray<IDrawable> {
-      var result = new IUnknownArray<IDrawable>()
+      var result = new IUnknownArray<IDrawable>([], 'getDrawablesByName')
       drawableGroups.traverseDrawables(
         function(candidate: IDrawable) {
           if  (candidate.name === name) {

@@ -730,7 +730,8 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
             refChange(this._uuid, this._type, -1);
             var refCount = this._refCount;
             if (refCount === 0) {
-                this.destructor();
+                // destructor called with `true` means grumble if the method has not been overridden.
+                this.destructor(true);
                 this._refCount = void 0;
                 this._type = void 0;
                 this._uuid = void 0;
@@ -751,8 +752,11 @@ define('davinci-eight/utils/Shareable',["require", "exports", '../checks/mustBeS
          * @return {void}
          * @protected
          */
-        Shareable.prototype.destructor = function () {
-            console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+        Shareable.prototype.destructor = function (grumble) {
+            if (grumble === void 0) { grumble = false; }
+            if (grumble) {
+                console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.");
+            }
         };
         Object.defineProperty(Shareable.prototype, "uuid", {
             /**
@@ -779,7 +783,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/animate/animations/Delay',["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable) {
+define('davinci-eight/slideshow/animations/Delay',["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable) {
     var Delay = (function (_super) {
         __extends(Delay, _super);
         function Delay(host, object, key, duration) {
@@ -829,11 +833,15 @@ define('davinci-eight/animate/animations/Delay',["require", "exports", '../../ut
 });
 
 define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/refChange', '../utils/uuid4'], function (require, exports, refChange, uuid4) {
-    var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
+    function className(user) {
+        var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap';
+        return LOGGING_NAME_IUNKNOWN_MAP + ":" + user;
+    }
     /**
      * @class StringIUnknownMap<V extends IUnknown>
      * @extends IUnknown
      */
+    // FIXME: Extend Shareable
     var StringIUnknownMap = (function () {
         /**
          * <p>
@@ -842,19 +850,20 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
          * @class StringIUnknownMap
          * @constructor
          */
-        function StringIUnknownMap() {
+        function StringIUnknownMap(userName) {
             this._refCount = 1;
             this._elements = {};
             this._uuid = uuid4().generate();
-            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+            this._userName = userName;
+            refChange(this._uuid, className(this._userName), +1);
         }
         StringIUnknownMap.prototype.addRef = function () {
-            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+            refChange(this._uuid, className(this._userName), +1);
             this._refCount++;
             return this._refCount;
         };
         StringIUnknownMap.prototype.release = function () {
-            refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
+            refChange(this._uuid, className(this._userName), -1);
             this._refCount--;
             if (this._refCount === 0) {
                 var self_1 = this;
@@ -885,21 +894,6 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
                 return void 0;
             }
         };
-        /**
-         * @method getWeakReference
-         * @param key {string}
-         * @return {V}
-         * @private
-         */
-        StringIUnknownMap.prototype.getWeakReference = function (key) {
-            var element = this._elements[key];
-            if (element) {
-                return element;
-            }
-            else {
-                return void 0;
-            }
-        };
         StringIUnknownMap.prototype.put = function (key, value) {
             if (value) {
                 value.addRef();
@@ -923,24 +917,35 @@ define('davinci-eight/utils/StringIUnknownMap',["require", "exports", '../utils/
         };
         StringIUnknownMap.prototype.forEach = function (callback) {
             var keys = this.keys;
-            var i;
-            var length = keys.length;
-            for (i = 0; i < length; i++) {
+            for (var i = 0, iLength = keys.length; i < iLength; i++) {
                 var key = keys[i];
-                var value = this._elements[key];
-                callback(key, value);
+                callback(key, this._elements[key]);
             }
         };
         Object.defineProperty(StringIUnknownMap.prototype, "keys", {
             get: function () {
-                // TODO: memoize
+                // TODO: Cache
                 return Object.keys(this._elements);
             },
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(StringIUnknownMap.prototype, "values", {
+            get: function () {
+                // TODO: Cache
+                var values = [];
+                var keys = this.keys;
+                for (var i = 0, iLength = keys.length; i < iLength; i++) {
+                    var key = keys[i];
+                    values.push(this._elements[key]);
+                }
+                return values;
+            },
+            enumerable: true,
+            configurable: true
+        });
         StringIUnknownMap.prototype.remove = function (key) {
-            var value = this.getWeakReference(key);
+            var value = this._elements[key];
             if (value) {
                 value.release();
             }
@@ -957,7 +962,29 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    var LOGGING_NAME = 'IUnknownArray';
+    function className(userName) {
+        return 'IUnknownArray:' + userName;
+    }
+    /**
+     * Essentially constructs the IUnknownArray without incrementing the
+     * reference count of the elements, and without creating zombies.
+     */
+    function transferOwnership(data, userName) {
+        if (data) {
+            var result = new IUnknownArray(data, userName);
+            // The result has now taken ownership of the elements, so we can release.
+            for (var i = 0, iLength = data.length; i < iLength; i++) {
+                var element = data[i];
+                if (element) {
+                    element.release();
+                }
+            }
+            return result;
+        }
+        else {
+            return void 0;
+        }
+    }
     /**
      * @class IUnknownArray
      */
@@ -969,23 +996,27 @@ define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shar
          * @class IUnknownArray
          * @constructor
          */
-        function IUnknownArray(elements) {
+        function IUnknownArray(elements, userName) {
             if (elements === void 0) { elements = []; }
-            _super.call(this, LOGGING_NAME);
+            _super.call(this, className(userName));
             this._elements = elements;
             for (var i = 0, l = this._elements.length; i < l; i++) {
                 this._elements[i].addRef();
             }
+            this.userName = userName;
         }
         /**
          * @method destructor
          * @return {void}
+         * @protected
          */
         IUnknownArray.prototype.destructor = function () {
             for (var i = 0, l = this._elements.length; i < l; i++) {
                 this._elements[i].release();
             }
             this._elements = void 0;
+            // Don't set the userName property to undefined so that we can report zombie calls.
+            _super.prototype.destructor.call(this);
         };
         /**
          * Gets the element at the specified index, incrementing the reference count.
@@ -1016,24 +1047,37 @@ define('davinci-eight/utils/IUnknownArray',["require", "exports", '../utils/Shar
              * @return {number}
              */
             get: function () {
-                return this._elements.length;
+                if (this._elements) {
+                    return this._elements.length;
+                }
+                else {
+                    console.warn(className(this.userName) + " is now a zombie, length is undefined");
+                    return void 0;
+                }
             },
             enumerable: true,
             configurable: true
         });
-        IUnknownArray.prototype.slice = function (start, end) {
-            return new IUnknownArray(this._elements.slice(start, end));
+        /**
+         * The slice() method returns a shallow copy of a portion of an array into a new array object.
+         * It does not remove elements from the original array.
+         * @method slice
+         * @param begin [number]
+         * @param end [number]
+         */
+        IUnknownArray.prototype.slice = function (begin, end) {
+            return new IUnknownArray(this._elements.slice(begin, end), 'IUnknownArray.slice()');
         };
         /**
+         * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
          * @method splice
          * @param index {number}
-         * @param count {number}
-         * @return {IUnnownArray<T>}
+         * @param deleteCount {number}
+         * @return {IUnkownArray<T>}
          */
-        IUnknownArray.prototype.splice = function (index, count) {
+        IUnknownArray.prototype.splice = function (index, deleteCount) {
             // The release burdon is on the caller now.
-            // FIXME: This should return another IUnknownArray
-            return new IUnknownArray(this._elements.splice(index, count));
+            return transferOwnership(this._elements.splice(index, deleteCount), 'IUnknownArray.slice()');
         };
         /**
          * @method shift
@@ -1083,7 +1127,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/animate/Animator',["require", "exports", '../animate/animations/Delay', '../utils/Shareable', '../utils/StringIUnknownMap', '../utils/IUnknownArray'], function (require, exports, Delay, Shareable, StringIUnknownMap, IUnknownArray) {
+define('davinci-eight/slideshow/Animator',["require", "exports", '../slideshow/animations/Delay', '../utils/Shareable', '../utils/StringIUnknownMap', '../utils/IUnknownArray'], function (require, exports, Delay, Shareable, StringIUnknownMap, IUnknownArray) {
     var Clock = (function () {
         function Clock() {
             this.now = 1;
@@ -1093,17 +1137,20 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
         };
         return Clock;
     })();
-    var Animator = (function () {
+    var Animator = (function (_super) {
+        __extends(Animator, _super);
         function Animator() {
+            _super.call(this, 'Animator');
             this._clock = new Clock();
-            this.drivers = new IUnknownArray();
-            this.mirrors = new StringIUnknownMap();
+            this.drivers = new IUnknownArray([], 'Animator');
+            this.mirrors = new StringIUnknownMap('Animator');
         }
         Animator.prototype.destructor = function () {
             this.drivers.release();
             this.drivers = void 0;
             this.mirrors.release();
             this.mirrors = void 0;
+            _super.prototype.destructor.call(this);
         };
         Object.defineProperty(Animator.prototype, "clock", {
             get: function () {
@@ -1154,16 +1201,20 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
             // Reduce
             var mirror = this.mirrors.get(object.uuid);
             if (mirror) {
-                var queues = mirror.queues;
-                var keys = attributes ? Object.keys(attributes) : queues.keys;
-                keys.forEach(function (key) {
-                    var queue = queues.get(key);
-                    queue.forEach(function (animation) {
-                        animation.hurry(factor);
+                var queues = mirror.queuesXYZ;
+                try {
+                    var keys = attributes ? Object.keys(attributes) : queues.keys;
+                    keys.forEach(function (key) {
+                        var queue = queues.get(key);
+                        queue.forEach(function (animation) {
+                            animation.hurry(factor);
+                        });
+                        queue.release();
                     });
-                    queue.release();
-                });
-                queues.release();
+                }
+                finally {
+                    queues.release();
+                }
                 mirror.release();
             }
         };
@@ -1177,7 +1228,7 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
             var animator = this;
             var mirror = this.mirrors.get(object.uuid);
             if (mirror) {
-                var queues = mirror.queues;
+                var queues = mirror.queuesXYZ;
                 var keys = attributes ? Object.keys(attributes) : queues.keys;
                 keys.forEach(function (key) {
                     var queue = queues.get(key);
@@ -1187,9 +1238,9 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
                         queue = queues.get(key);
                     }
                 });
+                queues.release();
+                mirror.release();
             }
-            queues.release();
-            mirror.release();
         };
         /**
          * Animate a set of attributes on an object.
@@ -1206,12 +1257,12 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
             this.attach(object);
             var mirror = this.mirrors.get(object.uuid);
             try {
-                var queues = mirror.queues;
+                var queues = mirror.queuesXYZ;
                 try {
                     Object.keys(animations).forEach(function (key) {
                         // If necessary, init queue for the current key.
                         if (!queues.exists(key)) {
-                            var emptyArray = new IUnknownArray();
+                            var emptyArray = new IUnknownArray([], 'Animator.animate()');
                             queues.put(key, emptyArray);
                             emptyArray.release();
                         }
@@ -1262,26 +1313,34 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
             if (apply === void 0) { apply = false; }
             var mirror = this.mirrors.get(object.uuid);
             try {
-                var queues = mirror.queues;
+                var queues = mirror.queuesXYZ;
                 try {
-                    // Check if key is animated
                     var queue = queues.get(key);
-                    if (!queue)
-                        return;
-                    // Remove from front of queue.
-                    var animation = queue.shift();
-                    if (queue.length == 0) {
-                        queues.remove(key);
+                    if (queue) {
+                        try {
+                            // Remove from front of queue.
+                            var animation = queue.shift();
+                            try {
+                                if (queue.length == 0) {
+                                    queues.remove(key);
+                                }
+                                // Apply animation instantly
+                                if (apply) {
+                                    animation.skip();
+                                }
+                                // Keep track of animating objects
+                                if (--mirror.animations === 0) {
+                                    this.drivers.splice(this.drivers.indexOf(object), 1).release();
+                                }
+                            }
+                            finally {
+                                animation.release();
+                            }
+                        }
+                        finally {
+                            queue.release();
+                        }
                     }
-                    // Apply animation instantly
-                    if (apply) {
-                        animation.skip();
-                    }
-                    // Keep track of animating objects
-                    if (--mirror.animations === 0) {
-                        this.drivers.splice(this.drivers.indexOf(object), 1).release();
-                    }
-                    animation.release();
                 }
                 finally {
                     queues.release();
@@ -1307,27 +1366,36 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
                     // Used to make queued animations match up at sub-frame times.
                     var offset = 0;
                     function advance(animations, key) {
-                        // Write out animated attribute.
-                        var animation = animations.get(0);
+                        // The dequeue method of the animator could perform the
+                        // final death `release` of the animations. We must make sure
+                        // that we aren't left holding a zombie.
+                        animations.addRef();
                         try {
-                            animation.apply(offset || 0);
-                            // Remove completed animations.
-                            if (animation.done()) {
-                                offset = animation.extra();
-                                animator.dequeue(object, key);
-                                // Recurse into next animation.
-                                if (animations.length > 0) {
-                                    advance.call(animator, animations, key);
+                            // Write out animated attribute.
+                            var animation = animations.get(0);
+                            try {
+                                animation.apply(offset || 0);
+                                // Remove completed animations.
+                                if (animation.done()) {
+                                    offset = animation.extra();
+                                    animator.dequeue(object, key);
+                                    // Recurse into next animation.
+                                    if (animations.length > 0) {
+                                        advance.call(animator, animations, key);
+                                    }
                                 }
+                            }
+                            finally {
+                                animation.release();
                             }
                         }
                         finally {
-                            animation.release();
+                            animations.release();
                         }
                     }
                     var mirror = animator.mirrors.get(object.uuid);
                     try {
-                        var queues = mirror.queues;
+                        var queues = mirror.queuesXYZ;
                         try {
                             queues.forEach(function (key, animations) {
                                 advance(animations, key);
@@ -1347,7 +1415,7 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
             }
         };
         return Animator;
-    })();
+    })(Shareable);
     // FIXME: Encapsulation make safer and less ref count issues.
     var AnimatedMirror = (function (_super) {
         __extends(AnimatedMirror, _super);
@@ -1359,14 +1427,17 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
          */
         function AnimatedMirror() {
             _super.call(this, 'AnimatedMirror');
-            this._queues = new StringIUnknownMap();
+            this._queues = new StringIUnknownMap('AnimatedMirror');
             this.animations = 0;
         }
         AnimatedMirror.prototype.destructor = function () {
             this._queues.release();
             this._queues = void 0;
+            _super.prototype.destructor.call(this);
         };
-        Object.defineProperty(AnimatedMirror.prototype, "queues", {
+        Object.defineProperty(AnimatedMirror.prototype, "queuesXYZ", {
+            // FIXME: Methinks this is leaking an animation.
+            // If we had pUnkOuter, would we know?
             get: function () {
                 this._queues.addRef();
                 return this._queues;
@@ -1379,12 +1450,3124 @@ define('davinci-eight/animate/Animator',["require", "exports", '../animate/anima
     return Animator;
 });
 
+define('davinci-eight/core',["require", "exports"], function (require, exports) {
+    /**
+     *
+     */
+    var core = {
+        strict: false,
+        GITHUB: 'https://github.com/geometryzen/davinci-eight',
+        APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
+        LAST_MODIFIED: '2015-10-05',
+        NAMESPACE: 'EIGHT',
+        verbose: true,
+        VERSION: '2.117.0'
+    };
+    return core;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/animate/animations/Animation',["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable) {
+define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '../utils/Shareable'], function (require, exports, core, Shareable) {
+    var QUALIFIED_NAME = 'EIGHT.Logger';
+    /**
+     * <p>
+     * Displays details about EIGHT to the console.
+     * <p>
+     * @class EIGHTLogger
+     * @extends Shareable
+     * @implements IContextCommand
+     */
+    var EIGHTLogger = (function (_super) {
+        __extends(EIGHTLogger, _super);
+        /**
+         * <p>
+         * Initializes <b>the</b> `type` property to 'EIGHTLogger'.
+         * </p>
+         * @class EIGHTLogger
+         * @constructor
+         */
+        function EIGHTLogger() {
+            _super.call(this, QUALIFIED_NAME);
+        }
+        /**
+         * Logs the version, GitHub URL, and last modified date to the console.
+         * @method execute
+         * @param unused WebGLRenderingContext
+         */
+        EIGHTLogger.prototype.execute = function (unused) {
+            console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
+        };
+        /**
+         * Does nothing.
+         * @protected
+         * @method destructor
+         * @return void
+         */
+        EIGHTLogger.prototype.destructor = function () {
+        };
+        Object.defineProperty(EIGHTLogger.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return EIGHTLogger;
+    })(Shareable);
+    return EIGHTLogger;
+});
+
+define('davinci-eight/checks/isBoolean',["require", "exports"], function (require, exports) {
+    function isBoolean(x) {
+        return (typeof x === 'boolean');
+    }
+    return isBoolean;
+});
+
+define('davinci-eight/checks/mustBeBoolean',["require", "exports", '../checks/mustSatisfy', '../checks/isBoolean'], function (require, exports, mustSatisfy, isBoolean) {
+    function beBoolean() {
+        return "be `boolean`";
+    }
+    function mustBeBoolean(name, value, contextBuilder) {
+        mustSatisfy(name, isBoolean(value), beBoolean, contextBuilder);
+        return value;
+    }
+    return mustBeBoolean;
+});
+
+define('davinci-eight/checks/isNumber',["require", "exports"], function (require, exports) {
+    function isNumber(x) {
+        return (typeof x === 'number');
+    }
+    return isNumber;
+});
+
+define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy, isNumber) {
+    function beANumber() {
+        return "be a `number`";
+    }
+    function mustBeInteger(name, value, contextBuilder) {
+        mustSatisfy(name, isNumber(value), beANumber, contextBuilder);
+        return value;
+    }
+    return mustBeInteger;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/commands/WebGLClear',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.clear';
+    /**
+     * <p>
+     * clear(mask: number): void
+     * <p>
+     * @class WebGLClear
+     * @extends Shareable
+     * @implements IContextCommand
+     */
+    var WebGLClear = (function (_super) {
+        __extends(WebGLClear, _super);
+        /**
+         * @class WebGLClear
+         * @constructor
+         */
+        function WebGLClear(mask) {
+            _super.call(this, QUALIFIED_NAME);
+            this.mask = mustBeNumber('mask', mask);
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         */
+        WebGLClear.prototype.destructor = function () {
+            this.mask = void 0;
+        };
+        /**
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
+        WebGLClear.prototype.execute = function (manager) {
+            manager.gl.clear(this.mask);
+        };
+        Object.defineProperty(WebGLClear.prototype, "name", {
+            /**
+             * @property name
+             * @type {string}
+             * @readOnly
+             */
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return WebGLClear;
+    })(Shareable);
+    return WebGLClear;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor';
+    /**
+     * <p>
+     * clearColor(red: number, green: number, blue: number, alpha: number): void
+     * <p>
+     * @class WebGLClearColor
+     * @extends Shareable
+     * @implements IContextCommand
+     * @implements IContextConsumer
+     */
+    var WebGLClearColor = (function (_super) {
+        __extends(WebGLClearColor, _super);
+        /**
+         * @class WebGLClearColor
+         * @constructor
+         */
+        function WebGLClearColor(red, green, blue, alpha) {
+            if (red === void 0) { red = 0; }
+            if (green === void 0) { green = 0; }
+            if (blue === void 0) { blue = 0; }
+            if (alpha === void 0) { alpha = 1; }
+            _super.call(this, 'WebGLRenderingContext.clearColor');
+            this.red = mustBeNumber('red', red);
+            this.green = mustBeNumber('green', green);
+            this.blue = mustBeNumber('blue', blue);
+            this.alpha = mustBeNumber('alpha', alpha);
+        }
+        /**
+         * @method contextFree
+         * @param canvasId {number}
+         * @return {void}
+         */
+        WebGLClearColor.prototype.contextFree = function (canvasId) {
+            // do nothing
+        };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
+        WebGLClearColor.prototype.contextGain = function (manager) {
+            this.execute(manager.gl);
+        };
+        /**
+         * @method contextLost
+         * @param canvasId {number}
+         * @return {void}
+         */
+        WebGLClearColor.prototype.contextLost = function (canvasId) {
+            // do nothing
+        };
+        /**
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
+        WebGLClearColor.prototype.execute = function (gl) {
+            mustBeNumber('red', this.red);
+            mustBeNumber('green', this.green);
+            mustBeNumber('blue', this.blue);
+            mustBeNumber('alpha', this.alpha);
+            gl.clearColor(this.red, this.green, this.blue, this.alpha);
+        };
+        /**
+         * @method destructor
+         * @return {void}
+         */
+        WebGLClearColor.prototype.destructor = function () {
+            this.red = void 0;
+            this.green = void 0;
+            this.blue = void 0;
+            this.alpha = void 0;
+        };
+        Object.defineProperty(WebGLClearColor.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return WebGLClearColor;
+    })(Shareable);
+    return WebGLClearColor;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
+    var QUALIFIED_NAME = 'WebGLRenderingContext.enable';
+    /**
+     * <p>
+     * enable(capability: number): void
+     * <p>
+     * @class WebGLEnable
+     * @extends Shareable
+     * @implements IContextCommand
+     * @implements IContextConsumer
+     */
+    var WebGLEnable = (function (_super) {
+        __extends(WebGLEnable, _super);
+        /**
+         * @class WebGLEnable
+         * @constructor
+         */
+        function WebGLEnable(capability) {
+            if (capability === void 0) { capability = 1; }
+            _super.call(this, QUALIFIED_NAME);
+            this.capability = mustBeNumber('capability', capability);
+        }
+        /**
+         * @method contextFree
+         * @param canvasId {number}
+         * @return {void}
+         */
+        WebGLEnable.prototype.contextFree = function (canvasId) {
+            // do nothing
+        };
+        /**
+         * @method contextGain
+         * @param manager {IContextProvider}
+         * @return {void}
+         */
+        WebGLEnable.prototype.contextGain = function (manager) {
+            this.execute(manager.gl);
+        };
+        /**
+         * @method contextLost
+         * @param canvasId {number}
+         * @return {void}
+         */
+        WebGLEnable.prototype.contextLost = function (canvasId) {
+            // do nothing
+        };
+        /**
+         * @method execute
+         * @param gl {WebGLRenderingContext}
+         * @return {void}
+         */
+        WebGLEnable.prototype.execute = function (gl) {
+            mustBeNumber('capability', this.capability);
+            gl.enable(this.capability);
+        };
+        /**
+         * @method destructor
+         * @return {void}
+         */
+        WebGLEnable.prototype.destructor = function () {
+            this.capability = void 0;
+        };
+        Object.defineProperty(WebGLEnable.prototype, "name", {
+            get: function () {
+                return QUALIFIED_NAME;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return WebGLEnable;
+    })(Shareable);
+    return WebGLEnable;
+});
+
+define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, WebGLClear, WebGLClearColor, WebGLEnable) {
+    function setStartUpCommands(renderer) {
+        var cmd;
+        // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
+        cmd = new EIGHTLogger();
+        renderer.addContextGainCommand(cmd);
+        cmd.release();
+        // `WebGL major.minor (OpenGL ES ...)`
+        // cmd = new VersionLogger()
+        // renderer.addContextGainCommand(cmd)
+        // cmd.release()
+        // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
+        // cmd = new ContextAttributesLogger()
+        // renderer.addContextGainCommand(cmd)
+        // cmd.release()
+        // cmd(red, green, blue, alpha)
+        cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
+        renderer.addContextGainCommand(cmd);
+        cmd.release();
+        // enable(capability)
+        cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
+        renderer.addContextGainCommand(cmd);
+        cmd.release();
+    }
+    function setPrologCommands(renderer) {
+        var cmd;
+        // clear(mask)
+        cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
+        renderer.addPrologCommand(cmd);
+        cmd.release();
+    }
+    var CLASS_NAME = "CanonicalContextRenderer";
+    /**
+     * We need to know the canvasId so that we can tell drawables where to draw.
+     * However, we don't need an don't want a canvas because we can only get that once the
+     * canvas has loaded. I suppose a promise would be OK, but that's for another day.
+     *
+     * Part of the role of this class is to manage the commands that are executed at startup/prolog.
+     */
+    var renderer = function () {
+        var _manager;
+        var uuid = uuid4().generate();
+        var refCount = 1;
+        var _autoProlog = true;
+        var prolog = new IUnknownArray([], CLASS_NAME);
+        var startUp = new IUnknownArray([], CLASS_NAME);
+        var self = {
+            addRef: function () {
+                refCount++;
+                refChange(uuid, CLASS_NAME, +1);
+                return refCount;
+            },
+            get autoProlog() {
+                return _autoProlog;
+            },
+            set autoProlog(autoProlog) {
+                mustBeBoolean('autoProlog', autoProlog);
+                _autoProlog = autoProlog;
+            },
+            get canvas() {
+                return _manager ? _manager.canvas : void 0;
+            },
+            get gl() {
+                return _manager ? _manager.gl : void 0;
+            },
+            contextFree: function () {
+                _manager = void 0;
+            },
+            contextGain: function (manager) {
+                // This object is single context, so we only ever get called with one manager at a time (serially).
+                _manager = manager;
+                startUp.forEach(function (command) {
+                    command.execute(manager.gl);
+                });
+            },
+            contextLost: function () {
+                _manager = void 0;
+            },
+            prolog: function () {
+                if (_manager) {
+                    for (var i = 0, length = prolog.length; i < length; i++) {
+                        var command = prolog.get(i);
+                        command.execute(_manager);
+                        command.release();
+                    }
+                }
+                else {
+                    if (core.verbose) {
+                        console.warn("Unable to execute prolog because WebGLRenderingContext is missing.");
+                    }
+                }
+            },
+            addPrologCommand: function (command) {
+                prolog.push(command);
+            },
+            addContextGainCommand: function (command) {
+                startUp.push(command);
+            },
+            release: function () {
+                refCount--;
+                refChange(uuid, CLASS_NAME, -1);
+                if (refCount === 0) {
+                    prolog.release();
+                    prolog = void 0;
+                    startUp.release();
+                    startUp = void 0;
+                    return 0;
+                }
+                else {
+                    return refCount;
+                }
+            }
+        };
+        refChange(uuid, CLASS_NAME, +1);
+        setStartUpCommands(self);
+        setPrologCommands(self);
+        return self;
+    };
+    return renderer;
+});
+
+define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
+    function isDefined(arg) {
+        return (typeof arg !== 'undefined');
+    }
+    return isDefined;
+});
+
+define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
+    function isObject(x) {
+        return (typeof x === 'object');
+    }
+    return isObject;
+});
+
+define('davinci-eight/checks/mustBeObject',["require", "exports", '../checks/mustSatisfy', '../checks/isObject'], function (require, exports, mustSatisfy, isObject) {
+    function beObject() {
+        return "be an `object`";
+    }
+    function mustBeObject(name, value, contextBuilder) {
+        mustSatisfy(name, isObject(value), beObject, contextBuilder);
+        return value;
+    }
+    return mustBeObject;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/core/BufferResource',["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeObject', '../utils/Shareable'], function (require, exports, isDefined, mustBeBoolean, mustBeObject, Shareable) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var CLASS_NAME = 'BufferResource';
+    // TODO: Replace this with a functional constructor to prevent tinkering?
+    // TODO: Why is this object specific to one context?
+    var BufferResource = (function (_super) {
+        __extends(BufferResource, _super);
+        function BufferResource(manager, isElements) {
+            _super.call(this, CLASS_NAME);
+            this.manager = mustBeObject('manager', manager);
+            this._isElements = mustBeBoolean('isElements', isElements);
+            manager.addContextListener(this);
+            manager.synchronize(this);
+        }
+        BufferResource.prototype.destructor = function () {
+            this.contextFree(this.manager.canvasId);
+            this.manager.removeContextListener(this);
+            this.manager = void 0;
+            this._isElements = void 0;
+        };
+        BufferResource.prototype.contextFree = function (canvasId) {
+            if (this._buffer) {
+                var gl = this.manager.gl;
+                if (isDefined(gl)) {
+                    gl.deleteBuffer(this._buffer);
+                }
+                else {
+                    console.error(CLASS_NAME + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
+                }
+                this._buffer = void 0;
+            }
+            else {
+            }
+        };
+        BufferResource.prototype.contextGain = function (manager) {
+            if (this.manager.canvasId === manager.canvasId) {
+                if (!this._buffer) {
+                    this._buffer = manager.gl.createBuffer();
+                }
+                else {
+                }
+            }
+            else {
+                console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
+            }
+        };
+        BufferResource.prototype.contextLost = function () {
+            this._buffer = void 0;
+        };
+        /**
+         * @method bind
+         */
+        BufferResource.prototype.bind = function () {
+            var gl = this.manager.gl;
+            if (gl) {
+                var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+                gl.bindBuffer(target, this._buffer);
+            }
+            else {
+                console.warn(CLASS_NAME + " bind() missing WebGL rendering context.");
+            }
+        };
+        /**
+         * @method unbind
+         */
+        BufferResource.prototype.unbind = function () {
+            var gl = this.manager.gl;
+            if (gl) {
+                var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
+                gl.bindBuffer(target, null);
+            }
+            else {
+                console.warn(CLASS_NAME + " unbind() missing WebGL rendering context.");
+            }
+        };
+        return BufferResource;
+    })(Shareable);
+    return BufferResource;
+});
+
+define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
+    function isUndefined(arg) {
+        return (typeof arg === 'undefined');
+    }
+    return isUndefined;
+});
+
+define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined, mustBeNumber) {
+    function message(standard, override) {
+        return isUndefined(override) ? standard : override();
+    }
+    // FIXME: This plays havok with the TypeScript compiler stack and encourages temporary object creation.
+    function expectArg(name, value) {
+        var arg = {
+            toSatisfy: function (condition, message) {
+                if (isUndefined(condition)) {
+                    throw new Error("condition must be specified");
+                }
+                if (isUndefined(message)) {
+                    throw new Error("message must be specified");
+                }
+                if (!condition) {
+                    throw new Error(message);
+                }
+                return arg;
+            },
+            toBeBoolean: function (override) {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'boolean') {
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
+                }
+                return arg;
+            },
+            toBeDefined: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue === 'undefined') {
+                    var message_1 = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
+                    throw new Error(message_1);
+                }
+                return arg;
+            },
+            toBeInClosedInterval: function (lower, upper) {
+                var something = value;
+                var x = something;
+                mustBeNumber('x', x);
+                if (x >= lower && x <= upper) {
+                    return arg;
+                }
+                else {
+                    var message_2 = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
+                    throw new Error(message_2);
+                }
+            },
+            toBeFunction: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'function') {
+                    var message_3 = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
+                    throw new Error(message_3);
+                }
+                return arg;
+            },
+            toBeNumber: function (override) {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'number') {
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
+                }
+                return arg;
+            },
+            toBeObject: function (override) {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'object') {
+                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
+                }
+                return arg;
+            },
+            toBeString: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'string') {
+                    var message_4 = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
+                    throw new Error(message_4);
+                }
+                return arg;
+            },
+            toBeUndefined: function () {
+                var typeOfValue = typeof value;
+                if (typeOfValue !== 'undefined') {
+                    var message_5 = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
+                    throw new Error(message_5);
+                }
+                return arg;
+            },
+            toNotBeNull: function () {
+                if (value === null) {
+                    var message_6 = "Expecting argument " + name + " to not be null.";
+                    throw new Error(message_6);
+                }
+                else {
+                    return arg;
+                }
+            },
+            get value() {
+                return value;
+            }
+        };
+        return arg;
+    }
+    return expectArg;
+});
+
+define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined'], function (require, exports, expectArg, isDefined, isUndefined) {
+    function constructorString(T) {
+        return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
+    }
+    function pushString(T) {
+        return "push(value: " + T + "): number";
+    }
+    function popString(T) {
+        return "pop(): " + T;
+    }
+    function contextNameKind(context, name, kind) {
+        return name + " must be a " + kind + " in " + context;
+    }
+    function contextNameLength(context, name, length) {
+        return name + " length must be " + length + " in " + context;
+    }
+    function ctorDataKind() {
+        return contextNameKind(constructorString('T'), 'data', 'T[]');
+    }
+    function ctorDataLength(length) {
+        return function () {
+            return contextNameLength(constructorString('T'), 'data', length);
+        };
+    }
+    function verboten(operation) {
+        return operation + " is not allowed for a fixed size vector";
+    }
+    function verbotenPush() {
+        return verboten(pushString('T'));
+    }
+    function verbotenPop() {
+        return verboten(popString('T'));
+    }
+    function ctorModifiedKind() {
+        return contextNameKind(constructorString('T'), 'modified', 'boolean');
+    }
+    function ctorSizeKind() {
+        return contextNameKind(constructorString('T'), 'size', 'number');
+    }
+    /**
+     * @class VectorN<T>
+     * @extends Mutable<T[]>
+     */
+    var VectorN = (function () {
+        /**
+         * @class VectorN
+         * @constructor
+         * @param data {T[]}
+         * @param modified [boolean = false]
+         * @param [size]
+         */
+        function VectorN(data, modified, size) {
+            if (modified === void 0) { modified = false; }
+            var dataArg = expectArg('data', data).toBeObject(ctorDataKind);
+            this.modified = expectArg('modified', modified).toBeBoolean(ctorModifiedKind).value;
+            if (isDefined(size)) {
+                this._size = expectArg('size', size).toBeNumber(ctorSizeKind).toSatisfy(size >= 0, "size must be positive").value;
+                this._data = dataArg.toSatisfy(data.length === size, ctorDataLength(size)()).value;
+            }
+            else {
+                this._size = void 0;
+                this._data = dataArg.value;
+            }
+        }
+        Object.defineProperty(VectorN.prototype, "data", {
+            get: function () {
+                if (this._data) {
+                    return this._data;
+                }
+                else if (this._callback) {
+                    var data = this._callback();
+                    if (isDefined(this._size)) {
+                        expectArg('callback()', data).toSatisfy(data.length === this._size, "callback() length must be " + this._size);
+                    }
+                    return this._callback();
+                }
+                else {
+                    throw new Error("Vector" + this._size + " is undefined.");
+                }
+            },
+            set: function (data) {
+                if (isDefined(this._size)) {
+                    expectArg('data', data).toSatisfy(data.length === this._size, "data length must be " + this._size);
+                }
+                this._data = data;
+                this._callback = void 0;
+                this.modified = true;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VectorN.prototype, "callback", {
+            get: function () {
+                return this._callback;
+            },
+            set: function (reactTo) {
+                this._callback = reactTo;
+                this._data = void 0;
+                this.modified = true;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(VectorN.prototype, "length", {
+            get: function () {
+                return this.data.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        VectorN.prototype.clone = function () {
+            return new VectorN(this._data, this.modified, this._size);
+        };
+        VectorN.prototype.getComponent = function (index) {
+            return this.data[index];
+        };
+        VectorN.prototype.pop = function () {
+            if (isUndefined(this._size)) {
+                return this.data.pop();
+            }
+            else {
+                throw new Error(verbotenPop());
+            }
+        };
+        // TODO: How to prototype this as ...items: T[]
+        VectorN.prototype.push = function (value) {
+            if (isUndefined(this._size)) {
+                var data = this.data;
+                var newLength = data.push(value);
+                this.data = data;
+                return newLength;
+            }
+            else {
+                throw new Error(verbotenPush());
+            }
+        };
+        VectorN.prototype.setComponent = function (index, value) {
+            var data = this.data;
+            var existing = data[index];
+            if (value !== existing) {
+                data[index] = value;
+                this.data = data;
+                this.modified = true;
+            }
+        };
+        VectorN.prototype.toArray = function (array, offset) {
+            if (array === void 0) { array = []; }
+            if (offset === void 0) { offset = 0; }
+            var data = this.data;
+            var length = data.length;
+            for (var i = 0; i < length; i++) {
+                array[offset + i] = data[i];
+            }
+            return array;
+        };
+        VectorN.prototype.toLocaleString = function () {
+            return this.data.toLocaleString();
+        };
+        VectorN.prototype.toString = function () {
+            return this.data.toString();
+        };
+        return VectorN;
+    })();
+    return VectorN;
+});
+
+define('davinci-eight/geometries/GeometryData',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
+    /**
+     * @class GeometryData
+     */
+    var GeometryData = (function () {
+        /**
+         * @class GeometryData
+         * @constructor
+         * @param k {number} <p>The dimensionality of the primitives.</p>
+         * @param indices {VectorN} <p>A list of index into the attributes</p>
+         * @param attributes {{[name:string]: GeometryAttribute}}
+         */
+        function GeometryData(k, indices, attributes) {
+            // TODO: Looks like a DrawAttributeMap here (implementation only)
+            /**
+             * @property attributes
+             * @type {{[name:string]: GeometryAttribute}}
+             */
+            this.attributes = {};
+            expectArg('indices', indices).toBeObject().toSatisfy(indices instanceof VectorN, "indices must be a VectorN<number>");
+            expectArg('attributes', attributes).toBeObject();
+            this.k = k;
+            this.indices = indices;
+            this.attributes = attributes;
+        }
+        return GeometryData;
+    })();
+    return GeometryData;
+});
+
+define('davinci-eight/renderers/initWebGL',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
+    /**
+     * Returns the WebGLRenderingContext given a canvas.
+     * canvas
+     * attributes
+     * If the canvas is undefined then an undefined value is returned for the context.
+     */
+    function initWebGL(canvas, attributes) {
+        // We'll be hyper-functional. An undefined canvas begets and undefined context.
+        // Clients must check their context output or canvas input.
+        if (isDefined(canvas)) {
+            var context;
+            try {
+                // Try to grab the standard context. If it fails, fallback to experimental.
+                context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
+            }
+            catch (e) {
+            }
+            if (context) {
+                return context;
+            }
+            else {
+                throw new Error("Unable to initialize WebGL. Your browser may not support it.");
+            }
+        }
+        else {
+            // An undefined canvas results in an undefined context.
+            return void 0;
+        }
+    }
+    return initWebGL;
+});
+
+define('davinci-eight/checks/isInteger',["require", "exports", '../checks/isNumber'], function (require, exports, isNumber) {
+    function isInteger(x) {
+        // % coerces its operand to numbers so a typeof test is required.
+        // Not ethat ECMAScript 6 provides Number.isInteger().
+        return isNumber(x) && x % 1 === 0;
+    }
+    return isInteger;
+});
+
+define('davinci-eight/checks/mustBeInteger',["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, mustSatisfy, isInteger) {
+    function beAnInteger() {
+        return "be an integer";
+    }
+    function mustBeInteger(name, value, contextBuilder) {
+        mustSatisfy(name, isInteger(value), beAnInteger, contextBuilder);
+        return value;
+    }
+    return mustBeInteger;
+});
+
+define('davinci-eight/utils/randumbInteger',["require", "exports"], function (require, exports) {
+    /**
+     * Initially used to give me a canvasId.
+     * Using the big-enough space principle to avoid collisions.
+     */
+    function randumbInteger() {
+        var r = Math.random();
+        var s = r * 1000000;
+        var i = Math.round(s);
+        return i;
+    }
+    return randumbInteger;
+});
+
+define('davinci-eight/geometries/Vertex',["require", "exports"], function (require, exports) {
+    function stringVectorN(name, vector) {
+        if (vector) {
+            return name + vector.toString();
+        }
+        else {
+            return name;
+        }
+    }
+    function stringifyVertex(vertex) {
+        var attributes = vertex.attributes;
+        var attribsKey = Object.keys(attributes).map(function (name) {
+            var vector = attributes[name];
+            return stringVectorN(name, vector);
+        }).join(' ');
+        return attribsKey;
+    }
+    var Vertex = (function () {
+        function Vertex() {
+            this.opposing = [];
+            this.attributes = {};
+        }
+        Vertex.prototype.toString = function () {
+            return stringifyVertex(this);
+        };
+        return Vertex;
+    })();
+    return Vertex;
+});
+
+define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expectArg', '../checks/isInteger', '../geometries/Vertex', '../math/VectorN'], function (require, exports, expectArg, isInteger, Vertex, VectorN) {
+    function checkIntegerArg(name, n, min, max) {
+        if (isInteger(n) && n >= min && n <= max) {
+            return n;
+        }
+        // TODO: I don't suppose we can go backwards with a negative count? Hmmm...
+        // expectArg(name, n).toBeInClosedInterval(min, max);
+        expectArg(name, n).toSatisfy(false, name + " must be an integer in the range [" + min + "," + max + "]");
+    }
+    function checkCountArg(count) {
+        // TODO: The count range should depend upon the k value of the simplex.
+        return checkIntegerArg('count', count, 0, 7);
+    }
+    function concatReduce(a, b) {
+        return a.concat(b);
+    }
+    function expectArgVectorN(name, vector) {
+        return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
+    }
+    function lerp(a, b, alpha, data) {
+        if (data === void 0) { data = []; }
+        expectArg('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
+        var dims = a.length;
+        var i;
+        var beta = 1 - alpha;
+        for (i = 0; i < dims; i++) {
+            data.push(beta * a[i] + alpha * b[i]);
+        }
+        return data;
+    }
+    function lerpVertexAttributeMap(a, b, alpha) {
+        var attribMap = {};
+        var keys = Object.keys(a);
+        var keysLength = keys.length;
+        for (var k = 0; k < keysLength; k++) {
+            var key = keys[k];
+            attribMap[key] = lerpVectorN(a[key], b[key], alpha);
+        }
+        return attribMap;
+    }
+    // TODO: Looks like a static of VectorN or a common function.
+    function lerpVectorN(a, b, alpha) {
+        return new VectorN(lerp(a.data, b.data, alpha));
+    }
+    /**
+     * @class Simplex
+     */
+    var Simplex = (function () {
+        /**
+         * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+         * A k-simplex is the convex hull of its k + 1 vertices.
+         * @class Simplex
+         * @constructor
+         * @param k {number} The initial number of vertices in the simplex is k + 1.
+         */
+        function Simplex(k) {
+            /**
+             * The vertices of the simplex.
+             * @property
+             * @type {Vertex[]}
+             */
+            this.vertices = [];
+            if (!isInteger(k)) {
+                expectArg('k', k).toBeNumber();
+            }
+            var numVertices = k + 1;
+            for (var i = 0; i < numVertices; i++) {
+                this.vertices.push(new Vertex());
+            }
+            var parent = this;
+            this.vertices.forEach(function (vertex) {
+                vertex.parent = parent;
+            });
+        }
+        Object.defineProperty(Simplex.prototype, "k", {
+            /**
+             * The dimensionality of the simplex.
+             * @property k
+             * @type {number}
+             * @readonly
+             */
+            get: function () {
+                return this.vertices.length - 1;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @deprecated
+         */
+        // FIXME: We don't need the index property on the vertex (needs some work).
+        Simplex.indices = function (simplex) {
+            return simplex.vertices.map(function (vertex) { return vertex.index; });
+        };
+        /**
+         * Computes the boundary of the simplex.
+         * @method boundaryMap
+         * @param simplex {Simplex}
+         * @return {Simplex[]}
+         * @private
+         */
+        Simplex.boundaryMap = function (simplex) {
+            var vertices = simplex.vertices;
+            var k = simplex.k;
+            if (k === Simplex.K_FOR_TRIANGLE) {
+                var line01 = new Simplex(k - 1);
+                line01.vertices[0].parent = line01;
+                line01.vertices[0].attributes = simplex.vertices[0].attributes;
+                line01.vertices[1].parent = line01;
+                line01.vertices[1].attributes = simplex.vertices[1].attributes;
+                var line12 = new Simplex(k - 1);
+                line12.vertices[0].parent = line12;
+                line12.vertices[0].attributes = simplex.vertices[1].attributes;
+                line12.vertices[1].parent = line12;
+                line12.vertices[1].attributes = simplex.vertices[2].attributes;
+                var line20 = new Simplex(k - 1);
+                line20.vertices[0].parent = line20;
+                line20.vertices[0].attributes = simplex.vertices[2].attributes;
+                line20.vertices[1].parent = line20;
+                line20.vertices[1].attributes = simplex.vertices[0].attributes;
+                return [line01, line12, line20];
+            }
+            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
+                var point0 = new Simplex(k - 1);
+                point0.vertices[0].parent = point0;
+                point0.vertices[0].attributes = simplex.vertices[0].attributes;
+                var point1 = new Simplex(k - 1);
+                point1.vertices[0].parent = point1;
+                point1.vertices[0].attributes = simplex.vertices[1].attributes;
+                return [point0, point1];
+            }
+            else if (k === Simplex.K_FOR_POINT) {
+                // For consistency, we get one empty simplex rather than an empty list.
+                return [new Simplex(k - 1)];
+            }
+            else if (k === Simplex.K_FOR_EMPTY) {
+                return [];
+            }
+            else {
+                // TODO: Handle the TETRAHEDRON and general cases.
+                throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
+            }
+        };
+        Simplex.subdivideMap = function (simplex) {
+            expectArg('simplex', simplex).toBeObject();
+            var divs = [];
+            var vertices = simplex.vertices;
+            var k = simplex.k;
+            if (k === Simplex.K_FOR_TRIANGLE) {
+                var a = vertices[0].attributes;
+                var b = vertices[1].attributes;
+                var c = vertices[2].attributes;
+                var m1 = lerpVertexAttributeMap(a, b, 0.5);
+                var m2 = lerpVertexAttributeMap(b, c, 0.5);
+                var m3 = lerpVertexAttributeMap(c, a, 0.5);
+                var face1 = new Simplex(k);
+                face1.vertices[0].attributes = c;
+                face1.vertices[1].attributes = m3;
+                face1.vertices[2].attributes = m2;
+                var face2 = new Simplex(k);
+                face2.vertices[0].attributes = a;
+                face2.vertices[1].attributes = m1;
+                face2.vertices[2].attributes = m3;
+                var face3 = new Simplex(k);
+                face3.vertices[0].attributes = b;
+                face3.vertices[1].attributes = m2;
+                face3.vertices[2].attributes = m1;
+                var face4 = new Simplex(k);
+                face4.vertices[0].attributes = m1;
+                face4.vertices[1].attributes = m2;
+                face4.vertices[2].attributes = m3;
+                divs.push(face1);
+                divs.push(face2);
+                divs.push(face3);
+                divs.push(face4);
+            }
+            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
+                var a = vertices[0].attributes;
+                var b = vertices[1].attributes;
+                var m = lerpVertexAttributeMap(a, b, 0.5);
+                var line1 = new Simplex(k);
+                line1.vertices[0].attributes = a;
+                line1.vertices[1].attributes = m;
+                var line2 = new Simplex(k);
+                line2.vertices[0].attributes = m;
+                line2.vertices[1].attributes = b;
+                divs.push(line1);
+                divs.push(line2);
+            }
+            else if (k === Simplex.K_FOR_POINT) {
+                divs.push(simplex);
+            }
+            else if (k === Simplex.K_FOR_EMPTY) {
+            }
+            else {
+                throw new Error(k + "-simplex is not supported");
+            }
+            return divs;
+        };
+        /**
+         * Computes the result of the boundary operation performed `count` times.
+         * @method boundary
+         * @param simplices {Simplex[]}
+         * @param count {number}
+         * @return {Simplex[]}
+         */
+        Simplex.boundary = function (simplices, count) {
+            if (count === void 0) { count = 1; }
+            checkCountArg(count);
+            for (var i = 0; i < count; i++) {
+                simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
+            }
+            return simplices;
+        };
+        /**
+         * Computes the result of the subdivide operation performed `count` times.
+         * @method subdivide
+         * @param simplices {Simplex[]}
+         * @param count {number}
+         * @return {Simplex[]}
+         */
+        Simplex.subdivide = function (simplices, count) {
+            if (count === void 0) { count = 1; }
+            checkCountArg(count);
+            for (var i = 0; i < count; i++) {
+                simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
+            }
+            return simplices;
+        };
+        // TODO: This function destined to be part of Simplex constructor.
+        // FIXME still used from triangle.ts!
+        Simplex.setAttributeValues = function (attributes, simplex) {
+            var names = Object.keys(attributes);
+            var attribsLength = names.length;
+            var attribIndex;
+            for (attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
+                var name_1 = names[attribIndex];
+                var values = attributes[name_1];
+                var valuesLength = values.length;
+                var valueIndex = void 0;
+                for (valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
+                    simplex.vertices[valueIndex].attributes[name_1] = values[valueIndex];
+                }
+            }
+        };
+        // These symbolic constants represent the correct k values for various low-dimesional simplices. 
+        // The number of vertices in a k-simplex is k + 1.
+        /**
+         * An empty set can be consired to be a -1 simplex (algebraic topology).
+         * @property K_FOR_EMPTY
+         * @type {number}
+         * @static
+         */
+        Simplex.K_FOR_EMPTY = -1;
+        /**
+         * A single point may be considered a 0-simplex.
+         * @property K_FOR_POINT
+         * @type {number}
+         * @static
+         */
+        Simplex.K_FOR_POINT = 0;
+        /**
+         * A line segment may be considered a 1-simplex.
+         * @property K_FOR_LINE_SEGMENT
+         * @type {number}
+         * @static
+         */
+        Simplex.K_FOR_LINE_SEGMENT = 1;
+        /**
+         * A 2-simplex is a triangle.
+         * @property K_FOR_TRIANGLE
+         * @type {number}
+         * @static
+         */
+        Simplex.K_FOR_TRIANGLE = 2;
+        /**
+         * A 3-simplex is a tetrahedron.
+         * @property K_FOR_TETRAHEDRON
+         * @type {number}
+         * @static
+         */
+        Simplex.K_FOR_TETRAHEDRON = 3;
+        /**
+         * A 4-simplex is a 5-cell.
+         * @property K_FOR_FIVE_CELL
+         * @type {number}
+         * @static
+         */
+        Simplex.K_FOR_FIVE_CELL = 4;
+        return Simplex;
+    })();
+    return Simplex;
+});
+
+define('davinci-eight/resources/TextureResource',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME_ITEXTURE = 'ITexture';
+    var ms = new Array();
+    var os = [];
+    // What is the difference?
+    var TextureResource = (function () {
+        function TextureResource(monitors, target) {
+            this._refCount = 1;
+            this._uuid = uuid4().generate();
+            // FIXME: Supprt multiple canvas.
+            var monitor = monitors[0];
+            this._monitor = expectArg('montor', monitor).toBeObject().value;
+            this._target = target;
+            refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
+            monitor.addContextListener(this);
+            monitor.synchronize(this);
+        }
+        TextureResource.prototype.addRef = function () {
+            this._refCount++;
+            refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
+            return this._refCount;
+        };
+        TextureResource.prototype.release = function () {
+            this._refCount--;
+            refChange(this._uuid, LOGGING_NAME_ITEXTURE, -1);
+            if (this._refCount === 0) {
+                this._monitor.removeContextListener(this);
+                this.contextFree();
+            }
+            return this._refCount;
+        };
+        TextureResource.prototype.contextFree = function () {
+            // FIXME: I need to know which context.
+            if (this._texture) {
+                this._gl.deleteTexture(this._texture);
+                this._texture = void 0;
+            }
+            this._gl = void 0;
+        };
+        TextureResource.prototype.contextGain = function (manager) {
+            // FIXME: Support multiple canvas.
+            var gl = manager.gl;
+            if (this._gl !== gl) {
+                this.contextFree();
+                this._gl = gl;
+                // I must create a texture for each monitor.
+                // But I only get gl events one at a time.
+                this._texture = gl.createTexture();
+            }
+        };
+        TextureResource.prototype.contextLost = function () {
+            // FIXME: I need to know which context.
+            this._texture = void 0;
+            this._gl = void 0;
+        };
+        /**
+         * @method bind
+         */
+        TextureResource.prototype.bind = function () {
+            if (this._gl) {
+                this._gl.bindTexture(this._target, this._texture);
+            }
+            else {
+                console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGL rendering context.");
+            }
+        };
+        /**
+         * @method unbind
+         */
+        TextureResource.prototype.unbind = function () {
+            if (this._gl) {
+                this._gl.bindTexture(this._target, null);
+            }
+            else {
+                console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGL rendering context.");
+            }
+        };
+        return TextureResource;
+    })();
+    return TextureResource;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core', '../geometries/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../geometries/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+    var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
+    var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
+    var LOGGING_NAME_MESH = 'Drawable';
+    var LOGGING_NAME_KAHUNA = 'ContextKahuna';
+    function webglFunctionalConstructorContextBuilder() {
+        // The following string represents how this API is exposed.
+        return "webgl functional constructor";
+    }
+    function mustBeContext(gl, method) {
+        if (gl) {
+            return gl;
+        }
+        else {
+            throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
+        }
+    }
+    /**
+     * This could become an encapsulated call?
+     * class GeometryDataCommand
+     * private
+     */
+    var GeometryDataCommand = (function () {
+        /**
+         * class GeometryDataCommand
+         * constructor
+         */
+        function GeometryDataCommand(mode, count, type, offset) {
+            this.mode = mode;
+            this.count = count;
+            this.type = type;
+            this.offset = offset;
+        }
+        /**
+         * Executes the drawElements command using the instance state.
+         * method execute
+         * param gl {WebGLRenderingContext}
+         */
+        GeometryDataCommand.prototype.execute = function (gl) {
+            if (isDefined(gl)) {
+                gl.drawElements(this.mode, this.count, this.type, this.offset);
+            }
+            else {
+                console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.");
+            }
+        };
+        return GeometryDataCommand;
+    })();
+    /**
+     * class ElementsBlock
+     */
+    var ElementsBlock = (function (_super) {
+        __extends(ElementsBlock, _super);
+        /**
+         * class ElementsBlock
+         * constructor
+         */
+        function ElementsBlock(indexBuffer, attributes, drawCommand) {
+            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK);
+            this._indexBuffer = indexBuffer;
+            this._indexBuffer.addRef();
+            this._attributes = attributes;
+            this._attributes.addRef();
+            this.drawCommand = drawCommand;
+        }
+        ElementsBlock.prototype.destructor = function () {
+            this._attributes.release();
+            this._attributes = void 0;
+            this._indexBuffer.release();
+            this._indexBuffer = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
+            get: function () {
+                this._indexBuffer.addRef();
+                return this._indexBuffer;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ElementsBlock.prototype, "attributes", {
+            get: function () {
+                this._attributes.addRef();
+                return this._attributes;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ElementsBlock;
+    })(Shareable);
+    var ElementsBlockAttrib = (function (_super) {
+        __extends(ElementsBlockAttrib, _super);
+        function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
+            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE);
+            this._buffer = buffer;
+            this._buffer.addRef();
+            this.size = size;
+            this.normalized = normalized;
+            this.stride = stride;
+            this.offset = offset;
+        }
+        ElementsBlockAttrib.prototype.destructor = function () {
+            this._buffer.release();
+            this._buffer = void 0;
+            this.size = void 0;
+            this.normalized = void 0;
+            this.stride = void 0;
+            this.offset = void 0;
+        };
+        Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
+            get: function () {
+                this._buffer.addRef();
+                return this._buffer;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ElementsBlockAttrib;
+    })(Shareable);
+    // TODO: If mode provided, check consistent with elements.k.
+    // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
+    function drawMode(k, mode) {
+        switch (k) {
+            case Simplex.K_FOR_TRIANGLE: {
+                return mustBeNumber('TRIANGLES', WebGLRenderingContext.TRIANGLES);
+            }
+            case Simplex.K_FOR_LINE_SEGMENT: {
+                return mustBeNumber('LINES', WebGLRenderingContext.LINES);
+            }
+            case Simplex.K_FOR_POINT: {
+                return mustBeNumber('POINTS', WebGLRenderingContext.POINTS);
+            }
+            case Simplex.K_FOR_EMPTY: {
+                return void 0;
+            }
+            default: {
+                throw new Error("Unexpected k-simplex dimension, k => " + k);
+            }
+        }
+    }
+    function isDrawMode(mode) {
+        mustBeNumber('mode', mode);
+        switch (mode) {
+            case WebGLRenderingContext.TRIANGLES: {
+                return true;
+            }
+            case WebGLRenderingContext.LINES: {
+                return true;
+            }
+            case WebGLRenderingContext.POINTS: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+    function isBufferUsage(usage) {
+        mustBeNumber('usage', usage);
+        switch (usage) {
+            case WebGLRenderingContext.STATIC_DRAW: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+    function messageUnrecognizedMesh(uuid) {
+        mustBeString('uuid', uuid);
+        return uuid + " is not a recognized mesh uuid";
+    }
+    function attribKey(aName, aNameToKeyName) {
+        if (aNameToKeyName) {
+            var key = aNameToKeyName[aName];
+            return key ? key : aName;
+        }
+        else {
+            return aName;
+        }
+    }
+    // FIXME: Use this function pair to replace BEGIN..END
+    /**
+     *
+     */
+    function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
+        // FIXME: Expecting canvasId here.
+        // FIXME: This is where we get the IMaterial attributes property.
+        // FIXME: Can we invert this?
+        // What are we offering to the program:
+        // block.attributes (reference counted)
+        // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
+        // in order to get the name -> index correct.
+        // Then attribute setting should go much faster
+        var attribLocations = program.attributes(canvasId);
+        if (attribLocations) {
+            var aNames = Object.keys(attribLocations);
+            var aNamesLength = aNames.length;
+            var i;
+            for (i = 0; i < aNamesLength; i++) {
+                var aName = aNames[i];
+                var key = attribKey(aName, aNameToKeyName);
+                var attributes = block.attributes;
+                var attribute = attributes.get(key);
+                if (attribute) {
+                    // Associate the attribute buffer with the attribute location.
+                    // FIXME Would be nice to be able to get a weak reference to the buffer.
+                    var buffer = attribute.buffer;
+                    buffer.bind();
+                    var attributeLocation = attribLocations[aName];
+                    attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
+                    buffer.unbind();
+                    attributeLocation.enable();
+                    buffer.release();
+                    attribute.release();
+                }
+                else {
+                    // The attribute available may not be required by the program.
+                    // TODO: (1) Named programs, (2) disable warning by attribute?
+                    // Do not allow Attribute 0 to be disabled.
+                    console.warn("program attribute " + aName + " is not satisfied by the mesh");
+                }
+                attributes.release();
+            }
+        }
+        else {
+            console.warn("bindProgramAttribLocations: program.attributes is falsey.");
+        }
+    }
+    function unbindProgramAttribLocations(program, canvasId) {
+        // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
+        var attribLocations = program.attributes(canvasId);
+        if (attribLocations) {
+            Object.keys(attribLocations).forEach(function (aName) {
+                attribLocations[aName].disable();
+            });
+        }
+        else {
+            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
+        }
+    }
+    /**
+     * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
+     */
+    var BufferGeometry = (function (_super) {
+        __extends(BufferGeometry, _super);
+        function BufferGeometry(canvasId, gl, blocks) {
+            _super.call(this, 'BufferGeometry');
+            this.canvasId = canvasId;
+            this._blocks = blocks;
+            this._blocks.addRef();
+            this.gl = gl;
+        }
+        BufferGeometry.prototype.destructor = function () {
+            // FIXME: Check status of Material?
+            this._blocks.release();
+            _super.prototype.destructor.call(this);
+        };
+        BufferGeometry.prototype.bind = function (program, aNameToKeyName) {
+            if (this._program !== program) {
+                if (this._program) {
+                    this.unbind();
+                }
+                var block = this._blocks.get(this.uuid);
+                if (block) {
+                    if (program) {
+                        this._program = program;
+                        this._program.addRef();
+                        var indexBuffer = block.indexBuffer;
+                        indexBuffer.bind();
+                        indexBuffer.release();
+                        bindProgramAttribLocations(this._program, this.canvasId, block, aNameToKeyName);
+                    }
+                    else {
+                        expectArg('program', program).toBeObject();
+                    }
+                    block.release();
+                }
+                else {
+                    throw new Error(messageUnrecognizedMesh(this.uuid));
+                }
+            }
+        };
+        BufferGeometry.prototype.draw = function () {
+            var block = this._blocks.get(this.uuid);
+            if (block) {
+                // FIXME: Wondering why we don't just make this a parameter?
+                // On the other hand, buffer geometry is only good for one context.
+                block.drawCommand.execute(this.gl);
+                block.release();
+            }
+            else {
+                throw new Error(messageUnrecognizedMesh(this.uuid));
+            }
+        };
+        BufferGeometry.prototype.unbind = function () {
+            if (this._program) {
+                var block = this._blocks.get(this.uuid);
+                if (block) {
+                    // FIXME: Ask block to unbind index buffer and avoid addRef/release
+                    var indexBuffer = block.indexBuffer;
+                    indexBuffer.unbind();
+                    indexBuffer.release();
+                    // FIXME: Looks like an IMaterial method!
+                    unbindProgramAttribLocations(this._program, this.canvasId);
+                    block.release();
+                }
+                else {
+                    throw new Error(messageUnrecognizedMesh(this.uuid));
+                }
+                // We bumped up the reference count during bind. Now we are done.
+                this._program.release();
+                // Important! The existence of _program indicates the binding state.
+                this._program = void 0;
+            }
+        };
+        return BufferGeometry;
+    })(Shareable);
+    function webgl(attributes) {
+        // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
+        // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
+        var uuid = uuid4().generate();
+        var _blocks = new StringIUnknownMap('webgl');
+        // Remark: We only hold weak references to users so that the lifetime of resource
+        // objects is not affected by the fact that they are listening for gl events.
+        // Users should automatically add themselves upon construction and remove upon release.
+        // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
+        var users = [];
+        function addContextListener(user) {
+            expectArg('user', user).toBeObject();
+            var index = users.indexOf(user);
+            if (index < 0) {
+                users.push(user);
+            }
+            else {
+                console.warn("user already exists for addContextListener");
+            }
+        }
+        /**
+         * Implementation of removeContextListener for the kahuna.
+         */
+        function removeContextListener(user) {
+            expectArg('user', user).toBeObject();
+            var index = users.indexOf(user);
+            if (index >= 0) {
+                // FIXME: Potential leak here if IContextConsumer extends IUnknown
+                var removals = users.splice(index, 1);
+            }
+            else {
+            }
+        }
+        function synchronize(user) {
+            if (gl) {
+                if (gl.isContextLost()) {
+                    user.contextLost(_canvasId);
+                }
+                else {
+                    user.contextGain(kahuna);
+                }
+            }
+            else {
+            }
+        }
+        // TODO: Being a local function, capturing blocks, it was not obvious
+        // that blocks should need reference counting.
+        // Might be good to create a shareable class?
+        function createBufferGeometryDeprecatedMaybe(uuid, canvasId) {
+            var refCount = 0;
+            var _program = void 0;
+            var mesh = {
+                addRef: function () {
+                    refCount++;
+                    refChange(uuid, LOGGING_NAME_MESH, +1);
+                    _blocks.addRef();
+                    return refCount;
+                },
+                release: function () {
+                    refCount--;
+                    refChange(uuid, LOGGING_NAME_MESH, -1);
+                    if (refCount === 0) {
+                        if (_blocks.exists(uuid)) {
+                            _blocks.remove(uuid);
+                        }
+                        else {
+                            console.warn("[System Error] " + messageUnrecognizedMesh(uuid));
+                        }
+                        _blocks.release();
+                    }
+                    return refCount;
+                },
+                get uuid() {
+                    return uuid;
+                },
+                bind: function (program, aNameToKeyName) {
+                    if (_program !== program) {
+                        if (_program) {
+                            mesh.unbind();
+                        }
+                        var block = _blocks.get(uuid);
+                        if (block) {
+                            if (program) {
+                                _program = program;
+                                _program.addRef();
+                                var indexBuffer = block.indexBuffer;
+                                indexBuffer.bind();
+                                indexBuffer.release();
+                                bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
+                            }
+                            else {
+                                expectArg('program', program).toBeObject();
+                            }
+                            block.release();
+                        }
+                        else {
+                            throw new Error(messageUnrecognizedMesh(uuid));
+                        }
+                    }
+                },
+                draw: function () {
+                    var block = _blocks.get(uuid);
+                    if (block) {
+                        block.drawCommand.execute(gl);
+                        block.release();
+                    }
+                    else {
+                        throw new Error(messageUnrecognizedMesh(uuid));
+                    }
+                },
+                unbind: function () {
+                    if (_program) {
+                        var block = _blocks.get(uuid);
+                        if (block) {
+                            // FIXME: Ask block to unbind index buffer and avoid addRef/release
+                            var indexBuffer = block.indexBuffer;
+                            indexBuffer.unbind();
+                            indexBuffer.release();
+                            // FIXME: Looks like an IMaterial method!
+                            unbindProgramAttribLocations(_program, _canvasId);
+                            block.release();
+                        }
+                        else {
+                            throw new Error(messageUnrecognizedMesh(uuid));
+                        }
+                        // We bumped up the reference count during bind. Now we are done.
+                        _program.release();
+                        // Important! The existence of _program indicates the binding state.
+                        _program = void 0;
+                    }
+                }
+            };
+            mesh.addRef();
+            return mesh;
+        }
+        var gl;
+        /**
+         * We must cache the canvas so that we can remove listeners when `stop() is called.
+         * Only between `start()` and `stop()` is canvas defined.
+         * We use a canvasBuilder so the other initialization can happen while we are waiting
+         * for the DOM to load.
+         */
+        var _canvas;
+        var _canvasId;
+        var refCount = 0;
+        var tokenArg = expectArg('token', "");
+        var webGLContextLost = function (event) {
+            if (isDefined(_canvas)) {
+                event.preventDefault();
+                gl = void 0;
+                users.forEach(function (user) {
+                    user.contextLost(_canvasId);
+                });
+            }
+        };
+        var webGLContextRestored = function (event) {
+            if (isDefined(_canvas)) {
+                event.preventDefault();
+                gl = initWebGL(_canvas, attributes);
+                users.forEach(function (user) {
+                    user.contextGain(kahuna);
+                });
+            }
+        };
+        var kahuna = {
+            get canvasId() {
+                return _canvasId;
+            },
+            /**
+             *
+             */
+            createBufferGeometry: function (elements, mode, usage) {
+                expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryElements");
+                mode = drawMode(elements.k, mode);
+                if (!isDefined(mode)) {
+                    // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
+                    // something that can't be drawn (no mode) and it is invisible anyway.
+                    // In such a case we choose not to allocate any buffers. What would be the usage?
+                    return void 0;
+                }
+                if (isDefined(usage)) {
+                    expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
+                }
+                else {
+                    // TODO; Perhaps a simpler way to be Hyper Functional Warrior is to use WebGLRenderingContext.STATIC_DRAW?
+                    usage = isDefined(gl) ? gl.STATIC_DRAW : void 0;
+                }
+                // It's going to get pretty hopeless without a WebGL context.
+                // If that's the case, let's just return undefined now before we start allocating useless stuff.
+                if (isUndefined(gl)) {
+                    if (core.verbose) {
+                        console.warn("Impossible to create a buffer geometry without a WebGL context. Sorry, no dice!");
+                    }
+                    return void 0;
+                }
+                var mesh = new BufferGeometry(_canvasId, gl, _blocks);
+                // let mesh: IBufferGeometry = createBufferGeometryDeprecatedMaybe(uuid4().generate(), _canvasId)
+                var indexBuffer = kahuna.createElementArrayBuffer();
+                indexBuffer.bind();
+                if (isDefined(gl)) {
+                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
+                }
+                else {
+                    console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
+                }
+                indexBuffer.unbind();
+                var attributes = new StringIUnknownMap('createBufferGeometry');
+                var names = Object.keys(elements.attributes);
+                var namesLength = names.length;
+                var i;
+                for (i = 0; i < namesLength; i++) {
+                    var name_1 = names[i];
+                    var buffer = kahuna.createArrayBuffer();
+                    buffer.bind();
+                    var vertexAttrib = elements.attributes[name_1];
+                    var data = vertexAttrib.values.data;
+                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
+                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
+                    attributes.put(name_1, attribute);
+                    attribute.release();
+                    buffer.unbind();
+                    buffer.release();
+                }
+                // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
+                // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
+                switch (elements.k) {
+                }
+                var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
+                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
+                _blocks.put(mesh.uuid, block);
+                block.release();
+                attributes.release();
+                indexBuffer.release();
+                return mesh;
+            },
+            start: function (canvas, canvasId) {
+                var alreadyStarted = isDefined(_canvas);
+                if (!alreadyStarted) {
+                    // cache the arguments
+                    _canvas = canvas;
+                    _canvasId = canvasId;
+                }
+                else {
+                    // We'll assert that if we have a canvas element then we should have a canvas id.
+                    mustBeInteger('_canvasId', _canvasId);
+                    // We'll just be idempotent and ignore the call because we've already been started.
+                    // To use the canvas might conflict with one we have dynamically created.
+                    if (core.verbose) {
+                        console.warn("Ignoring `start()` because already started.");
+                    }
+                    return;
+                }
+                // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
+                // To not complain is the way of the hyper-functional warrior.
+                if (isDefined(_canvas)) {
+                    gl = initWebGL(_canvas, attributes);
+                    users.forEach(function (user) {
+                        kahuna.synchronize(user);
+                    });
+                    _canvas.addEventListener('webglcontextlost', webGLContextLost, false);
+                    _canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
+                }
+            },
+            stop: function () {
+                if (isDefined(_canvas)) {
+                    _canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
+                    _canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
+                    if (gl) {
+                        if (gl.isContextLost()) {
+                            users.forEach(function (user) { user.contextLost(_canvasId); });
+                        }
+                        else {
+                            users.forEach(function (user) { user.contextFree(_canvasId); });
+                        }
+                        gl = void 0;
+                    }
+                    _canvas = void 0;
+                    _canvasId = void 0;
+                }
+            },
+            addContextListener: function (user) {
+                addContextListener(user);
+            },
+            removeContextListener: function (user) {
+                removeContextListener(user);
+            },
+            synchronize: function (user) {
+                synchronize(user);
+            },
+            get canvas() {
+                if (!_canvas) {
+                    // Interesting little side-effect!
+                    // Love the way kahuna talks in the third person.
+                    kahuna.start(document.createElement('canvas'), randumbInteger());
+                }
+                return _canvas;
+            },
+            get gl() {
+                if (gl) {
+                    return gl;
+                }
+                else {
+                    console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
+                    return void 0;
+                }
+            },
+            addRef: function () {
+                refCount++;
+                refChange(uuid, LOGGING_NAME_KAHUNA, +1);
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                refChange(uuid, LOGGING_NAME_KAHUNA, -1);
+                if (refCount === 0) {
+                    _blocks.release();
+                    while (users.length > 0) {
+                        var user = users.pop();
+                    }
+                }
+                return refCount;
+            },
+            createArrayBuffer: function () {
+                // TODO: Replace with functional constructor pattern?
+                return new BufferResource(kahuna, false);
+            },
+            createElementArrayBuffer: function () {
+                // TODO: Replace with functional constructor pattern?
+                // FIXME
+                // It's a bit draconian to insist that there be a WegGLRenderingContext.
+                // Especially whenthe BufferResource willl be listening for context coming and goings.
+                // Let's be Hyper-Functional Warrior and let it go.
+                // Only problem is, we don't know if we should be handling elements or attributes. No problem.
+                return new BufferResource(kahuna, true);
+            },
+            createTexture2D: function () {
+                // TODO: Replace with functional constructor pattern.
+                // FIXME Does this mean that Texture only has one IContextMonitor?
+                return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
+            },
+            createTextureCubeMap: function () {
+                // TODO: Replace with functional constructor pattern.
+                return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
+            }
+        };
+        kahuna.addRef();
+        return kahuna;
+    }
+    return webgl;
+});
+
+define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mustSatisfy', '../checks/isDefined'], function (require, exports, mustSatisfy, isDefined) {
+    function beDefined() {
+        return "not be be `undefined`";
+    }
+    function mustBeDefined(name, value, contextBuilder) {
+        mustSatisfy(name, isDefined(value), beDefined, contextBuilder);
+        return value;
+    }
+    return mustBeDefined;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../core', '../checks/mustBeDefined', '../checks/mustBeInteger', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, createRenderer, contextProxy, core, mustBeDefined, mustBeInteger, readOnly, Shareable) {
+    function beHTMLCanvasElement() {
+        return "be an HTMLCanvasElement";
+    }
+    var defaultCanvasBuilder = function () { return document.createElement('canvas'); };
+    /**
+     * @class Canvas3D
+     */
+    var Canvas3D = (function (_super) {
+        __extends(Canvas3D, _super);
+        /**
+         * @class Canvas3D
+         * @constructor
+         * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
+         * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
+         * @param attributes [WebGLContextAttributes] Allow the context to be configured.
+         * @beta
+         */
+        // FIXME: Move attributes to start()
+        function Canvas3D(attributes) {
+            _super.call(this, 'Canvas3D');
+            this._kahuna = contextProxy(attributes);
+            this._renderer = createRenderer();
+            this._kahuna.addContextListener(this._renderer);
+            this._kahuna.synchronize(this._renderer);
+        }
+        /**
+         * @method destructor
+         * return {void}
+         * @protected
+         */
+        Canvas3D.prototype.destructor = function () {
+            this._kahuna.removeContextListener(this._renderer);
+            this._kahuna.release();
+            this._kahuna = void 0;
+            this._renderer.release();
+            this._renderer = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        Canvas3D.prototype.addContextListener = function (user) {
+            this._kahuna.addContextListener(user);
+        };
+        Object.defineProperty(Canvas3D.prototype, "autoProlog", {
+            /**
+             * <p>
+             * Determines whether prolog commands are run automatically as part of the `render()` call.
+             * </p>
+             * @property autoProlog
+             * @type boolean
+             * @default true
+             */
+            get: function () {
+                return this._renderer.autoProlog;
+            },
+            set: function (autoProlog) {
+                this._renderer.autoProlog = autoProlog;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Canvas3D.prototype, "canvas", {
+            get: function () {
+                return this._kahuna.canvas;
+            },
+            set: function (canvas) {
+                this._kahuna.canvas = canvas;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Canvas3D.prototype, "canvasId", {
+            /**
+             * @property canvasId
+             * @type {number}
+             * @readOnly
+             */
+            get: function () {
+                return this._kahuna.canvasId;
+            },
+            set: function (unused) {
+                // FIXME: DRY delegate to kahuna? Should give the same result.
+                throw new Error(readOnly('canvasId').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /* FIXME: Do we need this. Why. Why not kahuna too?
+        // No contract says that we need to return this.
+        // It's cust that convenience of having someone else do it for you!
+        get canvas(): HTMLCanvasElement {
+          return this._kahuna
+          return this._canvas
+        }
+        */
+        Canvas3D.prototype.contextFree = function (canvasId) {
+            this._renderer.contextFree(canvasId);
+        };
+        Canvas3D.prototype.contextGain = function (manager) {
+            this._renderer.contextGain(manager);
+        };
+        Canvas3D.prototype.contextLost = function (canvasId) {
+            this._renderer.contextLost(canvasId);
+        };
+        Canvas3D.prototype.createArrayBuffer = function () {
+            return this._kahuna.createArrayBuffer();
+        };
+        Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
+            return this._kahuna.createBufferGeometry(elements, mode, usage);
+        };
+        Canvas3D.prototype.createElementArrayBuffer = function () {
+            return this._kahuna.createElementArrayBuffer();
+        };
+        Canvas3D.prototype.createTextureCubeMap = function () {
+            return this._kahuna.createTextureCubeMap();
+        };
+        Canvas3D.prototype.createTexture2D = function () {
+            return this._kahuna.createTexture2D();
+        };
+        Object.defineProperty(Canvas3D.prototype, "gl", {
+            get: function () {
+                return this._kahuna.gl;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Canvas3D.prototype.prolog = function () {
+            this._renderer.prolog();
+        };
+        Canvas3D.prototype.addPrologCommand = function (command) {
+            this._renderer.addPrologCommand(command);
+        };
+        Canvas3D.prototype.addContextGainCommand = function (command) {
+            this._renderer.addContextGainCommand(command);
+        };
+        Canvas3D.prototype.removeContextListener = function (user) {
+            this._kahuna.removeContextListener(user);
+        };
+        Canvas3D.prototype.setSize = function (width, height) {
+            mustBeInteger('width', width);
+            mustBeInteger('height', height);
+            var canvas = this.canvas;
+            canvas.width = width;
+            canvas.height = height;
+            this.gl.viewport(0, 0, width, height);
+        };
+        Canvas3D.prototype.start = function (canvas, canvasId) {
+            // FIXME: DRY delegate to kahuna.
+            if (!(canvas instanceof HTMLElement)) {
+                if (core.verbose) {
+                    console.warn("canvas must be an HTMLCanvasElement to start the context.");
+                }
+                return;
+            }
+            mustBeDefined('canvas', canvas);
+            mustBeInteger('canvasId', canvasId);
+            this._kahuna.start(canvas, canvasId);
+        };
+        Canvas3D.prototype.stop = function () {
+            this._kahuna.stop();
+        };
+        Canvas3D.prototype.synchronize = function (user) {
+            this._kahuna.synchronize(user);
+        };
+        return Canvas3D;
+    })(Shareable);
+    return Canvas3D;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
+    // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
+    var LOGGING_NAME = 'NumberIUnknownMap';
+    /**
+     * @class NumberIUnknownMap<V>
+     */
+    var NumberIUnknownMap = (function (_super) {
+        __extends(NumberIUnknownMap, _super);
+        /**
+         * @class NumberIUnknownMap<V>
+         * @constructor
+         */
+        function NumberIUnknownMap() {
+            _super.call(this, LOGGING_NAME);
+            this._elements = {};
+        }
+        NumberIUnknownMap.prototype.destructor = function () {
+            var self = this;
+            this.forEach(function (key, value) {
+                if (value) {
+                    value.release();
+                }
+            });
+            this._elements = void 0;
+        };
+        NumberIUnknownMap.prototype.exists = function (key) {
+            var element = this._elements[key];
+            return element ? true : false;
+        };
+        NumberIUnknownMap.prototype.get = function (key) {
+            var element = this.getWeakReference(key);
+            if (element) {
+                element.addRef();
+            }
+            return element;
+        };
+        // FIXME
+        /*private*/ NumberIUnknownMap.prototype.getWeakReference = function (index) {
+            return this._elements[index];
+        };
+        NumberIUnknownMap.prototype.put = function (key, value) {
+            if (value) {
+                value.addRef();
+            }
+            this.putWeakReference(key, value);
+        };
+        // FIXME
+        /*private*/ NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
+            var elements = this._elements;
+            var existing = elements[key];
+            if (existing) {
+                existing.release();
+            }
+            elements[key] = value;
+        };
+        NumberIUnknownMap.prototype.forEach = function (callback) {
+            var keys = this.keys;
+            var i;
+            var length = keys.length;
+            for (i = 0; i < length; i++) {
+                var key = keys[i];
+                var value = this._elements[key];
+                callback(key, value);
+            }
+        };
+        Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
+            get: function () {
+                // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
+                return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
+            },
+            enumerable: true,
+            configurable: true
+        });
+        NumberIUnknownMap.prototype.remove = function (key) {
+            // Strong or Weak doesn't matter because the value is `undefined`.
+            this.put(key, void 0);
+            delete this._elements[key];
+        };
+        return NumberIUnknownMap;
+    })(Shareable);
+    return NumberIUnknownMap;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../utils/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, uuid4) {
+    var CLASS_NAME_DRAWLIST = "createDrawList";
+    var CLASS_NAME_GROUP = "DrawableGroup";
+    var CLASS_NAME_ALL = "DrawableGroups";
+    // FIXME; Probably good to have another collection of DrawableGroup
+    /**
+     * A grouping of IDrawable, by IMaterial.
+     */
+    // FIXME: extends Shareable
+    var DrawableGroup = (function () {
+        function DrawableGroup(program) {
+            this._drawables = new IUnknownArray([], CLASS_NAME_GROUP);
+            this._refCount = 1;
+            this._uuid = uuid4().generate();
+            this._program = program;
+            this._program.addRef();
+            refChange(this._uuid, CLASS_NAME_GROUP, +1);
+        }
+        DrawableGroup.prototype.addRef = function () {
+            this._refCount++;
+            refChange(this._uuid, CLASS_NAME_GROUP, +1);
+            return this._refCount;
+        };
+        DrawableGroup.prototype.release = function () {
+            this._refCount--;
+            refChange(this._uuid, CLASS_NAME_GROUP, -1);
+            if (this._refCount === 0) {
+                this._program.release();
+                this._program = void 0;
+                this._drawables.release();
+                this._drawables = void 0;
+                this._refCount = void 0;
+                this._uuid = void 0;
+                return 0;
+            }
+            else {
+                return this._refCount;
+            }
+        };
+        Object.defineProperty(DrawableGroup.prototype, "material", {
+            get: function () {
+                this._program.addRef();
+                return this._program;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * accept provides a way to push out the IMaterial without bumping the reference count.
+         */
+        DrawableGroup.prototype.acceptProgram = function (visitor) {
+            visitor(this._program);
+        };
+        Object.defineProperty(DrawableGroup.prototype, "length", {
+            get: function () {
+                return this._drawables.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        DrawableGroup.prototype.push = function (drawable) {
+            this._drawables.push(drawable);
+        };
+        DrawableGroup.prototype.remove = function (drawable) {
+            var drawables = this._drawables;
+            var index = drawables.indexOf(drawable);
+            if (index >= 0) {
+                // We don't actually need the returned element so release it.
+                drawables.splice(index, 1).release();
+            }
+        };
+        DrawableGroup.prototype.draw = function (ambients, canvasId) {
+            var i;
+            var length;
+            var drawables = this._drawables;
+            var material = this._program;
+            material.use(canvasId);
+            if (ambients) {
+                ambients.forEach(function (ambient) {
+                    ambient.setUniforms(material, canvasId);
+                });
+            }
+            length = drawables.length;
+            for (i = 0; i < length; i++) {
+                var drawable = drawables.get(i);
+                drawable.draw(canvasId);
+                drawable.release();
+            }
+        };
+        DrawableGroup.prototype.traverseDrawables = function (callback) {
+            this._drawables.forEach(callback);
+        };
+        return DrawableGroup;
+    })();
+    /**
+     * Should look like a set of Drawable Groups. Maybe like a Scene!
+     */
+    var DrawableGroups = (function (_super) {
+        __extends(DrawableGroups, _super);
+        function DrawableGroups() {
+            _super.call(this, CLASS_NAME_ALL);
+            /**
+             * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
+             */
+            this._groups = new StringIUnknownMap(CLASS_NAME_ALL);
+        }
+        DrawableGroups.prototype.destructor = function () {
+            this._groups.release();
+            this._groups = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        DrawableGroups.prototype.add = function (drawable) {
+            // Now let's see if we can get a program...
+            var program = drawable.material;
+            if (program) {
+                try {
+                    var programId = program.programId;
+                    var programInfo = this._groups.get(programId);
+                    if (!programInfo) {
+                        programInfo = new DrawableGroup(program);
+                        this._groups.put(programId, programInfo);
+                    }
+                    programInfo.push(drawable);
+                    programInfo.release();
+                }
+                finally {
+                    program.release();
+                }
+            }
+            else {
+            }
+        };
+        DrawableGroups.prototype.remove = function (drawable) {
+            var program = drawable.material;
+            if (program) {
+                try {
+                    var programId = program.programId;
+                    if (this._groups.exists(programId)) {
+                        var group = this._groups.get(programId);
+                        group.remove(drawable);
+                        if (group.length === 0) {
+                            delete this._groups.remove(programId);
+                        }
+                        group.release();
+                    }
+                    else {
+                        throw new Error("drawable not found?!");
+                    }
+                }
+                finally {
+                    program.release();
+                }
+            }
+        };
+        DrawableGroups.prototype.draw = function (ambients, canvasId) {
+            // Manually hoisted variable declarations.
+            var drawGroups;
+            var materialKey;
+            var materialKeys;
+            var materialsLength;
+            var i;
+            var drawGroup;
+            drawGroups = this._groups;
+            materialKeys = drawGroups.keys;
+            materialsLength = materialKeys.length;
+            for (i = 0; i < materialsLength; i++) {
+                materialKey = materialKeys[i];
+                drawGroup = drawGroups.get(materialKey);
+                drawGroup.draw(ambients, canvasId);
+                drawGroup.release();
+            }
+        };
+        // FIXME: Rename to traverse
+        DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {
+            this._groups.forEach(function (groupId, group) {
+                group.acceptProgram(callback2);
+                group.traverseDrawables(callback);
+            });
+        };
+        DrawableGroups.prototype.traversePrograms = function (callback) {
+            this._groups.forEach(function (groupId, group) {
+                group.acceptProgram(callback);
+            });
+        };
+        return DrawableGroups;
+    })(Shareable);
+    var createDrawList = function () {
+        var drawableGroups = new DrawableGroups();
+        var canvasIdToManager = new NumberIUnknownMap();
+        var refCount = 1;
+        var uuid = uuid4().generate();
+        var self = {
+            addRef: function () {
+                refCount++;
+                refChange(uuid, CLASS_NAME_DRAWLIST, +1);
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                refChange(uuid, CLASS_NAME_DRAWLIST, -1);
+                if (refCount === 0) {
+                    drawableGroups.release();
+                    drawableGroups = void 0;
+                    canvasIdToManager.release();
+                    canvasIdToManager = void 0;
+                    refCount = void 0;
+                    uuid = void 0;
+                    return 0;
+                }
+                else {
+                    return refCount;
+                }
+            },
+            contextFree: function (canvasId) {
+                drawableGroups.traverseDrawables(function (drawable) {
+                    drawable.contextFree(canvasId);
+                }, function (program) {
+                    program.contextFree(canvasId);
+                });
+                canvasIdToManager.remove(canvasId);
+            },
+            /**
+             * method contextGain
+             */
+            contextGain: function (manager) {
+                if (!canvasIdToManager.exists(manager.canvasId)) {
+                    // Cache the manager.
+                    canvasIdToManager.put(manager.canvasId, manager);
+                    // Broadcast to drawables and materials.
+                    drawableGroups.traverseDrawables(function (drawable) {
+                        drawable.contextGain(manager);
+                    }, function (material) {
+                        material.contextGain(manager);
+                    });
+                }
+            },
+            contextLost: function (canvasId) {
+                if (canvasIdToManager.exists(canvasId)) {
+                    drawableGroups.traverseDrawables(function (drawable) {
+                        drawable.contextLost(canvasId);
+                    }, function (material) {
+                        material.contextLost(canvasId);
+                    });
+                    canvasIdToManager.remove(canvasId);
+                }
+            },
+            add: function (drawable) {
+                // If we have canvasIdToManager povide them to the drawable before asking for the program.
+                // FIXME: Do we have to be careful about whether the manager has a context?
+                canvasIdToManager.forEach(function (id, manager) {
+                    drawable.contextGain(manager);
+                });
+                drawableGroups.add(drawable);
+            },
+            draw: function (ambients, canvasId) {
+                drawableGroups.draw(ambients, canvasId);
+            },
+            getDrawablesByName: function (name) {
+                var result = new IUnknownArray([], 'getDrawablesByName');
+                drawableGroups.traverseDrawables(function (candidate) {
+                    if (candidate.name === name) {
+                        result.push(candidate);
+                    }
+                }, function (program) {
+                });
+                return result;
+            },
+            remove: function (drawable) {
+                drawableGroups.remove(drawable);
+            },
+            // FIXME: canvasId not being used?
+            traverse: function (callback, canvasId, prolog) {
+                drawableGroups.traverseDrawables(callback, prolog);
+            }
+        };
+        refChange(uuid, CLASS_NAME_DRAWLIST, +1);
+        return self;
+    };
+    return createDrawList;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/MonitorList',["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable, mustSatisfy, isInteger) {
+    function beInstanceOfContextMonitors() {
+        return "be an instance of MonitorList";
+    }
+    function beContextMonitorArray() {
+        return "be IContextMonitor[]";
+    }
+    function identity(monitor) {
+        return monitor;
+    }
+    var METHOD_ADD = 'addContextListener';
+    var METHOD_REMOVE = 'removeContextListener';
+    /**
+     * Implementation Only.
+     */
+    var MonitorList = (function (_super) {
+        __extends(MonitorList, _super);
+        function MonitorList(monitors) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, 'MonitorList');
+            this.monitors = monitors.map(identity);
+            this.monitors.forEach(function (monitor) {
+                monitor.addRef();
+            });
+        }
+        MonitorList.prototype.destructor = function () {
+            this.monitors.forEach(function (monitor) {
+                monitor.release();
+            });
+        };
+        MonitorList.prototype.addContextListener = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.addContextListener(user);
+            });
+        };
+        MonitorList.prototype.push = function (monitor) {
+            this.monitors.push(monitor);
+        };
+        MonitorList.prototype.removeContextListener = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.removeContextListener(user);
+            });
+        };
+        MonitorList.prototype.synchronize = function (user) {
+            this.monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
+            });
+        };
+        MonitorList.prototype.toArray = function () {
+            return this.monitors.map(identity);
+        };
+        MonitorList.copy = function (monitors) {
+            return new MonitorList(monitors);
+        };
+        MonitorList.isInstanceOf = function (candidate) {
+            return candidate instanceof MonitorList;
+        };
+        MonitorList.assertInstance = function (name, candidate, contextBuilder) {
+            if (MonitorList.isInstanceOf(candidate)) {
+                return candidate;
+            }
+            else {
+                mustSatisfy(name, false, beInstanceOfContextMonitors, contextBuilder);
+                throw new Error();
+            }
+        };
+        MonitorList.verify = function (name, monitors, contextBuilder) {
+            mustSatisfy(name, isInteger(monitors['length']), beContextMonitorArray, contextBuilder);
+            var monitorsLength = monitors.length;
+            for (var i = 0; i < monitorsLength; i++) {
+            }
+            return monitors;
+        };
+        MonitorList.addContextListener = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.addContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.addContextListener(user);
+            });
+        };
+        MonitorList.removeContextListener = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.removeContextListener(user);
+            });
+        };
+        MonitorList.synchronize = function (user, monitors) {
+            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
+            monitors.forEach(function (monitor) {
+                monitor.synchronize(user);
+            });
+        };
+        return MonitorList;
+    })(Shareable);
+    return MonitorList;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../utils/Shareable'], function (require, exports, createDrawList, MonitorList, Shareable) {
+    var LOGGING_NAME = 'Scene';
+    function ctorContext() {
+        return LOGGING_NAME + " constructor";
+    }
+    /**
+     * @class Scene
+     * @extends Shareable
+     * @extends IDrawList
+     */
+    var Scene = (function (_super) {
+        __extends(Scene, _super);
+        // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
+        /**
+         * <p>
+         * A <code>Scene</code> is a collection of drawable instances arranged in some order.
+         * The precise order is implementation defined.
+         * The collection may be traversed for general processing using callback/visitor functions.
+         * </p>
+         * @class Scene
+         * @constructor
+         * @param monitors [IContextMonitor[]=[]]
+         */
+        function Scene(monitors) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, LOGGING_NAME);
+            MonitorList.verify('monitors', monitors, ctorContext);
+            this.drawList = createDrawList();
+            this.monitors = new MonitorList(monitors);
+            this.monitors.addContextListener(this);
+            this.monitors.synchronize(this);
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        Scene.prototype.destructor = function () {
+            this.monitors.removeContextListener(this);
+            this.monitors.release();
+            this.monitors = void 0;
+            this.drawList.release();
+            this.drawList = void 0;
+        };
+        /**
+         * <p>
+         * Adds the <code>drawable</code> to this <code>Scene</code>.
+         * </p>
+         * @method add
+         * @param drawable {IDrawable}
+         * @return {Void}
+         * <p>
+         * This method returns <code>undefined</code>.
+         * </p>
+         */
+        Scene.prototype.add = function (drawable) {
+            this.drawList.add(drawable);
+        };
+        /**
+         * <p>
+         * Traverses the collection of drawables, drawing each one.
+         * </p>
+         * @method draw
+         * @param ambients {IFacet[]}
+         * @param canvasId {number}
+         * @return {void}
+         * @beta
+         */
+        Scene.prototype.draw = function (ambients, canvasId) {
+            this.drawList.draw(ambients, canvasId);
+        };
+        /**
+         * Gets a collection of drawable elements by name.
+         * @method getDrawablesByName
+         * @param name {string}
+         */
+        Scene.prototype.getDrawablesByName = function (name) {
+            return this.drawList.getDrawablesByName(name);
+        };
+        /**
+         * <p>
+         * Removes the <code>drawable</code> from this <code>Scene</code>.
+         * </p>
+         * @method remove
+         * @param drawable {IDrawable}
+         * @return {Void}
+         * <p>
+         * This method returns <code>undefined</code>.
+         * </p>
+         */
+        Scene.prototype.remove = function (drawable) {
+            this.drawList.remove(drawable);
+        };
+        /**
+         * <p>
+         * Traverses the collection of drawables, calling the specified callback arguments.
+         * </p>
+         * @method traverse
+         * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
+         * @param canvasId {number} Identifies the canvas.
+         * @param prolog {(material: IMaterial) => void} Callback function for each material.
+         * @return {void}
+         */
+        Scene.prototype.traverse = function (callback, canvasId, prolog) {
+            this.drawList.traverse(callback, canvasId, prolog);
+        };
+        Scene.prototype.contextFree = function (canvasId) {
+            this.drawList.contextFree(canvasId);
+        };
+        Scene.prototype.contextGain = function (manager) {
+            this.drawList.contextGain(manager);
+        };
+        Scene.prototype.contextLost = function (canvasId) {
+            this.drawList.contextLost(canvasId);
+        };
+        return Scene;
+    })(Shareable);
+    return Scene;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/Slide',["require", "exports", '../slideshow/Animator', '../utils/IUnknownArray', '../utils/Shareable'], function (require, exports, Animator, IUnknownArray, Shareable) {
+    var Slide = (function (_super) {
+        __extends(Slide, _super);
+        function Slide() {
+            // The first thing we do is to call the constructor of the base class.
+            _super.call(this, 'Slide');
+            this.animator = new Animator();
+            this.tasks = new IUnknownArray([], 'Slide.tasks');
+        }
+        Slide.prototype.destructor = function () {
+            this.animator.release();
+            this.animator = void 0;
+            this.tasks.release();
+            this.tasks = void 
+            // The last thing we do is to call the destructor of the base class.
+            _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(Slide.prototype, "clock", {
+            get: function () {
+                return this.animator.clock;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Slide.prototype.addTask = function (task) {
+            this.tasks.push(task);
+            return task;
+        };
+        Slide.prototype.animate = function (object, animations, options) {
+            this.animator.animate(object, animations, options);
+        };
+        Slide.prototype.update = function (speed) {
+            this.animator.update(speed);
+        };
+        Slide.prototype.exec = function (host) {
+            var slide = this;
+            // FIXME: Loop or functional constructor.
+            this.tasks.forEach(function (task) {
+                task.exec(slide, host);
+            });
+        };
+        Slide.prototype.undo = function (host) {
+            var slide = this;
+            this.tasks.forEach(function (task) {
+                task.undo(slide, host);
+            });
+        };
+        return Slide;
+    })(Shareable);
+    return Slide;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/Director',["require", "exports", '../scene/Canvas3D', '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../scene/Scene', '../utils/Shareable', '../slideshow/Slide', '../utils/StringIUnknownMap'], function (require, exports, Canvas3D, IUnknownArray, NumberIUnknownMap, Scene, Shareable, Slide, StringIUnknownMap) {
+    var Director = (function (_super) {
+        __extends(Director, _super);
+        function Director() {
+            _super.call(this, 'Director');
+            this.slides = new IUnknownArray([], 'Director.slides');
+            this.step = -1; // Position before the first slide.
+            this.contexts = new NumberIUnknownMap();
+            this.scenes = new StringIUnknownMap('Director.scenes');
+            this.drawables = new StringIUnknownMap('Director.drawables');
+            this.uniforms = new StringIUnknownMap('Director.uniforms');
+            this.sceneNamesByCanvasId = {};
+            this.uniformsByCanvasId = new NumberIUnknownMap();
+        }
+        Director.prototype.destructor = function () {
+            this.slides.release();
+            this.slides = void 0;
+            this.contexts.forEach(function (canvasId, context) {
+                context.stop();
+            });
+            this.contexts.release();
+            this.contexts = void 0;
+            this.scenes.release();
+            this.scenes = void 0;
+            this.drawables.release();
+            this.drawables = void 0;
+            this.uniforms.release();
+            this.uniforms = void 0;
+            this.uniformsByCanvasId.release();
+            this.uniformsByCanvasId = void 0;
+        };
+        Director.prototype.apply = function (slide, forward) {
+            if (forward) {
+                slide.exec(this);
+            }
+            else {
+                slide.undo(this);
+            }
+        };
+        Director.prototype.addCanvasSceneLink = function (canvasId, sceneName) {
+            var names = this.sceneNamesByCanvasId[canvasId];
+            if (names) {
+                names.push(sceneName);
+            }
+            else {
+                this.sceneNamesByCanvasId[canvasId] = [sceneName];
+            }
+        };
+        Director.prototype.addDrawable = function (name, drawable) {
+            this.drawables.put(name, drawable);
+        };
+        Director.prototype.getDrawable = function (name) {
+            return this.drawables.get(name);
+        };
+        Director.prototype.removeDrawable = function (name) {
+            this.drawables.remove(name);
+        };
+        Director.prototype.addToScene = function (drawableId, sceneId) {
+            var drawable = this.drawables.get(drawableId);
+            var scene = this.scenes.get(sceneId);
+            scene.add(drawable);
+            drawable.release();
+            scene.release();
+        };
+        Director.prototype.removeFromScene = function (drawableId, sceneId) {
+            var drawable = this.drawables.get(drawableId);
+            var scene = this.scenes.get(sceneId);
+            scene.remove(drawable);
+            drawable.release();
+            scene.release();
+        };
+        Director.prototype.addFacet = function (name, uniform) {
+            this.uniforms.put(name, uniform);
+        };
+        Director.prototype.removeFacet = function (name) {
+            this.uniforms.remove(name);
+        };
+        Director.prototype.addCanvasUniformLink = function (canvasId, uniformName) {
+            // FIXME: Verify that canvasId is a legitimate canvas.
+            var uniform = this.uniforms.get(uniformName);
+            if (uniform) {
+                try {
+                    var uniforms = this.uniformsByCanvasId.get(canvasId);
+                    if (!uniforms) {
+                        uniforms = new StringIUnknownMap('Director');
+                        this.uniformsByCanvasId.put(canvasId, uniforms);
+                    }
+                    uniforms.put(uniformName, uniform);
+                    uniforms.release();
+                }
+                finally {
+                    uniform.release();
+                }
+            }
+            else {
+                console.warn(uniformName + ' is not a recognized facet');
+            }
+        };
+        /**
+         *
+         */
+        Director.prototype.createScene = function (sceneName, canvasIds) {
+            var contexts = this.contexts;
+            var monitors = canvasIds.map(function (canvasId) {
+                return contexts.getWeakReference(canvasId);
+            });
+            var scene = new Scene(monitors);
+            this.scenes.put(sceneName, scene);
+            scene.release();
+            var director = this;
+            canvasIds.forEach(function (canvasId) {
+                director.addCanvasSceneLink(canvasId, sceneName);
+            });
+        };
+        Director.prototype.deleteScene = function (name) {
+            if (this.scenes.exists(name)) {
+                this.scenes.remove(name);
+            }
+        };
+        Director.prototype.createSlide = function () {
+            var slide = new Slide();
+            this.slides.push(slide);
+            return slide;
+        };
+        Director.prototype.getScene = function (name) {
+            return this.scenes.get(name);
+        };
+        Director.prototype.go = function (step, instant) {
+            if (instant === void 0) { instant = false; }
+            if (this.slides.length === 0) {
+                return;
+            }
+            while (step < 0)
+                step += this.slides.length + 1;
+        };
+        Director.prototype.forward = function (instant, delay) {
+            if (instant === void 0) { instant = true; }
+            if (delay === void 0) { delay = 0; }
+            if (!this.canForward()) {
+                return;
+            }
+            var slideIndex = this.step + 1;
+            var slide = this.slides.get(slideIndex);
+            try {
+                var self = this;
+                var apply = function () {
+                    self.apply(slide, true);
+                    self.step++;
+                };
+                if (delay) {
+                    setTimeout(apply, delay);
+                }
+                else {
+                    apply();
+                }
+            }
+            finally {
+                slide.release();
+            }
+        };
+        Director.prototype.canForward = function () {
+            return this.step < (this.slides.length - 1);
+        };
+        Director.prototype.backward = function (instant, delay) {
+            if (instant === void 0) { instant = true; }
+            if (delay === void 0) { delay = 0; }
+            if (!this.canBackward()) {
+                return;
+            }
+            var slideIndex = this.step - 1;
+            var slide = this.slides.get(slideIndex);
+            var self = this;
+            var apply = function () {
+                self.apply(slide, false);
+                self.step--;
+            };
+            if (delay) {
+                setTimeout(apply, delay);
+            }
+            else {
+                apply();
+            }
+            slide.release();
+        };
+        Director.prototype.canBackward = function () {
+            return this.step > 0;
+        };
+        Director.prototype.pushSlide = function (slide) {
+            return this.slides.push(slide);
+        };
+        Director.prototype.addCanvas = function (canvas, canvasId) {
+            var c3d = new Canvas3D();
+            c3d.start(canvas, canvasId);
+            this.contexts.put(canvasId, c3d);
+            c3d.release();
+        };
+        Director.prototype.update = function (speed) {
+            var slideIndex = this.step;
+            if (slideIndex >= 0 && slideIndex < this.slides.length) {
+                var slide = this.slides.get(slideIndex);
+                if (slide) {
+                    try {
+                        slide.update(speed);
+                    }
+                    finally {
+                        slide.release();
+                    }
+                }
+                else {
+                    // This should never happen if we manage the index properly.
+                    console.warn("No slide found at index " + this.step);
+                }
+            }
+        };
+        Director.prototype.render = function () {
+            var slideIndex = this.step;
+            if (slideIndex >= 0 && slideIndex < this.slides.length) {
+                var director = this;
+                var canvasIds = this.contexts.keys;
+                for (var i = 0, iLength = canvasIds.length; i < iLength; i++) {
+                    var canvasId = canvasIds[i];
+                    var c3d = this.contexts.get(canvasId);
+                    c3d.prolog();
+                    c3d.release();
+                    var ambients = this.uniformsByCanvasId.get(canvasId);
+                    // FIXME: scenesByCanvasId
+                    var sceneNames = this.sceneNamesByCanvasId[canvasId];
+                    if (sceneNames) {
+                        for (var j = 0, jLength = sceneNames.length; j < jLength; j++) {
+                            var sceneName = sceneNames[j];
+                            var scene = this.scenes.get(sceneNames[j]);
+                            scene.draw(ambients.values, canvasId);
+                            scene.release();
+                        }
+                    }
+                    ambients.release();
+                }
+            }
+        };
+        return Director;
+    })(Shareable);
+    return Director;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/animations/Animation',["require", "exports", '../../utils/Shareable'], function (require, exports, Shareable) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -1512,24 +4695,6 @@ define('davinci-eight/animate/animations/Animation',["require", "exports", '../.
     return Animation;
 });
 
-define('davinci-eight/checks/isNumber',["require", "exports"], function (require, exports) {
-    function isNumber(x) {
-        return (typeof x === 'number');
-    }
-    return isNumber;
-});
-
-define('davinci-eight/checks/mustBeNumber',["require", "exports", '../checks/mustSatisfy', '../checks/isNumber'], function (require, exports, mustSatisfy, isNumber) {
-    function beANumber() {
-        return "be a `number`";
-    }
-    function mustBeInteger(name, value, contextBuilder) {
-        mustSatisfy(name, isNumber(value), beANumber, contextBuilder);
-        return value;
-    }
-    return mustBeInteger;
-});
-
 define('davinci-eight/math/clamp',["require", "exports", '../checks/mustBeNumber'], function (require, exports, mustBeNumber) {
     function clamp(x, min, max) {
         mustBeNumber('x', x);
@@ -1538,115 +4703,6 @@ define('davinci-eight/math/clamp',["require", "exports", '../checks/mustBeNumber
         return (x < min) ? min : ((x > max) ? max : x);
     }
     return clamp;
-});
-
-define('davinci-eight/checks/isUndefined',["require", "exports"], function (require, exports) {
-    function isUndefined(arg) {
-        return (typeof arg === 'undefined');
-    }
-    return isUndefined;
-});
-
-define('davinci-eight/checks/expectArg',["require", "exports", '../checks/isUndefined', '../checks/mustBeNumber'], function (require, exports, isUndefined, mustBeNumber) {
-    function message(standard, override) {
-        return isUndefined(override) ? standard : override();
-    }
-    // FIXME: This plays havok with the TypeScript compiler stack and encourages temporary object creation.
-    function expectArg(name, value) {
-        var arg = {
-            toSatisfy: function (condition, message) {
-                if (isUndefined(condition)) {
-                    throw new Error("condition must be specified");
-                }
-                if (isUndefined(message)) {
-                    throw new Error("message must be specified");
-                }
-                if (!condition) {
-                    throw new Error(message);
-                }
-                return arg;
-            },
-            toBeBoolean: function (override) {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'boolean') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a boolean.", override));
-                }
-                return arg;
-            },
-            toBeDefined: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue === 'undefined') {
-                    var message_1 = "Expecting argument " + name + ": " + typeOfValue + " to be defined.";
-                    throw new Error(message_1);
-                }
-                return arg;
-            },
-            toBeInClosedInterval: function (lower, upper) {
-                var something = value;
-                var x = something;
-                mustBeNumber('x', x);
-                if (x >= lower && x <= upper) {
-                    return arg;
-                }
-                else {
-                    var message_2 = "Expecting argument " + name + " => " + value + " to be in the range [" + lower + ", " + upper + "].";
-                    throw new Error(message_2);
-                }
-            },
-            toBeFunction: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'function') {
-                    var message_3 = "Expecting argument " + name + ": " + typeOfValue + " to be a function.";
-                    throw new Error(message_3);
-                }
-                return arg;
-            },
-            toBeNumber: function (override) {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'number') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be a number.", override));
-                }
-                return arg;
-            },
-            toBeObject: function (override) {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'object') {
-                    throw new Error(message("Expecting argument " + name + ": " + typeOfValue + " to be an object.", override));
-                }
-                return arg;
-            },
-            toBeString: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'string') {
-                    var message_4 = "Expecting argument " + name + ": " + typeOfValue + " to be a string.";
-                    throw new Error(message_4);
-                }
-                return arg;
-            },
-            toBeUndefined: function () {
-                var typeOfValue = typeof value;
-                if (typeOfValue !== 'undefined') {
-                    var message_5 = "Expecting argument " + name + ": " + typeOfValue + " to be undefined.";
-                    throw new Error(message_5);
-                }
-                return arg;
-            },
-            toNotBeNull: function () {
-                if (value === null) {
-                    var message_6 = "Expecting argument " + name + " to not be null.";
-                    throw new Error(message_6);
-                }
-                else {
-                    return arg;
-                }
-            },
-            get value() {
-                return value;
-            }
-        };
-        return arg;
-    }
-    return expectArg;
 });
 
 define('davinci-eight/core/principalAngle',["require", "exports"], function (require, exports) {
@@ -1865,7 +4921,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/animate/animations/ColorTo',["require", "exports", '../../utils/Shareable', '../../core/Color'], function (require, exports, Shareable, Color) {
+define('davinci-eight/slideshow/animations/ColorTo',["require", "exports", '../../utils/Shareable', '../../core/Color'], function (require, exports, Shareable, Color) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -1892,6 +4948,7 @@ define('davinci-eight/animate/animations/ColorTo',["require", "exports", '../../
         ColorTo.prototype.destructor = function () {
             this.object.release();
             this.object = void 0;
+            _super.prototype.destructor.call(this);
         };
         ColorTo.prototype.init = function (offset) {
             if (offset === void 0) { offset = 0; }
@@ -1907,7 +4964,6 @@ define('davinci-eight/animate/animations/ColorTo',["require", "exports", '../../
             if (!this.start) {
                 this.init(offset);
             }
-            var object = this.object;
             var from = this.from;
             var to = this.to;
             var key = this.key;
@@ -1965,179 +5021,6 @@ define('davinci-eight/animate/animations/ColorTo',["require", "exports", '../../
         return ColorTo;
     })(Shareable);
     return ColorTo;
-});
-
-define('davinci-eight/checks/isDefined',["require", "exports"], function (require, exports) {
-    function isDefined(arg) {
-        return (typeof arg !== 'undefined');
-    }
-    return isDefined;
-});
-
-define('davinci-eight/math/VectorN',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../checks/isUndefined'], function (require, exports, expectArg, isDefined, isUndefined) {
-    function constructorString(T) {
-        return "new VectorN<" + T + ">(data: " + T + "[], modified: boolean = false, size?: number)";
-    }
-    function pushString(T) {
-        return "push(value: " + T + "): number";
-    }
-    function popString(T) {
-        return "pop(): " + T;
-    }
-    function contextNameKind(context, name, kind) {
-        return name + " must be a " + kind + " in " + context;
-    }
-    function contextNameLength(context, name, length) {
-        return name + " length must be " + length + " in " + context;
-    }
-    function ctorDataKind() {
-        return contextNameKind(constructorString('T'), 'data', 'T[]');
-    }
-    function ctorDataLength(length) {
-        return function () {
-            return contextNameLength(constructorString('T'), 'data', length);
-        };
-    }
-    function verboten(operation) {
-        return operation + " is not allowed for a fixed size vector";
-    }
-    function verbotenPush() {
-        return verboten(pushString('T'));
-    }
-    function verbotenPop() {
-        return verboten(popString('T'));
-    }
-    function ctorModifiedKind() {
-        return contextNameKind(constructorString('T'), 'modified', 'boolean');
-    }
-    function ctorSizeKind() {
-        return contextNameKind(constructorString('T'), 'size', 'number');
-    }
-    /**
-     * @class VectorN<T>
-     * @extends Mutable<T[]>
-     */
-    var VectorN = (function () {
-        /**
-         * @class VectorN
-         * @constructor
-         * @param data {T[]}
-         * @param modified [boolean = false]
-         * @param [size]
-         */
-        function VectorN(data, modified, size) {
-            if (modified === void 0) { modified = false; }
-            var dataArg = expectArg('data', data).toBeObject(ctorDataKind);
-            this.modified = expectArg('modified', modified).toBeBoolean(ctorModifiedKind).value;
-            if (isDefined(size)) {
-                this._size = expectArg('size', size).toBeNumber(ctorSizeKind).toSatisfy(size >= 0, "size must be positive").value;
-                this._data = dataArg.toSatisfy(data.length === size, ctorDataLength(size)()).value;
-            }
-            else {
-                this._size = void 0;
-                this._data = dataArg.value;
-            }
-        }
-        Object.defineProperty(VectorN.prototype, "data", {
-            get: function () {
-                if (this._data) {
-                    return this._data;
-                }
-                else if (this._callback) {
-                    var data = this._callback();
-                    if (isDefined(this._size)) {
-                        expectArg('callback()', data).toSatisfy(data.length === this._size, "callback() length must be " + this._size);
-                    }
-                    return this._callback();
-                }
-                else {
-                    throw new Error("Vector" + this._size + " is undefined.");
-                }
-            },
-            set: function (data) {
-                if (isDefined(this._size)) {
-                    expectArg('data', data).toSatisfy(data.length === this._size, "data length must be " + this._size);
-                }
-                this._data = data;
-                this._callback = void 0;
-                this.modified = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VectorN.prototype, "callback", {
-            get: function () {
-                return this._callback;
-            },
-            set: function (reactTo) {
-                this._callback = reactTo;
-                this._data = void 0;
-                this.modified = true;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(VectorN.prototype, "length", {
-            get: function () {
-                return this.data.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        VectorN.prototype.clone = function () {
-            return new VectorN(this._data, this.modified, this._size);
-        };
-        VectorN.prototype.getComponent = function (index) {
-            return this.data[index];
-        };
-        VectorN.prototype.pop = function () {
-            if (isUndefined(this._size)) {
-                return this.data.pop();
-            }
-            else {
-                throw new Error(verbotenPop());
-            }
-        };
-        // TODO: How to prototype this as ...items: T[]
-        VectorN.prototype.push = function (value) {
-            if (isUndefined(this._size)) {
-                var data = this.data;
-                var newLength = data.push(value);
-                this.data = data;
-                return newLength;
-            }
-            else {
-                throw new Error(verbotenPush());
-            }
-        };
-        VectorN.prototype.setComponent = function (index, value) {
-            var data = this.data;
-            var existing = data[index];
-            if (value !== existing) {
-                data[index] = value;
-                this.data = data;
-                this.modified = true;
-            }
-        };
-        VectorN.prototype.toArray = function (array, offset) {
-            if (array === void 0) { array = []; }
-            if (offset === void 0) { offset = 0; }
-            var data = this.data;
-            var length = data.length;
-            for (var i = 0; i < length; i++) {
-                array[offset + i] = data[i];
-            }
-            return array;
-        };
-        VectorN.prototype.toLocaleString = function () {
-            return this.data.toLocaleString();
-        };
-        VectorN.prototype.toString = function () {
-            return this.data.toString();
-        };
-        return VectorN;
-    })();
-    return VectorN;
 });
 
 define('davinci-eight/math/wedgeXY',["require", "exports"], function (require, exports) {
@@ -2496,7 +5379,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/animate/animations/MoveTo',["require", "exports", '../../utils/Shareable', '../../math/Vector3'], function (require, exports, Shareable, Vector3) {
+define('davinci-eight/slideshow/animations/MoveTo',["require", "exports", '../../utils/Shareable', '../../math/Vector3'], function (require, exports, Shareable, Vector3) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -2854,7 +5737,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/animate/animations/SpinTo',["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], function (require, exports, Shareable, Spinor3) {
+define('davinci-eight/slideshow/animations/SpinTo',["require", "exports", '../../utils/Shareable', '../../math/Spinor3'], function (require, exports, Shareable, Spinor3) {
     function loop(n, callback) {
         for (var i = 0; i < n; ++i) {
             callback(i);
@@ -2957,6 +5840,312 @@ define('davinci-eight/animate/animations/SpinTo',["require", "exports", '../../u
     return SpinTo;
 });
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/tasks/ColorTask',["require", "exports", '../../slideshow/animations/ColorTo', '../../checks/mustBeString', '../../checks/mustBeNumber', '../../checks/mustBeObject', '../../utils/Shareable'], function (require, exports, ColorTo, mustBeString, mustBeNumber, mustBeObject, Shareable) {
+    function ctorContext() {
+        return 'ColorTask constructor';
+    }
+    var COLOR_RGB_DUCK = { red: 0, green: 0, blue: 0 };
+    var ColorTask = (function (_super) {
+        __extends(ColorTask, _super);
+        function ColorTask(name, color, duration) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this, 'ColorTask');
+            mustBeString('name', name, ctorContext);
+            mustBeObject('color', color, ctorContext);
+            mustBeNumber('color.red', color.red, ctorContext);
+            mustBeNumber('color.green', color.green, ctorContext);
+            mustBeNumber('color.blue', color.blue, ctorContext);
+            mustBeNumber('duration', duration, ctorContext);
+            this.name = name;
+            this.color = color;
+            this.duration = duration;
+        }
+        ColorTask.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        ColorTask.prototype.exec = function (slide, host) {
+            var thing = host.getDrawable(this.name);
+            if (thing) {
+                try {
+                    var colorFacet = thing.getFacet('color');
+                    try {
+                        var colorTo = new ColorTo(slide.clock, colorFacet, 'rgb', this.color, this.duration);
+                        try {
+                            slide.animate(colorFacet, { 'rgb': colorTo });
+                        }
+                        finally {
+                            colorTo.release();
+                        }
+                    }
+                    finally {
+                        colorFacet.release();
+                    }
+                }
+                finally {
+                    thing.release();
+                }
+            }
+            else {
+                console.warn(this.name + ' drawable not found');
+            }
+        };
+        ColorTask.prototype.undo = function (slide, host) {
+        };
+        return ColorTask;
+    })(Shareable);
+    return ColorTask;
+});
+
+define('davinci-eight/core/Symbolic',["require", "exports"], function (require, exports) {
+    /**
+     * <p>
+     * Canonical variable names, which also act as semantic identifiers for name overrides.
+     * These names must be stable to avoid breaking custom vertex and fragment shaders.
+     * </p>
+     *
+     * @class Symbolic
+     */
+    var Symbolic = (function () {
+        function Symbolic() {
+        }
+        /**
+         * 'aColor'
+         * @property ATTRIBUTE_COLOR
+         * @type {string}
+         * @static
+         */
+        Symbolic.ATTRIBUTE_COLOR = 'aColor';
+        /**
+         * 'aGeometryIndex'
+         * @property ATTRIBUTE_GEOMETRY_INDEX
+         * @type {string}
+         * @static
+         */
+        Symbolic.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
+        /**
+         * 'aNormal'
+         * @property ATTRIBUTE_NORMAL
+         * @type {string}
+         * @static
+         */
+        Symbolic.ATTRIBUTE_NORMAL = 'aNormal';
+        /**
+         * 'aPosition'
+         * @property ATTRIBUTE_POSITION
+         * @type {string}
+         * @static
+         */
+        Symbolic.ATTRIBUTE_POSITION = 'aPosition';
+        /**
+         * 'aTextureCoords'
+         * @property ATTRIBUTE_TEXTURE_COORDS
+         * @type {string}
+         * @static
+         */
+        Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';
+        /**
+         * 'uAmbientLight'
+         * @property UNIFORM_AMBIENT_LIGHT
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
+        Symbolic.UNIFORM_COLOR = 'uColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
+        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
+        Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
+        Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
+        Symbolic.UNIFORM_POINT_SIZE = 'uPointSize';
+        /**
+         * 'uProjection'
+         * @property UNIFORM_PROJECTION_MATRIX
+         * @type {string}
+         * @static
+         */
+        Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
+        /**
+         * 'uModel'
+         */
+        Symbolic.UNIFORM_MODEL_MATRIX = 'uModel';
+        Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormal';
+        Symbolic.UNIFORM_VIEW_MATRIX = 'uView';
+        /**
+         * 'vColor'
+         * @property VARYING_COLOR
+         * @type {string}
+         * @static
+         */
+        Symbolic.VARYING_COLOR = 'vColor';
+        /**
+         * 'vLight'
+         * @property VARYING_LIGHT
+         * @type {string}
+         * @static
+         */
+        Symbolic.VARYING_LIGHT = 'vLight';
+        return Symbolic;
+    })();
+    return Symbolic;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Shareable, Symbolic, Vector3) {
+    /**
+     * @class ColorFacet
+     */
+    var ColorFacet = (function (_super) {
+        __extends(ColorFacet, _super);
+        /**
+         * @class ColorFacet
+         * @constructor
+         * @param [name = Symbolic.UNIFORM_COLOR]
+         */
+        function ColorFacet(name) {
+            if (name === void 0) { name = Symbolic.UNIFORM_COLOR; }
+            _super.call(this, 'ColorFacet');
+            /**
+             * @property colorRGB
+             * @type Vector3
+             * @private
+             */
+            this.data = new Vector3([1, 1, 1]);
+            this.data.modified = true;
+            this.name = name;
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ColorFacet.prototype.destructor = function () {
+            this.data = void 0;
+            _super.prototype.destructor.call(this);
+        };
+        Object.defineProperty(ColorFacet.prototype, "red", {
+            /**
+             * The red component of the color.
+             * @property red
+             * @type {number}
+             */
+            get: function () {
+                return this.data.x;
+            },
+            set: function (red) {
+                this.data.x = red;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ColorFacet.prototype, "green", {
+            /**
+             * The green component of the color.
+             * @property green
+             * @type {number}
+             */
+            get: function () {
+                return this.data.y;
+            },
+            set: function (green) {
+                this.data.y = green;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ColorFacet.prototype, "blue", {
+            /**
+             * The green component of the color.
+             * @property blue
+             * @type {number}
+             */
+            get: function () {
+                return this.data.z;
+            },
+            set: function (blue) {
+                this.data.z = blue;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ColorFacet.prototype.scale = function (s) {
+            this.red *= s;
+            this.green *= s;
+            this.blue *= s;
+            return this;
+        };
+        ColorFacet.prototype.setColor = function (color) {
+            this.red = color.red;
+            this.green = color.green;
+            this.blue = color.blue;
+            return this;
+        };
+        ColorFacet.prototype.setRGB = function (red, green, blue) {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+            return this;
+        };
+        ColorFacet.prototype.getProperty = function (name) {
+            switch (name) {
+                case ColorFacet.PROP_RGB: {
+                    return [this.red, this.green, this.blue];
+                }
+                case ColorFacet.PROP_RED: {
+                    return [this.red];
+                }
+                default: {
+                    console.warn("ColorFacet.getProperty " + name);
+                    return void 0;
+                }
+            }
+        };
+        ColorFacet.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ColorFacet.PROP_RGB:
+                    {
+                        this.red = data[0];
+                        this.green = data[1];
+                        this.blue = data[2];
+                    }
+                    break;
+                case ColorFacet.PROP_RED:
+                    {
+                        this.red = data[0];
+                    }
+                    break;
+                default: {
+                    console.warn("ColorFacet.setProperty " + name);
+                }
+            }
+        };
+        ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
+            visitor.uniformVector3(this.name, this.data, canvasId);
+        };
+        /**
+         * property PROP_RGB
+         * @type {string}
+         * @static
+         */
+        ColorFacet.PROP_RGB = 'rgb';
+        /**
+         * property PROP_RED
+         * @type {string}
+         * @static
+         */
+        ColorFacet.PROP_RED = 'red';
+        return ColorFacet;
+    })(Shareable);
+    return ColorFacet;
+});
+
 define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
     var AbstractMatrix = (function () {
         function AbstractMatrix(data, length) {
@@ -3001,6 +6190,114 @@ define('davinci-eight/math/AbstractMatrix',["require", "exports", '../checks/exp
         return AbstractMatrix;
     })();
     return AbstractMatrix;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
+    var Matrix3 = (function (_super) {
+        __extends(Matrix3, _super);
+        /**
+         * Constructs a Matrix4 by wrapping a Float32Array.
+         * @constructor
+         */
+        function Matrix3(data) {
+            _super.call(this, data, 9);
+        }
+        Matrix3.identity = function () {
+            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
+        };
+        Matrix3.prototype.determinant = function () {
+            return 1;
+        };
+        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
+            // input: THREE.Matrix4
+            // ( based on http://code.google.com/p/webgl-mjs/ )
+            var me = matrix.data;
+            var te = this.data;
+            te[0] = me[10] * me[5] - me[6] * me[9];
+            te[1] = -me[10] * me[1] + me[2] * me[9];
+            te[2] = me[6] * me[1] - me[2] * me[5];
+            te[3] = -me[10] * me[4] + me[6] * me[8];
+            te[4] = me[10] * me[0] - me[2] * me[8];
+            te[5] = -me[6] * me[0] + me[2] * me[4];
+            te[6] = me[9] * me[4] - me[5] * me[8];
+            te[7] = -me[9] * me[0] + me[1] * me[8];
+            te[8] = me[5] * me[0] - me[1] * me[4];
+            var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
+            // no inverse
+            if (det === 0) {
+                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
+                if (throwOnInvertible || !throwOnInvertible) {
+                    throw new Error(msg);
+                }
+                else {
+                    console.warn(msg);
+                }
+                this.identity();
+                return this;
+            }
+            this.scale(1.0 / det);
+            return this;
+        };
+        Matrix3.prototype.identity = function () {
+            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
+        };
+        Matrix3.prototype.multiply = function (rhs) {
+            return this.product(this, rhs);
+        };
+        Matrix3.prototype.scale = function (s) {
+            var m = this.data;
+            m[0] *= s;
+            m[3] *= s;
+            m[6] *= s;
+            m[1] *= s;
+            m[4] *= s;
+            m[7] *= s;
+            m[2] *= s;
+            m[5] *= s;
+            m[8] *= s;
+            return this;
+        };
+        Matrix3.prototype.product = function (a, b) {
+            return this;
+        };
+        Matrix3.prototype.normalFromMatrix4 = function (m) {
+            this.getInverse(m).transpose();
+        };
+        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
+            var te = this.data;
+            te[0] = n11;
+            te[3] = n12;
+            te[6] = n13;
+            te[1] = n21;
+            te[4] = n22;
+            te[7] = n23;
+            te[2] = n31;
+            te[5] = n32;
+            te[8] = n33;
+            return this;
+        };
+        Matrix3.prototype.transpose = function () {
+            var tmp;
+            var m = this.data;
+            tmp = m[1];
+            m[1] = m[3];
+            m[3] = tmp;
+            tmp = m[2];
+            m[2] = m[6];
+            m[6] = tmp;
+            tmp = m[5];
+            m[5] = m[7];
+            m[7] = tmp;
+            return this;
+        };
+        return Matrix3;
+    })(AbstractMatrix);
+    return Matrix3;
 });
 
 define('davinci-eight/math/_M4_x_M4_',["require", "exports"], function (require, exports) {
@@ -3361,245 +6658,625 @@ define('davinci-eight/math/Matrix4',["require", "exports", '../math/AbstractMatr
     return Matrix4;
 });
 
-define('davinci-eight/checks/isObject',["require", "exports"], function (require, exports) {
-    function isObject(x) {
-        return (typeof x === 'object');
-    }
-    return isObject;
-});
-
-define('davinci-eight/checks/mustBeObject',["require", "exports", '../checks/mustSatisfy', '../checks/isObject'], function (require, exports, mustSatisfy, isObject) {
-    function beObject() {
-        return "be an `object`";
-    }
-    function mustBeObject(name, value, contextBuilder) {
-        mustSatisfy(name, isObject(value), beObject, contextBuilder);
-        return value;
-    }
-    return mustBeObject;
-});
-
-define('davinci-eight/core/Symbolic',["require", "exports"], function (require, exports) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, readOnly, Shareable, Spinor3, Symbolic, Vector3) {
     /**
-     * <p>
-     * Canonical variable names, which also act as semantic identifiers for name overrides.
-     * These names must be stable to avoid breaking custom vertex and fragment shaders.
-     * </p>
-     *
-     * @class Symbolic
+     * @class ModelFacet
      */
-    var Symbolic = (function () {
-        function Symbolic() {
+    var ModelFacet = (function (_super) {
+        __extends(ModelFacet, _super);
+        /**
+         * ModelFacet implements IFacet required for manipulating a body.
+         * @class ModelFacet
+         * @constructor
+         */
+        function ModelFacet() {
+            _super.call(this, 'ModelFacet');
+            this._position = new Vector3();
+            this._attitude = new Spinor3();
+            this._scaleXYZ = new Vector3([1, 1, 1]);
+            this.M = Matrix4.identity();
+            this.N = Matrix3.identity();
+            this.R = Matrix4.identity();
+            this.S = Matrix4.identity();
+            this.T = Matrix4.identity();
+            this._position.modified = true;
+            this._attitude.modified = true;
+            this._scaleXYZ.modified = true;
         }
         /**
-         * 'aColor'
-         * @property ATTRIBUTE_COLOR
-         * @type {string}
-         * @static
+         * @method destructor
+         * @return {void}
          */
-        Symbolic.ATTRIBUTE_COLOR = 'aColor';
-        /**
-         * 'aGeometryIndex'
-         * @property ATTRIBUTE_GEOMETRY_INDEX
-         * @type {string}
-         * @static
-         */
-        Symbolic.ATTRIBUTE_GEOMETRY_INDEX = 'aGeometryIndex';
-        /**
-         * 'aNormal'
-         * @property ATTRIBUTE_NORMAL
-         * @type {string}
-         * @static
-         */
-        Symbolic.ATTRIBUTE_NORMAL = 'aNormal';
-        /**
-         * 'aPosition'
-         * @property ATTRIBUTE_POSITION
-         * @type {string}
-         * @static
-         */
-        Symbolic.ATTRIBUTE_POSITION = 'aPosition';
-        /**
-         * 'aTextureCoords'
-         * @property ATTRIBUTE_TEXTURE_COORDS
-         * @type {string}
-         * @static
-         */
-        Symbolic.ATTRIBUTE_TEXTURE_COORDS = 'aTextureCoords';
-        /**
-         * 'uAmbientLight'
-         * @property UNIFORM_AMBIENT_LIGHT
-         * @type {string}
-         * @static
-         */
-        Symbolic.UNIFORM_AMBIENT_LIGHT = 'uAmbientLight';
-        Symbolic.UNIFORM_COLOR = 'uColor';
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR = 'uDirectionalLightColor';
-        Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION = 'uDirectionalLightDirection';
-        Symbolic.UNIFORM_POINT_LIGHT_COLOR = 'uPointLightColor';
-        Symbolic.UNIFORM_POINT_LIGHT_POSITION = 'uPointLightPosition';
-        Symbolic.UNIFORM_POINT_SIZE = 'uPointSize';
-        /**
-         * 'uProjection'
-         * @property UNIFORM_PROJECTION_MATRIX
-         * @type {string}
-         * @static
-         */
-        Symbolic.UNIFORM_PROJECTION_MATRIX = 'uProjection';
-        /**
-         * 'uModel'
-         */
-        Symbolic.UNIFORM_MODEL_MATRIX = 'uModel';
-        Symbolic.UNIFORM_NORMAL_MATRIX = 'uNormal';
-        Symbolic.UNIFORM_VIEW_MATRIX = 'uView';
-        /**
-         * 'vColor'
-         * @property VARYING_COLOR
-         * @type {string}
-         * @static
-         */
-        Symbolic.VARYING_COLOR = 'vColor';
-        /**
-         * 'vLight'
-         * @property VARYING_LIGHT
-         * @type {string}
-         * @static
-         */
-        Symbolic.VARYING_LIGHT = 'vLight';
-        return Symbolic;
-    })();
-    return Symbolic;
-});
-
-define('davinci-eight/cameras/viewArray',["require", "exports", '../math/Vector3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Vector3, expectArg, isDefined) {
-    function viewArray(eye, look, up, matrix) {
-        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
-        var n = new Vector3().difference(eye, look);
-        if (n.x === 0 && n.y === 0 && n.z === 0) {
-            // View direction is ambiguous.
-            n.z = 1;
-        }
-        else {
-            n.normalize();
-        }
-        var u = new Vector3().crossVectors(up, n);
-        var v = new Vector3().crossVectors(n, u);
-        var d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).scale(-1);
-        m[0] = u.x;
-        m[4] = u.y;
-        m[8] = u.z;
-        m[12] = d.x;
-        m[1] = v.x;
-        m[5] = v.y;
-        m[9] = v.z;
-        m[13] = d.y;
-        m[2] = n.x;
-        m[6] = n.y;
-        m[10] = n.z;
-        m[14] = d.z;
-        m[3] = 0;
-        m[7] = 0;
-        m[11] = 0;
-        m[15] = 1;
-        return m;
-    }
-    return viewArray;
-});
-
-define('davinci-eight/cameras/viewMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/viewArray'], function (require, exports, isDefined, Matrix4, viewArray) {
-    function viewMatrix(eye, look, up, matrix) {
-        var m = isDefined(matrix) ? matrix : Matrix4.identity();
-        viewArray(eye, look, up, m.data);
-        return m;
-    }
-    return viewMatrix;
-});
-
-define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/Symbolic', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, mustBeNumber, mustBeObject, Symbolic, isUndefined, computeViewMatrix) {
-    /**
-     * @class createView
-     * @constructor
-     */
-    var createView = function (options) {
-        var refCount = 1;
-        var eye = new Vector3();
-        var look = new Vector3();
-        var up = Vector3.e2;
-        var viewMatrix = Matrix4.identity();
-        var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
-        // Force an update of the view matrix.
-        eye.modified = true;
-        look.modified = true;
-        up.modified = true;
-        var self = {
-            addRef: function () {
-                refCount++;
-                return refCount;
-            },
-            release: function () {
-                refCount--;
-                return refCount;
-            },
-            get eye() {
-                return eye;
-            },
-            set eye(value) {
-                self.setEye(value);
-            },
+        ModelFacet.prototype.destructor = function () {
+            this._position = void 0;
+            this._attitude = void 0;
+            this._scaleXYZ = void 0;
+            this.M = void 0;
+            this.N = void 0;
+            this.R = void 0;
+            this.S = void 0;
+            this.T = void 0;
+        };
+        Object.defineProperty(ModelFacet.prototype, "attitude", {
             /**
-             * @method setEye
-             * @param eye {Vector3}
-             * @return {View} `this` instance.
+             * @property attitude
+             * @type Spinor3
+             * @readOnly
              */
-            setEye: function (eye_) {
-                mustBeObject('eye', eye_);
-                eye.x = mustBeNumber('eye.x', eye_.x);
-                eye.y = mustBeNumber('eye.y', eye_.y);
-                eye.z = mustBeNumber('eye.z', eye_.z);
-                return self;
+            get: function () {
+                return this._attitude;
             },
-            get look() {
-                return look;
+            set: function (unused) {
+                throw new Error(readOnly('attitude').message);
             },
-            set look(value) {
-                self.setLook(value);
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ModelFacet.prototype, "position", {
+            /**
+             * @property position
+             * @type Vector3
+             * @readOnly
+             */
+            get: function () {
+                return this._position;
             },
-            setLook: function (value) {
-                mustBeObject('look', value);
-                look.x = value.x;
-                look.y = value.y;
-                look.z = value.z;
-                return self;
+            set: function (unused) {
+                throw new Error(readOnly('position').message);
             },
-            get up() {
-                return up;
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ModelFacet.prototype, "scaleXYZ", {
+            /**
+             * @property scaleXYZ
+             * @type Vector3
+             * @readOnly
+             */
+            get: function () {
+                return this._scaleXYZ;
             },
-            set up(value) {
-                self.setUp(value);
+            set: function (unused) {
+                throw new Error(readOnly('scaleXYZ').message);
             },
-            setUp: function (value) {
-                mustBeObject('up', value);
-                up.x = value.x;
-                up.y = value.y;
-                up.z = value.z;
-                up.normalize();
-                return self;
-            },
-            setUniforms: function (visitor, canvasId) {
-                if (eye.modified || look.modified || up.modified) {
-                    // TODO: view matrix would be better.
-                    computeViewMatrix(eye, look, up, viewMatrix);
-                    eye.modified = false;
-                    look.modified = false;
-                    up.modified = false;
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method getProperty
+         * @param name {string}
+         * @return {number[]}
+         */
+        ModelFacet.prototype.getProperty = function (name) {
+            switch (name) {
+                case ModelFacet.PROP_ATTITUDE: {
+                    return this._attitude.data;
                 }
-                visitor.uniformMatrix4(viewMatrixName, false, viewMatrix, canvasId);
+                case ModelFacet.PROP_POSITION: {
+                    return this._position.data;
+                }
+                default: {
+                    console.warn("ModelFacet.getProperty " + name);
+                    return void 0;
+                }
             }
         };
-        return self;
-    };
-    return createView;
+        /**
+         * @method setProperty
+         * @param name {string}
+         * @param data {number[]}
+         * @return {void}
+         */
+        ModelFacet.prototype.setProperty = function (name, data) {
+            switch (name) {
+                case ModelFacet.PROP_ATTITUDE:
+                    {
+                        this._attitude.yz = data[0];
+                        this._attitude.zx = data[1];
+                        this._attitude.xy = data[2];
+                        this._attitude.w = data[3];
+                    }
+                    break;
+                case ModelFacet.PROP_POSITION:
+                    {
+                        this._position.set(data[0], data[1], data[2]);
+                    }
+                    break;
+                default: {
+                    console.warn("ModelFacet.setProperty " + name);
+                }
+            }
+        };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         */
+        ModelFacet.prototype.setUniforms = function (visitor, canvasId) {
+            if (!this.position) {
+                console.warn("setUniforms called on zombie ModelFacet");
+                return;
+            }
+            if (this._position.modified) {
+                this.T.translation(this._position);
+                this._position.modified = false;
+            }
+            if (this._attitude.modified) {
+                this.R.rotation(this._attitude);
+                this._attitude.modified = false;
+            }
+            if (this.scaleXYZ.modified) {
+                this.S.scaling(this.scaleXYZ);
+                this.scaleXYZ.modified = false;
+            }
+            this.M.copy(this.T).multiply(this.R).multiply(this.S);
+            this.N.normalFromMatrix4(this.M);
+            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
+            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
+        };
+        ModelFacet.PROP_ATTITUDE = 'attitude';
+        ModelFacet.PROP_POSITION = 'position';
+        return ModelFacet;
+    })(Shareable);
+    return ModelFacet;
+});
+
+define('davinci-eight/geometries/computeFaceNormals',["require", "exports", '../core/Symbolic', '../math/Vector3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, Vector3, wedgeXY, wedgeYZ, wedgeZX) {
+    function computeFaceNormals(simplex, positionName, normalName) {
+        if (positionName === void 0) { positionName = Symbolic.ATTRIBUTE_POSITION; }
+        if (normalName === void 0) { normalName = Symbolic.ATTRIBUTE_NORMAL; }
+        var vertex0 = simplex.vertices[0].attributes;
+        var vertex1 = simplex.vertices[1].attributes;
+        var vertex2 = simplex.vertices[2].attributes;
+        var pos0 = vertex0[positionName];
+        var pos1 = vertex1[positionName];
+        var pos2 = vertex2[positionName];
+        var x0 = pos0.getComponent(0);
+        var y0 = pos0.getComponent(1);
+        var z0 = pos0.getComponent(2);
+        var x1 = pos1.getComponent(0);
+        var y1 = pos1.getComponent(1);
+        var z1 = pos1.getComponent(2);
+        var x2 = pos2.getComponent(0);
+        var y2 = pos2.getComponent(1);
+        var z2 = pos2.getComponent(2);
+        var ax = x2 - x1;
+        var ay = y2 - y1;
+        var az = z2 - z1;
+        var bx = x0 - x1;
+        var by = y0 - y1;
+        var bz = z0 - z1;
+        var x = wedgeYZ(ax, ay, az, bx, by, bz);
+        var y = wedgeZX(ax, ay, az, bx, by, bz);
+        var z = wedgeXY(ax, ay, az, bx, by, bz);
+        var normal = new Vector3([x, y, z]).normalize();
+        vertex0[normalName] = normal;
+        vertex1[normalName] = normal;
+        vertex2[normalName] = normal;
+    }
+    return computeFaceNormals;
+});
+
+define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
+    function stringify(thing, space) {
+        var cache = [];
+        return JSON.stringify(thing, function (key, value) {
+            if (typeof value === 'object' && value !== null) {
+                if (cache.indexOf(value) !== -1) {
+                    // Circular reference found, discard key
+                    return;
+                }
+                // Store value in our collection
+                cache.push(value);
+            }
+            return value;
+        }, space);
+        cache = null; // Enable garbage collection  
+    }
+    /**
+     * Returns undefined (void 0) for an empty geometry.
+     */
+    function toGeometryMeta(geometry) {
+        var kValueOfSimplex = void 0;
+        var knowns = {};
+        var geometryLen = geometry.length;
+        for (var i = 0; i < geometryLen; i++) {
+            var simplex = geometry[i];
+            if (!(simplex instanceof Simplex)) {
+                expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ toGeometryMeta(). Found " + stringify(simplex, 2));
+            }
+            var vertices = simplex.vertices;
+            // TODO: Check consistency of k-values.
+            kValueOfSimplex = simplex.k;
+            for (var j = 0, vsLen = vertices.length; j < vsLen; j++) {
+                var vertex = vertices[j];
+                var attributes = vertex.attributes;
+                var keys = Object.keys(attributes);
+                var keysLen = keys.length;
+                for (var k = 0; k < keysLen; k++) {
+                    var key = keys[k];
+                    var vector = attributes[key];
+                    var known = knowns[key];
+                    if (known) {
+                        if (known.size !== vector.length) {
+                            throw new Error("Something is rotten in Denmark!");
+                        }
+                    }
+                    else {
+                        knowns[key] = { size: vector.length };
+                    }
+                }
+            }
+        }
+        // isDefined is necessary because k = -1, 0, 1, 2, 3, ... are legal and 0 is falsey.
+        if (isDefined(kValueOfSimplex)) {
+            var info = {
+                get attributes() {
+                    return knowns;
+                },
+                get k() {
+                    return kValueOfSimplex;
+                }
+            };
+            return info;
+        }
+        else {
+            return void 0;
+        }
+    }
+    return toGeometryMeta;
+});
+
+define('davinci-eight/geometries/GeometryElements',["require", "exports"], function (require, exports) {
+    /**
+     * <p>
+     * A geometry holds the elements or arrays sent to the GLSL pipeline.
+     * </p>
+     * <p>
+     * These instructions are in a compact form suitable for populating WebGLBuffer(s).
+     * </p>
+     *
+     * @class GeometryElements
+     */
+    var GeometryElements = (function () {
+        /**
+         * @class GeometryElements
+         * @constructor
+         * @param data {GeometryData} The instructions for drawing the geometry.
+         * @param meta {GeometryMeta}
+         */
+        function GeometryElements(data, meta) {
+            this.data = data;
+            this.meta = meta;
+        }
+        return GeometryElements;
+    })();
+    return GeometryElements;
+});
+
+define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], function (require, exports) {
+    // This function has the important side-effect of setting the vertex index property.
+    function computeUniqueVertices(geometry) {
+        var map = {};
+        var vertices = [];
+        function munge(vertex) {
+            var key = vertex.toString();
+            if (map[key]) {
+                var existing = map[key];
+                vertex.index = existing.index;
+            }
+            else {
+                vertex.index = vertices.length;
+                vertices.push(vertex);
+                map[key] = vertex;
+            }
+        }
+        geometry.forEach(function (simplex) {
+            simplex.vertices.forEach(function (vertex) {
+                munge(vertex);
+            });
+        });
+        return vertices;
+    }
+    return computeUniqueVertices;
+});
+
+define('davinci-eight/geometries/GeometryAttribute',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+    function isVectorN(values) {
+        return values instanceof VectorN;
+    }
+    function checkValues(values) {
+        if (!isVectorN(values)) {
+            throw new Error("values must be a VectorN");
+        }
+        return values;
+    }
+    function isExactMultipleOf(numer, denom) {
+        return numer % denom === 0;
+    }
+    function checkSize(size, values) {
+        if (typeof size === 'number') {
+            if (!isExactMultipleOf(values.length, size)) {
+                throw new Error("values.length must be an exact multiple of size");
+            }
+        }
+        else {
+            throw new Error("size must be a number");
+        }
+        return size;
+    }
+    /**
+     * <p>
+     * Holds all the values of a particular attribute.
+     * The size property describes how to break up the values.
+     * The length of the values should be an integer multiple of the size.
+     * </p>
+    
+      var x = 3;
+    
+     * @class GeometryAttribute
+     */
+    var GeometryAttribute = (function () {
+        /**
+         * @class GeometryAttribute
+         * @constructor
+         * @param values {VectorN<number>}
+         * @param size {number}
+         */
+        function GeometryAttribute(values, size) {
+            this.values = checkValues(values);
+            this.size = checkSize(size, values);
+        }
+        return GeometryAttribute;
+    })();
+    return GeometryAttribute;
+});
+
+define('davinci-eight/geometries/toGeometryData',["require", "exports", '../geometries/toGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/GeometryData', '../geometries/GeometryAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, toGeometryMeta, computeUniqueVertices, GeometryData, GeometryAttribute, expectArg, Simplex, VectorN) {
+    function numberList(size, value) {
+        var data = [];
+        for (var i = 0; i < size; i++) {
+            data.push(value);
+        }
+        return data;
+    }
+    function attribName(name, attribMap) {
+        expectArg('name', name).toBeString();
+        expectArg('attribMap', attribMap).toBeObject();
+        var meta = attribMap[name];
+        if (meta) {
+            var alias = meta.name;
+            return alias ? alias : name;
+        }
+        else {
+            throw new Error("Unable to compute name; missing attribute specification for " + name);
+        }
+    }
+    function attribSize(key, attribMap) {
+        expectArg('key', key).toBeString();
+        expectArg('attribMap', attribMap).toBeObject();
+        var meta = attribMap[key];
+        if (meta) {
+            var size = meta.size;
+            // TODO: Override the message...
+            expectArg('size', size).toBeNumber();
+            return meta.size;
+        }
+        else {
+            throw new Error("Unable to compute size; missing attribute specification for " + key);
+        }
+    }
+    function concat(a, b) {
+        return a.concat(b);
+    }
+    function toGeometryData(simplices, geometryMeta) {
+        expectArg('simplices', simplices).toBeObject();
+        var actuals = toGeometryMeta(simplices);
+        if (geometryMeta) {
+            expectArg('geometryMeta', geometryMeta).toBeObject();
+        }
+        else {
+            geometryMeta = actuals;
+        }
+        var attribMap = geometryMeta.attributes;
+        // Cache the keys and keys.length of the specified attributes and declare a loop index.
+        var keys = Object.keys(attribMap);
+        var keysLen = keys.length;
+        var k;
+        // Side effect is to set the index property, but it will be be the same as the array index. 
+        var vertices = computeUniqueVertices(simplices);
+        var vsLength = vertices.length;
+        var i;
+        // Each simplex produces as many indices as vertices.
+        // This is why we need the Vertex to have an temporary index property.
+        var indices = simplices.map(Simplex.indices).reduce(concat, []);
+        // Create intermediate data structures for output and to cache dimensions and name.
+        // For performance an an array will be used whose index is the key index.
+        var outputs = [];
+        for (k = 0; k < keysLen; k++) {
+            var key = keys[k];
+            var dims = attribSize(key, attribMap);
+            var data = numberList(vsLength * dims, void 0);
+            outputs.push({ data: data, dimensions: dims, name: attribName(key, attribMap) });
+        }
+        // Accumulate attribute data in intermediate data structures.
+        for (i = 0; i < vsLength; i++) {
+            var vertex = vertices[i];
+            var vertexAttribs = vertex.attributes;
+            if (vertex.index !== i) {
+                expectArg('vertex.index', i).toSatisfy(false, "vertex.index must equal loop index, i");
+            }
+            for (k = 0; k < keysLen; k++) {
+                var output = outputs[k];
+                var size = output.dimensions;
+                var data = vertexAttribs[keys[k]];
+                if (!data) {
+                    data = new VectorN(numberList(size, 0), false, size);
+                }
+                data.toArray(output.data, i * output.dimensions);
+            }
+        }
+        // Copy accumulated attribute arrays to output data structure.
+        var attributes = {};
+        for (k = 0; k < keysLen; k++) {
+            var output = outputs[k];
+            var data = output.data;
+            var vector = new VectorN(data, false, data.length);
+            attributes[output.name] = new GeometryAttribute(vector, output.dimensions);
+        }
+        return new GeometryData(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
+    }
+    return toGeometryData;
+});
+
+define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries/toGeometryMeta', '../geometries/GeometryElements', '../geometries/Simplex', '../geometries/toGeometryData'], function (require, exports, toGeometryMeta, GeometryElements, Simplex, toGeometryData) {
+    /**
+     * @class Geometry
+     */
+    var Geometry = (function () {
+        /**
+         * A list of simplices (data) with information about dimensionality and vertex properties (meta).
+         * This class should be used as an abstract base or concrete class when constructing
+         * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
+         * @class Geometry
+         * @constructor
+         */
+        function Geometry() {
+            /**
+             * @property data
+             * @type {Simplex[]}
+             */
+            this.data = [];
+            this.dynamic = true;
+            this.verticesNeedUpdate = false;
+            this.elementsNeedUpdate = false;
+            this.uvsNeedUpdate = false;
+        }
+        /**
+         * <p>
+         * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+         * </p>
+         *
+         * @method boundary
+         * @param times {number} Determines the number of times the boundary operation is applied to this instance.
+         * @return {Geometry}
+         */
+        Geometry.prototype.boundary = function (times) {
+            this.data = Simplex.boundary(this.data, times);
+            return this.check();
+        };
+        /**
+         * Updates the meta property of this instance to match the data.
+         *
+         * @method check
+         * @return {Geometry}
+         */
+        // FIXME: Rename to something more descriptive.
+        Geometry.prototype.check = function () {
+            this.meta = toGeometryMeta(this.data);
+            return this;
+        };
+        /**
+         * Applies the subdivide operation to each Simplex in this instance the specified number of times.
+         *
+         * @method subdivide
+         * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
+         * @return {Geometry}
+         */
+        Geometry.prototype.subdivide = function (times) {
+            this.data = Simplex.subdivide(this.data, times);
+            this.check();
+            return this;
+        };
+        /**
+         * @method toGeometry
+         * @return {GeometryElements}
+         */
+        Geometry.prototype.toElements = function () {
+            this.check();
+            var elements = toGeometryData(this.data, this.meta);
+            return new GeometryElements(elements, this.meta);
+        };
+        /**
+         *
+         */
+        Geometry.prototype.mergeVertices = function (precisionPoints) {
+            if (precisionPoints === void 0) { precisionPoints = 4; }
+            // console.warn("Geometry.mergeVertices not yet implemented");
+        };
+        return Geometry;
+    })();
+    return Geometry;
+});
+
+define('davinci-eight/geometries/triangle',["require", "exports", '../geometries/computeFaceNormals', '../checks/expectArg', '../geometries/Simplex', '../core/Symbolic', '../math/VectorN'], function (require, exports, computeFaceNormals, expectArg, Simplex, Symbolic, VectorN) {
+    function triangle(a, b, c, attributes, triangles) {
+        if (attributes === void 0) { attributes = {}; }
+        if (triangles === void 0) { triangles = []; }
+        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
+        expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
+        expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
+        computeFaceNormals(simplex, Symbolic.ATTRIBUTE_POSITION, Symbolic.ATTRIBUTE_NORMAL);
+        Simplex.setAttributeValues(attributes, simplex);
+        triangles.push(simplex);
+        return triangles;
+    }
+    return triangle;
+});
+
+define('davinci-eight/geometries/quadrilateral',["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg, triangle, VectorN) {
+    function setAttributes(which, source, target) {
+        var names = Object.keys(source);
+        var namesLength = names.length;
+        var i;
+        var name;
+        var values;
+        for (i = 0; i < namesLength; i++) {
+            name = names[i];
+            values = source[name];
+            target[name] = which.map(function (index) { return values[index]; });
+        }
+    }
+    /**
+     * quadrilateral
+     *
+     *  b-------a
+     *  |       |
+     *  |       |
+     *  |       |
+     *  c-------d
+     *
+     * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
+     * The zeroth vertex for each triangle is opposite the other triangle.
+     */
+    function quadrilateral(a, b, c, d, attributes, triangles) {
+        if (attributes === void 0) { attributes = {}; }
+        if (triangles === void 0) { triangles = []; }
+        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
+        expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
+        expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
+        expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
+        var triatts = {};
+        setAttributes([1, 2, 0], attributes, triatts);
+        triangle(b, c, a, triatts, triangles);
+        var face1 = triangles[triangles.length - 1];
+        setAttributes([3, 0, 2], attributes, triatts);
+        triangle(d, a, c, triatts, triangles);
+        var face2 = triangles[triangles.length - 1];
+        face1.vertices[0].opposing.push(face2);
+        face2.vertices[0].opposing.push(face1);
+        return triangles;
+    }
+    return quadrilateral;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -3802,2468 +7479,80 @@ define('davinci-eight/math/Vector1',["require", "exports", '../math/VectorN'], f
     return Vector1;
 });
 
-define('davinci-eight/cameras/createFrustum',["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, createView, Matrix4, Vector1) {
-    /**
-     * @function createFrustum
-     * @constructor
-     * @return {Frustum}
-     */
-    var createFrustum = function (viewMatrixName, projectionMatrixName) {
-        var refCount = 1;
-        var base = createView(viewMatrixName);
-        var left = new Vector1();
-        var right = new Vector1();
-        var bottom = new Vector1();
-        var top = new Vector1();
-        var near = new Vector1();
-        var far = new Vector1();
-        // TODO: We should immediately create with a frustum static constructor?
-        var projectionMatrix = Matrix4.identity();
-        function updateProjectionMatrix() {
-            projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
-        }
-        updateProjectionMatrix();
-        var self = {
-            addRef: function () {
-                refCount++;
-                return refCount;
-            },
-            release: function () {
-                refCount--;
-                return refCount;
-            },
-            // Delegate to the base camera.
-            get eye() {
-                return base.eye;
-            },
-            set eye(value) {
-                base.eye = value;
-            },
-            setEye: function (eye) {
-                base.setEye(eye);
-                return self;
-            },
-            get look() {
-                return base.look;
-            },
-            set look(value) {
-                base.look = value;
-            },
-            setLook: function (look) {
-                base.setLook(look);
-                return self;
-            },
-            get up() {
-                return base.up;
-            },
-            set up(up) {
-                base.setUp(up);
-            },
-            setUp: function (up) {
-                base.setUp(up);
-                return self;
-            },
-            get left() {
-                return left.x;
-            },
-            set left(value) {
-                left.x = value;
-                updateProjectionMatrix();
-            },
-            get right() {
-                return right.x;
-            },
-            set right(value) {
-                right.x = value;
-                updateProjectionMatrix();
-            },
-            get bottom() {
-                return bottom.x;
-            },
-            set bottom(value) {
-                bottom.x = value;
-                updateProjectionMatrix();
-            },
-            get top() {
-                return top.x;
-            },
-            set top(value) {
-                top.x = value;
-                updateProjectionMatrix();
-            },
-            get near() {
-                return near.x;
-            },
-            set near(value) {
-                near.x = value;
-                updateProjectionMatrix();
-            },
-            get far() {
-                return far.x;
-            },
-            set far(value) {
-                far.x = value;
-                updateProjectionMatrix();
-            },
-            setUniforms: function (visitor, canvasId) {
-                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
-                base.setUniforms(visitor, canvasId);
-            }
-        };
-        return self;
-    };
-    return createFrustum;
-});
-
-define('davinci-eight/cameras/frustumMatrix',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
-    function frustumMatrix(left, right, bottom, top, near, far, matrix) {
-        expectArg('left', left).toBeNumber();
-        expectArg('right', right).toBeNumber();
-        expectArg('bottom', bottom).toBeNumber();
-        expectArg('top', top).toBeNumber();
-        expectArg('near', near).toBeNumber();
-        expectArg('far', far).toBeNumber();
-        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
-        var x = 2 * near / (right - left);
-        var y = 2 * near / (top - bottom);
-        var a = (right + left) / (right - left);
-        var b = (top + bottom) / (top - bottom);
-        var c = -(far + near) / (far - near);
-        var d = -2 * far * near / (far - near);
-        m[0x0] = x;
-        m[0x4] = 0;
-        m[0x8] = a;
-        m[0xC] = 0;
-        m[0x1] = 0;
-        m[0x5] = y;
-        m[0x9] = b;
-        m[0xD] = 0;
-        m[0x2] = 0;
-        m[0x6] = 0;
-        m[0xA] = c;
-        m[0xE] = d;
-        m[0x3] = 0;
-        m[0x7] = 0;
-        m[0xB] = -1;
-        m[0xF] = 0;
-        return m;
-    }
-    return frustumMatrix;
-});
-
-define('davinci-eight/cameras/perspectiveArray',["require", "exports", '../cameras/frustumMatrix', '../checks/expectArg'], function (require, exports, frustumMatrix, expectArg) {
-    function perspectiveArray(fov, aspect, near, far, matrix) {
-        // We can leverage the frustum function, although technically the
-        // symmetry in this perspective transformation should reduce the amount
-        // of computation required.
-        expectArg('fov', fov).toBeNumber();
-        expectArg('aspect', aspect).toBeNumber();
-        expectArg('near', near).toBeNumber();
-        expectArg('far', far).toBeNumber();
-        var ymax = near * Math.tan(fov * 0.5); // top
-        var ymin = -ymax; // bottom
-        var xmin = ymin * aspect; // left
-        var xmax = ymax * aspect; // right
-        return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
-    }
-    return perspectiveArray;
-});
-
-define('davinci-eight/cameras/perspectiveMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/perspectiveArray'], function (require, exports, isDefined, Matrix4, perspectiveArray) {
-    function perspectiveMatrix(fov, aspect, near, far, matrix) {
-        var m = isDefined(matrix) ? matrix : Matrix4.identity();
-        perspectiveArray(fov, aspect, near, far, m.data);
-        return m;
-    }
-    return perspectiveMatrix;
-});
-
-define('davinci-eight/cameras/createPerspective',["require", "exports", '../cameras/createView', '../math/Matrix4', '../core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
-    /**
-     * @function createPerspective
-     * @constructor
-     * @param fov {number}
-     * @param aspect {number}
-     * @param near {number}
-     * @param far {number}
-     * @return {Perspective}
-     */
-    var createPerspective = function (options) {
-        options = options || {};
-        var fov = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
-        var aspect = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
-        var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
-        var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
-        var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
-        var refCount = 1;
-        var base = createView(options);
-        var projectionMatrix = Matrix4.identity();
-        var matrixNeedsUpdate = true;
-        var self = {
-            addRef: function () {
-                refCount++;
-                return refCount;
-            },
-            release: function () {
-                refCount--;
-                return refCount;
-            },
-            // Delegate to the base camera.
-            get eye() {
-                return base.eye;
-            },
-            set eye(eye) {
-                base.eye = eye;
-            },
-            setEye: function (eye) {
-                base.setEye(eye);
-                return self;
-            },
-            get look() {
-                return base.look;
-            },
-            set look(value) {
-                base.look = value;
-            },
-            setLook: function (look) {
-                base.setLook(look);
-                return self;
-            },
-            get up() {
-                return base.up;
-            },
-            set up(value) {
-                base.up = value;
-            },
-            setUp: function (up) {
-                base.setUp(up);
-                return self;
-            },
-            get fov() {
-                return fov.x;
-            },
-            set fov(value) {
-                self.setFov(value);
-            },
-            setFov: function (value) {
-                expectArg('fov', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
-                fov.x = value;
-                return self;
-            },
-            get aspect() {
-                return aspect.x;
-            },
-            set aspect(value) {
-                self.setAspect(value);
-            },
-            setAspect: function (value) {
-                expectArg('aspect', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
-                aspect.x = value;
-                return self;
-            },
-            get near() {
-                return near.x;
-            },
-            set near(value) {
-                self.setNear(value);
-            },
-            setNear: function (value) {
-                expectArg('near', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
-                near.x = value;
-                return self;
-            },
-            get far() {
-                return far.x;
-            },
-            set far(value) {
-                self.setFar(value);
-            },
-            setFar: function (value) {
-                expectArg('far', value).toBeNumber();
-                matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
-                far.x = value;
-                return self;
-            },
-            setUniforms: function (visitor, canvasId) {
-                if (matrixNeedsUpdate) {
-                    computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
-                    matrixNeedsUpdate = false;
-                }
-                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
-                base.setUniforms(visitor, canvasId);
-            }
-        };
-        return self;
-    };
-    return createPerspective;
-});
-
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/commands/WebGLClear',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
-    var QUALIFIED_NAME = 'WebGLRenderingContext.clear';
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, Vector1, Vector3) {
     /**
-     * <p>
-     * clear(mask: number): void
-     * <p>
-     * @class WebGLClear
-     * @extends Shareable
-     * @implements IContextCommand
+     * @class CuboidGeometry
      */
-    var WebGLClear = (function (_super) {
-        __extends(WebGLClear, _super);
-        /**
-         * @class WebGLClear
-         * @constructor
-         */
-        function WebGLClear(mask) {
-            _super.call(this, QUALIFIED_NAME);
-            this.mask = mustBeNumber('mask', mask);
+    var CuboidGeometry = (function (_super) {
+        __extends(CuboidGeometry, _super);
+        function CuboidGeometry() {
+            _super.call(this);
+            this.a = Vector3.e1.clone();
+            this.b = Vector3.e2.clone();
+            this.c = Vector3.e3.clone();
+            this.k = 1;
+            this.calculate();
         }
-        /**
-         * @method destructor
-         * @return {void}
-         */
-        WebGLClear.prototype.destructor = function () {
-            this.mask = void 0;
-        };
-        /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLClear.prototype.execute = function (manager) {
-            manager.gl.clear(this.mask);
-        };
-        Object.defineProperty(WebGLClear.prototype, "name", {
-            /**
-             * @property name
-             * @type {string}
-             * @readOnly
-             */
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return WebGLClear;
-    })(Shareable);
-    return WebGLClear;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/commands/WebGLClearColor',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
-    var QUALIFIED_NAME = 'WebGLRenderingContext.clearColor';
-    /**
-     * <p>
-     * clearColor(red: number, green: number, blue: number, alpha: number): void
-     * <p>
-     * @class WebGLClearColor
-     * @extends Shareable
-     * @implements IContextCommand
-     * @implements IContextConsumer
-     */
-    var WebGLClearColor = (function (_super) {
-        __extends(WebGLClearColor, _super);
-        /**
-         * @class WebGLClearColor
-         * @constructor
-         */
-        function WebGLClearColor(red, green, blue, alpha) {
-            if (red === void 0) { red = 0; }
-            if (green === void 0) { green = 0; }
-            if (blue === void 0) { blue = 0; }
-            if (alpha === void 0) { alpha = 1; }
-            _super.call(this, 'WebGLRenderingContext.clearColor');
-            this.red = mustBeNumber('red', red);
-            this.green = mustBeNumber('green', green);
-            this.blue = mustBeNumber('blue', blue);
-            this.alpha = mustBeNumber('alpha', alpha);
-        }
-        /**
-         * @method contextFree
-         * @param canvasId {number}
-         * @return {void}
-         */
-        WebGLClearColor.prototype.contextFree = function (canvasId) {
-            // do nothing
-        };
-        /**
-         * @method contextGain
-         * @param manager {IContextProvider}
-         * @return {void}
-         */
-        WebGLClearColor.prototype.contextGain = function (manager) {
-            this.execute(manager.gl);
-        };
-        /**
-         * @method contextLost
-         * @param canvasId {number}
-         * @return {void}
-         */
-        WebGLClearColor.prototype.contextLost = function (canvasId) {
-            // do nothing
-        };
-        /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLClearColor.prototype.execute = function (gl) {
-            mustBeNumber('red', this.red);
-            mustBeNumber('green', this.green);
-            mustBeNumber('blue', this.blue);
-            mustBeNumber('alpha', this.alpha);
-            gl.clearColor(this.red, this.green, this.blue, this.alpha);
-        };
-        /**
-         * @method destructor
-         * @return {void}
-         */
-        WebGLClearColor.prototype.destructor = function () {
-            this.red = void 0;
-            this.green = void 0;
-            this.blue = void 0;
-            this.alpha = void 0;
-        };
-        Object.defineProperty(WebGLClearColor.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return WebGLClearColor;
-    })(Shareable);
-    return WebGLClearColor;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/commands/WebGLEnable',["require", "exports", '../checks/mustBeNumber', '../utils/Shareable'], function (require, exports, mustBeNumber, Shareable) {
-    var QUALIFIED_NAME = 'WebGLRenderingContext.enable';
-    /**
-     * <p>
-     * enable(capability: number): void
-     * <p>
-     * @class WebGLEnable
-     * @extends Shareable
-     * @implements IContextCommand
-     * @implements IContextConsumer
-     */
-    var WebGLEnable = (function (_super) {
-        __extends(WebGLEnable, _super);
-        /**
-         * @class WebGLEnable
-         * @constructor
-         */
-        function WebGLEnable(capability) {
-            if (capability === void 0) { capability = 1; }
-            _super.call(this, QUALIFIED_NAME);
-            this.capability = mustBeNumber('capability', capability);
-        }
-        /**
-         * @method contextFree
-         * @param canvasId {number}
-         * @return {void}
-         */
-        WebGLEnable.prototype.contextFree = function (canvasId) {
-            // do nothing
-        };
-        /**
-         * @method contextGain
-         * @param manager {IContextProvider}
-         * @return {void}
-         */
-        WebGLEnable.prototype.contextGain = function (manager) {
-            this.execute(manager.gl);
-        };
-        /**
-         * @method contextLost
-         * @param canvasId {number}
-         * @return {void}
-         */
-        WebGLEnable.prototype.contextLost = function (canvasId) {
-            // do nothing
-        };
-        /**
-         * @method execute
-         * @param gl {WebGLRenderingContext}
-         * @return {void}
-         */
-        WebGLEnable.prototype.execute = function (gl) {
-            mustBeNumber('capability', this.capability);
-            gl.enable(this.capability);
-        };
-        /**
-         * @method destructor
-         * @return {void}
-         */
-        WebGLEnable.prototype.destructor = function () {
-            this.capability = void 0;
-        };
-        Object.defineProperty(WebGLEnable.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return WebGLEnable;
-    })(Shareable);
-    return WebGLEnable;
-});
-
-define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    function existsLocation(location) {
-        return location >= 0;
-    }
-    /**
-     * Utility class for managing a shader attribute variable.
-     * While this class may be created directly by the user, it is preferable
-     * to use the AttribLocation instances managed by the Program because
-     * there will be improved integrity and context loss management.
-     * @class AttribLocation
-     * @implements IContextProgramConsumer
-     */
-    var AttribLocation = (function () {
-        /**
-         * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
-         * In particular, this class manages buffer allocation, location caching, and data binding.
-         * @class AttribLocation
-         * @constructor
-         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
-         * @param name {string} The name of the variable as it appears in the GLSL program.
-         */
-        function AttribLocation(manager, name) {
-            expectArg('manager', manager).toBeObject().value;
-            this._name = expectArg('name', name).toBeString().value;
-        }
-        Object.defineProperty(AttribLocation.prototype, "index", {
-            get: function () {
-                return this._index;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        AttribLocation.prototype.contextFree = function () {
-            this.contextLost();
-        };
-        AttribLocation.prototype.contextGain = function (context, program) {
-            this.contextLost();
-            this._index = context.getAttribLocation(program, this._name);
-            this._context = context;
-        };
-        AttribLocation.prototype.contextLost = function () {
-            this._index = void 0;
-            this._context = void 0;
-        };
-        /**
-         * @method vertexPointer
-         * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
-         * @param normalized {boolean} Used for WebGL rendering context vertexAttribPointer method.
-         * @param stride {number} Used for WebGL rendering context vertexAttribPointer method.
-         * @param offset {number} Used for WebGL rendering context vertexAttribPointer method.
-         */
-        AttribLocation.prototype.vertexPointer = function (size, normalized, stride, offset) {
-            if (normalized === void 0) { normalized = false; }
-            if (stride === void 0) { stride = 0; }
-            if (offset === void 0) { offset = 0; }
-            this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
-        };
-        /**
-         * @method enable
-         */
-        AttribLocation.prototype.enable = function () {
-            this._context.enableVertexAttribArray(this._index);
-        };
-        /**
-         * @method disable
-         */
-        AttribLocation.prototype.disable = function () {
-            this._context.disableVertexAttribArray(this._index);
-        };
-        /**
-         * @method toString
-         */
-        AttribLocation.prototype.toString = function () {
-            return ['attribute', this._name].join(' ');
-        };
-        return AttribLocation;
-    })();
-    return AttribLocation;
-});
-
-define('davinci-eight/core',["require", "exports"], function (require, exports) {
-    /**
-     *
-     */
-    var core = {
-        strict: false,
-        GITHUB: 'https://github.com/geometryzen/davinci-eight',
-        LAST_MODIFIED: '2015-10-04',
-        NAMESPACE: 'EIGHT',
-        verbose: true,
-        VERSION: '2.116.0'
-    };
-    return core;
-});
-
-define('davinci-eight/core/DrawMode',["require", "exports"], function (require, exports) {
-    var DrawMode;
-    (function (DrawMode) {
-        DrawMode[DrawMode["POINTS"] = 0] = "POINTS";
-        DrawMode[DrawMode["LINES"] = 1] = "LINES";
-        DrawMode[DrawMode["TRIANGLES"] = 2] = "TRIANGLES";
-    })(DrawMode || (DrawMode = {}));
-    return DrawMode;
-});
-
-define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    function matrix4NE(a, b) {
-        return a[0x0] !== b[0x0] || a[0x1] !== b[0x1] || a[0x2] !== b[0x2] || a[0x3] !== b[0x3] || a[0x4] !== b[0x4] || a[0x5] !== b[0x5] || a[0x6] !== b[0x6] || a[0x7] !== b[0x7] || a[0x8] !== b[0x8] || a[0x9] !== b[0x9] || a[0xA] !== b[0xA] || a[0xB] !== b[0xB] || a[0xC] !== b[0xC] || a[0xD] !== b[0xD] || a[0xE] !== b[0xE] || a[0xF] !== b[0xF];
-    }
-    /**
-     * Utility class for managing a shader uniform variable.
-     * @class UniformLocation
-     */
-    var UniformLocation = (function () {
-        /**
-         * @class UniformLocation
-         * @constructor
-         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
-         * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
-         */
-        function UniformLocation(manager, name) {
-            this._x = void 0;
-            this._y = void 0;
-            this._z = void 0;
-            this._w = void 0;
-            this._matrix4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(function () { return void 0; });
-            this._transpose = void 0;
-            expectArg('manager', manager).toBeObject().value;
-            this._name = expectArg('name', name).toBeString().value;
-        }
-        /**
-         * @method contextFree
-         */
-        UniformLocation.prototype.contextFree = function () {
-            this.contextLost();
-        };
-        /**
-         * @method contextGain
-         * @param context {WebGLRenderingContext}
-         * @param program {WebGLProgram}
-         */
-        UniformLocation.prototype.contextGain = function (context, program) {
-            this.contextLost();
-            this._context = context;
-            // FIXME: Uniform locations are created for a specific program,
-            // which means that locations cannot be shared.
-            this._location = context.getUniformLocation(program, this._name);
-            this._program = program;
-        };
-        /**
-         * @method contextLost
-         */
-        UniformLocation.prototype.contextLost = function () {
-            this._context = void 0;
-            this._location = void 0;
-            this._program = void 0;
-            this._x = void 0;
-            this._y = void 0;
-            this._z = void 0;
-            this._w = void 0;
-            this._matrix4.map(function () { return void 0; });
-            this._transpose = void 0;
-        };
-        /**
-         * @method uniform1f
-         * @param x
-         */
-        UniformLocation.prototype.uniform1f = function (x) {
-            this._context.useProgram(this._program);
-            this._context.uniform1f(this._location, x);
-        };
-        /**
-         * @method uniform2f
-         * @param x {number}
-         * @param y {number}
-         */
-        UniformLocation.prototype.uniform2f = function (x, y) {
-            this._context.useProgram(this._program);
-            this._context.uniform2f(this._location, x, y);
-        };
-        /**
-         * @method uniform3f
-         * @param x {number}
-         * @param y {number}
-         * @param z {number}
-         */
-        UniformLocation.prototype.uniform3f = function (x, y, z) {
-            this._context.useProgram(this._program);
-            this._context.uniform3f(this._location, x, y, z);
-        };
-        /**
-         * @method uniform4f
-         * @param x {number}
-         * @param y {number}
-         * @param z {number}
-         * @param w {number}
-         */
-        UniformLocation.prototype.uniform4f = function (x, y, z, w) {
-            this._context.useProgram(this._program);
-            this._context.uniform4f(this._location, x, y, z, w);
-        };
-        /**
-         * @method matrix1
-         * @param transpose {boolean}
-         * @param matrix {Matrix1}
-         */
-        UniformLocation.prototype.matrix1 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            this._context.uniform1fv(this._location, matrix.data);
-        };
-        /**
-         * @method matrix2
-         * @param transpose {boolean}
-         * @param matrix {Matrix2}
-         */
-        UniformLocation.prototype.matrix2 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
-        };
-        /**
-         * @method matrix3
-         * @param transpose {boolean}
-         * @param matrix {Matrix3}
-         */
-        UniformLocation.prototype.matrix3 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
-        };
-        /**
-         * @method matrix4
-         * @param transpose {boolean}
-         * @param matrix {Matrix4}
-         */
-        UniformLocation.prototype.matrix4 = function (transpose, matrix) {
-            this._context.useProgram(this._program);
-            var matrix4 = this._matrix4;
-            var data = matrix.data;
-            if (matrix4NE(matrix4, data) || this._transpose != transpose) {
-                this._context.uniformMatrix4fv(this._location, transpose, data);
-                // TODO: Use Matrix4.
-                matrix4[0x0] = data[0x0];
-                matrix4[0x1] = data[0x1];
-                matrix4[0x2] = data[0x2];
-                matrix4[0x3] = data[0x3];
-                matrix4[0x4] = data[0x4];
-                matrix4[0x5] = data[0x5];
-                matrix4[0x6] = data[0x6];
-                matrix4[0x7] = data[0x7];
-                matrix4[0x8] = data[0x8];
-                matrix4[0x9] = data[0x9];
-                matrix4[0xA] = data[0xA];
-                matrix4[0xB] = data[0xB];
-                matrix4[0xC] = data[0xC];
-                matrix4[0xD] = data[0xD];
-                matrix4[0xE] = data[0xE];
-                matrix4[0xF] = data[0xF];
-                this._transpose = transpose;
-            }
-        };
-        /**
-         * @method vector1
-         * @param vector {Vector1}
-         */
-        UniformLocation.prototype.vector1 = function (vector) {
-            this._context.useProgram(this._program);
-            this._context.uniform1fv(this._location, vector.data);
-        };
-        /**
-         * @method vector2
-         * @param vector {Vector2}
-         */
-        UniformLocation.prototype.vector2 = function (vector) {
-            this._context.useProgram(this._program);
-            this._context.uniform2fv(this._location, vector.data);
-        };
-        /**
-         * @method vector3
-         * @param vector {Vector3}
-         */
-        UniformLocation.prototype.vector3 = function (vector) {
-            this._context.useProgram(this._program);
-            var data = vector.data;
-            var x = data[0];
-            var y = data[1];
-            var z = data[2];
-            if (this._x !== x || this._y !== y || this._z !== z) {
-                this._context.uniform3fv(this._location, data);
-                this._x = x;
-                this._y = y;
-                this._z = z;
-            }
-        };
-        /**
-         * @method vector4
-         * @param vector {Vector4}
-         */
-        UniformLocation.prototype.vector4 = function (vector) {
-            this._context.useProgram(this._program);
-            this._context.uniform4fv(this._location, vector.data);
-        };
-        /**
-         * @method toString
-         */
-        UniformLocation.prototype.toString = function () {
-            return ['uniform', this._name].join(' ');
-        };
-        return UniformLocation;
-    })();
-    return UniformLocation;
-});
-
-define('davinci-eight/curves/Curve',["require", "exports"], function (require, exports) {
-    /**
-     * @author zz85 / http://www.lab4games.net/zz85/blog
-     * Extensible curve object
-     *
-     * Some common of Curve methods
-     * .getPoint(t), getTangent(t)
-     * .getPointAt(u), getTagentAt(u)
-     * .getPoints(), .getSpacedPoints()
-     * .getLength()
-     * .updateArcLengths()
-     *
-     * This following classes subclasses Curve:
-     *
-     * LineCurve
-     * QuadraticBezierCurve
-     * CubicBezierCurve
-     * SplineCurve
-     * ArcCurve
-     * EllipseCurve
-     * ClosedSplineCurve
-     *
-     */
-    var Curve = (function () {
-        function Curve() {
-        }
-        /**
-         * Virtual base class method to overwrite and implement in subclasses
-         * t belongs to [0, 1]
-         */
-        Curve.prototype.getPoint = function (t) {
-            throw new Error("Curve.getPoint() not implemented!");
-        };
-        /**
-         * Get point at relative position in curve according to arc length
-         */
-        Curve.prototype.getPointAt = function (u) {
-            var t = this.getUtoTmapping(u);
-            return this.getPoint(t);
-        };
-        Curve.prototype.getPoints = function (divisions) {
-            if (!divisions) {
-                divisions = 5;
-            }
-            var d;
-            var pts = [];
-            for (d = 0; d <= divisions; d++) {
-                pts.push(this.getPoint(d / divisions));
-            }
-            return pts;
-        };
-        Curve.prototype.getSpacedPoints = function (divisions) {
-            if (!divisions) {
-                divisions = 5;
-            }
-            var d;
-            var pts = [];
-            for (d = 0; d <= divisions; d++) {
-                pts.push(this.getPointAt(d / divisions));
-            }
-            return pts;
-        };
-        Curve.prototype.getLength = function () {
-            var lengths = this.getLengths();
-            return lengths[lengths.length - 1];
-        };
-        Curve.prototype.getLengths = function (divisions) {
-            if (!divisions)
-                divisions = (this.__arcLengthDivisions) ? (this.__arcLengthDivisions) : 200;
-            if (this.cacheArcLengths
-                && (this.cacheArcLengths.length == divisions + 1)
-                && !this.needsUpdate) {
-                return this.cacheArcLengths;
-            }
-            this.needsUpdate = false;
-            var cache = [];
-            var current;
-            var last = this.getPoint(0);
-            var p;
-            var sum = 0;
-            cache.push(0);
-            for (p = 1; p <= divisions; p++) {
-                current = this.getPoint(p / divisions);
-                sum += current.distanceTo(last);
-                cache.push(sum);
-                last = current;
-            }
-            this.cacheArcLengths = cache;
-            return cache; // { sums: cache, sum:sum }; Sum is in the last element.
-        };
-        Curve.prototype.updateArcLengths = function () {
-            this.needsUpdate = true;
-            this.getLengths();
-        };
-        /**
-         * Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance
-         */
-        Curve.prototype.getUtoTmapping = function (u, distance) {
-            var arcLengths = this.getLengths();
-            var i = 0, il = arcLengths.length;
-            var targetArcLength; // The targeted u distance value to get
-            if (distance) {
-                targetArcLength = distance;
-            }
-            else {
-                targetArcLength = u * arcLengths[il - 1];
-            }
-            //var time = Date.now();
-            // binary search for the index with largest value smaller than target u distance
-            var low = 0;
-            var high = il - 1;
-            var comparison;
-            while (low <= high) {
-                i = Math.floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
-                comparison = arcLengths[i] - targetArcLength;
-                if (comparison < 0) {
-                    low = i + 1;
+        CuboidGeometry.prototype.calculate = function () {
+            var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
+            pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
+            pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
+            pos[2] = new Vector3().add(this.a).add(this.b).add(this.c).divideScalar(2);
+            pos[3] = new Vector3().sub(this.a).add(this.b).add(this.c).divideScalar(2);
+            pos[4] = new Vector3().copy(pos[3]).sub(this.c);
+            pos[5] = new Vector3().copy(pos[2]).sub(this.c);
+            pos[6] = new Vector3().copy(pos[1]).sub(this.c);
+            pos[7] = new Vector3().copy(pos[0]).sub(this.c);
+            function simplex(indices) {
+                var simplex = new Simplex(indices.length - 1);
+                for (var i = 0; i < indices.length; i++) {
+                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]];
+                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new Vector1([i]);
                 }
-                else if (comparison > 0) {
-                    high = i - 1;
-                }
-                else {
-                    high = i;
+                return simplex;
+            }
+            switch (this.k) {
+                case 0:
+                    {
+                        var points = [[0], [1], [2], [3], [4], [5], [6], [7]];
+                        this.data = points.map(function (point) { return simplex(point); });
+                    }
                     break;
-                }
-            }
-            i = high;
-            if (arcLengths[i] == targetArcLength) {
-                var t = i / (il - 1);
-                return t;
-            }
-            // we could get finer grain at lengths, or use simple interpolatation between two points
-            var lengthBefore = arcLengths[i];
-            var lengthAfter = arcLengths[i + 1];
-            var segmentLength = lengthAfter - lengthBefore;
-            // determine where we are between the 'before' and 'after' points
-            var segmentFraction = (targetArcLength - lengthBefore) / segmentLength;
-            // add that fractional amount to t
-            var t = (i + segmentFraction) / (il - 1);
-            return t;
-        };
-        /**
-         * Returns a unit vector tangent at t
-         * In case any sub curve does not implement its tangent derivation,
-         * 2 points a small delta apart will be used to find its gradient
-         * which seems to give a reasonable approximation
-         */
-        Curve.prototype.getTangent = function (t) {
-            var delta = 0.0001;
-            var t1 = t - delta;
-            var t2 = t + delta;
-            // Capping in case of danger
-            if (t1 < 0)
-                t1 = 0;
-            if (t2 > 1)
-                t2 = 1;
-            var pt1 = this.getPoint(t1);
-            var pt2 = this.getPoint(t2);
-            // TypeScript Generics don't help here because we can't do T extends Vector<T>. 
-            var vec = pt2['clone']().sub(pt1);
-            return vec.normalize();
-        };
-        Curve.prototype.getTangentAt = function (u) {
-            var t = this.getUtoTmapping(u);
-            return this.getTangent(t);
-        };
-        return Curve;
-    })();
-    return Curve;
-});
-
-define('davinci-eight/geometries/GeometryAttribute',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
-    function isVectorN(values) {
-        return values instanceof VectorN;
-    }
-    function checkValues(values) {
-        if (!isVectorN(values)) {
-            throw new Error("values must be a VectorN");
-        }
-        return values;
-    }
-    function isExactMultipleOf(numer, denom) {
-        return numer % denom === 0;
-    }
-    function checkSize(size, values) {
-        if (typeof size === 'number') {
-            if (!isExactMultipleOf(values.length, size)) {
-                throw new Error("values.length must be an exact multiple of size");
-            }
-        }
-        else {
-            throw new Error("size must be a number");
-        }
-        return size;
-    }
-    /**
-     * <p>
-     * Holds all the values of a particular attribute.
-     * The size property describes how to break up the values.
-     * The length of the values should be an integer multiple of the size.
-     * </p>
-    
-      var x = 3;
-    
-     * @class GeometryAttribute
-     */
-    var GeometryAttribute = (function () {
-        /**
-         * @class GeometryAttribute
-         * @constructor
-         * @param values {VectorN<number>}
-         * @param size {number}
-         */
-        function GeometryAttribute(values, size) {
-            this.values = checkValues(values);
-            this.size = checkSize(size, values);
-        }
-        return GeometryAttribute;
-    })();
-    return GeometryAttribute;
-});
-
-define('davinci-eight/checks/isInteger',["require", "exports", '../checks/isNumber'], function (require, exports, isNumber) {
-    function isInteger(x) {
-        // % coerces its operand to numbers so a typeof test is required.
-        // Not ethat ECMAScript 6 provides Number.isInteger().
-        return isNumber(x) && x % 1 === 0;
-    }
-    return isInteger;
-});
-
-define('davinci-eight/geometries/Vertex',["require", "exports"], function (require, exports) {
-    function stringVectorN(name, vector) {
-        if (vector) {
-            return name + vector.toString();
-        }
-        else {
-            return name;
-        }
-    }
-    function stringifyVertex(vertex) {
-        var attributes = vertex.attributes;
-        var attribsKey = Object.keys(attributes).map(function (name) {
-            var vector = attributes[name];
-            return stringVectorN(name, vector);
-        }).join(' ');
-        return attribsKey;
-    }
-    var Vertex = (function () {
-        function Vertex() {
-            this.opposing = [];
-            this.attributes = {};
-        }
-        Vertex.prototype.toString = function () {
-            return stringifyVertex(this);
-        };
-        return Vertex;
-    })();
-    return Vertex;
-});
-
-define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expectArg', '../checks/isInteger', '../geometries/Vertex', '../math/VectorN'], function (require, exports, expectArg, isInteger, Vertex, VectorN) {
-    function checkIntegerArg(name, n, min, max) {
-        if (isInteger(n) && n >= min && n <= max) {
-            return n;
-        }
-        // TODO: I don't suppose we can go backwards with a negative count? Hmmm...
-        // expectArg(name, n).toBeInClosedInterval(min, max);
-        expectArg(name, n).toSatisfy(false, name + " must be an integer in the range [" + min + "," + max + "]");
-    }
-    function checkCountArg(count) {
-        // TODO: The count range should depend upon the k value of the simplex.
-        return checkIntegerArg('count', count, 0, 7);
-    }
-    function concatReduce(a, b) {
-        return a.concat(b);
-    }
-    function expectArgVectorN(name, vector) {
-        return expectArg(name, vector).toSatisfy(vector instanceof VectorN, name + ' must be a VectorN').value;
-    }
-    function lerp(a, b, alpha, data) {
-        if (data === void 0) { data = []; }
-        expectArg('b', b).toSatisfy(a.length === b.length, "a must be the same length as b");
-        var dims = a.length;
-        var i;
-        var beta = 1 - alpha;
-        for (i = 0; i < dims; i++) {
-            data.push(beta * a[i] + alpha * b[i]);
-        }
-        return data;
-    }
-    function lerpVertexAttributeMap(a, b, alpha) {
-        var attribMap = {};
-        var keys = Object.keys(a);
-        var keysLength = keys.length;
-        for (var k = 0; k < keysLength; k++) {
-            var key = keys[k];
-            attribMap[key] = lerpVectorN(a[key], b[key], alpha);
-        }
-        return attribMap;
-    }
-    // TODO: Looks like a static of VectorN or a common function.
-    function lerpVectorN(a, b, alpha) {
-        return new VectorN(lerp(a.data, b.data, alpha));
-    }
-    /**
-     * @class Simplex
-     */
-    var Simplex = (function () {
-        /**
-         * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
-         * A k-simplex is the convex hull of its k + 1 vertices.
-         * @class Simplex
-         * @constructor
-         * @param k {number} The initial number of vertices in the simplex is k + 1.
-         */
-        function Simplex(k) {
-            /**
-             * The vertices of the simplex.
-             * @property
-             * @type {Vertex[]}
-             */
-            this.vertices = [];
-            if (!isInteger(k)) {
-                expectArg('k', k).toBeNumber();
-            }
-            var numVertices = k + 1;
-            for (var i = 0; i < numVertices; i++) {
-                this.vertices.push(new Vertex());
-            }
-            var parent = this;
-            this.vertices.forEach(function (vertex) {
-                vertex.parent = parent;
-            });
-        }
-        Object.defineProperty(Simplex.prototype, "k", {
-            /**
-             * The dimensionality of the simplex.
-             * @property k
-             * @type {number}
-             * @readonly
-             */
-            get: function () {
-                return this.vertices.length - 1;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @deprecated
-         */
-        // FIXME: We don't need the index property on the vertex (needs some work).
-        Simplex.indices = function (simplex) {
-            return simplex.vertices.map(function (vertex) { return vertex.index; });
-        };
-        /**
-         * Computes the boundary of the simplex.
-         * @method boundaryMap
-         * @param simplex {Simplex}
-         * @return {Simplex[]}
-         * @private
-         */
-        Simplex.boundaryMap = function (simplex) {
-            var vertices = simplex.vertices;
-            var k = simplex.k;
-            if (k === Simplex.K_FOR_TRIANGLE) {
-                var line01 = new Simplex(k - 1);
-                line01.vertices[0].parent = line01;
-                line01.vertices[0].attributes = simplex.vertices[0].attributes;
-                line01.vertices[1].parent = line01;
-                line01.vertices[1].attributes = simplex.vertices[1].attributes;
-                var line12 = new Simplex(k - 1);
-                line12.vertices[0].parent = line12;
-                line12.vertices[0].attributes = simplex.vertices[1].attributes;
-                line12.vertices[1].parent = line12;
-                line12.vertices[1].attributes = simplex.vertices[2].attributes;
-                var line20 = new Simplex(k - 1);
-                line20.vertices[0].parent = line20;
-                line20.vertices[0].attributes = simplex.vertices[2].attributes;
-                line20.vertices[1].parent = line20;
-                line20.vertices[1].attributes = simplex.vertices[0].attributes;
-                return [line01, line12, line20];
-            }
-            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
-                var point0 = new Simplex(k - 1);
-                point0.vertices[0].parent = point0;
-                point0.vertices[0].attributes = simplex.vertices[0].attributes;
-                var point1 = new Simplex(k - 1);
-                point1.vertices[0].parent = point1;
-                point1.vertices[0].attributes = simplex.vertices[1].attributes;
-                return [point0, point1];
-            }
-            else if (k === Simplex.K_FOR_POINT) {
-                // For consistency, we get one empty simplex rather than an empty list.
-                return [new Simplex(k - 1)];
-            }
-            else if (k === Simplex.K_FOR_EMPTY) {
-                return [];
-            }
-            else {
-                // TODO: Handle the TETRAHEDRON and general cases.
-                throw new Error("Unexpected k-simplex, k = " + simplex.k + " @ Simplex.boundaryMap()");
-            }
-        };
-        Simplex.subdivideMap = function (simplex) {
-            expectArg('simplex', simplex).toBeObject();
-            var divs = [];
-            var vertices = simplex.vertices;
-            var k = simplex.k;
-            if (k === Simplex.K_FOR_TRIANGLE) {
-                var a = vertices[0].attributes;
-                var b = vertices[1].attributes;
-                var c = vertices[2].attributes;
-                var m1 = lerpVertexAttributeMap(a, b, 0.5);
-                var m2 = lerpVertexAttributeMap(b, c, 0.5);
-                var m3 = lerpVertexAttributeMap(c, a, 0.5);
-                var face1 = new Simplex(k);
-                face1.vertices[0].attributes = c;
-                face1.vertices[1].attributes = m3;
-                face1.vertices[2].attributes = m2;
-                var face2 = new Simplex(k);
-                face2.vertices[0].attributes = a;
-                face2.vertices[1].attributes = m1;
-                face2.vertices[2].attributes = m3;
-                var face3 = new Simplex(k);
-                face3.vertices[0].attributes = b;
-                face3.vertices[1].attributes = m2;
-                face3.vertices[2].attributes = m1;
-                var face4 = new Simplex(k);
-                face4.vertices[0].attributes = m1;
-                face4.vertices[1].attributes = m2;
-                face4.vertices[2].attributes = m3;
-                divs.push(face1);
-                divs.push(face2);
-                divs.push(face3);
-                divs.push(face4);
-            }
-            else if (k === Simplex.K_FOR_LINE_SEGMENT) {
-                var a = vertices[0].attributes;
-                var b = vertices[1].attributes;
-                var m = lerpVertexAttributeMap(a, b, 0.5);
-                var line1 = new Simplex(k);
-                line1.vertices[0].attributes = a;
-                line1.vertices[1].attributes = m;
-                var line2 = new Simplex(k);
-                line2.vertices[0].attributes = m;
-                line2.vertices[1].attributes = b;
-                divs.push(line1);
-                divs.push(line2);
-            }
-            else if (k === Simplex.K_FOR_POINT) {
-                divs.push(simplex);
-            }
-            else if (k === Simplex.K_FOR_EMPTY) {
-            }
-            else {
-                throw new Error(k + "-simplex is not supported");
-            }
-            return divs;
-        };
-        /**
-         * Computes the result of the boundary operation performed `count` times.
-         * @method boundary
-         * @param simplices {Simplex[]}
-         * @param count {number}
-         * @return {Simplex[]}
-         */
-        Simplex.boundary = function (simplices, count) {
-            if (count === void 0) { count = 1; }
-            checkCountArg(count);
-            for (var i = 0; i < count; i++) {
-                simplices = simplices.map(Simplex.boundaryMap).reduce(concatReduce, []);
-            }
-            return simplices;
-        };
-        /**
-         * Computes the result of the subdivide operation performed `count` times.
-         * @method subdivide
-         * @param simplices {Simplex[]}
-         * @param count {number}
-         * @return {Simplex[]}
-         */
-        Simplex.subdivide = function (simplices, count) {
-            if (count === void 0) { count = 1; }
-            checkCountArg(count);
-            for (var i = 0; i < count; i++) {
-                simplices = simplices.map(Simplex.subdivideMap).reduce(concatReduce, []);
-            }
-            return simplices;
-        };
-        // TODO: This function destined to be part of Simplex constructor.
-        // FIXME still used from triangle.ts!
-        Simplex.setAttributeValues = function (attributes, simplex) {
-            var names = Object.keys(attributes);
-            var attribsLength = names.length;
-            var attribIndex;
-            for (attribIndex = 0; attribIndex < attribsLength; attribIndex++) {
-                var name_1 = names[attribIndex];
-                var values = attributes[name_1];
-                var valuesLength = values.length;
-                var valueIndex = void 0;
-                for (valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
-                    simplex.vertices[valueIndex].attributes[name_1] = values[valueIndex];
-                }
-            }
-        };
-        // These symbolic constants represent the correct k values for various low-dimesional simplices. 
-        // The number of vertices in a k-simplex is k + 1.
-        /**
-         * An empty set can be consired to be a -1 simplex (algebraic topology).
-         * @property K_FOR_EMPTY
-         * @type {number}
-         * @static
-         */
-        Simplex.K_FOR_EMPTY = -1;
-        /**
-         * A single point may be considered a 0-simplex.
-         * @property K_FOR_POINT
-         * @type {number}
-         * @static
-         */
-        Simplex.K_FOR_POINT = 0;
-        /**
-         * A line segment may be considered a 1-simplex.
-         * @property K_FOR_LINE_SEGMENT
-         * @type {number}
-         * @static
-         */
-        Simplex.K_FOR_LINE_SEGMENT = 1;
-        /**
-         * A 2-simplex is a triangle.
-         * @property K_FOR_TRIANGLE
-         * @type {number}
-         * @static
-         */
-        Simplex.K_FOR_TRIANGLE = 2;
-        /**
-         * A 3-simplex is a tetrahedron.
-         * @property K_FOR_TETRAHEDRON
-         * @type {number}
-         * @static
-         */
-        Simplex.K_FOR_TETRAHEDRON = 3;
-        /**
-         * A 4-simplex is a 5-cell.
-         * @property K_FOR_FIVE_CELL
-         * @type {number}
-         * @static
-         */
-        Simplex.K_FOR_FIVE_CELL = 4;
-        return Simplex;
-    })();
-    return Simplex;
-});
-
-define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
-    function stringify(thing, space) {
-        var cache = [];
-        return JSON.stringify(thing, function (key, value) {
-            if (typeof value === 'object' && value !== null) {
-                if (cache.indexOf(value) !== -1) {
-                    // Circular reference found, discard key
-                    return;
-                }
-                // Store value in our collection
-                cache.push(value);
-            }
-            return value;
-        }, space);
-        cache = null; // Enable garbage collection  
-    }
-    /**
-     * Returns undefined (void 0) for an empty geometry.
-     */
-    function toGeometryMeta(geometry) {
-        var kValueOfSimplex = void 0;
-        var knowns = {};
-        var geometryLen = geometry.length;
-        for (var i = 0; i < geometryLen; i++) {
-            var simplex = geometry[i];
-            if (!(simplex instanceof Simplex)) {
-                expectArg('simplex', simplex).toSatisfy(false, "Every element must be a Simplex @ toGeometryMeta(). Found " + stringify(simplex, 2));
-            }
-            var vertices = simplex.vertices;
-            // TODO: Check consistency of k-values.
-            kValueOfSimplex = simplex.k;
-            for (var j = 0, vsLen = vertices.length; j < vsLen; j++) {
-                var vertex = vertices[j];
-                var attributes = vertex.attributes;
-                var keys = Object.keys(attributes);
-                var keysLen = keys.length;
-                for (var k = 0; k < keysLen; k++) {
-                    var key = keys[k];
-                    var vector = attributes[key];
-                    var known = knowns[key];
-                    if (known) {
-                        if (known.size !== vector.length) {
-                            throw new Error("Something is rotten in Denmark!");
-                        }
+                case 1:
+                    {
+                        var lines = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 7], [1, 6], [2, 5], [3, 4], [4, 5], [5, 6], [6, 7], [7, 4]];
+                        this.data = lines.map(function (line) { return simplex(line); });
                     }
-                    else {
-                        knowns[key] = { size: vector.length };
+                    break;
+                case 2:
+                    {
+                        var faces = [0, 1, 2, 3, 4, 5].map(function (index) { return void 0; });
+                        faces[0] = quad(pos[0], pos[1], pos[2], pos[3]);
+                        faces[1] = quad(pos[1], pos[6], pos[5], pos[2]);
+                        faces[2] = quad(pos[7], pos[0], pos[3], pos[4]);
+                        faces[3] = quad(pos[6], pos[7], pos[4], pos[5]);
+                        faces[4] = quad(pos[3], pos[2], pos[5], pos[4]);
+                        faces[5] = quad(pos[7], pos[6], pos[1], pos[0]);
+                        this.data = faces.reduce(function (a, b) { return a.concat(b); }, []);
+                        this.data.forEach(function (simplex) {
+                            computeFaceNormals(simplex);
+                        });
                     }
+                    break;
+                default: {
                 }
             }
-        }
-        // isDefined is necessary because k = -1, 0, 1, 2, 3, ... are legal and 0 is falsey.
-        if (isDefined(kValueOfSimplex)) {
-            var info = {
-                get attributes() {
-                    return knowns;
-                },
-                get k() {
-                    return kValueOfSimplex;
-                }
-            };
-            return info;
-        }
-        else {
-            return void 0;
-        }
-    }
-    return toGeometryMeta;
-});
-
-define('davinci-eight/geometries/computeFaceNormals',["require", "exports", '../core/Symbolic', '../math/Vector3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, Symbolic, Vector3, wedgeXY, wedgeYZ, wedgeZX) {
-    function computeFaceNormals(simplex, positionName, normalName) {
-        if (positionName === void 0) { positionName = Symbolic.ATTRIBUTE_POSITION; }
-        if (normalName === void 0) { normalName = Symbolic.ATTRIBUTE_NORMAL; }
-        var vertex0 = simplex.vertices[0].attributes;
-        var vertex1 = simplex.vertices[1].attributes;
-        var vertex2 = simplex.vertices[2].attributes;
-        var pos0 = vertex0[positionName];
-        var pos1 = vertex1[positionName];
-        var pos2 = vertex2[positionName];
-        var x0 = pos0.getComponent(0);
-        var y0 = pos0.getComponent(1);
-        var z0 = pos0.getComponent(2);
-        var x1 = pos1.getComponent(0);
-        var y1 = pos1.getComponent(1);
-        var z1 = pos1.getComponent(2);
-        var x2 = pos2.getComponent(0);
-        var y2 = pos2.getComponent(1);
-        var z2 = pos2.getComponent(2);
-        var ax = x2 - x1;
-        var ay = y2 - y1;
-        var az = z2 - z1;
-        var bx = x0 - x1;
-        var by = y0 - y1;
-        var bz = z0 - z1;
-        var x = wedgeYZ(ax, ay, az, bx, by, bz);
-        var y = wedgeZX(ax, ay, az, bx, by, bz);
-        var z = wedgeXY(ax, ay, az, bx, by, bz);
-        var normal = new Vector3([x, y, z]).normalize();
-        vertex0[normalName] = normal;
-        vertex1[normalName] = normal;
-        vertex2[normalName] = normal;
-    }
-    return computeFaceNormals;
-});
-
-define('davinci-eight/geometries/triangle',["require", "exports", '../geometries/computeFaceNormals', '../checks/expectArg', '../geometries/Simplex', '../core/Symbolic', '../math/VectorN'], function (require, exports, computeFaceNormals, expectArg, Simplex, Symbolic, VectorN) {
-    function triangle(a, b, c, attributes, triangles) {
-        if (attributes === void 0) { attributes = {}; }
-        if (triangles === void 0) { triangles = []; }
-        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        expectArg('b', b).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        expectArg('b', c).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
-        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = a;
-        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = b;
-        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = c;
-        computeFaceNormals(simplex, Symbolic.ATTRIBUTE_POSITION, Symbolic.ATTRIBUTE_NORMAL);
-        Simplex.setAttributeValues(attributes, simplex);
-        triangles.push(simplex);
-        return triangles;
-    }
-    return triangle;
-});
-
-define('davinci-eight/geometries/quadrilateral',["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg, triangle, VectorN) {
-    function setAttributes(which, source, target) {
-        var names = Object.keys(source);
-        var namesLength = names.length;
-        var i;
-        var name;
-        var values;
-        for (i = 0; i < namesLength; i++) {
-            name = names[i];
-            values = source[name];
-            target[name] = which.map(function (index) { return values[index]; });
-        }
-    }
-    /**
-     * quadrilateral
-     *
-     *  b-------a
-     *  |       |
-     *  |       |
-     *  |       |
-     *  c-------d
-     *
-     * The quadrilateral is split into two triangles: b-c-a and d-a-c, like a "Z".
-     * The zeroth vertex for each triangle is opposite the other triangle.
-     */
-    function quadrilateral(a, b, c, d, attributes, triangles) {
-        if (attributes === void 0) { attributes = {}; }
-        if (triangles === void 0) { triangles = []; }
-        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
-        expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
-        expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
-        var triatts = {};
-        setAttributes([1, 2, 0], attributes, triatts);
-        triangle(b, c, a, triatts, triangles);
-        var face1 = triangles[triangles.length - 1];
-        setAttributes([3, 0, 2], attributes, triatts);
-        triangle(d, a, c, triatts, triangles);
-        var face2 = triangles[triangles.length - 1];
-        face1.vertices[0].opposing.push(face2);
-        face2.vertices[0].opposing.push(face1);
-        return triangles;
-    }
-    return quadrilateral;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
-    /**
-     * @class Vector2
-     */
-    var Vector2 = (function (_super) {
-        __extends(Vector2, _super);
-        /**
-         * @class Vector2
-         * @constructor
-         * @param data {number[]} Default is [0, 0].
-         * @param modified {boolean} Default is false.
-         */
-        function Vector2(data, modified) {
-            if (data === void 0) { data = [0, 0]; }
-            if (modified === void 0) { modified = false; }
-            _super.call(this, data, modified, 2);
-        }
-        Object.defineProperty(Vector2.prototype, "x", {
-            /**
-             * @property x
-             * @type Number
-             */
-            get: function () {
-                return this.data[0];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.x !== value;
-                this.data[0] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Vector2.prototype, "y", {
-            /**
-             * @property y
-             * @type Number
-             */
-            get: function () {
-                return this.data[1];
-            },
-            set: function (value) {
-                this.modified = this.modified || this.y !== value;
-                this.data[1] = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Vector2.prototype.set = function (x, y) {
-            this.x = x;
-            this.y = y;
-            return this;
+            // Compute the meta data.
+            this.check();
         };
-        Vector2.prototype.setX = function (x) {
-            this.x = x;
-            return this;
-        };
-        Vector2.prototype.setY = function (y) {
-            this.y = y;
-            return this;
-        };
-        Vector2.prototype.copy = function (v) {
-            this.x = v.x;
-            this.y = v.y;
-            return this;
-        };
-        Vector2.prototype.add = function (v) {
-            this.x += v.x;
-            this.y += v.y;
-            return this;
-        };
-        Vector2.prototype.addScalar = function (s) {
-            this.x += s;
-            this.y += s;
-            return this;
-        };
-        Vector2.prototype.sum = function (a, b) {
-            this.x = a.x + b.x;
-            this.y = a.y + b.y;
-            return this;
-        };
-        Vector2.prototype.sub = function (v) {
-            this.x -= v.x;
-            this.y -= v.y;
-            return this;
-        };
-        Vector2.prototype.subScalar = function (s) {
-            this.x -= s;
-            this.y -= s;
-            return this;
-        };
-        Vector2.prototype.difference = function (a, b) {
-            this.x = a.x - b.x;
-            this.y = a.y - b.y;
-            return this;
-        };
-        Vector2.prototype.multiply = function (v) {
-            this.x *= v.x;
-            this.y *= v.y;
-            return this;
-        };
-        Vector2.prototype.scale = function (s) {
-            this.x *= s;
-            this.y *= s;
-            return this;
-        };
-        Vector2.prototype.divide = function (v) {
-            this.x /= v.x;
-            this.y /= v.y;
-            return this;
-        };
-        Vector2.prototype.divideScalar = function (scalar) {
-            if (scalar !== 0) {
-                var invScalar = 1 / scalar;
-                this.x *= invScalar;
-                this.y *= invScalar;
-            }
-            else {
-                this.x = 0;
-                this.y = 0;
-            }
-            return this;
-        };
-        Vector2.prototype.min = function (v) {
-            if (this.x > v.x) {
-                this.x = v.x;
-            }
-            if (this.y > v.y) {
-                this.y = v.y;
-            }
-            return this;
-        };
-        Vector2.prototype.max = function (v) {
-            if (this.x < v.x) {
-                this.x = v.x;
-            }
-            if (this.y < v.y) {
-                this.y = v.y;
-            }
-            return this;
-        };
-        Vector2.prototype.floor = function () {
-            this.x = Math.floor(this.x);
-            this.y = Math.floor(this.y);
-            return this;
-        };
-        Vector2.prototype.ceil = function () {
-            this.x = Math.ceil(this.x);
-            this.y = Math.ceil(this.y);
-            return this;
-        };
-        Vector2.prototype.round = function () {
-            this.x = Math.round(this.x);
-            this.y = Math.round(this.y);
-            return this;
-        };
-        Vector2.prototype.roundToZero = function () {
-            this.x = (this.x < 0) ? Math.ceil(this.x) : Math.floor(this.x);
-            this.y = (this.y < 0) ? Math.ceil(this.y) : Math.floor(this.y);
-            return this;
-        };
-        Vector2.prototype.negate = function () {
-            this.x = -this.x;
-            this.y = -this.y;
-            return this;
-        };
-        Vector2.prototype.distanceTo = function (position) {
-            return Math.sqrt(this.quadranceTo(position));
-        };
-        Vector2.prototype.dot = function (v) {
-            return this.x * v.x + this.y * v.y;
-        };
-        Vector2.prototype.magnitude = function () {
-            return Math.sqrt(this.quaditude());
-        };
-        Vector2.prototype.normalize = function () {
-            return this.divideScalar(this.magnitude());
-        };
-        Vector2.prototype.quaditude = function () {
-            return this.x * this.x + this.y * this.y;
-        };
-        Vector2.prototype.quadranceTo = function (position) {
-            var dx = this.x - position.x;
-            var dy = this.y - position.y;
-            return dx * dx + dy * dy;
-        };
-        Vector2.prototype.reflect = function (n) {
-            // FIXME: TODO
-            return this;
-        };
-        Vector2.prototype.rotate = function (rotor) {
-            return this;
-        };
-        Vector2.prototype.setMagnitude = function (l) {
-            var oldLength = this.magnitude();
-            if (oldLength !== 0 && l !== oldLength) {
-                this.scale(l / oldLength);
-            }
-            return this;
-        };
-        Vector2.prototype.lerp = function (v, alpha) {
-            this.x += (v.x - this.x) * alpha;
-            this.y += (v.y - this.y) * alpha;
-            return this;
-        };
-        Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
-            this.difference(v2, v1).scale(alpha).add(v1);
-            return this;
-        };
-        Vector2.prototype.equals = function (v) {
-            return ((v.x === this.x) && (v.y === this.y));
-        };
-        Vector2.prototype.fromArray = function (array, offset) {
-            if (offset === void 0) { offset = 0; }
-            this.x = array[offset];
-            this.y = array[offset + 1];
-            return this;
-        };
-        Vector2.prototype.fromAttribute = function (attribute, index, offset) {
-            if (offset === void 0) { offset = 0; }
-            index = index * attribute.itemSize + offset;
-            this.x = attribute.array[index];
-            this.y = attribute.array[index + 1];
-            return this;
-        };
-        Vector2.prototype.clone = function () {
-            return new Vector2([this.x, this.y]);
-        };
-        return Vector2;
-    })(VectorN);
-    return Vector2;
-});
-
-define('davinci-eight/geometries/cube',["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quadrilateral, Symbolic, Vector2, Vector3) {
-    function vector3(data) {
-        return new Vector3([]);
-    }
-    /**
-     * cube as Simplex[]
-     *
-     *    v6----- v5
-     *   /|      /|
-     *  v1------v0|
-     *  | |     | |
-     *  | |v7---|-|v4
-     *  |/      |/
-     *  v2------v3
-     */
-    function cube(size) {
-        if (size === void 0) { size = 1; }
-        var s = size / 2;
-        var vec0 = new Vector3([+s, +s, +s]);
-        var vec1 = new Vector3([-s, +s, +s]);
-        var vec2 = new Vector3([-s, -s, +s]);
-        var vec3 = new Vector3([+s, -s, +s]);
-        var vec4 = new Vector3([+s, -s, -s]);
-        var vec5 = new Vector3([+s, +s, -s]);
-        var vec6 = new Vector3([-s, +s, -s]);
-        var vec7 = new Vector3([-s, -s, -s]);
-        var c00 = new Vector2([0, 0]);
-        var c01 = new Vector2([0, 1]);
-        var c10 = new Vector2([1, 0]);
-        var c11 = new Vector2([1, 1]);
-        var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
-        // We currently call quadrilateral rather than square because of the arguments.
-        var front = quadrilateral(vec0, vec1, vec2, vec3, attributes);
-        var right = quadrilateral(vec0, vec3, vec4, vec5, attributes);
-        var top = quadrilateral(vec0, vec5, vec6, vec1, attributes);
-        var left = quadrilateral(vec1, vec6, vec7, vec2, attributes);
-        var bottom = quadrilateral(vec7, vec4, vec3, vec2, attributes);
-        var back = quadrilateral(vec4, vec7, vec6, vec5, attributes);
-        var squares = [front, right, top, left, bottom, back];
-        // TODO: Fix up the opposing property so that the cube is fully linked together.
-        return squares.reduce(function (a, b) { return a.concat(b); }, []);
-    }
-    return cube;
-});
-
-define('davinci-eight/geometries/square',["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quadrilateral, Symbolic, Vector2, Vector3) {
-    // square
-    //
-    //  b-------a
-    //  |       | 
-    //  |       |
-    //  |       |
-    //  c-------d
-    //
-    function square(size) {
-        if (size === void 0) { size = 1; }
-        var s = size / 2;
-        var vec0 = new Vector3([+s, +s, 0]);
-        var vec1 = new Vector3([-s, +s, 0]);
-        var vec2 = new Vector3([-s, -s, 0]);
-        var vec3 = new Vector3([+s, -s, 0]);
-        var c00 = new Vector2([0, 0]);
-        var c01 = new Vector2([0, 1]);
-        var c10 = new Vector2([1, 0]);
-        var c11 = new Vector2([1, 1]);
-        var coords = [c11, c01, c00, c10];
-        var attributes = {};
-        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
-        return quadrilateral(vec0, vec1, vec2, vec3, attributes);
-    }
-    return square;
-});
-
-define('davinci-eight/geometries/tetrahedron',["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg, triangle, VectorN) {
-    /**
-     * terahedron
-     *
-     * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
-     */
-    function tetrahedron(a, b, c, d, attributes, triangles) {
-        if (attributes === void 0) { attributes = {}; }
-        if (triangles === void 0) { triangles = []; }
-        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
-        expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
-        expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
-        expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
-        var triatts = {};
-        var points = [a, b, c, d];
-        var faces = [];
-        triangle(points[0], points[1], points[2], triatts, triangles);
-        faces.push(triangles[triangles.length - 1]);
-        triangle(points[1], points[3], points[2], triatts, triangles);
-        faces.push(triangles[triangles.length - 1]);
-        triangle(points[2], points[3], points[0], triatts, triangles);
-        faces.push(triangles[triangles.length - 1]);
-        triangle(points[3], points[1], points[0], triatts, triangles);
-        faces.push(triangles[triangles.length - 1]);
-        faces[3].vertices[0].opposing.push(faces[0]);
-        faces[3].vertices[1].opposing.push(faces[1]);
-        faces[3].vertices[2].opposing.push(faces[2]);
-        faces[0].vertices[0].opposing.push(faces[1]);
-        faces[0].vertices[1].opposing.push(faces[3]);
-        faces[0].vertices[2].opposing.push(faces[2]);
-        faces[1].vertices[0].opposing.push(faces[2]);
-        faces[1].vertices[1].opposing.push(faces[3]);
-        faces[1].vertices[2].opposing.push(faces[0]);
-        faces[2].vertices[0].opposing.push(faces[3]);
-        faces[2].vertices[1].opposing.push(faces[1]);
-        faces[2].vertices[2].opposing.push(faces[0]);
-        return triangles;
-    }
-    return tetrahedron;
-});
-
-define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], function (require, exports) {
-    // This function has the important side-effect of setting the vertex index property.
-    function computeUniqueVertices(geometry) {
-        var map = {};
-        var vertices = [];
-        function munge(vertex) {
-            var key = vertex.toString();
-            if (map[key]) {
-                var existing = map[key];
-                vertex.index = existing.index;
-            }
-            else {
-                vertex.index = vertices.length;
-                vertices.push(vertex);
-                map[key] = vertex;
-            }
-        }
-        geometry.forEach(function (simplex) {
-            simplex.vertices.forEach(function (vertex) {
-                munge(vertex);
-            });
-        });
-        return vertices;
-    }
-    return computeUniqueVertices;
-});
-
-define('davinci-eight/geometries/GeometryData',["require", "exports", '../checks/expectArg', '../math/VectorN'], function (require, exports, expectArg, VectorN) {
-    /**
-     * @class GeometryData
-     */
-    var GeometryData = (function () {
-        /**
-         * @class GeometryData
-         * @constructor
-         * @param k {number} <p>The dimensionality of the primitives.</p>
-         * @param indices {VectorN} <p>A list of index into the attributes</p>
-         * @param attributes {{[name:string]: GeometryAttribute}}
-         */
-        function GeometryData(k, indices, attributes) {
-            // TODO: Looks like a DrawAttributeMap here (implementation only)
-            /**
-             * @property attributes
-             * @type {{[name:string]: GeometryAttribute}}
-             */
-            this.attributes = {};
-            expectArg('indices', indices).toBeObject().toSatisfy(indices instanceof VectorN, "indices must be a VectorN<number>");
-            expectArg('attributes', attributes).toBeObject();
-            this.k = k;
-            this.indices = indices;
-            this.attributes = attributes;
-        }
-        return GeometryData;
-    })();
-    return GeometryData;
-});
-
-define('davinci-eight/geometries/toGeometryData',["require", "exports", '../geometries/toGeometryMeta', '../geometries/computeUniqueVertices', '../geometries/GeometryData', '../geometries/GeometryAttribute', '../checks/expectArg', '../geometries/Simplex', '../math/VectorN'], function (require, exports, toGeometryMeta, computeUniqueVertices, GeometryData, GeometryAttribute, expectArg, Simplex, VectorN) {
-    function numberList(size, value) {
-        var data = [];
-        for (var i = 0; i < size; i++) {
-            data.push(value);
-        }
-        return data;
-    }
-    function attribName(name, attribMap) {
-        expectArg('name', name).toBeString();
-        expectArg('attribMap', attribMap).toBeObject();
-        var meta = attribMap[name];
-        if (meta) {
-            var alias = meta.name;
-            return alias ? alias : name;
-        }
-        else {
-            throw new Error("Unable to compute name; missing attribute specification for " + name);
-        }
-    }
-    function attribSize(key, attribMap) {
-        expectArg('key', key).toBeString();
-        expectArg('attribMap', attribMap).toBeObject();
-        var meta = attribMap[key];
-        if (meta) {
-            var size = meta.size;
-            // TODO: Override the message...
-            expectArg('size', size).toBeNumber();
-            return meta.size;
-        }
-        else {
-            throw new Error("Unable to compute size; missing attribute specification for " + key);
-        }
-    }
-    function concat(a, b) {
-        return a.concat(b);
-    }
-    function toGeometryData(simplices, geometryMeta) {
-        expectArg('simplices', simplices).toBeObject();
-        var actuals = toGeometryMeta(simplices);
-        if (geometryMeta) {
-            expectArg('geometryMeta', geometryMeta).toBeObject();
-        }
-        else {
-            geometryMeta = actuals;
-        }
-        var attribMap = geometryMeta.attributes;
-        // Cache the keys and keys.length of the specified attributes and declare a loop index.
-        var keys = Object.keys(attribMap);
-        var keysLen = keys.length;
-        var k;
-        // Side effect is to set the index property, but it will be be the same as the array index. 
-        var vertices = computeUniqueVertices(simplices);
-        var vsLength = vertices.length;
-        var i;
-        // Each simplex produces as many indices as vertices.
-        // This is why we need the Vertex to have an temporary index property.
-        var indices = simplices.map(Simplex.indices).reduce(concat, []);
-        // Create intermediate data structures for output and to cache dimensions and name.
-        // For performance an an array will be used whose index is the key index.
-        var outputs = [];
-        for (k = 0; k < keysLen; k++) {
-            var key = keys[k];
-            var dims = attribSize(key, attribMap);
-            var data = numberList(vsLength * dims, void 0);
-            outputs.push({ data: data, dimensions: dims, name: attribName(key, attribMap) });
-        }
-        // Accumulate attribute data in intermediate data structures.
-        for (i = 0; i < vsLength; i++) {
-            var vertex = vertices[i];
-            var vertexAttribs = vertex.attributes;
-            if (vertex.index !== i) {
-                expectArg('vertex.index', i).toSatisfy(false, "vertex.index must equal loop index, i");
-            }
-            for (k = 0; k < keysLen; k++) {
-                var output = outputs[k];
-                var size = output.dimensions;
-                var data = vertexAttribs[keys[k]];
-                if (!data) {
-                    data = new VectorN(numberList(size, 0), false, size);
-                }
-                data.toArray(output.data, i * output.dimensions);
-            }
-        }
-        // Copy accumulated attribute arrays to output data structure.
-        var attributes = {};
-        for (k = 0; k < keysLen; k++) {
-            var output = outputs[k];
-            var data = output.data;
-            var vector = new VectorN(data, false, data.length);
-            attributes[output.name] = new GeometryAttribute(vector, output.dimensions);
-        }
-        return new GeometryData(geometryMeta.k, new VectorN(indices, false, indices.length), attributes);
-    }
-    return toGeometryData;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/utils/NumberIUnknownMap',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
-    // FIXME: Maybe use a dynamic flag implying JIT keys, otherwise recompute as we go along.
-    var LOGGING_NAME = 'NumberIUnknownMap';
-    /**
-     * @class NumberIUnknownMap<V>
-     */
-    var NumberIUnknownMap = (function (_super) {
-        __extends(NumberIUnknownMap, _super);
-        /**
-         * @class NumberIUnknownMap<V>
-         * @constructor
-         */
-        function NumberIUnknownMap() {
-            _super.call(this, LOGGING_NAME);
-            this._elements = {};
-        }
-        NumberIUnknownMap.prototype.destructor = function () {
-            var self = this;
-            this.forEach(function (key, value) {
-                if (value) {
-                    value.release();
-                }
-            });
-            this._elements = void 0;
-        };
-        NumberIUnknownMap.prototype.exists = function (key) {
-            var element = this._elements[key];
-            return element ? true : false;
-        };
-        NumberIUnknownMap.prototype.get = function (key) {
-            var element = this.getWeakReference(key);
-            if (element) {
-                element.addRef();
-            }
-            return element;
-        };
-        // FIXME
-        /*private*/ NumberIUnknownMap.prototype.getWeakReference = function (index) {
-            return this._elements[index];
-        };
-        NumberIUnknownMap.prototype.put = function (key, value) {
-            if (value) {
-                value.addRef();
-            }
-            this.putWeakReference(key, value);
-        };
-        // FIXME
-        /*private*/ NumberIUnknownMap.prototype.putWeakReference = function (key, value) {
-            var elements = this._elements;
-            var existing = elements[key];
-            if (existing) {
-                existing.release();
-            }
-            elements[key] = value;
-        };
-        NumberIUnknownMap.prototype.forEach = function (callback) {
-            var keys = this.keys;
-            var i;
-            var length = keys.length;
-            for (i = 0; i < length; i++) {
-                var key = keys[i];
-                var value = this._elements[key];
-                callback(key, value);
-            }
-        };
-        Object.defineProperty(NumberIUnknownMap.prototype, "keys", {
-            get: function () {
-                // FIXME: cache? Maybe, clients may use this to iterate. forEach is too slow.
-                return Object.keys(this._elements).map(function (keyString) { return parseFloat(keyString); });
-            },
-            enumerable: true,
-            configurable: true
-        });
-        NumberIUnknownMap.prototype.remove = function (key) {
-            // Strong or Weak doesn't matter because the value is `undefined`.
-            this.put(key, void 0);
-            delete this._elements[key];
-        };
-        return NumberIUnknownMap;
-    })(Shareable);
-    return NumberIUnknownMap;
-});
-
-define('davinci-eight/scene/createDrawList',["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, StringIUnknownMap, uuid4) {
-    var CLASS_NAME_DRAWLIST = "createDrawList";
-    var CLASS_NAME_GROUP = "DrawableGroup";
-    var CLASS_NAME_ALL = "DrawableGroups";
-    // FIXME; Probably good to have another collection of DrawableGroup
-    /**
-     * A grouping of IDrawable, by IMaterial.
-     */
-    // FIXME: extends Shareable
-    var DrawableGroup = (function () {
-        function DrawableGroup(program) {
-            this._drawables = new IUnknownArray();
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
-            this._program = program;
-            this._program.addRef();
-            refChange(this._uuid, CLASS_NAME_GROUP, +1);
-        }
-        DrawableGroup.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, CLASS_NAME_GROUP, +1);
-            return this._refCount;
-        };
-        DrawableGroup.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, CLASS_NAME_GROUP, -1);
-            if (this._refCount === 0) {
-                this._program.release();
-                this._program = void 0;
-                this._drawables.release();
-                this._drawables = void 0;
-                this._refCount = void 0;
-                this._uuid = void 0;
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
-        };
-        Object.defineProperty(DrawableGroup.prototype, "material", {
-            get: function () {
-                this._program.addRef();
-                return this._program;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * accept provides a way to push out the IMaterial without bumping the reference count.
-         */
-        DrawableGroup.prototype.acceptProgram = function (visitor) {
-            visitor(this._program);
-        };
-        Object.defineProperty(DrawableGroup.prototype, "length", {
-            get: function () {
-                return this._drawables.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        DrawableGroup.prototype.push = function (drawable) {
-            this._drawables.push(drawable);
-        };
-        DrawableGroup.prototype.remove = function (drawable) {
-            var drawables = this._drawables;
-            var index = drawables.indexOf(drawable);
-            if (index >= 0) {
-                drawables.splice(index, 1).release();
-            }
-        };
-        DrawableGroup.prototype.draw = function (ambients, canvasId) {
-            var i;
-            var length;
-            var drawables = this._drawables;
-            var material = this._program;
-            material.use(canvasId);
-            if (ambients) {
-                ambients.forEach(function (ambient) {
-                    ambient.setUniforms(material, canvasId);
-                });
-            }
-            length = drawables.length;
-            for (i = 0; i < length; i++) {
-                var drawable = drawables.get(i);
-                drawable.draw(canvasId);
-                drawable.release();
-            }
-        };
-        DrawableGroup.prototype.traverseDrawables = function (callback) {
-            this._drawables.forEach(callback);
-        };
-        return DrawableGroup;
-    })();
-    /**
-     * Should look like a set of Drawable Groups. Maybe like a Scene!
-     */
-    var DrawableGroups = (function () {
-        function DrawableGroups() {
-            /**
-             * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
-             */
-            this._groups = new StringIUnknownMap();
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
-            refChange(this._uuid, CLASS_NAME_ALL, +1);
-        }
-        DrawableGroups.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, CLASS_NAME_ALL, +1);
-            return this._refCount;
-        };
-        DrawableGroups.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, CLASS_NAME_ALL, -1);
-            if (this._refCount === 0) {
-                this._groups.release();
-                this._groups = void 0;
-                this._refCount = void 0;
-                this._uuid = void 0;
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
-        };
-        DrawableGroups.prototype.add = function (drawable) {
-            // Now let's see if we can get a program...
-            var program = drawable.material;
-            if (program) {
-                try {
-                    var programId = program.programId;
-                    var programInfo = this._groups.get(programId);
-                    if (!programInfo) {
-                        programInfo = new DrawableGroup(program);
-                        this._groups.put(programId, programInfo);
-                    }
-                    programInfo.push(drawable);
-                    programInfo.release();
-                }
-                finally {
-                    program.release();
-                }
-            }
-            else {
-            }
-        };
-        DrawableGroups.prototype.remove = function (drawable) {
-            var program = drawable.material;
-            if (program) {
-                try {
-                    var programId = program.programId;
-                    if (this._groups.exists(programId)) {
-                        var group = this._groups.get(programId);
-                        group.remove(drawable);
-                        if (group.length === 0) {
-                            delete this._groups.remove(programId);
-                        }
-                        group.release();
-                    }
-                    else {
-                        throw new Error("drawable not found?!");
-                    }
-                }
-                finally {
-                    program.release();
-                }
-            }
-        };
-        DrawableGroups.prototype.draw = function (ambients, canvasId) {
-            // Manually hoisted variable declarations.
-            var drawGroups;
-            var materialKey;
-            var materialKeys;
-            var materialsLength;
-            var i;
-            var drawGroup;
-            drawGroups = this._groups;
-            materialKeys = drawGroups.keys;
-            materialsLength = materialKeys.length;
-            for (i = 0; i < materialsLength; i++) {
-                materialKey = materialKeys[i];
-                drawGroup = drawGroups.get(materialKey);
-                drawGroup.draw(ambients, canvasId);
-                drawGroup.release();
-            }
-        };
-        // FIXME: Rename to traverse
-        DrawableGroups.prototype.traverseDrawables = function (callback, callback2) {
-            this._groups.forEach(function (groupId, group) {
-                group.acceptProgram(callback2);
-                group.traverseDrawables(callback);
-            });
-        };
-        DrawableGroups.prototype.traversePrograms = function (callback) {
-            this._groups.forEach(function (groupId, group) {
-                group.acceptProgram(callback);
-            });
-        };
-        return DrawableGroups;
-    })();
-    var createDrawList = function () {
-        var drawableGroups = new DrawableGroups();
-        var canvasIdToManager = new NumberIUnknownMap();
-        var refCount = 1;
-        var uuid = uuid4().generate();
-        var self = {
-            addRef: function () {
-                refCount++;
-                refChange(uuid, CLASS_NAME_DRAWLIST, +1);
-                return refCount;
-            },
-            release: function () {
-                refCount--;
-                refChange(uuid, CLASS_NAME_DRAWLIST, -1);
-                if (refCount === 0) {
-                    drawableGroups.release();
-                    drawableGroups = void 0;
-                    canvasIdToManager.release();
-                    canvasIdToManager = void 0;
-                    refCount = void 0;
-                    uuid = void 0;
-                    return 0;
-                }
-                else {
-                    return refCount;
-                }
-            },
-            contextFree: function (canvasId) {
-                drawableGroups.traverseDrawables(function (drawable) {
-                    drawable.contextFree(canvasId);
-                }, function (program) {
-                    program.contextFree(canvasId);
-                });
-                canvasIdToManager.remove(canvasId);
-            },
-            /**
-             * method contextGain
-             */
-            contextGain: function (manager) {
-                if (!canvasIdToManager.exists(manager.canvasId)) {
-                    // Cache the manager.
-                    canvasIdToManager.put(manager.canvasId, manager);
-                    // Broadcast to drawables and materials.
-                    drawableGroups.traverseDrawables(function (drawable) {
-                        drawable.contextGain(manager);
-                    }, function (material) {
-                        material.contextGain(manager);
-                    });
-                }
-            },
-            contextLost: function (canvasId) {
-                if (canvasIdToManager.exists(canvasId)) {
-                    drawableGroups.traverseDrawables(function (drawable) {
-                        drawable.contextLost(canvasId);
-                    }, function (material) {
-                        material.contextLost(canvasId);
-                    });
-                    canvasIdToManager.remove(canvasId);
-                }
-            },
-            add: function (drawable) {
-                // If we have canvasIdToManager povide them to the drawable before asking for the program.
-                // FIXME: Do we have to be careful about whether the manager has a context?
-                canvasIdToManager.forEach(function (id, manager) {
-                    drawable.contextGain(manager);
-                });
-                drawableGroups.add(drawable);
-            },
-            draw: function (ambients, canvasId) {
-                drawableGroups.draw(ambients, canvasId);
-            },
-            getDrawablesByName: function (name) {
-                var result = new IUnknownArray();
-                drawableGroups.traverseDrawables(function (candidate) {
-                    if (candidate.name === name) {
-                        result.push(candidate);
-                    }
-                }, function (program) {
-                });
-                return result;
-            },
-            remove: function (drawable) {
-                drawableGroups.remove(drawable);
-            },
-            // FIXME: canvasId not being used?
-            traverse: function (callback, canvasId, prolog) {
-                drawableGroups.traverseDrawables(callback, prolog);
-            }
-        };
-        refChange(uuid, CLASS_NAME_DRAWLIST, +1);
-        return self;
-    };
-    return createDrawList;
-});
-
-define('davinci-eight/checks/mustBeDefined',["require", "exports", '../checks/mustSatisfy', '../checks/isDefined'], function (require, exports, mustSatisfy, isDefined) {
-    function beDefined() {
-        return "not be be `undefined`";
-    }
-    function mustBeDefined(name, value, contextBuilder) {
-        mustSatisfy(name, isDefined(value), beDefined, contextBuilder);
-        return value;
-    }
-    return mustBeDefined;
+        return CuboidGeometry;
+    })(Geometry);
+    return CuboidGeometry;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -6300,7 +7589,7 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
             this._material = material;
             this._material.addRef();
             this.buffersByCanvasid = new NumberIUnknownMap();
-            this.uniforms = new StringIUnknownMap();
+            this.uniforms = new StringIUnknownMap(LOGGING_NAME);
         }
         Drawable.prototype.destructor = function () {
             this.geometry = void 0;
@@ -6384,2453 +7673,61 @@ define('davinci-eight/scene/Drawable',["require", "exports", '../checks/isDefine
     return Drawable;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/Shareable', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeNumber, Shareable, Vector3) {
+define('davinci-eight/core/getAttribVarName',["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
     /**
-     * Name used for reference count monitoring and logging.
+     * Policy for how an attribute variable name is determined.
      */
-    var CLASS_NAME = 'PerspectiveCamera';
+    function getAttribVarName(attribute, varName) {
+        expectArg('attribute', attribute).toBeObject();
+        expectArg('varName', varName).toBeString();
+        return isDefined(attribute.name) ? expectArg('attribute.name', attribute.name).toBeString().value : varName;
+    }
+    return getAttribVarName;
+});
+
+define('davinci-eight/core/getUniformVarName',["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
     /**
-     * @class PerspectiveCamera
+     * Policy for how a uniform variable name is determined.
      */
-    var PerspectiveCamera = (function (_super) {
-        __extends(PerspectiveCamera, _super);
-        /**
-         * <p>
-         *
-         * </p>
-         * @class PerspectiveCamera
-         * @constructor
-         * @param [fov = 75 * Math.PI / 180] {number}
-         * @param [aspect=1] {number}
-         * @param [near=0.1] {number}
-         * @param [far=2000] {number}
-         * @example
-         *   var camera = new EIGHT.PerspectiveCamera()
-         *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
-         *   camera.setFov(3.0 * e3)
-         */
-        function PerspectiveCamera(fov, aspect, near, far) {
-            if (fov === void 0) { fov = 75 * Math.PI / 180; }
-            if (aspect === void 0) { aspect = 1; }
-            if (near === void 0) { near = 0.1; }
-            if (far === void 0) { far = 2000; }
-            _super.call(this, 'PerspectiveCamera');
-            // FIXME: Gotta go
-            this.position = new Vector3();
-            mustBeNumber('fov', fov);
-            mustBeNumber('aspect', aspect);
-            mustBeNumber('near', near);
-            mustBeNumber('far', far);
-            this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
-        }
-        PerspectiveCamera.prototype.destructor = function () {
-        };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
-         * @return {void}
-         */
-        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
-            this.inner.setNear(this.near);
-            this.inner.setFar(this.far);
-            this.inner.setUniforms(visitor, canvasId);
-        };
-        PerspectiveCamera.prototype.contextFree = function () {
-        };
-        PerspectiveCamera.prototype.contextGain = function (manager) {
-        };
-        PerspectiveCamera.prototype.contextLost = function () {
-        };
-        PerspectiveCamera.prototype.draw = function (canvasId) {
-            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
-            // Do nothing.
-        };
-        PerspectiveCamera.prototype.getFacet = function (name) {
-            // FIXME: This is a bit wierd.
-            if (name === this.name) {
-                return this;
-            }
-            else {
-                return void 0;
-            }
-        };
-        PerspectiveCamera.prototype.setFacet = function (name, value) {
-            throw new Error("WTF");
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
-            /**
-             * The aspect ratio (width / height) of the camera viewport.
-             * @property aspect
-             * @type {number}
-             * @readonly
-             */
-            get: function () {
-                return this.inner.aspect;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setAspect
-         * @param aspect {number}
-         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setAspect = function (aspect) {
-            this.inner.aspect = aspect;
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
-            /**
-             * The position of the camera.
-             * @property eye
-             * @type {Vector3}
-             * @readonly
-             */
-            get: function () {
-                return this.inner.eye;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setEye
-         * @param eye {Cartesian3}
-         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setEye = function (eye) {
-            this.inner.setEye(eye);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
-            /**
-             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
-             * Measured in radians.
-             * @property fov
-             * @type {number}
-             * @readonly
-             */
-            // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
-            get: function () {
-                return this.inner.fov;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('fov').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setFov
-         * @param fov {number}
-         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setFov = function (fov) {
-            mustBeNumber('fov', fov);
-            this.inner.fov = fov;
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "look", {
-            get: function () {
-                return this.inner.look;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PerspectiveCamera.prototype.setLook = function (look) {
-            this.inner.setLook(look);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "near", {
-            /**
-             * The distance to the near plane.
-             * @property near
-             * @type {number}
-             * @readonly
-             */
-            get: function () {
-                return this.inner.near;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('near').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method setNear
-         * @param near {number}
-         * @return {PerspectiveCamera} <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
-         * @chainable
-         */
-        PerspectiveCamera.prototype.setNear = function (near) {
-            this.inner.setNear(near);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "far", {
-            get: function () {
-                return this.inner.far;
-            },
-            set: function (far) {
-                this.inner.far = far;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PerspectiveCamera.prototype.setFar = function (far) {
-            this.inner.setFar(far);
-            return this;
-        };
-        Object.defineProperty(PerspectiveCamera.prototype, "up", {
-            get: function () {
-                return this.inner.up;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('up').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        PerspectiveCamera.prototype.setUp = function (up) {
-            this.inner.setUp(up);
-            return this;
-        };
-        return PerspectiveCamera;
-    })(Shareable);
-    return PerspectiveCamera;
+    function getUniformVarName(uniform, varName) {
+        expectArg('uniform', uniform).toBeObject();
+        expectArg('varName', varName).toBeString();
+        return isDefined(uniform.name) ? expectArg('uniform.name', uniform.name).toBeString().value : varName;
+    }
+    return getUniformVarName;
 });
 
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/MonitorList',["require", "exports", '../utils/Shareable', '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, Shareable, mustSatisfy, isInteger) {
-    function beInstanceOfContextMonitors() {
-        return "be an instance of MonitorList";
-    }
-    function beContextMonitorArray() {
-        return "be IContextMonitor[]";
-    }
-    function identity(monitor) {
-        return monitor;
-    }
-    var METHOD_ADD = 'addContextListener';
-    var METHOD_REMOVE = 'removeContextListener';
-    /**
-     * Implementation Only.
-     */
-    var MonitorList = (function (_super) {
-        __extends(MonitorList, _super);
-        function MonitorList(monitors) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, 'MonitorList');
-            this.monitors = monitors.map(identity);
-            this.monitors.forEach(function (monitor) {
-                monitor.addRef();
-            });
-        }
-        MonitorList.prototype.destructor = function () {
-            this.monitors.forEach(function (monitor) {
-                monitor.release();
-            });
-        };
-        MonitorList.prototype.addContextListener = function (user) {
-            this.monitors.forEach(function (monitor) {
-                monitor.addContextListener(user);
-            });
-        };
-        MonitorList.prototype.push = function (monitor) {
-            this.monitors.push(monitor);
-        };
-        MonitorList.prototype.removeContextListener = function (user) {
-            this.monitors.forEach(function (monitor) {
-                monitor.removeContextListener(user);
-            });
-        };
-        MonitorList.prototype.synchronize = function (user) {
-            this.monitors.forEach(function (monitor) {
-                monitor.synchronize(user);
-            });
-        };
-        MonitorList.prototype.toArray = function () {
-            return this.monitors.map(identity);
-        };
-        MonitorList.copy = function (monitors) {
-            return new MonitorList(monitors);
-        };
-        MonitorList.isInstanceOf = function (candidate) {
-            return candidate instanceof MonitorList;
-        };
-        MonitorList.assertInstance = function (name, candidate, contextBuilder) {
-            if (MonitorList.isInstanceOf(candidate)) {
-                return candidate;
+define('davinci-eight/programs/glslAttribType',["require", "exports", '../core/Symbolic', '../checks/mustBeInteger', '../checks/mustBeString'], function (require, exports, Symbolic, mustBeInteger, mustBeString) {
+    function sizeType(size) {
+        mustBeInteger('size', size);
+        switch (size) {
+            case 1: {
+                return 'float';
             }
-            else {
-                mustSatisfy(name, false, beInstanceOfContextMonitors, contextBuilder);
-                throw new Error();
+            case 2: {
+                return 'vec2';
             }
-        };
-        MonitorList.verify = function (name, monitors, contextBuilder) {
-            mustSatisfy(name, isInteger(monitors['length']), beContextMonitorArray, contextBuilder);
-            var monitorsLength = monitors.length;
-            for (var i = 0; i < monitorsLength; i++) {
-            }
-            return monitors;
-        };
-        MonitorList.addContextListener = function (user, monitors) {
-            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.addContextListener'; });
-            monitors.forEach(function (monitor) {
-                monitor.addContextListener(user);
-            });
-        };
-        MonitorList.removeContextListener = function (user, monitors) {
-            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
-            monitors.forEach(function (monitor) {
-                monitor.removeContextListener(user);
-            });
-        };
-        MonitorList.synchronize = function (user, monitors) {
-            MonitorList.verify('monitors', monitors, function () { return 'MonitorList.removeContextListener'; });
-            monitors.forEach(function (monitor) {
-                monitor.synchronize(user);
-            });
-        };
-        return MonitorList;
-    })(Shareable);
-    return MonitorList;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/Scene',["require", "exports", '../scene/createDrawList', '../scene/MonitorList', '../utils/Shareable'], function (require, exports, createDrawList, MonitorList, Shareable) {
-    var LOGGING_NAME = 'Scene';
-    function ctorContext() {
-        return LOGGING_NAME + " constructor";
-    }
-    /**
-     * @class Scene
-     * @extends Shareable
-     * @extends IDrawList
-     */
-    var Scene = (function (_super) {
-        __extends(Scene, _super);
-        // FIXME: Do I need the collection, or can I be fooled into thinking there is one monitor?
-        /**
-         * <p>
-         * A <code>Scene</code> is a collection of drawable instances arranged in some order.
-         * The precise order is implementation defined.
-         * The collection may be traversed for general processing using callback/visitor functions.
-         * </p>
-         * @class Scene
-         * @constructor
-         * @param monitors [IContextMonitor[]=[]]
-         */
-        function Scene(monitors) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, LOGGING_NAME);
-            MonitorList.verify('monitors', monitors, ctorContext);
-            this.drawList = createDrawList();
-            this.monitors = new MonitorList(monitors);
-            this.monitors.addContextListener(this);
-            this.monitors.synchronize(this);
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        Scene.prototype.destructor = function () {
-            this.monitors.removeContextListener(this);
-            this.monitors.release();
-            this.monitors = void 0;
-            this.drawList.release();
-            this.drawList = void 0;
-        };
-        /**
-         * <p>
-         * Adds the <code>drawable</code> to this <code>Scene</code>.
-         * </p>
-         * @method add
-         * @param drawable {IDrawable}
-         * @return {Void}
-         * <p>
-         * This method returns <code>undefined</code>.
-         * </p>
-         */
-        Scene.prototype.add = function (drawable) {
-            this.drawList.add(drawable);
-        };
-        /**
-         * <p>
-         * Traverses the collection of drawables, drawing each one.
-         * </p>
-         * @method draw
-         * @param ambients {IFacet[]}
-         * @param canvasId {number}
-         * @return {void}
-         * @beta
-         */
-        Scene.prototype.draw = function (ambients, canvasId) {
-            this.drawList.draw(ambients, canvasId);
-        };
-        /**
-         * Gets a collection of drawable elements by name.
-         * @method getDrawablesByName
-         * @param name {string}
-         */
-        Scene.prototype.getDrawablesByName = function (name) {
-            return this.drawList.getDrawablesByName(name);
-        };
-        /**
-         * <p>
-         * Removes the <code>drawable</code> from this <code>Scene</code>.
-         * </p>
-         * @method remove
-         * @param drawable {IDrawable}
-         * @return {Void}
-         * <p>
-         * This method returns <code>undefined</code>.
-         * </p>
-         */
-        Scene.prototype.remove = function (drawable) {
-            this.drawList.remove(drawable);
-        };
-        /**
-         * <p>
-         * Traverses the collection of drawables, calling the specified callback arguments.
-         * </p>
-         * @method traverse
-         * @param callback {(drawable: IDrawable) => void} Callback function for each drawable.
-         * @param canvasId {number} Identifies the canvas.
-         * @param prolog {(material: IMaterial) => void} Callback function for each material.
-         * @return {void}
-         */
-        Scene.prototype.traverse = function (callback, canvasId, prolog) {
-            this.drawList.traverse(callback, canvasId, prolog);
-        };
-        Scene.prototype.contextFree = function (canvasId) {
-            this.drawList.contextFree(canvasId);
-        };
-        Scene.prototype.contextGain = function (manager) {
-            this.drawList.contextGain(manager);
-        };
-        Scene.prototype.contextLost = function (canvasId) {
-            this.drawList.contextLost(canvasId);
-        };
-        return Scene;
-    })(Shareable);
-    return Scene;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/commands/EIGHTLogger',["require", "exports", '../core', '../utils/Shareable'], function (require, exports, core, Shareable) {
-    var QUALIFIED_NAME = 'EIGHT.Logger';
-    /**
-     * <p>
-     * Displays details about EIGHT to the console.
-     * <p>
-     * @class EIGHTLogger
-     * @extends Shareable
-     * @implements IContextCommand
-     */
-    var EIGHTLogger = (function (_super) {
-        __extends(EIGHTLogger, _super);
-        /**
-         * <p>
-         * Initializes <b>the</b> `type` property to 'EIGHTLogger'.
-         * </p>
-         * @class EIGHTLogger
-         * @constructor
-         */
-        function EIGHTLogger() {
-            _super.call(this, QUALIFIED_NAME);
-        }
-        /**
-         * Logs the version, GitHub URL, and last modified date to the console.
-         * @method execute
-         * @param unused WebGLRenderingContext
-         */
-        EIGHTLogger.prototype.execute = function (unused) {
-            console.log(core.NAMESPACE + " " + core.VERSION + " (" + core.GITHUB + ") " + core.LAST_MODIFIED);
-        };
-        /**
-         * Does nothing.
-         * @protected
-         * @method destructor
-         * @return void
-         */
-        EIGHTLogger.prototype.destructor = function () {
-        };
-        Object.defineProperty(EIGHTLogger.prototype, "name", {
-            get: function () {
-                return QUALIFIED_NAME;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return EIGHTLogger;
-    })(Shareable);
-    return EIGHTLogger;
-});
-
-define('davinci-eight/checks/isBoolean',["require", "exports"], function (require, exports) {
-    function isBoolean(x) {
-        return (typeof x === 'boolean');
-    }
-    return isBoolean;
-});
-
-define('davinci-eight/checks/mustBeBoolean',["require", "exports", '../checks/mustSatisfy', '../checks/isBoolean'], function (require, exports, mustSatisfy, isBoolean) {
-    function beBoolean() {
-        return "be `boolean`";
-    }
-    function mustBeBoolean(name, value, contextBuilder) {
-        mustSatisfy(name, isBoolean(value), beBoolean, contextBuilder);
-        return value;
-    }
-    return mustBeBoolean;
-});
-
-define('davinci-eight/renderers/renderer',["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IUnknownArray', '../checks/mustBeBoolean', '../utils/refChange', '../utils/uuid4', '../commands/WebGLClear', '../commands/WebGLClearColor', '../commands/WebGLEnable'], function (require, exports, core, EIGHTLogger, IUnknownArray, mustBeBoolean, refChange, uuid4, WebGLClear, WebGLClearColor, WebGLEnable) {
-    function setStartUpCommands(renderer) {
-        var cmd;
-        // `EIGHT major.minor.patch (GitHub URL) YYYY-MM-DD`
-        cmd = new EIGHTLogger();
-        renderer.addContextGainCommand(cmd);
-        cmd.release();
-        // `WebGL major.minor (OpenGL ES ...)`
-        // cmd = new VersionLogger()
-        // renderer.addContextGainCommand(cmd)
-        // cmd.release()
-        // `alpha, antialias, depth, premultipliedAlpha, preserveDrawingBuffer, stencil`
-        // cmd = new ContextAttributesLogger()
-        // renderer.addContextGainCommand(cmd)
-        // cmd.release()
-        // cmd(red, green, blue, alpha)
-        cmd = new WebGLClearColor(0.2, 0.2, 0.2, 1.0);
-        renderer.addContextGainCommand(cmd);
-        cmd.release();
-        // enable(capability)
-        cmd = new WebGLEnable(WebGLRenderingContext.DEPTH_TEST);
-        renderer.addContextGainCommand(cmd);
-        cmd.release();
-    }
-    function setPrologCommands(renderer) {
-        var cmd;
-        // clear(mask)
-        cmd = new WebGLClear(WebGLRenderingContext.COLOR_BUFFER_BIT | WebGLRenderingContext.DEPTH_BUFFER_BIT);
-        renderer.addPrologCommand(cmd);
-        cmd.release();
-    }
-    var CLASS_NAME = "CanonicalContextRenderer";
-    /**
-     * We need to know the canvasId so that we can tell drawables where to draw.
-     * However, we don't need an don't want a canvas because we can only get that once the
-     * canvas has loaded. I suppose a promise would be OK, but that's for another day.
-     *
-     * Part of the role of this class is to manage the commands that are executed at startup/prolog.
-     */
-    var renderer = function () {
-        var _manager;
-        var uuid = uuid4().generate();
-        var refCount = 1;
-        var _autoProlog = true;
-        var prolog = new IUnknownArray();
-        var startUp = new IUnknownArray();
-        var self = {
-            addRef: function () {
-                refCount++;
-                refChange(uuid, CLASS_NAME, +1);
-                return refCount;
-            },
-            get autoProlog() {
-                return _autoProlog;
-            },
-            set autoProlog(autoProlog) {
-                mustBeBoolean('autoProlog', autoProlog);
-                _autoProlog = autoProlog;
-            },
-            get canvas() {
-                return _manager ? _manager.canvas : void 0;
-            },
-            get gl() {
-                return _manager ? _manager.gl : void 0;
-            },
-            contextFree: function () {
-                _manager = void 0;
-            },
-            contextGain: function (manager) {
-                // This object is single context, so we only ever get called with one manager at a time (serially).
-                _manager = manager;
-                startUp.forEach(function (command) {
-                    command.execute(manager.gl);
-                });
-            },
-            contextLost: function () {
-                _manager = void 0;
-            },
-            prolog: function () {
-                if (_manager) {
-                    for (var i = 0, length = prolog.length; i < length; i++) {
-                        var command = prolog.get(i);
-                        command.execute(_manager);
-                        command.release();
-                    }
-                }
-                else {
-                    if (core.verbose) {
-                        console.warn("Unable to execute prolog because WebGLRenderingContext is missing.");
-                    }
-                }
-            },
-            addPrologCommand: function (command) {
-                prolog.push(command);
-            },
-            addContextGainCommand: function (command) {
-                startUp.push(command);
-            },
-            release: function () {
-                refCount--;
-                refChange(uuid, CLASS_NAME, -1);
-                if (refCount === 0) {
-                    prolog.release();
-                    prolog = void 0;
-                    startUp.release();
-                    startUp = void 0;
-                    return 0;
-                }
-                else {
-                    return refCount;
-                }
-            }
-        };
-        refChange(uuid, CLASS_NAME, +1);
-        setStartUpCommands(self);
-        setPrologCommands(self);
-        return self;
-    };
-    return renderer;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/core/BufferResource',["require", "exports", '../checks/isDefined', '../checks/mustBeBoolean', '../checks/mustBeObject', '../utils/Shareable'], function (require, exports, isDefined, mustBeBoolean, mustBeObject, Shareable) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var CLASS_NAME = 'BufferResource';
-    // TODO: Replace this with a functional constructor to prevent tinkering?
-    // TODO: Why is this object specific to one context?
-    var BufferResource = (function (_super) {
-        __extends(BufferResource, _super);
-        function BufferResource(manager, isElements) {
-            _super.call(this, CLASS_NAME);
-            this.manager = mustBeObject('manager', manager);
-            this._isElements = mustBeBoolean('isElements', isElements);
-            manager.addContextListener(this);
-            manager.synchronize(this);
-        }
-        BufferResource.prototype.destructor = function () {
-            this.contextFree(this.manager.canvasId);
-            this.manager.removeContextListener(this);
-            this.manager = void 0;
-            this._isElements = void 0;
-        };
-        BufferResource.prototype.contextFree = function (canvasId) {
-            if (this._buffer) {
-                var gl = this.manager.gl;
-                if (isDefined(gl)) {
-                    gl.deleteBuffer(this._buffer);
-                }
-                else {
-                    console.error(CLASS_NAME + " must leak WebGLBuffer because WebGLRenderingContext is " + typeof gl);
-                }
-                this._buffer = void 0;
-            }
-            else {
-            }
-        };
-        BufferResource.prototype.contextGain = function (manager) {
-            if (this.manager.canvasId === manager.canvasId) {
-                if (!this._buffer) {
-                    this._buffer = manager.gl.createBuffer();
-                }
-                else {
-                }
-            }
-            else {
-                console.warn("BufferResource ignoring contextGain for canvasId " + manager.canvasId);
-            }
-        };
-        BufferResource.prototype.contextLost = function () {
-            this._buffer = void 0;
-        };
-        /**
-         * @method bind
-         */
-        BufferResource.prototype.bind = function () {
-            var gl = this.manager.gl;
-            if (gl) {
-                var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
-                gl.bindBuffer(target, this._buffer);
-            }
-            else {
-                console.warn(CLASS_NAME + " bind() missing WebGL rendering context.");
-            }
-        };
-        /**
-         * @method unbind
-         */
-        BufferResource.prototype.unbind = function () {
-            var gl = this.manager.gl;
-            if (gl) {
-                var target = this._isElements ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER;
-                gl.bindBuffer(target, null);
-            }
-            else {
-                console.warn(CLASS_NAME + " unbind() missing WebGL rendering context.");
-            }
-        };
-        return BufferResource;
-    })(Shareable);
-    return BufferResource;
-});
-
-define('davinci-eight/renderers/initWebGL',["require", "exports", '../checks/isDefined'], function (require, exports, isDefined) {
-    /**
-     * Returns the WebGLRenderingContext given a canvas.
-     * canvas
-     * attributes
-     * If the canvas is undefined then an undefined value is returned for the context.
-     */
-    function initWebGL(canvas, attributes) {
-        // We'll be hyper-functional. An undefined canvas begets and undefined context.
-        // Clients must check their context output or canvas input.
-        if (isDefined(canvas)) {
-            var context;
-            try {
-                // Try to grab the standard context. If it fails, fallback to experimental.
-                context = (canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes));
-            }
-            catch (e) {
-            }
-            if (context) {
-                return context;
-            }
-            else {
-                throw new Error("Unable to initialize WebGL. Your browser may not support it.");
-            }
-        }
-        else {
-            // An undefined canvas results in an undefined context.
-            return void 0;
-        }
-    }
-    return initWebGL;
-});
-
-define('davinci-eight/checks/mustBeInteger',["require", "exports", '../checks/mustSatisfy', '../checks/isInteger'], function (require, exports, mustSatisfy, isInteger) {
-    function beAnInteger() {
-        return "be an integer";
-    }
-    function mustBeInteger(name, value, contextBuilder) {
-        mustSatisfy(name, isInteger(value), beAnInteger, contextBuilder);
-        return value;
-    }
-    return mustBeInteger;
-});
-
-define('davinci-eight/utils/randumbInteger',["require", "exports"], function (require, exports) {
-    /**
-     * Initially used to give me a canvasId.
-     * Using the big-enough space principle to avoid collisions.
-     */
-    function randumbInteger() {
-        var r = Math.random();
-        var s = r * 1000000;
-        var i = Math.round(s);
-        return i;
-    }
-    return randumbInteger;
-});
-
-define('davinci-eight/utils/RefCount',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
-    var RefCount = (function () {
-        function RefCount(callback) {
-            this._refCount = 1;
-            expectArg('callback', callback).toBeFunction();
-            this._callback = callback;
-        }
-        RefCount.prototype.addRef = function () {
-            this._refCount++;
-            return this._refCount;
-        };
-        RefCount.prototype.release = function () {
-            if (this._refCount > 0) {
-                this._refCount--;
-                if (this._refCount === 0) {
-                    var callback = this._callback;
-                    this._callback = void 0;
-                    callback();
-                }
-                return this._refCount;
-            }
-            else {
-                console.warn("release() called with refCount already " + this._refCount);
-            }
-        };
-        return RefCount;
-    })();
-    return RefCount;
-});
-
-define('davinci-eight/resources/TextureResource',["require", "exports", '../checks/expectArg', '../utils/refChange', '../utils/uuid4'], function (require, exports, expectArg, refChange, uuid4) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var LOGGING_NAME_ITEXTURE = 'ITexture';
-    var ms = new Array();
-    var os = [];
-    // What is the difference?
-    var TextureResource = (function () {
-        function TextureResource(monitors, target) {
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
-            // FIXME: Supprt multiple canvas.
-            var monitor = monitors[0];
-            this._monitor = expectArg('montor', monitor).toBeObject().value;
-            this._target = target;
-            refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
-            monitor.addContextListener(this);
-            monitor.synchronize(this);
-        }
-        TextureResource.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, LOGGING_NAME_ITEXTURE, +1);
-            return this._refCount;
-        };
-        TextureResource.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, LOGGING_NAME_ITEXTURE, -1);
-            if (this._refCount === 0) {
-                this._monitor.removeContextListener(this);
-                this.contextFree();
-            }
-            return this._refCount;
-        };
-        TextureResource.prototype.contextFree = function () {
-            // FIXME: I need to know which context.
-            if (this._texture) {
-                this._gl.deleteTexture(this._texture);
-                this._texture = void 0;
-            }
-            this._gl = void 0;
-        };
-        TextureResource.prototype.contextGain = function (manager) {
-            // FIXME: Support multiple canvas.
-            var gl = manager.gl;
-            if (this._gl !== gl) {
-                this.contextFree();
-                this._gl = gl;
-                // I must create a texture for each monitor.
-                // But I only get gl events one at a time.
-                this._texture = gl.createTexture();
-            }
-        };
-        TextureResource.prototype.contextLost = function () {
-            // FIXME: I need to know which context.
-            this._texture = void 0;
-            this._gl = void 0;
-        };
-        /**
-         * @method bind
-         */
-        TextureResource.prototype.bind = function () {
-            if (this._gl) {
-                this._gl.bindTexture(this._target, this._texture);
-            }
-            else {
-                console.warn(LOGGING_NAME_ITEXTURE + " bind() missing WebGL rendering context.");
-            }
-        };
-        /**
-         * @method unbind
-         */
-        TextureResource.prototype.unbind = function () {
-            if (this._gl) {
-                this._gl.bindTexture(this._target, null);
-            }
-            else {
-                console.warn(LOGGING_NAME_ITEXTURE + " unbind() missing WebGL rendering context.");
-            }
-        };
-        return TextureResource;
-    })();
-    return TextureResource;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/utils/contextProxy',["require", "exports", '../core/BufferResource', '../core', '../geometries/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/RefCount', '../utils/refChange', '../utils/Shareable', '../geometries/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, RefCount, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
-    var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
-    var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
-    var LOGGING_NAME_MESH = 'Drawable';
-    var LOGGING_NAME_KAHUNA = 'ContextKahuna';
-    function webglFunctionalConstructorContextBuilder() {
-        // The following string represents how this API is exposed.
-        return "webgl functional constructor";
-    }
-    function mustBeContext(gl, method) {
-        if (gl) {
-            return gl;
-        }
-        else {
-            throw new Error(method + ": gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
-        }
-    }
-    /**
-     * This could become an encapsulated call?
-     * class GeometryDataCommand
-     * private
-     */
-    var GeometryDataCommand = (function () {
-        /**
-         * class GeometryDataCommand
-         * constructor
-         */
-        function GeometryDataCommand(mode, count, type, offset) {
-            this.mode = mode;
-            this.count = count;
-            this.type = type;
-            this.offset = offset;
-        }
-        /**
-         * Executes the drawElements command using the instance state.
-         * method execute
-         * param gl {WebGLRenderingContext}
-         */
-        GeometryDataCommand.prototype.execute = function (gl) {
-            if (isDefined(gl)) {
-                gl.drawElements(this.mode, this.count, this.type, this.offset);
-            }
-            else {
-                console.warn("HFW: Er, like hey dude! You're asking me to draw something without a context. That's not cool, but I won't complain.");
-            }
-        };
-        return GeometryDataCommand;
-    })();
-    /**
-     * class ElementsBlock
-     */
-    var ElementsBlock = (function (_super) {
-        __extends(ElementsBlock, _super);
-        /**
-         * class ElementsBlock
-         * constructor
-         */
-        function ElementsBlock(indexBuffer, attributes, drawCommand) {
-            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK);
-            this._indexBuffer = indexBuffer;
-            this._indexBuffer.addRef();
-            this._attributes = attributes;
-            this._attributes.addRef();
-            this.drawCommand = drawCommand;
-        }
-        ElementsBlock.prototype.destructor = function () {
-            this._attributes.release();
-            this._attributes = void 0;
-            this._indexBuffer.release();
-            this._indexBuffer = void 0;
-        };
-        Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
-            get: function () {
-                this._indexBuffer.addRef();
-                return this._indexBuffer;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ElementsBlock.prototype, "attributes", {
-            get: function () {
-                this._attributes.addRef();
-                return this._attributes;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ElementsBlock;
-    })(Shareable);
-    var ElementsBlockAttrib = (function (_super) {
-        __extends(ElementsBlockAttrib, _super);
-        function ElementsBlockAttrib(buffer, size, normalized, stride, offset) {
-            _super.call(this, LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE);
-            this._buffer = buffer;
-            this._buffer.addRef();
-            this.size = size;
-            this.normalized = normalized;
-            this.stride = stride;
-            this.offset = offset;
-        }
-        ElementsBlockAttrib.prototype.destructor = function () {
-            this._buffer.release();
-            this._buffer = void 0;
-            this.size = void 0;
-            this.normalized = void 0;
-            this.stride = void 0;
-            this.offset = void 0;
-        };
-        Object.defineProperty(ElementsBlockAttrib.prototype, "buffer", {
-            get: function () {
-                this._buffer.addRef();
-                return this._buffer;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ElementsBlockAttrib;
-    })(Shareable);
-    // TODO: If mode provided, check consistent with elements.k.
-    // expectArg('mode', mode).toSatisfy(isDrawMode(mode, gl), "mode must be one of TRIANGLES, ...");
-    function drawMode(k, mode) {
-        switch (k) {
-            case Simplex.K_FOR_TRIANGLE: {
-                return mustBeNumber('TRIANGLES', WebGLRenderingContext.TRIANGLES);
-            }
-            case Simplex.K_FOR_LINE_SEGMENT: {
-                return mustBeNumber('LINES', WebGLRenderingContext.LINES);
-            }
-            case Simplex.K_FOR_POINT: {
-                return mustBeNumber('POINTS', WebGLRenderingContext.POINTS);
-            }
-            case Simplex.K_FOR_EMPTY: {
-                return void 0;
+            case 3: {
+                return 'vec3';
             }
             default: {
-                throw new Error("Unexpected k-simplex dimension, k => " + k);
+                throw new Error("Can't compute the GLSL attribute type from size " + size);
             }
         }
     }
-    function isDrawMode(mode) {
-        mustBeNumber('mode', mode);
-        switch (mode) {
-            case WebGLRenderingContext.TRIANGLES: {
-                return true;
-            }
-            case WebGLRenderingContext.LINES: {
-                return true;
-            }
-            case WebGLRenderingContext.POINTS: {
-                return true;
+    function glslAttribType(key, size) {
+        mustBeString('key', key);
+        mustBeInteger('size', size);
+        switch (key) {
+            case Symbolic.ATTRIBUTE_COLOR: {
+                return 'vec3';
             }
             default: {
-                return false;
+                return sizeType(size);
             }
         }
     }
-    function isBufferUsage(usage) {
-        mustBeNumber('usage', usage);
-        switch (usage) {
-            case WebGLRenderingContext.STATIC_DRAW: {
-                return true;
-            }
-            default: {
-                return false;
-            }
-        }
-    }
-    function messageUnrecognizedMesh(uuid) {
-        mustBeString('uuid', uuid);
-        return uuid + " is not a recognized mesh uuid";
-    }
-    function attribKey(aName, aNameToKeyName) {
-        if (aNameToKeyName) {
-            var key = aNameToKeyName[aName];
-            return key ? key : aName;
-        }
-        else {
-            return aName;
-        }
-    }
-    // FIXME: Use this function pair to replace BEGIN..END
-    /**
-     *
-     */
-    function bindProgramAttribLocations(program, canvasId, block, aNameToKeyName) {
-        // FIXME: Expecting canvasId here.
-        // FIXME: This is where we get the IMaterial attributes property.
-        // FIXME: Can we invert this?
-        // What are we offering to the program:
-        // block.attributes (reference counted)
-        // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
-        // in order to get the name -> index correct.
-        // Then attribute setting shoul go much faster
-        var attribLocations = program.attributes(canvasId);
-        if (attribLocations) {
-            var aNames = Object.keys(attribLocations);
-            var aNamesLength = aNames.length;
-            var i;
-            for (i = 0; i < aNamesLength; i++) {
-                var aName = aNames[i];
-                var key = attribKey(aName, aNameToKeyName);
-                var attributes = block.attributes;
-                var attribute = attributes.get(key);
-                if (attribute) {
-                    // Associate the attribute buffer with the attribute location.
-                    // FIXME Would be nice to be able to get a weak reference to the buffer.
-                    var buffer = attribute.buffer;
-                    buffer.bind();
-                    var attributeLocation = attribLocations[aName];
-                    attributeLocation.vertexPointer(attribute.size, attribute.normalized, attribute.stride, attribute.offset);
-                    buffer.unbind();
-                    attributeLocation.enable();
-                    buffer.release();
-                    attribute.release();
-                }
-                else {
-                    // The attribute available may not be required by the program.
-                    // TODO: (1) Named programs, (2) disable warning by attribute?
-                    // Do not allow Attribute 0 to be disabled.
-                    console.warn("program attribute " + aName + " is not satisfied by the mesh");
-                }
-                attributes.release();
-            }
-        }
-        else {
-            console.warn("bindProgramAttribLocations: program.attributes is falsey.");
-        }
-    }
-    function unbindProgramAttribLocations(program, canvasId) {
-        // FIXME: Not sure if this suggests a disableAll() or something more symmetric.
-        var attribLocations = program.attributes(canvasId);
-        if (attribLocations) {
-            Object.keys(attribLocations).forEach(function (aName) {
-                attribLocations[aName].disable();
-            });
-        }
-        else {
-            console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
-        }
-    }
-    function webgl(attributes) {
-        // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
-        // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
-        var uuid = uuid4().generate();
-        var blocks = new StringIUnknownMap();
-        // Remark: We only hold weak references to users so that the lifetime of resource
-        // objects is not affected by the fact that they are listening for gl events.
-        // Users should automatically add themselves upon construction and remove upon release.
-        // // FIXME: Really? Not IUnknownArray<IIContextConsumer> ?
-        var users = [];
-        function addContextListener(user) {
-            expectArg('user', user).toBeObject();
-            var index = users.indexOf(user);
-            if (index < 0) {
-                users.push(user);
-            }
-            else {
-                console.warn("user already exists for addContextListener");
-            }
-        }
-        /**
-         * Implementation of removeContextListener for the kahuna.
-         */
-        function removeContextListener(user) {
-            expectArg('user', user).toBeObject();
-            var index = users.indexOf(user);
-            if (index >= 0) {
-                var removals = users.splice(index, 1);
-            }
-            else {
-                console.warn("user not found for removeContextListener(user)");
-            }
-        }
-        function synchronize(user) {
-            if (gl) {
-                if (gl.isContextLost()) {
-                    user.contextLost(_canvasId);
-                }
-                else {
-                    user.contextGain(kahuna);
-                }
-            }
-            else {
-            }
-        }
-        function meshRemover(blockUUID) {
-            return function () {
-                if (blocks.exists(blockUUID)) {
-                    blocks.remove(blockUUID);
-                }
-                else {
-                    console.warn("[System Error] " + messageUnrecognizedMesh(blockUUID));
-                }
-            };
-        }
-        function createBufferGeometry(uuid, canvasId) {
-            var refCount = new RefCount(meshRemover(uuid));
-            var _program = void 0;
-            var mesh = {
-                addRef: function () {
-                    refChange(uuid, LOGGING_NAME_MESH, +1);
-                    return refCount.addRef();
-                },
-                release: function () {
-                    refChange(uuid, LOGGING_NAME_MESH, -1);
-                    return refCount.release();
-                },
-                get uuid() {
-                    return uuid;
-                },
-                bind: function (program, aNameToKeyName) {
-                    if (_program !== program) {
-                        if (_program) {
-                            mesh.unbind();
-                        }
-                        var block = blocks.get(uuid);
-                        if (block) {
-                            if (program) {
-                                _program = program;
-                                _program.addRef();
-                                var indexBuffer = block.indexBuffer;
-                                indexBuffer.bind();
-                                indexBuffer.release();
-                                bindProgramAttribLocations(_program, canvasId, block, aNameToKeyName);
-                            }
-                            else {
-                                expectArg('program', program).toBeObject();
-                            }
-                            block.release();
-                        }
-                        else {
-                            throw new Error(messageUnrecognizedMesh(uuid));
-                        }
-                    }
-                },
-                draw: function () {
-                    var block = blocks.get(uuid);
-                    if (block) {
-                        block.drawCommand.execute(gl);
-                        block.release();
-                    }
-                    else {
-                        throw new Error(messageUnrecognizedMesh(uuid));
-                    }
-                },
-                unbind: function () {
-                    if (_program) {
-                        var block = blocks.get(uuid);
-                        if (block) {
-                            // FIXME: Ask block to unbind index buffer and avoid addRef/release
-                            var indexBuffer = block.indexBuffer;
-                            indexBuffer.unbind();
-                            indexBuffer.release();
-                            // FIXME: Looks like an IMaterial method!
-                            unbindProgramAttribLocations(_program, _canvasId);
-                            block.release();
-                        }
-                        else {
-                            throw new Error(messageUnrecognizedMesh(uuid));
-                        }
-                        // We bumped up the reference count during bind. Now we are done.
-                        _program.release();
-                        // Important! The existence of _program indicates the binding state.
-                        _program = void 0;
-                    }
-                }
-            };
-            refChange(uuid, LOGGING_NAME_MESH, +1);
-            return mesh;
-        }
-        var gl;
-        /**
-         * We must cache the canvas so that we can remove listeners when `stop() is called.
-         * Only between `start()` and `stop()` is canvas defined.
-         * We use a canvasBuilder so the other initialization can happen while we are waiting
-         * for the DOM to load.
-         */
-        var _canvas;
-        var _canvasId;
-        var refCount = 1;
-        var tokenArg = expectArg('token', "");
-        var webGLContextLost = function (event) {
-            if (isDefined(_canvas)) {
-                event.preventDefault();
-                gl = void 0;
-                users.forEach(function (user) {
-                    user.contextLost(_canvasId);
-                });
-            }
-        };
-        var webGLContextRestored = function (event) {
-            if (isDefined(_canvas)) {
-                event.preventDefault();
-                gl = initWebGL(_canvas, attributes);
-                users.forEach(function (user) {
-                    user.contextGain(kahuna);
-                });
-            }
-        };
-        var kahuna = {
-            get canvasId() {
-                return _canvasId;
-            },
-            /**
-             *
-             */
-            createBufferGeometry: function (elements, mode, usage) {
-                expectArg('elements', elements).toSatisfy(elements instanceof GeometryData, "elements must be an instance of GeometryElements");
-                mode = drawMode(elements.k, mode);
-                if (!isDefined(mode)) {
-                    // An empty simplex (k = -1 or vertices.length = k + 1 = 0) begets
-                    // something that can't be drawn (no mode) and it is invisible anyway.
-                    // In such a case we choose not to allocate any buffers. What would be the usage?
-                    return void 0;
-                }
-                if (isDefined(usage)) {
-                    expectArg('usage', usage).toSatisfy(isBufferUsage(usage), "usage must be on of STATIC_DRAW, ...");
-                }
-                else {
-                    // TODO; Perhaps a simpler way to be Hyper Functional Warrior is to use WebGLRenderingContext.STATIC_DRAW?
-                    usage = isDefined(gl) ? gl.STATIC_DRAW : void 0;
-                }
-                // It's going to get pretty hopeless without a WebGL context.
-                // If that's the case, let's just return undefined now before we start allocating useless stuff.
-                if (isUndefined(gl)) {
-                    if (core.verbose) {
-                        console.warn("Impossible to create a buffer geometry without a WebGL context. Sorry, no dice!");
-                    }
-                    return void 0;
-                }
-                var mesh = createBufferGeometry(uuid4().generate(), _canvasId);
-                var indexBuffer = kahuna.createElementArrayBuffer();
-                indexBuffer.bind();
-                if (isDefined(gl)) {
-                    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(elements.indices.data), usage);
-                }
-                else {
-                    console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
-                }
-                indexBuffer.unbind();
-                var attributes = new StringIUnknownMap();
-                var names = Object.keys(elements.attributes);
-                var namesLength = names.length;
-                var i;
-                for (i = 0; i < namesLength; i++) {
-                    var name_1 = names[i];
-                    var buffer = kahuna.createArrayBuffer();
-                    buffer.bind();
-                    var vertexAttrib = elements.attributes[name_1];
-                    var data = vertexAttrib.values.data;
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), usage);
-                    var attribute = new ElementsBlockAttrib(buffer, vertexAttrib.size, false, 0, 0);
-                    attributes.put(name_1, attribute);
-                    attribute.release();
-                    buffer.unbind();
-                    buffer.release();
-                }
-                // Use UNSIGNED_BYTE  if ELEMENT_ARRAY_BUFFER is a Uint8Array.
-                // Use UNSIGNED_SHORT if ELEMENT_ARRAY_BUFFER is a Uint16Array.
-                switch (elements.k) {
-                }
-                var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
-                var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-                blocks.put(mesh.uuid, block);
-                block.release();
-                attributes.release();
-                indexBuffer.release();
-                return mesh;
-            },
-            start: function (canvas, canvasId) {
-                var alreadyStarted = isDefined(_canvas);
-                if (!alreadyStarted) {
-                    // cache the arguments
-                    _canvas = canvas;
-                    _canvasId = canvasId;
-                }
-                else {
-                    // We'll assert that if we have a canvas element then we should have a canvas id.
-                    mustBeInteger('_canvasId', _canvasId);
-                    // We'll just be idempotent and ignore the call because we've already been started.
-                    // To use the canvas might conflict with one we have dynamically created.
-                    if (core.verbose) {
-                        console.warn("Ignoring `start()` because already started.");
-                    }
-                    return;
-                }
-                // What if we were given a "no-op" canvasBuilder that returns undefined for the canvas.
-                // To not complain is the way of the hyper-functional warrior.
-                if (isDefined(_canvas)) {
-                    gl = initWebGL(_canvas, attributes);
-                    users.forEach(function (user) {
-                        kahuna.synchronize(user);
-                    });
-                    _canvas.addEventListener('webglcontextlost', webGLContextLost, false);
-                    _canvas.addEventListener('webglcontextrestored', webGLContextRestored, false);
-                }
-            },
-            stop: function () {
-                if (isDefined(_canvas)) {
-                    _canvas.removeEventListener('webglcontextrestored', webGLContextRestored, false);
-                    _canvas.removeEventListener('webglcontextlost', webGLContextLost, false);
-                    if (gl) {
-                        if (gl.isContextLost()) {
-                            users.forEach(function (user) { user.contextLost(_canvasId); });
-                        }
-                        else {
-                            users.forEach(function (user) { user.contextFree(_canvasId); });
-                        }
-                        gl = void 0;
-                    }
-                    _canvas = void 0;
-                    _canvasId = void 0;
-                }
-            },
-            addContextListener: function (user) {
-                addContextListener(user);
-            },
-            removeContextListener: function (user) {
-                removeContextListener(user);
-            },
-            synchronize: function (user) {
-                synchronize(user);
-            },
-            get canvas() {
-                if (!_canvas) {
-                    // Interesting little side-effect!
-                    // Love the way kahuna talks in the third person.
-                    kahuna.start(document.createElement('canvas'), randumbInteger());
-                }
-                return _canvas;
-            },
-            get gl() {
-                if (gl) {
-                    return gl;
-                }
-                else {
-                    console.warn("property gl: WebGLRenderingContext is not defined. Either gl has been lost or start() not called.");
-                    return void 0;
-                }
-            },
-            addRef: function () {
-                refCount++;
-                refChange(uuid, LOGGING_NAME_KAHUNA, +1);
-                return refCount;
-            },
-            release: function () {
-                refCount--;
-                refChange(uuid, LOGGING_NAME_KAHUNA, -1);
-                if (refCount === 0) {
-                    blocks.release();
-                    while (users.length > 0) {
-                        var user = users.pop();
-                    }
-                }
-                return refCount;
-            },
-            createArrayBuffer: function () {
-                // TODO: Replace with functional constructor pattern?
-                return new BufferResource(kahuna, false);
-            },
-            createElementArrayBuffer: function () {
-                // TODO: Replace with functional constructor pattern?
-                // FIXME
-                // It's a bit draconian to insist that there be a WegGLRenderingContext.
-                // Especially whenthe BufferResource willl be listening for context coming and goings.
-                // Let's be Hyper-Functional Warrior and let it go.
-                // Only problem is, we don't know if we should be handling elements or attributes. No problem.
-                return new BufferResource(kahuna, true);
-            },
-            createTexture2D: function () {
-                // TODO: Replace with functional constructor pattern.
-                // FIXME Does this mean that Texture only has one IContextMonitor?
-                return new TextureResource([kahuna], mustBeContext(gl, 'createTexture2D()').TEXTURE_2D);
-            },
-            createTextureCubeMap: function () {
-                // TODO: Replace with functional constructor pattern.
-                return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
-            }
-        };
-        refChange(uuid, LOGGING_NAME_KAHUNA, +1);
-        return kahuna;
-    }
-    return webgl;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/scene/Canvas3D',["require", "exports", '../renderers/renderer', '../utils/contextProxy', '../core', '../checks/mustBeDefined', '../checks/mustBeInteger', '../i18n/readOnly', '../utils/Shareable'], function (require, exports, createRenderer, contextProxy, core, mustBeDefined, mustBeInteger, readOnly, Shareable) {
-    function beHTMLCanvasElement() {
-        return "be an HTMLCanvasElement";
-    }
-    var defaultCanvasBuilder = function () { return document.createElement('canvas'); };
-    /**
-     * @class Canvas3D
-     */
-    var Canvas3D = (function (_super) {
-        __extends(Canvas3D, _super);
-        /**
-         * @class Canvas3D
-         * @constructor
-         * @param canvasBuilder {() => HTMLCanvasElement} The canvas is created lazily, allowing construction during DOM load.
-         * @param canvasId [number=0] A user-supplied integer canvas identifier. User is responsible for keeping them unique.
-         * @param attributes [WebGLContextAttributes] Allow the context to be configured.
-         * @beta
-         */
-        // FIXME: Move attributes to start()
-        function Canvas3D(attributes) {
-            _super.call(this, 'Canvas3D');
-            this._kahuna = contextProxy(attributes);
-            this._renderer = createRenderer();
-            this._kahuna.addContextListener(this._renderer);
-            this._kahuna.synchronize(this._renderer);
-        }
-        /**
-         * @method destructor
-         * return {void}
-         * @protected
-         */
-        Canvas3D.prototype.destructor = function () {
-            this._kahuna.removeContextListener(this._renderer);
-            this._kahuna.release();
-            this._kahuna = void 0;
-            this._renderer.release();
-            this._renderer = void 0;
-        };
-        Canvas3D.prototype.addContextListener = function (user) {
-            this._kahuna.addContextListener(user);
-        };
-        Object.defineProperty(Canvas3D.prototype, "autoProlog", {
-            /**
-             * <p>
-             * Determines whether prolog commands are run automatically as part of the `render()` call.
-             * </p>
-             * @property autoProlog
-             * @type boolean
-             * @default true
-             */
-            get: function () {
-                return this._renderer.autoProlog;
-            },
-            set: function (autoProlog) {
-                this._renderer.autoProlog = autoProlog;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Canvas3D.prototype, "canvas", {
-            get: function () {
-                return this._kahuna.canvas;
-            },
-            set: function (canvas) {
-                this._kahuna.canvas = canvas;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Canvas3D.prototype, "canvasId", {
-            /**
-             * @property canvasId
-             * @type {number}
-             * @readOnly
-             */
-            get: function () {
-                return this._kahuna.canvasId;
-            },
-            set: function (unused) {
-                // FIXME: DRY delegate to kahuna? Should give the same result.
-                throw new Error(readOnly('canvasId').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /* FIXME: Do we need this. Why. Why not kahuna too?
-        // No contract says that we need to return this.
-        // It's cust that convenience of having someone else do it for you!
-        get canvas(): HTMLCanvasElement {
-          return this._kahuna
-          return this._canvas
-        }
-        */
-        Canvas3D.prototype.contextFree = function (canvasId) {
-            this._renderer.contextFree(canvasId);
-        };
-        Canvas3D.prototype.contextGain = function (manager) {
-            this._renderer.contextGain(manager);
-        };
-        Canvas3D.prototype.contextLost = function (canvasId) {
-            this._renderer.contextLost(canvasId);
-        };
-        Canvas3D.prototype.createArrayBuffer = function () {
-            return this._kahuna.createArrayBuffer();
-        };
-        Canvas3D.prototype.createBufferGeometry = function (elements, mode, usage) {
-            return this._kahuna.createBufferGeometry(elements, mode, usage);
-        };
-        Canvas3D.prototype.createElementArrayBuffer = function () {
-            return this._kahuna.createElementArrayBuffer();
-        };
-        Canvas3D.prototype.createTextureCubeMap = function () {
-            return this._kahuna.createTextureCubeMap();
-        };
-        Canvas3D.prototype.createTexture2D = function () {
-            return this._kahuna.createTexture2D();
-        };
-        Object.defineProperty(Canvas3D.prototype, "gl", {
-            get: function () {
-                return this._kahuna.gl;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Canvas3D.prototype.prolog = function () {
-            this._renderer.prolog();
-        };
-        Canvas3D.prototype.addPrologCommand = function (command) {
-            this._renderer.addPrologCommand(command);
-        };
-        Canvas3D.prototype.addContextGainCommand = function (command) {
-            this._renderer.addContextGainCommand(command);
-        };
-        Canvas3D.prototype.removeContextListener = function (user) {
-            this._kahuna.removeContextListener(user);
-        };
-        Canvas3D.prototype.setSize = function (width, height) {
-            mustBeInteger('width', width);
-            mustBeInteger('height', height);
-            var canvas = this.canvas;
-            canvas.width = width;
-            canvas.height = height;
-            this.gl.viewport(0, 0, width, height);
-        };
-        Canvas3D.prototype.start = function (canvas, canvasId) {
-            // FIXME: DRY delegate to kahuna.
-            if (!(canvas instanceof HTMLElement)) {
-                if (core.verbose) {
-                    console.warn("canvas must be an HTMLCanvasElement to start the context.");
-                }
-                return;
-            }
-            mustBeDefined('canvas', canvas);
-            mustBeInteger('canvasId', canvasId);
-            this._kahuna.start(canvas, canvasId);
-        };
-        Canvas3D.prototype.stop = function () {
-            this._kahuna.stop();
-        };
-        Canvas3D.prototype.synchronize = function (user) {
-            this._kahuna.synchronize(user);
-        };
-        return Canvas3D;
-    })(Shareable);
-    return Canvas3D;
-});
-
-define('davinci-eight/geometries/GeometryElements',["require", "exports"], function (require, exports) {
-    /**
-     * <p>
-     * A geometry holds the elements or arrays sent to the GLSL pipeline.
-     * </p>
-     * <p>
-     * These instructions are in a compact form suitable for populating WebGLBuffer(s).
-     * </p>
-     *
-     * @class GeometryElements
-     */
-    var GeometryElements = (function () {
-        /**
-         * @class GeometryElements
-         * @constructor
-         * @param data {GeometryData} The instructions for drawing the geometry.
-         * @param meta {GeometryMeta}
-         */
-        function GeometryElements(data, meta) {
-            this.data = data;
-            this.meta = meta;
-        }
-        return GeometryElements;
-    })();
-    return GeometryElements;
-});
-
-define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries/toGeometryMeta', '../geometries/GeometryElements', '../geometries/Simplex', '../geometries/toGeometryData'], function (require, exports, toGeometryMeta, GeometryElements, Simplex, toGeometryData) {
-    /**
-     * @class Geometry
-     */
-    var Geometry = (function () {
-        /**
-         * A list of simplices (data) with information about dimensionality and vertex properties (meta).
-         * This class should be used as an abstract base or concrete class when constructing
-         * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
-         * @class Geometry
-         * @constructor
-         */
-        function Geometry() {
-            /**
-             * @property data
-             * @type {Simplex[]}
-             */
-            this.data = [];
-            this.dynamic = true;
-            this.verticesNeedUpdate = false;
-            this.elementsNeedUpdate = false;
-            this.uvsNeedUpdate = false;
-        }
-        /**
-         * <p>
-         * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
-         * </p>
-         *
-         * @method boundary
-         * @param times {number} Determines the number of times the boundary operation is applied to this instance.
-         * @return {Geometry}
-         */
-        Geometry.prototype.boundary = function (times) {
-            this.data = Simplex.boundary(this.data, times);
-            return this.check();
-        };
-        /**
-         * Updates the meta property of this instance to match the data.
-         *
-         * @method check
-         * @return {Geometry}
-         */
-        // FIXME: Rename to something more descriptive.
-        Geometry.prototype.check = function () {
-            this.meta = toGeometryMeta(this.data);
-            return this;
-        };
-        /**
-         * Applies the subdivide operation to each Simplex in this instance the specified number of times.
-         *
-         * @method subdivide
-         * @param times {number} Determines the number of times the subdivide operation is applied to this instance.
-         * @return {Geometry}
-         */
-        Geometry.prototype.subdivide = function (times) {
-            this.data = Simplex.subdivide(this.data, times);
-            this.check();
-            return this;
-        };
-        /**
-         * @method toGeometry
-         * @return {GeometryElements}
-         */
-        Geometry.prototype.toElements = function () {
-            this.check();
-            var elements = toGeometryData(this.data, this.meta);
-            return new GeometryElements(elements, this.meta);
-        };
-        /**
-         *
-         */
-        Geometry.prototype.mergeVertices = function (precisionPoints) {
-            if (precisionPoints === void 0) { precisionPoints = 4; }
-            // console.warn("Geometry.mergeVertices not yet implemented");
-        };
-        return Geometry;
-    })();
-    return Geometry;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, triangle, Vector3) {
-    /**
-     * @module EIGHT
-     * @submodule geometries
-     * @class BarnGeometry
-     */
-    var BarnGeometry = (function (_super) {
-        __extends(BarnGeometry, _super);
-        /**
-         * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
-         * Ten (10) vertices are used to define the barn.
-         * The floor vertices are lablled 0, 1, 6, 5.
-         * The corresponding ceiling vertices are labelled 4, 2, 7, 9.
-         * The roof peak vertices are labelled 3, 8.
-         * @class BarnGeometry
-         * @constructor
-         */
-        function BarnGeometry() {
-            _super.call(this);
-            this.a = Vector3.e1.clone();
-            this.b = Vector3.e2.clone();
-            this.c = Vector3.e3.clone();
-            this.k = 1;
-            this.calculate();
-        }
-        BarnGeometry.prototype.calculate = function () {
-            var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
-            points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2);
-            points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideScalar(2);
-            points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
-            points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
-            points[4] = new Vector3().copy(points[0]).add(this.b);
-            points[2] = new Vector3().copy(points[1]).add(this.b);
-            points[7] = new Vector3().copy(points[6]).add(this.b);
-            points[9] = new Vector3().copy(points[5]).add(this.b);
-            points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideScalar(2);
-            points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideScalar(2);
-            function simplex(indices) {
-                var simplex = new Simplex(indices.length - 1);
-                for (var i = 0; i < indices.length; i++) {
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = points[indices[i]];
-                }
-                return simplex;
-            }
-            switch (this.k) {
-                case 0:
-                    {
-                        var simplices = points.map(function (point) {
-                            var simplex = new Simplex(0);
-                            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = point;
-                            return simplex;
-                        });
-                        this.data = simplices;
-                    }
-                    break;
-                case 1:
-                    {
-                        var lines = [[0, 1], [1, 6], [6, 5], [5, 0], [1, 2], [6, 7], [5, 9], [0, 4], [4, 3], [3, 2], [9, 8], [8, 7], [9, 4], [8, 3], [7, 2]];
-                        this.data = lines.map(function (line) { return simplex(line); });
-                    }
-                    break;
-                case 2:
-                    {
-                        var faces = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index) { return void 0; });
-                        faces[0] = quad(points[0], points[5], points[9], points[4]);
-                        faces[1] = quad(points[3], points[4], points[9], points[8]);
-                        faces[2] = quad(points[2], points[3], points[8], points[7]);
-                        faces[3] = quad(points[1], points[2], points[7], points[6]);
-                        faces[4] = quad(points[0], points[1], points[6], points[5]);
-                        faces[5] = quad(points[5], points[6], points[7], points[9]);
-                        faces[6] = quad(points[0], points[4], points[2], points[1]);
-                        faces[7] = triangle(points[9], points[7], points[8]);
-                        faces[8] = triangle(points[2], points[4], points[3]);
-                        this.data = faces.reduce(function (a, b) { return a.concat(b); }, []);
-                        this.data.forEach(function (simplex) {
-                            computeFaceNormals(simplex);
-                        });
-                    }
-                    break;
-                default: {
-                }
-            }
-            // Compute the meta data.
-            this.check();
-        };
-        return BarnGeometry;
-    })(Geometry);
-    return BarnGeometry;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, Vector1, Vector3) {
-    /**
-     * @class CuboidGeometry
-     */
-    var CuboidGeometry = (function (_super) {
-        __extends(CuboidGeometry, _super);
-        function CuboidGeometry() {
-            _super.call(this);
-            this.a = Vector3.e1.clone();
-            this.b = Vector3.e2.clone();
-            this.c = Vector3.e3.clone();
-            this.k = 1;
-            this.calculate();
-        }
-        CuboidGeometry.prototype.calculate = function () {
-            var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
-            pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
-            pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
-            pos[2] = new Vector3().add(this.a).add(this.b).add(this.c).divideScalar(2);
-            pos[3] = new Vector3().sub(this.a).add(this.b).add(this.c).divideScalar(2);
-            pos[4] = new Vector3().copy(pos[3]).sub(this.c);
-            pos[5] = new Vector3().copy(pos[2]).sub(this.c);
-            pos[6] = new Vector3().copy(pos[1]).sub(this.c);
-            pos[7] = new Vector3().copy(pos[0]).sub(this.c);
-            function simplex(indices) {
-                var simplex = new Simplex(indices.length - 1);
-                for (var i = 0; i < indices.length; i++) {
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]];
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_GEOMETRY_INDEX] = new Vector1([i]);
-                }
-                return simplex;
-            }
-            switch (this.k) {
-                case 0:
-                    {
-                        var points = [[0], [1], [2], [3], [4], [5], [6], [7]];
-                        this.data = points.map(function (point) { return simplex(point); });
-                    }
-                    break;
-                case 1:
-                    {
-                        var lines = [[0, 1], [1, 2], [2, 3], [3, 0], [0, 7], [1, 6], [2, 5], [3, 4], [4, 5], [5, 6], [6, 7], [7, 4]];
-                        this.data = lines.map(function (line) { return simplex(line); });
-                    }
-                    break;
-                case 2:
-                    {
-                        var faces = [0, 1, 2, 3, 4, 5].map(function (index) { return void 0; });
-                        faces[0] = quad(pos[0], pos[1], pos[2], pos[3]);
-                        faces[1] = quad(pos[1], pos[6], pos[5], pos[2]);
-                        faces[2] = quad(pos[7], pos[0], pos[3], pos[4]);
-                        faces[3] = quad(pos[6], pos[7], pos[4], pos[5]);
-                        faces[4] = quad(pos[3], pos[2], pos[5], pos[4]);
-                        faces[5] = quad(pos[7], pos[6], pos[1], pos[0]);
-                        this.data = faces.reduce(function (a, b) { return a.concat(b); }, []);
-                        this.data.forEach(function (simplex) {
-                            computeFaceNormals(simplex);
-                        });
-                    }
-                    break;
-                default: {
-                }
-            }
-            // Compute the meta data.
-            this.check();
-        };
-        return CuboidGeometry;
-    })(Geometry);
-    return CuboidGeometry;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/geometries/Simplex1Geometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector3) {
-    //import VectorN = require('../math/VectorN')
-    /**
-     * @class Simplex1Geometry
-     */
-    var Simplex1Geometry = (function (_super) {
-        __extends(Simplex1Geometry, _super);
-        /**
-         * @class Simplex1Geometry
-         * @constructor
-         */
-        function Simplex1Geometry() {
-            _super.call(this);
-            this.head = new Vector3([1, 0, 0]);
-            this.tail = new Vector3([0, 1, 0]);
-            this.calculate();
-        }
-        Simplex1Geometry.prototype.calculate = function () {
-            var pos = [0, 1].map(function (index) { return void 0; });
-            pos[0] = this.tail;
-            pos[1] = this.head;
-            function simplex(indices) {
-                var simplex = new Simplex(indices.length - 1);
-                for (var i = 0; i < indices.length; i++) {
-                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]];
-                }
-                return simplex;
-            }
-            this.data = [[0, 1]].map(function (line) { return simplex(line); });
-            // Compute the meta data.
-            this.check();
-        };
-        return Simplex1Geometry;
-    })(Geometry);
-    return Simplex1Geometry;
-});
-
-define('davinci-eight/programs/makeWebGLShader',["require", "exports"], function (require, exports) {
-    /**
-     *
-     */
-    function makeWebGLShader(gl, source, type) {
-        var shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-        var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-        if (compiled) {
-            return shader;
-        }
-        else {
-            if (!gl.isContextLost()) {
-                var message = gl.getShaderInfoLog(shader);
-                gl.deleteShader(shader);
-                throw new Error("Error compiling shader: " + message);
-            }
-            else {
-                throw new Error("Context lost while compiling shader");
-            }
-        }
-    }
-    return makeWebGLShader;
-});
-
-define('davinci-eight/programs/makeWebGLProgram',["require", "exports", '../programs/makeWebGLShader'], function (require, exports, makeWebGLShader) {
-    function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
-        // create our shaders
-        var vs = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
-        var fs = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
-        // Create the program object.
-        var program = ctx.createProgram();
-        // Attach our two shaders to the program.
-        ctx.attachShader(program, vs);
-        ctx.attachShader(program, fs);
-        // Bind attributes allows us to specify the index that an attribute should be bound to.
-        for (var index = 0; index < attribs.length; ++index) {
-            ctx.bindAttribLocation(program, index, attribs[index]);
-        }
-        // Link the program.
-        ctx.linkProgram(program);
-        // Check the link status
-        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
-        if (linked || ctx.isContextLost()) {
-            return program;
-        }
-        else {
-            var message = ctx.getProgramInfoLog(program);
-            ctx.detachShader(program, vs);
-            ctx.deleteShader(vs);
-            ctx.detachShader(program, fs);
-            ctx.deleteShader(fs);
-            ctx.deleteProgram(program);
-            throw new Error("Error linking program: " + message);
-        }
-    }
-    return makeWebGLProgram;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation, makeWebGLProgram, UniformLocation, Shareable) {
-    /**
-     * This class is "simple because" it assumes exactly one vertex shader and on fragment shader.
-     * This class assumes that it will only be supporting a single WebGL rendering context.
-     * The existence of the manager in the constructor enables it to enforce this invariant.
-     */
-    var SimpleWebGLProgram = (function (_super) {
-        __extends(SimpleWebGLProgram, _super);
-        function SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs) {
-            _super.call(this, 'SimpleWebGLProgram');
-            this.attributes = {};
-            this.uniforms = {};
-            this.manager = manager;
-            // Interesting. CM can't be addRefd!
-            // manager.addRef()
-            this.vertexShader = vertexShader;
-            this.fragmentShader = fragmentShader;
-            this.attribs = attribs;
-            this.manager.addContextListener(this);
-            this.manager.synchronize(this);
-        }
-        SimpleWebGLProgram.prototype.destructor = function () {
-            var manager = this.manager;
-            var canvasId = manager.canvasId;
-            // If the program has been allocated, find out what to do with it.
-            // (we may have been disconnected from listening)
-            if (this.program) {
-                var gl = manager.gl;
-                if (gl) {
-                    if (gl.isContextLost()) {
-                        this.contextLost(canvasId);
-                    }
-                    else {
-                        this.contextFree(canvasId);
-                    }
-                }
-                else {
-                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
-                }
-            }
-            manager.removeContextListener(this);
-            // this.manager.release()
-            this.manager = void 0;
-        };
-        SimpleWebGLProgram.prototype.contextGain = function (manager) {
-            if (!this.program) {
-                this.program = makeWebGLProgram(manager.gl, this.vertexShader, this.fragmentShader, this.attribs);
-                var context = manager.gl;
-                var program = this.program;
-                var attributes = this.attributes;
-                var uniforms = this.uniforms;
-                var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
-                for (var a = 0; a < activeAttributes; a++) {
-                    var activeAttribInfo = context.getActiveAttrib(program, a);
-                    var name_1 = activeAttribInfo.name;
-                    if (!attributes[name_1]) {
-                        attributes[name_1] = new AttribLocation(manager, name_1);
-                    }
-                }
-                var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
-                for (var u = 0; u < activeUniforms; u++) {
-                    var activeUniformInfo = context.getActiveUniform(program, u);
-                    var name_2 = activeUniformInfo.name;
-                    if (!uniforms[name_2]) {
-                        uniforms[name_2] = new UniformLocation(manager, name_2);
-                    }
-                }
-                for (var aName in attributes) {
-                    attributes[aName].contextGain(context, program);
-                }
-                for (var uName in uniforms) {
-                    uniforms[uName].contextGain(context, program);
-                }
-            }
-        };
-        SimpleWebGLProgram.prototype.contextLost = function (canvasId) {
-            this.program = void 0;
-            for (var aName in this.attributes) {
-                this.attributes[aName].contextLost();
-            }
-            for (var uName in this.uniforms) {
-                this.uniforms[uName].contextLost();
-            }
-        };
-        SimpleWebGLProgram.prototype.contextFree = function (canvasId) {
-            if (this.program) {
-                var gl = this.manager.gl;
-                if (gl) {
-                    if (!gl.isContextLost()) {
-                        gl.deleteProgram(this.program);
-                    }
-                    else {
-                    }
-                }
-                else {
-                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
-                }
-                this.program = void 0;
-            }
-            for (var aName in this.attributes) {
-                this.attributes[aName].contextFree();
-            }
-            for (var uName in this.uniforms) {
-                this.uniforms[uName].contextFree();
-            }
-        };
-        SimpleWebGLProgram.prototype.use = function () {
-            this.manager.gl.useProgram(this.program);
-        };
-        return SimpleWebGLProgram;
-    })(Shareable);
-    return SimpleWebGLProgram;
-});
-
-define('davinci-eight/programs/createMaterial',["require", "exports", '../core', '../scene/MonitorList', '../utils/NumberIUnknownMap', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, core, MonitorList, NumberIUnknownMap, mustBeInteger, mustBeString, uuid4, refChange, SimpleWebGLProgram) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var LOGGING_NAME_IMATERIAL = 'IMaterial';
-    /**
-     * Creates a WebGLProgram with compiled and linked shaders.
-     */
-    // FIXME: Handle list of shaders? Else createSimpleProgram
-    var createMaterial = function (monitors, vertexShader, fragmentShader, attribs) {
-        MonitorList.verify('monitors', monitors, function () { return "createMaterial"; });
-        // FIXME multi-context
-        if (typeof vertexShader !== 'string') {
-            throw new Error("vertexShader argument must be a string.");
-        }
-        if (typeof fragmentShader !== 'string') {
-            throw new Error("fragmentShader argument must be a string.");
-        }
-        var refCount = 1;
-        /**
-         * Because we are multi-canvas aware, programs are tracked by the canvas id.
-         */
-        var programsByCanvasId = new NumberIUnknownMap();
-        var uuid = uuid4().generate();
-        var self = {
-            get vertexShader() {
-                return vertexShader;
-            },
-            get fragmentShader() {
-                return fragmentShader;
-            },
-            attributes: function (canvasId) {
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    return program.attributes;
-                }
-            },
-            uniforms: function (canvasId) {
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    return program.uniforms;
-                }
-            },
-            addRef: function (client) {
-                // mustBeDefined('client', client)
-                refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
-                refCount++;
-                return refCount;
-            },
-            release: function (client) {
-                // mustBeDefined('client', client)
-                refChange(uuid, LOGGING_NAME_IMATERIAL, -1);
-                refCount--;
-                if (refCount === 0) {
-                    MonitorList.removeContextListener(self, monitors);
-                    programsByCanvasId.release();
-                }
-                return refCount;
-            },
-            contextFree: function (canvasId) {
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    program.contextFree(canvasId);
-                    programsByCanvasId.remove(canvasId);
-                }
-            },
-            contextGain: function (manager) {
-                var canvasId;
-                var sprog;
-                canvasId = manager.canvasId;
-                if (!programsByCanvasId.exists(canvasId)) {
-                    sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs);
-                    programsByCanvasId.putWeakReference(canvasId, sprog);
-                }
-                else {
-                    sprog = programsByCanvasId.getWeakReference(canvasId);
-                }
-                sprog.contextGain(manager);
-            },
-            contextLost: function (canvasId) {
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    program.contextLost(canvasId);
-                    programsByCanvasId.remove(canvasId);
-                }
-            },
-            get programId() {
-                return uuid;
-            },
-            use: function (canvasId) {
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    program.use();
-                }
-                else {
-                    console.warn(LOGGING_NAME_IMATERIAL + " use(canvasId: number) missing WebGLRenderingContext");
-                }
-            },
-            enableAttrib: function (name, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var attribLoc = program.attributes[name];
-                    if (attribLoc) {
-                        attribLoc.enable();
-                    }
-                    else {
-                    }
-                }
-                else {
-                }
-            },
-            disableAttrib: function (name, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var attribLoc = program.attributes[name];
-                    if (attribLoc) {
-                        attribLoc.enable();
-                    }
-                    else {
-                    }
-                }
-                else {
-                }
-            },
-            uniform1f: function (name, x, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.uniform1f(x);
-                    }
-                    else {
-                    }
-                }
-                else {
-                }
-            },
-            uniform2f: function (name, x, y, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.uniform2f(x, y);
-                    }
-                }
-            },
-            uniform3f: function (name, x, y, z, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.uniform3f(x, y, z);
-                    }
-                }
-            },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.uniform4f(x, y, z, w);
-                    }
-                }
-            },
-            uniformMatrix1: function (name, transpose, matrix, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.matrix1(transpose, matrix);
-                    }
-                }
-            },
-            uniformMatrix2: function (name, transpose, matrix, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.matrix2(transpose, matrix);
-                    }
-                }
-            },
-            uniformMatrix3: function (name, transpose, matrix, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.matrix3(transpose, matrix);
-                    }
-                }
-            },
-            uniformMatrix4: function (name, transpose, matrix, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.matrix4(transpose, matrix);
-                    }
-                }
-                else {
-                    if (core.verbose) {
-                        console.warn("Ignoring uniformMatrix4 for " + name + " because `typeof canvasId` is " + typeof canvasId);
-                    }
-                }
-            },
-            uniformVector1: function (name, vector, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.vector1(vector);
-                    }
-                }
-            },
-            uniformVector2: function (name, vector, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.vector2(vector);
-                    }
-                }
-            },
-            uniformVector3: function (name, vector, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.vector3(vector);
-                    }
-                }
-            },
-            uniformVector4: function (name, vector, canvasId) {
-                mustBeString('name', name);
-                mustBeInteger('canvasId', canvasId);
-                var program = programsByCanvasId.getWeakReference(canvasId);
-                if (program) {
-                    // FIXME: Renames to simply uniforms (what else could they be?)
-                    var uniformLoc = program.uniforms[name];
-                    if (uniformLoc) {
-                        uniformLoc.vector4(vector);
-                    }
-                }
-            }
-        };
-        MonitorList.addContextListener(self, monitors);
-        MonitorList.synchronize(self, monitors);
-        refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
-        return self;
-    };
-    return createMaterial;
+    return glslAttribType;
 });
 
 define('davinci-eight/programs/fragmentShader',["require", "exports", '../checks/mustBeBoolean', '../checks/mustBeDefined'], function (require, exports, mustBeBoolean, mustBeDefined) {
@@ -8872,330 +7769,6 @@ define('davinci-eight/programs/fragmentShader',["require", "exports", '../checks
         return code;
     }
     return fragmentShader;
-});
-
-define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
-    function mergeStringMapList(ms) {
-        var result = {};
-        ms.forEach(function (m) {
-            var keys = Object.keys(m);
-            var keysLength = keys.length;
-            for (var i = 0; i < keysLength; i++) {
-                var key = keys[i];
-                var value = m[key];
-                result[key] = value;
-            }
-        });
-        return result;
-    }
-    return mergeStringMapList;
-});
-
-define('davinci-eight/programs/vColorRequired',["require", "exports", '../core/Symbolic'], function (require, exports, Symbolic) {
-    function vColorRequired(attributes, uniforms) {
-        return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
-    }
-    return vColorRequired;
-});
-
-define('davinci-eight/core/getAttribVarName',["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
-    /**
-     * Policy for how an attribute variable name is determined.
-     */
-    function getAttribVarName(attribute, varName) {
-        expectArg('attribute', attribute).toBeObject();
-        expectArg('varName', varName).toBeString();
-        return isDefined(attribute.name) ? expectArg('attribute.name', attribute.name).toBeString().value : varName;
-    }
-    return getAttribVarName;
-});
-
-define('davinci-eight/core/getUniformVarName',["require", "exports", '../checks/isDefined', '../checks/expectArg'], function (require, exports, isDefined, expectArg) {
-    /**
-     * Policy for how a uniform variable name is determined.
-     */
-    function getUniformVarName(uniform, varName) {
-        expectArg('uniform', uniform).toBeObject();
-        expectArg('varName', varName).toBeString();
-        return isDefined(uniform.name) ? expectArg('uniform.name', uniform.name).toBeString().value : varName;
-    }
-    return getUniformVarName;
-});
-
-define('davinci-eight/programs/vertexShader',["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/Symbolic'], function (require, exports, getAttribVarName, getUniformVarName, mustBeBoolean, mustBeDefined, Symbolic) {
-    function getUniformCodeName(uniforms, name) {
-        return getUniformVarName(uniforms[name], name);
-    }
-    var SPACE = ' ';
-    var ATTRIBUTE = 'attribute' + SPACE;
-    var UNIFORM = 'uniform' + SPACE;
-    var COMMA = ',' + SPACE;
-    var SEMICOLON = ';';
-    var LPAREN = '(';
-    var RPAREN = ')';
-    var TIMES = SPACE + '*' + SPACE;
-    var ASSIGN = SPACE + '=' + SPACE;
-    var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
-    function indent(n) {
-        return SPACE + SPACE;
-    }
-    /**
-     *
-     */
-    function vertexShader(attributes, uniforms, vColor, vLight) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        mustBeBoolean('vColor', vColor);
-        mustBeBoolean('vLight', vLight);
-        var lines = [];
-        for (var aName in attributes) {
-            lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
-        }
-        for (var uName in uniforms) {
-            lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
-        }
-        if (vColor) {
-            lines.push("varying highp vec4 vColor;");
-        }
-        if (vLight) {
-            lines.push("varying highp vec3 vLight;");
-        }
-        lines.push("void main(void) {");
-        var glPosition = [];
-        glPosition.unshift(SEMICOLON);
-        if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
-            glPosition.unshift(RPAREN);
-            glPosition.unshift("1.0");
-            glPosition.unshift(COMMA);
-            glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
-            glPosition.unshift(LPAREN);
-            glPosition.unshift("vec4");
-        }
-        else {
-            glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
-        }
-        if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
-        }
-        if (uniforms[Symbolic.UNIFORM_VIEW_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX));
-        }
-        if (uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]) {
-            glPosition.unshift(TIMES);
-            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX));
-        }
-        glPosition.unshift(ASSIGN);
-        glPosition.unshift("gl_Position");
-        glPosition.unshift('  ');
-        lines.push(glPosition.join(''));
-        if (uniforms[Symbolic.UNIFORM_POINT_SIZE]) {
-            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_POINT_SIZE) + ";");
-        }
-        if (vColor) {
-            if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
-                var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
-                switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
-                    case 'vec4':
-                        {
-                            lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
-                        }
-                        break;
-                    case 'vec3':
-                        {
-                            lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
-                        }
-                        break;
-                    default: {
-                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
-                    }
-                }
-            }
-            else if (uniforms[Symbolic.UNIFORM_COLOR]) {
-                var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
-                switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
-                    case 'vec4':
-                        {
-                            lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
-                        }
-                        break;
-                    case 'vec3':
-                        {
-                            lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
-                        }
-                        break;
-                    default: {
-                        throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
-                    }
-                }
-            }
-            else {
-                lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);");
-            }
-        }
-        if (vLight) {
-            if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
-                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
-                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + ");");
-                lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(dot(N, L), 0.0);");
-                if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
-                }
-                else {
-                    lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
-                }
-            }
-            else {
-                if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
-                    lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + ";");
-                }
-                else {
-                    lines.push("  vLight = vec3(1.0, 1.0, 1.0);");
-                }
-            }
-        }
-        lines.push("}");
-        var code = lines.join("\n");
-        return code;
-    }
-    return vertexShader;
-});
-
-define('davinci-eight/programs/vLightRequired',["require", "exports", '../checks/mustBeDefined', '../core/Symbolic'], function (require, exports, mustBeDefined, Symbolic) {
-    function vLightRequired(attributes, uniforms) {
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniforms', uniforms);
-        return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
-    }
-    return vLightRequired;
-});
-
-define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createMaterial', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createMaterial, vColorRequired, vertexShader, vLightRequired) {
-    /**
-     *
-     */
-    var smartProgram = function (monitors, attributes, uniformsList, bindings) {
-        MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniformsList', uniformsList);
-        var uniforms = mergeStringMapList(uniformsList);
-        var vColor = vColorRequired(attributes, uniforms);
-        var vLight = vLightRequired(attributes, uniforms);
-        var innerProgram = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
-        var self = {
-            get programId() {
-                return innerProgram.programId;
-            },
-            attributes: function (canvasId) {
-                return innerProgram.attributes(canvasId);
-            },
-            uniforms: function (canvasId) {
-                return innerProgram.uniforms(canvasId);
-            },
-            get vertexShader() {
-                return innerProgram.vertexShader;
-            },
-            get fragmentShader() {
-                return innerProgram.fragmentShader;
-            },
-            addRef: function () {
-                return innerProgram.addRef();
-            },
-            release: function () {
-                return innerProgram.release();
-            },
-            contextFree: function (canvasId) {
-                return innerProgram.contextFree(canvasId);
-            },
-            contextGain: function (manager) {
-                return innerProgram.contextGain(manager);
-            },
-            contextLost: function (canvasId) {
-                return innerProgram.contextLost(canvasId);
-            },
-            use: function (canvasId) {
-                return innerProgram.use(canvasId);
-            },
-            enableAttrib: function (name, canvasId) {
-                return innerProgram.enableAttrib(name, canvasId);
-            },
-            disableAttrib: function (name, canvasId) {
-                return innerProgram.disableAttrib(name, canvasId);
-            },
-            uniform1f: function (name, x, canvasId) {
-                return innerProgram.uniform1f(name, x, canvasId);
-            },
-            uniform2f: function (name, x, y, canvasId) {
-                return innerProgram.uniform2f(name, x, y, canvasId);
-            },
-            uniform3f: function (name, x, y, z, canvasId) {
-                return innerProgram.uniform3f(name, x, y, z, canvasId);
-            },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                return innerProgram.uniform4f(name, x, y, z, w, canvasId);
-            },
-            uniformMatrix1: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
-            },
-            uniformMatrix2: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
-            },
-            uniformMatrix3: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
-            },
-            uniformMatrix4: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
-            },
-            uniformVector1: function (name, vector, canvasId) {
-                return innerProgram.uniformVector1(name, vector, canvasId);
-            },
-            uniformVector2: function (name, vector, canvasId) {
-                return innerProgram.uniformVector2(name, vector, canvasId);
-            },
-            uniformVector3: function (name, vector, canvasId) {
-                return innerProgram.uniformVector3(name, vector, canvasId);
-            },
-            uniformVector4: function (name, vector, canvasId) {
-                return innerProgram.uniformVector4(name, vector, canvasId);
-            }
-        };
-        return self;
-    };
-    return smartProgram;
-});
-
-define('davinci-eight/programs/programFromScripts',["require", "exports", '../programs/createMaterial', '../checks/expectArg', '../scene/MonitorList'], function (require, exports, createMaterial, expectArg, MonitorList) {
-    // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
-    // FIXME: Temporary rename simpleProgramFromScripts?
-    /**
-     * @method programFromScripts
-     * @param monitors {IContextMonitor[]}
-     * @param vsId {string} The vertex shader script element identifier.
-     * @param fsId {string} The fragment shader script element identifier.
-     * @param $document {Document} The document containing the script elements.
-     */
-    function programFromScripts(monitors, vsId, fsId, $document, attribs) {
-        if (attribs === void 0) { attribs = []; }
-        MonitorList.verify('monitors', monitors, function () { return "programFromScripts"; });
-        expectArg('vsId', vsId).toBeString();
-        expectArg('fsId', fsId).toBeString();
-        expectArg('$document', $document).toBeObject();
-        function $(id) {
-            expectArg('id', id).toBeString();
-            var element = $document.getElementById(id);
-            if (element) {
-                return element;
-            }
-            else {
-                throw new Error(id + " is not a valid DOM element identifier.");
-            }
-        }
-        var vertexShader = $(vsId).textContent;
-        var fragmentShader = $(fsId).textContent;
-        return createMaterial(monitors, vertexShader, fragmentShader, attribs);
-    }
-    return programFromScripts;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -9607,87 +8180,899 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
     return Material;
 });
 
+define('davinci-eight/core/AttribLocation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    function existsLocation(location) {
+        return location >= 0;
+    }
+    /**
+     * Utility class for managing a shader attribute variable.
+     * While this class may be created directly by the user, it is preferable
+     * to use the AttribLocation instances managed by the Program because
+     * there will be improved integrity and context loss management.
+     * @class AttribLocation
+     * @implements IContextProgramConsumer
+     */
+    var AttribLocation = (function () {
+        /**
+         * Convenience class that assists in the lifecycle management of an atrribute used in a vertex shader.
+         * In particular, this class manages buffer allocation, location caching, and data binding.
+         * @class AttribLocation
+         * @constructor
+         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
+         * @param name {string} The name of the variable as it appears in the GLSL program.
+         */
+        function AttribLocation(manager, name) {
+            expectArg('manager', manager).toBeObject().value;
+            this._name = expectArg('name', name).toBeString().value;
+        }
+        Object.defineProperty(AttribLocation.prototype, "index", {
+            get: function () {
+                return this._index;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        AttribLocation.prototype.contextFree = function () {
+            this.contextLost();
+        };
+        AttribLocation.prototype.contextGain = function (context, program) {
+            this.contextLost();
+            this._index = context.getAttribLocation(program, this._name);
+            this._context = context;
+        };
+        AttribLocation.prototype.contextLost = function () {
+            this._index = void 0;
+            this._context = void 0;
+        };
+        /**
+         * @method vertexPointer
+         * @param size {number} The number of components per attribute. Must be 1,2,3, or 4.
+         * @param normalized {boolean} Used for WebGL rendering context vertexAttribPointer method.
+         * @param stride {number} Used for WebGL rendering context vertexAttribPointer method.
+         * @param offset {number} Used for WebGL rendering context vertexAttribPointer method.
+         */
+        AttribLocation.prototype.vertexPointer = function (size, normalized, stride, offset) {
+            if (normalized === void 0) { normalized = false; }
+            if (stride === void 0) { stride = 0; }
+            if (offset === void 0) { offset = 0; }
+            this._context.vertexAttribPointer(this._index, size, this._context.FLOAT, normalized, stride, offset);
+        };
+        /**
+         * @method enable
+         */
+        AttribLocation.prototype.enable = function () {
+            this._context.enableVertexAttribArray(this._index);
+        };
+        /**
+         * @method disable
+         */
+        AttribLocation.prototype.disable = function () {
+            this._context.disableVertexAttribArray(this._index);
+        };
+        /**
+         * @method toString
+         */
+        AttribLocation.prototype.toString = function () {
+            return ['attribute', this._name].join(' ');
+        };
+        return AttribLocation;
+    })();
+    return AttribLocation;
+});
+
+define('davinci-eight/programs/makeWebGLShader',["require", "exports"], function (require, exports) {
+    /**
+     *
+     */
+    function makeWebGLShader(gl, source, type) {
+        var shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+        if (compiled) {
+            return shader;
+        }
+        else {
+            if (!gl.isContextLost()) {
+                var message = gl.getShaderInfoLog(shader);
+                gl.deleteShader(shader);
+                throw new Error("Error compiling shader: " + message);
+            }
+            else {
+                throw new Error("Context lost while compiling shader");
+            }
+        }
+    }
+    return makeWebGLShader;
+});
+
+define('davinci-eight/programs/makeWebGLProgram',["require", "exports", '../programs/makeWebGLShader'], function (require, exports, makeWebGLShader) {
+    function makeWebGLProgram(ctx, vertexShader, fragmentShader, attribs) {
+        // create our shaders
+        var vs = makeWebGLShader(ctx, vertexShader, ctx.VERTEX_SHADER);
+        var fs = makeWebGLShader(ctx, fragmentShader, ctx.FRAGMENT_SHADER);
+        // Create the program object.
+        var program = ctx.createProgram();
+        // Attach our two shaders to the program.
+        ctx.attachShader(program, vs);
+        ctx.attachShader(program, fs);
+        // Bind attributes allows us to specify the index that an attribute should be bound to.
+        for (var index = 0; index < attribs.length; ++index) {
+            ctx.bindAttribLocation(program, index, attribs[index]);
+        }
+        // Link the program.
+        ctx.linkProgram(program);
+        // Check the link status
+        var linked = ctx.getProgramParameter(program, ctx.LINK_STATUS);
+        if (linked || ctx.isContextLost()) {
+            return program;
+        }
+        else {
+            var message = ctx.getProgramInfoLog(program);
+            ctx.detachShader(program, vs);
+            ctx.deleteShader(vs);
+            ctx.detachShader(program, fs);
+            ctx.deleteShader(fs);
+            ctx.deleteProgram(program);
+            throw new Error("Error linking program: " + message);
+        }
+    }
+    return makeWebGLProgram;
+});
+
+define('davinci-eight/core/UniformLocation',["require", "exports", '../checks/expectArg'], function (require, exports, expectArg) {
+    function matrix4NE(a, b) {
+        return a[0x0] !== b[0x0] || a[0x1] !== b[0x1] || a[0x2] !== b[0x2] || a[0x3] !== b[0x3] || a[0x4] !== b[0x4] || a[0x5] !== b[0x5] || a[0x6] !== b[0x6] || a[0x7] !== b[0x7] || a[0x8] !== b[0x8] || a[0x9] !== b[0x9] || a[0xA] !== b[0xA] || a[0xB] !== b[0xB] || a[0xC] !== b[0xC] || a[0xD] !== b[0xD] || a[0xE] !== b[0xE] || a[0xF] !== b[0xF];
+    }
+    /**
+     * Utility class for managing a shader uniform variable.
+     * @class UniformLocation
+     */
+    var UniformLocation = (function () {
+        /**
+         * @class UniformLocation
+         * @constructor
+         * @param manager {IContextProvider} Unused. May be used later e.g. for mirroring.
+         * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
+         */
+        function UniformLocation(manager, name) {
+            // FIXME: No more mirroring.
+            this._x = void 0;
+            this._y = void 0;
+            this._z = void 0;
+            this._w = void 0;
+            this._matrix4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(function () { return void 0; });
+            this._transpose = void 0;
+            expectArg('manager', manager).toBeObject().value;
+            this._name = expectArg('name', name).toBeString().value;
+        }
+        /**
+         * @method contextFree
+         */
+        UniformLocation.prototype.contextFree = function () {
+            this.contextLost();
+        };
+        /**
+         * @method contextGain
+         * @param context {WebGLRenderingContext}
+         * @param program {WebGLProgram}
+         */
+        UniformLocation.prototype.contextGain = function (context, program) {
+            this.contextLost();
+            this._context = context;
+            // FIXME: Uniform locations are created for a specific program,
+            // which means that locations cannot be shared.
+            this._location = context.getUniformLocation(program, this._name);
+            this._program = program;
+        };
+        /**
+         * @method contextLost
+         */
+        UniformLocation.prototype.contextLost = function () {
+            this._context = void 0;
+            this._location = void 0;
+            this._program = void 0;
+            this._x = void 0;
+            this._y = void 0;
+            this._z = void 0;
+            this._w = void 0;
+            this._matrix4.map(function () { return void 0; });
+            this._transpose = void 0;
+        };
+        /**
+         * @method uniform1f
+         * @param x
+         */
+        UniformLocation.prototype.uniform1f = function (x) {
+            this._context.useProgram(this._program);
+            this._context.uniform1f(this._location, x);
+        };
+        /**
+         * @method uniform2f
+         * @param x {number}
+         * @param y {number}
+         */
+        UniformLocation.prototype.uniform2f = function (x, y) {
+            this._context.useProgram(this._program);
+            this._context.uniform2f(this._location, x, y);
+        };
+        /**
+         * @method uniform3f
+         * @param x {number}
+         * @param y {number}
+         * @param z {number}
+         */
+        UniformLocation.prototype.uniform3f = function (x, y, z) {
+            this._context.useProgram(this._program);
+            this._context.uniform3f(this._location, x, y, z);
+        };
+        /**
+         * @method uniform4f
+         * @param x {number}
+         * @param y {number}
+         * @param z {number}
+         * @param w {number}
+         */
+        UniformLocation.prototype.uniform4f = function (x, y, z, w) {
+            this._context.useProgram(this._program);
+            this._context.uniform4f(this._location, x, y, z, w);
+        };
+        /**
+         * @method matrix1
+         * @param transpose {boolean}
+         * @param matrix {Matrix1}
+         */
+        UniformLocation.prototype.matrix1 = function (transpose, matrix) {
+            this._context.useProgram(this._program);
+            this._context.uniform1fv(this._location, matrix.data);
+        };
+        /**
+         * @method matrix2
+         * @param transpose {boolean}
+         * @param matrix {Matrix2}
+         */
+        UniformLocation.prototype.matrix2 = function (transpose, matrix) {
+            this._context.useProgram(this._program);
+            this._context.uniformMatrix2fv(this._location, transpose, matrix.data);
+        };
+        /**
+         * @method matrix3
+         * @param transpose {boolean}
+         * @param matrix {Matrix3}
+         */
+        UniformLocation.prototype.matrix3 = function (transpose, matrix) {
+            this._context.useProgram(this._program);
+            this._context.uniformMatrix3fv(this._location, transpose, matrix.data);
+        };
+        /**
+         * @method matrix4
+         * @param transpose {boolean}
+         * @param matrix {Matrix4}
+         */
+        UniformLocation.prototype.matrix4 = function (transpose, matrix) {
+            this._context.useProgram(this._program);
+            var matrix4 = this._matrix4;
+            var data = matrix.data;
+            if (matrix4NE(matrix4, data) || this._transpose != transpose) {
+                this._context.uniformMatrix4fv(this._location, transpose, data);
+                // TODO: Use Matrix4.
+                matrix4[0x0] = data[0x0];
+                matrix4[0x1] = data[0x1];
+                matrix4[0x2] = data[0x2];
+                matrix4[0x3] = data[0x3];
+                matrix4[0x4] = data[0x4];
+                matrix4[0x5] = data[0x5];
+                matrix4[0x6] = data[0x6];
+                matrix4[0x7] = data[0x7];
+                matrix4[0x8] = data[0x8];
+                matrix4[0x9] = data[0x9];
+                matrix4[0xA] = data[0xA];
+                matrix4[0xB] = data[0xB];
+                matrix4[0xC] = data[0xC];
+                matrix4[0xD] = data[0xD];
+                matrix4[0xE] = data[0xE];
+                matrix4[0xF] = data[0xF];
+                this._transpose = transpose;
+            }
+        };
+        /**
+         * @method vector1
+         * @param vector {Vector1}
+         */
+        UniformLocation.prototype.vector1 = function (vector) {
+            this._context.useProgram(this._program);
+            this._context.uniform1fv(this._location, vector.data);
+        };
+        /**
+         * @method vector2
+         * @param vector {Vector2}
+         */
+        UniformLocation.prototype.vector2 = function (vector) {
+            this._context.useProgram(this._program);
+            this._context.uniform2fv(this._location, vector.data);
+        };
+        /**
+         * @method vector3
+         * @param vector {Vector3}
+         */
+        UniformLocation.prototype.vector3 = function (vector) {
+            if (vector) {
+                this._context.useProgram(this._program);
+                var data = vector.data;
+                var x = data[0];
+                var y = data[1];
+                var z = data[2];
+                if (this._x !== x || this._y !== y || this._z !== z) {
+                    this._context.uniform3fv(this._location, data);
+                    this._x = x;
+                    this._y = y;
+                    this._z = z;
+                }
+            }
+            else {
+                console.warn("UniformLocation.vector3 called with `typeof vector` => " + typeof vector);
+            }
+        };
+        /**
+         * @method vector4
+         * @param vector {Vector4}
+         */
+        UniformLocation.prototype.vector4 = function (vector) {
+            this._context.useProgram(this._program);
+            this._context.uniform4fv(this._location, vector.data);
+        };
+        /**
+         * @method toString
+         */
+        UniformLocation.prototype.toString = function () {
+            return ['uniform', this._name].join(' ');
+        };
+        return UniformLocation;
+    })();
+    return UniformLocation;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../materials/Material', '../checks/mustSatisfy', '../programs/programFromScripts'], function (require, exports, Material, mustSatisfy, programFromScripts) {
+define('davinci-eight/programs/SimpleWebGLProgram',["require", "exports", '../core/AttribLocation', '../programs/makeWebGLProgram', '../core/UniformLocation', '../utils/Shareable'], function (require, exports, AttribLocation, makeWebGLProgram, UniformLocation, Shareable) {
+    /**
+     * This class is "simple because" it assumes exactly one vertex shader and on fragment shader.
+     * This class assumes that it will only be supporting a single WebGL rendering context.
+     * The existence of the manager in the constructor enables it to enforce this invariant.
+     */
+    var SimpleWebGLProgram = (function (_super) {
+        __extends(SimpleWebGLProgram, _super);
+        function SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs) {
+            _super.call(this, 'SimpleWebGLProgram');
+            this.attributes = {};
+            this.uniforms = {};
+            this.manager = manager;
+            // Interesting. CM can't be addRefd!
+            // manager.addRef()
+            this.vertexShader = vertexShader;
+            this.fragmentShader = fragmentShader;
+            this.attribs = attribs;
+            this.manager.addContextListener(this);
+            this.manager.synchronize(this);
+        }
+        SimpleWebGLProgram.prototype.destructor = function () {
+            var manager = this.manager;
+            var canvasId = manager.canvasId;
+            // If the program has been allocated, find out what to do with it.
+            // (we may have been disconnected from listening)
+            if (this.program) {
+                var gl = manager.gl;
+                if (gl) {
+                    if (gl.isContextLost()) {
+                        this.contextLost(canvasId);
+                    }
+                    else {
+                        this.contextFree(canvasId);
+                    }
+                }
+                else {
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                }
+            }
+            manager.removeContextListener(this);
+            // this.manager.release()
+            this.manager = void 0;
+        };
+        SimpleWebGLProgram.prototype.contextGain = function (manager) {
+            if (!this.program) {
+                this.program = makeWebGLProgram(manager.gl, this.vertexShader, this.fragmentShader, this.attribs);
+                var context = manager.gl;
+                var program = this.program;
+                var attributes = this.attributes;
+                var uniforms = this.uniforms;
+                var activeAttributes = context.getProgramParameter(program, context.ACTIVE_ATTRIBUTES);
+                for (var a = 0; a < activeAttributes; a++) {
+                    var activeAttribInfo = context.getActiveAttrib(program, a);
+                    var name_1 = activeAttribInfo.name;
+                    if (!attributes[name_1]) {
+                        attributes[name_1] = new AttribLocation(manager, name_1);
+                    }
+                }
+                var activeUniforms = context.getProgramParameter(program, context.ACTIVE_UNIFORMS);
+                for (var u = 0; u < activeUniforms; u++) {
+                    var activeUniformInfo = context.getActiveUniform(program, u);
+                    var name_2 = activeUniformInfo.name;
+                    if (!uniforms[name_2]) {
+                        uniforms[name_2] = new UniformLocation(manager, name_2);
+                    }
+                }
+                for (var aName in attributes) {
+                    attributes[aName].contextGain(context, program);
+                }
+                for (var uName in uniforms) {
+                    uniforms[uName].contextGain(context, program);
+                }
+            }
+        };
+        SimpleWebGLProgram.prototype.contextLost = function (canvasId) {
+            this.program = void 0;
+            for (var aName in this.attributes) {
+                this.attributes[aName].contextLost();
+            }
+            for (var uName in this.uniforms) {
+                this.uniforms[uName].contextLost();
+            }
+        };
+        SimpleWebGLProgram.prototype.contextFree = function (canvasId) {
+            if (this.program) {
+                var gl = this.manager.gl;
+                if (gl) {
+                    if (!gl.isContextLost()) {
+                        gl.deleteProgram(this.program);
+                    }
+                    else {
+                    }
+                }
+                else {
+                    console.warn("memory leak: WebGLProgram has not been deleted because WebGLRenderingContext is not available anymore.");
+                }
+                this.program = void 0;
+            }
+            for (var aName in this.attributes) {
+                this.attributes[aName].contextFree();
+            }
+            for (var uName in this.uniforms) {
+                this.uniforms[uName].contextFree();
+            }
+        };
+        SimpleWebGLProgram.prototype.use = function () {
+            this.manager.gl.useProgram(this.program);
+        };
+        return SimpleWebGLProgram;
+    })(Shareable);
+    return SimpleWebGLProgram;
+});
+
+define('davinci-eight/programs/createMaterial',["require", "exports", '../core', '../scene/MonitorList', '../utils/NumberIUnknownMap', '../checks/mustBeInteger', '../checks/mustBeString', '../utils/uuid4', '../utils/refChange', '../programs/SimpleWebGLProgram'], function (require, exports, core, MonitorList, NumberIUnknownMap, mustBeInteger, mustBeString, uuid4, refChange, SimpleWebGLProgram) {
     /**
      * Name used for reference count monitoring and logging.
      */
-    var CLASS_NAME = 'HTMLScriptsMaterial';
-    function nameBuilder() {
-        return CLASS_NAME;
-    }
+    var LOGGING_NAME_IMATERIAL = 'IMaterial';
     /**
-     * @class HTMLScriptsMaterial
-     * @extends Material
+     * Creates a WebGLProgram with compiled and linked shaders.
      */
-    var HTMLScriptsMaterial = (function (_super) {
-        __extends(HTMLScriptsMaterial, _super);
-        /**
-         * @class HTMLScriptsMaterial
-         * @constructor
-         * @param contexts {IContextMonitor[]}
-         * @param scriptIds {string[]}
-         * @param dom {Document}
-         */
-        function HTMLScriptsMaterial(contexts, scriptIds, dom) {
-            if (scriptIds === void 0) { scriptIds = []; }
-            if (dom === void 0) { dom = document; }
-            _super.call(this, contexts, CLASS_NAME);
-            this.attributeBindings = [];
-            // For now, we limit the implementation to only a vertex shader and a fragment shader.
-            mustSatisfy('scriptIds', scriptIds.length === 2, function () { return "scriptIds must be [vsId, fsId]"; });
-            this.scriptIds = scriptIds.map(function (scriptId) { return scriptId; });
-            this.dom = dom;
+    // FIXME: Handle list of shaders? Else createSimpleProgram
+    var createMaterial = function (monitors, vertexShader, fragmentShader, attribs) {
+        MonitorList.verify('monitors', monitors, function () { return "createMaterial"; });
+        // FIXME multi-context
+        if (typeof vertexShader !== 'string') {
+            throw new Error("vertexShader argument must be a string.");
         }
+        if (typeof fragmentShader !== 'string') {
+            throw new Error("fragmentShader argument must be a string.");
+        }
+        var refCount = 1;
         /**
-         * @method createProgram
-         * @return {IMaterial}
+         * Because we are multi-canvas aware, programs are tracked by the canvas id.
          */
-        HTMLScriptsMaterial.prototype.createProgram = function () {
-            var vsId = this.scriptIds[0];
-            var fsId = this.scriptIds[1];
-            return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);
+        var programsByCanvasId = new NumberIUnknownMap();
+        var uuid = uuid4().generate();
+        var self = {
+            get vertexShader() {
+                return vertexShader;
+            },
+            get fragmentShader() {
+                return fragmentShader;
+            },
+            attributes: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    return program.attributes;
+                }
+            },
+            uniforms: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    return program.uniforms;
+                }
+            },
+            addRef: function (client) {
+                // mustBeDefined('client', client)
+                refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
+                refCount++;
+                return refCount;
+            },
+            release: function (client) {
+                // mustBeDefined('client', client)
+                refChange(uuid, LOGGING_NAME_IMATERIAL, -1);
+                refCount--;
+                if (refCount === 0) {
+                    MonitorList.removeContextListener(self, monitors);
+                    programsByCanvasId.release();
+                }
+                return refCount;
+            },
+            contextFree: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.contextFree(canvasId);
+                    programsByCanvasId.remove(canvasId);
+                }
+            },
+            contextGain: function (manager) {
+                var canvasId;
+                var sprog;
+                canvasId = manager.canvasId;
+                if (!programsByCanvasId.exists(canvasId)) {
+                    sprog = new SimpleWebGLProgram(manager, vertexShader, fragmentShader, attribs);
+                    programsByCanvasId.putWeakReference(canvasId, sprog);
+                }
+                else {
+                    sprog = programsByCanvasId.getWeakReference(canvasId);
+                }
+                sprog.contextGain(manager);
+            },
+            contextLost: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.contextLost(canvasId);
+                    programsByCanvasId.remove(canvasId);
+                }
+            },
+            get programId() {
+                return uuid;
+            },
+            use: function (canvasId) {
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    program.use();
+                }
+                else {
+                    console.warn(LOGGING_NAME_IMATERIAL + " use(canvasId: number) missing WebGLRenderingContext");
+                }
+            },
+            enableAttrib: function (name, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
+                }
+                else {
+                }
+            },
+            disableAttrib: function (name, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var attribLoc = program.attributes[name];
+                    if (attribLoc) {
+                        attribLoc.enable();
+                    }
+                    else {
+                    }
+                }
+                else {
+                }
+            },
+            uniform1f: function (name, x, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform1f(x);
+                    }
+                    else {
+                    }
+                }
+                else {
+                }
+            },
+            uniform2f: function (name, x, y, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform2f(x, y);
+                    }
+                }
+            },
+            uniform3f: function (name, x, y, z, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform3f(x, y, z);
+                    }
+                }
+            },
+            uniform4f: function (name, x, y, z, w, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.uniform4f(x, y, z, w);
+                    }
+                }
+            },
+            uniformMatrix1: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix1(transpose, matrix);
+                    }
+                }
+            },
+            uniformMatrix2: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix2(transpose, matrix);
+                    }
+                }
+            },
+            uniformMatrix3: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix3(transpose, matrix);
+                    }
+                }
+            },
+            uniformMatrix4: function (name, transpose, matrix, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.matrix4(transpose, matrix);
+                    }
+                }
+                else {
+                    if (core.verbose) {
+                        console.warn("Ignoring uniformMatrix4 for " + name + " because `typeof canvasId` is " + typeof canvasId);
+                    }
+                }
+            },
+            uniformVector1: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector1(vector);
+                    }
+                }
+            },
+            uniformVector2: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector2(vector);
+                    }
+                }
+            },
+            uniformVector3: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector3(vector);
+                    }
+                }
+            },
+            uniformVector4: function (name, vector, canvasId) {
+                mustBeString('name', name);
+                mustBeInteger('canvasId', canvasId);
+                var program = programsByCanvasId.getWeakReference(canvasId);
+                if (program) {
+                    // FIXME: Renames to simply uniforms (what else could they be?)
+                    var uniformLoc = program.uniforms[name];
+                    if (uniformLoc) {
+                        uniformLoc.vector4(vector);
+                    }
+                }
+            }
         };
-        return HTMLScriptsMaterial;
-    })(Material);
-    return HTMLScriptsMaterial;
+        MonitorList.addContextListener(self, monitors);
+        MonitorList.synchronize(self, monitors);
+        refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
+        return self;
+    };
+    return createMaterial;
 });
 
-define('davinci-eight/programs/glslAttribType',["require", "exports", '../core/Symbolic', '../checks/mustBeInteger', '../checks/mustBeString'], function (require, exports, Symbolic, mustBeInteger, mustBeString) {
-    function sizeType(size) {
-        mustBeInteger('size', size);
-        switch (size) {
-            case 1: {
-                return 'float';
+define('davinci-eight/programs/vertexShader',["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../checks/mustBeBoolean', '../checks/mustBeDefined', '../core/Symbolic'], function (require, exports, getAttribVarName, getUniformVarName, mustBeBoolean, mustBeDefined, Symbolic) {
+    function getUniformCodeName(uniforms, name) {
+        return getUniformVarName(uniforms[name], name);
+    }
+    var SPACE = ' ';
+    var ATTRIBUTE = 'attribute' + SPACE;
+    var UNIFORM = 'uniform' + SPACE;
+    var COMMA = ',' + SPACE;
+    var SEMICOLON = ';';
+    var LPAREN = '(';
+    var RPAREN = ')';
+    var TIMES = SPACE + '*' + SPACE;
+    var ASSIGN = SPACE + '=' + SPACE;
+    var DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME = "directionalLightCosineFactor";
+    function indent(n) {
+        return SPACE + SPACE;
+    }
+    /**
+     *
+     */
+    function vertexShader(attributes, uniforms, vColor, vLight) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        mustBeBoolean('vColor', vColor);
+        mustBeBoolean('vLight', vLight);
+        var lines = [];
+        for (var aName in attributes) {
+            lines.push(ATTRIBUTE + attributes[aName].glslType + SPACE + getAttribVarName(attributes[aName], aName) + SEMICOLON);
+        }
+        for (var uName in uniforms) {
+            lines.push(UNIFORM + uniforms[uName].glslType + SPACE + getUniformCodeName(uniforms, uName) + SEMICOLON);
+        }
+        if (vColor) {
+            lines.push("varying highp vec4 vColor;");
+        }
+        if (vLight) {
+            lines.push("varying highp vec3 vLight;");
+        }
+        lines.push("void main(void) {");
+        var glPosition = [];
+        glPosition.unshift(SEMICOLON);
+        if (attributes[Symbolic.ATTRIBUTE_POSITION]) {
+            glPosition.unshift(RPAREN);
+            glPosition.unshift("1.0");
+            glPosition.unshift(COMMA);
+            glPosition.unshift(getAttribVarName(attributes[Symbolic.ATTRIBUTE_POSITION], Symbolic.ATTRIBUTE_POSITION));
+            glPosition.unshift(LPAREN);
+            glPosition.unshift("vec4");
+        }
+        else {
+            glPosition.unshift("vec4(0.0, 0.0, 0.0, 1.0)");
+        }
+        if (uniforms[Symbolic.UNIFORM_MODEL_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_MODEL_MATRIX));
+        }
+        if (uniforms[Symbolic.UNIFORM_VIEW_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_VIEW_MATRIX));
+        }
+        if (uniforms[Symbolic.UNIFORM_PROJECTION_MATRIX]) {
+            glPosition.unshift(TIMES);
+            glPosition.unshift(getUniformCodeName(uniforms, Symbolic.UNIFORM_PROJECTION_MATRIX));
+        }
+        glPosition.unshift(ASSIGN);
+        glPosition.unshift("gl_Position");
+        glPosition.unshift('  ');
+        lines.push(glPosition.join(''));
+        if (uniforms[Symbolic.UNIFORM_POINT_SIZE]) {
+            lines.push("  gl_PointSize = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_POINT_SIZE) + ";");
+        }
+        if (vColor) {
+            if (attributes[Symbolic.ATTRIBUTE_COLOR]) {
+                var colorAttribVarName = getAttribVarName(attributes[Symbolic.ATTRIBUTE_COLOR], Symbolic.ATTRIBUTE_COLOR);
+                switch (attributes[Symbolic.ATTRIBUTE_COLOR].glslType) {
+                    case 'vec4':
+                        {
+                            lines.push("  vColor = " + colorAttribVarName + SEMICOLON);
+                        }
+                        break;
+                    case 'vec3':
+                        {
+                            lines.push("  vColor = vec4(" + colorAttribVarName + ", 1.0);");
+                        }
+                        break;
+                    default: {
+                        throw new Error("Unexpected type for color attribute: " + attributes[Symbolic.ATTRIBUTE_COLOR].glslType);
+                    }
+                }
             }
-            case 2: {
-                return 'vec2';
+            else if (uniforms[Symbolic.UNIFORM_COLOR]) {
+                var colorUniformVarName = getUniformCodeName(uniforms, Symbolic.UNIFORM_COLOR);
+                switch (uniforms[Symbolic.UNIFORM_COLOR].glslType) {
+                    case 'vec4':
+                        {
+                            lines.push("  vColor = " + colorUniformVarName + SEMICOLON);
+                        }
+                        break;
+                    case 'vec3':
+                        {
+                            lines.push("  vColor = vec4(" + colorUniformVarName + ", 1.0);");
+                        }
+                        break;
+                    default: {
+                        throw new Error("Unexpected type for color uniform: " + uniforms[Symbolic.UNIFORM_COLOR].glslType);
+                    }
+                }
             }
-            case 3: {
-                return 'vec3';
-            }
-            default: {
-                throw new Error("Can't compute the GLSL attribute type from size " + size);
+            else {
+                lines.push("  vColor = vec4(1.0, 1.0, 1.0, 1.0);");
             }
         }
-    }
-    function glslAttribType(key, size) {
-        mustBeString('key', key);
-        mustBeInteger('size', size);
-        switch (key) {
-            case Symbolic.ATTRIBUTE_COLOR: {
-                return 'vec3';
+        if (vLight) {
+            if (uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION] && uniforms[Symbolic.UNIFORM_NORMAL_MATRIX] && attributes[Symbolic.ATTRIBUTE_NORMAL]) {
+                lines.push("  vec3 L = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_DIRECTION) + ");");
+                lines.push("  vec3 N = normalize(" + getUniformCodeName(uniforms, Symbolic.UNIFORM_NORMAL_MATRIX) + " * " + getAttribVarName(attributes[Symbolic.ATTRIBUTE_NORMAL], Symbolic.ATTRIBUTE_NORMAL) + ");");
+                lines.push("  float " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " = max(dot(N, L), 0.0);");
+                if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
+                    lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + " + " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                }
+                else {
+                    lines.push("  vLight = " + DIRECTIONAL_LIGHT_COSINE_FACTOR_VARNAME + " * " + getUniformCodeName(uniforms, Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR) + ";");
+                }
             }
-            default: {
-                return sizeType(size);
+            else {
+                if (uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT]) {
+                    lines.push("  vLight = " + getUniformCodeName(uniforms, Symbolic.UNIFORM_AMBIENT_LIGHT) + ";");
+                }
+                else {
+                    lines.push("  vLight = vec3(1.0, 1.0, 1.0);");
+                }
             }
         }
+        lines.push("}");
+        var code = lines.join("\n");
+        return code;
     }
-    return glslAttribType;
+    return vertexShader;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -9756,6 +9141,22 @@ define('davinci-eight/materials/SmartMaterial',["require", "exports", '../progra
         return SmartMaterial;
     })(Material);
     return SmartMaterial;
+});
+
+define('davinci-eight/programs/vColorRequired',["require", "exports", '../core/Symbolic'], function (require, exports, Symbolic) {
+    function vColorRequired(attributes, uniforms) {
+        return !!attributes[Symbolic.ATTRIBUTE_COLOR] || !!uniforms[Symbolic.UNIFORM_COLOR];
+    }
+    return vColorRequired;
+});
+
+define('davinci-eight/programs/vLightRequired',["require", "exports", '../checks/mustBeDefined', '../core/Symbolic'], function (require, exports, mustBeDefined, Symbolic) {
+    function vLightRequired(attributes, uniforms) {
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniforms', uniforms);
+        return !!uniforms[Symbolic.UNIFORM_AMBIENT_LIGHT] || (!!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR] && !!uniforms[Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR]);
+    }
+    return vLightRequired;
 });
 
 define('davinci-eight/materials/SmartMaterialBuilder',["require", "exports", '../core/getAttribVarName', '../core/getUniformVarName', '../programs/glslAttribType', '../checks/mustBeInteger', '../checks/mustBeString', '../materials/SmartMaterial', '../programs/vColorRequired', '../programs/vLightRequired'], function (require, exports, getAttribVarName, getUniformVarName, glslAttribType, mustBeInteger, mustBeString, SmartMaterial, vColorRequired, vLightRequired) {
@@ -9840,6 +9241,1688 @@ define('davinci-eight/materials/SmartMaterialBuilder',["require", "exports", '..
         return SmartMaterialBuilder;
     })();
     return SmartMaterialBuilder;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/tasks/CubeTask',["require", "exports", '../../uniforms/ColorFacet', '../../models/ModelFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/SmartMaterialBuilder', '../../utils/Shareable', '../../core/Symbolic'], function (require, exports, ColorFacet, ModelFacet, CuboidGeometry, Drawable, SmartMaterialBuilder, Shareable, Symbolic) {
+    var CubeTask = (function (_super) {
+        __extends(CubeTask, _super);
+        function CubeTask(name, sceneNames) {
+            _super.call(this, 'CubeTx');
+            this.name = name;
+            this.sceneNames = sceneNames.map(function (sceneName) { return sceneName; });
+        }
+        CubeTask.prototype.destructor = function () {
+        };
+        CubeTask.prototype.exec = function (slide, host) {
+            var geometry = new CuboidGeometry();
+            geometry.k = 1;
+            geometry.calculate();
+            var elements = geometry.toElements();
+            var smb = new SmartMaterialBuilder(elements);
+            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+            var material = smb.build([]);
+            try {
+                var thing = new Drawable(elements, material);
+                try {
+                    thing.setFacet('model', new ModelFacet()).release();
+                    thing.setFacet('color', new ColorFacet().setRGB(0, 1, 0)).release();
+                    thing.name = this.name;
+                    host.addDrawable(this.name, thing);
+                    this.sceneNames.forEach(function (sceneName) {
+                        host.addToScene(thing.name, sceneName);
+                    });
+                }
+                finally {
+                    thing.release();
+                }
+            }
+            finally {
+                material.release();
+            }
+        };
+        CubeTask.prototype.undo = function (slide, host) {
+            var drawableName = this.name;
+            this.sceneNames.forEach(function (sceneName) {
+                host.removeFromScene(drawableName, sceneName);
+            });
+            host.removeDrawable(drawableName);
+        };
+        return CubeTask;
+    })(Shareable);
+    return CubeTask;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/tasks/MoveTask',["require", "exports", '../../slideshow/animations/MoveTo', '../../utils/Shareable'], function (require, exports, MoveTo, Shareable) {
+    var MoveTask = (function (_super) {
+        __extends(MoveTask, _super);
+        function MoveTask(name, position, duration) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this, 'MoveTask');
+            this.options = {};
+            this.name = name;
+            this.position = position;
+            this.duration = duration;
+            this.ease = 'linear';
+        }
+        MoveTask.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        MoveTask.prototype.exec = function (slide, host) {
+            var thing = host.getDrawable(this.name);
+            if (thing) {
+                try {
+                    var model = thing.getFacet('model');
+                    try {
+                        var moveTo = new MoveTo(slide.clock, model, 'position', this.position, this.duration, this.callback, this.ease);
+                        try {
+                            slide.animate(model, { 'position': moveTo }, this.options);
+                        }
+                        finally {
+                            moveTo.release();
+                        }
+                    }
+                    finally {
+                        model.release();
+                    }
+                }
+                finally {
+                    thing.release();
+                }
+            }
+            else {
+                console.warn(this.name + ' drawable not found');
+            }
+        };
+        MoveTask.prototype.undo = function (slide, host) {
+        };
+        return MoveTask;
+    })(Shareable);
+    return MoveTask;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/slideshow/tasks/SpinTask',["require", "exports", '../../slideshow/animations/SpinTo', '../../utils/Shareable'], function (require, exports, SpinTo, Shareable) {
+    var SpinTask = (function (_super) {
+        __extends(SpinTask, _super);
+        function SpinTask(name, attitude, duration) {
+            if (duration === void 0) { duration = 300; }
+            _super.call(this, 'SpinTask');
+            this.options = {};
+            this.name = name;
+            this.attitude = attitude;
+            this.duration = duration;
+            this.ease = 'linear';
+        }
+        SpinTask.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        SpinTask.prototype.exec = function (slide, host) {
+            var thing = host.getDrawable(this.name);
+            if (thing) {
+                try {
+                    var model = thing.getFacet('model');
+                    try {
+                        var moveTo = new SpinTo(slide.clock, model, 'attitude', this.attitude, this.duration, this.callback, this.ease);
+                        try {
+                            slide.animate(model, { 'attitude': moveTo }, this.options);
+                        }
+                        finally {
+                            moveTo.release();
+                        }
+                    }
+                    finally {
+                        model.release();
+                    }
+                }
+                finally {
+                    thing.release();
+                }
+            }
+            else {
+                console.warn(this.name + ' drawable not found');
+            }
+        };
+        SpinTask.prototype.undo = function (slide, host) {
+        };
+        return SpinTask;
+    })(Shareable);
+    return SpinTask;
+});
+
+define('davinci-eight/cameras/viewArray',["require", "exports", '../math/Vector3', '../checks/expectArg', '../checks/isDefined'], function (require, exports, Vector3, expectArg, isDefined) {
+    function viewArray(eye, look, up, matrix) {
+        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        expectArg('matrix', m).toSatisfy(m.length === 16, 'matrix must have length 16');
+        var n = new Vector3().difference(eye, look);
+        if (n.x === 0 && n.y === 0 && n.z === 0) {
+            // View direction is ambiguous.
+            n.z = 1;
+        }
+        else {
+            n.normalize();
+        }
+        var u = new Vector3().crossVectors(up, n);
+        var v = new Vector3().crossVectors(n, u);
+        var d = new Vector3([Vector3.dot(eye, u), Vector3.dot(eye, v), Vector3.dot(eye, n)]).scale(-1);
+        m[0] = u.x;
+        m[4] = u.y;
+        m[8] = u.z;
+        m[12] = d.x;
+        m[1] = v.x;
+        m[5] = v.y;
+        m[9] = v.z;
+        m[13] = d.y;
+        m[2] = n.x;
+        m[6] = n.y;
+        m[10] = n.z;
+        m[14] = d.z;
+        m[3] = 0;
+        m[7] = 0;
+        m[11] = 0;
+        m[15] = 1;
+        return m;
+    }
+    return viewArray;
+});
+
+define('davinci-eight/cameras/viewMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/viewArray'], function (require, exports, isDefined, Matrix4, viewArray) {
+    function viewMatrix(eye, look, up, matrix) {
+        var m = isDefined(matrix) ? matrix : Matrix4.identity();
+        viewArray(eye, look, up, m.data);
+        return m;
+    }
+    return viewMatrix;
+});
+
+define('davinci-eight/cameras/createView',["require", "exports", '../math/Vector3', '../math/Matrix4', '../checks/mustBeNumber', '../checks/mustBeObject', '../core/Symbolic', '../checks/isUndefined', '../cameras/viewMatrix'], function (require, exports, Vector3, Matrix4, mustBeNumber, mustBeObject, Symbolic, isUndefined, computeViewMatrix) {
+    /**
+     * @class createView
+     * @constructor
+     */
+    var createView = function (options) {
+        var refCount = 1;
+        var eye = new Vector3();
+        var look = new Vector3();
+        var up = Vector3.e2;
+        var viewMatrix = Matrix4.identity();
+        var viewMatrixName = isUndefined(options.viewMatrixName) ? Symbolic.UNIFORM_VIEW_MATRIX : options.viewMatrixName;
+        // Force an update of the view matrix.
+        eye.modified = true;
+        look.modified = true;
+        up.modified = true;
+        var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
+            get eye() {
+                return eye;
+            },
+            set eye(value) {
+                self.setEye(value);
+            },
+            /**
+             * @method setEye
+             * @param eye {Vector3}
+             * @return {View} `this` instance.
+             */
+            setEye: function (eye_) {
+                mustBeObject('eye', eye_);
+                eye.x = mustBeNumber('eye.x', eye_.x);
+                eye.y = mustBeNumber('eye.y', eye_.y);
+                eye.z = mustBeNumber('eye.z', eye_.z);
+                return self;
+            },
+            get look() {
+                return look;
+            },
+            set look(value) {
+                self.setLook(value);
+            },
+            setLook: function (value) {
+                mustBeObject('look', value);
+                look.x = value.x;
+                look.y = value.y;
+                look.z = value.z;
+                return self;
+            },
+            get up() {
+                return up;
+            },
+            set up(value) {
+                self.setUp(value);
+            },
+            setUp: function (value) {
+                mustBeObject('up', value);
+                up.x = value.x;
+                up.y = value.y;
+                up.z = value.z;
+                up.normalize();
+                return self;
+            },
+            setUniforms: function (visitor, canvasId) {
+                if (eye.modified || look.modified || up.modified) {
+                    // TODO: view matrix would be better.
+                    computeViewMatrix(eye, look, up, viewMatrix);
+                    eye.modified = false;
+                    look.modified = false;
+                    up.modified = false;
+                }
+                visitor.uniformMatrix4(viewMatrixName, false, viewMatrix, canvasId);
+            }
+        };
+        return self;
+    };
+    return createView;
+});
+
+define('davinci-eight/cameras/createFrustum',["require", "exports", 'davinci-eight/cameras/createView', 'davinci-eight/math/Matrix4', '../math/Vector1'], function (require, exports, createView, Matrix4, Vector1) {
+    /**
+     * @function createFrustum
+     * @constructor
+     * @return {Frustum}
+     */
+    var createFrustum = function (viewMatrixName, projectionMatrixName) {
+        var refCount = 1;
+        var base = createView(viewMatrixName);
+        var left = new Vector1();
+        var right = new Vector1();
+        var bottom = new Vector1();
+        var top = new Vector1();
+        var near = new Vector1();
+        var far = new Vector1();
+        // TODO: We should immediately create with a frustum static constructor?
+        var projectionMatrix = Matrix4.identity();
+        function updateProjectionMatrix() {
+            projectionMatrix.frustum(left.x, right.x, bottom.x, top.x, near.x, far.x);
+        }
+        updateProjectionMatrix();
+        var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
+            // Delegate to the base camera.
+            get eye() {
+                return base.eye;
+            },
+            set eye(value) {
+                base.eye = value;
+            },
+            setEye: function (eye) {
+                base.setEye(eye);
+                return self;
+            },
+            get look() {
+                return base.look;
+            },
+            set look(value) {
+                base.look = value;
+            },
+            setLook: function (look) {
+                base.setLook(look);
+                return self;
+            },
+            get up() {
+                return base.up;
+            },
+            set up(up) {
+                base.setUp(up);
+            },
+            setUp: function (up) {
+                base.setUp(up);
+                return self;
+            },
+            get left() {
+                return left.x;
+            },
+            set left(value) {
+                left.x = value;
+                updateProjectionMatrix();
+            },
+            get right() {
+                return right.x;
+            },
+            set right(value) {
+                right.x = value;
+                updateProjectionMatrix();
+            },
+            get bottom() {
+                return bottom.x;
+            },
+            set bottom(value) {
+                bottom.x = value;
+                updateProjectionMatrix();
+            },
+            get top() {
+                return top.x;
+            },
+            set top(value) {
+                top.x = value;
+                updateProjectionMatrix();
+            },
+            get near() {
+                return near.x;
+            },
+            set near(value) {
+                near.x = value;
+                updateProjectionMatrix();
+            },
+            get far() {
+                return far.x;
+            },
+            set far(value) {
+                far.x = value;
+                updateProjectionMatrix();
+            },
+            setUniforms: function (visitor, canvasId) {
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
+                base.setUniforms(visitor, canvasId);
+            }
+        };
+        return self;
+    };
+    return createFrustum;
+});
+
+define('davinci-eight/cameras/frustumMatrix',["require", "exports", '../checks/expectArg', '../checks/isDefined'], function (require, exports, expectArg, isDefined) {
+    function frustumMatrix(left, right, bottom, top, near, far, matrix) {
+        expectArg('left', left).toBeNumber();
+        expectArg('right', right).toBeNumber();
+        expectArg('bottom', bottom).toBeNumber();
+        expectArg('top', top).toBeNumber();
+        expectArg('near', near).toBeNumber();
+        expectArg('far', far).toBeNumber();
+        var m = isDefined(matrix) ? matrix : new Float32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        expectArg('m', m).toSatisfy(m.length === 16, 'elements must have length 16');
+        var x = 2 * near / (right - left);
+        var y = 2 * near / (top - bottom);
+        var a = (right + left) / (right - left);
+        var b = (top + bottom) / (top - bottom);
+        var c = -(far + near) / (far - near);
+        var d = -2 * far * near / (far - near);
+        m[0x0] = x;
+        m[0x4] = 0;
+        m[0x8] = a;
+        m[0xC] = 0;
+        m[0x1] = 0;
+        m[0x5] = y;
+        m[0x9] = b;
+        m[0xD] = 0;
+        m[0x2] = 0;
+        m[0x6] = 0;
+        m[0xA] = c;
+        m[0xE] = d;
+        m[0x3] = 0;
+        m[0x7] = 0;
+        m[0xB] = -1;
+        m[0xF] = 0;
+        return m;
+    }
+    return frustumMatrix;
+});
+
+define('davinci-eight/cameras/perspectiveArray',["require", "exports", '../cameras/frustumMatrix', '../checks/expectArg'], function (require, exports, frustumMatrix, expectArg) {
+    function perspectiveArray(fov, aspect, near, far, matrix) {
+        // We can leverage the frustum function, although technically the
+        // symmetry in this perspective transformation should reduce the amount
+        // of computation required.
+        expectArg('fov', fov).toBeNumber();
+        expectArg('aspect', aspect).toBeNumber();
+        expectArg('near', near).toBeNumber();
+        expectArg('far', far).toBeNumber();
+        var ymax = near * Math.tan(fov * 0.5); // top
+        var ymin = -ymax; // bottom
+        var xmin = ymin * aspect; // left
+        var xmax = ymax * aspect; // right
+        return frustumMatrix(xmin, xmax, ymin, ymax, near, far, matrix);
+    }
+    return perspectiveArray;
+});
+
+define('davinci-eight/cameras/perspectiveMatrix',["require", "exports", '../checks/isDefined', '../math/Matrix4', '../cameras/perspectiveArray'], function (require, exports, isDefined, Matrix4, perspectiveArray) {
+    function perspectiveMatrix(fov, aspect, near, far, matrix) {
+        var m = isDefined(matrix) ? matrix : Matrix4.identity();
+        perspectiveArray(fov, aspect, near, far, m.data);
+        return m;
+    }
+    return perspectiveMatrix;
+});
+
+define('davinci-eight/cameras/createPerspective',["require", "exports", '../cameras/createView', '../math/Matrix4', '../core/Symbolic', '../math/Vector1', '../checks/isUndefined', '../checks/expectArg', '../cameras/perspectiveMatrix'], function (require, exports, createView, Matrix4, Symbolic, Vector1, isUndefined, expectArg, computePerspectiveMatrix) {
+    /**
+     * @function createPerspective
+     * @constructor
+     * @param fov {number}
+     * @param aspect {number}
+     * @param near {number}
+     * @param far {number}
+     * @return {Perspective}
+     */
+    var createPerspective = function (options) {
+        options = options || {};
+        var fov = new Vector1([isUndefined(options.fov) ? 75 * Math.PI / 180 : options.fov]);
+        var aspect = new Vector1([isUndefined(options.aspect) ? 1 : options.aspect]);
+        var near = new Vector1([isUndefined(options.near) ? 0.1 : options.near]);
+        var far = new Vector1([expectArg('options.far', isUndefined(options.far) ? 2000 : options.far).toBeNumber().value]);
+        var projectionMatrixName = isUndefined(options.projectionMatrixName) ? Symbolic.UNIFORM_PROJECTION_MATRIX : options.projectionMatrixName;
+        var refCount = 1;
+        var base = createView(options);
+        var projectionMatrix = Matrix4.identity();
+        var matrixNeedsUpdate = true;
+        var self = {
+            addRef: function () {
+                refCount++;
+                return refCount;
+            },
+            release: function () {
+                refCount--;
+                return refCount;
+            },
+            // Delegate to the base camera.
+            get eye() {
+                return base.eye;
+            },
+            set eye(eye) {
+                base.eye = eye;
+            },
+            setEye: function (eye) {
+                base.setEye(eye);
+                return self;
+            },
+            get look() {
+                return base.look;
+            },
+            set look(value) {
+                base.look = value;
+            },
+            setLook: function (look) {
+                base.setLook(look);
+                return self;
+            },
+            get up() {
+                return base.up;
+            },
+            set up(value) {
+                base.up = value;
+            },
+            setUp: function (up) {
+                base.setUp(up);
+                return self;
+            },
+            get fov() {
+                return fov.x;
+            },
+            set fov(value) {
+                self.setFov(value);
+            },
+            setFov: function (value) {
+                expectArg('fov', value).toBeNumber();
+                matrixNeedsUpdate = matrixNeedsUpdate || fov.x !== value;
+                fov.x = value;
+                return self;
+            },
+            get aspect() {
+                return aspect.x;
+            },
+            set aspect(value) {
+                self.setAspect(value);
+            },
+            setAspect: function (value) {
+                expectArg('aspect', value).toBeNumber();
+                matrixNeedsUpdate = matrixNeedsUpdate || aspect.x !== value;
+                aspect.x = value;
+                return self;
+            },
+            get near() {
+                return near.x;
+            },
+            set near(value) {
+                self.setNear(value);
+            },
+            setNear: function (value) {
+                expectArg('near', value).toBeNumber();
+                matrixNeedsUpdate = matrixNeedsUpdate || near.x !== value;
+                near.x = value;
+                return self;
+            },
+            get far() {
+                return far.x;
+            },
+            set far(value) {
+                self.setFar(value);
+            },
+            setFar: function (value) {
+                expectArg('far', value).toBeNumber();
+                matrixNeedsUpdate = matrixNeedsUpdate || far.x !== value;
+                far.x = value;
+                return self;
+            },
+            setUniforms: function (visitor, canvasId) {
+                if (matrixNeedsUpdate) {
+                    computePerspectiveMatrix(fov.x, aspect.x, near.x, far.x, projectionMatrix);
+                    matrixNeedsUpdate = false;
+                }
+                visitor.uniformMatrix4(projectionMatrixName, false, projectionMatrix, canvasId);
+                base.setUniforms(visitor, canvasId);
+            }
+        };
+        return self;
+    };
+    return createPerspective;
+});
+
+define('davinci-eight/core/DrawMode',["require", "exports"], function (require, exports) {
+    var DrawMode;
+    (function (DrawMode) {
+        DrawMode[DrawMode["POINTS"] = 0] = "POINTS";
+        DrawMode[DrawMode["LINES"] = 1] = "LINES";
+        DrawMode[DrawMode["TRIANGLES"] = 2] = "TRIANGLES";
+    })(DrawMode || (DrawMode = {}));
+    return DrawMode;
+});
+
+define('davinci-eight/curves/Curve',["require", "exports"], function (require, exports) {
+    /**
+     * @author zz85 / http://www.lab4games.net/zz85/blog
+     * Extensible curve object
+     *
+     * Some common of Curve methods
+     * .getPoint(t), getTangent(t)
+     * .getPointAt(u), getTagentAt(u)
+     * .getPoints(), .getSpacedPoints()
+     * .getLength()
+     * .updateArcLengths()
+     *
+     * This following classes subclasses Curve:
+     *
+     * LineCurve
+     * QuadraticBezierCurve
+     * CubicBezierCurve
+     * SplineCurve
+     * ArcCurve
+     * EllipseCurve
+     * ClosedSplineCurve
+     *
+     */
+    var Curve = (function () {
+        function Curve() {
+        }
+        /**
+         * Virtual base class method to overwrite and implement in subclasses
+         * t belongs to [0, 1]
+         */
+        Curve.prototype.getPoint = function (t) {
+            throw new Error("Curve.getPoint() not implemented!");
+        };
+        /**
+         * Get point at relative position in curve according to arc length
+         */
+        Curve.prototype.getPointAt = function (u) {
+            var t = this.getUtoTmapping(u);
+            return this.getPoint(t);
+        };
+        Curve.prototype.getPoints = function (divisions) {
+            if (!divisions) {
+                divisions = 5;
+            }
+            var d;
+            var pts = [];
+            for (d = 0; d <= divisions; d++) {
+                pts.push(this.getPoint(d / divisions));
+            }
+            return pts;
+        };
+        Curve.prototype.getSpacedPoints = function (divisions) {
+            if (!divisions) {
+                divisions = 5;
+            }
+            var d;
+            var pts = [];
+            for (d = 0; d <= divisions; d++) {
+                pts.push(this.getPointAt(d / divisions));
+            }
+            return pts;
+        };
+        Curve.prototype.getLength = function () {
+            var lengths = this.getLengths();
+            return lengths[lengths.length - 1];
+        };
+        Curve.prototype.getLengths = function (divisions) {
+            if (!divisions)
+                divisions = (this.__arcLengthDivisions) ? (this.__arcLengthDivisions) : 200;
+            if (this.cacheArcLengths
+                && (this.cacheArcLengths.length == divisions + 1)
+                && !this.needsUpdate) {
+                return this.cacheArcLengths;
+            }
+            this.needsUpdate = false;
+            var cache = [];
+            var current;
+            var last = this.getPoint(0);
+            var p;
+            var sum = 0;
+            cache.push(0);
+            for (p = 1; p <= divisions; p++) {
+                current = this.getPoint(p / divisions);
+                sum += current.distanceTo(last);
+                cache.push(sum);
+                last = current;
+            }
+            this.cacheArcLengths = cache;
+            return cache; // { sums: cache, sum:sum }; Sum is in the last element.
+        };
+        Curve.prototype.updateArcLengths = function () {
+            this.needsUpdate = true;
+            this.getLengths();
+        };
+        /**
+         * Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance
+         */
+        Curve.prototype.getUtoTmapping = function (u, distance) {
+            var arcLengths = this.getLengths();
+            var i = 0, il = arcLengths.length;
+            var targetArcLength; // The targeted u distance value to get
+            if (distance) {
+                targetArcLength = distance;
+            }
+            else {
+                targetArcLength = u * arcLengths[il - 1];
+            }
+            //var time = Date.now();
+            // binary search for the index with largest value smaller than target u distance
+            var low = 0;
+            var high = il - 1;
+            var comparison;
+            while (low <= high) {
+                i = Math.floor(low + (high - low) / 2); // less likely to overflow, though probably not issue here, JS doesn't really have integers, all numbers are floats
+                comparison = arcLengths[i] - targetArcLength;
+                if (comparison < 0) {
+                    low = i + 1;
+                }
+                else if (comparison > 0) {
+                    high = i - 1;
+                }
+                else {
+                    high = i;
+                    break;
+                }
+            }
+            i = high;
+            if (arcLengths[i] == targetArcLength) {
+                var t = i / (il - 1);
+                return t;
+            }
+            // we could get finer grain at lengths, or use simple interpolatation between two points
+            var lengthBefore = arcLengths[i];
+            var lengthAfter = arcLengths[i + 1];
+            var segmentLength = lengthAfter - lengthBefore;
+            // determine where we are between the 'before' and 'after' points
+            var segmentFraction = (targetArcLength - lengthBefore) / segmentLength;
+            // add that fractional amount to t
+            var t = (i + segmentFraction) / (il - 1);
+            return t;
+        };
+        /**
+         * Returns a unit vector tangent at t
+         * In case any sub curve does not implement its tangent derivation,
+         * 2 points a small delta apart will be used to find its gradient
+         * which seems to give a reasonable approximation
+         */
+        Curve.prototype.getTangent = function (t) {
+            var delta = 0.0001;
+            var t1 = t - delta;
+            var t2 = t + delta;
+            // Capping in case of danger
+            if (t1 < 0)
+                t1 = 0;
+            if (t2 > 1)
+                t2 = 1;
+            var pt1 = this.getPoint(t1);
+            var pt2 = this.getPoint(t2);
+            // TypeScript Generics don't help here because we can't do T extends Vector<T>. 
+            var vec = pt2['clone']().sub(pt1);
+            return vec.normalize();
+        };
+        Curve.prototype.getTangentAt = function (u) {
+            var t = this.getUtoTmapping(u);
+            return this.getTangent(t);
+        };
+        return Curve;
+    })();
+    return Curve;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/math/Vector2',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
+    /**
+     * @class Vector2
+     */
+    var Vector2 = (function (_super) {
+        __extends(Vector2, _super);
+        /**
+         * @class Vector2
+         * @constructor
+         * @param data {number[]} Default is [0, 0].
+         * @param modified {boolean} Default is false.
+         */
+        function Vector2(data, modified) {
+            if (data === void 0) { data = [0, 0]; }
+            if (modified === void 0) { modified = false; }
+            _super.call(this, data, modified, 2);
+        }
+        Object.defineProperty(Vector2.prototype, "x", {
+            /**
+             * @property x
+             * @type Number
+             */
+            get: function () {
+                return this.data[0];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.x !== value;
+                this.data[0] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Vector2.prototype, "y", {
+            /**
+             * @property y
+             * @type Number
+             */
+            get: function () {
+                return this.data[1];
+            },
+            set: function (value) {
+                this.modified = this.modified || this.y !== value;
+                this.data[1] = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Vector2.prototype.set = function (x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        };
+        Vector2.prototype.setX = function (x) {
+            this.x = x;
+            return this;
+        };
+        Vector2.prototype.setY = function (y) {
+            this.y = y;
+            return this;
+        };
+        Vector2.prototype.copy = function (v) {
+            this.x = v.x;
+            this.y = v.y;
+            return this;
+        };
+        Vector2.prototype.add = function (v) {
+            this.x += v.x;
+            this.y += v.y;
+            return this;
+        };
+        Vector2.prototype.addScalar = function (s) {
+            this.x += s;
+            this.y += s;
+            return this;
+        };
+        Vector2.prototype.sum = function (a, b) {
+            this.x = a.x + b.x;
+            this.y = a.y + b.y;
+            return this;
+        };
+        Vector2.prototype.sub = function (v) {
+            this.x -= v.x;
+            this.y -= v.y;
+            return this;
+        };
+        Vector2.prototype.subScalar = function (s) {
+            this.x -= s;
+            this.y -= s;
+            return this;
+        };
+        Vector2.prototype.difference = function (a, b) {
+            this.x = a.x - b.x;
+            this.y = a.y - b.y;
+            return this;
+        };
+        Vector2.prototype.multiply = function (v) {
+            this.x *= v.x;
+            this.y *= v.y;
+            return this;
+        };
+        Vector2.prototype.scale = function (s) {
+            this.x *= s;
+            this.y *= s;
+            return this;
+        };
+        Vector2.prototype.divide = function (v) {
+            this.x /= v.x;
+            this.y /= v.y;
+            return this;
+        };
+        Vector2.prototype.divideScalar = function (scalar) {
+            if (scalar !== 0) {
+                var invScalar = 1 / scalar;
+                this.x *= invScalar;
+                this.y *= invScalar;
+            }
+            else {
+                this.x = 0;
+                this.y = 0;
+            }
+            return this;
+        };
+        Vector2.prototype.min = function (v) {
+            if (this.x > v.x) {
+                this.x = v.x;
+            }
+            if (this.y > v.y) {
+                this.y = v.y;
+            }
+            return this;
+        };
+        Vector2.prototype.max = function (v) {
+            if (this.x < v.x) {
+                this.x = v.x;
+            }
+            if (this.y < v.y) {
+                this.y = v.y;
+            }
+            return this;
+        };
+        Vector2.prototype.floor = function () {
+            this.x = Math.floor(this.x);
+            this.y = Math.floor(this.y);
+            return this;
+        };
+        Vector2.prototype.ceil = function () {
+            this.x = Math.ceil(this.x);
+            this.y = Math.ceil(this.y);
+            return this;
+        };
+        Vector2.prototype.round = function () {
+            this.x = Math.round(this.x);
+            this.y = Math.round(this.y);
+            return this;
+        };
+        Vector2.prototype.roundToZero = function () {
+            this.x = (this.x < 0) ? Math.ceil(this.x) : Math.floor(this.x);
+            this.y = (this.y < 0) ? Math.ceil(this.y) : Math.floor(this.y);
+            return this;
+        };
+        Vector2.prototype.negate = function () {
+            this.x = -this.x;
+            this.y = -this.y;
+            return this;
+        };
+        Vector2.prototype.distanceTo = function (position) {
+            return Math.sqrt(this.quadranceTo(position));
+        };
+        Vector2.prototype.dot = function (v) {
+            return this.x * v.x + this.y * v.y;
+        };
+        Vector2.prototype.magnitude = function () {
+            return Math.sqrt(this.quaditude());
+        };
+        Vector2.prototype.normalize = function () {
+            return this.divideScalar(this.magnitude());
+        };
+        Vector2.prototype.quaditude = function () {
+            return this.x * this.x + this.y * this.y;
+        };
+        Vector2.prototype.quadranceTo = function (position) {
+            var dx = this.x - position.x;
+            var dy = this.y - position.y;
+            return dx * dx + dy * dy;
+        };
+        Vector2.prototype.reflect = function (n) {
+            // FIXME: TODO
+            return this;
+        };
+        Vector2.prototype.rotate = function (rotor) {
+            return this;
+        };
+        Vector2.prototype.setMagnitude = function (l) {
+            var oldLength = this.magnitude();
+            if (oldLength !== 0 && l !== oldLength) {
+                this.scale(l / oldLength);
+            }
+            return this;
+        };
+        Vector2.prototype.lerp = function (v, alpha) {
+            this.x += (v.x - this.x) * alpha;
+            this.y += (v.y - this.y) * alpha;
+            return this;
+        };
+        Vector2.prototype.lerpVectors = function (v1, v2, alpha) {
+            this.difference(v2, v1).scale(alpha).add(v1);
+            return this;
+        };
+        Vector2.prototype.equals = function (v) {
+            return ((v.x === this.x) && (v.y === this.y));
+        };
+        Vector2.prototype.fromArray = function (array, offset) {
+            if (offset === void 0) { offset = 0; }
+            this.x = array[offset];
+            this.y = array[offset + 1];
+            return this;
+        };
+        Vector2.prototype.fromAttribute = function (attribute, index, offset) {
+            if (offset === void 0) { offset = 0; }
+            index = index * attribute.itemSize + offset;
+            this.x = attribute.array[index];
+            this.y = attribute.array[index + 1];
+            return this;
+        };
+        Vector2.prototype.clone = function () {
+            return new Vector2([this.x, this.y]);
+        };
+        return Vector2;
+    })(VectorN);
+    return Vector2;
+});
+
+define('davinci-eight/geometries/cube',["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quadrilateral, Symbolic, Vector2, Vector3) {
+    function vector3(data) {
+        return new Vector3([]);
+    }
+    /**
+     * cube as Simplex[]
+     *
+     *    v6----- v5
+     *   /|      /|
+     *  v1------v0|
+     *  | |     | |
+     *  | |v7---|-|v4
+     *  |/      |/
+     *  v2------v3
+     */
+    function cube(size) {
+        if (size === void 0) { size = 1; }
+        var s = size / 2;
+        var vec0 = new Vector3([+s, +s, +s]);
+        var vec1 = new Vector3([-s, +s, +s]);
+        var vec2 = new Vector3([-s, -s, +s]);
+        var vec3 = new Vector3([+s, -s, +s]);
+        var vec4 = new Vector3([+s, -s, -s]);
+        var vec5 = new Vector3([+s, +s, -s]);
+        var vec6 = new Vector3([-s, +s, -s]);
+        var vec7 = new Vector3([-s, -s, -s]);
+        var c00 = new Vector2([0, 0]);
+        var c01 = new Vector2([0, 1]);
+        var c10 = new Vector2([1, 0]);
+        var c11 = new Vector2([1, 1]);
+        var attributes = {};
+        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = [c11, c01, c00, c10];
+        // We currently call quadrilateral rather than square because of the arguments.
+        var front = quadrilateral(vec0, vec1, vec2, vec3, attributes);
+        var right = quadrilateral(vec0, vec3, vec4, vec5, attributes);
+        var top = quadrilateral(vec0, vec5, vec6, vec1, attributes);
+        var left = quadrilateral(vec1, vec6, vec7, vec2, attributes);
+        var bottom = quadrilateral(vec7, vec4, vec3, vec2, attributes);
+        var back = quadrilateral(vec4, vec7, vec6, vec5, attributes);
+        var squares = [front, right, top, left, bottom, back];
+        // TODO: Fix up the opposing property so that the cube is fully linked together.
+        return squares.reduce(function (a, b) { return a.concat(b); }, []);
+    }
+    return cube;
+});
+
+define('davinci-eight/geometries/square',["require", "exports", '../geometries/quadrilateral', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, quadrilateral, Symbolic, Vector2, Vector3) {
+    // square
+    //
+    //  b-------a
+    //  |       | 
+    //  |       |
+    //  |       |
+    //  c-------d
+    //
+    function square(size) {
+        if (size === void 0) { size = 1; }
+        var s = size / 2;
+        var vec0 = new Vector3([+s, +s, 0]);
+        var vec1 = new Vector3([-s, +s, 0]);
+        var vec2 = new Vector3([-s, -s, 0]);
+        var vec3 = new Vector3([+s, -s, 0]);
+        var c00 = new Vector2([0, 0]);
+        var c01 = new Vector2([0, 1]);
+        var c10 = new Vector2([1, 0]);
+        var c11 = new Vector2([1, 1]);
+        var coords = [c11, c01, c00, c10];
+        var attributes = {};
+        attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = coords;
+        return quadrilateral(vec0, vec1, vec2, vec3, attributes);
+    }
+    return square;
+});
+
+define('davinci-eight/geometries/tetrahedron',["require", "exports", '../checks/expectArg', '../geometries/triangle', '../math/VectorN'], function (require, exports, expectArg, triangle, VectorN) {
+    /**
+     * terahedron
+     *
+     * The tetrahedron is composed of four triangles: abc, bdc, cda, dba.
+     */
+    function tetrahedron(a, b, c, d, attributes, triangles) {
+        if (attributes === void 0) { attributes = {}; }
+        if (triangles === void 0) { triangles = []; }
+        expectArg('a', a).toSatisfy(a instanceof VectorN, "a must be a VectorN");
+        expectArg('b', b).toSatisfy(b instanceof VectorN, "b must be a VectorN");
+        expectArg('c', c).toSatisfy(c instanceof VectorN, "c must be a VectorN");
+        expectArg('d', d).toSatisfy(d instanceof VectorN, "d must be a VectorN");
+        var triatts = {};
+        var points = [a, b, c, d];
+        var faces = [];
+        triangle(points[0], points[1], points[2], triatts, triangles);
+        faces.push(triangles[triangles.length - 1]);
+        triangle(points[1], points[3], points[2], triatts, triangles);
+        faces.push(triangles[triangles.length - 1]);
+        triangle(points[2], points[3], points[0], triatts, triangles);
+        faces.push(triangles[triangles.length - 1]);
+        triangle(points[3], points[1], points[0], triatts, triangles);
+        faces.push(triangles[triangles.length - 1]);
+        faces[3].vertices[0].opposing.push(faces[0]);
+        faces[3].vertices[1].opposing.push(faces[1]);
+        faces[3].vertices[2].opposing.push(faces[2]);
+        faces[0].vertices[0].opposing.push(faces[1]);
+        faces[0].vertices[1].opposing.push(faces[3]);
+        faces[0].vertices[2].opposing.push(faces[2]);
+        faces[1].vertices[0].opposing.push(faces[2]);
+        faces[1].vertices[1].opposing.push(faces[3]);
+        faces[1].vertices[2].opposing.push(faces[0]);
+        faces[2].vertices[0].opposing.push(faces[3]);
+        faces[2].vertices[1].opposing.push(faces[1]);
+        faces[2].vertices[2].opposing.push(faces[0]);
+        return triangles;
+    }
+    return tetrahedron;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/scene/PerspectiveCamera',["require", "exports", '../cameras/createPerspective', '../i18n/readOnly', '../checks/mustBeNumber', '../utils/Shareable', '../math/Vector3'], function (require, exports, createPerspective, readOnly, mustBeNumber, Shareable, Vector3) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var CLASS_NAME = 'PerspectiveCamera';
+    /**
+     * @class PerspectiveCamera
+     */
+    var PerspectiveCamera = (function (_super) {
+        __extends(PerspectiveCamera, _super);
+        /**
+         * <p>
+         *
+         * </p>
+         * @class PerspectiveCamera
+         * @constructor
+         * @param [fov = 75 * Math.PI / 180] {number}
+         * @param [aspect=1] {number}
+         * @param [near=0.1] {number}
+         * @param [far=2000] {number}
+         * @example
+         *   var camera = new EIGHT.PerspectiveCamera()
+         *   camera.setAspect(canvas.clientWidth / canvas.clientHeight)
+         *   camera.setFov(3.0 * e3)
+         */
+        function PerspectiveCamera(fov, aspect, near, far) {
+            if (fov === void 0) { fov = 75 * Math.PI / 180; }
+            if (aspect === void 0) { aspect = 1; }
+            if (near === void 0) { near = 0.1; }
+            if (far === void 0) { far = 2000; }
+            _super.call(this, 'PerspectiveCamera');
+            // FIXME: Gotta go
+            this.position = new Vector3();
+            mustBeNumber('fov', fov);
+            mustBeNumber('aspect', aspect);
+            mustBeNumber('near', near);
+            mustBeNumber('far', far);
+            this.inner = createPerspective({ fov: fov, aspect: aspect, near: near, far: far });
+        }
+        PerspectiveCamera.prototype.destructor = function () {
+        };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         * @return {void}
+         */
+        PerspectiveCamera.prototype.setUniforms = function (visitor, canvasId) {
+            this.inner.setNear(this.near);
+            this.inner.setFar(this.far);
+            this.inner.setUniforms(visitor, canvasId);
+        };
+        PerspectiveCamera.prototype.contextFree = function () {
+        };
+        PerspectiveCamera.prototype.contextGain = function (manager) {
+        };
+        PerspectiveCamera.prototype.contextLost = function () {
+        };
+        PerspectiveCamera.prototype.draw = function (canvasId) {
+            console.warn(CLASS_NAME + ".draw(" + canvasId + ")");
+            // Do nothing.
+        };
+        PerspectiveCamera.prototype.getFacet = function (name) {
+            // FIXME: This is a bit wierd.
+            if (name === this.name) {
+                return this;
+            }
+            else {
+                return void 0;
+            }
+        };
+        PerspectiveCamera.prototype.setFacet = function (name, value) {
+            throw new Error("WTF");
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "aspect", {
+            /**
+             * The aspect ratio (width / height) of the camera viewport.
+             * @property aspect
+             * @type {number}
+             * @readonly
+             */
+            get: function () {
+                return this.inner.aspect;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setAspect
+         * @param aspect {number}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setAspect = function (aspect) {
+            this.inner.aspect = aspect;
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "eye", {
+            /**
+             * The position of the camera.
+             * @property eye
+             * @type {Vector3}
+             * @readonly
+             */
+            get: function () {
+                return this.inner.eye;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setEye
+         * @param eye {Cartesian3}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setEye = function (eye) {
+            this.inner.setEye(eye);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "fov", {
+            /**
+             * The field of view is the (planar) angle (magnitude) in the camera horizontal plane that encloses object that can be seen.
+             * Measured in radians.
+             * @property fov
+             * @type {number}
+             * @readonly
+             */
+            // TODO: Field of view could be specified as an Aspect + Magnitude of a Spinor3!?
+            get: function () {
+                return this.inner.fov;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('fov').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setFov
+         * @param fov {number}
+         * @return {PerspectiveCamera} `this` instance without incrementing the reference count.
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setFov = function (fov) {
+            mustBeNumber('fov', fov);
+            this.inner.fov = fov;
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "look", {
+            get: function () {
+                return this.inner.look;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setLook = function (look) {
+            this.inner.setLook(look);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "near", {
+            /**
+             * The distance to the near plane.
+             * @property near
+             * @type {number}
+             * @readonly
+             */
+            get: function () {
+                return this.inner.near;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('near').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @method setNear
+         * @param near {number}
+         * @return {PerspectiveCamera} <p><code>this</code> instance, <em>without incrementing the reference count</em>.</p>
+         * @chainable
+         */
+        PerspectiveCamera.prototype.setNear = function (near) {
+            this.inner.setNear(near);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "far", {
+            get: function () {
+                return this.inner.far;
+            },
+            set: function (far) {
+                this.inner.far = far;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setFar = function (far) {
+            this.inner.setFar(far);
+            return this;
+        };
+        Object.defineProperty(PerspectiveCamera.prototype, "up", {
+            get: function () {
+                return this.inner.up;
+            },
+            set: function (unused) {
+                throw new Error(readOnly('up').message);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PerspectiveCamera.prototype.setUp = function (up) {
+            this.inner.setUp(up);
+            return this;
+        };
+        return PerspectiveCamera;
+    })(Shareable);
+    return PerspectiveCamera;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, triangle, Vector3) {
+    /**
+     * @module EIGHT
+     * @submodule geometries
+     * @class BarnGeometry
+     */
+    var BarnGeometry = (function (_super) {
+        __extends(BarnGeometry, _super);
+        /**
+         * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
+         * Ten (10) vertices are used to define the barn.
+         * The floor vertices are lablled 0, 1, 6, 5.
+         * The corresponding ceiling vertices are labelled 4, 2, 7, 9.
+         * The roof peak vertices are labelled 3, 8.
+         * @class BarnGeometry
+         * @constructor
+         */
+        function BarnGeometry() {
+            _super.call(this);
+            this.a = Vector3.e1.clone();
+            this.b = Vector3.e2.clone();
+            this.c = Vector3.e3.clone();
+            this.k = 1;
+            this.calculate();
+        }
+        BarnGeometry.prototype.calculate = function () {
+            var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
+            points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2);
+            points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideScalar(2);
+            points[6] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
+            points[5] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
+            points[4] = new Vector3().copy(points[0]).add(this.b);
+            points[2] = new Vector3().copy(points[1]).add(this.b);
+            points[7] = new Vector3().copy(points[6]).add(this.b);
+            points[9] = new Vector3().copy(points[5]).add(this.b);
+            points[3] = Vector3.lerp(points[4], points[2], 0.5).scale(2).add(this.b).divideScalar(2);
+            points[8] = Vector3.lerp(points[7], points[9], 0.5).scale(2).add(this.b).divideScalar(2);
+            function simplex(indices) {
+                var simplex = new Simplex(indices.length - 1);
+                for (var i = 0; i < indices.length; i++) {
+                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = points[indices[i]];
+                }
+                return simplex;
+            }
+            switch (this.k) {
+                case 0:
+                    {
+                        var simplices = points.map(function (point) {
+                            var simplex = new Simplex(0);
+                            simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = point;
+                            return simplex;
+                        });
+                        this.data = simplices;
+                    }
+                    break;
+                case 1:
+                    {
+                        var lines = [[0, 1], [1, 6], [6, 5], [5, 0], [1, 2], [6, 7], [5, 9], [0, 4], [4, 3], [3, 2], [9, 8], [8, 7], [9, 4], [8, 3], [7, 2]];
+                        this.data = lines.map(function (line) { return simplex(line); });
+                    }
+                    break;
+                case 2:
+                    {
+                        var faces = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (index) { return void 0; });
+                        faces[0] = quad(points[0], points[5], points[9], points[4]);
+                        faces[1] = quad(points[3], points[4], points[9], points[8]);
+                        faces[2] = quad(points[2], points[3], points[8], points[7]);
+                        faces[3] = quad(points[1], points[2], points[7], points[6]);
+                        faces[4] = quad(points[0], points[1], points[6], points[5]);
+                        faces[5] = quad(points[5], points[6], points[7], points[9]);
+                        faces[6] = quad(points[0], points[4], points[2], points[1]);
+                        faces[7] = triangle(points[9], points[7], points[8]);
+                        faces[8] = triangle(points[2], points[4], points[3]);
+                        this.data = faces.reduce(function (a, b) { return a.concat(b); }, []);
+                        this.data.forEach(function (simplex) {
+                            computeFaceNormals(simplex);
+                        });
+                    }
+                    break;
+                default: {
+                }
+            }
+            // Compute the meta data.
+            this.check();
+        };
+        return BarnGeometry;
+    })(Geometry);
+    return BarnGeometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/Simplex1Geometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector3) {
+    //import VectorN = require('../math/VectorN')
+    /**
+     * @class Simplex1Geometry
+     */
+    var Simplex1Geometry = (function (_super) {
+        __extends(Simplex1Geometry, _super);
+        /**
+         * @class Simplex1Geometry
+         * @constructor
+         */
+        function Simplex1Geometry() {
+            _super.call(this);
+            this.head = new Vector3([1, 0, 0]);
+            this.tail = new Vector3([0, 1, 0]);
+            this.calculate();
+        }
+        Simplex1Geometry.prototype.calculate = function () {
+            var pos = [0, 1].map(function (index) { return void 0; });
+            pos[0] = this.tail;
+            pos[1] = this.head;
+            function simplex(indices) {
+                var simplex = new Simplex(indices.length - 1);
+                for (var i = 0; i < indices.length; i++) {
+                    simplex.vertices[i].attributes[Symbolic.ATTRIBUTE_POSITION] = pos[indices[i]];
+                }
+                return simplex;
+            }
+            this.data = [[0, 1]].map(function (line) { return simplex(line); });
+            // Compute the meta data.
+            this.check();
+        };
+        return Simplex1Geometry;
+    })(Geometry);
+    return Simplex1Geometry;
+});
+
+define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
+    function mergeStringMapList(ms) {
+        var result = {};
+        ms.forEach(function (m) {
+            var keys = Object.keys(m);
+            var keysLength = keys.length;
+            for (var i = 0; i < keysLength; i++) {
+                var key = keys[i];
+                var value = m[key];
+                result[key] = value;
+            }
+        });
+        return result;
+    }
+    return mergeStringMapList;
+});
+
+define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createMaterial', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createMaterial, vColorRequired, vertexShader, vLightRequired) {
+    /**
+     *
+     */
+    var smartProgram = function (monitors, attributes, uniformsList, bindings) {
+        MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniformsList', uniformsList);
+        var uniforms = mergeStringMapList(uniformsList);
+        var vColor = vColorRequired(attributes, uniforms);
+        var vLight = vLightRequired(attributes, uniforms);
+        var innerProgram = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+        var self = {
+            get programId() {
+                return innerProgram.programId;
+            },
+            attributes: function (canvasId) {
+                return innerProgram.attributes(canvasId);
+            },
+            uniforms: function (canvasId) {
+                return innerProgram.uniforms(canvasId);
+            },
+            get vertexShader() {
+                return innerProgram.vertexShader;
+            },
+            get fragmentShader() {
+                return innerProgram.fragmentShader;
+            },
+            addRef: function () {
+                return innerProgram.addRef();
+            },
+            release: function () {
+                return innerProgram.release();
+            },
+            contextFree: function (canvasId) {
+                return innerProgram.contextFree(canvasId);
+            },
+            contextGain: function (manager) {
+                return innerProgram.contextGain(manager);
+            },
+            contextLost: function (canvasId) {
+                return innerProgram.contextLost(canvasId);
+            },
+            use: function (canvasId) {
+                return innerProgram.use(canvasId);
+            },
+            enableAttrib: function (name, canvasId) {
+                return innerProgram.enableAttrib(name, canvasId);
+            },
+            disableAttrib: function (name, canvasId) {
+                return innerProgram.disableAttrib(name, canvasId);
+            },
+            uniform1f: function (name, x, canvasId) {
+                return innerProgram.uniform1f(name, x, canvasId);
+            },
+            uniform2f: function (name, x, y, canvasId) {
+                return innerProgram.uniform2f(name, x, y, canvasId);
+            },
+            uniform3f: function (name, x, y, z, canvasId) {
+                return innerProgram.uniform3f(name, x, y, z, canvasId);
+            },
+            uniform4f: function (name, x, y, z, w, canvasId) {
+                return innerProgram.uniform4f(name, x, y, z, w, canvasId);
+            },
+            uniformMatrix1: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
+            },
+            uniformMatrix2: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
+            },
+            uniformMatrix3: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
+            },
+            uniformMatrix4: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
+            },
+            uniformVector1: function (name, vector, canvasId) {
+                return innerProgram.uniformVector1(name, vector, canvasId);
+            },
+            uniformVector2: function (name, vector, canvasId) {
+                return innerProgram.uniformVector2(name, vector, canvasId);
+            },
+            uniformVector3: function (name, vector, canvasId) {
+                return innerProgram.uniformVector3(name, vector, canvasId);
+            },
+            uniformVector4: function (name, vector, canvasId) {
+                return innerProgram.uniformVector4(name, vector, canvasId);
+            }
+        };
+        return self;
+    };
+    return smartProgram;
+});
+
+define('davinci-eight/programs/programFromScripts',["require", "exports", '../programs/createMaterial', '../checks/expectArg', '../scene/MonitorList'], function (require, exports, createMaterial, expectArg, MonitorList) {
+    // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
+    // FIXME: Temporary rename simpleProgramFromScripts?
+    /**
+     * @method programFromScripts
+     * @param monitors {IContextMonitor[]}
+     * @param vsId {string} The vertex shader script element identifier.
+     * @param fsId {string} The fragment shader script element identifier.
+     * @param $document {Document} The document containing the script elements.
+     */
+    function programFromScripts(monitors, vsId, fsId, $document, attribs) {
+        if (attribs === void 0) { attribs = []; }
+        MonitorList.verify('monitors', monitors, function () { return "programFromScripts"; });
+        expectArg('vsId', vsId).toBeString();
+        expectArg('fsId', fsId).toBeString();
+        expectArg('$document', $document).toBeObject();
+        function $(id) {
+            expectArg('id', id).toBeString();
+            var element = $document.getElementById(id);
+            if (element) {
+                return element;
+            }
+            else {
+                throw new Error(id + " is not a valid DOM element identifier.");
+            }
+        }
+        var vertexShader = $(vsId).textContent;
+        var fragmentShader = $(fsId).textContent;
+        return createMaterial(monitors, vertexShader, fragmentShader, attribs);
+    }
+    return programFromScripts;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../materials/Material', '../checks/mustSatisfy', '../programs/programFromScripts'], function (require, exports, Material, mustSatisfy, programFromScripts) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var CLASS_NAME = 'HTMLScriptsMaterial';
+    function nameBuilder() {
+        return CLASS_NAME;
+    }
+    /**
+     * @class HTMLScriptsMaterial
+     * @extends Material
+     */
+    var HTMLScriptsMaterial = (function (_super) {
+        __extends(HTMLScriptsMaterial, _super);
+        /**
+         * @class HTMLScriptsMaterial
+         * @constructor
+         * @param contexts {IContextMonitor[]}
+         * @param scriptIds {string[]}
+         * @param dom {Document}
+         */
+        function HTMLScriptsMaterial(contexts, scriptIds, dom) {
+            if (scriptIds === void 0) { scriptIds = []; }
+            if (dom === void 0) { dom = document; }
+            _super.call(this, contexts, CLASS_NAME);
+            this.attributeBindings = [];
+            // For now, we limit the implementation to only a vertex shader and a fragment shader.
+            mustSatisfy('scriptIds', scriptIds.length === 2, function () { return "scriptIds must be [vsId, fsId]"; });
+            this.scriptIds = scriptIds.map(function (scriptId) { return scriptId; });
+            this.dom = dom;
+        }
+        /**
+         * @method createProgram
+         * @return {IMaterial}
+         */
+        HTMLScriptsMaterial.prototype.createProgram = function () {
+            var vsId = this.scriptIds[0];
+            var fsId = this.scriptIds[1];
+            return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);
+        };
+        return HTMLScriptsMaterial;
+    })(Material);
+    return HTMLScriptsMaterial;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
@@ -12074,114 +13157,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Matrix3',["require", "exports", '../math/AbstractMatrix'], function (require, exports, AbstractMatrix) {
-    var Matrix3 = (function (_super) {
-        __extends(Matrix3, _super);
-        /**
-         * Constructs a Matrix4 by wrapping a Float32Array.
-         * @constructor
-         */
-        function Matrix3(data) {
-            _super.call(this, data, 9);
-        }
-        Matrix3.identity = function () {
-            return new Matrix3(new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]));
-        };
-        Matrix3.prototype.determinant = function () {
-            return 1;
-        };
-        Matrix3.prototype.getInverse = function (matrix, throwOnInvertible) {
-            // input: THREE.Matrix4
-            // ( based on http://code.google.com/p/webgl-mjs/ )
-            var me = matrix.data;
-            var te = this.data;
-            te[0] = me[10] * me[5] - me[6] * me[9];
-            te[1] = -me[10] * me[1] + me[2] * me[9];
-            te[2] = me[6] * me[1] - me[2] * me[5];
-            te[3] = -me[10] * me[4] + me[6] * me[8];
-            te[4] = me[10] * me[0] - me[2] * me[8];
-            te[5] = -me[6] * me[0] + me[2] * me[4];
-            te[6] = me[9] * me[4] - me[5] * me[8];
-            te[7] = -me[9] * me[0] + me[1] * me[8];
-            te[8] = me[5] * me[0] - me[1] * me[4];
-            var det = me[0] * te[0] + me[1] * te[3] + me[2] * te[6];
-            // no inverse
-            if (det === 0) {
-                var msg = "Matrix3.getInverse(): can't invert matrix, determinant is 0";
-                if (throwOnInvertible || !throwOnInvertible) {
-                    throw new Error(msg);
-                }
-                else {
-                    console.warn(msg);
-                }
-                this.identity();
-                return this;
-            }
-            this.scale(1.0 / det);
-            return this;
-        };
-        Matrix3.prototype.identity = function () {
-            return this.set(1, 0, 0, 0, 1, 0, 0, 0, 1);
-        };
-        Matrix3.prototype.multiply = function (rhs) {
-            return this.product(this, rhs);
-        };
-        Matrix3.prototype.scale = function (s) {
-            var m = this.data;
-            m[0] *= s;
-            m[3] *= s;
-            m[6] *= s;
-            m[1] *= s;
-            m[4] *= s;
-            m[7] *= s;
-            m[2] *= s;
-            m[5] *= s;
-            m[8] *= s;
-            return this;
-        };
-        Matrix3.prototype.product = function (a, b) {
-            return this;
-        };
-        Matrix3.prototype.normalFromMatrix4 = function (m) {
-            this.getInverse(m).transpose();
-        };
-        Matrix3.prototype.set = function (n11, n12, n13, n21, n22, n23, n31, n32, n33) {
-            var te = this.data;
-            te[0] = n11;
-            te[3] = n12;
-            te[6] = n13;
-            te[1] = n21;
-            te[4] = n22;
-            te[7] = n23;
-            te[2] = n31;
-            te[5] = n32;
-            te[8] = n33;
-            return this;
-        };
-        Matrix3.prototype.transpose = function () {
-            var tmp;
-            var m = this.data;
-            tmp = m[1];
-            m[1] = m[3];
-            m[3] = tmp;
-            tmp = m[2];
-            m[2] = m[6];
-            m[6] = tmp;
-            tmp = m[5];
-            m[5] = m[7];
-            m[7] = tmp;
-            return this;
-        };
-        return Matrix3;
-    })(AbstractMatrix);
-    return Matrix3;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/math/Vector4',["require", "exports", '../math/VectorN'], function (require, exports, VectorN) {
     /**
      * @class Vector4
@@ -12652,326 +13627,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/readOnly', '../utils/Shareable', '../math/Spinor3', '../core/Symbolic', '../math/Vector3'], function (require, exports, Matrix3, Matrix4, readOnly, Shareable, Spinor3, Symbolic, Vector3) {
-    /**
-     * @class ModelFacet
-     */
-    var ModelFacet = (function (_super) {
-        __extends(ModelFacet, _super);
-        /**
-         * ModelFacet implements IFacet required for manipulating a body.
-         * @class ModelFacet
-         * @constructor
-         */
-        function ModelFacet() {
-            _super.call(this, 'ModelFacet');
-            this._position = new Vector3();
-            this._attitude = new Spinor3();
-            this._scaleXYZ = new Vector3([1, 1, 1]);
-            this.M = Matrix4.identity();
-            this.N = Matrix3.identity();
-            this.R = Matrix4.identity();
-            this.S = Matrix4.identity();
-            this.T = Matrix4.identity();
-            this._position.modified = true;
-            this._attitude.modified = true;
-            this._scaleXYZ.modified = true;
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         */
-        ModelFacet.prototype.destructor = function () {
-            this._position = void 0;
-            this._attitude = void 0;
-            this._scaleXYZ = void 0;
-            this.M = void 0;
-            this.N = void 0;
-            this.R = void 0;
-            this.S = void 0;
-            this.T = void 0;
-        };
-        Object.defineProperty(ModelFacet.prototype, "attitude", {
-            /**
-             * @property attitude
-             * @type Spinor3
-             * @readOnly
-             */
-            get: function () {
-                return this._attitude;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('attitude').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ModelFacet.prototype, "position", {
-            /**
-             * @property position
-             * @type Vector3
-             * @readOnly
-             */
-            get: function () {
-                return this._position;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('position').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ModelFacet.prototype, "scaleXYZ", {
-            /**
-             * @property scaleXYZ
-             * @type Vector3
-             * @readOnly
-             */
-            get: function () {
-                return this._scaleXYZ;
-            },
-            set: function (unused) {
-                throw new Error(readOnly('scaleXYZ').message);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * @method getProperty
-         * @param name {string}
-         * @return {number[]}
-         */
-        ModelFacet.prototype.getProperty = function (name) {
-            switch (name) {
-                case ModelFacet.PROP_ATTITUDE: {
-                    return this._attitude.data;
-                }
-                case ModelFacet.PROP_POSITION: {
-                    return this._position.data;
-                }
-                default: {
-                    console.warn("ModelFacet.getProperty " + name);
-                    return void 0;
-                }
-            }
-        };
-        /**
-         * @method setProperty
-         * @param name {string}
-         * @param data {number[]}
-         * @return {void}
-         */
-        ModelFacet.prototype.setProperty = function (name, data) {
-            switch (name) {
-                case ModelFacet.PROP_ATTITUDE:
-                    {
-                        this._attitude.yz = data[0];
-                        this._attitude.zx = data[1];
-                        this._attitude.xy = data[2];
-                        this._attitude.w = data[3];
-                    }
-                    break;
-                case ModelFacet.PROP_POSITION:
-                    {
-                        this._position.set(data[0], data[1], data[2]);
-                    }
-                    break;
-                default: {
-                    console.warn("ModelFacet.setProperty " + name);
-                }
-            }
-        };
-        /**
-         * @method setUniforms
-         * @param visitor {IFacetVisitor}
-         * @param canvasId {number}
-         */
-        ModelFacet.prototype.setUniforms = function (visitor, canvasId) {
-            if (!this.position) {
-                console.warn("setUniforms called on zombie ModelFacet");
-                return;
-            }
-            if (this._position.modified) {
-                this.T.translation(this._position);
-                this._position.modified = false;
-            }
-            if (this._attitude.modified) {
-                this.R.rotation(this._attitude);
-                this._attitude.modified = false;
-            }
-            if (this.scaleXYZ.modified) {
-                this.S.scaling(this.scaleXYZ);
-                this.scaleXYZ.modified = false;
-            }
-            this.M.copy(this.T).multiply(this.R).multiply(this.S);
-            this.N.normalFromMatrix4(this.M);
-            visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
-            visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
-        };
-        ModelFacet.PROP_ATTITUDE = 'attitude';
-        ModelFacet.PROP_POSITION = 'position';
-        return ModelFacet;
-    })(Shareable);
-    return ModelFacet;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Shareable, Symbolic, Vector3) {
-    /**
-     * @class ColorFacet
-     */
-    var ColorFacet = (function (_super) {
-        __extends(ColorFacet, _super);
-        /**
-         * @class ColorFacet
-         * @constructor
-         * @param [name = Symbolic.UNIFORM_COLOR]
-         */
-        function ColorFacet(name) {
-            if (name === void 0) { name = Symbolic.UNIFORM_COLOR; }
-            _super.call(this, 'ColorFacet');
-            /**
-             * @property colorRGB
-             * @type Vector3
-             * @private
-             */
-            this.data = new Vector3([1, 1, 1]);
-            this.data.modified = true;
-            this.name = name;
-        }
-        /**
-         * @method destructor
-         * @return {void}
-         * @protected
-         */
-        ColorFacet.prototype.destructor = function () {
-            this.data = void 0;
-        };
-        Object.defineProperty(ColorFacet.prototype, "red", {
-            /**
-             * The red component of the color.
-             * @property red
-             * @type {number}
-             */
-            get: function () {
-                return this.data.x;
-            },
-            set: function (red) {
-                this.data.x = red;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ColorFacet.prototype, "green", {
-            /**
-             * The green component of the color.
-             * @property green
-             * @type {number}
-             */
-            get: function () {
-                return this.data.y;
-            },
-            set: function (green) {
-                this.data.y = green;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ColorFacet.prototype, "blue", {
-            /**
-             * The green component of the color.
-             * @property blue
-             * @type {number}
-             */
-            get: function () {
-                return this.data.z;
-            },
-            set: function (blue) {
-                this.data.z = blue;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        ColorFacet.prototype.scale = function (s) {
-            this.red *= s;
-            this.green *= s;
-            this.blue *= s;
-            return this;
-        };
-        ColorFacet.prototype.setColor = function (color) {
-            this.red = color.red;
-            this.green = color.green;
-            this.blue = color.blue;
-            return this;
-        };
-        ColorFacet.prototype.setRGB = function (red, green, blue) {
-            this.red = red;
-            this.green = green;
-            this.blue = blue;
-            return this;
-        };
-        ColorFacet.prototype.getProperty = function (name) {
-            switch (name) {
-                case ColorFacet.PROP_RGB: {
-                    return [this.red, this.green, this.blue];
-                }
-                case ColorFacet.PROP_RED: {
-                    return [this.red];
-                }
-                default: {
-                    console.warn("ColorFacet.getProperty " + name);
-                    return void 0;
-                }
-            }
-        };
-        ColorFacet.prototype.setProperty = function (name, data) {
-            switch (name) {
-                case ColorFacet.PROP_RGB:
-                    {
-                        this.red = data[0];
-                        this.green = data[1];
-                        this.blue = data[2];
-                    }
-                    break;
-                case ColorFacet.PROP_RED:
-                    {
-                        this.red = data[0];
-                    }
-                    break;
-                default: {
-                    console.warn("ColorFacet.setProperty " + name);
-                }
-            }
-        };
-        ColorFacet.prototype.setUniforms = function (visitor, canvasId) {
-            visitor.uniformVector3(this.name, this.data, canvasId);
-        };
-        /**
-         * property PROP_RGB
-         * @type {string}
-         * @static
-         */
-        ColorFacet.PROP_RGB = 'rgb';
-        /**
-         * property PROP_RED
-         * @type {string}
-         * @static
-         */
-        ColorFacet.PROP_RED = 'red';
-        return ColorFacet;
-    })(Shareable);
-    return ColorFacet;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/uniforms/SineWaveUniform',["require", "exports", '../utils/Shareable'], function (require, exports, Shareable) {
     var SineWaveUniform = (function (_super) {
         __extends(SineWaveUniform, _super);
@@ -13189,7 +13844,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/animate/Animator', 'davinci-eight/animate/animations/Animation', 'davinci-eight/animate/animations/ColorTo', 'davinci-eight/animate/animations/MoveTo', 'davinci-eight/animate/animations/SpinTo', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Animation, ColorTo, MoveTo, SpinTo, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/animations/Animation', 'davinci-eight/slideshow/animations/ColorTo', 'davinci-eight/slideshow/animations/MoveTo', 'davinci-eight/slideshow/animations/SpinTo', 'davinci-eight/slideshow/tasks/ColorTask', 'davinci-eight/slideshow/tasks/CubeTask', 'davinci-eight/slideshow/tasks/MoveTask', 'davinci-eight/slideshow/tasks/SpinTask', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Director, Animation, ColorTo, MoveTo, SpinTo, ColorTask, CubeTask, MoveTask, SpinTask, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -13214,12 +13869,17 @@ define('davinci-eight',["require", "exports", 'davinci-eight/animate/Animator', 
          * @readOnly
          */
         get VERSION() { return core.VERSION; },
-        // animate
+        // slideshow
         get Animator() { return Animator; },
+        get Director() { return Director; },
         get Animation() { return Animation; },
         get ColorTo() { return ColorTo; },
         get MoveTo() { return MoveTo; },
         get SpinTo() { return SpinTo; },
+        get ColorTask() { return ColorTask; },
+        get CubeTask() { return CubeTask; },
+        get MoveTask() { return MoveTask; },
+        get SpinTask() { return SpinTask; },
         // TODO: Arrange in alphabetical order in order to assess width of API.
         // materials
         get HTMLScriptsMaterial() { return HTMLScriptsMaterial; },

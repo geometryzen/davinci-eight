@@ -42,8 +42,8 @@ define(["require", "exports", '../core', '../commands/EIGHTLogger', '../utils/IU
         var uuid = uuid4().generate();
         var refCount = 1;
         var _autoProlog = true;
-        var prolog = new IUnknownArray();
-        var startUp = new IUnknownArray();
+        var prolog = new IUnknownArray([], CLASS_NAME);
+        var startUp = new IUnknownArray([], CLASS_NAME);
         var self = {
             addRef: function () {
                 refCount++;

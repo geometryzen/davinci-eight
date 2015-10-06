@@ -35,8 +35,8 @@ let defaultCanvasBuilder = () => {return document.createElement('canvas')}
  * @class Canvas3D
  */
 class Canvas3D extends Shareable implements ContextController, IContextProvider, IContextMonitor, ContextRenderer {
-  private _kahuna: ContextKahuna
-  private _renderer: ContextRenderer
+  private _kahuna: ContextKahuna;
+  private _renderer: ContextRenderer;
   /**
    * @class Canvas3D
    * @constructor
@@ -64,6 +64,7 @@ class Canvas3D extends Shareable implements ContextController, IContextProvider,
     this._kahuna = void 0
     this._renderer.release()
     this._renderer = void 0
+    super.destructor()
   }
   addContextListener(user: IContextConsumer): void {
     this._kahuna.addContextListener(user)

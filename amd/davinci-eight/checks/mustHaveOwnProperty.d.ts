@@ -1,2 +1,2 @@
-declare function mustHaveOwnProperty(name: string, value: {}, prop: string, contextBuilder: () => string): void;
+declare function mustHaveOwnProperty(name: string, value: {}, prop: string, contextBuilder?: () => string): void;
 export = mustHaveOwnProperty;

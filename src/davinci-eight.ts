@@ -1,11 +1,17 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
 
-// animate
-import Animator                = require('davinci-eight/animate/Animator')
-import Animation               = require('davinci-eight/animate/animations/Animation')
-import ColorTo                 = require('davinci-eight/animate/animations/ColorTo')
-import MoveTo                  = require('davinci-eight/animate/animations/MoveTo')
-import SpinTo                  = require('davinci-eight/animate/animations/SpinTo')
+// slideshow
+import Animator                = require('davinci-eight/slideshow/Animator')
+import Director                = require('davinci-eight/slideshow/Director')
+import Slide                   = require('davinci-eight/slideshow/Slide')
+import Animation               = require('davinci-eight/slideshow/animations/Animation')
+import ColorTo                 = require('davinci-eight/slideshow/animations/ColorTo')
+import MoveTo                  = require('davinci-eight/slideshow/animations/MoveTo')
+import SpinTo                  = require('davinci-eight/slideshow/animations/SpinTo')
+import ColorTask               = require('davinci-eight/slideshow/tasks/ColorTask')
+import CubeTask                = require('davinci-eight/slideshow/tasks/CubeTask')
+import MoveTask                = require('davinci-eight/slideshow/tasks/MoveTask')
+import SpinTask                = require('davinci-eight/slideshow/tasks/SpinTask')
 
 // cameras
 import createFrustum           = require('davinci-eight/cameras/createFrustum')
@@ -201,12 +207,17 @@ var eight = {
    * @readOnly
    */
   get VERSION() { return core.VERSION },
-  // animate
+  // slideshow
   get Animator() { return Animator },
+  get Director() { return Director },
   get Animation() { return Animation },
   get ColorTo() { return ColorTo },
   get MoveTo() { return MoveTo },
   get SpinTo() { return SpinTo },
+  get ColorTask() { return ColorTask },
+  get CubeTask() { return CubeTask },
+  get MoveTask() { return MoveTask },
+  get SpinTask() { return SpinTask },
 
   // TODO: Arrange in alphabetical order in order to assess width of API.
   // materials

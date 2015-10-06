@@ -86,7 +86,7 @@ class Drawable<G extends GeometryElements, M extends IMaterial> extends Shareabl
 
     this.buffersByCanvasid = new NumberIUnknownMap<IBufferGeometry>()
 
-    this.uniforms = new StringIUnknownMap<IFacet>();
+    this.uniforms = new StringIUnknownMap<IFacet>(LOGGING_NAME);
   }
   protected destructor(): void {
     this.geometry = void 0;

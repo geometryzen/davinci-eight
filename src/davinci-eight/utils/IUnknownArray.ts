@@ -1,35 +1,63 @@
 import IUnknown = require('../core/IUnknown')
 import Shareable = require('../utils/Shareable')
 
-let LOGGING_NAME = 'IUnknownArray';
+function className(userName: string): string {
+  return 'IUnknownArray:' + userName
+}
+
+/**
+ * Essentially constructs the IUnknownArray without incrementing the
+ * reference count of the elements, and without creating zombies.
+ */
+function transferOwnership<T extends IUnknown>(data: T[], userName: string): IUnknownArray<T> {
+  if (data) {
+    var result = new IUnknownArray<T>(data, userName)
+    // The result has now taken ownership of the elements, so we can release.
+    for (var i = 0, iLength = data.length; i < iLength; i++) {
+      var element = data[i]
+      if (element) {
+        element.release()
+      }
+    }
+    return result
+  }
+  else {
+    return void 0
+  }
+}
 
 /**
  * @class IUnknownArray
  */
 class IUnknownArray<T extends IUnknown> extends Shareable {
-    private _elements: T[];
+  private _elements: T[];
+  private userName: string;
   /**
    * Collection class for maintaining an array of types derived from IUnknown.
    * Provides a safer way to maintain reference counts than a native array.
    * @class IUnknownArray
    * @constructor
    */
-  constructor(elements: T[] = []) {
-   super(LOGGING_NAME)
+  constructor(elements: T[] = [], userName: string) {
+   super(className(userName))
    this._elements = elements
     for (var i = 0, l = this._elements.length; i < l; i++) {
       this._elements[i].addRef()
     }
+    this.userName = userName;
   }
   /**
    * @method destructor
    * @return {void}
+   * @protected
    */
   protected destructor(): void {
     for (var i = 0, l = this._elements.length; i < l; i++) {
       this._elements[i].release()
     }
-    this._elements = void 0;
+    this._elements = void 0
+    // Don't set the userName property to undefined so that we can report zombie calls.
+    super.destructor()
   }
   /**
    * Gets the element at the specified index, incrementing the reference count.
@@ -59,21 +87,34 @@ class IUnknownArray<T extends IUnknown> extends Shareable {
    * @return {number}
    */
   get length(): number {
-    return this._elements.length;
-  }
-  slice(start?: number, end?: number): IUnknownArray<T> {
-    return new IUnknownArray(this._elements.slice(start, end))
+    if (this._elements) {
+      return this._elements.length;
+    }
+    else {
+      console.warn(className(this.userName) + " is now a zombie, length is undefined")
+      return void 0
+    }
   }
   /**
+   * The slice() method returns a shallow copy of a portion of an array into a new array object.
+   * It does not remove elements from the original array.
+   * @method slice
+   * @param begin [number]
+   * @param end [number]
+   */
+  slice(begin?: number, end?: number): IUnknownArray<T> {
+    return new IUnknownArray<T>(this._elements.slice(begin, end), 'IUnknownArray.slice()')
+  }
+  /**
+   * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
    * @method splice
    * @param index {number}
-   * @param count {number}
-   * @return {IUnnownArray<T>}
+   * @param deleteCount {number}
+   * @return {IUnkownArray<T>}
    */
-  splice(index: number, count: number): IUnknownArray<T> {
+  splice(index: number, deleteCount: number): IUnknownArray<T> {
     // The release burdon is on the caller now.
-    // FIXME: This should return another IUnknownArray
-    return new IUnknownArray(this._elements.splice(index, count))
+    return transferOwnership(this._elements.splice(index, deleteCount), 'IUnknownArray.slice()')
   }
   /**
    * @method shift

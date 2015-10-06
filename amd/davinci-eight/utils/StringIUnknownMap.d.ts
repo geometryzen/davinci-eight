@@ -7,6 +7,7 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     private _refCount;
     private _elements;
     private _uuid;
+    private _userName;
     /**
      * <p>
      * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
@@ -14,7 +15,7 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
      * @class StringIUnknownMap
      * @constructor
      */
-    constructor();
+    constructor(userName: string);
     addRef(): number;
     release(): number;
     /**
@@ -25,13 +26,6 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
      */
     exists(key: string): boolean;
     get(key: string): V;
-    /**
-     * @method getWeakReference
-     * @param key {string}
-     * @return {V}
-     * @private
-     */
-    private getWeakReference(key);
     put(key: string, value: V): void;
     /**
      * @method putWeakReference
@@ -43,6 +37,7 @@ declare class StringIUnknownMap<V extends IUnknown> implements IUnknown {
     private putWeakReference(key, value);
     forEach(callback: (key: string, value: V) => void): void;
     keys: string[];
+    values: V[];
     remove(key: string): void;
 }
 export = StringIUnknownMap;

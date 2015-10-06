@@ -47,7 +47,8 @@ class Shareable implements IUnknown {
     refChange(this._uuid, this._type, -1)
     let refCount = this._refCount
     if (refCount === 0) {
-      this.destructor()
+      // destructor called with `true` means grumble if the method has not been overridden.
+      this.destructor(true)
       this._refCount = void 0
       this._type = void 0
       this._uuid = void 0
@@ -68,8 +69,10 @@ class Shareable implements IUnknown {
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.")
+  protected destructor(grumble: boolean = false): void {
+    if (grumble) {
+      console.warn("`protected destructor(): void` method should be implemented by `" + this._type + "`.")
+    }
   }
   /**
    * @property uuid

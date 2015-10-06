@@ -3,16 +3,21 @@ import refChange = require('../utils/refChange')
 import Shareable = require('../utils/Shareable')
 import uuid4 = require('../utils/uuid4')
 
-let LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap'
+function className(user: string) {
+  var LOGGING_NAME_IUNKNOWN_MAP = 'StringIUnknownMap'
+  return LOGGING_NAME_IUNKNOWN_MAP + ":" + user
+}
 
 /**
  * @class StringIUnknownMap<V extends IUnknown>
  * @extends IUnknown
  */
+// FIXME: Extend Shareable
 class StringIUnknownMap<V extends IUnknown> implements IUnknown {
   private _refCount = 1;
   private _elements: { [key: string]: V } = {};
   private _uuid = uuid4().generate();
+  private _userName: string
   /**
    * <p>
    * A map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.
@@ -20,16 +25,17 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
    * @class StringIUnknownMap
    * @constructor
    */
-  constructor() {
-    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+  constructor(userName: string) {
+    this._userName = userName
+    refChange(this._uuid, className(this._userName), +1);
   }
   addRef() {
-    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, +1);
+    refChange(this._uuid, className(this._userName), +1);
     this._refCount++;
     return this._refCount;
   }
   release() {
-    refChange(this._uuid, LOGGING_NAME_IUNKNOWN_MAP, -1);
+    refChange(this._uuid, className(this._userName), -1);
     this._refCount--;
     if (this._refCount === 0) {
       let self = this;
@@ -60,21 +66,6 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
       return void 0;
     }
   }
-  /**
-   * @method getWeakReference
-   * @param key {string}
-   * @return {V}
-   * @private
-   */
-  private getWeakReference(key: string): V {
-    let element = this._elements[key];
-    if (element) {
-      return element;
-    }
-    else {
-      return void 0;
-    }
-  }
   put(key: string, value: V): void {
     if (value) {
       value.addRef()
@@ -98,20 +89,27 @@ class StringIUnknownMap<V extends IUnknown> implements IUnknown {
   }
   forEach(callback: (key: string, value: V) => void) {
     let keys: string[] = this.keys;
-    var i: number;
-    let length: number = keys.length;
-    for (i = 0; i < length; i++) {
+    for (var i = 0, iLength = keys.length; i < iLength; i++) {
       let key: string = keys[i];
-      let value = this._elements[key];
-      callback(key, value);
+      callback(key, this._elements[key]);
     }
   }
   get keys(): string[] {
-    // TODO: memoize
+    // TODO: Cache
     return Object.keys(this._elements);
   }
+  get values(): V[] {
+    // TODO: Cache
+    var values: V[] = []
+    var keys: string[] = this.keys
+    for (var i = 0, iLength = keys.length; i < iLength; i++) {
+      let key: string = keys[i]
+      values.push(this._elements[key])
+    }
+    return values
+  }
   remove(key: string): void {
-    var value = this.getWeakReference(key)
+    var value = this._elements[key]
     if (value) {
       value.release()
     }

@@ -2,56 +2,11 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.116.0",
+        "version": "2.117.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
     "files": {
-        "src/davinci-eight/animate/Animator.ts": {
-            "name": "src/davinci-eight/animate/Animator.ts",
-            "modules": {},
-            "classes": {
-                "AnimatedMirror": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/animate/IAnimation.ts": {
-            "name": "src/davinci-eight/animate/IAnimation.ts",
-            "modules": {},
-            "classes": {
-                "IAnimation": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/animate/IAnimationClock.ts": {
-            "name": "src/davinci-eight/animate/IAnimationClock.ts",
-            "modules": {},
-            "classes": {
-                "IAnimationClock": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/animate/IExchange.ts": {
-            "name": "src/davinci-eight/animate/IExchange.ts",
-            "modules": {},
-            "classes": {
-                "IExchange": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/davinci-eight/animate/IProperties.ts": {
-            "name": "src/davinci-eight/animate/IProperties.ts",
-            "modules": {},
-            "classes": {
-                "IProperties": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
         "src/davinci-eight/cameras/Frustum.ts": {
             "name": "src/davinci-eight/cameras/Frustum.ts",
             "modules": {},
@@ -1190,6 +1145,67 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/slideshow/Animator.ts": {
+            "name": "src/davinci-eight/slideshow/Animator.ts",
+            "modules": {},
+            "classes": {
+                "AnimatedMirror": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/slideshow/Director.ts": {
+            "name": "src/davinci-eight/slideshow/Director.ts",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/slideshow/IAnimation.ts": {
+            "name": "src/davinci-eight/slideshow/IAnimation.ts",
+            "modules": {},
+            "classes": {
+                "IAnimation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/slideshow/IAnimationClock.ts": {
+            "name": "src/davinci-eight/slideshow/IAnimationClock.ts",
+            "modules": {},
+            "classes": {
+                "IAnimationClock": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/slideshow/IExchange.ts": {
+            "name": "src/davinci-eight/slideshow/IExchange.ts",
+            "modules": {},
+            "classes": {
+                "IExchange": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/slideshow/IProperties.ts": {
+            "name": "src/davinci-eight/slideshow/IProperties.ts",
+            "modules": {},
+            "classes": {
+                "IProperties": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/slideshow/ISlide.ts": {
+            "name": "src/davinci-eight/slideshow/ISlide.ts",
+            "modules": {},
+            "classes": {
+                "ISlide": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/uniforms/CityTemperature.ts": {
             "name": "src/davinci-eight/uniforms/CityTemperature.ts",
             "modules": {},
@@ -1295,11 +1311,6 @@
                 "geometries": 1
             },
             "classes": {
-                "AnimatedMirror": 1,
-                "IAnimation": 1,
-                "IAnimationClock": 1,
-                "IExchange": 1,
-                "IProperties": 1,
                 "Frustum": 1,
                 "Perspective": 1,
                 "View": 1,
@@ -1386,6 +1397,12 @@
                 "IDrawList": 1,
                 "PerspectiveCamera": 1,
                 "Scene": 1,
+                "AnimatedMirror": 1,
+                "IAnimation": 1,
+                "IAnimationClock": 1,
+                "IExchange": 1,
+                "IProperties": 1,
+                "ISlide": 1,
                 "ColorFacet": 1,
                 "IUnknownArray": 1,
                 "NumberIUnknownMap<V>": 1,
@@ -1416,72 +1433,6 @@
         }
     },
     "classes": {
-        "AnimatedMirror": {
-            "name": "AnimatedMirror",
-            "shortname": "AnimatedMirror",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 305,
-            "description": "The super-symmetric partner of an IProperties adapter.\nThis class keeps track of animation state.",
-            "is_constructor": 1
-        },
-        "IAnimation": {
-            "name": "IAnimation",
-            "shortname": "IAnimation",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/animate/IAnimation.ts",
-            "line": 3,
-            "extends": "IUnknown"
-        },
-        "IAnimationClock": {
-            "name": "IAnimationClock",
-            "shortname": "IAnimationClock",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/animate/IAnimationClock.ts",
-            "line": 1
-        },
-        "IExchange": {
-            "name": "IExchange",
-            "shortname": "IExchange",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/animate/IExchange.ts",
-            "line": 1,
-            "access": "private",
-            "tagname": ""
-        },
-        "IProperties": {
-            "name": "IProperties",
-            "shortname": "IProperties",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "EIGHT",
-            "file": "src/davinci-eight/animate/IProperties.ts",
-            "line": 3,
-            "extends": "IUnknown"
-        },
         "Frustum": {
             "name": "Frustum",
             "shortname": "Frustum",
@@ -1975,7 +1926,7 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 32,
+            "line": 33,
             "description": "Utility class for managing a shader uniform variable.",
             "is_constructor": 1,
             "params": [
@@ -3161,6 +3112,91 @@
                 }
             ]
         },
+        "AnimatedMirror": {
+            "name": "AnimatedMirror",
+            "shortname": "AnimatedMirror",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 331,
+            "description": "The super-symmetric partner of an IProperties adapter.\nThis class keeps track of animation state.",
+            "is_constructor": 1
+        },
+        "IAnimation": {
+            "name": "IAnimation",
+            "shortname": "IAnimation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/IAnimation.ts",
+            "line": 3,
+            "extends": "IUnknown"
+        },
+        "IAnimationClock": {
+            "name": "IAnimationClock",
+            "shortname": "IAnimationClock",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/IAnimationClock.ts",
+            "line": 1
+        },
+        "IExchange": {
+            "name": "IExchange",
+            "shortname": "IExchange",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/IExchange.ts",
+            "line": 1,
+            "access": "private",
+            "tagname": ""
+        },
+        "IProperties": {
+            "name": "IProperties",
+            "shortname": "IProperties",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "line": 3,
+            "extends": "IUnknown"
+        },
+        "ISlide": {
+            "name": "ISlide",
+            "shortname": "ISlide",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/slideshow/ISlide.ts",
+            "line": 9,
+            "description": "A slide is a collection of animations."
+        },
         "ColorFacet": {
             "name": "ColorFacet",
             "shortname": "ColorFacet",
@@ -3194,7 +3230,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 11,
+            "line": 35,
             "description": "Collection class for maintaining an array of types derived from IUnknown.\nProvides a safer way to maintain reference counts than a native array.",
             "is_constructor": 1
         },
@@ -3246,7 +3282,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 8,
+            "line": 11,
             "extends": "IUnknown"
         },
         "StringIUnknownMap": {
@@ -3260,7 +3296,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 16,
+            "line": 21,
             "description": "<p>\nA map&lt;V&gt; of <code>string</code> to <code>V extends IUnknown</code>.\n</p>",
             "is_constructor": 1
         },
@@ -3279,207 +3315,6 @@
         }
     },
     "classitems": [
-        {
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 39,
-            "description": "Attach animator to an object.",
-            "class": "AnimatedMirror"
-        },
-        {
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 77,
-            "description": "Hurry all animations on an object by speeding by a factor.",
-            "class": "AnimatedMirror"
-        },
-        {
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 98,
-            "description": "Stop all animations on an object.",
-            "itemtype": "method",
-            "name": "stop",
-            "params": [
-                {
-                    "name": "object",
-                    "description": "",
-                    "type": "Animated"
-                },
-                {
-                    "name": "attributes",
-                    "description": "",
-                    "type": "IExchange"
-                }
-            ],
-            "class": "AnimatedMirror"
-        },
-        {
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 124,
-            "description": "Animate a set of attributes on an object.",
-            "itemtype": "method",
-            "name": "animate",
-            "params": [
-                {
-                    "name": "object",
-                    "description": "The object to be animated",
-                    "type": "Animated"
-                },
-                {
-                    "name": "animation",
-                    "description": "The animations to be applied by property name.",
-                    "type": "[name: string]:IAnimation"
-                },
-                {
-                    "name": "options",
-                    "description": "[IAnimateOptions] determine how the attributes will be animated."
-                }
-            ],
-            "class": "AnimatedMirror"
-        },
-        {
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 196,
-            "description": "Remove current animation on an object attribute.",
-            "class": "AnimatedMirror"
-        },
-        {
-            "file": "src/davinci-eight/animate/Animator.ts",
-            "line": 235,
-            "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
-            "itemtype": "method",
-            "name": "update",
-            "params": [
-                {
-                    "name": "speed",
-                    "description": "Advances the static Animator.now property.",
-                    "type": "Number"
-                }
-            ],
-            "class": "AnimatedMirror"
-        },
-        {
-            "file": "src/davinci-eight/animate/IAnimation.ts",
-            "line": 8,
-            "itemtype": "method",
-            "name": "apply",
-            "params": [
-                {
-                    "name": "offset",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IAnimation"
-        },
-        {
-            "file": "src/davinci-eight/animate/IAnimation.ts",
-            "line": 14,
-            "itemtype": "method",
-            "name": "skip",
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IAnimation"
-        },
-        {
-            "file": "src/davinci-eight/animate/IAnimation.ts",
-            "line": 19,
-            "itemtype": "method",
-            "name": "hurry",
-            "params": [
-                {
-                    "name": "factor",
-                    "description": "",
-                    "type": "Number"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Void"
-            },
-            "class": "IAnimation"
-        },
-        {
-            "file": "src/davinci-eight/animate/IAnimation.ts",
-            "line": 25,
-            "itemtype": "method",
-            "name": "extra",
-            "return": {
-                "description": "",
-                "type": "Number"
-            },
-            "class": "IAnimation"
-        },
-        {
-            "file": "src/davinci-eight/animate/IAnimation.ts",
-            "line": 30,
-            "itemtype": "method",
-            "name": "done",
-            "return": {
-                "description": "",
-                "type": "Boolean"
-            },
-            "class": "IAnimation"
-        },
-        {
-            "file": "src/davinci-eight/animate/IAnimationClock.ts",
-            "line": 5,
-            "itemtype": "property",
-            "name": "now",
-            "type": "{number}",
-            "readonly": "",
-            "class": "IAnimationClock"
-        },
-        {
-            "file": "src/davinci-eight/animate/IProperties.ts",
-            "line": 8,
-            "itemtype": "property",
-            "name": "uuid",
-            "type": "{string}",
-            "readonly": "",
-            "class": "IProperties"
-        },
-        {
-            "file": "src/davinci-eight/animate/IProperties.ts",
-            "line": 14,
-            "itemtype": "method",
-            "name": "getProperty",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Number[]"
-            },
-            "class": "IProperties"
-        },
-        {
-            "file": "src/davinci-eight/animate/IProperties.ts",
-            "line": 20,
-            "itemtype": "method",
-            "name": "setProperty",
-            "params": [
-                {
-                    "name": "name",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "value",
-                    "description": "",
-                    "type": "Number[]"
-                }
-            ],
-            "class": "IProperties"
-        },
         {
             "file": "src/davinci-eight/cameras/Frustum.ts",
             "line": 10,
@@ -5038,14 +4873,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 42,
+            "line": 43,
             "itemtype": "method",
             "name": "contextFree",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 48,
+            "line": 49,
             "itemtype": "method",
             "name": "contextGain",
             "params": [
@@ -5064,14 +4899,14 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 61,
+            "line": 62,
             "itemtype": "method",
             "name": "contextLost",
             "class": "UniformLocation"
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 75,
+            "line": 76,
             "itemtype": "method",
             "name": "uniform1f",
             "params": [
@@ -5084,7 +4919,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 83,
+            "line": 84,
             "itemtype": "method",
             "name": "uniform2f",
             "params": [
@@ -5103,7 +4938,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 92,
+            "line": 93,
             "itemtype": "method",
             "name": "uniform3f",
             "params": [
@@ -5127,7 +4962,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 102,
+            "line": 103,
             "itemtype": "method",
             "name": "uniform4f",
             "params": [
@@ -5156,7 +4991,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 113,
+            "line": 114,
             "itemtype": "method",
             "name": "matrix1",
             "params": [
@@ -5175,7 +5010,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 122,
+            "line": 123,
             "itemtype": "method",
             "name": "matrix2",
             "params": [
@@ -5194,7 +5029,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 131,
+            "line": 132,
             "itemtype": "method",
             "name": "matrix3",
             "params": [
@@ -5213,7 +5048,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 140,
+            "line": 141,
             "itemtype": "method",
             "name": "matrix4",
             "params": [
@@ -5232,7 +5067,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 171,
+            "line": 172,
             "itemtype": "method",
             "name": "vector1",
             "params": [
@@ -5246,7 +5081,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 179,
+            "line": 180,
             "itemtype": "method",
             "name": "vector2",
             "params": [
@@ -5260,7 +5095,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 187,
+            "line": 188,
             "itemtype": "method",
             "name": "vector3",
             "params": [
@@ -5274,7 +5109,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 204,
+            "line": 210,
             "itemtype": "method",
             "name": "vector4",
             "params": [
@@ -5288,7 +5123,7 @@
         },
         {
             "file": "src/davinci-eight/core/UniformLocation.ts",
-            "line": 212,
+            "line": 218,
             "itemtype": "method",
             "name": "toString",
             "class": "UniformLocation"
@@ -7251,7 +7086,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 71,
+            "line": 72,
             "description": "<p>\nDetermines whether prolog commands are run automatically as part of the `render()` call.\n</p>",
             "itemtype": "property",
             "name": "autoProlog",
@@ -7262,7 +7097,7 @@
         },
         {
             "file": "src/davinci-eight/scene/Canvas3D.ts",
-            "line": 91,
+            "line": 92,
             "itemtype": "property",
             "name": "canvasId",
             "type": "{number}",
@@ -7732,51 +7567,326 @@
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 29,
+            "line": 30,
             "description": "A grouping of IDrawable, by IMaterial.",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 34,
+            "line": 35,
             "description": "I can't see this being used; it's all about the drawables!",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 71,
+            "line": 72,
             "description": "accept provides a way to push out the IMaterial without bumping the reference count.",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 117,
+            "line": 119,
             "description": "Should look like a set of Drawable Groups. Maybe like a Scene!",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 121,
+            "line": 123,
             "description": "Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/scene/createDrawList.ts",
-            "line": 266,
+            "line": 252,
             "description": "method contextGain",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/shaders/ShareableWebGLShader.ts",
             "line": 8,
             "description": "Construction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
-            "class": "ColorFacet",
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 44,
+            "description": "Attach animator to an object.",
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 82,
+            "description": "Hurry all animations on an object by speeding by a factor.",
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 107,
+            "description": "Stop all animations on an object.",
+            "itemtype": "method",
+            "name": "stop",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Animated"
+                },
+                {
+                    "name": "attributes",
+                    "description": "",
+                    "type": "IExchange"
+                }
+            ],
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 133,
+            "description": "Animate a set of attributes on an object.",
+            "itemtype": "method",
+            "name": "animate",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "The object to be animated",
+                    "type": "Animated"
+                },
+                {
+                    "name": "animation",
+                    "description": "The animations to be applied by property name.",
+                    "type": "[name: string]:IAnimation"
+                },
+                {
+                    "name": "options",
+                    "description": "[IAnimateOptions] determine how the attributes will be animated."
+                }
+            ],
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 205,
+            "description": "Remove current animation on an object attribute.",
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Animator.ts",
+            "line": 252,
+            "description": "Update all currently running animations.\nEssentially calls `apply` on each IAnimation in the queues of active objects.",
+            "itemtype": "method",
+            "name": "update",
+            "params": [
+                {
+                    "name": "speed",
+                    "description": "Advances the static Animator.now property.",
+                    "type": "Number"
+                }
+            ],
+            "class": "AnimatedMirror",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 17,
+            "description": "(canvasId: number) => Canvas3D",
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 21,
+            "description": "(sceneName: string) => Scene",
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 25,
+            "description": "(name: string) => IUniform",
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 29,
+            "description": "(name: string) => IUniform",
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 33,
+            "description": "(canvasId: number) => scene.name",
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 37,
+            "description": "(canvasId: number) => ((uniform.name) => IFacet)",
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/Director.ts",
+            "line": 140,
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IAnimation.ts",
+            "line": 8,
+            "itemtype": "method",
+            "name": "apply",
+            "params": [
+                {
+                    "name": "offset",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IAnimation.ts",
+            "line": 14,
+            "itemtype": "method",
+            "name": "skip",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IAnimation.ts",
+            "line": 19,
+            "itemtype": "method",
+            "name": "hurry",
+            "params": [
+                {
+                    "name": "factor",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IAnimation.ts",
+            "line": 25,
+            "itemtype": "method",
+            "name": "extra",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IAnimation.ts",
+            "line": 30,
+            "itemtype": "method",
+            "name": "done",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "IAnimation",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IAnimationClock.ts",
+            "line": 5,
+            "itemtype": "property",
+            "name": "now",
+            "type": "{number}",
+            "readonly": "",
+            "class": "IAnimationClock",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "line": 8,
+            "itemtype": "property",
+            "name": "uuid",
+            "type": "{string}",
+            "readonly": "",
+            "class": "IProperties",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "line": 14,
+            "itemtype": "method",
+            "name": "getProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number[]"
+            },
+            "class": "IProperties",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/IProperties.ts",
+            "line": 20,
+            "itemtype": "method",
+            "name": "setProperty",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Number[]"
+                }
+            ],
+            "class": "IProperties",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/slideshow/ISlide.ts",
+            "line": 14,
+            "description": "The clock that provides the timing for slide animations.",
+            "itemtype": "property",
+            "name": "clock",
+            "type": "{IAnimationClock}",
+            "readonly": "",
+            "class": "ISlide",
             "module": "EIGHT"
         },
         {
@@ -7842,7 +7952,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 59,
+            "line": 60,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "red",
@@ -7852,7 +7962,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 70,
+            "line": 71,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "green",
@@ -7862,7 +7972,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 81,
+            "line": 82,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "blue",
@@ -7872,19 +7982,28 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 24,
+            "line": 8,
+            "description": "Essentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 49,
             "itemtype": "method",
             "name": "destructor",
             "return": {
                 "description": "",
                 "type": "Void"
             },
+            "access": "protected",
+            "tagname": "",
             "class": "IUnknownArray",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 34,
+            "line": 62,
             "description": "Gets the element at the specified index, incrementing the reference count.",
             "itemtype": "method",
             "name": "get",
@@ -7904,7 +8023,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 48,
+            "line": 76,
             "itemtype": "method",
             "name": "indexOf",
             "params": [
@@ -7928,7 +8047,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 57,
+            "line": 85,
             "itemtype": "property",
             "name": "length",
             "return": {
@@ -7940,7 +8059,27 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 67,
+            "line": 98,
+            "description": "The slice() method returns a shallow copy of a portion of an array into a new array object.\nIt does not remove elements from the original array.",
+            "itemtype": "method",
+            "name": "slice",
+            "params": [
+                {
+                    "name": "begin",
+                    "description": "[number]"
+                },
+                {
+                    "name": "end",
+                    "description": "[number]"
+                }
+            ],
+            "class": "IUnknownArray",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/IUnknownArray.ts",
+            "line": 108,
+            "description": "The splice() method changes the content of an array by removing existing elements and/or adding new elements.",
             "itemtype": "method",
             "name": "splice",
             "params": [
@@ -7950,21 +8089,21 @@
                     "type": "Number"
                 },
                 {
-                    "name": "count",
+                    "name": "deleteCount",
                     "description": "",
                     "type": "Number"
                 }
             ],
             "return": {
                 "description": "",
-                "type": "IUnnownArray<T>"
+                "type": "IUnkownArray<T>"
             },
             "class": "IUnknownArray",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 78,
+            "line": 119,
             "itemtype": "method",
             "name": "shift",
             "return": {
@@ -7976,7 +8115,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 86,
+            "line": 127,
             "description": "Traverse without Reference Counting",
             "itemtype": "method",
             "name": "forEach",
@@ -7996,7 +8135,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 95,
+            "line": 136,
             "description": "Pushes an element onto the tail of the list and increments the element reference count.",
             "itemtype": "method",
             "name": "push",
@@ -8016,7 +8155,7 @@
         },
         {
             "file": "src/davinci-eight/utils/IUnknownArray.ts",
-            "line": 108,
+            "line": 149,
             "itemtype": "method",
             "name": "pop",
             "return": {
@@ -8054,7 +8193,7 @@
         },
         {
             "file": "src/davinci-eight/utils/Shareable.ts",
-            "line": 57,
+            "line": 58,
             "description": "<p>\nOutputs a warning to the console that this method should be implemented by the derived class.\n</p>\n<p>\n<em>This method should be implemented by derived classes.</em>\n</p>\n<p>\n<em>Not implementing this method in a derived class risks leaking resources allocated by the derived class.</em>\n</p>",
             "itemtype": "method",
             "name": "destructor",
@@ -8069,7 +8208,7 @@
         },
         {
             "file": "src/davinci-eight/utils/Shareable.ts",
-            "line": 74,
+            "line": 77,
             "itemtype": "property",
             "name": "uuid",
             "type": "{string}",
@@ -8079,7 +8218,7 @@
         },
         {
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 43,
+            "line": 49,
             "description": "Determines whether the key exists in the map with a defined value.",
             "itemtype": "method",
             "name": "exists",
@@ -8099,28 +8238,7 @@
         },
         {
             "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 63,
-            "itemtype": "method",
-            "name": "getWeakReference",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "V"
-            },
-            "access": "private",
-            "tagname": "",
-            "class": "StringIUnknownMap",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/utils/StringIUnknownMap.ts",
-            "line": 84,
+            "line": 75,
             "itemtype": "method",
             "name": "putWeakReference",
             "params": [
@@ -8228,90 +8346,97 @@
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 51,
+            "line": 53,
             "description": "This could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 57,
+            "line": 59,
             "description": "property mode\ntype {number}\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 66,
+            "line": 68,
             "description": "class GeometryDataCommand\nconstructor",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 76,
+            "line": 78,
             "description": "Executes the drawElements command using the instance state.\nmethod execute\nparam gl {WebGLRenderingContext}",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 91,
+            "line": 93,
             "description": "class ElementsBlock",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 97,
+            "line": 99,
             "description": "Mapping from attribute name to a data structure describing and containing a buffer.\nproperty _attributes\ntype {StringIUnknownMap<ElementBlockAttrib>}\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 104,
+            "line": 106,
             "description": "The buffer containing element indices used in the drawElements command.\nproperty _indexBuffer\ntype {IBuffer}\nprivate",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 111,
+            "line": 113,
             "description": "An executable command. May be a call to drawElements or drawArrays.\nproperty drawCommand\ntype {GeometryDataCommand}",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 117,
+            "line": 119,
             "description": "class ElementsBlock\nconstructor",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 241,
+            "line": 244,
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 325,
+            "line": 306,
+            "description": "Implementation of IBufferGeometry coupled to the 'blocks' implementation.",
+            "class": "",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/utils/contextProxy.ts",
+            "line": 408,
             "description": "Implementation of removeContextListener for the kahuna.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 444,
+            "line": 535,
             "description": "We must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
             "class": "",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/utils/contextProxy.ts",
-            "line": 479,
+            "line": 570,
             "class": "",
             "module": "EIGHT"
         },
@@ -8363,18 +8488,6 @@
         {
             "message": "unknown tag: parameters",
             "line": " src/davinci-eight/materials/PointMaterial.ts:26"
-        },
-        {
-            "message": "Missing item type\nAttach animator to an object.",
-            "line": " src/davinci-eight/animate/Animator.ts:39"
-        },
-        {
-            "message": "Missing item type\nHurry all animations on an object by speeding by a factor.",
-            "line": " src/davinci-eight/animate/Animator.ts:77"
-        },
-        {
-            "message": "Missing item type\nRemove current animation on an object attribute.",
-            "line": " src/davinci-eight/animate/Animator.ts:196"
         },
         {
             "message": "Missing item type\nName used for reference count monitoring and logging.",
@@ -8798,31 +8911,71 @@
         },
         {
             "message": "Missing item type\nA grouping of IDrawable, by IMaterial.",
-            "line": " src/davinci-eight/scene/createDrawList.ts:29"
+            "line": " src/davinci-eight/scene/createDrawList.ts:30"
         },
         {
             "message": "Missing item type\nI can't see this being used; it's all about the drawables!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:34"
+            "line": " src/davinci-eight/scene/createDrawList.ts:35"
         },
         {
             "message": "Missing item type\naccept provides a way to push out the IMaterial without bumping the reference count.",
-            "line": " src/davinci-eight/scene/createDrawList.ts:71"
+            "line": " src/davinci-eight/scene/createDrawList.ts:72"
         },
         {
             "message": "Missing item type\nShould look like a set of Drawable Groups. Maybe like a Scene!",
-            "line": " src/davinci-eight/scene/createDrawList.ts:117"
+            "line": " src/davinci-eight/scene/createDrawList.ts:119"
         },
         {
             "message": "Missing item type\nMapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])",
-            "line": " src/davinci-eight/scene/createDrawList.ts:121"
+            "line": " src/davinci-eight/scene/createDrawList.ts:123"
         },
         {
             "message": "Missing item type\nmethod contextGain",
-            "line": " src/davinci-eight/scene/createDrawList.ts:266"
+            "line": " src/davinci-eight/scene/createDrawList.ts:252"
         },
         {
             "message": "Missing item type\nConstruction on a single monitor says that this will only be used with one.\nBut what if someone external calls monitor.addContextListener(shader)?\nThen the shader starts receiving events for that monitor.\nThis means that this resource is inherantly multi-canvas.\nIt also means that the argument in the constructor is bogus because it is not fixed.\nIt's just an initial list.\nBut then we need IContextProvider to extend IContextMonitor so that this can unhook?",
             "line": " src/davinci-eight/shaders/ShareableWebGLShader.ts:8"
+        },
+        {
+            "message": "Missing item type\nAttach animator to an object.",
+            "line": " src/davinci-eight/slideshow/Animator.ts:44"
+        },
+        {
+            "message": "Missing item type\nHurry all animations on an object by speeding by a factor.",
+            "line": " src/davinci-eight/slideshow/Animator.ts:82"
+        },
+        {
+            "message": "Missing item type\nRemove current animation on an object attribute.",
+            "line": " src/davinci-eight/slideshow/Animator.ts:205"
+        },
+        {
+            "message": "Missing item type\n(canvasId: number) => Canvas3D",
+            "line": " src/davinci-eight/slideshow/Director.ts:17"
+        },
+        {
+            "message": "Missing item type\n(sceneName: string) => Scene",
+            "line": " src/davinci-eight/slideshow/Director.ts:21"
+        },
+        {
+            "message": "Missing item type\n(name: string) => IUniform",
+            "line": " src/davinci-eight/slideshow/Director.ts:25"
+        },
+        {
+            "message": "Missing item type\n(name: string) => IUniform",
+            "line": " src/davinci-eight/slideshow/Director.ts:29"
+        },
+        {
+            "message": "Missing item type\n(canvasId: number) => scene.name",
+            "line": " src/davinci-eight/slideshow/Director.ts:33"
+        },
+        {
+            "message": "Missing item type\n(canvasId: number) => ((uniform.name) => IFacet)",
+            "line": " src/davinci-eight/slideshow/Director.ts:37"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/slideshow/Director.ts:140"
         },
         {
             "message": "Missing item type\nPoller for the ...? server.",
@@ -8837,56 +8990,64 @@
             "line": " src/davinci-eight/uniforms/ColorFacet.ts:23"
         },
         {
+            "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
+            "line": " src/davinci-eight/utils/IUnknownArray.ts:8"
+        },
+        {
             "message": "Missing item type\nThis could become an encapsulated call?\nclass GeometryDataCommand\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:51"
+            "line": " src/davinci-eight/utils/contextProxy.ts:53"
         },
         {
             "message": "Missing item type\nproperty mode\ntype {number}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:57"
+            "line": " src/davinci-eight/utils/contextProxy.ts:59"
         },
         {
             "message": "Missing item type\nclass GeometryDataCommand\nconstructor",
-            "line": " src/davinci-eight/utils/contextProxy.ts:66"
+            "line": " src/davinci-eight/utils/contextProxy.ts:68"
         },
         {
             "message": "Missing item type\nExecutes the drawElements command using the instance state.\nmethod execute\nparam gl {WebGLRenderingContext}",
-            "line": " src/davinci-eight/utils/contextProxy.ts:76"
+            "line": " src/davinci-eight/utils/contextProxy.ts:78"
         },
         {
             "message": "Missing item type\nclass ElementsBlock",
-            "line": " src/davinci-eight/utils/contextProxy.ts:91"
+            "line": " src/davinci-eight/utils/contextProxy.ts:93"
         },
         {
             "message": "Missing item type\nMapping from attribute name to a data structure describing and containing a buffer.\nproperty _attributes\ntype {StringIUnknownMap<ElementBlockAttrib>}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:97"
+            "line": " src/davinci-eight/utils/contextProxy.ts:99"
         },
         {
             "message": "Missing item type\nThe buffer containing element indices used in the drawElements command.\nproperty _indexBuffer\ntype {IBuffer}\nprivate",
-            "line": " src/davinci-eight/utils/contextProxy.ts:104"
+            "line": " src/davinci-eight/utils/contextProxy.ts:106"
         },
         {
             "message": "Missing item type\nAn executable command. May be a call to drawElements or drawArrays.\nproperty drawCommand\ntype {GeometryDataCommand}",
-            "line": " src/davinci-eight/utils/contextProxy.ts:111"
+            "line": " src/davinci-eight/utils/contextProxy.ts:113"
         },
         {
             "message": "Missing item type\nclass ElementsBlock\nconstructor",
-            "line": " src/davinci-eight/utils/contextProxy.ts:117"
+            "line": " src/davinci-eight/utils/contextProxy.ts:119"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:241"
+            "line": " src/davinci-eight/utils/contextProxy.ts:244"
+        },
+        {
+            "message": "Missing item type\nImplementation of IBufferGeometry coupled to the 'blocks' implementation.",
+            "line": " src/davinci-eight/utils/contextProxy.ts:306"
         },
         {
             "message": "Missing item type\nImplementation of removeContextListener for the kahuna.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:325"
+            "line": " src/davinci-eight/utils/contextProxy.ts:408"
         },
         {
             "message": "Missing item type\nWe must cache the canvas so that we can remove listeners when `stop() is called.\nOnly between `start()` and `stop()` is canvas defined.\nWe use a canvasBuilder so the other initialization can happen while we are waiting\nfor the DOM to load.",
-            "line": " src/davinci-eight/utils/contextProxy.ts:444"
+            "line": " src/davinci-eight/utils/contextProxy.ts:535"
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/utils/contextProxy.ts:479"
+            "line": " src/davinci-eight/utils/contextProxy.ts:570"
         },
         {
             "message": "Missing item type\nInitially used to give me a canvasId.\nUsing the big-enough space principle to avoid collisions.",

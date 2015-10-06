@@ -5,16 +5,18 @@ import Shareable = require('../utils/Shareable');
  */
 declare class IUnknownArray<T extends IUnknown> extends Shareable {
     private _elements;
+    private userName;
     /**
      * Collection class for maintaining an array of types derived from IUnknown.
      * Provides a safer way to maintain reference counts than a native array.
      * @class IUnknownArray
      * @constructor
      */
-    constructor(elements?: T[]);
+    constructor(elements: T[], userName: string);
     /**
      * @method destructor
      * @return {void}
+     * @protected
      */
     protected destructor(): void;
     /**
@@ -36,14 +38,22 @@ declare class IUnknownArray<T extends IUnknown> extends Shareable {
      * @return {number}
      */
     length: number;
-    slice(start?: number, end?: number): IUnknownArray<T>;
     /**
+     * The slice() method returns a shallow copy of a portion of an array into a new array object.
+     * It does not remove elements from the original array.
+     * @method slice
+     * @param begin [number]
+     * @param end [number]
+     */
+    slice(begin?: number, end?: number): IUnknownArray<T>;
+    /**
+     * The splice() method changes the content of an array by removing existing elements and/or adding new elements.
      * @method splice
      * @param index {number}
-     * @param count {number}
-     * @return {IUnnownArray<T>}
+     * @param deleteCount {number}
+     * @return {IUnkownArray<T>}
      */
-    splice(index: number, count: number): IUnknownArray<T>;
+    splice(index: number, deleteCount: number): IUnknownArray<T>;
     /**
      * @method shift
      * @return {T}

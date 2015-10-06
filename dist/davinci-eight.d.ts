@@ -68,9 +68,7 @@ class StringIUnknownMap<V extends IUnknown> extends Shareable {
   destructor(): void
   exists(key: string): boolean
   get(key: string): V
-  getWeakReference(key: string): V
   put(key: string, value: V): void
-  putWeakReference(key: string, value: V): void
   forEach(callback: (key: string, value: V) => void)
   remove(key: string): void
 }
@@ -1286,6 +1284,8 @@ interface IDrawable extends IResource {
    * canvasId: Identifies the canvas on which to draw.
    */
   draw(canvasId: number): void;
+  getFacet(name: string): IFacet;
+  setFacet<T extends IFacet>(name: string, value: T): T;
 }
 
 /**
@@ -1825,6 +1825,65 @@ class Animator {
   update(speed: number): void;
 }
 
+interface ISlideHost {
+  // FIXME: addScene would be better to allow own impls
+  createScene(name: string, canvasNames: number[]): void
+  deleteScene(name: string): void
+  // FIXME: rename IDrawableList
+  getScene(name: string): IDrawList
+
+  addDrawable(name: string, drawable: IDrawable): void
+  getDrawable(name: string): IDrawable
+  removeDrawable(name: string): void
+
+  addToScene(drawableName: string, sceneName: string): void
+  removeFromScene(drawableName: string, sceneName: string): void
+
+  addFacet(name: string, uniform: IFacet): void
+  removeFacet(name: string): void
+
+  addCanvasSceneLink(canvasId: number, sceneName: string): void
+  addCanvasUniformLink(canvasId: number, name: string): void
+}
+
+interface ISlideTask extends IUnknown {
+  exec(slide: ISlide, host: ISlideHost): void
+  undo(slide: ISlide, host: ISlideHost): void
+}
+
+interface ISlide extends IUnknown {
+  clock: IAnimationClock;
+  /**
+   * Adds the specified task to the slide.
+   * The task reference is returned in order to support chained calls.
+   * (The task reference returned does not receive an additional reference count).
+   */
+  addTask(task: ISlideTask): ISlideTask;
+  animate(object: IProperties, animations: { [name: string]: IAnimation }, options?: IAnimateOptions): void;
+  update(speed: number): void;
+}
+
+class Director extends Shareable {
+  constructor();
+  addCanvas(canvas: HTMLCanvasElement, canvasId: number): void;
+  addFacet(name: string, uniform: IFacet): void;
+
+  addDrawable(name: string, drawable: IDrawable): void
+  getDrawable(name: string): IDrawable
+  removeDrawable(name: string): void
+
+  // FIXME: Uniform => Facet
+  addCanvasUniformLink(canvasId: number, uniformName: string): void;
+  createScene(sceneName: string, canvasIds: number[]): void;
+  createSlide(): ISlide;
+  canForward(): boolean;
+  forward(instant?: boolean, delay?: number): void;
+  canBackward(): boolean;
+  backward(instant?: boolean, delay?: number): void;
+  update(speed: number): void;
+  render(): void;
+}
+
 class Animation extends Shareable implements IAnimation {
   constructor(host: IAnimationClock, object: IProperties, key: string, value: number[], duration: number, callback: () => void, ease: string);
   apply(offset?: number): void;
@@ -1859,6 +1918,40 @@ class MoveTo extends Shareable implements IAnimation {
   skip(): void;
   extra(): number;
   done(): boolean;
+}
+
+class ColorTask extends Shareable implements ISlideTask {
+  constructor(name: string, color: ColorRGB, duration?: number);
+  exec(slide: ISlide, host: ISlideHost): void
+  undo(slide: ISlide, host: ISlideHost): void
+}
+
+class CubeTask extends Shareable implements ISlideTask {
+  constructor(name: string, sceneNames: string[]);
+  exec(slide: ISlide, host: ISlideHost): void
+  undo(slide: ISlide, host: ISlideHost): void
+}
+
+class MoveTask extends Shareable implements ISlideTask {
+  public position: Cartesian3;
+  public duration: number;
+  public callback: () => void;
+  public ease: string;
+  public options: IAnimateOptions;
+  constructor(name: string, position: Cartesian3, duration?: number);
+  exec(slide: ISlide, host: ISlideHost): void
+  undo(slide: ISlide, host: ISlideHost): void
+}
+
+class SpinTask extends Shareable implements ISlideTask {
+  attitude: Spinor3Coords;
+  duration: number;
+  callback: () => void;
+  ease: string;
+  options: IAnimateOptions;
+  constructor(name: string, attitude: Spinor3Coords, duration?: number);
+  exec(slide: ISlide, host: ISlideHost): void
+  undo(slide: ISlide, host: ISlideHost): void
 }
 
 ///////////////////////////////////////////////////////////////////////////////

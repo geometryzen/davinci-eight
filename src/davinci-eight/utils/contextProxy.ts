@@ -34,6 +34,8 @@ let LOGGING_NAME_MESH = 'Drawable'
 
 let LOGGING_NAME_KAHUNA = 'ContextKahuna'
 
+
+
 function webglFunctionalConstructorContextBuilder(): string {
   // The following string represents how this API is exposed.
   return "webgl functional constructor"
@@ -119,26 +121,27 @@ class ElementsBlock extends Shareable {
    * constructor
    */
   constructor(indexBuffer: IBuffer, attributes: StringIUnknownMap<ElementsBlockAttrib>, drawCommand: GeometryDataCommand) {
-    super(LOGGING_NAME_ELEMENTS_BLOCK);
-    this._indexBuffer = indexBuffer;
-    this._indexBuffer.addRef();
-    this._attributes = attributes;
-    this._attributes.addRef();
-    this.drawCommand = drawCommand;
+    super(LOGGING_NAME_ELEMENTS_BLOCK)
+    this._indexBuffer = indexBuffer
+    this._indexBuffer.addRef()
+    this._attributes = attributes
+    this._attributes.addRef()
+    this.drawCommand = drawCommand
   }
-  destructor(): void {
-    this._attributes.release();
-    this._attributes = void 0;
-    this._indexBuffer.release();
-    this._indexBuffer = void 0;
+  protected destructor(): void {
+    this._attributes.release()
+    this._attributes = void 0
+    this._indexBuffer.release()
+    this._indexBuffer = void 0
+    super.destructor()
   }
   get indexBuffer(): IBuffer {
-    this._indexBuffer.addRef();
-    return this._indexBuffer;
+    this._indexBuffer.addRef()
+    return this._indexBuffer
   }
   get attributes(): StringIUnknownMap<ElementsBlockAttrib> {
-    this._attributes.addRef();
-    return this._attributes;
+    this._attributes.addRef()
+    return this._attributes
   }
 }
 
@@ -249,7 +252,7 @@ function bindProgramAttribLocations(program: IMaterial, canvasId: number, block:
   // block.attributes (reference counted)
   // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
   // in order to get the name -> index correct.
-  // Then attribute setting shoul go much faster
+  // Then attribute setting should go much faster
   let attribLocations = program.attributes(canvasId)
   if (attribLocations) {
     let aNames = Object.keys(attribLocations)
@@ -300,11 +303,91 @@ function unbindProgramAttribLocations(program: IMaterial, canvasId: number) {
   }
 }
 
+/**
+ * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
+ */
+class BufferGeometry extends Shareable implements IBufferGeometry {
+  private canvasId: number;
+  private _program: IMaterial;
+  private _blocks: StringIUnknownMap<ElementsBlock>;
+  private gl: WebGLRenderingContext;
+  constructor(canvasId: number, gl: WebGLRenderingContext, blocks: StringIUnknownMap<ElementsBlock>) {
+    super('BufferGeometry')
+    this.canvasId = canvasId
+    this._blocks = blocks
+    this._blocks.addRef()
+    this.gl = gl
+  }
+  protected destructor(): void {
+    // FIXME: Check status of Material?
+    this._blocks.release()
+    super.destructor()
+  }
+  bind(program: IMaterial, aNameToKeyName?: {[name: string]: string}): void {
+    if (this._program !== program) {
+      if (this._program) {
+        this.unbind()
+      }
+      let block = this._blocks.get(this.uuid)
+      if (block) {
+        if (program) {
+          this._program = program
+          this._program.addRef()
+          let indexBuffer = block.indexBuffer
+          indexBuffer.bind()
+          indexBuffer.release()
+          bindProgramAttribLocations(this._program, this.canvasId, block, aNameToKeyName)
+        }
+        else {
+          expectArg('program', program).toBeObject()
+        }
+        block.release()
+      }
+      else {
+        throw new Error(messageUnrecognizedMesh(this.uuid))
+      }
+    }
+  }
+  draw(): void {
+    let block = this._blocks.get(this.uuid)
+    if (block) {
+      // FIXME: Wondering why we don't just make this a parameter?
+      // On the other hand, buffer geometry is only good for one context.
+      block.drawCommand.execute(this.gl)
+      block.release()
+    }
+    else {
+      throw new Error(messageUnrecognizedMesh(this.uuid));
+    }
+  }
+  unbind(): void {
+    if (this._program) {
+      let block = this._blocks.get(this.uuid)
+      if (block) {
+        // FIXME: Ask block to unbind index buffer and avoid addRef/release
+        let indexBuffer = block.indexBuffer
+        indexBuffer.unbind()
+        indexBuffer.release()
+        // FIXME: Looks like an IMaterial method!
+        unbindProgramAttribLocations(this._program, this.canvasId)
+        block.release()
+      }
+      else {
+        throw new Error(messageUnrecognizedMesh(this.uuid));
+      }
+      // We bumped up the reference count during bind. Now we are done.
+      this._program.release()
+      // Important! The existence of _program indicates the binding state.
+      this._program = void 0
+    }
+  }
+}
+
 function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
   // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
   // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
   let uuid: string = uuid4().generate();
-  let blocks = new StringIUnknownMap<ElementsBlock>();
+  let _blocks = new StringIUnknownMap<ElementsBlock>('webgl');
   // Remark: We only hold weak references to users so that the lifetime of resource
   // objects is not affected by the fact that they are listening for gl events.
   // Users should automatically add themselves upon construction and remove upon release.
@@ -329,10 +412,14 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     expectArg('user', user).toBeObject();
     let index = users.indexOf(user);
     if (index >= 0) {
+      // FIXME: Potential leak here if IContextConsumer extends IUnknown
       let removals = users.splice(index, 1);
     }
     else {
-      console.warn("user not found for removeContextListener(user)")
+      // It may be that we just  can't do this.
+      // Cycles are a problem for reference counting so we have to
+      // live with having weak references in one direction.
+      // console.warn("user not found for removeContextListener(user)")
     }
   }
   function synchronize(user: IContextConsumer): void {
@@ -350,29 +437,33 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
     }
   }
 
-  function meshRemover(blockUUID: string) {
-    return function() {
-      if (blocks.exists(blockUUID)) {
-        blocks.remove(blockUUID);
-      }
-      else {
-        console.warn("[System Error] " + messageUnrecognizedMesh(blockUUID));
-      }
-    }
-  }
+  // TODO: Being a local function, capturing blocks, it was not obvious
+  // that blocks should need reference counting.
+  // Might be good to create a shareable class?
+  function createBufferGeometryDeprecatedMaybe(uuid: string, canvasId: number): IBufferGeometry {
 
-  function createBufferGeometry(uuid: string, canvasId: number): IBufferGeometry {
-
-    let refCount = new RefCount(meshRemover(uuid));
-    let _program: IMaterial = void 0;
+    let refCount = 0
+    let _program: IMaterial = void 0
     let mesh: IBufferGeometry = {
       addRef(): number {
-        refChange(uuid, LOGGING_NAME_MESH, +1);
-        return refCount.addRef();
+        refCount++
+        refChange(uuid, LOGGING_NAME_MESH, +1)
+        _blocks.addRef()
+        return refCount
       },
       release(): number {
-        refChange(uuid, LOGGING_NAME_MESH, -1);
-        return refCount.release();
+        refCount--
+        refChange(uuid, LOGGING_NAME_MESH, -1)
+        if (refCount === 0) {
+          if (_blocks.exists(uuid)) {
+            _blocks.remove(uuid)
+          }
+          else {
+            console.warn("[System Error] " + messageUnrecognizedMesh(uuid));
+          }
+          _blocks.release()
+        }
+        return refCount
       },
       get uuid() {
         return uuid;
@@ -382,7 +473,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
           if (_program) {
             mesh.unbind()
           }
-          let block= blocks.get(uuid)
+          let block= _blocks.get(uuid)
           if (block) {
             if (program) {
               _program = program
@@ -405,7 +496,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         }
       },
       draw(): void {
-        let block = blocks.get(uuid)
+        let block = _blocks.get(uuid)
         if (block) {
           block.drawCommand.execute(gl)
           block.release()
@@ -416,7 +507,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       },
       unbind(): void {
         if (_program) {
-          let block = blocks.get(uuid)
+          let block = _blocks.get(uuid)
           if (block) {
             // FIXME: Ask block to unbind index buffer and avoid addRef/release
             let indexBuffer = block.indexBuffer
@@ -435,8 +526,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
           _program = void 0
         }
       }
-    };
-    refChange(uuid, LOGGING_NAME_MESH, +1)
+    }
+    mesh.addRef()
     return mesh
   }
 
@@ -449,7 +540,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
    */
   var _canvas: HTMLCanvasElement
   var _canvasId: number
-  var refCount: number = 1
+  var refCount: number = 0
   let tokenArg = expectArg('token', "")
 
   let webGLContextLost = function(event: Event) {
@@ -504,7 +595,8 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
         }
         return void 0;
       }
-      let mesh: IBufferGeometry = createBufferGeometry(uuid4().generate(), _canvasId);
+      let mesh: IBufferGeometry = new BufferGeometry(_canvasId, gl, _blocks)
+      // let mesh: IBufferGeometry = createBufferGeometryDeprecatedMaybe(uuid4().generate(), _canvasId)
 
       let indexBuffer = kahuna.createElementArrayBuffer();
       indexBuffer.bind();
@@ -516,7 +608,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       indexBuffer.unbind();
 
-      let attributes = new StringIUnknownMap<ElementsBlockAttrib>()
+      let attributes = new StringIUnknownMap<ElementsBlockAttrib>('createBufferGeometry')
       let names = Object.keys(elements.attributes)
       let namesLength = names.length
       var i: number
@@ -540,7 +632,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       }
       let drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0)
       var block =new ElementsBlock(indexBuffer, attributes, drawCommand)
-      blocks.put(mesh.uuid, block)
+      _blocks.put(mesh.uuid, block)
       block.release()
       attributes.release()
       indexBuffer.release()
@@ -626,7 +718,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       refCount--;
       refChange(uuid, LOGGING_NAME_KAHUNA, -1);
       if (refCount === 0) {
-        blocks.release();
+        _blocks.release();
         while(users.length > 0) {
           let user = users.pop();
         }
@@ -656,7 +748,7 @@ function webgl(attributes?: WebGLContextAttributes): ContextKahuna {
       return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
     }
   };
-  refChange(uuid, LOGGING_NAME_KAHUNA, +1);
+  kahuna.addRef()
   return kahuna;
 }
 

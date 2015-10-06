@@ -14,6 +14,7 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param name {string} The name of the uniform variable, as it appears in the GLSL shader code.
          */
         function UniformLocation(manager, name) {
+            // FIXME: No more mirroring.
             this._x = void 0;
             this._y = void 0;
             this._z = void 0;
@@ -173,16 +174,21 @@ define(["require", "exports", '../checks/expectArg'], function (require, exports
          * @param vector {Vector3}
          */
         UniformLocation.prototype.vector3 = function (vector) {
-            this._context.useProgram(this._program);
-            var data = vector.data;
-            var x = data[0];
-            var y = data[1];
-            var z = data[2];
-            if (this._x !== x || this._y !== y || this._z !== z) {
-                this._context.uniform3fv(this._location, data);
-                this._x = x;
-                this._y = y;
-                this._z = z;
+            if (vector) {
+                this._context.useProgram(this._program);
+                var data = vector.data;
+                var x = data[0];
+                var y = data[1];
+                var z = data[2];
+                if (this._x !== x || this._y !== y || this._z !== z) {
+                    this._context.uniform3fv(this._location, data);
+                    this._x = x;
+                    this._y = y;
+                    this._z = z;
+                }
+            }
+            else {
+                console.warn("UniformLocation.vector3 called with `typeof vector` => " + typeof vector);
             }
         };
         /**

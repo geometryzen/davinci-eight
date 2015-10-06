@@ -1,9 +1,14 @@
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-import Animator = require('davinci-eight/animate/Animator');
-import Animation = require('davinci-eight/animate/animations/Animation');
-import ColorTo = require('davinci-eight/animate/animations/ColorTo');
-import MoveTo = require('davinci-eight/animate/animations/MoveTo');
-import SpinTo = require('davinci-eight/animate/animations/SpinTo');
+import Animator = require('davinci-eight/slideshow/Animator');
+import Director = require('davinci-eight/slideshow/Director');
+import Animation = require('davinci-eight/slideshow/animations/Animation');
+import ColorTo = require('davinci-eight/slideshow/animations/ColorTo');
+import MoveTo = require('davinci-eight/slideshow/animations/MoveTo');
+import SpinTo = require('davinci-eight/slideshow/animations/SpinTo');
+import ColorTask = require('davinci-eight/slideshow/tasks/ColorTask');
+import CubeTask = require('davinci-eight/slideshow/tasks/CubeTask');
+import MoveTask = require('davinci-eight/slideshow/tasks/MoveTask');
+import SpinTask = require('davinci-eight/slideshow/tasks/SpinTask');
 import Frustum = require('davinci-eight/cameras/Frustum');
 import Perspective = require('davinci-eight/cameras/Perspective');
 import View = require('davinci-eight/cameras/View');
@@ -72,10 +77,15 @@ declare var eight: {
     strict: boolean;
     VERSION: string;
     Animator: typeof Animator;
+    Director: typeof Director;
     Animation: typeof Animation;
     ColorTo: typeof ColorTo;
     MoveTo: typeof MoveTo;
     SpinTo: typeof SpinTo;
+    ColorTask: typeof ColorTask;
+    CubeTask: typeof CubeTask;
+    MoveTask: typeof MoveTask;
+    SpinTask: typeof SpinTask;
     HTMLScriptsMaterial: typeof HTMLScriptsMaterial;
     Material: typeof Material;
     LineMaterial: typeof LineMaterial;

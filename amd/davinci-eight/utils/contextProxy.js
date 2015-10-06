@@ -3,7 +3,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../core/BufferResource', '../core', '../geometries/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/RefCount', '../utils/refChange', '../utils/Shareable', '../geometries/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, RefCount, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
+define(["require", "exports", '../core/BufferResource', '../core', '../geometries/GeometryData', '../checks/expectArg', '../renderers/initWebGL', '../checks/isDefined', '../checks/isUndefined', '../checks/mustBeInteger', '../checks/mustBeNumber', '../checks/mustBeString', '../utils/randumbInteger', '../utils/refChange', '../utils/Shareable', '../geometries/Simplex', '../utils/StringIUnknownMap', '../resources/TextureResource', '../utils/uuid4'], function (require, exports, BufferResource, core, GeometryData, expectArg, initWebGL, isDefined, isUndefined, mustBeInteger, mustBeNumber, mustBeString, randumbInteger, refChange, Shareable, Simplex, StringIUnknownMap, TextureResource, uuid4) {
     var LOGGING_NAME_ELEMENTS_BLOCK = 'ElementsBlock';
     var LOGGING_NAME_ELEMENTS_BLOCK_ATTRIBUTE = 'ElementsBlockAttrib';
     var LOGGING_NAME_MESH = 'Drawable';
@@ -73,6 +73,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
             this._attributes = void 0;
             this._indexBuffer.release();
             this._indexBuffer = void 0;
+            _super.prototype.destructor.call(this);
         };
         Object.defineProperty(ElementsBlock.prototype, "indexBuffer", {
             get: function () {
@@ -195,7 +196,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
         // block.attributes (reference counted)
         // Offer a NumberIUnknownList<IAttributePointer> which we have prepared up front
         // in order to get the name -> index correct.
-        // Then attribute setting shoul go much faster
+        // Then attribute setting should go much faster
         var attribLocations = program.attributes(canvasId);
         if (attribLocations) {
             var aNames = Object.keys(attribLocations);
@@ -243,11 +244,88 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
             console.warn("unbindProgramAttribLocations: program.attributes is falsey.");
         }
     }
+    /**
+     * Implementation of IBufferGeometry coupled to the 'blocks' implementation.
+     */
+    var BufferGeometry = (function (_super) {
+        __extends(BufferGeometry, _super);
+        function BufferGeometry(canvasId, gl, blocks) {
+            _super.call(this, 'BufferGeometry');
+            this.canvasId = canvasId;
+            this._blocks = blocks;
+            this._blocks.addRef();
+            this.gl = gl;
+        }
+        BufferGeometry.prototype.destructor = function () {
+            // FIXME: Check status of Material?
+            this._blocks.release();
+            _super.prototype.destructor.call(this);
+        };
+        BufferGeometry.prototype.bind = function (program, aNameToKeyName) {
+            if (this._program !== program) {
+                if (this._program) {
+                    this.unbind();
+                }
+                var block = this._blocks.get(this.uuid);
+                if (block) {
+                    if (program) {
+                        this._program = program;
+                        this._program.addRef();
+                        var indexBuffer = block.indexBuffer;
+                        indexBuffer.bind();
+                        indexBuffer.release();
+                        bindProgramAttribLocations(this._program, this.canvasId, block, aNameToKeyName);
+                    }
+                    else {
+                        expectArg('program', program).toBeObject();
+                    }
+                    block.release();
+                }
+                else {
+                    throw new Error(messageUnrecognizedMesh(this.uuid));
+                }
+            }
+        };
+        BufferGeometry.prototype.draw = function () {
+            var block = this._blocks.get(this.uuid);
+            if (block) {
+                // FIXME: Wondering why we don't just make this a parameter?
+                // On the other hand, buffer geometry is only good for one context.
+                block.drawCommand.execute(this.gl);
+                block.release();
+            }
+            else {
+                throw new Error(messageUnrecognizedMesh(this.uuid));
+            }
+        };
+        BufferGeometry.prototype.unbind = function () {
+            if (this._program) {
+                var block = this._blocks.get(this.uuid);
+                if (block) {
+                    // FIXME: Ask block to unbind index buffer and avoid addRef/release
+                    var indexBuffer = block.indexBuffer;
+                    indexBuffer.unbind();
+                    indexBuffer.release();
+                    // FIXME: Looks like an IMaterial method!
+                    unbindProgramAttribLocations(this._program, this.canvasId);
+                    block.release();
+                }
+                else {
+                    throw new Error(messageUnrecognizedMesh(this.uuid));
+                }
+                // We bumped up the reference count during bind. Now we are done.
+                this._program.release();
+                // Important! The existence of _program indicates the binding state.
+                this._program = void 0;
+            }
+        };
+        return BufferGeometry;
+    })(Shareable);
     function webgl(attributes) {
         // expectArg('canvas', canvas).toSatisfy(canvas instanceof HTMLCanvasElement, "canvas argument must be an HTMLCanvasElement");
         // mustBeInteger('canvasId', canvasId, webglFunctionalConstructorContextBuilder);
         var uuid = uuid4().generate();
-        var blocks = new StringIUnknownMap();
+        var _blocks = new StringIUnknownMap('webgl');
         // Remark: We only hold weak references to users so that the lifetime of resource
         // objects is not affected by the fact that they are listening for gl events.
         // Users should automatically add themselves upon construction and remove upon release.
@@ -270,10 +348,10 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
             expectArg('user', user).toBeObject();
             var index = users.indexOf(user);
             if (index >= 0) {
+                // FIXME: Potential leak here if IContextConsumer extends IUnknown
                 var removals = users.splice(index, 1);
             }
             else {
-                console.warn("user not found for removeContextListener(user)");
             }
         }
         function synchronize(user) {
@@ -288,27 +366,32 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
             else {
             }
         }
-        function meshRemover(blockUUID) {
-            return function () {
-                if (blocks.exists(blockUUID)) {
-                    blocks.remove(blockUUID);
-                }
-                else {
-                    console.warn("[System Error] " + messageUnrecognizedMesh(blockUUID));
-                }
-            };
-        }
-        function createBufferGeometry(uuid, canvasId) {
-            var refCount = new RefCount(meshRemover(uuid));
+        // TODO: Being a local function, capturing blocks, it was not obvious
+        // that blocks should need reference counting.
+        // Might be good to create a shareable class?
+        function createBufferGeometryDeprecatedMaybe(uuid, canvasId) {
+            var refCount = 0;
             var _program = void 0;
             var mesh = {
                 addRef: function () {
+                    refCount++;
                     refChange(uuid, LOGGING_NAME_MESH, +1);
-                    return refCount.addRef();
+                    _blocks.addRef();
+                    return refCount;
                 },
                 release: function () {
+                    refCount--;
                     refChange(uuid, LOGGING_NAME_MESH, -1);
-                    return refCount.release();
+                    if (refCount === 0) {
+                        if (_blocks.exists(uuid)) {
+                            _blocks.remove(uuid);
+                        }
+                        else {
+                            console.warn("[System Error] " + messageUnrecognizedMesh(uuid));
+                        }
+                        _blocks.release();
+                    }
+                    return refCount;
                 },
                 get uuid() {
                     return uuid;
@@ -318,7 +401,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                         if (_program) {
                             mesh.unbind();
                         }
-                        var block = blocks.get(uuid);
+                        var block = _blocks.get(uuid);
                         if (block) {
                             if (program) {
                                 _program = program;
@@ -339,7 +422,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     }
                 },
                 draw: function () {
-                    var block = blocks.get(uuid);
+                    var block = _blocks.get(uuid);
                     if (block) {
                         block.drawCommand.execute(gl);
                         block.release();
@@ -350,7 +433,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 },
                 unbind: function () {
                     if (_program) {
-                        var block = blocks.get(uuid);
+                        var block = _blocks.get(uuid);
                         if (block) {
                             // FIXME: Ask block to unbind index buffer and avoid addRef/release
                             var indexBuffer = block.indexBuffer;
@@ -370,7 +453,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     }
                 }
             };
-            refChange(uuid, LOGGING_NAME_MESH, +1);
+            mesh.addRef();
             return mesh;
         }
         var gl;
@@ -382,7 +465,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
          */
         var _canvas;
         var _canvasId;
-        var refCount = 1;
+        var refCount = 0;
         var tokenArg = expectArg('token', "");
         var webGLContextLost = function (event) {
             if (isDefined(_canvas)) {
@@ -433,7 +516,8 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     }
                     return void 0;
                 }
-                var mesh = createBufferGeometry(uuid4().generate(), _canvasId);
+                var mesh = new BufferGeometry(_canvasId, gl, _blocks);
+                // let mesh: IBufferGeometry = createBufferGeometryDeprecatedMaybe(uuid4().generate(), _canvasId)
                 var indexBuffer = kahuna.createElementArrayBuffer();
                 indexBuffer.bind();
                 if (isDefined(gl)) {
@@ -443,7 +527,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                     console.warn("Unable to bufferData to ELEMENT_ARRAY_BUFFER, WebGL context is undefined.");
                 }
                 indexBuffer.unbind();
-                var attributes = new StringIUnknownMap();
+                var attributes = new StringIUnknownMap('createBufferGeometry');
                 var names = Object.keys(elements.attributes);
                 var namesLength = names.length;
                 var i;
@@ -466,7 +550,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 }
                 var drawCommand = new GeometryDataCommand(mode, elements.indices.length, gl.UNSIGNED_SHORT, 0);
                 var block = new ElementsBlock(indexBuffer, attributes, drawCommand);
-                blocks.put(mesh.uuid, block);
+                _blocks.put(mesh.uuid, block);
                 block.release();
                 attributes.release();
                 indexBuffer.release();
@@ -552,7 +636,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 refCount--;
                 refChange(uuid, LOGGING_NAME_KAHUNA, -1);
                 if (refCount === 0) {
-                    blocks.release();
+                    _blocks.release();
                     while (users.length > 0) {
                         var user = users.pop();
                     }
@@ -582,7 +666,7 @@ define(["require", "exports", '../core/BufferResource', '../core', '../geometrie
                 return new TextureResource([kahuna], mustBeContext(gl, 'createTextureCubeMap()').TEXTURE_CUBE_MAP);
             }
         };
-        refChange(uuid, LOGGING_NAME_KAHUNA, +1);
+        kahuna.addRef();
         return kahuna;
     }
     return webgl;

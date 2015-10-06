@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.116.0</em>
+            <em>API Docs for: 2.117.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -94,6 +94,7 @@
                                 <li><a href="../classes/IMaterial.html">IMaterial</a></li>
                                 <li><a href="../classes/IPrologCommand.html">IPrologCommand</a></li>
                                 <li><a href="../classes/IProperties.html">IProperties</a></li>
+                                <li><a href="../classes/ISlide.html">ISlide</a></li>
                                 <li><a href="../classes/IUnknown.html">IUnknown</a></li>
                                 <li><a href="../classes/IUnknownArray.html">IUnknownArray</a></li>
                                 <li><a href="../classes/KleinBottleGeometry.html">KleinBottleGeometry</a></li>
@@ -229,7 +230,8 @@ class Shareable implements IUnknown {
     refChange(this._uuid, this._type, -1)
     let refCount = this._refCount
     if (refCount === 0) {
-      this.destructor()
+      // destructor called with &#x60;true&#x60; means grumble if the method has not been overridden.
+      this.destructor(true)
       this._refCount = void 0
       this._type = void 0
       this._uuid = void 0
@@ -250,8 +252,10 @@ class Shareable implements IUnknown {
    * @return {void}
    * @protected
    */
-  protected destructor(): void {
-    console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+  protected destructor(grumble: boolean = false): void {
+    if (grumble) {
+      console.warn(&quot;&#x60;protected destructor(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+    }
   }
   /**
    * @property uuid

@@ -2,7 +2,7 @@ import Shareable = require('../utils/Shareable');
 import IFacet = require('../core/IFacet');
 import ColorRGB = require('../core/ColorRGB');
 import IFacetVisitor = require('../core/IFacetVisitor');
-import IProperties = require('../animate/IProperties');
+import IProperties = require('../slideshow/IProperties');
 /**
  * @class ColorFacet
  */

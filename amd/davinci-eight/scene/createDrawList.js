@@ -1,4 +1,9 @@
-define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, StringIUnknownMap, uuid4) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknownMap', '../utils/refChange', '../utils/Shareable', '../utils/StringIUnknownMap', '../utils/uuid4'], function (require, exports, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, uuid4) {
     var CLASS_NAME_DRAWLIST = "createDrawList";
     var CLASS_NAME_GROUP = "DrawableGroup";
     var CLASS_NAME_ALL = "DrawableGroups";
@@ -9,7 +14,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
     // FIXME: extends Shareable
     var DrawableGroup = (function () {
         function DrawableGroup(program) {
-            this._drawables = new IUnknownArray();
+            this._drawables = new IUnknownArray([], CLASS_NAME_GROUP);
             this._refCount = 1;
             this._uuid = uuid4().generate();
             this._program = program;
@@ -65,6 +70,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             var drawables = this._drawables;
             var index = drawables.indexOf(drawable);
             if (index >= 0) {
+                // We don't actually need the returned element so release it.
                 drawables.splice(index, 1).release();
             }
         };
@@ -94,34 +100,19 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
     /**
      * Should look like a set of Drawable Groups. Maybe like a Scene!
      */
-    var DrawableGroups = (function () {
+    var DrawableGroups = (function (_super) {
+        __extends(DrawableGroups, _super);
         function DrawableGroups() {
+            _super.call(this, CLASS_NAME_ALL);
             /**
              * Mapping from programId to DrawableGroup ~ (IMaterial,IDrawable[])
              */
-            this._groups = new StringIUnknownMap();
-            this._refCount = 1;
-            this._uuid = uuid4().generate();
-            refChange(this._uuid, CLASS_NAME_ALL, +1);
+            this._groups = new StringIUnknownMap(CLASS_NAME_ALL);
         }
-        DrawableGroups.prototype.addRef = function () {
-            this._refCount++;
-            refChange(this._uuid, CLASS_NAME_ALL, +1);
-            return this._refCount;
-        };
-        DrawableGroups.prototype.release = function () {
-            this._refCount--;
-            refChange(this._uuid, CLASS_NAME_ALL, -1);
-            if (this._refCount === 0) {
-                this._groups.release();
-                this._groups = void 0;
-                this._refCount = void 0;
-                this._uuid = void 0;
-                return 0;
-            }
-            else {
-                return this._refCount;
-            }
+        DrawableGroups.prototype.destructor = function () {
+            this._groups.release();
+            this._groups = void 0;
+            _super.prototype.destructor.call(this);
         };
         DrawableGroups.prototype.add = function (drawable) {
             // Now let's see if we can get a program...
@@ -197,7 +188,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
             });
         };
         return DrawableGroups;
-    })();
+    })(Shareable);
     var createDrawList = function () {
         var drawableGroups = new DrawableGroups();
         var canvasIdToManager = new NumberIUnknownMap();
@@ -270,7 +261,7 @@ define(["require", "exports", '../utils/IUnknownArray', '../utils/NumberIUnknown
                 drawableGroups.draw(ambients, canvasId);
             },
             getDrawablesByName: function (name) {
-                var result = new IUnknownArray();
+                var result = new IUnknownArray([], 'getDrawablesByName');
                 drawableGroups.traverseDrawables(function (candidate) {
                     if (candidate.name === name) {
                         result.push(candidate);

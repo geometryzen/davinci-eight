@@ -54,6 +54,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "IMaterial",
         "IPrologCommand",
         "IProperties",
+        "ISlide",
         "IUnknown",
         "IUnknownArray",
         "KleinBottleGeometry",

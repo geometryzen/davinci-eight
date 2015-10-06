@@ -33,6 +33,7 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
          */
         ColorFacet.prototype.destructor = function () {
             this.data = void 0;
+            _super.prototype.destructor.call(this);
         };
         Object.defineProperty(ColorFacet.prototype, "red", {
             /**
