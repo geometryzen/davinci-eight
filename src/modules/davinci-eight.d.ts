@@ -1536,6 +1536,19 @@ class CuboidGeometry extends Geometry {
   calculate(): void;
 }
 
+class CylinderGeometry extends Geometry {
+  constructor(
+    radiusTop?: number,
+    radiusBottom?: number,
+    height?: number,
+    radialSegments?: number,
+    heightSegments?: number,
+    openEnded?: boolean,
+    thetaStart?: number,
+    thetaLength?: number
+  )
+}
+
 class DodecahedronGeometry extends PolyhedronGeometry {
   constructor(radius?: number, detail?: number);
 }

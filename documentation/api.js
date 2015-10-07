@@ -23,6 +23,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "CuboidGeometry",
         "CuboidMesh",
         "CylinderArgs",
+        "CylinderGeometry",
         "Dimensions",
         "DodecahedronGeometry",
         "Drawable",

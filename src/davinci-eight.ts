@@ -74,9 +74,8 @@ import GeometryElements = require('davinci-eight/geometries/GeometryElements')
 import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
 import BarnGeometry    = require('davinci-eight/geometries/BarnGeometry')
 import CuboidGeometry  = require('davinci-eight/geometries/CuboidGeometry')
-//import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
+import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry')
-//import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry')
 import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry')
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry')
 import Simplex1Geometry  = require('davinci-eight/geometries/Simplex1Geometry')
@@ -268,9 +267,8 @@ var eight = {
   get ArrowGeometry() { return ArrowGeometry },
   get BarnGeometry() { return BarnGeometry },
   get CuboidGeometry() { return CuboidGeometry },
-//  get CylinderGeometry() { return CylinderGeometry },
+  get CylinderGeometry() { return CylinderGeometry },
   get DodecahedronGeometry() { return DodecahedronGeometry },
-//  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
   get IcosahedronGeometry() { return IcosahedronGeometry },
   get KleinBottleGeometry() { return KleinBottleGeometry },
   get Simplex1Geometry() { return Simplex1Geometry },

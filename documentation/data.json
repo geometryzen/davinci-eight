@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.122.0",
+        "version": "2.123.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -417,6 +417,15 @@
             "modules": {},
             "classes": {
                 "CuboidGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/CylinderGeometry.ts": {
+            "name": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "modules": {},
+            "classes": {
+                "CylinderGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1432,6 +1441,7 @@
                 "ArrowGeometry": 1,
                 "BarnGeometry": 1,
                 "CuboidGeometry": 1,
+                "CylinderGeometry": 1,
                 "DodecahedronGeometry": 1,
                 "Geometry": 1,
                 "GeometryAttribute": 1,
@@ -2118,6 +2128,54 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
             "line": 11
+        },
+        "CylinderGeometry": {
+            "name": "CylinderGeometry",
+            "shortname": "CylinderGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/CylinderGeometry.ts",
+            "line": 29,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radiusTop",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "radiusBottom",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "height",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "radialSegments",
+                    "description": "[number = 16]"
+                },
+                {
+                    "name": "heightSegments",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "openEnded",
+                    "description": "[boolean = false]"
+                },
+                {
+                    "name": "thetaStart",
+                    "description": "[number = 0]"
+                },
+                {
+                    "name": "thetaLength",
+                    "description": "[number = 2 * Math.PI]"
+                }
+            ]
         },
         "DodecahedronGeometry": {
             "name": "DodecahedronGeometry",
