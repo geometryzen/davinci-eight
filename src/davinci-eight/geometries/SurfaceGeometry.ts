@@ -1,26 +1,33 @@
-import Cartesian2 = require('../math/Cartesian2');
-import Cartesian3 = require('../math/Cartesian3');
-import Face3 = require('../core/Face3');
-import Geometry = require('../geometries/Geometry');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
-import expectArg = require('../checks/expectArg');
+import Cartesian2 = require('../math/Cartesian2')
+import Cartesian3 = require('../math/Cartesian3')
+import Simplex = require('../geometries/Simplex')
+import Geometry = require('../geometries/Geometry')
+import Symbolic = require('../core/Symbolic')
+import Vector2 = require('../math/Vector2')
+import Vector3 = require('../math/Vector3')
+import expectArg = require('../checks/expectArg')
+import mustBeFunction = require('../checks/mustBeFunction')
+import mustBeInteger = require('../checks/mustBeInteger')
 /**
- * @author zz85 / https://github.com/zz85
- * Parametric Surfaces Geometry
- * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
- *
- * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
+ * @class SurfaceGeometry
  */
 class SurfaceGeometry extends Geometry {
+  /**
+   * @class SurfaceGeometry
+   * @constructor
+   * @param parametricFunction {(u: number, v: number) => Cartesian3}
+   * @param uSegments {number}
+   * @param vSegments {number}
+   */
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number) {
     super();
-    expectArg('parametricFunction', parametricFunction).toBeFunction();
-    expectArg('uSegments', uSegments).toBeNumber();
-    expectArg('vSegments', vSegments).toBeNumber();
-    let vertices: Cartesian3[] = this.vertices;
-    let faces: Face3[] = this.faces;
-    let uvs: Cartesian2[][] = this.faceVertexUvs[ 0 ];
+    mustBeFunction('parametricFunction', parametricFunction)
+    mustBeInteger('uSegments', uSegments)
+    mustBeInteger('vSegments', vSegments)
+    /**
+     * Temporary array of points.
+     */
+    let points: Vector3[] = [];
 
     var i: number;
     var j: number;
@@ -37,7 +44,7 @@ class SurfaceGeometry extends Geometry {
 
         let point: Cartesian3 = parametricFunction( u, v );
         // Make a copy just in case the function is returning mutable references.
-        vertices.push({x: point.x, y: point.y, z: point.z});
+        points.push(Vector3.copy(point));
       }
     }
 
@@ -64,16 +71,28 @@ class SurfaceGeometry extends Geometry {
         uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
         uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
 
-        faces.push( new Face3( a, b, d ) );
-        uvs.push( [ uva, uvb, uvd ] );
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
+        this.data.push(simplex)
 
-        faces.push( new Face3( b, c, d ) );
-        uvs.push( [ uvb.clone(), uvc, uvd.clone() ] );
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
+        this.data.push(simplex)
       }
     }
 
-    this.computeFaceNormals();
-    this.computeVertexNormals();
+//    this.computeFaceNormals();
+//    this.computeVertexNormals();
   }
 }
 

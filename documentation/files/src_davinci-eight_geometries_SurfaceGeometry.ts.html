@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.118.0</em>
+            <em>API Docs for: 2.119.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,7 @@
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -183,29 +184,36 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;);
-import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;);
-import Face3 = require(&#x27;../core/Face3&#x27;);
-import Geometry = require(&#x27;../geometries/Geometry&#x27;);
-import Vector2 = require(&#x27;../math/Vector2&#x27;);
-import Vector3 = require(&#x27;../math/Vector3&#x27;);
-import expectArg = require(&#x27;../checks/expectArg&#x27;);
+import Cartesian2 = require(&#x27;../math/Cartesian2&#x27;)
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import Simplex = require(&#x27;../geometries/Simplex&#x27;)
+import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import Symbolic = require(&#x27;../core/Symbolic&#x27;)
+import Vector2 = require(&#x27;../math/Vector2&#x27;)
+import Vector3 = require(&#x27;../math/Vector3&#x27;)
+import expectArg = require(&#x27;../checks/expectArg&#x27;)
+import mustBeFunction = require(&#x27;../checks/mustBeFunction&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
 /**
- * @author zz85 / https://github.com/zz85
- * Parametric Surfaces Geometry
- * based on the brilliant article by @prideout http://prideout.net/blog/?p=44
- *
- * new SurfaceGeometry( parametricFunction, uSegments, vSegments );
+ * @class SurfaceGeometry
  */
 class SurfaceGeometry extends Geometry {
+  /**
+   * @class SurfaceGeometry
+   * @constructor
+   * @param parametricFunction {(u: number, v: number) =&gt; Cartesian3}
+   * @param uSegments {number}
+   * @param vSegments {number}
+   */
   constructor(parametricFunction: (u: number, v: number) =&gt; Cartesian3, uSegments: number, vSegments: number) {
     super();
-    expectArg(&#x27;parametricFunction&#x27;, parametricFunction).toBeFunction();
-    expectArg(&#x27;uSegments&#x27;, uSegments).toBeNumber();
-    expectArg(&#x27;vSegments&#x27;, vSegments).toBeNumber();
-    let vertices: Cartesian3[] = this.vertices;
-    let faces: Face3[] = this.faces;
-    let uvs: Cartesian2[][] = this.faceVertexUvs[ 0 ];
+    mustBeFunction(&#x27;parametricFunction&#x27;, parametricFunction)
+    mustBeInteger(&#x27;uSegments&#x27;, uSegments)
+    mustBeInteger(&#x27;vSegments&#x27;, vSegments)
+    /**
+     * Temporary array of points.
+     */
+    let points: Vector3[] = [];
 
     var i: number;
     var j: number;
@@ -222,7 +230,7 @@ class SurfaceGeometry extends Geometry {
 
         let point: Cartesian3 = parametricFunction( u, v );
         // Make a copy just in case the function is returning mutable references.
-        vertices.push({x: point.x, y: point.y, z: point.z});
+        points.push(Vector3.copy(point));
       }
     }
 
@@ -249,16 +257,28 @@ class SurfaceGeometry extends Geometry {
         uvc = new Vector2([(j + 1) / uSegments, (i + 1) / vSegments]);
         uvd = new Vector2([j / uSegments, (i + 1) / vSegments]);
 
-        faces.push( new Face3( a, b, d ) );
-        uvs.push( [ uva, uvb, uvd ] );
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a]
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uva
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
+        this.data.push(simplex)
 
-        faces.push( new Face3( b, c, d ) );
-        uvs.push( [ uvb.clone(), uvc, uvd.clone() ] );
+        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b]
+        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvb
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c]
+        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvc
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d]
+        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvd
+        this.data.push(simplex)
       }
     }
 
-    this.computeFaceNormals();
-    this.computeVertexNormals();
+//    this.computeFaceNormals();
+//    this.computeVertexNormals();
   }
 }
 

@@ -20,7 +20,7 @@ function klein(u: number, v: number): Vector3 {
     point.z = -8 * sin(u)
   }
   point.y = -2 * (1 - cos(u) / 2) * sin(v)
-  return point;
+  return point.scale(0.1);
 }
 
 /**

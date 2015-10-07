@@ -1547,6 +1547,22 @@ class SphereGeometry extends Geometry {
 /**
  *
  */
+class SurfaceGeometry extends Geometry {
+  constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
+}
+
+class KleinBottleGeometry extends SurfaceGeometry {
+  constructor(uSegments: number, vSegments: number);
+}
+
+class MobiusStripGeometry extends SurfaceGeometry {
+  constructor(uSegments: number, vSegments: number);
+}
+
+
+/**
+ *
+ */
 class Material implements IMaterial {
   program: WebGLProgram;
   programId: string;

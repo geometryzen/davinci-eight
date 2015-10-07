@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.118.0</em>
+            <em>API Docs for: 2.119.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -125,6 +125,7 @@
                                 <li><a href="../classes/Spinor3.html">Spinor3</a></li>
                                 <li><a href="../classes/StringIUnknownMap.html">StringIUnknownMap</a></li>
                                 <li><a href="../classes/StringIUnknownMap&lt;V extends IUnknown&gt;.html">StringIUnknownMap&lt;V extends IUnknown&gt;</a></li>
+                                <li><a href="../classes/SurfaceGeometry.html">SurfaceGeometry</a></li>
                                 <li><a href="../classes/Symbolic.html">Symbolic</a></li>
                                 <li><a href="../classes/UniformLocation.html">UniformLocation</a></li>
                                 <li><a href="../classes/Unit.html">Unit</a></li>
@@ -205,7 +206,7 @@ function klein(u: number, v: number): Vector3 {
     point.z = -8 * sin(u)
   }
   point.y = -2 * (1 - cos(u) / 2) * sin(v)
-  return point;
+  return point.scale(0.1);
 }
 
 /**

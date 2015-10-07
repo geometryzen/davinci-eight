@@ -220,6 +220,7 @@ Make your changes to the TypeScript files in the _src_ directory. Do not edit th
 * 2.116.0: 2015-10-04 Animator
 * 2.117.0: 2015-10-05 Director
 * 2.118.0: 2015-10-06 SphereGeometry
+* 2.119.0: 2015-10-06 SurfaceGeometry
 
 ## License
 Copyright (c) 2014-2015 David Holmes

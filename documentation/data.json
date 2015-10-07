@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.118.0",
+        "version": "2.119.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -519,7 +519,9 @@
         "src/davinci-eight/geometries/SurfaceGeometry.ts": {
             "name": "src/davinci-eight/geometries/SurfaceGeometry.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "SurfaceGeometry": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1366,6 +1368,7 @@
                 "Simplex": 1,
                 "Simplex1Geometry": 1,
                 "SphereGeometry": 1,
+                "SurfaceGeometry": 1,
                 "VertexAttributeMap": 1,
                 "LocalizableMessage": 1,
                 "HTMLScriptsMaterial": 1,
@@ -2219,6 +2222,37 @@
                 {
                     "name": "thetaLength",
                     "description": "[number = Math.PI]"
+                }
+            ]
+        },
+        "SurfaceGeometry": {
+            "name": "SurfaceGeometry",
+            "shortname": "SurfaceGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/SurfaceGeometry.ts",
+            "line": 15,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "parametricFunction",
+                    "description": "",
+                    "type": "(u: number, v: number) => Cartesian3"
+                },
+                {
+                    "name": "uSegments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "vSegments",
+                    "description": "",
+                    "type": "Number"
                 }
             ]
         },
@@ -5737,9 +5771,9 @@
         },
         {
             "file": "src/davinci-eight/geometries/SurfaceGeometry.ts",
-            "line": 8,
-            "author": "zz85 / https://github.com/zz85\nParametric Surfaces Geometry\nbased on the brilliant article by @prideout http://prideout.net/blog/?p=44\n\nnew SurfaceGeometry( parametricFunction, uSegments, vSegments );",
-            "class": "VertexAttributeMap",
+            "line": 27,
+            "description": "Temporary array of points.",
+            "class": "SurfaceGeometry",
             "module": "EIGHT"
         },
         {
@@ -8730,8 +8764,8 @@
             "line": " src/davinci-eight/geometries/SphereGeometry.ts:42"
         },
         {
-            "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/SurfaceGeometry.ts:8"
+            "message": "Missing item type\nTemporary array of points.",
+            "line": " src/davinci-eight/geometries/SurfaceGeometry.ts:27"
         },
         {
             "message": "Missing item type",

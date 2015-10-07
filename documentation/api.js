@@ -85,6 +85,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "Spinor3",
         "StringIUnknownMap",
         "StringIUnknownMap<V extends IUnknown>",
+        "SurfaceGeometry",
         "Symbolic",
         "UniformLocation",
         "Unit",
