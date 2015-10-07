@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.119.0",
+        "version": "2.120.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -412,6 +412,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/DodecahedronGeometry.ts": {
+            "name": "src/davinci-eight/geometries/DodecahedronGeometry.ts",
+            "modules": {},
+            "classes": {
+                "DodecahedronGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/Geometry.ts": {
             "name": "src/davinci-eight/geometries/Geometry.ts",
             "modules": {},
@@ -473,6 +482,16 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/IcosahedronGeometry.ts": {
+            "name": "src/davinci-eight/geometries/IcosahedronGeometry.ts",
+            "modules": {},
+            "classes": {
+                "IcosahedronGeometry": 1,
+                "OcosahedronGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/KleinBottleGeometry.ts": {
             "name": "src/davinci-eight/geometries/KleinBottleGeometry.ts",
             "modules": {},
@@ -486,6 +505,24 @@
             "name": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/OctahedronGeometry.ts": {
+            "name": "src/davinci-eight/geometries/OctahedronGeometry.ts",
+            "modules": {},
+            "classes": {
+                "OctahedronGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/PolyhedronGeometry.ts": {
+            "name": "src/davinci-eight/geometries/PolyhedronGeometry.ts",
+            "modules": {},
+            "classes": {
+                "PolyhedronGeometry": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -521,6 +558,15 @@
             "modules": {},
             "classes": {
                 "SurfaceGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/TetrahedronGeometry.ts": {
+            "name": "src/davinci-eight/geometries/TetrahedronGeometry.ts",
+            "modules": {},
+            "classes": {
+                "TetrahedronGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1358,17 +1404,23 @@
                 "UniformLocation": 1,
                 "BarnGeometry": 1,
                 "CuboidGeometry": 1,
+                "DodecahedronGeometry": 1,
                 "Geometry": 1,
                 "GeometryAttribute": 1,
                 "GeometryData": 1,
                 "GeometryElements": 1,
                 "GeometryMeta": 1,
                 "IBufferGeometry": 1,
+                "IcosahedronGeometry": 1,
+                "OcosahedronGeometry": 1,
                 "KleinBottleGeometry": 1,
+                "OctahedronGeometry": 1,
+                "PolyhedronGeometry": 1,
                 "Simplex": 1,
                 "Simplex1Geometry": 1,
                 "SphereGeometry": 1,
                 "SurfaceGeometry": 1,
+                "TetrahedronGeometry": 1,
                 "VertexAttributeMap": 1,
                 "LocalizableMessage": 1,
                 "HTMLScriptsMaterial": 1,
@@ -1987,6 +2039,31 @@
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
             "line": 11
         },
+        "DodecahedronGeometry": {
+            "name": "DodecahedronGeometry",
+            "shortname": "DodecahedronGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/DodecahedronGeometry.ts",
+            "line": 47,
+            "extends": "PolyhedronGeometry",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radius",
+                    "description": "[number]"
+                },
+                {
+                    "name": "detail",
+                    "description": "[number]"
+                }
+            ]
+        },
         "Geometry": {
             "name": "Geometry",
             "shortname": "Geometry",
@@ -2115,6 +2192,44 @@
             "description": "A buffer geometry is implicitly bound to a single context.",
             "extends": "IUnkown"
         },
+        "IcosahedronGeometry": {
+            "name": "IcosahedronGeometry",
+            "shortname": "IcosahedronGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/IcosahedronGeometry.ts",
+            "line": 18,
+            "extends": "PolyhedronGeometry"
+        },
+        "OcosahedronGeometry": {
+            "name": "OcosahedronGeometry",
+            "shortname": "OcosahedronGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/IcosahedronGeometry.ts",
+            "line": 23,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radius",
+                    "description": "[number]"
+                },
+                {
+                    "name": "detail",
+                    "description": "[number]"
+                }
+            ]
+        },
         "KleinBottleGeometry": {
             "name": "KleinBottleGeometry",
             "shortname": "KleinBottleGeometry",
@@ -2142,6 +2257,46 @@
                     "type": "Number"
                 }
             ]
+        },
+        "OctahedronGeometry": {
+            "name": "OctahedronGeometry",
+            "shortname": "OctahedronGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/OctahedronGeometry.ts",
+            "line": 16,
+            "extends": "PolyhedronGeometry",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radius",
+                    "description": "[number]"
+                },
+                {
+                    "name": "detail",
+                    "description": "[number]"
+                }
+            ]
+        },
+        "PolyhedronGeometry": {
+            "name": "PolyhedronGeometry",
+            "shortname": "PolyhedronGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/PolyhedronGeometry.ts",
+            "line": 50,
+            "extends": "Geometry",
+            "is_constructor": 1
         },
         "Simplex": {
             "name": "Simplex",
@@ -2253,6 +2408,31 @@
                     "name": "vSegments",
                     "description": "",
                     "type": "Number"
+                }
+            ]
+        },
+        "TetrahedronGeometry": {
+            "name": "TetrahedronGeometry",
+            "shortname": "TetrahedronGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/TetrahedronGeometry.ts",
+            "line": 16,
+            "extends": "PolyhedronGeometry",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radius",
+                    "description": "[number]"
+                },
+                {
+                    "name": "detail",
+                    "description": "[number]"
                 }
             ]
         },
@@ -5572,21 +5752,28 @@
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 10,
             "description": "radius",
-            "class": "Simplex",
+            "class": "OctahedronGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 14,
             "description": "half-width",
-            "class": "Simplex",
+            "class": "OctahedronGeometry",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/MobiusStripGeometry.ts",
             "line": 28,
             "description": "http://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html",
-            "class": "Simplex",
+            "class": "OctahedronGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/PolyhedronGeometry.ts",
+            "line": 20,
+            "description": "Modifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.\nOK!",
+            "class": "PolyhedronGeometry",
             "module": "EIGHT"
         },
         {
@@ -8750,6 +8937,10 @@
         {
             "message": "Missing item type\nhttp://virtualmathmuseum.org/Surface/moebius_strip/moebius_strip.html",
             "line": " src/davinci-eight/geometries/MobiusStripGeometry.ts:28"
+        },
+        {
+            "message": "Missing item type\nModifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.\nOK!",
+            "line": " src/davinci-eight/geometries/PolyhedronGeometry.ts:20"
         },
         {
             "message": "Missing item type",

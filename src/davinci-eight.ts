@@ -75,18 +75,18 @@ import GeometryElements = require('davinci-eight/geometries/GeometryElements')
 import BarnGeometry    = require('davinci-eight/geometries/BarnGeometry')
 import CuboidGeometry  = require('davinci-eight/geometries/CuboidGeometry')
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
-//import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry')
+import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry')
 //import EllipticalCylinderGeometry = require('davinci-eight/geometries/EllipticalCylinderGeometry')
-//import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry')
+import IcosahedronGeometry = require('davinci-eight/geometries/IcosahedronGeometry')
 import KleinBottleGeometry = require('davinci-eight/geometries/KleinBottleGeometry')
 import Simplex1Geometry  = require('davinci-eight/geometries/Simplex1Geometry')
 import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry')
-//import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry')
+import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry')
 import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry')
-//import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry')
+import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry')
 //import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry')
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry')
-//import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry')
+import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry')
 //import TubeGeometry = require('davinci-eight/geometries/TubeGeometry')
 //import VortexGeometry = require('davinci-eight/geometries/VortexGeometry')
 // programs
@@ -269,18 +269,18 @@ var eight = {
   get BarnGeometry() { return BarnGeometry },
   get CuboidGeometry() { return CuboidGeometry },
 //  get CylinderGeometry() { return CylinderGeometry },
-//  get DodecahedronGeometry() { return DodecahedronGeometry },
+  get DodecahedronGeometry() { return DodecahedronGeometry },
 //  get EllipticalCylinderGeometry() { return EllipticalCylinderGeometry },
-//  get IcosahedronGeometry() { return IcosahedronGeometry },
+  get IcosahedronGeometry() { return IcosahedronGeometry },
   get KleinBottleGeometry() { return KleinBottleGeometry },
   get Simplex1Geometry() { return Simplex1Geometry },
   get MobiusStripGeometry() { return MobiusStripGeometry },
-//  get OctahedronGeometry() { return OctahedronGeometry },
+  get OctahedronGeometry() { return OctahedronGeometry },
   get SurfaceGeometry() { return SurfaceGeometry },
-//  get PolyhedronGeometry() { return PolyhedronGeometry },
+  get PolyhedronGeometry() { return PolyhedronGeometry },
 //  get RevolutionGeometry() { return RevolutionGeometry },
   get SphereGeometry() { return SphereGeometry },
-//  get TetrahedronGeometry() { return TetrahedronGeometry },
+  get TetrahedronGeometry() { return TetrahedronGeometry },
 //  get TubeGeometry() { return TubeGeometry },
 //  get VortexGeometry() { return VortexGeometry },
   get Euclidean3() { return Euclidean3 },

@@ -1523,6 +1523,22 @@ class CuboidGeometry extends Geometry {
   calculate(): void;
 }
 
+class DodecahedronGeometry extends PolyhedronGeometry {
+  constructor(radius?: number, detail?: number);
+}
+
+class OctahedronGeometry extends PolyhedronGeometry {
+  constructor(radius?: number, detail?: number);
+}
+
+class IcosahedronGeometry extends PolyhedronGeometry {
+  constructor(radius?: number, detail?: number);
+}
+
+class PolyhedronGeometry extends Geometry {
+  constructor(vertices: number[], indices: number[], radius?: number, detail?: number);
+}
+
 class Simplex1Geometry extends Geometry {
   head: Vector3;
   tail: Vector3;
@@ -1549,6 +1565,10 @@ class SphereGeometry extends Geometry {
  */
 class SurfaceGeometry extends Geometry {
   constructor(parametricFunction: (u: number, v: number) => Cartesian3, uSegments: number, vSegments: number);
+}
+
+class TetrahedronGeometry extends PolyhedronGeometry {
+  constructor(radius?: number, detail?: number);
 }
 
 class KleinBottleGeometry extends SurfaceGeometry {

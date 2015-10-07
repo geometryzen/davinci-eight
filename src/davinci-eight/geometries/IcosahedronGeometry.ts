@@ -15,10 +15,19 @@ var indices = [
    4,  9,  5,    2,  4, 11,    6,  2, 10,    8,  6,  7,    9,  8,  1
 ];
 
+/**
+ * @class IcosahedronGeometry
+ * @extends PolyhedronGeometry
+ */
 class IcosahedronGeometry extends PolyhedronGeometry {
-  public type: string = 'IcosahedronGeometry';
+  /**
+   * @class OcosahedronGeometry
+   * @constructor
+   * @param radius [number]
+   * @param detail [number]
+   */
   constructor(radius?: number, detail?: number) {
-    super(vertices, indices, radius, detail);
+    super(vertices, indices, radius, detail)
   }
 }
 

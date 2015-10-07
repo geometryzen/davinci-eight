@@ -1,48 +1,97 @@
-import Cartesian2 = require('../math/Cartesian2');
-import Cartesian3 = require('../math/Cartesian3');
-import Face3 = require('../core/Face3');
-import Geometry = require('../geometries/Geometry');
-import Sphere = require('../math/Sphere');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import Cartesian2 = require('../math/Cartesian2')
+import Cartesian3 = require('../math/Cartesian3')
+import Geometry = require('../geometries/Geometry')
+import Simplex = require('../geometries/Simplex')
+import Sphere = require('../math/Sphere')
+import Symbolic = require('../core/Symbolic')
+import Vector2 = require('../math/Vector2')
+import Vector3 = require('../math/Vector3')
 
+// Angle around the Y axis, counter-clockwise when looking from above.
+function azimuth( vector: Cartesian3 ): number {
+  return Math.atan2(vector.z, -vector.x);
+}
+
+// Angle above the XZ plane.
+function inclination(pos: Cartesian3): number {
+  return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
+}
+
+/**
+ * Modifies the incoming point by projecting it onto the unit sphere.
+ * Add the point to the array of points
+ * Sets a hidden `index` property to the index in `points`
+ * Computes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.
+ * OK!
+ */
+function prepare(point: Cartesian3, points: Vector3[]): Cartesian3 {
+  let vertex: Vector3 = Vector3.copy(point).normalize()
+  points.push(vertex)
+  // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
+  let u = azimuth( point ) / 2 / Math.PI + 0.5;
+  let v = inclination( point ) / Math.PI + 0.5;
+  var something: any = vertex
+  something['uv'] = new Vector2([u, 1 - v]);
+  return vertex;
+}
+
+// Texture fixing helper. Spheres have some odd behaviours.
+function correctUV( uv: Vector2, vector: Cartesian3, azimuth: number ): Vector2 {
+  if ( ( azimuth < 0 ) && ( uv.x === 1 ) ) uv = new Vector2([uv.x - 1, uv.y]);
+  if ( ( vector.x === 0 ) && ( vector.z === 0 ) ) uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
+  return uv.clone();
+}
+
+/**
+ * @class PolyhedronGeometry
+ * @extends Geometry
+ */
 class PolyhedronGeometry extends Geometry {
+  /**
+   * @class PolyhedronGeometry
+   * @constructor
+   * 
+   */
   constructor(vertices: number[], indices: number[], radius: number = 1, detail: number = 0) {
     super();
 
     var that = this;
 
+    var points: Vector3[] = []
+
     for ( var i = 0, l = vertices.length; i < l; i += 3 ) {
-
-      prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]));
-
+      prepare(new Vector3([vertices[i], vertices[i + 1], vertices[i + 2]]), points)
     }
 
-    var p: Cartesian3[] = this.vertices;
-
-    var faces: Face3[] = [];
+    var faces: Simplex[] = [];
 
     for ( var i = 0, j = 0, l = indices.length; i < l; i += 3, j++ ) {
 
-      var v1 = p[ indices[ i     ] ];
-      var v2 = p[ indices[ i + 1 ] ];
-      var v3 = p[ indices[ i + 2 ] ];
+      var v1 = points[ indices[ i     ] ];
+      var v2 = points[ indices[ i + 1 ] ];
+      var v3 = points[ indices[ i + 2 ] ];
 
       // FIXME: Using some modifications of the data structures given.
       // TODO: Optimize vector copies.
-      faces[j] = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
-
+      var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+      simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = v1
+      simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v1)
+      simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = v2
+      simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v2)
+      simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = v3
+      simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v3)
+      faces[j] = simplex
     }
 
     for ( var i = 0, facesLength = faces.length; i < facesLength; i ++ ) {
 
-      subdivide( faces[ i ], detail );
+      subdivide( faces[ i ], detail, points);
 
     }
 
 
     // Handle case when face straddles the seam
-
+/*
     for ( var i = 0, faceVertexUvsZeroLength = this.faceVertexUvs[ 0 ].length; i < faceVertexUvsZeroLength; i++ ) {
 
       var uvs = this.faceVertexUvs[ 0 ][ i ];
@@ -63,14 +112,13 @@ class PolyhedronGeometry extends Geometry {
       }
 
     }
-
-
+*/
     // Apply radius
 
-    for ( var i = 0, verticesLength = this.vertices.length; i < verticesLength; i ++ ) {
-      this.vertices[i].x *= radius;
-      this.vertices[i].y *= radius;
-      this.vertices[i].z *= radius;
+    for ( var i = 0, verticesLength = points.length; i < verticesLength; i ++ ) {
+      points[i].x *= radius;
+      points[i].y *= radius;
+      points[i].z *= radius;
     }
 
 
@@ -78,26 +126,10 @@ class PolyhedronGeometry extends Geometry {
 
     this.mergeVertices();
 
-    this.computeFaceNormals();
+//    this.computeFaceNormals();
 
-    this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
+//    this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
 
-    /*
-     * Project vector onto sphere's surface
-     */
-    function prepare(vector: Cartesian3): Cartesian3 {
-      let vertex: Vector3 = Vector3.copy(vector).normalize();
-      vertex['index'] = that.vertices.push( vertex ) - 1;
-
-      // Texture coords are equivalent to map coords, calculate angle and convert to fraction of a circle.
-
-      let u = azimuth( vector ) / 2 / Math.PI + 0.5;
-      let v = inclination( vector ) / Math.PI + 0.5;
-      vertex['uv'] = new Vector2([u, 1 - v]);
-
-      return vertex;
-
-    }
 
     function centroid(v1: Cartesian3, v2: Cartesian3, v3: Cartesian3): Cartesian3 {
       let x = (v1.x + v2.x + v3.x) / 3;
@@ -111,28 +143,36 @@ class PolyhedronGeometry extends Geometry {
 
     function make( v1: Cartesian3, v2: Cartesian3, v3: Cartesian3 ) {
 
-      var face = new Face3(v1['index'], v2['index'], v3['index'], [Vector3.copy(v1), Vector3.copy(v2), Vector3.copy(v3)]);
-      that.faces.push(face);
-
       var azi: number = azimuth(centroid(v1, v2, v3));
+      var something1: any = v1
+      var something2: any = v2
+      var something3: any = v3
 
-      that.faceVertexUvs[ 0 ].push( [
-        correctUV( v1['uv'], v1, azi ),
-        correctUV( v2['uv'], v2, azi ),
-        correctUV( v3['uv'], v3, azi )
-      ] );
+      var uv1 = correctUV(something1['uv'], v1, azi);
+      var uv2 = correctUV(something2['uv'], v2, azi);
+      var uv3 = correctUV(something3['uv'], v3, azi);
 
+      var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+      simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v1)
+      simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v1)
+      simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
+      simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v2)
+      simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v2)
+      simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2
+      simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = Vector3.copy(v3)
+      simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = Vector3.copy(v3)
+      simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
+      that.data.push(simplex)
     }
-
 
     // Analytically subdivide a face to the required detail level.
 
-    function subdivide(face: Face3, detail: number) {
+    function subdivide(face: Simplex, detail: number, points: Vector3[]) {
 
       var cols = Math.pow(2, detail);
-      var a: Cartesian3 = prepare( that.vertices[ face.a ] );
-      var b: Cartesian3 = prepare( that.vertices[ face.b ] );
-      var c: Cartesian3 = prepare( that.vertices[ face.c ] );
+      var a: Cartesian3 = prepare( <Vector3>face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION], points );
+      var b: Cartesian3 = prepare( <Vector3>face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION], points );
+      var c: Cartesian3 = prepare( <Vector3>face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION], points );
       var v: Cartesian3[][] = [];
 
       // Construct all of the vertices for this subdivision.
@@ -141,8 +181,8 @@ class PolyhedronGeometry extends Geometry {
 
         v[ i ] = [];
 
-        var aj: Cartesian3 = prepare( Vector3.copy(a).lerp( c, i / cols ) );
-        var bj: Cartesian3 = prepare( Vector3.copy(b).lerp( c, i / cols ) );
+        var aj: Cartesian3 = prepare( Vector3.copy(a).lerp( c, i / cols ), points);
+        var bj: Cartesian3 = prepare( Vector3.copy(b).lerp( c, i / cols ), points);
         var rows = cols - i;
 
         for ( var j = 0; j <= rows; j ++) {
@@ -151,7 +191,7 @@ class PolyhedronGeometry extends Geometry {
             v[ i ][ j ] = aj;
           }
           else {
-            v[ i ][ j ] = prepare(Vector3.copy(aj).lerp(bj, j / rows));
+            v[ i ][ j ] = prepare(Vector3.copy(aj).lerp(bj, j / rows), points);
           }
 
         }
@@ -171,31 +211,6 @@ class PolyhedronGeometry extends Geometry {
           }
         }
       }
-    }
-
-
-    // Angle around the Y axis, counter-clockwise when looking from above.
-
-    function azimuth( vector: Cartesian3 ): number {
-      return Math.atan2(vector.z, -vector.x);
-    }
-
-
-    // Angle above the XZ plane.
-
-    function inclination(pos: Cartesian3): number {
-      return Math.atan2(-pos.y, Math.sqrt(pos.x * pos.x + pos.z * pos.z));
-    }
-
-
-    // Texture fixing helper. Spheres have some odd behaviours.
-
-    function correctUV( uv: Vector2, vector: Cartesian3, azimuth: number ): Vector2 {
-
-      if ( ( azimuth < 0 ) && ( uv.x === 1 ) ) uv = new Vector2([uv.x - 1, uv.y]);
-      if ( ( vector.x === 0 ) && ( vector.z === 0 ) ) uv = new Vector2([azimuth / 2 / Math.PI + 0.5, uv.y]);
-      return uv.clone();
-
     }
   }
 }

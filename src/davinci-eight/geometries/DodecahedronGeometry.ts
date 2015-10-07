@@ -39,7 +39,17 @@ var indices = [
    1, 12, 14,      1, 14,  5,      1,  5,  9
 ];
 
+/**
+ * @class DodecahedronGeometry
+ * @extends PolyhedronGeometry
+ */
 class DodecahedronGeometry extends PolyhedronGeometry {
+  /**
+   * @class DodecahedronGeometry
+   * @constructor
+   * @param radius [number]
+   * @param detail [number]
+   */
   constructor(radius?: number, detail?: number) {
     super(vertices, indices, radius, detail);
   }
