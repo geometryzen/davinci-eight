@@ -88,7 +88,7 @@ import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry')
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry')
 //import TubeGeometry = require('davinci-eight/geometries/TubeGeometry')
-//import VortexGeometry = require('davinci-eight/geometries/VortexGeometry')
+import VortexGeometry = require('davinci-eight/geometries/VortexGeometry')
 // programs
 import createMaterial = require('davinci-eight/programs/createMaterial')
 import smartProgram = require('davinci-eight/programs/smartProgram')
@@ -282,7 +282,7 @@ var eight = {
   get SphereGeometry() { return SphereGeometry },
   get TetrahedronGeometry() { return TetrahedronGeometry },
 //  get TubeGeometry() { return TubeGeometry },
-//  get VortexGeometry() { return VortexGeometry },
+  get VortexGeometry() { return VortexGeometry },
   get Euclidean3() { return Euclidean3 },
   get Matrix3() { return Matrix3 },
   get Matrix4() { return Matrix4 },

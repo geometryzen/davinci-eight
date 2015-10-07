@@ -50,6 +50,7 @@ import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry
 import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
+import VortexGeometry = require('davinci-eight/geometries/VortexGeometry');
 import Material = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import LineMaterial = require('davinci-eight/materials/LineMaterial');
@@ -170,6 +171,7 @@ declare var eight: {
     RevolutionGeometry: typeof RevolutionGeometry;
     SphereGeometry: typeof SphereGeometry;
     TetrahedronGeometry: typeof TetrahedronGeometry;
+    VortexGeometry: typeof VortexGeometry;
     Euclidean3: typeof Euclidean3;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;

@@ -106,6 +106,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "VersionLogger",
         "VertexAttributeMap",
         "View",
+        "VortexGeometry",
         "WebGLClear",
         "WebGLClearColor",
         "WebGLEnable",

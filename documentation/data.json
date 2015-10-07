@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.121.0",
+        "version": "2.122.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -608,6 +608,15 @@
             "modules": {},
             "classes": {
                 "VertexAttributeMap": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/VortexGeometry.ts": {
+            "name": "src/davinci-eight/geometries/VortexGeometry.ts",
+            "modules": {},
+            "classes": {
+                "VortexGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1442,6 +1451,7 @@
                 "SurfaceGeometry": 1,
                 "TetrahedronGeometry": 1,
                 "VertexAttributeMap": 1,
+                "VortexGeometry": 1,
                 "LocalizableMessage": 1,
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
@@ -2565,6 +2575,50 @@
             "file": "src/davinci-eight/geometries/VertexAttributeMap.ts",
             "line": 2,
             "description": "Defined for implementation convenience.\nAll attributes of a vertex are defined through this map.\nThere are no preferred attributes. However symbolic constants exist for common attribute names.\n[name: string]: VectorN<number>"
+        },
+        "VortexGeometry": {
+            "name": "VortexGeometry",
+            "shortname": "VortexGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/VortexGeometry.ts",
+            "line": 13,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radius",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "radiusCone",
+                    "description": "[number = 0.08]"
+                },
+                {
+                    "name": "radiusShaft",
+                    "description": "[number = 0.01]"
+                },
+                {
+                    "name": "lengthCone",
+                    "description": "[number = 0.2]"
+                },
+                {
+                    "name": "lengthShaft",
+                    "description": "[number = 0.8]"
+                },
+                {
+                    "name": "arrowSegments",
+                    "description": "[number = 8]"
+                },
+                {
+                    "name": "radialSegments",
+                    "description": "[number = 12]"
+                }
+            ]
         },
         "LocalizableMessage": {
             "name": "LocalizableMessage",
