@@ -35,6 +35,14 @@ define(["require", "exports", '../utils/Shareable', '../core/Symbolic', '../math
             this.data = void 0;
             _super.prototype.destructor.call(this);
         };
+        ColorFacet.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        ColorFacet.prototype.decRef = function () {
+            this.release();
+            return this;
+        };
         Object.defineProperty(ColorFacet.prototype, "red", {
             /**
              * The red component of the color.

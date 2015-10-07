@@ -43,14 +43,12 @@ define(["require", "exports", '../core', '../scene/MonitorList', '../utils/Numbe
                     return program.uniforms;
                 }
             },
-            addRef: function (client) {
-                // mustBeDefined('client', client)
+            addRef: function () {
                 refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
                 refCount++;
                 return refCount;
             },
-            release: function (client) {
-                // mustBeDefined('client', client)
+            release: function () {
                 refChange(uuid, LOGGING_NAME_IMATERIAL, -1);
                 refCount--;
                 if (refCount === 0) {

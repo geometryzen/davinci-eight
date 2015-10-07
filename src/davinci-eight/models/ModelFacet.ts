@@ -8,12 +8,13 @@ import Symbolic = require('../core/Symbolic')
 import IFacet = require('../core/IFacet')
 import IFacetVisitor = require('../core/IFacetVisitor')
 import IProperties = require('../slideshow/IProperties')
+import IUnknownExt = require('../core/IUnknownExt')
 import Vector3 = require('../math/Vector3')
 
 /**
  * @class ModelFacet
  */
-class ModelFacet extends Shareable implements IFacet, IProperties {
+class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ModelFacet> {
 
   public static PROP_ATTITUDE = 'attitude';
   public static PROP_POSITION = 'position';
@@ -155,6 +156,14 @@ class ModelFacet extends Shareable implements IFacet, IProperties {
 
     visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId)
     visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId)
+  }
+  incRef(): ModelFacet {
+    this.addRef()
+    return this
+  }
+  decRef(): ModelFacet {
+    this.release()
+    return this
   }
 }
 

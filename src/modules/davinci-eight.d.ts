@@ -27,6 +27,11 @@ interface IUnknown {
   release(): number;
 }
 
+interface IUnknownExt<T extends IUnknown> extends IUnknown {
+  incRef(): T;
+  decRef(): T;
+}
+
 class IUnknownArray<T extends IUnknown> extends Shareable {
   public length: number;
   /**
@@ -1133,7 +1138,7 @@ function webgl(canvas: HTMLCanvasElement, canvasId?: number, attributes?: WebGLC
 /**
  * IFacet required for manipulating a rigid body.
  */
-class ModelFacet extends Shareable implements IFacet, IProperties {
+class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ModelFacet> {
   public position: Vector3;
   public attitude: Spinor3;
   public scaleXYZ: Vector3;
@@ -1141,6 +1146,8 @@ class ModelFacet extends Shareable implements IFacet, IProperties {
    * Model implements IFacet required for manipulating a body.
    */ 
   constructor();
+  incRef(): ModelFacet;
+  decRef(): ModelFacet;
   getProperty(name: string): number[];
   setProperty(name: string, value: number[]): void;
   setUniforms(visitor: IFacetVisitor, canvasId: number): void;
@@ -1522,6 +1529,21 @@ class Simplex1Geometry extends Geometry {
   constructor();
   calculate(): void;
 }
+
+/**
+ *
+ */
+class SphereGeometry extends Geometry {
+  constructor(
+    radius?: number,
+    widthSegments?: number,
+    heightSegments?: number,
+    phiStart?: number,
+    phiLength?: number,
+    thetaStart?: number,
+    thetaLength?: number);
+}
+
 /**
  *
  */
@@ -1655,12 +1677,14 @@ class SmartMaterialBuilder {
   public build(contexts: IContextMonitor[]): Material;
 }
 
-class ColorFacet extends Shareable implements IFacet, IProperties {
+class ColorFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ColorFacet> {
   red: number;
   green: number;
   blue: number;
   constructor(name?: string)
   destructor(): void;
+  incRef(): ColorFacet;
+  decRef(): ColorFacet;
   getProperty(name: string): number[];
   setProperty(name: string, value: number[]): void;
   scale(s: number): ColorFacet;
@@ -1858,7 +1882,7 @@ interface ISlide extends IUnknown {
    * The task reference is returned in order to support chained calls.
    * (The task reference returned does not receive an additional reference count).
    */
-  addTask(task: ISlideTask): ISlideTask;
+  addTask<T extends ISlideTask>(task: T): T;
   animate(object: IProperties, animations: { [name: string]: IAnimation }, options?: IAnimateOptions): void;
   update(speed: number): void;
 }
@@ -1920,10 +1944,12 @@ class MoveTo extends Shareable implements IAnimation {
   done(): boolean;
 }
 
-class ColorTask extends Shareable implements ISlideTask {
+class ColorTask extends Shareable implements ISlideTask, IUnknownExt<ColorTask> {
   constructor(name: string, color: ColorRGB, duration?: number);
-  exec(slide: ISlide, host: ISlideHost): void
-  undo(slide: ISlide, host: ISlideHost): void
+  incRef(): ColorTask;
+  decRef(): ColorTask;
+  exec(slide: ISlide, host: ISlideHost): void;
+  undo(slide: ISlide, host: ISlideHost): void;
 }
 
 class CubeTask extends Shareable implements ISlideTask {

@@ -39,6 +39,7 @@ import GeometryElements = require('davinci-eight/geometries/GeometryElements');
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
 import Simplex1Geometry = require('davinci-eight/geometries/Simplex1Geometry');
+import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import Material = require('davinci-eight/materials/Material');
 import HTMLScriptsMaterial = require('davinci-eight/materials/HTMLScriptsMaterial');
 import LineMaterial = require('davinci-eight/materials/LineMaterial');
@@ -148,6 +149,7 @@ declare var eight: {
     BarnGeometry: typeof BarnGeometry;
     CuboidGeometry: typeof CuboidGeometry;
     Simplex1Geometry: typeof Simplex1Geometry;
+    SphereGeometry: typeof SphereGeometry;
     Euclidean3: typeof Euclidean3;
     Matrix3: typeof Matrix3;
     Matrix4: typeof Matrix4;

@@ -3,10 +3,11 @@ import IFacet = require('../core/IFacet');
 import ColorRGB = require('../core/ColorRGB');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import IProperties = require('../slideshow/IProperties');
+import IUnknownExt = require('../core/IUnknownExt');
 /**
  * @class ColorFacet
  */
-declare class ColorFacet extends Shareable implements ColorRGB, IFacet, IProperties {
+declare class ColorFacet extends Shareable implements ColorRGB, IFacet, IProperties, IUnknownExt<ColorFacet> {
     /**
      * property PROP_RGB
      * @type {string}
@@ -43,6 +44,8 @@ declare class ColorFacet extends Shareable implements ColorRGB, IFacet, IPropert
      * @protected
      */
     protected destructor(): void;
+    incRef(): ColorFacet;
+    decRef(): ColorFacet;
     /**
      * The red component of the color.
      * @property red

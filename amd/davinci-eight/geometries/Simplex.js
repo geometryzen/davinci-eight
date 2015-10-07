@@ -47,7 +47,7 @@ define(["require", "exports", '../checks/expectArg', '../checks/isInteger', '../
      */
     var Simplex = (function () {
         /**
-         * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+         * A simplex is the generalization of a point, line, triangle or tetrahedron to arbitrary dimensions.
          * A k-simplex is the convex hull of its k + 1 vertices.
          * @class Simplex
          * @constructor

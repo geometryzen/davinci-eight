@@ -82,10 +82,10 @@ import CuboidGeometry  = require('davinci-eight/geometries/CuboidGeometry')
 import Simplex1Geometry  = require('davinci-eight/geometries/Simplex1Geometry')
 //import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeometry')
 //import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry')
-//import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry')
+// import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry')
 //import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry')
 //import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry')
-//import SphereGeometry = require('davinci-eight/geometries/SphereGeometry')
+import SphereGeometry = require('davinci-eight/geometries/SphereGeometry')
 //import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry')
 //import TubeGeometry = require('davinci-eight/geometries/TubeGeometry')
 //import VortexGeometry = require('davinci-eight/geometries/VortexGeometry')
@@ -279,7 +279,7 @@ var eight = {
 //  get SurfaceGeometry() { return SurfaceGeometry },
 //  get PolyhedronGeometry() { return PolyhedronGeometry },
 //  get RevolutionGeometry() { return RevolutionGeometry },
-//  get SphereGeometry() { return SphereGeometry },
+  get SphereGeometry() { return SphereGeometry },
 //  get TetrahedronGeometry() { return TetrahedronGeometry },
 //  get TubeGeometry() { return TubeGeometry },
 //  get VortexGeometry() { return VortexGeometry },

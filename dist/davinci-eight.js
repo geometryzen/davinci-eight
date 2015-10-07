@@ -1458,10 +1458,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-05',
+        LAST_MODIFIED: '2015-10-06',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.117.0'
+        VERSION: '2.118.0'
     };
     return core;
 });
@@ -2468,7 +2468,7 @@ define('davinci-eight/geometries/Simplex',["require", "exports", '../checks/expe
      */
     var Simplex = (function () {
         /**
-         * A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.
+         * A simplex is the generalization of a point, line, triangle or tetrahedron to arbitrary dimensions.
          * A k-simplex is the convex hull of its k + 1 vertices.
          * @class Simplex
          * @constructor
@@ -5868,6 +5868,14 @@ define('davinci-eight/slideshow/tasks/ColorTask',["require", "exports", '../../s
         ColorTask.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        ColorTask.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        ColorTask.prototype.decRef = function () {
+            this.release();
+            return this;
+        };
         ColorTask.prototype.exec = function (slide, host) {
             var thing = host.getDrawable(this.name);
             if (thing) {
@@ -6029,6 +6037,14 @@ define('davinci-eight/uniforms/ColorFacet',["require", "exports", '../utils/Shar
         ColorFacet.prototype.destructor = function () {
             this.data = void 0;
             _super.prototype.destructor.call(this);
+        };
+        ColorFacet.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        ColorFacet.prototype.decRef = function () {
+            this.release();
+            return this;
         };
         Object.defineProperty(ColorFacet.prototype, "red", {
             /**
@@ -6819,6 +6835,14 @@ define('davinci-eight/models/ModelFacet',["require", "exports", '../math/Matrix3
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
         };
+        ModelFacet.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        ModelFacet.prototype.decRef = function () {
+            this.release();
+            return this;
+        };
         ModelFacet.PROP_ATTITUDE = 'attitude';
         ModelFacet.PROP_POSITION = 'position';
         return ModelFacet;
@@ -7139,6 +7163,10 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
      * @class Geometry
      */
     var Geometry = (function () {
+        // public dynamic = true;
+        // public verticesNeedUpdate = false;
+        // public elementsNeedUpdate = false;
+        // public uvsNeedUpdate = false;
         /**
          * A list of simplices (data) with information about dimensionality and vertex properties (meta).
          * This class should be used as an abstract base or concrete class when constructing
@@ -7152,10 +7180,6 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
              * @type {Simplex[]}
              */
             this.data = [];
-            this.dynamic = true;
-            this.verticesNeedUpdate = false;
-            this.elementsNeedUpdate = false;
-            this.uvsNeedUpdate = false;
         }
         /**
          * <p>
@@ -7815,7 +7839,7 @@ define('davinci-eight/materials/Material',["require", "exports", '../core', '../
             this._monitors.release();
             this._monitors = void 0;
             if (this.inner) {
-                this.inner.release(MATERIAL_TYPE_NAME);
+                this.inner.release();
                 this.inner = void 0;
             }
         };
@@ -8696,14 +8720,12 @@ define('davinci-eight/programs/createMaterial',["require", "exports", '../core',
                     return program.uniforms;
                 }
             },
-            addRef: function (client) {
-                // mustBeDefined('client', client)
+            addRef: function () {
                 refChange(uuid, LOGGING_NAME_IMATERIAL, +1);
                 refCount++;
                 return refCount;
             },
-            release: function (client) {
-                // mustBeDefined('client', client)
+            release: function () {
                 refChange(uuid, LOGGING_NAME_IMATERIAL, -1);
                 refCount--;
                 if (refCount === 0) {
@@ -10729,6 +10751,147 @@ define('davinci-eight/geometries/Simplex1Geometry',["require", "exports", '../ge
         return Simplex1Geometry;
     })(Geometry);
     return Simplex1Geometry;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/SphereGeometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
+    /**
+     * @class SphereGeometry
+     * @extends Geometry
+     */
+    var SphereGeometry = (function (_super) {
+        __extends(SphereGeometry, _super);
+        /**
+         * Constructs a geometry consisting of triangular simplices based on spherical coordinates.
+         * @class SphereGeometry
+         * @constructor
+         * @param radius [number = 1]
+         * @param widthSegments [number = 16]
+         * @param heightSegments [number = 12]
+         * @param phiStart [number = 0]
+         * @param phiLength [number = 2 * Math.PI]
+         * @param thetaStart [number = 0]
+         * @param thetaLength [number = Math.PI]
+         */
+        function SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength) {
+            if (radius === void 0) { radius = 1; }
+            if (widthSegments === void 0) { widthSegments = 16; }
+            if (heightSegments === void 0) { heightSegments = 12; }
+            if (phiStart === void 0) { phiStart = 0; }
+            if (phiLength === void 0) { phiLength = 2 * Math.PI; }
+            if (thetaStart === void 0) { thetaStart = 0; }
+            if (thetaLength === void 0) { thetaLength = Math.PI; }
+            _super.call(this);
+            var x;
+            var y;
+            var verticesRows = [];
+            /**
+             * Temporary storage for the 2D uv coordinates
+             */
+            var uvs = [];
+            /**
+             * Temporary storage for the 3D cartesian coordinates.
+             */
+            var points = [];
+            // This first loop pair generates the points.
+            for (y = 0; y <= heightSegments; y++) {
+                var verticesRow = [];
+                var uvsRow = [];
+                for (x = 0; x <= widthSegments; x++) {
+                    var u = x / widthSegments;
+                    var v = y / heightSegments;
+                    var point = new Vector3([0, 0, 0]);
+                    point.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+                    point.y = radius * Math.cos(thetaStart + v * thetaLength);
+                    point.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+                    points.push(point);
+                    verticesRow.push(points.length - 1);
+                    uvsRow.push(new Vector2([u, 1 - v]));
+                }
+                verticesRows.push(verticesRow);
+                uvs.push(uvsRow);
+            }
+            for (y = 0; y < heightSegments; y++) {
+                for (x = 0; x < widthSegments; x++) {
+                    // Form a quadrilateral. v1 thtough v4 give the indices into the points array.
+                    var v1 = verticesRows[y][x + 1];
+                    var v2 = verticesRows[y][x];
+                    var v3 = verticesRows[y + 1][x];
+                    var v4 = verticesRows[y + 1][x + 1];
+                    // The normal vectors for the sphere are simply the normalized position vectors.
+                    var n1 = Vector3.copy(points[v1]).normalize();
+                    var n2 = Vector3.copy(points[v2]).normalize();
+                    var n3 = Vector3.copy(points[v3]).normalize();
+                    var n4 = Vector3.copy(points[v4]).normalize();
+                    // Grab the uv coordinates too.
+                    var uv1 = uvs[y][x + 1].clone();
+                    var uv2 = uvs[y][x].clone();
+                    var uv3 = uvs[y + 1][x].clone();
+                    var uv4 = uvs[y + 1][x + 1].clone();
+                    // Special case the north and south poles by only creating one triangle.
+                    if (Math.abs(points[v1].y) === radius) {
+                        uv1.x = (uv1.x + uv2.x) / 2;
+                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4;
+                        this.data.push(simplex);
+                    }
+                    else if (Math.abs(points[v3].y) === radius) {
+                        uv3.x = (uv3.x + uv4.x) / 2;
+                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
+                        this.data.push(simplex);
+                    }
+                    else {
+                        // The other patches create two triangles.
+                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1];
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1;
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4;
+                        this.data.push(simplex);
+                        var simplex = new Simplex(Simplex.K_FOR_TRIANGLE);
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2];
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2.clone();
+                        simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2.clone();
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3];
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3;
+                        simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3;
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4];
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4.clone();
+                        simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4.clone();
+                        this.data.push(simplex);
+                    }
+                }
+            }
+        }
+        return SphereGeometry;
+    })(Geometry);
+    return SphereGeometry;
 });
 
 define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
@@ -13844,7 +14007,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/animations/Animation', 'davinci-eight/slideshow/animations/ColorTo', 'davinci-eight/slideshow/animations/MoveTo', 'davinci-eight/slideshow/animations/SpinTo', 'davinci-eight/slideshow/tasks/ColorTask', 'davinci-eight/slideshow/tasks/CubeTask', 'davinci-eight/slideshow/tasks/MoveTask', 'davinci-eight/slideshow/tasks/SpinTask', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Director, Animation, ColorTo, MoveTo, SpinTo, ColorTask, CubeTask, MoveTask, SpinTask, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/animations/Animation', 'davinci-eight/slideshow/animations/ColorTo', 'davinci-eight/slideshow/animations/MoveTo', 'davinci-eight/slideshow/animations/SpinTo', 'davinci-eight/slideshow/tasks/ColorTask', 'davinci-eight/slideshow/tasks/CubeTask', 'davinci-eight/slideshow/tasks/MoveTask', 'davinci-eight/slideshow/tasks/SpinTask', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Director, Animation, ColorTo, MoveTo, SpinTo, ColorTask, CubeTask, MoveTask, SpinTask, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, BarnGeometry, CuboidGeometry, Simplex1Geometry, SphereGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, SineWaveUniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -13937,7 +14100,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator'
         //  get SurfaceGeometry() { return SurfaceGeometry },
         //  get PolyhedronGeometry() { return PolyhedronGeometry },
         //  get RevolutionGeometry() { return RevolutionGeometry },
-        //  get SphereGeometry() { return SphereGeometry },
+        get SphereGeometry() { return SphereGeometry; },
         //  get TetrahedronGeometry() { return TetrahedronGeometry },
         //  get TubeGeometry() { return TubeGeometry },
         //  get VortexGeometry() { return VortexGeometry },

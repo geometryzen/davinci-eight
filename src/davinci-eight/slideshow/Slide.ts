@@ -29,7 +29,7 @@ class Slide extends Shareable implements ISlide {
   get clock(): IAnimationClock {
     return this.animator.clock
   }
-  addTask(task: ISlideTask): ISlideTask {
+  addTask<T extends ISlideTask>(task: T): T {
     this.tasks.push(task)
     return task
   }

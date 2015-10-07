@@ -3,11 +3,12 @@ import Spinor3 = require('../math/Spinor3');
 import IFacet = require('../core/IFacet');
 import IFacetVisitor = require('../core/IFacetVisitor');
 import IProperties = require('../slideshow/IProperties');
+import IUnknownExt = require('../core/IUnknownExt');
 import Vector3 = require('../math/Vector3');
 /**
  * @class ModelFacet
  */
-declare class ModelFacet extends Shareable implements IFacet, IProperties {
+declare class ModelFacet extends Shareable implements IFacet, IProperties, IUnknownExt<ModelFacet> {
     static PROP_ATTITUDE: string;
     static PROP_POSITION: string;
     private _position;
@@ -66,5 +67,7 @@ declare class ModelFacet extends Shareable implements IFacet, IProperties {
      * @param canvasId {number}
      */
     setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+    incRef(): ModelFacet;
+    decRef(): ModelFacet;
 }
 export = ModelFacet;

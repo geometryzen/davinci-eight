@@ -17,10 +17,6 @@ declare class Geometry {
      * @type {GeometryMeta}
      */
     meta: GeometryMeta;
-    dynamic: boolean;
-    verticesNeedUpdate: boolean;
-    elementsNeedUpdate: boolean;
-    uvsNeedUpdate: boolean;
     /**
      * A list of simplices (data) with information about dimensionality and vertex properties (meta).
      * This class should be used as an abstract base or concrete class when constructing

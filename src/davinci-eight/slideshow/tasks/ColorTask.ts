@@ -7,12 +7,12 @@ import mustBeString = require('../../checks/mustBeString')
 import mustBeNumber = require('../../checks/mustBeNumber')
 import mustBeObject = require('../../checks/mustBeObject')
 import mustBeLike = require('../../checks/mustBeLike')
-import CuboidGeometry = require('../../geometries/CuboidGeometry')
 import IDrawable = require('../../core/IDrawable')
 import SmartMaterialBuilder = require('../../materials/SmartMaterialBuilder')
 import ISlide = require('../../slideshow/ISlide')
 import ISlideHost = require('../../slideshow/ISlideHost')
 import ISlideTask = require('../../slideshow/ISlideTask')
+import IUnknownExt = require('../../core/IUnknownExt')
 import Shareable = require('../../utils/Shareable')
 import Symbolic = require('../../core/Symbolic')
 
@@ -22,7 +22,7 @@ function ctorContext() {
 
 var COLOR_RGB_DUCK: ColorRGB = {red: 0, green: 0, blue: 0}
 
-class ColorTask extends Shareable implements ISlideTask {
+class ColorTask extends Shareable implements ISlideTask, IUnknownExt<ColorTask> {
   private name: string;
   public color: ColorRGB;
   public duration: number;
@@ -42,6 +42,14 @@ class ColorTask extends Shareable implements ISlideTask {
   }
   destructor(): void {
     super.destructor()
+  }
+  incRef(): ColorTask {
+    this.addRef()
+    return this
+  }
+  decRef(): ColorTask {
+    this.release()
+    return this
   }
   exec(slide: ISlide, host: ISlideHost): void {
     var thing: IDrawable = host.getDrawable(this.name)

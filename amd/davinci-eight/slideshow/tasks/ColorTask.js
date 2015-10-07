@@ -26,6 +26,14 @@ define(["require", "exports", '../../slideshow/animations/ColorTo', '../../check
         ColorTask.prototype.destructor = function () {
             _super.prototype.destructor.call(this);
         };
+        ColorTask.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        ColorTask.prototype.decRef = function () {
+            this.release();
+            return this;
+        };
         ColorTask.prototype.exec = function (slide, host) {
             var thing = host.getDrawable(this.name);
             if (thing) {

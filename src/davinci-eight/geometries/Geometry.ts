@@ -22,10 +22,10 @@ class Geometry {
    */
   public meta: GeometryMeta;
 
-  public dynamic = true;
-  public verticesNeedUpdate = false;
-  public elementsNeedUpdate = false;
-  public uvsNeedUpdate = false;
+  // public dynamic = true;
+  // public verticesNeedUpdate = false;
+  // public elementsNeedUpdate = false;
+  // public uvsNeedUpdate = false;
   /**
    * A list of simplices (data) with information about dimensionality and vertex properties (meta). 
    * This class should be used as an abstract base or concrete class when constructing

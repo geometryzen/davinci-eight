@@ -159,6 +159,14 @@ define(["require", "exports", '../math/Matrix3', '../math/Matrix4', '../i18n/rea
             visitor.uniformMatrix4(Symbolic.UNIFORM_MODEL_MATRIX, false, this.M, canvasId);
             visitor.uniformMatrix3(Symbolic.UNIFORM_NORMAL_MATRIX, false, this.N, canvasId);
         };
+        ModelFacet.prototype.incRef = function () {
+            this.addRef();
+            return this;
+        };
+        ModelFacet.prototype.decRef = function () {
+            this.release();
+            return this;
+        };
         ModelFacet.PROP_ATTITUDE = 'attitude';
         ModelFacet.PROP_POSITION = 'position';
         return ModelFacet;

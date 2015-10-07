@@ -17,7 +17,7 @@ interface ISlide extends IUnknown {
      * @readOnly
      */
     clock: IAnimationClock;
-    addTask(task: ISlideTask): ISlideTask;
+    addTask<T extends ISlideTask>(task: T): T;
     animate(object: IProperties, animations: {
         [name: string]: IAnimation;
     }, options?: IAnimateOptions): void;

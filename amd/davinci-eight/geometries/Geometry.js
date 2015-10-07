@@ -3,6 +3,10 @@ define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/Geo
      * @class Geometry
      */
     var Geometry = (function () {
+        // public dynamic = true;
+        // public verticesNeedUpdate = false;
+        // public elementsNeedUpdate = false;
+        // public uvsNeedUpdate = false;
         /**
          * A list of simplices (data) with information about dimensionality and vertex properties (meta).
          * This class should be used as an abstract base or concrete class when constructing
@@ -16,10 +20,6 @@ define(["require", "exports", '../geometries/toGeometryMeta', '../geometries/Geo
              * @type {Simplex[]}
              */
             this.data = [];
-            this.dynamic = true;
-            this.verticesNeedUpdate = false;
-            this.elementsNeedUpdate = false;
-            this.uvsNeedUpdate = false;
         }
         /**
          * <p>

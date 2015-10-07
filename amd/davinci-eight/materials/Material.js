@@ -42,7 +42,7 @@ define(["require", "exports", '../core', '../checks/isDefined', '../checks/isUnd
             this._monitors.release();
             this._monitors = void 0;
             if (this.inner) {
-                this.inner.release(MATERIAL_TYPE_NAME);
+                this.inner.release();
                 this.inner = void 0;
             }
         };

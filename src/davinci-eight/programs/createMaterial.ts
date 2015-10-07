@@ -76,14 +76,12 @@ let createMaterial = function(monitors: IContextMonitor[], vertexShader: string,
         return program.uniforms;
       }
     },
-    addRef(client: string): number {
-      // mustBeDefined('client', client)
+    addRef(): number {
       refChange(uuid, LOGGING_NAME_IMATERIAL, +1)
       refCount++
       return refCount
     },
-    release(client: string): number {
-      // mustBeDefined('client', client)
+    release(): number {
       refChange(uuid, LOGGING_NAME_IMATERIAL, -1)
       refCount--
       if (refCount === 0) {

@@ -1,10 +1,27 @@
-import Face3 = require('../core/Face3');
-import Geometry = require('../geometries/Geometry');
-import Sphere = require('../math/Sphere');
-import Vector2 = require('../math/Vector2');
-import Vector3 = require('../math/Vector3');
+import Geometry = require('../geometries/Geometry')
+import Simplex = require('../geometries/Simplex');
+import Sphere = require('../math/Sphere')
+import Symbolic = require('../core/Symbolic')
+import Vector2 = require('../math/Vector2')
+import Vector3 = require('../math/Vector3')
 
+/**
+ * @class SphereGeometry
+ * @extends Geometry
+ */
 class SphereGeometry extends Geometry {
+  /**
+   * Constructs a geometry consisting of triangular simplices based on spherical coordinates.
+   * @class SphereGeometry
+   * @constructor
+   * @param radius [number = 1]
+   * @param widthSegments [number = 16]
+   * @param heightSegments [number = 12]
+   * @param phiStart [number = 0]
+   * @param phiLength [number = 2 * Math.PI]
+   * @param thetaStart [number = 0]
+   * @param thetaLength [number = Math.PI]
+   */
   constructor(
     radius: number = 1,
     widthSegments: number = 16,
@@ -17,9 +34,17 @@ class SphereGeometry extends Geometry {
 
     var x: number;
     var y: number;
-    var vertices: number[][] = [];
-    var uvs: Vector2[][] = [];
+    var verticesRows: number[][] = [];
+    /**
+     * Temporary storage for the 2D uv coordinates
+     */
+    var uvs: Vector2[][] = []
+    /**
+     * Temporary storage for the 3D cartesian coordinates.
+     */
+    var points: Vector3[] = []
 
+    // This first loop pair generates the points.
     for ( y = 0; y <= heightSegments; y ++ )
     {
       var verticesRow: number[] = [];
@@ -30,18 +55,18 @@ class SphereGeometry extends Geometry {
         var u = x / widthSegments;
         var v = y / heightSegments;
 
-        var vertex = new Vector3([0, 0, 0]);
-        vertex.x = - radius * Math.cos( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength );
-        vertex.y = radius * Math.cos( thetaStart + v * thetaLength );
-        vertex.z = radius * Math.sin( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength );
+        var point = new Vector3([0, 0, 0]);
+        point.x = - radius * Math.cos( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength );
+        point.y = radius * Math.cos( thetaStart + v * thetaLength );
+        point.z = radius * Math.sin( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength );
 
-        this.vertices.push( vertex );
+        points.push( point );
 
-        verticesRow.push( this.vertices.length - 1 );
+        verticesRow.push( points.length - 1 );
         uvsRow.push(new Vector2([u, 1 - v]));
 
       }
-      vertices.push( verticesRow );
+      verticesRows.push( verticesRow );
       uvs.push( uvsRow );
     }
 
@@ -49,44 +74,84 @@ class SphereGeometry extends Geometry {
     {
       for ( x = 0; x < widthSegments; x ++ )
       {
-        var v1 = vertices[ y ][ x + 1 ];
-        var v2 = vertices[ y ][ x ];
-        var v3 = vertices[ y + 1 ][ x ];
-        var v4 = vertices[ y + 1 ][ x + 1 ];
+        // Form a quadrilateral. v1 thtough v4 give the indices into the points array.
+        var v1: number = verticesRows[ y ][ x + 1 ];
+        var v2: number = verticesRows[ y ][ x ];
+        var v3: number = verticesRows[ y + 1 ][ x ];
+        var v4: number = verticesRows[ y + 1 ][ x + 1 ];
 
-        var n1 = Vector3.copy(this.vertices[v1]).normalize();
-        var n2 = Vector3.copy(this.vertices[v2]).normalize();
-        var n3 = Vector3.copy(this.vertices[v3]).normalize();
-        var n4 = Vector3.copy(this.vertices[v4]).normalize();
+        // The normal vectors for the sphere are simply the normalized position vectors.
+        var n1: Vector3 = Vector3.copy(points[v1]).normalize();
+        var n2: Vector3 = Vector3.copy(points[v2]).normalize();
+        var n3: Vector3 = Vector3.copy(points[v3]).normalize();
+        var n4: Vector3 = Vector3.copy(points[v4]).normalize();
 
-        var uv1 = uvs[ y ][ x + 1 ].clone();
-        var uv2 = uvs[ y ][ x ].clone();
-        var uv3 = uvs[ y + 1 ][ x ].clone();
-        var uv4 = uvs[ y + 1 ][ x + 1 ].clone();
+        // Grab the uv coordinates too.
+        var uv1: Vector2 = uvs[ y ][ x + 1 ].clone();
+        var uv2: Vector2 = uvs[ y ][ x ].clone();
+        var uv3: Vector2 = uvs[ y + 1 ][ x ].clone();
+        var uv4: Vector2 = uvs[ y + 1 ][ x + 1 ].clone();
 
-        if ( Math.abs( this.vertices[ v1 ].y ) === radius )
+        // Special case the north and south poles by only creating one triangle.
+        if ( Math.abs(points[ v1 ].y ) === radius )
         {
           uv1.x = ( uv1.x + uv2.x ) / 2;
-          this.faces.push( new Face3( v1, v3, v4, [ n1, n3, n4 ] ) );
-          this.faceVertexUvs[ 0 ].push( [ uv1, uv3, uv4 ] );
+          var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1]
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3]
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4]
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4
+          this.data.push(simplex)
         }
-        else if ( Math.abs( this.vertices[ v3 ].y ) === radius )
+        else if ( Math.abs(points[ v3 ].y ) === radius )
         {
           uv3.x = ( uv3.x + uv4.x ) / 2;
-          this.faces.push( new Face3( v1, v2, v3, [ n1, n2, n3 ] ) );
-          this.faceVertexUvs[ 0 ].push( [ uv1, uv2, uv3 ] );
+          var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1]
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2]
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3]
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
+          this.data.push(simplex)
         }
         else
         {
-          this.faces.push( new Face3( v1, v2, v4, [ n1, n2, n4 ] ) );
-          this.faceVertexUvs[ 0 ].push( [ uv1, uv2, uv4 ] );
+          // The other patches create two triangles.
+          var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v1]
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n1
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv1
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2]
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4]
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4
+          this.data.push(simplex)
 
-          this.faces.push( new Face3( v2, v3, v4, [ n2.clone(), n3, n4.clone() ] ) );
-          this.faceVertexUvs[ 0 ].push( [ uv2.clone(), uv3, uv4.clone() ] );
+          var simplex = new Simplex(Simplex.K_FOR_TRIANGLE)
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v2]
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = n2.clone()
+          simplex.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv2.clone()
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v3]
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = n3
+          simplex.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv3
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[v4]
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = n4.clone()
+          simplex.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uv4.clone()
+          this.data.push(simplex)
         }
       }
     }
-    this.boundingSphere = new Sphere(new Vector3([0, 0, 0]), radius);
   }
 }
 

@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.117.0",
+        "version": "2.118.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -507,6 +507,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/SphereGeometry.ts": {
+            "name": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "modules": {},
+            "classes": {
+                "SphereGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/SurfaceGeometry.ts": {
             "name": "src/davinci-eight/geometries/SurfaceGeometry.ts",
             "modules": {},
@@ -531,7 +540,9 @@
         "src/davinci-eight/geometries/VertexAttributeMap.ts": {
             "name": "src/davinci-eight/geometries/VertexAttributeMap.ts",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "VertexAttributeMap": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -1354,6 +1365,8 @@
                 "KleinBottleGeometry": 1,
                 "Simplex": 1,
                 "Simplex1Geometry": 1,
+                "SphereGeometry": 1,
+                "VertexAttributeMap": 1,
                 "LocalizableMessage": 1,
                 "HTMLScriptsMaterial": 1,
                 "LineMaterial": 1,
@@ -2139,7 +2152,7 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/Simplex.ts",
             "line": 67,
-            "description": "A simplex is the generalization of a triangle or tetrahedron to arbitrary dimensions.\nA k-simplex is the convex hull of its k + 1 vertices.",
+            "description": "A simplex is the generalization of a point, line, triangle or tetrahedron to arbitrary dimensions.\nA k-simplex is the convex hull of its k + 1 vertices.",
             "is_constructor": 1,
             "params": [
                 {
@@ -2162,6 +2175,66 @@
             "file": "src/davinci-eight/geometries/Simplex1Geometry.ts",
             "line": 13,
             "is_constructor": 1
+        },
+        "SphereGeometry": {
+            "name": "SphereGeometry",
+            "shortname": "SphereGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "line": 13,
+            "extends": "Geometry",
+            "description": "Constructs a geometry consisting of triangular simplices based on spherical coordinates.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "radius",
+                    "description": "[number = 1]"
+                },
+                {
+                    "name": "widthSegments",
+                    "description": "[number = 16]"
+                },
+                {
+                    "name": "heightSegments",
+                    "description": "[number = 12]"
+                },
+                {
+                    "name": "phiStart",
+                    "description": "[number = 0]"
+                },
+                {
+                    "name": "phiLength",
+                    "description": "[number = 2 * Math.PI]"
+                },
+                {
+                    "name": "thetaStart",
+                    "description": "[number = 0]"
+                },
+                {
+                    "name": "thetaLength",
+                    "description": "[number = Math.PI]"
+                }
+            ]
+        },
+        "VertexAttributeMap": {
+            "name": "VertexAttributeMap",
+            "shortname": "VertexAttributeMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/VertexAttributeMap.ts",
+            "line": 2,
+            "description": "Defined for implementation convenience.\nAll attributes of a vertex are defined through this map.\nThere are no preferred attributes. However symbolic constants exist for common attribute names.\n[name: string]: VectorN<number>"
         },
         "LocalizableMessage": {
             "name": "LocalizableMessage",
@@ -2947,7 +3020,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 29,
+            "line": 30,
             "description": "ModelFacet implements IFacet required for manipulating a body.",
             "is_constructor": 1
         },
@@ -3208,7 +3281,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 41,
+            "line": 42,
             "is_constructor": 1,
             "params": [
                 {
@@ -5649,17 +5722,31 @@
             "module": "EIGHT"
         },
         {
+            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "line": 38,
+            "description": "Temporary storage for the 2D uv coordinates",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/SphereGeometry.ts",
+            "line": 42,
+            "description": "Temporary storage for the 3D cartesian coordinates.",
+            "class": "SphereGeometry",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/geometries/SurfaceGeometry.ts",
             "line": 8,
             "author": "zz85 / https://github.com/zz85\nParametric Surfaces Geometry\nbased on the brilliant article by @prideout http://prideout.net/blog/?p=44\n\nnew SurfaceGeometry( parametricFunction, uSegments, vSegments );",
-            "class": "LocalizableMessage",
+            "class": "VertexAttributeMap",
             "module": "EIGHT"
         },
         {
             "file": "src/davinci-eight/geometries/TubeGeometry.ts",
             "line": 1,
             "author": "jonobr1 / https://github.com/jonobr1\n\nModified from the TorusKnotGeometry by @oosmoxiecode\n\nCreates a tube which extrudes along a 3d spline\n\nUses parallel transport frames as described in\nhttp://www.cs.indiana.edu/pub/techreports/TR425.pdf",
-            "class": "LocalizableMessage",
+            "class": "VertexAttributeMap",
             "module": "EIGHT"
         },
         {
@@ -5667,14 +5754,7 @@
             "line": 27,
             "description": "The index property is used when computing elements.",
             "deprecated": true,
-            "class": "LocalizableMessage",
-            "module": "EIGHT"
-        },
-        {
-            "file": "src/davinci-eight/geometries/VertexAttributeMap.ts",
-            "line": 2,
-            "description": "Defined for implementation convenience.",
-            "class": "LocalizableMessage",
+            "class": "VertexAttributeMap",
             "module": "EIGHT"
         },
         {
@@ -6761,7 +6841,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 40,
+            "line": 41,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -6773,7 +6853,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 54,
+            "line": 55,
             "itemtype": "property",
             "name": "attitude",
             "type": "Spinor3",
@@ -6783,7 +6863,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 65,
+            "line": 66,
             "itemtype": "property",
             "name": "position",
             "type": "Vector3",
@@ -6793,7 +6873,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 76,
+            "line": 77,
             "itemtype": "property",
             "name": "scaleXYZ",
             "type": "Vector3",
@@ -6803,7 +6883,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 87,
+            "line": 88,
             "itemtype": "method",
             "name": "getProperty",
             "params": [
@@ -6822,7 +6902,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 106,
+            "line": 107,
             "itemtype": "method",
             "name": "setProperty",
             "params": [
@@ -6846,7 +6926,7 @@
         },
         {
             "file": "src/davinci-eight/models/ModelFacet.ts",
-            "line": 130,
+            "line": 131,
             "itemtype": "method",
             "name": "setUniforms",
             "params": [
@@ -7898,7 +7978,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 17,
+            "line": 18,
             "description": "property PROP_RGB",
             "type": "{string}",
             "static": 1,
@@ -7907,7 +7987,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 23,
+            "line": 24,
             "description": "property PROP_RED",
             "type": "{string}",
             "static": 1,
@@ -7916,7 +7996,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 29,
+            "line": 30,
             "itemtype": "property",
             "name": "colorRGB",
             "type": "Vector3",
@@ -7927,7 +8007,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 35,
+            "line": 36,
             "itemtype": "property",
             "name": "name",
             "type": "{string}",
@@ -7938,7 +8018,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 51,
+            "line": 52,
             "itemtype": "method",
             "name": "destructor",
             "return": {
@@ -7952,7 +8032,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 60,
+            "line": 69,
             "description": "The red component of the color.",
             "itemtype": "property",
             "name": "red",
@@ -7962,7 +8042,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 71,
+            "line": 80,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "green",
@@ -7972,7 +8052,7 @@
         },
         {
             "file": "src/davinci-eight/uniforms/ColorFacet.ts",
-            "line": 82,
+            "line": 91,
             "description": "The green component of the color.",
             "itemtype": "property",
             "name": "blue",
@@ -8642,6 +8722,14 @@
             "line": " src/davinci-eight/geometries/Simplex.ts:144"
         },
         {
+            "message": "Missing item type\nTemporary storage for the 2D uv coordinates",
+            "line": " src/davinci-eight/geometries/SphereGeometry.ts:38"
+        },
+        {
+            "message": "Missing item type\nTemporary storage for the 3D cartesian coordinates.",
+            "line": " src/davinci-eight/geometries/SphereGeometry.ts:42"
+        },
+        {
             "message": "Missing item type",
             "line": " src/davinci-eight/geometries/SurfaceGeometry.ts:8"
         },
@@ -8652,10 +8740,6 @@
         {
             "message": "Missing item type\nThe index property is used when computing elements.",
             "line": " src/davinci-eight/geometries/Vertex.ts:27"
-        },
-        {
-            "message": "Missing item type\nDefined for implementation convenience.",
-            "line": " src/davinci-eight/geometries/VertexAttributeMap.ts:2"
         },
         {
             "message": "Missing item type\ncube as Simplex[]\n\n   v6----- v5\n  /|      /|\n v1------v0|\n | |     | |\n | |v7---|-|v4\n |/      |/\n v2------v3",
@@ -8983,11 +9067,11 @@
         },
         {
             "message": "Missing item type\nproperty PROP_RGB",
-            "line": " src/davinci-eight/uniforms/ColorFacet.ts:17"
+            "line": " src/davinci-eight/uniforms/ColorFacet.ts:18"
         },
         {
             "message": "Missing item type\nproperty PROP_RED",
-            "line": " src/davinci-eight/uniforms/ColorFacet.ts:23"
+            "line": " src/davinci-eight/uniforms/ColorFacet.ts:24"
         },
         {
             "message": "Missing item type\nEssentially constructs the IUnknownArray without incrementing the\nreference count of the elements, and without creating zombies.",
