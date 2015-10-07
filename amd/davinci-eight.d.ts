@@ -36,6 +36,7 @@ import PerspectiveCamera = require('davinci-eight/scene/PerspectiveCamera');
 import Scene = require('davinci-eight/scene/Scene');
 import Canvas3D = require('davinci-eight/scene/Canvas3D');
 import GeometryElements = require('davinci-eight/geometries/GeometryElements');
+import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry');
 import BarnGeometry = require('davinci-eight/geometries/BarnGeometry');
 import CuboidGeometry = require('davinci-eight/geometries/CuboidGeometry');
 import DodecahedronGeometry = require('davinci-eight/geometries/DodecahedronGeometry');
@@ -46,6 +47,7 @@ import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeomet
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry');
 import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry');
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry');
+import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry');
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry');
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry');
 import Material = require('davinci-eight/materials/Material');
@@ -154,6 +156,7 @@ declare var eight: {
     }[], bindings: string[]) => IMaterial;
     Color: typeof Color;
     CompatcGeometry: typeof GeometryElements;
+    ArrowGeometry: typeof ArrowGeometry;
     BarnGeometry: typeof BarnGeometry;
     CuboidGeometry: typeof CuboidGeometry;
     DodecahedronGeometry: typeof DodecahedronGeometry;
@@ -164,6 +167,7 @@ declare var eight: {
     OctahedronGeometry: typeof OctahedronGeometry;
     SurfaceGeometry: typeof SurfaceGeometry;
     PolyhedronGeometry: typeof PolyhedronGeometry;
+    RevolutionGeometry: typeof RevolutionGeometry;
     SphereGeometry: typeof SphereGeometry;
     TetrahedronGeometry: typeof TetrahedronGeometry;
     Euclidean3: typeof Euclidean3;

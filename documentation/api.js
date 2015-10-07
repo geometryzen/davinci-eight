@@ -2,6 +2,7 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "AnimatedMirror",
+        "ArrowGeometry",
         "AttribLocation",
         "AttribMetaInfo",
         "BarnGeometry",
@@ -79,6 +80,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "PointMaterial",
         "PolyhedronGeometry",
         "Rational",
+        "RevolutionGeometry",
         "Scene",
         "ShaderVariableDecl",
         "Shareable",

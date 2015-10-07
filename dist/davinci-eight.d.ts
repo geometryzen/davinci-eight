@@ -1499,6 +1499,19 @@ class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
   stop(): void;
 }
 
+class ArrowGeometry extends RevolutionGeometry {
+  constructor(
+    scale?: number,
+    attitude?: Spinor3,
+    segments?: number,
+    length?: number,
+    radiusShaft?: number,
+    radiusCone?: number,
+    lengthCone?: number, 
+    axis?: Cartesian3
+    )
+}
+
 /**
  *
  */
@@ -1537,6 +1550,10 @@ class IcosahedronGeometry extends PolyhedronGeometry {
 
 class PolyhedronGeometry extends Geometry {
   constructor(vertices: number[], indices: number[], radius?: number, detail?: number);
+}
+
+class RevolutionGeometry extends Geometry {
+  constructor(points: Vector3[], generator: Spinor3, segments: number, phiStart: number, phiLength: number, attitude: Spinor3)
 }
 
 class Simplex1Geometry extends Geometry {

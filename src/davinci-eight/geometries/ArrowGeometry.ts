@@ -3,7 +3,21 @@ import Spinor3 = require('../math/Spinor3');
 import Vector3 = require('../math/Vector3');
 import Cartesian3 = require('../math/Cartesian3');
 
+/**
+ * @class ArrowGeometry
+ */
 class ArrowGeometry extends RevolutionGeometry {
+  /**
+   * @class ArrowGeometry
+   * @constructor
+   * @param scale {number}
+   * @param attitude {Spinor3}
+   * @param segments {number}
+   * @param radiusShaft {number}
+   * @param radiusCone {number}
+   * @param lengthCone {number}
+   * @param axis {Cartesian3}
+   */
   constructor(
     scale: number = 1,
     attitude: Spinor3 = new Spinor3(),
@@ -12,7 +26,7 @@ class ArrowGeometry extends RevolutionGeometry {
     radiusShaft: number = 0.01,
     radiusCone: number = 0.08,
     lengthCone: number = 0.20, 
-    axis: Cartesian3 = Vector3.e3.clone()
+    axis: Cartesian3 = Vector3.e1.clone()
   ) {
     scale        = scale || 1;
     attitude     = attitude || new Spinor3();

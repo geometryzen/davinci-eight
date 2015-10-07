@@ -71,7 +71,7 @@ import Scene = require('davinci-eight/scene/Scene')
 import Canvas3D = require('davinci-eight/scene/Canvas3D')
 // geometries
 import GeometryElements = require('davinci-eight/geometries/GeometryElements')
-//import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
+import ArrowGeometry = require('davinci-eight/geometries/ArrowGeometry')
 import BarnGeometry    = require('davinci-eight/geometries/BarnGeometry')
 import CuboidGeometry  = require('davinci-eight/geometries/CuboidGeometry')
 //import CylinderGeometry = require('davinci-eight/geometries/CylinderGeometry')
@@ -84,7 +84,7 @@ import MobiusStripGeometry = require('davinci-eight/geometries/MobiusStripGeomet
 import OctahedronGeometry = require('davinci-eight/geometries/OctahedronGeometry')
 import SurfaceGeometry = require('davinci-eight/geometries/SurfaceGeometry')
 import PolyhedronGeometry = require('davinci-eight/geometries/PolyhedronGeometry')
-//import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry')
+import RevolutionGeometry = require('davinci-eight/geometries/RevolutionGeometry')
 import SphereGeometry = require('davinci-eight/geometries/SphereGeometry')
 import TetrahedronGeometry = require('davinci-eight/geometries/TetrahedronGeometry')
 //import TubeGeometry = require('davinci-eight/geometries/TubeGeometry')
@@ -265,7 +265,7 @@ var eight = {
   },
   get Color() { return Color },
   get CompatcGeometry() { return GeometryElements },
-//  get ArrowGeometry() { return ArrowGeometry },
+  get ArrowGeometry() { return ArrowGeometry },
   get BarnGeometry() { return BarnGeometry },
   get CuboidGeometry() { return CuboidGeometry },
 //  get CylinderGeometry() { return CylinderGeometry },
@@ -278,7 +278,7 @@ var eight = {
   get OctahedronGeometry() { return OctahedronGeometry },
   get SurfaceGeometry() { return SurfaceGeometry },
   get PolyhedronGeometry() { return PolyhedronGeometry },
-//  get RevolutionGeometry() { return RevolutionGeometry },
+  get RevolutionGeometry() { return RevolutionGeometry },
   get SphereGeometry() { return SphereGeometry },
   get TetrahedronGeometry() { return TetrahedronGeometry },
 //  get TubeGeometry() { return TubeGeometry },

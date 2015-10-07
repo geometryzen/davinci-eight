@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.120.0",
+        "version": "2.121.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -392,6 +392,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/geometries/ArrowGeometry.ts": {
+            "name": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "modules": {},
+            "classes": {
+                "ArrowGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/geometries/BarnGeometry.ts": {
             "name": "src/davinci-eight/geometries/BarnGeometry.ts",
             "modules": {
@@ -522,6 +531,15 @@
             "modules": {},
             "classes": {
                 "PolyhedronGeometry": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/davinci-eight/geometries/RevolutionGeometry.ts": {
+            "name": "src/davinci-eight/geometries/RevolutionGeometry.ts",
+            "modules": {},
+            "classes": {
+                "RevolutionGeometry": 1
             },
             "fors": {},
             "namespaces": {}
@@ -1402,6 +1420,7 @@
                 "ShaderVariableDecl": 1,
                 "Symbolic": 1,
                 "UniformLocation": 1,
+                "ArrowGeometry": 1,
                 "BarnGeometry": 1,
                 "CuboidGeometry": 1,
                 "DodecahedronGeometry": 1,
@@ -1416,6 +1435,7 @@
                 "KleinBottleGeometry": 1,
                 "OctahedronGeometry": 1,
                 "PolyhedronGeometry": 1,
+                "RevolutionGeometry": 1,
                 "Simplex": 1,
                 "Simplex1Geometry": 1,
                 "SphereGeometry": 1,
@@ -2010,6 +2030,56 @@
                 }
             ]
         },
+        "ArrowGeometry": {
+            "name": "ArrowGeometry",
+            "shortname": "ArrowGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 10,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "scale",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "attitude",
+                    "description": "",
+                    "type": "Spinor3"
+                },
+                {
+                    "name": "segments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radiusShaft",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "radiusCone",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "lengthCone",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "axis",
+                    "description": "",
+                    "type": "Cartesian3"
+                }
+            ]
+        },
         "BarnGeometry": {
             "name": "BarnGeometry",
             "shortname": "BarnGeometry",
@@ -2297,6 +2367,52 @@
             "line": 50,
             "extends": "Geometry",
             "is_constructor": 1
+        },
+        "RevolutionGeometry": {
+            "name": "RevolutionGeometry",
+            "shortname": "RevolutionGeometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/geometries/RevolutionGeometry.ts",
+            "line": 13,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "points",
+                    "description": "",
+                    "type": "Vector3[]"
+                },
+                {
+                    "name": "generator",
+                    "description": "",
+                    "type": "Spinor3"
+                },
+                {
+                    "name": "segments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "phiStart",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "phiLength",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "attitude",
+                    "description": "",
+                    "type": "Spinor3"
+                }
+            ]
         },
         "Simplex": {
             "name": "Simplex",
@@ -5419,7 +5535,7 @@
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
             "line": 1,
             "interface": "UniformMetaInfo",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
@@ -5427,7 +5543,7 @@
             "itemtype": "property",
             "name": "name  Specifies an optional override of the name used as a key.",
             "type": "String",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/core/UniformMetaInfo.ts",
@@ -5435,55 +5551,55 @@
             "itemtype": "property",
             "name": "glslType  The type keyword as it appears in the GLSL shader program.",
             "type": "String",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/core/getAttribVarName.ts",
             "line": 4,
             "description": "Policy for how an attribute variable name is determined.",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/core/getUniformVarName.ts",
             "line": 4,
             "description": "Policy for how a uniform variable name is determined.",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/core/principalAngle.ts",
             "line": 1,
             "description": "Converts the angle specified into one in the closed interval [0, Math.PI]",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 2,
             "author": "zz85 / http://www.lab4games.net/zz85/blog\nExtensible curve object\n\nSome common of Curve methods\n.getPoint(t), getTangent(t)\n.getPointAt(u), getTagentAt(u)\n.getPoints(), .getSpacedPoints()\n.getLength()\n.updateArcLengths()\n\nThis following classes subclasses Curve:\n\nLineCurve\nQuadraticBezierCurve\nCubicBezierCurve\nSplineCurve\nArcCurve\nEllipseCurve\nClosedSplineCurve",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 30,
             "description": "Virtual base class method to overwrite and implement in subclasses\nt belongs to [0, 1]",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 37,
             "description": "Get point at relative position in curve according to arc length",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 112,
             "description": "Given u ( 0 .. 1 ), get a t to find p. This gives you points which are equi distance",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/curves/Curve.ts",
             "line": 194,
             "description": "Returns a unit vector tangent at t\nIn case any sub curve does not implement its tangent derivation,\n2 points a small delta apart will be used to find its gradient\nwhich seems to give a reasonable approximation",
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/events/MicroEvent.ts",
@@ -5496,7 +5612,7 @@
                     "type": "Object"
                 }
             ],
-            "class": "BarnGeometry"
+            "class": "ArrowGeometry"
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
@@ -5774,6 +5890,13 @@
             "line": 20,
             "description": "Modifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.\nOK!",
             "class": "PolyhedronGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RevolutionGeometry.ts",
+            "line": 33,
+            "description": "Temporary list of points.",
+            "class": "RevolutionGeometry",
             "module": "EIGHT"
         },
         {
@@ -8941,6 +9064,10 @@
         {
             "message": "Missing item type\nModifies the incoming point by projecting it onto the unit sphere.\nAdd the point to the array of points\nSets a hidden `index` property to the index in `points`\nComputes the texture coordinates and sticks them in the hidden `uv` property as a Vector2.\nOK!",
             "line": " src/davinci-eight/geometries/PolyhedronGeometry.ts:20"
+        },
+        {
+            "message": "Missing item type\nTemporary list of points.",
+            "line": " src/davinci-eight/geometries/RevolutionGeometry.ts:33"
         },
         {
             "message": "Missing item type",
