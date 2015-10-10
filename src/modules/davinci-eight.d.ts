@@ -667,11 +667,15 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, GeometricElement
   reverse(): Spinor3;
   reflect(n: Cartesian3): Spinor3;
   rotate(rotor: Spinor3Coords): Spinor3;
+  /**
+   * Sets this Spinor3 to the rotor corresponding to a rotation from vector a to vector b.
+   */
+  rotor(b: Cartesian3, a: Cartesian3): Spinor3;
   sub(rhs: Spinor3Coords): Spinor3;
   sum(a: Spinor3Coords, b: Spinor3Coords): Spinor3;
   toString(): string;
   /**
-   * Sets this Spinor3 to the outer product of the vectors a and b, a ^ b.
+   * Sets this Spinor3 to the geometric product of the vectors a and b, a * b.
    */
   spinor(a: Cartesian3, b: Cartesian3): Spinor3;
 }
@@ -1495,13 +1499,14 @@ class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
   stop(): void;
 }
 
-class ArrowGeometry extends RevolutionGeometry {
-  lengthCone: number;
-  radiusCone: number;
-  radiusShaft: number;
+class ArrowGeometry extends Geometry {
   vector: Vector3;
-  segments: number;
-  constructor(type?: String)
+  constructor(type?: string)
+}
+
+class VortexGeometry extends Geometry {
+  generator: Spinor3;
+  constructor(type?: string)
 }
 
 /**
@@ -1597,18 +1602,6 @@ class KleinBottleGeometry extends SurfaceGeometry {
 
 class MobiusStripGeometry extends SurfaceGeometry {
   constructor(uSegments: number, vSegments: number)
-}
-
-class VortexGeometry extends Geometry {
-  constructor(
-    radius?: number,
-    radiusCone?: number,
-    radiusShaft?: number,
-    lengthCone?: number,
-    lengthShaft?: number,
-    arrowSegments?: number,
-    radialSegments?: number
-  )
 }
 
 /**

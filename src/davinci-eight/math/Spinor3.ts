@@ -260,9 +260,9 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
    * @param a {Cartesian3} The starting unit vector
    * @return {Spinor3} The rotor representing a rotation from a to b.
    */
-  rotor(b: Cartesian3, a: Cartesian3) {
-    var bLength = Math.sqrt(quaditude3(b))
-    var aLength = Math.sqrt(quaditude3(a))
+  rotor(b: Cartesian3, a: Cartesian3): Spinor3 {
+    var bLength = Math.sqrt(quaditude3(b));
+    var aLength = Math.sqrt(quaditude3(a));
     b = {x: b.x / bLength, y: b.y / bLength, z: b.z / bLength}
     a = {x: a.x / aLength, y: a.y / aLength, z: a.z / aLength}
     this.spinor(b, a)
@@ -283,7 +283,7 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
    * @param b {Cartesian3}
    * @return {Spinor3}
    */
-  spinor(a: Cartesian3, b: Cartesian3) {
+  spinor(a: Cartesian3, b: Cartesian3): Spinor3 {
 
     let ax = a.x;
     let ay = a.y;

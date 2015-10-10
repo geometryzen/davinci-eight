@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.124.0",
+        "version": "2.125.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -2595,36 +2595,12 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/VortexGeometry.ts",
-            "line": 13,
+            "line": 31,
             "is_constructor": 1,
             "params": [
                 {
-                    "name": "radius",
-                    "description": "[number = 1]"
-                },
-                {
-                    "name": "radiusCone",
-                    "description": "[number = 0.08]"
-                },
-                {
-                    "name": "radiusShaft",
-                    "description": "[number = 0.01]"
-                },
-                {
-                    "name": "lengthCone",
-                    "description": "[number = 0.2]"
-                },
-                {
-                    "name": "lengthShaft",
-                    "description": "[number = 0.8]"
-                },
-                {
-                    "name": "arrowSegments",
-                    "description": "[number = 8]"
-                },
-                {
-                    "name": "radialSegments",
-                    "description": "[number = 12]"
+                    "name": "type",
+                    "description": "[string = 'VortexGeometry']"
                 }
             ]
         },
@@ -6364,6 +6340,37 @@
             "description": "The index property is used when computing elements.",
             "deprecated": true,
             "class": "VertexAttributeMap",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/VortexGeometry.ts",
+            "line": 44,
+            "itemtype": "method",
+            "name": "setModified",
+            "params": [
+                {
+                    "name": "modified",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "ArrowGeometry"
+            },
+            "class": "VortexGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/VortexGeometry.ts",
+            "line": 53,
+            "itemtype": "method",
+            "name": "recalculate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "VortexGeometry",
             "module": "EIGHT"
         },
         {

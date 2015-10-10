@@ -1,19 +1,34 @@
 import Geometry = require('../geometries/Geometry');
+import Spinor3 = require('../math/Spinor3');
 /**
  * @class VortexGeometry
  */
 declare class VortexGeometry extends Geometry {
+    radius: number;
+    radiusCone: number;
+    radiusShaft: number;
+    lengthCone: number;
+    lengthShaft: number;
+    arrowSegments: number;
+    radialSegments: number;
+    generator: Spinor3;
     /**
      * @class VortexGeometry
      * @constructor
-     * @param radius [number = 1]
-     * @param radiusCone [number = 0.08]
-     * @param radiusShaft [number = 0.01]
-     * @param lengthCone [number = 0.2]
-     * @param lengthShaft [number = 0.8]
-     * @param arrowSegments [number = 8]
-     * @param radialSegments [number = 12]
+     * @param type [string = 'VortexGeometry']
      */
-    constructor(radius?: number, radiusCone?: number, radiusShaft?: number, lengthCone?: number, lengthShaft?: number, arrowSegments?: number, radialSegments?: number);
+    constructor(type?: string);
+    isModified(): boolean;
+    /**
+     * @method setModified
+     * @param modified {boolean}
+     * @return {ArrowGeometry}
+     */
+    setModified(modified: boolean): VortexGeometry;
+    /**
+     * @method recalculate
+     * @return {void}
+     */
+    recalculate(): void;
 }
 export = VortexGeometry;

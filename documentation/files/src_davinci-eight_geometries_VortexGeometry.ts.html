@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.124.0</em>
+            <em>API Docs for: 2.125.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -194,56 +194,93 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+import Cartesian3 = require(&#x27;../math/Cartesian3&#x27;)
+import Euclidean3 = require(&#x27;../math/Euclidean3&#x27;)
 import Geometry = require(&#x27;../geometries/Geometry&#x27;)
 import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Spinor3 = require(&#x27;../math/Spinor3&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import Vector2 = require(&#x27;../math/Vector2&#x27;)
 import Vector3 = require(&#x27;../math/Vector3&#x27;)
 
+function perpendicular(to: Cartesian3): Euclidean3 {
+  var random = new Vector3([Math.random(), Math.random(), Math.random()])
+  random.cross(to).normalize()
+  return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0)
+}
+
 /**
  * @class VortexGeometry
  */
 class VortexGeometry extends Geometry {
+
+  public radius: number = 1;
+  public radiusCone: number = 0.08;
+  public radiusShaft: number = 0.01;
+  public lengthCone: number = 0.2;
+  public lengthShaft: number = 0.8;
+  public arrowSegments: number = 8;
+  public radialSegments: number = 12;
+  public generator: Spinor3 = new Spinor3([0, 0, 1, 0]);
   /**
    * @class VortexGeometry
    * @constructor
-   * @param radius [number = 1]
-   * @param radiusCone [number = 0.08]
-   * @param radiusShaft [number = 0.01]
-   * @param lengthCone [number = 0.2]
-   * @param lengthShaft [number = 0.8]
-   * @param arrowSegments [number = 8]
-   * @param radialSegments [number = 12]
+   * @param type [string = &#x27;VortexGeometry&#x27;]
    */
-  constructor(
-    radius: number = 1,
-    radiusCone: number = 0.08,
-    radiusShaft: number = 0.01,
-    lengthCone: number = 0.2,
-    lengthShaft: number = 0.8,
-    arrowSegments: number = 8,
-    radialSegments: number = 12) {
-    super();
+  constructor(type: string = &#x27;VortexGeometry&#x27;) {
+    super(mustBeString(&#x27;type&#x27;, type))
+    this.setModified(true)
+  }
+
+  public isModified(): boolean {
+    return this.generator.modified
+  }
+  /**
+   * @method setModified
+   * @param modified {boolean}
+   * @return {ArrowGeometry}
+   */
+  public setModified(modified: boolean): VortexGeometry {
+    this.generator.modified = modified
+    return this
+  }
+  /**
+   * @method recalculate
+   * @return {void}
+   */
+  recalculate(): void {
+
+    this.data = []
+
+    var radius  =  this.radius
+    var radiusCone = this.radiusCone
+    var radiusShaft = this.radiusShaft
+    var radialSegments = this.radialSegments
+    var axis: Euclidean3 = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0)
+    var radial: Euclidean3 = perpendicular(axis)
+    // FIXME: Change to scale
+    var R0: Euclidean3 = radial.scalarMultiply(this.radius)
+    var generator = new Euclidean3(this.generator.w, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0)
+    var Rminor0: Euclidean3 = axis.wedge(radial)
 
     var n = 9;
-    var circleSegments = arrowSegments * n;
+    var circleSegments = this.arrowSegments * n;
 
-    var twoPI = Math.PI * 2;
-    var R = radius;
+    var tau = Math.PI * 2;
     var center = new Vector3([0, 0, 0]);
 
     var normals: Vector3[] = [];
     var points: Vector3[] = [];
     var uvs: Vector2[] = [];
 
-    var alpha = lengthShaft / (lengthCone + lengthShaft);
-    var factor = twoPI / arrowSegments;
+    var alpha = this.lengthShaft / (this.lengthCone + this.lengthShaft);
+    var factor = tau / this.arrowSegments;
     var theta = alpha / (n - 2);
 
-
     function computeAngle(index: number): number {
+      mustBeInteger(&#x27;index&#x27;, index)
       var m = index % n;
       if (m === n - 1) {
         return computeAngle(index - 1);
@@ -255,6 +292,7 @@ class VortexGeometry extends Geometry {
     }
 
     function computeRadius(index: number): number {
+      mustBeInteger(&#x27;index&#x27;, index)
       var m = index % n;
       if (m === n - 1) {
         return radiusCone;
@@ -267,30 +305,32 @@ class VortexGeometry extends Geometry {
     for ( var j = 0; j &lt;= radialSegments; j++ ) {
 
       // v is the angle inside the vortex tube.
-      var v = twoPI * j / radialSegments;
-      var cosV = Math.cos(v);
-      var sinV = Math.sin(v);
+      var v = tau * j / radialSegments;
 
       for ( var i = 0; i &lt;= circleSegments; i++ ) {
 
         // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
         var u = computeAngle(i)
-        var cosU = Math.cos(u);
-        var sinU = Math.sin(u);
 
-        center.x = R * cosU;
-        center.y = R * sinU;
+        var Rmajor: Euclidean3 = generator.scalarMultiply(-u/2).exp()
 
-        var vertex = new Vector3([0, 0, 0]);
-        var r = computeRadius(i);
-        vertex.x = (R + r * cosV ) * cosU;
-        vertex.y = (R + r * cosV ) * sinU;
-        vertex.z = r * sinV;
+        center.copy(R0).rotate(Rmajor)
+
+        var vertex = Vector3.copy(center)
+        var r0: Euclidean3 = axis.scalarMultiply(computeRadius(i))
+
+        var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v/2).exp()
+
+        // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
+
+        var r: Euclidean3 = Rminor.mul(r0).mul(Rminor.__tilde__())
+
+        vertex.sum(center, r)
 
         points.push( vertex );
 
         uvs.push(new Vector2([i / circleSegments, j / radialSegments]));
-        normals.push( vertex.clone().sub( center ).normalize() );
+        normals.push( Vector3.copy(r).normalize() );
       }
     }
 
@@ -336,6 +376,7 @@ class VortexGeometry extends Geometry {
         this.data.push(face)
       }
     }
+    this.setModified(false)
   }
 }
 

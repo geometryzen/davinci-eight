@@ -1458,10 +1458,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-09',
+        LAST_MODIFIED: '2015-10-10',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.124.0'
+        VERSION: '2.125.0'
     };
     return core;
 });
@@ -12024,519 +12024,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../geometries/Geometry', '../geometries/Simplex', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Geometry, Simplex, Symbolic, Vector2, Vector3) {
-    /**
-     * @class VortexGeometry
-     */
-    var VortexGeometry = (function (_super) {
-        __extends(VortexGeometry, _super);
-        /**
-         * @class VortexGeometry
-         * @constructor
-         * @param radius [number = 1]
-         * @param radiusCone [number = 0.08]
-         * @param radiusShaft [number = 0.01]
-         * @param lengthCone [number = 0.2]
-         * @param lengthShaft [number = 0.8]
-         * @param arrowSegments [number = 8]
-         * @param radialSegments [number = 12]
-         */
-        function VortexGeometry(radius, radiusCone, radiusShaft, lengthCone, lengthShaft, arrowSegments, radialSegments) {
-            if (radius === void 0) { radius = 1; }
-            if (radiusCone === void 0) { radiusCone = 0.08; }
-            if (radiusShaft === void 0) { radiusShaft = 0.01; }
-            if (lengthCone === void 0) { lengthCone = 0.2; }
-            if (lengthShaft === void 0) { lengthShaft = 0.8; }
-            if (arrowSegments === void 0) { arrowSegments = 8; }
-            if (radialSegments === void 0) { radialSegments = 12; }
-            _super.call(this);
-            var n = 9;
-            var circleSegments = arrowSegments * n;
-            var twoPI = Math.PI * 2;
-            var R = radius;
-            var center = new Vector3([0, 0, 0]);
-            var normals = [];
-            var points = [];
-            var uvs = [];
-            var alpha = lengthShaft / (lengthCone + lengthShaft);
-            var factor = twoPI / arrowSegments;
-            var theta = alpha / (n - 2);
-            function computeAngle(index) {
-                var m = index % n;
-                if (m === n - 1) {
-                    return computeAngle(index - 1);
-                }
-                else {
-                    var a = (index - m) / n;
-                    return factor * (a + m * theta);
-                }
-            }
-            function computeRadius(index) {
-                var m = index % n;
-                if (m === n - 1) {
-                    return radiusCone;
-                }
-                else {
-                    return radiusShaft;
-                }
-            }
-            for (var j = 0; j <= radialSegments; j++) {
-                // v is the angle inside the vortex tube.
-                var v = twoPI * j / radialSegments;
-                var cosV = Math.cos(v);
-                var sinV = Math.sin(v);
-                for (var i = 0; i <= circleSegments; i++) {
-                    // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
-                    var u = computeAngle(i);
-                    var cosU = Math.cos(u);
-                    var sinU = Math.sin(u);
-                    center.x = R * cosU;
-                    center.y = R * sinU;
-                    var vertex = new Vector3([0, 0, 0]);
-                    var r = computeRadius(i);
-                    vertex.x = (R + r * cosV) * cosU;
-                    vertex.y = (R + r * cosV) * sinU;
-                    vertex.z = r * sinV;
-                    points.push(vertex);
-                    uvs.push(new Vector2([i / circleSegments, j / radialSegments]));
-                    normals.push(vertex.clone().sub(center).normalize());
-                }
-            }
-            for (var j = 1; j <= radialSegments; j++) {
-                for (var i = 1; i <= circleSegments; i++) {
-                    var a = (circleSegments + 1) * j + i - 1;
-                    var b = (circleSegments + 1) * (j - 1) + i - 1;
-                    var c = (circleSegments + 1) * (j - 1) + i;
-                    var d = (circleSegments + 1) * j + i;
-                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[a];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[a].clone();
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
-                    this.data.push(face);
-                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
-                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[c];
-                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[c].clone();
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
-                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
-                    this.data.push(face);
-                }
-            }
-        }
-        return VortexGeometry;
-    })(Geometry);
-    return VortexGeometry;
-});
-
-define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
-    function mergeStringMapList(ms) {
-        var result = {};
-        ms.forEach(function (m) {
-            var keys = Object.keys(m);
-            var keysLength = keys.length;
-            for (var i = 0; i < keysLength; i++) {
-                var key = keys[i];
-                var value = m[key];
-                result[key] = value;
-            }
-        });
-        return result;
-    }
-    return mergeStringMapList;
-});
-
-define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createMaterial', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createMaterial, vColorRequired, vertexShader, vLightRequired) {
-    /**
-     *
-     */
-    var smartProgram = function (monitors, attributes, uniformsList, bindings) {
-        MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
-        mustBeDefined('attributes', attributes);
-        mustBeDefined('uniformsList', uniformsList);
-        var uniforms = mergeStringMapList(uniformsList);
-        var vColor = vColorRequired(attributes, uniforms);
-        var vLight = vLightRequired(attributes, uniforms);
-        var innerProgram = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
-        var self = {
-            get programId() {
-                return innerProgram.programId;
-            },
-            attributes: function (canvasId) {
-                return innerProgram.attributes(canvasId);
-            },
-            uniforms: function (canvasId) {
-                return innerProgram.uniforms(canvasId);
-            },
-            get vertexShader() {
-                return innerProgram.vertexShader;
-            },
-            get fragmentShader() {
-                return innerProgram.fragmentShader;
-            },
-            addRef: function () {
-                return innerProgram.addRef();
-            },
-            release: function () {
-                return innerProgram.release();
-            },
-            contextFree: function (canvasId) {
-                return innerProgram.contextFree(canvasId);
-            },
-            contextGain: function (manager) {
-                return innerProgram.contextGain(manager);
-            },
-            contextLost: function (canvasId) {
-                return innerProgram.contextLost(canvasId);
-            },
-            use: function (canvasId) {
-                return innerProgram.use(canvasId);
-            },
-            enableAttrib: function (name, canvasId) {
-                return innerProgram.enableAttrib(name, canvasId);
-            },
-            disableAttrib: function (name, canvasId) {
-                return innerProgram.disableAttrib(name, canvasId);
-            },
-            uniform1f: function (name, x, canvasId) {
-                return innerProgram.uniform1f(name, x, canvasId);
-            },
-            uniform2f: function (name, x, y, canvasId) {
-                return innerProgram.uniform2f(name, x, y, canvasId);
-            },
-            uniform3f: function (name, x, y, z, canvasId) {
-                return innerProgram.uniform3f(name, x, y, z, canvasId);
-            },
-            uniform4f: function (name, x, y, z, w, canvasId) {
-                return innerProgram.uniform4f(name, x, y, z, w, canvasId);
-            },
-            uniformMatrix1: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
-            },
-            uniformMatrix2: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
-            },
-            uniformMatrix3: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
-            },
-            uniformMatrix4: function (name, transpose, matrix, canvasId) {
-                return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
-            },
-            uniformVector1: function (name, vector, canvasId) {
-                return innerProgram.uniformVector1(name, vector, canvasId);
-            },
-            uniformVector2: function (name, vector, canvasId) {
-                return innerProgram.uniformVector2(name, vector, canvasId);
-            },
-            uniformVector3: function (name, vector, canvasId) {
-                return innerProgram.uniformVector3(name, vector, canvasId);
-            },
-            uniformVector4: function (name, vector, canvasId) {
-                return innerProgram.uniformVector4(name, vector, canvasId);
-            }
-        };
-        return self;
-    };
-    return smartProgram;
-});
-
-define('davinci-eight/programs/programFromScripts',["require", "exports", '../programs/createMaterial', '../checks/expectArg', '../scene/MonitorList'], function (require, exports, createMaterial, expectArg, MonitorList) {
-    // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
-    // FIXME: Temporary rename simpleProgramFromScripts?
-    /**
-     * @method programFromScripts
-     * @param monitors {IContextMonitor[]}
-     * @param vsId {string} The vertex shader script element identifier.
-     * @param fsId {string} The fragment shader script element identifier.
-     * @param $document {Document} The document containing the script elements.
-     */
-    function programFromScripts(monitors, vsId, fsId, $document, attribs) {
-        if (attribs === void 0) { attribs = []; }
-        MonitorList.verify('monitors', monitors, function () { return "programFromScripts"; });
-        expectArg('vsId', vsId).toBeString();
-        expectArg('fsId', fsId).toBeString();
-        expectArg('$document', $document).toBeObject();
-        function $(id) {
-            expectArg('id', id).toBeString();
-            var element = $document.getElementById(id);
-            if (element) {
-                return element;
-            }
-            else {
-                throw new Error(id + " is not a valid DOM element identifier.");
-            }
-        }
-        var vertexShader = $(vsId).textContent;
-        var fragmentShader = $(fsId).textContent;
-        return createMaterial(monitors, vertexShader, fragmentShader, attribs);
-    }
-    return programFromScripts;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../materials/Material', '../checks/mustSatisfy', '../programs/programFromScripts'], function (require, exports, Material, mustSatisfy, programFromScripts) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var CLASS_NAME = 'HTMLScriptsMaterial';
-    function nameBuilder() {
-        return CLASS_NAME;
-    }
-    /**
-     * @class HTMLScriptsMaterial
-     * @extends Material
-     */
-    var HTMLScriptsMaterial = (function (_super) {
-        __extends(HTMLScriptsMaterial, _super);
-        /**
-         * @class HTMLScriptsMaterial
-         * @constructor
-         * @param contexts {IContextMonitor[]}
-         * @param scriptIds {string[]}
-         * @param dom {Document}
-         */
-        function HTMLScriptsMaterial(contexts, scriptIds, dom) {
-            if (scriptIds === void 0) { scriptIds = []; }
-            if (dom === void 0) { dom = document; }
-            _super.call(this, contexts, CLASS_NAME);
-            this.attributeBindings = [];
-            // For now, we limit the implementation to only a vertex shader and a fragment shader.
-            mustSatisfy('scriptIds', scriptIds.length === 2, function () { return "scriptIds must be [vsId, fsId]"; });
-            this.scriptIds = scriptIds.map(function (scriptId) { return scriptId; });
-            this.dom = dom;
-        }
-        /**
-         * @method createProgram
-         * @return {IMaterial}
-         */
-        HTMLScriptsMaterial.prototype.createProgram = function () {
-            var vsId = this.scriptIds[0];
-            var fsId = this.scriptIds[1];
-            return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);
-        };
-        return HTMLScriptsMaterial;
-    })(Material);
-    return HTMLScriptsMaterial;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/LineMaterial',["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var LOGGING_NAME = 'LineMaterial';
-    function nameBuilder() {
-        return LOGGING_NAME;
-    }
-    /**
-     * @class LineMaterial
-     * @extends Material
-     */
-    var LineMaterial = (function (_super) {
-        __extends(LineMaterial, _super);
-        // A super call must be the first statement in the constructor when a class
-        // contains initialized propertied or has parameter properties (TS2376).
-        /**
-         * @class LineMaterial
-         * @constructor
-         * @param monitors [IContextMonitor[]=[]]
-         * @parameters [MeshNormalParameters]
-         */
-        function LineMaterial(monitors, parameters) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, monitors, LOGGING_NAME);
-        }
-        LineMaterial.prototype.createProgram = function () {
-            var smb = new SmartMaterialBuilder();
-            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
-            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
-            return smb.build(this.monitors);
-        };
-        return LineMaterial;
-    })(Material);
-    return LineMaterial;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var LOGGING_NAME = 'MeshMaterial';
-    function nameBuilder() {
-        return LOGGING_NAME;
-    }
-    /**
-     * @class MeshMaterial
-     * @extends Material
-     */
-    var MeshMaterial = (function (_super) {
-        __extends(MeshMaterial, _super);
-        // A super call must be the first statement in the constructor when a class
-        // contains initialized propertied or has parameter properties (TS2376).
-        /**
-         * @class MeshMaterial
-         * @constructor
-         * @param monitors [IContextMonitor[]=[]]
-         * @parameters [MeshNormalParameters]
-         */
-        function MeshMaterial(monitors, parameters) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, monitors, LOGGING_NAME);
-        }
-        MeshMaterial.prototype.createProgram = function () {
-            var smb = new SmartMaterialBuilder();
-            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
-            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
-            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
-            return smb.build(this.monitors);
-        };
-        return MeshMaterial;
-    })(Material);
-    return MeshMaterial;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-define('davinci-eight/materials/PointMaterial',["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
-    /**
-     * Name used for reference count monitoring and logging.
-     */
-    var LOGGING_NAME = 'PointMaterial';
-    function nameBuilder() {
-        return LOGGING_NAME;
-    }
-    /**
-     * @class PointMaterial
-     * @extends Material
-     */
-    var PointMaterial = (function (_super) {
-        __extends(PointMaterial, _super);
-        // A super call must be the first statement in the constructor when a class
-        // contains initialized propertied or has parameter properties (TS2376).
-        /**
-         * @class PointMaterial
-         * @constructor
-         * @param monitors [IContextMonitor[]=[]]
-         * @parameters [MeshNormalParameters]
-         */
-        function PointMaterial(monitors, parameters) {
-            if (monitors === void 0) { monitors = []; }
-            _super.call(this, monitors, LOGGING_NAME);
-        }
-        PointMaterial.prototype.createProgram = function () {
-            var smb = new SmartMaterialBuilder();
-            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
-            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
-            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
-            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
-            smb.uniform(Symbolic.UNIFORM_POINT_SIZE, 'float');
-            return smb.build(this.monitors);
-        };
-        return PointMaterial;
-    })(Material);
-    return PointMaterial;
-});
-
-define('davinci-eight/mappers/RoundUniform',["require", "exports"], function (require, exports) {
-    var RoundUniform = (function () {
-        function RoundUniform() {
-        }
-        Object.defineProperty(RoundUniform.prototype, "next", {
-            get: function () {
-                // FIXME: No reference counting yet.
-                return this._next;
-            },
-            set: function (next) {
-                // FIXME: No reference counting yet.
-                this._next = next;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        RoundUniform.prototype.uniform1f = function (name, x, canvasId) {
-            if (this._next) {
-                this._next.uniform1f(name, Math.round(x), canvasId);
-            }
-        };
-        RoundUniform.prototype.uniform2f = function (name, x, y) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniform3f = function (name, x, y, z) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniform4f = function (name, x, y, z, w) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformMatrix1 = function (name, transpose, matrix) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformMatrix2 = function (name, transpose, matrix) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformMatrix3 = function (name, transpose, matrix) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformMatrix4 = function (name, transpose, matrix) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformVector1 = function (name, vector) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformVector2 = function (name, vector) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformVector3 = function (name, vector) {
-            console.warn("uniform");
-        };
-        RoundUniform.prototype.uniformVector4 = function (name, vector) {
-            console.warn("uniform");
-        };
-        return RoundUniform;
-    })();
-    return RoundUniform;
-});
-
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 define('davinci-eight/math/Euclidean3Error',["require", "exports"], function (require, exports) {
     var Euclidean3Error = (function (_super) {
         __extends(Euclidean3Error, _super);
@@ -14557,6 +14044,549 @@ define('davinci-eight/math/Euclidean3',["require", "exports", '../math/Euclidean
         return Euclidean3;
     })();
     return Euclidean3;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/VortexGeometry',["require", "exports", '../math/Euclidean3', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/Simplex', '../math/Spinor3', '../core/Symbolic', '../math/Vector2', '../math/Vector3'], function (require, exports, Euclidean3, Geometry, mustBeInteger, mustBeString, Simplex, Spinor3, Symbolic, Vector2, Vector3) {
+    function perpendicular(to) {
+        var random = new Vector3([Math.random(), Math.random(), Math.random()]);
+        random.cross(to).normalize();
+        return new Euclidean3(0, random.x, random.y, random.z, 0, 0, 0, 0);
+    }
+    /**
+     * @class VortexGeometry
+     */
+    var VortexGeometry = (function (_super) {
+        __extends(VortexGeometry, _super);
+        /**
+         * @class VortexGeometry
+         * @constructor
+         * @param type [string = 'VortexGeometry']
+         */
+        function VortexGeometry(type) {
+            if (type === void 0) { type = 'VortexGeometry'; }
+            _super.call(this, mustBeString('type', type));
+            this.radius = 1;
+            this.radiusCone = 0.08;
+            this.radiusShaft = 0.01;
+            this.lengthCone = 0.2;
+            this.lengthShaft = 0.8;
+            this.arrowSegments = 8;
+            this.radialSegments = 12;
+            this.generator = new Spinor3([0, 0, 1, 0]);
+            this.setModified(true);
+        }
+        VortexGeometry.prototype.isModified = function () {
+            return this.generator.modified;
+        };
+        /**
+         * @method setModified
+         * @param modified {boolean}
+         * @return {ArrowGeometry}
+         */
+        VortexGeometry.prototype.setModified = function (modified) {
+            this.generator.modified = modified;
+            return this;
+        };
+        /**
+         * @method recalculate
+         * @return {void}
+         */
+        VortexGeometry.prototype.recalculate = function () {
+            this.data = [];
+            var radius = this.radius;
+            var radiusCone = this.radiusCone;
+            var radiusShaft = this.radiusShaft;
+            var radialSegments = this.radialSegments;
+            var axis = new Euclidean3(0, -this.generator.yz, -this.generator.zx, -this.generator.xy, 0, 0, 0, 0);
+            var radial = perpendicular(axis);
+            // FIXME: Change to scale
+            var R0 = radial.scalarMultiply(this.radius);
+            var generator = new Euclidean3(this.generator.w, 0, 0, 0, this.generator.xy, this.generator.yz, this.generator.zx, 0);
+            var Rminor0 = axis.wedge(radial);
+            var n = 9;
+            var circleSegments = this.arrowSegments * n;
+            var tau = Math.PI * 2;
+            var center = new Vector3([0, 0, 0]);
+            var normals = [];
+            var points = [];
+            var uvs = [];
+            var alpha = this.lengthShaft / (this.lengthCone + this.lengthShaft);
+            var factor = tau / this.arrowSegments;
+            var theta = alpha / (n - 2);
+            function computeAngle(index) {
+                mustBeInteger('index', index);
+                var m = index % n;
+                if (m === n - 1) {
+                    return computeAngle(index - 1);
+                }
+                else {
+                    var a = (index - m) / n;
+                    return factor * (a + m * theta);
+                }
+            }
+            function computeRadius(index) {
+                mustBeInteger('index', index);
+                var m = index % n;
+                if (m === n - 1) {
+                    return radiusCone;
+                }
+                else {
+                    return radiusShaft;
+                }
+            }
+            for (var j = 0; j <= radialSegments; j++) {
+                // v is the angle inside the vortex tube.
+                var v = tau * j / radialSegments;
+                for (var i = 0; i <= circleSegments; i++) {
+                    // u is the angle in the xy-plane measured from the x-axis clockwise about the z-axis.
+                    var u = computeAngle(i);
+                    var Rmajor = generator.scalarMultiply(-u / 2).exp();
+                    center.copy(R0).rotate(Rmajor);
+                    var vertex = Vector3.copy(center);
+                    var r0 = axis.scalarMultiply(computeRadius(i));
+                    var Rminor = Rmajor.mul(Rminor0).mul(Rmajor.__tilde__()).scalarMultiply(-v / 2).exp();
+                    // var Rminor = Rminor0.clone().rotate(Rmajor).scale(-v/2).exp()
+                    var r = Rminor.mul(r0).mul(Rminor.__tilde__());
+                    vertex.sum(center, r);
+                    points.push(vertex);
+                    uvs.push(new Vector2([i / circleSegments, j / radialSegments]));
+                    normals.push(Vector3.copy(r).normalize());
+                }
+            }
+            for (var j = 1; j <= radialSegments; j++) {
+                for (var i = 1; i <= circleSegments; i++) {
+                    var a = (circleSegments + 1) * j + i - 1;
+                    var b = (circleSegments + 1) * (j - 1) + i - 1;
+                    var c = (circleSegments + 1) * (j - 1) + i;
+                    var d = (circleSegments + 1) * j + i;
+                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
+                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[a];
+                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[a];
+                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[a].clone();
+                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
+                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
+                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
+                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
+                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
+                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
+                    this.data.push(face);
+                    var face = new Simplex(Simplex.K_FOR_TRIANGLE);
+                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_POSITION] = points[b];
+                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[b];
+                    face.vertices[0].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[b].clone();
+                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_POSITION] = points[c];
+                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[c];
+                    face.vertices[1].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[c].clone();
+                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_POSITION] = points[d];
+                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_NORMAL] = normals[d];
+                    face.vertices[2].attributes[Symbolic.ATTRIBUTE_TEXTURE_COORDS] = uvs[d].clone();
+                    this.data.push(face);
+                }
+            }
+            this.setModified(false);
+        };
+        return VortexGeometry;
+    })(Geometry);
+    return VortexGeometry;
+});
+
+define('davinci-eight/utils/mergeStringMapList',["require", "exports"], function (require, exports) {
+    function mergeStringMapList(ms) {
+        var result = {};
+        ms.forEach(function (m) {
+            var keys = Object.keys(m);
+            var keysLength = keys.length;
+            for (var i = 0; i < keysLength; i++) {
+                var key = keys[i];
+                var value = m[key];
+                result[key] = value;
+            }
+        });
+        return result;
+    }
+    return mergeStringMapList;
+});
+
+define('davinci-eight/programs/smartProgram',["require", "exports", '../scene/MonitorList', '../programs/fragmentShader', '../utils/mergeStringMapList', '../checks/mustBeDefined', './createMaterial', '../programs/vColorRequired', '../programs/vertexShader', '../programs/vLightRequired'], function (require, exports, MonitorList, fragmentShader, mergeStringMapList, mustBeDefined, createMaterial, vColorRequired, vertexShader, vLightRequired) {
+    /**
+     *
+     */
+    var smartProgram = function (monitors, attributes, uniformsList, bindings) {
+        MonitorList.verify('monitors', monitors, function () { return "smartProgram"; });
+        mustBeDefined('attributes', attributes);
+        mustBeDefined('uniformsList', uniformsList);
+        var uniforms = mergeStringMapList(uniformsList);
+        var vColor = vColorRequired(attributes, uniforms);
+        var vLight = vLightRequired(attributes, uniforms);
+        var innerProgram = createMaterial(monitors, vertexShader(attributes, uniforms, vColor, vLight), fragmentShader(attributes, uniforms, vColor, vLight), bindings);
+        var self = {
+            get programId() {
+                return innerProgram.programId;
+            },
+            attributes: function (canvasId) {
+                return innerProgram.attributes(canvasId);
+            },
+            uniforms: function (canvasId) {
+                return innerProgram.uniforms(canvasId);
+            },
+            get vertexShader() {
+                return innerProgram.vertexShader;
+            },
+            get fragmentShader() {
+                return innerProgram.fragmentShader;
+            },
+            addRef: function () {
+                return innerProgram.addRef();
+            },
+            release: function () {
+                return innerProgram.release();
+            },
+            contextFree: function (canvasId) {
+                return innerProgram.contextFree(canvasId);
+            },
+            contextGain: function (manager) {
+                return innerProgram.contextGain(manager);
+            },
+            contextLost: function (canvasId) {
+                return innerProgram.contextLost(canvasId);
+            },
+            use: function (canvasId) {
+                return innerProgram.use(canvasId);
+            },
+            enableAttrib: function (name, canvasId) {
+                return innerProgram.enableAttrib(name, canvasId);
+            },
+            disableAttrib: function (name, canvasId) {
+                return innerProgram.disableAttrib(name, canvasId);
+            },
+            uniform1f: function (name, x, canvasId) {
+                return innerProgram.uniform1f(name, x, canvasId);
+            },
+            uniform2f: function (name, x, y, canvasId) {
+                return innerProgram.uniform2f(name, x, y, canvasId);
+            },
+            uniform3f: function (name, x, y, z, canvasId) {
+                return innerProgram.uniform3f(name, x, y, z, canvasId);
+            },
+            uniform4f: function (name, x, y, z, w, canvasId) {
+                return innerProgram.uniform4f(name, x, y, z, w, canvasId);
+            },
+            uniformMatrix1: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix1(name, transpose, matrix, canvasId);
+            },
+            uniformMatrix2: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix2(name, transpose, matrix, canvasId);
+            },
+            uniformMatrix3: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix3(name, transpose, matrix, canvasId);
+            },
+            uniformMatrix4: function (name, transpose, matrix, canvasId) {
+                return innerProgram.uniformMatrix4(name, transpose, matrix, canvasId);
+            },
+            uniformVector1: function (name, vector, canvasId) {
+                return innerProgram.uniformVector1(name, vector, canvasId);
+            },
+            uniformVector2: function (name, vector, canvasId) {
+                return innerProgram.uniformVector2(name, vector, canvasId);
+            },
+            uniformVector3: function (name, vector, canvasId) {
+                return innerProgram.uniformVector3(name, vector, canvasId);
+            },
+            uniformVector4: function (name, vector, canvasId) {
+                return innerProgram.uniformVector4(name, vector, canvasId);
+            }
+        };
+        return self;
+    };
+    return smartProgram;
+});
+
+define('davinci-eight/programs/programFromScripts',["require", "exports", '../programs/createMaterial', '../checks/expectArg', '../scene/MonitorList'], function (require, exports, createMaterial, expectArg, MonitorList) {
+    // FIXME: Lists of scripts, using the type to distinguish vertex/fragment?
+    // FIXME: Temporary rename simpleProgramFromScripts?
+    /**
+     * @method programFromScripts
+     * @param monitors {IContextMonitor[]}
+     * @param vsId {string} The vertex shader script element identifier.
+     * @param fsId {string} The fragment shader script element identifier.
+     * @param $document {Document} The document containing the script elements.
+     */
+    function programFromScripts(monitors, vsId, fsId, $document, attribs) {
+        if (attribs === void 0) { attribs = []; }
+        MonitorList.verify('monitors', monitors, function () { return "programFromScripts"; });
+        expectArg('vsId', vsId).toBeString();
+        expectArg('fsId', fsId).toBeString();
+        expectArg('$document', $document).toBeObject();
+        function $(id) {
+            expectArg('id', id).toBeString();
+            var element = $document.getElementById(id);
+            if (element) {
+                return element;
+            }
+            else {
+                throw new Error(id + " is not a valid DOM element identifier.");
+            }
+        }
+        var vertexShader = $(vsId).textContent;
+        var fragmentShader = $(fsId).textContent;
+        return createMaterial(monitors, vertexShader, fragmentShader, attribs);
+    }
+    return programFromScripts;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/HTMLScriptsMaterial',["require", "exports", '../materials/Material', '../checks/mustSatisfy', '../programs/programFromScripts'], function (require, exports, Material, mustSatisfy, programFromScripts) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var CLASS_NAME = 'HTMLScriptsMaterial';
+    function nameBuilder() {
+        return CLASS_NAME;
+    }
+    /**
+     * @class HTMLScriptsMaterial
+     * @extends Material
+     */
+    var HTMLScriptsMaterial = (function (_super) {
+        __extends(HTMLScriptsMaterial, _super);
+        /**
+         * @class HTMLScriptsMaterial
+         * @constructor
+         * @param contexts {IContextMonitor[]}
+         * @param scriptIds {string[]}
+         * @param dom {Document}
+         */
+        function HTMLScriptsMaterial(contexts, scriptIds, dom) {
+            if (scriptIds === void 0) { scriptIds = []; }
+            if (dom === void 0) { dom = document; }
+            _super.call(this, contexts, CLASS_NAME);
+            this.attributeBindings = [];
+            // For now, we limit the implementation to only a vertex shader and a fragment shader.
+            mustSatisfy('scriptIds', scriptIds.length === 2, function () { return "scriptIds must be [vsId, fsId]"; });
+            this.scriptIds = scriptIds.map(function (scriptId) { return scriptId; });
+            this.dom = dom;
+        }
+        /**
+         * @method createProgram
+         * @return {IMaterial}
+         */
+        HTMLScriptsMaterial.prototype.createProgram = function () {
+            var vsId = this.scriptIds[0];
+            var fsId = this.scriptIds[1];
+            return programFromScripts(this.monitors, vsId, fsId, this.dom, this.attributeBindings);
+        };
+        return HTMLScriptsMaterial;
+    })(Material);
+    return HTMLScriptsMaterial;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/LineMaterial',["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME = 'LineMaterial';
+    function nameBuilder() {
+        return LOGGING_NAME;
+    }
+    /**
+     * @class LineMaterial
+     * @extends Material
+     */
+    var LineMaterial = (function (_super) {
+        __extends(LineMaterial, _super);
+        // A super call must be the first statement in the constructor when a class
+        // contains initialized propertied or has parameter properties (TS2376).
+        /**
+         * @class LineMaterial
+         * @constructor
+         * @param monitors [IContextMonitor[]=[]]
+         * @parameters [MeshNormalParameters]
+         */
+        function LineMaterial(monitors, parameters) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, monitors, LOGGING_NAME);
+        }
+        LineMaterial.prototype.createProgram = function () {
+            var smb = new SmartMaterialBuilder();
+            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
+            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+            return smb.build(this.monitors);
+        };
+        return LineMaterial;
+    })(Material);
+    return LineMaterial;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/MeshMaterial',["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME = 'MeshMaterial';
+    function nameBuilder() {
+        return LOGGING_NAME;
+    }
+    /**
+     * @class MeshMaterial
+     * @extends Material
+     */
+    var MeshMaterial = (function (_super) {
+        __extends(MeshMaterial, _super);
+        // A super call must be the first statement in the constructor when a class
+        // contains initialized propertied or has parameter properties (TS2376).
+        /**
+         * @class MeshMaterial
+         * @constructor
+         * @param monitors [IContextMonitor[]=[]]
+         * @parameters [MeshNormalParameters]
+         */
+        function MeshMaterial(monitors, parameters) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, monitors, LOGGING_NAME);
+        }
+        MeshMaterial.prototype.createProgram = function () {
+            var smb = new SmartMaterialBuilder();
+            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+            smb.attribute(Symbolic.ATTRIBUTE_NORMAL, 3);
+            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
+            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_NORMAL_MATRIX, 'mat3');
+            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+            return smb.build(this.monitors);
+        };
+        return MeshMaterial;
+    })(Material);
+    return MeshMaterial;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/materials/PointMaterial',["require", "exports", '../materials/Material', '../materials/SmartMaterialBuilder', '../core/Symbolic'], function (require, exports, Material, SmartMaterialBuilder, Symbolic) {
+    /**
+     * Name used for reference count monitoring and logging.
+     */
+    var LOGGING_NAME = 'PointMaterial';
+    function nameBuilder() {
+        return LOGGING_NAME;
+    }
+    /**
+     * @class PointMaterial
+     * @extends Material
+     */
+    var PointMaterial = (function (_super) {
+        __extends(PointMaterial, _super);
+        // A super call must be the first statement in the constructor when a class
+        // contains initialized propertied or has parameter properties (TS2376).
+        /**
+         * @class PointMaterial
+         * @constructor
+         * @param monitors [IContextMonitor[]=[]]
+         * @parameters [MeshNormalParameters]
+         */
+        function PointMaterial(monitors, parameters) {
+            if (monitors === void 0) { monitors = []; }
+            _super.call(this, monitors, LOGGING_NAME);
+        }
+        PointMaterial.prototype.createProgram = function () {
+            var smb = new SmartMaterialBuilder();
+            smb.attribute(Symbolic.ATTRIBUTE_POSITION, 3);
+            // smb.attribute(Symbolic.ATTRIBUTE_COLOR, 3);
+            smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
+            smb.uniform(Symbolic.UNIFORM_MODEL_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_PROJECTION_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_VIEW_MATRIX, 'mat4');
+            smb.uniform(Symbolic.UNIFORM_POINT_SIZE, 'float');
+            return smb.build(this.monitors);
+        };
+        return PointMaterial;
+    })(Material);
+    return PointMaterial;
+});
+
+define('davinci-eight/mappers/RoundUniform',["require", "exports"], function (require, exports) {
+    var RoundUniform = (function () {
+        function RoundUniform() {
+        }
+        Object.defineProperty(RoundUniform.prototype, "next", {
+            get: function () {
+                // FIXME: No reference counting yet.
+                return this._next;
+            },
+            set: function (next) {
+                // FIXME: No reference counting yet.
+                this._next = next;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        RoundUniform.prototype.uniform1f = function (name, x, canvasId) {
+            if (this._next) {
+                this._next.uniform1f(name, Math.round(x), canvasId);
+            }
+        };
+        RoundUniform.prototype.uniform2f = function (name, x, y) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniform3f = function (name, x, y, z) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniform4f = function (name, x, y, z, w) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformMatrix1 = function (name, transpose, matrix) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformMatrix2 = function (name, transpose, matrix) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformMatrix3 = function (name, transpose, matrix) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformMatrix4 = function (name, transpose, matrix) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformVector1 = function (name, vector) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformVector2 = function (name, vector) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformVector3 = function (name, vector) {
+            console.warn("uniform");
+        };
+        RoundUniform.prototype.uniformVector4 = function (name, vector) {
+            console.warn("uniform");
+        };
+        return RoundUniform;
+    })();
+    return RoundUniform;
 });
 
 var __extends = (this && this.__extends) || function (d, b) {
