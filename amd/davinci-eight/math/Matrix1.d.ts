@@ -18,6 +18,7 @@ declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, Geometr
     exp(): Matrix1;
     identity(): Matrix1;
     lerp(target: Matrix1, alpha: number): Matrix1;
+    log(): Matrix1;
     magnitude(): number;
     multiply(rhs: Matrix1): Matrix1;
     scale(scalar: number): Matrix1;
@@ -27,6 +28,7 @@ declare class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, Geometr
     rotate(rotor: Matrix1): Matrix1;
     sub(element: Matrix1): Matrix1;
     difference(a: Matrix1, b: Matrix1): Matrix1;
+    rotor(b: Cartesian1, a: Cartesian1): Matrix1;
     spinor(a: Cartesian1, b: Cartesian1): Matrix1;
 }
 export = Matrix1;

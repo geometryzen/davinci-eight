@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -194,17 +194,20 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;);
-import GeometryData = require(&#x27;../geometries/GeometryData&#x27;);
-import GeometryElements = require(&#x27;../geometries/GeometryElements&#x27;);
-import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;);
-import Simplex = require(&#x27;../geometries/Simplex&#x27;);
-import toGeometryData = require(&#x27;../geometries/toGeometryData&#x27;);
+import GeometryData = require(&#x27;../geometries/GeometryData&#x27;)
+import GeometryElements = require(&#x27;../geometries/GeometryElements&#x27;)
+import GeometryMeta = require(&#x27;../geometries/GeometryMeta&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
+import Shareable = require(&#x27;../utils/Shareable&#x27;)
+import Simplex = require(&#x27;../geometries/Simplex&#x27;)
+import toGeometryData = require(&#x27;../geometries/toGeometryData&#x27;)
+import toGeometryMeta = require(&#x27;../geometries/toGeometryMeta&#x27;)
 
 /**
  * @class Geometry
+ * @extends Shareable
  */
-class Geometry {
+class Geometry extends Shareable {
   /**
    * @property data
    * @type {Simplex[]}
@@ -223,13 +226,37 @@ class Geometry {
   // public elementsNeedUpdate = false;
   // public uvsNeedUpdate = false;
   /**
+   * &lt;p&gt;
    * A list of simplices (data) with information about dimensionality and vertex properties (meta). 
    * This class should be used as an abstract base or concrete class when constructing
    * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
+   * The &lt;code&gt;Geometry&lt;/code&gt; class implements IUnknown, as a convenience to implementations
+   * requiring special de-allocation of resources, by extending &lt;code&gt;Shareable&lt;/code&gt;.
+   * &lt;/p&gt;
    * @class Geometry
    * @constructor
+   * @param type [string = &#x27;Geometry&#x27;]
    */
-  constructor() {
+  constructor(type: string = &#x27;Geometry&#x27;) {
+    super(mustBeString(&#x27;type&#x27;, type))
+  }
+  /**
+   * The destructor method should be implemented in derived classes and the super.destructor called
+   * as the last call in the derived class destructor.
+   * @method destructor
+   * @return {void}
+   * @protected
+   */
+  protected destructor(): void {
+    super.destructor()
+  }
+  public recalculate(): void {
+    console.warn(&quot;&#x60;public recalculate(): void&#x60; method should be implemented by &#x60;&quot; + this._type + &quot;&#x60;.&quot;)
+  }
+  public isModified(): boolean {
+    // Assume that the Geometry parameters have been modified as the default.
+    // Derived classes can be more efficient.
+    return true
   }
   /**
    * &lt;p&gt;
@@ -241,6 +268,9 @@ class Geometry {
    * @return {Geometry}
    */
   public boundary(times?: number): Geometry {
+    if (this.isModified()) {
+      this.recalculate()
+    }
     this.data = Simplex.boundary(this.data, times);
     return this.check();
   }
@@ -250,7 +280,7 @@ class Geometry {
    * @method check
    * @return {Geometry}
    */
-  // FIXME: Rename to something more descriptive.
+  // FIXME: Rename to something more suggestive.
   public check(): Geometry {
     this.meta = toGeometryMeta(this.data);
     return this;
@@ -263,6 +293,9 @@ class Geometry {
    * @return {Geometry}
    */
   public subdivide(times?: number): Geometry {
+    if (this.isModified()) {
+      this.recalculate()
+    }
     this.data = Simplex.subdivide(this.data, times);
     this.check();
     return this;
@@ -272,6 +305,9 @@ class Geometry {
    * @return {GeometryElements}
    */
   public toElements(): GeometryElements {
+    if (this.isModified()) {
+      this.recalculate()
+    }
     this.check()
     let elements = toGeometryData(this.data, this.meta)
     return new GeometryElements(elements, this.meta)

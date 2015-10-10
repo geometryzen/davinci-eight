@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -193,9 +193,12 @@
 <h1>Geometry Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Shareable.html" class="crosslink">Shareable</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:29</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:32</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -204,10 +207,13 @@
 
 
 <div class="box intro">
-    <p>A list of simplices (data) with information about dimensionality and vertex properties (meta).
+    <p>
+A list of simplices (data) with information about dimensionality and vertex properties (meta). 
 This class should be used as an abstract base or concrete class when constructing
-geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).</p>
-
+geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
+The <code>Geometry</code> class implements IUnknown, as a convenience to implementations
+requiring special de-allocation of resources, by extending <code>Shareable</code>.
+</p>
 </div>
 
     <div class="constructor">
@@ -215,7 +221,13 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
 <div id="method_Geometry" class="method item">
     <h3 class="name"><code>Geometry</code></h3>
 
-        <span class="paren">()</span>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>type</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
 
 
 
@@ -227,7 +239,7 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l29"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:29</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l32"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:32</code></a>
         </p>
 
 
@@ -238,6 +250,23 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
         
     </div>
 
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>[string = 'Geometry']</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
 
 
 
@@ -259,13 +288,25 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
                             <li class="index-item method">
                                 <a href="#method_boundary">boundary</a>
 
                             </li>
                             <li class="index-item method">
                                 <a href="#method_check">check</a>
+
+                            </li>
+                            <li class="index-item method protected inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
 
                             </li>
                             <li class="index-item method">
@@ -282,13 +323,17 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                             <li class="index-item property">
                                 <a href="#property_data">data</a>
 
                             </li>
                             <li class="index-item property">
                                 <a href="#property_meta">meta</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
 
                             </li>
                     </ul>
@@ -300,6 +345,52 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
 <div id="method_boundary" class="method item">
     <h3 class="name"><code>boundary</code></h3>
 
@@ -324,7 +415,7 @@ geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders)
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l38"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:38</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:65</code></a>
         </p>
 
 
@@ -383,7 +474,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l51"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:51</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:81</code></a>
         </p>
 
 
@@ -401,6 +492,98 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
 
             <div class="returns-description">
                         <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item protected">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:47</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>The destructor method should be implemented in derived classes and the super.destructor called
+as the last call in the derived class destructor.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    The new value of the reference count.
             </div>
         </div>
 
@@ -430,7 +613,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l62"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:62</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:92</code></a>
         </p>
 
 
@@ -488,7 +671,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l74"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:74</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:107</code></a>
         </p>
 
 
@@ -526,7 +709,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l12"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:12</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:15</code></a>
         </p>
 
 
@@ -550,7 +733,7 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l17"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:17</code></a>
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:20</code></a>
         </p>
 
 
@@ -560,6 +743,30 @@ Applies the <em>boundary</em> operation to each Simplex in this instance the spe
         <p>Summary information on the simplices such as dimensionality and sizes for attributes.
 This same data structure may be used to map vertex attribute names to program names.</p>
 
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
     </div>
 
 

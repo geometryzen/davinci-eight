@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -193,9 +193,12 @@
 <h1>CuboidGeometry Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/Geometry.html" class="crosslink">Geometry</a>
+        </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l11"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:11</code></a>
+            Defined in: <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:35</code></a>
         </div>
 
             Module: <a href="../modules/EIGHT.html">EIGHT</a>
@@ -204,26 +207,803 @@
 
 
 <div class="box intro">
-    
+    <p>
+The <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
+The parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.
+The property <code>k</code> represents the dimensionality of the vertices.
+The default settings create a unit cube centered at the origin.
+</p>
 </div>
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_CuboidGeometry" class="method item">
+    <h3 class="name"><code>CuboidGeometry</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>type</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l35"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:35</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">type</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>[string = 'CuboidGeometry']</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="example">
+            <h4>Example:</h4>
+
+            <div class="example-content">
+                <pre class="code prettyprint"><code>  var geometry = new EIGHT.CuboidGeometry();
+  var elements = geometry.toElements();
+  var material = new EIGHT.LineMaterial();
+  var cube = new EIGHT.Drawable(elements, material);</code></pre>
+
+            </div>
+        </div>
+</div>
+    </div>
 
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
 
+                <div class="index-section methods">
+                    <h3>Methods</h3>
 
+                    <ul class="index-list methods extends">
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_addRef">addRef</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_boundary">boundary</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_check">check</a>
+
+                            </li>
+                            <li class="index-item method protected inherited inherited">
+                                <a href="#method_destructor">destructor</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_recalculate">recalculate</a>
+
+                            </li>
+                            <li class="index-item method inherited inherited">
+                                <a href="#method_release">release</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_setModified">setModified</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_subdivide">subdivide</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_toGeometry">toGeometry</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property__k  The dimensionality of the simplices representing the cuboid.">_k  The dimensionality of the simplices representing the cuboid.</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.">a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.">b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.">c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_data">data</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_meta">meta</a>
+
+                            </li>
+                            <li class="index-item property inherited">
+                                <a href="#property_uuid">uuid</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
 
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
 
+<div id="method_addRef" class="method item inherited">
+    <h3 class="name"><code>addRef</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_addRef">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l24"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:24</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_boundary" class="method item inherited">
+    <h3 class="name"><code>boundary</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>times</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_boundary">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l65"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:65</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
+</p>
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">times</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                        Determines the number of times the boundary operation is applied to this instance.
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_check" class="method item inherited">
+    <h3 class="name"><code>check</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_check">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l81"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:81</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        Updates the meta property of this instance to match the data.
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_destructor" class="method item protected inherited">
+    <h3 class="name"><code>destructor</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+        <span class="flag protected">protected</span>
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/Shareable.html#method_destructor">
+                Shareable
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l47"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:47</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        The destructor method should be implemented in derived classes and the super.destructor called
+as the last call in the derived class destructor.
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_recalculate" class="method item">
+    <h3 class="name"><code>recalculate</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type">Void</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l80"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:80</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>recalculate the geometry based upon the current parameters.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Void</span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_release" class="method item inherited">
+    <h3 class="name"><code>release</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+            <p>Inherited from
+            <a href="../classes/IUnknown.html#method_release">
+                IUnknown
+            </a>
+            but overwritten in
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l37"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:37</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>
+Notifies this instance that something is dereferencing it.
+</p>
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+                    The new value of the reference count.
+            </div>
+        </div>
+
+
+</div>
+<div id="method_setModified" class="method item">
+    <h3 class="name"><code>setModified</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>modified</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/CuboidGeometry.html" class="crosslink">CuboidGeometry</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l68"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:68</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">modified</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+
+                    <div class="param-description">
+                        <p>The value that the modification state will be set to.</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/CuboidGeometry.html" class="crosslink">CuboidGeometry</a></span>:
+                    <p><code>this</code> instance.</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_subdivide" class="method item inherited">
+    <h3 class="name"><code>subdivide</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>times</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_subdivide">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l92"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:92</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        Applies the subdivide operation to each Simplex in this instance the specified number of times.
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">times</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+                    <div class="param-description">
+                        Determines the number of times the subdivide operation is applied to this instance.
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/Geometry.html" class="crosslink">Geometry</a></span>:
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toGeometry" class="method item inherited">
+    <h3 class="name"><code>toGeometry</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="../classes/GeometryElements.html" class="crosslink">GeometryElements</a></span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#method_toGeometry">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l107"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:107</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type"><a href="../classes/GeometryElements.html" class="crosslink">GeometryElements</a></span>:
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property__k  The dimensionality of the simplices representing the cuboid." class="property item private">
+    <h3 class="name"><code>_k  The dimensionality of the simplices representing the cuboid.</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l30"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:30</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1." class="property item">
+    <h3 class="name"><code>a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l18"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:18</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2." class="property item">
+    <h3 class="name"><code>b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l22"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:22</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3." class="property item">
+    <h3 class="name"><code>c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.</code></h3>
+    <span class="type"><a href="../classes/Vector3.html" class="crosslink">Vector3</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_davinci-eight_geometries_CuboidGeometry.ts.html#l26"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;CuboidGeometry.ts:26</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_data" class="property item inherited">
+    <h3 class="name"><code>data</code></h3>
+    <span class="type"><a href="../classes/Simplex.html" class="crosslink">Simplex[]</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property_data">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l15"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:15</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_meta" class="property item inherited">
+    <h3 class="name"><code>meta</code></h3>
+    <span class="type"><a href="../classes/GeometryMeta.html" class="crosslink">GeometryMeta</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Geometry.html#property_meta">Geometry</a>:
+        <a href="../files/src_davinci-eight_geometries_Geometry.ts.html#l20"><code>src&#x2F;davinci-eight&#x2F;geometries&#x2F;Geometry.ts:20</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        Summary information on the simplices such as dimensionality and sizes for attributes.
+This same data structure may be used to map vertex attribute names to program names.
+    </div>
+
+
+
+</div>
+<div id="property_uuid" class="property item inherited">
+    <h3 class="name"><code>uuid</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/Shareable.html#property_uuid">Shareable</a>:
+        <a href="../files/src_davinci-eight_utils_Shareable.ts.html#l77"><code>src&#x2F;davinci-eight&#x2F;utils&#x2F;Shareable.ts:77</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

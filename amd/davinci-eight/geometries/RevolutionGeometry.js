@@ -12,6 +12,13 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
         /**
          * @class RevolutionGeometry
          * @constructor
+         */
+        function RevolutionGeometry(type) {
+            if (type === void 0) { type = 'RevolutionGeometry'; }
+            _super.call(this, type);
+        }
+        /**
+         * @method revolve
          * @param points {Vector3[]}
          * @param generator {Spinor3}
          * @param segments {number}
@@ -19,15 +26,14 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
          * @param phiLength {number}
          * @param attitude {Spinor3}
          */
-        function RevolutionGeometry(points, generator, segments, phiStart, phiLength, attitude) {
-            _super.call(this);
+        RevolutionGeometry.prototype.revolve = function (points, generator, segments, phiStart, phiLength, attitude) {
+            if (segments === void 0) { segments = 12; }
+            if (phiStart === void 0) { phiStart = 0; }
+            if (phiLength === void 0) { phiLength = 2 * Math.PI; }
             /**
              * Temporary list of points.
              */
             var vertices = [];
-            segments = segments || 12;
-            phiStart = phiStart || 0;
-            phiLength = phiLength || 2 * Math.PI;
             // Determine heuristically whether the user intended to make a complete revolution.
             var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
             // The number of vertical half planes (phi constant).
@@ -38,13 +44,15 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
             var j;
             var il;
             var jl;
+            var rotor = new Spinor3();
             for (i = 0, il = halfPlanes; i < il; i++) {
                 var phi = phiStart + i * phiStep;
                 var halfAngle = phi / 2;
-                var cosHA = Math.cos(halfAngle);
-                var sinHA = Math.sin(halfAngle);
+                //var cosHA = Math.cos( halfAngle );
+                //var sinHA = Math.sin( halfAngle );
+                rotor.copy(generator).scale(halfAngle).exp();
                 // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-                var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+                //var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
                 for (j = 0, jl = points.length; j < jl; j++) {
                     var vertex = points[j].clone();
                     // The generator tells us how to rotate the points.
@@ -91,7 +99,7 @@ define(["require", "exports", '../geometries/Geometry', '../geometries/Simplex',
             }
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
-        }
+        };
         return RevolutionGeometry;
     })(Geometry);
     return RevolutionGeometry;

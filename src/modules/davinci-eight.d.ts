@@ -7,9 +7,6 @@
 //
 /**
  * WebGL library for mathematical physics using Geometric Algebra.
- * VERSION:  2.98.0
- * GITHUB:   https://github.com/geometryzen/davinci-eight
- * MODIFIED: 2015-09-18
  */
 declare module EIGHT {
 
@@ -906,11 +903,10 @@ class Geometry {
    * This same data structure may be used to map vertex attribute names to program names.
    */
   public meta: GeometryMeta;
-  public dynamic: boolean;
-  public verticesNeedUpdate: boolean;
-  public elementsNeedUpdate: boolean;
-  public uvsNeedUpdate: boolean;
-  constructor();
+  constructor(type?: string);
+  destructor(): void;
+  recalculate(): void;
+  isModified(): boolean;
   /**
    * Applies the boundary operation to the geometry.
    * Under the boundary operation, each k-simplex becomes several simplices of dimension k - 1.
@@ -1500,16 +1496,12 @@ class Canvas3D implements ContextController, IContextMonitor, ContextRenderer {
 }
 
 class ArrowGeometry extends RevolutionGeometry {
-  constructor(
-    scale?: number,
-    attitude?: Spinor3,
-    segments?: number,
-    length?: number,
-    radiusShaft?: number,
-    radiusCone?: number,
-    lengthCone?: number, 
-    axis?: Cartesian3
-    )
+  lengthCone: number;
+  radiusCone: number;
+  radiusShaft: number;
+  vector: Vector3;
+  segments: number;
+  constructor(type?: String)
 }
 
 /**
@@ -1520,8 +1512,7 @@ class BarnGeometry extends Geometry {
   b: Vector3;
   c: Vector3;
   k: number;
-  constructor();
-  calculate(): void;
+  constructor(type?: string);
 }
 
 /**
@@ -1532,8 +1523,7 @@ class CuboidGeometry extends Geometry {
   b: Vector3;
   c: Vector3;
   k: number;
-  constructor();
-  calculate(): void;
+  constructor(type?: string);
 }
 
 class CylinderGeometry extends Geometry {

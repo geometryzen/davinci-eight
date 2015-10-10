@@ -3,7 +3,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../../uniforms/ColorFacet', '../../models/ModelFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/SmartMaterialBuilder', '../../utils/Shareable', '../../core/Symbolic'], function (require, exports, ColorFacet, ModelFacet, CuboidGeometry, Drawable, SmartMaterialBuilder, Shareable, Symbolic) {
+define(["require", "exports", '../../uniforms/ColorFacet', '../../models/ModelFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/SmartMaterialBuilder', '../../utils/Shareable', '../../geometries/Simplex', '../../core/Symbolic'], function (require, exports, ColorFacet, ModelFacet, CuboidGeometry, Drawable, SmartMaterialBuilder, Shareable, Simplex, Symbolic) {
+    // FIXME: Generalize this into a Drawable task?
     var CubeTask = (function (_super) {
         __extends(CubeTask, _super);
         function CubeTask(name, sceneNames) {
@@ -15,8 +16,7 @@ define(["require", "exports", '../../uniforms/ColorFacet', '../../models/ModelFa
         };
         CubeTask.prototype.exec = function (slide, host) {
             var geometry = new CuboidGeometry();
-            geometry.k = 1;
-            geometry.calculate();
+            geometry.k = Simplex.K_FOR_LINE_SEGMENT;
             var elements = geometry.toElements();
             var smb = new SmartMaterialBuilder(elements);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');

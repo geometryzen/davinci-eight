@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -200,10 +200,12 @@ import LinearElement = require(&#x27;../math/LinearElement&#x27;);
  */
 interface GeometricElement&lt;I, M, S, V&gt; extends LinearElement&lt;I, M, S, V&gt; {
   exp(): M;
+  log(): M;
   magnitude(): number;
   multiply(rhs: I): M;
   product(a: I, b: I): M;
   quaditude(): number;
+  rotor(b: V, a: V): M;
   spinor(a: V, b: V): M;
 }
 

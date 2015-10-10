@@ -9,7 +9,7 @@ declare class BarnGeometry extends Geometry {
     a: Vector3;
     b: Vector3;
     c: Vector3;
-    k: number;
+    private _k;
     /**
      * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
      * Ten (10) vertices are used to define the barn.
@@ -19,7 +19,10 @@ declare class BarnGeometry extends Geometry {
      * @class BarnGeometry
      * @constructor
      */
-    constructor();
-    calculate(): void;
+    constructor(type?: string);
+    k: number;
+    isModified(): boolean;
+    setModified(modified: boolean): void;
+    recalculate(): void;
 }
 export = BarnGeometry;

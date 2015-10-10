@@ -45,6 +45,9 @@ class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElemen
   lerp(target: Matrix1, alpha: number): Matrix1 {
     return this;
   }
+  log() {
+    return this;
+  }
   magnitude() {
     return Math.abs(this.data[0]);
   }
@@ -74,6 +77,9 @@ class Matrix1 extends AbstractMatrix implements Matrix<Matrix1>, GeometricElemen
     return this;
   }
   difference(a: Matrix1, b: Matrix1) {
+    return this;
+  }
+  rotor(b: Cartesian1, a: Cartesian1): Matrix1 {
     return this;
   }
   spinor(a: Cartesian1, b: Cartesian1): Matrix1 {

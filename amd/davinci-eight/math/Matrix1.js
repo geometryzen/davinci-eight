@@ -47,6 +47,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
         Matrix1.prototype.lerp = function (target, alpha) {
             return this;
         };
+        Matrix1.prototype.log = function () {
+            return this;
+        };
         Matrix1.prototype.magnitude = function () {
             return Math.abs(this.data[0]);
         };
@@ -76,6 +79,9 @@ define(["require", "exports", '../math/AbstractMatrix'], function (require, expo
             return this;
         };
         Matrix1.prototype.difference = function (a, b) {
+            return this;
+        };
+        Matrix1.prototype.rotor = function (b, a) {
             return this;
         };
         Matrix1.prototype.spinor = function (a, b) {

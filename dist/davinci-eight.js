@@ -1458,10 +1458,10 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         strict: false,
         GITHUB: 'https://github.com/geometryzen/davinci-eight',
         APIDOC: 'http://www.mathdoodle.io/vendor/davinci-eight@2.102.0/documentation/index.html',
-        LAST_MODIFIED: '2015-10-07',
+        LAST_MODIFIED: '2015-10-09',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.123.0'
+        VERSION: '2.124.0'
     };
     return core;
 });
@@ -5482,17 +5482,40 @@ define('davinci-eight/slideshow/animations/MoveTo',["require", "exports", '../..
     return MoveTo;
 });
 
+define('davinci-eight/math/dotVector3',["require", "exports"], function (require, exports) {
+    function dotVector3(a, b) {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
+    return dotVector3;
+});
+
+define('davinci-eight/math/quaditude3',["require", "exports"], function (require, exports) {
+    function quaditude3(vector) {
+        var x = vector.x;
+        var y = vector.y;
+        var z = vector.z;
+        return x * x + y * y + z * z;
+    }
+    return quaditude3;
+});
+
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '../math/dotVector3', '../checks/mustBeNumber', '../math/quaditude3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, dotVector3, mustBeNumber, quaditude3, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class Spinor3
      */
     var Spinor3 = (function (_super) {
         __extends(Spinor3, _super);
+        /**
+         * @class Spinor3
+         * @constructor
+         * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
+         * @param modified [boolean = false]
+         */
         function Spinor3(data, modified) {
             if (data === void 0) { data = [0, 0, 0, 1]; }
             if (modified === void 0) { modified = false; }
@@ -5506,9 +5529,10 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             get: function () {
                 return this.data[0];
             },
-            set: function (value) {
-                this.modified = this.modified || this.yz !== value;
-                this.data[0] = value;
+            set: function (yz) {
+                mustBeNumber('yz', yz);
+                this.modified = this.modified || this.yz !== yz;
+                this.data[0] = yz;
             },
             enumerable: true,
             configurable: true
@@ -5521,9 +5545,10 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             get: function () {
                 return this.data[1];
             },
-            set: function (value) {
-                this.modified = this.modified || this.zx !== value;
-                this.data[1] = value;
+            set: function (zx) {
+                mustBeNumber('zx', zx);
+                this.modified = this.modified || this.zx !== zx;
+                this.data[1] = zx;
             },
             enumerable: true,
             configurable: true
@@ -5536,9 +5561,10 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             get: function () {
                 return this.data[2];
             },
-            set: function (value) {
-                this.modified = this.modified || this.xy !== value;
-                this.data[2] = value;
+            set: function (xy) {
+                mustBeNumber('xy', xy);
+                this.modified = this.modified || this.xy !== xy;
+                this.data[2] = xy;
             },
             enumerable: true,
             configurable: true
@@ -5551,25 +5577,44 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             get: function () {
                 return this.data[3];
             },
-            set: function (value) {
-                this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
+            set: function (w) {
+                mustBeNumber('w', w);
+                this.modified = this.modified || this.w !== w;
+                this.data[3] = w;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method add
+         * @param rhs {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.add = function (rhs) {
             return this;
         };
+        /**
+         * @method clone
+         * @return {Spinor3}
+         */
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
+        /**
+         * @method conjugate
+         * @return {Spinor3}
+         */
         Spinor3.prototype.conjugate = function () {
             this.yz *= -1;
             this.zx *= -1;
             this.xy *= -1;
             return this;
         };
+        /**
+         * @method copy
+         * @param spinor {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.copy = function (spinor) {
             this.yz = spinor.yz;
             this.zx = spinor.zx;
@@ -5577,6 +5622,12 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             this.w = spinor.w;
             return this;
         };
+        /**
+         * @method difference
+         * @param a {Spinor3Coords}
+         * @param b {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.difference = function (a, b) {
             return this;
         };
@@ -5616,6 +5667,10 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
             this.copy(R);
             return this;
         };
+        /**
+         * @method log
+         * @return {Spinor3}
+         */
         Spinor3.prototype.log = function () {
             var w = this.w;
             var x = this.yz;
@@ -5635,9 +5690,19 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
         Spinor3.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
+        /**
+         * @method multiply
+         * @param rhs {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
+        /**
+         * @method scale
+         * @param scalar {number}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.scale = function (scalar) {
             this.yz *= scalar;
             this.zx *= scalar;
@@ -5699,16 +5764,45 @@ define('davinci-eight/math/Spinor3',["require", "exports", '../math/VectorN', '.
         Spinor3.prototype.rotate = function (rotor) {
             return this;
         };
+        /**
+         * Computes a rotor, R, from two unit vectors, where
+         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * @method rotor
+         * @param b {Cartesian3} The ending unit vector
+         * @param a {Cartesian3} The starting unit vector
+         * @return {Spinor3} The rotor representing a rotation from a to b.
+         */
+        Spinor3.prototype.rotor = function (b, a) {
+            var bLength = Math.sqrt(quaditude3(b));
+            var aLength = Math.sqrt(quaditude3(a));
+            b = { x: b.x / bLength, y: b.y / bLength, z: b.z / bLength };
+            a = { x: a.x / aLength, y: a.y / aLength, z: a.z / aLength };
+            this.spinor(b, a);
+            this.w += 1;
+            var denom = Math.sqrt(2 * (1 + dotVector3(b, a)));
+            this.divideScalar(denom);
+            return this;
+        };
         Spinor3.prototype.sub = function (rhs) {
             return this;
         };
         Spinor3.prototype.sum = function (a, b) {
             return this;
         };
+        /**
+         * @method spinor
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.spinor = function (a, b) {
-            var ax = a.x, ay = a.y, az = a.z;
-            var bx = b.x, by = b.y, bz = b.z;
-            this.w = 0;
+            var ax = a.x;
+            var ay = a.y;
+            var az = a.z;
+            var bx = b.x;
+            var by = b.y;
+            var bz = b.z;
+            this.w = dotVector3(a, b);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);
@@ -6886,6 +6980,33 @@ define('davinci-eight/geometries/computeFaceNormals',["require", "exports", '../
     return computeFaceNormals;
 });
 
+define('davinci-eight/geometries/GeometryElements',["require", "exports"], function (require, exports) {
+    /**
+     * <p>
+     * A geometry holds the elements or arrays sent to the GLSL pipeline.
+     * </p>
+     * <p>
+     * These instructions are in a compact form suitable for populating WebGLBuffer(s).
+     * </p>
+     *
+     * @class GeometryElements
+     */
+    var GeometryElements = (function () {
+        /**
+         * @class GeometryElements
+         * @constructor
+         * @param data {GeometryData} The instructions for drawing the geometry.
+         * @param meta {GeometryMeta}
+         */
+        function GeometryElements(data, meta) {
+            this.data = data;
+            this.meta = meta;
+        }
+        return GeometryElements;
+    })();
+    return GeometryElements;
+});
+
 define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../checks/expectArg', '../checks/isDefined', '../geometries/Simplex'], function (require, exports, expectArg, isDefined, Simplex) {
     function stringify(thing, space) {
         var cache = [];
@@ -6954,33 +7075,6 @@ define('davinci-eight/geometries/toGeometryMeta',["require", "exports", '../chec
         }
     }
     return toGeometryMeta;
-});
-
-define('davinci-eight/geometries/GeometryElements',["require", "exports"], function (require, exports) {
-    /**
-     * <p>
-     * A geometry holds the elements or arrays sent to the GLSL pipeline.
-     * </p>
-     * <p>
-     * These instructions are in a compact form suitable for populating WebGLBuffer(s).
-     * </p>
-     *
-     * @class GeometryElements
-     */
-    var GeometryElements = (function () {
-        /**
-         * @class GeometryElements
-         * @constructor
-         * @param data {GeometryData} The instructions for drawing the geometry.
-         * @param meta {GeometryMeta}
-         */
-        function GeometryElements(data, meta) {
-            this.data = data;
-            this.meta = meta;
-        }
-        return GeometryElements;
-    })();
-    return GeometryElements;
 });
 
 define('davinci-eight/geometries/computeUniqueVertices',["require", "exports"], function (require, exports) {
@@ -7158,29 +7252,61 @@ define('davinci-eight/geometries/toGeometryData',["require", "exports", '../geom
     return toGeometryData;
 });
 
-define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries/toGeometryMeta', '../geometries/GeometryElements', '../geometries/Simplex', '../geometries/toGeometryData'], function (require, exports, toGeometryMeta, GeometryElements, Simplex, toGeometryData) {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries/GeometryElements', '../checks/mustBeString', '../utils/Shareable', '../geometries/Simplex', '../geometries/toGeometryData', '../geometries/toGeometryMeta'], function (require, exports, GeometryElements, mustBeString, Shareable, Simplex, toGeometryData, toGeometryMeta) {
     /**
      * @class Geometry
+     * @extends Shareable
      */
-    var Geometry = (function () {
+    var Geometry = (function (_super) {
+        __extends(Geometry, _super);
         // public dynamic = true;
         // public verticesNeedUpdate = false;
         // public elementsNeedUpdate = false;
         // public uvsNeedUpdate = false;
         /**
+         * <p>
          * A list of simplices (data) with information about dimensionality and vertex properties (meta).
          * This class should be used as an abstract base or concrete class when constructing
          * geometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).
+         * The <code>Geometry</code> class implements IUnknown, as a convenience to implementations
+         * requiring special de-allocation of resources, by extending <code>Shareable</code>.
+         * </p>
          * @class Geometry
          * @constructor
+         * @param type [string = 'Geometry']
          */
-        function Geometry() {
+        function Geometry(type) {
+            if (type === void 0) { type = 'Geometry'; }
+            _super.call(this, mustBeString('type', type));
             /**
              * @property data
              * @type {Simplex[]}
              */
             this.data = [];
         }
+        /**
+         * The destructor method should be implemented in derived classes and the super.destructor called
+         * as the last call in the derived class destructor.
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        Geometry.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        Geometry.prototype.recalculate = function () {
+            console.warn("`public recalculate(): void` method should be implemented by `" + this._type + "`.");
+        };
+        Geometry.prototype.isModified = function () {
+            // Assume that the Geometry parameters have been modified as the default.
+            // Derived classes can be more efficient.
+            return true;
+        };
         /**
          * <p>
          * Applies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.
@@ -7191,6 +7317,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
          * @return {Geometry}
          */
         Geometry.prototype.boundary = function (times) {
+            if (this.isModified()) {
+                this.recalculate();
+            }
             this.data = Simplex.boundary(this.data, times);
             return this.check();
         };
@@ -7200,7 +7329,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
          * @method check
          * @return {Geometry}
          */
-        // FIXME: Rename to something more descriptive.
+        // FIXME: Rename to something more suggestive.
         Geometry.prototype.check = function () {
             this.meta = toGeometryMeta(this.data);
             return this;
@@ -7213,6 +7342,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
          * @return {Geometry}
          */
         Geometry.prototype.subdivide = function (times) {
+            if (this.isModified()) {
+                this.recalculate();
+            }
             this.data = Simplex.subdivide(this.data, times);
             this.check();
             return this;
@@ -7222,6 +7354,9 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
          * @return {GeometryElements}
          */
         Geometry.prototype.toElements = function () {
+            if (this.isModified()) {
+                this.recalculate();
+            }
             this.check();
             var elements = toGeometryData(this.data, this.meta);
             return new GeometryElements(elements, this.meta);
@@ -7234,7 +7369,7 @@ define('davinci-eight/geometries/Geometry',["require", "exports", '../geometries
             // console.warn("Geometry.mergeVertices not yet implemented");
         };
         return Geometry;
-    })();
+    })(Shareable);
     return Geometry;
 });
 
@@ -7508,21 +7643,86 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, Vector1, Vector3) {
+define('davinci-eight/geometries/CuboidGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../checks/mustBeInteger', '../checks/mustBeString', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, mustBeInteger, mustBeString, quad, Simplex, Symbolic, Vector1, Vector3) {
     /**
      * @class CuboidGeometry
+     * @extends Geometry
      */
     var CuboidGeometry = (function (_super) {
         __extends(CuboidGeometry, _super);
-        function CuboidGeometry() {
-            _super.call(this);
+        /**
+         * <p>
+         * The <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.
+         * The parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.
+         * The property <code>k</code> represents the dimensionality of the vertices.
+         * The default settings create a unit cube centered at the origin.
+         * </p>
+         * @class CuboidGeometry
+         * @constructor
+         * @param type [string = 'CuboidGeometry']
+         * @example
+             var geometry = new EIGHT.CuboidGeometry();
+             var elements = geometry.toElements();
+             var material = new EIGHT.LineMaterial();
+             var cube = new EIGHT.Drawable(elements, material);
+         */
+        function CuboidGeometry(type) {
+            if (type === void 0) { type = 'CuboidGeometry'; }
+            _super.call(this, mustBeString('type', type));
+            /**
+             * @property a {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.
+             */
             this.a = Vector3.e1.clone();
+            /**
+             * @property b {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.
+             */
             this.b = Vector3.e2.clone();
+            /**
+             * @property c {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.
+             */
             this.c = Vector3.e3.clone();
-            this.k = 1;
-            this.calculate();
+            /**
+             * @property _k {number} The dimensionality of the simplices representing the cuboid.
+             * @private
+             */
+            this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            this.recalculate();
         }
-        CuboidGeometry.prototype.calculate = function () {
+        Object.defineProperty(CuboidGeometry.prototype, "k", {
+            /**
+             *
+             */
+            get: function () {
+                return this._k.x;
+            },
+            set: function (k) {
+                this._k.x = mustBeInteger('k', k);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        CuboidGeometry.prototype.isModified = function () {
+            return this.a.modified || this.b.modified || this.c.modified || this._k.modified;
+        };
+        /**
+         * @method setModified
+         * @param modified {boolean} The value that the modification state will be set to.
+         * @return {CuboidGeometry} `this` instance.
+         */
+        CuboidGeometry.prototype.setModified = function (modified) {
+            this.a.modified = modified;
+            this.b.modified = modified;
+            this.c.modified = modified;
+            this._k.modified = modified;
+            return this;
+        };
+        /**
+         * recalculate the geometry based upon the current parameters.
+         * @method recalculate
+         * @return {void}
+         */
+        CuboidGeometry.prototype.recalculate = function () {
+            this.setModified(false);
             var pos = [0, 1, 2, 3, 4, 5, 6, 7].map(function (index) { return void 0; });
             pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2);
             pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2);
@@ -9270,7 +9470,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/slideshow/tasks/CubeTask',["require", "exports", '../../uniforms/ColorFacet', '../../models/ModelFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/SmartMaterialBuilder', '../../utils/Shareable', '../../core/Symbolic'], function (require, exports, ColorFacet, ModelFacet, CuboidGeometry, Drawable, SmartMaterialBuilder, Shareable, Symbolic) {
+define('davinci-eight/slideshow/tasks/CubeTask',["require", "exports", '../../uniforms/ColorFacet', '../../models/ModelFacet', '../../geometries/CuboidGeometry', '../../scene/Drawable', '../../materials/SmartMaterialBuilder', '../../utils/Shareable', '../../geometries/Simplex', '../../core/Symbolic'], function (require, exports, ColorFacet, ModelFacet, CuboidGeometry, Drawable, SmartMaterialBuilder, Shareable, Simplex, Symbolic) {
+    // FIXME: Generalize this into a Drawable task?
     var CubeTask = (function (_super) {
         __extends(CubeTask, _super);
         function CubeTask(name, sceneNames) {
@@ -9282,8 +9483,7 @@ define('davinci-eight/slideshow/tasks/CubeTask',["require", "exports", '../../un
         };
         CubeTask.prototype.exec = function (slide, host) {
             var geometry = new CuboidGeometry();
-            geometry.k = 1;
-            geometry.calculate();
+            geometry.k = Simplex.K_FOR_LINE_SEGMENT;
             var elements = geometry.toElements();
             var smb = new SmartMaterialBuilder(elements);
             smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3');
@@ -10630,6 +10830,13 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
         /**
          * @class RevolutionGeometry
          * @constructor
+         */
+        function RevolutionGeometry(type) {
+            if (type === void 0) { type = 'RevolutionGeometry'; }
+            _super.call(this, type);
+        }
+        /**
+         * @method revolve
          * @param points {Vector3[]}
          * @param generator {Spinor3}
          * @param segments {number}
@@ -10637,15 +10844,14 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
          * @param phiLength {number}
          * @param attitude {Spinor3}
          */
-        function RevolutionGeometry(points, generator, segments, phiStart, phiLength, attitude) {
-            _super.call(this);
+        RevolutionGeometry.prototype.revolve = function (points, generator, segments, phiStart, phiLength, attitude) {
+            if (segments === void 0) { segments = 12; }
+            if (phiStart === void 0) { phiStart = 0; }
+            if (phiLength === void 0) { phiLength = 2 * Math.PI; }
             /**
              * Temporary list of points.
              */
             var vertices = [];
-            segments = segments || 12;
-            phiStart = phiStart || 0;
-            phiLength = phiLength || 2 * Math.PI;
             // Determine heuristically whether the user intended to make a complete revolution.
             var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
             // The number of vertical half planes (phi constant).
@@ -10656,13 +10862,15 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
             var j;
             var il;
             var jl;
+            var rotor = new Spinor3();
             for (i = 0, il = halfPlanes; i < il; i++) {
                 var phi = phiStart + i * phiStep;
                 var halfAngle = phi / 2;
-                var cosHA = Math.cos(halfAngle);
-                var sinHA = Math.sin(halfAngle);
+                //var cosHA = Math.cos( halfAngle );
+                //var sinHA = Math.sin( halfAngle );
+                rotor.copy(generator).scale(halfAngle).exp();
                 // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-                var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+                //var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
                 for (j = 0, jl = points.length; j < jl; j++) {
                     var vertex = points[j].clone();
                     // The generator tells us how to rotate the points.
@@ -10709,7 +10917,7 @@ define('davinci-eight/geometries/RevolutionGeometry',["require", "exports", '../
             }
             //    this.computeFaceNormals();
             //    this.computeVertexNormals();
-        }
+        };
         return RevolutionGeometry;
     })(Geometry);
     return RevolutionGeometry;
@@ -10721,6 +10929,36 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geometries/RevolutionGeometry', '../math/Spinor3', '../math/Vector3'], function (require, exports, RevolutionGeometry, Spinor3, Vector3) {
+    function signum(x) {
+        return x >= 0 ? +1 : -1;
+    }
+    function bigger(a, b) {
+        return a >= b;
+    }
+    var permutation = function (direction) {
+        var x = Math.abs(direction.x);
+        var y = Math.abs(direction.y);
+        var z = Math.abs(direction.z);
+        return bigger(x, z) ? (bigger(x, y) ? 0 : 1) : (bigger(y, z) ? 1 : 2);
+    };
+    var orientation = function (cardinalIndex, direction) {
+        return signum(direction.getComponent(cardinalIndex));
+    };
+    function nearest(direction) {
+        var cardinalIndex = permutation(direction);
+        switch (cardinalIndex) {
+            case 0: {
+                return new Vector3([orientation(cardinalIndex, direction), 0, 0]);
+            }
+            case 1: {
+                return new Vector3([0, orientation(cardinalIndex, direction), 0]);
+            }
+            case 2: {
+                return new Vector3([0, 0, orientation(cardinalIndex, direction)]);
+            }
+        }
+        return Vector3.copy(direction);
+    }
     /**
      * @class ArrowGeometry
      */
@@ -10729,89 +10967,86 @@ define('davinci-eight/geometries/ArrowGeometry',["require", "exports", '../geome
         /**
          * @class ArrowGeometry
          * @constructor
-         * @param scale {number}
-         * @param attitude {Spinor3}
-         * @param segments {number}
-         * @param radiusShaft {number}
-         * @param radiusCone {number}
-         * @param lengthCone {number}
-         * @param axis {Cartesian3}
          */
-        function ArrowGeometry(scale, attitude, segments, length, radiusShaft, radiusCone, lengthCone, axis) {
-            if (scale === void 0) { scale = 1; }
-            if (attitude === void 0) { attitude = new Spinor3(); }
-            if (segments === void 0) { segments = 12; }
-            if (length === void 0) { length = 1; }
-            if (radiusShaft === void 0) { radiusShaft = 0.01; }
-            if (radiusCone === void 0) { radiusCone = 0.08; }
-            if (lengthCone === void 0) { lengthCone = 0.20; }
-            if (axis === void 0) { axis = Vector3.e1.clone(); }
-            scale = scale || 1;
-            attitude = attitude || new Spinor3();
-            length = (length || 1) * scale;
-            radiusShaft = (radiusShaft || 0.01) * scale;
-            radiusCone = (radiusCone || 0.08) * scale;
-            lengthCone = (lengthCone || 0.20) * scale;
-            axis = axis || Vector3.e3.clone();
-            var lengthShaft = length - lengthCone;
+        function ArrowGeometry(type) {
+            if (type === void 0) { type = 'ArrowGeometry'; }
+            _super.call(this, type);
+            this.lengthCone = 0.20;
+            this.radiusCone = 0.08;
+            this.radiusShaft = 0.01;
+            /**
+             * @property vector
+             * @type {Vector3}
+             */
+            this.vector = Vector3.e1.clone();
+            this.segments = 12;
+            this.setModified(true);
+        }
+        /**
+         * @method destructor
+         * @return {void}
+         * @protected
+         */
+        ArrowGeometry.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        /**
+         * @method isModified
+         * @return {boolean}
+         */
+        ArrowGeometry.prototype.isModified = function () {
+            return this.vector.modified;
+        };
+        /**
+         * @method setModified
+         * @param modified {boolean}
+         * @return {ArrowGeometry}
+         */
+        ArrowGeometry.prototype.setModified = function (modified) {
+            this.vector.modified = modified;
+            return this;
+        };
+        /**
+         * @method recalculate
+         * @return {void}
+         */
+        ArrowGeometry.prototype.recalculate = function () {
+            var length = this.vector.magnitude();
+            var lengthShaft = length - this.lengthCone;
             var halfLength = length / 2;
-            var permutation = function (direction) {
-                if (direction.x) {
-                    return 2;
-                }
-                else if (direction.y) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            };
-            var orientation = function (direction) {
-                if (direction.x > 0) {
-                    return +1;
-                }
-                else if (direction.x < 0) {
-                    return -1;
-                }
-                else if (direction.y > 0) {
-                    return +1;
-                }
-                else if (direction.y < 0) {
-                    return -1;
-                }
-                else if (direction.z > 0) {
-                    return +1;
-                }
-                else if (direction.z < 0) {
-                    return -1;
-                }
-                else {
-                    return 0;
-                }
-            };
+            var radiusCone = this.radiusCone;
+            var radiusShaft = this.radiusShaft;
             var computeArrow = function (direction) {
                 var cycle = permutation(direction);
-                var sign = orientation(direction);
+                var sign = orientation(cycle, direction);
                 var i = (cycle + 0) % 3;
-                var j = (cycle + 1) % 3;
-                var k = (cycle + 2) % 3;
-                var shL = halfLength * sign;
+                var j = (cycle + 2) % 3;
+                var k = (cycle + 1) % 3;
+                var a = halfLength * sign;
+                var b = lengthShaft * sign;
+                // data is for an arrow pointing in the e1 direction in the xy-plane.
                 var data = [
-                    [0, 0, halfLength * sign],
-                    [radiusCone, 0, (lengthShaft - halfLength) * sign],
-                    [radiusShaft, 0, (lengthShaft - halfLength) * sign],
-                    [radiusShaft, 0, (-halfLength) * sign],
-                    [0, 0, (-halfLength) * sign]
+                    [a, 0, 0],
+                    [b - a, radiusCone, 0],
+                    [b - a, radiusShaft, 0],
+                    [-a, radiusShaft, 0],
+                    [-a, 0, 0] // tail end
                 ];
                 var points = data.map(function (point) {
                     return new Vector3([point[i], point[j], point[k]]);
                 });
-                var generator = new Spinor3([direction.x, direction.y, direction.z, 0]);
+                // We're essentially computing the dual of the vector as the rotation generator.
+                var n = nearest(direction);
+                var generator = new Spinor3([n.x, n.y, n.z, 0]);
                 return { "points": points, "generator": generator };
             };
-            var arrow = computeArrow(axis);
-            _super.call(this, arrow.points, arrow.generator, segments, 0, 2 * Math.PI, attitude);
-        }
+            var direction = Vector3.copy(this.vector).normalize();
+            var arrow = computeArrow(direction);
+            var R = new Spinor3().rotor(direction, nearest(direction));
+            this.data = [];
+            _super.prototype.revolve.call(this, arrow.points, arrow.generator, this.segments, 0, 2 * Math.PI, R);
+            this.setModified(false);
+        };
         return ArrowGeometry;
     })(RevolutionGeometry);
     return ArrowGeometry;
@@ -10822,7 +11057,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, quad, Simplex, Symbolic, triangle, Vector3) {
+define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geometries/computeFaceNormals', '../geometries/Geometry', '../checks/mustBeInteger', '../geometries/quadrilateral', '../geometries/Simplex', '../core/Symbolic', '../geometries/triangle', '../math/Vector1', '../math/Vector3'], function (require, exports, computeFaceNormals, Geometry, mustBeInteger, quad, Simplex, Symbolic, triangle, Vector1, Vector3) {
     /**
      * @module EIGHT
      * @submodule geometries
@@ -10839,15 +11074,36 @@ define('davinci-eight/geometries/BarnGeometry',["require", "exports", '../geomet
          * @class BarnGeometry
          * @constructor
          */
-        function BarnGeometry() {
-            _super.call(this);
+        function BarnGeometry(type) {
+            if (type === void 0) { type = 'BarnGeometry'; }
+            _super.call(this, type);
             this.a = Vector3.e1.clone();
             this.b = Vector3.e2.clone();
             this.c = Vector3.e3.clone();
-            this.k = 1;
-            this.calculate();
+            this._k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+            this.recalculate();
         }
-        BarnGeometry.prototype.calculate = function () {
+        Object.defineProperty(BarnGeometry.prototype, "k", {
+            get: function () {
+                return this._k.x;
+            },
+            set: function (k) {
+                this._k.x = mustBeInteger('k', k);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        BarnGeometry.prototype.isModified = function () {
+            return this.a.modified || this.b.modified || this.c.modified || this._k.modified;
+        };
+        BarnGeometry.prototype.setModified = function (modified) {
+            this.a.modified = modified;
+            this.b.modified = modified;
+            this.c.modified = modified;
+            this._k.modified = modified;
+        };
+        BarnGeometry.prototype.recalculate = function () {
+            this.setModified(false);
             var points = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (index) { return void 0; });
             points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2);
             points[1] = new Vector3().add(this.a).sub(this.b).sub(this.c).divideScalar(2);

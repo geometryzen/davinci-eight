@@ -3,12 +3,18 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, wedgeXY, wedgeYZ, wedgeZX) {
+define(["require", "exports", '../math/VectorN', '../math/dotVector3', '../checks/mustBeNumber', '../math/quaditude3', '../math/wedgeXY', '../math/wedgeYZ', '../math/wedgeZX'], function (require, exports, VectorN, dotVector3, mustBeNumber, quaditude3, wedgeXY, wedgeYZ, wedgeZX) {
     /**
      * @class Spinor3
      */
     var Spinor3 = (function (_super) {
         __extends(Spinor3, _super);
+        /**
+         * @class Spinor3
+         * @constructor
+         * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
+         * @param modified [boolean = false]
+         */
         function Spinor3(data, modified) {
             if (data === void 0) { data = [0, 0, 0, 1]; }
             if (modified === void 0) { modified = false; }
@@ -22,9 +28,10 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             get: function () {
                 return this.data[0];
             },
-            set: function (value) {
-                this.modified = this.modified || this.yz !== value;
-                this.data[0] = value;
+            set: function (yz) {
+                mustBeNumber('yz', yz);
+                this.modified = this.modified || this.yz !== yz;
+                this.data[0] = yz;
             },
             enumerable: true,
             configurable: true
@@ -37,9 +44,10 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             get: function () {
                 return this.data[1];
             },
-            set: function (value) {
-                this.modified = this.modified || this.zx !== value;
-                this.data[1] = value;
+            set: function (zx) {
+                mustBeNumber('zx', zx);
+                this.modified = this.modified || this.zx !== zx;
+                this.data[1] = zx;
             },
             enumerable: true,
             configurable: true
@@ -52,9 +60,10 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             get: function () {
                 return this.data[2];
             },
-            set: function (value) {
-                this.modified = this.modified || this.xy !== value;
-                this.data[2] = value;
+            set: function (xy) {
+                mustBeNumber('xy', xy);
+                this.modified = this.modified || this.xy !== xy;
+                this.data[2] = xy;
             },
             enumerable: true,
             configurable: true
@@ -67,25 +76,44 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             get: function () {
                 return this.data[3];
             },
-            set: function (value) {
-                this.modified = this.modified || this.w !== value;
-                this.data[3] = value;
+            set: function (w) {
+                mustBeNumber('w', w);
+                this.modified = this.modified || this.w !== w;
+                this.data[3] = w;
             },
             enumerable: true,
             configurable: true
         });
+        /**
+         * @method add
+         * @param rhs {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.add = function (rhs) {
             return this;
         };
+        /**
+         * @method clone
+         * @return {Spinor3}
+         */
         Spinor3.prototype.clone = function () {
             return new Spinor3([this.yz, this.zx, this.xy, this.w]);
         };
+        /**
+         * @method conjugate
+         * @return {Spinor3}
+         */
         Spinor3.prototype.conjugate = function () {
             this.yz *= -1;
             this.zx *= -1;
             this.xy *= -1;
             return this;
         };
+        /**
+         * @method copy
+         * @param spinor {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.copy = function (spinor) {
             this.yz = spinor.yz;
             this.zx = spinor.zx;
@@ -93,6 +121,12 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.w = spinor.w;
             return this;
         };
+        /**
+         * @method difference
+         * @param a {Spinor3Coords}
+         * @param b {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.difference = function (a, b) {
             return this;
         };
@@ -132,6 +166,10 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
             this.copy(R);
             return this;
         };
+        /**
+         * @method log
+         * @return {Spinor3}
+         */
         Spinor3.prototype.log = function () {
             var w = this.w;
             var x = this.yz;
@@ -151,9 +189,19 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.magnitude = function () {
             return Math.sqrt(this.quaditude());
         };
+        /**
+         * @method multiply
+         * @param rhs {Spinor3Coords}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.multiply = function (rhs) {
             return this.product(this, rhs);
         };
+        /**
+         * @method scale
+         * @param scalar {number}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.scale = function (scalar) {
             this.yz *= scalar;
             this.zx *= scalar;
@@ -215,16 +263,45 @@ define(["require", "exports", '../math/VectorN', '../math/wedgeXY', '../math/wed
         Spinor3.prototype.rotate = function (rotor) {
             return this;
         };
+        /**
+         * Computes a rotor, R, from two unit vectors, where
+         * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+         * @method rotor
+         * @param b {Cartesian3} The ending unit vector
+         * @param a {Cartesian3} The starting unit vector
+         * @return {Spinor3} The rotor representing a rotation from a to b.
+         */
+        Spinor3.prototype.rotor = function (b, a) {
+            var bLength = Math.sqrt(quaditude3(b));
+            var aLength = Math.sqrt(quaditude3(a));
+            b = { x: b.x / bLength, y: b.y / bLength, z: b.z / bLength };
+            a = { x: a.x / aLength, y: a.y / aLength, z: a.z / aLength };
+            this.spinor(b, a);
+            this.w += 1;
+            var denom = Math.sqrt(2 * (1 + dotVector3(b, a)));
+            this.divideScalar(denom);
+            return this;
+        };
         Spinor3.prototype.sub = function (rhs) {
             return this;
         };
         Spinor3.prototype.sum = function (a, b) {
             return this;
         };
+        /**
+         * @method spinor
+         * @param a {Cartesian3}
+         * @param b {Cartesian3}
+         * @return {Spinor3}
+         */
         Spinor3.prototype.spinor = function (a, b) {
-            var ax = a.x, ay = a.y, az = a.z;
-            var bx = b.x, by = b.y, bz = b.z;
-            this.w = 0;
+            var ax = a.x;
+            var ay = a.y;
+            var az = a.z;
+            var bx = b.x;
+            var by = b.y;
+            var bz = b.z;
+            this.w = dotVector3(a, b);
             this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
             this.zx = wedgeZX(ax, ay, az, bx, by, bz);
             this.xy = wedgeXY(ax, ay, az, bx, by, bz);

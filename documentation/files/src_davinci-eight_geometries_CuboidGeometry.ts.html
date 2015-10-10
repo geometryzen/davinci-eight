@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -196,6 +196,8 @@
     <pre class="code prettyprint linenums">
 import computeFaceNormals = require(&#x27;../geometries/computeFaceNormals&#x27;)
 import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;)
+import mustBeString = require(&#x27;../checks/mustBeString&#x27;)
 import quad = require(&#x27;../geometries/quadrilateral&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
@@ -206,17 +208,80 @@ import VectorN = require(&#x27;../math/VectorN&#x27;)
 
 /**
  * @class CuboidGeometry
+ * @extends Geometry
  */
 class CuboidGeometry extends Geometry {
+  /**
+   * @property a {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.
+   */
   public a: Vector3 = Vector3.e1.clone();
+  /**
+   * @property b {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.
+   */
   public b: Vector3 = Vector3.e2.clone();
+  /**
+   * @property c {Vector3} A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.
+   */
   public c: Vector3 = Vector3.e3.clone();
-  public k = 1;
-  constructor() {
-    super()
-    this.calculate();
+  /**
+   * @property _k {number} The dimensionality of the simplices representing the cuboid.
+   * @private
+   */
+  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
+  /**
+   * &lt;p&gt;
+   * The &lt;code&gt;CuboidGeometry&lt;/code&gt; generates simplices representing a cuboid, or more precisely a parallelepiped.
+   * The parallelepiped is parameterized by the three vectors &lt;b&gt;a&lt;/b&gt;, &lt;b&gt;b&lt;/b&gt;, and &lt;b&gt;c&lt;/b&gt;.
+   * The property &lt;code&gt;k&lt;/code&gt; represents the dimensionality of the vertices.
+   * The default settings create a unit cube centered at the origin.
+   * &lt;/p&gt;
+   * @class CuboidGeometry
+   * @constructor
+   * @param type [string = &#x27;CuboidGeometry&#x27;]
+   * @example
+       var geometry = new EIGHT.CuboidGeometry();
+       var elements = geometry.toElements();
+       var material = new EIGHT.LineMaterial();
+       var cube = new EIGHT.Drawable(elements, material);
+   */
+  constructor(type: string = &#x27;CuboidGeometry&#x27;) {
+    super(mustBeString(&#x27;type&#x27;,type))
+    this.recalculate();
   }
-  public calculate(): void {
+  /**
+   *
+   */
+  public get k() {
+    return this._k.x
+  }
+  public set k(k: number) {
+    this._k.x = mustBeInteger(&#x27;k&#x27;, k)
+  }
+
+  public isModified() {
+    return this.a.modified || this.b.modified || this.c.modified || this._k.modified
+  }
+  /**
+   * @method setModified
+   * @param modified {boolean} The value that the modification state will be set to.
+   * @return {CuboidGeometry} &#x60;this&#x60; instance.
+   */
+  public setModified(modified: boolean): CuboidGeometry {
+    this.a.modified  = modified
+    this.b.modified  = modified
+    this.c.modified  = modified
+    this._k.modified = modified
+    return this
+  }
+  /**
+   * recalculate the geometry based upon the current parameters.
+   * @method recalculate
+   * @return {void}
+   */
+  public recalculate(): void {
+
+    this.setModified(false)
+
     var pos: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7].map(function(index) {return void 0})
     pos[0] = new Vector3().sub(this.a).sub(this.b).add(this.c).divideScalar(2)
     pos[1] = new Vector3().add(this.a).sub(this.b).add(this.c).divideScalar(2)

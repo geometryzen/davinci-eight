@@ -7,8 +7,10 @@ import ISlide = require('../../slideshow/ISlide')
 import ISlideHost = require('../../slideshow/ISlideHost')
 import ISlideTask = require('../../slideshow/ISlideTask')
 import Shareable = require('../../utils/Shareable')
+import Simplex = require('../../geometries/Simplex')
 import Symbolic = require('../../core/Symbolic')
 
+// FIXME: Generalize this into a Drawable task?
 class CubeTask extends Shareable implements ISlideTask {
   private name: string
   private sceneNames: string[]
@@ -22,8 +24,7 @@ class CubeTask extends Shareable implements ISlideTask {
   }
   exec(slide: ISlide, host: ISlideHost): void {
     var geometry = new CuboidGeometry()
-    geometry.k = 1
-    geometry.calculate()
+    geometry.k = Simplex.K_FOR_LINE_SEGMENT
     var elements = geometry.toElements()
     var smb = new SmartMaterialBuilder(elements)
     smb.uniform(Symbolic.UNIFORM_COLOR, 'vec3')

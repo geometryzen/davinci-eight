@@ -1,30 +1,41 @@
-import Cartesian3 = require('../math/Cartesian3');
-import VectorN = require('../math/VectorN');
-import expectArg = require('../checks/expectArg');
-import GeometricElement = require('../math/GeometricElement');
-import Mutable = require('../math/Mutable');
-import Spinor3Coords = require('../math/Spinor3Coords');
-import wedgeXY = require('../math/wedgeXY');
-import wedgeYZ = require('../math/wedgeYZ');
-import wedgeZX = require('../math/wedgeZX');
+import Cartesian3 = require('../math/Cartesian3')
+import VectorN = require('../math/VectorN')
+import dotVector3 = require('../math/dotVector3')
+import expectArg = require('../checks/expectArg')
+import GeometricElement = require('../math/GeometricElement')
+import mustBeNumber = require('../checks/mustBeNumber')
+import Mutable = require('../math/Mutable')
+import quaditude3 = require('../math/quaditude3')
+import Spinor3Coords = require('../math/Spinor3Coords')
+import wedgeXY = require('../math/wedgeXY')
+import wedgeYZ = require('../math/wedgeYZ')
+import wedgeZX = require('../math/wedgeZX')
+
 /**
  * @class Spinor3
  */
 class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]>, GeometricElement<Spinor3Coords, Spinor3, Spinor3Coords, Cartesian3>
 {
+  /**
+   * @class Spinor3
+   * @constructor
+   * @param data [number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1
+   * @param modified [boolean = false]
+   */
   constructor(data: number[] = [0, 0, 0, 1], modified: boolean = false) {
-    super(data, modified, 4);
+    super(data, modified, 4)
   }
   /**
    * @property yz
    * @type Number
    */
   get yz(): number {
-    return this.data[0];
+    return this.data[0]
   }
-  set yz(value: number) {
-    this.modified = this.modified || this.yz !== value;
-    this.data[0] = value;
+  set yz(yz: number) {
+    mustBeNumber('yz', yz)
+    this.modified = this.modified || this.yz !== yz
+    this.data[0] = yz;
   }
   /**
    * @property zx
@@ -33,9 +44,10 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   get zx(): number {
     return this.data[1];
   }
-  set zx(value: number) {
-    this.modified = this.modified || this.zx !== value;
-    this.data[1] = value;
+  set zx(zx: number) {
+    mustBeNumber('zx', zx)
+    this.modified = this.modified || this.zx !== zx;
+    this.data[1] = zx;
   }
   /**
    * @property xy
@@ -44,9 +56,10 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   get xy(): number {
     return this.data[2];
   }
-  set xy(value: number) {
-    this.modified = this.modified || this.xy !== value;
-    this.data[2] = value;
+  set xy(xy: number) {
+    mustBeNumber('xy', xy)
+    this.modified = this.modified || this.xy !== xy;
+    this.data[2] = xy;
   }
   /**
    * @property w
@@ -55,30 +68,55 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   get w(): number {
     return this.data[3];
   }
-  set w(value: number) {
-    this.modified = this.modified || this.w !== value;
-    this.data[3] = value;
+  set w(w: number) {
+    mustBeNumber('w', w)
+    this.modified = this.modified || this.w !== w;
+    this.data[3] = w;
   }
-  add(rhs: Spinor3Coords) {
+  /**
+   * @method add
+   * @param rhs {Spinor3Coords}
+   * @return {Spinor3}
+   */
+  add(rhs: Spinor3Coords): Spinor3 {
     return this;
   }
-  clone() {
+  /**
+   * @method clone
+   * @return {Spinor3}
+   */
+  clone(): Spinor3 {
     return new Spinor3([this.yz, this.zx, this.xy, this.w]);
   }
+  /**
+   * @method conjugate
+   * @return {Spinor3}
+   */
   conjugate() {
     this.yz *= -1
     this.zx *= -1
     this.xy *= -1
     return this
   }
-  copy(spinor: Spinor3Coords) {
+  /**
+   * @method copy
+   * @param spinor {Spinor3Coords}
+   * @return {Spinor3}
+   */
+  copy(spinor: Spinor3Coords): Spinor3 {
     this.yz = spinor.yz;
     this.zx = spinor.zx;
     this.xy = spinor.xy;
     this.w  = spinor.w;
     return this;
   }
-  difference(a: Spinor3Coords, b: Spinor3Coords) {
+  /**
+   * @method difference
+   * @param a {Spinor3Coords}
+   * @param b {Spinor3Coords}
+   * @return {Spinor3}
+   */
+  difference(a: Spinor3Coords, b: Spinor3Coords): Spinor3 {
     return this;
   }
   divideScalar(scalar: number) {
@@ -117,6 +155,10 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
     this.copy(R)
     return this
   }
+  /**
+   * @method log
+   * @return {Spinor3}
+   */
   log(): Spinor3 {
     let w = this.w
     let x = this.yz
@@ -136,10 +178,20 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   magnitude() {
     return Math.sqrt(this.quaditude());
   }
+  /**
+   * @method multiply
+   * @param rhs {Spinor3Coords}
+   * @return {Spinor3}
+   */
   multiply(rhs: Spinor3Coords): Spinor3 {
     return this.product(this, rhs);
   }
-  scale(scalar: number) {
+  /**
+   * @method scale
+   * @param scalar {number}
+   * @return {Spinor3}
+   */
+  scale(scalar: number): Spinor3 {
     this.yz *= scalar;
     this.zx *= scalar;
     this.xy *= scalar;
@@ -200,17 +252,47 @@ class Spinor3 extends VectorN<number> implements Spinor3Coords, Mutable<number[]
   rotate(rotor: Spinor3Coords): Spinor3 {
     return this;
   }
+  /**
+   * Computes a rotor, R, from two unit vectors, where
+   * R = (1 + b * a) / sqrt(2 * (1 + b << a))
+   * @method rotor
+   * @param b {Cartesian3} The ending unit vector
+   * @param a {Cartesian3} The starting unit vector
+   * @return {Spinor3} The rotor representing a rotation from a to b.
+   */
+  rotor(b: Cartesian3, a: Cartesian3) {
+    var bLength = Math.sqrt(quaditude3(b))
+    var aLength = Math.sqrt(quaditude3(a))
+    b = {x: b.x / bLength, y: b.y / bLength, z: b.z / bLength}
+    a = {x: a.x / aLength, y: a.y / aLength, z: a.z / aLength}
+    this.spinor(b, a)
+    this.w += 1
+    var denom = Math.sqrt(2 * (1 + dotVector3(b, a)))
+    this.divideScalar(denom)
+    return this;
+  }
   sub(rhs: Spinor3Coords) {
     return this;
   }
   sum(a: Spinor3Coords, b: Spinor3Coords) {
     return this;
   }
-  spinor(a: Cartesian3, b: Cartesian3): Spinor3 {
-    let ax = a.x, ay = a.y, az = a.z;
-    let bx = b.x, by = b.y, bz = b.z;
+  /**
+   * @method spinor
+   * @param a {Cartesian3}
+   * @param b {Cartesian3}
+   * @return {Spinor3}
+   */
+  spinor(a: Cartesian3, b: Cartesian3) {
 
-    this.w = 0;
+    let ax = a.x;
+    let ay = a.y;
+    let az = a.z;
+    let bx = b.x;
+    let by = b.y;
+    let bz = b.z;
+
+    this.w  = dotVector3(a, b);
     this.yz = wedgeYZ(ax, ay, az, bx, by, bz);
     this.zx = wedgeZX(ax, ay, az, bx, by, bz);
     this.xy = wedgeXY(ax, ay, az, bx, by, bz);

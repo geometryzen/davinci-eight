@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.123.0",
+        "version": "2.124.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1536,7 +1536,7 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/BarnGeometry.ts",
-            "line": 20,
+            "line": 22,
             "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.\nTen (10) vertices are used to define the barn.\nThe floor vertices are lablled 0, 1, 6, 5.\nThe corresponding ceiling vertices are labelled 4, 2, 7, 9.\nThe roof peak vertices are labelled 3, 8."
         }
     },
@@ -2060,45 +2060,8 @@
             "extension_for": [],
             "module": "EIGHT",
             "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
-            "line": 10,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "scale",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "attitude",
-                    "description": "",
-                    "type": "Spinor3"
-                },
-                {
-                    "name": "segments",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "radiusShaft",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "radiusCone",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "lengthCone",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "axis",
-                    "description": "",
-                    "type": "Cartesian3"
-                }
-            ]
+            "line": 56,
+            "is_constructor": 1
         },
         "BarnGeometry": {
             "name": "BarnGeometry",
@@ -2112,7 +2075,7 @@
             "submodule": "geometries",
             "namespace": "",
             "file": "src/davinci-eight/geometries/BarnGeometry.ts",
-            "line": 20,
+            "line": 22,
             "description": "The basic barn similar to that described in \"Computer Graphics using OpenGL\", by Hill and Kelly.\nTen (10) vertices are used to define the barn.\nThe floor vertices are lablled 0, 1, 6, 5.\nThe corresponding ceiling vertices are labelled 4, 2, 7, 9.\nThe roof peak vertices are labelled 3, 8.",
             "is_constructor": 1
         },
@@ -2127,7 +2090,19 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
-            "line": 11
+            "line": 35,
+            "extends": "Geometry",
+            "description": "<p>\nThe <code>CuboidGeometry</code> generates simplices representing a cuboid, or more precisely a parallelepiped.\nThe parallelepiped is parameterized by the three vectors <b>a</b>, <b>b</b>, and <b>c</b>.\nThe property <code>k</code> represents the dimensionality of the vertices.\nThe default settings create a unit cube centered at the origin.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "[string = 'CuboidGeometry']"
+                }
+            ],
+            "example": [
+                "\n      var geometry = new EIGHT.CuboidGeometry();\n      var elements = geometry.toElements();\n      var material = new EIGHT.LineMaterial();\n      var cube = new EIGHT.Drawable(elements, material);"
+            ]
         },
         "CylinderGeometry": {
             "name": "CylinderGeometry",
@@ -2213,9 +2188,16 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 29,
-            "description": "A list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).",
-            "is_constructor": 1
+            "line": 32,
+            "extends": "Shareable",
+            "description": "<p>\nA list of simplices (data) with information about dimensionality and vertex properties (meta). \nThis class should be used as an abstract base or concrete class when constructing\ngeometries that are to be manipulated in JavaScript (as opposed to GLSL shaders).\nThe <code>Geometry</code> class implements IUnknown, as a convenience to implementations\nrequiring special de-allocation of resources, by extending <code>Shareable</code>.\n</p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "[string = 'Geometry']"
+                }
+            ]
         },
         "GeometryAttribute": {
             "name": "GeometryAttribute",
@@ -2448,39 +2430,7 @@
             "namespace": "",
             "file": "src/davinci-eight/geometries/RevolutionGeometry.ts",
             "line": 13,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "points",
-                    "description": "",
-                    "type": "Vector3[]"
-                },
-                {
-                    "name": "generator",
-                    "description": "",
-                    "type": "Spinor3"
-                },
-                {
-                    "name": "segments",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "phiStart",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "phiLength",
-                    "description": "",
-                    "type": "Number"
-                },
-                {
-                    "name": "attitude",
-                    "description": "",
-                    "type": "Spinor3"
-                }
-            ]
+            "is_constructor": 1
         },
         "Simplex": {
             "name": "Simplex",
@@ -3172,7 +3122,18 @@
             "module": "EIGHT",
             "namespace": "",
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 10
+            "line": 19,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "[number[] = [0, 0, 0, 1]] Corresponds to the basis e2e3, e3e1, e1e2, 1"
+                },
+                {
+                    "name": "modified",
+                    "description": "[boolean = false]"
+                }
+            ]
         },
         "Unit": {
             "name": "Unit",
@@ -5727,8 +5688,145 @@
             "class": "ArrowGeometry"
         },
         {
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 50,
+            "itemtype": "property",
+            "name": "vector",
+            "type": "{Vector3}",
+            "class": "ArrowGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 64,
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "ArrowGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 72,
+            "itemtype": "method",
+            "name": "isModified",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "ArrowGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 79,
+            "itemtype": "method",
+            "name": "setModified",
+            "params": [
+                {
+                    "name": "modified",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "ArrowGeometry"
+            },
+            "class": "ArrowGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/ArrowGeometry.ts",
+            "line": 88,
+            "itemtype": "method",
+            "name": "recalculate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "ArrowGeometry"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 18,
+            "itemtype": "property",
+            "name": "a  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e1.",
+            "type": "Vector3",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 22,
+            "itemtype": "property",
+            "name": "b  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e2.",
+            "type": "Vector3",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 26,
+            "itemtype": "property",
+            "name": "c  A vector parameterizing the shape of the cuboid. Defaults to the standard basis vector e3.",
+            "type": "Vector3",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 30,
+            "itemtype": "property",
+            "name": "_k  The dimensionality of the simplices representing the cuboid.",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 55,
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 68,
+            "itemtype": "method",
+            "name": "setModified",
+            "params": [
+                {
+                    "name": "modified",
+                    "description": "The value that the modification state will be set to.",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "`this` instance.",
+                "type": "CuboidGeometry"
+            },
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/CuboidGeometry.ts",
+            "line": 80,
+            "description": "recalculate the geometry based upon the current parameters.",
+            "itemtype": "method",
+            "name": "recalculate",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "CuboidGeometry",
+            "module": "EIGHT"
+        },
+        {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 12,
+            "line": 15,
             "itemtype": "property",
             "name": "data",
             "type": "{Simplex[]}",
@@ -5737,7 +5835,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 17,
+            "line": 20,
             "description": "Summary information on the simplices such as dimensionality and sizes for attributes.\nThis same data structure may be used to map vertex attribute names to program names.",
             "itemtype": "property",
             "name": "meta",
@@ -5747,7 +5845,22 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 38,
+            "line": 47,
+            "description": "The destructor method should be implemented in derived classes and the super.destructor called\nas the last call in the derived class destructor.",
+            "itemtype": "method",
+            "name": "destructor",
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "access": "protected",
+            "tagname": "",
+            "class": "Geometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/Geometry.ts",
+            "line": 65,
             "description": "<p>\nApplies the <em>boundary</em> operation to each Simplex in this instance the specified number of times.\n</p>",
             "itemtype": "method",
             "name": "boundary",
@@ -5767,7 +5880,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 51,
+            "line": 81,
             "description": "Updates the meta property of this instance to match the data.",
             "itemtype": "method",
             "name": "check",
@@ -5780,7 +5893,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 62,
+            "line": 92,
             "description": "Applies the subdivide operation to each Simplex in this instance the specified number of times.",
             "itemtype": "method",
             "name": "subdivide",
@@ -5800,7 +5913,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 74,
+            "line": 107,
             "itemtype": "method",
             "name": "toGeometry",
             "return": {
@@ -5812,7 +5925,7 @@
         },
         {
             "file": "src/davinci-eight/geometries/Geometry.ts",
-            "line": 83,
+            "line": 119,
             "class": "Geometry",
             "module": "EIGHT"
         },
@@ -6006,7 +6119,47 @@
         },
         {
             "file": "src/davinci-eight/geometries/RevolutionGeometry.ts",
-            "line": 33,
+            "line": 20,
+            "itemtype": "method",
+            "name": "revolve",
+            "params": [
+                {
+                    "name": "points",
+                    "description": "",
+                    "type": "Vector3[]"
+                },
+                {
+                    "name": "generator",
+                    "description": "",
+                    "type": "Spinor3"
+                },
+                {
+                    "name": "segments",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "phiStart",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "phiLength",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "attitude",
+                    "description": "",
+                    "type": "Spinor3"
+                }
+            ],
+            "class": "RevolutionGeometry",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/geometries/RevolutionGeometry.ts",
+            "line": 37,
             "description": "Temporary list of points.",
             "class": "RevolutionGeometry",
             "module": "EIGHT"
@@ -6947,7 +7100,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 18,
+            "line": 28,
             "itemtype": "property",
             "name": "yz",
             "type": "Number",
@@ -6956,7 +7109,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 29,
+            "line": 40,
             "itemtype": "property",
             "name": "zx",
             "type": "Number",
@@ -6965,7 +7118,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 40,
+            "line": 52,
             "itemtype": "property",
             "name": "xy",
             "type": "Number",
@@ -6974,7 +7127,7 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 51,
+            "line": 64,
             "itemtype": "property",
             "name": "w",
             "type": "Number",
@@ -6983,7 +7136,143 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 177,
+            "line": 76,
+            "itemtype": "method",
+            "name": "add",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Spinor3Coords"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 84,
+            "itemtype": "method",
+            "name": "clone",
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 91,
+            "itemtype": "method",
+            "name": "conjugate",
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 101,
+            "itemtype": "method",
+            "name": "copy",
+            "params": [
+                {
+                    "name": "spinor",
+                    "description": "",
+                    "type": "Spinor3Coords"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 113,
+            "itemtype": "method",
+            "name": "difference",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Spinor3Coords"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Spinor3Coords"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 158,
+            "itemtype": "method",
+            "name": "log",
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 181,
+            "itemtype": "method",
+            "name": "multiply",
+            "params": [
+                {
+                    "name": "rhs",
+                    "description": "",
+                    "type": "Spinor3Coords"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 189,
+            "itemtype": "method",
+            "name": "scale",
+            "params": [
+                {
+                    "name": "scalar",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 229,
             "description": "Sets this Spinor to the value of its reflection in the plane orthogonal to n.\nThe geometric formula for bivector reflection is B' = n * B * n.",
             "itemtype": "method",
             "name": "reflect",
@@ -7003,7 +7292,56 @@
         },
         {
             "file": "src/davinci-eight/math/Spinor3.ts",
-            "line": 220,
+            "line": 255,
+            "description": "Computes a rotor, R, from two unit vectors, where\nR = (1 + b * a) / sqrt(2 * (1 + b << a))",
+            "itemtype": "method",
+            "name": "rotor",
+            "params": [
+                {
+                    "name": "b",
+                    "description": "The ending unit vector",
+                    "type": "Cartesian3"
+                },
+                {
+                    "name": "a",
+                    "description": "The starting unit vector",
+                    "type": "Cartesian3"
+                }
+            ],
+            "return": {
+                "description": "The rotor representing a rotation from a to b.",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 280,
+            "itemtype": "method",
+            "name": "spinor",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "",
+                    "type": "Cartesian3"
+                },
+                {
+                    "name": "b",
+                    "description": "",
+                    "type": "Cartesian3"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Spinor3"
+            },
+            "class": "Spinor3",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/math/Spinor3.ts",
+            "line": 302,
             "itemtype": "method",
             "name": "toString",
             "return": {
@@ -9131,7 +9469,11 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/davinci-eight/geometries/Geometry.ts:83"
+            "line": " src/davinci-eight/geometries/CuboidGeometry.ts:55"
+        },
+        {
+            "message": "Missing item type",
+            "line": " src/davinci-eight/geometries/Geometry.ts:119"
         },
         {
             "message": "Missing item type\nThe values of the attribute.",
@@ -9179,7 +9521,7 @@
         },
         {
             "message": "Missing item type\nTemporary list of points.",
-            "line": " src/davinci-eight/geometries/RevolutionGeometry.ts:33"
+            "line": " src/davinci-eight/geometries/RevolutionGeometry.ts:37"
         },
         {
             "message": "Missing item type",

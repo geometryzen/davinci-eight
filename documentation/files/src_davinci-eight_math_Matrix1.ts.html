@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -241,6 +241,9 @@ class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, Geometric
   lerp(target: Matrix1, alpha: number): Matrix1 {
     return this;
   }
+  log() {
+    return this;
+  }
   magnitude() {
     return Math.abs(this.data[0]);
   }
@@ -270,6 +273,9 @@ class Matrix1 extends AbstractMatrix implements Matrix&lt;Matrix1&gt;, Geometric
     return this;
   }
   difference(a: Matrix1, b: Matrix1) {
+    return this;
+  }
+  rotor(b: Cartesian1, a: Cartesian1): Matrix1 {
     return this;
   }
   spinor(a: Cartesian1, b: Cartesian1): Matrix1 {

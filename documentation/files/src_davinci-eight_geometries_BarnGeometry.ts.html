@@ -17,7 +17,7 @@
                 <h1><img src="../../assets/logo.png" title="davinci-eight"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 2.123.0</em>
+            <em>API Docs for: 2.124.0</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -196,10 +196,12 @@
     <pre class="code prettyprint linenums">
 import computeFaceNormals = require(&#x27;../geometries/computeFaceNormals&#x27;)
 import Geometry = require(&#x27;../geometries/Geometry&#x27;)
+import mustBeInteger = require(&#x27;../checks/mustBeInteger&#x27;);
 import quad = require(&#x27;../geometries/quadrilateral&#x27;)
 import Simplex = require(&#x27;../geometries/Simplex&#x27;)
 import Symbolic = require(&#x27;../core/Symbolic&#x27;)
 import triangle = require(&#x27;../geometries/triangle&#x27;)
+import Vector1 = require(&#x27;../math/Vector1&#x27;)
 import Vector3 = require(&#x27;../math/Vector3&#x27;)
 import VectorN = require(&#x27;../math/VectorN&#x27;)
 
@@ -212,7 +214,7 @@ class BarnGeometry extends Geometry {
   public a: Vector3 = Vector3.e1.clone();
   public b: Vector3 = Vector3.e2.clone();
   public c: Vector3 = Vector3.e3.clone();
-  public k = 1;
+  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
   /**
    * The basic barn similar to that described in &quot;Computer Graphics using OpenGL&quot;, by Hill and Kelly.
    * Ten (10) vertices are used to define the barn.
@@ -222,11 +224,29 @@ class BarnGeometry extends Geometry {
    * @class BarnGeometry
    * @constructor
    */
-  constructor() {
-    super()
-    this.calculate();
+  constructor(type: string = &#x27;BarnGeometry&#x27;) {
+    super(type)
+    this.recalculate();
   }
-  public calculate(): void {
+  public get k() {
+    return this._k.x
+  }
+  public set k(k: number) {
+    this._k.x = mustBeInteger(&#x27;k&#x27;, k)
+  }
+  public isModified() {
+    return this.a.modified || this.b.modified || this.c.modified || this._k.modified
+  }
+  public setModified(modified: boolean) {
+    this.a.modified  = modified
+    this.b.modified  = modified
+    this.c.modified  = modified
+    this._k.modified = modified
+  }
+  public recalculate(): void {
+
+    this.setModified(false)
+
     var points: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) {return void 0})
 
     points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2)

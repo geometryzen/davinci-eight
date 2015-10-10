@@ -1,9 +1,11 @@
 import computeFaceNormals = require('../geometries/computeFaceNormals')
 import Geometry = require('../geometries/Geometry')
+import mustBeInteger = require('../checks/mustBeInteger');
 import quad = require('../geometries/quadrilateral')
 import Simplex = require('../geometries/Simplex')
 import Symbolic = require('../core/Symbolic')
 import triangle = require('../geometries/triangle')
+import Vector1 = require('../math/Vector1')
 import Vector3 = require('../math/Vector3')
 import VectorN = require('../math/VectorN')
 
@@ -16,7 +18,7 @@ class BarnGeometry extends Geometry {
   public a: Vector3 = Vector3.e1.clone();
   public b: Vector3 = Vector3.e2.clone();
   public c: Vector3 = Vector3.e3.clone();
-  public k = 1;
+  private _k = new Vector1([Simplex.K_FOR_TRIANGLE]);
   /**
    * The basic barn similar to that described in "Computer Graphics using OpenGL", by Hill and Kelly.
    * Ten (10) vertices are used to define the barn.
@@ -26,11 +28,29 @@ class BarnGeometry extends Geometry {
    * @class BarnGeometry
    * @constructor
    */
-  constructor() {
-    super()
-    this.calculate();
+  constructor(type: string = 'BarnGeometry') {
+    super(type)
+    this.recalculate();
   }
-  public calculate(): void {
+  public get k() {
+    return this._k.x
+  }
+  public set k(k: number) {
+    this._k.x = mustBeInteger('k', k)
+  }
+  public isModified() {
+    return this.a.modified || this.b.modified || this.c.modified || this._k.modified
+  }
+  public setModified(modified: boolean) {
+    this.a.modified  = modified
+    this.b.modified  = modified
+    this.c.modified  = modified
+    this._k.modified = modified
+  }
+  public recalculate(): void {
+
+    this.setModified(false)
+
     var points: Vector3[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(index) {return void 0})
 
     points[0] = new Vector3().sub(this.a).sub(this.b).sub(this.c).divideScalar(2)

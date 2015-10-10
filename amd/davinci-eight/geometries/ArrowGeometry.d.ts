@@ -1,21 +1,44 @@
 import RevolutionGeometry = require('../geometries/RevolutionGeometry');
-import Spinor3 = require('../math/Spinor3');
-import Cartesian3 = require('../math/Cartesian3');
+import Vector3 = require('../math/Vector3');
 /**
  * @class ArrowGeometry
  */
 declare class ArrowGeometry extends RevolutionGeometry {
+    lengthCone: number;
+    radiusCone: number;
+    radiusShaft: number;
+    /**
+     * @property vector
+     * @type {Vector3}
+     */
+    vector: Vector3;
+    segments: number;
     /**
      * @class ArrowGeometry
      * @constructor
-     * @param scale {number}
-     * @param attitude {Spinor3}
-     * @param segments {number}
-     * @param radiusShaft {number}
-     * @param radiusCone {number}
-     * @param lengthCone {number}
-     * @param axis {Cartesian3}
      */
-    constructor(scale?: number, attitude?: Spinor3, segments?: number, length?: number, radiusShaft?: number, radiusCone?: number, lengthCone?: number, axis?: Cartesian3);
+    constructor(type?: string);
+    /**
+     * @method destructor
+     * @return {void}
+     * @protected
+     */
+    protected destructor(): void;
+    /**
+     * @method isModified
+     * @return {boolean}
+     */
+    isModified(): boolean;
+    /**
+     * @method setModified
+     * @param modified {boolean}
+     * @return {ArrowGeometry}
+     */
+    setModified(modified: boolean): ArrowGeometry;
+    /**
+     * @method recalculate
+     * @return {void}
+     */
+    recalculate(): void;
 }
 export = ArrowGeometry;

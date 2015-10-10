@@ -13,6 +13,12 @@ class RevolutionGeometry extends Geometry
   /**
    * @class RevolutionGeometry
    * @constructor
+   */
+  constructor(type: string = 'RevolutionGeometry') {
+    super(type)
+  }
+  /**
+   * @method revolve
    * @param points {Vector3[]}
    * @param generator {Spinor3}
    * @param segments {number}
@@ -20,24 +26,18 @@ class RevolutionGeometry extends Geometry
    * @param phiLength {number}
    * @param attitude {Spinor3}
    */
-  constructor(
+  protected revolve(
     points: Vector3[],
     generator: Spinor3,
-    segments: number,
-    phiStart: number,
-    phiLength: number,
+    segments: number = 12,
+    phiStart: number = 0,
+    phiLength: number = 2 * Math.PI,
     attitude: Spinor3)
   {
-    super();
-
     /**
      * Temporary list of points.
      */
     var vertices: Vector3[] = []
-
-    segments = segments || 12;
-    phiStart = phiStart || 0;
-    phiLength = phiLength || 2 * Math.PI;
 
     // Determine heuristically whether the user intended to make a complete revolution.
     var isClosed = Math.abs(2 * Math.PI - Math.abs(phiLength - phiStart)) < 0.0001;
@@ -52,16 +52,19 @@ class RevolutionGeometry extends Geometry
     var il: number;
     var jl: number;
 
+    var rotor: Spinor3 = new Spinor3()
+
     for (i = 0, il = halfPlanes; i < il; i++) {
 
       var phi = phiStart + i * phiStep;
 
       var halfAngle = phi / 2;
 
-      var cosHA = Math.cos( halfAngle );
-      var sinHA = Math.sin( halfAngle );
+      //var cosHA = Math.cos( halfAngle );
+      //var sinHA = Math.sin( halfAngle );
+      rotor.copy(generator).scale(halfAngle).exp()
       // TODO: This is simply the exp(B theta / 2), maybe needs a sign.
-      var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
+      //var rotor = new Spinor3([generator.yz * sinHA, generator.zx * sinHA, generator.xy * sinHA, cosHA]);
 
       for (j = 0, jl = points.length; j < jl; j++) {
 
