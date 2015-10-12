@@ -1764,6 +1764,13 @@ class SmartMaterialBuilder {
   public build(contexts: IContextMonitor[]): Material;
 }
 
+class AmbientLight extends Shareable implements IFacet {
+  public color: Color;
+  constructor();
+  destructor(): void;
+  setUniforms(visitor: IFacetVisitor, canvasId: number): void;
+}
+
 /**
  *
  */

@@ -1461,7 +1461,7 @@ define('davinci-eight/core',["require", "exports"], function (require, exports) 
         LAST_MODIFIED: '2015-10-12',
         NAMESPACE: 'EIGHT',
         verbose: true,
-        VERSION: '2.126.0'
+        VERSION: '2.127.0'
     };
     return core;
 });
@@ -15504,6 +15504,53 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+define('davinci-eight/uniforms/AmbientLight',["require", "exports", '../core/Color', '../utils/Shareable', '../core/Symbolic'], function (require, exports, Color, Shareable, Symbolic) {
+    var LOGGING_NAME = 'AmbientLight';
+    function contextBuilder() {
+        return LOGGING_NAME;
+    }
+    /**
+     * @class AmbientLight
+     * @extends Shareable
+     */
+    var AmbientLight = (function (_super) {
+        __extends(AmbientLight, _super);
+        /**
+         * Constructs a white light in the -e3 direction.
+         * @class AmbientLight
+         * @constructor
+         */
+        function AmbientLight() {
+            _super.call(this, 'AmbientLight');
+            this.color = Color.white;
+        }
+        /**
+         * @method destructor
+         * @type {void}
+         * @protected
+         */
+        AmbientLight.prototype.destructor = function () {
+            _super.prototype.destructor.call(this);
+        };
+        /**
+         * @method setUniforms
+         * @param visitor {IFacetVisitor}
+         * @param canvasId {number}
+         * @return {void}
+         */
+        AmbientLight.prototype.setUniforms = function (visitor, canvasId) {
+            visitor.vector3(Symbolic.UNIFORM_DIRECTIONAL_LIGHT_COLOR, this.color.data, canvasId);
+        };
+        return AmbientLight;
+    })(Shareable);
+    return AmbientLight;
+});
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 define('davinci-eight/uniforms/DirectionalLight',["require", "exports", '../core/Color', '../utils/Shareable', '../core/Symbolic', '../math/Vector3'], function (require, exports, Color, Shareable, Symbolic, Vector3) {
     var LOGGING_NAME = 'DirectionalLight';
     function contextBuilder() {
@@ -15807,7 +15854,7 @@ define('davinci-eight/utils/windowAnimationRunner',["require", "exports", '../ch
 });
 
 /// <reference path="../vendor/davinci-blade/dist/davinci-blade.d.ts" />
-define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/animations/Animation', 'davinci-eight/slideshow/animations/ColorTo', 'davinci-eight/slideshow/animations/MoveTo', 'davinci-eight/slideshow/animations/SpinTo', 'davinci-eight/slideshow/tasks/ColorTask', 'davinci-eight/slideshow/tasks/CubeTask', 'davinci-eight/slideshow/tasks/MoveTask', 'davinci-eight/slideshow/tasks/SpinTask', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Director, Animation, ColorTo, MoveTo, SpinTo, ColorTask, CubeTask, MoveTask, SpinTask, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, ArrowGeometry, BarnGeometry, CuboidGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, Simplex1Geometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, VortexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, ColorFacet, DirectionalLight, SineWaveUniform, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
+define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator', 'davinci-eight/slideshow/Director', 'davinci-eight/slideshow/animations/Animation', 'davinci-eight/slideshow/animations/ColorTo', 'davinci-eight/slideshow/animations/MoveTo', 'davinci-eight/slideshow/animations/SpinTo', 'davinci-eight/slideshow/tasks/ColorTask', 'davinci-eight/slideshow/tasks/CubeTask', 'davinci-eight/slideshow/tasks/MoveTask', 'davinci-eight/slideshow/tasks/SpinTask', 'davinci-eight/cameras/createFrustum', 'davinci-eight/cameras/createPerspective', 'davinci-eight/cameras/createView', 'davinci-eight/cameras/frustumMatrix', 'davinci-eight/cameras/perspectiveMatrix', 'davinci-eight/cameras/viewMatrix', 'davinci-eight/commands/WebGLClear', 'davinci-eight/commands/WebGLClearColor', 'davinci-eight/commands/WebGLEnable', 'davinci-eight/core/AttribLocation', 'davinci-eight/core/Color', 'davinci-eight/core', 'davinci-eight/core/DrawMode', 'davinci-eight/core/Symbolic', 'davinci-eight/core/UniformLocation', 'davinci-eight/curves/Curve', 'davinci-eight/geometries/GeometryAttribute', 'davinci-eight/geometries/Simplex', 'davinci-eight/geometries/Vertex', 'davinci-eight/geometries/toGeometryMeta', 'davinci-eight/geometries/computeFaceNormals', 'davinci-eight/geometries/cube', 'davinci-eight/geometries/quadrilateral', 'davinci-eight/geometries/square', 'davinci-eight/geometries/tetrahedron', 'davinci-eight/geometries/toGeometryData', 'davinci-eight/geometries/triangle', 'davinci-eight/scene/createDrawList', 'davinci-eight/scene/Drawable', 'davinci-eight/scene/PerspectiveCamera', 'davinci-eight/scene/Scene', 'davinci-eight/scene/Canvas3D', 'davinci-eight/geometries/GeometryElements', 'davinci-eight/geometries/ArrowGeometry', 'davinci-eight/geometries/BarnGeometry', 'davinci-eight/geometries/CuboidGeometry', 'davinci-eight/geometries/CylinderGeometry', 'davinci-eight/geometries/DodecahedronGeometry', 'davinci-eight/geometries/IcosahedronGeometry', 'davinci-eight/geometries/KleinBottleGeometry', 'davinci-eight/geometries/Simplex1Geometry', 'davinci-eight/geometries/MobiusStripGeometry', 'davinci-eight/geometries/OctahedronGeometry', 'davinci-eight/geometries/SurfaceGeometry', 'davinci-eight/geometries/PolyhedronGeometry', 'davinci-eight/geometries/RevolutionGeometry', 'davinci-eight/geometries/SphereGeometry', 'davinci-eight/geometries/TetrahedronGeometry', 'davinci-eight/geometries/VortexGeometry', 'davinci-eight/programs/createMaterial', 'davinci-eight/programs/smartProgram', 'davinci-eight/programs/programFromScripts', 'davinci-eight/materials/Material', 'davinci-eight/materials/HTMLScriptsMaterial', 'davinci-eight/materials/LineMaterial', 'davinci-eight/materials/MeshMaterial', 'davinci-eight/materials/MeshLambertMaterial', 'davinci-eight/materials/PointMaterial', 'davinci-eight/materials/SmartMaterialBuilder', 'davinci-eight/mappers/RoundUniform', 'davinci-eight/math/Euclidean3', 'davinci-eight/math/Matrix3', 'davinci-eight/math/Matrix4', 'davinci-eight/math/Spinor3', 'davinci-eight/math/Vector1', 'davinci-eight/math/Vector2', 'davinci-eight/math/Vector3', 'davinci-eight/math/Vector4', 'davinci-eight/math/VectorN', 'davinci-eight/mesh/ArrowBuilder', 'davinci-eight/mesh/CylinderArgs', 'davinci-eight/models/EulerFacet', 'davinci-eight/models/ModelFacet', 'davinci-eight/renderers/initWebGL', 'davinci-eight/renderers/renderer', 'davinci-eight/uniforms/AmbientLight', 'davinci-eight/uniforms/ColorFacet', 'davinci-eight/uniforms/DirectionalLight', 'davinci-eight/uniforms/SineWaveUniform', 'davinci-eight/uniforms/Vector3Uniform', 'davinci-eight/utils/contextProxy', 'davinci-eight/utils/IUnknownArray', 'davinci-eight/utils/NumberIUnknownMap', 'davinci-eight/utils/refChange', 'davinci-eight/utils/Shareable', 'davinci-eight/utils/StringIUnknownMap', 'davinci-eight/utils/workbench3D', 'davinci-eight/utils/windowAnimationRunner'], function (require, exports, Animator, Director, Animation, ColorTo, MoveTo, SpinTo, ColorTask, CubeTask, MoveTask, SpinTask, createFrustum, createPerspective, createView, frustumMatrix, perspectiveMatrix, viewMatrix, WebGLClear, WebGLClearColor, WebGLEnable, AttribLocation, Color, core, DrawMode, Symbolic, UniformLocation, Curve, GeometryAttribute, Simplex, Vertex, toGeometryMeta, computeFaceNormals, cube, quadrilateral, square, tetrahedron, toGeometryData, triangle, createDrawList, Drawable, PerspectiveCamera, Scene, Canvas3D, GeometryElements, ArrowGeometry, BarnGeometry, CuboidGeometry, CylinderGeometry, DodecahedronGeometry, IcosahedronGeometry, KleinBottleGeometry, Simplex1Geometry, MobiusStripGeometry, OctahedronGeometry, SurfaceGeometry, PolyhedronGeometry, RevolutionGeometry, SphereGeometry, TetrahedronGeometry, VortexGeometry, createMaterial, smartProgram, programFromScripts, Material, HTMLScriptsMaterial, LineMaterial, MeshMaterial, MeshLambertMaterial, PointMaterial, SmartMaterialBuilder, RoundUniform, Euclidean3, Matrix3, Matrix4, Spinor3, Vector1, Vector2, Vector3, Vector4, VectorN, ArrowBuilder, CylinderArgs, EulerFacet, ModelFacet, initWebGL, renderer, AmbientLight, ColorFacet, DirectionalLight, SineWaveUniform, Vector3Uniform, contextProxy, IUnknownArray, NumberIUnknownMap, refChange, Shareable, StringIUnknownMap, workbench3D, windowAnimationRunner) {
     /**
      * @module EIGHT
      */
@@ -15933,6 +15980,7 @@ define('davinci-eight',["require", "exports", 'davinci-eight/slideshow/Animator'
         get GeometryAttribute() { return GeometryAttribute; },
         get GeometryElements() { return GeometryElements; },
         // uniforms
+        get AmbientLight() { return AmbientLight; },
         get ColorFacet() { return ColorFacet; },
         get DirectionalLight() { return DirectionalLight; },
         get SineWaveUniform() { return SineWaveUniform; },

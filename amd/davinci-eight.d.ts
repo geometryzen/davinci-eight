@@ -76,6 +76,7 @@ import EulerFacet = require('davinci-eight/models/EulerFacet');
 import ModelFacet = require('davinci-eight/models/ModelFacet');
 import IMaterial = require('davinci-eight/core/IMaterial');
 import ContextRenderer = require('davinci-eight/renderers/ContextRenderer');
+import AmbientLight = require('davinci-eight/uniforms/AmbientLight');
 import ColorFacet = require('davinci-eight/uniforms/ColorFacet');
 import DirectionalLight = require('davinci-eight/uniforms/DirectionalLight');
 import SineWaveUniform = require('davinci-eight/uniforms/SineWaveUniform');
@@ -209,6 +210,7 @@ declare var eight: {
     programFromScripts: (monitors: IContextMonitor[], vsId: string, fsId: string, $document: Document, attribs?: string[]) => IMaterial;
     GeometryAttribute: typeof GeometryAttribute;
     GeometryElements: typeof GeometryElements;
+    AmbientLight: typeof AmbientLight;
     ColorFacet: typeof ColorFacet;
     DirectionalLight: typeof DirectionalLight;
     SineWaveUniform: typeof SineWaveUniform;

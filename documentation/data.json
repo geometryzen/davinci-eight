@@ -2,7 +2,7 @@
     "project": {
         "name": "davinci-eight",
         "description": "WebGL library for mathematical physics using Geometric Algebra",
-        "version": "2.126.0",
+        "version": "2.127.0",
         "url": "",
         "logo": "../assets/logo.png"
     },
@@ -1332,6 +1332,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "src/davinci-eight/uniforms/AmbientLight.ts": {
+            "name": "src/davinci-eight/uniforms/AmbientLight.ts",
+            "modules": {},
+            "classes": {
+                "AmbientLight": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "src/davinci-eight/uniforms/CityTemperature.ts": {
             "name": "src/davinci-eight/uniforms/CityTemperature.ts",
             "modules": {},
@@ -1565,6 +1574,7 @@
                 "IExchange": 1,
                 "IProperties": 1,
                 "ISlide": 1,
+                "AmbientLight": 1,
                 "ColorFacet": 1,
                 "DirectionalLight": 1,
                 "Vector3Uniform": 1,
@@ -3800,6 +3810,22 @@
             "file": "src/davinci-eight/slideshow/ISlide.ts",
             "line": 9,
             "description": "A slide is a collection of animations."
+        },
+        "AmbientLight": {
+            "name": "AmbientLight",
+            "shortname": "AmbientLight",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "EIGHT",
+            "namespace": "",
+            "file": "src/davinci-eight/uniforms/AmbientLight.ts",
+            "line": 25,
+            "extends": "Shareable",
+            "description": "Constructs a white light in the -e3 direction.",
+            "is_constructor": 1
         },
         "ColorFacet": {
             "name": "ColorFacet",
@@ -9671,6 +9697,50 @@
             "type": "{IAnimationClock}",
             "readonly": "",
             "class": "ISlide",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/AmbientLight.ts",
+            "line": 20,
+            "itemtype": "property",
+            "name": "color",
+            "type": "{Color}",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/AmbientLight.ts",
+            "line": 34,
+            "itemtype": "method",
+            "name": "destructor",
+            "type": "{void}",
+            "access": "protected",
+            "tagname": "",
+            "class": "AmbientLight",
+            "module": "EIGHT"
+        },
+        {
+            "file": "src/davinci-eight/uniforms/AmbientLight.ts",
+            "line": 42,
+            "itemtype": "method",
+            "name": "setUniforms",
+            "params": [
+                {
+                    "name": "visitor",
+                    "description": "",
+                    "type": "IFacetVisitor"
+                },
+                {
+                    "name": "canvasId",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Void"
+            },
+            "class": "AmbientLight",
             "module": "EIGHT"
         },
         {

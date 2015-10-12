@@ -2,6 +2,7 @@ YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
         "AbstractMatrix",
+        "AmbientLight",
         "AnimatedMirror",
         "ArrowGeometry",
         "AttribLocation",

@@ -163,6 +163,7 @@ import ContextRenderer = require('davinci-eight/renderers/ContextRenderer')
 import initWebGL = require('davinci-eight/renderers/initWebGL')
 import renderer = require('davinci-eight/renderers/renderer')
 // uniforms
+import AmbientLight               = require('davinci-eight/uniforms/AmbientLight')
 import ColorFacet                 = require('davinci-eight/uniforms/ColorFacet')
 import DirectionalLight           = require('davinci-eight/uniforms/DirectionalLight')
 import SineWaveUniform            = require('davinci-eight/uniforms/SineWaveUniform')
@@ -316,6 +317,7 @@ var eight = {
   get GeometryAttribute() { return GeometryAttribute },
   get GeometryElements() { return GeometryElements },
   // uniforms
+  get AmbientLight() { return AmbientLight },
   get ColorFacet() { return ColorFacet },
   get DirectionalLight() { return DirectionalLight },
   get SineWaveUniform() { return SineWaveUniform },
