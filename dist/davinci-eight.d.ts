@@ -769,18 +769,22 @@ class Vector4 extends VectorN<number> implements Cartesian4 {
  *
  */
 interface IFacetVisitor {
-  uniform1f(name: string, x: number, canvasId: number);
-  uniform2f(name: string, x: number, y: number, canvasId: number);
-  uniform3f(name: string, x: number, y: number, z: number, canvasId: number);
-  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number);
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number);
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number);
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number);
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number);
-  uniformCartesian1(name: string, vector: Vector1, canvasId: number);
-  uniformCartesian2(name: string, vector: Vector2, canvasId: number);
-  uniformCartesian3(name: string, vector: Vector3, canvasId: number);
-  uniformCartesian4(name: string, vector: Vector4, canvasId: number);
+  uniform1f(name: string, x: number, canvasId: number): void;
+  uniform2f(name: string, x: number, y: number, canvasId: number): void;
+  uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void;
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
+  uniformCartesian1(name: string, vector: Vector1, canvasId: number): void;
+  uniformCartesian2(name: string, vector: Vector2, canvasId: number): void;
+  uniformCartesian3(name: string, vector: Vector3, canvasId: number): void;
+  uniformCartesian4(name: string, vector: Vector4, canvasId: number): void;
+  vector1(name: string, data: number[], canvasId: number): void;
+  vector2(name: string, data: number[], canvasId: number): void;
+  vector3(name: string, data: number[], canvasId: number): void;
+  vector4(name: string, data: number[], canvasId: number): void;
 }
 
 /**
@@ -1626,27 +1630,31 @@ class Material implements IMaterial {
   fragmentShader: string;
   attributes(canvasId: number): { [name: string]: AttribLocation };
   uniforms(canvasId: number): { [name: string]: UniformLocation };
-  constructor(monitors: IContextMonitor[], name: string)
-  addRef(): number
-  release(): number
-  use(canvasId: number): void
-  enableAttrib(name: string, canvasId: number): void
-  disableAttrib(name: string, canvasId: number): void
-  contextFree(canvasId: number): void
-  contextGain(manager: IContextProvider): void
-  contextLost(canvasId: number): void
-  uniform1f(name: string, x: number, canvasId: number): void
-  uniform2f(name: string, x: number, y: number, canvasId: number): void
-  uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void
-  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void
-  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void
-  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void
-  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void
-  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void
-  uniformCartesian1(name: string, vector: Vector1, canvasId: number): void
-  uniformCartesian2(name: string, vector: Vector2, canvasId: number): void
-  uniformCartesian3(name: string, vector: Vector3, canvasId: number): void
-  uniformCartesian4(name: string, vector: Vector4, canvasId: number): void
+  constructor(monitors: IContextMonitor[], name: string);
+  addRef(): number;
+  release(): number;
+  use(canvasId: number): void;
+  enableAttrib(name: string, canvasId: number): void;
+  disableAttrib(name: string, canvasId: number): void;
+  contextFree(canvasId: number): void;
+  contextGain(manager: IContextProvider): void;
+  contextLost(canvasId: number): void;
+  uniform1f(name: string, x: number, canvasId: number): void;
+  uniform2f(name: string, x: number, y: number, canvasId: number): void;
+  uniform3f(name: string, x: number, y: number, z: number, canvasId: number): void;
+  uniform4f(name: string, x: number, y: number, z: number, w: number, canvasId: number): void;
+  uniformMatrix1(name: string, transpose: boolean, matrix: Matrix1, canvasId: number): void;
+  uniformMatrix2(name: string, transpose: boolean, matrix: Matrix2, canvasId: number): void;
+  uniformMatrix3(name: string, transpose: boolean, matrix: Matrix3, canvasId: number): void;
+  uniformMatrix4(name: string, transpose: boolean, matrix: Matrix4, canvasId: number): void;
+  uniformCartesian1(name: string, vector: Vector1, canvasId: number): void;
+  uniformCartesian2(name: string, vector: Vector2, canvasId: number): void;
+  uniformCartesian3(name: string, vector: Vector3, canvasId: number): void;
+  uniformCartesian4(name: string, vector: Vector4, canvasId: number): void;
+  vector1(name: string, data: number[], canvasId: number): void;
+  vector2(name: string, data: number[], canvasId: number): void;
+  vector3(name: string, data: number[], canvasId: number): void;
+  vector4(name: string, data: number[], canvasId: number): void;
 }
 
 /**
